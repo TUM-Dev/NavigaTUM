@@ -15,10 +15,6 @@ const initialLoaded = ref(false);
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 onMounted(async () => {
-  await loadInteractiveMap();
-});
-
-async function loadInteractiveMap() {
   if (!webglSupport) return;
 
   const doMapUpdate = async function () {
@@ -57,7 +53,7 @@ async function loadInteractiveMap() {
   // The map element should be visible when initializing
   if (!document.querySelector("#interactive-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
-}
+});
 
 function createMarker(hueRotation = 0): HTMLDivElement {
   const markerDiv = document.createElement("div");
