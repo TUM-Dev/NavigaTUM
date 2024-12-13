@@ -5446,7 +5446,7 @@
         "icon-text-fit": "both",
         "icon-size": 1.4,
         "icon-anchor": "center",
-        "icon-padding": ["literal", [3]],
+        "icon-padding": 3,
         "icon-offset": [0, -0.5],
         "icon-image": "rounded_rectangle"
       },
@@ -6028,7 +6028,7 @@
     "icon-text-fit": "both",
     "icon-size": 1.4,
     "icon-anchor": "center",
-    "icon-padding": ["literal", [3]],
+    "icon-padding": 3,
     "icon-offset": [0, -0.5]
   },
   "paint": {
