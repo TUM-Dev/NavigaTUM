@@ -15,7 +15,9 @@ const { data } = useFetch<DetailsResponse, string>(url, {
 
 <template>
   <Suspense>
-    <IndoorMap v-if="data" :data="data" />
+    <div v-if="data">
+      <IndoorMap :type="data.type" :coords="data.coords" />
+    </div>
     <Spinner v-else class="h-8 w-8" />
     <template #fallback>
       <Spinner class="h-8 w-8" />
