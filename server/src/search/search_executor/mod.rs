@@ -138,7 +138,7 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
                 let subtext = r.address.serialise();
                 ResultEntry {
                     hit: Default::default(),
-                    id: r.osm_id.to_string(),
+                    id: format!("osm_{}", r.osm_id),
                     r#type: r.address_type,
                     name: r.address.road.unwrap_or(r.name),
                     subtext,
