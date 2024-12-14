@@ -185,10 +185,10 @@ async fn cached_geoentry_search(
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
         error!("Failed to create a meilisearch client");
-        if search_addresses {
-            return search_executor::address_search(&q).await.0;
+        return if search_addresses {
+            search_executor::address_search(&q).await.0
         } else {
-            return vec![];
+            vec![]
         }
     };
     let geoentry_search = search_executor::do_geoentry_search(&client, &q, highlighting, limits);
