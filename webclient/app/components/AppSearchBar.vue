@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
 import SearchResultItem from "~/components/SearchResultItem.vue";
 
@@ -127,7 +127,6 @@ const { data, error } = await useFetch<SearchResponse>(url, {
     <div
       class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
     >
-      <MagnifyingGlassIcon class="text-zinc-800 my-auto h-6 w-6 ps-2" />
       <textarea
         id="search"
         v-model="query"
@@ -152,10 +151,11 @@ const { data, error } = await useFetch<SearchResponse>(url, {
     </div>
     <button
       type="submit"
-      class="text-white bg-blue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600"
+      class="bg-blue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600"
       :aria-label="t('input.aria-actionlabel')"
+      :title="t('input.action')"
     >
-      {{ t("input.action") }}
+      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-6 w-6" />
     </button>
   </form>
   <!-- Autocomplete -->
