@@ -155,9 +155,9 @@ pub async fn search_handler(
     let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
     debug!("searching returned {results_sections:?}");
 
-    if results_sections.len() != 2 {
+    if results_sections.len() != 2 && results_sections.len() != 3 {
         error!(
-            "searching returned {len} sections, but expected 2",
+            "searching returned {len} sections, but expected 2-3",
             len = results_sections.len()
         );
         return HttpResponse::InternalServerError().body("Internal error");
