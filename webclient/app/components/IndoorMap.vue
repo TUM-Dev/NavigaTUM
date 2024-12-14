@@ -5,14 +5,20 @@ import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 
-const props = defineProps<{ data: DetailsResponse }>();
+type DetailsResponse = components["schemas"]["DetailsResponse"];
+
+const props = defineProps<{
+  coords: DetailsResponse["coords"];
+  type: DetailsResponse["type"];
+}>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const runtimeConfig = useRuntimeConfig();
-
-const initialLoaded = ref(false);
-
-type DetailsResponse = components["schemas"]["DetailsResponse"];
+const zoom = computed<number>(() => {
+  if (props.type === "building") return 17;
+  if (props.type === "room") return 18;
+  return 16;
+});
 
 onMounted(async () => {
   if (!webglSupport) return;
@@ -30,24 +36,12 @@ onMounted(async () => {
       }
     }
 
-    marker.value = new Marker({ element: createMarker() });
-    const coords = props.data.coords;
     if (map.value !== undefined) {
-      marker.value.setLngLat([coords.lon, coords.lat]);
-      marker.value.addTo(map.value as Map);
+      const _marker = new Marker({ element: createMarker() });
+      _marker.setLngLat([props.coords.lon, props.coords.lat]);
+      _marker.addTo(map.value as Map);
+      marker.value = _marker;
     }
-
-    const defaultZooms: { [index: string]: number | undefined } = {
-      building: 17,
-      room: 18,
-    };
-
-    map.value?.flyTo({
-      center: [11.670099, 48.266921],
-      zoom: defaultZooms[props.data.type || "undefined"] || 16,
-      speed: 1,
-      maxDuration: 2000,
-    });
   };
 
   // The map element should be visible when initializing
@@ -88,8 +82,8 @@ async function initMap(containerId: string): Promise<Map> {
     // https://nav.tum.de/maps/
     style: `${runtimeConfig.public.mapsURL}/maps/styles/navigatum-basemap/style.json`,
 
-    center: [11.670028798993783, 48.26684628456347], // Approx Garching
-    zoom: 11, // Zoomed out so that the whole city is visible
+    center: [11.670099, 48.266921],
+    zoom: zoom.value,
 
     // done manually, to have more control over when it is extended
     attributionControl: false,
@@ -100,9 +94,6 @@ async function initMap(containerId: string): Promise<Map> {
   // enough to know whether just the initial loading has
   // succeeded.
   map.on("load", () => {
-    initialLoaded.value = true;
-
-    // add controlls
     map.addControl(new NavigationControl({}), "top-left");
 
     // (Browser) Fullscreen is enabled only on mobile, on desktop the map
@@ -140,7 +131,7 @@ async function initMap(containerId: string): Promise<Map> {
     };
     // There is a bug that the map doesn't update to the new size
     // when changing between fullscreen in the mobile version.
-    if (isMobile && ResizeObserver) {
+    if (isMobile) {
       const fullscreenObserver = new ResizeObserver(() => {
         fullscreenCtl._map.resize();
       });

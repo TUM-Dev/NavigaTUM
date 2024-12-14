@@ -5,11 +5,22 @@ import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
 
-const props = defineProps<{ data: DetailsResponse; debugMode: boolean }>();
+const props = defineProps<{
+  coords: DetailsResponse["coords"];
+  type: DetailsResponse["type"];
+  maps: DetailsResponse["maps"];
+  id: DetailsResponse["id"];
+  debugMode: boolean;
+}>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const runtimeConfig = useRuntimeConfig();
+const zoom = computed<number>(() => {
+  if (props.type === "building") return 17;
+  if (props.type === "room") return 18;
+  return 16;
+});
 
 const initialLoaded = ref(false);
 
@@ -30,26 +41,21 @@ function loadInteractiveMap() {
         document.getElementById("interactive-map")?.classList.remove("loading");
       }
     }
-    marker.value = new Marker({ element: createMarker() });
-    const coords = props.data.coords;
     if (map.value !== undefined) {
+      const _marker = new Marker({ element: createMarker() });
+      _marker.setLngLat([props.coords.lon, props.coords.lat]);
       // @ts-expect-error somehow this is too deep for typescript
-      marker.value.setLngLat([coords.lon, coords.lat]);
-      marker.value.addTo(map.value as Map);
+      _marker.addTo(map.value as Map);
+      marker.value = _marker;
     }
 
-    const overlays = props.data.maps?.overlays;
+    const overlays = props.maps?.overlays;
     if (overlays) floorControl.value.updateFloors(overlays);
     else floorControl.value.resetFloors();
 
-    const defaultZooms: { [index: string]: number | undefined } = {
-      building: 17,
-      room: 18,
-    };
-
     map.value?.flyTo({
-      center: [coords.lon, coords.lat],
-      zoom: defaultZooms[props.data.type || "undefined"] || 16,
+      center: [props.coords.lon, props.coords.lat],
+      zoom: zoom.value,
       speed: 1,
       maxDuration: 2000,
     });
@@ -99,13 +105,12 @@ function initMap(containerId: string): Map {
     attributionControl: false,
   });
   if (props.debugMode) {
-    const coords = props.data.coords;
-    const debugMarker = new Marker({ draggable: true }).setLngLat([coords.lon, coords.lat]).addTo(map);
+    const debugMarker = new Marker({ draggable: true }).setLngLat([props.coords.lon, props.coords.lat]).addTo(map);
 
     debugMarker.on("dragend", () => {
       const lngLat = debugMarker.getLngLat();
-      console.log(`debug marker "${props.data.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
-      navigator.clipboard.writeText(`"${props.data.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
+      console.log(`debug marker "${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
+      navigator.clipboard.writeText(`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
     });
   }
 
@@ -154,7 +159,7 @@ function initMap(containerId: string): Map {
     };
     // There is a bug that the map doesn't update to the new size
     // when changing between fullscreen in the mobile version.
-    if (isMobile && ResizeObserver) {
+    if (isMobile) {
       const fullscreenObserver = new ResizeObserver(() => {
         fullscreenCtl._map.resize();
       });
