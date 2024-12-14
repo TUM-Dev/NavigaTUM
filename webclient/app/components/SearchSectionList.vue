@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
-import SearchResultItem from "~/components/SearchResultItem.vue";
+import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -18,7 +18,7 @@ const route = useRoute();
     <section class="flex flex-col gap-2">
       <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
       <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
-        <SearchResultItem v-if="i < s.n_visible" :highlighted="false" :item="e" />
+        <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
       </ul>
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
         {{ t("approx_results", s.estimatedTotalHits) }}

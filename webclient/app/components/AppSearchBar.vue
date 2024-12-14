@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
-import SearchResultItem from "~/components/SearchResultItem.vue";
+import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -188,7 +188,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         </div>
 
         <template v-for="(e, i) in s.entries" :key="e.id">
-          <SearchResultItem
+          <SearchResultItemLink
             v-if="i < s.n_visible"
             :highlighted="e.id === highlighted"
             :item="e"
