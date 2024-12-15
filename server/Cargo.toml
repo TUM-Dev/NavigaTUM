@@ -43,7 +43,7 @@ futures = "0.3.31"
 unicode-truncate = "2.0.0"
 
 # database
-sqlx = { version = "0.8.0", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
+sqlx = { version = "0.8.2", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 chrono = { version = "0.4.39", default-features = false, features = ["serde"] }
 
 # search
