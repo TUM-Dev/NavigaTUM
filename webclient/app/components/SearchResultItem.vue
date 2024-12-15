@@ -5,13 +5,14 @@ import PreviewIcon from "~/components/PreviewIcon.vue";
 
 defineProps<{
   item: SitesBuildingsEntry | RoomEntry;
+  highlighted: boolean;
 }>();
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
 type RoomEntry = components["schemas"]["RoomEntry"];
 </script>
 
 <template>
-  <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4">
+  <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4" :class="{ 'bg-blue-200': highlighted }">
     <PreviewIcon :item="{ type: item.type, parsed_id: undefined }" />
     <div class="text-zinc-600 flex flex-col gap-0.5">
       <div class="flex flex-col">
