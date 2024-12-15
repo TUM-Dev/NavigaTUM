@@ -189,7 +189,7 @@ async fn cached_geoentry_search(
             search_executor::address_search(&q).await.0
         } else {
             vec![]
-        }
+        };
     };
     let geoentry_search = search_executor::do_geoentry_search(&client, &q, highlighting, limits);
     if search_addresses {
