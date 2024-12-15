@@ -21,6 +21,7 @@ const feedback = useFeedback();
           <option value="bug">{{ t("type.bug") }}</option>
           <option value="feature">{{ t("type.feature") }}</option>
           <option value="search">{{ t("type.search") }}</option>
+          <option value="navigation">{{ t("type.navigation") }}</option>
           <option value="entry">{{ t("type.entry") }}</option>
         </select>
         <input
@@ -43,18 +44,7 @@ const feedback = useFeedback();
           :placeholder="t('message')"
           rows="6"
         />
-        <p class="text-zinc-500 text-xs">
-          {{
-            {
-              general: t("helptext.general"),
-              bug: t("helptext.bug"),
-              feature: t("helptext.feature"),
-              search: t("helptext.search"),
-              entry: t("helptext.entry"),
-              other: t("helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
-            }[feedback.data.category]
-          }}
-        </p>
+        <p class="text-zinc-500 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
       </div>
 
       <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
@@ -81,6 +71,7 @@ de:
     general: Generelles Feedback über diese Website
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
+    navigation: (Beta) Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
   message: Nachricht
   subject: Betreff
   success:
@@ -93,6 +84,7 @@ de:
     feature: Features
     general: Allgemein
     search: Suche
+    navigation: (Beta) Navigation
 en:
   category: Feedback category
   delete: Delete this GitHub issue when resolved.
@@ -103,6 +95,7 @@ en:
     general: General Feedback about this website
     other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
+    navigation: (Beta) Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
   message: Message
   subject: Subject
   success:
@@ -115,4 +108,5 @@ en:
     feature: Features
     general: General
     search: Search
+    navigation: (Beta) Navigation
 </i18n>
