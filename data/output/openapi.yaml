@@ -2637,6 +2637,7 @@ components:
                 - bug
                 - feature
                 - search
+                - navigation
                 - entry
                 - general
                 - other
