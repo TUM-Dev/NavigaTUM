@@ -18,6 +18,22 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const emit = defineEmits(["click"]);
 const variantClasses = computed(() => {
+  if (props.disabled) {
+    switch (props.variant) {
+      case "action":
+        return "";
+      case "primary":
+        return "bg-blue-400 text-blue-50";
+      case "secondary":
+        return "bg-zinc-400 text-zinc-50";
+      case "linkButton":
+        return "bg-transparent text-blue-600";
+      case "link":
+        return "bg-transparent text-blue-600 hover:underline";
+      default:
+        return props.variant;
+    }
+  }
   switch (props.variant) {
     case "action":
       return "";
