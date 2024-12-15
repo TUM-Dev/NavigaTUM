@@ -66,7 +66,6 @@ async function searchGoTo(id: string): Promise<void> {
 }
 
 function onKeyDown(e: KeyboardEvent): void {
-  let index;
   switch (e.key) {
     case "Escape":
       document.getElementById("search")?.blur();
