@@ -42,7 +42,7 @@ fn parse_labels(req_data: &Json<FeedbackPostData>) -> Vec<String> {
         labels.push("delete-after-processing".to_string());
     }
     match req_data.category.as_str() {
-        "general" | "bug" | "feature" | "search" | "entry" => {
+        "general" | "bug" | "feature" | "search" | "entry" | "navigation" => {
             labels.push(req_data.category.as_str().to_string());
         }
         _ => {}

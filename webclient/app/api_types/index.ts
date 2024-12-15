@@ -765,7 +765,7 @@ export type components = {
        * Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
        * @enum {string}
        */
-      readonly category: "bug" | "feature" | "search" | "entry" | "general" | "other";
+      readonly category: "bug" | "feature" | "search" | "navigation" | "entry" | "general" | "other";
       /** @description The subject/title of the feedback */
       readonly subject: string;
       /** @description The body/description of the feedback */
