@@ -174,7 +174,7 @@ async function initMap(containerId: string): Promise<Map> {
 <template>
   <div
     id="interactive-map-container"
-    class="mb-2.5 aspect-4/3 print:!hidden"
+    class="print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
@@ -198,7 +198,7 @@ async function initMap(containerId: string): Promise<Map> {
   }
 
   > div {
-    padding-bottom: 75%; /* 4:3 aspect ratio */
+    padding-bottom: calc(100vh - 150px); /* 4:3 aspect ratio */
   }
 
   &.maximize {
