@@ -13,14 +13,13 @@ type RoomEntry = components["schemas"]["RoomEntry"];
 <template>
   <li class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
     <NuxtLinkLocale
-      :class="{ 'bg-blue-200': highlighted }"
       :to="'/view/' + item.id"
       class="focusable"
       @click="() => emit('click')"
       @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
     >
-      <SearchResultItem :item="item" />
+      <SearchResultItem :item="item" :highlighted="highlighted" />
     </NuxtLinkLocale>
     <!-- <div class="menu-badge"><label class="label label-primary">2</label></div> -->
   </li>

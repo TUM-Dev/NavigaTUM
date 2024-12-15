@@ -13,7 +13,7 @@ const localePath = useLocalePath();
 const route = useRoute();
 const keep_focus = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
-const highlighted = ref<string | undefined>(undefined);
+const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
@@ -58,12 +58,10 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
   document.getElementById("search")?.blur();
 }
 
-async function searchGoTo(id: string, cleanQuery: boolean): Promise<void> {
+async function searchGoTo(id: string): Promise<void> {
   await navigateTo(localePath(`/view/${id}`));
   searchBarFocused.value = false;
-  if (cleanQuery) {
-    query.value = "";
-  }
+  query.value = "";
   document.getElementById("search")?.blur();
 }
 
@@ -75,27 +73,32 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "ArrowDown":
-      index = visibleElements.value.indexOf(highlighted.value || "");
-      if (index === -1 && visibleElements.value.length > 0) {
-        highlighted.value = visibleElements.value[0];
-      } else if (index >= 0 && index < visibleElements.value.length - 1) {
-        highlighted.value = visibleElements.value[index + 1];
+      if (highlighted.value === undefined) {
+        highlighted.value = 0;
+        e.preventDefault();
+        break;
       }
+
+      highlighted.value = (highlighted.value + 1) % visibleElements.value.length;
       e.preventDefault();
       break;
 
     case "ArrowUp":
-      index = visibleElements.value.indexOf(highlighted.value || "");
-      if (index === 0) {
+      if (visibleElements.value.length === 0) {
         highlighted.value = undefined;
-      } else if (index > 0) {
-        highlighted.value = visibleElements.value[index - 1];
+        e.preventDefault();
+        break;
+      }
+      if (highlighted.value === 0 || highlighted.value === undefined) {
+        highlighted.value = visibleElements.value.length - 1;
+      } else {
+        highlighted.value -= 1;
       }
       e.preventDefault();
       break;
 
     case "Enter":
-      if (highlighted.value !== undefined) searchGoTo(highlighted.value, true);
+      if (highlighted.value !== undefined) searchGoTo(visibleElements.value[highlighted.value]!);
       else searchGo(false);
       break;
     default:
@@ -190,7 +193,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         <template v-for="(e, i) in s.entries" :key="e.id">
           <SearchResultItemLink
             v-if="i < s.n_visible"
-            :highlighted="e.id === highlighted"
+            :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"
             @click="searchBarFocused = false"
             @mousedown="keep_focus = true"
