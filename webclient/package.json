@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.3",
-    "@nuxtjs/i18n": "9.0.0",
+    "@nuxtjs/i18n": "9.1.1",
     "@nuxtjs/tailwindcss": "6.12.2",
     "@types/geojson": "7946.0.15",
     "@types/nightwind": "1.0.0",
