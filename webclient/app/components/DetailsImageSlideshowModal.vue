@@ -66,7 +66,7 @@ const subtitles = computed<SubTitle[]>(() => {
           </div>
         </Slide>
         <template #addons>
-          <Navigation />
+          <Navigation class="" />
           <Pagination />
         </template>
       </Carousel>
