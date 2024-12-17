@@ -2831,8 +2831,8 @@
   },
   "30371": {
     "code": "TUVBWKM",
-    "name": "Konvent der wissenschaftlichen Mitarbeiter",
-    "path": "TUM/Beauftragte und Vertretungen/Vertretungen f\u00fcr die wissenschaftlichen Mitarbeiter/Konvent der wissenschaftlichen Mitarbeiter"
+    "name": "Konvent der wissenschaftlichen Mitarbeiterinnen, Mitarbeiter und Promovierenden",
+    "path": "TUM/Beauftragte und Vertretungen/Vertretungen f\u00fcr die wissenschaftlichen Mitarbeiter/Konvent der wissenschaftlichen Mitarbeiterinnen, Mitarbeiter und Promovierenden"
   },
   "30374": {
     "code": "TUVBFBA",
@@ -3864,11 +3864,6 @@
     "name": "Professur f\u00fcr Biotechnologie gartenbaulicher Kulturen (Prof. Poppenberger)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnologie gartenbaulicher Kulturen (Prof. Poppenberger)"
   },
-  "44664": {
-    "code": "TUMEBTS",
-    "name": "Tierschutzbeauftragter der TUM School of Medicine and Health",
-    "path": "TUM/Schools/Medicine and Health/Tierschutzbeauftragter"
-  },
   "44665": {
     "code": "TUMEPF0",
     "name": "Zentrum f\u00fcr Pr\u00e4klinische Forschung (ZPF)",
@@ -4698,6 +4693,11 @@
     "code": "TUPEEIT",
     "name": "EIT Health e.V.",
     "path": "TUM/Partnerschaftliche Einrichtungen/EIT Health e.V."
+  },
+  "47717": {
+    "code": "TUPOFPO",
+    "name": "Ehemalige TUM School of Governance",
+    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Governance"
   },
   "47719": {
     "code": "TUPOL01",
@@ -9696,8 +9696,8 @@
   },
   "54860": {
     "code": "TUS1153",
-    "name": "Stabstelle Talent Management und Diversity (CIT) Dean's Office und Stabsstellen (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabstelle Talent Management und Diversity (CIT)"
+    "name": "Stabsstelle Talent Management und Diversity (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabsstelle Talent Management und Diversity (CIT)"
   },
   "54861": {
     "code": "TUS1140",
@@ -10966,8 +10966,8 @@
   },
   "56597": {
     "code": "TUS1154",
-    "name": "Stabstelle Digital and Sustainable Transformation (CIT) Dean's Office und Stabsstellen (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabstelle Digital and Sustainable Transformation (CIT)"
+    "name": "Stabsstelle Digital and Sustainable Transformation (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabsstelle Digital and Sustainable Transformation (CIT)"
   },
   "56617": {
     "code": "TUS7EME",
@@ -11123,5 +11123,25 @@
     "code": "TUPRB09",
     "name": "Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising",
     "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising"
+  },
+  "56917": {
+    "code": "TUS5RDP",
+    "name": "Datenschutzbevollm\u00e4chtigte/r der TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Beauftragte/Datenschutzbevollm\u00e4chtigte/r"
+  },
+  "56918": {
+    "code": "TUS5RIN",
+    "name": "Beauftragte/r f\u00fcr Internationales der TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Beauftragte/Beauftragte/r f\u00fcr Internationales"
+  },
+  "56919": {
+    "code": "TUS5RGE",
+    "name": "Frauenbeauftragte/r der TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Beauftragte/Frauenbeauftragte/r"
+  },
+  "56938": {
+    "code": "TUCSP19",
+    "name": "Lehrstuhl f\u00fcr Sustainability Management (Prof. Gold)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrst\u00fchle und Professuren/Sustainability Management (Prof. Gold)"
   }
 }
