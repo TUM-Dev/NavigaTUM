@@ -23,9 +23,7 @@ use serde_json::json;
 pub struct Arguments {
     /// ids you want the calendars for
     ///
-    /// The limit of max. 10 ids is pretty arbitrary.
-    /// We suspect that users don't need this.
-    /// If you need this limit increased, please send us a message
+    /// Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
     #[schema(max_items=10,min_items=1,example=json!(["5605.EG.011","5510.02.001","5606.EG.036","5304"]))]
     ids: Vec<String>,
     /// The first allowed time the calendar would like to display
@@ -69,6 +67,7 @@ impl Arguments {
     tags=["calendar"],
     responses(
         (status = 200, description = "**Entries of the calendar** in the requested time span", body = HashMap<String, LocationEvents>, content_type = "application/json"),
+        (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, example = "Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"),    
         (status = 404, description = "**Not found.** The requested location does not have a calendar", body = String, content_type = "text/plain", example = "Not found"),
         (status = 503, description = "**Not Ready.** please retry later", body = String, content_type = "text/plain", example = "Waiting for first sync with TUMonline"),
     )

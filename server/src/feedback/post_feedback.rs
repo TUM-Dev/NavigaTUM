@@ -5,6 +5,11 @@ use serde::{Deserialize, Serialize};
 
 use super::github;
 use super::tokens::RecordedTokens;
+#[expect(
+    unused_imports,
+    reason = "has to be imported as otherwise utoipa generates incorrect code"
+)]
+use url::Url;
 
 #[derive(Deserialize, Serialize, Default, utoipa::ToSchema)]
 #[serde(rename_all = "lowercase")]
@@ -69,7 +74,7 @@ pub struct FeedbackPostData {
 ///
 /// This posts the actual feedback to GitHub and returns the GitHub link.
 /// This API will create issues instead of pull-requests
-/// => all feedback is allowed, but `/api/feedback/propose_edit` is preferred, if it can be posted there.
+/// => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
 ///
 /// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
 ///
@@ -80,7 +85,7 @@ pub struct FeedbackPostData {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description = "The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body = String, content_type = "text/plain", example = "https://github.com/TUM-Dev/navigatum/issues/9"),
+        (status = 201, description = "The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body = Url, content_type = "text/plain", example = "https://github.com/TUM-Dev/navigatum/issues/9"),
         (status = 400, description = "**Bad Request.** Not all fields in the body are present as defined above"),
         (status = 403, description = r#"**Forbidden.** Causes are (delivered via the body):
 

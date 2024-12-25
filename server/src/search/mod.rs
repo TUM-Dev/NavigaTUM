@@ -21,14 +21,29 @@ pub struct SearchQueryArgs {
     /// The amounts returned can be controlled using the `limit\*` paramerters.
     ///
     /// The following query-filters are supported:
-    /// - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-    ///   alternative syntax:
-    ///   - `@<parent>`
-    /// - `usage:<type>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-    ///    alternative syntax:
-    ///    - `nutzung:<usage>`
-    ///    - `=<usage>`
+    /// - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+    /// - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
     /// - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
+    /// - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+    #[schema(
+        min_length = 1,
+        examples(
+            "mi hs1",
+            "sfarching",
+            "5606.EG.036",
+            "interims",
+            "AStA",
+            "WC @garching"
+        )
+    )]
+    // TODO ideally, this would be documented as below, but this does for some reaon not work.
+    //    examples(
+    //    ("mi hs1" = (summary = "\'misspelled\' (according to tumonline) lecture-hall", value = "mi hs1")),
+    //    ("sfarching" = (summary = "misspelled campus garching", value = "sfarching")),
+    //    ("5606.EG.036" = (summary = "regular room (fsmpic)", value = "5606.EG.036")),
+    //    ("interims" = (summary = "\'interims\' Lecture halls", value = "interims")),
+    //    ("AStA" = (summary = "common name synonyms for SV", value = "AStA")),
+    //))]
     q: String,
     /// Include adresses in the saerch
     ///
@@ -56,12 +71,24 @@ pub struct SearchQueryArgs {
     /// string to include in front of highlighted sequences.
     ///
     /// If this and `post_highlight` are empty, highlighting is disabled.
-    #[schema(default = "/u0019", max_length = 25, max_length = 0)]
+    /// For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+    #[schema(
+        default = "/u0019",
+        max_length = 25,
+        max_length = 0,
+        examples("/u0019", "<em>", "<ais-highlight-00000000>")
+    )]
     pre_highlight: Option<String>,
     /// string to include after the highlighted sequences.
     ///
     /// If this and `pre_highlight` are empty, highlighting is disabled.
-    #[schema(default = "/u0017", max_length = 25, max_length = 0)]
+    /// For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+    #[schema(
+        default = "/u0017",
+        max_length = 25,
+        max_length = 0,
+        examples("/u0017", "</em>", "</ais-highlight-00000000>")
+    )]
     post_highlight: Option<String>,
 }
 
@@ -202,7 +229,7 @@ impl From<&SearchQueryArgs> for Highlighting {
         (status = 200, description = "Search entries", body = Vec<SearchResults>, content_type = "application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, content_type = "text/plain", example = "Query deserialize error: invalid digit found in string"),
         (status = 404, description = "**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.", body = String, content_type = "text/plain", example = "Not found"),
-        (status = 414, description = "The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
+        (status = 414, description = "**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
     )
 )]
 #[get("/api/search")]

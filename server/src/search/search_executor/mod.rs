@@ -15,7 +15,7 @@ mod merger;
 mod parser;
 mod query;
 
-#[derive(Serialize, Clone, Copy)]
+#[derive(Serialize, Clone, Copy, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultFacet {
     SitesBuildings,
@@ -30,9 +30,8 @@ pub struct ResultsSection {
     entries: Vec<ResultEntry>,
     /// A recommendation how many of the entries should be displayed by default.
     ///
-    /// The number is usually from 0-5.
+    /// The number is usually from `0`..`5`.
     /// More results might be displayed when clicking "expand".
-    /// If this field is not present, then all entries are displayed.
     #[schema(example = 4)]
     n_visible: usize,
     /// The estimated (not exact) number of hits for that query
@@ -61,23 +60,28 @@ struct ResultEntry {
     #[serde(skip)]
     hit: MSHit,
     /// The id of the location
+    #[schema(example = "5510.03.002")]
     id: String,
     /// the type of the site/building
+    #[schema(example = "room")]
     r#type: String,
     /// Subtext to show below the search result.
     ///
     /// Usually contains the context of where this rooms is located in.
     /// Currently not highlighted.
+    #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
     name: String,
     /// Subtext to show below the search result.
     ///
     /// Usually contains the context of where this rooms is located in.
     /// Currently not highlighted.
+    #[schema(example = "Maschinenwesen (MW)")]
     subtext: String,
     /// Subtext to show below the search (by default in bold and after the non-bold subtext).
     ///
     /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(example = "3002@5510")]
     subtext_bold: Option<String>,
     /// This is an optional feature, that is only supported for some rooms.
     ///
