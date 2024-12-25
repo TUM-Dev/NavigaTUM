@@ -99,7 +99,7 @@ If you have made changes to the API, you need to update the API documentation.
 
 There are two editors for the API documentation (both are imperfect):
 
-- [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
+- [Swagger Editor](https://editor.swagger.io/?url=https://nav.tum.de/api/openapi.json)
 - [stoplight](https://stoplight.io/)
 
 #### Testing
@@ -113,7 +113,7 @@ To do so, run the following commands against the API Server:
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
-st run --workers=auto --base-url=http://localhost:3003 --checks=all ../openapi.yaml
+st run --workers=auto --base-url=http://localhost:3003 --checks=all https://nav.tum.de/api/openapi.json
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and

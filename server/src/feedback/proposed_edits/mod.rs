@@ -5,6 +5,11 @@ use actix_web::web::{Data, Json};
 use actix_web::{post, HttpResponse};
 use serde::Deserialize;
 use tracing::error;
+#[expect(
+    unused_imports,
+    reason = "has to be imported as otherwise utoipa generates incorrect code"
+)]
+use url::Url;
 
 use crate::limited::hash_map::LimitedHashMap;
 
@@ -19,7 +24,7 @@ mod discription;
 mod image;
 mod tmp_repo;
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
@@ -28,11 +33,24 @@ pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct EditRequest {
+    /// The JWT token, that can be used to generate feedback
+    #[schema(
+        example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4"
+    )]
     token: String,
+    /// The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
     edits: LimitedHashMap<String, Edit>,
+    /// Additional context for the edit.
+    ///
+    /// Will be displayed in the discription field of the PR
+    #[schema(example = "I have a picture of the room, please add it to the roomfinder")]
     additional_context: String,
+    /// Whether the user has checked the privacy-checkbox.
+    ///
+    /// We are posting the feedback publicly on GitHub (not a EU-Company).
+    /// **You MUST also include such a checkmark.**
     privacy_checked: bool,
 }
 
@@ -93,7 +111,35 @@ impl EditRequest {
     }
 }
 
-#[post("/propose_edit")]
+/// Post Edit-Requests
+///
+/// ***Do not abuse this endpoint.***
+///
+/// This posts the actual feedback to GitHub and returns the github link.
+/// This API will create pull-requests instead of issues => only a subset of feedback is allowed.
+/// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+///
+/// # Note:
+///
+/// Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+#[utoipa::path(
+    tags=["feedback"],
+    responses(
+        (status = 201, description= "The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body= Url, content_type="text/plain", example="https://github.com/TUM-Dev/navigatum/issues/9"),
+        (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
+        (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
+
+- `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+- `Token not old enough, please wait`: Tokens are only valid after 10s.
+- `Token expired`: Tokens are only valid for 12h.
+- `Token already used`: Tokens are non reusable/refreshable single-use items."#),
+        (status = 422, description= "**Unprocessable Entity.** Subject or body missing or too short."),
+        (status = 451, description= "**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true"),
+        (status = 500, description= "**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later."),
+        (status = 503, description= "Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later."),
+    )
+)]
+#[post("/api/feedback/propose_edits")]
 pub async fn propose_edits(
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<EditRequest>,
@@ -141,7 +187,7 @@ pub async fn propose_edits(
             error!("Error while applying changes: {e}", e = e);
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("could not apply changes, please try again later")
+                .body("Could apply changes, please try again later")
         }
     }
 }

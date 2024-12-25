@@ -13,7 +13,7 @@ const navigation = computed(() => [
   },
   {
     name: t("api.text"),
-    href: "/api",
+    href: "https://nav.tum.de/api",
   },
   {
     name: t("about.text"),

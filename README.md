@@ -31,10 +31,10 @@ You can consume our API Documentation in two ways:
 
 - Head over to [our Website](https://nav.tum.de/api) and look at the interactive documentation
 - We also describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
-  You can find it [here](openapi.yaml).  
+  You can find it [here](https://nav.tum.de/api/openapi.json).  
   Using this Specification you can generate your own client to access the API in the language of your choice.
   To do this head over to
-  the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
+  the [Swagger Editor](https://editor.swagger.io/?url=https://nav.tum.de/api/openapi.json)
   or other similar [OpenAPI tools](https://openapi.tools/).
 
 > [!NOTE]
