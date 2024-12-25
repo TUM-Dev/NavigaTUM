@@ -919,7 +919,7 @@ paths:
             pattern: '-?[\d]+.[\d]+,-?[\d]+.[\d]+,-?[\d]+.[\d]+,-?[\d]+.[\d]+'
       responses:
         '200':
-          description: ''
+          description: Indoor features as GeoJSON
           content:
             application/json:
               schema:
@@ -993,7 +993,7 @@ paths:
       description: |
         ***Do not abuse this endpoint.***
 
-        This posts the actual feedback to github and returns the github link.
+        This posts the actual feedback to GitHub and returns the GitHub link.
         This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
         For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
 
@@ -1060,7 +1060,7 @@ paths:
       description: |
         ***Do not abuse this endpoint.***
 
-        This posts the actual feedback to github and returns the github link.
+        This posts the actual feedback to GitHub and returns the GitHub link.
         This API will create pull-requests instead of issues => only a subset of feedback is allowed.
         For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
 
@@ -1342,17 +1342,17 @@ components:
       type: object
       properties:
         name:
-          description: name of the map
+          description: Name of the map
           type: string
         url:
-          description: where the indoor geojson is located at
+          description: Where the indoor geojson is located at
           type: string
       required:
         - name
         - url
     GeoJsonObject:
       description: |
-        GeoJSon object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level.
+        GeoJSON object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level.
       type: object
       properties:
         type:
@@ -1768,7 +1768,7 @@ components:
       type: object
       properties:
         lat:
-          description: The latitude
+          description: Latitude
           type: number
           format: double
           examples:
@@ -1776,7 +1776,7 @@ components:
           maximum: 90
           minimum: -90
         lon:
-          description: The latitude
+          description: Longitude
           type: number
           format: double
           examples:
@@ -2695,7 +2695,7 @@ components:
           type: string
         parent_name:
           type: string
-        distance:
+        distance_meters:
           type: number
           format: double
           exclusiveMinimum: 0
@@ -2744,6 +2744,6 @@ tags:
   - name: maps
     description: APIs to access map-data
 externalDocs:
-  description: Visit our Github Page for more in-depth documentation
+  description: Visit our GitHub Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'
 $schema: 'http://json-schema.org/draft-07/schema#'
