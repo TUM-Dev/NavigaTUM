@@ -1,7 +1,3 @@
-[![Website Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/4/uptime/720?label=Website%20Uptime/30d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
-[![API Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/2/uptime/720?label=API%20Uptime/30d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
-[![CDN Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/1/uptime/720?label=CDN%20Uptime/30d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
-
 # NavigaTUM
 
 NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de).
