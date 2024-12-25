@@ -92,7 +92,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-server.entrypoints=webs"
       - "traefik.http.routers.navigatum-server.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && Path(`/api`)"
+      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && PathPrefix(`/api`)"
       - "traefik.http.services.navigatum-server.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
