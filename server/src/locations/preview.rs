@@ -207,9 +207,9 @@ pub async fn maps_handler(
         .into_inner()
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
     if let Some(redirect_url) = get_possible_redirect_url(&data.pool, &id, &args).await {
-        let mut res = HttpResponse::PermanentRedirect();
-        res.insert_header((LOCATION, redirect_url));
-        return res.finish();
+        return HttpResponse::PermanentRedirect()
+            .insert_header((LOCATION, redirect_url))
+            .finish();
     }
     let data = match get_localised_data(&data.pool, &id, args.lang.should_use_english()).await {
         Ok(data) => data,

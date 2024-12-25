@@ -139,7 +139,9 @@ pub async fn propose_edits(
         }
         Err(e) => {
             error!("Error while applying changes: {e}", e = e);
-            HttpResponse::InternalServerError().finish()
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("could not apply changes, please try again later")
         }
     }
 }

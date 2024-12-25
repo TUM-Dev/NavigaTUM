@@ -64,7 +64,9 @@ pub async fn get_indoor_map(
             .json(geometry),
         Err(err) => {
             error!("Failed to fetch indoor map {id} because {err:?}");
-            HttpResponse::InternalServerError().finish()
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("could get indoor maps, please try again later")
         }
     }
 }
@@ -88,6 +90,7 @@ impl Arguments {
             .collect();
         if bbox.len() != 4 {
             return Err(HttpResponse::BadRequest()
+                .content_type("text/plain")
                 .body("the bbox-parameter needs 4 floating point numbers of format y,x,y,x"));
         }
         Ok(geo::Rect::new(
@@ -112,6 +115,7 @@ pub async fn list_indoor_maps(
         Err(e) => {
             error!("could not list maps because {e:?}");
             return HttpResponse::InternalServerError()
+                .content_type("text/plain")
                 .body("could not get indoor maps, please try again later");
         }
     };
