@@ -1,5 +1,7 @@
-node_modules
+# looking at the output would be cheesing
 dist
-cdn
+node_modules
 .output
 .nuxt
+# don't prevent rapid iteration on the docker file
+Dockerfile
