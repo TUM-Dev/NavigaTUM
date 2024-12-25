@@ -14,22 +14,68 @@ use unicode_truncate::UnicodeTruncateStr;
 
 mod search_executor;
 
-#[derive(Deserialize, Debug, Default)]
+#[derive(Deserialize, Debug, Default, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct SearchQueryArgs {
+    /// string you want to search for.
+    ///
+    /// The amounts returned can be controlled using the `limit\*` paramerters.
+    ///
+    /// The following query-filters are supported:
+    /// - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+    ///   alternative syntax:
+    ///   - `@<parent>`
+    /// - `usage:<type>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
+    ///    alternative syntax:
+    ///    - `nutzung:<usage>`
+    ///    - `=<usage>`
+    /// - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
     q: String,
+    /// Include adresses in the saerch
+    ///
+    /// Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
+    /// Only activate this when you really need it.
     search_addresses: Option<bool>,
+    /// Maximum number of buildings/sites to return.
+    ///
+    /// Clamped to `0`..`1000`.
+    /// If this is a problem for you, please open an issue.
+    #[schema(default = 5, maximum = 1000, minimum = 0)]
     limit_buildings: Option<usize>,
+    /// Maximum number of rooms to return.
+    ///
+    /// Clamped to `0`..`1000`.
+    /// If this is an problem for you, please open an issue.
+    #[schema(default = 10, maximum = 1000, minimum = 0)]
     limit_rooms: Option<usize>,
+    /// Maximum number of results to return.
+    ///
+    /// Clamped to `1`..`1000`.
+    /// If this is an problem for you, please open an issue.
+    #[schema(default = 10, maximum = 1000, minimum = 1)]
     limit_all: Option<usize>,
+    /// string to include in front of highlighted sequences.
+    ///
+    /// If this and `post_highlight` are empty, highlighting is disabled.
+    #[schema(default = "/u0019", max_length = 25, max_length = 0)]
     pre_highlight: Option<String>,
+    /// string to include after the highlighted sequences.
+    ///
+    /// If this and `pre_highlight` are empty, highlighting is disabled.
+    #[schema(default = "/u0017", max_length = 25, max_length = 0)]
     post_highlight: Option<String>,
 }
 
 /// Returned search results by this
-#[derive(Serialize)]
+#[derive(Serialize, utoipa::ToSchema)]
 pub struct SearchResults {
     sections: Vec<search_executor::ResultsSection>,
-    time_ms: u128,
+    /// Time the search took in the server side, not including network delay
+    ///
+    /// Maximum as timeout.
+    /// other timeouts (browser, your client) may be smaller.
+    /// Expected average is `10`..`50` for uncached, regular requests.
+    #[schema(example = 8)]
+    time_ms: u32,
 }
 
 impl Debug for SearchResults {
@@ -139,6 +185,26 @@ impl From<&SearchQueryArgs> for Highlighting {
         Self { pre, post }
     }
 }
+
+/// Search entries
+///
+/// This endpoint is designed to support search-as-you-type results.
+///
+/// Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+///
+/// Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+/// (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+/// Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
+#[utoipa::path(
+    tags=["locations"],
+    params(SearchQueryArgs),
+    responses(
+        (status = 200, description = "Search entries", body = Vec<SearchResults>, content_type = "application/json"),
+        (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, content_type = "text/plain", example = "Query deserialize error: invalid digit found in string"),
+        (status = 404, description = "**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.", body = String, content_type = "text/plain", example = "Not found"),
+        (status = 414, description = "The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
+    )
+)]
 #[get("/api/search")]
 pub async fn search_handler(
     data: web::Data<AppData>,
@@ -162,11 +228,11 @@ pub async fn search_handler(
         );
         return HttpResponse::InternalServerError()
             .content_type("text/plain")
-            .body("Internal error");
+            .body("Cannot perform search, please try again later");
     }
     let search_results = SearchResults {
         sections: results_sections,
-        time_ms: start_time.elapsed().as_millis(),
+        time_ms: start_time.elapsed().as_millis() as u32,
     };
     HttpResponse::Ok()
         .insert_header(CacheControl(vec![

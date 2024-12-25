@@ -26,14 +26,14 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
     let Ok(personal_token) = github_token() else {
         return HttpResponse::InternalServerError()
             .content_type("text/plain")
-            .body("Failed to create issue");
+            .body("Failed to create issue, please try again later");
     };
     let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create issue");
+                .body("Failed to create issue, please try again later");
         }
         Ok(octocrab) => octocrab,
     };
@@ -54,7 +54,7 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
             error!("Error creating issue: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create issue")
+                .body("Failed to create issue, please try again later")
         }
     };
 }
@@ -69,14 +69,14 @@ pub async fn open_pr(
     let Ok(personal_token) = github_token() else {
         return HttpResponse::InternalServerError()
             .content_type("text/plain")
-            .body("Failed to create a pull request");
+            .body("Failed to create a pull request, please try again later");
     };
     let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create a pull request");
+                .body("Failed to create a pull request, please try again later");
         }
         Ok(octocrab) => octocrab,
     };
@@ -95,7 +95,7 @@ pub async fn open_pr(
             error!("Error creating pull request: {e:?}");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create a pull request");
+                .body("Failed to create a pull request, please try again later");
         }
     };
 
@@ -116,7 +116,7 @@ pub async fn open_pr(
             error!("Error updating PR: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create a pull request")
+                .body("Failed to create a pull request, please try again later")
         }
     };
 }

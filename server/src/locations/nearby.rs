@@ -3,30 +3,52 @@ use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use tracing::error;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, utoipa::ToSchema)]
 struct Transportation {
     id: String,
     name: String,
     parent_id: Option<String>,
     parent_name: Option<String>,
-    /// not really null, sqlx just thinks this
-    lat: Option<f64>,
-    /// not really null, sqlx just thinks this
-    lon: Option<f64>,
-    /// not really null, sqlx just thinks this
-    distance_meters: Option<f64>,
+    /// Latitude
+    #[schema(example = 48.26244490906312, nullable = false)]
+    lat: Option<f64>, // not really null, sqlx just thinks this
+    /// Longitude
+    #[schema(example = 48.26244490906312, nullable = false)]
+    lon: Option<f64>, // not really null, sqlx just thinks this
+    #[schema(exclusive_minimum = 0.0, nullable = false)]
+    distance_meters: Option<f64>, // not really null, sqlx just thinks this
 }
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Clone, Debug, utoipa::ToSchema)]
 struct NearbyResponse {
+    #[schema(max_items = 50)]
     public_transport: Vec<Transportation>,
 }
 
-#[get("/{id}/nearby")]
+#[derive(Deserialize, utoipa::IntoParams)]
+struct NearbyPathParams {
+    /// ID of a location
+    id: String,
+}
+
+/// Get the nearby items
+///
+/// Shows nearby POIs like public transport stations
+#[utoipa::path(
+    tags=["locations"],
+    params(NearbyPathParams),
+    responses(
+        (status = 200, description = "Things **nearby to the location**", body=NearbyResponse, content_type = "application/json"),
+        (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
+    )
+)]
+#[get("/api/locations/{id}/nearby")]
 pub async fn nearby_handler(
-    params: web::Path<String>,
+    params: web::Path<NearbyPathParams>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let id = params.into_inner();
+    let id = params
+        .id
+        .replace(|c: char| c.is_whitespace() || c.is_control(), "");
     // TODO: use the spatial index instead of just computing the distance for every entry
     let transportation = sqlx::query_as!(
         Transportation,

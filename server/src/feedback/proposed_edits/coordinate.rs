@@ -38,9 +38,13 @@ impl CoordinateFile {
     }
 }
 
-#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq)]
+#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
 pub struct Coordinate {
+    /// Latitude
+    #[schema(example = 48.26244490906312)]
     lat: f64,
+    /// Longitude
+    #[schema(example = 48.26244490906312)]
     lon: f64,
 }
 

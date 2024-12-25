@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::limited::OrMore;
 
-#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord, utoipa::ToSchema)]
 pub struct LimitedVec<T>(pub Vec<T>);
 
 impl<T> AsRef<[T]> for LimitedVec<T> {
