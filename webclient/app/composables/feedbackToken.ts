@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import type { Ref } from "vue";
 import type { components } from "~/api_types";
 import { useLocalStorage } from "@vueuse/core";
 
@@ -11,7 +11,7 @@ enum TokenStatus {
 }
 
 export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
-  error: { message: string; blockSend: boolean };
+  error: Ref<{ message: string; blockSend: boolean }>;
   token: { value: TokenResponse | null };
 } {
   const token = useLocalStorage<TokenResponse | null>("feedback-token", null, {
@@ -20,17 +20,10 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
       write: (v) => JSON.stringify(v),
     },
   });
-  const error = reactive({
+  const error = useState('feedback_error', ()=>({
     message: "",
     blockSend: false,
-  });
-
-  // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  if (token.value?.expiry) {
-    token.value = null;
-  }
+  }));
 
   // Token are renewed much before being invalid on the server.
   const MS_PER_HOUR = 3600000;
@@ -45,24 +38,24 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
               token.value = j;
             })
             .catch((r) => {
-              error.message = t("error.token_req_failed");
+              error.value.message = t("error.token_req_failed");
               console.error(r);
             });
         } else if (r.status === TokenStatus.TOO_MANY_REQUESTS) {
-          error.message = t("error.too_many_requests");
-          error.blockSend = true;
+          error.value.message = t("error.too_many_requests");
+          error.value.blockSend = true;
         } else if (r.status === TokenStatus.NOT_CONFIGURED) {
-          error.message = t("error.feedback_not_configured");
-          error.blockSend = true;
+          error.value.message = t("error.feedback_not_configured");
+          error.value.blockSend = true;
         } else {
-          error.message = `${t("error.token_unexpected_status")}${r.status}`;
-          error.blockSend = true;
+          error.value.message = `${t("error.token_unexpected_status")}${r.status}`;
+          error.value.blockSend = true;
         }
         if (r.status !== TokenStatus.SUCCESSFULLY_CREATED)
           document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
       })
       .catch((r) => {
-        error.message = t("error.token_req_failed");
+        error.value.message = t("error.token_req_failed");
         console.error(r);
       });
   }

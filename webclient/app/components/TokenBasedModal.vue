@@ -17,8 +17,8 @@ const feedback = useFeedback();
 function closeForm() {
   feedback.value.open = false;
   successUrl.value = "";
-  error.blockSend = false;
-  error.message = "";
+  error.value.blockSend = false;
+  error.value.message = "";
 }
 
 enum SubmissionStatus {
@@ -46,16 +46,16 @@ function _send() {
         token.value = null;
         r.text().then((url) => (successUrl.value = url));
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
-        error.message = `${t("status.server_error")} (${r.text()})`;
+        error.value.message = `${t("status.server_error")} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
-        error.message = t("error.please_accept_privacy_statement");
+        error.value.message = t("error.please_accept_privacy_statement");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        error.message = `${t("error.send_invalid_token")} (${r.text()})`;
+        error.value.message = `${t("error.send_invalid_token")} (${r.text()})`;
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
-        error.message = `${t("status.send_unexpected_status")}: ${r.status}`;
+        error.value.message = `${t("status.send_unexpected_status")}: ${r.status}`;
       }
       if (r.status !== SubmissionStatus.SUCCESSFULLY_CREATED) {
         document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +63,7 @@ function _send() {
     })
     .catch((r) => {
       loading.value = false;
-      error.message = t("error.send_req_failed");
+      error.value.message = t("error.send_req_failed");
       console.error(r);
       document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
     });
@@ -72,22 +72,22 @@ function _send() {
 function sendForm() {
   // validate the own form
   if (token.value === null) {
-    error.message = t("error.send_no_token");
-    error.blockSend = true;
+    error.value.message = t("error.send_no_token");
+    error.value.blockSend = true;
     return;
   }
   if (!privacyChecked.value) {
-    error.message = t("error.please_accept_privacy_statement");
+    error.value.message = t("error.please_accept_privacy_statement");
     return;
   }
 
   // validate the foreign form
   if (feedback.value.data.subject.length < 3) {
-    error.message = t("error.form.too_short_subject");
+    error.value.message = t("error.form.too_short_subject");
     return;
   }
   if (feedback.value.data.body.length < 10) {
-    error.message = t("error.form.too_short_body");
+    error.value.message = t("error.form.too_short_body");
     return;
   }
 
