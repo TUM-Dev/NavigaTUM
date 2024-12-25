@@ -77,7 +77,7 @@ watch([data], () => {
 });
 
 const description = computed(() => {
-  if (data.value === undefined) return "";
+  if (data.value === undefined || data.value === null) return "";
   const detailsFor = t("details_for");
   let description = `${detailsFor} ${data.value.type_common_name} ${data.value.name}`;
   if (data.value.props.computed) {
