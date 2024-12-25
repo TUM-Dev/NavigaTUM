@@ -102,6 +102,7 @@ class Organisation(PydanticConfiguration):
     org_name: TranslatableStr
     org_type: str
     org_url: str | None
+    org_email: str | None
     school: School | None
 
     @classmethod
