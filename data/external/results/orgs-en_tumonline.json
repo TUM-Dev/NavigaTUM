@@ -2831,8 +2831,8 @@
   },
   "30371": {
     "code": "TUVBWKM",
-    "name": "Research Staff assembly",
-    "path": "TUM/Officers and Representatives/Representatives for administrative staff/Research Staff assembly"
+    "name": "The Assembly of Academic Staff and Doctoral Candidates",
+    "path": "TUM/Officers and Representatives/Representatives for administrative staff/The Assembly of Academic Staff and Doctoral Candidates"
   },
   "30374": {
     "code": "TUVBFBA",
@@ -3864,11 +3864,6 @@
     "name": "Associate Professorship of Biotechnology of horticultural crops (Prof. Poppenberger)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnology of horticultural crops (Prof. Poppenberger)"
   },
-  "44664": {
-    "code": "TUMEBTS",
-    "name": "Animal Protection Representative of the TUM School of Medicine and Health",
-    "path": "TUM/Schools/Medicine and Health/Animal Protection Representative"
-  },
   "44665": {
     "code": "TUMEPF0",
     "name": "Zentrum f\u00fcr Pr\u00e4klinische Forschung (ZPF)",
@@ -4698,6 +4693,11 @@
     "code": "TUPEEIT",
     "name": "EIT Health e.V.",
     "path": "TUM/Institutions close to the University/EIT Health e.V."
+  },
+  "47717": {
+    "code": "TUPOFPO",
+    "name": "Former TUM School of Governance",
+    "path": "TUM/Academic department/Former TUM School of Governance"
   },
   "47719": {
     "code": "TUPOL01",
@@ -9366,8 +9366,8 @@
   },
   "54439": {
     "code": "TUS3004",
-    "name": "Chair of Angewandte Quantentheorie (Prof. Rabl)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Angewandte Quantentheorie (Prof. Rabl)"
+    "name": "Chair of Applied Quantum Theory (Prof. Rabl)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Applied Quantum Theory (Prof. Rabl)"
   },
   "54457": {
     "code": "TUS1302",
@@ -11123,5 +11123,25 @@
     "code": "TUPRB09",
     "name": "Delegate officer for Fundraising",
     "path": "TUM/TUM Board of Management/Delegate Officers of the President/Delegate officer for Fundraising"
+  },
+  "56917": {
+    "code": "TUS5RDP",
+    "name": "Data Protection Representative of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Representatives/Data Protection Representative"
+  },
+  "56918": {
+    "code": "TUS5RIN",
+    "name": "Representative for international affairs of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Representatives/Representative for international affairs"
+  },
+  "56919": {
+    "code": "TUS5RGE",
+    "name": "Gender Equality Officer of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Representatives/Gender Equality Officer"
+  },
+  "56938": {
+    "code": "TUCSP19",
+    "name": "Chair of Sustainability Management (Prof. Gold)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Sustainability Management (Prof. Gold)"
   }
 }

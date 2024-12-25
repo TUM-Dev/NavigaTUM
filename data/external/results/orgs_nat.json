@@ -1,6 +1,7 @@
 {
   "14178": {
     "org_code": "TUMAFMA",
+    "org_email": "dekanat@ma.tum.de",
     "org_name": {
       "de": "Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
       "en": "Former TUM Department of Mathematics"
@@ -19,6 +20,7 @@
   },
   "19691": {
     "org_code": "TUZVZA4",
+    "org_email": null,
     "org_name": {
       "de": "Immobilien (ZA 4)",
       "en": "Real Estate Management (Central department 4)"
@@ -29,6 +31,7 @@
   },
   "19701": {
     "org_code": "TUZEZMT",
+    "org_email": "office@bioengineering.tum.de",
     "org_name": {
       "de": "Munich Institute of Biomedical Engineering (MIBE)",
       "en": "Munich Institute of Biomedical Engineering (MIBE)"
@@ -39,6 +42,7 @@
   },
   "39687": {
     "org_code": "TUPESWM",
+    "org_email": null,
     "org_name": {
       "de": "Studentenwerk M\u00fcnchen",
       "en": "Student services Munich"
@@ -49,6 +53,7 @@
   },
   "51258": {
     "org_code": "TUS4000",
+    "org_email": "school.office@ls.tum.de",
     "org_name": {
       "de": "TUM School of Life Sciences",
       "en": "TUM School of Life Sciences"
