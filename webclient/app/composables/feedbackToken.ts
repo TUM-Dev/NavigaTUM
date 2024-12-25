@@ -20,7 +20,7 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
       write: (v) => JSON.stringify(v),
     },
   });
-  const error = useState('feedback_error', ()=>({
+  const error = useState("feedback_error", () => ({
     message: "",
     blockSend: false,
   }));
