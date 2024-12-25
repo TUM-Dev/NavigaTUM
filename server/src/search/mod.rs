@@ -160,7 +160,9 @@ pub async fn search_handler(
             "searching returned {len} sections, but expected 2-3",
             len = results_sections.len()
         );
-        return HttpResponse::InternalServerError().body("Internal error");
+        return HttpResponse::InternalServerError()
+            .content_type("text/plain")
+            .body("Internal error");
     }
     let search_results = SearchResults {
         sections: results_sections,

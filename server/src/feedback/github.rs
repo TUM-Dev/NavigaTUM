@@ -31,7 +31,9 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
     let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
-            return HttpResponse::InternalServerError().body("Failed to create issue");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to create issue");
         }
         Ok(octocrab) => octocrab,
     };
@@ -72,7 +74,9 @@ pub async fn open_pr(
     let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
-            return HttpResponse::InternalServerError().body("Failed to create a pull request");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to create a pull request");
         }
         Ok(octocrab) => octocrab,
     };

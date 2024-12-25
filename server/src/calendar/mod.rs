@@ -33,10 +33,14 @@ impl Arguments {
             .map(|s| s.replace(|c: char| c.is_whitespace() || c.is_control(), ""))
             .collect::<Vec<String>>();
         if ids.len() > 10 {
-            return Err(HttpResponse::BadRequest().body("Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"));
+            return Err(HttpResponse::BadRequest()
+                .content_type("text/plain")
+                .body("Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"));
         };
         if ids.is_empty() {
-            return Err(HttpResponse::BadRequest().body("No id requested"));
+            return Err(HttpResponse::BadRequest()
+                .content_type("text/plain")
+                .body("No id requested"));
         };
         Ok(ids)
     }
@@ -68,6 +72,7 @@ pub async fn calendar_handler(
         Err(e) => {
             error!("could not get entries from the db for {ids:?} because {e:?}");
             HttpResponse::InternalServerError()
+                .content_type("text/plain")
                 .body("could not get calendar entries, please try again later")
         }
     }
@@ -76,13 +81,17 @@ pub async fn calendar_handler(
 fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<(), HttpResponse> {
     for id in ids {
         if !locations.iter().any(|l| &l.key == id) {
-            return Err(HttpResponse::BadRequest().body("Requested id {id} does not exist"));
+            return Err(HttpResponse::BadRequest()
+                .content_type("text/plain")
+                .body("Requested id {id} does not exist"));
         }
     }
     assert_eq!(locations.len(), ids.len());
     for loc in locations {
         if loc.last_calendar_scrape_at.is_none() {
-            return Err(HttpResponse::ServiceUnavailable().body(format!("Room {key}/{url:?} calendar entry is currently in the process of being scraped, please try again later", key = loc.key, url = loc.calendar_url)));
+            return Err(HttpResponse::ServiceUnavailable()
+                .content_type("text/plain")
+                .body(format!("Room {key}/{url:?} calendar entry is currently in the process of being scraped, please try again later", key = loc.key, url = loc.calendar_url)));
         };
     }
     for loc in locations {
@@ -107,7 +116,9 @@ async fn get_locations(
     match sqlx::query_as!(CalendarLocation, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])", ids).fetch_all(pool).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
-            Err(HttpResponse::InternalServerError().body("could not get calendar entries, please try again later"))
+            Err(HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("could not get calendar entries, please try again later"))
         }
         Ok(locations) => Ok(LimitedVec(locations)),
     }

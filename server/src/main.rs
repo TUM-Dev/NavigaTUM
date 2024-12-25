@@ -62,7 +62,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
             .body(format!("healthy\nsource_code: {github_link}")),
         Err(e) => {
             error!("database error: {e:?}",);
-            HttpResponse::InternalServerError()
+            HttpResponse::ServiceUnavailable()
                 .content_type("text/plain")
                 .body(format!("unhealthy\nsource_code: {github_link}"))
         }
