@@ -92,7 +92,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-server.entrypoints=webs"
       - "traefik.http.routers.navigatum-server.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/locations/`) || PathPrefix(`/api/get/`) || PathPrefix(`/api/preview/`) || Path(`/api/search`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`) || Path(`/api/status`)|| Path(`/api/metrics`) || PathPrefix(`/api/maps/indoor`))"
+      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && Path(`/api`)"
       - "traefik.http.services.navigatum-server.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
@@ -123,7 +123,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.11.3
+    image: getmeili/meilisearch:v1.12.0
     restart: unless-stopped
     networks:
       - traefik_traefik

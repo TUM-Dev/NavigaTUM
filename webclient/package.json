@@ -23,19 +23,17 @@
     "@nuxt/content": "2.13.4",
     "@nuxt/image": "1.8.1",
     "@nuxtjs/color-mode": "3.5.2",
-    "@vueuse/core": "12.0.0",
+    "@vueuse/core": "12.2.0",
     "@vueuse/nuxt": "12.0.0",
-    "@vueuse/router": "12.0.0",
+    "@vueuse/router": "12.2.0",
     "maplibre-gl": "4.7.1",
     "maplibre-gl-indoor": "0.0.21",
     "nightwind": "1.1.13",
     "nuxt": "3.13.0",
     "sharp": "0.33.5",
-    "swagger-ui": "5.18.2",
-    "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.5.13",
     "vue-router": "4.5.0",
-    "vue3-carousel": "0.10.0"
+    "vue3-carousel": "0.11.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.3",
@@ -43,7 +41,6 @@
     "@nuxtjs/tailwindcss": "6.12.2",
     "@types/geojson": "7946.0.15",
     "@types/nightwind": "1.0.0",
-    "@types/swagger-ui": "3.52.4",
     "@vue/tsconfig": "0.7.0",
     "autoprefixer": "10.4.20",
     "eslint": "9.17.0",
@@ -51,9 +48,9 @@
     "postcss": "8.4.49",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.9",
-    "tailwindcss": "3.4.16",
-    "typescript": "5.6.3",
-    "vue-tsc": "2.1.10"
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.2",
+    "vue-tsc": "2.2.0"
   },
   "type": "module",
   "packageManager": "pnpm@9.7.0"

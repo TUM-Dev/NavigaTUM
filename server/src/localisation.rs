@@ -1,6 +1,6 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Copy, Clone, Debug, Eq, PartialEq, Default)]
+#[derive(Deserialize, Serialize, Copy, Clone, Debug, Eq, PartialEq, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum LanguageOptions {
     #[default]
@@ -8,9 +8,21 @@ enum LanguageOptions {
     En,
 }
 
-#[derive(Deserialize, Copy, Clone, Debug, Eq, PartialEq, Default)]
+#[derive(
+    Deserialize,
+    Serialize,
+    Copy,
+    Clone,
+    Debug,
+    Eq,
+    PartialEq,
+    Default,
+    utoipa::IntoParams,
+    utoipa::ToSchema,
+)]
 #[serde(default)]
 pub struct LangQueryArgs {
+    /// The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
     lang: LanguageOptions,
 }
 

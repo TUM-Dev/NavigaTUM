@@ -78,6 +78,12 @@ geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.2"
 
+# docs
+utoipa-actix-web = "0.1.2"
+utoipa = { version = "5.2.0", features = ["yaml", "chrono", "actix_extras", "url"] }
+utoipa-redoc = { version = "5.0.0", features = ["actix-web"] }
+url = "2.5.4"
+
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.1"
