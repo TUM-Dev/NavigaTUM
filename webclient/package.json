@@ -31,8 +31,6 @@
     "nightwind": "1.1.13",
     "nuxt": "3.13.0",
     "sharp": "0.33.5",
-    "swagger-ui": "5.18.2",
-    "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.5.13",
     "vue-router": "4.5.0",
     "vue3-carousel": "0.10.0"
@@ -43,7 +41,6 @@
     "@nuxtjs/tailwindcss": "6.12.2",
     "@types/geojson": "7946.0.15",
     "@types/nightwind": "1.0.0",
-    "@types/swagger-ui": "3.52.4",
     "@vue/tsconfig": "0.7.0",
     "autoprefixer": "10.4.20",
     "eslint": "9.17.0",

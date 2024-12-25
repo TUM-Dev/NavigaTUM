@@ -20,14 +20,6 @@ repos:
         args:
           - --fix=lf
       - id: requirements-txt-fixer
-  # only api
-  - repo: local
-    hooks:
-      - id: openapi-format
-        name: openapi-format
-        entry: openapi-format ./data/output/openapi.yaml --output
-        language: system
-        files: "data/output/openapi.yaml"
   # only server
   - repo: local
     hooks:

@@ -14,13 +14,23 @@ use actix_web::http::header::{CacheControl, CacheDirective};
 mod connectum;
 mod models;
 pub mod refresh;
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[expect(
+    unused_imports,
+    reason = "has to be imported as otherwise utoipa generates incorrect code"
+)]
+use serde_json::json;
+#[derive(Serialize, Deserialize, Clone, Debug, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct Arguments {
+    /// ids you want the calendars for
+    ///
+    /// Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
+    #[schema(max_items=10,min_items=1,example=json!(["5605.EG.011","5510.02.001","5606.EG.036","5304"]))]
     ids: Vec<String>,
-    /// eg. 2039-01-19T03:14:07+1
+    /// The first allowed time the calendar would like to display
+    #[schema(examples("2039-01-19T03:14:07+01:00", "2042-01-07T00:00:00 UTC"))]
     start_after: DateTime<Utc>,
-    /// eg. 2042-01-07T00:00:00 UTC
+    /// The last allowed time the calendar would like to display
+    #[schema(examples("2039-01-19T03:14:07+01:00", "2042-01-07T00:00:00 UTC"))]
     end_before: DateTime<Utc>,
 }
 
@@ -46,6 +56,22 @@ impl Arguments {
     }
 }
 
+/// Retrieve Calendar Entries
+///
+/// Retrieves calendar entries for specific `ids` within the requested time span.
+/// The time span is defined by the `start_after` and `end_before` query parameters.
+/// Ensure to provide valid date-time formats for these parameters.
+///
+/// If successful, returns additional entries in the requested time span.
+#[utoipa::path(
+    tags=["calendar"],
+    responses(
+        (status = 200, description = "**Entries of the calendar** in the requested time span", body = HashMap<String, LocationEvents>, content_type = "application/json"),
+        (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, example = "Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"),    
+        (status = 404, description = "**Not found.** The requested location does not have a calendar", body = String, content_type = "text/plain", example = "Not found"),
+        (status = 503, description = "**Not Ready.** please retry later", body = String, content_type = "text/plain", example = "Waiting for first sync with TUMonline"),
+    )
+)]
 #[post("/api/calendar")]
 pub async fn calendar_handler(
     web::Json(args): web::Json<Arguments>,
@@ -113,7 +139,14 @@ async fn get_locations(
     pool: &PgPool,
     ids: &[String],
 ) -> Result<LimitedVec<CalendarLocation>, HttpResponse> {
-    match sqlx::query_as!(CalendarLocation, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])", ids).fetch_all(pool).await {
+    match sqlx::query_as!(
+        CalendarLocation,
+        "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])",
+        ids
+    )
+    .fetch_all(pool)
+    .await
+    {
         Err(e) => {
             error!("could not refetch due to {e:?}");
             Err(HttpResponse::InternalServerError()
@@ -133,10 +166,17 @@ async fn get_from_db(
 ) -> anyhow::Result<LimitedHashMap<String, LocationEvents>> {
     let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
     for location in locations {
-        let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type
+        let events = sqlx::query_as!(
+            Event,
+            r#"SELECT id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type
             FROM calendar
             WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3"#,
-            location.key, start_after, end_before).fetch_all(pool).await?;
+            location.key,
+            start_after,
+            end_before
+        )
+        .fetch_all(pool)
+        .await?;
         located_events.insert(
             location.key.clone(),
             LocationEvents {
@@ -266,7 +306,9 @@ mod db_tests {
         let (locations, events) = sample_data();
         for (key, data) in locations {
             for lang in ["de", "en"] {
-                let query = format!("INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')");
+                let query = format!(
+                    "INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')"
+                );
                 sqlx::query(&query).execute(&mut *tx).await.unwrap();
             }
         }

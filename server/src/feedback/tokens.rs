@@ -1,6 +1,6 @@
 use std::fmt;
 
-use actix_web::HttpResponse;
+use actix_web::{post, HttpResponse};
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -108,12 +108,43 @@ impl RecordedTokens {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
 struct Token {
-    created_at: i64, // unix timestamp
+    /// Unix timestamp of when the token was created
+    #[schema(example = "1629564181")]
+    created_at: i64,
+    /// The JWT token, that can be used to generate feedback
+    #[schema(
+        example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4"
+    )]
     token: String,
 }
 
+/// Get a feedback-token
+///
+/// ***Do not abuse this endpoint.***
+///
+/// This returns a JWT token usable for submitting feedback.
+/// You should request a token, ***if (and only if) a user is on a feedback page***
+///
+/// As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
+/// To post feedback, you will need this token.
+///
+/// Tokens gain validity after 5s, and are invalid after 12h of being issued.
+/// They are not refreshable, and are only valid for one usage.
+///
+/// # Note:
+///
+/// Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
+#[utoipa::path(
+    tags=["feedback"],
+    responses(
+        (status = 201, description = "**Created** a usable token", body= Token, content_type="application/json"),
+        (status = 429, description = "**Too many requests.** We are rate-limiting everyone's requests, please try again later."),
+        (status = 503, description= "**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later."),
+    )
+)]
+#[post("")]
 pub async fn get_token() -> HttpResponse {
     if !able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()
@@ -137,7 +168,7 @@ pub async fn get_token() -> HttpResponse {
             error!("Failed to generate token: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to generate token.")
+                .body("Failed to generate token, please try again later")
         }
     }
 }

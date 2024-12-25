@@ -59,7 +59,7 @@ async fn get_localised_data(
             error!("Error preparing statement: {e:?}");
             return Err(HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Internal Server Error"));
+                .body("Could not get data for location, please try again later"));
         }
     }
 }
@@ -172,7 +172,7 @@ async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs)
     }
 }
 
-#[derive(Deserialize, Default, Debug, Copy, Clone)]
+#[derive(Deserialize, Default, Debug, Copy, Clone, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum PreviewFormat {
     #[default]
@@ -188,23 +188,39 @@ impl PreviewFormat {
     }
 }
 
-#[derive(Deserialize, Default, Debug)]
-#[serde(rename_all = "snake_case")]
-#[serde(default)]
+#[derive(Deserialize, Default, Debug, utoipa::IntoParams)]
 struct QueryArgs {
     #[serde(flatten)]
     lang: localisation::LangQueryArgs,
     format: PreviewFormat,
 }
 
-#[get("/{id}/preview")]
+#[derive(Deserialize, utoipa::IntoParams)]
+struct MapsPathParams {
+    id: String,
+}
+
+/// Get a entry-preview
+///
+/// This returns a 1200x630px preview for the location (room/building/..).
+///
+/// This is usefully for implementing custom OpenGraph images for detail previews.
+#[utoipa::path(
+    tags=["locations"],
+    params(MapsPathParams, QueryArgs),
+    responses(
+        (status = 200, description = "**Preview image**", content_type="image/png"),
+        (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
+    )
+)]
+#[get("/api/locations/{id}/preview")]
 pub async fn maps_handler(
-    params: web::Path<String>,
-    web::Query(args): web::Query<QueryArgs>,
+    params: web::Path<MapsPathParams>,
+    args: web::Query<QueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let id = params
-        .into_inner()
+        .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
     if let Some(redirect_url) = get_possible_redirect_url(&data.pool, &id, &args).await {
         return HttpResponse::PermanentRedirect()

@@ -18,7 +18,6 @@ COPY translations.yaml translations.yaml
 COPY output output
 
 RUN python3 compile.py \
-    && test -f "./output/openapi.yaml" \
     && test -f "./output/status_data.json" \
     && test -f "./output/status_data.parquet" \
     && test -f "./output/search_data.json" \

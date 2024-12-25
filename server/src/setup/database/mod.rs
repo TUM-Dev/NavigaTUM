@@ -106,17 +106,29 @@ async fn cleanup_deleted(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> anyhow::Result<()> {
     let keys = &keys.0;
-    sqlx::query!("DELETE FROM aliases WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE aliases.key = expected.key)", keys)
-        .execute(&mut **tx)
-        .await?;
-    sqlx::query!("DELETE FROM en WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE en.key = expected.key)", keys)
-        .execute(&mut **tx)
-        .await?;
-    sqlx::query!("DELETE FROM calendar WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE calendar.room_code = expected.key)", keys)
-        .execute(&mut **tx)
-        .await?;
-    sqlx::query!("DELETE FROM de WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE de.key = expected.key)", keys)
-        .execute(&mut **tx)
-        .await?;
+    sqlx::query!(
+        "DELETE FROM aliases WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE aliases.key = expected.key)",
+        keys
+    )
+    .execute(&mut **tx)
+    .await?;
+    sqlx::query!(
+        "DELETE FROM en WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE en.key = expected.key)",
+        keys
+    )
+    .execute(&mut **tx)
+    .await?;
+    sqlx::query!(
+        "DELETE FROM calendar WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE calendar.room_code = expected.key)",
+        keys
+    )
+    .execute(&mut **tx)
+    .await?;
+    sqlx::query!(
+        "DELETE FROM de WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE de.key = expected.key)",
+        keys
+    )
+    .execute(&mut **tx)
+    .await?;
     Ok(())
 }
