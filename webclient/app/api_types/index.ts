@@ -94,7 +94,7 @@ export type paths = {
      * Post feedback
      * @description ***Do not abuse this endpoint.***
      *
-     * This posts the actual feedback to github and returns the github link.
+     * This posts the actual feedback to GitHub and returns the GitHub link.
      * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
      * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
      *
@@ -107,7 +107,7 @@ export type paths = {
      * Post Edit-Requests
      * @description ***Do not abuse this endpoint.***
      *
-     * This posts the actual feedback to github and returns the github link.
+     * This posts the actual feedback to GitHub and returns the GitHub link.
      * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
      * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
      *
@@ -159,12 +159,12 @@ export type webhooks = Record<string, never>;
 export type components = {
   schemas: {
     readonly RemoteMap: {
-      /** @description name of the map */
+      /** @description Name of the map */
       readonly name: string;
-      /** @description where the indoor geojson is located at */
+      /** @description Where the indoor geojson is located at */
       readonly url: string;
     };
-    /** @description GeoJSon object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level. */
+    /** @description GeoJSON object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level. */
     readonly GeoJsonObject: {
       /** @enum {string} */
       readonly type:
@@ -349,12 +349,12 @@ export type components = {
     readonly Coordinate: {
       /**
        * Format: double
-       * @description The latitude
+       * @description Latitude
        */
       readonly lat: number;
       /**
        * Format: double
-       * @description The latitude
+       * @description Longitude
        */
       readonly lon: number;
       /**
@@ -788,7 +788,7 @@ export type components = {
       readonly parent_id: string;
       readonly parent_name?: string;
       /** Format: double */
-      readonly distance: number;
+      readonly distance_meters?: number;
       readonly name: string;
       /** Format: double */
       readonly lat: number;
@@ -1037,6 +1037,7 @@ export type operations = {
       };
     };
     responses: {
+      /** @description Indoor features as GeoJSON */
       200: {
         content: {
           readonly "application/json": readonly components["schemas"]["RemoteMap"][];
@@ -1110,7 +1111,7 @@ export type operations = {
    * Post feedback
    * @description ***Do not abuse this endpoint.***
    *
-   * This posts the actual feedback to github and returns the github link.
+   * This posts the actual feedback to GitHub and returns the GitHub link.
    * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
    * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
    *
@@ -1189,7 +1190,7 @@ export type operations = {
    * Post Edit-Requests
    * @description ***Do not abuse this endpoint.***
    *
-   * This posts the actual feedback to github and returns the github link.
+   * This posts the actual feedback to GitHub and returns the GitHub link.
    * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
    * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
    *
