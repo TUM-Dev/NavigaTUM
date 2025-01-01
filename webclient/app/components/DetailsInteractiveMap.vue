@@ -86,14 +86,16 @@ function initMap(containerId: string): Map {
     // to make sure that users can share urls
     hash: true,
 
-    // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
-    // slower, but prettier and therefore worth it for our use case
-    antialias: true,
+    canvasContextAttributes: {
+      // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
+      // slower, but prettier and therefore worth it for our use case
+      antialias: true,
 
-    // without this true, printing the webpage is not possible
-    // with this true the performance is halfed though...
-    // => we are deliberetely not supporing printing of this part of the webpage
-    preserveDrawingBuffer: false,
+      // without this true, printing the webpage is not possible
+      // with this true the performance is halfed though...
+      // => we are deliberetely not supporing printing of this part of the webpage
+      preserveDrawingBuffer: false,
+    },
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
@@ -113,6 +115,12 @@ function initMap(containerId: string): Map {
       navigator.clipboard.writeText(`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
     });
   }
+
+  map.on("style.load", () => {
+    map.setProjection({
+      type: "globe", // Set projection to globe
+    });
+  });
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
