@@ -31,34 +31,29 @@ info: "'MW2001' should get '5510.02.001' in 1 results # splitting necessary"
       name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0608M@5506
-    - id: 5508.02.801
-      type: room
-      name: 5508.02.801 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 1801@5508
-    - id: 5510.EG.001
-      type: room
-      name: 5510.EG.001 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0001@5510
-    - id: 5539.EG.001A
-      type: room
-      name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001A@5539
-    - id: 5539.EG.001B
-      type: room
-      name: "5539.EG.001B (Hörsaal 1B,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001B@5539
-    - id: 5539.EG.002
-      type: room
-      name: "5539.EG.002 (Hörsaal 2,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.002@5539
-  n_visible: 10
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
-  entries: []
+  entries:
+    - id: mw
+      type: joined_building
+      name: "Maschinenwesen (\u0019MW\u0017)"
+      subtext: Gebäudekomplex
+    - id: "5506"
+      type: building
+      name: "Gebäudeteil 6, Institut für Luft- und Raumfahrt"
+      subtext: Gebäudeteil
+    - id: "5501"
+      type: building
+      name: "Gebäudeteil 1, Institut für Mechatronik"
+      subtext: Gebäudeteil
+    - id: "5502"
+      type: building
+      name: "Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung"
+      subtext: Gebäudeteil
+    - id: "5504"
+      type: building
+      name: "Gebäudeteil 4, Institut für Verfahrenstechnik"
+      subtext: Gebäudeteil
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
