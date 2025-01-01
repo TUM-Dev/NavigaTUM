@@ -491,9 +491,7 @@
       "minzoom": 11,
       "filter": [
         "==",
-        [
-          "geometry-type"
-        ],
+        "$type",
         "Polygon"
       ],
       "paint": {
@@ -511,9 +509,7 @@
         "all",
         [
           "==",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -553,9 +549,7 @@
         "all",
         [
           "==",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -992,9 +986,7 @@
         "all",
         [
           "==",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -1946,9 +1938,7 @@
         "all",
         [
           "==",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -2543,9 +2533,7 @@
         "all",
         [
           "==",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -4149,9 +4137,7 @@
       "source-layer": "waterway",
       "filter": [
         "==",
-        [
-          "geometry-type"
-        ],
+        "$type",
         "LineString"
       ],
       "layout": {
@@ -4182,9 +4168,7 @@
       "source-layer": "water_name",
       "filter": [
         "==",
-        [
-          "geometry-type"
-        ],
+        "$type",
         "Point"
       ],
       "layout": {
@@ -4735,8 +4719,15 @@
             "pitch"
           ],
           [
-            "get",
-            "subclass"
+            "fitness-centre"
+          ],
+          [
+            "literal",
+            "fitness-centre"
+          ],
+          [
+            "literal",
+            "pitch"
           ]
         ],
         "text-anchor": "left",
@@ -4911,11 +4902,11 @@
         ],
         [
           "restaurant",
-          "fast_food",
+          "fast-food",
           "grocery",
-          "ice_cream",
+          "ice-cream",
           "cafe",
-          "alcohol_shop",
+          "alcohol-shop",
           "bar",
           "beer",
           "bakery"
@@ -5413,23 +5404,44 @@
       "minzoom": 7,
       "filter": [
         "all",
-        ["<=", ["get", "ref_length"], 6],
         [
-          "!=",
-          ["get", "subclass"],
-          ["literal", "junction"]
+          "<=",
+          [
+            "get",
+            "ref_length"
+          ],
+          6
         ],
         [
           "!=",
-          ["get", "class"],
-          ["literal", "path"]
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "literal",
+            "junction"
+          ]
+        ],
+        [
+          "!=",
+          [
+            "get",
+            "class"
+          ],
+          [
+            "literal",
+            "path"
+          ]
         ]
       ],
       "layout": {
         "icon-rotation-alignment": "viewport",
         "symbol-placement": [
           "step",
-          ["zoom"],
+          [
+            "zoom"
+          ],
           "point",
           11,
           "line"
@@ -5437,23 +5449,42 @@
         "symbol-spacing": 500,
         "text-field": [
           "to-string",
-          ["get", "ref"]
+          [
+            "get",
+            "ref"
+          ]
         ],
-        "text-font": ["Roboto Regular"],
-        "text-offset": [0, 0.1],
+        "text-font": [
+          "Roboto Regular"
+        ],
+        "text-offset": [
+          0,
+          0.1
+        ],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
         "icon-text-fit": "both",
         "icon-size": 1.4,
         "icon-anchor": "center",
         "icon-padding": 3,
-        "icon-offset": [0, -0.5],
+        "icon-offset": [
+          0,
+          -0.5
+        ],
         "icon-image": "rounded_rectangle"
       },
       "paint": {
         "icon-color": [
           "match",
-          ["slice", ["get", "ref"], 0, 1],
+          [
+            "slice",
+            [
+              "get",
+              "ref"
+            ],
+            0,
+            1
+          ],
           "A",
           "#0841bf",
           "B",
@@ -5462,14 +5493,30 @@
         ],
         "icon-halo-color": [
           "match",
-          ["slice", ["get", "ref"], 0, 1],
+          [
+            "slice",
+            [
+              "get",
+              "ref"
+            ],
+            0,
+            1
+          ],
           "B",
           "gray",
           "white"
         ],
         "text-color": [
           "match",
-          ["slice", ["get", "ref"], 0, 1],
+          [
+            "slice",
+            [
+              "get",
+              "ref"
+            ],
+            0,
+            1
+          ],
           "B",
           "black",
           "white"
@@ -5601,7 +5648,7 @@
           [
             "zoom"
           ],
-          "dot_9",
+          "circle",
           8,
           ""
         ],
@@ -6003,15 +6050,28 @@
   "layout": {
     "icon-image": [
       "match",
-      ["slice", ["get", "ref"], 0, 1],
+      [
+        "slice",
+        [
+          "get",
+          "ref"
+        ],
+        0,
+        1
+      ],
       "A",
       "rounded_rombos",
-      ["literal", "rounded_rectangle"]
+      [
+        "literal",
+        "rounded_rectangle"
+      ]
     ],
     "icon-rotation-alignment": "viewport",
     "symbol-placement": [
       "step",
-      ["zoom"],
+      [
+        "zoom"
+      ],
       "point",
       11,
       "line"
@@ -6019,22 +6079,41 @@
     "symbol-spacing": 500,
     "text-field": [
       "to-string",
-      ["get", "ref"]
+      [
+        "get",
+        "ref"
+      ]
     ],
-    "text-font": ["Roboto Regular"],
-    "text-offset": [0, 0.1],
+    "text-font": [
+      "Roboto Regular"
+    ],
+    "text-offset": [
+      0,
+      0.1
+    ],
     "text-rotation-alignment": "viewport",
     "text-size": 10,
     "icon-text-fit": "both",
     "icon-size": 1.4,
     "icon-anchor": "center",
     "icon-padding": 3,
-    "icon-offset": [0, -0.5]
+    "icon-offset": [
+      0,
+      -0.5
+    ]
   },
   "paint": {
     "icon-color": [
       "match",
-      ["slice", ["get", "ref"], 0, 1],
+      [
+        "slice",
+        [
+          "get",
+          "ref"
+        ],
+        0,
+        1
+      ],
       "A",
       "#0841bf",
       "B",
@@ -6043,14 +6122,30 @@
     ],
     "icon-halo-color": [
       "match",
-      ["slice", ["get", "ref"], 0, 1],
+      [
+        "slice",
+        [
+          "get",
+          "ref"
+        ],
+        0,
+        1
+      ],
       "A",
       "black",
       "black"
     ],
     "text-color": [
       "match",
-      ["slice", ["get", "ref"], 0, 1],
+      [
+        "slice",
+        [
+          "get",
+          "ref"
+        ],
+        0,
+        1
+      ],
       "A",
       "white",
       "black"
