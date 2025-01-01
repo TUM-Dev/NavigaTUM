@@ -1,61 +1,61 @@
 ---
 source: src/search/search_executor/mod.rs
-description: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
+description: "typo + it's 'Fachschaftsbüro' in the data"
 expression: actual
-info: "'n1403' should get '0104.U1.403' in 2 results # This is 'N-1403@0104', but 'N1403@0104' can be before this"
+info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's 'Fachschaftsbüro' in the data"
 ---
 - facet: rooms
   entries:
-    - id: 0104.01.403
+    - id: 0104.EG.413
       type: room
-      name: 0104.01.403 (Büro)
+      name: "0104.EG.413 (Elektroniklabor \u0019Fachschaft\u0017 EI)"
       subtext: "stammgelände, E-Technik Elektrophysik (N4)"
-      subtext_bold: N1403@0104
-    - id: 0102.01.203
+      subtext_bold: N0413@0104
+    - id: 5101.EG.257
       type: room
-      name: 0102.01.203 (Hörsaal-eben m.exp.-Bühne)
-      subtext: "stammgelände, Hochvolthaus (N2)"
-      subtext_bold: N1203@0102
-    - id: 0101.Z1.003
+      name: "5101.EG.257 (Büro \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2257@5101
+    - id: 5606.EG.036
       type: room
-      name: 0101.Z1.003 (Studentenarbeitsraum)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1003ZG@0101
-    - id: 0101.Z1.039
+      name: "5606.EG.036 (Büro \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.06.036@5606
+    - id: 5606.EG.037
       type: room
-      name: 0101.Z1.039 (Seminarraum)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1039ZG@0101
-    - id: 0104.01.406
+      name: "5606.EG.037 (Besprechungsraum \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.06.037@5606
+    - id: 5406.01.650C
       type: room
-      name: 0104.01.406 (Studentenarb. m. DV)
-      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
-      subtext_bold: N1406@0104
-    - id: 0108.01.803
+      name: "5406.01.650C (Büro \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Chemie"
+      subtext_bold: 26503@5406
+    - id: 5606.EG.038
       type: room
-      name: 0108.01.803 (Gruppenraum)
-      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
-      subtext_bold: N1803@0108
-    - id: 0101.Z1.031
+      name: "5606.EG.038 (Lager \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.06.038@5606
+    - id: 5606.EG.039
       type: room
-      name: 0101.Z1.031 (Bibliotheksraum einf.)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1031ZG@0101
-    - id: 5112.EG.103N
+      name: "5606.EG.039 (Skriptenverkauf \u0019Fachschaft\u0017 Mathe \u0019Physik\u0017 Informatik Chemie / MPIC)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.06.039@5606
+    - id: 2333.01.103
       type: room
-      name: 5112.EG.103N (Labor)
-      subtext: "garching, Walter-Schottky-Institut (WSI)"
-      subtext_bold: N103@5112
-    - id: 0101.Z1.030
+      name: "2333.01.103 (\u0019Fachschaft\u0017 Sport)"
+      subtext: "campus-im-olympiapark-sz, CiO/SG Hallen Ost"
+      subtext_bold: 01.2333.103@2333
+    - id: 9377.01.130
       type: room
-      name: 0101.Z1.030 (Besprechungsraum)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1030ZG@0101
-    - id: 0101.Z1.032
+      name: "9377.01.130 (Projektraum \u0019Fachschaft\u0017)"
+      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
+      subtext_bold: 01.130@9377
+    - id: 0504.EG.424
       type: room
-      name: 0101.Z1.032 (Büro)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1032ZG@0101
+      name: "0504.EG.424 (Arbeitsraum/Studenten/\u0019Fachschaft\u0017)"
+      subtext: "stammgelände, Landwirtschaftsbau (Z4)"
+      subtext_bold: 0424@0504
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

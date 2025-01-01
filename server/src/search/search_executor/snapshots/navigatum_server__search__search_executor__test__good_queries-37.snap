@@ -1,21 +1,21 @@
 ---
 source: src/search/search_executor/mod.rs
-description: Architects names should be matchable literally
+description: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
 expression: actual
-info: "'N1406' should get '0104.01.406' in 1 results # Architects names should be matchable literally"
+info: "'n1403' should get '0104.U1.403' in 2 results # This is 'N-1403@0104', but 'N1403@0104' can be before this"
 ---
 - facet: rooms
   entries:
-    - id: 0104.U1.406
+    - id: 0104.U1.403
       type: room
-      name: 0104.U1.406 (Physikal. Versuchslabor)
+      name: 0104.U1.403 (Fachschaft EI)
       subtext: "stammgelände, E-Technik Elektrophysik (N4)"
-      subtext_bold: N-1406@0104
-    - id: 0104.01.406
+      subtext_bold: N-1403@0104
+    - id: 0104.01.403
       type: room
-      name: 0104.01.406 (Studentenarb. m. DV)
+      name: 0104.01.403 (Büro)
       subtext: "stammgelände, E-Technik Elektrophysik (N4)"
-      subtext_bold: N1406@0104
+      subtext_bold: N1403@0104
     - id: 0103.U1.311
       type: room
       name: 0103.U1.311 (Praktikum/Umbau)

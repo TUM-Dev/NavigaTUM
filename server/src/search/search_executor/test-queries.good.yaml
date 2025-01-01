@@ -84,9 +84,15 @@
     zeroes are in the room number
 - target: 5606.EG.011
   query: MI HS 3
-- target: 0104.01.406
-  query: N1406
-  comment: Architects names should be matchable literally
 - target: 0104.U1.406
   query: N-1406
   comment: Architects names should be matchable literally
+- target: 5606.EG.011
+  query: MI HS3
+  comment: >-
+    This should match this Lecture hall and not the HS 1, just because both are
+    in the Bolzmanstr. *3* 4 is the best case.
+- target: 0104.U1.403
+  query: n1403
+  among: 2
+  comment: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
