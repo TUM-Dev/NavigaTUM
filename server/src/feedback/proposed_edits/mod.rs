@@ -13,11 +13,11 @@ use url::Url;
 
 use crate::limited::hash_map::LimitedHashMap;
 
-use super::github;
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
+use crate::external::github::GitHub;
 
 mod coordinate;
 mod discription;
@@ -172,16 +172,17 @@ pub async fn propose_edits(
         .await
     {
         Ok(description) => {
-            github::open_pr(
-                branch_name,
-                &format!(
-                    "[User-Provided] {subject}",
-                    subject = req_data.extract_subject()
-                ),
-                &description,
-                req_data.extract_labels(),
-            )
-            .await
+            GitHub::default()
+                .open_pr(
+                    branch_name,
+                    &format!(
+                        "[User-Provided] {subject}",
+                        subject = req_data.extract_subject()
+                    ),
+                    &description,
+                    req_data.extract_labels(),
+                )
+                .await
         }
         Err(e) => {
             error!("Error while applying changes: {e}", e = e);
