@@ -46,8 +46,6 @@ services:
     depends_on:
       meilisearch:
         condition: service_healthy
-      osm2pgsql-init:
-        condition: service_completed_successfully
       db:
         condition: service_healthy
   meilisearch:
