@@ -1,16 +1,15 @@
-use std::env;
-use std::fmt::{Debug, Formatter};
-use std::time::Duration;
-
+use crate::calendar::models::Event;
+use crate::external::connectum::APIRequestor;
+use crate::limited::vec::LimitedVec;
 use futures::stream::FuturesUnordered;
 use futures::StreamExt;
 use serde::{Deserialize, Serialize, Serializer};
 use sqlx::PgPool;
+use std::env;
+use std::fmt::{Debug, Formatter};
+use std::time::Duration;
 use tokio::time::sleep;
 use tracing::{debug, error};
-
-use crate::calendar::connectum::APIRequestor;
-use crate::limited::vec::LimitedVec;
 
 const NUMBER_OF_CONCURRENT_SCRAPES: usize = 3;
 
@@ -50,15 +49,14 @@ LIMIT 30"#)
     Ok(LimitedVec::from(res))
 }
 
-#[tracing::instrument(skip(pool))]
-pub async fn all_entries(pool: &PgPool) {
+fn can_never_succeed() -> bool {
     let client_id_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_ID") {
         Err(_) => true,
         Ok(s) => s.trim().is_empty(),
     };
     if client_id_invalid {
         error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, nessesary to refresh all calendars");
-        return;
+        return true;
     }
     let client_secret_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
         Err(_) => true,
@@ -66,10 +64,18 @@ pub async fn all_entries(pool: &PgPool) {
     };
     if client_secret_invalid {
         error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, nessesary to refresh all calendars");
+        return true;
+    }
+    false
+}
+
+#[tracing::instrument(skip(pool))]
+pub async fn all_entries(pool: &PgPool) {
+    if can_never_succeed() {
         return;
     }
 
-    let mut api = APIRequestor::from(pool);
+    let api = APIRequestor::default();
     loop {
         let ids = match entries_which_need_scraping(pool).await {
             Ok(ids) => ids,
@@ -83,30 +89,63 @@ pub async fn all_entries(pool: &PgPool) {
             sleep(Duration::from_secs(60)).await;
         }
 
-        request_events(&mut api, ids).await;
+        refresh_events(pool, &api, ids).await;
     }
 }
 
 #[tracing::instrument(skip(api))]
-async fn request_events(api: &mut APIRequestor, mut ids: LimitedVec<LocationKey>) {
+async fn refresh_events(pool: &PgPool, api: &APIRequestor, mut ids: LimitedVec<LocationKey>) {
     debug!("Downloading {len} room-calendars", len = ids.len());
-    while let Err(e) = api.try_refresh_token().await {
-        error!("retrying to get oauth token because {e:?}");
-        sleep(Duration::from_secs(10)).await;
-    }
     // we want to scrape all ~2k rooms once per hour
     // 1 thread is 15..20 per minute => we need at least 2 threads
     // this uses a FuturesUnordered which refills itsself to be able to work effectively with lagging tasks
     let mut work_queue = FuturesUnordered::new();
     for _ in 0..NUMBER_OF_CONCURRENT_SCRAPES {
         if let Some(id) = ids.pop() {
-            work_queue.push(api.refresh(id.key));
+            work_queue.push(refresh_single(pool, api.clone(), id.key));
         }
     }
 
     while work_queue.next().await.is_some() {
         if let Some(id) = ids.pop() {
-            work_queue.push(api.refresh(id.key));
+            work_queue.push(refresh_single(pool, api.clone(), id.key));
         }
     }
+}
+
+async fn refresh_single(pool: &PgPool, mut api: APIRequestor, id: String) -> anyhow::Result<()> {
+    let sync_start = chrono::Utc::now();
+    if let Err(e) = Event::update_last_calendar_scrape_at(pool, &id, &sync_start).await {
+        error!("could not update last_calendar_scrape_at because {e:?}");
+        return Err(e.into());
+    }
+
+    let events = match api.list_events(&id).await {
+        Ok(events) => {
+            debug!(
+                "finished fetching for {cnt} calendar events of {id}",
+                cnt = events.len(),
+            );
+            events
+        }
+        Err(e) => {
+            // TODO: this measure is to temporarily make the log usefully again until CO accepts my fix
+            if e.to_string() == *"error decoding response body" {
+                debug!("Cannot download calendar because of https://gitlab.campusonline.community/tum/connectum/-/issues/118")
+            } else {
+                error!("Could not download calendar because {e:?}");
+            }
+            return Err(e);
+        }
+    };
+
+    let events = events
+        .into_iter()
+        .map(|mut e| {
+            e.room_code.clone_from(&id);
+            e
+        })
+        .collect::<LimitedVec<Event>>();
+    Event::store_all(pool, events, &id).await?;
+    Ok(())
 }
