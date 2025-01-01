@@ -27,6 +27,7 @@ mod models;
 mod search;
 mod setup;
 use utoipa_actix_web::{scope, AppExt};
+pub mod external;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 

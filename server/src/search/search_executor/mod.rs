@@ -1,11 +1,12 @@
 use meilisearch_sdk::client::Client;
+use parser::TextToken;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 use tracing::error;
 
+use crate::external::meilisearch::{GeoEntryQuery, MSHit};
 use crate::limited::vec::LimitedVec;
 use crate::search::search_executor::parser::ParsedQuery;
-use crate::search::search_executor::query::MSHit;
 
 use super::{Highlighting, Limits};
 
@@ -13,7 +14,6 @@ mod formatter;
 mod lexer;
 mod merger;
 mod parser;
-mod query;
 
 #[derive(Serialize, Clone, Copy, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
@@ -194,10 +194,25 @@ pub async fn do_geoentry_search(
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q);
 
-    let Ok(response) = query::GeoEntryQuery::from((client, &parsed_input, &limits, &highlighting))
-        .execute()
-        .await
-    else {
+    let query = parsed_input
+        .tokens
+        .clone()
+        .into_iter()
+        .map(|s| match s {
+            TextToken::Text(t) => t,
+            TextToken::SplittableText((t1, t2)) => format!("{t1} {t2} {t1}{t2}"),
+        })
+        .collect::<Vec<String>>()
+        .join(" ");
+    let mut query = GeoEntryQuery::from((client, query, &limits, &highlighting));
+    for sort in parsed_input.sorting.as_meilisearch_sorting() {
+        query.with_sorting(sort);
+    }
+    if !parsed_input.filters.is_empty() {
+        query.with_filtering(parsed_input.filters.as_meilisearch_filters());
+    }
+
+    let Ok(response) = query.execute().await else {
         // error should be serde_json::error
         error!("Error searching for results");
         return LimitedVec(vec![]);

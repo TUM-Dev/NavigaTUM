@@ -50,10 +50,6 @@
   query: physik labor mi
   among: 3
   comment: "'5604.02.033' is a valid result before the two lab course rooms"
-- target: 0104.U1.403
-  query: n1403
-  among: 2
-  comment: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
 - target: 5101.EG.257
   query: fachschaft pyhsik
   comment: typo + it's 'Fachschaftsbüro' in the data
@@ -78,8 +74,6 @@
   comment: >-
     The architects name is a N2119. There are other rooms which are actually
     named '2119', which means 4 is the best case.
-- target: 5606.EG.011
-  query: MI HS3
-  comment: >-
-    This should match this Lecture hall and not the HS 1, just because both are
-    in the Bolzmanstr. *3* 4 is the best case.
+- target: 0104.01.406
+  query: N1406
+  comment: Architects names should be matchable literally

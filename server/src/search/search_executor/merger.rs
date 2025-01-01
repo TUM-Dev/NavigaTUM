@@ -1,6 +1,6 @@
 use meilisearch_sdk::search::{SearchResult, SearchResults};
 
-use crate::search::search_executor::query::MSHit;
+use crate::external::meilisearch::MSHit;
 use crate::search::search_executor::ResultFacet;
 
 #[tracing::instrument(skip(merged_results, buildings_results, rooms_results))]

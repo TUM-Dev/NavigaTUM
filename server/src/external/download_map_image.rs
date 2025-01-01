@@ -25,12 +25,12 @@ impl Display for TileLocation {
 }
 
 #[derive(Debug, Hash, Copy, Clone)]
-pub struct FetchTileTask {
+pub struct MapImageDownloadTask {
     location: TileLocation,
     index: (u32, u32),
 }
 
-impl From<&OverlayMapTask> for FetchTileTask {
+impl From<&OverlayMapTask> for MapImageDownloadTask {
     fn from(overlay: &OverlayMapTask) -> Self {
         Self {
             location: TileLocation {
@@ -43,7 +43,7 @@ impl From<&OverlayMapTask> for FetchTileTask {
     }
 }
 
-impl FetchTileTask {
+impl MapImageDownloadTask {
     /// if we go over the edge of the world, we want to pop in on the other side
     /// unsure if this edge-case is worth covering in more depth
     /// occurs because we naively take the covered tiles without taking the wrapping into account
@@ -131,20 +131,20 @@ mod tests {
     #[test]
     /// Zoom 0 has 1 tile
     fn test_zoom_aware_offset_z0() {
-        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, -1), 0);
-        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, 0), 0);
-        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, 1), 0);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(0, 0, -1), 0);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(0, 0, 0), 0);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(0, 0, 1), 0);
     }
 
     #[test]
     /// Zoom 1 has 4 tiles
     fn test_zoom_aware_offset_z1() {
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, -1), 3);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 0), 0);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 1), 1);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 2), 2);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 3), 3);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 4), 0);
-        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 5), 1);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, -1), 3);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 0), 0);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 1), 1);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 2), 2);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 3), 3);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 4), 0);
+        assert_eq!(MapImageDownloadTask::offset_zoom_aware(1, 0, 5), 1);
     }
 }

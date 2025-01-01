@@ -3,8 +3,8 @@ use actix_web::web::{Data, Json};
 use actix_web::HttpResponse;
 use serde::{Deserialize, Serialize};
 
-use super::github;
 use super::tokens::RecordedTokens;
+use crate::external::github::GitHub;
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
@@ -116,7 +116,9 @@ pub async fn send_feedback(
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
 
-    github::open_issue(&req_data.subject, &req_data.body, parse_labels(&req_data.0)).await
+    GitHub::default()
+        .open_issue(&req_data.subject, &req_data.body, parse_labels(&req_data.0))
+        .await
 }
 
 fn parse_labels(req_data: &FeedbackPostData) -> Vec<String> {
