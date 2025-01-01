@@ -1,7 +1,7 @@
 use unicode_truncate::UnicodeTruncateStr;
 
+use crate::external::meilisearch::MSHit;
 use crate::search::search_executor::parser::{ParsedQuery, TextToken};
-use crate::search::search_executor::query::MSHit;
 use crate::search::search_executor::ResultEntry;
 use crate::search::Highlighting;
 

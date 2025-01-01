@@ -5,21 +5,20 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
 use std::fmt::{Debug, Formatter};
 
-use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
 use crate::search::{Highlighting, Limits};
 
 #[derive(Deserialize, Default, Clone)]
 #[allow(dead_code)]
-pub(super) struct MSHit {
+pub struct MSHit {
     ms_id: String,
-    pub(super) id: String,
-    pub(super) name: String,
-    pub(super) arch_name: Option<String>,
-    pub(super) r#type: String,
-    pub(super) type_common_name: String,
-    pub(super) parent_building_names: Vec<String>,
+    pub id: String,
+    pub name: String,
+    pub arch_name: Option<String>,
+    pub r#type: String,
+    pub type_common_name: String,
+    pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
-    pub(super) campus: Option<String>,
+    pub campus: Option<String>,
     address: Option<String>,
     usage: Option<String>,
     rank: i32,
@@ -33,10 +32,20 @@ impl Debug for MSHit {
     }
 }
 
+#[derive(Clone)]
 struct GeoEntryFilters {
     default: String,
     rooms: String,
     buildings: String,
+}
+impl Default for GeoEntryFilters {
+    fn default() -> Self {
+        Self {
+            default: "".to_string(),
+            rooms: "facet = \"room\"".to_string(),
+            buildings: "facet = \"building\"".to_string(),
+        }
+    }
 }
 impl Debug for GeoEntryFilters {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -54,64 +63,71 @@ impl Debug for GeoEntryFilters {
     }
 }
 
-impl From<&Filter> for GeoEntryFilters {
-    fn from(filters: &Filter) -> Self {
-        let ms_filter = filters.as_meilisearch_filters();
-        let separator = if ms_filter.is_empty() { " " } else { " AND " };
-        Self {
-            default: ms_filter.clone(),
-            buildings: format!("facet = \"building\"{separator}{ms_filter}"),
-            rooms: format!("facet = \"room\"{separator}{ms_filter}"),
-        }
+impl From<&String> for GeoEntryFilters {
+    fn from(ms_filter: &String) -> Self {
+        Self::default().with_filter(ms_filter)
     }
 }
 
-pub(super) struct GeoEntryQuery {
+impl GeoEntryFilters {
+    pub fn with_filter(&mut self, ms_filter: impl ToString) -> Self {
+        let ms_filter = ms_filter.to_string();
+        // --
+        if self.default.is_empty() && !ms_filter.is_empty() {
+            self.default.push_str(" AND ")
+        }
+        self.default.push_str(&ms_filter);
+        // --
+        if self.buildings.is_empty() && !ms_filter.is_empty() {
+            self.buildings.push_str(" AND ")
+        }
+        self.buildings.push_str(&ms_filter);
+        // --
+        if self.rooms.is_empty() && !ms_filter.is_empty() {
+            self.rooms.push_str(" AND ")
+        }
+        self.rooms.push_str(&ms_filter);
+        self.clone()
+    }
+}
+
+#[derive(Clone)]
+pub struct GeoEntryQuery {
     client: Client,
-    parsed_input: ParsedQuery,
+    query: String,
     limits: Limits,
     highlighting: Highlighting,
     filters: GeoEntryFilters,
     sorting: Vec<String>,
 }
 
-impl Debug for GeoEntryQuery {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut base = f.debug_struct("GeoEntryQuery");
-        base.field("parsed_input", &self.parsed_input)
-            .field("limits", &self.limits)
-            .field("highlighting", &self.highlighting)
-            .field("filters", &self.filters);
-        if !self.sorting.is_empty() {
-            base.field("sorting", &self.sorting);
-        }
-        base.finish()
-    }
-}
-
-impl From<(&Client, &ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
+impl From<(&Client, String, &Limits, &Highlighting)> for GeoEntryQuery {
     fn from(
-        (client, parsed_input, limits, highlighting): (
-            &Client,
-            &ParsedQuery,
-            &Limits,
-            &Highlighting,
-        ),
+        (client, query, limits, highlighting): (&Client, String, &Limits, &Highlighting),
     ) -> Self {
         Self {
             client: client.clone(),
-            parsed_input: parsed_input.clone(),
+            query,
             limits: *limits,
             highlighting: highlighting.clone(),
-            filters: GeoEntryFilters::from(&parsed_input.filters),
-            sorting: parsed_input.sorting.as_meilisearch_sorting(),
+            filters: GeoEntryFilters::default(),
+            sorting: Vec::new(),
         }
     }
 }
 
 impl GeoEntryQuery {
+    // add sorting constraints
+    pub fn with_sorting(&mut self, sortation: impl ToString) -> Self {
+        self.sorting.push(sortation.to_string());
+        self.clone()
+    }
+    // add filtering constraints
+    pub fn with_filtering(&mut self, ms_filter: impl ToString) -> Self {
+        self.filters.with_filter(ms_filter);
+        self.clone()
+    }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
-        let q_default = self.prompt_for_querying();
         let entries = self.client.index("entries");
 
         // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
@@ -130,47 +146,22 @@ impl GeoEntryQuery {
         self.client
             .multi_search()
             .with_search_query(
-                self.merged_query(&entries, &q_default)
+                self.merged_query(&entries, &self.query)
                     .with_sort(&sorting)
                     .build(),
             )
             .with_search_query(
-                self.buildings_query(&entries, &q_default)
+                self.buildings_query(&entries, &self.query)
                     .with_sort(&sorting)
                     .build(),
             )
             .with_search_query(
-                self.rooms_query(&entries, &self.prompt_for_querying_room())
+                self.rooms_query(&entries, &self.query)
                     .with_sort(&sorting)
                     .build(),
             )
             .execute::<MSHit>()
             .await
-    }
-
-    fn prompt_for_querying(&self) -> String {
-        self.parsed_input
-            .tokens
-            .clone()
-            .into_iter()
-            .map(|s| match s {
-                TextToken::Text(t) => t,
-                TextToken::SplittableText((t1, t2)) => format!("{t1}{t2}"),
-            })
-            .collect::<Vec<String>>()
-            .join(" ")
-    }
-    fn prompt_for_querying_room(&self) -> String {
-        self.parsed_input
-            .tokens
-            .clone()
-            .into_iter()
-            .map(|s| match s {
-                TextToken::Text(t) => t,
-                TextToken::SplittableText((t1, t2)) => format!("{t1} {t2} {t1}{t2}"),
-            })
-            .collect::<Vec<String>>()
-            .join(" ")
     }
 
     fn common_query<'b: 'a, 'a>(
@@ -223,5 +214,19 @@ impl GeoEntryQuery {
             .with_limit(self.limits.rooms_count)
             .with_filter(&self.filters.rooms)
             .build()
+    }
+}
+
+impl Debug for GeoEntryQuery {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("GeoEntryQuery");
+        base.field("query", &self.query)
+            .field("limits", &self.limits)
+            .field("highlighting", &self.highlighting)
+            .field("filters", &self.filters);
+        if !self.sorting.is_empty() {
+            base.field("sorting", &self.sorting);
+        }
+        base.finish()
     }
 }
