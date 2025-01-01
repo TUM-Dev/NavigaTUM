@@ -11,8 +11,7 @@ use crate::limited::hash_map::LimitedHashMap;
 use crate::limited::vec::LimitedVec;
 use actix_web::http::header::{CacheControl, CacheDirective};
 
-mod connectum;
-mod models;
+pub mod models;
 pub mod refresh;
 #[expect(
     unused_imports,

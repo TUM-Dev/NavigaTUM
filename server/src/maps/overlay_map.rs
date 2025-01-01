@@ -4,7 +4,7 @@ use std::ops::Range;
 use futures::{stream::FuturesUnordered, StreamExt};
 use tracing::warn;
 
-use crate::maps::fetch_tile::FetchTileTask;
+use crate::external::download_map_image::MapImageDownloadTask;
 
 pub struct OverlayMapTask {
     pub x: f64,
@@ -62,7 +62,7 @@ impl OverlayMapTask {
                     let offset_x = (index_x as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
                     let offset_y = (index_y as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
                     work_queue.push(
-                        FetchTileTask::from(self)
+                        MapImageDownloadTask::from(self)
                             .offset_by(offset_x, offset_y)
                             .with_index(index_x, index_y)
                             .fulfill(),

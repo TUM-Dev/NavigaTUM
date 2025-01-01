@@ -1,10 +1,14 @@
 use crate::limited::vec::LimitedVec;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use sqlx::PgPool;
 use std::fmt::{Debug, Display, Formatter};
+use tracing::debug;
+use tracing::error;
+use tracing::warn;
 
 #[derive(Serialize, Deserialize, Clone, utoipa::ToSchema)]
-pub(super) struct CalendarLocation {
+pub struct CalendarLocation {
     /// Structured, globaly unique room code
     ///
     /// Included to enable multi-room calendars.
@@ -55,37 +59,37 @@ impl Debug for CalendarLocation {
 }
 
 #[derive(Serialize, Deserialize, Clone, utoipa::ToSchema)]
-pub(super) struct LocationEvents {
-    pub(super) events: LimitedVec<Event>,
-    pub(super) location: CalendarLocation,
+pub struct LocationEvents {
+    pub events: LimitedVec<Event>,
+    pub location: CalendarLocation,
 }
 
 #[derive(Serialize, Deserialize, Clone, utoipa::ToSchema)]
-pub(super) struct Event {
+pub struct Event {
     /// ID of the calendar entry used in TUMonline internally
     #[schema(examples(6424))]
-    pub(super) id: i32,
+    pub id: i32,
     /// Structured, globaly unique room code
     ///
     /// Included to enable multi-room calendars.
     /// Format: BUILDING.LEVEL.NUMBER
     #[schema(examples("5602.EG.001", "5121.EG.003"))]
-    pub(super) room_code: String,
+    pub room_code: String,
     /// start of the entry
     #[schema(examples("2018-01-01T00:00:00"))]
-    pub(super) start_at: DateTime<Utc>,
+    pub start_at: DateTime<Utc>,
     /// end of the entry
     #[schema(examples("2019-01-01T00:00:00"))]
-    pub(super) end_at: DateTime<Utc>,
+    pub end_at: DateTime<Utc>,
     /// German title of the Entry
     #[schema(examples("Quantenteleportation"))]
-    pub(super) title_de: String,
+    pub title_de: String,
     /// English title of the Entry
     #[schema(examples("Quantum teleportation"))]
-    pub(super) title_en: String,
+    pub title_en: String,
     /// Lecture-type
     #[schema(examples("Vorlesung mit Zentralübung"))]
-    pub(super) stp_type: Option<String>,
+    pub stp_type: Option<String>,
     /// What this calendar entry means.
     ///
     /// Each of these should be displayed in a different color
@@ -96,10 +100,10 @@ pub(super) struct Event {
     /// - `barred`
     /// - `other`
     #[schema(examples("lecture", "exercise", "exam"))]
-    pub(super) entry_type: String,
+    pub entry_type: String,
     /// For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
     #[schema(examples("Abhaltung"))]
-    pub(super) detailed_entry_type: String,
+    pub detailed_entry_type: String,
 }
 impl Debug for Event {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -117,6 +121,87 @@ impl Debug for Event {
 }
 
 impl Event {
+    #[tracing::instrument]
+    pub async fn store_all(
+        pool: &PgPool,
+        events: LimitedVec<Event>,
+        id: &str,
+    ) -> anyhow::Result<()> {
+        // insert into db
+        let mut tx = pool.begin().await?;
+        if let Err(e) = Event::delete_events(&mut tx, id).await {
+            error!("could not delete existing events because {e:?}");
+            tx.rollback().await?;
+            return Err(e.into());
+        }
+        let mut failed: Option<(usize, sqlx::Error)> = None;
+        for event in events.0.iter() {
+            // conflicts cannot occur because all values for said room were dropped
+            if let Err(e) = event.store(&mut tx).await {
+                failed = match failed {
+                    Some((i, e0)) => Some((i + 1, e0)),
+                    None => Some((1, e)),
+                };
+            }
+        }
+        if let Some((cnt, e)) = failed {
+            warn!(
+                "{cnt}/{total} events could not be inserted because of {e:?}",
+                total = events.len()
+            );
+        }
+        tx.commit().await?;
+        debug!("finished inserting into the db for {id}");
+        Ok(())
+    }
+    #[tracing::instrument(skip(tx))]
+    async fn delete_events(
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+        id: &str,
+    ) -> Result<(), sqlx::Error> {
+        loop {
+            // deliberately somewhat low to not have too long blocking segments
+            let res = sqlx::query!(
+                r#"
+                    WITH rows_to_delete AS (
+                        SELECT id
+                        FROM calendar WHERE room_code = $1
+                        LIMIT 1000
+                    )
+                    
+                    DELETE FROM calendar
+                    WHERE id IN (SELECT id FROM rows_to_delete);"#,
+                id
+            )
+            .execute(&mut **tx)
+            .await?;
+            if res.rows_affected() == 0 {
+                return Ok(());
+            }
+        }
+    }
+    #[tracing::instrument(skip(pool))]
+    pub async fn update_last_calendar_scrape_at(
+        pool: &PgPool,
+        id: &str,
+        scrape_at: &DateTime<Utc>,
+    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        sqlx::query!(
+            "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
+            scrape_at,
+            id
+        )
+        .execute(pool)
+        .await?;
+        sqlx::query!(
+            "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
+            scrape_at,
+            id
+        )
+        .execute(pool)
+        .await
+    }
+
     pub async fn store(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
