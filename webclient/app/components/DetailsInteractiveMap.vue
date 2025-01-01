@@ -116,6 +116,12 @@ function initMap(containerId: string): Map {
     });
   }
 
+  map.on("style.load", () => {
+    map.setProjection({
+      type: "globe", // Set projection to globe
+    });
+  });
+
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
   // enough to know whether just the initial loading has
