@@ -69,14 +69,16 @@ async function initMap(containerId: string): Promise<Map> {
     // to make sure that users can share urls
     hash: true,
 
-    // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
-    // slower, but prettier and therefore worth it for our use case
-    antialias: true,
+    canvasContextAttributes: {
+      // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
+      // slower, but prettier and therefore worth it for our use case
+      antialias: true,
 
-    // without this true, printing the webpage is not possible
-    // with this true the performance is halfed though...
-    // => we are deliberetely not supporing printing of this part of the webpage
-    preserveDrawingBuffer: false,
+      // without this true, printing the webpage is not possible
+      // with this true the performance is halfed though...
+      // => we are deliberetely not supporing printing of this part of the webpage
+      preserveDrawingBuffer: false,
+    },
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
@@ -155,6 +157,12 @@ async function initMap(containerId: string): Promise<Map> {
     const attrib = new AttributionControl({ compact: true });
     map.addControl(attrib);
     attrib._toggleAttribution();
+  });
+
+  map.on("style.load", () => {
+    map.setProjection({
+      type: "globe", // Set projection to globe
+    });
   });
 
   const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
