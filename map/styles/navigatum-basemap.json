@@ -4719,8 +4719,15 @@
             "pitch"
           ],
           [
-            "get",
-            "subclass"
+            "fitness-centre"
+          ],
+          [
+            "literal",
+            "fitness-centre"
+          ],
+          [
+            "literal",
+            "pitch"
           ]
         ],
         "text-anchor": "left",
@@ -4895,11 +4902,11 @@
         ],
         [
           "restaurant",
-          "fast_food",
+          "fast-food",
           "grocery",
-          "ice_cream",
+          "ice-cream",
           "cafe",
-          "alcohol_shop",
+          "alcohol-shop",
           "bar",
           "beer",
           "bakery"
@@ -5641,7 +5648,7 @@
           [
             "zoom"
           ],
-          "dot_9",
+          "circle",
           8,
           ""
         ],
