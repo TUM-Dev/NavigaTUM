@@ -1,0 +1,94 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT last_calendar_scrape_at,lat,lon,name,type_common_name,type,calendar_url,tumonline_room_nr,coordinate_accuracy,coordinate_source,comment,usage_id,operator_id\n                FROM de\n                WHERE key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "last_calendar_scrape_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 1,
+        "name": "lat",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 2,
+        "name": "lon",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 3,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "type_common_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "calendar_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "tumonline_room_nr",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 8,
+        "name": "coordinate_accuracy",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "coordinate_source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "comment",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "usage_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 12,
+        "name": "operator_id",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "649f553a2379b1c67d36ec6d45be716e01bd0443ee11e11dfc30791c6477c7a6"
+}

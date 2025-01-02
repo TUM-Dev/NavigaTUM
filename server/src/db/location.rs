@@ -45,6 +45,7 @@ impl Location {
     }
 }
 
+#[allow(dead_code)] // used for testing out the repo pattern
 #[derive(Debug, Clone)]
 pub struct LocationKeyAlias {
     pub key: String,
