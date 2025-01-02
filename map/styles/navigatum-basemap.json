@@ -491,11 +491,8 @@
       "minzoom": 11,
       "filter": [
         "in",
-        [
-          "geometry-type"
-        ],
-        "Polygon",
-        "MultiPolygon"
+        "$type",
+        "Polygon"
       ],
       "paint": {
         "fill-color": "rgba(229, 228, 224, 1)",
@@ -512,9 +509,7 @@
         "all",
         [
           "in",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -554,9 +549,7 @@
         "all",
         [
           "in",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -993,9 +986,7 @@
         "all",
         [
           "in",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -1947,9 +1938,7 @@
         "all",
         [
           "in",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -2544,9 +2533,7 @@
         "all",
         [
           "in",
-          [
-            "geometry-type"
-          ],
+          "$type",
           "LineString"
         ],
         [
@@ -4150,9 +4137,7 @@
       "source-layer": "waterway",
       "filter": [
         "in",
-        [
-          "geometry-type"
-        ],
+        "$type",
         "LineString"
       ],
       "layout": {
@@ -4183,11 +4168,8 @@
       "source-layer": "water_name",
       "filter": [
         "in",
-        [
-          "geometry-type"
-        ],
-        "Point",
-        "MultiPoint"
+        "$type",
+        "Point"
       ],
       "layout": {
         "text-field": [
