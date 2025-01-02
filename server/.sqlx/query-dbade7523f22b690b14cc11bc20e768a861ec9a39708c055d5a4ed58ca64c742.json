@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT name,author_url,author_text,source_url,source_text,license_url,license_text\n            FROM location_images\n            WHERE key = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "author_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "author_text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "source_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "source_text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "license_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "license_text",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "dbade7523f22b690b14cc11bc20e768a861ec9a39708c055d5a4ed58ca64c742"
+}

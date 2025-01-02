@@ -3,23 +3,21 @@ use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
+use std::collections::HashMap;
 use tracing::error;
 
 use crate::localisation;
 
+use crate::db::location::{
+    ComputedProperties, Image, Link, Location, LocationKeyAlias, Operator, OverlayMapEntry,
+    ParentLocation, RankingFactor, RoomfinderMapEntry, Source,
+};
+use crate::db::sections::{BuildingSection, RoomSection};
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
 )]
 use serde_json::json;
-
-#[derive(Debug, Clone)]
-#[allow(dead_code)] // false positive. Clippy can't detect this due to macros
-pub struct LocationKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct DetailsPathParams {
@@ -52,52 +50,35 @@ pub async fn get_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
-    let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.pool, &id).await else {
-        return HttpResponse::NotFound()
-            .content_type("text/plain")
-            .body("Not found");
-    };
-    let result = if args.should_use_english() {
-        sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
-            .fetch_optional(&data.pool)
-            .await
-    } else {
-        sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
-            .fetch_optional(&data.pool)
-            .await
-    };
-    match result {
-        Ok(d) => {
-            if let Some(d) = d {
-                let res = serde_json::from_value::<LocationDetailsResponse>(d);
-                match res {
-                    Err(e) => {
-                        error!(error = ?e, id,"cannot serialise detail");
-                        HttpResponse::InternalServerError()
-                            .content_type("text/plain")
-                            .body("Failed to fetch details, please try again later")
-                    }
-                    Ok(mut res) => {
-                        res.redirect_url = Some(redirect_url);
-                        HttpResponse::Ok()
-                            .insert_header(CacheControl(vec![
-                                CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
-                                CacheDirective::Public,
-                            ]))
-                            .json(res)
-                    }
-                }
-            } else {
-                HttpResponse::NotFound()
-                    .content_type("text/plain")
-                    .body("Not found")
-            }
+    let resolved_alias = match get_alias_and_redirect(&data.pool, &id).await {
+        Ok(Some((i, r, a))) => (i, r, a),
+        Ok(None) => {
+            return HttpResponse::NotFound()
+                .content_type("text/plain")
+                .body("Not found")
         }
         Err(e) => {
-            error!(error = ?e, probable_id, "Error requesting details");
+            error!(error = ?e, id, "error requesting alias");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Could not get details for this entry, please try again later");
+        }
+    };
+    let response =
+        LocationDetailsResponse::fetch_one(&data.pool, resolved_alias, args.should_use_english())
+            .await;
+    match response {
+        Ok(response) => HttpResponse::Ok()
+            .insert_header(CacheControl(vec![
+                CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
+                CacheDirective::Public,
+            ]))
+            .json(response),
+        Err(e) => {
+            error!(error = ?e, id, "Error getting details");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Internal Server Error")
+                .body("could not get details for this entry, please try again later")
         }
     }
 }
@@ -153,12 +134,107 @@ struct LocationDetailsResponse {
     coords: CoordinateResponse,
     /// Print or overlay maps for said location
     maps: MapsResponse,
-    /// Information for different sections on the page like the
+    /// informations for different sectons on the page like the
     /// - buildings overview,
     /// - rooms overview and
     /// - featured view
     #[serde(skip_serializing_if = "Option::is_none")]
     sections: Option<SectionsResponse>,
+}
+impl LocationDetailsResponse {
+    async fn fetch_one(
+        pool: &PgPool,
+        (id, redirect_url, aliases): (String, String, Vec<String>),
+        should_use_english: bool,
+    ) -> anyhow::Result<Self> {
+        let location = Location::fetch_optional(pool, &id, should_use_english)
+            .await?
+            .expect("locations with a valid alias have to have a location");
+        let props = ComputedProperties::fetch_one(pool, &id).await?;
+        // todo: actually use and display the usage
+        //let _usage = match location.usage_id {
+        //    Some(usage_id) => Usage::fetch_optional(pool, usage_id).await?,
+        //    None => None,
+        //};
+        let operator = match location.operator_id {
+            Some(operator_id) => {
+                Operator::fetch_optional(pool, operator_id, should_use_english).await?
+            }
+            None => None,
+        };
+        let parents = ParentLocation::fetch_all(pool, &id).await?;
+        let overlays = OverlayMapEntry::fetch_all(pool, &id).await?;
+        let roomfinder = RoomfinderMapEntry::fetch_all(pool, &id).await?;
+        let buildings_sections = BuildingSection::fetch_all(pool, &id).await?;
+        let rooms_sections = RoomSection::fetch_all(pool, &id).await?;
+        let images = Image::fetch_all(pool, &id).await?;
+        Ok(LocationDetailsResponse {
+            id: id.clone(),
+            r#type: LocationTypeResponse::from(location.r#type),
+            type_common_name: location.type_common_name,
+            name: location.name,
+            coords: CoordinateResponse {
+                lat: location.lat,
+                lon: location.lon,
+                source: CoordinateSourceResponse::from(location.coordinate_source),
+                accuracy: match location.coordinate_accuracy.unwrap_or_default().as_str() {
+                    "building" => Some(CoordinateAccuracyResponse::Building),
+                    _ => None,
+                },
+            },
+            aliases,
+            parents: parents.clone().into_iter().flat_map(|p| p.id).collect(),
+            parent_names: parents.clone().into_iter().flat_map(|p| p.name).collect(),
+            props: PropsResponse {
+                operator: operator.map(OperatorResponse::from),
+                computed: props.clone().into_iter().collect(),
+                links: Link::fetch_all(pool, &id, should_use_english)
+                    .await?
+                    .into_iter()
+                    .map(PossibleURLRefResponse::from)
+                    .collect(),
+                comment: location.comment,
+                calendar_url: location.calendar_url,
+                building_codes: props.building_codes,
+                address: props.address,
+                postcode: props.postcode,
+                city: props.city,
+                level: props.level,
+                arch_name: props.arch_name,
+                room_cnt: props.room_cnt,
+                room_cnt_without_corridors: props.room_cnt_without_corridors,
+                building_cnt: props.building_cnt,
+            },
+            ranking_factors: RankingFactorsResponse::from(
+                RankingFactor::fetch_one(pool, &id).await?,
+            ),
+            sources: SourcesResponse::from(Source::fetch_all(pool, &id).await?),
+            redirect_url: Some(redirect_url),
+            maps: MapsResponse::from((overlays, roomfinder)),
+            imgs: if images.is_empty() {
+                Some(images.into_iter().map(ImageInfoResponse::from).collect())
+            } else {
+                None
+            },
+            sections: if buildings_sections.is_empty() || rooms_sections.is_empty() {
+                Some(SectionsResponse {
+                    buildings_overview: if buildings_sections.is_empty() {
+                        Some(BuildingsOverviewResponse::from(buildings_sections))
+                    } else {
+                        None
+                    },
+                    rooms_overview: if rooms_sections.is_empty() {
+                        Some(RoomsOverviewResponse::from(rooms_sections))
+                    } else {
+                        None
+                    },
+                    featured_overview: None,
+                })
+            } else {
+                None
+            },
+        })
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
@@ -174,13 +250,27 @@ enum LocationTypeResponse {
     Poi,
     Other,
 }
+impl From<String> for LocationTypeResponse {
+    fn from(value: String) -> Self {
+        match value.as_str() {
+            "room" => LocationTypeResponse::Room,
+            "building" => LocationTypeResponse::Building,
+            "joined_building" => LocationTypeResponse::JoinedBuilding,
+            "area" => LocationTypeResponse::Area,
+            "site" => LocationTypeResponse::Site,
+            "campus" => LocationTypeResponse::Campus,
+            "poi" => LocationTypeResponse::Poi,
+            _ => LocationTypeResponse::Other,
+        }
+    }
+}
 
 /// Operator of a location
 #[derive(Serialize, Deserialize, Debug, Clone, utoipa::ToSchema)]
 struct OperatorResponse {
     /// ID of the operator
     #[schema(examples(51901))]
-    id: u32,
+    id: i32,
     ///Link to the operator
     #[schema(examples("https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901"))]
     url: String,
@@ -192,6 +282,16 @@ struct OperatorResponse {
     /// updated in TUMonline.
     #[schema(examples("TUM School of Social Sciences and Technology"))]
     name: String,
+}
+impl From<Operator> for OperatorResponse {
+    fn from(value: Operator) -> Self {
+        OperatorResponse {
+            id: value.id.expect("sqlx bug, cannot be none"),
+            url: value.url.expect("sqlx bug, cannot be none"),
+            code: value.code.expect("sqlx bug, cannot be none"),
+            name: value.name.expect("sqlx bug, cannot be none"),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -215,6 +315,16 @@ struct BuildingsOverviewItemResponse {
     /// The thumbnail for the building
     thumb: Option<String>,
 }
+impl From<BuildingSection> for BuildingsOverviewItemResponse {
+    fn from(value: BuildingSection) -> Self {
+        BuildingsOverviewItemResponse {
+            id: value.id.expect("sqlx bug, cannot be null"),
+            name: value.name.expect("sqlx bug, cannot be null"),
+            subtext: value.subtext.expect("sqlx bug, cannot be null"),
+            thumb: value.thumb,
+        }
+    }
+}
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct FeaturedOverviewItemResponse {
@@ -231,7 +341,19 @@ struct FeaturedOverviewItemResponse {
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct BuildingsOverviewResponse {
     entries: Vec<BuildingsOverviewItemResponse>,
-    n_visible: u32,
+    n_visible: usize,
+}
+impl From<Vec<BuildingSection>> for BuildingsOverviewResponse {
+    fn from(value: Vec<BuildingSection>) -> Self {
+        let n_visible = value.iter().filter_map(|v| v.visible).count();
+        BuildingsOverviewResponse {
+            entries: value
+                .into_iter()
+                .map(BuildingsOverviewItemResponse::from)
+                .collect(),
+            n_visible,
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -239,16 +361,46 @@ struct RoomsOverviewUsageChildResponse {
     id: String,
     name: String,
 }
+impl From<RoomSection> for RoomsOverviewUsageChildResponse {
+    fn from(value: RoomSection) -> Self {
+        RoomsOverviewUsageChildResponse {
+            id: value.id,
+            name: value.name,
+        }
+    }
+}
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct RoomsOverviewUsageResponse {
     name: String,
-    count: u32,
+    count: usize,
     children: Vec<RoomsOverviewUsageChildResponse>,
+}
+impl From<(String, Vec<RoomSection>)> for RoomsOverviewUsageResponse {
+    fn from((usage, rooms): (String, Vec<RoomSection>)) -> Self {
+        RoomsOverviewUsageResponse {
+            name: usage,
+            count: rooms.len(),
+            children: rooms
+                .into_iter()
+                .map(RoomsOverviewUsageChildResponse::from)
+                .collect(),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct RoomsOverviewResponse {
     usages: Vec<RoomsOverviewUsageResponse>,
+}
+impl From<HashMap<String, Vec<RoomSection>>> for RoomsOverviewResponse {
+    fn from(value: HashMap<String, Vec<RoomSection>>) -> Self {
+        RoomsOverviewResponse {
+            usages: value
+                .into_iter()
+                .map(RoomsOverviewUsageResponse::from)
+                .collect(),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -259,6 +411,9 @@ struct FeaturedOverviewResponse {
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct MapsResponse {
     /// type of the Map that should be shown by default
+    ///
+    /// Only ever `interactive`
+    #[schema(deprecated)]
     default: DefaultMapsResponse,
     #[serde(skip_serializing_if = "Option::is_none")]
     roomfinder: Option<RoomfinderMapResponse>,
@@ -267,6 +422,23 @@ struct MapsResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     overlays: Option<OverlayMapsResponse>,
 }
+impl From<(Vec<OverlayMapEntry>, Vec<RoomfinderMapEntry>)> for MapsResponse {
+    fn from((overlay, roomfinder): (Vec<OverlayMapEntry>, Vec<RoomfinderMapEntry>)) -> Self {
+        MapsResponse {
+            default: DefaultMapsResponse::Interactive,
+            roomfinder: if roomfinder.is_empty() {
+                None
+            } else {
+                Some(RoomfinderMapResponse::from(roomfinder))
+            },
+            overlays: if overlay.is_empty() {
+                None
+            } else {
+                Some(OverlayMapsResponse::from(overlay))
+            },
+        }
+    }
+}
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct RoomfinderMapResponse {
@@ -274,6 +446,24 @@ struct RoomfinderMapResponse {
     #[schema(examples("rf142"))]
     default: String,
     available: Vec<RoomfinderMapEntryResponse>,
+}
+impl From<Vec<RoomfinderMapEntry>> for RoomfinderMapResponse {
+    fn from(value: Vec<RoomfinderMapEntry>) -> Self {
+        debug_assert!(value
+            .iter()
+            .any(|v| v.selected_by_default.unwrap_or_default()));
+        RoomfinderMapResponse {
+            default: value
+                .iter()
+                .find(|v| v.selected_by_default.unwrap_or_default())
+                .map(|v| v.id.clone().expect("sqlx bug, cannot be none"))
+                .expect("asserted to be there beforehand"),
+            available: value
+                .into_iter()
+                .map(RoomfinderMapEntryResponse::from)
+                .collect(),
+        }
+    }
 }
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct RoomfinderMapEntryResponse {
@@ -296,15 +486,46 @@ struct RoomfinderMapEntryResponse {
     /// Where the map is stored
     file: String,
 }
+impl From<RoomfinderMapEntry> for RoomfinderMapEntryResponse {
+    fn from(value: RoomfinderMapEntry) -> Self {
+        RoomfinderMapEntryResponse {
+            name: value.name.expect("sqlx bug, cannot be none"),
+            id: value.id.expect("sqlx bug, cannot be none"),
+            scale: value.scale.expect("sqlx bug, cannot be none").to_string(),
+            height: value.height.expect("sqlx bug, cannot be none"),
+            width: value.width.expect("sqlx bug, cannot be none"),
+            x: value.x.expect("sqlx bug, cannot be none"),
+            y: value.y.expect("sqlx bug, cannot be none"),
+            source: value.source.expect("sqlx bug, cannot be none"),
+            file: value.file.expect("sqlx bug, cannot be none"),
+        }
+    }
+}
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct OverlayMapsResponse {
     /// The floor-id of the map, that should be shown as a default.
-    /// null means:
+    ///
+    /// `null` means:
     /// - We suggest, you don't show a map by default.
-    /// - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+    /// - This is only the case for buildings or other such entities.
+    ///   This is not done for rooms, if we know where they are and a map exists.
     #[schema(example = 0)]
     default: Option<i32>,
     available: Vec<OverlayMapEntryResponse>,
+}
+impl From<Vec<OverlayMapEntry>> for OverlayMapsResponse {
+    fn from(value: Vec<OverlayMapEntry>) -> Self {
+        OverlayMapsResponse {
+            default: value
+                .iter()
+                .find(|v| v.selected_by_default.unwrap_or_default())
+                .map(|v| v.id.expect("sqlx bug, cannot be none")),
+            available: value
+                .into_iter()
+                .map(OverlayMapEntryResponse::from)
+                .collect(),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -331,9 +552,30 @@ struct OverlayMapEntryResponse {
     #[schema(min_items = 4, max_items = 4, example = json!([[11.666739,48.263478],[11.669666,48.263125],[11.669222,48.261585],[11.666331,48.261929]]))]
     coordinates: [(f64, f64); 4],
 }
+impl From<OverlayMapEntry> for OverlayMapEntryResponse {
+    fn from(value: OverlayMapEntry) -> Self {
+        let lon = value.coordinates_lon.expect("only null because of sqlx");
+        let lat = value.coordinates_lat.expect("only null because of sqlx");
+        debug_assert!(lon.len() == 4);
+        debug_assert!(lat.len() == 4);
+        OverlayMapEntryResponse {
+            id: value.id.expect("only null because of sqlx"),
+            floor: value.floor.expect("only null because of sqlx"),
+            name: value.name.expect("only null because of sqlx"),
+            file: value.file.expect("only null because of sqlx"),
+            coordinates: [
+                (lon[0], lat[0]),
+                (lon[1], lat[1]),
+                (lon[2], lat[2]),
+                (lon[3], lat[3]),
+            ],
+        }
+    }
+}
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
+#[schema(deprecated)]
 enum DefaultMapsResponse {
     /// interactive maps should be shown first
     #[default]
@@ -355,13 +597,76 @@ struct ExtraComputedPropResponse {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct ComputedPropResponse {
+pub struct ComputedPropResponse {
     #[schema(examples("Raumkennung"))]
     name: String,
     #[schema(examples("5602.EG.001"))]
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     extra: Option<ExtraComputedPropResponse>,
+}
+
+impl IntoIterator for ComputedProperties {
+    type Item = ComputedPropResponse;
+    type IntoIter = std::vec::IntoIter<Self::Item>;
+    fn into_iter(self) -> Self::IntoIter {
+        let mut result = vec![];
+        if let Some(building_codes) = self.building_codes {
+            result.push(ComputedPropResponse {
+                name: "Gebäudekennung".to_string(),
+                text: building_codes,
+                extra: None,
+            })
+        }
+        if let Some(address) = self.address {
+            if let Some(postcode) = self.postcode {
+                if let Some(city) = self.city {
+                    result.push(ComputedPropResponse {
+                        name: "Adresse".to_string(),
+                        text: format!("{address}, {postcode} {city}"),
+                        extra: None,
+                    });
+                }
+            }
+        }
+        if let Some(level) = self.level {
+            result.push(ComputedPropResponse {
+                name: "Stockwerk".to_string(),
+                text: level,
+                extra: None,
+            });
+        }
+        if let Some(arch_name) = self.arch_name {
+            result.push(ComputedPropResponse {
+                name: "Architekten-Name".to_string(),
+                text: arch_name,
+                extra: None,
+            });
+        }
+        if let Some(room_cnt) = self.room_cnt {
+            if let Some(room_cnt_without_corridors) = self.room_cnt_without_corridors {
+                result.push(ComputedPropResponse {
+                    name: "Stockwerk".to_string(),
+                    text: format!("{room_cnt}, ({room_cnt_without_corridors} ohne Flure etc.)"),
+                    extra: None,
+                });
+            } else {
+                result.push(ComputedPropResponse {
+                    name: "Stockwerk".to_string(),
+                    text: room_cnt.to_string(),
+                    extra: None,
+                });
+            }
+        }
+        if let Some(building_cnt) = self.building_cnt {
+            result.push(ComputedPropResponse {
+                name: "Anzahl Gebäude".to_string(),
+                text: building_cnt.to_string(),
+                extra: None,
+            })
+        }
+        result.into_iter()
+    }
 }
 
 /// Data for the info-card table
@@ -371,13 +676,13 @@ struct PropsResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     operator: Option<OperatorResponse>,
     computed: Vec<ComputedPropResponse>,
-    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
     links: Vec<PossibleURLRefResponse>,
     /// A comment to show to an entry.
     ///
     /// It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
-    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
-    comment: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    comment: Option<String>,
     /// Link to the calendar of the room
     #[schema(examples(
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J",
@@ -385,6 +690,42 @@ struct PropsResponse {
     ))]
     #[serde(skip_serializing_if = "Option::is_none")]
     calendar_url: Option<String>,
+    /// Gebäudekennung
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples("16xx"))]
+    building_codes: Option<String>,
+    /// Adresse
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples("Schellingstr. 4"))]
+    address: Option<String>,
+    /// Postcode
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples(80799), minimum = 1, maximum = 99999)]
+    postcode: Option<i32>,
+    /// City
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples("München"))]
+    city: Option<String>,
+    /// Stockwerk
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples("1 (1. OG + 1 Zwischengeschoss)"))]
+    level: Option<String>,
+    /// Architekten-Name
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples("N1101"))]
+    arch_name: Option<String>,
+    /// Anzahl Räume mit "Fake-Räume" wie Flure etc.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples(147), minimum = 1)]
+    room_cnt: Option<i32>,
+    /// Anzahl Räume ohne "Fake-Räume" wie Flure etc.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples(105), minimum = 1)]
+    room_cnt_without_corridors: Option<i32>,
+    /// Anzahl Gebäude
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(examples(31), minimum = 1)]
+    building_cnt: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
@@ -397,6 +738,14 @@ struct SourceResponse {
     #[schema(example = "https://nav.tum.de")]
     url: Option<String>,
 }
+impl From<Source> for SourceResponse {
+    fn from(value: Source) -> Self {
+        SourceResponse {
+            name: value.name.expect("name should be present"),
+            url: value.url,
+        }
+    }
+}
 /// Where we got our data from, should be displayed at the bottom of any page containing this data
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct SourcesResponse {
@@ -406,6 +755,15 @@ struct SourcesResponse {
     patched: Option<bool>, // default = false
     /// What is the basis of the data we have
     base: Vec<SourceResponse>,
+}
+impl From<Vec<Source>> for SourcesResponse {
+    fn from(values: Vec<Source>) -> Self {
+        let patched = values.iter().any(|v| v.patched == Some(true));
+        SourcesResponse {
+            patched: if patched { Some(true) } else { None },
+            base: values.into_iter().map(SourceResponse::from).collect(),
+        }
+    }
 }
 
 /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
@@ -419,6 +777,25 @@ struct ImageInfoResponse {
     source: PossibleURLRefResponse,
     license: PossibleURLRefResponse,
 }
+impl From<Image> for ImageInfoResponse {
+    fn from(value: Image) -> Self {
+        ImageInfoResponse {
+            name: value.name.expect("sqlx bug, cannot be none"),
+            author: URLRefResponse {
+                url: value.author_url,
+                text: value.author_text.expect("sqlx bug, cannot be none"),
+            },
+            source: PossibleURLRefResponse {
+                url: value.source_url,
+                text: value.source_text.expect("sqlx bug, cannot be none"),
+            },
+            license: PossibleURLRefResponse {
+                url: value.license_url,
+                text: value.license_text.expect("sqlx bug, cannot be none"),
+            },
+        }
+    }
+}
 
 /// A link with a localized link text and url
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -426,6 +803,15 @@ struct PossibleURLRefResponse {
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
+}
+
+impl From<Link> for PossibleURLRefResponse {
+    fn from(link: Link) -> Self {
+        PossibleURLRefResponse {
+            text: link.text.expect("text should be present"),
+            url: link.url,
+        }
+    }
 }
 
 /// A link with a localized link text and url
@@ -449,6 +835,17 @@ struct RankingFactorsResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(minimum = 0)]
     rank_custom: Option<i32>,
+}
+impl From<RankingFactor> for RankingFactorsResponse {
+    fn from(ranking_factor: RankingFactor) -> Self {
+        RankingFactorsResponse {
+            rank_combined: ranking_factor.rank_combined.expect("rank_combined exists"),
+            rank_type: ranking_factor.rank_type.expect("rank_type exists"),
+            rank_usage: ranking_factor.rank_usage.expect("rank_usage exists"),
+            rank_boost: ranking_factor.rank_boost,
+            rank_custom: ranking_factor.rank_custom,
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
@@ -484,40 +881,40 @@ enum CoordinateSourceResponse {
     Roomfinder,
     Inferred,
 }
+impl From<String> for CoordinateSourceResponse {
+    fn from(source: String) -> Self {
+        match source.as_str() {
+            "navigatum" => Self::Navigatum,
+            "roomfinder" => Self::Roomfinder,
+            _ => Self::Inferred,
+        }
+    }
+}
 
 #[tracing::instrument(skip(pool))]
-async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
-    let result = sqlx::query_as!(
-        LocationKeyAlias,
-        r#"
-        SELECT DISTINCT key, visible_id, type
-        FROM aliases
-        WHERE alias = $1 OR key = $1 "#,
-        query
-    )
-    .fetch_all(pool)
-    .await;
-    match result {
+async fn get_alias_and_redirect(
+    pool: &PgPool,
+    query: &str,
+) -> anyhow::Result<Option<(String, String, Vec<String>)>> {
+    match LocationKeyAlias::fetch_all(pool, query).await {
         Ok(d) => {
+            let aliases = d
+                .clone()
+                .into_iter()
+                .map(|a| a.key)
+                .collect::<Vec<String>>();
             let redirect_url = match d.len() {
-                0 => return None, // not key or alias
+                0 => return Ok(None), // not key or alias
                 1 => extract_redirect_exact_match(&d[0].r#type, &d[0].visible_id),
                 _ => {
-                    let keys = d
-                        .clone()
-                        .into_iter()
-                        .map(|a| a.key)
-                        .collect::<Vec<String>>();
-                    format!("/search?q={}", keys.join("+"))
+                    format!("/search?q={}", aliases.join("+"))
                 }
             };
-            Some((d[0].key.clone(), redirect_url))
+            let probable_id = d[0].key.clone();
+            Ok(Some((probable_id, redirect_url, aliases)))
         }
-        Err(RowNotFound) => None,
-        Err(e) => {
-            error!(error = ?e,query,"Error requesting alias");
-            None
-        }
+        Err(RowNotFound) => Ok(None),
+        Err(e) => Err(e.into()),
     }
 }
 

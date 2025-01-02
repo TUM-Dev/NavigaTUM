@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id,floor,name,file,coordinates_lon,coordinates_lat,selected_by_default\n            FROM overlay_maps\n            WHERE key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "floor",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "file",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "coordinates_lon",
+        "type_info": "Float8Array"
+      },
+      {
+        "ordinal": 5,
+        "name": "coordinates_lat",
+        "type_info": "Float8Array"
+      },
+      {
+        "ordinal": 6,
+        "name": "selected_by_default",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "3e5d13a8add954d64868627c357facfa554458a2d56f9a38d82613b8929aadc7"
+}

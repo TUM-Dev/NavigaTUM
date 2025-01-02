@@ -1,0 +1,70 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT building_codes,address,city,postcode,level,arch_name,room_cnt,room_cnt_without_corridors,building_cnt\n            FROM computed_properties\n            WHERE key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "building_codes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "address",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "city",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "postcode",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "level",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "arch_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "room_cnt",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "room_cnt_without_corridors",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 8,
+        "name": "building_cnt",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "fe530dbaf54b43b0339bfd05bcbed54fd9fd8a876631a310d0f4b928b557ba8a"
+}

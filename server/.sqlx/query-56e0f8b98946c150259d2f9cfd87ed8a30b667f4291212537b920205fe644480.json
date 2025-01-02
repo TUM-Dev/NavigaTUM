@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT rank_type, rank_combined, rank_usage, rank_custom, rank_boost\n            FROM ranking_factors\n            WHERE id=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "rank_type",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "rank_combined",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "rank_usage",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "rank_custom",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "rank_boost",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "56e0f8b98946c150259d2f9cfd87ed8a30b667f4291212537b920205fe644480"
+}

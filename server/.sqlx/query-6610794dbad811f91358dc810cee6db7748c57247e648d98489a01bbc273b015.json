@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "Select id,name,thumb,subtext,visible\n            from buildings_section\n            where key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "thumb",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "subtext",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "visible",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "6610794dbad811f91358dc810cee6db7748c57247e648d98489a01bbc273b015"
+}

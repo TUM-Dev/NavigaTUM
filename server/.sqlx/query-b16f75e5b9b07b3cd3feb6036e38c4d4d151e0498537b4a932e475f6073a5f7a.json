@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "Select usage_name,location_id,location_name\n            from rooms_section\n            where key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "usage_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "location_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "location_name",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "b16f75e5b9b07b3cd3feb6036e38c4d4d151e0498537b4a932e475f6073a5f7a"
+}
