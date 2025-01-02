@@ -102,45 +102,13 @@ pub async fn get_handler(
     }
 }
 
-/// Operator of a location
-#[derive(Serialize, Deserialize, Debug, Clone, utoipa::ToSchema)]
-struct Operator {
-    /// ID of the operator
-    #[schema(examples(51901))]
-    id: u32,
-    ///Link to the operator
-    #[schema(examples("https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901"))]
-    url: String,
-    /// designation code of the operator
-    #[schema(examples("TUS7000"))]
-    code: String,
-    /// The full name of the operator (localized). Null for organisations that
-    ///  are no longer active (e.g. id=38698), but where the operator has not been
-    /// updated in TUMonline.
-    #[schema(examples("TUM School of Social Sciences and Technology"))]
-    name: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
-#[serde(rename_all = "snake_case")]
-enum LocationType {
-    #[default]
-    Room,
-    Building,
-    JoinedBuilding,
-    Area,
-    Site,
-    Campus,
-    Poi,
-}
-
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct LocationDetailsResponse {
     /// The id, that was requested
     #[schema(examples("5606.EG.036"))]
     id: String,
     /// The type of the entry
-    r#type: LocationType,
+    r#type: LocationTypeResponse,
     /// The type of the entry in a human-readable form
     #[schema(examples("Büro"))]
     type_common_name: String,
@@ -167,44 +135,77 @@ struct LocationDetailsResponse {
     #[schema(min_items=1, examples(json!(["Standorte","Garching Forschungszentrum","Fakultät Mathematik & Informatik (FMI oder MI)", "Finger 06 (BT06)"])))]
     parent_names: Vec<String>,
     /// Data for the info-card table
-    props: Props,
+    props: PropsResponse,
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
     ///
     /// TODO: Sometimes missing, sometimes not.. so weird..
     #[serde(skip_serializing_if = "Option::is_none")]
-    imgs: Option<Vec<ImageInfo>>,
-    ranking_factors: RankingFactors,
+    imgs: Option<Vec<ImageInfoResponse>>,
+    ranking_factors: RankingFactorsResponse,
     /// Where we got our data from, should be displayed at the bottom of any page containing this data
-    sources: Sources,
+    sources: SourcesResponse,
     /// The url, this item should be displayed at.
     ///
     /// Present on both redirects and normal entries, to allow for the common /view/:id path
     #[schema(examples("/room/5606.EG.036"))]
     redirect_url: Option<String>,
     /// Coordinate of the location
-    coords: Coordinate,
+    coords: CoordinateResponse,
     /// Print or overlay maps for said location
-    maps: Maps,
-    /// informations for different sectons on the page like the
+    maps: MapsResponse,
+    /// Information for different sections on the page like the
     /// - buildings overview,
     /// - rooms overview and
     /// - featured view
     #[serde(skip_serializing_if = "Option::is_none")]
-    sections: Option<Sections>,
+    sections: Option<SectionsResponse>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum LocationTypeResponse {
+    #[default]
+    Room,
+    Building,
+    JoinedBuilding,
+    Area,
+    Site,
+    Campus,
+    Poi,
+    Other,
+}
+
+/// Operator of a location
+#[derive(Serialize, Deserialize, Debug, Clone, utoipa::ToSchema)]
+struct OperatorResponse {
+    /// ID of the operator
+    #[schema(examples(51901))]
+    id: u32,
+    ///Link to the operator
+    #[schema(examples("https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901"))]
+    url: String,
+    /// designation code of the operator
+    #[schema(examples("TUS7000"))]
+    code: String,
+    /// The full name of the operator (localized). Null for organisations that
+    ///  are no longer active (e.g. id=38698), but where the operator has not been
+    /// updated in TUMonline.
+    #[schema(examples("TUM School of Social Sciences and Technology"))]
+    name: String,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct Sections {
+struct SectionsResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
-    buildings_overview: Option<BuildingsOverview>,
+    buildings_overview: Option<BuildingsOverviewResponse>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    rooms_overview: Option<RoomsOverview>,
+    rooms_overview: Option<RoomsOverviewResponse>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    featured_overview: Option<FeaturedOverview>,
+    featured_overview: Option<FeaturedOverviewResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct BuildingsOverviewItem {
+struct BuildingsOverviewItemResponse {
     /// The id of the entry
     id: String,
     /// Human display name
@@ -216,7 +217,7 @@ struct BuildingsOverviewItem {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct FeaturedOverviewItem {
+struct FeaturedOverviewItemResponse {
     /// The id of the entry
     id: String,
     /// Human display name
@@ -228,54 +229,54 @@ struct FeaturedOverviewItem {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct BuildingsOverview {
-    entries: Vec<BuildingsOverviewItem>,
+struct BuildingsOverviewResponse {
+    entries: Vec<BuildingsOverviewItemResponse>,
     n_visible: u32,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RoomsOverviewUsageChild {
+struct RoomsOverviewUsageChildResponse {
     id: String,
     name: String,
 }
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RoomsOverviewUsage {
+struct RoomsOverviewUsageResponse {
     name: String,
     count: u32,
-    children: Vec<RoomsOverviewUsageChild>,
+    children: Vec<RoomsOverviewUsageChildResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RoomsOverview {
-    usages: Vec<RoomsOverviewUsage>,
+struct RoomsOverviewResponse {
+    usages: Vec<RoomsOverviewUsageResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct FeaturedOverview {
-    entries: Vec<FeaturedOverviewItem>,
+struct FeaturedOverviewResponse {
+    entries: Vec<FeaturedOverviewItemResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct Maps {
+struct MapsResponse {
     /// type of the Map that should be shown by default
-    default: DefaultMaps,
+    default: DefaultMapsResponse,
     #[serde(skip_serializing_if = "Option::is_none")]
-    roomfinder: Option<RoomfinderMap>,
+    roomfinder: Option<RoomfinderMapResponse>,
     /// `None` would mean no overlay maps are displayed by default.
     /// For rooms, you should add a warning that no floor map is available for this room
     #[serde(skip_serializing_if = "Option::is_none")]
-    overlays: Option<OverlayMaps>,
+    overlays: Option<OverlayMapsResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RoomfinderMap {
+struct RoomfinderMapResponse {
     /// The id of the map, that should be shown as a default
     #[schema(examples("rf142"))]
     default: String,
-    available: Vec<RoomfinderMapEntry>,
+    available: Vec<RoomfinderMapEntryResponse>,
 }
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RoomfinderMapEntry {
+struct RoomfinderMapEntryResponse {
     /// human-readable name of the map
     name: String,
     /// machine-readable name of the map
@@ -296,18 +297,18 @@ struct RoomfinderMapEntry {
     file: String,
 }
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct OverlayMaps {
+struct OverlayMapsResponse {
     /// The floor-id of the map, that should be shown as a default.
     /// null means:
     /// - We suggest, you don't show a map by default.
     /// - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
     #[schema(example = 0)]
     default: Option<i32>,
-    available: Vec<OverlayMapEntry>,
+    available: Vec<OverlayMapEntryResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct OverlayMapEntry {
+struct OverlayMapEntryResponse {
     /// Machine-readable floor-id of the map.
     ///
     /// Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
@@ -333,7 +334,7 @@ struct OverlayMapEntry {
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum DefaultMaps {
+enum DefaultMapsResponse {
     /// interactive maps should be shown first
     #[default]
     Interactive,
@@ -342,7 +343,7 @@ enum DefaultMaps {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct ExtraComputedProp {
+struct ExtraComputedPropResponse {
     #[schema(examples("Genauere Angaben"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     header: Option<String>,
@@ -354,24 +355,24 @@ struct ExtraComputedProp {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct ComputedProp {
+struct ComputedPropResponse {
     #[schema(examples("Raumkennung"))]
     name: String,
     #[schema(examples("5602.EG.001"))]
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    extra: Option<ExtraComputedProp>,
+    extra: Option<ExtraComputedPropResponse>,
 }
 
 /// Data for the info-card table
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct Props {
+struct PropsResponse {
     /// The operator of the room
     #[serde(skip_serializing_if = "Option::is_none")]
-    operator: Option<Operator>,
-    computed: Vec<ComputedProp>,
+    operator: Option<OperatorResponse>,
+    computed: Vec<ComputedPropResponse>,
     #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
-    links: Vec<PossibleURLRef>,
+    links: Vec<PossibleURLRefResponse>,
     /// A comment to show to an entry.
     ///
     /// It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
@@ -387,7 +388,7 @@ struct Props {
 }
 
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
-struct Source {
+struct SourceResponse {
     /// Name of the provider
     #[schema(example = "NavigaTUM")]
     name: String,
@@ -398,30 +399,30 @@ struct Source {
 }
 /// Where we got our data from, should be displayed at the bottom of any page containing this data
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct Sources {
+struct SourcesResponse {
     /// Was this entry patched by us? (e.g. to fix a typo in the name/...)
     /// If so, we should not display the source, as it is not the original source.
     #[serde(skip_serializing_if = "Option::is_none")]
     patched: Option<bool>, // default = false
     /// What is the basis of the data we have
-    base: Vec<Source>,
+    base: Vec<SourceResponse>,
 }
 
 /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct ImageInfo {
+struct ImageInfoResponse {
     /// The name of the image file.
     /// consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
     #[schema(examples("mi_0.webp"))]
     name: String,
-    author: URLRef,
-    source: PossibleURLRef,
-    license: PossibleURLRef,
+    author: URLRefResponse,
+    source: PossibleURLRefResponse,
+    license: PossibleURLRefResponse,
 }
 
 /// A link with a localized link text and url
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct PossibleURLRef {
+struct PossibleURLRefResponse {
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
@@ -429,24 +430,29 @@ struct PossibleURLRef {
 
 /// A link with a localized link text and url
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct URLRef {
+struct URLRefResponse {
     text: String,
     url: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct RankingFactors {
-    rank_combined: u32,
-    rank_type: u32,
-    rank_usage: u32,
+struct RankingFactorsResponse {
+    #[schema(minimum = 0)]
+    rank_combined: i32,
+    #[schema(minimum = 0)]
+    rank_type: i32,
+    #[schema(minimum = 0)]
+    rank_usage: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
-    rank_boost: Option<u32>,
+    #[schema(minimum = 0)]
+    rank_boost: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    rank_custom: Option<u32>,
+    #[schema(minimum = 0)]
+    rank_custom: Option<i32>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct Coordinate {
+struct CoordinateResponse {
     /// Latitude
     #[schema(example = 48.26244490906312)]
     lat: f64,
@@ -455,24 +461,24 @@ struct Coordinate {
     lon: f64,
     /// Source of the Coordinates
     #[schema(example = "navigatum")]
-    source: CoordinateSource,
+    source: CoordinateSourceResponse,
     /// How accurate the coordinate is.
     /// Only present, if it is limited to a degree (e.g. we only know the building)
     #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(example = "building")]
-    accuracy: Option<CoordinateAccuracy>,
+    accuracy: Option<CoordinateAccuracyResponse>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum CoordinateAccuracy {
+enum CoordinateAccuracyResponse {
     #[default]
     Building,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum CoordinateSource {
+enum CoordinateSourceResponse {
     #[default]
     Navigatum,
     Roomfinder,
