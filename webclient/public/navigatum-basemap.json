@@ -2133,15 +2133,12 @@
       "minzoom": 5,
       "filter": ["==", ["get", "class"], "city"],
       "layout": {
-        "icon-image": ["step", ["zoom"], "circle", 8, ""],
         "text-anchor": "bottom",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Medium"],
         "text-max-width": 8,
         "text-offset": [0, 0],
-        "text-size": ["interpolate", ["exponential", 1.2], ["zoom"], 7, 14, 11, 24],
-        "icon-allow-overlap": true,
-        "icon-optional": false
+        "text-size": ["interpolate", ["exponential", 1.2], ["zoom"], 7, 14, 11, 24]
       },
       "paint": {
         "text-color": "#333",
