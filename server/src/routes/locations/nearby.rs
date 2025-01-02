@@ -1,28 +1,8 @@
+use crate::db::public_transport::Transportation;
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use tracing::error;
-
-#[derive(Serialize, Deserialize, Clone, Debug, utoipa::ToSchema)]
-struct Transportation {
-    id: String,
-    name: String,
-    parent_id: Option<String>,
-    parent_name: Option<String>,
-    /// Latitude
-    #[schema(example = 48.26244490906312, nullable = false)]
-    lat: Option<f64>, // not really null, sqlx just thinks this
-    /// Longitude
-    #[schema(example = 48.26244490906312, nullable = false)]
-    lon: Option<f64>, // not really null, sqlx just thinks this
-    #[schema(exclusive_minimum = 0.0, nullable = false)]
-    distance_meters: Option<f64>, // not really null, sqlx just thinks this
-}
-#[derive(Serialize, Clone, Debug, utoipa::ToSchema)]
-struct NearbyResponse {
-    #[schema(max_items = 50)]
-    public_transport: Vec<Transportation>,
-}
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct NearbyPathParams {
@@ -37,7 +17,7 @@ struct NearbyPathParams {
     tags=["locations"],
     params(NearbyPathParams),
     responses(
-        (status = 200, description = "Things **nearby to the location**", body=NearbyResponse, content_type = "application/json"),
+        (status = 200, description = "Things **nearby to the location**", body=NearbyLocationsResponse, content_type = "application/json"),
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
@@ -49,43 +29,71 @@ pub async fn nearby_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
-    // TODO: use the spatial index instead of just computing the distance for every entry
-    let transportation = sqlx::query_as!(
-        Transportation,
-        r#"
-WITH coodinates_for_keys(key, coordinate) as (SELECT key, point(lat, lon)::geometry as coordinate
-                                              from de)
-
-SELECT t.id,
-       t.name,
-       parent.id as parent_id,
-       parent.name as parent_name,
-       ST_X(t.coordinate::geometry)                             as lat,
-       ST_Y(t.coordinate::geometry)                             as lon,
-       ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) as distance_meters
-FROM coodinates_for_keys c,
-     transportation_stations t
-     LEFT OUTER JOIN transportation_stations parent on t.parent = parent.id
-WHERE ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) < 1000
-  AND c.key = $1
-ORDER BY ST_DISTANCE(t.coordinate::geometry, c.coordinate, false)
-LIMIT 50"#,
-        id
-    )
-    .fetch_all(&data.pool)
-    .await;
-    match transportation {
-        Ok(public_transport) => HttpResponse::Ok()
-            .insert_header(CacheControl(vec![
-                CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
-                CacheDirective::Public,
-            ]))
-            .json(NearbyResponse { public_transport }),
+    let public_transport = match Transportation::fetch_all_near(&data.pool, &id).await {
+        Ok(public_transport) => public_transport
+            .into_iter()
+            .map(TransportationResponse::from)
+            .collect(),
         Err(e) => {
             error!("Could not get nearby pois because: {e:?}");
-            HttpResponse::InternalServerError()
+            return HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Internal Server Error")
+                .body("Internal Server Error");
+        }
+    };
+    HttpResponse::Ok()
+        .insert_header(CacheControl(vec![
+            CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
+            CacheDirective::Public,
+        ]))
+        .json(NearbyLocationsResponse { public_transport })
+}
+
+#[derive(Serialize, Clone, Debug, utoipa::ToSchema)]
+struct NearbyLocationsResponse {
+    #[schema(max_items = 50)]
+    public_transport: Vec<TransportationResponse>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, utoipa::ToSchema)]
+struct TransportationResponse {
+    /// The globally unique and somewhat stable id of the station from the transport agency
+    #[schema(example = "de:09184:2073:0:1")]
+    id: String,
+    /// How the station was named by the operator
+    #[schema(example = "Garching, Boltzmannstraße")]
+    name: String,
+    /// The globally unique and somewhat stable id of the station from the transport agency
+    #[schema(example = "de:09184:2073")]
+    parent_id: Option<String>,
+    /// How the station was named by the operator
+    #[schema(example = "Boltzmannstraße")]
+    parent_name: Option<String>,
+    /// Latitude
+    #[schema(example = 48.26244490906312)]
+    lat: f64,
+    /// Longitude
+    #[schema(example = 48.26244490906312)]
+    lon: f64,
+    #[schema(exclusive_minimum = 0.0, exclusive_maximum = 1000.0)]
+    distance_meters: f64,
+}
+impl From<Transportation> for TransportationResponse {
+    fn from(value: Transportation) -> Self {
+        Self {
+            id: value.id,
+            name: value.name,
+            parent_id: value.parent_id,
+            parent_name: value.parent_name,
+            lat: value
+                .lat
+                .expect("since the location is always present, this field can never be null"),
+            lon: value
+                .lon
+                .expect("since the location is always present, this field can never be null"),
+            distance_meters: value
+                .distance_meters
+                .expect("since the location is always present, this field can never be null"),
         }
     }
 }

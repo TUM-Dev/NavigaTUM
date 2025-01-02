@@ -60,7 +60,7 @@ impl Arguments {
 #[utoipa::path(
     tags=["calendar"],
     responses(
-        (status = 200, description = "**Entries of the calendar** in the requested time span", body = HashMap<String, ResponseLocationEvents>, content_type = "application/json"),
+        (status = 200, description = "**Entries of the calendar** in the requested time span", body = HashMap<String, LocationEventsResponse>, content_type = "application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, example = "Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"),
         (status = 404, description = "**Not found.** The requested location does not have a calendar", body = String, content_type = "text/plain", example = "Not found"),
         (status = 503, description = "**Not Ready.** please retry later", body = String, content_type = "text/plain", example = "Waiting for first sync with TUMonline"),
@@ -105,7 +105,7 @@ pub async fn calendar_handler(
     };
     let events = events
         .into_iter()
-        .map(|(id, events)| (id, ResponseLocationEvents::from(events)))
+        .map(|(id, events)| (id, LocationEventsResponse::from(events)))
         .collect::<HashMap<_, _>>();
     HttpResponse::Ok()
         .insert_header(CacheControl(vec![
@@ -116,15 +116,15 @@ pub async fn calendar_handler(
 }
 
 #[derive(Serialize, utoipa::ToSchema)]
-struct ResponseLocationEvents {
-    events: Vec<ResponseEvent>,
-    location: ResponseCalendarLocation,
+struct LocationEventsResponse {
+    events: Vec<EventResponse>,
+    location: CalendarLocationResponse,
 }
-impl From<LocationEvents> for ResponseLocationEvents {
+impl From<LocationEvents> for LocationEventsResponse {
     fn from(value: LocationEvents) -> Self {
-        ResponseLocationEvents {
-            events: value.events.into_iter().map(ResponseEvent::from).collect(),
-            location: ResponseCalendarLocation::from(value.location),
+        LocationEventsResponse {
+            events: value.events.into_iter().map(EventResponse::from).collect(),
+            location: CalendarLocationResponse::from(value.location),
         }
     }
 }
@@ -158,7 +158,7 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
     Ok(())
 }
 #[derive(Serialize, utoipa::ToSchema)]
-pub struct ResponseCalendarLocation {
+pub struct CalendarLocationResponse {
     /// Structured, globaly unique room code
     ///
     /// Included to enable multi-room calendars.
@@ -196,9 +196,9 @@ pub struct ResponseCalendarLocation {
     #[schema(examples("room", "building", "joined_building", "area", "site", "campus", "poi"))]
     r#type: String,
 }
-impl From<CalendarLocation> for ResponseCalendarLocation {
+impl From<CalendarLocation> for CalendarLocationResponse {
     fn from(value: CalendarLocation) -> Self {
-        ResponseCalendarLocation {
+        CalendarLocationResponse {
             key: value.key,
             name: value.name,
             last_calendar_scrape_at: value.last_calendar_scrape_at,
@@ -210,7 +210,7 @@ impl From<CalendarLocation> for ResponseCalendarLocation {
 }
 
 #[derive(Serialize, Deserialize, utoipa::ToSchema)]
-struct ResponseEvent {
+struct EventResponse {
     /// ID of the calendar entry used in TUMonline internally
     #[schema(examples(6424))]
     id: i32,
@@ -238,14 +238,14 @@ struct ResponseEvent {
     /// What this calendar entry means.
     ///
     /// Each of these should be displayed in a different color
-    entry_type: ResponseEventType,
+    entry_type: EventTypeResponse,
     /// For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
     #[schema(examples("Abhaltung"))]
     detailed_entry_type: String,
 }
-impl From<Event> for ResponseEvent {
+impl From<Event> for EventResponse {
     fn from(value: Event) -> Self {
-        ResponseEvent {
+        EventResponse {
             id: value.id,
             room_code: value.room_code,
             start_at: value.start_at,
@@ -253,7 +253,7 @@ impl From<Event> for ResponseEvent {
             title_de: value.title_de,
             title_en: value.title_en,
             stp_type: value.stp_type,
-            entry_type: ResponseEventType::from(value.entry_type),
+            entry_type: EventTypeResponse::from(value.entry_type),
             detailed_entry_type: value.detailed_entry_type,
         }
     }
@@ -261,21 +261,21 @@ impl From<Event> for ResponseEvent {
 
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "lowercase")]
-pub enum ResponseEventType {
+pub enum EventTypeResponse {
     Lecture,
     Exercise,
     Exam,
     Barred,
     Other,
 }
-impl From<String> for ResponseEventType {
+impl From<String> for EventTypeResponse {
     fn from(value: String) -> Self {
         match value.as_str() {
-            "lecture" => ResponseEventType::Lecture,
-            "exercise" => ResponseEventType::Exercise,
-            "exam" => ResponseEventType::Exam,
-            "barred" => ResponseEventType::Barred,
-            _ => ResponseEventType::Other,
+            "lecture" => EventTypeResponse::Lecture,
+            "exercise" => EventTypeResponse::Exercise,
+            "exam" => EventTypeResponse::Exam,
+            "barred" => EventTypeResponse::Barred,
+            _ => EventTypeResponse::Other,
         }
     }
 }

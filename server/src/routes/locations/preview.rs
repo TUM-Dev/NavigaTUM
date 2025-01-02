@@ -1,75 +1,18 @@
+use std::fmt::{Display, Formatter};
 use std::io::Cursor;
 
-use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
-use actix_web::{get, web, HttpResponse};
-use image::{ImageBuffer, Rgba};
-use serde::Deserialize;
-use sqlx::Error::RowNotFound;
-use sqlx::PgPool;
-use tracing::{error, warn};
-use unicode_truncate::UnicodeTruncateStr;
-
+use crate::db::location::{Location, LocationKeyAlias};
 use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::overlays::map::OverlayMapTask;
 use crate::overlays::text::{cantarell_bold, cantarell_regular, OverlayText};
-
-#[derive(Debug, Clone)]
-#[allow(dead_code)] // false positive. Clippy can't detect this due to macros
-pub struct LocationKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
-
-#[derive(Debug)]
-struct Location {
-    name: String,
-    r#type: String,
-    type_common_name: String,
-    lat: f64,
-    lon: f64,
-}
-
-#[tracing::instrument(skip(pool))]
-async fn get_localised_data(
-    pool: &PgPool,
-    id: &str,
-    should_use_english: bool,
-) -> Result<Location, HttpResponse> {
-    let result = if should_use_english {
-        sqlx::query_as!(
-            Location,
-            "SELECT type,lat,lon,name,type_common_name FROM en WHERE key = $1",
-            id
-        )
-        .fetch_all(pool)
-        .await
-    } else {
-        sqlx::query_as!(
-            Location,
-            "SELECT type,lat,lon,name,type_common_name FROM de WHERE key = $1",
-            id
-        )
-        .fetch_all(pool)
-        .await
-    };
-
-    match result {
-        Ok(mut r) => match r.pop() {
-            None => Err(HttpResponse::NotFound()
-                .content_type("text/plain")
-                .body("Not found")),
-            Some(item) => Ok(item),
-        },
-        Err(e) => {
-            error!("Error preparing statement: {e:?}");
-            return Err(HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Could not get data for location, please try again later"));
-        }
-    }
-}
+use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
+use actix_web::{get, web, HttpResponse};
+use image::{ImageBuffer, Rgba};
+use serde::Deserialize;
+use sqlx::PgPool;
+use tracing::{error, warn};
+use unicode_truncate::UnicodeTruncateStr;
 
 #[tracing::instrument]
 async fn construct_image_from_data(
@@ -153,25 +96,15 @@ fn load_default_image() -> LimitedVec<u8> {
 
 #[tracing::instrument(skip(pool))]
 async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
-    let result = sqlx::query_as!(
-        LocationKeyAlias,
-        r#"
-        SELECT key, visible_id, type
-        FROM aliases
-        WHERE alias = $1 AND key <> alias
-        LIMIT 1"#,
-        query
-    )
-    .fetch_one(pool)
-    .await;
+    let result = LocationKeyAlias::fetch_optional(pool, query).await;
     match result {
-        Ok(d) => Some(format!(
+        Ok(Some(d)) => Some(format!(
             "https://nav.tum.de/api/locations/{key}/preview?lang={lang}&format={format}",
             key = d.key,
-            lang = args.lang.serialise(),
-            format = args.format.serialise()
+            lang = args.lang,
+            format = args.format
         )),
-        Err(RowNotFound) => None,
+        Ok(None) => None,
         Err(e) => {
             error!("Error requesting alias for {query}: {e:?}");
             None
@@ -186,11 +119,11 @@ enum PreviewFormat {
     OpenGraph,
     Square,
 }
-impl PreviewFormat {
-    fn serialise(self) -> String {
+impl Display for PreviewFormat {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            PreviewFormat::OpenGraph => "open_graph".to_string(),
-            PreviewFormat::Square => "square".to_string(),
+            PreviewFormat::OpenGraph => f.write_str("open_graph"),
+            PreviewFormat::Square => f.write_str("square"),
         }
     }
 }
@@ -234,10 +167,19 @@ pub async fn maps_handler(
             .insert_header((LOCATION, redirect_url))
             .finish();
     }
-    let data = match get_localised_data(&data.pool, &id, args.lang.should_use_english()).await {
-        Ok(data) => data,
+    let data = match Location::fetch_optional(&data.pool, &id, args.lang.should_use_english()).await
+    {
+        Ok(Some(data)) => data,
+        Ok(None) => {
+            return HttpResponse::NotFound()
+                .content_type("text/plain")
+                .body("Not found");
+        }
         Err(e) => {
-            return e;
+            error!("Error preparing statement: {e:?}");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Could not get data for location, please try again later");
         }
     };
     let img = construct_image_from_data(data, args.format)
