@@ -254,7 +254,7 @@
       "source": "nav",
       "source-layer": "aeroway",
       "minzoom": 11,
-      "filter": ["in", "$type", "Polygon"],
+      "filter": ["in", ["geometry-type"], "Polygon"],
       "paint": {
         "fill-color": "rgba(229, 228, 224, 1)",
         "fill-opacity": 0.7
@@ -266,7 +266,7 @@
       "source": "nav",
       "source-layer": "aeroway",
       "minzoom": 11,
-      "filter": ["all", ["in", "$type", "LineString"], ["==", ["get", "class"], "runway"]],
+      "filter": ["all", ["in", ["geometry-type"], "LineString"], ["==", ["get", "class"], "runway"]],
       "paint": {
         "line-color": "#f0ede9",
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 11, 3, 20, 16]
@@ -278,7 +278,7 @@
       "source": "nav",
       "source-layer": "aeroway",
       "minzoom": 11,
-      "filter": ["all", ["in", "$type", "LineString"], ["==", ["get", "class"], "taxiway"]],
+      "filter": ["all", ["in", ["geometry-type"], "LineString"], ["==", ["get", "class"], "taxiway"]],
       "paint": {
         "line-color": "#f0ede9",
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 11, 0.5, 20, 6]
@@ -419,7 +419,7 @@
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["in", "$type", "LineString"],
+        ["in", ["geometry-type"], "LineString"],
         ["==", ["get", "brunnel"], "tunnel"],
         ["match", ["get", "class"], ["path", "pedestrian"], true, false],
         ["!", ["has", "level"]]
@@ -716,7 +716,7 @@
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["in", "$type", "LineString"],
+        ["in", ["geometry-type"], "LineString"],
         ["match", ["get", "brunnel"], ["bridge", "tunnel"], false, true],
         ["match", ["get", "class"], ["minor"], true, false],
         ["!=", ["get", "ramp"], 1]
@@ -907,7 +907,7 @@
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["in", "$type", "LineString"],
+        ["in", ["geometry-type"], "LineString"],
         ["match", ["get", "brunnel"], ["bridge", "tunnel"], false, true],
         ["match", ["get", "class"], ["minor"], true, false]
       ],
@@ -1438,7 +1438,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "waterway",
-      "filter": ["in", "$type", "LineString"],
+      "filter": ["in", ["geometry-type"], "LineString"],
       "layout": {
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
@@ -1457,7 +1457,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "water_name",
-      "filter": ["in", "$type", "Point"],
+      "filter": ["in", ["geometry-type"], "Point"],
       "layout": {
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
@@ -2112,7 +2112,6 @@
       "source-layer": "place",
       "filter": ["==", ["get", "class"], "town"],
       "layout": {
-        "icon-image": ["step", ["zoom"], "circle", 8, ""],
         "text-anchor": "bottom",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
@@ -2134,7 +2133,7 @@
       "minzoom": 5,
       "filter": ["==", ["get", "class"], "city"],
       "layout": {
-        "icon-image": ["step", ["zoom"], "dot_9", 8, ""],
+        "icon-image": ["step", ["zoom"], "circle", 8, ""],
         "text-anchor": "bottom",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Medium"],
