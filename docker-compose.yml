@@ -14,61 +14,8 @@ services:
       - "3000"
     environment:
       TZ: Europe/Berlin
-      NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
       NUXT_PUBLIC_CDN_URL: https://nav.tum.de
       NUXT_PUBLIC_API_URL: https://nav.tum.de
-  # maps
-  tileserver-init-config:
-    image: alpine:latest
-    command:
-      - /bin/sh
-      - -c
-      - |
-        rm -f /data/*.json
-        cp /map/*.json /data/
-        
-        rm -fr /data/sprites/
-        mkdir -p /data/sprites/
-        cp /map/sprites/* /data/sprites/
-        
-        rm -fr /data/styles/
-        mkdir -p /data/styles/
-        cp /map/styles/* /data/styles/
-        
-        mkdir -p /data/fonts/
-    volumes:
-      - tileserver-src:/data
-      - ./map/:/map/:ro
-    environment:
-      TZ: Europe/Berlin
-  tileserver:
-    image: maptiler/tileserver-gl:v5.0.0
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
-      - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
-      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-maps-stripprefix@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
-      - "traefik.http.middlewares.navigatum-maps-stripprefix.stripprefix.prefixes=/maps"
-      - "traefik.http.middlewares.navigatum-compress.compress=true"
-      - "traefik.http.middlewares.navigatum-cache-2m.headers.customrequestheaders.Cache-Control=public, max-age=5184000"
-      - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
-    networks:
-      - traefik_traefik
-    expose:
-      - "8080"
-    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
-    environment:
-      TZ: Europe/Berlin
-    tmpfs:
-      - /tmp
-    volumes:
-      - tileserver-src:/data/:ro
-    read_only: true
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
   # cdn
   data:
     image: ghcr.io/tum-dev/navigatum-data:main
@@ -105,7 +52,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
-      TILESERVER_URL: http://tileserver:8080
       CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}

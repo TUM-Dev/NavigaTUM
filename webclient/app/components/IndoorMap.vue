@@ -80,9 +80,7 @@ async function initMap(containerId: string): Promise<Map> {
       preserveDrawingBuffer: false,
     },
 
-    // preview of the following style is available at
-    // https://nav.tum.de/maps/
-    style: `${runtimeConfig.public.mapsURL}/maps/styles/navigatum-basemap/style.json`,
+    style: "/navigatum-basemap.json",
 
     center: [11.670099, 48.266921],
     zoom: zoom.value,
