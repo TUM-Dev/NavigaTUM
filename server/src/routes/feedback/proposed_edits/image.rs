@@ -18,8 +18,6 @@ pub struct Source {
     source: Property,
     #[serde(skip_serializing_if = "Option::is_none")]
     offsets: Option<Offsets>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    meta: Option<BTreeMap<String, String>>,
 }
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 struct Property {

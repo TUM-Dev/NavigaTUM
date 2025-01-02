@@ -1704,51 +1704,11 @@ components:
           $ref: '#/components/schemas/PossibleURLRef'
         license:
           $ref: '#/components/schemas/PossibleURLRef'
-        meta:
-          $ref: '#/components/schemas/ImageMetadata'
       required:
         - name
         - author
         - source
         - license
-    ImageMetadata:
-      description: |
-        Additional data about the images. Does not have to be displayed.
-        All fields are optional.
-      type: object
-      properties:
-        date:
-          description: optional date description
-          type: string
-        location:
-          description: optional location description
-          type: string
-        geo:
-          description: 'optional coordinates in lat,lon'
-          type: string
-        image_url:
-          description: |
-            optional in contrast to source this points to the image itself.
-            You should not use this to request the images, as they are not scaled.
-          type: string
-        caption:
-          description: optional caption
-          type: string
-        headline:
-          description: optional headline
-          type: string
-        event:
-          description: optional the event this image was taken at
-          type: string
-        faculty:
-          description: optional the event this image is about
-          type: string
-        building:
-          description: optional the building this image is about
-          type: string
-        department:
-          description: optional the department this image is about
-          type: string
     PossibleURLRef:
       description: 'Additional information you should include, if you decide to display the image for legal and attribution reasons'
       type: object
@@ -2598,10 +2558,6 @@ components:
                               thumb:
                                 type: integer
                                 format: int32
-                          meta:
-                            type: object
-                            additionalProperties:
-                              type: string
                         required:
                           - author
                           - license

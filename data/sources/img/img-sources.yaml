@@ -41,9 +41,6 @@
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen_5.jpg
-    meta:
-      date: 2021-07-20
-      geo: 48.149986,11.568888
   1:
     author: MaxEmanuel
     license:
@@ -52,9 +49,6 @@
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen.jpg
-    meta:
-      date: 2021-07-20
-      geo: 48.149986,11.568888
 "0102":
   0:
     author: AHert
@@ -64,8 +58,6 @@
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:TUM-N2_Muenchen-02.jpg
-    meta:
-      date: 2011-08-14
   1:
     author: David Bonello
     license:
@@ -143,14 +135,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1436311
-    meta:
-      caption: "Der Reflexionsarme Raum (RAR) der Professur für Audio-Signalverarbeitung, Fakultät für Elektrotechnik und Informationstechnik, am Innenstadt Campus der TUM;  im BIld:  das 3 D Lautsprechersystems mit 60 Lautsprechern, mit dem unterschiedliche akustische Umgebungen simuliert werden können;  fotografiert am 16.03.2018;  Foto: Astrid Eckert / TUM; \r; frei für die Berichterstattung über die TUM unter Nennung des Copyrights"
-      date: 22.03.2018
-      event: Eröffnung des reflexionsarmen Raumes (RAR)
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Der reflexionsarme Raum der TUM
-      image_url: https://mediatum.ub.tum.de/file/1436311/20180316_Reflexionsarmer_Raum_AE_PH_-7138.jpg
-      location_name: reflexionsarmer Raum (RAR) der Professur für Audio-Signalverarbeitung
   1:
     author: David Bonello
     license:
@@ -213,12 +197,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1436302
     offsets:
       header: 400
-    meta:
-      caption: "Der 37 Meter hohe historische Uhrturm auf dem Stammgelände der TUM;  seit 2018 Sitz des Klaus-Tschira-Forums \r\nENGLISH VERSION: Historic tower at TUM main campus \r\nFoto: Andreas Heddergott  /TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted"
-      date: 25.05.2014
-      headline: TUM Thierschturm 2014
-      image_url: https://mediatum.ub.tum.de/image/1436302.jpg
-      location: München
   1:
     author: David Bonello
     license:
@@ -271,11 +249,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1431682
-    meta:
-      caption: 'Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der "TUM Speakers Series" auf, die von Studierenden organisiert wird. Titel seiner Rede: "Visions for Challenged Democracies – Towards a Fairer, more Peaceful World".'
-      date: 15.02.2018
-      headline: TUM Speakers Series mit Kofi Annan
-      image_url: https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG
   1:
     author: Uli Benz
     license:
@@ -283,12 +256,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599301
-    meta:
-      caption: 'Innenaufnahmen vom Audimax / Foyer der Technischen Universität München am Stammgelände ;  Ort: TUM, Arcisstraße 21, 80333 München ;  Datum: 19.02.2021 ;  Copyright: Uli Benz / TUM ;   Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-      date: 19.02.2021
-      headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
-      image_url: https://mediatum.ub.tum.de/image/1599301.jpg
-      location: München
   2:
     author: David Bonello
     license:
@@ -321,12 +288,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599301
-    meta:
-      caption: 'Innenaufnahmen vom Audimax / Foyer der Technischen Universität München am Stammgelände ;  Ort: TUM, Arcisstraße 21, 80333 München ;  Datum: 19.02.2021 ;  Copyright: Uli Benz / TUM ;   Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-      date: 19.02.2021
-      headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
-      image_url: https://mediatum.ub.tum.de/image/1599301.jpg
-      location: München
   1:
     author: Uli Benz
     license:
@@ -334,12 +295,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599303
-    meta:
-      caption: 'Innenaufnahmen vom Audimax / Foyer der Technischen Universität München am Stammgelände ;  Ort: TUM, Arcisstraße 21, 80333 München ;  Datum: 19.02.2021 ;  Copyright: Uli Benz / TUM ;   Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-      date: 19.02.2021
-      headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
-      image_url: https://mediatum.ub.tum.de/image/1599303.jpg
-      location: München
   2:
     author: Uli Benz / TUM
     license:
@@ -347,11 +302,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1431682
-    meta:
-      caption: 'Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der "TUM Speakers Series" auf, die von Studierenden organisiert wird. Titel seiner Rede: "Visions for Challenged Democracies – Towards a Fairer, more Peaceful World".'
-      date: 15.02.2018
-      headline: TUM Speakers Series mit Kofi Annan
-      image_url: https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG
   3:
     author: Uli Benz / TUM
     license:
@@ -359,11 +309,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232770?show_id=1431682
-    meta:
-      caption: 'Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der "TUM Speakers Series" auf, die von Studierenden organisiert wird. Titel seiner Rede: "Visions for Challenged Democracies – Towards a Fairer, more Peaceful World".'
-      date: 15.02.2018
-      headline: TUM Speakers Series mit Kofi Annan
-      image_url: https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG
 0509.EG.980:
   0:
     author: Uli Benz / TUM
@@ -372,11 +317,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232770?show_id=1431682
-    meta:
-      caption: 'Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der "TUM Speakers Series" auf, die von Studierenden organisiert wird. Titel seiner Rede: "Visions for Challenged Democracies – Towards a Fairer, more Peaceful World".'
-      date: 15.02.2018
-      headline: TUM Speakers Series mit Kofi Annan
-      image_url: https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG
   1:
     author: Uli Benz
     license:
@@ -384,12 +324,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599303
-    meta:
-      caption: 'Innenaufnahmen vom Audimax / Foyer der Technischen Universität München am Stammgelände ;  Ort: TUM, Arcisstraße 21, 80333 München ;  Datum: 19.02.2021 ;  Copyright: Uli Benz / TUM ;   Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-      date: 19.02.2021
-      headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
-      image_url: https://mediatum.ub.tum.de/image/1599303.jpg
-      location: München
   2:
     author: Uli Benz / TUM
     license:
@@ -397,11 +331,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1431682
-    meta:
-      caption: 'Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der "TUM Speakers Series" auf, die von Studierenden organisiert wird. Titel seiner Rede: "Visions for Challenged Democracies – Towards a Fairer, more Peaceful World".'
-      date: 15.02.2018
-      headline: TUM Speakers Series mit Kofi Annan
-      image_url: https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG
   3:
     author: Uli Benz
     license:
@@ -409,12 +338,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599301
-    meta:
-      caption: 'Innenaufnahmen vom Audimax / Foyer der Technischen Universität München am Stammgelände ;  Ort: TUM, Arcisstraße 21, 80333 München ;  Datum: 19.02.2021 ;  Copyright: Uli Benz / TUM ;   Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-      date: 19.02.2021
-      headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
-      image_url: https://mediatum.ub.tum.de/image/1599301.jpg
-      location: München
 "0510":
   0:
     author: Astrid Eckert
@@ -425,12 +348,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1584779
     offsets:
       header: 400
-    meta:
-      caption: "Fassade und Eingang des Hauptgebäudes der TUM in der Arcisstrasse 21 \r\nENGLISH VERSION: Front view and entrance of downtown campus of TUM in the Arcisstreet 21."
-      date: 22.09.2015
-      headline: TUM Außenansicht Hauptgebäude / TUM exterior view of main building 2015
-      image_url: https://mediatum.ub.tum.de/image/1584779.jpg
-      location: München
   1:
     author: Andreas Heddergott
     license:
@@ -438,12 +355,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1487578
-    meta:
-      caption: "Hauptgebäude der TU Arcisstr 21;  Haupteingang \r\nENGLISH VERSION: Entrance at main campus building of TUM;  \r\nFoto: Andreas Heddergott / Verwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted"
-      date: 22.06.2018
-      headline: TUM Eingang Hauptgebäude 2018 / TUM main building entrance 2018
-      image_url: https://mediatum.ub.tum.de/image/1487578.jpg
-      location: München
   2:
     author: David Bonello
     license:
@@ -462,13 +373,6 @@
       url: https://mediatum.ub.tum.de/1232769?show_id=1613195
     offsets:
       header: 400
-    meta:
-      caption: "Im Erweiterungsbau der Chirurgischen Klinik befinden sich neben der  Notaufnahme, das Institut für Experimentelle Chirurgie, Kursräume für die Mikrobiologie und Klinische Chemie.  The expansion building of Chirurgical Clinic houses the emergency admission, the institute for experimental chemistry, seminar rooms for microbiology and clinical chemistry.  \r\nFoto / Photo: Astrid Eckert / TUM"
-      date: 05.02.2021
-      faculty: TUM School of Medicine;  faculty für Medizin
-      headline: Klinikum rechts der Isar der TUM / University Hospital of TUM (TUM) 2021
-      image_url: https://mediatum.ub.tum.de/image/1613195.jpg
-      location: München
 '2319':
   0:
     author: Uli Benz
@@ -477,13 +381,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1601091
-    meta:
-      caption: "Der TUM Campus im Olympiapark wird komplett neu bebaut und von Süden erschlossen: Neben Institutsgebäuden, Laboren, einer Bibliothek und Mensa für die Sport- und Gesundheitswissenschaften entstehen Sporthallen, die von der faculty und dem Zentralen Hochschulsport (ZHS) gleichermaßen genutzt werden.   \r\nENGLISH VERSION: TUM campus in Olympic Park Munich will be completely rebuild and opened from the south: Besides new institute buildings, labs, a library and  refectory for sport and health sciences are built sportshalls, which will being used as well by the faculty as by the   \r\ncollegiate sports."
-      date: 22.02.2021
-      faculty: Fakultät für Sport- und Gesundheitswissenschaften ;  Department of Sport and Health Sciences
-      headline: TUM Sportcampus Neubauten / New buildings 2021
-      image_url: https://mediatum.ub.tum.de/image/1601091.jpg
-      location: München
 2319.EG.001:
   0:
     author: Uli Benz
@@ -492,13 +389,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1601091
-    meta:
-      caption: "Der TUM Campus im Olympiapark wird komplett neu bebaut und von Süden erschlossen: Neben Institutsgebäuden, Laboren, einer Bibliothek und Mensa für die Sport- und Gesundheitswissenschaften entstehen Sporthallen, die von der faculty und dem Zentralen Hochschulsport (ZHS) gleichermaßen genutzt werden.   \r\nENGLISH VERSION: TUM campus in Olympic Park Munich will be completely rebuild and opened from the south: Besides new institute buildings, labs, a library and  refectory for sport and health sciences are built sportshalls, which will being used as well by the faculty as by the   \r\ncollegiate sports."
-      date: 22.02.2021
-      faculty: Fakultät für Sport- und Gesundheitswissenschaften ;  Department of Sport and Health Sciences
-      headline: TUM Sportcampus Neubauten / New buildings 2021
-      image_url: https://mediatum.ub.tum.de/image/1601091.jpg
-      location: München
 '2522':
   0:
     author: Andreas Heddergott / TUM
@@ -507,13 +397,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1381870
-    meta:
-      caption: Außenansicht des Zentralinstituts für Translationale Krebsforschung der TUM (TranslaTUM), aufgenommen an der Ecke Trogerstraße/Einsteinstraße
-      date: 16.05.2017
-      event: Eröffnung des Zentralinstituts für Translationale Krebsforschung der TUM (TranslaTUM) im September 2017
-      faculty: Medizin
-      headline: Außenansicht_TranslaTUM_1.jpg
-      image_url: https://mediatum.ub.tum.de/file/1381870/Außenansicht_TranslaTUM_2.jpg
   1:
     author: Andreas Heddergott
     license:
@@ -521,12 +404,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1487686
-    meta:
-      caption: "TranslaTUM;  Zentralinstitut für Translationale Krebsforschung am \r\nKlinikum Rechts der Isar \r\nENGLISH VERSION: Center for Translational Cancer Research at the university hospital Klinikum rechts der Isar \r\nAndreas Heddergott / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted"
-      date: 11.10.2017
-      headline: TranslaTUM Außenansicht 2017 / TranslaTUM exterior view 2017
-      image_url: https://mediatum.ub.tum.de/image/1487686.jpg
-      location: München
 '2801':
   0:
     author: Benz, Uli / TUM
@@ -535,13 +412,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1271682
-    meta:
-      building: Institut für Wasserchemie, Marchioninistr. 17, Großhadern
-      date: '2015'
-      faculty: Chemie
-      headline: Institut für Wasserchemie und Chemische Balneologie
-      image_url: https://mediatum.ub.tum.de/file/1271682/150624_InstitutWasserchemie_UB_7720_30x45.jpg
-      location: München
 '2906':
   0:
     author: Bernhard Maier
@@ -596,13 +466,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1487673
     offsets:
       header: 250
-    meta:
-      caption: "Drehbare Solarblume 'smartflower' vor dem Labor- und Forschungsgebäude am Wissenschaftszentrum Straubing der TUM;  Campus für Biotechnologie und Nachhaltigkeit\r\nRevolving solar 'smartflower' in front of laboratory and research facility at science center Straubing of TUM;  Campus for Biotechnology and Sustainability\r\nAndreas Heddergott / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted      «Drehbare Solarblume 'smartflower' vor dem Labor- und Forschungsgebäude am Wissenschaftszentrum Straubing der TUM;  Campus für Biotechnologie und Nachhaltigkeit\r\nRevolving solar 'smartflower' in front of laboratory and research facility at science center Straubing of TUM;  Campus for Biotechnology and Sustainability\r\nAndreas Heddergott / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in rep..."
-      date: 21.04.2018
-      faculty: TUM Campus Straubing für Biotechnologie und Nachhaltigkeit ;  Campus for for Biotechnology and Sustainability
-      headline: TUM Campus Straubing Laborgebäude 2018/ TUM Campus Straubing Laboratory
-      image_url: https://mediatum.ub.tum.de/image/1487673.jpg
-      location: Straubing
 '3502':
   0:
     author: Frank Elsinga
@@ -662,14 +525,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=972321
-    meta:
-      caption: Das Korbiniansbrünnlein im Stollen am Südhang des Weihenstephaner Berges, unterhalb der Ruine der Korbinianskapelle
-      date: '2009'
-      event: Pressemitteilung vom 29.03.2010
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Ansicht des Korbiniansbrünnleins
-      image_url: https://mediatum.ub.tum.de/file/972321/UB2009_WZW Korbiniansbrünnlein_21.jpg
-      location: Weihenstephan
 '4102':
   0:
     author: Uli Benz / TU München
@@ -680,12 +535,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1435162
     offsets:
       header: 400
-    meta:
-      caption: 'Dekanatsgebäude am Wissenschaftszentrum Weihenstephan, Süd-Ost Ansicht, Technische Universität München (Foto: Uli Benz / TUM) Verwendung: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.'
-      date: '2017'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Dekanatsgebäude am Wissenschaftszentrum Weihenstephan
-      image_url: https://mediatum.ub.tum.de/file/1435162/20170510__DekanatsGebäude_am_WZW_UB.JPG
 '4111':
   0:
     author: TUM/ A. Heddergott
@@ -694,16 +543,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1294179
-    meta:
-      building: Forschungsbrauerei Weihenstephan
-      caption: Vier bis acht verschiedene Biersorten werden gestestet - im Glas sind jeweils nicht mehr als ein Achtelliter Bier.
-      date: 19.02.2016
-      department: Lehrstuhl für Brau- und Getränketechnologie
-      event: TUM-Brauworkshop 19.02.2016
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Bierverkostung
-      image_url: https://mediatum.ub.tum.de/file/1294179/20160219_Versuchbrauerei_AH_214838.jpg
-      location: Weihenstephan; Forschungsbrauerei Weihenstephan
   1:
     author: TUM/ A. Heddergott
     license:
@@ -711,16 +550,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1294174
-    meta:
-      building: Forschungsbrauerei Weihenstephan
-      caption: Das Jungbier wird anschließend in Lagertanks geschlaucht.
-      date: 19.02.2016
-      department: Lehrstuhl für Brau- und Getränketechnologie
-      event: TUM-Brauworkshop 19.02.2016
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Gärtanks
-      image_url: https://mediatum.ub.tum.de/file/1294174/20160219_Versuchbrauerei_AH_214745.jpg
-      location: Weihenstephan; Forschungsbrauerei Weihenstephan
   2:
     author: TUM Pro Lehre Medienproduktion
     license:
@@ -728,13 +557,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1520111
-    meta:
-      caption: "Drohnenaufnahme der Forschungsbrauerei Weihenstephan\r\nam TUM Campus Freising\r\n\r\nENGLISH VERSION: Drone picture of research brewery Weihenstephan at TUM Campus Freising\r\n\r\nFoto: TUM Pro Lehre Medienproduktion;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /Free for use in reporting on TUM, with the copyright noted"
-      date: 22.09.2019
-      faculty: Wissenschaftszentrum Weihenstephan für Ernährung, Landnutzung und Umwelt;   TUM School of Life Sciences Weihenstephan
-      headline: TUM Campus Freising-Weihenstephan -  Luftbildaufnahmen 2019 /Aerial views 2019
-      image_url: https://mediatum.ub.tum.de/image/1520111.jpg
-      location: Freising
   3:
     author: TUM/ A. Heddergott
     license:
@@ -742,16 +564,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1294179
-    meta:
-      building: Forschungsbrauerei Weihenstephan
-      caption: Vier bis acht verschiedene Biersorten werden gestestet - im Glas sind jeweils nicht mehr als ein Achtelliter Bier.
-      date: 19.02.2016
-      department: Lehrstuhl für Brau- und Getränketechnologie
-      event: TUM-Brauworkshop 19.02.2016
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Bierverkostung
-      image_url: https://mediatum.ub.tum.de/file/1294179/20160219_Versuchbrauerei_AH_214838.jpg
-      location: Weihenstephan; Forschungsbrauerei Weihenstephan
   4:
     author: TUM/ A. Heddergott
     license:
@@ -759,16 +571,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1294176
-    meta:
-      building: Forschungsbrauerei Weihenstephan
-      caption: Nach dem Alkoholfreien kommt bei der Bierverkostung gern ein Pils oder Lagerbier, später auch mal ein Bockbier.
-      date: 19.02.2016
-      department: Lehrstuhl für Brau- und Getränketechnologie
-      event: TUM-Brauworkshop 19.02.2016
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Bierverkostung
-      image_url: https://mediatum.ub.tum.de/file/1294176/20160219_Versuchbrauerei_AH_214781.jpg
-      location: Weihenstephan; Forschungsbrauerei Weihenstephan
 '4115':
   0:
     author: Heddergott, Andreas / TUM
@@ -777,12 +579,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1206530
-    meta:
-      date: '2010'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Kinderhort am Campus Weihenstephan ('Familienservice-Villa')
-      image_url: https://mediatum.ub.tum.de/file/1206530/AH20100923077.jpg
-      location: Weihenstephan; TUM.Family
 '4216':
   0:
     author: Uli Benz
@@ -793,12 +589,6 @@
       url: https://mediatum.ub.tum.de/652209?show_id=1538250
     offsets:
       header: -100
-    meta:
-      caption: 'Studenten beim Gedankenaustausch zwischen den Vorlesungen vor dem MensaGebäude am Maximus- von- Imhof- Forum auf dem Campus des Wissenschaftszentrums Weihenstephan;  Ort: Wissenschaftszentrum Weihenstephan, Freising;  Datum: 20.05.2009;  Copyright: Uli Benz / TUM;  Verwendung: frei für Berichterstattung über die TUM unter Nennung des Copyrights.'
-      date: 20.05.2009
-      headline: Studierende vor dem Mensagebäude auf dem Campus des Wissenschftszentrums Weihenstephan
-      image_url: https://mediatum.ub.tum.de/image/1538250.jpg
-      location: Freising
 '4217':
   0:
     author: Benz, Uli / TUM
@@ -809,13 +599,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1206522
     offsets:
       header: 400
-    meta:
-      caption: Gebäude der Lehrstühle für Bodenkunde, Pflanzenernährung und Phytopathologie
-      date: '2008'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Pflanzenwissenschaften (Pflanze I) am Campus Weihenstephan
-      image_url: https://mediatum.ub.tum.de/file/1206522/2008_Gebäudeaufnahme Pflanzenproduktion I 02.jpg
-      location: Weihenstephan
 '4218':
   0:
     author: Benz, Uli / TUM
@@ -826,13 +609,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1206515
     offsets:
       header: 200
-    meta:
-      caption: Gebäude der Lehrstühle für Botanik, Mikrobiologie, Pflanzenzüchtung und Systembiologie der Pflanzen
-      date: '2008'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Pflanzenwissenschaften (Pflanze II) am Campus Weihenstephan
-      image_url: https://mediatum.ub.tum.de/file/1206515/2008 Biologikum 3.jpg
-      location: Weihenstephan
 '4220':
   0:
     author: Benz, Uli / TUM
@@ -841,12 +617,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=672787
-    meta:
-      date: '2008'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Teilbibliothek Weihenstephan bei Nacht
-      image_url: https://mediatum.ub.tum.de/file/672787/2008_0516Bild0157.JPG
-      location: Weihenstephan; Universitätsbibliothek
 '4317':
   0:
     author: Benz, Uli
@@ -855,13 +625,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=652434
-    meta:
-      date: '2008'
-      department: Department für Tierwissenschaften
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Department für Tierwissenschaften, Wissenschaftszentrum Weihenstephan
-      image_url: https://mediatum.ub.tum.de/file/652434/2008_0509Bild0079.JPG
-      location: Weihenstephan; Wissenschaftszentrum Weihenstephan für Ernährung, Landnutzung und Umwelt
 '4318':
   0:
     author: A. Heddergott /TUM
@@ -870,16 +633,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1452040
-    meta:
-      building: World Agricultural Systems Center – Hans Eisenmann-Forum
-      caption: World Agricultural Systems Center – Hans Eisenmann-Forum
-      date: 01.08.2018
-      department: World Agricultural Systems Center – Hans Eisenmann-Forum
-      event: 'Pressegespräch am 1.8. 2018 zur Neuausrichtung des HEZ zum: World Agricultural Systems Center – Hans Eisenmann-Forum'
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: World Agricultural Systems Center – Hans Eisenmann-Forum
-      image_url: https://mediatum.ub.tum.de/file/1452040/20180801_Agrar_4.0._AH_466401.jpg
-      location: Weihenstephan; World Agricultural Systems Center – Hans Eisenmann-Forum
 '5115':
   0:
     author: HennArchitekten, München
@@ -890,16 +643,6 @@
       url: https://mediatum.ub.tum.de/652209?show_id=736488
     offsets:
       header: 100
-    meta:
-      building: Forschungszentrum für Nanotechnologie und Nanomaterialien
-      caption: Rendering des Architekturbüros HennArchitekten, München
-      date: '2009'
-      department: Zentralinstitut für Grundlagen der Halbleiterphysik
-      event: Grundsteinlegung am 28.04.2009
-      faculty: Physik
-      headline: Das neue Forschungszentrum für Nanotechnologie und Nanomaterialien der TUM
-      image_url: https://mediatum.ub.tum.de/file/736488/090428_FZNN-Aussen.jpg
-      location: Garching bei München; Forschungszentrum für Nanotechnologie und Nanomaterialien
   1:
     author: HennArchitekten, München
     license:
@@ -909,16 +652,6 @@
       url: https://mediatum.ub.tum.de/1232768?show_id=736495
     offsets:
       header: 200
-    meta:
-      building: Forschungszentrum für Nanotechnologie und Nanomaterialien
-      caption: Rendering des Architekturbüros HennArchitekten, München
-      date: '2009'
-      department: Zentralinstitut für Grundlagen der Halbleiterphysik
-      event: Grundsteinlegung am 28.04.2009
-      faculty: Physik
-      headline: Das neue Forschungszentrum für Nanotechnologie und Nanomaterialien der TUM
-      image_url: https://mediatum.ub.tum.de/file/736495/090428_SpatenstichFZNN-2.jpg
-      location: Garching bei München; Forschungszentrum für Nanotechnologie und Nanomaterialien
   2:
     author: HennArchitekten, München
     license:
@@ -926,16 +659,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=736488
-    meta:
-      building: Forschungszentrum für Nanotechnologie und Nanomaterialien
-      caption: Rendering des Architekturbüros HennArchitekten, München
-      date: '2009'
-      department: Zentralinstitut für Grundlagen der Halbleiterphysik
-      event: Grundsteinlegung am 28.04.2009
-      faculty: Physik
-      headline: Das neue Forschungszentrum für Nanotechnologie und Nanomaterialien der TUM
-      image_url: https://mediatum.ub.tum.de/file/736488/090428_FZNN-Aussen.jpg
-      location: Garching bei München; Forschungszentrum für Nanotechnologie und Nanomaterialien
 '5126':
   0:
     author: 'Foto: Thorsten Naeser / Max-Planck-Institut für Quantenoptik'
@@ -944,16 +667,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=982203
-    meta:
-      building: CALA
-      caption: Die LWS-Technologie soll auch im neuen Center for Advanced Laser Applications (CALA) zum Einsatz kommen.
-      date: '2010'
-      department: Physik-Department, faculty Medizin
-      event: Befürwortung durch den Wissenschaftsrat am 5.07.2010
-      faculty: Medizin; Physik
-      headline: Lightwave Synthesizer (LWS) - Hochleistungslaser für Laserblitze im Terawatt-Bereich
-      image_url: https://mediatum.ub.tum.de/file/982203/100706_CALA-LWS-A.jpg
-      location: Garching bei München; Physik-Department
 '5301':
   0:
     author: Buck, Markus
@@ -964,13 +677,6 @@
       url: https://mediatum.ub.tum.de/1232770?show_id=1252278
     offsets:
       header: -50
-    meta:
-      building: TUM Institute for Advanced Study
-      caption: Institute for Advanced Study der TUM bei Nacht
-      date: '2010'
-      headline: Institute for Advanced Study der TUM bei Nacht
-      image_url: https://mediatum.ub.tum.de/file/1252278/Advanced_Study_BMW_034_20x15.jpg
-      location: Garching bei München; TUM Institute for Advanced Study
 '5302':
   0:
     author: David Bonello
@@ -991,12 +697,6 @@
     offsets:
       header: 150
       thumb: -1000
-    meta:
-      caption: "Eröffnung der Neuen Mensa am TUM Campus Garching am 11. September 2019 durch den Bayerische Staatsminister für\r\nWissenschaft und Kunst, Bernd Sibler. \r\nIn den Räumen mit ca. 2000 Sitzplätzen können täglich 7.300 Essen ausgegeben werden. \r\nENGLISH VERSION: Opening of new Mensa at TUM Garching campus, by Bavarian state minister for science and art, Bernd Sibler.\r\nIn the premises with 2,000 seats 7,300 meals can be served daily \r\nFoto: Andreas Heddergott /TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /\r\nFree for use in reporting on TUM, with the copyright noted     «Eröffnung der Neuen Mensa am TUM Campus Garching am 11. September 2019 durch den Bayerische Staatsminister für\r\nWissenschaft und Kunst, Bernd Sibler. \r\nIn den Räumen mit ca. 2000 Sitzplätzen können täglich 7.300 Essen ausgegeben werden. \r\nENGLISH VERSION: Opening of new Mensa at TUM Garching campus, by Bavarian state minister for science and art, Bernd Sibler.\r\nIn the premises with 2,000 seats 7,300 meals can be served daily \r\nFoto: Andreas Heddergott /TUM;  Verwendung frei für die Berichtersta..."
-      date: 11.09.2019
-      headline: TUM Garching Eröffnung Neue Mensa / TUM Garching Opening University canteen
-      image_url: https://mediatum.ub.tum.de/image/1519378.jpg
-      location: Garching, Bayern, Deutschland / Bavaria, Germany
   1:
     author: Andreas Heddergott
     license:
@@ -1004,12 +704,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1519379
-    meta:
-      caption: "Eröffnung der Neuen Mensa am TUM Campus Garching am 11. September 2019 durch den Bayerische Staatsminister für\r\nWissenschaft und Kunst, Bernd Sibler. \r\nIn den Räumen mit ca. 2000 Sitzplätzen können täglich 7.300 Essen ausgegeben werden. \r\nENGLISH VERSION: Opening of new Mensa at TUM Garching campus, by Bavarian state minister for science and art, Bernd Sibler.\r\nIn the premises with 2,000 seats 7,300 meals can be served daily \r\nFoto: Andreas Heddergott /TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /\r\nFree for use in reporting on TUM, with the copyright noted\r\n\r\n     «Eröffnung der Neuen Mensa am TUM Campus Garching am 11. September 2019 durch den Bayerische Staatsminister für\r\nWissenschaft und Kunst, Bernd Sibler. \r\nIn den Räumen mit ca. 2000 Sitzplätzen können täglich 7.300 Essen ausgegeben werden. \r\nENGLISH VERSION: Opening of new Mensa at TUM Garching campus, by Bavarian state minister for science and art, Bernd Sibler.\r\nIn the premises with 2,000 seats 7,300 meals can be served daily \r\nFoto: Andreas Heddergott /TUM;  Verwendung frei für die Berichtersta..."
-      date: 11.09.2019
-      headline: TUM Garching Eröffnung Neue Mensa / TUM Garching Opening University canteen
-      image_url: https://mediatum.ub.tum.de/image/1519379.jpg
-      location: Garching, Bayern, Deutschland / Bavaria, Germany
   2:
     author: meck architekten GmbH
     license:
@@ -1017,12 +711,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1307395
-    meta:
-      date: 01.06.2016
-      event: Grundsteinlegung am 06.06.2016
-      headline: 'Entwurf neue Mensa Garching: externe Ansicht'
-      image_url: https://mediatum.ub.tum.de/file/1307395/160606_Mensa_GAR_aussen_15x22.jpg
-      location: Garching bei München
   3:
     author: Andreas Heddergott
     license:
@@ -1032,12 +720,6 @@
       url: https://mediatum.ub.tum.de/652209?show_id=1519383
     offsets:
       header: -450
-    meta:
-      caption: "Eröffnung der Neuen Mensa am TUM Campus Garching am 11. September 2019\r\nBernd Sibler, Bayerischer Staatsminister für\r\nWissenschaft und Kunst, und TUM-Präsident Prof. W. A. Herrmann an einer Theke der neuen Mensa bei der Essensausgabe.\r\n\r\nIn den Räumen mit ca. 2000 Sitzplätzen können täglich 7.300 Essen ausgegeben werden. \r\nENGLISH VERSION: Opening of new Mensa at TUM Garching campus.\r\nBavarian state minister for science and art, Bernd Sibler (left)\r\nand TUM-President W. A. Herrmann at a serving counter. \r\nIn the premises with 2,000 seats 7,300 meals can be served daily \r\nFoto: Andreas Heddergott /TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /\r\nFree for use in reporting on TUM, with the copyright noted"
-      date: 11.09.2019
-      headline: TUM Garching Eröffnung Neue Mensa / TUM Garching Opening University canteen
-      image_url: https://mediatum.ub.tum.de/image/1519383.jpg
-      location: Garching, Bayern, Deutschland / Bavaria, Germany
 '5401':
   0:
     author: Universitätsbibliothek der TUM
@@ -1047,8 +729,6 @@
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:TB_Chemie.jpg
-    meta:
-      date: 2011-09-26
 5401.01.101K:
   0:
     author: Scharger, Albert / TUM
@@ -1057,13 +737,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=615172
-    meta:
-      building: Fakultätsbau Chemie
-      date: '2004'
-      faculty: Chemie
-      headline: Vorlesung im Chemiehörsaal
-      image_url: https://mediatum.ub.tum.de/file/615172/DSCF0019.JPG
-      location: Garching
 '5410':
   0:
     author: Klein&Sänger, Architekten
@@ -1072,16 +745,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=802794
-    meta:
-      building: Zentralinstitut für Katalyseforschung (CRC)
-      caption: Traditionell stark sind in der Katalyseforschung an der TUM (TUM) die Fakultäten Chemie und Physik. Mit dem neuen Zentralinstitut für Katalyseforschung (Catalysis Research Center, CRC), für das heute der Grundstein gelegt wird, bekommt die Katalyseforschung nun ihre eigene Adresse. Das Bild zeigt das neue Institut von seiner Ostseite.
-      date: '2009'
-      department: Zentralinstitut für Katalyseforschung (CRC)
-      event: Grundsteinlegung am 29.07.2009
-      faculty: Chemie
-      headline: Das neue Zentralinstitut für Katalyseforschung (Catalysis Research Center, CRC) der TU München
-      image_url: https://mediatum.ub.tum.de/file/802794/090729_Grundstein-CRC.jpg
-      location: Garching bei München; Zentralinstitut für Katalyseforschung (CRC)
   1:
     author: Andreas Heddergott / TUM
     license:
@@ -1089,14 +752,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1304557
-    meta:
-      building: Zentralinstitut für Katalyseforschung
-      caption: Das Zentralinstitut für Katalyseforschung (Catalysis Research Center, CRC) der TUM, Ostansicht
-      date: 04.05.2016
-      event: Eröffnung des CRC am 09.05.2016
-      headline: CRC - Ostansicht
-      image_url: https://mediatum.ub.tum.de/file/1304557/160412_CRC_AH_222346_20x30.jpg
-      location: Garching bei München; Zentralinstitut für Katalyseforschung
 '5413':
   0:
     author: Ulrich Benz / TUM
@@ -1105,14 +760,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1304319
-    meta:
-      building: NMR-Zentrum
-      date: 02.05.2016
-      event: Richtfest des Neubaus für das Bayerische NMR-Zentrum am 2. Mai 2016
-      faculty: Chemie
-      headline: Garchings Bürgermeister Dr. Gruchmann, TUM-Präsident Prof. Herrmann, BMBF Staatssekretär Müller, Bayerns Innenminister Herrmann und Bauamtsleiter Hoffmann (vlnr) beim Richtfest des Neubaus für das Bayerische NMR-Zentrum
-      image_url: https://mediatum.ub.tum.de/file/1304319/160502_Richtfest_BNMRZ_UB_8065_30x20.jpg
-      location: Garching bei München; NMR Zentrum
 '5414':
   0:
     author: Uli Benz / TUM
@@ -1121,12 +768,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1290719
-    meta:
-      caption: Richtfest für das Zentrum für Energie und Information auf dem Campus Garching.
-      date: 19.01.2016
-      headline: Richtfest ZEI
-      image_url: https://mediatum.ub.tum.de/file/1290719/20160119_Richtfest_ZEI_UB_6333-3a.jpg
-      location: Garching bei München; Munich School of Engineering
   1:
     author: Uli Benz / TUM
     license:
@@ -1134,11 +775,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1290890
-    meta:
-      date: 19.01.2016
-      headline: Richtfest ZEI
-      image_url: https://mediatum.ub.tum.de/file/1290890/20160119_Richtfest_ZEI_UB_6329.jpg
-      location_name: Munich School of Engineering
   2:
     author: Stefan Hobmaier
     license:
@@ -1146,12 +782,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1510340
-    meta:
-      caption: Das Zentrum für Energie und Information ZEI auf dem Forschungscampus Garching ist der Sitz der Munich School of Engineering. Vor dem Gebäude befinden sich Ladestationen für Elektroautos.
-      date: 19.06.2019
-      headline: Ladestation vor dem ZEI
-      image_url: https://mediatum.ub.tum.de/image/1510340.jpg
-      location: Garching
   3:
     author: Uli Benz / TUM
     license:
@@ -1161,12 +791,6 @@
       url: https://mediatum.ub.tum.de/1232768?show_id=1366133
     offsets:
       header: 200
-    meta:
-      caption: 'Zentrum für Energie und Information (ZEI), Innenansicht. (Bild: Uli Benz / Technische Universität München). Bild zur Pressemitteilung ''Das Garchinger Zukunftslabor der Energieforschung steht'' vom 26.06.2017;  https://www.tum.de/die-tum/aktuelles/pressemitteilungen/detail/article/33997/. Verwendung frei für Berichterstattung über die TU München unter Nennung des Copyrights'
-      date: 26.06.2017
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Innenansicht Zentrum für Energie und Information
-      image_url: https://mediatum.ub.tum.de/file/1366133/20170620_ZEI_Gebäude_UB_4.jpg
   4:
     author: Uli Benz / TUM
     license:
@@ -1174,12 +798,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1366134
-    meta:
-      caption: 'Zentrum für Energie und Information (ZEI), Innenansicht. (Bild: Uli Benz / Technische Universität München). Bild zur Pressemitteilung ''Das Garchinger Zukunftslabor der Energieforschung steht'' vom 26.06.2017;  https://www.tum.de/die-tum/aktuelles/pressemitteilungen/detail/article/33997/. Verwendung frei für Berichterstattung über die TU München unter Nennung des Copyrights'
-      date: 26.06.2017
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Innenansicht Zentrum für Energie und Information
-      image_url: https://mediatum.ub.tum.de/file/1366134/20170620_ZEI_Gebäude_UB_5.jpg
   5:
     author: Uli Benz / TUM
     license:
@@ -1187,11 +805,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232772?show_id=1290890
-    meta:
-      date: 19.01.2016
-      headline: Richtfest ZEI
-      image_url: https://mediatum.ub.tum.de/file/1290890/20160119_Richtfest_ZEI_UB_6329.jpg
-      location_name: Munich School of Engineering
 '5415':
   0:
     author: Astrid Eckert
@@ -1200,12 +813,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1599400
-    meta:
-      caption: "Im neuen TUM Center for Functional Protein Assemblies (CPA) \r\nauf dem Campus Garching werden facultysübergreifend die Funktionsweisen und Wirkprinzipien von Proteinen erforscht – Schlüssel zum Verständnis der Vorgänge in Zellen, Geweben und Organen. \r\nDer Campus Garching nördlich von München bildet das naturwissenschaftlich-technische Zentrum der TUM. Mit über 12.000 Studierenden an fünf Fakultäten ist der Campus der größte aller TUM Standorte.  Für Spitzenforschung auf dem Campus sorgen auch das TUM Institute for Advanced Study und die TUM Graduate School Sowohl interdisziplinäre Forschung als auch Lehre bietet die Munich School of Engineering (MSE) an.  Mit der U-Bahnlinie U6 oder über die Autobahn ist die Universitätsstadt Garching schnell von der Münchner Innenstadt aus zu erreichen. \r\nENGLISH VERSION: The scientific goal of the new Center for Functional Protein Assemblies (CPA) on the Garching Campus of the TUM is the interdisciplinary investigation of the functionalities and mechanisms of action of proteins – a key to understanding cells, tissues, and organs. \r\nThe Garching campus north of Munich constitutes the center of natural sciences and technology at TUM. With more than 12,000 students at five Faculties, it is the largest of all TUM locations. Also focused on top-level research at this campus are the TUM Institute for Advanced Study, TUM Graduate School and the Munich School of Engineering (MSE). The center of Garching is easy to reach from downtown Munich with the subway line U6 or via the Autobahn."
-      date: 02.11.2020
-      headline: TUM Forschungscampus / research campus Garching 2020
-      image_url: https://mediatum.ub.tum.de/image/1599400.jpg
-      location: Garching bei München
   1:
     author: Carpus+Partner
     license:
@@ -1213,12 +820,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1398639
-    meta:
-      date: 24.10.2017
-      event: Presseinformation vom 24.10.2017
-      headline: Das neue TUM Center for Functional Protein Assemblies entsteht auf dem Forschungscampus Garching
-      image_url: https://mediatum.ub.tum.de/file/1398639/171024_CPA-Rendering_15x22.jpg
-      location: Garching
 '5416':
   0:
     author: Andreas Heddergott
@@ -1227,12 +828,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1463396
-    meta:
-      caption: "Einweihung Jürgen Manchot Hörsaal - Interimshörsaal 2 - am Campus Garching  ENGLISH VERSION: Inauguration Juergen Manchot auditorium building at Campus Garching\r\n\r\nFoto: Andreas Heddergott / Verwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights"
-      date: 25.10.2018
-      headline: Juergen Manchot HörsaalGebäude / Auditorium building Garching
-      image_url: https://mediatum.ub.tum.de/image/1463396.jpg
-      location: Garching bei München, Bayern, Deutschland / Garching by Munich, Bavaria, Germany
   1:
     author: Andreas Heddergott
     license:
@@ -1240,12 +835,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1463396
-    meta:
-      caption: "Einweihung Jürgen Manchot Hörsaal - Interimshörsaal 2 - am Campus Garching  ENGLISH VERSION: Inauguration Juergen Manchot auditorium building at Campus Garching\r\n\r\nFoto: Andreas Heddergott / Verwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights"
-      date: 25.10.2018
-      headline: Juergen Manchot HörsaalGebäude / Auditorium building Garching
-      image_url: https://mediatum.ub.tum.de/image/1463396.jpg
-      location: Garching bei München, Bayern, Deutschland / Garching by Munich, Bavaria, Germany
 '5433':
   0:
     author: Ebener, Marcus / UnternehmerTUM/TUM
@@ -1254,14 +843,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1252334
-    meta:
-      building: Entrepreneurship Center
-      caption: Das neue Entrepreneurship Center der TU München und der UnternehmerTUM (Zentrum für Innovation und Gründung) auf dem Campus Garching. Hier finden Gründer jegliche Unterstützung unter einem Dach.
-      date: '2015'
-      event: Eröffnung Entrepreneurship Center
-      headline: Entrepreneurship Center
-      image_url: https://mediatum.ub.tum.de/file/1252334/46-ENTRE-©Ebener-0669.jpg
-      location: Garching bei München; UnternehmerTUM
   1:
     author: Fabian Vogl
     license:
@@ -1269,12 +850,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1519437
-    meta:
-      caption: "Bayerns MinisterPräsident Dr. Markus Söder besucht am 12. September 2019 das TUM Hyperloop-Team in Garching begleitet von Bernd Sibler, Bayerischer Staatsminister für Wissenschaft und Kunst und im Beisein von TUM Präsident Prof. Dr. Wolfgang. A. Herrmann und TUM Vizepräsident für Forschung und Innovation, Prof. Dr.Thomas Hofmann\t\t\r\n\r\nENGLISH VERSION: Bavarian ministry-president Dr. Markus Söder visiting TUM Hyperloop Team at Garching together with Bavarian state minister for science and art, Bernd Sibler and in presence of TUM president Prof. Dr. Wolfgang A. Herrmann and TUM Vice-president for research and innovation, Prof. Dr. Thomas Hofmann\r\n\r\nFoto: Fabian Vogl /TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /\r\nFree for use in reporting on TUM, with the copyright noted"
-      date: 12.09.2019
-      headline: Ministerpräsident Söder besucht Hyperloop-Team / Bavarian minister-president Söder visiting Hyperloop-Team Sept. 2019
-      image_url: https://mediatum.ub.tum.de/image/1519437.jpg
-      location: Garching bei München
   2:
     author: Ebener, Marcus  / UnternehmerTUM/TUM
     license:
@@ -1282,14 +857,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1252331
-    meta:
-      building: Enterpreneurship Center
-      caption: Das neue Entrepreneurship Center der TU München und der UnternehmerTUM (Zentrum für Innovation und Gründung) auf dem Campus Garching. Hier finden Gründer jegliche Unterstützung unter einem Dach.
-      date: '2015'
-      event: Eröffnung Entrepreneurship Center
-      headline: Entrepreneurship Center
-      image_url: https://mediatum.ub.tum.de/file/1252331/46-ENTRE-©Ebener-0654-1.jpg
-      location: Garching bei München; UnternehmerTUM
   3:
     author: Ebener, Marcus / UnternehmerTUM/TUM
     license:
@@ -1297,14 +864,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1252332
-    meta:
-      building: Entrepreneurship Center
-      caption: Das neue Entrepreneurship Center der TU München und der UnternehmerTUM (Zentrum für Innovation und Gründung) auf dem Campus Garching. Hier finden Gründer jegliche Unterstützung unter einem Dach.
-      date: '2015'
-      event: Eröffnung Entrepreneurship Center
-      headline: Entrepreneurship Center
-      image_url: https://mediatum.ub.tum.de/file/1252332/46-ENTRE-©Ebener-0641-1.jpg
-      location: Garching bei München; UnternehmerTUM
   4:
     author: Ebener, Marcus / UnternehmerTUM/TUM
     license:
@@ -1312,14 +871,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1361667?show_id=1252334
-    meta:
-      building: Entrepreneurship Center
-      caption: Das neue Entrepreneurship Center der TU München und der UnternehmerTUM (Zentrum für Innovation und Gründung) auf dem Campus Garching. Hier finden Gründer jegliche Unterstützung unter einem Dach.
-      date: '2015'
-      event: Eröffnung Entrepreneurship Center
-      headline: Entrepreneurship Center
-      image_url: https://mediatum.ub.tum.de/file/1252334/46-ENTRE-©Ebener-0669.jpg
-      location: Garching bei München; UnternehmerTUM
   5:
     author: Ebener, Marcus  / UnternehmerTUM/TUM
     license:
@@ -1327,14 +878,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1252331
-    meta:
-      building: Enterpreneurship Center
-      caption: Das neue Entrepreneurship Center der TU München und der UnternehmerTUM (Zentrum für Innovation und Gründung) auf dem Campus Garching. Hier finden Gründer jegliche Unterstützung unter einem Dach.
-      date: '2015'
-      event: Eröffnung Entrepreneurship Center
-      headline: Entrepreneurship Center
-      image_url: https://mediatum.ub.tum.de/file/1252331/46-ENTRE-©Ebener-0654-1.jpg
-      location: Garching bei München; UnternehmerTUM
 5506.EG.679:
   0:
     author: David Bonello
@@ -1379,13 +922,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=998437
-    meta:
-      caption: U-Bahnvorplatz (links), Gebäude der faculty Maschinenwesen (Mitte), mit der Bibliothek im Maschinenwesen (daneben). Exzellenzzentrum (rechts), entlang an der Magistrale der Boltzmannstraße;
-      date: '2010'
-      faculty: Maschinenwesen
-      headline: Fakultät für Maschinenwesen der TU München
-      image_url: https://mediatum.ub.tum.de/file/998437/UB2010_ Nachtaufnahme Maschinenwesen_001.jpg
-      location: Garching
 '5530':
   0:
     author: Benz, Uli / TUM
@@ -1394,13 +930,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=998437
-    meta:
-      caption: U-Bahnvorplatz (links), Gebäude der faculty Maschinenwesen (Mitte), mit der Bibliothek im Maschinenwesen (daneben). Exzellenzzentrum (rechts), entlang an der Magistrale der Boltzmannstraße;
-      date: '2010'
-      faculty: Maschinenwesen
-      headline: Fakultät für Maschinenwesen der TU München
-      image_url: https://mediatum.ub.tum.de/file/998437/UB2010_ Nachtaufnahme Maschinenwesen_001.jpg
-      location: Garching
   1:
     author: Eckert, Astrid / TUM
     license:
@@ -1408,11 +937,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1165646
-    meta:
-      caption: Das Exzellenzzentrum der TU München in Garching vor der faculty für Maschinenwesen.
-      date: '2010'
-      headline: TUM Exzellenzzentrum
-      image_url: https://mediatum.ub.tum.de/file/1165646/AE20101021705.jpg
 '5531':
   0:
     author: Eckert, Astrid / TUM
@@ -1421,11 +945,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1007219
-    meta:
-      caption: Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet.
-      date: '2010'
-      headline: Ingeborg Ortner-Kinderhaus
-      image_url: https://mediatum.ub.tum.de/file/1007219/AE20101021726.jpg
   1:
     author: Eckert, Astrid / TUM
     license:
@@ -1433,11 +952,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1007219
-    meta:
-      caption: Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet.
-      date: '2010'
-      headline: Ingeborg Ortner-Kinderhaus
-      image_url: https://mediatum.ub.tum.de/file/1007219/AE20101021726.jpg
 '5532':
   0:
     author: Uli Benz
@@ -1446,13 +960,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1475835
-    meta:
-      caption: "StudiTUM Häuser Garching;  Innenaufnahmen der StudiTUM Neubauten am Campus Garching im Januar 2019 vor Eröffnung;  \r\nIn den neuen Gebäuden befinden sich Lounges, Seminar- und Lehrräume und Küchenzeilen. Studierende und studentische Initiativen der TUM können in den Räumen an facultysübergreifenden Projekten arbeiten, sich austauschen und kulturelle Veranstaltungen ausrichten. \r\nENGLISH VERSION: StudiTUM houses Garching;  Interior views of StudiTUM new-build houses at Campus Garching prior to opening in January 2019. In the new buildings is space for lounges, seminar\r\nrooms and kitchen units. Students and student initiatives of Technical\r\nUniversity Munich can work interdisciplinary, exchange ideas and organize events.\r\nUli Benz / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted \r\n     «StudiTUM Häuser Garching;  Innenaufnahmen der StudiTUM Neubauten am Campus Garching im Januar 2019 vor Eröffnung;  \r\nIn den neuen Gebäuden befinden sich Lounges, Seminar- und Lehrräume und Küchenzeilen. Studierende und studentische Initiativen der TUM können in den Räumen an facultysübergreifenden Projekten arbeiten, sich austauschen und kulturelle Veranstaltungen ausrichten. \r\nENGLISH VERSION: StudiTUM houses Garching;  Interior views of StudiTUM new-build houses at..."
-      date: 23.01.2019
-      faculty: Studentische Vertretung der TUM;  student representation of TUM
-      headline: StudiTUM Häuser Neubauten Garching 2019 / New-build houses
-      image_url: https://mediatum.ub.tum.de/image/1475835.jpg
-      location: Garching bei München, Bayern, Deutschland / Garching by Munich, Bavaria
   1:
     author: Uli Benz
     license:
@@ -1460,13 +967,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1475834
-    meta:
-      caption: "StudiTUM Häuser Garching;  Innenaufnahmen der StudiTUM Neubauten am Campus Garching im Januar 2019 vor Eröffnung;  \r\nIn den neuen Gebäuden befinden sich Lounges, Seminar- und Lehrräume und Küchenzeilen. Studierende und studentische Initiativen der TUM können in den Räumen an facultysübergreifenden Projekten arbeiten, sich austauschen und kulturelle Veranstaltungen ausrichten. \r\nENGLISH VERSION: StudiTUM houses Garching;  Interior views of StudiTUM new-build houses at Campus Garching prior to opening in January 2019. In the new buildings is space for lounges, seminar\r\nrooms and kitchen units. Students and student initiatives of Technical\r\nUniversity Munich can work interdisciplinary, exchange ideas and organize events.\r\nUli Benz / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted \r\n     «StudiTUM Häuser Garching;  Innenaufnahmen der StudiTUM Neubauten am Campus Garching im Januar 2019 vor Eröffnung;  \r\nIn den neuen Gebäuden befinden sich Lounges, Seminar- und Lehrräume und Küchenzeilen. Studierende und studentische Initiativen der TUM können in den Räumen an facultysübergreifenden Projekten arbeiten, sich austauschen und kulturelle Veranstaltungen ausrichten. \r\nENGLISH VERSION: StudiTUM houses Garching;  Interior views of StudiTUM new-build houses at..."
-      date: 23.01.2019
-      faculty: Studentische Vertretung der TUM;  student representation of TUM
-      headline: StudiTUM Häuser Neubauten Garching 2019 / New-build houses
-      image_url: https://mediatum.ub.tum.de/image/1475834.jpg
-      location: Garching bei München, Bayern, Deutschland / Garching by Munich, Bavaria
 5532.Z1.003:
   0:
     author: Uli Benz
@@ -1475,8 +975,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232774?show_id=1475840
-    meta:
-      date: 2019-01-23
 '5539':
   0:
     author: Frank Elsinga
@@ -1535,13 +1033,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1305049
-    meta:
-      caption: Gewinner des Architekturwettbewerbs für den Neubau der faculty für Elektrotechnik und Informationstechnik ist das Archtitekturbüro Henn, auf dem Foto ist das Modell des Siegerentwurfs abgebildet.
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Architektenwettbewerb faculty Elekro- und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1305049/20160513__Neubau_der_Fakultät_Elektro_und_Informationstechnik_UB_-4984.jpg
-      location: Garching
   1:
     author: Uli Benz / TUM
     license:
@@ -1549,13 +1040,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1305045
-    meta:
-      caption: Gewinner des Architekturwettbewerbs für den Neubau der faculty für Elektrotechnik und Informationstechnik ist das Archtitekturbüro Henn, auf dem Foto ist das Modell des Siegerentwurfs abgebildet.
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Architektenwettbewerb faculty Elekro- und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1305045/20160513__Neubau_der_Fakultät_Elektro_und_Informationstechnik_UB_-0231.jpg
-      location: Garching
   2:
     author: HENN / TUM
     license:
@@ -1563,13 +1047,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1439555
-    meta:
-      caption: 'Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik  der TUM (TUM) auf dem Campus Garching. (Bild: HENN / TUM). Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. A map depicting the new buildings of the TUM School of Electronic and Computer Engineering on TUM Campus Garching.  (image: HENN / TUM). Free for use in reporting on the TUM with the copyright noted.       «Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik  der TUM (TUM) auf dem Campus Garching. (Bild: HENN / TUM). Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. A map depicting the new buildings of the TUM School of Electronic and Computer Engineering on TUM Campus Garching.  (image: HENN / TUM). Free for use in reporting on the Technical Un...'
-      date: 17.04.2018
-      event: Spatenstich für den Neubau der faculty für Elektrotechnik und Informationstechnik auf dem TUM Campus Garching.
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1439555/05_HENN_Garching_ELT_MOD_50_01.jpg
   3:
     author: Henn Architektur / TUM
     license:
@@ -1577,13 +1054,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1439048
-    meta:
-      caption: "Übersichtsplan zum geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik der TUM (TUM), markiert: Bauabschnitt 1.(Bild: Henn Architektur / TUM).Verwendung frei für Berichterstattung über die Technische Universität  München (TUM) unter Nennung des Copyrights.\r\n\r\nA map depicting the new buildings of the TUM School of Electronic and Computer Engineering. With the first section marked. (image: Henn Architektur / TUM). Free for use in reporting on the TUM  with the copyright noted.     «Übersichtsplan zum geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik der TUM (TUM), markiert: Bauabschnitt 1.(Bild: Henn Architektur / TUM).Verwendung frei für Berichterstattung über die Technische Universität  München (TUM) unter Nennung des Copyrights.\r\n\r\nA map depicting the new buildings of the TUM School of Electronic and Computer Engineering. With the first section marked. (image: Henn Architektur / TUM). Free for use in reporting on..."
-      date: 17.04.2018
-      event: Spatenstich für den Neubau der faculty für Elektrotechnik und Informationstechnik auf dem TUM Campus Garching.
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Übersichtsplan zum geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1439048/EI_Garching_BA1_Axonometrie_BA1.jpg
   4:
     author: Henn GmbH
     license:
@@ -1591,12 +1061,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1304955
-    meta:
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Siegerentwurf Henn GmbH-Innenansicht
-      image_url: https://mediatum.ub.tum.de/file/1304955/1017_Bild_Innen.JPG
-      location: Garching bei München
   5:
     author: HENN / TUM
     license:
@@ -1604,13 +1068,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1439555
-    meta:
-      caption: 'Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik  der TUM (TUM) auf dem Campus Garching. (Bild: HENN / TUM). Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. A map depicting the new buildings of the TUM School of Electronic and Computer Engineering on TUM Campus Garching.  (image: HENN / TUM). Free for use in reporting on the TUM with the copyright noted.       «Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik  der TUM (TUM) auf dem Campus Garching. (Bild: HENN / TUM). Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. A map depicting the new buildings of the TUM School of Electronic and Computer Engineering on TUM Campus Garching.  (image: HENN / TUM). Free for use in reporting on the Technical Un...'
-      date: 17.04.2018
-      event: Spatenstich für den Neubau der faculty für Elektrotechnik und Informationstechnik auf dem TUM Campus Garching.
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Blick auf ein Architekturmodell des geplanten neuen Gebäude der faculty für Elektrotechnik und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1439555/05_HENN_Garching_ELT_MOD_50_01.jpg
   6:
     author: Uli Benz / TUM
     license:
@@ -1620,13 +1077,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1305045
     offsets:
       header: 200
-    meta:
-      caption: Gewinner des Architekturwettbewerbs für den Neubau der faculty für Elektrotechnik und Informationstechnik ist das Archtitekturbüro Henn, auf dem Foto ist das Modell des Siegerentwurfs abgebildet.
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Architektenwettbewerb faculty Elekro- und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1305045/20160513__Neubau_der_Fakultät_Elektro_und_Informationstechnik_UB_-0231.jpg
-      location: Garching
   7:
     author: Uli Benz / TUM
     license:
@@ -1634,11 +1084,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1304961
-    meta:
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Siegerentwurf Henn GmbH Modell
-      image_url: https://mediatum.ub.tum.de/file/1304961/20160513__Neubau_der_Fakultät_Elektro_und_Informationstechnik_UB_-4981.jpg
   8:
     author: Henn GmbH
     license:
@@ -1646,12 +1091,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1304954
-    meta:
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Siegerentwurf Henn GmbH-Außenansicht
-      image_url: https://mediatum.ub.tum.de/file/1304954/1017_Bild_Aussen.JPG
-      location: Garching bei München
   9:
     author: Uli Benz / TUM
     license:
@@ -1659,13 +1098,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1305049
-    meta:
-      caption: Gewinner des Architekturwettbewerbs für den Neubau der faculty für Elektrotechnik und Informationstechnik ist das Archtitekturbüro Henn, auf dem Foto ist das Modell des Siegerentwurfs abgebildet.
-      date: 13.05.2016
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Architektenwettbewerb faculty Elekro- und Informationstechnik
-      image_url: https://mediatum.ub.tum.de/file/1305049/20160513__Neubau_der_Fakultät_Elektro_und_Informationstechnik_UB_-4984.jpg
-      location: Garching
   10:
     author: HENN / TUM
     license:
@@ -1673,13 +1105,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1439553
-    meta:
-      caption: 'Illustration des Inneren des neuen Gebäudes der faculty für Elektrotechnik und Informationstechnik der TUM (TUM). (Bild: HENN / TUM). Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. Rendering of the interior of the new building of the TUM School of Electronic and Computer Engineering. (image: HENN / TUM). Free for use in reporting on the TUM with the copyright noted.'
-      date: 19.04.2018
-      event: Spatenstich für neues facultysgebäude auf dem TUM Campus Garching
-      faculty: Elektrotechnik und Informationstechnik
-      headline: Illustration des Inneren neuen Gebäudes der faculty für Elektrotechnik und Informationstechnik der TUM
-      image_url: https://mediatum.ub.tum.de/file/1439553/03_HENN_Garching_ELT_Forum.jpg
 '6202':
   0:
     author: Andreas Heddergott / TUM
@@ -1688,12 +1113,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1453748
-    meta:
-      caption: Brandoberinspektor Jürgen Wettläufer, seit 1. September 2018 Leiter der Werkfeuerwehr Garching der TUM (TUM)
-      date: 08.05.2017
-      headline: Feuerwehr-Leiter Jürgen Wettläufer
-      image_url: https://mediatum.ub.tum.de/file/1453748/20170508_Feuerwehr_Garching_AH_320395.jpg
-      location: Garching
   1:
     author: Fabian Vogl
     license:
@@ -1701,13 +1120,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1596893
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 12.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion; Ingenieurfaculty Bau Geo Umwelt; TUM Department of Civil, Geo and Environmental Engineering; Chair of Timber Structures and Building Construction
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1596893.jpg
-      location: Garching bei München
   2:
     author: TUM
     license:
@@ -1715,13 +1127,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1597127
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 10.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1597127.jpg
-      location: Garching
   3:
     author: Fabian Vogl
     license:
@@ -1729,13 +1134,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1596887
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 12.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion; Ingenieurfaculty Bau Geo Umwelt; TUM Department of Civil, Geo and Environmental Engineering; Chair of Timber Structures and Building Construction
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1596887.jpg
-      location: Garching bei München
   4:
     author: Fabian Vogl
     license:
@@ -1743,13 +1141,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1596889
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der Technischen Universität München eine Reihe von Grossbrandversuchen durchgefuehrt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhaeuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der Technischen Universität München bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt an"
-      date: 12.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion; Ingenieurfaculty Bau Geo Umwelt; TUM Department of Civil, Geo and Environmental Engineering; Chair of Timber Structures and Building Construction
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1596889.jpg
-      location: Garching bei München
   5:
     author: Fabian Vogl
     license:
@@ -1757,13 +1148,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1596884
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 12.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion; Ingenieurfaculty Bau Geo Umwelt; TUM Department of Civil, Geo and Environmental Engineering; Chair of Timber Structures and Building Construction
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1596884.jpg
-      location: Garching bei München
   6:
     author: Fabian Vogl
     license:
@@ -1771,13 +1155,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1596882
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 12.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion; Ingenieurfaculty Bau Geo Umwelt; TUM Department of Civil, Geo and Environmental Engineering; Chair of Timber Structures and Building Construction
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1596882.jpg
-      location: Garching bei München
   7:
     author: TUM
     license:
@@ -1785,13 +1162,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1597127
-    meta:
-      caption: "Im Rahmen des Forschungsprojektes TIMpuls werden unter der Projektleitung des Lehrstuhls für Holzbau und Baukonstruktion der TUM eine Reihe von Grossbrandversuchen durchgeführt.  Die Versuche sollen das Brandverhalten von Holzbauten analysieren.  \r\nAnhand der Erkenntnisse sollen höhere und komplexere Holzhäuser gebaut werden können.  \r\nDas Ziel des Forschungsvorhabens ist die Schaffung von Grundlagen durch experimentelle und numerische Untersuchungen zur Fortschreibung bauaufsichtlicher Brandschutz-Regelungen im Hinblick auf eine erweiterte Anwendung des Holzbaus. Das Forschungsvorhaben wird institutsübergreifend von der Technischen Universität Braunschweig, der Hochschule Magdeburg-Stendal, dem Institut für Brand- und Katastrophenschutz Heyrothsberge und der TUM bearbeitet.  Das Vorhaben wird vom Bundesministerium für Ernährung und Landwirtschaft (BMEL) über den Projektträger Fachagentur Nachwachsende Rohstoffe e. V. (FNR) gefördert. Eine Kofinanzierung der Holzwirtschaft erfolgt koordiniert über den Landesinnungsverband des Bayerischen Zimmererhandwerks. \r\nENGLISH VERSION: \tIn context of research project TIMpuls the Chair of Timber Structures and Building Construction at TUM Department of Civil, Geo and Environmental Engineering is performing a series of large fire tests.  The tests are intended to analyze the fire behavior of wooden structures.  \r\nBased on the findings, it should be possible to build higher and more complex wooden buildings. \r\nThe aim of the research project is to create a basis through experimental and numerical investigations for the updating of fire protection regulations with regard to an extended application of timber construction. The research project is carried out by the Technical University of Braunschweig, the Magdeburg-Stendal University of Applied Sciences, the institute for fire and disaster protection of saxony-anhalt and the TUM.  The project is funded by the German Federal Ministry of Food and Agriculture (BMEL) through the project management agency Fachagentur Nachwachsende Rohstoffe e. V. (FNR) promoted. A co-financing of the wood industry is coordinated by the Bavarian Carpenters' Guild Association."
-      date: 10.02.2021
-      faculty: Lehrstuhl für Holzbau und Baukonstruktion
-      headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
-      image_url: https://mediatum.ub.tum.de/image/1597127.jpg
-      location: Garching
 7894.EG.302:
   0:
     author: Nick-Marlon Loth
@@ -1853,11 +1223,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296845
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Papstzimmer im 2. Obergeschoss mit Malereien von Franz Joseph Soll und einer Ofen-Attrappe, die als Wandschrank genutzt werden kann
-      date: 11.02.2016
-      headline: Papstzimmer
-      image_url: https://mediatum.ub.tum.de/file/1296845/20160211_Raitenhaslach_AH_212803.jpg
   1:
     author: Uli Benz / TUM
     license:
@@ -1865,11 +1230,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296799
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Deckengewölbe über dem Treppenhaus mit Fresko 'Abraham und seine Gäste' von Franz Joseph Soll
-      date: 09.03.2016
-      headline: Treppenhaus
-      image_url: https://mediatum.ub.tum.de/file/1296799/20160309_Kloster_Raitenhaslach_UB_2840.jpg
   2:
     author: Andreas Heddergott / TUM
     license:
@@ -1877,11 +1237,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296839
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Papstzimmer im 2. Obergeschoss mit Malereien von Franz Joseph Soll. Das Deckenfresko zeigt die biblische Geschichte Josephs, die Wandmalereien zeigen die vier Jahreszeiten und Elemente. Ofen (links) und Ofen-Attrappe, die als Wandschrank genutzt werden kann (rechts)
-      date: 11.02.2016
-      headline: Papstzimmer
-      image_url: https://mediatum.ub.tum.de/file/1296839/20160218_Raitenhaslach_AH_214158.jpg
   3:
     author: Uli Benz / TUM
     license:
@@ -1889,11 +1244,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296841
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Festsaal, auch Steinerner Saal genannt, mit Deckenfresko von Johann Martin Heigl, das die vier Elemente thematisiert, hier das Feuer
-      date: 09.03.2016
-      headline: Festsaal
-      image_url: https://mediatum.ub.tum.de/file/1296841/20160309_Deckenfresco-Feuer_UB_-2901.jpg
   4:
     author: Andreas Heddergott / TUM
     license:
@@ -1901,12 +1251,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1297308
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Festsaal, auch Steinerner Saal genannt, mit Deckenfresko von Johann Martin Heigl, das die vier Elemente thematisiert und die römischen Götter Vulkan, Neptun, Ceres und Diana zeigt
-      date: 30.03.2016
-      headline: Festsaal
-      image_url: https://mediatum.ub.tum.de/image/1297308.jpg
-      location: Burghausen
   5:
     author: Uli Benz / TUM
     license:
@@ -1916,11 +1260,6 @@
       url: https://mediatum.ub.tum.de/652209?show_id=1296810
     offsets:
       header: 400
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Gebäude mit dem Festsaal im 1. Obergeschoss und neuem Anbau mit Aufzug und Treppenhaus. Links das Gartenstöckl, in dem eine Cafeteria eingerichtet wird
-      date: 19.02.2016
-      headline: Festsaal mit Anbau
-      image_url: https://mediatum.ub.tum.de/file/1296810/20160219_Kloster_Raitenhaslach_UB_-2449.jpg
   6:
     author: Astrid Eckert
     license:
@@ -1928,12 +1267,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1308203
-    meta:
-      caption: Festakt zur Eröffnung des Akademiezentrum TUM Raitenhaslach am 4.6.2016 im Festsaal des historischen Klosters Raitenhaslach in Burghausen. Horst Seehofer, Bayerischer Ministerpräsident, und Prof. Wolfgang A. Herrmann, Präsident der TUM (v.l.)
-      date: 04.06.2016
-      headline: Eröffnung des Akademiezentrum TUM Raitenhaslach 4.6.2016
-      image_url: https://mediatum.ub.tum.de/image/1308203.jpg
-      location: Burghausen-Raitenhaslach
   7:
     author: Astrid Eckert
     license:
@@ -1941,12 +1274,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232772?show_id=1308203
-    meta:
-      caption: Festakt zur Eröffnung des Akademiezentrum TUM Raitenhaslach am 4.6.2016 im Festsaal des historischen Klosters Raitenhaslach in Burghausen. Horst Seehofer, Bayerischer Ministerpräsident, und Prof. Wolfgang A. Herrmann, Präsident der TUM (v.l.)
-      date: 04.06.2016
-      headline: Eröffnung des Akademiezentrum TUM Raitenhaslach 4.6.2016
-      image_url: https://mediatum.ub.tum.de/image/1308203.jpg
-      location: Burghausen-Raitenhaslach
 9001.01.103:
   0:
     author: Uli Benz / TUM
@@ -1955,11 +1282,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296841
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Festsaal, auch Steinerner Saal genannt, mit Deckenfresko von Johann Martin Heigl, das die vier Elemente thematisiert, hier das Feuer
-      date: 09.03.2016
-      headline: Festsaal
-      image_url: https://mediatum.ub.tum.de/file/1296841/20160309_Deckenfresco-Feuer_UB_-2901.jpg
   1:
     author: Andreas Heddergott / TUM
     license:
@@ -1967,12 +1289,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1297308
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Festsaal, auch Steinerner Saal genannt, mit Deckenfresko von Johann Martin Heigl, das die vier Elemente thematisiert und die römischen Götter Vulkan, Neptun, Ceres und Diana zeigt
-      date: 30.03.2016
-      headline: Festsaal
-      image_url: https://mediatum.ub.tum.de/image/1297308.jpg
-      location: Burghausen
   2:
     author: Uli Benz / TUM
     license:
@@ -1980,11 +1296,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1296810
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Gebäude mit dem Festsaal im 1. Obergeschoss und neuem Anbau mit Aufzug und Treppenhaus. Links das Gartenstöckl, in dem eine Cafeteria eingerichtet wird
-      date: 19.02.2016
-      headline: Festsaal mit Anbau
-      image_url: https://mediatum.ub.tum.de/file/1296810/20160219_Kloster_Raitenhaslach_UB_-2449.jpg
   3:
     author: Andreas Heddergott / TUM
     license:
@@ -1994,12 +1305,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1297311
     offsets:
       header: 400
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Festsaal, auch Steinerner Saal genannt, mit Deckenfresko von Johann Martin Heigl, das die vier Elemente thematisiert und die römischen Götter Vulkan, Neptun, Ceres und Diana zeigt
-      date: 30.03.2016
-      headline: Festsaal
-      image_url: https://mediatum.ub.tum.de/image/1297311.jpg
-      location: Burghausen
   4:
     author: Astrid Eckert
     license:
@@ -2007,12 +1312,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1308203
-    meta:
-      caption: Festakt zur Eröffnung des Akademiezentrum TUM Raitenhaslach am 4.6.2016 im Festsaal des historischen Klosters Raitenhaslach in Burghausen. Horst Seehofer, Bayerischer Ministerpräsident, und Prof. Wolfgang A. Herrmann, Präsident der TUM (v.l.)
-      date: 04.06.2016
-      headline: Eröffnung des Akademiezentrum TUM Raitenhaslach 4.6.2016
-      image_url: https://mediatum.ub.tum.de/image/1308203.jpg
-      location: Burghausen-Raitenhaslach
 9001.02.208:
   0:
     author: Andreas Heddergott / TUM
@@ -2021,11 +1320,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296845
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Papstzimmer im 2. Obergeschoss mit Malereien von Franz Joseph Soll und einer Ofen-Attrappe, die als Wandschrank genutzt werden kann
-      date: 11.02.2016
-      headline: Papstzimmer
-      image_url: https://mediatum.ub.tum.de/file/1296845/20160211_Raitenhaslach_AH_212803.jpg
   1:
     author: Andreas Heddergott / TUM
     license:
@@ -2033,11 +1327,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296839
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Papstzimmer im 2. Obergeschoss mit Malereien von Franz Joseph Soll. Das Deckenfresko zeigt die biblische Geschichte Josephs, die Wandmalereien zeigen die vier Jahreszeiten und Elemente. Ofen (links) und Ofen-Attrappe, die als Wandschrank genutzt werden kann (rechts)
-      date: 11.02.2016
-      headline: Papstzimmer
-      image_url: https://mediatum.ub.tum.de/file/1296839/20160218_Raitenhaslach_AH_214158.jpg
   2:
     author: Uli Benz / TUM
     license:
@@ -2045,11 +1334,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296797
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Papstzimmer im 2. Obergeschoss mit Malereien von Franz Joseph Soll. Das Deckenfresko zeigt die biblische Geschichte Josephs, die Wandmalereien zeigen die vier Jahreszeiten und Elemente
-      date: 09.03.2016
-      headline: Papstzimmer
-      image_url: https://mediatum.ub.tum.de/file/1296797/20160309_Kloster_Raitenhaslach_UB_2813.jpg
 9001.EG.012:
   0:
     author: Uli Benz / TUM
@@ -2058,11 +1342,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1296818
-    meta:
-      caption: TUM Science & Study Center im Kloster Raitenhaslach in Burghausen. Empfangsfoyer im Erdgeschoss
-      date: 24.02.2016
-      headline: Empfangsfoyer
-      image_url: https://mediatum.ub.tum.de/file/1296818/20160224_Kloster_Raitenhaslach_UB_-2627.jpg
 '9201':
   0:
     author: Uli Benz
@@ -2071,12 +1350,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1515046
-    meta:
-      caption: "TUM Forschungsstation Friedrich N. Schwarz nahe Berchtesgaden. In dem nachhaltigen Holzgebäude erforscht die TUM das Ökosystem des Alpenraums und neue Formen des naturwissenschaftlichen Schulunterrichts.\r\nENGLISH VERSION: Friedrich N. Schwarz Research Station of TUM near Berchtesgaden. In the sustainable wooden building, the TUM researches the alpine ecosystem and new ways to teach the natural sciences in schools."
-      date: 19.07.2019
-      headline: TUM Forschungsstation Friedrich N. Schwarz / Friedrich N. Schwarz Research Station of TUM
-      image_url: https://mediatum.ub.tum.de/image/1515046.jpg
-      location: Berchtesgaden, Bayern, Deutschland / Berchtesgaden, Bavaria
 '9376':
   0:
     author: Andreas Heddergott / TUM
@@ -2087,14 +1360,6 @@
       url: https://mediatum.ub.tum.de/1232772?show_id=1278913
     offsets:
       header: 200
-    meta:
-      caption: Das Algentechnikum der TU München auf dem Ludwig Bölkow Campus in Ottobrunn im Süden von München
-      date: 12.10.2015
-      event: Eröffnung des Algentechnikums am 13.10.2015
-      faculty: Chemie
-      headline: Das Algentechnikum der TU München
-      image_url: https://mediatum.ub.tum.de/file/1278913/20151012__Algentechnikum_aussen_AH_190812.jpg
-      location_name: Ludwig Bölkow Campus, Ottobrunn
   1:
     author: Andreas Heddergott / TUM
     license:
@@ -2104,13 +1369,6 @@
       url: https://mediatum.ub.tum.de/1232772?show_id=1278912
     offsets:
       header: 200
-    meta:
-      date: 12.10.2015
-      event: Eröffnung des Algentechnikums am 13.10.2015
-      faculty: Chemie
-      headline: Dipl. Ing. Andreas Apel im neuen Algentechnikum
-      image_url: https://mediatum.ub.tum.de/file/1278912/20151012__Algentechnikum_Apel_AH_190584.jpg
-      location_name: Ludwig Bölkow Campus, Ottobrunn
   2:
     author: Andreas Heddergott / TUM
     license:
@@ -2120,14 +1378,6 @@
       url: https://mediatum.ub.tum.de/1232768?show_id=1278916
     offsets:
       header: -200
-    meta:
-      date: 12.10.2015
-      department: Lehrstuhl für Bioverfahrenstechnik
-      event: Eröffnung des Algentechnikums am 13.10.2015
-      faculty: Chemie
-      headline: Prof. Thomas Brück im neuen Algentechnikum
-      image_url: https://mediatum.ub.tum.de/file/1278916/20151012__Algentechnikum_Prof._Brück_AH_190518.jpg
-      location_name: Ludwig Bölkow Campus, Ottobrunn
 '9377':
   0:
     author: Uli Benz
@@ -2138,13 +1388,6 @@
       url: https://mediatum.ub.tum.de/1232767?show_id=1601027
     offsets:
       header: 500
-    meta:
-      caption: "Ab dem 1. Dezember ist die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) der TUM (TUM) Mieterin eines neuen Gebäudes in der Lise-Meitner-Straße in Ottobrunn.  Die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) wurde 2018 als 15. faculty der TUM gegründet.  \r\nVon neuen Transportsystemen über Kommunikations- und Satellitentechnik bis zur Beobachtung und Vermessung des Planeten: Im Zusammenspiel mit den geodätischen Disziplinen wird die Luft- und Raumfahrt zu einer 'Mission Erde'.  \r\nMit ihren derzeit 22 Professuren und Lehrstühlen gehört die faculty schon jetzt international zum Spitzenfeld: Das Shanghai Subject Ranking sieht sie in der Geodäsie/Fernerkundung weltweit auf Platz 8, in der Luft- und Raumfahrt auf Platz 16 – die LRG ist damit deutschlandweit unangefochten führend. Durch gezielte fachliche Verstärkungen sowie ausgedehnte Investitionen an ihren neuen Standorten in Taufkirchen/Ottobrunn und Oberpfaffenhofen wird diese Führungsrolle in den kommenden Jahren weiter ausgebaut. \r\nENGLISH VERSION: As of December 1, the Department of Aerospace and Geodesy (LRG) of the Technical University of Munich (TUM) is the tenant of a new building in Lise-Meitner-Strasse in Ottobrunn. The completely renovated building offers space for the acute needs of the department. The Department of Aerospace and Geodesy (LRG) was founded in 2018 as the 15th department of the TUM.  From novel aircraft and transport systems to communication and satellite technology to observing and mapping our planet with unprecedented precision: Aerospace and geodesy have jointly started their 'mission earth'.  \r\nWith its currently 22 professorships and chairs, the department is already playing in the Champions League of research: In the Shanghai Subject Ranking , it ranks 8th in geodesy/remote sensing and 16th in aerospace worldwide – making the LRG the undisputed number one in Germany. Through professional reinforcements as well as extensive investments at the new locations in Taufkirchen/Ottobrunn and Oberpfaffenhofen, this position will be further strengthened in the years to come and will make the LRG the largest department of its kind in Europe."
-      date: 28.02.2021
-      faculty: Fakultät für Luftfahrt, Raumfahrt und Geodäsie;  Department of Aerospace and Geodesy
-      headline: TUM Neues Gebäude der faculty Luftfahrt, Raumfahrt und Geodäsie (LRG) / New Building for Department of Aerospace, Aeronautics and Geodesy in Ottobrunn/Taufkirchen 2021
-      image_url: https://mediatum.ub.tum.de/image/1601027.jpg
-      location: Ottobrunn / Taufkirchen, Bayern, Deutschland / Bavaria, Germany
   1:
     author: Uli Benz
     license:
@@ -2152,13 +1395,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1601034
-    meta:
-      caption: "Ab dem 1. Dezember ist die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) der TUM (TUM) Mieterin eines neuen Gebäudes in der Lise-Meitner-Straße in Ottobrunn.  Die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) wurde 2018 als 15. faculty der TUM gegründet.  \r\nVon neuen Transportsystemen über Kommunikations- und Satellitentechnik bis zur Beobachtung und Vermessung des Planeten: Im Zusammenspiel mit den geodätischen Disziplinen wird die Luft- und Raumfahrt zu einer 'Mission Erde'.  \r\nMit ihren derzeit 22 Professuren und Lehrstühlen gehört die faculty schon jetzt international zum Spitzenfeld: Das Shanghai Subject Ranking sieht sie in der Geodäsie/Fernerkundung weltweit auf Platz 8, in der Luft- und Raumfahrt auf Platz 16 – die LRG ist damit deutschlandweit unangefochten führend. Durch gezielte fachliche Verstärkungen sowie ausgedehnte Investitionen an ihren neuen Standorten in Taufkirchen/Ottobrunn und Oberpfaffenhofen wird diese Führungsrolle in den kommenden Jahren weiter ausgebaut. \r\nENGLISH VERSION: As of December 1, the Department of Aerospace and Geodesy (LRG) of the Technical University of Munich (TUM) is the tenant of a new building in Lise-Meitner-Strasse in Ottobrunn. The completely renovated building offers space for the acute needs of the department. The Department of Aerospace and Geodesy (LRG) was founded in 2018 as the 15th department of the TUM.  From novel aircraft and transport systems to communication and satellite technology to observing and mapping our planet with unprecedented precision: Aerospace and geodesy have jointly started their 'mission earth'.  \r\nWith its currently 22 professorships and chairs, the department is already playing in the Champions League of research: In the Shanghai Subject Ranking , it ranks 8th in geodesy/remote sensing and 16th in aerospace worldwide – making the LRG the undisputed number one in Germany. Through professional reinforcements as well as extensive investments at the new locations in Taufkirchen/Ottobrunn and Oberpfaffenhofen, this position will be further strengthened in the years to come and will make the LRG the largest department of its kind in Europe."
-      date: 28.02.2021
-      faculty: Fakultät für Luftfahrt, Raumfahrt und Geodäsie;  Department of Aerospace and Geodesy
-      headline: TUM Neues Gebäude der faculty Luftfahrt, Raumfahrt und Geodäsie (LRG) / New Building for Department of Aerospace, Aeronautics and Geodesy in Ottobrunn/Taufkirchen 2021
-      image_url: https://mediatum.ub.tum.de/image/1601034.jpg
-      location: Ottobrunn / Taufkirchen, Bayern, Deutschland / Bavaria, Germany
   2:
     author: Uli Benz
     license:
@@ -2166,13 +1402,6 @@
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1601037
-    meta:
-      caption: "Ab dem 1. Dezember ist die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) der TUM (TUM) Mieterin eines neuen Gebäudes in der Lise-Meitner-Straße in Ottobrunn.  Die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) wurde 2018 als 15. faculty der TUM gegründet.  \r\nVon neuen Transportsystemen über Kommunikations- und Satellitentechnik bis zur Beobachtung und Vermessung des Planeten: Im Zusammenspiel mit den geodätischen Disziplinen wird die Luft- und Raumfahrt zu einer 'Mission Erde'.  \r\nMit ihren derzeit 22 Professuren und Lehrstühlen gehört die faculty schon jetzt international zum Spitzenfeld: Das Shanghai Subject Ranking sieht sie in der Geodäsie/Fernerkundung weltweit auf Platz 8, in der Luft- und Raumfahrt auf Platz 16 – die LRG ist damit deutschlandweit unangefochten führend. Durch gezielte fachliche Verstärkungen sowie ausgedehnte Investitionen an ihren neuen Standorten in Taufkirchen/Ottobrunn und Oberpfaffenhofen wird diese Führungsrolle in den kommenden Jahren weiter ausgebaut. \r\nENGLISH VERSION: As of December 1, the Department of Aerospace and Geodesy (LRG) of the Technical University of Munich (TUM) is the tenant of a new building in Lise-Meitner-Strasse in Ottobrunn. The completely renovated building offers space for the acute needs of the department. The Department of Aerospace and Geodesy (LRG) was founded in 2018 as the 15th department of the TUM.  From novel aircraft and transport systems to communication and satellite technology to observing and mapping our planet with unprecedented precision: Aerospace and geodesy have jointly started their 'mission earth'.  \r\nWith its currently 22 professorships and chairs, the department is already playing in the Champions League of research: In the Shanghai Subject Ranking , it ranks 8th in geodesy/remote sensing and 16th in aerospace worldwide – making the LRG the undisputed number one in Germany. Through professional reinforcements as well as extensive investments at the new locations in Taufkirchen/Ottobrunn and Oberpfaffenhofen, this position will be further strengthened in the years to come and will make the LRG the largest department of its kind in Europe."
-      date: 28.02.2021
-      faculty: Fakultät für Luftfahrt, Raumfahrt und Geodäsie;  Department of Aerospace and Geodesy
-      headline: TUM Neues Gebäude der faculty Luftfahrt, Raumfahrt und Geodäsie (LRG) / New Building for Department of Aerospace, Aeronautics and Geodesy in Ottobrunn/Taufkirchen 2021
-      image_url: https://mediatum.ub.tum.de/image/1601037.jpg
-      location: Ottobrunn / Taufkirchen, Bayern, Deutschland / Bavaria, Germany
 chemie:
   0:
     author: '''Graf-flugplatz'''
@@ -2182,9 +1411,6 @@ chemie:
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:110910047-TUM.jpg
-    meta:
-      date: 2011-09-10
-      geo: 48.26838,11.661398
 cs:
   0:
     author: Andreas Heddergott
@@ -2195,13 +1421,6 @@ cs:
       url: https://mediatum.ub.tum.de/1232767?show_id=1487673
     offsets:
       header: 250
-    meta:
-      caption: "Drehbare Solarblume 'smartflower' vor dem Labor- und Forschungsgebäude am Wissenschaftszentrum Straubing der TUM;  Campus für Biotechnologie und Nachhaltigkeit\r\nRevolving solar 'smartflower' in front of laboratory and research facility at science center Straubing of TUM;  Campus for Biotechnology and Sustainability\r\nAndreas Heddergott / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted       «Drehbare Solarblume 'smartflower' vor dem Labor- und Forschungsgebäude am Wissenschaftszentrum Straubing der TUM;  Campus für Biotechnologie und Nachhaltigkeit\r\nRevolving solar 'smartflower' in front of laboratory and research facility at science center Straubing of TUM;  Campus for Biotechnology and Sustainability\r\nAndreas Heddergott / TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in rep..."
-      date: 21.04.2018
-      faculty: TUM Campus Straubing für Biotechnologie und Nachhaltigkeit ;  Campus for for Biotechnology and Sustainability
-      headline: TUM Campus Straubing Laborgebäude 2018/ TUM Campus Straubing Laboratory
-      image_url: https://mediatum.ub.tum.de/image/1487673.jpg
-      location: Straubing
 frm-2:
   0:
     author: Battenberg, Andreas / TUM
@@ -2210,13 +1429,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1198008
-    meta:
-      date: '2014'
-      department: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
-      event: 10 Jahre FRM II
-      headline: FRM I und FRM II auf dem Forschungscampus Garching
-      image_url: https://mediatum.ub.tum.de/file/1198008/140312_FRM2-und-FRM1_AB_0776b.jpg
-      location: Garching bei München
   1:
     author: Wenzel Schürmann /TUM
     license:
@@ -2224,15 +1436,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=998176
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      caption: Außenansicht der  Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) der TUM
-      date: '2010'
-      department: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
-      event: Besuch des IAEA-Chefs Yukiya Amano an der Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) der TUM.
-      headline: Forschungs-Neutronenquelle FRM II
-      image_url: https://mediatum.ub.tum.de/file/998176/_DSC7192.jpg
-      location: Garching bei München; Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
   2:
     author: Battenberg, Andreas / TUM
     license:
@@ -2240,14 +1443,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232772?show_id=1198007
-    meta:
-      building: FRM II
-      date: '2014'
-      department: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
-      event: 10 Jahre FRM II
-      headline: FRM I und FRM II auf dem Forschungscampus Garching
-      image_url: https://mediatum.ub.tum.de/file/1198007/140312_FRM2-und-FRM1_AB_0784b.jpg
-      location: Garching bei München
   3:
     author: TU München
     license:
@@ -2255,14 +1450,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=654821
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      date: '2007'
-      event: Pressegespräch FRM II am 26.06.2008
-      faculty: Physik
-      headline: Experimentierhalle des FRM II
-      image_url: https://mediatum.ub.tum.de/file/654821/Experimentierhalle-FRM2.jpg
-      location: Garching bei München; FRM II
   4:
     author: Uli Benz
     license:
@@ -2270,13 +1457,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1349737
-    meta:
-      caption: 'Erster Spatenstich für das Wissenschafts- und Werkstattgebäude der TUM sowie das Labor- und Bürogebäude des Forschungszentrum Jülich zur Nutzung durch das Heinz Maier-Leibnitz Zentrum (MLZ);  abgebildete Personen (v.l.n.r.): Albert Berger  Kanzler der TUM,  Prof. Dr. Winfried Petry  Wissenschaftlicher Direktor des Forschungs-Neutronenquelle FRMII, Prof. Dr. Dr. h.c. mult. Wolfgang A. Herrmann Präsident der TUM, Dr. Anton Kastenmüller  Technischer Direktor der Forschungs-Neutronenquelle FRM II, Prof. Dr. Thomas Brückel, Direktor des Jülich Centre for Neutron Science und Sprecher des MLZ-Direktoriums, Stefan Müller, MdB, Parlamentarischer Staatssekretär, Bundesministerium für Bildung und Forschung (BMBF), Prof. Dr. Dr. h.c. mult. Sebastian M. Schmidt, Mitglied des Vorstandes, Forschungszentrum Jülich, Dr. Dietmar Gruchmann  Erster Bürgermeister der Stadt Garching     «Erster Spatenstich für das Wissenschafts- und Werkstattgebäude der TUM sowie das Labor- und Bürogebäude des Forschungszentrum Jülich zur Nutzung durch das Heinz Maier-Leibnitz Zentrum (MLZ);  abgebildete Personen (v.l.n.r.): Albert Berger  Kanzler der TUM,  Prof. Dr. Winfried Petry  Wissenschaftlicher Direktor des Forschungs-Neutronenquelle FRMII, Prof. Dr. Dr. h.c. mult. Wolfgang A. Herrmann Präsident der TUM, D...'
-      date: 20.02.2017
-      faculty: Heinz Maier-Leibnitz Zentrum (MLZ)
-      headline: Erster Spatenstich MLZ
-      image_url: https://mediatum.ub.tum.de/image/1349737.jpg
-      location: Garching bei München
   5:
     author: Wenzel Schürmann/ TU München
     license:
@@ -2284,14 +1464,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=816710
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      date: '2009'
-      department: Physik
-      event: Presseinformation Positronen
-      headline: 'Positronenquelle an der Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) der Technischen Universität München, auf dem Bild zu sehen: Dr. Christoph Hugenschmidt (Mitte) mit Mitarbeitern am Experiment'
-      image_url: https://mediatum.ub.tum.de/file/816710/DSC_3661.jpg
-      location: Garching bei München; Forschungs-Neutronenquelle FRM II
   6:
     author: Eckert, Astrid / TUM
     license:
@@ -2299,16 +1471,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1253414
-    meta:
-      building: FRM II
-      caption: Aufbau des nEDM-Experiments (Neutron electric dipole moment / elektrisches Dipolmoment des Neutrons) in der Osthalle des Forschungsreaktors München II (FRM II);  Osthalle FRM II mit Blick auf das Äußere der magnetischen Abschirmung für das nEDM-Experiment
-      date: '2015'
-      department: Lehrstuhl für Experimentalphysik, E18
-      event: Presseinformation vom 12.05.2015
-      faculty: Physik
-      headline: nEDM-Experiment in der Osthalle des FRM II
-      image_url: https://mediatum.ub.tum.de/file/1253414/150512_Magnetfeld_Fierlinger_AE_102530_15x22.jpg
-      location: Garching bei München; Exzellenzcluster Universe
   7:
     author: Wenzel Schürmann / TUM
     license:
@@ -2316,13 +1478,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1554160
-    meta:
-      caption: "Dr. Nicolas P. Walte an der Hochdruckpresse SAPHiR des Heinz Maier-Leibnitz Zentrums, Technische Universität München\r\nDr. Nicolas P. Walte at the SAPHiR high-pressure press at the Heinz Maier-Leibnitz Center, TUM"
-      date: 14.06.2018
-      faculty: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
-      headline: Hochdruckpresse SAPHiR am FRM II
-      image_url: https://mediatum.ub.tum.de/image/1554160.jpg
-      location: TUM Campus Garching
   8:
     author: Eckert, Astrid / TUM
     license:
@@ -2330,16 +1485,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1253414
-    meta:
-      building: FRM II
-      caption: Aufbau des nEDM-Experiments (Neutron electric dipole moment / elektrisches Dipolmoment des Neutrons) in der Osthalle des Forschungsreaktors München II (FRM II);  Osthalle FRM II mit Blick auf das Äußere der magnetischen Abschirmung für das nEDM-Experiment
-      date: '2015'
-      department: Lehrstuhl für Experimentalphysik, E18
-      event: Presseinformation vom 12.05.2015
-      faculty: Physik
-      headline: nEDM-Experiment in der Osthalle des FRM II
-      image_url: https://mediatum.ub.tum.de/file/1253414/150512_Magnetfeld_Fierlinger_AE_102530_15x22.jpg
-      location: Garching bei München; Exzellenzcluster Universe
   9:
     author: Wenzel Schürmann/ TU München
     license:
@@ -2347,14 +1492,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=816711
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      date: '2009'
-      department: Physik
-      event: Presseinformation Positronen
-      headline: 'Positronenquelle an der Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) der Technischen Universität München, auf dem Bild zu sehen: Dr. Christoph Hugenschmidt (Mitte) mit Mitarbeitern am Experiment'
-      image_url: https://mediatum.ub.tum.de/file/816711/DSC_3664_NEPOMUC.jpg
-      location: Garching bei München; Forschungs-Neutronenquelle FRM II
   10:
     author: Juli Eberle / TUM
     license:
@@ -2362,13 +1499,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1577112
-    meta:
-      caption: Die beiden neuen Gebäude rahmen den Blick auf das Atom-Ei ein. In jedem Gebäude stehen 100 Arbeitsplaetze zur Verfuegung sowie Labors und Werkstaetten. / The two new buildings frame the view of the atomic egg. Each building has 100 workplaces as well as laboratories and workshops.
-      date: 08.09.2020
-      faculty: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) / Research Neutron Source Heinz Maier-Leibnitz (FRM II)
-      headline: Neue MLZ Gebäude / New MLZ buildings
-      image_url: https://mediatum.ub.tum.de/image/1577112.jpg
-      location: Garching bei München
   11:
     author: Astrid Eckert
     license:
@@ -2376,13 +1506,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1591524
-    meta:
-      caption: "Neue Gebäude auf dem Gelaende der Forschungs-Neutronenquelle Heinz-Maier-Leibniz  (FRMII) in Garching bei München : links das Gebäude des Heinz-Maier-Leibniz Zentrums mit neuen Laboren und Werkstaetten rechts das Gebäude des Juelich Centre for Neutron Science (JCNS) Garching, dazwischen der historische Forschungsreaktor, das sogenannte 'Atom-Ei';  fotografiert am 02.11.2020;  Foto:  Astrid Eckert,  TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /\r\nFree for use in reporting on TUM, with the copyright noted\r\n     «Neue Gebäude auf dem Gelaende der Forschungs-Neutronenquelle Heinz-Maier-Leibniz  (FRMII) in Garching bei München : links das Gebäude des Heinz-Maier-Leibniz Zentrums mit neuen Laboren und Werkstaetten rechts das Gebäude des Juelich Centre for Neutron Science (JCNS) Garching, dazwischen der historische Forschungsreaktor, das sogenannte 'Atom-Ei';  fotografiert am 02.11.2020;  Foto:  Astrid Eckert,  TUM;  Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrig..."
-      date: 02.11.2020
-      faculty: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) / Research Neutron Source Heinz Maier-Leibnitz (FRM II)
-      headline: Neue Forschungsgebäude der Neutronenquelle Heinz Maier Leibnitz / New buildings for Heinz Maier-Leibnitz Research Neutron Source (FRM II) 2020
-      image_url: https://mediatum.ub.tum.de/image/1591524.jpg
-      location: Garching bei München
   12:
     author: Battenberg, Andreas / TUM
     license:
@@ -2390,13 +1513,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1198008
-    meta:
-      date: '2014'
-      department: Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)
-      event: 10 Jahre FRM II
-      headline: FRM I und FRM II auf dem Forschungscampus Garching
-      image_url: https://mediatum.ub.tum.de/file/1198008/140312_FRM2-und-FRM1_AB_0776b.jpg
-      location: Garching bei München
   13:
     author: Wenzel Schürmann/ TU München
     license:
@@ -2404,14 +1520,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=816710
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      date: '2009'
-      department: Physik
-      event: Presseinformation Positronen
-      headline: 'Positronenquelle an der Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II) der Technischen Universität München, auf dem Bild zu sehen: Dr. Christoph Hugenschmidt (Mitte) mit Mitarbeitern am Experiment'
-      image_url: https://mediatum.ub.tum.de/file/816710/DSC_3661.jpg
-      location: Garching bei München; Forschungs-Neutronenquelle FRM II
   14:
     author: Scharger, Albert / TUM
     license:
@@ -2419,12 +1527,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=614687
-    meta:
-      caption: "Der Forschungsreaktor München (FRM) in Garching bei München, wegen seiner Form auch als Atomei bezeichnet, wurde am 31. Oktober 1957 als erster Forschungsreaktor in Deutschland in Betrieb genommen. Er gehört zur TUM.\r\nDas Atomei wurde am 28. Juli 2000 um 10:30 Uhr abgeschaltet. Die eiförmige Kuppel, die Bestandteil des Stadtwappens von Garching ist, steht unter Denkmalschutz."
-      date: '2005'
-      headline: Forschungsreaktor II und Atomei (FRM)
-      image_url: https://mediatum.ub.tum.de/file/614687/Reaktor.jpg
-      location: Garching bei München; Forschungs-Neutronenquelle FRM II; FRM I
   15:
     author: TU München
     license:
@@ -2432,14 +1534,6 @@ frm-2:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=654821
-    meta:
-      building: Forschungs-Neutronenquelle FRM II
-      date: '2007'
-      event: Pressegespräch FRM II am 26.06.2008
-      faculty: Physik
-      headline: Experimentierhalle des FRM II
-      image_url: https://mediatum.ub.tum.de/file/654821/Experimentierhalle-FRM2.jpg
-      location: Garching bei München; FRM II
 galileo:
   0:
     author: Astrid Eckert
@@ -2448,8 +1542,6 @@ galileo:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232774?show_id=1599389
-    meta:
-      date: 2020-11-02
   1:
     author: Astrid Eckert
     license:
@@ -2459,12 +1551,6 @@ galileo:
       url: https://mediatum.ub.tum.de/1232767?show_id=1599391
     offsets:
       header: 200
-    meta:
-      caption: "Das Kongresszentrum GALILEO auf dem Forschungscampus Garching bietet neben einem neuem Audimax und weiteren Räumen für die Technische Universität München auch Raum für Büros, Läden sowie einem Hotel mit Gästehaus. \r\nDer Campus Garching nördlich von München bildet das naturwissenschaftlich-technische Zentrum der TUM. Mit über 12.000 Studierenden an fünf Fakultäten ist der Campus der größte aller TUM Standorte.  Für Spitzenforschung auf dem Campus sorgen auch das TUM Institute for Advanced Study und die TUM Graduate School Sowohl interdisziplinäre Forschung als auch Lehre bietet die Munich School of Engineering (MSE) an.  Mit der U-Bahnlinie U6 oder über die Autobahn ist die Universitätsstadt Garching schnell von der Münchner Innenstadt aus zu erreichen. \r\nENGLISH VERSION: \tAlongside a new main auditorium and further rooms for the TUM, it also provides space for offices, shops, as well as a hotel with guest house and a congress center. \r\nThe Garching campus north of Munich constitutes the center of natural sciences and technology at TUM. With more than 12,000 students at five Faculties, it is the largest of all TUM locations. Also focused on top-level research at this campus are the TUM Institute for Advanced Study, TUM Graduate School and the Munich School of Engineering (MSE). The center of Garching is easy to reach from downtown Munich with the subway line U6 or via the Autobahn."
-      date: 02.11.2020
-      headline: TUM Forschungscampus / research campus Garching 2020
-      image_url: https://mediatum.ub.tum.de/image/1599391.jpg
-      location: München
 garching:
   0:
     author: '''Graf-flugplatz'''
@@ -2474,8 +1560,6 @@ garching:
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:110403022-TUM.JPG
-    meta:
-      date: 2011-04-03
   1:
     author: Bayerische Vermessungsverwaltung
     license:
@@ -2484,8 +1568,6 @@ garching:
     source:
       text: www.geodaten.bayern.de
       url: https://www.geodaten.bayern.de
-    meta:
-      date: 2020-04-25
 heilbronn:
   0:
     author: J. Häffner / TUM
@@ -2494,13 +1576,6 @@ heilbronn:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1472545
-    meta:
-      caption: 'Gebäude für den TUM Campus Heilbronn auf dem Bildungscampus der Dieter Schwarz Stiftung in Heilbronn. Die Technische Universität München (TUM) nutzt fünf von neun Obergeschossen für Forschung und Lehre in Wirtschaftswissenschaften. Eröffnung des Gebäudes: 31.1.2019.  ENGLISH VERSION: Building for the TUM Campus Heilbronn on the educational campus of the foundation Dieter Schwarz Stiftung in Heilbronn. The TUM uses five of the nine upper floors for research and teaching in economics. Opening of the building: 31.1.2019.     «Gebäude für den TUM Campus Heilbronn auf dem Bildungscampus der Dieter Schwarz Stiftung in Heilbronn. Die Technische Universität München (TUM) nutzt fünf von neun Obergeschossen für Forschung und Lehre in Wirtschaftswissenschaften. Eröffnung des Gebäudes: 31.1.2019.  ENGLISH VERSION: Building for the TUM Campus Heilbronn on the educational campus of the foundation Dieter Schwarz Stiftung in Heilbronn. The TUM uses five of the nine upper floors for research and te...'
-      date: 29.01.2019
-      faculty: Fakultät für Wirtschaftswissenschaften;  TUM School of Management
-      headline: TUM Campus Heilbronn
-      image_url: https://mediatum.ub.tum.de/image/1472545.jpg
-      location: Heilbronn
   1:
     author: Jürgen Häffner / TUM
     license:
@@ -2508,13 +1583,6 @@ heilbronn:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1472429
-    meta:
-      caption: 'Gebäude für den TUM Campus Heilbronn auf dem Bildungscampus der Dieter Schwarz Stiftung in Heilbronn. Die Technische Universität München (TUM) nutzt fünf von neun Obergeschossen für Forschung und Lehre in Wirtschaftswissenschaften. Eröffnung des Gebäudes: 31.1.2019.  ENGLISH VERSION: Building for the TUM Campus Heilbronn on the educational campus of the foundation Dieter Schwarz Stiftung in Heilbronn. The TUM uses five of the nine upper floors for research and teaching in economics. Opening of the building: 31.1.2019.     «Gebäude für den TUM Campus Heilbronn auf dem Bildungscampus der Dieter Schwarz Stiftung in Heilbronn. Die Technische Universität München (TUM) nutzt fünf von neun Obergeschossen für Forschung und Lehre in Wirtschaftswissenschaften. Eröffnung des Gebäudes: 31.1.2019.  ENGLISH VERSION: Building for the TUM Campus Heilbronn on the educational campus of the foundation Dieter Schwarz Stiftung in Heilbronn. The TUM uses five of the nine upper floors for research and te...'
-      date: 01.01.2019
-      faculty: Fakultät für Wirtschaftswissenschaften;  TUM School of Management
-      headline: TUM Campus Heilbronn
-      image_url: https://mediatum.ub.tum.de/image/1472429.jpg
-      location: Heilbronn
   2:
     author: Dieter Schwarz Stiftung
     license:
@@ -2522,11 +1590,6 @@ heilbronn:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1430559
-    meta:
-      caption: Illustration des Bildungscampus Heilbronn der Dieter Schwarz Stiftung mit geplanten Erweiterungen
-      date: 07.02.2018
-      headline: Plan für Bildungscampus Heilbronn
-      image_url: https://mediatum.ub.tum.de/file/1430559/übersicht_Bildungscampus_(c)_Dieter_Schwarz_Stiftung.pdf
   3:
     author: Jürgen Häffner / Dieter Schwarz Stiftung
     license:
@@ -2534,11 +1597,6 @@ heilbronn:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1430689
-    meta:
-      caption: Prof. Dr. Dr. hc. mult. Wolfgang A. Herrmann, Präsident der TUM (TUM), Prof. Dr. Peter Frankenberg, Vorsitzender der Gesellschafterversammlung der Dieter Schwarz Stiftung, Prof. Reinhold R. Geilsdörfer, Geschäftsführer der Dieter Schwarz Stiftung, Prof. Dr.-Ing. Oliver Lenzen, Rektor der Hochschule Heilbronn, und Prof. Dr. Gunther Friedl, Dekan der faculty für Wirtschaftswissenschaften der TUM - TUM School of Management (v.l.) treffen sich am 7.2.2018 auf dem Bildungscampus Heilbronn zur Bekanntgabe der Stiftung von 20 wirtschaftswissenschaftlichen Professuren durch die Dieter Schwarz Stiftung an die TUM und der Einrichtung des TUM Campus Heilbronn.      «Prof. Dr. Dr. hc. mult. Wolfgang A. Herrmann, Präsident der TUM (TUM), Prof. Dr. Peter Frankenberg, Vorsitzender der Gesellschafterversammlung der Dieter Schwarz Stiftung, Prof. Reinhold R. Geilsdörfer, Geschäftsführer der Dieter Schwarz Stiftung, Prof. Dr.-Ing. Oliver Lenzen, Rektor der Hochschule Heilbronn, und Prof. Dr. Gunther Friedl, Dekan der faculty für Wirtschaftswissenschaften der TUM - TUM School of Management (v.l.) treffen sich am 7.2.2018 auf dem Bildung...
-      date: 07.02.2018
-      headline: TUM Campus Heilbronn
-      image_url: https://mediatum.ub.tum.de/file/1430689/ATT00003.jpg.jpeg
   4:
     author: Magmell / Dieter Schwarz Stiftung
     license:
@@ -2546,11 +1604,6 @@ heilbronn:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1430556
-    meta:
-      caption: Bildungscampus der Dieter Schwarz Stiftung in Heilbronn
-      date: 29.08.2017
-      headline: Bildungscampus Heilbronn
-      image_url: https://mediatum.ub.tum.de/file/1430556/BC_von_oben__0003_300dpi_(c)_Magmell.jpg
 mi:
   0:
     author: Astrid Eckert
@@ -2559,13 +1612,6 @@ mi:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1575463
-    meta:
-      caption: "Blick aus der gläsernen Magistrale des Gebäudes der Fakultäten für Mathematik und Informatik, auf den Vorplatz des Haupteingangs. Der Neubau entstand zwischen 2000 bis 2002 und wurde von den Architekten Bachmann, Marx, Brechensbauer und Partner realisiert. \r\nAuf dem Vorplatz links ist der Interim Audimax mit einer Fassade aus dunkel lasiertem Fichtenholz nach Entwürfen der Architekten Deubzer, König und Rimmel zu sehen, im Hintergrund rechts liegt das Kongresszentrum GALILEO. \r\n\r\nENGLISH VERSION: View from the glass thoroughfare of department of mathematics and informatics on forecourt of the main entrance. The new building was constructed from 2000 to 2003 and  materialized by architects Bachmann, Marx, Brechensbaueer and partners. \r\nOn the forecourt to the left is seen interim audimax with a facade of dark\r\nstained spruce wood to a design by Deubzer, König and Rimmerl architects, \r\nand in the background to the right the GALILEO congress centre is located. "
-      date: 25.06.2020
-      faculty: Fakultät für Mathematik und Informatik;  Department of mathematics and informatics
-      headline: TUM Garching faculty für Mathematik und Informatik / Department of mathematics and of informatics 2020
-      image_url: https://mediatum.ub.tum.de/image/1575463.jpg
-      location: München, Bayern, Deutschland / Munich, Bavaria, Germany Garching bei München
   1:
     author: Benz, Uli / TUM
     license:
@@ -2573,13 +1619,6 @@ mi:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=614549
-    meta:
-      building: Fakultät Informatik
-      date: 23.05.2010
-      faculty: Informatik
-      headline: Fakultätsgebäude Informatik
-      image_url: https://mediatum.ub.tum.de/file/614549/UB2010GAR_170.jpg
-      location: Garching bei München; Fakultät für Informatik
   2:
     author: Astrid Eckert
     license:
@@ -2587,13 +1626,6 @@ mi:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1575463
-    meta:
-      caption: "Blick aus der gläsernen Magistrale des Gebäudes der Fakultäten für Mathematik und Informatik, auf den Vorplatz des Haupteingangs. Der Neubau entstand zwischen 2000 bis 2002 und wurde von den Architekten Bachmann, Marx, Brechensbauer und Partner realisiert. \r\nAuf dem Vorplatz links ist der Interim Audimax mit einer Fassade aus dunkel lasiertem Fichtenholz nach Entwürfen der Architekten Deubzer, König und Rimmel zu sehen, im Hintergrund rechts liegt das Kongresszentrum GALILEO. \r\n\r\nENGLISH VERSION: View from the glass thoroughfare of department of mathematics and informatics on forecourt of the main entrance. The new building was constructed from 2000 to 2003 and  materialized by architects Bachmann, Marx, Brechensbaueer and partners. \r\nOn the forecourt to the left is seen interim audimax with a facade of dark\r\nstained spruce wood to a design by Deubzer, König and Rimmerl architects, \r\nand in the background to the right the GALILEO congress centre is located. "
-      date: 25.06.2020
-      faculty: Fakultät für Mathematik und Informatik;  Department of mathematics and informatics
-      headline: TUM Garching faculty für Mathematik und Informatik / Department of mathematics and of informatics 2020
-      image_url: https://mediatum.ub.tum.de/image/1575463.jpg
-      location: München, Bayern, Deutschland / Munich, Bavaria, Germany Garching bei München
   3:
     author: Scharger, Albert / TUM
     license:
@@ -2603,14 +1635,6 @@ mi:
       url: https://mediatum.ub.tum.de/1232767?show_id=614629
     offsets:
       header: -150
-    meta:
-      building: Fakultäten für Mathematik und Informatik
-      caption: 'Links im Bild: großer Hörsaal, rechter Gebäudeteil: faculty für Informatik'
-      date: ca. 2005
-      faculty: Informatik; Mathematik
-      headline: Fakultätsgebäude Mathematik und Informatik
-      image_url: https://mediatum.ub.tum.de/file/614629/DSCF30.JPG
-      location: Garching
   4:
     author: Scharger, Albert / TUM
     license:
@@ -2620,14 +1644,6 @@ mi:
       url: https://mediatum.ub.tum.de/1232767?show_id=608137
     offsets:
       header: 300
-    meta:
-      building: Fakultätsgebäude Mathematik / Informatik
-      caption: 'Fakultätsgebäude Mathematik und Informatik, Garching;  links im Bild: großer Hörsaal;  im nördlichen Gebäudeteil (rechts im Bild) ist die faculty für Informatik untergebracht.'
-      date: '2006'
-      faculty: Informatik; Mathematik
-      headline: Fakultätsgebäude Mathematik und Informatik, Garching
-      image_url: https://mediatum.ub.tum.de/file/608137/2006_1015Bild0135.JPG
-      location: Garching
   6:
     author: Andreas Heddergott / TUM
     license:
@@ -2635,13 +1651,6 @@ mi:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1360513
-    meta:
-      caption: Studierende in der Magistrale des Gebäudes der Fakultäten für Mathermatik und für Informatik auf dem Campus Garching
-      date: 29.05.2015
-      faculty: Informatik; Mathematik
-      headline: Magistrale Mathematik Informatik (Kunstwerk Parabelrutsche von Brunner/Ritz)
-      image_url: https://mediatum.ub.tum.de/file/1360513/140410_Magistrale_Ma_In_AH_132377_15x22.jpg
-      location: Garching
 mri:
   0:
     author: Astrid Eckert
@@ -2652,13 +1661,6 @@ mri:
       url: https://mediatum.ub.tum.de/1232769?show_id=1613195
     offsets:
       header: 400
-    meta:
-      caption: "Im Erweiterungsbau der Chirurgischen Klinik befinden sich neben der  Notaufnahme, das Institut für Experimentelle Chirurgie, Kursräume für die Mikrobiologie und Klinische Chemie.  The expansion building of Chirurgical Clinic houses the emergency admission, the institute for experimental chemistry, seminar rooms for microbiology and clinical chemistry.  \r\nFoto / Photo: Astrid Eckert / TUM"
-      date: 05.02.2021
-      faculty: TUM School of Medicine;  faculty für Medizin
-      headline: Klinikum rechts der Isar der TUM / University Hospital of TUM (TUM) 2021
-      image_url: https://mediatum.ub.tum.de/image/1613195.jpg
-      location: München
   1:
     author: Klinikums rechts der Isar
     license:
@@ -2666,13 +1668,6 @@ mri:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1361058
-    meta:
-      caption: Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 2017.
-      date: '2017'
-      faculty: Medizin
-      headline: Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 2017.
-      image_url: https://mediatum.ub.tum.de/file/1361058/Luftbild_heute.jpg
-      location_name: Klinikum rechts der Isar
 mw:
   0:
     author: Renardo la vulpo
@@ -2684,9 +1679,6 @@ mw:
       url: https://commons.wikimedia.org/wiki/File:Garching,_Eberhard-von-Kuenheim-Bau,_2.jpeg
     offsets:
       header: 300
-    meta:
-      date: 2015-10-09
-      geo: 48.265797,11.671356
   1:
     author: Heddergott, Andreas / TUM
     license:
@@ -2694,16 +1686,6 @@ mw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1165202
-    meta:
-      building: Fakultätsgebäude Maschinenwesen
-      caption: Das fast 60 m lange Rotorblatt vor dem Gebäude der faculty Maschinenwesen
-      date: '2013'
-      department: Lehrstuhl für Windenergie
-      event: Symposium zur Windenergie-Forschung auf dem Campus Garching am 27.06.2013
-      faculty: Maschinenwesen
-      headline: Ein Rotorblatt der neuesten Generation des Herstellers GE besucht den Campus Garching anlässlich eines internationalen Symposiums zur Windenergie-Forschung
-      image_url: https://mediatum.ub.tum.de/file/1165202/20130627_Windenergie_AH_26566b.jpg
-      location: Garching bei München; Lehrstuhl für Windenergie
   2:
     author: Andreas Heddergott
     license:
@@ -2713,12 +1695,6 @@ mw:
       url: https://mediatum.ub.tum.de/1436723?show_id=1437615
     offsets:
       header: 200
-    meta:
-      caption: "Studenten bilden den Schrifzug 150 TUM am Campus Garching vor dem facultysgebäude Maschienenwesen\r\nFoto: Andreas Heddergott / Verwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights"
-      date: 17.10.2017
-      headline: TUM 150 Jahre Studenten formieren Schriftzug
-      image_url: https://mediatum.ub.tum.de/image/1437615.jpg
-      location: München, Garching
   3:
     author: Benz, Uli / TUM
     license:
@@ -2728,13 +1704,6 @@ mw:
       url: https://mediatum.ub.tum.de/1232767?show_id=998437
     offsets:
       header: -200
-    meta:
-      caption: U-Bahnvorplatz (links), Gebäude der faculty Maschinenwesen (Mitte), mit der Bibliothek im Maschinenwesen (daneben). Exzellenzzentrum (rechts), entlang an der Magistrale der Boltzmannstraße;
-      date: '2010'
-      faculty: Maschinenwesen
-      headline: Fakultät für Maschinenwesen der TU München
-      image_url: https://mediatum.ub.tum.de/file/998437/UB2010_ Nachtaufnahme Maschinenwesen_001.jpg
-      location: Garching
   4:
     author: Heddergott, Andreas / TUM
     license:
@@ -2742,16 +1711,6 @@ mw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1165202
-    meta:
-      building: Fakultätsgebäude Maschinenwesen
-      caption: Das fast 60 m lange Rotorblatt vor dem Gebäude der faculty Maschinenwesen
-      date: '2013'
-      department: Lehrstuhl für Windenergie
-      event: Symposium zur Windenergie-Forschung auf dem Campus Garching am 27.06.2013
-      faculty: Maschinenwesen
-      headline: Ein Rotorblatt der neuesten Generation des Herstellers GE besucht den Campus Garching anlässlich eines internationalen Symposiums zur Windenergie-Forschung
-      image_url: https://mediatum.ub.tum.de/file/1165202/20130627_Windenergie_AH_26566b.jpg
-      location: Garching bei München; Lehrstuhl für Windenergie
 obernach:
   0:
     author: Manfred Schmierl
@@ -2760,13 +1719,6 @@ obernach:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1552212
-    meta:
-      caption: "Luftaufnahme der Versuchsanstalt für Wasserbau und Wasserwirtschaft am Oskar von Miller-Institut der TUM \r\nin Obernach in der Jachenau. \r\nENGLISH VERSION: Experimental plant on the grounds of Laboratory of Hydraulic and Water Resources Engineering in Obernach  \r\nFoto / Photo: Manfred Schmierl / TUM \r; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted."
-      date: 20.07.2017
-      faculty: Ingenieurfaculty Bau Geo Umwelt;  TUM Department of Civil, Geo and Environmental Engineering
-      headline: TUM Versuchsanstalt Obernach  / Laboratory of Hydraulic and Water Resources Engineering in Obernach 2017
-      image_url: https://mediatum.ub.tum.de/image/1552212.jpg
-      location: Obernach
   1:
     author: Virtuelles Alpenobservatorium (VAO)
     license:
@@ -2774,13 +1726,6 @@ obernach:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1552211
-    meta:
-      caption: "Luftaufnahme der Versuchsanstalt für Wasserbau und Wasserwirtschaft am Oskar von Miller-Institut der TUM \r\nin Obernach in der Jachenau. \r\nENGLISH VERSION: Experimental plant on the grounds of Laboratory of Hydraulic and Water Resources Engineering in Obernach  \r\nFoto / Photo: Virtuelles Alpenobservatorium (VAO) / Lehrstuhl für Wasserbau und Wasserwirtschaft / TUM \r; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted."
-      date: 27.10.2015
-      faculty: Ingenieurfaculty Bau Geo Umwelt;  TUM Department of Civil, Geo and Environmental Engineering
-      headline: TUM Versuchsanstalt Obernach  / Laboratory of Hydraulic and Water Resources Engineering in Obernach 2015
-      image_url: https://mediatum.ub.tum.de/image/1552211.jpg
-      location: Obernach
   2:
     author: Virtuelles Alpenobservatorium (VAO)
     license:
@@ -2788,13 +1733,6 @@ obernach:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232769?show_id=1552211
-    meta:
-      caption: "Luftaufnahme der Versuchsanstalt für Wasserbau und Wasserwirtschaft am Oskar von Miller-Institut der TUM \r\nin Obernach in der Jachenau. \r\nENGLISH VERSION: Experimental plant on the grounds of Laboratory of Hydraulic and Water Resources Engineering in Obernach  \r\nFoto / Photo: Virtuelles Alpenobservatorium (VAO) / Lehrstuhl für Wasserbau und Wasserwirtschaft / TUM \r; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted."
-      date: 27.10.2015
-      faculty: Ingenieurfaculty Bau Geo Umwelt;  TUM Department of Civil, Geo and Environmental Engineering
-      headline: TUM Versuchsanstalt Obernach  / Laboratory of Hydraulic and Water Resources Engineering in Obernach 2015
-      image_url: https://mediatum.ub.tum.de/image/1552211.jpg
-      location: Obernach
 olympiapark:
   0:
     author: Studio Roland Schmid
@@ -2803,15 +1741,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1442246
-    meta:
-      building: Olympiapark
-      caption: Modell des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modell Neubau TUM Campus im Olympiapark Draufsicht
-      image_url: https://mediatum.ub.tum.de/file/1442246/DSC_0097.JPG
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften;  ZHS
   1:
     author: A. Eckert
     license:
@@ -2819,16 +1748,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1443390
-    meta:
-      building: Olympiapark
-      caption: TUM-Präsident Prof. Wolfgang A. Herrmann (v.l.n.r.), Prof. Marion Kiechle, Staatsministerin für Wissenschaft und Kunst, Prof. Ansgar Schwirtz, Dekan der Sport- und Gesundheitswissenschaften, Michael Hahn, Leiter der ZHS München, Dr. Till Lorenzen, Geschäftsführer der faculty für Sport- und Gesundheitswissenschaften, Landschaftsarchitekt Christoph Schubert sowie die Architekten Much Untertrifaller und Helmut Dietrich bei der Grundtseinlegung des TUM Campus im Olympiapark.
-      date: 16.05.2018
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung TUM Campus im Olympiapark am 16. Mai 2018
-      faculty: Sportwissenschaft
-      headline: Grundsteinlegung TUM Campus im Olympiapark (groß)
-      image_url: https://mediatum.ub.tum.de/file/1443390/180516_Sport_Campus_Grundstein_AE_-8473.jpg
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   2:
     author: Studio Roland Schmid
     license:
@@ -2836,16 +1755,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=1442252
-    meta:
-      building: Olympiapark
-      caption: Modell des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modellansicht TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1442252/Modell_1246322.jpg
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   3:
     author: A. Eckert
     license:
@@ -2855,16 +1764,6 @@ olympiapark:
       url: https://mediatum.ub.tum.de/1232768?show_id=1443375
     offsets:
       header: 200
-    meta:
-      building: Olympiapark
-      caption: TUM-Präsident Prof. Wolfgang A. Herrmann (v.l.n.r.), Prof. Marion Kiechle, Staatsministerin für Wissenschaft und Kunst,  Prof. Ansgar Schwirtz, Dekan der Sport- und Gesundheitswissenschaften und Michael Hahn, Leiter der ZHS München legen gemeinsam den Grundstein für den Neubau des TUM Campus im Olympiapark am 16. Mai 2018.
-      date: 16.05.2018
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Grundsteinlegung TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1443375/20180516_Sport_Campus_Grundstein_AE_-8415.jpg
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   4:
     author: Studio Roland Schmid
     license:
@@ -2872,16 +1771,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1442249
-    meta:
-      building: Olympiapark
-      caption: Modellnsicht aus der Ferne des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modellansicht aus der Ferne TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1442249/ Modell aus der Ferne DSC_0138.JPG
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   5:
     author: A. Eckert
     license:
@@ -2891,16 +1780,6 @@ olympiapark:
       url: https://mediatum.ub.tum.de/1232768?show_id=1443390
     offsets:
       header: 700
-    meta:
-      building: Olympiapark
-      caption: TUM-Präsident Prof. Wolfgang A. Herrmann (v.l.n.r.), Prof. Marion Kiechle, Staatsministerin für Wissenschaft und Kunst, Prof. Ansgar Schwirtz, Dekan der Sport- und Gesundheitswissenschaften, Michael Hahn, Leiter der ZHS München, Dr. Till Lorenzen, Geschäftsführer der faculty für Sport- und Gesundheitswissenschaften, Landschaftsarchitekt Christoph Schubert sowie die Architekten Much Untertrifaller und Helmut Dietrich bei der Grundtseinlegung des TUM Campus im Olympiapark.
-      date: 16.05.2018
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung TUM Campus im Olympiapark am 16. Mai 2018
-      faculty: Sportwissenschaft
-      headline: Grundsteinlegung TUM Campus im Olympiapark (groß)
-      image_url: https://mediatum.ub.tum.de/file/1443390/180516_Sport_Campus_Grundstein_AE_-8473.jpg
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   6:
     author: Studio Roland Schmid
     license:
@@ -2908,16 +1787,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1442252
-    meta:
-      building: Olympiapark
-      caption: Modell des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      department: Fakultät für Sport- und Gesundheitswissenschaften
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modellansicht TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1442252/Modell_1246322.jpg
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften, ZHS
   7:
     author: Uli Benz
     license:
@@ -2925,13 +1794,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1601089
-    meta:
-      caption: "Der TUM Campus im Olympiapark wird komplett neu bebaut und von Süden erschlossen: Neben Institutsgebäuden, Laboren, einer Bibliothek und Mensa für die Sport- und Gesundheitswissenschaften entstehen Sporthallen, die von der faculty und dem Zentralen Hochschulsport (ZHS) gleichermaßen genutzt werden.   \r\nENGLISH VERSION: TUM campus in Olympic Park Munich will be completely rebuild and opened from the south: Besides new institute buildings, labs, a library and  refectory for sport and health sciences are built sportshalls, which will being used as well by the faculty as by the   \r\ncollegiate sports."
-      date: 01.03.2021
-      faculty: Fakultät für Sport- und Gesundheitswissenschaften ;  Department of Sport and Health Sciences
-      headline: TUM Sportcampus Neubauten / New buildings 2021
-      image_url: https://mediatum.ub.tum.de/image/1601089.jpg
-      location: München
   8:
     author: Studio Roland Schmid
     license:
@@ -2939,15 +1801,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1442248
-    meta:
-      building: Olympiapark
-      caption: Modellansicht des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modellansicht TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1442248/Modell DSC_0112.JPG
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften;  ZHS
   9:
     author: Studio Roland Schmid
     license:
@@ -2955,15 +1808,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1442246
-    meta:
-      building: Olympiapark
-      caption: Modell des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Modell Neubau TUM Campus im Olympiapark Draufsicht
-      image_url: https://mediatum.ub.tum.de/file/1442246/DSC_0097.JPG
-      location: München; Fakultät für Sport- und Gesundheitswissenschaften;  ZHS
   10:
     author: Studio Roland Schmid
     license:
@@ -2971,16 +1815,6 @@ olympiapark:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232768?show_id=1442250
-    meta:
-      building: Olympiapark
-      caption: Modellansicht des TUM Campus im Olympiapark für die faculty für Sport- und Gesundheitswissenschaften und des Zentralen Hochschulsports (ZHS) – Architekturbüro Untertrifaller
-      date: 30.03.2015
-      department: Fakultät für Sport- und Gesundheitswissenschaften, ZHS
-      event: Grundsteinlegung am 16. Mai 2018 Neubau TUM Campus im Olympiapark
-      faculty: Sportwissenschaft
-      headline: Ansicht TUM Campus im Olympiapark
-      image_url: https://mediatum.ub.tum.de/file/1442250/Modell DSC_0140.JPG
-      location: München; Fakultät für Sport- und Gesundheitswissenschaft
 physik:
   0:
     author: '''Graf-flugplatz'''
@@ -2990,8 +1824,6 @@ physik:
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:110403019-TUM.JPG
-    meta:
-      date: 2011-04-03
 physik-main:
   0:
     author: Andreas Battenberg / TUM
@@ -3002,8 +1834,6 @@ physik-main:
       url: https://mediatum.ub.tum.de/1232786?show_id=1273589
     offsets:
       header: -100
-    meta:
-      date: 2015-04-27
   1:
     author: Andreas Battenberg / TUM
     license:
@@ -3011,8 +1841,6 @@ physik-main:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232786?show_id=1273590
-    meta:
-      date: 2015-04-27
   2:
     author: Andreas Battenberg / TUM
     license:
@@ -3020,8 +1848,6 @@ physik-main:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232786?show_id=1273588
-    meta:
-      date: 2015-04-27
 stammgelaende:
   0:
     author: Maximilian Dörrbecker
@@ -3031,8 +1857,6 @@ stammgelaende:
     source:
       text: Wikimedia Commons
       url: https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_TU_M%C3%BCnchen_(Luftbild).jpg
-    meta:
-      date: 2007-04-13
   1:
     author: Fred Romero
     license:
@@ -3043,9 +1867,6 @@ stammgelaende:
       url: https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_Technische_Universit%C3%A4t_(2).jpg
     offsets:
       header: 100
-    meta:
-      date: 2013-08-14
-      geo: 48.148165,11.566747
   2:
     author: FOTAG Luftbild München
     license:
@@ -3053,13 +1874,6 @@ stammgelaende:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=652205
-    meta:
-      building: Arcisstr.
-      caption: Stammgelände der TU München in der Arcisstr.
-      date: '2005'
-      headline: Luftbild Stammgelände
-      image_url: https://mediatum.ub.tum.de/file/652205/LH15207.jpg
-      location: München; Stammgelände TUM
 taufkirchen-ottobrunn:
   0:
     author: Uli Benz
@@ -3070,13 +1884,6 @@ taufkirchen-ottobrunn:
       url: https://mediatum.ub.tum.de/1232768?show_id=1601027
     offsets:
       header: 500
-    meta:
-      caption: "Ab dem 1. Dezember ist die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) der TUM (TUM) Mieterin eines neuen Gebäudes in der Lise-Meitner-Straße in Ottobrunn.  Die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) wurde 2018 als 15. faculty der TUM gegründet.  \r\nVon neuen Transportsystemen über Kommunikations- und Satellitentechnik bis zur Beobachtung und Vermessung des Planeten: Im Zusammenspiel mit den geodätischen Disziplinen wird die Luft- und Raumfahrt zu einer 'Mission Erde'.  \r\nMit ihren derzeit 22 Professuren und Lehrstühlen gehört die faculty schon jetzt international zum Spitzenfeld: Das Shanghai Subject Ranking sieht sie in der Geodäsie/Fernerkundung weltweit auf Platz 8, in der Luft- und Raumfahrt auf Platz 16 – die LRG ist damit deutschlandweit unangefochten führend. Durch gezielte fachliche Verstärkungen sowie ausgedehnte Investitionen an ihren neuen Standorten in Taufkirchen/Ottobrunn und Oberpfaffenhofen wird diese Führungsrolle in den kommenden Jahren weiter ausgebaut. \r\nENGLISH VERSION: As of December 1, the Department of Aerospace and Geodesy (LRG) of the Technical University of Munich (TUM) is the tenant of a new building in Lise-Meitner-Strasse in Ottobrunn. The completely renovated building offers space for the acute needs of the department. The Department of Aerospace and Geodesy (LRG) was founded in 2018 as the 15th department of the TUM.  From novel aircraft and transport systems to communication and satellite technology to observing and mapping our planet with unprecedented precision: Aerospace and geodesy have jointly started their 'mission earth'.  \r\nWith its currently 22 professorships and chairs, the department is already playing in the Champions League of research: In the Shanghai Subject Ranking , it ranks 8th in geodesy/remote sensing and 16th in aerospace worldwide – making the LRG the undisputed number one in Germany. Through professional reinforcements as well as extensive investments at the new locations in Taufkirchen/Ottobrunn and Oberpfaffenhofen, this position will be further strengthened in the years to come and will make the LRG the largest department of its kind in Europe."
-      date: 28.02.2021
-      faculty: Fakultät für Luftfahrt, Raumfahrt und Geodäsie;  Department of Aerospace and Geodesy
-      headline: TUM Neues Gebäude der faculty Luftfahrt, Raumfahrt und Geodäsie (LRG) / New Building for Department of Aerospace, Aeronautics and Geodesy in Ottobrunn/Taufkirchen 2021
-      image_url: https://mediatum.ub.tum.de/image/1601027.jpg
-      location: Ottobrunn / Taufkirchen, Bayern, Deutschland / Bavaria, Germany
 wzw:
   0:
     author: Heddergott, Andreas / TUM
@@ -3085,14 +1892,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/652209?show_id=997939
-    meta:
-      caption: Prof. Wolfgang A. Herrmann, TUM-Präsident, und Dr. Wolfgang Heubisch, Bayerischer Staatsminister für Wissenschaft, Forschung und Kunst, vor der Ausstellung 'Wissenschaftsstandort Weihenstephan - vom Benediktinerkloster zum Life Science-Campus'
-      date: '2010'
-      event: Pressemitteilung vom 30.09.2010
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Zehn Jahre WZW
-      image_url: https://mediatum.ub.tum.de/file/997939/AH20100930001.jpg
-      location: Weihenstephan
   1:
     author: Michael Obermeier/Michael Folgmann
     license:
@@ -3100,13 +1899,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1453695
-    meta:
-      caption: Im Vordergrund die 'Margarinewürfel', mittig der zentrale Teil des Campus (v.l.n.r. u.a. mit iGZW, ZIEL, Bibliothek, Mensa und zentralem Hörsaal- sowie Praktikumsgebäude), im Hintergrund der nördliche Campusbereich
-      date: 23.08.2018
-      faculty: Wissenschaftszentrum Weihenstephan
-      headline: Campus Freising - Luftbildaufnahme vom Weihenstephaner Berg aus (höher)
-      image_url: https://mediatum.ub.tum.de/file/1453695/Freising-Campusansicht_vom_Weihenstephaner_Berg.jpg
-      location: Weihenstephan
   2:
     author: Ronald Zöllner
     license:
@@ -3114,13 +1906,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1620033
-    meta:
-      caption: '"Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nDas Department "Molecular Life Sciences" erforscht die biomolekularen Grundlagen vom Molekül über die Zelle bis zum Organismus von Mensch, Tier und Pflanze. \r\nDas Department "Life Science Engineering" verbindet die Ingenieurwissenschaften mit biologischen Systemen und der Lebensmittelforschung, entwickelt Verfahren der additiven Fertigung unter Nutzung innovativer Biomaterialien und gestaltet die Digitalisierung von Wertschöpfungsketten. \r\nDas Department "Life Science Systems" untersucht Systeme im Forst- und Agrarbereich, einschließlich ökologischer, gesellschaftlicher und ökonomischer Aspekte, wie beispielweise die Ursachen und Folgen des Klimawandels. Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nENGLISH VERSION: The TUM has concentrated its expertise in life sciences in the TUM School of Life Sciences at the modern Weihenstephan campus in Freising. From molecules to plants and animals to ecosystems and landscapes, Molecular Life Sciences, Life Science Systems and Life Science Engineering are explored and taught under the motto "One Health".'
-      date: 16.07.2021
-      faculty: TUM School of Life Sciences
-      headline: TUM School of Life Sciences auf dem / at Campus Weihenstephan in Freising 2021
-      image_url: https://mediatum.ub.tum.de/image/1620033.jpg
-      location: Freising
   3:
     author: Ronald Zöllner
     license:
@@ -3128,13 +1913,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1620026
-    meta:
-      caption: 'Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nDas Department "Molecular Life Sciences" erforscht die biomolekularen Grundlagen vom Molekül über die Zelle bis zum Organismus von Mensch, Tier und Pflanze. \r\nDas Department "Life Science Engineering" verbindet die Ingenieurwissenschaften mit biologischen Systemen und der Lebensmittelforschung, entwickelt Verfahren der additiven Fertigung unter Nutzung innovativer Biomaterialien und gestaltet die Digitalisierung von Wertschöpfungsketten. \r\nDas Department "Life Science Systems" untersucht Systeme im Forst- und Agrarbereich, einschließlich ökologischer, gesellschaftlicher und ökonomischer Aspekte, wie beispielweise die Ursachen und Folgen des Klimawandels. Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nENGLISH VERSION: The TUM has concentrated its expertise in life sciences in the TUM School of Life Sciences at the modern Weihenstephan campus in Freising. From molecules to plants and animals to ecosystems and landscapes, Molecular Life Sciences, Life Science Systems and Life Science Engineering are explored and taught under the motto "One Health".'
-      date: 16.07.2021
-      faculty: TUM School of Life Sciences
-      headline: TUM School of Life Sciences auf dem / at Campus Weihenstephan in Freising 2021
-      image_url: https://mediatum.ub.tum.de/image/1620026.jpg
-      location: Freising
   4:
     author: Ronald Zöllner
     license:
@@ -3142,13 +1920,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1620039
-    meta:
-      caption: 'Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nDas Department "Molecular Life Sciences" erforscht die biomolekularen Grundlagen vom Molekül über die Zelle bis zum Organismus von Mensch, Tier und Pflanze. \r\nDas Department "Life Science Engineering" verbindet die Ingenieurwissenschaften mit biologischen Systemen und der Lebensmittelforschung, entwickelt Verfahren der additiven Fertigung unter Nutzung innovativer Biomaterialien und gestaltet die Digitalisierung von Wertschöpfungsketten. \r\nDas Department "Life Science Systems" untersucht Systeme im Forst- und Agrarbereich, einschließlich ökologischer, gesellschaftlicher und ökonomischer Aspekte, wie beispielweise die Ursachen und Folgen des Klimawandels. Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nENGLISH VERSION: The TUM has concentrated its expertise in life sciences in the TUM School of Life Sciences at the modern Weihenstephan campus in Freising. From molecules to plants and animals to ecosystems and landscapes, Molecular Life Sciences, Life Science Systems and Life Science Engineering are explored and taught under the motto "One Health".'
-      date: 16.07.2021
-      faculty: TUM School of Life Sciences
-      headline: TUM School of Life Sciences auf dem / at Campus Weihenstephan in Freising 2021
-      image_url: https://mediatum.ub.tum.de/image/1620039.jpg
-      location: Freising
   5:
     author: Ronald Zöllner
     license:
@@ -3156,13 +1927,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1620031
-    meta:
-      caption: 'Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nDas Department "Molecular Life Sciences" erforscht die biomolekularen Grundlagen vom Molekül über die Zelle bis zum Organismus von Mensch, Tier und Pflanze. \r\nDas Department "Life Science Engineering" verbindet die Ingenieurwissenschaften mit biologischen Systemen und der Lebensmittelforschung, entwickelt Verfahren der additiven Fertigung unter Nutzung innovativer Biomaterialien und gestaltet die Digitalisierung von Wertschöpfungsketten. \r\nDas Department "Life Science Systems" untersucht Systeme im Forst- und Agrarbereich, einschließlich ökologischer, gesellschaftlicher und ökonomischer Aspekte, wie beispielweise die Ursachen und Folgen des Klimawandels. Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nENGLISH VERSION: The TUM has concentrated its expertise in life sciences in the TUM School of Life Sciences at the modern Weihenstephan campus in Freising. From molecules to plants and animals to ecosystems and landscapes, Molecular Life Sciences, Life Science Systems and Life Science Engineering are explored and taught under the motto "One Health".'
-      date: 16.07.2021
-      faculty: TUM School of Life Sciences
-      headline: TUM School of Life Sciences auf dem / at Campus Weihenstephan in Freising 2021
-      image_url: https://mediatum.ub.tum.de/image/1620031.jpg
-      location: Freising
   6:
     author: Ronald Zöllner
     license:
@@ -3170,13 +1934,6 @@ wzw:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232767?show_id=1620029
-    meta:
-      caption: 'Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nDas Department "Molecular Life Sciences" erforscht die biomolekularen Grundlagen vom Molekül über die Zelle bis zum Organismus von Mensch, Tier und Pflanze. \r\nDas Department "Life Science Engineering" verbindet die Ingenieurwissenschaften mit biologischen Systemen und der Lebensmittelforschung, entwickelt Verfahren der additiven Fertigung unter Nutzung innovativer Biomaterialien und gestaltet die Digitalisierung von Wertschöpfungsketten. \r\nDas Department "Life Science Systems" untersucht Systeme im Forst- und Agrarbereich, einschließlich ökologischer, gesellschaftlicher und ökonomischer Aspekte, wie beispielweise die Ursachen und Folgen des Klimawandels. Die neue TUM School of Life Sciences richtet sich mit einem ganzheitlichen Forschungs- und Lehransatz auf das Gesamtökosystem Mensch - Tier - Pflanze - Boden - Klima aus. Untergliedert in drei Departments schöpft die School ihr Innovationspotenzial aus der fachübergreifenden Zusammenarbeit von Wissenschaftlerinnen und Wissenschaftlern, die nicht mehr aufgrund unterschiedlicher Untersuchungsobjekte wie beispielweise Mensch, Tier oder Pflanze künstlich getrennt voneinander arbeiten, sondern gemeinsam an interdisziplinären Fragestellungen forschen und neue Methoden entwickeln. \r\nENGLISH VERSION: The TUM has concentrated its expertise in life sciences in the TUM School of Life Sciences at the modern Weihenstephan campus in Freising. From molecules to plants and animals to ecosystems and landscapes, Molecular Life Sciences, Life Science Systems and Life Science Engineering are explored and taught under the motto "One Health".'
-      date: 16.07.2021
-      faculty: TUM School of Life Sciences
-      headline: TUM School of Life Sciences auf dem / at Campus Weihenstephan in Freising 2021
-      image_url: https://mediatum.ub.tum.de/image/1620029.jpg
-      location: Freising
 zentralgelaende:
   0:
     author: Astrid Eckert
@@ -3187,12 +1944,6 @@ zentralgelaende:
       url: https://mediatum.ub.tum.de/1232767?show_id=1584779
     offsets:
       header: 400
-    meta:
-      caption: "Fassade und Eingang des Hauptgebäudes der TUM in der Arcisstrasse 21 \r\nENGLISH VERSION: Front view and entrance of downtown campus of TUM in the Arcisstreet 21."
-      date: 22.09.2015
-      headline: TUM Außenansicht Hauptgebäude / TUM exterior view of main building 2015
-      image_url: https://mediatum.ub.tum.de/image/1584779.jpg
-      location: München
   1:
     author: Astrid Eckert
     license:
@@ -3200,7 +1951,3 @@ zentralgelaende:
     source:
       text: mediaTUM
       url: https://mediatum.ub.tum.de/1232770?show_id=1398713
-    meta:
-      caption: "Studierende der Fakultät für Wirtschaftswissenschaften an der Technischen Universität (TUM), fotografiert am Innenstadt Campus der TUM;  ;  Foto: © Astrid Eckert / TUM; \rVerwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights"
-      date: 04.09.2013
-      image_url: https://mediatum.ub.tum.de/image/1398713.jpg

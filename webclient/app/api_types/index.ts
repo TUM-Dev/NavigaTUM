@@ -308,36 +308,6 @@ export type components = {
       readonly author: components["schemas"]["PossibleURLRef"];
       readonly source: components["schemas"]["PossibleURLRef"];
       readonly license: components["schemas"]["PossibleURLRef"];
-      readonly meta?: components["schemas"]["ImageMetadata"];
-    };
-    /**
-     * @description Additional data about the images. Does not have to be displayed.
-     * All fields are optional.
-     */
-    readonly ImageMetadata: {
-      /** @description optional date description */
-      readonly date?: string;
-      /** @description optional location description */
-      readonly location?: string;
-      /** @description optional coordinates in lat,lon */
-      readonly geo?: string;
-      /**
-       * @description optional in contrast to source this points to the image itself.
-       * You should not use this to request the images, as they are not scaled.
-       */
-      readonly image_url?: string;
-      /** @description optional caption */
-      readonly caption?: string;
-      /** @description optional headline */
-      readonly headline?: string;
-      /** @description optional the event this image was taken at */
-      readonly event?: string;
-      /** @description optional the event this image is about */
-      readonly faculty?: string;
-      /** @description optional the building this image is about */
-      readonly building?: string;
-      /** @description optional the department this image is about */
-      readonly department?: string;
     };
     /** @description Additional information you should include, if you decide to display the image for legal and attribution reasons */
     readonly PossibleURLRef: {
@@ -740,9 +710,6 @@ export type components = {
                 readonly header?: number;
                 /** Format: int32 */
                 readonly thumb?: number;
-              };
-              readonly meta?: {
-                [key: string]: string;
               };
             };
             /**
