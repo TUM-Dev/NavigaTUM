@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT name,id,scale,height,width,x,y,source,file,selected_by_default\n            FROM roomfinder_maps\n            WHERE key=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "scale",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "height",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "width",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "x",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "y",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "file",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "selected_by_default",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "21818211f792a139ab72a477a13197e6e29a8a32f5b4e07cdcff301d702b42b1"
+}

@@ -7,19 +7,12 @@ use tracing::error;
 
 use crate::localisation;
 
+use crate::db::location::LocationKeyAlias;
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
 )]
 use serde_json::json;
-
-#[derive(Debug, Clone)]
-#[allow(dead_code)] // false positive. Clippy can't detect this due to macros
-pub struct LocationKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct DetailsPathParams {
@@ -153,7 +146,7 @@ struct LocationDetailsResponse {
     coords: CoordinateResponse,
     /// Print or overlay maps for said location
     maps: MapsResponse,
-    /// Information for different sections on the page like the
+    /// informations for different sectons on the page like the
     /// - buildings overview,
     /// - rooms overview and
     /// - featured view
@@ -180,7 +173,7 @@ enum LocationTypeResponse {
 struct OperatorResponse {
     /// ID of the operator
     #[schema(examples(51901))]
-    id: u32,
+    id: i32,
     ///Link to the operator
     #[schema(examples("https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901"))]
     url: String,
@@ -371,13 +364,13 @@ struct PropsResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     operator: Option<OperatorResponse>,
     computed: Vec<ComputedPropResponse>,
-    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
     links: Vec<PossibleURLRefResponse>,
     /// A comment to show to an entry.
     ///
     /// It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
-    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
-    comment: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    comment: Option<String>,
     /// Link to the calendar of the room
     #[schema(examples(
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J",
@@ -487,17 +480,7 @@ enum CoordinateSourceResponse {
 
 #[tracing::instrument(skip(pool))]
 async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
-    let result = sqlx::query_as!(
-        LocationKeyAlias,
-        r#"
-        SELECT DISTINCT key, visible_id, type
-        FROM aliases
-        WHERE alias = $1 OR key = $1 "#,
-        query
-    )
-    .fetch_all(pool)
-    .await;
-    match result {
+    match LocationKeyAlias::fetch_all(pool, query).await {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias

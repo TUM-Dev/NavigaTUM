@@ -1,34 +1,34 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT DISTINCT key, visible_id, type\n        FROM aliases\n        WHERE alias = $1 OR key = $1 ",
+  "query": "SELECT name,din_277,din_277_desc\n            FROM usages\n            WHERE usage_id=$1",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "key",
+        "name": "name",
         "type_info": "Text"
       },
       {
         "ordinal": 1,
-        "name": "visible_id",
+        "name": "din_277",
         "type_info": "Text"
       },
       {
         "ordinal": 2,
-        "name": "type",
+        "name": "din_277_desc",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
-        "Text"
+        "Int4"
       ]
     },
     "nullable": [
-      false,
-      false,
-      false
+      true,
+      true,
+      true
     ]
   },
-  "hash": "39d99d48ee0f0013b02cd2913df346c87f6340176b9db916535253d277a7d37c"
+  "hash": "8c8cace12a695138c0bf417469b8a46d933de94cdeeb03e482febb37df457a98"
 }
