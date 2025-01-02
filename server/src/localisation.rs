@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 
 #[derive(Deserialize, Serialize, Copy, Clone, Debug, Eq, PartialEq, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
@@ -30,10 +31,12 @@ impl LangQueryArgs {
     pub fn should_use_english(self) -> bool {
         self.lang == LanguageOptions::En
     }
-    pub fn serialise(self) -> String {
+}
+impl Display for LangQueryArgs {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.lang {
-            LanguageOptions::En => "en".to_string(),
-            LanguageOptions::De => "de".to_string(),
+            LanguageOptions::En => f.write_str("en"),
+            LanguageOptions::De => f.write_str("de"),
         }
     }
 }
