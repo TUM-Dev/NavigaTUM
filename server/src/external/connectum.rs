@@ -1,10 +1,11 @@
 const KEEP_ALIVE: Duration = Duration::from_secs(30);
-use crate::calendar::models::Event;
+use chrono::{DateTime, Utc};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
-use std::fmt;
+use serde::Deserialize;
+use std::fmt::{Debug, Formatter};
 use std::sync::Arc;
 use std::sync::RwLock;
 use std::time::{Duration, Instant};
@@ -16,8 +17,8 @@ pub struct APIRequestor {
     client: reqwest::Client,
     oauth_token: OauthAccessToken,
 }
-impl fmt::Debug for APIRequestor {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Debug for APIRequestor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut base = f.debug_struct("APIRequestor");
         if !self.oauth_token.should_refresh_token() {
             base.field("token", &self.oauth_token);
@@ -41,7 +42,7 @@ impl Default for APIRequestor {
     }
 }
 impl APIRequestor {
-    pub async fn list_events(&mut self, id: &str) -> anyhow::Result<Vec<Event>> {
+    pub async fn list_events(&mut self, id: &str) -> anyhow::Result<Vec<ConnectumEvent>> {
         let token = self.oauth_token.get_possibly_refreshed_token().await;
 
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
@@ -52,12 +53,24 @@ impl APIRequestor {
             .bearer_auth(token)
             .send()
             .await?
-            .json::<Vec<Event>>()
+            .json::<Vec<ConnectumEvent>>()
             .await?;
         Ok(events)
     }
 }
 
+#[derive(Deserialize)]
+pub struct ConnectumEvent {
+    pub id: i32,
+    pub room_code: String,
+    pub start_at: DateTime<Utc>,
+    pub end_at: DateTime<Utc>,
+    pub title_de: String,
+    pub title_en: String,
+    pub stp_type: Option<String>,
+    pub entry_type: String,
+    pub detailed_entry_type: String,
+}
 #[derive(Clone)]
 struct OauthAccessToken(Arc<RwLock<Option<(Instant, BasicTokenResponse)>>>);
 
@@ -139,8 +152,8 @@ impl OauthAccessToken {
         token.unwrap()
     }
 }
-impl fmt::Debug for OauthAccessToken {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Debug for OauthAccessToken {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let token = self.0.read().expect("not poisoned");
         let start_elapsed = token.as_ref().map(|(start, _)| start.elapsed());
         let mut base = f.debug_struct("Token");

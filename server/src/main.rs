@@ -16,18 +16,18 @@ use tokio::sync::{Barrier, RwLock};
 use tracing::{debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
-mod calendar;
 mod docs;
-mod feedback;
 mod limited;
 mod localisation;
-mod locations;
-mod maps;
-mod models;
-mod search;
+mod search_executor;
 mod setup;
 use utoipa_actix_web::{scope, AppExt};
+mod db;
 pub mod external;
+pub mod overlays;
+pub mod refresh;
+pub mod routes;
+use routes::*;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -185,9 +185,9 @@ async fn run_maintenance_work(
     }
     let mut set = tokio::task::JoinSet::new();
     let map_pool = pool.clone();
-    set.spawn(async move { maps::refresh::all_entries(&map_pool).await });
+    set.spawn(async move { refresh::indoor_maps::all_entries(&map_pool).await });
     let cal_pool = pool.clone();
-    set.spawn(async move { calendar::refresh::all_entries(&cal_pool).await });
+    set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
     set.join_all().await;
 }
 
@@ -213,7 +213,7 @@ async fn run() -> anyhow::Result<()> {
         .burst_size(50)
         .finish()
         .expect("Invalid configuration of the governor");
-    let recorded_tokens = web::Data::new(crate::feedback::tokens::RecordedTokens::default());
+    let recorded_tokens = web::Data::new(feedback::tokens::RecordedTokens::default());
 
     info!("running the server");
     HttpServer::new(move || {
@@ -238,8 +238,8 @@ async fn run() -> anyhow::Result<()> {
                 .app_data(recorded_tokens.clone())
                 .service(health_status_handler)
                 .service(calendar::calendar_handler)
-                .service(maps::indoor::list_indoor_maps)
-                .service(maps::indoor::get_indoor_map)
+                .service(routes::indoor::list_indoor_maps)
+                .service(routes::indoor::get_indoor_map)
                 .service(search::search_handler)
                 .service(locations::details::get_handler)
                 .service(locations::nearby::nearby_handler)

@@ -1,0 +1,63 @@
+---
+source: src/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'audimax' should get '0509.EG.980' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 0509.EG.980
+      type: room
+      name: "0509.EG.980 (\u0019Audimax\u0017, Werner-von-Siemens-Hörsaal)"
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 0980@0509
+    - id: 8120.01.101
+      type: room
+      name: "8120.01.101 (\u0019Audimax\u0017 im Galileo)"
+      subtext: "garching, Galileo"
+      subtext_bold: Audimax@8120
+    - id: 0509.02.986
+      type: room
+      name: "0509.02.986 (\u0019Audimax\u0017 Galerie)"
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 1986@0509
+    - id: 0509.02.903
+      type: room
+      name: 0509.02.903 (Übung-DV)
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 1903@0509
+    - id: 0509.02.919
+      type: room
+      name: 0509.02.919 (Studentenarb. m. DV)
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 1919@0509
+    - id: 0509.02.922
+      type: room
+      name: 0509.02.922 (Studentenarb. m. DV (HKW))
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 1922@0509
+    - id: 0509.02.977
+      type: room
+      name: 0509.02.977 (Seminarraum)
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 1977@0509
+    - id: 0509.03.902
+      type: room
+      name: 0509.03.902 (Studentenarb. m. DV)
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 2902@0509
+    - id: 0509.03.903
+      type: room
+      name: 0509.03.903 (Studentenarb. m. DV)
+      subtext: "stammgelände, Wienandsbau (Z9)"
+      subtext_bold: 2903@0509
+  n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites_buildings
+  entries:
+    - id: "0509"
+      type: building
+      name: "Wienandsbau, E-Technik / \u0019Audimax\u0017 (Z9)"
+      subtext: Gebäude
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
