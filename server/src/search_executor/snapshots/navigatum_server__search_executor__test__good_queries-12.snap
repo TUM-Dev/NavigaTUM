@@ -1,0 +1,64 @@
+---
+source: src/search_executor/mod.rs
+description: MI Magistrale
+expression: actual
+info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
+---
+- facet: rooms
+  entries:
+    - id: 5601.EG.001
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 (Magistrale)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.001@5601
+    - id: 5601.EG.010
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.010 (Pforte)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.010@5601
+    - id: 5601.EG.002
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.002 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.002@5601
+    - id: 5601.EG.003
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.003 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.003@5601
+    - id: 5601.EG.004
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.004 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.004@5601
+    - id: 5601.EG.005
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.005 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.005@5601
+    - id: 5601.EG.008
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.008 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.008@5601
+    - id: 5601.EG.009
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.009 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.009@5601
+    - id: 5601.EG.011
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.011 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.011@5601
+    - id: 5601.EG.012
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.012 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.012@5601
+  n_visible: 10
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -1,0 +1,63 @@
+---
+source: src/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'hochbrück' should get 'garching-hochbrueck' in 1 results"
+---
+- facet: sites_buildings
+  entries:
+    - id: garching-hochbrueck
+      type: site
+      name: "Garching \u0019Hochbrück\u0017"
+      subtext: Standort
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries:
+    - id: 8101.02.136
+      type: room
+      name: "8101.02.136 (\u0019Hochbrück\u0017-Bibliothek)"
+      subtext: "garching-hochbrück, Business Campus 1"
+      subtext_bold: 2.01.36@8101
+    - id: 8101.02.235
+      type: room
+      name: "8101.02.235 (\u0019Hochbrück\u0017-Kommunikationsraum)"
+      subtext: "garching-hochbrück, Business Campus 1"
+      subtext_bold: 2.02.35@8101
+    - id: 8102.03.111
+      type: room
+      name: "8102.03.111 (\u0019Hochbrück\u0017-Kommunikation 1)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.1.11@8102
+    - id: 8102.03.216
+      type: room
+      name: "8102.03.216 (\u0019Hochbrück\u0017-Konferenz)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.2.16@8102
+    - id: 8102.03.233
+      type: room
+      name: "8102.03.233 (\u0019Hochbrück\u0017-Kommunikation 2)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.2.33@8102
+    - id: 8102.03.302
+      type: room
+      name: "8102.03.302 (\u0019Hochbrück\u0017-Kommunikation 3)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.3.02@8102
+    - id: 8102.03.428
+      type: room
+      name: "8102.03.428 (\u0019Hochbrück\u0017-Konferenz)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.4.28@8102
+    - id: 8102.03.433
+      type: room
+      name: "8102.03.433 (\u0019Hochbrück\u0017-Kommunikation 4)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.4.33@8102
+    - id: 8102.03.502
+      type: room
+      name: "8102.03.502 (\u0019Hochbrück\u0017-Kommunikation 5)"
+      subtext: "garching-hochbrück, Business Campus 2"
+      subtext_bold: 3.5.02@8102
+  n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -1,0 +1,70 @@
+---
+source: src/search_executor/mod.rs
+description: Not sure about target here
+expression: actual
+info: "'1010 znn' should get '5115.01.010' in 1 results # Not sure about target here"
+---
+- facet: rooms
+  entries:
+    - id: 5115.01.010
+      type: room
+      name: 5115.01.010 (Elt. Transport)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.010@5115
+    - id: 5510.01.010
+      type: room
+      name: 5510.01.010 (Seminarraum)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1010@5510
+      parsed_id: "MW \u00191010\u0017"
+    - id: 0510.01.010
+      type: room
+      name: 0510.01.010 (Küche)
+      subtext: "stammgelände, Verwaltungsbau (Z10)"
+      subtext_bold: 1010@0510
+      parsed_id: "\u00191010\u0017 Verwaltungsbau (Z10)"
+    - id: 2906.01.010
+      type: room
+      name: 2906.01.010 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1010@2906
+      parsed_id: "\u00191010\u0017 Karlstraße 45/47"
+    - id: 5433.01.010
+      type: room
+      name: 5433.01.010 (Büro)
+      subtext: "garching, Entrepreneurship Research Institute"
+      subtext_bold: 1010@5433
+      parsed_id: "\u00191010\u0017 Entrepr… Institute"
+    - id: 0202.U1.010
+      type: room
+      name: 0202.U1.010 (Lager)
+      subtext: "stammgelände, Gabelsbergerstr. 39 (S2)"
+      subtext_bold: "-1010@0202"
+    - id: 0401.U1.010
+      type: room
+      name: 0401.U1.010 (Archiv)
+      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext_bold: "-1010@0401"
+    - id: 2906.U1.010
+      type: room
+      name: 2906.U1.010 (Trafostation)
+      subtext: Karlstraße 45/47
+      subtext_bold: "-1010@2906"
+    - id: 5413.EG.010
+      type: room
+      name: 5413.EG.010 (Hausanschluss)
+      subtext: "garching, BNMRZ Bayerisches NMR-Zentrum"
+      subtext_bold: 1010@5413
+      parsed_id: "\u00191010\u0017 BNMRZ B…MR-Zentrum"
+    - id: 5414.01.010
+      type: room
+      name: 5414.01.010 (Lager)
+      subtext: "garching, Zentrum für Energie und Information (ZEI)"
+      subtext_bold: 1010@5414
+      parsed_id: "\u00191010\u0017 Zentrum…tion (ZEI)"
+  n_visible: 10
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

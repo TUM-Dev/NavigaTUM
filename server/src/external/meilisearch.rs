@@ -5,7 +5,7 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
 use std::fmt::{Debug, Formatter};
 
-use crate::search::{Highlighting, Limits};
+use crate::routes::search::{Highlighting, Limits};
 
 #[derive(Deserialize, Default, Clone)]
 #[allow(dead_code)]

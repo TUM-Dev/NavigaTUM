@@ -1,0 +1,31 @@
+---
+source: src/routes/calendar.rs
+expression: actual
+---
+5121.EG.001:
+  events: []
+  location:
+    calendar_url: "https://campus.tum.de/1"
+    key: 5121.EG.001
+    last_calendar_scrape_at: "[last_calendar_scrape_at]"
+    name: 5121.EG.001 (Montage- und Versuchshalle)
+    type: room
+    type_common_name: Versuchshalle
+5121.EG.003:
+  events:
+    - detailed_entry_type: Abhaltung
+      end_at: "2014-01-01T00:00:00Z"
+      entry_type: lecture
+      id: 1
+      room_code: 5121.EG.003
+      start_at: "2012-01-01T00:00:00Z"
+      stp_type: Vorlesung mit Zentralübung
+      title_de: Quantenteleportation
+      title_en: Quantum teleportation
+  location:
+    calendar_url: "https://campus.tum.de/3"
+    key: 5121.EG.003
+    last_calendar_scrape_at: "[last_calendar_scrape_at]"
+    name: 5121.EG.003 (Computerraum)
+    type: room
+    type_common_name: Serverraum

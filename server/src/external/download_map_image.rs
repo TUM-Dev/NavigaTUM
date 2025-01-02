@@ -1,11 +1,11 @@
-use std::fmt::Display;
+use std::fmt::{Display, Formatter};
+use std::io;
 use std::time::Duration;
-use std::{fmt, io};
 
 use tracing::{error, warn};
 
 use crate::limited::vec::LimitedVec;
-use crate::maps::overlay_map::OverlayMapTask;
+use crate::overlays::map::OverlayMapTask;
 
 #[derive(Hash, Debug, Copy, Clone)]
 struct TileLocation {
@@ -15,7 +15,7 @@ struct TileLocation {
 }
 
 impl Display for TileLocation {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_tuple("TileLocation")
             .field(&self.x)
             .field(&self.y)
