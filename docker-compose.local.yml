@@ -6,7 +6,6 @@ services:
       - "3000:3000"
     environment:
       TZ: Europe/Berlin
-      NUXT_PUBLIC_MAPS_URL: https://nav.tum.de/maps
       NUXT_PUBLIC_CDN_URL: http://data:3002
       NUXT_PUBLIC_API_URL: http://server:3003
   # cdn
@@ -33,7 +32,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL-debug}
       MIELI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
-      TILESERVER_URL: https://nav.tum.de/maps
       CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}

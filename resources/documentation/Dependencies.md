@@ -24,7 +24,7 @@ You probably already have it, but if not, install it using your package manager.
 We deploy our project using docker containers.
 This means, that if you have docker installed, you can:
 
-- Run a part of the project like the `server`, our `tileserver` or the search engine `meilisearch` locally
+- Run a part of the project like the `server`, `webclient` or the search engine `meilisearch` locally
 - Test deployment-linked changes locally
 
 To get started with docker, you can follow the [official tutorial](https://docs.docker.com/get-started/).
@@ -67,6 +67,7 @@ To install Rust, you can use [rustup](https://rustup.rs/).
 The server uses OpenSSL to verify TLS certificates.
 
 On Debian-based systems like Ubuntu, you can install it with:
+
 ```bash
 sudo apt-get install build-essential pkg-config openssl libssl-dev
 ```

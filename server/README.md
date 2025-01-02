@@ -14,10 +14,11 @@ our project.
 
 We have a few API endpoints which require additional dependencies.
 
-As a general rule of thumb, if you probably want to **skip the tileserver**, but need to **do the SQLite Database** and
-**MeiliSearch** setup.
-The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said
-endpoint is a non-essential part of the project.
+As a general rule of thumb, need to **do the Database** and **MeiliSearch** setup.
+
+The `preview` endpoint is the only endpoint, which requires the tileserver.
+Because of the data required for download and how non-essential this part is, it is only provided via the production
+instance.
 
 #### How to Set up the Databases
 
@@ -85,11 +86,6 @@ To add/edit a query, you will need to run the following command:
 cargo sqlx migrate run --database-url postgres://postgres:CHANGE_ME@localhost:5432/postgres
 cargo sqlx prepare --database-url postgres://postgres:CHANGE_ME@localhost:5432/postgres
 ```
-
-### How to Set up the tileserver (needed for the `preview` endpoint)
-
-To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and
-follow the instructions there.
 
 ### API-Changes
 

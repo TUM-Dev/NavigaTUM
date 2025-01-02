@@ -9,7 +9,6 @@ export default defineNuxtConfig({
       apiURL: "https://nav.tum.de",
       cdnURL: "https://nav.tum.de",
       feedbackURL: "https://nav.tum.de",
-      mapsURL: "https://nav.tum.de",
     },
   },
   modules: [

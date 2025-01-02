@@ -35,7 +35,8 @@ We are confindent that even if we were to add more universities, more load would
 On every of these nodes we run the following supporting services:
 
 - [traefik](https://traefik.io/) as a reverse proxy
-- [`prometeus`](https://prometheus.io/), [`alertmanager`](https://prometheus.io/docs/alerting/latest/alertmanager/), [`loki`](https://grafana.com/),
+- [`prometeus`](https://prometheus.io/), [`alertmanager`](https://prometheus.io/docs/alerting/latest/alertmanager/), [
+  `loki`](https://grafana.com/),
   and [`grafana`](https://grafana.com/),  [uptime-kuma](https://github.com/louislam/uptime-kuma) for monitoring purposes
 - [watchtower](https://containrrr.dev/watchtower/) to update our deployments
 
@@ -44,8 +45,6 @@ We run the following components at these paths:
 - `/` [webclient](../webclient) written in [`Vue`](https://vuejs.org/)/[`nuxt-4`](https://nuxt.dev)
 - `/api/` [server](../server) written in [`Rust`](https://www.rust-lang.org/)/[`actix-web`](https://actix.rs/)
 - `/tiles/` [`martin`](https://martin.maplibre.org/) tiles from OSM
-- `/map/` [`tileserver-gl`](https://github.com/maptiler/tileserver-gl) rendering tiles from OSM
-  slated to be removed in favor of `/tiles/`
 - `/cdn` nginx server serving the static files we need
   slated to be folded into the `server`-startup
 
