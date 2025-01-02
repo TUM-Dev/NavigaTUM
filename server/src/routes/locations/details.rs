@@ -417,8 +417,6 @@ struct ImageInfo {
     author: URLRef,
     source: PossibleURLRef,
     license: PossibleURLRef,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    meta: Option<ImageMetadata>,
 }
 
 /// A link with a localized link text and url
@@ -434,44 +432,6 @@ struct PossibleURLRef {
 struct URLRef {
     text: String,
     url: Option<String>,
-}
-
-/// Additional data about the images.
-/// Does not have to be displayed.
-/// All fields are optional.
-#[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-struct ImageMetadata {
-    ///optional date description
-    #[serde(skip_serializing_if = "Option::is_none")]
-    date: Option<String>,
-    ///optional location description
-    #[serde(skip_serializing_if = "Option::is_none")]
-    location: Option<String>,
-    ///optional coordinates in lat,lon
-    #[serde(skip_serializing_if = "Option::is_none")]
-    geo: Option<String>,
-    /// optional in contrast to source this points to the image itself.
-    /// You should not use this to request the images, as they are not scaled.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    image_url: Option<String>,
-    /// optional caption
-    #[serde(skip_serializing_if = "Option::is_none")]
-    caption: Option<String>,
-    /// optional headline
-    #[serde(skip_serializing_if = "Option::is_none")]
-    headline: Option<String>,
-    ///  optional the event this image was taken at
-    #[serde(skip_serializing_if = "Option::is_none")]
-    event: Option<String>,
-    /// optional the event this image is about
-    #[serde(skip_serializing_if = "Option::is_none")]
-    faculty: Option<String>,
-    ///optional the building this image is about
-    #[serde(skip_serializing_if = "Option::is_none")]
-    building: Option<String>,
-    ///  optional the department this image is about
-    #[serde(skip_serializing_if = "Option::is_none")]
-    department: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]

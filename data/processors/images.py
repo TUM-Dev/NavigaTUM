@@ -38,7 +38,6 @@ class ImageSource(PydanticConfiguration):
     author: str
     license: UrlStr
     source: UrlStr
-    meta: dict[str, str | pydantic.types.date] = Field(default_factory=dict)
     offsets: ImageOffset = Field(default_factory=ImageOffset)
 
     @classmethod
