@@ -2,6 +2,7 @@ use sqlx::PgPool;
 use std::time::Duration;
 
 const SECONDS_PER_HOUR: u64 = 60 * 60;
+#[tracing::instrument(skip(pool))]
 pub async fn all_entries(pool: &PgPool) {
     let mut interval = tokio::time::interval(Duration::from_secs(SECONDS_PER_HOUR)); //
     loop {
@@ -11,6 +12,7 @@ pub async fn all_entries(pool: &PgPool) {
     }
 }
 
+#[tracing::instrument(skip(pool))]
 async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
     sqlx::query(r#"
     with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2),

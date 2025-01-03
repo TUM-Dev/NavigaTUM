@@ -157,6 +157,7 @@ fn main() -> anyhow::Result<()> {
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
 }
+#[tracing::instrument(skip(pool))]
 async fn run_maintenance_work(
     pool: Pool<Postgres>,
     meilisearch_initialised: Arc<RwLock<()>>,
