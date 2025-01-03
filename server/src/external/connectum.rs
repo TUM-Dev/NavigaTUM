@@ -145,7 +145,7 @@ impl OauthAccessToken {
     async fn get_possibly_refreshed_token(&self) -> String {
         let mut token = self.try_refresh_token().await;
         while let Err(e) = token {
-            error!("retrying to get oauth token because {e:?}");
+            error!(error = ?e, "retrying to get oauth token");
             sleep(Duration::from_secs(10)).await;
             token = self.try_refresh_token().await;
         }

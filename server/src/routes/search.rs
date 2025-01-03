@@ -242,14 +242,14 @@ pub async fn search_handler(
     let highlighting = Highlighting::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
-    debug!("searching for {q} with a limit of {limits:?} and highlighting of {highlighting:?}");
+    debug!(q, ?limits, ?highlighting, "quested search");
     let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
-    debug!("searching returned {results_sections:?}");
+    debug!(?results_sections, "searching returned");
 
     if results_sections.len() != 2 && results_sections.len() != 3 {
         error!(
-            "searching returned {len} sections, but expected 2-3",
-            len = results_sections.len()
+            returned_section_cnt = results_sections.len(),
+            "searching did not return expected 2-3 sections",
         );
         return HttpResponse::InternalServerError()
             .content_type("text/plain")

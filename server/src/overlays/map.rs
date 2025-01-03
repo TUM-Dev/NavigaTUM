@@ -32,7 +32,10 @@ impl OverlayMapTask {
             "building" | "joined_building" => 16,
             "virtual_room" | "room" | "poi" => 17,
             entry => {
-                warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
+                warn!(
+                    ?entry,
+                    "map generation encountered an type. Assuming it to be a building",
+                );
                 16
             }
         };

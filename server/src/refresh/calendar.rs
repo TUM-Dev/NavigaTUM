@@ -55,7 +55,7 @@ fn can_never_succeed() -> bool {
         Ok(s) => s.trim().is_empty(),
     };
     if client_id_invalid {
-        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, nessesary to refresh all calendars");
+        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, necessary to refresh all calendars");
         return true;
     }
     let client_secret_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
@@ -63,7 +63,7 @@ fn can_never_succeed() -> bool {
         Ok(s) => s.trim().is_empty(),
     };
     if client_secret_invalid {
-        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, nessesary to refresh all calendars");
+        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, necessary to refresh all calendars");
         return true;
     }
     false
@@ -80,7 +80,10 @@ pub async fn all_entries(pool: &PgPool) {
         let ids = match entries_which_need_scraping(pool).await {
             Ok(ids) => ids,
             Err(e) => {
-                error!("Could not download get LocationKeys from the database because {e:?}");
+                error!(
+                    error = ?e,
+                    "Could not download get LocationKeys from the database",
+                );
                 continue;
             }
         };
@@ -95,7 +98,7 @@ pub async fn all_entries(pool: &PgPool) {
 
 #[tracing::instrument(skip(api, pool))]
 async fn refresh_events(pool: &PgPool, api: &APIRequestor, mut ids: LimitedVec<LocationKey>) {
-    debug!("Downloading {len} room-calendars", len = ids.len());
+    debug!(requested_ids_cnt = ids.len(), "downloading room-calendars");
     // we want to scrape all ~2k rooms once per hour
     // 1 thread is 15..20 per minute => we need at least 2 threads
     // this uses a FuturesUnordered which refills itsself to be able to work effectively with lagging tasks
@@ -117,24 +120,28 @@ async fn refresh_events(pool: &PgPool, api: &APIRequestor, mut ids: LimitedVec<L
 async fn refresh_single(pool: &PgPool, mut api: APIRequestor, id: String) -> anyhow::Result<()> {
     let sync_start = chrono::Utc::now();
     if let Err(e) = Event::update_last_calendar_scrape_at(pool, &id, &sync_start).await {
-        error!("could not update last_calendar_scrape_at because {e:?}");
+        error!(error = ?e, "could not update last_calendar_scrape_at");
         return Err(e.into());
     }
 
     let events = match api.list_events(&id).await {
         Ok(events) => {
             debug!(
-                "finished fetching for {cnt} calendar events of {id}",
-                cnt = events.len(),
+                id,
+                fetched_events_cnt = events.len(),
+                "finished fetching for calendar events",
             );
             events
         }
         Err(e) => {
             // TODO: this measure is to temporarily make the log usefully again until CO accepts my fix
             if e.to_string() == *"error decoding response body" {
-                debug!("Cannot download calendar because of https://gitlab.campusonline.community/tum/connectum/-/issues/118")
+                debug!(
+                    error = "https://gitlab.campusonline.community/tum/connectum/-/issues/118",
+                    "Cannot download calendar"
+                )
             } else {
-                error!("Could not download calendar because {e:?}");
+                error!(error = ?e, "Could not download calendar");
             }
             return Err(e);
         }

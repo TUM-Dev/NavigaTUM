@@ -2,12 +2,15 @@ use crate::limited::vec::LimitedVec;
 use polars::prelude::*;
 use std::io::Write;
 use tempfile::tempfile;
+use tracing::error;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(super) struct Alias {
     alias: String,
-    key: String,    // the key is the id of the entry
-    r#type: String, // what we display in the url
+    /// the key is the id of the entry
+    key: String,
+    /// what we display in the url
+    r#type: String,
     visible_id: String,
 }
 
@@ -50,8 +53,7 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
             "visible_id".to_string(),
             "aliases".to_string(),
         ]))
-        .finish()
-        .unwrap();
+        .finish()?;
     let id_col = df.column("id")?.str()?;
     let type_col = df.column("type")?.str()?;
     let visible_id_col = df.column("visible_id")?.str()?;
@@ -108,7 +110,15 @@ pub async fn load_all_to_db(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> anyhow::Result<()> {
     for task in aliases {
-        task.store(tx).await?;
+        if let Err(e) = task.clone().store(tx).await {
+            error!(
+                key = task.key,
+                type = task.r#type,
+                visible_id = task.visible_id,
+                error = ?e,
+                "Could not store alias",
+            )
+        }
     }
     Ok(())
 }

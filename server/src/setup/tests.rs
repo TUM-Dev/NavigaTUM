@@ -36,7 +36,7 @@ impl PostgresTestContainer {
         for i in 0..20 {
             let res = crate::setup::database::load_data(&self.pool).await;
             if let Err(e) = res {
-                error!("failed to load db because {e:?}. Retrying for 20s");
+                error!(error = ?e, "failed to load db. Retrying for 20s");
                 tokio::time::sleep(std::time::Duration::from_secs(1)).await;
             } else {
                 info!("successfully initalised the db in try {i}");

@@ -98,7 +98,7 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
     let results = match Nominatim::address_search(q).await {
         Ok(r) => r.0,
         Err(e) => {
-            error!("Error searching for addresses: {e:?}");
+            error!(error = ?e, "Error searching for addresses");
             return LimitedVec(vec![]);
         }
     };

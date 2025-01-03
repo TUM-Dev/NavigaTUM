@@ -116,16 +116,15 @@ impl AppliableEdit for Image {
         match (content_result, metadata_result) {
             (Ok(()), Ok(())) => success,
             (Err(e), Ok(())) => {
-                error!("Error saving image: {e:?} for {self:?}");
+                error!(?self, error = ?e, "Error saving image");
                 "Error saving image".to_string()
             }
             (Ok(()), Err(e)) => {
-                error!("Error saving metadata: {e:?} for {self:?}");
+                error!(?self, error = ?e, "Error saving metadata");
                 "Error saving metadata".to_string()
             }
             (Err(content), Err(meta)) => {
-                error!("Error saving metadata: {meta:?} for {self:?}");
-                error!("Error saving content: {content:?} for {self:?}");
+                error!(?meta, ?content, ?self, "Error saving metadata and content");
                 "Error saving metadata+content".to_string()
             }
         }

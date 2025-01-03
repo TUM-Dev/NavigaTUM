@@ -133,8 +133,8 @@ impl From<&str> for ParsedQuery {
                 Ok(Token::LocationSort(location)) => {
                     result.sorting.location.insert(location);
                 }
-                Err(e) => {
-                    warn!("Error in query parsing: {e:?}");
+                Err(_) => {
+                    warn!("Error in query parsing");
                 }
             }
         }

@@ -68,7 +68,7 @@ impl RecordedTokens {
         let kid = match jwt_token {
             Ok(token) => token.claims.kid,
             Err(e) => {
-                error!("Failed to decode token: {:?}", e.kind());
+                error!(kind=?e.kind(),"Failed to decode token");
                 return Some(HttpResponse::Forbidden().content_type("text/plain").body(
                     match e.kind() {
                         jsonwebtoken::errors::ErrorKind::ImmatureSignature => {
@@ -165,7 +165,7 @@ pub async fn get_token() -> HttpResponse {
             HttpResponse::Created().json(Token { created_at, token })
         }
         Err(e) => {
-            error!("Failed to generate token: {e:?}");
+            error!(error = ?e, "Failed to generate token");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Failed to generate token, please try again later")

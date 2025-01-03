@@ -72,7 +72,7 @@ pub async fn get_handler(
                 let res = serde_json::from_value::<LocationDetailsResponse>(d);
                 match res {
                     Err(e) => {
-                        error!("cannot serialise {id} because {e:?}");
+                        error!(error = ?e, id,"cannot serialise detail");
                         HttpResponse::InternalServerError()
                             .content_type("text/plain")
                             .body("Failed to fetch details, please try again later")
@@ -94,7 +94,7 @@ pub async fn get_handler(
             }
         }
         Err(e) => {
-            error!("Error requesting details for {probable_id}: {e:?}");
+            error!(error = ?e, probable_id, "Error requesting details");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error")
@@ -515,7 +515,7 @@ async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, S
         }
         Err(RowNotFound) => None,
         Err(e) => {
-            error!("Error requesting alias for {query}: {e:?}");
+            error!(error = ?e,query,"Error requesting alias");
             None
         }
     }

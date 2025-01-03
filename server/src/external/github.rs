@@ -13,7 +13,7 @@ impl Default for GitHub {
             Octocrab::builder()
                 .personal_token(personal_token)
                 .build()
-                .map_err(|e| error!("Could not create Octocrab instance: {e:?}"))
+                .map_err(|e| error!(error = ?e, "Could not create Octocrab instance"))
                 .ok()
         } else {
             None
@@ -56,7 +56,7 @@ impl GitHub {
                 .content_type("text/plain")
                 .body(issue.html_url.to_string()),
             Err(e) => {
-                error!("Error creating issue: {e:?}");
+                error!(error = ?e, "Error creating issue");
                 HttpResponse::InternalServerError()
                     .content_type("text/plain")
                     .body("Failed to create issue, please try again later")
@@ -89,7 +89,7 @@ impl GitHub {
         {
             Ok(pr) => pr.number,
             Err(e) => {
-                error!("Error creating pull request: {e:?}");
+                error!(error = ?e, "Error creating pull request");
                 return HttpResponse::InternalServerError()
                     .content_type("text/plain")
                     .body("Failed to create a pull request, please try again later");
@@ -110,7 +110,7 @@ impl GitHub {
                 .content_type("text/plain")
                 .body(issue.html_url.to_string()),
             Err(e) => {
-                error!("Error updating PR: {e:?}");
+                error!(error = ?e, "Error updating PR");
                 HttpResponse::InternalServerError()
                     .content_type("text/plain")
                     .body("Failed to create a pull request, please try again later")
@@ -138,7 +138,7 @@ fn github_token() -> Option<String> {
     match std::env::var("GITHUB_TOKEN") {
         Ok(token) => Some(token.trim().to_string()),
         Err(e) => {
-            error!("GITHUB_TOKEN has to be set for feedback: {e:?}");
+            error!(error = ?e, "GITHUB_TOKEN has to be set for feedback");
             None
         }
     }

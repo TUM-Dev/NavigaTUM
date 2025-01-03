@@ -81,12 +81,12 @@ impl MapImageDownloadTask {
             Ok(bytes) => match image::load_from_memory(&bytes.0) {
                 Ok(img) => Some((self.index, img)),
                 Err(e) => {
-                    error!("Error while parsing image: {e:?} for {self:?}");
+                    error!(?self, error = ?e, "Error while parsing image");
                     None
                 }
             },
             Err(e) => {
-                error!("could not fulfill {self:?} because {e}");
+                error!(?self, error = ?e, "could not fulfill task");
                 None
             }
         }
@@ -105,7 +105,7 @@ async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec
         let response = reqwest::get(&url).await?;
         let status = response.status();
         if status.as_u16() == 400 {
-            error!("could not find {location:?} at {url} with {status:?}");
+            error!(url, ?status, "could not find {location:?}");
             return Err(io::Error::other("could not find requested tile").into());
         }
         let bytes = response.bytes().await?;
@@ -116,7 +116,12 @@ async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec
         }
         let wait_time_ms = 1.5_f32.powi(i).round() as u64;
         let wait_time = Duration::from_millis(wait_time_ms);
-        warn!("retrying {url} in {wait_time:?} because response({status:?}) is only {size}B");
+        warn!(
+            url,
+            ?status,
+            retrying_in= ?wait_time,
+            "retrying because response is only {size}B"
+        );
         tokio::time::sleep(wait_time).await;
     }
     Err(anyhow::anyhow!("Got only short Responses from {url}"))

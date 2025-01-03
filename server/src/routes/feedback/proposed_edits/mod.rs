@@ -184,8 +184,8 @@ pub async fn propose_edits(
                 )
                 .await
         }
-        Err(e) => {
-            error!("Error while applying changes: {e}", e = e);
+        Err(error) => {
+            error!(?error, "could not apply changes");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Could apply changes, please try again later")
