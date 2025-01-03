@@ -109,16 +109,27 @@ pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> anyhow::Result<()> {
+    let mut total_errors_cnt = 0_usize;
     for task in aliases {
         if let Err(e) = task.clone().store(tx).await {
-            error!(
-                key = task.key,
-                type = task.r#type,
-                visible_id = task.visible_id,
-                error = ?e,
-                "Could not store alias",
-            )
+            total_errors_cnt += 1;
+            if total_errors_cnt < 3 {
+                error!(
+                    key = task.key,
+                    type = task.r#type,
+                    visible_id = task.visible_id,
+                    error = ?e,
+                    "Could not store alias (sample {total_errors_cnt}/3)",
+                )
+            }
         }
     }
+    if total_errors_cnt > 3 {
+        error!(
+            total_errors_cnt,
+            "there were unreported erros in storing aliases"
+        );
+    }
+
     Ok(())
 }
