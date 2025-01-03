@@ -10,6 +10,7 @@ pub struct Transportation {
     pub distance_meters: Option<f64>, // not really null, sqlx just thinks this
 }
 impl Transportation {
+    #[tracing::instrument(skip(pool))]
     pub async fn fetch_all_near(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Transportation>> {
         // TODO: use the spatial index instead of just computing the distance for every entry
         sqlx::query_as!(

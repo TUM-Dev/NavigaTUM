@@ -53,6 +53,7 @@ pub struct LocationKeyAlias {
     pub r#type: String,
 }
 impl LocationKeyAlias {
+    #[tracing::instrument(skip(pool))]
     pub async fn fetch_optional(pool: &PgPool, id: &str) -> sqlx::Result<Option<Self>> {
         sqlx::query_as!(
             Self,

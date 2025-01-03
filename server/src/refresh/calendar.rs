@@ -93,7 +93,7 @@ pub async fn all_entries(pool: &PgPool) {
     }
 }
 
-#[tracing::instrument(skip(api))]
+#[tracing::instrument(skip(api,pool))]
 async fn refresh_events(pool: &PgPool, api: &APIRequestor, mut ids: LimitedVec<LocationKey>) {
     debug!("Downloading {len} room-calendars", len = ids.len());
     // we want to scrape all ~2k rooms once per hour
@@ -113,6 +113,7 @@ async fn refresh_events(pool: &PgPool, api: &APIRequestor, mut ids: LimitedVec<L
     }
 }
 
+#[tracing::instrument(skip(pool,api))]
 async fn refresh_single(pool: &PgPool, mut api: APIRequestor, id: String) -> anyhow::Result<()> {
     let sync_start = chrono::Utc::now();
     if let Err(e) = Event::update_last_calendar_scrape_at(pool, &id, &sync_start).await {
