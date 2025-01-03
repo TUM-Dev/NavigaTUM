@@ -76,7 +76,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
             .content_type("text/plain")
             .body(format!("healthy\nsource_code: {github_link}")),
         Err(e) => {
-            error!("database error: {e:?}",);
+            error!(error = ?e, "database error");
             HttpResponse::ServiceUnavailable()
                 .content_type("text/plain")
                 .body(format!("unhealthy\nsource_code: {github_link}"))
@@ -157,7 +157,7 @@ fn main() -> anyhow::Result<()> {
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
 }
-#[tracing::instrument(skip(pool))]
+#[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started))]
 async fn run_maintenance_work(
     pool: Pool<Postgres>,
     meilisearch_initialised: Arc<RwLock<()>>,

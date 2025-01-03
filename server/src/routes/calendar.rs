@@ -78,7 +78,7 @@ pub async fn calendar_handler(
     let locations = match CalendarLocation::get_locations(&data.pool, &ids).await {
         Ok(l) => l.0,
         Err(e) => {
-            error!("could not refetch due to {e:?}");
+            error!(error = ?e, "could not refetch");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("could not get calendar entries, please try again later");
@@ -97,7 +97,7 @@ pub async fn calendar_handler(
     {
         Ok(events) => events.0,
         Err(e) => {
-            error!("could not get entries from the db for {ids:?} because {e:?}");
+            error!(error = ?e,ids = ?ids,"could not get entries from the db");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("could not get calendar entries, please try again later");

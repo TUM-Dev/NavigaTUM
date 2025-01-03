@@ -51,10 +51,7 @@ async fn find_keys_which_need_updating(
         .fetch_one(pool)
         .await?;
     if number_of_keys == Some(0) {
-        debug!(
-            "all {updated_cnt} keys need updating",
-            updated_cnt = keys.len()
-        );
+        debug!(cnt = keys.len(), "all keys need updating",);
         return Ok(keys.clone());
     }
 
@@ -71,10 +68,7 @@ WHERE de.key = expected.key and de.hash != expected.hash
         )
         .fetch_all(pool)
         .await?;
-        debug!(
-            "{updated_cnt} updated items",
-            updated_cnt = keys_which_need_updating.len()
-        );
+        debug!(cnt = keys_which_need_updating.len(), "updated items",);
         keys_which_need_updating
     };
 
@@ -90,10 +84,7 @@ WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.ke
         )
         .fetch_all(pool)
         .await?;
-        debug!(
-            "{deleted_cnt} deleted items",
-            deleted_cnt = keys_which_need_removing.len()
-        );
+        debug!(cnt = keys_which_need_removing.len(), "deleted items",);
         keys_which_need_removing
     };
     keys_which_need_updating.append(&mut keys_which_need_removing);

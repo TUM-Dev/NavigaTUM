@@ -28,14 +28,17 @@ async fn wait_for_healthy(client: &Client) {
                     return;
                 } else if counter > 10 {
                     error!(
-                        "Meilisearch responding, but {status}. Please make sure that it is running",
-                        status = status.status
+                        status = status.status,
+                        "Meilisearch responding, but is not available. Please make sure that it is running"
                     );
                 }
             }
             Err(e) => {
                 if counter > 10 {
-                    error!("Meilisearch unhealthy. Please make sure that it is running err={e:?}");
+                    error!(
+                        error = ?e,
+                        "Meilisearch unhealthy. Please make sure that it is running",
+                    );
                 }
             }
         }

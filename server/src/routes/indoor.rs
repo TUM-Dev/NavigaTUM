@@ -86,10 +86,11 @@ pub async fn get_indoor_map(
                 CacheDirective::Public,
             ]))
             .json(geometry),
-        Err(err) => {
+        Err(e) => {
             error!(
-                "Failed to fetch indoor map {id} because {err:?}",
-                id = params.id
+                error=?e,
+                id = params.id,
+                "Failed to fetch indoor map"
             );
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
@@ -162,7 +163,7 @@ pub async fn list_indoor_maps(
     let maps = match maps {
         Ok(m) => m,
         Err(e) => {
-            error!("could not list maps because {e:?}");
+            error!(error = ?e,"could not list maps");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("could not get indoor maps, please try again later");

@@ -103,7 +103,7 @@ impl Event {
         // insert into db
         let mut tx = pool.begin().await?;
         if let Err(e) = Event::delete(&mut tx, id).await {
-            error!("could not delete existing events because {e:?}");
+            error!(error = ?e, "could not delete existing events");
             tx.rollback().await?;
             return Err(e.into());
         }
@@ -119,12 +119,14 @@ impl Event {
         }
         if let Some((cnt, e)) = failed {
             warn!(
-                "{cnt}/{total} events could not be inserted because of {e:?}",
-                total = events.len()
+                error = ?e,
+                cnt,
+                total = events.len(),
+                "events could not be inserted because",
             );
         }
         tx.commit().await?;
-        debug!("finished inserting into the db for {id}");
+        debug!(?id, "finished inserting into the db");
         Ok(())
     }
     #[tracing::instrument(skip(tx))]

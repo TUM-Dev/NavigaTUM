@@ -14,7 +14,7 @@ impl TempRepo {
     pub async fn clone_and_checkout(url: &'static str, branch_name: &str) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
-        info!("Cloning {url} into {dir:?}");
+        info!(url, target_dir= ?dir,"Cloning repository");
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("clone")
@@ -23,7 +23,7 @@ impl TempRepo {
             .arg(dir.path())
             .output()
             .await?;
-        debug!("commit output: {out:?}");
+        debug!(output=?out,"git clone output");
         if out.status.code() != Some(0) {
             anyhow::bail!("git status failed with output: {out:?}");
         }
@@ -37,7 +37,7 @@ impl TempRepo {
             .arg("main")
             .output()
             .await?;
-        debug!("checkout output: {out:?}");
+        debug!(output=?out,"git checkout output");
         match out.status.code() {
             Some(0) => Ok(Self {
                 dir,
@@ -68,7 +68,7 @@ impl TempRepo {
             .arg(".")
             .output()
             .await?;
-        debug!("git-add output: {out:?}");
+        debug!(output=?out,"git add output");
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("commit")
@@ -77,7 +77,7 @@ impl TempRepo {
             .arg(title)
             .output()
             .await?;
-        debug!("commit output: {out:?}");
+        debug!(output=?out,"git commit output");
         match out.status.code() {
             Some(0) => Ok(()),
             _ => anyhow::bail!("git commit failed with output: {out:?}"),
@@ -90,7 +90,7 @@ impl TempRepo {
             .arg("status")
             .output()
             .await?;
-        debug!("git status: {out:?}");
+        debug!(output=?out,"git status output");
         if out.status.code() != Some(0) {
             anyhow::bail!("git status failed with output: {out:?}");
         }
@@ -102,7 +102,7 @@ impl TempRepo {
             .arg(&self.branch_name)
             .output()
             .await?;
-        debug!("git push: {out:?}");
+        debug!(output=?out,"git push output");
         match out.status.code() {
             Some(0) => Ok(()),
             _ => anyhow::bail!("git push failed with output: {out:?}"),

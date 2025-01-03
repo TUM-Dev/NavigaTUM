@@ -106,7 +106,7 @@ async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs)
         )),
         Ok(None) => None,
         Err(e) => {
-            error!("Error requesting alias for {query}: {e:?}");
+            error!(error = ?e, query, "error requesting alias");
             None
         }
     }
@@ -177,7 +177,7 @@ pub async fn maps_handler(
                 .body("Not found");
         }
         Err(e) => {
-            error!("Error preparing statement: {e:?}");
+            error!(error = ?e, "Error preparing statement");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Could not get data for location, please try again later");

@@ -35,7 +35,7 @@ pub async fn nearby_handler(
             .map(TransportationResponse::from)
             .collect(),
         Err(e) => {
-            error!("Could not get nearby pois because: {e:?}");
+            error!(error = ?e, "Could not get nearby pois");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error");
