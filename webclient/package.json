@@ -24,7 +24,7 @@
     "@nuxt/image": "1.8.1",
     "@nuxtjs/color-mode": "3.5.2",
     "@vueuse/core": "12.3.0",
-    "@vueuse/nuxt": "12.2.0",
+    "@vueuse/nuxt": "12.3.0",
     "@vueuse/router": "12.3.0",
     "maplibre-gl": "5.0.0",
     "maplibre-gl-indoor": "0.0.22",
