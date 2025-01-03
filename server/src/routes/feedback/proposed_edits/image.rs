@@ -153,7 +153,6 @@ mod tests {
                     url: None,
                 },
                 offsets: None,
-                meta: None,
             },
         }
     }
