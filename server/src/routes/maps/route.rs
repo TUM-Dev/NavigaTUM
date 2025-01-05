@@ -1,3 +1,4 @@
+use crate::external::valhalla::ValhallaWrapper;
 use crate::localisation;
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
@@ -101,6 +102,8 @@ struct RoutingRequest {
 
 /// Routing requests
 ///
+/// **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
+///
 /// The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
 /// The costing is fine-tuned by the server side accordingly.
 ///
@@ -143,25 +146,20 @@ pub async fn route_handler(
                 .body("Failed to resolve key");
         }
     };
-    debug!(?from, ?to, "routing request");
-    let base_url = "https://nav.tum.de/valhalla".parse().unwrap();
-    let valhalla = Valhalla::new(base_url);
-    let request = route::Manifest::builder()
-        .locations([
-            Location::new(from.lat as f32, from.lon as f32),
-            Location::new(to.lat as f32, to.lon as f32),
-        ])
-        .costing(Costing::from(args.route_costing))
-        .language(if args.lang.should_use_english() {
-            "en-US"
-        } else {
-            "de-DE"
-        });
-
-    let Ok(response) = valhalla.route(request) else {
-        return HttpResponse::InternalServerError()
-            .content_type("text/plain")
-            .body("Could not generate a route, please try again later");
+    let routing = ValhallaWrapper::route(
+        (from.lat as f32, from.lon as f32),
+        (to.lat as f32, to.lon as f32),
+        Costing::from(args.route_costing),
+        args.lang.should_use_english(),
+    );
+    let response = match routing {
+        Ok(response) => response,
+        Err(e) => {
+            error!(error=?e,"error routing");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Could not generate a route, please try again later");
+        }
     };
     debug!(routing_solution=?response,"got routing solution");
 
