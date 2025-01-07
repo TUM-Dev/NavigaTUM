@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT lat,lon\n                    FROM de\n                    WHERE key = $1 and\n                          lat IS NOT NULL and\n                          lon IS NOT NULL",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "lat",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 1,
+        "name": "lon",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "ba4dddc4721fa4798febd4aee6794ef7cd8e0ccde51092e543e5ca01e7867393"
+}

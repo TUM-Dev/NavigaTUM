@@ -131,7 +131,7 @@ impl Display for PreviewFormat {
 #[derive(Deserialize, Default, Debug, utoipa::IntoParams)]
 #[serde(default)]
 struct QueryArgs {
-    #[serde(flatten)]
+    #[serde(flatten, default)]
     lang: localisation::LangQueryArgs,
     format: PreviewFormat,
 }

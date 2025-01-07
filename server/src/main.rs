@@ -39,6 +39,7 @@ pub struct AppData {
     pool: PgPool,
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
+    valhalla: external::valhalla::ValhallaWrapper,
 }
 
 impl AppData {
@@ -48,9 +49,15 @@ impl AppData {
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
+        AppData::from(pool)
+    }
+}
+impl From<PgPool> for AppData {
+    fn from(pool: PgPool) -> Self {
         AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
+            valhalla: external::valhalla::ValhallaWrapper::default(),
         }
     }
 }
@@ -239,8 +246,9 @@ async fn run() -> anyhow::Result<()> {
                 .app_data(recorded_tokens.clone())
                 .service(health_status_handler)
                 .service(calendar::calendar_handler)
-                .service(routes::indoor::list_indoor_maps)
-                .service(routes::indoor::get_indoor_map)
+                .service(maps::indoor::list_indoor_maps)
+                .service(maps::indoor::get_indoor_map)
+                .service(maps::route::route_handler)
                 .service(search::search_handler)
                 .service(locations::details::get_handler)
                 .service(locations::nearby::nearby_handler)
