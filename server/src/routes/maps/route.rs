@@ -10,7 +10,7 @@ use sqlx::PgPool;
 use std::ops::Deref;
 use tracing::{debug, error};
 use valhalla_client::costing::pedestrian::PedestrianType;
-use valhalla_client::costing::{Costing, PedestrianCostingOptions};
+use valhalla_client::costing::{Costing, MultimodalCostingOptions, PedestrianCostingOptions};
 use valhalla_client::route::{
     Leg, Maneuver, ManeuverType, ShapePoint, Summary, TransitInfo, TransitStop, TransitStopType,
     TravelMode, Trip,
@@ -99,7 +99,15 @@ impl From<&RoutingRequest> for Costing {
                 }
             },
             CostingRequest::Car => Costing::Auto(Default::default()),
-            CostingRequest::PublicTransit => Costing::Multimodal(Default::default()),
+            CostingRequest::PublicTransit => {
+                let pedestrian_costing = PedestrianCostingOptions::builder()
+                    .r#type(PedestrianType::from(*pedestrian_type));
+                Costing::Multimodal(
+                    MultimodalCostingOptions::builder()
+                        .pedestrian(pedestrian_costing)
+                        .transit(Default::default()),
+                )
+            }
         }
     }
 }
