@@ -258,6 +258,7 @@ impl From<Leg> for LegResponse {
         }
     }
 }
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 struct ManeuverResponse {
     r#type: ManeuverTypeResponse,

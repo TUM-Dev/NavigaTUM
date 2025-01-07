@@ -55,6 +55,7 @@ impl Debug for ResultsSection {
     }
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Default, Debug, Clone, utoipa::ToSchema)]
 struct ResultEntry {
     #[serde(skip)]
@@ -80,7 +81,6 @@ struct ResultEntry {
     /// Subtext to show below the search (by default in bold and after the non-bold subtext).
     ///
     /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(example = "3002@5510")]
     subtext_bold: Option<String>,
     /// This is an optional feature, that is only supported for some rooms.
@@ -89,7 +89,6 @@ struct ResultEntry {
     /// See the image below for an example.
     /// It will be cropped to a maximum length to not take too much space in UIs.
     /// Supports highlighting.
-    #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
 
