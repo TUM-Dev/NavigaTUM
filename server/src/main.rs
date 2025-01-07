@@ -39,6 +39,7 @@ pub struct AppData {
     pool: PgPool,
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
+    valhalla: external::valhalla::ValhallaWrapper,
 }
 
 impl AppData {
@@ -51,6 +52,7 @@ impl AppData {
         AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
+            valhalla: external::valhalla::ValhallaWrapper::new(),
         }
     }
 }

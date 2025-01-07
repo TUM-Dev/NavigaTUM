@@ -1,19 +1,16 @@
-use crate::external::valhalla::ValhallaWrapper;
 use crate::localisation;
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use tracing::{debug, error};
-use valhalla_client::costing::auto::AutoCostingOptions;
-use valhalla_client::costing::bicycle::BicycleCostingOptions;
-use valhalla_client::costing::motorcycle::MotorcycleCostingOptions;
-use valhalla_client::costing::multimodal::MultimodalCostingOptions;
-use valhalla_client::costing::pedestrian::PedestrianCostingOptions;
-use valhalla_client::route::{
-    Leg, Maneuver, ManeuverType, Summary, TransitInfo, TransitStop, TransitStopType, TravelMode,
-    Trip,
+use valhalla_client::costing::{
+    AutoCostingOptions, BicycleCostingOptions, Costing, MotorcycleCostingOptions,
+    MultimodalCostingOptions, PedestrianCostingOptions,
 };
-use valhalla_client::{costing::Costing, route, route::Location, Valhalla};
+use valhalla_client::route::{
+    Leg, Maneuver, ManeuverType, ShapePoint, Summary, TransitInfo, TransitStop, TransitStopType,
+    TravelMode, Trip,
+};
 
 #[derive(Deserialize, Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
 struct Coordinate {
@@ -24,12 +21,14 @@ struct Coordinate {
     #[schema(example = 48.26244490906312)]
     lon: f64,
 }
-// todo
-//impl From<ShapePoint> for Coordinate{
-//    fn from(value: ShapePoint) -> Self {
-//        Coordinate{lon:value.lon ,lat:value.lat }
-//    }
-//}
+impl From<ShapePoint> for Coordinate {
+    fn from(value: ShapePoint) -> Self {
+        Coordinate {
+            lon: value.lon,
+            lat: value.lat,
+        }
+    }
+}
 
 #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
 #[serde(tag = "type")]
@@ -146,12 +145,16 @@ pub async fn route_handler(
                 .body("Failed to resolve key");
         }
     };
-    let routing = ValhallaWrapper::route(
-        (from.lat as f32, from.lon as f32),
-        (to.lat as f32, to.lon as f32),
-        Costing::from(args.route_costing),
-        args.lang.should_use_english(),
-    );
+
+    let routing = data
+        .valhalla
+        .route(
+            (from.lat as f32, from.lon as f32),
+            (to.lat as f32, to.lon as f32),
+            Costing::from(args.route_costing),
+            args.lang.should_use_english(),
+        )
+        .await;
     let response = match routing {
         Ok(response) => response,
         Err(e) => {
@@ -212,8 +215,7 @@ struct LegResponse {
     summary: SummaryResponse,
 
     maneuvers: Vec<ManeuverResponse>,
-    //todo
-    //shape: Vec<Coordinate>,
+    shape: Vec<Coordinate>,
 }
 impl From<Leg> for LegResponse {
     fn from(value: Leg) -> Self {
@@ -224,8 +226,7 @@ impl From<Leg> for LegResponse {
                 .into_iter()
                 .map(ManeuverResponse::from)
                 .collect(),
-            // todo
-            //            shape: value.shape.into_iter().map(Coordinate::from).collect(),
+            shape: value.shape.into_iter().map(Coordinate::from).collect(),
         }
     }
 }

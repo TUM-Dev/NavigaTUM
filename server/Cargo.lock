@@ -1781,18 +1781,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gpx"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cfabaf0e8a17a6fb7977fac3bd5846488462edb9f8b246605835483a5501e698"
-dependencies = [
- "geo-types",
- "thiserror 1.0.69",
- "time",
- "xml-rs",
-]
-
-[[package]]
 name = "h2"
 version = "0.3.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5052,6 +5040,9 @@ name = "semver"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3cb6eb87a131f756572d7fb904f6e7b68633f09cca868c5df1c4b8d1a694bbba"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "sentry"
@@ -6674,15 +6665,14 @@ dependencies = [
 
 [[package]]
 name = "valhalla-client"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c80daea394d17746a62cfdc8393c38772e361c02b37908b210ef98894c205326"
+version = "0.3.0"
+source = "git+https://github.com/CommanderStorm/valhalla-client-rs.git?branch=async-api#f2974296ffb8a2bb82ae57ee55e1c1d7b3d57654"
 dependencies = [
  "chrono",
  "geo-types",
- "gpx",
  "log",
  "reqwest 0.12.12",
+ "semver",
  "serde",
  "serde_json",
  "serde_repr",
@@ -7220,12 +7210,6 @@ dependencies = [
  "linux-raw-sys",
  "rustix",
 ]
-
-[[package]]
-name = "xml-rs"
-version = "0.8.24"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ea8b391c9a790b496184c29f7f93b9ed5b16abb306c05415b68bcc16e4d06432"
 
 [[package]]
 name = "xxhash-rust"
