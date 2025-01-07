@@ -7,11 +7,10 @@ use serde::{Deserialize, Serialize};
 )]
 use serde_json::json;
 use sqlx::PgPool;
+use std::ops::Deref;
 use tracing::{debug, error};
-use valhalla_client::costing::{
-    AutoCostingOptions, BicycleCostingOptions, Costing, MotorcycleCostingOptions,
-    MultimodalCostingOptions, PedestrianCostingOptions,
-};
+use valhalla_client::costing::pedestrian::PedestrianType;
+use valhalla_client::costing::{Costing, PedestrianCostingOptions};
 use valhalla_client::route::{
     Leg, Maneuver, ManeuverType, ShapePoint, Summary, TransitInfo, TransitStop, TransitStopType,
     TravelMode, Trip,
@@ -77,16 +76,30 @@ enum CostingRequest {
     Car,
     PublicTransit,
 }
-impl From<CostingRequest> for Costing {
-    fn from(value: CostingRequest) -> Self {
-        match value {
-            CostingRequest::Pedestrian => Costing::Pedestrian(PedestrianCostingOptions::builder()),
-            CostingRequest::Bicycle => Costing::Bicycle(BicycleCostingOptions::builder()),
-            CostingRequest::Motorcycle => Costing::Motorcycle(MotorcycleCostingOptions::builder()),
-            CostingRequest::Car => Costing::Auto(AutoCostingOptions::builder()),
-            CostingRequest::PublicTransit => {
-                Costing::Multimodal(MultimodalCostingOptions::builder())
-            }
+impl From<&RoutingRequest> for Costing {
+    fn from(
+        RoutingRequest {
+            route_costing,
+            pedestrian_type,
+            ptw_type,
+            ..
+        }: &RoutingRequest,
+    ) -> Self {
+        match route_costing {
+            CostingRequest::Pedestrian => Costing::Pedestrian(
+                PedestrianCostingOptions::builder().r#type(PedestrianType::from(*pedestrian_type)),
+            ),
+            CostingRequest::Bicycle => Costing::Bicycle(Default::default()),
+            CostingRequest::Motorcycle => match ptw_type {
+                PoweredTwoWheeledRestrictionRequest::Moped => {
+                    Costing::Motorcycle(Default::default())
+                }
+                PoweredTwoWheeledRestrictionRequest::Motorcycle => {
+                    Costing::MotorScooter(Default::default())
+                }
+            },
+            CostingRequest::Car => Costing::Auto(Default::default()),
+            CostingRequest::PublicTransit => Costing::Multimodal(Default::default()),
         }
     }
 }
@@ -101,6 +114,41 @@ struct RoutingRequest {
     to: RequestedLocation,
     /// Transport mode the user wants to use
     route_costing: CostingRequest,
+    /// Does the user have specific walking restrictions?
+    #[serde(default)]
+    pedestrian_type: PedestrianTypeRequest,
+    /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
+    #[serde(default)]
+    ptw_type: PoweredTwoWheeledRestrictionRequest,
+}
+
+/// Does the user have specific walking restrictions?
+#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+enum PedestrianTypeRequest {
+    #[default]
+    None,
+    Blind,
+    // TODO
+    // Wheelchair,
+}
+
+impl From<PedestrianTypeRequest> for PedestrianType {
+    fn from(value: PedestrianTypeRequest) -> Self {
+        match value {
+            PedestrianTypeRequest::None => PedestrianType::Blind,
+            PedestrianTypeRequest::Blind => PedestrianType::Blind,
+            // TODO
+            // PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+        }
+    }
+}
+
+/// Does the user have a moped or motorcycle
+#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+enum PoweredTwoWheeledRestrictionRequest {
+    #[default]
+    Motorcycle,
+    Moped,
 }
 
 /// Routing requests
@@ -161,7 +209,7 @@ pub async fn route_handler(
         .route(
             (from.lat as f32, from.lon as f32),
             (to.lat as f32, to.lon as f32),
-            Costing::from(args.route_costing),
+            Costing::from(args.deref()),
             args.lang.should_use_english(),
         )
         .await;
