@@ -281,8 +281,6 @@ impl From<String> for EventTypeResponse {
 }
 #[cfg(test)]
 mod db_tests {
-    use std::sync::Arc;
-
     use actix_web::http::header::ContentType;
     use actix_web::test;
     use actix_web::App;
@@ -420,10 +418,7 @@ mod db_tests {
         // set up the http service/api/calendar
         let app = test::init_service(
             App::new()
-                .app_data(web::Data::new(AppData {
-                    pool: pg.pool.clone(),
-                    meilisearch_initialised: Arc::new(Default::default()),
-                }))
+                .app_data(web::Data::new(AppData::from(pg.pool.clone())))
                 .service(calendar_handler),
         )
         .await;

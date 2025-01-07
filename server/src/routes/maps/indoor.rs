@@ -113,7 +113,7 @@ struct RemoteMap {
 struct Arguments {
     /// Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
     ///
-    /// Bounding box according to https://datatracker.ietf.org/doc/html/rfc7946#section-5
+    /// Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
     #[schema(
         pattern = "-?[\\d]+.[\\d]+,-?[\\d]+.[\\d]+,-?[\\d]+.[\\d]+,-?[\\d]+.[\\d]+",
         example = "48.266600,11.669800,48.268470,11.670600"
