@@ -49,6 +49,11 @@ impl AppData {
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
+        AppData::from(pool)
+    }
+}
+impl From<PgPool> for AppData {
+    fn from(pool: PgPool) -> Self {
         AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),

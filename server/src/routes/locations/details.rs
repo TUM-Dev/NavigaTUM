@@ -589,12 +589,8 @@ mod tests {
     }
 
     async fn check_snapshot(key: String, pool: PgPool) {
-        let data = AppData {
-            pool,
-            meilisearch_initialised: Arc::new(Default::default()),
-        };
         let app = actix_web::App::new()
-            .app_data(web::Data::new(data))
+            .app_data(web::Data::new(AppData::from(pool)))
             .service(get_handler);
         let app = actix_web::test::init_service(app).await;
         let req = actix_web::test::TestRequest::get()
