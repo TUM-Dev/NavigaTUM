@@ -9,6 +9,6 @@ pydantic==2.10.4
 pyyaml==6.0.2
 requests==2.32.3
 requests-oauthlib==2.0.0
-ruamel.yaml==0.18.9
+ruamel.yaml==0.18.10
 tqdm==4.67.1
 utm==0.7.0
