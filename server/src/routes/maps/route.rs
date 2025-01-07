@@ -9,8 +9,10 @@ use serde_json::json;
 use sqlx::PgPool;
 use std::ops::Deref;
 use tracing::{debug, error};
-use valhalla_client::costing::pedestrian::PedestrianType;
-use valhalla_client::costing::{Costing, MultimodalCostingOptions, PedestrianCostingOptions};
+use valhalla_client::costing::{
+    bicycle::BicycleType, pedestrian::PedestrianType, BicycleCostingOptions, Costing,
+    MultimodalCostingOptions, PedestrianCostingOptions,
+};
 use valhalla_client::route::{
     Leg, Maneuver, ManeuverType, ShapePoint, Summary, TransitInfo, TransitStop, TransitStopType,
     TravelMode, Trip,
@@ -82,6 +84,7 @@ impl From<&RoutingRequest> for Costing {
             route_costing,
             pedestrian_type,
             ptw_type,
+            bicycle_type,
             ..
         }: &RoutingRequest,
     ) -> Self {
@@ -89,7 +92,9 @@ impl From<&RoutingRequest> for Costing {
             CostingRequest::Pedestrian => Costing::Pedestrian(
                 PedestrianCostingOptions::builder().r#type(PedestrianType::from(*pedestrian_type)),
             ),
-            CostingRequest::Bicycle => Costing::Bicycle(Default::default()),
+            CostingRequest::Bicycle => Costing::Bicycle(
+                BicycleCostingOptions::builder().bicycle_type(BicycleType::from(*bicycle_type)),
+            ),
             CostingRequest::Motorcycle => match ptw_type {
                 PoweredTwoWheeledRestrictionRequest::Moped => {
                     Costing::Motorcycle(Default::default())
@@ -128,6 +133,9 @@ struct RoutingRequest {
     /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
     #[serde(default)]
     ptw_type: PoweredTwoWheeledRestrictionRequest,
+    /// Which kind of bicycle do you ride?
+    #[serde(default)]
+    bicycle_type: BicycleRestrictionRequest,
 }
 
 /// Does the user have specific walking restrictions?
@@ -151,6 +159,37 @@ impl From<PedestrianTypeRequest> for PedestrianType {
     }
 }
 
+/// Which kind of bicycle do you ride?
+#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+enum BicycleRestrictionRequest {
+    /// Road-bike
+    ///
+    /// A road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces.
+    Road,
+    /// Hybrid- or City-bike
+    ///
+    /// A bicycle made mostly for city riding or casual riding on roads and paths with good surfaces.
+    #[default]
+    Hybrid,
+    /// Cross-bike
+    ///
+    /// A cyclo-cross bicycle, which is similar to a road bicycle but with wider tires suitable to rougher surfaces.
+    Cross,
+    /// Mountain-bike
+    ///
+    /// A mountain bicycle suitable for most surfaces but generally heavier and slower on paved surfaces.
+    Mountain,
+}
+impl From<BicycleRestrictionRequest> for BicycleType {
+    fn from(bicycle_type: BicycleRestrictionRequest) -> Self {
+        match bicycle_type {
+            BicycleRestrictionRequest::Road => BicycleType::Road,
+            BicycleRestrictionRequest::Hybrid => BicycleType::Hybrid,
+            BicycleRestrictionRequest::Cross => BicycleType::Cross,
+            BicycleRestrictionRequest::Mountain => BicycleType::Mountain,
+        }
+    }
+}
 /// Does the user have a moped or motorcycle
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 enum PoweredTwoWheeledRestrictionRequest {
