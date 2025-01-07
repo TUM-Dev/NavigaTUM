@@ -11,26 +11,25 @@ use tracing::error;
 
 use super::AppliableEdit;
 
+#[serde_with::skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Source {
     author: String,
     license: Property,
     source: Property,
-    #[serde(skip_serializing_if = "Option::is_none")]
     offsets: Option<Offsets>,
 }
+#[serde_with::skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 struct Property {
     text: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Offsets {
-    #[serde(skip_serializing_if = "Option::is_none")]
     header: Option<i32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     thumb: Option<i32>,
 }
 #[derive(Debug, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]

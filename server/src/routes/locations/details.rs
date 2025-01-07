@@ -102,6 +102,7 @@ pub async fn get_handler(
     }
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct LocationDetailsResponse {
     /// The id, that was requested
@@ -139,7 +140,6 @@ struct LocationDetailsResponse {
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
     ///
     /// TODO: Sometimes missing, sometimes not.. so weird..
-    #[serde(skip_serializing_if = "Option::is_none")]
     imgs: Option<Vec<ImageInfoResponse>>,
     ranking_factors: RankingFactorsResponse,
     /// Where we got our data from, should be displayed at the bottom of any page containing this data
@@ -157,7 +157,6 @@ struct LocationDetailsResponse {
     /// - buildings overview,
     /// - rooms overview and
     /// - featured view
-    #[serde(skip_serializing_if = "Option::is_none")]
     sections: Option<SectionsResponse>,
 }
 
@@ -194,13 +193,11 @@ struct OperatorResponse {
     name: String,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct SectionsResponse {
-    #[serde(skip_serializing_if = "Option::is_none")]
     buildings_overview: Option<BuildingsOverviewResponse>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     rooms_overview: Option<RoomsOverviewResponse>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     featured_overview: Option<FeaturedOverviewResponse>,
 }
 
@@ -256,15 +253,14 @@ struct FeaturedOverviewResponse {
     entries: Vec<FeaturedOverviewItemResponse>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct MapsResponse {
     /// type of the Map that should be shown by default
     default: DefaultMapsResponse,
-    #[serde(skip_serializing_if = "Option::is_none")]
     roomfinder: Option<RoomfinderMapResponse>,
     /// `None` would mean no overlay maps are displayed by default.
     /// For rooms, you should add a warning that no floor map is available for this room
-    #[serde(skip_serializing_if = "Option::is_none")]
     overlays: Option<OverlayMapsResponse>,
 }
 
@@ -342,15 +338,14 @@ enum DefaultMapsResponse {
     Roomfinder,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct ExtraComputedPropResponse {
     #[schema(examples("Genauere Angaben"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
     header: Option<String>,
     #[schema(examples("for exams: 102 in tight, 71 in wide, 49 in corona"))]
     body: String,
     #[schema(examples("data based on a Survey of chimneysweeps"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
     footer: Option<String>,
 }
 
@@ -360,49 +355,47 @@ struct ComputedPropResponse {
     name: String,
     #[schema(examples("5602.EG.001"))]
     text: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     extra: Option<ExtraComputedPropResponse>,
 }
 
 /// Data for the info-card table
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct PropsResponse {
     /// The operator of the room
-    #[serde(skip_serializing_if = "Option::is_none")]
     operator: Option<OperatorResponse>,
     computed: Vec<ComputedPropResponse>,
-    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     links: Vec<PossibleURLRefResponse>,
     /// A comment to show to an entry.
     ///
     /// It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
-    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
+    #[serde(skip_serializing_if = "String::is_empty", default)]
     comment: String,
     /// Link to the calendar of the room
     #[schema(examples(
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J",
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
     ))]
-    #[serde(skip_serializing_if = "Option::is_none")]
     calendar_url: Option<String>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
 struct SourceResponse {
     /// Name of the provider
     #[schema(example = "NavigaTUM")]
     name: String,
     /// Url of the provider
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(example = "https://nav.tum.de")]
     url: Option<String>,
 }
 /// Where we got our data from, should be displayed at the bottom of any page containing this data
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct SourcesResponse {
     /// Was this entry patched by us? (e.g. to fix a typo in the name/...)
     /// If so, we should not display the source, as it is not the original source.
-    #[serde(skip_serializing_if = "Option::is_none")]
     patched: Option<bool>, // default = false
     /// What is the basis of the data we have
     base: Vec<SourceResponse>,
@@ -421,10 +414,10 @@ struct ImageInfoResponse {
 }
 
 /// A link with a localized link text and url
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct PossibleURLRefResponse {
     text: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
 }
 
@@ -435,6 +428,7 @@ struct URLRefResponse {
     url: Option<String>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct RankingFactorsResponse {
     #[schema(minimum = 0)]
@@ -443,14 +437,13 @@ struct RankingFactorsResponse {
     rank_type: i32,
     #[schema(minimum = 0)]
     rank_usage: i32,
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(minimum = 0)]
     rank_boost: Option<i32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(minimum = 0)]
     rank_custom: Option<i32>,
 }
 
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct CoordinateResponse {
     /// Latitude
@@ -464,7 +457,6 @@ struct CoordinateResponse {
     source: CoordinateSourceResponse,
     /// How accurate the coordinate is.
     /// Only present, if it is limited to a degree (e.g. we only know the building)
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[schema(example = "building")]
     accuracy: Option<CoordinateAccuracyResponse>,
 }
