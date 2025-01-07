@@ -534,8 +534,6 @@ fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Arc;
-
     use tokio::task::LocalSet;
     use tracing::info;
 

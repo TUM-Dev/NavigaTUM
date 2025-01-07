@@ -281,8 +281,6 @@ impl From<String> for EventTypeResponse {
 }
 #[cfg(test)]
 mod db_tests {
-    use std::sync::Arc;
-
     use actix_web::http::header::ContentType;
     use actix_web::test;
     use actix_web::App;
