@@ -1,6 +1,11 @@
 use crate::localisation;
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
+#[expect(
+    unused_imports,
+    reason = "has to be imported as otherwise utoipa generates incorrect code"
+)]
+use serde_json::json;
 use sqlx::PgPool;
 use tracing::{debug, error};
 use valhalla_client::costing::{
@@ -31,8 +36,7 @@ impl From<ShapePoint> for Coordinate {
 }
 
 #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
-#[serde(tag = "type")]
-#[serde(rename_all = "snake_case")]
+#[serde(untagged)]
 enum RequestedLocation {
     /// Either an
     /// - external address which was looked up or
@@ -89,7 +93,7 @@ impl From<CostingRequest> for Costing {
 
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
 struct RoutingRequest {
-    #[serde(flatten)]
+    #[serde(flatten, default)]
     lang: localisation::LangQueryArgs,
     /// Start of the route
     from: RequestedLocation,
@@ -130,7 +134,7 @@ pub async fn route_handler(
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let from = args.from.try_resolve_coordinates(&data.pool).await;
-    let to = args.from.try_resolve_coordinates(&data.pool).await;
+    let to = args.to.try_resolve_coordinates(&data.pool).await;
     let (from, to) = match (from, to) {
         (Ok(Some(from)), Ok(Some(to))) => (from, to),
         (Ok(None), _) | (_, Ok(None)) => {
@@ -145,6 +149,12 @@ pub async fn route_handler(
                 .body("Failed to resolve key");
         }
     };
+
+    if args.route_costing == CostingRequest::PublicTransit {
+        return HttpResponse::NotImplemented()
+            .content_type("text/plain")
+            .body("public transit routing is not yet implemented");
+    }
 
     let routing = data
         .valhalla
@@ -170,7 +180,12 @@ pub async fn route_handler(
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 struct RoutingResponse {
+    /// A trip contains one (or more) legs.
+    ///
+    /// A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+    #[schema(min_items = 1, max_items = 1)]
     legs: Vec<LegResponse>,
+    /// Trip summary
     summary: SummaryResponse,
 }
 impl From<Trip> for RoutingResponse {
@@ -183,25 +198,39 @@ impl From<Trip> for RoutingResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 struct SummaryResponse {
-    time: f64,
-    length: f64,
+    /// Estimated elapsed time in seconds
+    #[schema(example = 201.025)]
+    time_seconds: f64,
+    /// Distance traveled in meters
+    #[schema(example = 103.01)]
+    length_meters: f64,
+    /// If the path uses one or more toll segments
     has_toll: bool,
+    /// If the path uses one or more highway segments
     has_highway: bool,
+    ///  if the path uses one or more ferry segments
     has_ferry: bool,
+    /// Minimum latitude of the sections bounding box
+    #[schema(example = 48.26244490906312)]
     min_lat: f64,
+    /// Minimum longitude of the sections bounding box
+    #[schema(example = 48.26244490906312)]
     min_lon: f64,
+    /// Maximum latitude of the sections bounding box
+    #[schema(example = 48.26244490906312)]
     max_lat: f64,
+    /// Maximum longitude of the sections bounding box
+    #[schema(example = 48.26244490906312)]
     max_lon: f64,
 }
 impl From<Summary> for SummaryResponse {
     fn from(value: Summary) -> Self {
         SummaryResponse {
-            time: value.time,
-            length: value.length,
+            time_seconds: value.time,
+            length_meters: value.length,
             has_toll: value.has_toll,
             has_highway: value.has_highway,
             has_ferry: value.has_ferry,
-
             min_lat: value.min_lat,
             min_lon: value.min_lon,
             max_lat: value.max_lat,
@@ -213,7 +242,6 @@ impl From<Summary> for SummaryResponse {
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 struct LegResponse {
     summary: SummaryResponse,
-
     maneuvers: Vec<ManeuverResponse>,
     shape: Vec<Coordinate>,
 }
@@ -236,77 +264,79 @@ struct ManeuverResponse {
 
     instruction: String,
 
-    /// Text suitable for use as a verbal alert in a navigation application.
+    /// Text suitable for use as a verbal alert in a navigation application
     ///
-    /// The transition alert instruction will prepare the user for the forthcoming transition.
-    ///
-    /// Example: "Turn right onto North Prince Street"
+    /// The transition alert instruction will prepare the user for the forthcoming transition
+    #[schema(examples("Turn right onto North Prince Street"))]
     verbal_transition_alert_instruction: Option<String>,
 
-    /// Text suitable for use as a verbal message immediately prior to the maneuver transition.
-    ///
-    /// Example: "Turn right onto North Prince Street, U.S. 2 22"
+    /// Text suitable for use as a verbal message immediately prior to the maneuver transition
+    #[schema(examples("Turn right onto North Prince Street, U.S. 2 22"))]
     verbal_pre_transition_instruction: Option<String>,
-    /// Text suitable for use as a verbal message immediately after the maneuver transition.
-    ///
-    /// Example: "Continue on U.S. 2 22 for 3.9 miles"
+    /// Text suitable for use as a verbal message immediately after the maneuver transition
+    #[schema(examples("Continue on U.S. 2 22 for 3.9 miles"))]
     verbal_post_transition_instruction: Option<String>,
-
     /// List of street names that are consistent along the entire nonobvious maneuver
+    #[schema(examples(json!(["Münchnerstraße"])))]
     street_names: Option<Vec<String>>,
-
     /// When present, these are the street names at the beginning (transition point) of the
-    /// nonobvious maneuver (if they are different than the names that are consistent along the
-    /// entire nonobvious maneuver).
+    /// nonobvious maneuver (if they are different from the names that are consistent along the
+    /// entire nonobvious maneuver)
+    #[schema(examples(json!(["Josef Fischaber Straße"])))]
     begin_street_names: Option<Vec<String>>,
-    /// Estimated time along the maneuver in seconds.
-    time: f64,
-    /// Maneuver length in the [`super::Units`] specified via [`Manifest::units`]
-    length: f64,
-    /// Index into the list of shape points for the start of the maneuver.
+    /// Estimated time along the maneuver in seconds
+    #[schema(example = 201.025)]
+    time_seconds: f64,
+    /// Maneuver length in meters
+    #[schema(example = 103.01)]
+    length_meters: f64,
+    /// Index into the list of shape points for the start of the maneuver
+    #[schema(example = 0)]
     begin_shape_index: usize,
-    /// Index into the list of shape points for the end of the maneuver.
+    /// Index into the list of shape points for the end of the maneuver
+    #[schema(example = 3)]
     end_shape_index: usize,
-    /// `true` if a toll booth is encountered on this maneuver.
+    /// `true` if a toll booth is encountered on this maneuver
     toll: Option<bool>,
-    /// `true` if a highway is encountered on this maneuver.
+    /// `true` if a highway is encountered on this maneuver
     highway: Option<bool>,
     /// `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
-    /// pavement.
+    /// pavement
     rough: Option<bool>,
-    /// `true` if a gate is encountered on this maneuver.
+    /// `true` if a gate is encountered on this maneuver
     gate: Option<bool>,
-    /// `true` if a ferry is encountered on this maneuver.
+    /// `true` if a ferry is encountered on this maneuver
     ferry: Option<bool>,
-    /// The spoke to exit roundabout after entering.
+    /// The spoke to exit roundabout after entering
+    #[schema(example = 2)]
     roundabout_exit_count: Option<i64>,
-    /// Written depart time instruction.
+    /// Written depart time instruction
     ///
-    /// Typically used with a transit maneuver, such as "Depart: 8:04 AM from 8 St - NYU".
+    /// Typically used with a transit maneuver
+    #[schema(examples("Depart: 8:04 AM from 8 St - NYU"))]
     depart_instruction: Option<String>,
-    /// Text suitable for use as a verbal depart time instruction.
+    /// Text suitable for use as a verbal depart time instruction
     ///
-    /// Typically used with a transit maneuver, such as "Depart at 8:04 AM from 8 St - NYU".
+    /// Typically used with a transit maneuver
+    #[schema(examples("Depart at 8:04 AM from 8 St - NYU"))]
     verbal_depart_instruction: Option<String>,
-    /// Written arrive time instruction.
+    /// Written arrive time instruction
     ///
-    /// Typically used with a transit maneuver, such as "Arrive: 8:10 AM at 34 St - Herald Sq".
+    /// Typically used with a transit maneuver
+    #[schema(examples("Arrive: 8:10 AM at 34 St - Herald Sq"))]
     arrive_instruction: Option<String>,
-    /// Text suitable for use as a verbal arrive time instruction.
+    /// Text suitable for use as a verbal arrive time instruction
     ///
-    /// Typically used with a transit maneuver, such as "Arrive at 8:10 AM at 34 St - Herald Sq".
+    /// Typically used with a transit maneuver
+    #[schema(examples("Arrive at 8:10 AM at 34 St - Herald Sq"))]
     verbal_arrive_instruction: Option<String>,
-    /// Contains the attributes that describe a specific transit route.
-    ///
-    /// See [`TransitInfo`] for details.
+    /// Contains the attributes that describe a specific transit route
     transit_info: Option<TransitInfoResponse>,
-    /// Contains the attributes that describe a specific transit stop.
-    ///
-    /// `true` if [`Self::verbal_pre_transition_instruction`] has been appended with
-    /// the verbal instruction of the next maneuver.
+    /// `true` if `verbal_pre_transition_instruction` has been appended with
+    /// the verbal instruction of the next maneuver
     verbal_multi_cue: Option<bool>,
-
     /// Travel mode
+    #[schema(examples("drive", "pedestrian", "bicycle", "public_transit"))]
     travel_mode: TravelModeResponse,
 }
 impl From<Maneuver> for ManeuverResponse {
@@ -319,8 +349,8 @@ impl From<Maneuver> for ManeuverResponse {
             verbal_post_transition_instruction: value.verbal_post_transition_instruction,
             street_names: value.street_names,
             begin_street_names: value.begin_street_names,
-            time: value.time,
-            length: value.length,
+            time_seconds: value.time,
+            length_meters: value.length,
             begin_shape_index: value.begin_shape_index,
             end_shape_index: value.end_shape_index,
             toll: value.toll,
@@ -333,11 +363,7 @@ impl From<Maneuver> for ManeuverResponse {
             verbal_depart_instruction: value.verbal_depart_instruction,
             arrive_instruction: value.arrive_instruction,
             verbal_arrive_instruction: value.verbal_arrive_instruction,
-            transit_info: if let Some(info) = value.transit_info {
-                Some(TransitInfoResponse::from(info))
-            } else {
-                None
-            },
+            transit_info: value.transit_info.map(TransitInfoResponse::from),
             verbal_multi_cue: value.verbal_multi_cue,
             travel_mode: TravelModeResponse::from(value.travel_mode),
         }
@@ -447,52 +473,58 @@ impl From<ManeuverType> for ManeuverTypeResponse {
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 
 struct TransitInfoResponse {
-    /// Global transit route identifier.
+    /// Global transit route identifier
+    ///
+    /// **Tipp:** you use these as feed-ids in transitland.
+    /// Example: <https://www.transit.land/feeds/f-9q9-bart>
+    #[schema(examples("f-9q9-bart", "f-zeus~schwäbisch~gmünd~gbfs"))]
     onestop_id: String,
     /// Short name describing the transit route
-    ///
-    /// Example: "N"
+    #[schema(examples("N"))]
     short_name: String,
     /// Long name describing the transit route
-    ///
-    /// Example: "Broadway Express"
+    #[schema(examples("Broadway Express"))]
     long_name: String,
-    /// The sign on a public transport vehicle that identifies the route destination to passengers.
-    ///
-    /// Example: "ASTORIA - DITMARS BLVD"
+    /// The sign on a public transport vehicle that identifies the route destination to passengers
+    #[schema(examples("ASTORIA - DITMARS BLVD"))]
     headsign: String,
-    /// The numeric color value associated with a transit route.
+    /// The numeric color value associated with a transit route
     ///
-    /// The value for yellow would be "16567306".
+    /// The value for yellow would be `16567306`
+    #[schema(examples(16567306))]
     color: i32,
-    /// The numeric text color value associated with a transit route.
+    /// The numeric text color value associated with a transit route
     ///
-    /// The value for black would be "0".
+    /// The value for black would be `0`
+    #[schema(examples(0))]
     text_color: String,
     /// The description of the transit route
-    ///
-    /// Example: "Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
-    /// N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
-    /// Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
-    /// Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
-    /// depending on the time. Late night trains operate via Whitehall Street, Manhattan.
-    /// Late night service is local"
+    #[schema(examples(r#"Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
+N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
+Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
+Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
+depending on the time. Late night trains operate via Whitehall Street, Manhattan.
+Late night service is local"#))]
     description: String,
-    /// Global operator/agency identifier.
+    /// Global operator/agency identifier
+    ///
+    /// **Tipp:** you use these as feed-ids in transitland.
+    /// Example: <https://www.transit.land/feeds/o-u281z9-mvv>
+    #[schema(examples("o-u281z9-mvv"))]
     operator_onestop_id: String,
     /// Operator/agency name
     ///
-    /// Short name is used over long name.
-    ///
-    /// Example: "BART", "King County Marine Division", and so on.
+    /// Short name is used over long name
+    #[schema(examples(
+        "BART",
+        "King County Marine Division",
+        "Münchner Verkehrs- und Tarifverbund (MVV)"
+    ))]
     operator_name: String,
     /// Operator/agency URL
-    ///
-    /// Example: `http://web.mta.info/`.
+    #[schema(examples("http://web.mta.info/", "http://www.mvv-muenchen.de/"))]
     operator_url: String,
-    /// A list of the stops/stations associated with a specific transit route.
-    ///
-    /// See [`TransitStop`] for details.
+    /// A list of the stops/stations associated with a specific transit route
     transit_stops: Vec<TransitStopResponse>,
 }
 impl From<TransitInfo> for TransitInfoResponse {
@@ -538,21 +570,21 @@ impl From<TravelMode> for TravelModeResponse {
 struct TransitStopResponse {
     r#type: TransitStopTypeResponse,
     /// Name of the stop or station
-    ///
-    /// Example: "14 St - Union Sq"
+    #[schema(examples("14 St - Union Sq"))]
     name: String,
     /// Arrival date and time
     arrival_date_time: chrono::NaiveDateTime,
     /// Departure date and time
     departure_date_time: chrono::NaiveDateTime,
-    /// `true` if this stop is a marked as a parent stop.
+    /// `true` if this stop is a marked as a parent stop
     is_parent_stop: bool,
-    /// `true` if the times are based on an assumed schedule because the actual schedule is not
-    /// known.
+    /// `true` if the times are based on an assumed schedule because the actual schedule is not known
     assumed_schedule: bool,
-    /// Latitude of the transit stop in degrees.
+    /// Latitude of the transit stop in degrees
+    #[schema(example = 48.26244490906312)]
     lat: f64,
-    /// Longitude of the transit stop in degrees.
+    /// Longitude of the transit stop in degrees
+    #[schema(example = 48.26244490906312)]
     lon: f64,
 }
 impl From<TransitStop> for TransitStopResponse {

@@ -52,7 +52,7 @@ impl AppData {
         AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
-            valhalla: external::valhalla::ValhallaWrapper::new(),
+            valhalla: external::valhalla::ValhallaWrapper::default(),
         }
     }
 }
