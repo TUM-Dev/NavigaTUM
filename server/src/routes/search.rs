@@ -92,7 +92,7 @@ pub struct SearchQueryArgs {
 
 /// Returned search results by this
 #[derive(Serialize, utoipa::ToSchema)]
-pub struct SearchResults {
+pub struct SearchResponse {
     sections: Vec<ResultsSection>,
     /// Time the search took in the server side, not including network delay
     ///
@@ -103,9 +103,9 @@ pub struct SearchResults {
     time_ms: u32,
 }
 
-impl Debug for SearchResults {
+impl Debug for SearchResponse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut base = f.debug_struct("SearchResults");
+        let mut base = f.debug_struct("SearchResponse");
         base.field("time_ms", &self.time_ms);
         for section in self.sections.iter() {
             match section.facet {
@@ -224,7 +224,7 @@ impl From<&SearchQueryArgs> for Highlighting {
     tags=["locations"],
     params(SearchQueryArgs),
     responses(
-        (status = 200, description = "Search entries", body = Vec<SearchResults>, content_type = "application/json"),
+        (status = 200, description = "Search entries", body = Vec<SearchResponse>, content_type = "application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, content_type = "text/plain", example = "Query deserialize error: invalid digit found in string"),
         (status = 404, description = "**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.", body = String, content_type = "text/plain", example = "Not found"),
         (status = 414, description = "**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
@@ -255,7 +255,7 @@ pub async fn search_handler(
             .content_type("text/plain")
             .body("Cannot perform search, please try again later");
     }
-    let search_results = SearchResults {
+    let search_results = SearchResponse {
         sections: results_sections,
         time_ms: start_time.elapsed().as_millis() as u32,
     };

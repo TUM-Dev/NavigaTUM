@@ -109,7 +109,7 @@ impl RecordedTokens {
 }
 
 #[derive(Debug, Serialize, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
-struct Token {
+struct TokenResponse {
     /// Unix timestamp of when the token was created
     #[schema(example = "1629564181")]
     created_at: i64,
@@ -139,7 +139,7 @@ struct Token {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description = "**Created** a usable token", body= Token, content_type="application/json"),
+        (status = 201, description = "**Created** a usable token", body= TokenResponse, content_type="application/json"),
         (status = 429, description = "**Too many requests.** We are rate-limiting everyone's requests, please try again later."),
         (status = 503, description= "**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later."),
     )
@@ -162,7 +162,7 @@ pub async fn get_token() -> HttpResponse {
     match token {
         Ok(token) => {
             let created_at = chrono::Utc::now().timestamp();
-            HttpResponse::Created().json(Token { created_at, token })
+            HttpResponse::Created().json(TokenResponse { created_at, token })
         }
         Err(e) => {
             error!(error = ?e, "Failed to generate token");
