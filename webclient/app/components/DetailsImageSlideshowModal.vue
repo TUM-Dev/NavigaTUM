@@ -3,12 +3,12 @@ import "vue3-carousel/dist/carousel.css";
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import type { components } from "~/api_types";
 
-type ImageInfo = components["schemas"]["ImageInfo"];
-const props = defineProps<{ imgs: readonly ImageInfo[] }>();
+type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
+const props = defineProps<{ imgs: readonly ImageInfoResponse[] }>();
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
-const shownImage = defineModel<ImageInfo>("shown_image");
+const shownImage = defineModel<ImageInfoResponse>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
   required: true,
 });

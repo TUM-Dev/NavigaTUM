@@ -1,959 +1,159 @@
 openapi: 3.1.0
 info:
   title: NavigaTUM
-  description: "Navigating around TUM with excellence – An API to search for rooms,\nbuildings and other places\n\nNavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.\n\n- [x] \U0001F5FA️ Interactive/static maps to look up the position of rooms or buildings\n- [x] \U0001F50D Fast and typo-tolerant search\n- [x] \U0001F4BE Support for different room code formats as well as generic names\n- [x] \U0001F916 All functionality is also available via an open and well documented API\n- [x] \U0001F5D8 Automatically update the data from upstream datasources\n- [ ] \U0001F5E8️ Allow students/staff to easily submit feedback and data patches\n- [ ] \U0001F3EB Generate maps from CAD data sources\n- [ ] \U0001F6B6\U0001F3FB Generate turn by turn navigation advice for navigating end to end\n\nIf you'd like to help out or join us in this adventure, we would love to talk to you.\n\nAll functionality is also available via an API.\n\n*Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*\n"
-  termsOfService: 'https://nav.tum.de/en/about/privacy'
+  description: |-
+    Navigating around TUM with excellence – An API to search for rooms,
+    buildings and other places
+
+    NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
+
+    - [x] Interactive/static maps to look up the position of rooms or buildings
+    - [x] Fast and typo-tolerant search
+    - [x] Support for different room code formats as well as generic names
+    - [x] All functionality is also available via an open and well documented API
+    - [x] Automatically update the data from upstream datasources
+    - [ ] Allow students/staff to easily submit feedback and data patches
+    - [ ] Generate maps from CAD data sources
+    - [ ] Generate turn by turn navigation advice for navigating end to end
+
+    If you'd like to help out or join us in this adventure, we would love to talk to you.
+  termsOfService: https://nav.tum.de/en/about/privacy
   contact:
-    name: TUM-Dev
-    url: 'https://www.tum.app/'
+    name: OpenSource @ TUM e.V.
+    url: https://tum.dev/
     email: navigatum@tum.de
   license:
     name: GPL v3
-    url: 'https://www.gnu.org/licenses/'
+    url: https://www.gnu.org/licenses/
   version: 1.0.0
+  x-logo:
+    href: https://nav.tum.de
+    url: https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/webclient/app/assets/logos/navigatum.svg
 servers:
-  - url: 'https://nav.tum.de'
-    description: https
+- url: https://nav.tum.de
+  description: production
 paths:
-  /api/search:
-    get:
-      operationId: search
-      summary: Search entries
-      description: |
-        This endpoint is designed to support search-as-you-type results.
-
-        Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
-
-        Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.  
-        (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).  
-        Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
-      parameters:
-        - name: q
-          in: query
-          description: |
-            string you want to search for.
-            Note, that the amounts returned can be controlled using the limit\* paramerters.
-
-            The following query-filters are supported:
-            - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-              alternative syntax:
-              - `@<parent>`
-            - `usage:<type>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-               alternative syntax:
-               - `nutzung:<usage>`
-               - `=<usage>`
-            - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-          required: true
-          schema:
-            type: string
-          examples:
-            mi hs1:
-              summary: \'misspelled\' (according to tumonline) lecture-hall
-              value: mi hs1
-            sfarching:
-              summary: misspelled campus garching
-              value: sfarching
-            5606.EG.036:
-              summary: regular room (fsmpic)
-              value: 5606.EG.036
-            interims:
-              summary: \'interims\' Lecture halls
-              value: interims
-            AStA:
-              summary: common name synonyms for SV
-              value: AStA
-            all:
-              summary: All rooms
-              value: ''
-        - name: limit_buildings
-          in: query
-          description: |
-            Maximum number of buildings/sites to return.  
-            Clamped to 0..1000. If this is an problem for you, please open an issue.
-          schema:
-            type: integer
-            default: 5
-            maximum: 1000
-            minimum: 0
-        - name: limit_rooms
-          in: query
-          description: |
-            Maximum number of rooms to return.  
-            Clamped to 0..1000. If this is an problem for you, please open an issue.
-          schema:
-            type: integer
-            default: 10
-            maximum: 1000
-            minimum: 0
-        - name: limit_all
-          in: query
-          description: |
-            Overall maximum number of results. Only visible results are counted (i.e. hidden buildings are not counted).  
-            Clamped to 1..1000. If this is an problem for you, please open an issue.
-          schema:
-            type: integer
-            default: 10
-            maximum: 1000
-            minimum: 1
-        - name: pre_highlight
-          in: query
-          description: |
-            string to include in front of highlighted sequences.   
-            If this and `post_highlight` are empty, highlighting is disabled.
-          schema:
-            type: string
-            default: /u0019
-            maxLength: 25
-            minLength: 0
-          examples:
-            default:
-              summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
-              value: /u0019
-            em:
-              summary: good alternative default value
-              value: <em>
-            ais-highlight:
-              summary: Another good alternative
-              value: <ais-highlight-00000000>
-        - name: post_highlight
-          in: query
-          description: |
-            string to include after the highlighted sequences.   
-            If this and `pre_highlight` are empty, highlighting is disabled.
-          schema:
-            type: string
-            default: /u0017
-            maxLength: 25
-            minLength: 0
-          examples:
-            default:
-              summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
-              value: /u0017
-            em:
-              summary: good alternative default value
-              value: </em>
-            ais-highlight:
-              summary: Another good alternative
-              value: </ais-highlight-00000000>
-      responses:
-        '200':
-          description: The search-result
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchResponse'
-              examples:
-                mw:
-                  value:
-                    sections:
-                      - facet: sites_buildings
-                        entries:
-                          - id: mw
-                            type: joined_building
-                            name: "Maschinenwesen (\x19MW\x17)"
-                            subtext: Gebäudekomplex
-                          - id: '5501'
-                            type: building
-                            name: 'Gebäudeteil 1, Institut für Mechatronik'
-                            subtext: Gebäudeteil
-                          - id: '5502'
-                            type: building
-                            name: 'Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung'
-                            subtext: Gebäudeteil
-                          - id: '5503'
-                            type: building
-                            name: 'Gebäudeteil 3, Institut für Produktionstechnik'
-                            subtext: Gebäudeteil
-                        n_visible: 5
-                        estimatedTotalHits: 20
-                      - facet: rooms
-                        entries:
-                          - id: 5510.03.002
-                            type: room
-                            name: "5510.03.002 (\x19MW\x17 2001, Empore)"
-                            subtext: Maschinenwesen (MW)
-                            subtext_bold: 3002@5510
-                          - id: 5510.01.004A
-                            type: room
-                            name: "5510.01.004A (Exp.-Bühne zu Hörsaal \x19MW\x17 2001)"
-                            subtext: Maschinenwesen (MW)
-                            subtext_bold: 1004a@5510
-                          - id: 5502.01.250
-                            type: room
-                            name: 5502.01.250 (Hörsaal)
-                            subtext: Maschinenwesen (MW)
-                            subtext_bold: 1250@5502
-                          - id: 5502.EG.250
-                            type: room
-                            name: 5502.EG.250 (Hörsaal)
-                            subtext: Maschinenwesen (MW)
-                            subtext_bold: 0250@5502
-                          - id: 5503.EG.350
-                            type: room
-                            name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
-                            subtext: Maschinenwesen (MW)
-                            subtext_bold: 0350@5503
-                        n_visible: 5
-                        estimatedTotalHits: 3655
-                    time_ms: 16
-                nothing:
-                  value:
-                    sections:
-                      - facet: sites_buildings
-                        entries: []
-                        n_visible: 0
-                        estimatedTotalHits: 0
-                      - facet: rooms
-                        entries: []
-                        n_visible: 0
-                        estimatedTotalHits: 0
-                    time_ms: 6
-                interims-2:
-                  value:
-                    sections:
-                      - facet: sites_buildings
-                        entries:
-                          - id: '5416'
-                            type: building
-                            name: "\x19Interims\x17hörsäle II, Jürgen Manchot-Hörsaalgebäude"
-                            subtext: Gebäude
-                        n_visible: 1
-                        estimatedTotalHits: 1
-                      - facet: rooms
-                        entries:
-                          - id: 5416.01.004
-                            type: room
-                            name: "5416.01.004 (Hörsaal 1 \"\x19Interims\x17 II\")"
-                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
-                            subtext_bold: 004@5416
-                          - id: 5416.01.003
-                            type: room
-                            name: "5416.01.003 (Hörsaal \x192\x17, \"\x19Interims\x17 II\")"
-                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
-                            subtext_bold: 003@5416
-                          - id: 5620.01.102
-                            type: room
-                            name: "56\x192\x170.01.10\x192\x17 (Hörsaal \x192\x17, \"\x19Interims\x17 I\")"
-                            subtext: Interims-Audimax I
-                            subtext_bold: "10\x192\x17@56\x192\x170"
-                          - id: 5416.EG.010
-                            type: room
-                            name: 5416.EG.010 (IT/Audio)
-                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
-                            subtext_bold: 010@5416
-                        n_visible: 4
-                        estimatedTotalHits: 23
-                    time_ms: 23
-        '400':
-          description: Invalid Request
-        '404':
-          description: '`search_query` is empty. Since searching for nothing is nonsensical, we dont support this.'
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
-        '414':
-          description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
-      tags:
-        - locations
-  '/api/locations/{id}/nearby':
-    get:
-      operationId: nearby
-      summary: Get the nearby items
-      description: |
-        Shows nearby POIs like public transport stations
-      parameters:
-        - name: id
-          in: path
-          description: string you want to search for
-          required: true
-          schema:
-            type: string
-          examples:
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
-            '5304':
-              summary: normal building
-              value: '5304'
-            garching:
-              summary: garching campus
-              value: garching
-            mri:
-              summary: MRI campus
-              value: mri
-            mi:
-              summary: large building (mi)
-              value: mi
-            mw:
-              summary: other large building (mw)
-              value: mw
-            5606.EG.036:
-              summary: regular room (fsmpic)
-              value: 5606.EG.036
-            5605.EG.011:
-              summary: room with custom props (rechnerhalle-mi)
-              value: 5605.EG.011
-            5401.01.100A:
-              summary: virtual room (tb-chemie)
-              value: 5401.01.100A
-      responses:
-        '200':
-          description: More data about the requested building/room
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NearbyLocationsResponse'
-      tags:
-        - locations
-  '/api/locations/{id}':
-    get:
-      operationId: details
-      summary: Get entry-details
-      description: |
-        This returns the full data available for the entry (room/building).
-
-        This is more data, that should be supplied once a user clicks on an entry.
-        Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.  
-        The data can be up to 50kB (using gzip) or 200kB unzipped.
-        The more about this data format is described in the NavigaTUM-data documentation
-      parameters:
-        - name: lang
-          in: query
-          description: 'The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.'
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
-        - name: id
-          in: path
-          description: string you want to search for
-          required: true
-          schema:
-            type: string
-          examples:
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
-            '5304':
-              summary: normal building
-              value: '5304'
-            garching:
-              summary: garching campus
-              value: garching
-            mri:
-              summary: MRI campus
-              value: mri
-            mi:
-              summary: large building (mi)
-              value: mi
-            mw:
-              summary: other large building (mw)
-              value: mw
-            5606.EG.036:
-              summary: regular room (fsmpic)
-              value: 5606.EG.036
-            5605.EG.011:
-              summary: room with custom props (rechnerhalle-mi)
-              value: 5605.EG.011
-            5401.01.100A:
-              summary: virtual room (tb-chemie)
-              value: 5401.01.100A
-      responses:
-        '200':
-          description: More data about the requested building/room
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DetailsResponse'
-              examples:
-                mi-hs-1:
-                  value:
-                    parent_names:
-                      - Standorte
-                      - Garching Forschungszentrum
-                      - Fakultät Mathematik & Informatik (FMI oder MI)
-                      - Hörsaal 1 (BT02)
-                    id: 5602.EG.001
-                    type: room
-                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-                    parents:
-                      - root
-                      - garching
-                      - mi
-                      - '5602'
-                    props:
-                      calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
-                      operator:
-                        code: TUZVZA4
-                        name: Immobilien (ZA 4)
-                        url: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691'
-                        id: 19691
-                      tumonline_room_nr: 12325
-                      computed:
-                        - name: Raumkennung
-                          text: 5602.EG.001
-                        - name: Architekten-Name
-                          text: 00.02.001
-                        - name: Stockwerk
-                          text: Erdgeschoss
-                        - name: Adresse
-                          text: 'Boltzmannstr. 3, 85748 Garching b. München'
-                    usage:
-                      name: Hörsaal
-                      din_277: NF5.1
-                      din_277_desc: Unterrichtsräume mit festem Gestühl
-                    sources:
-                      base:
-                        - name: TUMonline
-                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
-                        - name: Roomfinder
-                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
-                    coords:
-                      lat: 48.26244490906312
-                      lon: 11.669122601167174
-                      source: roomfinder
-                    maps:
-                      roomfinder:
-                        available:
-                          - scale: '500'
-                            id: rf86
-                            name: FMI Garching BT02 EG
-                            width: 399
-                            height: 487
-                            x: 234
-                            'y': 286
-                            source: Roomfinder
-                            file: rf86.webp
-                          - scale: '2000'
-                            id: rf142
-                            name: FMI Übersicht
-                            width: 639
-                            height: 461
-                            x: 499
-                            'y': 189
-                            source: Roomfinder
-                            file: rf142.webp
-                          - scale: '10000'
-                            id: rf80
-                            name: Lageplan Campus Garching
-                            width: 676
-                            height: 480
-                            x: 340
-                            'y': 334
-                            source: Roomfinder
-                            file: rf80.webp
-                          - scale: '200000'
-                            id: rf54
-                            name: München
-                            width: 640
-                            height: 603
-                            x: 444
-                            'y': 35
-                            source: Roomfinder
-                            file: rf54.webp
-                          - scale: '400000'
-                            id: rf156
-                            name: München und Umgebung
-                            width: 420
-                            height: 515
-                            x: 265
-                            'y': 167
-                            source: Roomfinder
-                            file: rf156.webp
-                        default: rf86
-                      overlays:
-                        available:
-                          - id: -1
-                            floor: U1
-                            file: mi_-1.webp
-                            name: MI Gebäude (UG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 0
-                            floor: EG
-                            file: mi_0.webp
-                            name: MI Gebäude (EG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 1
-                            floor: '01'
-                            file: mi_1.webp
-                            name: MI Gebäude (1.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 2
-                            floor: '02'
-                            file: mi_2.webp
-                            name: MI Gebäude (2.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 3
-                            floor: '03'
-                            file: mi_3.webp
-                            name: MI Gebäude (3.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 4
-                            floor: '04'
-                            file: mi_4.webp
-                            name: MI Gebäude (4.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                        default: 0
-                      default: interactive
-                    type_common_name: Hörsaal
-                    ranking_factors:
-                      rank_type: 100
-                      rank_usage: 900
-                      rank_combined: 900
-                    aliases:
-                      - 00.02.001@5602
-                    redirect_url: /room/5602.EG.001
-                5606.EG.036:
-                  value:
-                    parent_names:
-                      - Standorte
-                      - Garching Forschungszentrum
-                      - Fakultät Mathematik & Informatik (FMI oder MI)
-                      - Finger 06 (BT06)
-                    name: 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
-                    short_name: MPIC Büro
-                    sources:
-                      base:
-                        - name: NavigaTUM
-                        - name: TUMonline
-                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
-                        - name: Roomfinder
-                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
-                    id: 5606.EG.036
-                    type: room
-                    parents:
-                      - root
-                      - garching
-                      - mi
-                      - '5606'
-                    props:
-                      operator:
-                        code: TUVBMPI
-                        name: Fachschaftsverbund Mathematik/Physik/Informatik/Chemie
-                        url: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=45500'
-                        id: 45500
-                      tumonline_room_nr: 55601
-                      computed:
-                        - name: Raumkennung
-                          text: 5606.EG.036
-                        - name: Architekten-Name
-                          text: 00.06.036
-                        - name: Stockwerk
-                          text: Erdgeschoss
-                        - name: Adresse
-                          text: 'Boltzmannstr. 3, 85748 Garching b. München'
-                    usage:
-                      name: Büro
-                      din_277: NF2.1
-                      din_277_desc: Büroräume
-                    coords:
-                      lat: 48.26217845031176
-                      lon: 11.668693278105701
-                      source: roomfinder
-                    maps:
-                      roomfinder:
-                        available:
-                          - scale: '500'
-                            id: rf95
-                            name: FMI Garching BT06 EG
-                            width: 318
-                            height: 605
-                            x: 207
-                            'y': 217
-                            source: Roomfinder
-                            file: rf95.webp
-                          - scale: '2000'
-                            id: rf142
-                            name: FMI Übersicht
-                            width: 639
-                            height: 461
-                            x: 443
-                            'y': 242
-                            source: Roomfinder
-                            file: rf142.webp
-                          - scale: '10000'
-                            id: rf80
-                            name: Lageplan Campus Garching
-                            width: 676
-                            height: 480
-                            x: 329
-                            'y': 344
-                            source: Roomfinder
-                            file: rf80.webp
-                          - scale: '200000'
-                            id: rf54
-                            name: München
-                            width: 640
-                            height: 603
-                            x: 444
-                            'y': 36
-                            source: Roomfinder
-                            file: rf54.webp
-                          - scale: '400000'
-                            id: rf156
-                            name: München und Umgebung
-                            width: 420
-                            height: 515
-                            x: 265
-                            'y': 167
-                            source: Roomfinder
-                            file: rf156.webp
-                        default: rf95
-                      overlays:
-                        available:
-                          - id: -1
-                            floor: U1
-                            file: mi_-1.webp
-                            name: MI Gebäude (UG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 0
-                            floor: EG
-                            file: mi_0.webp
-                            name: MI Gebäude (EG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 1
-                            floor: '01'
-                            file: mi_1.webp
-                            name: MI Gebäude (1.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 2
-                            floor: '02'
-                            file: mi_2.webp
-                            name: MI Gebäude (2.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 3
-                            floor: '03'
-                            file: mi_3.webp
-                            name: MI Gebäude (3.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                          - id: 4
-                            floor: '04'
-                            file: mi_4.webp
-                            name: MI Gebäude (4.OG) – © TUM WWW & Online Services
-                            coordinates:
-                              - - 11.666739
-                                - 48.263478
-                              - - 11.669666
-                                - 48.263125
-                              - - 11.669222
-                                - 48.261585
-                              - - 11.666331
-                                - 48.261929
-                        default: 0
-                      default: interactive
-                    type_common_name: Büro
-                    ranking_factors:
-                      rank_type: 100
-                      rank_usage: 100
-                      rank_combined: 100
-                    aliases:
-                      - 00.06.036@5606
-                    redirect_url: /room/5606.EG.036
-        '404':
-          description: Invalid input
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
-      tags:
-        - locations
-  /api/calendar:
+  "/api/calendar":
     post:
-      operationId: calendar
+      tags:
+      - calendar
       summary: Retrieve Calendar Entries
-      description: |
-        Retrieves calendar entries for specific `ids` within the requested time span. 
+      description: |-
+        Retrieves calendar entries for specific `ids` within the requested time span.
         The time span is defined by the `start_after` and `end_before` query parameters.
         Ensure to provide valid date-time formats for these parameters.
 
         If successful, returns additional entries in the requested time span.
+      operationId: calendar_handler
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                start_after:
-                  description: The first allowed time the calendar would like to display
-                  type: string
-                  format: date-time
-                  examples:
-                    - '2039-01-19T03:14:07+01:00'
-                    - '2042-01-07T00:00:00 UTC'
-                end_before:
-                  description: The last allowed time the calendar would like to display
-                  type: string
-                  format: date-time
-                  examples:
-                    - '2039-01-19T03:14:07+01:00'
-                    - '2042-01-07T00:00:00 UTC'
-                ids:
-                  description: ids you want the calendars for
-                  type: array
-                  items:
-                    type: string
-                    examples:
-                      - 5605.EG.011
-                      - 5510.02.001
-                      - 5606.EG.036
-                      - '5304'
-              required:
-                - ids
-                - end_before
-                - start_after
+              "$ref": "#/components/schemas/Arguments"
+        required: true
       responses:
         '200':
-          description: More entries of the calendar in the requested time span
+          description: "**Entries of the calendar** in the requested time span"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CalendarResponse'
-        '404':
-          description: Invalid input
+                type: object
+                additionalProperties:
+                  "$ref": "#/components/schemas/LocationEventsResponse"
+                propertyNames:
+                  type: string
+        '400':
+          description: "**Bad Request.** Not all fields in the body are present as
+            defined above"
           content:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
+              example: Too many ids to query. We suspect that users don't need this.
+                If you need this limit increased, please send us a message
+        '404':
+          description: "**Not found.** The requested location does not have a calendar"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
         '503':
-          description: 'Not Ready, please retry later'
+          description: "**Not Ready.** please retry later"
           content:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - Waiting for first sync with TUMonline
-                examples:
-                  - Waiting for first sync with TUMonline
-      tags:
-        - calendar
-  '/api/locations/{id}/preview':
-    get:
-      operationId: previews
-      summary: Get a entry-preview
-      description: |
-        This returns a 1200x630px preview for the location (room/building/..).
-
-        This is usefully for implementing custom OpenGraph images for detail previews.
-      parameters:
-        - name: lang
-          in: query
-          description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
-        - name: id
-          in: path
-          description: string you want to search for
-          required: true
-          schema:
-            type: string
-          examples:
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
-            '5304':
-              summary: normal building
-              value: '5304'
-            garching:
-              summary: garching campus
-              value: garching
-            mri:
-              summary: MRI campus
-              value: mri
-            mi:
-              summary: large building (mi)
-              value: mi
-            mw:
-              summary: other large building (mw)
-              value: mw
-            5606.EG.036:
-              summary: regular room (fsmpic)
-              value: 5606.EG.036
-            5605.EG.011:
-              summary: room with custom props (rechnerhalle-mi)
-              value: 5605.EG.011
-            5401.01.100A:
-              summary: virtual room (tb-chemie)
-              value: 5401.01.100A
-      responses:
-        '200':
-          description: More data about the requested building/room
-          content:
-            image/png: {}
-        '404':
-          description: Invalid input
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
-      tags:
-        - maps
-  /api/maps/indoor:
-    get:
-      operationId: list-indoor-maps
-      summary: Lists indoor maps in bounding box
-      description: Returns all the available maps for a given bbox
-      parameters:
-        - name: bbox
-          in: query
-          description: |
-            Requires the bbox to be 4 floating point numbers of format y,x,y,x
-
-            Bounding box according to https://datatracker.ietf.org/doc/html/rfc7946#section-5
-          required: true
-          schema:
-            type: string
-            pattern: '-?[\d]+.[\d]+,-?[\d]+.[\d]+,-?[\d]+.[\d]+,-?[\d]+.[\d]+'
-      responses:
-        '200':
-          description: Indoor features as GeoJSON
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RemoteMap'
-      tags:
-        - maps
-  '/api/maps/indoor/{id}':
-    get:
-      operationId: get-indoor-map
-      summary: Get indoor features
-      description: Get all features of a certain indoor map
-      parameters:
-        - name: id
-          in: path
-          description: id of the map returned by prior listing
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FeatureCollection'
-      tags:
-        - maps
-  /api/feedback/get_token:
+              example: Waiting for first sync with TUMonline
+  "/api/feedback/feedback":
     post:
-      operationId: get_token
+      tags:
+      - feedback
+      summary: Post feedback
+      description: |-
+        ***Do not abuse this endpoint.***
+
+        This posts the actual feedback to GitHub and returns the GitHub link.
+        This API will create issues instead of pull-requests
+        => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
+
+        For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+
+        # Note
+
+        Tokens are only used if we return a 201 Created response.
+        Otherwise, they are still valid
+      operationId: send_feedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PostFeedbackRequest"
+        required: true
+      responses:
+        '201':
+          description: The feedback has been **successfully posted to GitHub**. We
+            return the link to the GitHub issue.
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: uri
+              example: https://github.com/TUM-Dev/navigatum/issues/9
+        '400':
+          description: "**Bad Request.** Not all fields in the body are present as
+            defined above"
+        '403':
+          description: |-
+            **Forbidden.** Causes are (delivered via the body):
+
+            - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+            - `Token not old enough, please wait`: Tokens are only valid after 10s.
+            - `Token expired`: Tokens are only valid for 12h.
+            - `Token already used`: Tokens are non reusable/refreshable single-use items.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '422':
+          description: "**Unprocessable Entity.** Subject or body missing or too short."
+        '451':
+          description: "**Unavailable for legal reasons.** Using this endpoint without
+            accepting the privacy policy is not allowed. For us to post to GitHub,
+            this has to be `true`"
+        '500':
+          description: "**Internal Server Error.** We have a problem communicating
+            with GitHubs servers. Please try again later"
+        '503':
+          description: "**Service unavailable.** We have not configured a GitHub Access
+            Token. This could be because we are experiencing technical difficulties
+            or intentional. Please try again later."
+  "/api/feedback/get_token":
+    post:
+      tags:
+      - feedback
       summary: Get a feedback-token
-      description: |
+      description: |-
         ***Do not abuse this endpoint.***
 
         This returns a JWT token usable for submitting feedback.
@@ -965,1741 +165,2223 @@ paths:
         Tokens gain validity after 5s, and are invalid after 12h of being issued.
         They are not refreshable, and are only valid for one usage.
 
-        ***Important Note:*** 
+        # Note:
+
         Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
+      operationId: get_token
       responses:
         '201':
-          description: Returns a usable token
+          description: "**Created** a usable token"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponse'
+                "$ref": "#/components/schemas/TokenResponse"
         '429':
-          description: |
-            Too many requests.  
-            We are rate-limiting everyone's requests, please try again later.
+          description: "**Too many requests.** We are rate-limiting everyone's requests,
+            please try again later."
         '503':
-          description: |
-            Service unavailable.  
-            We have not configured a GitHub Access Token or a JWT Key.  
-            This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
-            Please try again later.
-      tags:
-        - feedback
-  /api/feedback/feedback:
+          description: "**Service unavailable.** We have not configured a GitHub Access
+            Token. This could be because we are experiencing technical difficulties
+            or intentional. Please try again later."
+  "/api/feedback/propose_edits":
     post:
-      operationId: post_feedback
-      summary: Post feedback
-      description: |
-        ***Do not abuse this endpoint.***
-
-        This posts the actual feedback to GitHub and returns the GitHub link.
-        This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
-        For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
-
-        ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostFeedbackRequest'
-      responses:
-        '201':
-          description: |
-            The feedback has been successfully posted to GitHub.
-            We return the link to the GitHub issue.
-          content:
-            text/plain:
-              schema:
-                type: string
-                examples:
-                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
-        '400':
-          description: If not all fields in the body are present as defined above
-        '403':
-          description: |
-            Forbidden. Causes are (delivered via the body):
-
-              - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-              - `Token not old enough, please wait`: Tokens are only valid after 10s.
-              - `Token expired`: Tokens are only valid for 12h.
-              - `Token already used`: Tokens are non reusable/refreshable single-use items.
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Invalid token
-                  - 'Token not old enough, please wait'
-                  - Token expired
-                  - Token already used
-        '422':
-          description: |
-            Unprocessable Entity
-            Subject or body missing or too short.
-        '451':
-          description: |
-            Unavailable for legal reasons.
-            Using this endpoint without accepting the privacy policy is not allowed.
-            For us to post to GitHub, this has to be true
-        '500':
-          description: |
-            Internal Server Error.  
-            We have a problem communicating with GitHubs servers. Please try again later.
-        '503':
-          description: |
-            Service unavailable.  
-            We have not configured a GitHub Access Token.  
-            This could be because we are experiencing technical difficulties or intentional. Please try again later.
       tags:
-        - feedback
-  /api/feedback/propose_edit:
-    post:
-      operationId: propose_edit
+      - feedback
       summary: Post Edit-Requests
-      description: |
+      description: |-
         ***Do not abuse this endpoint.***
 
-        This posts the actual feedback to GitHub and returns the GitHub link.
+        This posts the actual feedback to GitHub and returns the github link.
         This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-        For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+        For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
 
-        ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+        # Note:
+
+        Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+      operationId: propose_edits
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProposeEditsRequest'
+              "$ref": "#/components/schemas/EditRequest"
+        required: true
       responses:
         '201':
-          description: |
-            The feedback has been successfully posted to GitHub.
-            We return the link to the GitHub issue.
+          description: The edit request feedback has been **successfully posted to
+            GitHub**. We return the link to the GitHub issue.
           content:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
+                format: uri
+              example: https://github.com/TUM-Dev/navigatum/issues/9
         '400':
-          description: If not all fields in the body are present as defined above
+          description: "**Bad Request.** Not all fields in the body are present as
+            defined above"
         '403':
-          description: |
-            Forbidden. Causes are (delivered via the body):
+          description: |-
+            **Forbidden.** Causes are (delivered via the body):
 
-              - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-              - `Token not old enough, please wait`: Tokens are only valid after 10s.
-              - `Token expired`: Tokens are only valid for 12h.
-              - `Token already used`: Tokens are non reusable/refreshable single-use items.
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Invalid token
-                  - 'Token not old enough, please wait'
-                  - Token expired
-                  - Token already used
+            - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+            - `Token not old enough, please wait`: Tokens are only valid after 10s.
+            - `Token expired`: Tokens are only valid for 12h.
+            - `Token already used`: Tokens are non reusable/refreshable single-use items.
         '422':
-          description: |
-            Unprocessable Entity
-            Subject or body missing or too short.
+          description: "**Unprocessable Entity.** Subject or body missing or too short."
         '451':
-          description: |
-            Unavailable for legal reasons.
-            Using this endpoint without accepting the privacy policy is not allowed.
-            For us to post to GitHub, this has to be true
+          description: "**Unavailable for legal reasons.** Using this endpoint without
+            accepting the privacy policy is not allowed. For us to post to GitHub,
+            this has to be true"
         '500':
-          description: |
-            Internal Server Error.  
-            We have a problem communicating with GitHubs servers. Please try again later.
+          description: "**Internal Server Error.** We have a problem communicating
+            with GitHubs servers. Please try again later."
         '503':
-          description: |
-            Service unavailable.  
-            We have not configured a GitHub Access Token.  
-            This could be because we are experiencing technical difficulties or intentional. Please try again later.
-      tags:
-        - feedback
-  '/cdn/{size}/{id}_{counter}.webp':
+          description: Service unavailable. We have not configured a GitHub Access
+            Token. This could be because we are experiencing technical difficulties
+            or intentional. Please try again later.
+  "/api/locations/{id}":
     get:
-      operationId: img_cdn
-      summary: Get title images
-      description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-        You HAVE to get the proper attribution from that endpoint and use it.
-      parameters:
-        - name: size
-          in: path
-          description: |
-            size of the resource you want
+      tags:
+      - locations
+      summary: Get entry-details
+      description: |-
+        This returns the full data available for the entry (room/building).
 
-            | name   | default                                                               |
-            |--------|-----------------------------------------------------------------------|
-            | lg     | max 4k, aspect ratio untouched                                        |
-            | md     | max 1920px, aspect ratio untouched                                    |
-            | sm     | max 1024px, aspect ratio untouched                                    |
-            | thumb  | 256x256, cropped to fit. Usually a center-crop, but sometimes offset. |
-            | header | 512x210, cropped to fit. Usually a center-crop, but sometimes offset. |
-          required: true
-          schema:
-            type: string
-            enum:
-              - lg
-              - md
-              - sm
-              - thumb
-              - header
-        - name: id
-          in: path
-          description: id of the recource you want an image for
-          required: true
-          schema:
-            type: string
-          examples:
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
-            '5304':
-              summary: normal building
-              value: '5304'
-            garching:
-              summary: garching campus
-              value: garching
-            mri:
-              summary: MRI campus
-              value: mri
-            mi:
-              summary: large building (mi)
-              value: mi
-            mw:
-              summary: other large building (mw)
-              value: mw
-            5606.EG.036:
-              summary: regular room (fsmpic)
-              value: 5606.EG.036
-            5605.EG.011:
-              summary: room with custom props (rechnerhalle-mi)
-              value: 5605.EG.011
-            5401.01.100A:
-              summary: virtual room (tb-chemie)
-              value: 5401.01.100A
-        - name: counter
-          in: path
-          description: counter of the image you want.
-          required: true
-          schema:
-            type: integer
-            format: int32
-            examples:
-              - 0
-              - 1
-              - 2
-            minimum: 0
-      responses:
-        '200':
-          description: The image you requested
-          content:
-            image/webp: {}
-        '400':
-          description: |
-            Bad Request.    
-            The request was malformed.  
-            Please check your request and try again.
-        '404':
-          description: Requested Resource Not Found
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
-        '414':
-          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
-      tags:
-        - cdn
-  '/cdn/maps/{source}/{id}.webp':
-    get:
-      operationId: maps_cdn
-      summary: Get title images
-      description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-        You HAVE to get the proper attribution from that endpoint and use it.
+        This is more data, that should be supplied once a user clicks on an entry.
+        Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
+        The data can be up to 50kB (using gzip) or 200kB unzipped.
+        More about this data format is described in the NavigaTUM-data documentation
+      operationId: get_handler
       parameters:
-        - name: source
-          in: path
-          description: source of the resource you want
-          required: true
-          schema:
-            type: string
-            enum:
-              - overlays
-              - site_plans
-        - name: id
-          in: path
-          description: id of the map you want
-          required: true
-          schema:
-            type: string
-            minLength: 1
-          examples:
-            rf142:
-              summary: MI main overview (roomfinder only)
-              value: rf142
-            mi_0:
-              summary: MI main overview (overlay only)
-              value: mi_0
-            garching:
-              summary: StudiTUM Garching (roomfinder + overview)
-              value: '5532_2'
+      - name: id
+        in: path
+        description: ID of the location
+        required: true
+        schema:
+          type: string
+      - name: lang
+        in: query
+        description: The language you want your preview to be in. If either this or
+          the query parameter is set to en, this will be delivered.
+        required: false
+        schema:
+          type: string
+          enum:
+          - de
+          - en
       responses:
         '200':
-          description: The map you requested
+          description: "**Details** about the **location**"
           content:
-            image/webp: {}
-        '400':
-          description: |
-            Bad Request.    
-            The request was malformed.  
-            Please check your request and try again.
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LocationDetailsResponse"
         '404':
-          description: Requested Resource Not Found
+          description: "**Not found.** Make sure that requested item exists"
           content:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - Not found
-                examples:
-                  - Not found
+              example: Not found
+  "/api/locations/{id}/nearby":
+    get:
+      tags:
+      - locations
+      summary: Get the nearby items
+      description: Shows nearby POIs like public transport stations
+      operationId: nearby_handler
+      parameters:
+      - name: id
+        in: path
+        description: ID of a location
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Things **nearby to the location**
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NearbyLocationsResponse"
+        '404':
+          description: "**Not found.** Make sure that requested item exists"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+  "/api/locations/{id}/preview":
+    get:
+      tags:
+      - locations
+      summary: Get a entry-preview
+      description: |-
+        This returns a 1200x630px preview for the location (room/building/..).
+
+        This is usefully for implementing custom OpenGraph images for detail previews.
+      operationId: maps_handler
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lang
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+            - de
+            - en
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - open_graph
+          - square
+      responses:
+        '200':
+          description: "**Preview image**"
+          content:
+            image/png: {}
+        '404':
+          description: "**Not found.** Make sure that requested item exists"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+  "/api/maps/indoor":
+    get:
+      tags:
+      - maps
+      summary: Lists indoor maps in bounding box
+      description: Returns all the available maps for a given bbox
+      operationId: list_indoor_maps
+      parameters:
+      - name: bbox
+        in: query
+        description: |-
+          Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
+
+          Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: "**List indoor maps** in bounding box"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/RemoteMap"
+        '400':
+          description: "**Bad Request.** Please check that the input provided matches
+            above."
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: the bbox-parameter needs 4 floating point numbers of format
+                y,x,y,x
+  "/api/maps/indoor/{id}":
+    get:
+      tags:
+      - maps
+      summary: Get indoor features
+      description: Get all features of a certain indoor map
+      operationId: get_indoor_map
+      parameters:
+      - name: id
+        in: path
+        description: ID of the indoor map
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: "**Indoor features** as GeoJSON"
+          content:
+            application/json: {}
+        '404':
+          description: "**Not found.** The requested location does not have a calendar"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+  "/api/maps/route":
+    get:
+      tags:
+      - maps
+      summary: Routing requests
+      description: |-
+        **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
+
+        The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
+        The costing is fine-tuned by the server side accordingly.
+
+        Internally, this endpoint relies on
+        - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
+        - our database to resolve ids.
+
+          You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
+          **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
+
+        **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
+        - [OpenTripPlanner2](https://www.opentripplanner.org/) or
+        - [Motis](https://github.com/motis-project/motis)
+      operationId: route_handler
+      parameters:
+      - name: lang
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - de
+          - en
+      - name: from
+        in: query
+        description: Start of the route
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: Destination of the route
+        required: true
+        schema:
+          type: string
+      - name: route_costing
+        in: query
+        description: Transport mode the user wants to use
+        required: true
+        type: sting
+        enum:
+        - pedestrian
+        - bicycle
+        - motorcycle
+        - car
+        - public_transit
+      - name: pedestrian_type
+        in: query
+        description: Does the user have specific walking restrictions?
+        required: false
+        type: string
+        enum:
+        - none
+        - blind
+        - wheelchair
+      - name: ptw_type
+        in: query
+        description: Does the user prefer mopeds or motorcycles for powered two-wheeled
+          (ptw)?
+        required: false
+        type: string
+        enum:
+        - motorcycle
+        - moped
+      - name: bicycle_type
+        in: query
+        description: Which kind of bicycle do you ride?
+        required: false
+        type: string
+        enum:
+        - road
+        - hybrid
+        - cross
+        - mountain
+      responses:
+        '200':
+          description: "**Routing solution**"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RoutingResponse"
+        '404':
+          description: "**Not found.** The requested location does not exist"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+  "/api/openapi.json":
+    get:
+      summary: Openapi service definition
+      description: Usefull for consuming in external openapi tooling
+      operationId: openapi_doc
+      responses:
+        '200':
+          description: The openapi definition
+          content:
+            application/json: {}
+  "/api/search":
+    get:
+      tags:
+      - locations
+      summary: Search entries
+      description: |-
+        This endpoint is designed to support search-as-you-type results.
+
+        Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+
+        Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+        (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+        Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
+      operationId: search_handler
+      parameters:
+      - name: q
+        in: query
+        description: |-
+          string you want to search for.
+
+          The amounts returned can be controlled using the `limit\*` paramerters.
+
+          The following query-filters are supported:
+          - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+          - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
+          - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
+          - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+        required: true
+        schema:
+          type: string
+      - name: search_addresses
+        in: query
+        description: |-
+          Include adresses in the saerch
+
+          Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
+          Only activate this when you really need it.
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
+      - name: limit_buildings
+        in: query
+        description: |-
+          Maximum number of buildings/sites to return.
+
+          Clamped to `0`..`1000`.
+          If this is a problem for you, please open an issue.
+        required: false
+        schema:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+      - name: limit_rooms
+        in: query
+        description: |-
+          Maximum number of rooms to return.
+
+          Clamped to `0`..`1000`.
+          If this is an problem for you, please open an issue.
+        required: false
+        schema:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+      - name: limit_all
+        in: query
+        description: |-
+          Maximum number of results to return.
+
+          Clamped to `1`..`1000`.
+          If this is an problem for you, please open an issue.
+        required: false
+        schema:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+      - name: pre_highlight
+        in: query
+        description: |-
+          string to include in front of highlighted sequences.
+
+          If this and `post_highlight` are empty, highlighting is disabled.
+          For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: post_highlight
+        in: query
+        description: |-
+          string to include after the highlighted sequences.
+
+          If this and `pre_highlight` are empty, highlighting is disabled.
+          For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: Search entries
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SearchResponse"
+        '400':
+          description: "**Bad Request.** Not all fields in the body are present as
+            defined above"
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: 'Query deserialize error: invalid digit found in string'
+        '404':
+          description: "**Not found.** `q` is empty. Since searching for nothing is
+            nonsensical, we dont support this."
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
         '414':
-          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
-      tags:
-        - cdn
-  /api/status:
+          description: "**URI Too Long.** The uri you are trying to request is unreasonably
+            long. Search querys dont have thousands of chars.."
+          content:
+            text/plain:
+              schema:
+                type: string
+  "/api/status":
     get:
-      operationId: api-health
       summary: API healthcheck
-      description: |
-        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+      description: |-
+        If this endpoint does not return 200, the API is experiencing a catastrophic outage.
+        **Should never happen.**
+      operationId: health_status_handler
       responses:
         '200':
-          description: Ok
+          description: API is **healthy**
           content:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - |
-                    healthy
-                    source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
+              example: |-
+                healthy
+                source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
         '503':
-          description: Service Unavailable
-      tags:
-        - health
-  /cdn/health:
-    get:
-      operationId: cdn-health
-      summary: CDN healthcheck
-      description: |
-        If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
-      responses:
-        '200':
-          description: Ok
+          description: API is **NOT healthy**
           content:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - healthy
-        '503':
-          description: Service Unavailable
-      tags:
-        - health
-  /health:
-    get:
-      operationId: web-health
-      summary: Website healthcheck
-      description: |
-        If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
-      responses:
-        '200':
-          description: Ok
-          content:
-            text/plain:
-              schema:
-                type: string
-                enum:
-                  - healthy
-        '503':
-          description: Service Unavailable
-      tags:
-        - health
+              example: |-
+                unhealthy
+                source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
 components:
   schemas:
-    RemoteMap:
+    Arguments:
       type: object
-      properties:
-        name:
-          description: Name of the map
-          type: string
-        url:
-          description: Where the indoor geojson is located at
-          type: string
       required:
-        - name
-        - url
-    GeoJsonObject:
-      description: |
-        GeoJSON object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level.
-      type: object
+      - ids
+      - start_after
+      - end_before
       properties:
+        end_before:
+          type: string
+          format: date-time
+          description: The last allowed time the calendar would like to display
+          examples:
+          - '2039-01-19T03:14:07+01:00'
+          - 2042-01-07T00:00:00 UTC
+        ids:
+          type: array
+          items:
+            type: string
+          description: |-
+            ids you want the calendars for
+
+            Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
+          example:
+          - 5605.EG.011
+          - 5510.02.001
+          - 5606.EG.036
+          - '5304'
+          maxItems: 10
+          minItems: 1
+        start_after:
+          type: string
+          format: date-time
+          description: The first allowed time the calendar would like to display
+          examples:
+          - '2039-01-19T03:14:07+01:00'
+          - 2042-01-07T00:00:00 UTC
+    BuildingsOverviewItemResponse:
+      type: object
+      required:
+      - id
+      - name
+      - subtext
+      properties:
+        id:
+          type: string
+          description: The id of the entry
+        name:
+          type: string
+          description: Human display name
+        subtext:
+          type: string
+          description: What should be displayed below this Building
+        thumb:
+          type:
+          - string
+          - 'null'
+          description: The thumbnail for the building
+    BuildingsOverviewResponse:
+      type: object
+      required:
+      - entries
+      - n_visible
+      properties:
+        entries:
+          type: array
+          items:
+            "$ref": "#/components/schemas/BuildingsOverviewItemResponse"
+        n_visible:
+          type: integer
+          format: int32
+          minimum: 0
+    CalendarLocationResponse:
+      type: object
+      required:
+      - key
+      - name
+      - type_common_name
+      - type
+      properties:
+        calendar_url:
+          type:
+          - string
+          - 'null'
+          description: Link to the calendar of the room
+          examples:
+          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+        key:
+          type: string
+          description: |-
+            Structured, globaly unique room code
+
+            Included to enable multi-room calendars.
+            Format: BUILDING.LEVEL.NUMBER
+          examples:
+          - 5602.EG.001
+          - 5121.EG.003
+        last_calendar_scrape_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: last time the calendar was scraped for this room
+          examples:
+          - '2039-01-19T03:14:07+01:00'
+          - 2042-01-07T00:00:00 UTC
+        name:
+          type: string
+          description: name of the entry in a human-readable form
+          examples:
+          - 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
+          - 5121.EG.003 (Computerraum)
         type:
           type: string
-          enum:
-            - Feature
-            - FeatureCollection
-            - Point
-            - MultiPoint
-            - LineString
-            - MultiLineString
-            - Polygon
-            - MultiPolygon
-            - GeometryCollection
-        bbox:
-          description: |
-            A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range for its Geometries, Features, or FeatureCollections. The value of the bbox member MUST be an array of length 2*n where n is the number of dimensions represented in the contained geometries, with all axes of the most southwesterly point followed by all axes of the more northeasterly point. The axes order of a bbox follows the axes order of geometries.
-          type: array
-          items:
-            type: number
-      discriminator:
-        propertyName: type
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3'
+          description: |-
+            type of the entry
+
+            TODO document as a n enum with the following choices:
+            - `room`
+            - `building`
+            - `joined_building`
+            - `area`
+            - `site`
+            - `campus`
+            - `poi`
+          examples:
+          - room
+          - building
+          - joined_building
+          - area
+          - site
+          - campus
+          - poi
+        type_common_name:
+          type: string
+          description: Type of the entry in a human-readable form
+          examples:
+          - Serverraum
+          - Büro
+    ComputedPropResponse:
+      type: object
       required:
-        - type
-    Geometry:
-      description: |
-        Abstract type for all GeoJSon object except Feature and FeatureCollection
-      allOf:
-        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object
-          properties:
-            type:
-              type: string
-              enum:
-                - Point
-                - MultiPoint
-                - LineString
-                - MultiLineString
-                - Polygon
-                - MultiPolygon
-                - GeometryCollection
-          required:
-            - type
-          discriminator:
-            propertyName: type
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3'
-    GeometryElement:
-      description: |
-        Abstract type for all GeoJSon 'Geometry' object the type of which is not 'GeometryCollection'
-      allOf:
-        - $ref: '#/components/schemas/Geometry'
-        - type: object
-          properties:
-            type:
-              type: string
-              enum:
-                - Point
-                - MultiPoint
-                - LineString
-                - MultiLineString
-                - Polygon
-                - MultiPolygon
-          required:
-            - type
-          discriminator:
-            propertyName: type
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3'
-    Feature:
-      description: GeoJSon 'Feature' object
-      allOf:
-        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object
-          required:
-            - geometry
-            - properties
-          properties:
-            geometry:
-              allOf:
-                - nullable: true
-                - $ref: '#/components/schemas/Geometry'
-            properties:
-              type: object
-              nullable: true
-            id:
-              oneOf:
-                - type: number
-                - type: string
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.2'
-    FeatureCollection:
-      description: GeoJSon 'FeatureCollection' object
-      allOf:
-        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object
-          required:
-            - features
-          properties:
-            features:
-              type: array
-              items:
-                $ref: '#/components/schemas/Feature'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.3'
-    Position:
-      description: |
-        GeoJSon fundamental geometry construct. A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element. Implementations SHOULD NOT extend positions beyond three elements because the semantics of extra elements are unspecified and ambiguous. Historically, some implementations have used a fourth element to carry a linear referencing measure (sometimes denoted as "M") or a numerical timestamp, but in most situations a parser will not be able to properly interpret these values. The interpretation and meaning of additional elements is beyond the scope of this specification, and additional elements MAY be ignored by parsers.
-      type: array
-      items:
-        type: number
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.1'
-      maxItems: 3
-      minItems: 2
-    LineStringCoordinates:
-      description: |
-        GeoJSon fundamental geometry construct, array of two or more positions.
-      type: array
-      items:
-        $ref: '#/components/schemas/Position'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.4'
-      minItems: 2
-    LinearRing:
-      description: |
-        A linear ring is a closed LineString with four or more positions. The first and last positions are equivalent, and they MUST contain identical values; their representation SHOULD also be identical. A linear ring is the boundary of a surface or the boundary of a hole in a surface. A linear ring MUST follow the right-hand rule with respect to the area it bounds, i.e., exterior rings are counterclockwise, and holes are clockwise.
-      type: array
-      items:
-        $ref: '#/components/schemas/Position'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.6'
-      minItems: 4
-    Point:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - type
-            - coordinates
-          properties:
-            type:
-              type: string
-              enum:
-                - Point
-            coordinates:
-              $ref: '#/components/schemas/Position'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.2'
-    MultiPoint:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - coordinates
-          properties:
-            coordinates:
-              type: array
-              items:
-                $ref: '#/components/schemas/Position'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.3'
-    LineString:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - coordinates
-          properties:
-            coordinates:
-              $ref: '#/components/schemas/LineStringCoordinates'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.4'
-    MultiLineString:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - coordinates
-          properties:
-            coordinates:
-              type: array
-              items:
-                $ref: '#/components/schemas/LineStringCoordinates'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.5'
-    Polygon:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - coordinates
-          properties:
-            coordinates:
-              type: array
-              items:
-                $ref: '#/components/schemas/LinearRing'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.6'
-    MultiPolygon:
-      description: GeoJSon geometry
-      allOf:
-        - $ref: '#/components/schemas/GeometryElement'
-        - type: object
-          required:
-            - coordinates
-          properties:
-            coordinates:
-              type: array
-              items:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LinearRing'
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.7'
-    GeometryCollection:
-      description: |
-        GeoJSon geometry collection GeometryCollections composed of a single part or a number of parts of a single type SHOULD be avoided when that single part or a single object of multipart type (MultiPoint, MultiLineString, or MultiPolygon) could be used instead.
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/Geometry'
-        - type: object
-          required:
-            - geometries
-          properties:
-            geometries:
-              type: array
-              items:
-                $ref: '#/components/schemas/GeometryElement'
-              minItems: 0
-      externalDocs:
-        url: 'https://tools.ietf.org/html/rfc7946#section-3.1.8'
-    Props:
-      description: Data for the info-card table
-      type: object
+      - name
+      - text
       properties:
-        operator:
-          description: The operator of the room
-          type: object
-          properties:
-            code:
-              description: The designation code of the operator
-              type: string
-              examples:
-                - TUS7000
-            name:
-              description: |
-                The full name of the operator (localized). Null for organisations that
-                are no longer active (e.g. id=38698), but where the operator has not been
-                updated in TUMonline.
-              type:
-                - string
-                - 'null'
-              examples:
-                - TUM School of Social Sciences and Technology
-            url:
-              description: A link to the operator
-              type: string
-              examples:
-                - 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
-            id:
-              description: The id of the operator
-              type: integer
-              examples:
-                - 51901
-        computed:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComputedProp'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/LinkProp'
-        comment:
-          description: |
-            A comment to show to an entry.  
-            It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.  
-            An example of a room with a comment is MW1801.
-          type: string
-        calendar_url:
-          description: A link to the calendar of the room
-          type: string
-          examples:
-            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
-            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
-      required:
-        - computed
-    ComputedProp:
-      type: object
-      properties:
-        name:
-          type: string
-          examples:
-            - Raumkennung
-        text:
-          type: string
-          examples:
-            - 5602.EG.001
         extra:
-          type: object
-          properties:
-            header:
-              type: string
-              examples:
-                - Genauere Angaben
-            body:
-              type: string
-              examples:
-                - 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
-            footer:
-              type: string
-              examples:
-                - data based on a Survey of chimneysweeps
-          required:
-            - body
-      required:
-        - name
-        - text
-    LinkProp:
-      description: A link with a localized link text and url
-      type: object
-      properties:
-        text:
-          type: string
-        url:
-          type: string
-      required:
-        - text
-        - url
-    ImageInfo:
-      description: 'The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint'
-      type: object
-      properties:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/ExtraComputedPropResponse"
         name:
-          description: 'The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0'
           type: string
           examples:
-            - mi_0.webp
-        author:
-          $ref: '#/components/schemas/PossibleURLRef'
-        source:
-          $ref: '#/components/schemas/PossibleURLRef'
-        license:
-          $ref: '#/components/schemas/PossibleURLRef'
-      required:
-        - name
-        - author
-        - source
-        - license
-    PossibleURLRef:
-      description: 'Additional information you should include, if you decide to display the image for legal and attribution reasons'
-      type: object
-      properties:
+          - Raumkennung
         text:
-          description: The text to display
           type: string
-        url:
-          description: The URL to the referenced information. Always either null or a valid URL
-          type:
-            - string
-            - 'null'
-          pattern: .+
-      required:
-        - text
+          examples:
+          - 5602.EG.001
     Coordinate:
       type: object
+      required:
+      - lat
+      - lon
       properties:
         lat:
+          type: number
+          format: double
           description: Latitude
-          type: number
-          format: double
-          examples:
-            - 48.26244490906312
-          maximum: 90
-          minimum: -90
+          example: 48.26244490906312
         lon:
-          description: Longitude
           type: number
           format: double
-          examples:
-            - 48.26244490906312
-          maximum: 180
-          minimum: -180
-        source:
-          description: The source of the Coordinates
-          type: string
-          enum:
-            - roomfinder
-            - navigatum
-            - inferred
-          examples:
-            - roomfinder
-            - navigatum
-            - inferred
+          description: Longitude
+          example: 48.26244490906312
+    CoordinateAccuracyResponse:
+      type: string
+      enum:
+      - building
+    CoordinateResponse:
+      type: object
+      required:
+      - lat
+      - lon
+      - source
+      properties:
         accuracy:
-          description: 'How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)'
-          type: string
-          enum:
-            - building
-          examples:
-            - building
-      required:
-        - lat
-        - lon
-        - source
-    Maps:
-      type: object
-      properties:
-        default:
-          description: The type of the Map that should be shown by default
-          type: string
-          enum:
-            - interactive
-            - roomfinder
-          examples:
-            - interactive
-            - roomfinder
-        roomfinder:
-          $ref: '#/components/schemas/RoomfinderMap'
-        overlays:
-          description: |
-            null would mean no overlay maps are displayed by default.
-            For rooms you should add a warning that no floor map is available for this room
-          type:
-            - object
-            - 'null'
-          properties:
-            default:
-              description: |
-                The floor-id of the map, that should be shown as a default.  
-                null:
-                - We suggest, you dont show a map by default.
-                - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-              type:
-                - integer
-                - 'null'
-              examples:
-                - 0
-            available:
-              type: array
-              items:
-                $ref: '#/components/schemas/OverlayMapEntry'
-          required:
-            - default
-            - available
-      required:
-        - default
-    RoomfinderMap:
-      type: object
-      properties:
-        default:
-          description: 'The id of the map, that should be shown as a default'
-          type: string
-          examples:
-            - rf142
-        available:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoomfinderMapEntry'
-      required:
-        - default
-        - available
-    RoomfinderMapEntry:
-      type: object
-      properties:
-        name:
-          description: The human-readable name of the map
-          type: string
-          examples:
-            - FMI Übersicht
-        id:
-          description: The machine-readable name of the map
-          type: string
-          examples:
-            - rf142
-        scale:
-          description: 'Scale of the map. 2000 means 1:2000.'
-          type: string
-          examples:
-            - '2000'
-          pattern: '[0-9]+'
-        height:
-          description: Map image x dimensions
-          type: integer
-          format: int32
-          examples:
-            - 461
-          minimum: 0
-        width:
-          description: Map image y dimensions
-          type: integer
-          format: int32
-          examples:
-            - 639
-          minimum: 0
-        x:
-          description: x Position on map
-          type: integer
-          format: int32
-          examples:
-            - 499
-          minimum: 0
-        'y':
-          description: y Position on map image
-          type: integer
-          format: int32
-          examples:
-            - 189
-          minimum: 0
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/CoordinateAccuracyResponse"
+            description: |-
+              How accurate the coordinate is.
+              Only present, if it is limited to a degree (e.g. we only know the building)
+        lat:
+          type: number
+          format: double
+          description: Latitude
+          example: 48.26244490906312
+        lon:
+          type: number
+          format: double
+          description: Longitude
+          example: 48.26244490906312
         source:
-          description: Where the map was imported from
-          type: string
-          examples:
-            - Roomfinder
-        file:
-          description: Where the map is stored
-          type: string
-          examples:
-            - rf93.webp
-      required:
-        - name
-        - id
-        - scale
-        - height
-        - width
-        - x
-        - 'y'
-        - source
-        - file
-    OverlayMapEntry:
+          "$ref": "#/components/schemas/CoordinateSourceResponse"
+          description: Source of the Coordinates
+    CoordinateSourceResponse:
+      type: string
+      enum:
+      - navigatum
+      - roomfinder
+      - inferred
+    DefaultMapsResponse:
+      type: string
+      enum:
+      - interactive
+      - roomfinder
+    EditRequest:
       type: object
-      properties:
-        id:
-          description: |
-            The machine-readable floor-id of the map.  
-            Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
-            It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
-          type: integer
-          examples:
-            - 0
-        floor:
-          description: |
-            Floor of the Map.
-            Should be used for display to the user in selectors.  
-            Matches the floor part of the TUMonline roomcode.
-          type: string
-          examples:
-            - EG
-        name:
-          description: The human-readable name of the map
-          type: string
-          examples:
-            - MI Gebäude (EG)
-        file:
-          description: The filename of the map
-          type: string
-          examples:
-            - webp/rf95.webp
-        coordinates:
-          description: 'Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.'
-          type: array
-          items:
-            type: array
-            items:
-              type: number
-            minItems: 2
-            maxItems: 2
-          maxItems: 4
-          minItems: 4
       required:
-        - id
-        - floor
-        - name
-        - file
-        - coordinates
-    Rooms:
-      type: object
+      - token
+      - edits
+      - additional_context
+      - privacy_checked
       properties:
-        facet:
-          description: These indicate the type of item this represents
+        additional_context:
           type: string
-          enum:
-            - rooms
-          examples:
-            - rooms
-        estimatedTotalHits:
-          description: The estimated (not exact) number of hits for that query
-          type: integer
-          format: int64
-          minimum: 0
-        entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoomEntry'
-        n_visible:
-          description: |
-            A recommendation how many of the entries should be displayed by default.  
-            The number is usually from 0-20.  
-            More results might be displayed when clicking "expand".  
-            If this field is not present, then all entries are displayed.
-          type: integer
-          format: int64
-          examples:
-            - 20
-          minimum: 0
-      required:
-        - n_visible
-        - estimatedTotalHits
-        - facet
-        - entries
-    SitesBuildings:
-      type: object
-      properties:
-        facet:
-          description: These indicate the type of item this represents
-          type: string
-          enum:
-            - sites_buildings
-          examples:
-            - sites_buildings
-        estimatedTotalHits:
-          description: The estimated (not exact) number of hits for that query
-          type: integer
-          format: int64
-          minimum: 0
-        entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/SitesBuildingsEntry'
-        n_visible:
-          description: |
-            A recommendation how many of the entries should be displayed by default.  
-            The number is usually from 0-5.  
-            More results might be displayed when clicking "expand".  
-            If this field is not present, then all entries are displayed.
-          type: integer
-          format: int64
-          examples:
-            - 6
-          minimum: 0
-      required:
-        - n_visible
-        - estimatedTotalHits
-        - facet
-        - entries
-    RoomEntry:
-      type: object
-      properties:
-        id:
-          description: The id of the room
-          type: string
-        type:
-          description: the type of the room
-          type: string
-          enum:
-            - room
-            - virtual_room
-            - poi
-          examples:
-            - room
-        name:
-          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
-          type: string
-        subtext:
-          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
-          type: string
-        subtext_bold:
-          description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
-          type: string
-        parsed_id:
-          description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
-          type: string
-      required:
-        - id
-        - type
-        - name
-        - subtext
-        - subtext_bold
-    SitesBuildingsEntry:
-      type: object
-      properties:
-        id:
-          description: The id of the room
-          type: string
-        type:
-          description: the type of the site/building
-          type: string
-          enum:
-            - campus
-            - building
-            - area
-            - site
-            - joined_building
-          examples:
-            - campus
-        name:
-          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
-          type: string
-        subtext:
-          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
-          type: string
-      required:
-        - id
-        - type
-        - name
-        - subtext
-    TokenResponse:
-      type: object
-      properties:
+          description: |-
+            Additional context for the edit.
+
+            Will be displayed in the discription field of the PR
+          example: I have a picture of the room, please add it to the roomfinder
+        edits:
+          "$ref": "#/components/schemas/LimitedHashMap_String_Edit"
+          description: The edits to be made to the room. The keys are the ID of the
+            props to be edited, the values are the proposed Edits.
+        privacy_checked:
+          type: boolean
+          description: |-
+            Whether the user has checked the privacy-checkbox.
+
+            We are posting the feedback publicly on GitHub (not a EU-Company).
+            **You MUST also include such a checkmark.**
         token:
-          description: 'The JWT token, that can be used to generate feedback'
           type: string
-        created_at:
-          description: Unix timestamp of when the token was created
-          type: integer
-          format: int64
-      required:
-        - token
-        - created_at
-      x-examples:
-        token:
-          token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
-          created_at: 1629564181
-    SearchResponse:
+          description: The JWT token, that can be used to generate feedback
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+    EventResponse:
       type: object
+      required:
+      - id
+      - room_code
+      - start_at
+      - end_at
+      - title_de
+      - title_en
+      - entry_type
+      - detailed_entry_type
       properties:
-        sections:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/SitesBuildings'
-              - $ref: '#/components/schemas/Rooms'
-            discriminator:
-              propertyName: facet
-              mapping:
-                sites_buildings: SitesBuildings
-                rooms: Rooms
-        time_ms:
-          description: |
-            Time the search took in the server side, not including network delay
-            Maximum as timeout. other timeouts (browser, your client) may be smaller
-            Expected average is 10..50 for uncached, regular requests
+        detailed_entry_type:
+          type: string
+          description: For some Entrys, we do have more information (what kind of
+            a `lecture` is it? What kind of an other `entry` is it?)
+          examples:
+          - Abhaltung
+        end_at:
+          type: string
+          format: date-time
+          description: end of the entry
+          examples:
+          - '2019-01-01T00:00:00'
+        entry_type:
+          "$ref": "#/components/schemas/EventTypeResponse"
+          description: |-
+            What this calendar entry means.
+
+            Each of these should be displayed in a different color
+        id:
           type: integer
           format: int32
+          description: ID of the calendar entry used in TUMonline internally
           examples:
-            - 42
-          maximum: 75000
-          minimum: 0
-      required:
-        - sections
-        - time_ms
-    NearbyLocationsResponse:
-      type: object
-      properties:
-        public_transport:
-          type: array
-          items:
-            $ref: '#/components/schemas/Station'
-          maxItems: 50
-      required:
-        - public_transport
-    DetailsResponse:
-      type: object
-      properties:
-        id:
-          description: 'The id, that was requested'
+          - 6424
+        room_code:
           type: string
-        type:
-          description: The type of the entry
-          type: string
-          enum:
-            - room
-            - building
-            - joined_building
-            - area
-            - site
-            - campus
-            - poi
-          examples:
-            - room
-            - building
-            - joined_building
-            - area
-            - site
-            - campus
-            - poi
-        type_common_name:
-          description: The type of the entry in a human-readable form
-          type: string
-          examples:
-            - Serverraum
-        name:
-          description: The name of the entry in a human-readable form
-          type: string
-          examples:
-            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-        aliases:
-          description: |
-            A list of alternative ids for this entry.  
+          description: |-
+            Structured, globaly unique room code
 
-            Not to be confused with
-            - `id` which is the unique identifier or
-            - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
-          type: array
-          items:
-            type: string
-            examples:
-              - 26503@5406
-        parents:
-          type: array
-          items:
-            type: string
-            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their human names.
+            Included to enable multi-room calendars.
+            Format: BUILDING.LEVEL.NUMBER
           examples:
-            - root
-            - garching
-        parent_names:
-          type: array
-          items:
-            type: string
-            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parents for their actual ids.
+          - 5602.EG.001
+          - 5121.EG.003
+        start_at:
+          type: string
+          format: date-time
+          description: start of the entry
           examples:
-            - Standorte
-            - Garching Forschungszentrum
-          minItems: 1
-          uniqueItems: true
-        props:
-          $ref: '#/components/schemas/Props'
-        imgs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageInfo'
-        ranking_factors:
-          $ref: '#/components/schemas/RankingFactors'
-        sources:
-          $ref: '#/components/schemas/DataSources'
-        redirect_url:
-          description: |
-            The url, this item should be displayed at.
-            Present on both redirects and normal entries, to allow for the common /view/:id path
+          - '2018-01-01T00:00:00'
+        stp_type:
+          type:
+          - string
+          - 'null'
+          description: Lecture-type
+          examples:
+          - Vorlesung mit Zentralübung
+        title_de:
+          type: string
+          description: German title of the Entry
+          examples:
+          - Quantenteleportation
+        title_en:
+          type: string
+          description: English title of the Entry
+          examples:
+          - Quantum teleportation
+    EventTypeResponse:
+      type: string
+      enum:
+      - lecture
+      - exercise
+      - exam
+      - barred
+      - other
+    ExtraComputedPropResponse:
+      type: object
+      required:
+      - body
+      properties:
+        body:
           type: string
           examples:
-            - /room/5602.EG.001
-        coords:
-          $ref: '#/components/schemas/Coordinate'
-        maps:
-          $ref: '#/components/schemas/Maps'
-        sections:
-          type: object
-          properties:
-            buildings_overview:
-              $ref: '#/components/schemas/BuildingsOverview'
-            rooms_overview:
-              $ref: '#/components/schemas/RoomsOverview'
-            featured_overview:
-              $ref: '#/components/schemas/FeaturedOverview'
-      required:
-        - id
-        - type
-        - coords
-        - maps
-        - type_common_name
-        - name
-        - parents
-        - parent_names
-        - props
-        - ranking_factors
-        - sources
-        - redirect_url
-    BuildingsOverview:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/ChildEntry'
-              - type: object
-                properties:
-                  subtext:
-                    description: What should be displayed below this Building
-                    type: string
-                    examples:
-                      - Gebäudekomplex mit 512 Räumen
-                  thumb:
-                    description: The thumbnail for the building
-                    type: string
-                    examples:
-                      - mi_0.webp
-                required:
-                  - subtext
-        n_visible:
-          description: |
-            A recommendation how many of the entries should be displayed by default.  
-            The number is usually from 0-5.  
-            More results might be displayed when clicking "expand".  
-            If this field is not present, then all entries are displayed.
-          type: integer
-          format: int64
+          - 'for exams: 102 in tight, 71 in wide, 49 in corona'
+        footer:
+          type:
+          - string
+          - 'null'
           examples:
-            - 5
-          minimum: 0
+          - data based on a Survey of chimneysweeps
+        header:
+          type:
+          - string
+          - 'null'
+          examples:
+          - Genauere Angaben
+    FeaturedOverviewItemResponse:
+      type: object
       required:
-        - entries
-        - n_visible
-    RoomsOverview:
-      type: object
-      properties:
-        usages:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                description: Category Name
-                type: string
-                examples:
-                  - Büro
-              count:
-                description: How many children this category has
-                type: integer
-                examples:
-                  - 126
-                minimum: 0
-              children:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChildEntry'
-            required:
-              - children
-              - count
-              - name
-    FeaturedOverview:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/ChildEntry'
-              - type: object
-                properties:
-                  subtext:
-                    description: What should be displayed below this Building
-                    type: string
-                    examples:
-                      - Gebäudekomplex mit 512 Räumen
-                  image_url:
-                    description: The thumbnail for the building
-                    type: string
-                    examples:
-                      - mi_0.webp
-                required:
-                  - subtext
-                  - image_url
-      required:
-        - entries
-    ChildEntry:
-      type: object
+      - id
+      - name
+      - subtext
+      - image_url
       properties:
         id:
+          type: string
           description: The id of the entry
+        image_url:
           type: string
-          examples:
-            - mi
+          description: The thumbnail for the building
         name:
+          type: string
           description: Human display name
+        subtext:
           type: string
-          examples:
-            - Mathematik / Informatik
-      required:
-        - id
-        - name
-    CalendarLocation:
+          description: What should be displayed below this Building
+    FeaturedOverviewResponse:
       type: object
-      properties:
-        name:
-          description: The name of the entry in a human-readable form
-          type: string
-          examples:
-            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-            - 5121.EG.003 (Computerraum)
-        last_calendar_scrape_at:
-          description: the last time the calendar was scraped for this room
-          type: string
-          examples:
-            - '2039-01-19T03:14:07+01:00'
-            - '2042-01-07T00:00:00 UTC'
-        calendar_url:
-          description: A link to the calendar of the room
-          type: string
-          examples:
-            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
-            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
-        type_common_name:
-          description: The type of the entry in a human-readable form
-          type: string
-          examples:
-            - Serverraum
-        type:
-          description: The type of the entry
-          type: string
-          enum:
-            - room
-            - building
-            - joined_building
-            - area
-            - site
-            - campus
-            - poi
-          examples:
-            - room
-            - building
-            - joined_building
-            - area
-            - site
-            - campus
-            - poi
       required:
-        - name
-        - last_calendar_scrape_at
-        - calendar_url
-        - type_common_name
-        - type
-    CalendarResponse:
-      description: room-code to calendar entry's record
+      - entries
+      properties:
+        entries:
+          type: array
+          items:
+            "$ref": "#/components/schemas/FeaturedOverviewItemResponse"
+    FeedbackCategory:
+      type: string
+      enum:
+      - bug
+      - feature
+      - search
+      - navigation
+      - entry
+      - general
+      - other
+    PostFeedbackRequest:
+      type: object
+      required:
+      - token
+      - subject
+      - body
+      - privacy_checked
+      - deletion_requested
+      properties:
+        body:
+          type: string
+          description: |-
+            The body/description of the feedback
+
+            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+          example: A clear description what happened where and how we should improve
+            it
+          maxLength: 1048576
+          minLength: 10
+        category:
+          "$ref": "#/components/schemas/FeedbackCategory"
+          description: The category of the feedback.
+        deletion_requested:
+          type: boolean
+          description: |-
+            Whether the user has requested to delete the issue.
+
+            This flag means:
+            - If the user has requested to delete the issue, we will delete it from GitHub after processing it
+            - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
+        privacy_checked:
+          type: boolean
+          description: |-
+            Whether the user has checked the privacy-checkbox.
+
+            We are posting the feedback publicly on GitHub (not a EU-Company).
+            **You MUST also include such a checkmark.**
+        subject:
+          type: string
+          description: |-
+            The subject/title of the feedback
+
+            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+          example: A catchy title
+          maxLength: 512
+          minLength: 4
+        token:
+          type: string
+          description: The JWT token, that can be used to generate feedback
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+    Image:
+      type: object
+      required:
+      - content
+      - metadata
+      properties:
+        content:
+          type: string
+          description: The image encoded as base64
+          contentEncoding: base64
+        metadata:
+          "$ref": "#/components/schemas/Source"
+    ImageInfoResponse:
+      type: object
+      description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp`
+        endpoint
+      required:
+      - name
+      - author
+      - source
+      - license
+      properties:
+        author:
+          "$ref": "#/components/schemas/URLRefResponse"
+        license:
+          "$ref": "#/components/schemas/PossibleURLRefResponse"
+        name:
+          type: string
+          description: |-
+            The name of the image file.
+            consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+          examples:
+          - mi_0.webp
+        source:
+          "$ref": "#/components/schemas/PossibleURLRefResponse"
+    LegResponse:
+      type: object
+      required:
+      - summary
+      - maneuvers
+      - shape
+      properties:
+        maneuvers:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ManeuverResponse"
+        shape:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Coordinate"
+        summary:
+          "$ref": "#/components/schemas/SummaryResponse"
+    LimitedHashMap_String_Edit:
       type: object
       additionalProperties:
         type: object
         properties:
-          events:
-            description: The entries of the requested
-            type: array
-            items:
-              $ref: '#/components/schemas/CalendarEntry'
-          location:
-            $ref: '#/components/schemas/CalendarLocation'
-        required:
-          - events
-          - location
-    CalendarEntry:
+          coordinate:
+            oneOf:
+            - type: 'null'
+            - "$ref": "#/components/schemas/Coordinate"
+          image:
+            oneOf:
+            - type: 'null'
+            - "$ref": "#/components/schemas/Image"
+      propertyNames:
+        type: string
+    LocationDetailsResponse:
       type: object
-      properties:
-        id:
-          description: The id of the calendar entry used in TUMonline internally
-          type: integer
-          format: int32
-          examples:
-            - 42
-        title_de:
-          description: The german title of the Entry
-          type: string
-          examples:
-            - Quantenteleportation
-        title_en:
-          description: The english title of the Entry
-          type: string
-          examples:
-            - Quantenteleportation
-        start_at:
-          description: The start of the entry
-          type: string
-          format: date-time
-          examples:
-            - '2018-01-01T00:00:00'
-        end_at:
-          description: The end of the entry
-          type: string
-          format: date-time
-          examples:
-            - '2018-01-01T00:00:00'
-        entry_type:
-          description: What this calendar entry means. Each of these should be displayed in a different color
-          type: string
-          enum:
-            - lecture
-            - exercise
-            - exam
-            - barred
-            - other
-        detailed_entry_type:
-          description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
-          type: string
-          examples:
-            - Vorlesung mit Zentralübung
       required:
-        - id
-        - title_de
-        - title_en
-        - start_at
-        - end_at
-        - entry_type
-        - detailed_entry_type
-    DataSources:
-      description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
-      type: object
+      - id
+      - type
+      - type_common_name
+      - name
+      - aliases
+      - parents
+      - parent_names
+      - props
+      - ranking_factors
+      - redirect_url
+      - sources
+      - coords
+      - maps
       properties:
-        patched:
-          description: |
-            Was this entry patched by us? (e.g. to fix a typo in the name/...)
-            If so, we should not display the source, as it is not the original source.
-          type: boolean
-        base:
-          description: What is the basis of the data we have
+        aliases:
           type: array
           items:
-            type: object
-            minProperties: 1
-            properties:
-              name:
-                description: The name of the provider
-                type: string
-                examples:
-                  - NavigaTUM
-              url:
-                description: The url of the provider
-                type: string
-                examples:
-                  - 'https://nav.tum.de'
-            required:
-              - name
-      required:
-        - base
-    RankingFactors:
-      type: object
-      properties:
-        rank_combined:
-          description: How much the combined ranking is important
-          type: integer
-          format: int32
-        rank_type:
-          description: How much the type is important
-          type: integer
-          format: int32
-        rank_usage:
-          description: How much the usage is important
-          type: integer
-          format: int32
-        rank_boost:
-          description: |
-            Automatic boost or suppression based on entry properties:
-            - numbers of buildings for a `campus`/`area`/`site`,
-            - numbers of seats for a `room`,
-            - number of regular rooms for a `building`/`joined_building`
-          type: integer
-          format: int32
-        rank_custom:
-          description: Custom boost or suppression factor defined by us
-          type: integer
-          format: int32
-      required:
-        - rank_combined
-        - rank_type
-        - rank_usage
-    ProposeEditsRequest:
-      allOf:
-        - $ref: '#/components/schemas/TokenRequest'
-        - type: object
-          properties:
-            edits:
-              description: 'The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.'
-              type: object
-              additionalProperties:
-                type: object
-                properties:
-                  coordinate:
-                    type: object
-                    properties:
-                      lat:
-                        type: number
-                        format: double
-                      lon:
-                        type: number
-                        format: double
-                    required:
-                      - lat
-                      - lon
-                  image:
-                    type: object
-                    properties:
-                      metadata:
-                        type: object
-                        properties:
-                          author:
-                            type: string
-                          license:
-                            $ref: '#/components/schemas/LinkProp'
-                          source:
-                            $ref: '#/components/schemas/LinkProp'
-                          offsets:
-                            type: object
-                            properties:
-                              header:
-                                type: integer
-                                format: int32
-                              thumb:
-                                type: integer
-                                format: int32
-                        required:
-                          - author
-                          - license
-                          - source
-                      content:
-                        description: The image encoded as base64
-                        format: byte
-                        type: string
-                    required:
-                      - metadata
-                      - content
-            additional_context:
-              description: |
-                Additional context for the edit.  
-                Will be displayed in the discription field of the PR
-              type: string
-              examples:
-                - 'I have a picture of the room, please add it to the roomfinder'
-          required:
-            - edits
-            - additional_context
-    PostFeedbackRequest:
-      allOf:
-        - $ref: '#/components/schemas/TokenRequest'
-        - type: object
-          properties:
-            category:
-              description: |-
-                The category of the feedback.  
-                Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
-              type: string
-              enum:
-                - bug
-                - feature
-                - search
-                - navigation
-                - entry
-                - general
-                - other
-              examples:
-                - bug
-            subject:
-              description: The subject/title of the feedback
-              type: string
-              examples:
-                - A catchy title
-              maxLength: 512
-              minLength: 4
-            body:
-              description: The body/description of the feedback
-              type: string
-              examples:
-                - A clear description what happened where and how we should improve it
-              maxLength: 1048576
-              minLength: 4
-            deletion_requested:
-              description: |
-                Whether the user has requested to delete the issue.
-                If the user has requested to delete the issue, we will delete it from GitHub after processing it
-                If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-              type: boolean
-              examples:
-                - true
-          required:
-            - category
-            - subject
-            - body
-            - deletion_requested
-    TokenRequest:
-      type: object
-      properties:
-        token:
-          description: 'The JWT token, that can be used to generate feedback'
+            type: string
+            examples:
+            - - 26503@5406
+          description: |-
+            A list of alternative ids for this entry.
+
+            Not to be confused with
+            - `id` which is the unique identifier or
+            - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+        coords:
+          "$ref": "#/components/schemas/CoordinateResponse"
+          description: Coordinate of the location
+        id:
           type: string
+          description: The id, that was requested
           examples:
-            - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
-        privacy_checked:
-          description: Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
-          type: boolean
+          - 5606.EG.036
+        imgs:
+          type:
+          - array
+          - 'null'
+          items:
+            "$ref": "#/components/schemas/ImageInfoResponse"
+          description: |-
+            The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
+
+            TODO: Sometimes missing, sometimes not.. so weird..
+        maps:
+          "$ref": "#/components/schemas/MapsResponse"
+          description: Print or overlay maps for said location
+        name:
+          type: string
+          description: The name of the entry in a human-readable form
           examples:
-            - true
-      required:
-        - token
-        - privacy_checked
-    Station:
+          - 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
+        parent_names:
+          type: array
+          items:
+            type: string
+            examples:
+            - - Standorte
+              - Garching Forschungszentrum
+              - Fakultät Mathematik & Informatik (FMI oder MI)
+              - Finger 06 (BT06)
+          description: |-
+            The ids of the parents.
+
+            They are ordered as they would appear in a Breadcrumb menu.
+            See `parents` for their actual ids.
+          minItems: 1
+        parents:
+          type: array
+          items:
+            type: string
+            examples:
+            - - root
+              - garching
+              - mi
+              - '5602'
+          description: |-
+            The ids of the parents.
+
+            They are ordered as they would appear in a Breadcrumb menu.
+            See `parent_names` for their human names.
+          minItems: 1
+        props:
+          "$ref": "#/components/schemas/PropsResponse"
+          description: Data for the info-card table
+        ranking_factors:
+          "$ref": "#/components/schemas/RankingFactorsResponse"
+        redirect_url:
+          type: string
+          description: |-
+            The url, this item should be displayed at.
+
+            Present on both redirects and normal entries, to allow for the common /view/:id path
+          examples:
+          - "/room/5606.EG.036"
+        sections:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/SectionsResponse"
+            description: |-
+              Information for different sections on the page like the
+              - buildings overview,
+              - rooms overview and
+              - featured view
+        sources:
+          "$ref": "#/components/schemas/SourcesResponse"
+          description: Where we got our data from, should be displayed at the bottom
+            of any page containing this data
+        type:
+          "$ref": "#/components/schemas/LocationTypeResponse"
+          description: The type of the entry
+        type_common_name:
+          type: string
+          description: The type of the entry in a human-readable form
+          examples:
+          - Büro
+    LocationEventsResponse:
       type: object
+      required:
+      - events
+      - location
+      properties:
+        events:
+          type: array
+          items:
+            "$ref": "#/components/schemas/EventResponse"
+        location:
+          "$ref": "#/components/schemas/CalendarLocationResponse"
+    LocationTypeResponse:
+      type: string
+      enum:
+      - room
+      - building
+      - joined_building
+      - area
+      - site
+      - campus
+      - poi
+      - other
+    ManeuverResponse:
+      type: object
+      required:
+      - type
+      - instruction
+      - time_seconds
+      - length_meters
+      - begin_shape_index
+      - end_shape_index
+      - travel_mode
+      properties:
+        arrive_instruction:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Written arrive time instruction
+
+            Typically used with a transit maneuver
+          examples:
+          - 'Arrive: 8:10 AM at 34 St - Herald Sq'
+        begin_shape_index:
+          type: integer
+          description: Index into the list of shape points for the start of the maneuver
+          example: 0
+          minimum: 0
+        begin_street_names:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            examples:
+            - - Josef Fischaber Straße
+          description: |-
+            When present, these are the street names at the beginning (transition point) of the
+            nonobvious maneuver (if they are different from the names that are consistent along the
+            entire nonobvious maneuver)
+        depart_instruction:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Written depart time instruction
+
+            Typically used with a transit maneuver
+          examples:
+          - 'Depart: 8:04 AM from 8 St - NYU'
+        end_shape_index:
+          type: integer
+          description: Index into the list of shape points for the end of the maneuver
+          example: 3
+          minimum: 0
+        ferry:
+          type:
+          - boolean
+          - 'null'
+          description: "`true` if a ferry is encountered on this maneuver"
+        gate:
+          type:
+          - boolean
+          - 'null'
+          description: "`true` if a gate is encountered on this maneuver"
+        highway:
+          type:
+          - boolean
+          - 'null'
+          description: "`true` if a highway is encountered on this maneuver"
+        instruction:
+          type: string
+        length_meters:
+          type: number
+          format: double
+          description: Maneuver length in meters
+          example: 103.01
+        rough:
+          type:
+          - boolean
+          - 'null'
+          description: |-
+            `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
+            pavement
+        roundabout_exit_count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The spoke to exit roundabout after entering
+          example: 2
+        street_names:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            examples:
+            - - Münchnerstraße
+          description: List of street names that are consistent along the entire nonobvious
+            maneuver
+        time_seconds:
+          type: number
+          format: double
+          description: Estimated time along the maneuver in seconds
+          example: 201.025
+        toll:
+          type:
+          - boolean
+          - 'null'
+          description: "`true` if a toll booth is encountered on this maneuver"
+        transit_info:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/TransitInfoResponse"
+            description: Contains the attributes that describe a specific transit
+              route
+        travel_mode:
+          "$ref": "#/components/schemas/TravelModeResponse"
+          description: Travel mode
+        type:
+          "$ref": "#/components/schemas/ManeuverTypeResponse"
+        verbal_arrive_instruction:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Text suitable for use as a verbal arrive time instruction
+
+            Typically used with a transit maneuver
+          examples:
+          - Arrive at 8:10 AM at 34 St - Herald Sq
+        verbal_depart_instruction:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Text suitable for use as a verbal depart time instruction
+
+            Typically used with a transit maneuver
+          examples:
+          - Depart at 8:04 AM from 8 St - NYU
+        verbal_multi_cue:
+          type:
+          - boolean
+          - 'null'
+          description: |-
+            `true` if `verbal_pre_transition_instruction` has been appended with
+            the verbal instruction of the next maneuver
+        verbal_post_transition_instruction:
+          type:
+          - string
+          - 'null'
+          description: Text suitable for use as a verbal message immediately after
+            the maneuver transition
+          examples:
+          - Continue on U.S. 2 22 for 3.9 miles
+        verbal_pre_transition_instruction:
+          type:
+          - string
+          - 'null'
+          description: Text suitable for use as a verbal message immediately prior
+            to the maneuver transition
+          examples:
+          - Turn right onto North Prince Street, U.S. 2 22
+        verbal_transition_alert_instruction:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Text suitable for use as a verbal alert in a navigation application
+
+            The transition alert instruction will prepare the user for the forthcoming transition
+          examples:
+          - Turn right onto North Prince Street
+    ManeuverTypeResponse:
+      type: string
+      enum:
+      - none
+      - start
+      - start_right
+      - start_left
+      - destination
+      - destination_right
+      - destination_left
+      - becomes
+      - continue
+      - slight_right
+      - right
+      - sharp_right
+      - uturn_right
+      - uturn_left
+      - sharp_left
+      - left
+      - slight_left
+      - ramp_straight
+      - ramp_right
+      - ramp_left
+      - exit_right
+      - exit_left
+      - stay_straight
+      - stay_right
+      - stay_left
+      - merge
+      - roundabout_enter
+      - roundabout_exit
+      - ferry_enter
+      - ferry_exit
+      - transit
+      - transit_transfer
+      - transit_remain_on
+      - transit_connection_start
+      - transit_connection_transfer
+      - transit_connection_destination
+      - post_transit_connection_destination
+      - merge_right
+      - merge_left
+      - elevator_enter
+      - steps_enter
+      - escalator_enter
+      - building_enter
+      - building_exit
+    MapsResponse:
+      type: object
+      required:
+      - default
+      properties:
+        default:
+          "$ref": "#/components/schemas/DefaultMapsResponse"
+          description: type of the Map that should be shown by default
+        overlays:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/OverlayMapsResponse"
+            description: |-
+              `None` would mean no overlay maps are displayed by default.
+              For rooms, you should add a warning that no floor map is available for this room
+        roomfinder:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/RoomfinderMapResponse"
+    NearbyLocationsResponse:
+      type: object
+      required:
+      - public_transport
+      properties:
+        public_transport:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TransportationResponse"
+          maxItems: 50
+    Offsets:
+      type: object
+      properties:
+        header:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        thumb:
+          type:
+          - integer
+          - 'null'
+          format: int32
+    OperatorResponse:
+      type: object
+      description: Operator of a location
+      required:
+      - id
+      - url
+      - code
+      - name
+      properties:
+        code:
+          type: string
+          description: designation code of the operator
+          examples:
+          - TUS7000
+        id:
+          type: integer
+          format: int32
+          description: ID of the operator
+          examples:
+          - 51901
+          minimum: 0
+        name:
+          type: string
+          description: |-
+            The full name of the operator (localized). Null for organisations that
+             are no longer active (e.g. id=38698), but where the operator has not been
+            updated in TUMonline.
+          examples:
+          - TUM School of Social Sciences and Technology
+        url:
+          type: string
+          description: Link to the operator
+          examples:
+          - https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
+    OverlayMapEntryResponse:
+      type: object
+      required:
+      - id
+      - floor
+      - name
+      - file
+      - coordinates
+      properties:
+        coordinates:
+          type: array
+          items:
+            type: array
+            items: false
+            prefixItems:
+            - type: number
+              format: double
+            - type: number
+              format: double
+          description: Coordinates are four `[lon, lat]` pairs, for the top left,
+            top right, bottom right, bottom left image corners.
+          example:
+          - - 11.666739
+            - 48.263478
+          - - 11.669666
+            - 48.263125
+          - - 11.669222
+            - 48.261585
+          - - 11.666331
+            - 48.261929
+          maxItems: 4
+          minItems: 4
+        file:
+          type: string
+          description: filename of the map
+          example: webp/rf95.webp
+        floor:
+          type: string
+          description: |-
+            Floor of the Map.
+
+            Should be used for display to the user in selectors.
+            Matches the floor part of the TUMonline roomcode.
+          example: EG
+        id:
+          type: integer
+          format: int32
+          description: |-
+            Machine-readable floor-id of the map.
+
+            Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
+            It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
+          example: 0
+        name:
+          type: string
+          description: human-readable name of the map
+          example: MI Gebäude (EG)
+    OverlayMapsResponse:
+      type: object
+      required:
+      - available
+      properties:
+        available:
+          type: array
+          items:
+            "$ref": "#/components/schemas/OverlayMapEntryResponse"
+        default:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: |-
+            The floor-id of the map, that should be shown as a default.
+            null means:
+            - We suggest, you don't show a map by default.
+            - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+          example: 0
+    PossibleURLRefResponse:
+      type: object
+      description: A link with a localized link text and url
+      required:
+      - text
+      properties:
+        text:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+    Property:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+    PropsResponse:
+      type: object
+      description: Data for the info-card table
+      required:
+      - computed
+      properties:
+        calendar_url:
+          type:
+          - string
+          - 'null'
+          description: Link to the calendar of the room
+          examples:
+          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+        comment:
+          type: string
+          description: |-
+            A comment to show to an entry.
+
+            It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
+        computed:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ComputedPropResponse"
+        links:
+          type: array
+          items:
+            "$ref": "#/components/schemas/PossibleURLRefResponse"
+        operator:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/OperatorResponse"
+            description: The operator of the room
+    RankingFactorsResponse:
+      type: object
+      required:
+      - rank_combined
+      - rank_type
+      - rank_usage
+      properties:
+        rank_boost:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          minimum: 0
+        rank_combined:
+          type: integer
+          format: int32
+          minimum: 0
+        rank_custom:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          minimum: 0
+        rank_type:
+          type: integer
+          format: int32
+          minimum: 0
+        rank_usage:
+          type: integer
+          format: int32
+          minimum: 0
+    RemoteMap:
+      type: object
+      required:
+      - name
+      - url
+      properties:
+        name:
+          type: string
+          description: Name of the map
+          example: '1234'
+        url:
+          type: string
+          format: uri
+          description: Where the indoor GeoJSON is located at
+          example: https://nav.tum.de/api/maps/indoor/1234
+    ResultEntry:
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - subtext
       properties:
         id:
           type: string
-        parent_id:
-          type: string
-        parent_name:
-          type: string
-        distance_meters:
-          type: number
-          format: double
-          exclusiveMinimum: 0
+          description: The id of the location
+          example: 5510.03.002
         name:
           type: string
+          description: |-
+            Subtext to show below the search result.
+
+            Usually contains the context of where this rooms is located in.
+            Currently not highlighted.
+          example: "5510.03.002 (\x19MW\x17 2001, Empore)"
+        parsed_id:
+          type:
+          - string
+          - 'null'
+          description: |-
+            This is an optional feature, that is only supported for some rooms.
+
+            It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+            See the image below for an example.
+            It will be cropped to a maximum length to not take too much space in UIs.
+            Supports highlighting.
+        subtext:
+          type: string
+          description: |-
+            Subtext to show below the search result.
+
+            Usually contains the context of where this rooms is located in.
+            Currently not highlighted.
+          example: Maschinenwesen (MW)
+        subtext_bold:
+          type:
+          - string
+          - 'null'
+          description: |-
+            Subtext to show below the search (by default in bold and after the non-bold subtext).
+
+            Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+          example: 3002@5510
+        type:
+          type: string
+          description: the type of the site/building
+          example: room
+    ResultFacet:
+      type: string
+      enum:
+      - sites_buildings
+      - rooms
+      - addresses
+    ResultsSection:
+      type: object
+      required:
+      - facet
+      - entries
+      - n_visible
+      - estimatedTotalHits
+      properties:
+        entries:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ResultEntry"
+        estimatedTotalHits:
+          type: integer
+          description: The estimated (not exact) number of hits for that query
+          example: 6
+          minimum: 0
+        facet:
+          "$ref": "#/components/schemas/ResultFacet"
+          description: These indicate the type of item this represents
+        n_visible:
+          type: integer
+          description: |-
+            A recommendation how many of the entries should be displayed by default.
+
+            The number is usually from `0`..`5`.
+            More results might be displayed when clicking "expand".
+          example: 4
+          minimum: 0
+    RoomfinderMapEntryResponse:
+      type: object
+      required:
+      - name
+      - id
+      - scale
+      - height
+      - width
+      - x
+      - "y"
+      - source
+      - file
+      properties:
+        file:
+          type: string
+          description: Where the map is stored
+        height:
+          type: integer
+          format: int32
+          description: Map image y dimensions
+        id:
+          type: string
+          description: machine-readable name of the map
+        name:
+          type: string
+          description: human-readable name of the map
+        scale:
+          type: string
+          description: Scale of the map. 2000 means 1:2000
+        source:
+          type: string
+          description: Where the map was imported from
+        width:
+          type: integer
+          format: int32
+          description: Map image y dimensions
+        x:
+          type: integer
+          format: int32
+          description: x Position on map image
+        "y":
+          type: integer
+          format: int32
+          description: y Position on map image
+    RoomfinderMapResponse:
+      type: object
+      required:
+      - default
+      - available
+      properties:
+        available:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RoomfinderMapEntryResponse"
+        default:
+          type: string
+          description: The id of the map, that should be shown as a default
+          examples:
+          - rf142
+    RoomsOverviewResponse:
+      type: object
+      required:
+      - usages
+      properties:
+        usages:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RoomsOverviewUsageResponse"
+    RoomsOverviewUsageChildResponse:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    RoomsOverviewUsageResponse:
+      type: object
+      required:
+      - name
+      - count
+      - children
+      properties:
+        children:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RoomsOverviewUsageChildResponse"
+        count:
+          type: integer
+          format: int32
+          minimum: 0
+        name:
+          type: string
+    RoutingResponse:
+      type: object
+      required:
+      - legs
+      - summary
+      properties:
+        legs:
+          type: array
+          items:
+            "$ref": "#/components/schemas/LegResponse"
+          description: |-
+            A trip contains one (or more) legs.
+
+            A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+          maxItems: 1
+          minItems: 1
+        summary:
+          "$ref": "#/components/schemas/SummaryResponse"
+          description: Trip summary
+    SearchResponse:
+      type: object
+      description: Returned search results by this
+      required:
+      - sections
+      - time_ms
+      properties:
+        sections:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ResultsSection"
+        time_ms:
+          type: integer
+          format: int32
+          description: |-
+            Time the search took in the server side, not including network delay
+
+            Maximum as timeout.
+            other timeouts (browser, your client) may be smaller.
+            Expected average is `10`..`50` for uncached, regular requests.
+          example: 8
+          minimum: 0
+    SectionsResponse:
+      type: object
+      properties:
+        buildings_overview:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/BuildingsOverviewResponse"
+        featured_overview:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/FeaturedOverviewResponse"
+        rooms_overview:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/RoomsOverviewResponse"
+    Source:
+      type: object
+      required:
+      - author
+      - license
+      - source
+      properties:
+        author:
+          type: string
+        license:
+          "$ref": "#/components/schemas/Property"
+        offsets:
+          oneOf:
+          - type: 'null'
+          - "$ref": "#/components/schemas/Offsets"
+        source:
+          "$ref": "#/components/schemas/Property"
+    SourceResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the provider
+          example: NavigaTUM
+        url:
+          type:
+          - string
+          - 'null'
+          description: Url of the provider
+          example: https://nav.tum.de
+    SourcesResponse:
+      type: object
+      description: Where we got our data from, should be displayed at the bottom of
+        any page containing this data
+      required:
+      - base
+      properties:
+        base:
+          type: array
+          items:
+            "$ref": "#/components/schemas/SourceResponse"
+          description: What is the basis of the data we have
+        patched:
+          type:
+          - boolean
+          - 'null'
+          description: |-
+            Was this entry patched by us? (e.g. to fix a typo in the name/...)
+            If so, we should not display the source, as it is not the original source.
+    SummaryResponse:
+      type: object
+      required:
+      - time_seconds
+      - length_meters
+      - has_toll
+      - has_highway
+      - has_ferry
+      - min_lat
+      - min_lon
+      - max_lat
+      - max_lon
+      properties:
+        has_ferry:
+          type: boolean
+          description: if the path uses one or more ferry segments
+        has_highway:
+          type: boolean
+          description: If the path uses one or more highway segments
+        has_toll:
+          type: boolean
+          description: If the path uses one or more toll segments
+        length_meters:
+          type: number
+          format: double
+          description: Distance traveled in meters
+          example: 103.01
+        max_lat:
+          type: number
+          format: double
+          description: Maximum latitude of the sections bounding box
+          example: 48.26244490906312
+        max_lon:
+          type: number
+          format: double
+          description: Maximum longitude of the sections bounding box
+          example: 48.26244490906312
+        min_lat:
+          type: number
+          format: double
+          description: Minimum latitude of the sections bounding box
+          example: 48.26244490906312
+        min_lon:
+          type: number
+          format: double
+          description: Minimum longitude of the sections bounding box
+          example: 48.26244490906312
+        time_seconds:
+          type: number
+          format: double
+          description: Estimated elapsed time in seconds
+          example: 201.025
+    TokenResponse:
+      type: object
+      required:
+      - created_at
+      - token
+      properties:
+        created_at:
+          type: integer
+          format: int64
+          description: Unix timestamp of when the token was created
+          example: '1629564181'
+        token:
+          type: string
+          description: The JWT token, that can be used to generate feedback
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+    TransitInfoResponse:
+      type: object
+      required:
+      - onestop_id
+      - short_name
+      - long_name
+      - headsign
+      - color
+      - text_color
+      - description
+      - operator_onestop_id
+      - operator_name
+      - operator_url
+      - transit_stops
+      properties:
+        color:
+          type: integer
+          format: int32
+          description: |-
+            The numeric color value associated with a transit route
+
+            The value for yellow would be `16567306`
+          examples:
+          - 16567306
+        description:
+          type: string
+          description: The description of the transit route
+          examples:
+          - |-
+            Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
+            N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
+            Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
+            Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
+            depending on the time. Late night trains operate via Whitehall Street, Manhattan.
+            Late night service is local
+        headsign:
+          type: string
+          description: The sign on a public transport vehicle that identifies the
+            route destination to passengers
+          examples:
+          - ASTORIA - DITMARS BLVD
+        long_name:
+          type: string
+          description: Long name describing the transit route
+          examples:
+          - Broadway Express
+        onestop_id:
+          type: string
+          description: |-
+            Global transit route identifier
+
+            **Tipp:** you use these as feed-ids in transitland.
+            Example: <https://www.transit.land/feeds/f-9q9-bart>
+          examples:
+          - f-9q9-bart
+          - f-zeus~schwäbisch~gmünd~gbfs
+        operator_name:
+          type: string
+          description: |-
+            Operator/agency name
+
+            Short name is used over long name
+          examples:
+          - BART
+          - King County Marine Division
+          - Münchner Verkehrs- und Tarifverbund (MVV)
+        operator_onestop_id:
+          type: string
+          description: |-
+            Global operator/agency identifier
+
+            **Tipp:** you use these as feed-ids in transitland.
+            Example: <https://www.transit.land/feeds/o-u281z9-mvv>
+          examples:
+          - o-u281z9-mvv
+        operator_url:
+          type: string
+          description: Operator/agency URL
+          examples:
+          - http://web.mta.info/
+          - http://www.mvv-muenchen.de/
+        short_name:
+          type: string
+          description: Short name describing the transit route
+          examples:
+          - N
+        text_color:
+          type: string
+          description: |-
+            The numeric text color value associated with a transit route
+
+            The value for black would be `0`
+          examples:
+          - 0
+        transit_stops:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TransitStopResponse"
+          description: A list of the stops/stations associated with a specific transit
+            route
+    TransitStopResponse:
+      type: object
+      required:
+      - type
+      - name
+      - arrival_date_time
+      - departure_date_time
+      - is_parent_stop
+      - assumed_schedule
+      - lat
+      - lon
+      properties:
+        arrival_date_time:
+          type: string
+          format: date-time
+          description: Arrival date and time
+        assumed_schedule:
+          type: boolean
+          description: "`true` if the times are based on an assumed schedule because
+            the actual schedule is not known"
+        departure_date_time:
+          type: string
+          format: date-time
+          description: Departure date and time
+        is_parent_stop:
+          type: boolean
+          description: "`true` if this stop is a marked as a parent stop"
         lat:
           type: number
           format: double
+          description: Latitude of the transit stop in degrees
+          example: 48.26244490906312
         lon:
           type: number
           format: double
+          description: Longitude of the transit stop in degrees
+          example: 48.26244490906312
+        name:
+          type: string
+          description: Name of the stop or station
+          examples:
+          - 14 St - Union Sq
+        type:
+          "$ref": "#/components/schemas/TransitStopTypeResponse"
+    TransitStopTypeResponse:
+      type: string
+      enum:
+      - stop
+      - station
+    TransportationResponse:
+      type: object
       required:
-        - parent_id
-        - distance
-        - id
-        - name
-        - lat
-        - lon
-      x-examples:
-        Example 1:
-          distance: 264.3434461761658
-          station_id: 'de:09184:2051'
-          name: 'Oberschleißh., Regattaanlage'
-          lat: 48.2526907440601
-          lon: 11.5246215288662
-          sub_stations:
-            - station_id: 'de:09184:2051:0:1'
-              name: 'Oberschleißh., Regattaanlage'
-              lat: 48.2526129857745
-              lon: 11.5251605180367
-            - station_id: 'de:09184:2051:0:2'
-              name: 'Oberschleißh., Regattaanlage'
-              lat: 48.2528223347355
-              lon: 11.5240016913201
+      - id
+      - name
+      - lat
+      - lon
+      - distance_meters
+      properties:
+        distance_meters:
+          type: number
+          format: double
+          exclusiveMaximum: 1000
+          exclusiveMinimum: 0
+        id:
+          type: string
+          description: The globally unique and somewhat stable id of the station from
+            the transport agency
+          example: de:09184:2073:0:1
+        lat:
+          type: number
+          format: double
+          description: Latitude
+          example: 48.26244490906312
+        lon:
+          type: number
+          format: double
+          description: Longitude
+          example: 48.26244490906312
+        name:
+          type: string
+          description: How the station was named by the operator
+          example: Garching, Boltzmannstraße
+        parent_id:
+          type:
+          - string
+          - 'null'
+          description: The globally unique and somewhat stable id of the station from
+            the transport agency
+          example: de:09184:2073
+        parent_name:
+          type:
+          - string
+          - 'null'
+          description: How the station was named by the operator
+          example: Boltzmannstraße
+    TravelModeResponse:
+      type: string
+      enum:
+      - drive
+      - pedestrian
+      - bicycle
+      - public_transit
+    URLRefResponse:
+      type: object
+      description: A link with a localized link text and url
+      required:
+      - text
+      properties:
+        text:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
 tags:
-  - name: calendar
-    description: APIs to access calendar-data
-  - name: cdn
-    description: Images for some of the rooms
-  - name: feedback
-    description: APIs to give feedback
-  - name: health
-    description: endpoints used to check the health of our components
-  - name: locations
-    description: API to access/search for location information
-  - name: maps
-    description: APIs to access map-data
+- name: locations
+  description: API to access/search for location information
+- name: calendar
+  description: APIs to access calendar-data
+- name: feedback
+  description: APIs to give feedback
+- name: maps
+  description: API to access for map-data
 externalDocs:
+  url: https://github.com/TUM-Dev/navigatum
   description: Visit our GitHub Page for more in-depth documentation
-  url: 'https://github.com/TUM-Dev/navigatum'
-$schema: 'http://json-schema.org/draft-07/schema#'
+"$schema": http://json-schema.org/draft-07/schema

@@ -4,38 +4,6 @@
  */
 
 export type paths = {
-  "/api/search": {
-    /**
-     * Search entries
-     * @description This endpoint is designed to support search-as-you-type results.
-     *
-     * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
-     *
-     * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
-     * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
-     */
-    get: operations["search"];
-  };
-  "/api/locations/{id}/nearby": {
-    /**
-     * Get the nearby items
-     * @description Shows nearby POIs like public transport stations
-     */
-    get: operations["nearby"];
-  };
-  "/api/locations/{id}": {
-    /**
-     * Get entry-details
-     * @description This returns the full data available for the entry (room/building).
-     *
-     * This is more data, that should be supplied once a user clicks on an entry.
-     * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
-     * The data can be up to 50kB (using gzip) or 200kB unzipped.
-     * The more about this data format is described in the NavigaTUM-data documentation
-     */
-    get: operations["details"];
-  };
   "/api/calendar": {
     /**
      * Retrieve Calendar Entries
@@ -45,30 +13,25 @@ export type paths = {
      *
      * If successful, returns additional entries in the requested time span.
      */
-    post: operations["calendar"];
+    post: operations["calendar_handler"];
   };
-  "/api/locations/{id}/preview": {
+  "/api/feedback/feedback": {
     /**
-     * Get a entry-preview
-     * @description This returns a 1200x630px preview for the location (room/building/..).
+     * Post feedback
+     * @description ***Do not abuse this endpoint.***
      *
-     * This is usefully for implementing custom OpenGraph images for detail previews.
+     * This posts the actual feedback to GitHub and returns the GitHub link.
+     * This API will create issues instead of pull-requests
+     * => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
+     *
+     * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+     *
+     * # Note
+     *
+     * Tokens are only used if we return a 201 Created response.
+     * Otherwise, they are still valid
      */
-    get: operations["previews"];
-  };
-  "/api/maps/indoor": {
-    /**
-     * Lists indoor maps in bounding box
-     * @description Returns all the available maps for a given bbox
-     */
-    get: operations["list-indoor-maps"];
-  };
-  "/api/maps/indoor/{id}": {
-    /**
-     * Get indoor features
-     * @description Get all features of a certain indoor map
-     */
-    get: operations["get-indoor-map"];
+    post: operations["send_feedback"];
   };
   "/api/feedback/get_token": {
     /**
@@ -84,73 +47,117 @@ export type paths = {
      * Tokens gain validity after 5s, and are invalid after 12h of being issued.
      * They are not refreshable, and are only valid for one usage.
      *
-     * ***Important Note:***
+     * # Note:
+     *
      * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
      */
     post: operations["get_token"];
   };
-  "/api/feedback/feedback": {
-    /**
-     * Post feedback
-     * @description ***Do not abuse this endpoint.***
-     *
-     * This posts the actual feedback to GitHub and returns the GitHub link.
-     * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
-     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
-     *
-     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-     */
-    post: operations["post_feedback"];
-  };
-  "/api/feedback/propose_edit": {
+  "/api/feedback/propose_edits": {
     /**
      * Post Edit-Requests
      * @description ***Do not abuse this endpoint.***
      *
-     * This posts the actual feedback to GitHub and returns the GitHub link.
+     * This posts the actual feedback to GitHub and returns the github link.
      * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+     * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
      *
-     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+     * # Note:
+     *
+     * Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
      */
-    post: operations["propose_edit"];
+    post: operations["propose_edits"];
   };
-  "/cdn/{size}/{id}_{counter}.webp": {
+  "/api/locations/{id}": {
     /**
-     * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-     * You HAVE to get the proper attribution from that endpoint and use it.
+     * Get entry-details
+     * @description This returns the full data available for the entry (room/building).
+     *
+     * This is more data, that should be supplied once a user clicks on an entry.
+     * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
+     * The data can be up to 50kB (using gzip) or 200kB unzipped.
+     * More about this data format is described in the NavigaTUM-data documentation
      */
-    get: operations["img_cdn"];
+    get: operations["get_handler"];
   };
-  "/cdn/maps/{source}/{id}.webp": {
+  "/api/locations/{id}/nearby": {
     /**
-     * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-     * You HAVE to get the proper attribution from that endpoint and use it.
+     * Get the nearby items
+     * @description Shows nearby POIs like public transport stations
      */
-    get: operations["maps_cdn"];
+    get: operations["nearby_handler"];
+  };
+  "/api/locations/{id}/preview": {
+    /**
+     * Get a entry-preview
+     * @description This returns a 1200x630px preview for the location (room/building/..).
+     *
+     * This is usefully for implementing custom OpenGraph images for detail previews.
+     */
+    get: operations["maps_handler"];
+  };
+  "/api/maps/indoor": {
+    /**
+     * Lists indoor maps in bounding box
+     * @description Returns all the available maps for a given bbox
+     */
+    get: operations["list_indoor_maps"];
+  };
+  "/api/maps/indoor/{id}": {
+    /**
+     * Get indoor features
+     * @description Get all features of a certain indoor map
+     */
+    get: operations["get_indoor_map"];
+  };
+  "/api/maps/route": {
+    /**
+     * Routing requests
+     * @description **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
+     *
+     * The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
+     * The costing is fine-tuned by the server side accordingly.
+     *
+     * Internally, this endpoint relies on
+     * - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
+     * - our database to resolve ids.
+     *
+     *   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
+     *   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
+     *
+     * **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
+     * - [OpenTripPlanner2](https://www.opentripplanner.org/) or
+     * - [Motis](https://github.com/motis-project/motis)
+     */
+    get: operations["route_handler"];
+  };
+  "/api/openapi.json": {
+    /**
+     * Openapi service definition
+     * @description Usefull for consuming in external openapi tooling
+     */
+    get: operations["openapi_doc"];
+  };
+  "/api/search": {
+    /**
+     * Search entries
+     * @description This endpoint is designed to support search-as-you-type results.
+     *
+     * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+     *
+     * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+     * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
+     */
+    get: operations["search_handler"];
   };
   "/api/status": {
     /**
      * API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage.
+     * **Should never happen.**
      */
-    get: operations["api-health"];
-  };
-  "/cdn/health": {
-    /**
-     * CDN healthcheck
-     * @description If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
-     */
-    get: operations["cdn-health"];
-  };
-  "/health": {
-    /**
-     * Website healthcheck
-     * @description If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
-     */
-    get: operations["web-health"];
+    get: operations["health_status_handler"];
   };
 };
 
@@ -158,376 +165,269 @@ export type webhooks = Record<string, never>;
 
 export type components = {
   schemas: {
-    readonly RemoteMap: {
-      /** @description Name of the map */
-      readonly name: string;
-      /** @description Where the indoor geojson is located at */
-      readonly url: string;
-    };
-    /** @description GeoJSON object The coordinate reference system for all GeoJSON coordinates is a geographic coordinate reference system, using the World Geodetic System 1984 (WGS 84) datum, with longitude and latitude units of decimal degrees. This is equivalent to the coordinate reference system identified by the Open Geospatial Consortium (OGC) URN An OPTIONAL third-position element SHALL be the height in meters above or below the WGS 84 reference ellipsoid. In the absence of elevation values, applications sensitive to height or depth SHOULD interpret positions as being at local ground or sea level. */
-    readonly GeoJsonObject: {
-      /** @enum {string} */
-      readonly type:
-        | "Feature"
-        | "FeatureCollection"
-        | "Point"
-        | "MultiPoint"
-        | "LineString"
-        | "MultiLineString"
-        | "Polygon"
-        | "MultiPolygon"
-        | "GeometryCollection";
-      /** @description A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range for its Geometries, Features, or FeatureCollections. The value of the bbox member MUST be an array of length 2*n where n is the number of dimensions represented in the contained geometries, with all axes of the most southwesterly point followed by all axes of the more northeasterly point. The axes order of a bbox follows the axes order of geometries. */
-      readonly bbox?: readonly number[];
-    };
-    /** @description Abstract type for all GeoJSon object except Feature and FeatureCollection */
-    readonly Geometry: {
-      type: "Geometry";
-    } & Omit<components["schemas"]["GeoJsonObject"], "type"> & {
-        /** @enum {string} */
-        readonly type:
-          | "Point"
-          | "MultiPoint"
-          | "LineString"
-          | "MultiLineString"
-          | "Polygon"
-          | "MultiPolygon"
-          | "GeometryCollection";
-      };
-    /** @description Abstract type for all GeoJSon 'Geometry' object the type of which is not 'GeometryCollection' */
-    readonly GeometryElement: components["schemas"]["Geometry"] & {
-      /** @enum {string} */
-      readonly type: "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon";
-    };
-    /** @description GeoJSon 'Feature' object */
-    readonly Feature: {
-      type: "Feature";
-    } & Omit<components["schemas"]["GeoJsonObject"], "type"> & {
-        readonly geometry: components["schemas"]["Geometry"];
-        readonly properties: Record<string, unknown> | null;
-        readonly id?: number | string;
-      };
-    /** @description GeoJSon 'FeatureCollection' object */
-    readonly FeatureCollection: {
-      type: "FeatureCollection";
-    } & Omit<components["schemas"]["GeoJsonObject"], "type"> & {
-        readonly features: readonly components["schemas"]["Feature"][];
-      };
-    /** @description GeoJSon fundamental geometry construct. A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element. Implementations SHOULD NOT extend positions beyond three elements because the semantics of extra elements are unspecified and ambiguous. Historically, some implementations have used a fourth element to carry a linear referencing measure (sometimes denoted as "M") or a numerical timestamp, but in most situations a parser will not be able to properly interpret these values. The interpretation and meaning of additional elements is beyond the scope of this specification, and additional elements MAY be ignored by parsers. */
-    readonly Position: readonly [number, number] | readonly [number, number, number];
-    /** @description GeoJSon fundamental geometry construct, array of two or more positions. */
-    readonly LineStringCoordinates: readonly [
-      components["schemas"]["Position"],
-      components["schemas"]["Position"],
-      ...components["schemas"]["Position"][],
-    ];
-    /** @description A linear ring is a closed LineString with four or more positions. The first and last positions are equivalent, and they MUST contain identical values; their representation SHOULD also be identical. A linear ring is the boundary of a surface or the boundary of a hole in a surface. A linear ring MUST follow the right-hand rule with respect to the area it bounds, i.e., exterior rings are counterclockwise, and holes are clockwise. */
-    readonly LinearRing: readonly [
-      components["schemas"]["Position"],
-      components["schemas"]["Position"],
-      components["schemas"]["Position"],
-      components["schemas"]["Position"],
-      ...components["schemas"]["Position"][],
-    ];
-    /** @description GeoJSon geometry */
-    readonly Point: components["schemas"]["GeometryElement"] & {
-      /** @enum {string} */
-      readonly type: "Point";
-      readonly coordinates: components["schemas"]["Position"];
-    };
-    /** @description GeoJSon geometry */
-    readonly MultiPoint: components["schemas"]["GeometryElement"] & {
-      readonly coordinates: readonly components["schemas"]["Position"][];
-    };
-    /** @description GeoJSon geometry */
-    readonly LineString: components["schemas"]["GeometryElement"] & {
-      readonly coordinates: components["schemas"]["LineStringCoordinates"];
-    };
-    /** @description GeoJSon geometry */
-    readonly MultiLineString: components["schemas"]["GeometryElement"] & {
-      readonly coordinates: readonly components["schemas"]["LineStringCoordinates"][];
-    };
-    /** @description GeoJSon geometry */
-    readonly Polygon: components["schemas"]["GeometryElement"] & {
-      readonly coordinates: readonly components["schemas"]["LinearRing"][];
-    };
-    /** @description GeoJSon geometry */
-    readonly MultiPolygon: components["schemas"]["GeometryElement"] & {
-      readonly coordinates: readonly (readonly components["schemas"]["LinearRing"][])[];
-    };
-    /** @description GeoJSon geometry collection GeometryCollections composed of a single part or a number of parts of a single type SHOULD be avoided when that single part or a single object of multipart type (MultiPoint, MultiLineString, or MultiPolygon) could be used instead. */
-    readonly GeometryCollection: components["schemas"]["Geometry"] & {
-      readonly geometries: readonly components["schemas"]["GeometryElement"][];
-    };
-    /** @description Data for the info-card table */
-    readonly Props: {
-      /** @description The operator of the room */
-      readonly operator?: {
-        /** @description The designation code of the operator */
-        readonly code?: string;
-        /**
-         * @description The full name of the operator (localized). Null for organisations that
-         * are no longer active (e.g. id=38698), but where the operator has not been
-         * updated in TUMonline.
-         */
-        readonly name?: string | null;
-        /** @description A link to the operator */
-        readonly url?: string;
-        /** @description The id of the operator */
-        readonly id?: number;
-      };
-      readonly computed: readonly components["schemas"]["ComputedProp"][];
-      readonly links?: readonly components["schemas"]["LinkProp"][];
+    readonly Arguments: {
       /**
-       * @description A comment to show to an entry.
-       * It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
-       * An example of a room with a comment is MW1801.
+       * Format: date-time
+       * @description The last allowed time the calendar would like to display
        */
-      readonly comment?: string;
-      /** @description A link to the calendar of the room */
-      readonly calendar_url?: string;
+      readonly end_before: string;
+      /**
+       * @description ids you want the calendars for
+       *
+       * Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
+       * @example [
+       *   "5605.EG.011",
+       *   "5510.02.001",
+       *   "5606.EG.036",
+       *   "5304"
+       * ]
+       */
+      readonly ids: readonly string[];
+      /**
+       * Format: date-time
+       * @description The first allowed time the calendar would like to display
+       */
+      readonly start_after: string;
     };
-    readonly ComputedProp: {
+    readonly BuildingsOverviewItemResponse: {
+      /** @description The id of the entry */
+      readonly id: string;
+      /** @description Human display name */
+      readonly name: string;
+      /** @description What should be displayed below this Building */
+      readonly subtext: string;
+      /** @description The thumbnail for the building */
+      readonly thumb?: string | null;
+    };
+    readonly BuildingsOverviewResponse: {
+      readonly entries: readonly components["schemas"]["BuildingsOverviewItemResponse"][];
+      /** Format: int32 */
+      readonly n_visible: number;
+    };
+    readonly CalendarLocationResponse: {
+      /** @description Link to the calendar of the room */
+      readonly calendar_url?: string | null;
+      /**
+       * @description Structured, globaly unique room code
+       *
+       * Included to enable multi-room calendars.
+       * Format: BUILDING.LEVEL.NUMBER
+       */
+      readonly key: string;
+      /**
+       * Format: date-time
+       * @description last time the calendar was scraped for this room
+       */
+      readonly last_calendar_scrape_at?: string | null;
+      /** @description name of the entry in a human-readable form */
+      readonly name: string;
+      /**
+       * @description type of the entry
+       *
+       * TODO document as a n enum with the following choices:
+       * - `room`
+       * - `building`
+       * - `joined_building`
+       * - `area`
+       * - `site`
+       * - `campus`
+       * - `poi`
+       */
+      readonly type: string;
+      /** @description Type of the entry in a human-readable form */
+      readonly type_common_name: string;
+    };
+    readonly ComputedPropResponse: {
+      readonly extra?: null | components["schemas"]["ExtraComputedPropResponse"];
       readonly name: string;
       readonly text: string;
-      readonly extra?: {
-        readonly header?: string;
-        readonly body: string;
-        readonly footer?: string;
-      };
-    };
-    /** @description A link with a localized link text and url */
-    readonly LinkProp: {
-      readonly text: string;
-      readonly url: string;
-    };
-    /** @description The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint */
-    readonly ImageInfo: {
-      /** @description The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0 */
-      readonly name: string;
-      readonly author: components["schemas"]["PossibleURLRef"];
-      readonly source: components["schemas"]["PossibleURLRef"];
-      readonly license: components["schemas"]["PossibleURLRef"];
-    };
-    /** @description Additional information you should include, if you decide to display the image for legal and attribution reasons */
-    readonly PossibleURLRef: {
-      /** @description The text to display */
-      readonly text: string;
-      /** @description The URL to the referenced information. Always either null or a valid URL */
-      readonly url?: string | null;
     };
     readonly Coordinate: {
       /**
        * Format: double
        * @description Latitude
+       * @example 48.26244490906312
        */
       readonly lat: number;
       /**
        * Format: double
        * @description Longitude
+       * @example 48.26244490906312
        */
       readonly lon: number;
-      /**
-       * @description The source of the Coordinates
-       * @enum {string}
-       */
-      readonly source: "roomfinder" | "navigatum" | "inferred";
-      /**
-       * @description How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)
-       * @enum {string}
-       */
-      readonly accuracy?: "building";
     };
-    readonly Maps: {
+    /** @enum {string} */
+    readonly CoordinateAccuracyResponse: "building";
+    readonly CoordinateResponse: {
+      readonly accuracy?: null | components["schemas"]["CoordinateAccuracyResponse"];
       /**
-       * @description The type of the Map that should be shown by default
-       * @enum {string}
+       * Format: double
+       * @description Latitude
+       * @example 48.26244490906312
        */
-      readonly default: "interactive" | "roomfinder";
-      readonly roomfinder?: components["schemas"]["RoomfinderMap"];
+      readonly lat: number;
       /**
-       * @description null would mean no overlay maps are displayed by default.
-       * For rooms you should add a warning that no floor map is available for this room
+       * Format: double
+       * @description Longitude
+       * @example 48.26244490906312
        */
-      readonly overlays?: {
-        /**
-         * @description The floor-id of the map, that should be shown as a default.
-         * null:
-         * - We suggest, you dont show a map by default.
-         * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-         */
-        readonly default: number | null;
-        readonly available: readonly components["schemas"]["OverlayMapEntry"][];
-      } | null;
+      readonly lon: number;
+      /** @description Source of the Coordinates */
+      readonly source: components["schemas"]["CoordinateSourceResponse"];
     };
-    readonly RoomfinderMap: {
-      /** @description The id of the map, that should be shown as a default */
-      readonly default: string;
-      readonly available: readonly components["schemas"]["RoomfinderMapEntry"][];
+    /** @enum {string} */
+    readonly CoordinateSourceResponse: "navigatum" | "roomfinder" | "inferred";
+    /** @enum {string} */
+    readonly DefaultMapsResponse: "interactive" | "roomfinder";
+    readonly EditRequest: {
+      /**
+       * @description Additional context for the edit.
+       *
+       * Will be displayed in the discription field of the PR
+       * @example I have a picture of the room, please add it to the roomfinder
+       */
+      readonly additional_context: string;
+      /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
+      readonly edits: components["schemas"]["LimitedHashMap_String_Edit"];
+      /**
+       * @description Whether the user has checked the privacy-checkbox.
+       *
+       * We are posting the feedback publicly on GitHub (not a EU-Company).
+       * **You MUST also include such a checkmark.**
+       */
+      readonly privacy_checked: boolean;
+      /**
+       * @description The JWT token, that can be used to generate feedback
+       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+       */
+      readonly token: string;
     };
-    readonly RoomfinderMapEntry: {
-      /** @description The human-readable name of the map */
-      readonly name: string;
-      /** @description The machine-readable name of the map */
-      readonly id: string;
-      /** @description Scale of the map. 2000 means 1:2000. */
-      readonly scale: string;
+    readonly EventResponse: {
+      /** @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?) */
+      readonly detailed_entry_type: string;
+      /**
+       * Format: date-time
+       * @description end of the entry
+       */
+      readonly end_at: string;
+      /**
+       * @description What this calendar entry means.
+       *
+       * Each of these should be displayed in a different color
+       */
+      readonly entry_type: components["schemas"]["EventTypeResponse"];
       /**
        * Format: int32
-       * @description Map image x dimensions
-       */
-      readonly height: number;
-      /**
-       * Format: int32
-       * @description Map image y dimensions
-       */
-      readonly width: number;
-      /**
-       * Format: int32
-       * @description x Position on map
-       */
-      readonly x: number;
-      /**
-       * Format: int32
-       * @description y Position on map image
-       */
-      readonly y: number;
-      /** @description Where the map was imported from */
-      readonly source: string;
-      /** @description Where the map is stored */
-      readonly file: string;
-    };
-    readonly OverlayMapEntry: {
-      /**
-       * @description The machine-readable floor-id of the map.
-       * Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
-       * It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
+       * @description ID of the calendar entry used in TUMonline internally
        */
       readonly id: number;
       /**
-       * @description Floor of the Map.
-       * Should be used for display to the user in selectors.
-       * Matches the floor part of the TUMonline roomcode.
+       * @description Structured, globaly unique room code
+       *
+       * Included to enable multi-room calendars.
+       * Format: BUILDING.LEVEL.NUMBER
        */
-      readonly floor: string;
-      /** @description The human-readable name of the map */
-      readonly name: string;
-      /** @description The filename of the map */
-      readonly file: string;
-      /** @description Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners. */
-      readonly coordinates: readonly [
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
-      ];
+      readonly room_code: string;
+      /**
+       * Format: date-time
+       * @description start of the entry
+       */
+      readonly start_at: string;
+      /** @description Lecture-type */
+      readonly stp_type?: string | null;
+      /** @description German title of the Entry */
+      readonly title_de: string;
+      /** @description English title of the Entry */
+      readonly title_en: string;
     };
-    readonly Rooms: {
-      /**
-       * @description These indicate the type of item this represents
-       * @enum {string}
-       */
-      readonly facet: "rooms";
-      /**
-       * Format: int64
-       * @description The estimated (not exact) number of hits for that query
-       */
-      readonly estimatedTotalHits: number;
-      readonly entries: readonly components["schemas"]["RoomEntry"][];
-      /**
-       * Format: int64
-       * @description A recommendation how many of the entries should be displayed by default.
-       * The number is usually from 0-20.
-       * More results might be displayed when clicking "expand".
-       * If this field is not present, then all entries are displayed.
-       */
-      readonly n_visible: number;
+    /** @enum {string} */
+    readonly EventTypeResponse: "lecture" | "exercise" | "exam" | "barred" | "other";
+    readonly ExtraComputedPropResponse: {
+      readonly body: string;
+      readonly footer?: string | null;
+      readonly header?: string | null;
     };
-    readonly SitesBuildings: {
-      /**
-       * @description These indicate the type of item this represents
-       * @enum {string}
-       */
-      readonly facet: "sites_buildings";
-      /**
-       * Format: int64
-       * @description The estimated (not exact) number of hits for that query
-       */
-      readonly estimatedTotalHits: number;
-      readonly entries: readonly components["schemas"]["SitesBuildingsEntry"][];
-      /**
-       * Format: int64
-       * @description A recommendation how many of the entries should be displayed by default.
-       * The number is usually from 0-5.
-       * More results might be displayed when clicking "expand".
-       * If this field is not present, then all entries are displayed.
-       */
-      readonly n_visible: number;
-    };
-    readonly RoomEntry: {
-      /** @description The id of the room */
+    readonly FeaturedOverviewItemResponse: {
+      /** @description The id of the entry */
       readonly id: string;
-      /**
-       * @description the type of the room
-       * @enum {string}
-       */
-      readonly type: "room" | "virtual_room" | "poi";
-      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
+      /** @description The thumbnail for the building */
+      readonly image_url: string;
+      /** @description Human display name */
       readonly name: string;
-      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
-      readonly subtext: string;
-      /** @description Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting. */
-      readonly subtext_bold: string;
-      /** @description This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting. */
-      readonly parsed_id?: string;
-    };
-    readonly SitesBuildingsEntry: {
-      /** @description The id of the room */
-      readonly id: string;
-      /**
-       * @description the type of the site/building
-       * @enum {string}
-       */
-      readonly type: "campus" | "building" | "area" | "site" | "joined_building";
-      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
-      readonly name: string;
-      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
+      /** @description What should be displayed below this Building */
       readonly subtext: string;
     };
-    readonly TokenResponse: {
-      /** @description The JWT token, that can be used to generate feedback */
+    readonly FeaturedOverviewResponse: {
+      readonly entries: readonly components["schemas"]["FeaturedOverviewItemResponse"][];
+    };
+    /** @enum {string} */
+    readonly FeedbackCategory: "bug" | "feature" | "search" | "navigation" | "entry" | "general" | "other";
+    readonly PostFeedbackRequest: {
+      /**
+       * @description The body/description of the feedback
+       *
+       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       * @example A clear description what happened where and how we should improve it
+       */
+      readonly body: string;
+      /** @description The category of the feedback. */
+      readonly category?: components["schemas"]["FeedbackCategory"];
+      /**
+       * @description Whether the user has requested to delete the issue.
+       *
+       * This flag means:
+       * - If the user has requested to delete the issue, we will delete it from GitHub after processing it
+       * - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
+       */
+      readonly deletion_requested: boolean;
+      /**
+       * @description Whether the user has checked the privacy-checkbox.
+       *
+       * We are posting the feedback publicly on GitHub (not a EU-Company).
+       * **You MUST also include such a checkmark.**
+       */
+      readonly privacy_checked: boolean;
+      /**
+       * @description The subject/title of the feedback
+       *
+       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       * @example A catchy title
+       */
+      readonly subject: string;
+      /**
+       * @description The JWT token, that can be used to generate feedback
+       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+       */
       readonly token: string;
-      /**
-       * Format: int64
-       * @description Unix timestamp of when the token was created
-       */
-      readonly created_at: number;
     };
-    readonly SearchResponse: {
-      readonly sections: readonly (components["schemas"]["SitesBuildings"] | components["schemas"]["Rooms"])[];
-      /**
-       * Format: int32
-       * @description Time the search took in the server side, not including network delay
-       * Maximum as timeout. other timeouts (browser, your client) may be smaller
-       * Expected average is 10..50 for uncached, regular requests
-       */
-      readonly time_ms: number;
+    readonly Image: {
+      /** @description The image encoded as base64 */
+      readonly content: string;
+      readonly metadata: components["schemas"]["Source"];
     };
-    readonly NearbyLocationsResponse: {
-      readonly public_transport: readonly components["schemas"]["Station"][];
-    };
-    readonly DetailsResponse: {
-      /** @description The id, that was requested */
-      readonly id: string;
+    /** @description The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint */
+    readonly ImageInfoResponse: {
+      readonly author: components["schemas"]["URLRefResponse"];
+      readonly license: components["schemas"]["PossibleURLRefResponse"];
       /**
-       * @description The type of the entry
-       * @enum {string}
+       * @description The name of the image file.
+       * consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
        */
-      readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
-      /** @description The type of the entry in a human-readable form */
-      readonly type_common_name: string;
-      /** @description The name of the entry in a human-readable form */
       readonly name: string;
+      readonly source: components["schemas"]["PossibleURLRefResponse"];
+    };
+    readonly LegResponse: {
+      readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
+      readonly shape: readonly components["schemas"]["Coordinate"][];
+      readonly summary: components["schemas"]["SummaryResponse"];
+    };
+    readonly LimitedHashMap_String_Edit: {
+      [key: string]: {
+        readonly coordinate?: null | components["schemas"]["Coordinate"];
+        readonly image?: null | components["schemas"]["Image"];
+      };
+    };
+    readonly LocationDetailsResponse: {
       /**
        * @description A list of alternative ids for this entry.
        *
@@ -535,232 +435,706 @@ export type components = {
        * - `id` which is the unique identifier or
        * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
        */
-      readonly aliases?: readonly string[];
-      readonly parents: readonly string[];
+      readonly aliases: readonly string[];
+      /** @description Coordinate of the location */
+      readonly coords: components["schemas"]["CoordinateResponse"];
+      /** @description The id, that was requested */
+      readonly id: string;
+      /**
+       * @description The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
+       *
+       * TODO: Sometimes missing, sometimes not.. so weird..
+       */
+      readonly imgs?: readonly components["schemas"]["ImageInfoResponse"][] | null;
+      /** @description Print or overlay maps for said location */
+      readonly maps: components["schemas"]["MapsResponse"];
+      /** @description The name of the entry in a human-readable form */
+      readonly name: string;
+      /**
+       * @description The ids of the parents.
+       *
+       * They are ordered as they would appear in a Breadcrumb menu.
+       * See `parents` for their actual ids.
+       */
       readonly parent_names: readonly [string, ...string[]];
-      readonly props: components["schemas"]["Props"];
-      readonly imgs?: readonly components["schemas"]["ImageInfo"][];
-      readonly ranking_factors: components["schemas"]["RankingFactors"];
-      readonly sources: components["schemas"]["DataSources"];
+      /**
+       * @description The ids of the parents.
+       *
+       * They are ordered as they would appear in a Breadcrumb menu.
+       * See `parent_names` for their human names.
+       */
+      readonly parents: readonly [string, ...string[]];
+      /** @description Data for the info-card table */
+      readonly props: components["schemas"]["PropsResponse"];
+      readonly ranking_factors: components["schemas"]["RankingFactorsResponse"];
       /**
        * @description The url, this item should be displayed at.
+       *
        * Present on both redirects and normal entries, to allow for the common /view/:id path
        */
       readonly redirect_url: string;
-      readonly coords: components["schemas"]["Coordinate"];
-      readonly maps: components["schemas"]["Maps"];
-      readonly sections?: {
-        readonly buildings_overview?: components["schemas"]["BuildingsOverview"];
-        readonly rooms_overview?: components["schemas"]["RoomsOverview"];
-        readonly featured_overview?: components["schemas"]["FeaturedOverview"];
-      };
+      readonly sections?: null | components["schemas"]["SectionsResponse"];
+      /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
+      readonly sources: components["schemas"]["SourcesResponse"];
+      /** @description The type of the entry */
+      readonly type: components["schemas"]["LocationTypeResponse"];
+      /** @description The type of the entry in a human-readable form */
+      readonly type_common_name: string;
     };
-    readonly BuildingsOverview: {
-      readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /** @description What should be displayed below this Building */
-        readonly subtext: string;
-        /** @description The thumbnail for the building */
-        readonly thumb?: string;
-      })[];
+    readonly LocationEventsResponse: {
+      readonly events: readonly components["schemas"]["EventResponse"][];
+      readonly location: components["schemas"]["CalendarLocationResponse"];
+    };
+    /** @enum {string} */
+    readonly LocationTypeResponse:
+      | "room"
+      | "building"
+      | "joined_building"
+      | "area"
+      | "site"
+      | "campus"
+      | "poi"
+      | "other";
+    readonly ManeuverResponse: {
+      /**
+       * @description Written arrive time instruction
+       *
+       * Typically used with a transit maneuver
+       */
+      readonly arrive_instruction?: string | null;
+      /**
+       * @description Index into the list of shape points for the start of the maneuver
+       * @example 0
+       */
+      readonly begin_shape_index: number;
+      /**
+       * @description When present, these are the street names at the beginning (transition point) of the
+       * nonobvious maneuver (if they are different from the names that are consistent along the
+       * entire nonobvious maneuver)
+       */
+      readonly begin_street_names?: readonly string[] | null;
+      /**
+       * @description Written depart time instruction
+       *
+       * Typically used with a transit maneuver
+       */
+      readonly depart_instruction?: string | null;
+      /**
+       * @description Index into the list of shape points for the end of the maneuver
+       * @example 3
+       */
+      readonly end_shape_index: number;
+      /** @description `true` if a ferry is encountered on this maneuver */
+      readonly ferry?: boolean | null;
+      /** @description `true` if a gate is encountered on this maneuver */
+      readonly gate?: boolean | null;
+      /** @description `true` if a highway is encountered on this maneuver */
+      readonly highway?: boolean | null;
+      readonly instruction: string;
+      /**
+       * Format: double
+       * @description Maneuver length in meters
+       * @example 103.01
+       */
+      readonly length_meters: number;
+      /**
+       * @description `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
+       * pavement
+       */
+      readonly rough?: boolean | null;
       /**
        * Format: int64
+       * @description The spoke to exit roundabout after entering
+       * @example 2
+       */
+      readonly roundabout_exit_count?: number | null;
+      /** @description List of street names that are consistent along the entire nonobvious maneuver */
+      readonly street_names?: readonly string[] | null;
+      /**
+       * Format: double
+       * @description Estimated time along the maneuver in seconds
+       * @example 201.025
+       */
+      readonly time_seconds: number;
+      /** @description `true` if a toll booth is encountered on this maneuver */
+      readonly toll?: boolean | null;
+      readonly transit_info?: null | components["schemas"]["TransitInfoResponse"];
+      /** @description Travel mode */
+      readonly travel_mode: components["schemas"]["TravelModeResponse"];
+      readonly type: components["schemas"]["ManeuverTypeResponse"];
+      /**
+       * @description Text suitable for use as a verbal arrive time instruction
+       *
+       * Typically used with a transit maneuver
+       */
+      readonly verbal_arrive_instruction?: string | null;
+      /**
+       * @description Text suitable for use as a verbal depart time instruction
+       *
+       * Typically used with a transit maneuver
+       */
+      readonly verbal_depart_instruction?: string | null;
+      /**
+       * @description `true` if `verbal_pre_transition_instruction` has been appended with
+       * the verbal instruction of the next maneuver
+       */
+      readonly verbal_multi_cue?: boolean | null;
+      /** @description Text suitable for use as a verbal message immediately after the maneuver transition */
+      readonly verbal_post_transition_instruction?: string | null;
+      /** @description Text suitable for use as a verbal message immediately prior to the maneuver transition */
+      readonly verbal_pre_transition_instruction?: string | null;
+      /**
+       * @description Text suitable for use as a verbal alert in a navigation application
+       *
+       * The transition alert instruction will prepare the user for the forthcoming transition
+       */
+      readonly verbal_transition_alert_instruction?: string | null;
+    };
+    /** @enum {string} */
+    readonly ManeuverTypeResponse:
+      | "none"
+      | "start"
+      | "start_right"
+      | "start_left"
+      | "destination"
+      | "destination_right"
+      | "destination_left"
+      | "becomes"
+      | "continue"
+      | "slight_right"
+      | "right"
+      | "sharp_right"
+      | "uturn_right"
+      | "uturn_left"
+      | "sharp_left"
+      | "left"
+      | "slight_left"
+      | "ramp_straight"
+      | "ramp_right"
+      | "ramp_left"
+      | "exit_right"
+      | "exit_left"
+      | "stay_straight"
+      | "stay_right"
+      | "stay_left"
+      | "merge"
+      | "roundabout_enter"
+      | "roundabout_exit"
+      | "ferry_enter"
+      | "ferry_exit"
+      | "transit"
+      | "transit_transfer"
+      | "transit_remain_on"
+      | "transit_connection_start"
+      | "transit_connection_transfer"
+      | "transit_connection_destination"
+      | "post_transit_connection_destination"
+      | "merge_right"
+      | "merge_left"
+      | "elevator_enter"
+      | "steps_enter"
+      | "escalator_enter"
+      | "building_enter"
+      | "building_exit";
+    readonly MapsResponse: {
+      /** @description type of the Map that should be shown by default */
+      readonly default: components["schemas"]["DefaultMapsResponse"];
+      readonly overlays?: null | components["schemas"]["OverlayMapsResponse"];
+      readonly roomfinder?: null | components["schemas"]["RoomfinderMapResponse"];
+    };
+    readonly NearbyLocationsResponse: {
+      readonly public_transport: readonly components["schemas"]["TransportationResponse"][];
+    };
+    readonly Offsets: {
+      /** Format: int32 */
+      readonly header?: number | null;
+      /** Format: int32 */
+      readonly thumb?: number | null;
+    };
+    /** @description Operator of a location */
+    readonly OperatorResponse: {
+      /** @description designation code of the operator */
+      readonly code: string;
+      /**
+       * Format: int32
+       * @description ID of the operator
+       */
+      readonly id: number;
+      /**
+       * @description The full name of the operator (localized). Null for organisations that
+       *  are no longer active (e.g. id=38698), but where the operator has not been
+       * updated in TUMonline.
+       */
+      readonly name: string;
+      /** @description Link to the operator */
+      readonly url: string;
+    };
+    readonly OverlayMapEntryResponse: {
+      /**
+       * @description Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
+       * @example [
+       *   [
+       *     11.666739,
+       *     48.263478
+       *   ],
+       *   [
+       *     11.669666,
+       *     48.263125
+       *   ],
+       *   [
+       *     11.669222,
+       *     48.261585
+       *   ],
+       *   [
+       *     11.666331,
+       *     48.261929
+       *   ]
+       * ]
+       */
+      readonly coordinates: readonly [
+        readonly [number, number],
+        readonly [number, number],
+        readonly [number, number],
+        readonly [number, number],
+      ];
+      /**
+       * @description filename of the map
+       * @example webp/rf95.webp
+       */
+      readonly file: string;
+      /**
+       * @description Floor of the Map.
+       *
+       * Should be used for display to the user in selectors.
+       * Matches the floor part of the TUMonline roomcode.
+       * @example EG
+       */
+      readonly floor: string;
+      /**
+       * Format: int32
+       * @description Machine-readable floor-id of the map.
+       *
+       * Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
+       * It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
+       * @example 0
+       */
+      readonly id: number;
+      /**
+       * @description human-readable name of the map
+       * @example MI Gebäude (EG)
+       */
+      readonly name: string;
+    };
+    readonly OverlayMapsResponse: {
+      readonly available: readonly components["schemas"]["OverlayMapEntryResponse"][];
+      /**
+       * Format: int32
+       * @description The floor-id of the map, that should be shown as a default.
+       * null means:
+       * - We suggest, you don't show a map by default.
+       * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+       * @example 0
+       */
+      readonly default?: number | null;
+    };
+    /** @description A link with a localized link text and url */
+    readonly PossibleURLRefResponse: {
+      readonly text: string;
+      readonly url?: string | null;
+    };
+    readonly Property: {
+      readonly text: string;
+      readonly url?: string | null;
+    };
+    /** @description Data for the info-card table */
+    readonly PropsResponse: {
+      /** @description Link to the calendar of the room */
+      readonly calendar_url?: string | null;
+      /**
+       * @description A comment to show to an entry.
+       *
+       * It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
+       */
+      readonly comment?: string;
+      readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
+      readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
+      readonly operator?: null | components["schemas"]["OperatorResponse"];
+    };
+    readonly RankingFactorsResponse: {
+      /** Format: int32 */
+      readonly rank_boost?: number | null;
+      /** Format: int32 */
+      readonly rank_combined: number;
+      /** Format: int32 */
+      readonly rank_custom?: number | null;
+      /** Format: int32 */
+      readonly rank_type: number;
+      /** Format: int32 */
+      readonly rank_usage: number;
+    };
+    readonly RemoteMap: {
+      /**
+       * @description Name of the map
+       * @example 1234
+       */
+      readonly name: string;
+      /**
+       * Format: uri
+       * @description Where the indoor GeoJSON is located at
+       * @example https://nav.tum.de/api/maps/indoor/1234
+       */
+      readonly url: string;
+    };
+    readonly ResultEntry: {
+      /**
+       * @description The id of the location
+       * @example 5510.03.002
+       */
+      readonly id: string;
+      /**
+       * @description Subtext to show below the search result.
+       *
+       * Usually contains the context of where this rooms is located in.
+       * Currently not highlighted.
+       * @example 5510.03.002 (MW 2001, Empore)
+       */
+      readonly name: string;
+      /**
+       * @description This is an optional feature, that is only supported for some rooms.
+       *
+       * It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+       * See the image below for an example.
+       * It will be cropped to a maximum length to not take too much space in UIs.
+       * Supports highlighting.
+       */
+      readonly parsed_id?: string | null;
+      /**
+       * @description Subtext to show below the search result.
+       *
+       * Usually contains the context of where this rooms is located in.
+       * Currently not highlighted.
+       * @example Maschinenwesen (MW)
+       */
+      readonly subtext: string;
+      /**
+       * @description Subtext to show below the search (by default in bold and after the non-bold subtext).
+       *
+       * Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+       * @example 3002@5510
+       */
+      readonly subtext_bold?: string | null;
+      /**
+       * @description the type of the site/building
+       * @example room
+       */
+      readonly type: string;
+    };
+    /** @enum {string} */
+    readonly ResultFacet: "sites_buildings" | "rooms" | "addresses";
+    readonly ResultsSection: {
+      readonly entries: readonly components["schemas"]["ResultEntry"][];
+      /**
+       * @description The estimated (not exact) number of hits for that query
+       * @example 6
+       */
+      readonly estimatedTotalHits: number;
+      /** @description These indicate the type of item this represents */
+      readonly facet: components["schemas"]["ResultFacet"];
+      /**
        * @description A recommendation how many of the entries should be displayed by default.
-       * The number is usually from 0-5.
+       *
+       * The number is usually from `0`..`5`.
        * More results might be displayed when clicking "expand".
-       * If this field is not present, then all entries are displayed.
+       * @example 4
        */
       readonly n_visible: number;
     };
-    readonly RoomsOverview: {
-      readonly usages?: readonly {
-        /** @description Category Name */
-        readonly name: string;
-        /** @description How many children this category has */
-        readonly count: number;
-        readonly children: readonly components["schemas"]["ChildEntry"][];
-      }[];
-    };
-    readonly FeaturedOverview: {
-      readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /** @description What should be displayed below this Building */
-        readonly subtext: string;
-        /** @description The thumbnail for the building */
-        readonly image_url: string;
-      })[];
-    };
-    readonly ChildEntry: {
-      /** @description The id of the entry */
-      readonly id: string;
-      /** @description Human display name */
-      readonly name: string;
-    };
-    readonly CalendarLocation: {
-      /** @description The name of the entry in a human-readable form */
-      readonly name: string;
-      /** @description the last time the calendar was scraped for this room */
-      readonly last_calendar_scrape_at: string;
-      /** @description A link to the calendar of the room */
-      readonly calendar_url: string;
-      /** @description The type of the entry in a human-readable form */
-      readonly type_common_name: string;
-      /**
-       * @description The type of the entry
-       * @enum {string}
-       */
-      readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
-    };
-    /** @description room-code to calendar entry's record */
-    readonly CalendarResponse: {
-      [key: string]: {
-        /** @description The entries of the requested */
-        readonly events: readonly components["schemas"]["CalendarEntry"][];
-        readonly location: components["schemas"]["CalendarLocation"];
-      };
-    };
-    readonly CalendarEntry: {
+    readonly RoomfinderMapEntryResponse: {
+      /** @description Where the map is stored */
+      readonly file: string;
       /**
        * Format: int32
-       * @description The id of the calendar entry used in TUMonline internally
+       * @description Map image y dimensions
        */
-      readonly id: number;
-      /** @description The german title of the Entry */
-      readonly title_de: string;
-      /** @description The english title of the Entry */
-      readonly title_en: string;
+      readonly height: number;
+      /** @description machine-readable name of the map */
+      readonly id: string;
+      /** @description human-readable name of the map */
+      readonly name: string;
+      /** @description Scale of the map. 2000 means 1:2000 */
+      readonly scale: string;
+      /** @description Where the map was imported from */
+      readonly source: string;
       /**
-       * Format: date-time
-       * @description The start of the entry
+       * Format: int32
+       * @description Map image y dimensions
        */
-      readonly start_at: string;
+      readonly width: number;
       /**
-       * Format: date-time
-       * @description The end of the entry
+       * Format: int32
+       * @description x Position on map image
        */
-      readonly end_at: string;
+      readonly x: number;
       /**
-       * @description What this calendar entry means. Each of these should be displayed in a different color
-       * @enum {string}
+       * Format: int32
+       * @description y Position on map image
        */
-      readonly entry_type: "lecture" | "exercise" | "exam" | "barred" | "other";
-      /** @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?) */
-      readonly detailed_entry_type: string;
+      readonly y: number;
+    };
+    readonly RoomfinderMapResponse: {
+      readonly available: readonly components["schemas"]["RoomfinderMapEntryResponse"][];
+      /** @description The id of the map, that should be shown as a default */
+      readonly default: string;
+    };
+    readonly RoomsOverviewResponse: {
+      readonly usages: readonly components["schemas"]["RoomsOverviewUsageResponse"][];
+    };
+    readonly RoomsOverviewUsageChildResponse: {
+      readonly id: string;
+      readonly name: string;
+    };
+    readonly RoomsOverviewUsageResponse: {
+      readonly children: readonly components["schemas"]["RoomsOverviewUsageChildResponse"][];
+      /** Format: int32 */
+      readonly count: number;
+      readonly name: string;
+    };
+    readonly RoutingResponse: {
+      /**
+       * @description A trip contains one (or more) legs.
+       *
+       * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+       */
+      readonly legs: readonly [components["schemas"]["LegResponse"]];
+      /** @description Trip summary */
+      readonly summary: components["schemas"]["SummaryResponse"];
+    };
+    /** @description Returned search results by this */
+    readonly SearchResponse: {
+      readonly sections: readonly components["schemas"]["ResultsSection"][];
+      /**
+       * Format: int32
+       * @description Time the search took in the server side, not including network delay
+       *
+       * Maximum as timeout.
+       * other timeouts (browser, your client) may be smaller.
+       * Expected average is `10`..`50` for uncached, regular requests.
+       * @example 8
+       */
+      readonly time_ms: number;
+    };
+    readonly SectionsResponse: {
+      readonly buildings_overview?: null | components["schemas"]["BuildingsOverviewResponse"];
+      readonly featured_overview?: null | components["schemas"]["FeaturedOverviewResponse"];
+      readonly rooms_overview?: null | components["schemas"]["RoomsOverviewResponse"];
+    };
+    readonly Source: {
+      readonly author: string;
+      readonly license: components["schemas"]["Property"];
+      readonly offsets?: null | components["schemas"]["Offsets"];
+      readonly source: components["schemas"]["Property"];
+    };
+    readonly SourceResponse: {
+      /**
+       * @description Name of the provider
+       * @example NavigaTUM
+       */
+      readonly name: string;
+      /**
+       * @description Url of the provider
+       * @example https://nav.tum.de
+       */
+      readonly url?: string | null;
     };
     /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
-    readonly DataSources: {
+    readonly SourcesResponse: {
+      /** @description What is the basis of the data we have */
+      readonly base: readonly components["schemas"]["SourceResponse"][];
       /**
        * @description Was this entry patched by us? (e.g. to fix a typo in the name/...)
        * If so, we should not display the source, as it is not the original source.
        */
-      readonly patched?: boolean;
-      /** @description What is the basis of the data we have */
-      readonly base: readonly {
-        /** @description The name of the provider */
-        readonly name: string;
-        /** @description The url of the provider */
-        readonly url?: string;
-      }[];
+      readonly patched?: boolean | null;
     };
-    readonly RankingFactors: {
+    readonly SummaryResponse: {
+      /** @description if the path uses one or more ferry segments */
+      readonly has_ferry: boolean;
+      /** @description If the path uses one or more highway segments */
+      readonly has_highway: boolean;
+      /** @description If the path uses one or more toll segments */
+      readonly has_toll: boolean;
       /**
-       * Format: int32
-       * @description How much the combined ranking is important
+       * Format: double
+       * @description Distance traveled in meters
+       * @example 103.01
        */
-      readonly rank_combined: number;
+      readonly length_meters: number;
       /**
-       * Format: int32
-       * @description How much the type is important
+       * Format: double
+       * @description Maximum latitude of the sections bounding box
+       * @example 48.26244490906312
        */
-      readonly rank_type: number;
+      readonly max_lat: number;
       /**
-       * Format: int32
-       * @description How much the usage is important
+       * Format: double
+       * @description Maximum longitude of the sections bounding box
+       * @example 48.26244490906312
        */
-      readonly rank_usage: number;
+      readonly max_lon: number;
       /**
-       * Format: int32
-       * @description Automatic boost or suppression based on entry properties:
-       * - numbers of buildings for a `campus`/`area`/`site`,
-       * - numbers of seats for a `room`,
-       * - number of regular rooms for a `building`/`joined_building`
+       * Format: double
+       * @description Minimum latitude of the sections bounding box
+       * @example 48.26244490906312
        */
-      readonly rank_boost?: number;
+      readonly min_lat: number;
       /**
-       * Format: int32
-       * @description Custom boost or suppression factor defined by us
+       * Format: double
+       * @description Minimum longitude of the sections bounding box
+       * @example 48.26244490906312
        */
-      readonly rank_custom?: number;
+      readonly min_lon: number;
+      /**
+       * Format: double
+       * @description Estimated elapsed time in seconds
+       * @example 201.025
+       */
+      readonly time_seconds: number;
     };
-    readonly ProposeEditsRequest: components["schemas"]["TokenRequest"] & {
-      /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
-      readonly edits: {
-        [key: string]: {
-          readonly coordinate?: {
-            /** Format: double */
-            readonly lat: number;
-            /** Format: double */
-            readonly lon: number;
-          };
-          readonly image?: {
-            readonly metadata: {
-              readonly author: string;
-              readonly license: components["schemas"]["LinkProp"];
-              readonly source: components["schemas"]["LinkProp"];
-              readonly offsets?: {
-                /** Format: int32 */
-                readonly header?: number;
-                /** Format: int32 */
-                readonly thumb?: number;
-              };
-            };
-            /**
-             * Format: byte
-             * @description The image encoded as base64
-             */
-            readonly content: string;
-          };
-        };
-      };
+    readonly TokenResponse: {
       /**
-       * @description Additional context for the edit.
-       * Will be displayed in the discription field of the PR
+       * Format: int64
+       * @description Unix timestamp of when the token was created
+       * @example 1629564181
        */
-      readonly additional_context: string;
-    };
-    readonly PostFeedbackRequest: components["schemas"]["TokenRequest"] & {
+      readonly created_at: number;
       /**
-       * @description The category of the feedback.
-       * Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
-       * @enum {string}
+       * @description The JWT token, that can be used to generate feedback
+       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
        */
-      readonly category: "bug" | "feature" | "search" | "navigation" | "entry" | "general" | "other";
-      /** @description The subject/title of the feedback */
-      readonly subject: string;
-      /** @description The body/description of the feedback */
-      readonly body: string;
-      /**
-       * @description Whether the user has requested to delete the issue.
-       * If the user has requested to delete the issue, we will delete it from GitHub after processing it
-       * If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-       */
-      readonly deletion_requested: boolean;
-    };
-    readonly TokenRequest: {
-      /** @description The JWT token, that can be used to generate feedback */
       readonly token: string;
-      /** @description Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark. */
-      readonly privacy_checked: boolean;
     };
-    readonly Station: {
-      readonly id: string;
-      readonly parent_id: string;
-      readonly parent_name?: string;
-      /** Format: double */
-      readonly distance_meters?: number;
-      readonly name: string;
-      /** Format: double */
+    readonly TransitInfoResponse: {
+      /**
+       * Format: int32
+       * @description The numeric color value associated with a transit route
+       *
+       * The value for yellow would be `16567306`
+       */
+      readonly color: number;
+      /** @description The description of the transit route */
+      readonly description: string;
+      /** @description The sign on a public transport vehicle that identifies the route destination to passengers */
+      readonly headsign: string;
+      /** @description Long name describing the transit route */
+      readonly long_name: string;
+      /**
+       * @description Global transit route identifier
+       *
+       * **Tipp:** you use these as feed-ids in transitland.
+       * Example: <https://www.transit.land/feeds/f-9q9-bart>
+       */
+      readonly onestop_id: string;
+      /**
+       * @description Operator/agency name
+       *
+       * Short name is used over long name
+       */
+      readonly operator_name: string;
+      /**
+       * @description Global operator/agency identifier
+       *
+       * **Tipp:** you use these as feed-ids in transitland.
+       * Example: <https://www.transit.land/feeds/o-u281z9-mvv>
+       */
+      readonly operator_onestop_id: string;
+      /** @description Operator/agency URL */
+      readonly operator_url: string;
+      /** @description Short name describing the transit route */
+      readonly short_name: string;
+      /**
+       * @description The numeric text color value associated with a transit route
+       *
+       * The value for black would be `0`
+       */
+      readonly text_color: string;
+      /** @description A list of the stops/stations associated with a specific transit route */
+      readonly transit_stops: readonly components["schemas"]["TransitStopResponse"][];
+    };
+    readonly TransitStopResponse: {
+      /**
+       * Format: date-time
+       * @description Arrival date and time
+       */
+      readonly arrival_date_time: string;
+      /** @description `true` if the times are based on an assumed schedule because the actual schedule is not known */
+      readonly assumed_schedule: boolean;
+      /**
+       * Format: date-time
+       * @description Departure date and time
+       */
+      readonly departure_date_time: string;
+      /** @description `true` if this stop is a marked as a parent stop */
+      readonly is_parent_stop: boolean;
+      /**
+       * Format: double
+       * @description Latitude of the transit stop in degrees
+       * @example 48.26244490906312
+       */
       readonly lat: number;
-      /** Format: double */
+      /**
+       * Format: double
+       * @description Longitude of the transit stop in degrees
+       * @example 48.26244490906312
+       */
       readonly lon: number;
+      /** @description Name of the stop or station */
+      readonly name: string;
+      readonly type: components["schemas"]["TransitStopTypeResponse"];
+    };
+    /** @enum {string} */
+    readonly TransitStopTypeResponse: "stop" | "station";
+    readonly TransportationResponse: {
+      /** Format: double */
+      readonly distance_meters: number;
+      /**
+       * @description The globally unique and somewhat stable id of the station from the transport agency
+       * @example de:09184:2073:0:1
+       */
+      readonly id: string;
+      /**
+       * Format: double
+       * @description Latitude
+       * @example 48.26244490906312
+       */
+      readonly lat: number;
+      /**
+       * Format: double
+       * @description Longitude
+       * @example 48.26244490906312
+       */
+      readonly lon: number;
+      /**
+       * @description How the station was named by the operator
+       * @example Garching, Boltzmannstraße
+       */
+      readonly name: string;
+      /**
+       * @description The globally unique and somewhat stable id of the station from the transport agency
+       * @example de:09184:2073
+       */
+      readonly parent_id?: string | null;
+      /**
+       * @description How the station was named by the operator
+       * @example Boltzmannstraße
+       */
+      readonly parent_name?: string | null;
+    };
+    /** @enum {string} */
+    readonly TravelModeResponse: "drive" | "pedestrian" | "bicycle" | "public_transit";
+    /** @description A link with a localized link text and url */
+    readonly URLRefResponse: {
+      readonly text: string;
+      readonly url?: string | null;
     };
   };
   responses: never;
@@ -776,139 +1150,6 @@ export type external = Record<string, never>;
 
 export type operations = {
   /**
-   * Search entries
-   * @description This endpoint is designed to support search-as-you-type results.
-   *
-   * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
-   *
-   * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
-   * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
-   */
-  search: {
-    parameters: {
-      query: {
-        /**
-         * @description string you want to search for.
-         * Note, that the amounts returned can be controlled using the limit\* paramerters.
-         *
-         * The following query-filters are supported:
-         * - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-         *   alternative syntax:
-         *   - `@<parent>`
-         * - `usage:<type>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-         *    alternative syntax:
-         *    - `nutzung:<usage>`
-         *    - `=<usage>`
-         * - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-         */
-        q: string;
-        /**
-         * @description Maximum number of buildings/sites to return.
-         * Clamped to 0..1000. If this is an problem for you, please open an issue.
-         */
-        limit_buildings?: number;
-        /**
-         * @description Maximum number of rooms to return.
-         * Clamped to 0..1000. If this is an problem for you, please open an issue.
-         */
-        limit_rooms?: number;
-        /**
-         * @description Overall maximum number of results. Only visible results are counted (i.e. hidden buildings are not counted).
-         * Clamped to 1..1000. If this is an problem for you, please open an issue.
-         */
-        limit_all?: number;
-        /**
-         * @description string to include in front of highlighted sequences.
-         * If this and `post_highlight` are empty, highlighting is disabled.
-         */
-        pre_highlight?: string;
-        /**
-         * @description string to include after the highlighted sequences.
-         * If this and `pre_highlight` are empty, highlighting is disabled.
-         */
-        post_highlight?: string;
-      };
-    };
-    responses: {
-      /** @description The search-result */
-      200: {
-        content: {
-          readonly "application/json": components["schemas"]["SearchResponse"];
-        };
-      };
-      /** @description Invalid Request */
-      400: {
-        content: never;
-      };
-      /** @description `search_query` is empty. Since searching for nothing is nonsensical, we dont support this. */
-      404: {
-        content: {
-          readonly "text/plain": "Not found";
-        };
-      };
-      /** @description The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
-      414: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Get the nearby items
-   * @description Shows nearby POIs like public transport stations
-   */
-  nearby: {
-    parameters: {
-      path: {
-        /** @description string you want to search for */
-        id: string;
-      };
-    };
-    responses: {
-      /** @description More data about the requested building/room */
-      200: {
-        content: {
-          readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
-        };
-      };
-    };
-  };
-  /**
-   * Get entry-details
-   * @description This returns the full data available for the entry (room/building).
-   *
-   * This is more data, that should be supplied once a user clicks on an entry.
-   * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
-   * The data can be up to 50kB (using gzip) or 200kB unzipped.
-   * The more about this data format is described in the NavigaTUM-data documentation
-   */
-  details: {
-    parameters: {
-      query?: {
-        /** @description The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered. */
-        lang?: "de" | "en";
-      };
-      path: {
-        /** @description string you want to search for */
-        id: string;
-      };
-    };
-    responses: {
-      /** @description More data about the requested building/room */
-      200: {
-        content: {
-          readonly "application/json": components["schemas"]["DetailsResponse"];
-        };
-      };
-      /** @description Invalid input */
-      404: {
-        content: {
-          readonly "text/plain": "Not found";
-        };
-      };
-    };
-  };
-  /**
    * Retrieve Calendar Entries
    * @description Retrieves calendar entries for specific `ids` within the requested time span.
    * The time span is defined by the `start_after` and `end_before` query parameters.
@@ -916,119 +1157,101 @@ export type operations = {
    *
    * If successful, returns additional entries in the requested time span.
    */
-  calendar: {
+  calendar_handler: {
     readonly requestBody: {
       readonly content: {
-        readonly "application/json": {
-          /**
-           * Format: date-time
-           * @description The first allowed time the calendar would like to display
-           */
-          readonly start_after: string;
-          /**
-           * Format: date-time
-           * @description The last allowed time the calendar would like to display
-           */
-          readonly end_before: string;
-          /** @description ids you want the calendars for */
-          readonly ids: readonly string[];
-        };
+        readonly "application/json": components["schemas"]["Arguments"];
       };
     };
     responses: {
-      /** @description More entries of the calendar in the requested time span */
+      /** @description **Entries of the calendar** in the requested time span */
       200: {
         content: {
-          readonly "application/json": components["schemas"]["CalendarResponse"];
+          readonly "application/json": {
+            [key: string]: components["schemas"]["LocationEventsResponse"];
+          };
         };
       };
-      /** @description Invalid input */
+      /** @description **Bad Request.** Not all fields in the body are present as defined above */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Not found.** The requested location does not have a calendar */
       404: {
         content: {
-          readonly "text/plain": "Not found";
+          readonly "text/plain": string;
         };
       };
-      /** @description Not Ready, please retry later */
+      /** @description **Not Ready.** please retry later */
       503: {
         content: {
-          readonly "text/plain": "Waiting for first sync with TUMonline";
+          readonly "text/plain": string;
         };
       };
     };
   };
   /**
-   * Get a entry-preview
-   * @description This returns a 1200x630px preview for the location (room/building/..).
+   * Post feedback
+   * @description ***Do not abuse this endpoint.***
    *
-   * This is usefully for implementing custom OpenGraph images for detail previews.
+   * This posts the actual feedback to GitHub and returns the GitHub link.
+   * This API will create issues instead of pull-requests
+   * => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
+   *
+   * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+   *
+   * # Note
+   *
+   * Tokens are only used if we return a 201 Created response.
+   * Otherwise, they are still valid
    */
-  previews: {
-    parameters: {
-      query?: {
-        /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
-        lang?: "de" | "en";
-      };
-      path: {
-        /** @description string you want to search for */
-        id: string;
+  send_feedback: {
+    readonly requestBody: {
+      readonly content: {
+        readonly "application/json": components["schemas"]["PostFeedbackRequest"];
       };
     };
     responses: {
-      /** @description More data about the requested building/room */
-      200: {
+      /** @description The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue. */
+      201: {
         content: {
-          readonly "image/png": unknown;
+          readonly "text/plain": string;
         };
       };
-      /** @description Invalid input */
-      404: {
+      /** @description **Bad Request.** Not all fields in the body are present as defined above */
+      400: {
+        content: never;
+      };
+      /**
+       * @description **Forbidden.** Causes are (delivered via the body):
+       *
+       * - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+       * - `Token not old enough, please wait`: Tokens are only valid after 10s.
+       * - `Token expired`: Tokens are only valid for 12h.
+       * - `Token already used`: Tokens are non reusable/refreshable single-use items.
+       */
+      403: {
         content: {
-          readonly "text/plain": "Not found";
+          readonly "text/plain": string;
         };
       };
-    };
-  };
-  /**
-   * Lists indoor maps in bounding box
-   * @description Returns all the available maps for a given bbox
-   */
-  "list-indoor-maps": {
-    parameters: {
-      query: {
-        /**
-         * @description Requires the bbox to be 4 floating point numbers of format y,x,y,x
-         *
-         * Bounding box according to https://datatracker.ietf.org/doc/html/rfc7946#section-5
-         */
-        bbox: string;
+      /** @description **Unprocessable Entity.** Subject or body missing or too short. */
+      422: {
+        content: never;
       };
-    };
-    responses: {
-      /** @description Indoor features as GeoJSON */
-      200: {
-        content: {
-          readonly "application/json": readonly components["schemas"]["RemoteMap"][];
-        };
+      /** @description **Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be `true` */
+      451: {
+        content: never;
       };
-    };
-  };
-  /**
-   * Get indoor features
-   * @description Get all features of a certain indoor map
-   */
-  "get-indoor-map": {
-    parameters: {
-      path: {
-        /** @description id of the map returned by prior listing */
-        id: string;
+      /** @description **Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later */
+      500: {
+        content: never;
       };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          readonly "application/json": components["schemas"]["FeatureCollection"];
-        };
+      /** @description **Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
+      503: {
+        content: never;
       };
     };
   };
@@ -1045,109 +1268,23 @@ export type operations = {
    * Tokens gain validity after 5s, and are invalid after 12h of being issued.
    * They are not refreshable, and are only valid for one usage.
    *
-   * ***Important Note:***
+   * # Note:
+   *
    * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
    */
   get_token: {
     responses: {
-      /** @description Returns a usable token */
+      /** @description **Created** a usable token */
       201: {
         content: {
           readonly "application/json": components["schemas"]["TokenResponse"];
         };
       };
-      /**
-       * @description Too many requests.
-       * We are rate-limiting everyone's requests, please try again later.
-       */
+      /** @description **Too many requests.** We are rate-limiting everyone's requests, please try again later. */
       429: {
         content: never;
       };
-      /**
-       * @description Service unavailable.
-       * We have not configured a GitHub Access Token or a JWT Key.
-       * This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
-       * Please try again later.
-       */
-      503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Post feedback
-   * @description ***Do not abuse this endpoint.***
-   *
-   * This posts the actual feedback to GitHub and returns the GitHub link.
-   * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
-   * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
-   *
-   * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-   */
-  post_feedback: {
-    readonly requestBody?: {
-      readonly content: {
-        readonly "application/json": components["schemas"]["PostFeedbackRequest"];
-      };
-    };
-    responses: {
-      /**
-       * @description The feedback has been successfully posted to GitHub.
-       * We return the link to the GitHub issue.
-       */
-      201: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-      /** @description If not all fields in the body are present as defined above */
-      400: {
-        content: never;
-      };
-      /**
-       * @description Forbidden. Causes are (delivered via the body):
-       *
-       *   - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-       *   - `Token not old enough, please wait`: Tokens are only valid after 10s.
-       *   - `Token expired`: Tokens are only valid for 12h.
-       *   - `Token already used`: Tokens are non reusable/refreshable single-use items.
-       */
-      403: {
-        content: {
-          readonly "text/plain":
-            | "Invalid token"
-            | "Token not old enough, please wait"
-            | "Token expired"
-            | "Token already used";
-        };
-      };
-      /**
-       * @description Unprocessable Entity
-       * Subject or body missing or too short.
-       */
-      422: {
-        content: never;
-      };
-      /**
-       * @description Unavailable for legal reasons.
-       * Using this endpoint without accepting the privacy policy is not allowed.
-       * For us to post to GitHub, this has to be true
-       */
-      451: {
-        content: never;
-      };
-      /**
-       * @description Internal Server Error.
-       * We have a problem communicating with GitHubs servers. Please try again later.
-       */
-      500: {
-        content: never;
-      };
-      /**
-       * @description Service unavailable.
-       * We have not configured a GitHub Access Token.
-       * This could be because we are experiencing technical difficulties or intentional. Please try again later.
-       */
+      /** @description **Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
       503: {
         content: never;
       };
@@ -1157,226 +1294,399 @@ export type operations = {
    * Post Edit-Requests
    * @description ***Do not abuse this endpoint.***
    *
-   * This posts the actual feedback to GitHub and returns the GitHub link.
+   * This posts the actual feedback to GitHub and returns the github link.
    * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-   * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+   * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
    *
-   * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+   * # Note:
+   *
+   * Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
    */
-  propose_edit: {
-    readonly requestBody?: {
+  propose_edits: {
+    readonly requestBody: {
       readonly content: {
-        readonly "application/json": components["schemas"]["ProposeEditsRequest"];
+        readonly "application/json": components["schemas"]["EditRequest"];
       };
     };
     responses: {
-      /**
-       * @description The feedback has been successfully posted to GitHub.
-       * We return the link to the GitHub issue.
-       */
+      /** @description The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue. */
       201: {
         content: {
           readonly "text/plain": string;
         };
       };
-      /** @description If not all fields in the body are present as defined above */
+      /** @description **Bad Request.** Not all fields in the body are present as defined above */
       400: {
         content: never;
       };
       /**
-       * @description Forbidden. Causes are (delivered via the body):
+       * @description **Forbidden.** Causes are (delivered via the body):
        *
-       *   - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-       *   - `Token not old enough, please wait`: Tokens are only valid after 10s.
-       *   - `Token expired`: Tokens are only valid for 12h.
-       *   - `Token already used`: Tokens are non reusable/refreshable single-use items.
+       * - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+       * - `Token not old enough, please wait`: Tokens are only valid after 10s.
+       * - `Token expired`: Tokens are only valid for 12h.
+       * - `Token already used`: Tokens are non reusable/refreshable single-use items.
        */
       403: {
-        content: {
-          readonly "text/plain":
-            | "Invalid token"
-            | "Token not old enough, please wait"
-            | "Token expired"
-            | "Token already used";
-        };
+        content: never;
       };
-      /**
-       * @description Unprocessable Entity
-       * Subject or body missing or too short.
-       */
+      /** @description **Unprocessable Entity.** Subject or body missing or too short. */
       422: {
         content: never;
       };
-      /**
-       * @description Unavailable for legal reasons.
-       * Using this endpoint without accepting the privacy policy is not allowed.
-       * For us to post to GitHub, this has to be true
-       */
+      /** @description **Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true */
       451: {
         content: never;
       };
-      /**
-       * @description Internal Server Error.
-       * We have a problem communicating with GitHubs servers. Please try again later.
-       */
+      /** @description **Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later. */
       500: {
         content: never;
       };
-      /**
-       * @description Service unavailable.
-       * We have not configured a GitHub Access Token.
-       * This could be because we are experiencing technical difficulties or intentional. Please try again later.
-       */
+      /** @description Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
       503: {
         content: never;
       };
     };
   };
   /**
-   * Get title images
-   * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-   * You HAVE to get the proper attribution from that endpoint and use it.
+   * Get entry-details
+   * @description This returns the full data available for the entry (room/building).
+   *
+   * This is more data, that should be supplied once a user clicks on an entry.
+   * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
+   * The data can be up to 50kB (using gzip) or 200kB unzipped.
+   * More about this data format is described in the NavigaTUM-data documentation
    */
-  img_cdn: {
+  get_handler: {
     parameters: {
+      query?: {
+        /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
+        lang?: "de" | "en";
+      };
       path: {
-        /**
-         * @description size of the resource you want
-         *
-         * | name   | default                                                               |
-         * |--------|-----------------------------------------------------------------------|
-         * | lg     | max 4k, aspect ratio untouched                                        |
-         * | md     | max 1920px, aspect ratio untouched                                    |
-         * | sm     | max 1024px, aspect ratio untouched                                    |
-         * | thumb  | 256x256, cropped to fit. Usually a center-crop, but sometimes offset. |
-         * | header | 512x210, cropped to fit. Usually a center-crop, but sometimes offset. |
-         */
-        size: "lg" | "md" | "sm" | "thumb" | "header";
-        /** @description id of the recource you want an image for */
+        /** @description ID of the location */
         id: string;
-        /** @description counter of the image you want. */
-        counter: number;
       };
     };
     responses: {
-      /** @description The image you requested */
+      /** @description **Details** about the **location** */
       200: {
         content: {
-          readonly "image/webp": unknown;
+          readonly "application/json": components["schemas"]["LocationDetailsResponse"];
         };
       };
-      /**
-       * @description Bad Request.
-       * The request was malformed.
-       * Please check your request and try again.
-       */
-      400: {
-        content: never;
-      };
-      /** @description Requested Resource Not Found */
+      /** @description **Not found.** Make sure that requested item exists */
       404: {
         content: {
-          readonly "text/plain": "Not found";
+          readonly "text/plain": string;
         };
-      };
-      /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
-      414: {
-        content: never;
       };
     };
   };
   /**
-   * Get title images
-   * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
-   * You HAVE to get the proper attribution from that endpoint and use it.
+   * Get the nearby items
+   * @description Shows nearby POIs like public transport stations
    */
-  maps_cdn: {
+  nearby_handler: {
     parameters: {
       path: {
-        /** @description source of the resource you want */
-        source: "overlays" | "site_plans";
-        /** @description id of the map you want */
+        /** @description ID of a location */
         id: string;
       };
     };
     responses: {
-      /** @description The map you requested */
+      /** @description Things **nearby to the location** */
       200: {
         content: {
-          readonly "image/webp": unknown;
+          readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
         };
       };
-      /**
-       * @description Bad Request.
-       * The request was malformed.
-       * Please check your request and try again.
-       */
-      400: {
-        content: never;
-      };
-      /** @description Requested Resource Not Found */
+      /** @description **Not found.** Make sure that requested item exists */
       404: {
         content: {
-          readonly "text/plain": "Not found";
+          readonly "text/plain": string;
         };
       };
-      /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
+    };
+  };
+  /**
+   * Get a entry-preview
+   * @description This returns a 1200x630px preview for the location (room/building/..).
+   *
+   * This is usefully for implementing custom OpenGraph images for detail previews.
+   */
+  maps_handler: {
+    parameters: {
+      query?: {
+        lang?: "de" | "en";
+        format?: "open_graph" | "square";
+      };
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** @description **Preview image** */
+      200: {
+        content: {
+          readonly "image/png": unknown;
+        };
+      };
+      /** @description **Not found.** Make sure that requested item exists */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Lists indoor maps in bounding box
+   * @description Returns all the available maps for a given bbox
+   */
+  list_indoor_maps: {
+    parameters: {
+      query: {
+        /**
+         * @description Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
+         *
+         * Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
+         */
+        bbox: string;
+      };
+    };
+    responses: {
+      /** @description **List indoor maps** in bounding box */
+      200: {
+        content: {
+          readonly "application/json": readonly components["schemas"]["RemoteMap"][];
+        };
+      };
+      /** @description **Bad Request.** Please check that the input provided matches above. */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Get indoor features
+   * @description Get all features of a certain indoor map
+   */
+  get_indoor_map: {
+    parameters: {
+      path: {
+        /** @description ID of the indoor map */
+        id: number;
+      };
+    };
+    responses: {
+      /** @description **Indoor features** as GeoJSON */
+      200: {
+        content: {
+          readonly "application/json": unknown;
+        };
+      };
+      /** @description **Not found.** The requested location does not have a calendar */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Routing requests
+   * @description **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
+   *
+   * The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
+   * The costing is fine-tuned by the server side accordingly.
+   *
+   * Internally, this endpoint relies on
+   * - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
+   * - our database to resolve ids.
+   *
+   *   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
+   *   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
+   *
+   * **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
+   * - [OpenTripPlanner2](https://www.opentripplanner.org/) or
+   * - [Motis](https://github.com/motis-project/motis)
+   */
+  route_handler: {
+    parameters: {
+      query: {
+        lang?: "de" | "en";
+        /** @description Start of the route */
+        from: string;
+        /** @description Destination of the route */
+        to: string;
+        /**
+         * @description Transport mode the user wants to use
+         * @enum {sting}
+         */
+        route_costing: string;
+        /**
+         * @description Does the user have specific walking restrictions?
+         * @enum {string}
+         */
+        pedestrian_type?: string;
+        /**
+         * @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
+         * @enum {string}
+         */
+        ptw_type?: string;
+        /**
+         * @description Which kind of bicycle do you ride?
+         * @enum {string}
+         */
+        bicycle_type?: string;
+      };
+    };
+    responses: {
+      /** @description **Routing solution** */
+      200: {
+        content: {
+          readonly "application/json": components["schemas"]["RoutingResponse"];
+        };
+      };
+      /** @description **Not found.** The requested location does not exist */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Openapi service definition
+   * @description Usefull for consuming in external openapi tooling
+   */
+  openapi_doc: {
+    responses: {
+      /** @description The openapi definition */
+      200: {
+        content: {
+          readonly "application/json": unknown;
+        };
+      };
+    };
+  };
+  /**
+   * Search entries
+   * @description This endpoint is designed to support search-as-you-type results.
+   *
+   * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+   *
+   * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+   * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
+   */
+  search_handler: {
+    parameters: {
+      query: {
+        /**
+         * @description string you want to search for.
+         *
+         * The amounts returned can be controlled using the `limit\*` paramerters.
+         *
+         * The following query-filters are supported:
+         * - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+         * - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
+         * - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
+         * - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+         */
+        q: string;
+        /**
+         * @description Include adresses in the saerch
+         *
+         * Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
+         * Only activate this when you really need it.
+         */
+        search_addresses?: boolean | null;
+        /**
+         * @description Maximum number of buildings/sites to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_buildings?: number | null;
+        /**
+         * @description Maximum number of rooms to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is an problem for you, please open an issue.
+         */
+        limit_rooms?: number | null;
+        /**
+         * @description Maximum number of results to return.
+         *
+         * Clamped to `1`..`1000`.
+         * If this is an problem for you, please open an issue.
+         */
+        limit_all?: number | null;
+        /**
+         * @description string to include in front of highlighted sequences.
+         *
+         * If this and `post_highlight` are empty, highlighting is disabled.
+         * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+         */
+        pre_highlight?: string | null;
+        /**
+         * @description string to include after the highlighted sequences.
+         *
+         * If this and `pre_highlight` are empty, highlighting is disabled.
+         * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+         */
+        post_highlight?: string | null;
+      };
+    };
+    responses: {
+      /** @description Search entries */
+      200: {
+        content: {
+          readonly "application/json": components["schemas"]["SearchResponse"];
+        };
+      };
+      /** @description **Bad Request.** Not all fields in the body are present as defined above */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this. */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
       414: {
-        content: never;
+        content: {
+          readonly "text/plain": string;
+        };
       };
     };
   };
   /**
    * API healthcheck
-   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage.
+   * **Should never happen.**
    */
-  "api-health": {
+  health_status_handler: {
     responses: {
-      /** @description Ok */
+      /** @description API is **healthy** */
       200: {
         content: {
           readonly "text/plain": string;
         };
       };
-      /** @description Service Unavailable */
+      /** @description API is **NOT healthy** */
       503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * CDN healthcheck
-   * @description If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
-   */
-  "cdn-health": {
-    responses: {
-      /** @description Ok */
-      200: {
         content: {
-          readonly "text/plain": "healthy";
+          readonly "text/plain": string;
         };
-      };
-      /** @description Service Unavailable */
-      503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * Website healthcheck
-   * @description If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
-   */
-  "web-health": {
-    responses: {
-      /** @description Ok */
-      200: {
-        content: {
-          readonly "text/plain": "healthy";
-        };
-      };
-      /** @description Service Unavailable */
-      503: {
-        content: never;
       };
     };
   };

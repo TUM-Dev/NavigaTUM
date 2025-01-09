@@ -2,7 +2,7 @@
 export interface Props {
   type?: "submit" | "reset" | "button";
   size?: "sm" | "md" | "lg" | string;
-  to?: string;
+  to?: string | null;
   disabled?: boolean;
   variant?: "action" | "link" | "linkButton" | "info" | "primary" | "secondary" | string;
   ariaLabel?: string;
@@ -65,7 +65,7 @@ const sizeClasses = computed(() => {
 
 <template>
   <NuxtLink
-    v-if="props.to.length && !disabled && (props.to.startsWith('http') || props.to.startsWith('geo:'))"
+    v-if="!!props.to && !disabled && (props.to.startsWith('http') || props.to.startsWith('geo:'))"
     :to="props.to"
     :aria-label="ariaLabel"
     :type="props.type"
@@ -77,7 +77,7 @@ const sizeClasses = computed(() => {
     <slot />
   </NuxtLink>
   <NuxtLinkLocale
-    v-else-if="props.to.length"
+    v-else-if="!!props.to"
     :to="props.to"
     :aria-label="ariaLabel"
     :type="props.type"

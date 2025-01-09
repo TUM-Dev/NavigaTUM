@@ -5,11 +5,11 @@ import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 
-type DetailsResponse = components["schemas"]["DetailsResponse"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 const props = defineProps<{
-  coords: DetailsResponse["coords"];
-  type: DetailsResponse["type"];
+  coords: LocationDetailsResponse["coords"];
+  type: LocationDetailsResponse["type"];
 }>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);

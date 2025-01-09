@@ -4,11 +4,11 @@ import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIc
 import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
 
-type RoomsOverview = components["schemas"]["RoomsOverview"];
-type ChildEntry = components["schemas"]["ChildEntry"];
+type RoomsOverviewResponse = components["schemas"]["RoomsOverviewResponse"];
+type RoomsOverviewUsageChildResponse = components["schemas"]["RoomsOverviewUsageChildResponse"];
 
 const props = defineProps<{
-  readonly rooms?: RoomsOverview;
+  readonly rooms?: RoomsOverviewResponse | null;
 }>();
 
 const { t } = useI18n({ useScope: "local" });
@@ -16,14 +16,14 @@ const selectedUsage = ref(-1);
 const search = ref("");
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
-  const combinedList = [] as ChildEntry[];
+  const combinedList = [] as RoomsOverviewUsageChildResponse[];
   usages.forEach((usage) => {
     combinedList.push(...usage.children);
   });
   return combinedList;
 });
 type SelectedRoomGroup = {
-  rooms: readonly ChildEntry[];
+  rooms: readonly RoomsOverviewUsageChildResponse[];
   label: string;
 };
 const selectedRooms = computed<SelectedRoomGroup>(() => {
@@ -36,11 +36,11 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
     label: rooms_usgage[selectedUsage.value]?.name ?? "usage-out-of-range",
   };
 });
-const filteredList = computed<ChildEntry[]>(() => {
+const filteredList = computed<RoomsOverviewUsageChildResponse[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
   return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
-const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
+const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsageChildResponse>(filteredList, {
   itemHeight: 36,
 });
 </script>

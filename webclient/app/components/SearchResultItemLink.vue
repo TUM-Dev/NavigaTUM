@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { components } from "~/api_types/index.js";
+type ResultEntry = components["schemas"]["ResultEntry"];
 
 defineProps<{
-  item: SitesBuildingsEntry | RoomEntry;
+  item: ResultEntry;
   highlighted: boolean;
 }>();
 const emit = defineEmits(["click", "mousedown", "mouseover"]);
-type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
-type RoomEntry = components["schemas"]["RoomEntry"];
 </script>
 
 <template>
