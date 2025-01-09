@@ -31,7 +31,7 @@ impl std::fmt::Display for FeedbackCategory {
 }
 
 #[derive(Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
-pub struct FeedbackPostData {
+pub struct PostFeedbackRequest {
     /// The JWT token, that can be used to generate feedback
     #[schema(
         example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4"
@@ -102,7 +102,7 @@ pub struct FeedbackPostData {
 #[post("/api/feedback/feedback")]
 pub async fn send_feedback(
     recorded_tokens: Data<RecordedTokens>,
-    req_data: Json<FeedbackPostData>,
+    req_data: Json<PostFeedbackRequest>,
 ) -> HttpResponse {
     // auth
     if let Some(e) = recorded_tokens.validate(&req_data.token).await {
@@ -121,7 +121,7 @@ pub async fn send_feedback(
         .await
 }
 
-fn parse_labels(req_data: &FeedbackPostData) -> Vec<String> {
+fn parse_labels(req_data: &PostFeedbackRequest) -> Vec<String> {
     let mut labels = vec!["webform".to_string()];
     if req_data.deletion_requested {
         labels.push("delete-after-processing".to_string());

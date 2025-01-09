@@ -173,7 +173,7 @@ pub struct CalendarLocationResponse {
     name: String,
     /// last time the calendar was scraped for this room
     #[schema(examples("2039-01-19T03:14:07+01:00", "2042-01-07T00:00:00 UTC"))]
-    last_calendar_scrape_at: Option<DateTime<Utc>>,
+    last_calendar_scrape_at: DateTime<Utc>,
     /// Link to the calendar of the room
     #[schema(examples(
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J",
@@ -201,7 +201,9 @@ impl From<CalendarLocation> for CalendarLocationResponse {
         CalendarLocationResponse {
             key: value.key,
             name: value.name,
-            last_calendar_scrape_at: value.last_calendar_scrape_at,
+            last_calendar_scrape_at: value
+                .last_calendar_scrape_at
+                .expect("we filterd for last_calendar_scrape_at in the step beforehand"),
             calendar_url: value.calendar_url,
             type_common_name: value.type_common_name,
             r#type: value.r#type,
