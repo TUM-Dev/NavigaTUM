@@ -1,4 +1,4 @@
-use meilisearch_sdk::search::{SearchResponse, SearchResult};
+use meilisearch_sdk::search::{SearchResult, SearchResults};
 
 use super::ResultFacet;
 use crate::external::meilisearch::MSHit;
@@ -7,9 +7,9 @@ use crate::routes::search::Limits;
 #[tracing::instrument(skip(merged_results, buildings_results, rooms_results))]
 pub(super) fn merge_search_results(
     limits: &Limits,
-    merged_results: &SearchResponse<MSHit>,
-    buildings_results: &SearchResponse<MSHit>,
-    rooms_results: &SearchResponse<MSHit>,
+    merged_results: &SearchResults<MSHit>,
+    buildings_results: &SearchResults<MSHit>,
+    rooms_results: &SearchResults<MSHit>,
 ) -> (super::ResultsSection, super::ResultsSection) {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
