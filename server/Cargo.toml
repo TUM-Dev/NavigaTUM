@@ -21,8 +21,8 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json", "fm
 tracing = "0.1.41"
 tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
 tracing-actix-web = "0.7.15"
-sentry = { version = "0.35.0", features = ["tracing", "metrics", "backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
-sentry-actix = "0.35.0"
+sentry = { version = "0.36.0", features = ["tracing", "metrics", "backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
+sentry-actix = "0.36.0"
 
 # errors 
 anyhow = { version = "1.0.94", features = ["backtrace"] }
