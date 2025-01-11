@@ -658,7 +658,7 @@ dependencies = [
  "hyperlocal",
  "log",
  "pin-project-lite",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-native-certs 0.7.3",
  "rustls-pemfile 2.2.0",
  "rustls-pki-types",
@@ -2149,7 +2149,7 @@ dependencies = [
  "hyper 1.5.2",
  "hyper-util",
  "log",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-native-certs 0.8.1",
  "rustls-pki-types",
  "tokio",
@@ -2686,7 +2686,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
 dependencies = [
  "cfg-if",
- "windows-targets 0.52.6",
+ "windows-targets 0.48.5",
 ]
 
 [[package]]
@@ -3072,7 +3072,7 @@ dependencies = [
  "rand",
  "regex",
  "reqwest 0.12.12",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "sentry",
  "sentry-actix",
  "serde",
@@ -4327,7 +4327,7 @@ dependencies = [
  "quinn-proto",
  "quinn-udp",
  "rustc-hash 2.1.0",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "socket2",
  "thiserror 2.0.9",
  "tokio",
@@ -4345,7 +4345,7 @@ dependencies = [
  "rand",
  "ring",
  "rustc-hash 2.1.0",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-pki-types",
  "slab",
  "thiserror 2.0.9",
@@ -4682,7 +4682,7 @@ dependencies = [
  "percent-encoding",
  "pin-project-lite",
  "quinn",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-native-certs 0.8.1",
  "rustls-pemfile 2.2.0",
  "rustls-pki-types",
@@ -4850,9 +4850,9 @@ dependencies = [
 
 [[package]]
 name = "rustls"
-version = "0.23.20"
+version = "0.23.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5065c3f250cbd332cd894be57c40fa52387247659b14a2d6041d121547903b1b"
+checksum = "8f287924602bf649d949c63dc8ac8b235fa5387d394020705b80c4eb597ce5b8"
 dependencies = [
  "aws-lc-rs",
  "log",
@@ -5053,7 +5053,7 @@ dependencies = [
  "httpdate",
  "native-tls",
  "reqwest 0.12.12",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "sentry-backtrace",
  "sentry-contexts",
  "sentry-core",
@@ -5561,7 +5561,7 @@ dependencies = [
  "memchr",
  "once_cell",
  "percent-encoding",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-pemfile 2.2.0",
  "serde",
  "serde_json",
@@ -6139,9 +6139,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "tokio"
-version = "1.42.0"
+version = "1.43.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5cec9b21b0450273377fc97bd4c33a8acffc8c996c987a7c5b319a0083707551"
+checksum = "3d61fa4ffa3de412bfea335c6ecff681de2b609ba3c77ef3e00e521813a9ed9e"
 dependencies = [
  "backtrace",
  "bytes",
@@ -6157,9 +6157,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-macros"
-version = "2.4.0"
+version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "693d596312e88961bc67d7f1f97af8a70227d9f90c31bba5806eec004978d752"
+checksum = "6e06d43f1345a3bcd39f6a56dbb7dcab2ba47e68e8ac134855e7e2bdbaf8cab8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6192,7 +6192,7 @@ version = "0.26.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f6d0975eaace0cf0fcadee4e4aaa5da15b5c079146f2cffb67c113be122bf37"
 dependencies = [
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "tokio",
 ]
 
@@ -6539,7 +6539,7 @@ dependencies = [
  "log",
  "native-tls",
  "once_cell",
- "rustls 0.23.20",
+ "rustls 0.23.21",
  "rustls-pki-types",
  "url",
  "webpki-roots 0.26.7",
