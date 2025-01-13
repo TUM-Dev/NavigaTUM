@@ -322,7 +322,7 @@ impl From<Summary> for SummaryResponse {
     fn from(value: Summary) -> Self {
         SummaryResponse {
             time_seconds: value.time,
-            length_meters: value.length,
+            length_meters: value.length * 1000.0,
             has_toll: value.has_toll,
             has_highway: value.has_highway,
             has_ferry: value.has_ferry,
@@ -446,7 +446,7 @@ impl From<Maneuver> for ManeuverResponse {
             street_names: value.street_names,
             begin_street_names: value.begin_street_names,
             time_seconds: value.time,
-            length_meters: value.length,
+            length_meters: value.length * 1000.0,
             begin_shape_index: value.begin_shape_index,
             end_shape_index: value.end_shape_index,
             toll: value.toll,
