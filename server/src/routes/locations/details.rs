@@ -78,7 +78,7 @@ pub async fn get_handler(
                             .body("Failed to fetch details, please try again later")
                     }
                     Ok(mut res) => {
-                        res.redirect_url = Some(redirect_url);
+                        res.redirect_url = redirect_url;
                         HttpResponse::Ok()
                             .insert_header(CacheControl(vec![
                                 CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
@@ -148,7 +148,8 @@ struct LocationDetailsResponse {
     ///
     /// Present on both redirects and normal entries, to allow for the common /view/:id path
     #[schema(examples("/room/5606.EG.036"))]
-    redirect_url: Option<String>,
+    #[serde(default)]
+    redirect_url: String,
     /// Coordinate of the location
     coords: CoordinateResponse,
     /// Print or overlay maps for said location
@@ -157,7 +158,8 @@ struct LocationDetailsResponse {
     /// - buildings overview,
     /// - rooms overview and
     /// - featured view
-    sections: Option<SectionsResponse>,
+    #[serde(default)]
+    sections: SectionsResponse,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
