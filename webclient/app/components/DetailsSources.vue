@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 
-type ImageInfo = components["schemas"]["ImageInfo"];
-type Coordinate = components["schemas"]["Coordinate"];
-type DataSources = components["schemas"]["DataSources"];
+type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
+type CoordinateResponse = components["schemas"]["CoordinateResponse"];
+type SourcesResponse = components["schemas"]["SourcesResponse"];
 
 defineProps<{
-  coords: Coordinate;
-  sources: DataSources;
-  image?: ImageInfo;
+  coords: CoordinateResponse;
+  sources: SourcesResponse;
+  image?: ImageInfoResponse;
 }>();
 
 const { t } = useI18n({ useScope: "local" });

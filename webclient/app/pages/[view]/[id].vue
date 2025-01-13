@@ -14,8 +14,8 @@ definePageMeta({
   layout: "details",
 });
 
-type DetailsResponse = components["schemas"]["DetailsResponse"];
-type ImageInfo = components["schemas"]["ImageInfo"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
@@ -25,7 +25,7 @@ const router = useRouter();
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
 const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
-const { data, error } = useFetch<DetailsResponse, string>(url, {
+const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
   credentials: "omit",
@@ -33,7 +33,7 @@ const { data, error } = useFetch<DetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
-const shownImage = ref<ImageInfo | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);

@@ -1,8 +1,7 @@
 import type { components } from "~/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
-type RoomEntry = components["schemas"]["RoomEntry"];
-type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
+type ResultEntry = components["schemas"]["ResultEntry"];
 
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
@@ -44,13 +43,13 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
 
     switch (section.facet) {
       case "rooms":
-        section.entries.forEach((entry: RoomEntry) => {
+        section.entries.forEach((entry: ResultEntry) => {
           entries.push({
             id: entry.id,
             name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
             type: entry.type,
             subtext: entry.subtext,
-            subtext_bold: _allowHighlighting(entry.subtext_bold), // we explicitly dont let vue sanitise this text
+            subtext_bold: _allowHighlighting(entry.subtext_bold || ""), // we explicitly dont let vue sanitise this text
             parsed_id: _allowHighlighting(entry.parsed_id || ""), // we explicitly dont let vue sanitise this text
           });
         });
@@ -62,7 +61,7 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
         });
         break;
       case "sites_buildings":
-        section.entries.forEach((entry: SitesBuildingsEntry) => {
+        section.entries.forEach((entry: ResultEntry) => {
           entries.push({
             id: entry.id,
             name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
