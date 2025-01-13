@@ -140,6 +140,7 @@ struct RoutingRequest {
 
 /// Does the user have specific walking restrictions?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 enum PedestrianTypeRequest {
     #[default]
     None,
@@ -161,6 +162,7 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 
 /// Which kind of bicycle do you ride?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 enum BicycleRestrictionRequest {
     /// Road-bike
     ///
@@ -192,6 +194,7 @@ impl From<BicycleRestrictionRequest> for BicycleType {
 }
 /// Does the user have a moped or motorcycle
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 enum PoweredTwoWheeledRestrictionRequest {
     #[default]
     Motorcycle,
