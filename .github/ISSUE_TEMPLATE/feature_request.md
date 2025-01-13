@@ -1,19 +1,21 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: "[Feature]"
-labels: feature
-assignees: ""
----
+name: I have a feature request
+description: Create a feature-request issue
+labels: [enhancement]
+body:
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+- type: textarea
+  id: feature-description
+  validations:
+  required: true
+  attributes:
+  label: Description
+  description: A clear and concise description of what the problem is
+  placeholder: You should add ...
+- type: textarea
+  id: solution
+  validations:
+  required: true
+  attributes:
+  label: Prefered solution
+  description: A clear and concise description of what you want to happen.
+  placeholder: In my use, ...
