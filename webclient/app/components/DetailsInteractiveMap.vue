@@ -6,10 +6,10 @@ import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
 
 const props = defineProps<{
-  coords: DetailsResponse["coords"];
-  type: DetailsResponse["type"];
-  maps: DetailsResponse["maps"];
-  id: DetailsResponse["id"];
+  coords: LocationDetailsResponse["coords"];
+  type: LocationDetailsResponse["type"];
+  maps: LocationDetailsResponse["maps"];
+  id: LocationDetailsResponse["id"];
   debugMode: boolean;
 }>();
 const map = ref<Map | undefined>(undefined);
@@ -24,7 +24,7 @@ const zoom = computed<number>(() => {
 
 const initialLoaded = ref(false);
 
-type DetailsResponse = components["schemas"]["DetailsResponse"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 function loadInteractiveMap() {
   if (!webglSupport) return;

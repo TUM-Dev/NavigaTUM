@@ -8,7 +8,7 @@ import type { components } from "~/api_types";
  * It is sorted by the number of rooms in the site, descending.
  * The first entry is the site with the most importance
  */
-type SitesOverview = readonly (components["schemas"]["ChildEntry"] & {
+type SitesOverview = components["schemas"]["RoomsOverviewUsageChildResponse"] & {
   /**
    * Format: int64
    * @description A recommendation how many of the entries should be displayed by default.
@@ -23,12 +23,12 @@ type SitesOverview = readonly (components["schemas"]["ChildEntry"] & {
    * @description A select list of buildings, that are in this site.
    * Derived from the areatree.
    */
-  readonly children: readonly components["schemas"]["ChildEntry"][];
-})[];
+  readonly children: readonly components["schemas"]["RoomsOverviewUsageChildResponse"][];
+};
 
 const { t } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
-const sites_overview: SitesOverview = [
+const sites_overview: readonly SitesOverview[] = [
   {
     children: [
       { id: "mi", name: "Mathematik / Informatik" },

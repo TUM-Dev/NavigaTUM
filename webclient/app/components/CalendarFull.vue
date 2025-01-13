@@ -8,9 +8,9 @@ import type { components, operations } from "~/api_types";
 import deLocale from "@fullcalendar/core/locales/de";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 
-type CalendarResponse = components["schemas"]["CalendarResponse"];
-type CalendarBody = operations["calendar"]["requestBody"]["content"]["application/json"];
-type CalendarLocation = components["schemas"]["CalendarLocation"];
+type CalendarResponse = operations["calendar_handler"]["responses"][200]["content"]["application/json"];
+type CalendarBody = operations["calendar_handler"]["requestBody"]["content"]["application/json"];
+type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
 const props = defineProps<{ showing: readonly string[] }>();
 defineExpose({ refetchEvents });
@@ -18,7 +18,7 @@ const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
 
 const earliest_last_sync = defineModel<string | null>("earliest_last_sync");
-const locations = defineModel<Map<string, CalendarLocation>>("locations");
+const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
 
 interface Color {
   backgroundColor: string;
@@ -81,14 +81,19 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
 }
 
 function extractInfos(data: CalendarResponse): void {
-  earliest_last_sync.value = Object.values(data)
-    .map((d) => new Date(d.location.last_calendar_scrape_at))
+  const last_syncs: Date[] = [];
+  for (const d of Object.values(data)) {
+    if (d.location.last_calendar_scrape_at) {
+      last_syncs.push(new Date(d.location.last_calendar_scrape_at));
+    }
+  }
+  earliest_last_sync.value = last_syncs
     .reduce((d1, d2) => (d1 < d2 ? d1 : d2))
     .toLocaleString(locale.value, {
       timeStyle: "short",
       dateStyle: "short",
     });
-  const tempLocationMap = new Map<string, CalendarLocation>();
+  const tempLocationMap = new Map<string, CalendarLocationResponse>();
   for (const [key, v] of Object.entries(data)) {
     tempLocationMap.set(key, v.location);
   }

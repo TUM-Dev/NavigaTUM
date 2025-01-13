@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { components } from "~/api_types";
+import type { operations } from "~/api_types";
 
 import { useRouteQuery } from "@vueuse/router";
 
-type SearchResponse = components["schemas"]["SearchResponse"];
+type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
 const props = defineProps<{
   queryId: string;

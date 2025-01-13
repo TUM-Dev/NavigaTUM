@@ -7,16 +7,12 @@ import {
 } from "@heroicons/vue/24/outline/index.js";
 import type { components } from "~/api_types/index.js";
 
-type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
-type SitesBuildingsEntryItem = {
-  type: SitesBuildingsEntry["type"];
+type ResultEntry = components["schemas"]["ResultEntry"];
+type ResultEntryItem = {
+  type: ResultEntry["type"];
+  parsed_id: ResultEntry["parsed_id"];
 };
-type RoomEntry = components["schemas"]["RoomEntry"];
-type RoomEntryItem = {
-  type: RoomEntry["type"];
-  parsed_id: RoomEntry["parsed_id"];
-};
-defineProps<{ item: SitesBuildingsEntryItem | RoomEntryItem }>();
+defineProps<{ item: ResultEntryItem }>();
 </script>
 
 <template>

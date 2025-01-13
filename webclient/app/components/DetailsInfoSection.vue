@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 
-type DetailsResponse = components["schemas"]["DetailsResponse"];
-type ImageInfo = components["schemas"]["ImageInfo"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 
-defineProps<{ data: DetailsResponse }>();
+defineProps<{ data: LocationDetailsResponse }>();
 
-const shownImage = defineModel<ImageInfo>("shown_image");
+const shownImage = defineModel<ImageInfoResponse>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
   required: true,
 });
@@ -62,7 +62,7 @@ const runtimeConfig = useRuntimeConfig();
   </div>
   <ClientOnly>
     <LazyDetailsImageSlideshowModal
-      v-if="slideshow_open && data.imgs !== undefined"
+      v-if="slideshow_open && !!data.imgs"
       v-model:shown_image="shownImage"
       v-model:slideshow_open="slideshowOpen"
       :imgs="data.imgs"

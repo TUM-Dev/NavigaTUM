@@ -3,9 +3,9 @@ import { useBreakpoints } from "@vueuse/core";
 
 const props = defineProps<{
   content: {
-    title?: string;
+    title?: string | null;
     body: string;
-    footer?: string;
+    footer?: string | null;
   };
 }>();
 

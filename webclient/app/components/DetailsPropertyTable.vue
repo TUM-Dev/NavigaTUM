@@ -2,7 +2,7 @@
 import { ArrowTopRightOnSquareIcon, InformationCircleIcon } from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
 
-type Props = components["schemas"]["Props"];
+type Props = components["schemas"]["PropsResponse"];
 
 defineProps<{ props: Props }>();
 const { t } = useI18n({ useScope: "local" });

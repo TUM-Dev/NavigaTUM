@@ -2,10 +2,10 @@
 import type { components } from "~/api_types";
 import { useInterval } from "@vueuse/core";
 
-type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
+type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];
 
 const props = defineProps<{
-  map: RoomfinderMapEntry;
+  map: RoomfinderMapEntryResponse;
   id: string;
 }>();
 

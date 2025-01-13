@@ -4,14 +4,14 @@ import { useCalendar } from "~/composables/calendar";
 import type { components } from "~/api_types";
 import type { CalendarFull } from "#components";
 
-type CalendarLocation = components["schemas"]["CalendarLocation"];
+type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
 const feedback = useFeedback();
 const calendar = useCalendar();
 const { t } = useI18n({ useScope: "local" });
 // all the below are updated by the calendar
 const earliest_last_sync = ref<string | null>(null);
-const locations = ref<Map<string, CalendarLocation>>(new Map());
+const locations = ref<Map<string, CalendarLocationResponse>>(new Map());
 const modalOpen = ref(!!calendar.value.length);
 watchEffect(() => {
   if (!!calendar.value.length && !modalOpen.value) {

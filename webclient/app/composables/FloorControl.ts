@@ -2,10 +2,10 @@ import type { IControl, Map } from "maplibre-gl";
 import { Evented } from "maplibre-gl";
 import type { components } from "~/api_types";
 
-type OverlayMapEntry = components["schemas"]["OverlayMapEntry"];
+type OverlayMapEntryResponse = components["schemas"]["OverlayMapEntryResponse"];
 type OverlayMap = {
-  readonly default: number | null;
-  readonly available: readonly OverlayMapEntry[];
+  readonly default?: number | null;
+  readonly available: readonly OverlayMapEntryResponse[];
 };
 
 // In reality, this extends maplibregl.Control, but this is apparently not working
@@ -74,7 +74,7 @@ export class FloorControl extends Evented implements IControl {
     // `visibleId` is the id of the visible floor.
     this.floor_list.innerHTML = "";
 
-    const clickHandlerBuilder = (allFloors: readonly OverlayMapEntry[] | null, i: number) => {
+    const clickHandlerBuilder = (allFloors: readonly OverlayMapEntryResponse[] | null, i: number) => {
       // Because JS
       return () => {
         if (allFloors) {
@@ -95,7 +95,7 @@ export class FloorControl extends Evented implements IControl {
     };
     let btn;
     let visibleI = null;
-    [...overlays.available].reverse().forEach((floor: OverlayMapEntry, reversed_index: number) => {
+    [...overlays.available].reverse().forEach((floor: OverlayMapEntryResponse, reversed_index: number) => {
       const index = overlays.available.length - reversed_index - 1;
       btn = document.createElement("button");
       btn.innerText = floor.floor;

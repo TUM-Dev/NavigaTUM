@@ -3,10 +3,10 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import type { components } from "~/api_types";
 
-type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
+type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];
 
 const props = defineProps<{
-  available: readonly RoomfinderMapEntry[];
+  available: readonly RoomfinderMapEntryResponse[];
   defaultMapId: string;
 }>();
 const { t } = useI18n({ useScope: "local" });
@@ -21,8 +21,8 @@ onBeforeMount(() => {
   }
 });
 const selected_index = ref(0);
-const selectedMap = computed<RoomfinderMapEntry>(() => {
-  return props.available[selected_index.value] as RoomfinderMapEntry;
+const selectedMap = computed<RoomfinderMapEntryResponse>(() => {
+  return props.available[selected_index.value] as RoomfinderMapEntryResponse;
 });
 </script>
 

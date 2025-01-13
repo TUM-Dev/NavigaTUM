@@ -6,6 +6,7 @@ use utoipa_actix_web::UtoipaApp;
 use utoipa_redoc::{Redoc, Servable};
 
 #[derive(serde::Serialize, Default)]
+#[serde_with::skip_serializing_none]
 struct OpenApiLogo {
     /// The URL pointing to the logo.
     ///
@@ -78,6 +79,7 @@ If you'd like to help out or join us in this adventure, we would love to talk to
             .version(env!("CARGO_PKG_VERSION"))
             .extensions(Some(ExtensionsBuilder::new()
                 .add("logo", serde_json::to_value(OpenApiLogo{ 
+                    href: Some("https://nav.tum.de".to_string()),
                     url: "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/webclient/app/assets/logos/navigatum.svg".to_string(), 
                     ..OpenApiLogo::default()
                 }).unwrap())

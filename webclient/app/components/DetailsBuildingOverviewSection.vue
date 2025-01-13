@@ -3,10 +3,10 @@ import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { BuildingOffice2Icon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 
-type BuildingsOverview = components["schemas"]["BuildingsOverview"];
+type BuildingsOverviewResponse = components["schemas"]["BuildingsOverviewResponse"];
 
 const props = defineProps<{
-  readonly buildings?: BuildingsOverview;
+  readonly buildings?: BuildingsOverviewResponse | null;
 }>();
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);

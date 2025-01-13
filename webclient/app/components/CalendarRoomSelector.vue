@@ -5,11 +5,11 @@ import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";
 
-type DetailsResponse = components["schemas"]["DetailsResponse"];
-type CalendarLocation = components["schemas"]["CalendarLocation"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
 defineProps<{
-  readonly data: Map<string, CalendarLocation>;
+  readonly data: Map<string, CalendarLocationResponse>;
 }>();
 const emit = defineEmits(["change"]);
 
@@ -29,7 +29,7 @@ async function addLocation() {
         selectedLocation = "";
         continue;
       }
-      const res = (await result.json()) as DetailsResponse;
+      const res = (await result.json()) as LocationDetailsResponse;
       if (!res.props.calendar_url) {
         const userWantsToRetry = window.confirm(t("prompt.error_not_calendar", [selectedLocation]));
         if (!userWantsToRetry) return;
