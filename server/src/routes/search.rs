@@ -224,7 +224,7 @@ impl From<&SearchQueryArgs> for Highlighting {
     tags=["locations"],
     params(SearchQueryArgs),
     responses(
-        (status = 200, description = "Search entries", body = Vec<SearchResponse>, content_type = "application/json"),
+        (status = 200, description = "Search entries", body = SearchResponse, content_type = "application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above", body = String, content_type = "text/plain", example = "Query deserialize error: invalid digit found in string"),
         (status = 404, description = "**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.", body = String, content_type = "text/plain", example = "Not found"),
         (status = 414, description = "**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
