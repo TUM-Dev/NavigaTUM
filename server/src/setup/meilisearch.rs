@@ -79,9 +79,11 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
         ])
         .with_sortable_attributes(["_geo"])
         .with_searchable_attributes([
-            "ms_id",
+            "room_code",
+            "room_code_normalised",
             "name",
             "arch_name",
+            "arch_name_normalised",
             "type",
             "type_common_name",
             "parent_building_names",

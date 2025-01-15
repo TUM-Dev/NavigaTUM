@@ -41,6 +41,18 @@ def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
     raise ValueError(f"Unhandled type {type(value)}")
 
 
+def normalise_id(_id: str) -> str:
+    parts=_id.split(".")
+    for i in range(0, len(parts)):
+        parts[i]=parts[i] .lstrip('0')
+        if not parts[i]:
+            parts[i]="0"
+    result: str = "";
+    for part in parts:
+        result+=part;
+    return ".".join(parts)
+
+
 def export_for_search(data: dict) -> None:
     """Export a subset of the data for the /search api"""
     export = []
@@ -75,9 +87,12 @@ def export_for_search(data: dict) -> None:
                 # MeiliSearch requires an id without "."
                 # also this puts more emphasis on the order (because "." counts as more distance)
                 "ms_id": _id.replace(".", "-"),
+                "room_code": _id,
+                "room_code_normalised": normalise_id(_id),
                 "id": _id,  # not searchable
                 "name": entry["name"],
                 "arch_name": entry.get("arch_name"),
+                "arch_name_normalised": normalise_id(entry.get("arch_name")),
                 "type": entry["type"],
                 "type_common_name": entry["type_common_name"],
                 "facet": {
