@@ -442,7 +442,11 @@ impl From<Maneuver> for ManeuverResponse {
     fn from(value: Maneuver) -> Self {
         ManeuverResponse {
             r#type: ManeuverTypeResponse::from(value.type_),
-            instruction: value.instruction,
+            instruction: value
+                .instruction
+                .strip_suffix(".")
+                .map(|s| s.to_string())
+                .unwrap_or(value.instruction),
             verbal_transition_alert_instruction: value.verbal_transition_alert_instruction,
             verbal_pre_transition_instruction: value.verbal_pre_transition_instruction,
             verbal_post_transition_instruction: value.verbal_post_transition_instruction,
