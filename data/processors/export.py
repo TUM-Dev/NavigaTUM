@@ -40,8 +40,8 @@ def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
         return {k: unlocalise(v) for k, v in value.items()}
     raise ValueError(f"Unhandled type {type(value)}")
 
-
 def normalise_id(_id: str) -> str:
+    """removes leading zeros from all point-separated parts of input string"""
     parts=_id.split(".")
     for i in range(0, len(parts)):
         parts[i]=parts[i] .lstrip('0')
