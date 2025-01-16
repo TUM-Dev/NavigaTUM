@@ -15,7 +15,7 @@ const { t } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bike" | "transit" | "motorbike" | "car" | "pedestrian">("mode", "car", {
+const mode = useRouteQuery<"bike" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", "car", {
   mode: "replace",
   route,
   router,
@@ -88,12 +88,12 @@ const feedback = useFeedback();
           </svg>
         </Btn>
         <Btn
-          :variant="mode === 'motorbike' ? 'primary' : 'secondary'"
-          :disabled="mode == 'motorbike'"
+          :variant="mode === 'motorcycle' ? 'primary' : 'secondary'"
+          :disabled="mode == 'motorcycle'"
           size="md"
-          :title="t('aria-motorbike')"
-          :aria-label="t('aria-motorbike')"
-          @click="mode = 'motorbike'"
+          :title="t('aria-motorcycle')"
+          :aria-label="t('aria-motorcycle')"
+          @click="mode = 'motorcycle'"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -171,7 +171,7 @@ const feedback = useFeedback();
 <i18n lang="yaml">
 de:
   back: zurück
-  aria-motorbike: Motorrad
+  aria-motorcycle: Motorrad
   aria-bike: Fahrrad
   aria-transit: Transit
   aria-car: Auto
@@ -189,7 +189,7 @@ de:
   got_here_and_found_issues: "Ich habe die navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
 en:
   back: back
-  aria-motorbike: Motorbike
+  aria-motorcycle: Motorbike
   aria-bike: Bike
   aria-transit: Transit
   aria-car: Car
