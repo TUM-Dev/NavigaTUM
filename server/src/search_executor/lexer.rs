@@ -18,7 +18,7 @@ fn irregular_split(lex: &mut Lexer<Token>) -> (String, String) {
 }
 
 /// Removes the specified prefix and additional whitespace from the token
-/// e.g used to remove the "in:" and "@" prefixes from filters
+/// e.g. used to remove the "in:" and "@" prefixes from filters
 fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
     lex.slice()[prefix.len()..].trim().to_string()
 }
