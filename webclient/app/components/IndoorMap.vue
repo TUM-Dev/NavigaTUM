@@ -155,6 +155,31 @@ async function initMap(containerId: string): Promise<Map> {
     const attrib = new AttributionControl({ compact: true });
     map.addControl(attrib);
     attrib._toggleAttribution();
+
+    map.addSource("route", {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            [0, 0],
+            [10, 10],
+          ],
+        },
+      },
+    });
+    map.addLayer({
+      id: "route",
+      type: "line",
+      source: "route",
+      layout: {},
+      paint: {
+        "line-color": "#823096",
+        "line-width": 40,
+      },
+    });
   });
 
   map.on("style.load", () => {
@@ -175,6 +200,47 @@ async function initMap(containerId: string): Promise<Map> {
 
   return map;
 }
+
+function drawRoute(
+  shapes: readonly components["schemas"]["Coordinate"][],
+  maneuvers: readonly components["schemas"]["ManeuverResponse"][],
+) {
+  if (!map.value) {
+    console.warn("no map");
+    return;
+  }
+  if (!map.value.loaded()) {
+    map.value.on("load", (_) => {
+      drawRoute(shapes, maneuvers);
+    });
+    return;
+  }
+  let coords = shapes.map(({ lat, lon }) => [lat, lon]);
+  map.value.getSource("route")?.setData({
+    type: "geojson",
+    data: {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: coords,
+      },
+    },
+  });
+}
+
+function fitBounds(max_lon: number, max_lat: number, min_lon: number, min_lat: number) {
+  if (!map.value) {
+    console.error("tried to fly to point but map has not loaded yet.. wtf??");
+    return;
+  }
+  map.value.fitBounds([
+    { lat: max_lat, lng: max_lon },
+    { lat: min_lat, lng: min_lon },
+  ]);
+}
+
+defineExpose({ drawRoute, fitBounds });
 </script>
 
 <template>
