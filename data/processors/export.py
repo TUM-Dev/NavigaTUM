@@ -43,14 +43,7 @@ def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
 
 def normalise_id(_id: str) -> str:
     """Remove leading zeros from all point-separated parts of input string"""
-    parts = _id.split(".")
-    for i in range(0, len(parts)):
-        parts[i] = parts[i].lstrip("0")
-        if not parts[i]:
-            parts[i] = "0"
-    result: str = ""
-    for part in parts:
-        result += part
+    parts = [part.lstrip("0") or "0" for part in _id.split(".")]
     return ".".join(parts)
 
 
