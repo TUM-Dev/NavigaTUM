@@ -75,7 +75,6 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
           <div :class="{ '!invisible': locations.size === 0 }">
             <CalendarRoomSelector :data="locations" @change="fullCalendarRef?.refetchEvents()" />
             <CalendarFull
-              ref="calendarFullRef"
               v-model:earliest_last_sync="earliest_last_sync"
               v-model:locations="locations"
               :showing="calendar"

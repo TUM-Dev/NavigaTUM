@@ -4,23 +4,57 @@ import { ChevronLeftIcon } from "@heroicons/vue/16/solid";
 import { firstOrDefault } from "~/composables/common";
 import { useRouteQuery } from "@vueuse/router";
 import Toast from "~/components/Toast.vue";
+import { useTemplateRef } from "vue";
+import type { operations } from "~/api_types";
+import type { Ref } from "vue";
 
 definePageMeta({
   layout: "navigation",
 });
 
+const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bike" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", "car", {
+const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", "car", {
   mode: "replace",
   route,
   router,
 });
 const feedback = useFeedback();
+type RequestQuery = operations["route_handler"]["parameters"]["query"];
+type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
+const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
+  query: {
+    lang: locale as Ref<RequestQuery["lang"]>,
+    from: selected_from as Ref<RequestQuery["from"]>,
+    to: selected_to as Ref<RequestQuery["to"]>,
+    route_costing: mode as Ref<RequestQuery["route_costing"]>,
+    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+    ptw_type: undefined as RequestQuery["ptw_type"],
+    bicycle_type: undefined as RequestQuery["bicycle_type"],
+  },
+});
+effect(() => {
+  if (!data.value || !indoorMap.value) return;
+
+  indoorMap.value.drawRoute(data.value.legs[0].shape);
+});
+
+function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: number) {
+  if (!data.value) return;
+
+  const coords = data.value.legs[0].shape.slice(from_shape_index, to_shape_index);
+  const latitudes = coords.map((c) => c.lat);
+  const longitudes = coords.map((c) => c.lon);
+  indoorMap.value?.fitBounds(
+    [Math.min(...longitudes), Math.max(...longitudes)],
+    [Math.min(...latitudes), Math.max(...latitudes)],
+  );
+}
 </script>
 
 <template>
@@ -54,12 +88,12 @@ const feedback = useFeedback();
           </svg>
         </Btn>
         <Btn
-          :variant="mode == 'bike' ? 'primary' : 'secondary'"
-          :disabled="mode == 'bike'"
+          :variant="mode == 'bicycle' ? 'primary' : 'secondary'"
+          :disabled="mode == 'bicycle'"
           size="md"
-          :title="t('aria-bike')"
-          :aria-label="t('aria-bike')"
-          @click="mode = 'bike'"
+          :title="t('aria-bicycle')"
+          :aria-label="t('aria-bicycle')"
+          @click="mode = 'bicycle'"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
@@ -122,6 +156,35 @@ const feedback = useFeedback();
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
       </form>
+      <div class="overflow-auto">
+        <div v-if="status === 'success' && !!data">
+          <div v-for="(l, i) in data.legs" :key="i" class="gap-1">
+            <p class="text-zinc-500 mt-3 flex items-center gap-5 pb-4 font-semibold">
+              <span>{{ t("meters", l.summary.length_meters) }}</span>
+              <span class="border-zinc-500 flex-grow border-t" />
+              <span>{{ t("minutes", Math.ceil(l.summary.time_seconds / 60)) }}</span>
+            </p>
+            <div
+              v-for="(m, j) in l.maneuvers"
+              :key="j"
+              class="group cursor-pointer py-1"
+              @click="setBoundingBoxFromIndex(m.begin_shape_index, m.end_shape_index)"
+            >
+              <div class="bg-zinc-200 flex flex-row items-center gap-3 rounded-md p-2 py-1 group-hover:bg-zinc-300">
+                <RoutingManeuverIcon :type="m.type" />
+                <div>
+                  <div class="text-zinc-900">{{ m.instruction }}</div>
+                </div>
+              </div>
+              <small v-if="m.length_meters" class="text-zinc-500">{{ t("meters", m.length_meters) }}</small>
+            </div>
+          </div>
+        </div>
+        <Toast v-else id="nav-error" level="error">
+          <p class="text-zinc-900">status:{{ status }}</p>
+          <p class="text-zinc-900">error:{{ error }}</p>
+        </Toast>
+      </div>
       <Toast id="nav-disclaimer" level="warning">
         {{ t("disclaimer_0") }}:
         <ul class="ms-5 list-outside list-disc">
@@ -160,10 +223,9 @@ const feedback = useFeedback();
           {{ t("disclaimer_cta") }}
         </Btn>
       </Toast>
-      <p class="text-zinc-900">Navigating from '{{ selected_from }}' to '{{ selected_to }}' via '{{ mode }}'</p>
     </div>
     <div class="grow">
-      <IndoorMap type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+      <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
     </div>
   </div>
 </template>
@@ -172,7 +234,7 @@ const feedback = useFeedback();
 de:
   back: zurück
   aria-motorcycle: Motorrad
-  aria-bike: Fahrrad
+  aria-bicycle: Fahrrad
   aria-transit: Transit
   aria-car: Auto
   aria-pedestrian: Fußgänger
@@ -186,11 +248,13 @@ de:
   disclaimer_cta: Wir würden wir uns trotzdem über feedback freuen
   open-feedback-form: Öffnet das Feedback-Formular
   found_issues: "Ich habe diese Probleme gefunden:"
-  got_here_and_found_issues: "Ich habe die navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
+  got_here_and_found_issues: "Ich habe die Navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
+  minutes: "sofort | eine Minute | {count} Minuten"
+  meters: "hier | einen Meter | {count} Meter"
 en:
   back: back
-  aria-motorcycle: Motorbike
-  aria-bike: Bike
+  aria-motorcycle: Motorcycle
+  aria-bicycle: Bicycle
   aria-transit: Transit
   aria-car: Car
   aria-pedestrian: Pedestrian
@@ -205,4 +269,6 @@ en:
   open-feedback-form: Open the feedback form
   found_issues: "I have found these problems:"
   got_here_and_found_issues: "I found the navigation via {0} and I noticed these problems:"
+  minutes: "instant | one minutes | {count} minutes"
+  meters: "here | one meter | {count} meters"
 </i18n>

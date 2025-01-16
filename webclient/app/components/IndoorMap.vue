@@ -4,8 +4,10 @@ import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, N
 import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
+import type { GeoJSONSource } from "maplibre-gl";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+type Coordinate = components["schemas"]["Coordinate"];
 
 const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
@@ -13,6 +15,7 @@ const props = defineProps<{
 }>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
+const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
@@ -155,6 +158,44 @@ async function initMap(containerId: string): Promise<Map> {
     const attrib = new AttributionControl({ compact: true });
     map.addControl(attrib);
     attrib._toggleAttribution();
+
+    map.addSource("route", {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: [],
+        },
+      },
+    });
+    map.addLayer({
+      id: "route",
+      type: "line",
+      source: "route",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#e37222",
+        "line-width": 7,
+      },
+    });
+    map.addLayer({
+      id: "route-symbol",
+      type: "symbol",
+      source: "route",
+      layout: {
+        "icon-image": "triangle",
+        "icon-size": 0.25,
+      },
+      paint: {
+        "icon-color": "#e37222",
+      },
+    });
+    afterLoaded.value();
   });
 
   map.on("style.load", () => {
@@ -175,6 +216,39 @@ async function initMap(containerId: string): Promise<Map> {
 
   return map;
 }
+function drawRoute(shapes: readonly Coordinate[], isAfterLoaded: boolean = false) {
+  const src = map.value?.getSource("route") as GeoJSONSource | undefined;
+  if (!src || (!isAfterLoaded && !map.value?.loaded())) {
+    afterLoaded.value = () => drawRoute(shapes, true);
+    return;
+  }
+  // cannot be undefined as returned from above if.. come on typescript
+  src?.setData({
+    type: "Feature",
+    properties: {},
+    geometry: {
+      type: "LineString",
+      coordinates: shapes.map(({ lat, lon }) => [lon, lat]),
+    },
+  });
+}
+
+function fitBounds(lon: [number, number], lat: [number, number]) {
+  if (!map.value) {
+    console.error("tried to fly to point but map has not loaded yet.. wtf??");
+    return;
+  }
+  console.log("zooming to", { lat, lon });
+  map.value.fitBounds(
+    [
+      { lat: lat[0], lng: lon[0] },
+      { lat: lat[1], lng: lon[1] },
+    ],
+    { maxZoom: 19 },
+  );
+}
+
+defineExpose({ drawRoute, fitBounds });
 </script>
 
 <template>
