@@ -34,7 +34,7 @@ impl std::fmt::Display for FeedbackCategory {
             FeedbackCategory::General => "general",
             FeedbackCategory::Other => "other",
         };
-        f.write_str(&val)
+        f.write_str(val)
     }
 }
 
