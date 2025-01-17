@@ -246,10 +246,10 @@ pub async fn search_handler(
     let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
     debug!(?results_sections, "searching returned");
 
-    if results_sections.len() != 2 && results_sections.len() != 3 {
+    if results_sections.len() > 3 {
         error!(
             returned_section_cnt = results_sections.len(),
-            "searching did not return expected 2-3 sections",
+            "searching did not return expected the amount of sections it expected",
         );
         return HttpResponse::InternalServerError()
             .content_type("text/plain")
