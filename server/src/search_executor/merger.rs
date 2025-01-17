@@ -16,7 +16,7 @@ pub(super) fn merge_search_results(
     // TODO: This has to be implemented. closed_matching_buildings is not used further down in this function.
     let mut closed_matching_buildings = Vec::<String>::new();
     for hit in &buildings_results.hits {
-        closed_matching_buildings.push(hit.result.id.clone());
+        closed_matching_buildings.push(hit.result.room_code.clone());
     }
 
     let mut section_buildings = super::ResultsSection {
@@ -38,10 +38,10 @@ pub(super) fn merge_search_results(
     for hits in [&merged_results.hits, &rooms_results.hits] {
         for hit in hits {
             // Prevent duplicates from being added to the results
-            if observed_ids.contains(&hit.result.id) {
+            if observed_ids.contains(&hit.result.room_code) {
                 continue;
             };
-            observed_ids.push(hit.result.id.clone());
+            observed_ids.push(hit.result.room_code.clone());
 
             // Total limit reached (does only count visible results)
             let current_buildings_cnt = if section_buildings.n_visible == 0 {
@@ -61,7 +61,7 @@ pub(super) fn merge_search_results(
                     if section_buildings.entries.len() < limits.buildings_count {
                         section_buildings.entries.push(super::ResultEntry {
                             hit: hit.clone(),
-                            id: hit.id.to_string(),
+                            id: hit.room_code.to_string(),
                             r#type: hit.r#type,
                             name: formatted_name,
                             subtext: hit.type_common_name,
@@ -74,7 +74,7 @@ pub(super) fn merge_search_results(
                     if section_rooms.entries.len() < limits.rooms_count {
                         section_rooms.entries.push(super::ResultEntry {
                             hit: hit.clone(),
-                            id: hit.id.to_string(),
+                            id: hit.room_code.to_string(),
                             r#type: hit.r#type,
                             name: formatted_name,
                             subtext_bold: Some(hit.arch_name.unwrap_or_default()),

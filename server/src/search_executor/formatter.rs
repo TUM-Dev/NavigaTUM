@@ -34,14 +34,15 @@ impl RoomVisitor {
             TextToken::SplittableText((t0, t1))
                 if self.parsed_input.relevant_enough_for_room_highligting() =>
             {
-                let building_specific_roomcode_format_determinable_by_building_prefix =
-                    match t0.as_str() {
-                        "mi" => hit.id.starts_with("560") || hit.id.starts_with("561"),
-                        "mw" => hit.id.starts_with("550") || hit.id.starts_with("551"),
-                        "ph" => hit.id.starts_with("5101"),
-                        "ch" => hit.id.starts_with("540"),
-                        _ => false,
-                    };
+                let building_specific_roomcode_format_determinable_by_building_prefix = match t0
+                    .as_str()
+                {
+                    "mi" => hit.room_code.starts_with("560") || hit.room_code.starts_with("561"),
+                    "mw" => hit.room_code.starts_with("550") || hit.room_code.starts_with("551"),
+                    "ph" => hit.room_code.starts_with("5101"),
+                    "ch" => hit.room_code.starts_with("540"),
+                    _ => false,
+                };
                 if !building_specific_roomcode_format_determinable_by_building_prefix
                     || !archname.starts_with(t1)
                 {

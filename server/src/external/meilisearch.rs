@@ -11,7 +11,7 @@ use crate::routes::search::{Highlighting, Limits};
 #[allow(dead_code)]
 pub struct MSHit {
     ms_id: String,
-    pub id: String,
+    pub room_code: String,
     pub name: String,
     pub arch_name: Option<String>,
     pub r#type: String,
@@ -26,7 +26,7 @@ pub struct MSHit {
 impl Debug for MSHit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("MSHit")
-            .field("id", &self.id)
+            .field("room_code", &self.room_code)
             .field("name", &self.name)
             .finish()
     }
