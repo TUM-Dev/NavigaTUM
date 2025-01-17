@@ -25,7 +25,15 @@ enum FeedbackCategory {
 }
 impl std::fmt::Display for FeedbackCategory {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let val = serde_json::to_string(self).expect("FeedbackCategory is always serialisable");
+        let val = match self {
+            FeedbackCategory::Bug => "bug",
+            FeedbackCategory::Feature => "feature",
+            FeedbackCategory::Search => "search",
+            FeedbackCategory::Navigation => "navigation",
+            FeedbackCategory::Entry => "entry",
+            FeedbackCategory::General => "general",
+            FeedbackCategory::Other => "other",
+        };
         f.write_str(&val)
     }
 }
