@@ -216,6 +216,7 @@ async function initMap(containerId: string): Promise<Map> {
 
   return map;
 }
+
 function drawRoute(shapes: readonly Coordinate[], isAfterLoaded: boolean = false) {
   const src = map.value?.getSource("route") as GeoJSONSource | undefined;
   if (!src || (!isAfterLoaded && !map.value?.loaded())) {
@@ -231,6 +232,9 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded: boolean = false
       coordinates: shapes.map(({ lat, lon }) => [lon, lat]),
     },
   });
+  const latitudes = shapes.map(({ lat }) => lat);
+  const longitudes = shapes.map(({ lon }) => lon);
+  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
