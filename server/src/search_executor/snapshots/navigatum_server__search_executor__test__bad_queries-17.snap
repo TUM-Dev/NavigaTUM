@@ -1,0 +1,46 @@
+---
+source: src/search_executor/mod.rs
+description: "The architects name is a N2119. There are other rooms which are actually named '2119', which means 4 is the best case."
+expression: actual
+info: "'2119' should get '0101.02.119' in 4 results # The architects name is a N2119. There are other rooms which are actually named '2119', which means 4 is the best case."
+---
+- facet: rooms
+  entries:
+    - id: 5101.EG.119
+      type: room
+      name: 5101.EG.119 (Physiklabor (einfach))
+      subtext: "garching, Physik I"
+      subtext_bold: 2119@5101
+      parsed_id: "PH \u00192119\u0017"
+    - id: 5413.01.119
+      type: room
+      name: 5413.01.119 (Kopierer)
+      subtext: "garching, BNMRZ Bayerisches NMR-Zentrum"
+      subtext_bold: 2119@5413
+      parsed_id: "\u00192119\u0017 BNMRZ B…MR-Zentrum"
+    - id: 4111.02.119
+      type: room
+      name: 4111.02.119 (Empfang)
+      subtext: "weihenstephan, Forschungsbrauerei Weihenstephan mit Nebengebäude"
+      subtext_bold: 2.24@4111
+    - id: 8101.02.119
+      type: room
+      name: 8101.02.119 (Büro)
+      subtext: "garching-hochbrück, Business Campus 1"
+      subtext_bold: 2.01.19@8101
+    - id: 0101.02.119
+      type: room
+      name: 0101.02.119 (Büro)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N2119@0101
+    - id: 4277.02.119
+      type: room
+      name: 4277.02.119 (Windkanal)
+      subtext: "weihenstephan, Forstwissenschaften"
+      subtext_bold: 2.0.2.2@4277
+  n_visible: 6
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
