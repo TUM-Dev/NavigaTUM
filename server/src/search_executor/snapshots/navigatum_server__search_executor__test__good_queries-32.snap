@@ -34,12 +34,32 @@ info: "'1229 seminarraum' should get '0502.01.229' in 1 results"
       name: 0102.U1.229 (Stromversorgung)
       subtext: "stammgelände, Hochvolthaus (N2)"
       subtext_bold: N-1229@0102
+    - id: 2604.01.229
+      type: room
+      name: 2604.01.229 (Chemielabor)
+      subtext: "pasing-franz-langinger-straße, Laborbau (BL. L)"
+      subtext_bold: 229@2604
+    - id: 2332.01.229
+      type: room
+      name: 2332.01.229 ((32.1.239) Büro)
+      subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
+      subtext_bold: 01.2332.229@2332
     - id: 2334.01.224
       type: room
       name: "2334.01.224 ((34.\u00191\u0017.\u0019229\u0017) Hilfskraft)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 01.2334.224@2334
-  n_visible: 6
+    - id: 2601.01.229
+      type: room
+      name: 2601.01.229 (Arbeitsraum/mit Besp.Grp.)
+      subtext: "pasing-franz-langinger-straße, Institut für Grundbau und Bodenmechanik (BL. G)"
+      subtext_bold: G229@2601
+    - id: 4308.01.229
+      type: room
+      name: 4308.01.229 (Büro)
+      subtext: "weihenstephan, Humanbiologie Zoologie"
+      subtext_bold: 2.29@4308
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
