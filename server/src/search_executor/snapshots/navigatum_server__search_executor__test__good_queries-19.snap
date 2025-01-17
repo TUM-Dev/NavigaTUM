@@ -23,41 +23,41 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       name: 0106.U1.801 (Archiv)
       subtext: "stammgelände, Materialprüfamt (N6)"
       subtext_bold: N-1801@0106
+    - id: 0108.01.801
+      type: room
+      name: 0108.01.801 (Labor)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N1801@0108
     - id: 2332.01.217
       type: room
       name: "2332.01.217 ((32.\u00191\u0017.\u0019801\u0017) Büro)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
       subtext_bold: 01.2332.217@2332
+    - id: 4192.01.801
+      type: room
+      name: 4192.01.801 (Büro)
+      subtext: "staatsgut-veitshof, ehem. Wasserwerk"
+      subtext_bold: R1@4192
+    - id: 5132.01.801
+      type: room
+      name: 5132.01.801 (Technik RLT)
+      subtext: "garching, Boltzmannstr. 12"
+      subtext_bold: 01.801@5132
+    - id: 5101.01.801
+      type: room
+      name: 5101.01.801 (Installationsschacht)
+      subtext: "garching, Physik I"
+      subtext_bold: ""
     - id: 5132.U1.801
       type: room
       name: 5132.U1.801 (Technik)
       subtext: "garching, Boltzmannstr. 12"
       subtext_bold: "-1.801@5132"
-    - id: 5115.01.801
+    - id: 3505.01.102
       type: room
-      name: 5115.01.801 (Treppe Nord)
-      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
-      subtext_bold: 1.801@5115
-    - id: 5128.U1.801
-      type: room
-      name: 5128.U1.801 (Aufzug / Unterfahrt)
-      subtext: "garching, Am Coulombwall 3A"
-      subtext_bold: "-1.801@5128"
-    - id: 5301.01.801
-      type: room
-      name: 5301.01.801 (Treppenhaus)
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.801@5301
-    - id: 5212.01.801
-      type: room
-      name: 5212.01.801 (Treppenhaus West)
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.1.801@5212
-    - id: 5212.01.801L
-      type: room
-      name: 5212.01.801L (Aufzug)
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: L.1.801@5212
+      name: 3505.01.102 (Treppe)
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
+      subtext_bold: 01.801@3505
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

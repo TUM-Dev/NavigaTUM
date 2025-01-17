@@ -16,6 +16,11 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       name: "5101.01.\u0019342\u0017 (Sitzungs-,  Konferenzraum)"
       subtext: "garching, Physik I"
       subtext_bold: 3342@5101
+    - id: 5109.03.042
+      type: room
+      name: 5109.03.042 (Teilküche)
+      subtext: "garching, LMU Physik, Munich Center for Advanced Photonics (MAP)"
+      subtext_bold: 042@5109
     - id: 4213.01.342
       type: room
       name: "4213.01.\u0019342\u0017 (Labor (gem. Nutzung 1124302010;1110064600))"
@@ -31,6 +36,11 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       name: "4317.03.\u0019342\u0017 (Labor)"
       subtext: "weihenstephan, Tierwissenschaften"
       subtext_bold: 3.42@4317
+    - id: 0503.EG.342
+      type: room
+      name: "0503.EG.\u0019342\u0017 (Sekretariat 2)"
+      subtext: "stammgelände, Thierschbau (Z3)"
+      subtext_bold: 0342@0503
     - id: 2910.03.342
       type: room
       name: "2910.03.\u0019342\u0017 (Teeküche)"
@@ -46,16 +56,6 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       name: "0503.03.\u0019342\u0017 (Büro)"
       subtext: "stammgelände, Thierschbau (Z3)"
       subtext_bold: 3342@0503
-    - id: 0503.EG.342
-      type: room
-      name: "0503.EG.\u0019342\u0017 (Sekretariat 2)"
-      subtext: "stammgelände, Thierschbau (Z3)"
-      subtext_bold: 0342@0503
-    - id: 2334.01.342
-      type: room
-      name: "2334.01.\u0019342\u0017 ((34.1.406) WC-Herren)"
-      subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
-      subtext_bold: 01.2334.342@2334
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
