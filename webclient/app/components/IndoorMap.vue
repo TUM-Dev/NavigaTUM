@@ -29,13 +29,13 @@ onMounted(async () => {
   const doMapUpdate = async function () {
     // The map might or might not be initialized depending on the type
     // of navigation.
-    if (document.getElementById("interactive-map")) {
-      if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
+    if (document.getElementById("interactive-indoor-map")) {
+      if (document.getElementById("interactive-indoor-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        map.value = await initMap("interactive-map");
+        map.value = await initMap("interactive-indoor-map");
 
-        document.getElementById("interactive-map")?.classList.remove("loading");
+        document.getElementById("interactive-indoor-map")?.classList.remove("loading");
       }
     }
 
@@ -48,7 +48,7 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-map .maplibregl-canvas")) await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -105,8 +105,8 @@ async function initMap(containerId: string): Promise<Map> {
     // is resized (not relevant for users but for developers).
     const isMobile = window.matchMedia && window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenContainer = isMobile
-      ? document.getElementById("interactive-map")
-      : document.getElementById("interactive-map-container");
+      ? document.getElementById("interactive-indoor-map")
+      : document.getElementById("interactive-indoor-map-container");
     const fullscreenCtl = new FullscreenControl({
       container: fullscreenContainer as HTMLElement,
     });
@@ -261,14 +261,14 @@ defineExpose({ drawRoute, fitBounds });
 
 <template>
   <div
-    id="interactive-map-container"
+    id="interactive-indoor-map-container"
     class="print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div v-if="webglSupport" id="interactive-map" class="absolute !h-full !w-full" />
+    <div v-if="webglSupport" id="interactive-indoor-map" class="absolute !h-full !w-full" />
     <LazyMapGLNotSupported v-else />
   </div>
 </template>
@@ -277,7 +277,7 @@ defineExpose({ drawRoute, fitBounds });
 @import "maplibre-gl/dist/maplibre-gl.css";
 
 /* --- Interactive map display --- */
-#interactive-map-container {
+#interactive-indoor-map-container {
   /* --- User location dot --- */
 
   .maplibregl-user-location-dot,

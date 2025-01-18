@@ -32,13 +32,13 @@ function loadInteractiveMap() {
   const doMapUpdate = function () {
     // The map might or might not be initialized depending on the type
     // of navigation.
-    if (document.getElementById("interactive-map")) {
-      if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
+    if (document.getElementById("interactive-legacy-map")) {
+      if (document.getElementById("interactive-legacy-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        map.value = initMap("interactive-map");
+        map.value = initMap("interactive-legacy-map");
 
-        document.getElementById("interactive-map")?.classList.remove("loading");
+        document.getElementById("interactive-legacy-map")?.classList.remove("loading");
       }
     }
     if (map.value !== undefined) {
@@ -62,7 +62,7 @@ function loadInteractiveMap() {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-map .maplibregl-canvas")) nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-legacy-map .maplibregl-canvas")) nextTick(doMapUpdate);
   else doMapUpdate();
 }
 
@@ -136,8 +136,8 @@ function initMap(containerId: string): Map {
     // is resized (not relevant for users but for developers).
     const isMobile = window.matchMedia && window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenContainer = isMobile
-      ? document.getElementById("interactive-map")
-      : document.getElementById("interactive-map-container");
+      ? document.getElementById("interactive-legacy-map")
+      : document.getElementById("interactive-legacy-map-container");
     const fullscreenCtl = new FullscreenControl({
       container: fullscreenContainer as HTMLElement,
     });
@@ -274,7 +274,7 @@ onMounted(() => {
     let timeoutInMs = 25;
 
     function pollMap() {
-      const canLoadMap = document.getElementById("interactive-map") !== null;
+      const canLoadMap = document.getElementById("interactive-legacy-map") !== null;
       if (canLoadMap) {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
@@ -292,14 +292,14 @@ onMounted(() => {
 
 <template>
   <div
-    id="interactive-map-container"
+    id="interactive-legacy-map-container"
     class="mb-2.5 aspect-4/3 print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div v-if="webglSupport" id="interactive-map" class="absolute !h-full !w-full" />
+    <div v-if="webglSupport" id="interactive-legacy-map" class="absolute !h-full !w-full" />
     <LazyMapGLNotSupported v-else />
   </div>
 </template>
@@ -308,7 +308,7 @@ onMounted(() => {
 @import "maplibre-gl/dist/maplibre-gl.css";
 
 /* --- Interactive map display --- */
-#interactive-map-container {
+#interactive-legacy-map-container {
   /* --- User location dot --- */
 
   .maplibregl-user-location-dot,
