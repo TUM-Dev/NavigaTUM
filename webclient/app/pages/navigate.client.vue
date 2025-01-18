@@ -94,7 +94,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
       <Toast v-else-if="status === 'error'" id="nav-error" level="error">
         {{ error }}
       </Toast>
-      <div class="border-zinc-500 border-t p-1" v-if="status === 'success' && !!data"></div>
+      <div v-if="status === 'success' && !!data" class="border-zinc-500 border-t p-1" />
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
     </div>
   </div>

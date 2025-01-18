@@ -245,8 +245,8 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
   console.log("zooming to", { lat, lon });
   // below function zooms exactly to the values.
   // adding a bit of padding looks nicer
-  let paddingLat = (lat[1] - lat[0]) * 0.1;
-  let paddingLon = (lon[1] - lon[0]) * 0.1;
+  const paddingLat = (lat[1] - lat[0]) * 0.1;
+  const paddingLon = (lon[1] - lon[0]) * 0.1;
   map.value.fitBounds(
     [
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
