@@ -57,8 +57,13 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
 </script>
 
 <template>
-  <div class="flex max-h-[calc(100vh-150px)] min-h-[calc(100vh-150px)] flex-row">
-    <div class="bg-zinc-100 flex min-w-96 max-w-96 flex-col gap-3 overflow-auto p-4">
+  <div
+    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col md:max-h-[calc(100vh-150px)] md:min-h-[calc(100vh-150px)] md:flex-row-reverse"
+  >
+    <div class="grow">
+      <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+    </div>
+    <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 md:max-w-96">
       <NuxtLinkLocale
         v-if="coming_from"
         :to="'/view/' + coming_from"
@@ -91,9 +96,6 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
       </Toast>
       <div class="border-zinc-500 border-t p-1" v-if="status === 'success' && !!data"></div>
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
-    </div>
-    <div class="grow">
-      <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
     </div>
   </div>
 </template>

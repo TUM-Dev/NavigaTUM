@@ -268,7 +268,11 @@ defineExpose({ drawRoute, fitBounds });
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div v-if="webglSupport" id="interactive-indoor-map" class="absolute !h-full !w-full" />
+    <div
+      v-if="webglSupport"
+      id="interactive-indoor-map"
+      class="!md:h-[calc(100vh-150px)] absolute h-[calc(100vh-400px)] !w-full"
+    />
     <LazyMapGLNotSupported v-else />
   </div>
 </template>
@@ -286,21 +290,15 @@ defineExpose({ drawRoute, fitBounds });
   }
 
   > div {
-    padding-bottom: calc(100vh - 150px); /* 4:3 aspect ratio */
+    padding-bottom: 0;
   }
 
   &.maximize {
     position: absolute;
     top: 60px;
     left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 150px);
     z-index: 1000;
-
-    > div {
-      padding-bottom: 0;
-      height: 100%;
-    }
   }
 }
 
