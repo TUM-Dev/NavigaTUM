@@ -108,7 +108,7 @@ de:
     disclaimer: Stündlich aktualisiert und identische Termine zusammengefasst.
     please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
     last_sync: Stand {0}
-  Loading data...: Loading data...
+  Loading data...: Lädt daten...
 en:
   title: Calendar
   close: Close
@@ -122,5 +122,5 @@ en:
     disclaimer: Updated hourly and identical events are merged.
     please_check: If in doubt, please check the official calendar on TUMonline
     last_sync: Updated {0}
-  Loading data...: Lädt daten...
+  Loading data...: Loading data...
 </i18n>
