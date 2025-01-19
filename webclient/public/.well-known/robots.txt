@@ -1,4 +1,6 @@
 User-agent: *
 Disallow: /maps
+Disallow: /navigate
+Disallow: /next
 
 Sitemap: https://nav.tum.de/cdn/sitemap.xml
