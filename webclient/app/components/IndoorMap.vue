@@ -262,7 +262,7 @@ defineExpose({ drawRoute, fitBounds });
 <template>
   <div
     id="interactive-indoor-map-container"
-    class="min-h-96 grow print:!hidden"
+    class="min-h-96 print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
