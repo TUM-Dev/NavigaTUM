@@ -13,9 +13,17 @@ const { t } = useI18n({ useScope: "local" });
   <div>
     <div v-for="(l, i) in data.legs" :key="i" class="gap-1">
       <p class="text-zinc-500 mt-3 flex items-center gap-5 pb-4 font-semibold">
-        <span>{{ t("meters", l.summary.length_meters) }}</span>
+        <span>{{
+          l.summary.length_meters >= 1000
+            ? t("kilometers", [(l.summary.length_meters / 1000).toFixed(1)])
+            : t("meters", l.summary.length_meters)
+        }}</span>
         <span class="border-zinc-500 flex-grow border-t" />
-        <span>{{ t("minutes", Math.ceil(l.summary.time_seconds / 60)) }}</span>
+        <span>{{
+          l.summary.time_seconds >= 60
+            ? t("minutes", Math.ceil(l.summary.time_seconds / 60))
+            : t("seconds", l.summary.time_seconds)
+        }}</span>
       </p>
       <div
         v-for="(m, j) in l.maneuvers"
@@ -44,8 +52,12 @@ const { t } = useI18n({ useScope: "local" });
 <i18n lang="yaml">
 de:
   minutes: "sofort | eine Minute | {count} Minuten"
+  seconds: "sofort | eine Sekunde | {count} Sekunden"
   meters: "hier | einen Meter | {count} Meter"
+  kilometers: "{0} Kilometer"
 en:
   minutes: "instant | one minute | {count} minutes"
+  seconds: "instant | one second | {count} seconds"
   meters: "here | one meter | {count} meters"
+  kilometers: "{0} kilometers"
 </i18n>
