@@ -19,7 +19,7 @@ const { t } = useI18n({ useScope: "local" });
         </template>
       </TinyModal>
     </p>
-    <ul class="flex flex-col gap-1.5" v-if="navigationEnabled || props.links">
+    <ul v-if="navigationEnabled || props.links" class="flex flex-col gap-1.5">
       <li v-if="navigationEnabled" class="print:!hidden">
         <Btn
           size="text-md gap-2.5 px-3 py-1.5 rounded leading-snug"
