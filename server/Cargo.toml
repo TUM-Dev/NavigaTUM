@@ -83,7 +83,7 @@ valhalla-client = { branch = "polyline-async-api", git = "https://github.com/Com
 # docs
 utoipa-actix-web = "0.1.2"
 utoipa = { version = "5.2.0", features = ["yaml", "chrono", "actix_extras", "url"] }
-utoipa-redoc = { version = "5.0.0", features = ["actix-web"] }
+utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
 url = "2.5.4"
 
 [dev-dependencies]
