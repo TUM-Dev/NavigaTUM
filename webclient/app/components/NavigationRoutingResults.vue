@@ -23,13 +23,19 @@ const { t } = useI18n({ useScope: "local" });
         class="group cursor-pointer py-1"
         @click="emit('selectManeuver', { begin_shape_index: m.begin_shape_index, end_shape_index: m.end_shape_index })"
       >
-        <div class="bg-zinc-200 flex flex-row items-center gap-3 rounded-md p-2 py-1 group-hover:bg-zinc-300">
+        <div
+          class="bg-zinc-200 flex flex-row items-center gap-3 rounded-md p-2 py-1 group-hover:bg-zinc-300"
+          :aria-label="m.verbal_transition_alert_instruction ?? undefined"
+        >
           <NavigationRoutingManeuverIcon :type="m.type" />
-          <div>
-            <div class="text-zinc-900">{{ m.instruction }}</div>
-          </div>
+          <div class="text-zinc-900">{{ m.instruction }}</div>
         </div>
-        <small v-if="m.length_meters" class="text-zinc-500">{{ t("meters", m.length_meters) }}</small>
+        <small
+          v-if="m.length_meters"
+          class="text-zinc-500"
+          :aria-label="m.verbal_post_transition_instruction ?? undefined"
+          >{{ t("meters", m.length_meters) }}</small
+        >
       </div>
     </div>
   </div>
