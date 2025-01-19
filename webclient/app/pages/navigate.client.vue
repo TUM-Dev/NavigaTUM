@@ -58,12 +58,10 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
 
 <template>
   <div
-    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col md:max-h-[calc(100vh-150px)] md:min-h-[calc(100vh-150px)] md:flex-row-reverse"
+    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse"
   >
-    <div class="grow">
-      <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
-    </div>
-    <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 md:max-w-96">
+    <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+    <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
         v-if="coming_from"
         :to="'/view/' + coming_from"
@@ -91,8 +89,8 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
       </div>
-      <Toast v-else-if="status === 'error'" id="nav-error" level="error">
-        {{ error }}
+      <Toast v-else-if="status === 'error' && !!error && error.statusCode !== 404" id="nav-error" level="error">
+        {{ error.message }}
       </Toast>
       <div v-if="status === 'success' && !!data" class="border-zinc-500 border-t p-1" />
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
