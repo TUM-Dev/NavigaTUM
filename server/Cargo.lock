@@ -6642,7 +6642,7 @@ dependencies = [
 [[package]]
 name = "valhalla-client"
 version = "0.3.0"
-source = "git+https://github.com/CommanderStorm/valhalla-client-rs.git?branch=polyline-async-api#ae2f34f08b438b6d63ff667a6f1e590c8ec86d19"
+source = "git+https://github.com/CommanderStorm/valhalla-client-rs.git?branch=async-api#bd0a63834f464ba81fb7a8f3f63aed497687b8ec"
 dependencies = [
  "chrono",
  "geo-types",
