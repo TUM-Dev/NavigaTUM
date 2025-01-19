@@ -42,6 +42,30 @@ effect(() => {
 
   indoorMap.value.drawRoute(data.value.legs[0].shape);
 });
+const title = computed(() => {
+  if (!!selected_from.value && !!selected_to.value)
+    return t("navigate_from_to", { from: selected_from.value, to: selected_to.value });
+  if (!!selected_from.value) return t("navigate_from", { from: selected_from.value });
+  if (!!selected_to.value) return t("navigate_to", { to: selected_to.value });
+  return t("navigate");
+});
+const description = computed(() => {
+  if (!data.value) {
+    return t("description");
+  }
+  return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
+    time: data.value.summary.time_seconds,
+    length: data.value.summary.length_meters,
+  });
+});
+useSeoMeta({
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
+  ogImage: "https://nav.tum.de/navigatum-card.png",
+  twitterCard: "summary",
+});
 
 function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: number) {
   if (!data.value) return;
@@ -60,7 +84,11 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   <div
     class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse"
   >
-    <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+    <div class="min-h-96 grow">
+      <ClientOnly>
+        <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+      </ClientOnly>
+    </div>
     <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
         v-if="coming_from"
@@ -102,7 +130,21 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
 de:
   back: zurück
   calculating best route: Berechnet optimale Route
+  navigate_from_to: Navigiere von {from} nach {to}
+  navigate_from: Navigiere von {from}
+  navigate_to: Navigiere nach {to}
+  navigate: Navigiere
+  description_highway_time_length: Die Fahrt dauert {time} Minuten und erstreckt sich über {length} Meter. Bitte beachten Sie, dass sie Autobahnfahrten beinhaltet.
+  description_time_length: Die Fahrt dauert {time} Minuten und erstreckt sich über {length} Meter.
+  description: Beste Route wird berechnet
 en:
   back: back
   calculating best route: Calculating best route
+  navigate_from_to: Navigating from {from} to {to}
+  navigate_from: Navigating from {from}
+  navigate_to: Navigating to {to}
+  navigate: Navigating
+  description_highway_time_length: The trip will take {time} minutes and span {length} meters. Note that it will include highway travel.
+  description_time_length: The trip will take {time} minutes and span {length} meters.
+  description: Calculating best route
 </i18n>
