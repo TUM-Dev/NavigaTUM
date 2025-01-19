@@ -9,6 +9,7 @@ readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 default-run = "navigatum-server"
+rust-version = "1.84.0"
 
 [[bin]]
 name = "navigatum-server"
@@ -25,26 +26,26 @@ sentry = { version = "0.36.0", features = ["tracing", "metrics", "backtrace", "c
 sentry-actix = "0.36.0"
 
 # errors 
-anyhow = { version = "1.0.94", features = ["backtrace"] }
+anyhow = { version = "1.0.95", features = ["backtrace"] }
 
 #serialisation
-serde = { version = "1.0.216", features = ["derive"] }
+serde = { version = "1.0.217", features = ["derive"] }
 serde_with = { version = "3.12.0", default-features = false, features = [] }
-serde_json = { version = "1.0.133", features = ["raw_value"] }
+serde_json = { version = "1.0.136", features = ["raw_value"] }
 serde_yaml = "0.9.34"
 
 # runtime + webserver
-tokio = { version = "1.42.0", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
+tokio = { version = "1.43.0", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
 actix-web = { version = "4.9.0", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
 actix-cors = "0.7.0"
-rustls = "0.23.20"
+rustls = "0.23.21"
 
 cached = { version = "0.54.0", features = ["default", "async", "disk_store"] }
 futures = "0.3.31"
 unicode-truncate = "2.0.0"
 
 # database
-sqlx = { version = "0.8.2", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
+sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 chrono = { version = "0.4.39", default-features = false, features = ["serde"] }
 
 # search
@@ -54,15 +55,15 @@ regex = "1.11.1"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12.9", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+reqwest = { version = "0.12.12", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
 
 # image production
 image = { version = "0.25.5", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.25.0"
-ab_glyph = { version = "0.2.28", default-features = false }
+ab_glyph = { version = "0.2.29", default-features = false }
 
 rand = "0.8.5"
-octocrab = { version = "0.42.1", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
+octocrab = { version = "0.43.0", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
 
 # auth/security
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
@@ -82,15 +83,15 @@ valhalla-client = { branch = "polyline-async-api", git = "https://github.com/Com
 
 # docs
 utoipa-actix-web = "0.1.2"
-utoipa = { version = "5.2.0", features = ["yaml", "chrono", "actix_extras", "url"] }
+utoipa = { version = "5.3.1", features = ["yaml", "chrono", "actix_extras", "url"] }
 utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
 url = "2.5.4"
 
 [dev-dependencies]
-insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
+insta = { version = "1.42.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.1"
 testcontainers = { version = "0.23.1", features = ["watchdog"] }
-testcontainers-modules = { version = "0.11.4", features = ["meilisearch", "postgres"] }
+testcontainers-modules = { version = "0.11.5", features = ["meilisearch", "postgres"] }
 tracing-test = "0.2.5"
 
 
