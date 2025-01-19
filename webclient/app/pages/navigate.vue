@@ -53,9 +53,13 @@ const description = computed(() => {
   if (!data.value) {
     return t("description");
   }
+  const length_meters = data.value.summary.length_meters;
+  const length_kilometers = (length_meters / 1000).toFixed(1);
+  const time_seconds = data.value.summary.time_seconds;
+  const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
   return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
-    time: data.value.summary.time_seconds,
-    length: data.value.summary.length_meters,
+    time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+    length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
   });
 });
 useSeoMeta({
@@ -134,9 +138,13 @@ de:
   navigate_from: Navigiere von {from}
   navigate_to: Navigiere nach {to}
   navigate: Navigiere
-  description_highway_time_length: Die Fahrt dauert {time} Minuten und erstreckt sich über {length} Meter. Bitte beachten Sie, dass sie Autobahnfahrten beinhaltet.
-  description_time_length: Die Fahrt dauert {time} Minuten und erstreckt sich über {length} Meter.
+  description_highway_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}. Bitte beachten Sie, dass sie Autobahnfahrten beinhaltet.
+  description_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}.
   description: Beste Route wird berechnet
+  minutes: "sofort | eine Minute | {count} Minuten"
+  seconds: "sofort | eine Sekunde | {count} Sekunden"
+  meters: "hier | einen Meter | {count} Meter"
+  kilometers: "{0} Kilometer"
 en:
   back: back
   calculating best route: Calculating best route
@@ -144,7 +152,11 @@ en:
   navigate_from: Navigating from {from}
   navigate_to: Navigating to {to}
   navigate: Navigating
-  description_highway_time_length: The trip will take {time} minutes and span {length} meters. Note that it will include highway travel.
-  description_time_length: The trip will take {time} minutes and span {length} meters.
+  description_highway_time_length: The trip will take {time} and span {length}. Note that it will include highway travel.
+  description_time_length: The trip will take {time} and span {length}.
   description: Calculating best route
+  minutes: "instant | one minute | {count} minutes"
+  seconds: "instant | one second | {count} seconds"
+  meters: "here | one meter | {count} meters"
+  kilometers: "{0} kilometers"
 </i18n>

@@ -40,6 +40,6 @@ de:
   minutes: "sofort | eine Minute | {count} Minuten"
   meters: "hier | einen Meter | {count} Meter"
 en:
-  minutes: "instant | one minutes | {count} minutes"
+  minutes: "instant | one minute | {count} minutes"
   meters: "here | one meter | {count} meters"
 </i18n>
