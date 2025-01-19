@@ -262,18 +262,14 @@ defineExpose({ drawRoute, fitBounds });
 <template>
   <div
     id="interactive-indoor-map-container"
-    class="print:!hidden"
+    class="min-h-96 grow print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div
-      v-if="webglSupport"
-      id="interactive-indoor-map"
-      class="!md:h-[calc(100vh-150px)] absolute h-[calc(100vh-400px)] !w-full"
-    />
-    <LazyMapGLNotSupported v-else />
+    <div v-if="webglSupport" id="interactive-indoor-map" class="relative !h-full min-h-96 !w-full" />
+    <MapGLNotSupported v-else />
   </div>
 </template>
 
