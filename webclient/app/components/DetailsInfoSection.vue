@@ -20,7 +20,12 @@ const runtimeConfig = useRuntimeConfig();
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">
       {{ t("info_title") }}
     </h2>
-    <DetailsPropertyTable :props="data.props" />
+    <DetailsPropertyTable
+      :id="data.id"
+      :props="data.props"
+      :name="data.name"
+      :navigation-enabled="data.coords.accuracy !== 'building'"
+    />
   </div>
 
   <!-- Informationen card (desktop) -->
@@ -46,7 +51,13 @@ const runtimeConfig = useRuntimeConfig();
       </button>
       <div class="px-5 py-3">
         <span class="sr-only">{{ t("info_title") }}</span>
-        <DetailsPropertyTable v-if="data" :props="data.props" />
+        <DetailsPropertyTable
+          v-if="data"
+          :id="data.id"
+          :props="data.props"
+          :name="data.name"
+          :navigation-enabled="data.coords.accuracy !== 'building'"
+        />
         <div class="mt-3 grid gap-2">
           <Toast v-if="data.coords.accuracy === 'building'" level="warning" :msg="t('msg.inaccurate_only_building')" />
           <Toast
