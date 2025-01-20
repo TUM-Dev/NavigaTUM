@@ -83,8 +83,8 @@ function createMarker(hueRotation = 0) {
 function initMap(containerId: string): Map {
   const map = new Map({
     container: containerId,
-    // to make sure that users can share urls
-    hash: true,
+    // while having the hash in the url is nice, it is overridden on map load anyway => not much use
+    hash: false,
 
     canvasContextAttributes: {
       // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
