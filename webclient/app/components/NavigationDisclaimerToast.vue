@@ -20,9 +20,9 @@ const { t } = useI18n({ useScope: "local" });
         <template #transit_routing>
           <b class="font-bold">{{ t("disclaimer_2_transit_routing") }}</b>
         </template>
-        <template #defas>
-          <a href="https://mobilitaetsplattform.bayern/de/defas" target="_blank" class="text-blue-600 hover:underline"
-            >DEFAS</a
+        <template #delfi>
+          <a href="https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite" target="_blank" class="text-blue-600 hover:underline"
+            >DELFI</a
           >
         </template>
       </I18nT>
@@ -55,7 +55,7 @@ de:
   disclaimer_1_interior_shortcuts: Abkürzungen im Innenbereich
   disclaimer_1: "{route_planning} und {interior_shortcuts}. Der Import der CAD-Daten und Implementierung von barrierefreien Routing sind noch nicht abgeschlossen"
   disclaimer_2_transit_routing: Transit-Routing
-  disclaimer_2: "{transit_routing}. Wir haben noch keine Möglichkeit gefunden, {defas}-Daten zu beziehen"
+  disclaimer_2: "{transit_routing}. Wir haben noch keine Möglichkeit gefunden, {delfi}-Daten zu beziehen"
   disclaimer_cta: Wir würden wir uns trotzdem über dein Feedback freuen 😊
   open-feedback-form: Öffnet das Feedback-Formular
   found_issues: "Ich habe diese Probleme gefunden:"
@@ -66,7 +66,7 @@ en:
   disclaimer_1_interior_shortcuts: shortcuts
   disclaimer_1: "{route_planning} and {interior_shortcuts}. CAD-data import and accessible routing implementation is not yet done"
   disclaimer_2_transit_routing: Transit routing
-  disclaimer_2: "{transit_routing}. We have not found a way to incorporate {defas}-data yet"
+  disclaimer_2: "{transit_routing}. We have not found a way to incorporate {delfi}-data yet"
   disclaimer_cta: We would still appreciate your feedback 😊
   open-feedback-form: Open the feedback form
   found_issues: "I have found these problems:"
