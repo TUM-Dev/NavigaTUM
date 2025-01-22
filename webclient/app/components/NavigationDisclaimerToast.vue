@@ -21,7 +21,10 @@ const { t } = useI18n({ useScope: "local" });
           <b class="font-bold">{{ t("disclaimer_2_transit_routing") }}</b>
         </template>
         <template #delfi>
-          <a href="https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite" target="_blank" class="text-blue-600 hover:underline"
+          <a
+            href="https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite"
+            target="_blank"
+            class="text-blue-600 hover:underline"
             >DELFI</a
           >
         </template>
