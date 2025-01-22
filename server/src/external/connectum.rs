@@ -1,9 +1,9 @@
 const KEEP_ALIVE: Duration = Duration::from_secs(30);
 use chrono::{DateTime, Utc};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
-use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
+use reqwest::redirect;
 use serde::Deserialize;
 use std::fmt::{Debug, Formatter};
 use std::sync::Arc;
@@ -129,16 +129,18 @@ impl OauthAccessToken {
         let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/auth")?;
         let token_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/token")?;
 
-        let token = BasicClient::new(
-            ClientId::new(client_id),
-            Some(ClientSecret::new(client_secret)),
-            AuthUrl::from_url(auth_url),
-            Some(TokenUrl::from_url(token_url)),
-        )
-        .exchange_client_credentials()
-        .add_scope(Scope::new("connectum-rooms.read".into()))
-        .request_async(async_http_client)
-        .await;
+        let http_client = reqwest::Client::builder()
+            // no redirects to prevent [SSRF-vulns](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+            .redirect(redirect::Policy::none())
+            .build()?;
+        let token = BasicClient::new(ClientId::new(client_id))
+            .set_client_secret(ClientSecret::new(client_secret))
+            .set_auth_uri(AuthUrl::from_url(auth_url))
+            .set_token_uri(TokenUrl::from_url(token_url))
+            .exchange_client_credentials()
+            .add_scope(Scope::new("connectum-rooms.read".into()))
+            .request_async(&http_client)
+            .await;
         Ok((Instant::now(), token?))
     }
 

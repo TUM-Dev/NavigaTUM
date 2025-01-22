@@ -54,7 +54,7 @@ logos = "0.15.0"
 regex = "1.11.1"
 
 # web access
-oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
+oauth2 = { version = "5.0.0", default-features = false, features = ["rustls-tls", "reqwest"] }
 reqwest = { version = "0.12.12", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
 
 # image production
