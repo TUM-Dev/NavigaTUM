@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import nightwind from "nightwind";
-import { current, green, inherit, orange, red, transparent, white, zinc } from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
 
 export default <Partial<Config>>{
   darkMode: "class",
@@ -10,13 +10,13 @@ export default <Partial<Config>>{
   },
   theme: {
     colors: {
-      inherit,
-      current,
-      transparent,
-      white,
-      zinc,
-      orange,
-      green,
+      inherit: colors.inherit,
+      current: colors.current,
+      transparent: colors.transparent,
+      white: colors.white,
+      zinc: colors.zinc,
+      orange: colors.orange,
+      green: colors.green,
       "fuchsia-pink": {
         "50": "#faf5fa",
         "100": "#f7ecf6",
@@ -31,7 +31,7 @@ export default <Partial<Config>>{
         "900": "#6a315d",
         "950": "#3f1837",
       },
-      red,
+      red: colors.red,
       blue: {
         50: "#f3f6fc",
         100: "#e5edf9",
