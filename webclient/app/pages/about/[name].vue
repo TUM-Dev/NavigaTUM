@@ -7,7 +7,7 @@ const { data: page } = await useAsyncData(route.path, () => {
 
 <template>
   <div id="contentwrapper" class="pt-4">
-    <ContentRenderer v-if="page" :value="page" />
+    <ContentRenderer v-if="page" :value="page" :prose="true" />
   </div>
 </template>
 
@@ -27,11 +27,14 @@ const { data: page } = await useAsyncData(route.path, () => {
 
   p,
   ul,
-  ol,
+  ol {
+    @apply text-zinc-700 py-1 text-sm font-medium leading-6;
+  }
+
   h4,
   h5,
   h6 {
-    @apply text-zinc-700 py-1 text-sm font-medium leading-6;
+    @apply text-zinc-700 py-1 text-sm font-semibold uppercase leading-6;
   }
 
   li {
@@ -39,7 +42,10 @@ const { data: page } = await useAsyncData(route.path, () => {
   }
 
   code {
-    @apply text-blue-900 bg-blue-100 mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-blue-950 dark:bg-blue-50;
+    @apply text-blue-900 bg-blue-100 mb-4 flex max-w-full flex-col items-start space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-blue-950 dark:bg-blue-50;
+  }
+  code span {
+    @apply !ms-0;
   }
 
   p a {

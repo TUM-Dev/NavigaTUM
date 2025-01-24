@@ -10,9 +10,11 @@ Regulation (DSGVO), is:
 Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```plain
-Postal address: Boltzmannstr. 3, 85748 Garching b. München, Germany.
+Frank Elsinga representing "OpenSource @ TUM e.V."
+Postal address: Boltzmannstr. 3, 85748 Garching b. München, Germany
 Telephone: 089/289-17052
 E-mail: navigatum (at-symbol) tum.de
+https://tum.dev
 ```
 
 ### Contact details of the data protection officer
