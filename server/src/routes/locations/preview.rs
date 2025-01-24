@@ -5,7 +5,7 @@ use crate::db::location::{Location, LocationKeyAlias};
 use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::overlays::map::OverlayMapTask;
-use crate::overlays::text::{cantarell_bold, cantarell_regular, OverlayText};
+use crate::overlays::text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
 use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
@@ -77,10 +77,10 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     } else {
         data.name.clone()
     };
-    OverlayText::with(&name, cantarell_bold())
+    OverlayText::with(&name, &CANTARELL_BOLD)
         .at(10, 125 - 10)
         .draw_onto(img);
-    OverlayText::with(&data.type_common_name, cantarell_regular())
+    OverlayText::with(&data.type_common_name, &CANTARELL_REGULAR)
         .at(10, 125 - 50)
         .draw_onto(img);
 }

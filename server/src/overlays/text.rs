@@ -4,19 +4,13 @@ use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
 use std::fmt;
 use std::fmt::Formatter;
-use std::sync::OnceLock;
+use std::sync::LazyLock;
 
-pub fn cantarell_bold() -> &'static FontArc {
-    static CANTARELL_BOLD: OnceLock<FontArc> = OnceLock::new();
-    CANTARELL_BOLD
-        .get_or_init(|| FontArc::try_from_slice(include_bytes!("font/Cantarell-Bold.ttf")).unwrap())
-}
-pub fn cantarell_regular() -> &'static FontArc {
-    static CANTARELL_REGULAR: OnceLock<FontArc> = OnceLock::new();
-    CANTARELL_REGULAR.get_or_init(|| {
-        FontArc::try_from_slice(include_bytes!("font/Cantarell-Regular.ttf")).unwrap()
-    })
-}
+pub static CANTARELL_BOLD: LazyLock<FontArc> =
+    LazyLock::new(|| FontArc::try_from_slice(include_bytes!("font/Cantarell-Bold.ttf")).unwrap());
+pub static CANTARELL_REGULAR: LazyLock<FontArc> = LazyLock::new(|| {
+    FontArc::try_from_slice(include_bytes!("font/Cantarell-Regular.ttf")).unwrap()
+});
 const SCALE: PxScale = PxScale { x: 35.0, y: 35.0 };
 
 pub struct OverlayText {
