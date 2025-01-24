@@ -1,0 +1,28 @@
+[package]
+name = "motis-client"
+version = "0.1.0"
+authors = ["Frank Elsinga <frank@elsinga.de>"]
+edition = "2018"
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+async-trait = "0.1"
+bytes = "0.5"
+thiserror = "1.0"
+futures = "0.3"
+http = "1.2.0"
+lazy_static = "1.4"
+log = "0.4"
+mime = { git = "https://github.com/hyperium/mime" }
+mime_guess = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9.34+deprecated"
+tokio-util = { version = "0.4", features = ["codec"] }
+
+tokio = { version = "0.3", features = ["fs", "io-util"] }
+reqwest = { version = "0.10", features = ["stream", "json"] }
+
+[workspace]
