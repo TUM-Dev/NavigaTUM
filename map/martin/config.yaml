@@ -1,4 +1,4 @@
-cache_size_mb: 100
+cache_size_mb: 1024
 listen_addresses: 0.0.0.0:3001
 base_path: $BASE_PATH
 web_ui: enable-for-all
