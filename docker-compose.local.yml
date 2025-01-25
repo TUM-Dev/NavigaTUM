@@ -56,7 +56,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: development
     healthcheck:
-      test: curl --quiet http://localhost:7700/health
+      test: curl --silent http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
