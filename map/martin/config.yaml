@@ -1,6 +1,7 @@
 cache_size_mb: 100
 listen_addresses: 0.0.0.0:3001
 base_path: $BASE_PATH
+web_ui: enable-for-all
 sprites:
   - /map/sprites/maki
   - /map/sprites/navigatum
