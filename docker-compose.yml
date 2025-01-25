@@ -80,7 +80,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
     healthcheck:
-      test: wget --quiet --delete-after http://localhost:7700/health
+      test: curl --quiet http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
