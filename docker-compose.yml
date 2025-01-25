@@ -80,7 +80,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
     healthcheck:
-      test: curl --quiet http://localhost:7700/health
+      test: curl --silent http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
@@ -305,7 +305,7 @@ services:
       - ./map/martin/:/map/:ro
       - tileserver-src:/data:ro
     healthcheck:
-      test: wget --spider http://localhost:3001/health || exit 1
+      test: wget --spider http://0.0.0.0:3001/health || exit 1
       retries: 10
       interval: 1s
       start_period: 1s
