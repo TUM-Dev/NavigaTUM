@@ -6,7 +6,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
       - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
+      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)  && (PathPrefix(`/`) || PathPrefix(`/api/_content/`))"
       - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
     networks:
       - traefik_traefik
