@@ -84,6 +84,7 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
   db:
     image: postgis/postgis:17-3.4
     restart: unless-stopped
@@ -107,8 +108,7 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      # requires docker v25 to be available for ubuntu
-      # start_interval: 20s
+      start_interval: 500ms
       start_period: 20s
   download-data:
     image: alpine:latest
@@ -148,6 +148,7 @@ services:
       interval: 60s
       retries: 2
       start_period: 5s
+      start_interval: 500ms
       timeout: 1s
   nominatim:
     image: mediagis/nominatim:4.5
@@ -180,6 +181,7 @@ services:
       interval: 60s
       retries: 2
       start_period: 5s
+      start_interval: 500ms
       timeout: 1s
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
@@ -309,6 +311,7 @@ services:
       retries: 10
       interval: 1s
       start_period: 1s
+      start_interval: 500ms
   redirect-domain:
     image: traefik/whoami:latest
     restart: unless-stopped
@@ -329,6 +332,7 @@ services:
       retries: 2
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
 
 volumes:
   tileserver-src:

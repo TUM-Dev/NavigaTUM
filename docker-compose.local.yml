@@ -60,6 +60,7 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
   db:
     image: postgis/postgis:17-3.4
     restart: unless-stopped
@@ -80,6 +81,5 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      # requires docker v25 to be available for ubuntu
-      # start_interval: 20s
       start_period: 20s
+      start_interval: 500ms
