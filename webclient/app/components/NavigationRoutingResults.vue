@@ -32,7 +32,7 @@ const { t } = useI18n({ useScope: "local" });
         @click="emit('selectManeuver', { begin_shape_index: m.begin_shape_index, end_shape_index: m.end_shape_index })"
       >
         <div
-          class="bg-zinc-200 flex flex-row items-center gap-3 rounded-md p-2 py-1 group-hover:bg-zinc-300"
+          class="bg-zinc-200 flex flex-row items-center gap-3 overflow-auto rounded-md p-2 py-1 group-hover:bg-zinc-300"
           :aria-label="m.verbal_transition_alert_instruction ?? undefined"
         >
           <NavigationRoutingManeuverIcon :type="m.type" />
