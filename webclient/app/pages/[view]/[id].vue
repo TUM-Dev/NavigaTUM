@@ -78,8 +78,13 @@ watch([data], () => {
 
 const description = computed(() => {
   if (data.value === undefined || data.value === null) return "";
-  const detailsFor = t("details_for");
-  let description = `${detailsFor} ${data.value.type_common_name} ${data.value.name}`;
+
+  let description = t("details_for");
+  if (data.value.name.includes(data.value.type_common_name)) {
+    description += ` ${data.value.name}`;
+  } else {
+    description += ` ${data.value.type_common_name} ${data.value.name}`;
+  }
   if (data.value.props.computed) {
     description += ":";
     data.value.props.computed.forEach((prop) => {
