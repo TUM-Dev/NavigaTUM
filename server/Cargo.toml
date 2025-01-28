@@ -62,7 +62,7 @@ image = { version = "0.25.5", default-features = false, features = ["jpeg", "png
 imageproc = "0.25.0"
 ab_glyph = { version = "0.2.29", default-features = false }
 
-rand = "0.8.5"
+rand = "0.9.0"
 octocrab = { version = "0.43.0", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
 
 # auth/security
