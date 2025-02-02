@@ -7,8 +7,8 @@ from external.scraping_utils import _download_file, CACHE_PATH
 from utils import setup_logging
 
 MVV_OPENDATA_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData"
-MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_ohneShape_20241004095702.zip"
-MVV_HST_REPORT_URL = f"{MVV_OPENDATA_URL}/MVV_HSTReport2312_01.csv"  # train/tram stations + some bus stations
+MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_gtfs_01.zip"
+MVV_HST_REPORT_URL = f"{MVV_OPENDATA_URL}/MVV_HSTReport2412.csv"  # train/tram stations + some bus stations
 PUBLIC_TRANSPORT_CACHE_PATH = CACHE_PATH / "public_transport"
 
 
