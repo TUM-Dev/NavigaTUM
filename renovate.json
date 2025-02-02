@@ -39,11 +39,6 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["nuxt"],
-      "groupName": "temporary-debump",
-      "automerge": true
-    },
-    {
       "matchPackagePatterns": ["polars"],
       "groupName": "temporary-debump3",
       "automerge": true
