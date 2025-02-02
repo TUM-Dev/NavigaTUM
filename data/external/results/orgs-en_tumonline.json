@@ -306,8 +306,8 @@
   },
   "14807": {
     "code": "TUWIB04",
-    "name": "Chair of Management Accounting (Prof. Friedl)",
-    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Management Accounting (Prof. Friedl)"
+    "name": "Chair of Management Accounting (Prof. Blaschke komm.)",
+    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Management Accounting (Prof. Blaschke komm.)"
   },
   "14808": {
     "code": "TUWIB06",
@@ -556,8 +556,8 @@
   },
   "15140": {
     "code": "TUARL02",
-    "name": "Associate Professorship of Arts in Architecture (Prof. Erlund)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Arts in Architecture (Prof. Erlund)"
+    "name": "Associate Professorship of Arts in Architecture (Prof. Erlund/Prof. Fogelberg komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Arts in Architecture (Prof. Erlund/Prof. Fogelberg komm.)"
   },
   "15142": {
     "code": "TUARL04",
@@ -696,8 +696,8 @@
   },
   "15286": {
     "code": "TUMWBWM",
-    "name": "Chair of Industrial Management and Assembly Technologies (Prof. Z\u00e4h komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Industrial Management and Assembly Technologies (Prof. Z\u00e4h komm.)"
+    "name": "Chair of Sustainable Production (Prof. Reuter)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Sustainable Production (Prof. Reuter)"
   },
   "15294": {
     "code": "TUMWBVT",
@@ -741,8 +741,8 @@
   },
   "15309": {
     "code": "TULRLRT",
-    "name": "Chair of Astrodynamic (Prof. Romano)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astrodynamic (Prof. Romano)"
+    "name": "Chair of Astrodynamics (Prof. Romano)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astrodynamics (Prof. Romano)"
   },
   "15315": {
     "code": "TUMWLTD",
@@ -1804,11 +1804,6 @@
     "name": "Chair of Theoretical Elementary Particle Physics (Prof. Beneke)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Elementary Particle Physics (Prof. Beneke)"
   },
-  "16216": {
-    "code": "TUPHT34",
-    "name": "Chair of Theoretical Physics V - (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Physics Department/Theoretical Physics V - (N.N.)"
-  },
   "16218": {
     "code": "TUPHT38",
     "name": "Chair of Theoretical Biophysics - Biomolecular  Dynamics (Prof. Zacharias)",
@@ -2733,11 +2728,6 @@
     "code": "TUME3M2",
     "name": "Associate Professorship of Experimental Hematology (Prof. Schmidt-Supprian)",
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Hematology (Prof. Schmidt-Supprian)/Experimental Hematology (Prof. Schmidt-Supprian)"
-  },
-  "27811": {
-    "code": "TUME1M2",
-    "name": "Associate Professorship of Internal Medicine (DHM) (Prof. Kastrati)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine (DHM) (Prof. Kastrati)"
   },
   "27831": {
     "code": "TUMENL2",
@@ -8126,7 +8116,7 @@
   },
   "53017": {
     "code": "TUINF33",
-    "name": "Informatics 24 - Assistant Professorship of  Ethics in Systems Design and Machine Learning (Prof. Kilbertus)",
+    "name": "Informatics 24 - Associate Professorship of  Ethics in Systems Design and Machine Learning (Prof. Kilbertus)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Ethics in Systems Design and Machine Learning (Prof. Kilbertus)"
   },
   "53018": {
@@ -9476,7 +9466,7 @@
   },
   "54572": {
     "code": "TUMENM3",
-    "name": "Assistant Professorship of Biomedical Magnetic Resonance (Prof. Schilling)",
+    "name": "Associate Professorship of Biomedical Magnetic Resonance (Prof. Schilling)",
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Biomedical Magnetic Resonance (Prof. Schilling)"
   },
   "54573": {
@@ -9618,11 +9608,6 @@
     "code": "TUMEDHB",
     "name": "Chair of Congenital Cardiac Surgery (DHM) (Prof. H\u00f6rer)",
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)/Congenital Cardiac Surgery (DHM) (Prof. H\u00f6rer)"
-  },
-  "54670": {
-    "code": "TUMEDHD",
-    "name": "Assistant Professorship of Adult Congenital Heart Disease (DHM) (Prof. Tutarel)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Adult Congenital Heart Disease (DHM) (Prof. Tutarel)"
   },
   "54677": {
     "code": "TUS2HSP",
@@ -11049,6 +11034,11 @@
     "name": "Export Control",
     "path": "TUM/TUM Board of Management/Export Control"
   },
+  "56797": {
+    "code": "TUZEI18",
+    "name": "Area AG Food Processing and Health",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Research Groups/Area"
+  },
   "56818": {
     "code": "TUCSMNR",
     "name": "HSWT-Assistant Professorship of Marketing and Management of Biogenic Resources (Prof. Menrad)",
@@ -11143,5 +11133,45 @@
     "code": "TUCSP19",
     "name": "Chair of Sustainability Management (Prof. Gold)",
     "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Sustainability Management (Prof. Gold)"
+  },
+  "56977": {
+    "code": "TUS1323",
+    "name": "Associate Professorship of Quantum Geometry (Prof. Alim)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Quantum Geometry (Prof. Alim)"
+  },
+  "56997": {
+    "code": "TUS3013",
+    "name": "Assistant Professorship of Quantum Magnetism (Prof. Fogh)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Quantum Magnetism (Prof. Fogh)"
+  },
+  "57017": {
+    "code": "TUSPL24",
+    "name": "Assistant Professorship of Participation and Diversity in Digital Societies (Prof. Cortesi)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Participation and Diversity in Digital Societies (Prof. Cortesi)"
+  },
+  "57018": {
+    "code": "TUS7PEC",
+    "name": "Assistant Professorship of Political Economy (Prof. Seidl)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Economy (Prof. Seidl)"
+  },
+  "57037": {
+    "code": "TUS1155",
+    "name": "Research Affairs (CIT) Dean's Office and Staff Units (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office and Staff Units (CIT)/Research Affairs (CIT)"
+  },
+  "57039": {
+    "code": "TUS5PS4",
+    "name": "Assistant Professorship of Single-Cell Analyses in Neuropsychiatry (Prof. J\u00e4kel)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychiatry and Psychotherapy (Prof. Priller)/Single-Cell Analyses in Neuropsychiatry (Prof. J\u00e4kel)"
+  },
+  "57057": {
+    "code": "TUPEDCC",
+    "name": "Die CampusCneipe",
+    "path": "TUM/Institutions close to the University/Student initiatives/Die CampusCneipe"
+  },
+  "57058": {
+    "code": "TUPESTA",
+    "name": "START Munich e.V.",
+    "path": "TUM/Institutions close to the University/Student initiatives/START Munich e.V."
   }
 }
