@@ -3339,6 +3339,16 @@
     "name": "Trafostation des ZNN",
     "tumonline_id": 1100
   },
+  "5117": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Paula-Hahn-Weinheimerstr. 1",
+      "zip_code": 85748
+    },
+    "area_id": 35,
+    "name": "Verf\u00fcgungsgeb\u00e4ude PH",
+    "tumonline_id": 3369
+  },
   "5120": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
@@ -3399,6 +3409,16 @@
     "name": "CALA (LMU)",
     "tumonline_id": 2069
   },
+  "5128": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Am Coulombwall 3A",
+      "zip_code": 85748
+    },
+    "area_id": 35,
+    "name": "Zentrum f. Quantum Engineering",
+    "tumonline_id": 3329
+  },
   "5130": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
@@ -3418,6 +3438,16 @@
     "area_id": 35,
     "name": "FRM-Poststelle (Container)",
     "tumonline_id": 1609
+  },
+  "5132": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Boltzmannstr. 12",
+      "zip_code": 85748
+    },
+    "area_id": 35,
+    "name": "Center f.Organoid Systems & Tissue Engin",
+    "tumonline_id": 3349
   },
   "5140": {
     "address": {
@@ -3718,6 +3748,16 @@
     "area_id": 36,
     "name": "Interims H\u00f6rs\u00e4le II",
     "tumonline_id": 2269
+  },
+  "5417": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Lichtenbergstr. 4b",
+      "zip_code": 85748
+    },
+    "area_id": 36,
+    "name": "Interim Geb\u00e4ude NAT / OCS",
+    "tumonline_id": 3429
   },
   "5433": {
     "address": {
@@ -4348,6 +4388,16 @@
     "area_id": 223,
     "name": "Garmisch-Partenkirchen Bahnhofstr. 37 (A",
     "tumonline_id": 2330
+  },
+  "9110": {
+    "address": {
+      "place": "Garmisch-Partenkirchen",
+      "street": "Breitenauerstra\u00dfe 1a",
+      "zip_code": 82467
+    },
+    "area_id": 223,
+    "name": "GP Geigergeb\u00e4ude",
+    "tumonline_id": 3469
   },
   "9201": {
     "address": {

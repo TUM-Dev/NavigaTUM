@@ -2919,6 +2919,13 @@
     "building_short": null
   },
   {
+    "address": "Paula-Hahn-Weinheimerstr. 1",
+    "building_code": "5117",
+    "building_id": 3369,
+    "building_name": "Verf\u00fcgungsgeb\u00e4ude PH",
+    "building_short": null
+  },
+  {
     "address": "Am Coulombwall 6",
     "building_code": "5120",
     "building_id": 873,
@@ -2968,6 +2975,13 @@
     "building_short": null
   },
   {
+    "address": "Am Coulombwall 3A",
+    "building_code": "5128",
+    "building_id": 3329,
+    "building_name": "Zentrum f. Quantum Engineering",
+    "building_short": null
+  },
+  {
     "address": "Boltzmannstr. 10a",
     "building_code": "5130",
     "building_id": 783,
@@ -2979,6 +2993,13 @@
     "building_code": "5131",
     "building_id": 1609,
     "building_name": "FRM-Poststelle (Container)",
+    "building_short": null
+  },
+  {
+    "address": "Boltzmannstr. 12",
+    "building_code": "5132",
+    "building_id": 3349,
+    "building_name": "Center f.Organoid Systems & Tissue Engin",
     "building_short": null
   },
   {
