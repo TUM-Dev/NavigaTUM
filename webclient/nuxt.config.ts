@@ -148,7 +148,7 @@ export default defineNuxtConfig({
     "/en/next": { ssr: false },
   },
   typescript: {
-    typeCheck: true,
+    typeCheck: false, // we already typecheck in CI => no need to
     strict: true,
   },
   sourcemap: {

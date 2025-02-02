@@ -22,14 +22,15 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 COPY package.json ./
 COPY pnpm-lock.yaml ./
-RUN NODE_ENV=development pnpm install --frozen-lockfile
-
 COPY tsconfig.json .
 COPY eslint.config.mjs .
 COPY ./*.ts .
+RUN NODE_ENV=development pnpm install --frozen-lockfile
+
 COPY --link public public
 COPY --link content content
 COPY --link app app
+RUN pnpm run postinstall
 RUN pnpm run build && test -f /app/.output/server/index.mjs
 
 FROM base AS production-stage
