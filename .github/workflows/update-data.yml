@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
         with:
-          version: 9.15.1
+          version: 10.2.0
           package_json_file: webclient/package.json
           run_install: |
             - cwd: webclient

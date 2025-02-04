@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:23-alpine3.20 AS base
+FROM node:23-alpine3.21 AS base
 
 ENV NODE_ENV=development
 ENV NITRO_PRESET=node-server
