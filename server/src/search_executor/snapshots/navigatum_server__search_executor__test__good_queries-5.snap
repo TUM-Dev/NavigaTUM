@@ -51,7 +51,7 @@ info: "'Interims 2' should get '5416' in 1 results"
       subtext_bold: 006@5416
     - id: 5416.EG.007
       type: room
-      name: 5416.EG.007 (WC-Beh.)
+      name: 5416.EG.007 (WC-Barrierefrei)
       subtext: "garching, Interims II"
       subtext_bold: 007@5416
     - id: 5416.EG.008
