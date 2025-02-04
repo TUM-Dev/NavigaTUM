@@ -40,7 +40,7 @@ info: "'03.08.011' should get '5608.03.011' in 1 results"
       subtext_bold: 03.08.015@5608
     - id: 5608.03.016
       type: room
-      name: "5608.\u001903\u0017.016 (Beh.-WC / Wickeltisch)"
+      name: "5608.\u001903\u0017.016 (WC-Barrierefrei / Wickeltisch)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.016@5608
     - id: 5608.03.017A

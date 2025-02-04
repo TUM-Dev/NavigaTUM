@@ -6,6 +6,10 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
 ---
 - facet: sites_buildings
   entries:
+    - id: "4113"
+      type: building
+      name: "\u0019StudiTUM\u0017 Weihenstephan"
+      subtext: Gebäude
     - id: "5532"
       type: building
       name: "\u0019StudiTUM\u0017 Garching"
@@ -13,10 +17,6 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
     - id: "0201"
       type: building
       name: "\u0019StudiTUM\u0017 Innenstadt (S1)"
-      subtext: Gebäude
-    - id: "4113"
-      type: building
-      name: "\u0019StudiTUM\u0017 Weihenstephan"
       subtext: Gebäude
   n_visible: 3
   estimatedTotalHits: "[estimatedTotalHits]"
