@@ -1,9 +1,12 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:23-alpine3.20 AS base
+FROM node:23-alpine3.21 AS base
 
-ENV NODE_ENV=development
+RUN apk update --no-progress --quiet && \
+    apk add --no-cache --no-progress --quiet curl sqlite sqlite-libs
+
+ENV NODE_ENV=production
 ENV NITRO_PRESET=node-server
 ENV NITRO_PORT=3000
 ENV NITRO_HOST=0.0.0.0
@@ -25,7 +28,7 @@ COPY pnpm-lock.yaml ./
 COPY tsconfig.json .
 COPY eslint.config.mjs .
 COPY ./*.ts .
-RUN NODE_ENV=development pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY --link public public
 COPY --link content content
@@ -34,8 +37,6 @@ RUN pnpm run postinstall
 RUN pnpm run build && test -f /app/.output/server/index.mjs
 
 FROM base AS production-stage
-RUN apk update --no-progress --quiet && \
-    apk add --no-cache --no-progress --quiet curl
 
 COPY --from=build-stage /app/.output /app/.output
 COPY --from=build-stage /app/node_modules /app/node_modules
