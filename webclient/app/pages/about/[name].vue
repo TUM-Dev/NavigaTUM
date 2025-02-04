@@ -1,5 +1,13 @@
 <script lang="ts" setup>
 const route = useRoute();
+
+if (route.path === "/about/about-us") navigateTo("/about/ueber-uns");
+if (route.path === "/en/about/ueber-uns") navigateTo("/en/about/about-us");
+if (route.path === "/about/imprint") navigateTo("/about/impressum");
+if (route.path === "/en/about/impressum") navigateTo("/en/about/imprint");
+if (route.path === "/about/privacy") navigateTo("/about/datenschutz");
+if (route.path === "/en/about/datenschutz") navigateTo("/en/about/privacy");
+
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection("content").path(route.path).first();
 });
