@@ -53,5 +53,10 @@
     "vue-tsc": "2.2.0"
   },
   "type": "module",
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@10.2.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
 }
