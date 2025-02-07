@@ -24,4 +24,3 @@ jobs:
           # RUSTSEC-2024-0363 = Binary Protocol Misinterpretation caused by Truncating or Overflowing Casts => caught by maximum request sizes
           # RUSTSEC-2023-0071 = Marvin Attack: potential key recovery through timing sidechannels => not used explitably
           # RUSTSEC-2025-0004 = ssl::select_next_proto use after free => not used
-
