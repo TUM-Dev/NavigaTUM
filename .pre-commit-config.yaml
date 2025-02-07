@@ -32,8 +32,8 @@ repos:
   - repo: local
     hooks:
       - id: webclient-format
-        name: npm run format
-        entry: npm run --prefix webclient format
+        name: pnpm run format
+        entry: pnpm run --prefix webclient format
         language: system
         pass_filenames: false
   # only data
