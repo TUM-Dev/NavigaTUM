@@ -318,6 +318,15 @@
   name: CIP-Raum # Original name is "Rechenzentrum" ...
 "5406.01.650C":
   name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC # Original name is "Büro" ...
+"5417":
+  props:
+    comment:
+      de: |
+        10.02.25 beginnt die Holzbaumontage für das neue COS-Interimsgebäude 5417.
+        Die Bauzeit wird sich über das ganze Jahr ausstrecken, wobei im Februar und März bei der Rohbaumontage des Holzbaus die größten Einschränkungen zu erwarten sind
+      en: |
+        The timber construction assembly for the new COS interim building 5417 will begin on 10/02/25.
+        The construction period will extend over the entire year, with the greatest restrictions expected in February and March during the assembly of the timber construction shell
 
 # === Maschinenwesen / MW ===
 "5502.U1.234M":
