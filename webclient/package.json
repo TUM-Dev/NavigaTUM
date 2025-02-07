@@ -8,7 +8,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "type-check": "nuxt typecheck",
-    "type-refresh": "openapi-typescript ../openapi.yaml --output app/api_types/index.ts --export-type --immutable-types --support-array-length && npm run format && npm run lint && npm run type-check",
+    "type-refresh": "openapi-typescript ../openapi.yaml --output app/api_types/index.ts --export-type --immutable-types --support-array-length && pnpm run format && pnpm run lint && pnpm run type-check",
     "lint": "eslint . --fix --ignore-pattern '.nuxt|node_modules|.output' ",
     "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line lf --write ."
   },
@@ -56,7 +56,16 @@
   "packageManager": "pnpm@10.2.0",
   "pnpm": {
     "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
+      "better-sqlite3",
+      "sharp"
+    ],
+    "supportedArchitectures": {
+      "os": [
+        "current"
+      ],
+      "cpu": [
+        "x64"
+      ]
+    }
   }
 }
