@@ -36,14 +36,14 @@
     "vue3-carousel": "0.13.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.0.0",
+    "@nuxt/eslint": "1.0.1",
     "@nuxtjs/i18n": "9.1.5",
     "@nuxtjs/tailwindcss": "6.13.1",
     "@types/geojson": "7946.0.16",
     "@types/nightwind": "1.0.0",
     "@vue/tsconfig": "0.7.0",
     "autoprefixer": "10.4.20",
-    "eslint": "9.19.0",
+    "eslint": "9.20.0",
     "openapi-typescript": "6.7.6",
     "postcss": "8.5.1",
     "prettier": "3.4.2",
