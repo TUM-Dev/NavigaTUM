@@ -1,28 +1,68 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: Not sure about target here
 expression: actual
-info: "'0092@5433' should get '5433.EG.092' in 1 results"
+info: "'1010 znn' should get '5115.01.010' in 1 results # Not sure about target here"
 ---
 - facet: rooms
   entries:
-    - id: 5433.EG.092
+    - id: 5115.01.010
       type: room
-      name: "\u00195433\u0017.EG.092 (Flur/Eingang)"
+      name: 5115.01.010 (Elt. Transport)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.010@5115
+    - id: 5510.01.010
+      type: room
+      name: 5510.01.010 (Seminarraum)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1010@5510
+      parsed_id: "MW \u00191010\u0017"
+    - id: 0510.01.010
+      type: room
+      name: 0510.01.010 (Küche)
+      subtext: "stammgelände, Verwaltungsbau (Z10)"
+      subtext_bold: 1010@0510
+      parsed_id: "\u00191010\u0017 Verwaltungsbau (Z10)"
+    - id: 2906.01.010
+      type: room
+      name: 2906.01.010 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1010@2906
+      parsed_id: "\u00191010\u0017 Karlstraße 45/47"
+    - id: 5433.01.010
+      type: room
+      name: 5433.01.010 (Büro)
       subtext: "garching, Entrepreneurship Research Institute"
-      subtext_bold: 0092@5433
-      parsed_id: "\u00190092@5433\u0017"
-    - id: 5622.EG.092
+      subtext_bold: 1010@5433
+      parsed_id: "\u00191010\u0017 Entrepr… Institute"
+    - id: 0202.U1.010
       type: room
-      name: 5622.EG.092 (Sportflächen Garching)
-      subtext: "garching, Sportanlage Garching / Dusch Container"
-      subtext_bold: 0092@5622
-    - id: 5532.EG.092
+      name: 0202.U1.010 (Lager)
+      subtext: "stammgelände, Gabelsbergerstr. 39 (S2)"
+      subtext_bold: "-1010@0202"
+    - id: 0401.U1.010
       type: room
-      name: 5532.EG.092 (ELT.-Schacht)
-      subtext: "garching, StudiTUM"
-      subtext_bold: 0.092@5532
-  n_visible: 3
+      name: 0401.U1.010 (Archiv)
+      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext_bold: "-1010@0401"
+    - id: 2906.U1.010
+      type: room
+      name: 2906.U1.010 (Trafostation)
+      subtext: Karlstraße 45/47
+      subtext_bold: "-1010@2906"
+    - id: 5413.EG.010
+      type: room
+      name: 5413.EG.010 (Hausanschluss)
+      subtext: "garching, BNMRZ Bayerisches NMR-Zentrum"
+      subtext_bold: 1010@5413
+      parsed_id: "\u00191010\u0017 BNMRZ B…MR-Zentrum"
+    - id: 5414.01.010
+      type: room
+      name: 5414.01.010 (Lager)
+      subtext: "garching, Zentrum für Energie und Information (ZEI)"
+      subtext_bold: 1010@5414
+      parsed_id: "\u00191010\u0017 Zentrum…tion (ZEI)"
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
