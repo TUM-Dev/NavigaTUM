@@ -1,63 +1,59 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: "Note: Interims iV and interims I can be matched here"
 expression: actual
-info: "'5301' should get '5301' in 1 results"
+info: "'interims I' should get '5417' in 2 results # Note: Interims iV and interims I can be matched here"
 ---
 - facet: sites_buildings
   entries:
-    - id: "5301"
+    - id: garching-interims
+      type: area
+      name: "\u0019Interimshörsäle\u0017"
+      subtext: Gebiet / Gruppe von Gebäuden
+    - id: "5417"
       type: building
-      name: Institute for Advanced Study (IAS)
+      name: "\u0019Interim\u0017 Gebäude NAT / OCS"
       subtext: Gebäude
-  n_visible: 1
+    - id: "5620"
+      type: building
+      name: "\u0019Interimshörsäle\u0017 \u0019I\u0017"
+      subtext: Gebäude
+    - id: "5416"
+      type: building
+      name: "\u0019Interimshörsäle\u0017 \u0019I\u0017I, Jürgen Manchot-Hörsaalgebäude"
+      subtext: Gebäude
+    - id: "5539"
+      type: building
+      name: "\u0019Interims\u0017-Tentomax MW"
+      subtext: Gebäude
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 5301.EG.001
+    - id: 5620.01.101
       type: room
-      name: "\u00195301\u0017.EG.001 (Auditorium)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 0.001@5301
-    - id: 5301.02.022
+      name: "5620.01.101 (Hörsaal 1,  \"\u0019Interims\u0017 \u0019I\u0017\")"
+      subtext: "garching, Interims I"
+      subtext_bold: 101@5620
+    - id: 5620.01.102
       type: room
-      name: "\u00195301\u0017.02.022 (Zeitschriften/Lesesaal)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 2.022@5301
-    - id: 5301.01.033
+      name: "5620.01.102 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017\")"
+      subtext: "garching, Interims I"
+      subtext_bold: 102@5620
+    - id: 5416.01.003
       type: room
-      name: "\u00195301\u0017.01.033 (Drucker)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.033@5301
-    - id: 5301.02.033
+      name: "5416.01.003 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017I\")"
+      subtext: "garching, Interims II"
+      subtext_bold: 003@5416
+    - id: 5416.01.004
       type: room
-      name: "\u00195301\u0017.02.033 (Drucker)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 2.033@5301
-    - id: 5301.03.033
+      name: "5416.01.004 (Hörsaal 1,  Jürgen-Manchot-Hörsaal)"
+      subtext: "garching, Interims II"
+      subtext_bold: 004@5416
+    - id: 5539.EG.001A
       type: room
-      name: "\u00195301\u0017.03.033 (Drucker)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 3.033@5301
-    - id: 5301.01.001
-      type: room
-      name: "\u00195301\u0017.01.001 (Großraumbüro)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.001@5301
-    - id: 5301.01.004
-      type: room
-      name: "\u00195301\u0017.01.004 (Büro)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.004@5301
-    - id: 5301.01.005
-      type: room
-      name: "\u00195301\u0017.01.005 (Büro)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.005@5301
-    - id: 5301.01.006
-      type: room
-      name: "\u00195301\u0017.01.006 (Büro)"
-      subtext: "garching, Institute for Advanced Study (IAS)"
-      subtext_bold: 1.006@5301
-  n_visible: 9
+      name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
+      subtext: "garching, Interims III"
+      subtext_bold: 0.001A@5539
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"

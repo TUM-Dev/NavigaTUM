@@ -1,68 +1,61 @@
 ---
 source: src/search_executor/mod.rs
-description: "lecture hall, should be preferred over other rooms"
+description: ""
 expression: actual
-info: "'2503' should get '5101.EG.503' in 1 results # lecture hall, should be preferred over other rooms"
+info: "'342 Physik' should get '5101.EG.342' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5101.EG.503
+    - id: 5101.EG.342
       type: room
-      name: 5101.EG.503 (Physik Hörsaal 3)
+      name: "5101.EG.\u0019342\u0017 (\u0019Physik\u0017labor)"
       subtext: "garching, Physik I"
-      subtext_bold: 2503@5101
-      parsed_id: "PH \u00192503\u0017"
-    - id: 0505.02.503
+      subtext_bold: 2342@5101
+    - id: 5101.01.342
       type: room
-      name: 0505.02.503 (Büro)
-      subtext: "stammgelände, Wirtschaftswissenschaften (Z5)"
-      subtext_bold: 2503@0505
-      parsed_id: "\u00192503\u0017 Wirtsch…aften (Z5)"
-    - id: 5505.02.503A
+      name: "5101.01.\u0019342\u0017 (Sitzungs-,  Konferenzraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 3342@5101
+    - id: 5109.03.042
       type: room
-      name: 5505.02.503A (Büro)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2503A@5505
-      parsed_id: "MW \u00192503\u0017A"
-    - id: 5505.02.503M
+      name: 5109.03.042 (Teilküche)
+      subtext: "garching, LMU Physik, Munich Center for Advanced Photonics (MAP)"
+      subtext_bold: 042@5109
+    - id: 4213.01.342
       type: room
-      name: 5505.02.503M (WC-Vorraum Herren)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2503M@5505
-      parsed_id: "MW \u00192503\u0017M"
-    - id: 5505.02.503N
+      name: "4213.01.\u0019342\u0017 (Labor (gem. Nutzung 1124302010;1110064600))"
+      subtext: "weihenstephan, Lebensmitteltechnikum"
+      subtext_bold: O42@4213
+    - id: 4213.EG.342
       type: room
-      name: 5505.02.503N (WC-Vorraum Damen)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2503N@5505
-      parsed_id: "MW \u00192503\u0017N"
-    - id: 5505.02.503P
+      name: "4213.EG.\u0019342\u0017 (Labor)"
+      subtext: "weihenstephan, Lebensmitteltechnikum"
+      subtext_bold: E42@4213
+    - id: 4317.03.342
       type: room
-      name: 5505.02.503P (WC-Herren)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2503P@5505
-      parsed_id: "MW \u00192503\u0017P"
-    - id: 5505.02.503Q
+      name: "4317.03.\u0019342\u0017 (Labor)"
+      subtext: "weihenstephan, Tierwissenschaften"
+      subtext_bold: 3.42@4317
+    - id: 0503.EG.342
       type: room
-      name: 5505.02.503Q (WC-Damen)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2503Q@5505
-      parsed_id: "MW \u00192503\u0017Q"
-    - id: 0105.02.503
+      name: "0503.EG.\u0019342\u0017 (Sekretariat 2)"
+      subtext: "stammgelände, Thierschbau (Z3)"
+      subtext_bold: 0342@0503
+    - id: 2910.03.342
       type: room
-      name: 0105.02.503 (Chef.-Büro)
-      subtext: "stammgelände, E-Technik Neubau (N5)"
-      subtext_bold: N2503@0105
-    - id: 0305.02.503
+      name: "2910.03.\u0019342\u0017 (Teeküche)"
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.342@2910
+    - id: 0503.01.342
       type: room
-      name: 0305.02.503 (WC-Damen)
-      subtext: "stammgelände, Block D (Südost 5, ehemalig LRZ)"
-      subtext_bold: S2503@0305
-    - id: 5115.02.503
+      name: "0503.01.\u0019342\u0017 (Büro)"
+      subtext: "stammgelände, Thierschbau (Z3)"
+      subtext_bold: 1342@0503
+    - id: 0503.03.342
       type: room
-      name: 5115.02.503 (Elt.)
-      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
-      subtext_bold: 2.503@5115
+      name: "0503.03.\u0019342\u0017 (Büro)"
+      subtext: "stammgelände, Thierschbau (Z3)"
+      subtext_bold: 3342@0503
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
