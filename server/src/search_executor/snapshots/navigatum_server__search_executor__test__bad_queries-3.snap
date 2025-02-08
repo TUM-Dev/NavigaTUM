@@ -10,6 +10,10 @@ info: "'interims I' should get '5620' in 1 results"
       type: area
       name: "\u0019Interimshörsäle\u0017"
       subtext: Gebiet / Gruppe von Gebäuden
+    - id: "5417"
+      type: building
+      name: "\u0019Interim\u0017 Gebäude NAT / OCS"
+      subtext: Gebäude
     - id: "5620"
       type: building
       name: "\u0019Interimshörsäle\u0017 \u0019I\u0017"
@@ -22,7 +26,7 @@ info: "'interims I' should get '5620' in 1 results"
       type: building
       name: "\u0019Interims\u0017-Tentomax MW"
       subtext: Gebäude
-  n_visible: 4
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
@@ -51,10 +55,5 @@ info: "'interims I' should get '5620' in 1 results"
       name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
       subtext: "garching, Interims III"
       subtext_bold: 0.001A@5539
-    - id: 5539.EG.001B
-      type: room
-      name: "5539.EG.001B (Hörsaal 1B,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001B@5539
-  n_visible: 6
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"

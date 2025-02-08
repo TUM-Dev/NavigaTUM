@@ -2,59 +2,61 @@
 source: src/search_executor/mod.rs
 description: ""
 expression: actual
-info: "'ZIEL' should get 'wzw-ziel' in 1 results"
+info: "'znn' should get '5115' in 1 results"
 ---
 - facet: sites_buildings
   entries:
-    - id: wzw-ziel
-      type: area
-      name: "\u0019ZIEL\u0017 – Institute for Food & Health"
-      subtext: Gebiet / Gruppe von Gebäuden
-    - id: "4224"
+    - id: "5115"
       type: building
-      name: "\u0019ZIEL\u0017 IV - Biowissenschaften"
+      name: "Zentrum für Nanotechnologie & -materialien (\u0019ZNN\u0017)"
       subtext: Gebäude
-    - id: "4124"
+    - id: "5116"
       type: building
-      name: "\u0019ZIEL\u0017 II – Molekulare Biowissenschaften"
+      name: "Trafostation des \u0019ZNN\u0017"
       subtext: Gebäude
-    - id: "4126"
-      type: building
-      name: "\u0019ZIEL\u0017 I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext: Gebäude
-  n_visible: 4
+  n_visible: 2
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 4124.U1.104
+    - id: 5115.EG.001
       type: room
-      name: 4124.U1.104 (Seminarraum 23 /Übungsraum (WZWS23))
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: U/1.04@4124
-    - id: 4126.01.609B
+      name: 5115.EG.001 (Seminarraum)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 0.001@5115
+    - id: 5115.01.008
       type: room
-      name: 4126.01.609B (Seminarraum 14 (WZWS14))
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext_bold: O.09 a/b@4126
-    - id: 4126.U1.610B
+      name: 5115.01.008 (Kopierraum)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.008@5115
+    - id: 5115.01.011
       type: room
-      name: 4126.U1.610B (Seminarraum (gem. Nutzung 1124302030;11243)
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext_bold: U 10/2@4126
-    - id: 4224.01.148
+      name: 5115.01.011 (Chemie Labor)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.011@5115
+    - id: 5115.01.011A
       type: room
-      name: 4224.01.148 (Seminarraum 51 (WZWS51))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 1.48@4224
-    - id: 4224.02.234
+      name: 5115.01.011A (Chemie Labor)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.011A@5115
+    - id: 5115.01.019
       type: room
-      name: 4224.02.234 (Seminarraum 52 (WZWS52) (gem. Nutzung))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 2.34@4224
-    - id: 4224.02.298
+      name: 5115.01.019 (Spektroskopie)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.019@5115
+    - id: 5115.01.020
       type: room
-      name: 4224.02.298 (Seminarraum 53 (WZWS53))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 2.98@4224
-  n_visible: 6
+      name: 5115.01.020 (Spektroskopie)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.020@5115
+    - id: 5115.01.021
+      type: room
+      name: 5115.01.021 (Spektroskopie)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.021@5115
+    - id: 5115.01.022
+      type: room
+      name: 5115.01.022 (Technik)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.022@5115
+  n_visible: 8
   estimatedTotalHits: "[estimatedTotalHits]"

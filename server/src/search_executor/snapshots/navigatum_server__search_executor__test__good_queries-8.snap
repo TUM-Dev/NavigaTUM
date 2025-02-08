@@ -2,60 +2,62 @@
 source: src/search_executor/mod.rs
 description: ""
 expression: actual
-info: "'Physik Container' should get '5140' in 1 results"
+info: "'neue Mensa' should get '5304' in 1 results"
 ---
 - facet: sites_buildings
   entries:
-    - id: "5140"
+    - id: "5304"
       type: building
-      name: "\u0019Physik\u0017 I \u0019Container\u0017"
+      name: "\u0019Mensa\u0017 \u0019Garching\u0017"
       subtext: Gebäude
-    - id: "5124"
-      type: building
-      name: "WSI \u0019Container\u0017"
-      subtext: Gebäude
-    - id: "5160"
-      type: building
-      name: "UCN-Testanlage (\u0019Container\u0017)"
-      subtext: Gebäude
-  n_visible: 3
+  n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 5140.01.201
+    - id: 5304.01.101
       type: room
-      name: 5140.01.201 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3201@5140
-    - id: 5140.01.202
+      name: 5304.01.101 (Speisesaal)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.101@5304
+    - id: 5304.01.102
       type: room
-      name: 5140.01.202 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3202@5140
-    - id: 5140.01.203
+      name: 5304.01.102 (Vor-/Verteilerbereich)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.102@5304
+    - id: 5304.01.103
       type: room
-      name: 5140.01.203 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3203@5140
-    - id: 5140.01.204
+      name: 5304.01.103 (Free Flow)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.103@5304
+    - id: 5304.01.104
       type: room
-      name: 5140.01.204 (CIP-Raum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3204@5140
-    - id: 5140.01.205
+      name: 5304.01.104 (Produktionsküche)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.104@5304
+    - id: 5304.01.201
       type: room
-      name: 5140.01.205 (CIP-Raum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3205@5140
-    - id: 5140.01.206
+      name: 5304.01.201 (Geschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.201@5304
+    - id: 5304.01.203
       type: room
-      name: 5140.01.206 (CIP-Raum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3206@5140
-    - id: 5140.01.207
+      name: 5304.01.203 (Küchenchef)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.203@5304
+    - id: 5304.01.301
       type: room
-      name: 5140.01.207 (CIP-Raum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3207@5140
-  n_visible: 7
+      name: 5304.01.301 (Geschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.301@5304
+    - id: 5304.01.302
+      type: room
+      name: 5304.01.302 (Schwarzgeschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.302@5304
+    - id: 5304.01.307
+      type: room
+      name: 5304.01.307 (Putzraum)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.307@5304
+  n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"

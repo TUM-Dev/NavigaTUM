@@ -2,20 +2,15 @@
 source: src/search_executor/mod.rs
 description: splitting necessary
 expression: actual
-info: "'MW0001' should get '5510.EG.001' in 1 results # splitting necessary"
+info: "'MW1801' should get '5508.02.801' in 1 results # splitting necessary"
 ---
 - facet: rooms
   entries:
-    - id: 5510.EG.001
+    - id: 5508.02.801
       type: room
-      name: 5510.EG.001 (Hörsaal)
+      name: 5508.02.801 (Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0001@5510
-    - id: 5519.EG.001
-      type: room
-      name: 5519.EG.001 (Versuchsfläche I)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0001@5519
+      subtext_bold: 1801@5508
     - id: 5510.02.001
       type: room
       name: "5510.02.001 (\u0019MW\u0017 2001 Rudolf-Diesel-Hörsaal)"
@@ -31,6 +26,11 @@ info: "'MW0001' should get '5510.EG.001' in 1 results # splitting necessary"
       name: 5502.EG.250 (Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0250@5502
+    - id: 5503.EG.350
+      type: room
+      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0350@5503
   n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

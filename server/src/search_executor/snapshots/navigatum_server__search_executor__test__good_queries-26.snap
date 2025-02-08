@@ -1,60 +1,69 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: "seminar room, should be preferred over other rooms"
 expression: actual
-info: "'C.3202' should get '5140.01.202' in 1 results"
+info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be preferred over other rooms"
 ---
 - facet: rooms
   entries:
-    - id: 5140.01.202
+    - id: 5111.01.116
       type: room
-      name: 5140.01.202 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3202@5140
-      parsed_id: "\u0019C.3202\u0017 Physik I Container"
-    - id: 1551.01.051
+      name: 5111.01.116 (Seminarraum)
+      subtext: "garching, Siedlungswasserwirtschaft"
+      subtext_bold: 1116@5111
+      parsed_id: "\u00191116\u0017 Siedlungswasserwirtschaft"
+    - id: 0401.01.116
       type: room
-      name: "1551.01.051 (Hörsaal \u0019C\u0017)"
-      subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
-      subtext_bold: 51.1.51@1551
-    - id: 1551.EG.051
+      name: 0401.01.116 (Büro)
+      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext_bold: 1116@0401
+      parsed_id: "\u00191116\u0017 Richard…. 18 (SW1)"
+    - id: 5111.U1.116
       type: room
-      name: "1551.EG.051 (Hörsaal \u0019C\u0017)"
-      subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
-      subtext_bold: 51.0.51@1551
-    - id: 1910.EG.050C
+      name: 5111.U1.116 (Glas u. brennbare Stoffe)
+      subtext: "garching, Siedlungswasserwirtschaft"
+      subtext_bold: "-1116@5111"
+    - id: 5401.EG.116A
       type: room
-      name: 1910.EG.050C (Hörsaal)
-      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
-      subtext_bold: C.0.50@1910
-    - id: 5140.01.201
+      name: 5401.EG.116A (Heizraum)
+      subtext: "garching, Chemie"
+      subtext_bold: 11160@5401
+      parsed_id: "CH \u00191116\u00170"
+    - id: 5401.EG.116B
       type: room
-      name: 5140.01.201 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3201@5140
-  n_visible: 5
+      name: 5401.EG.116B (Flur)
+      subtext: "garching, Chemie"
+      subtext_bold: 11165@5401
+      parsed_id: "CH \u00191116\u00175"
+    - id: 5401.EG.116C
+      type: room
+      name: 5401.EG.116C (Flur)
+      subtext: "garching, Chemie"
+      subtext_bold: 11166@5401
+      parsed_id: "CH \u00191116\u00176"
+    - id: 4124.01.116
+      type: room
+      name: 4124.01.116 (Molekularbiologie Labor)
+      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext_bold: 01/1.16@4124
+    - id: 0101.01.116
+      type: room
+      name: 0101.01.116 (Drucker)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1116@0101
+    - id: 2315.01.116
+      type: room
+      name: 2315.01.116 (Biochemisches Labor)
+      subtext: "campus-im-olympiapark-sz, Präventionszentrum"
+      subtext_bold: 15116@2315
+    - id: 4218.01.116
+      type: room
+      name: 4218.01.116 (Sterilbänke (gem. Nutzung))
+      subtext: "weihenstephan, Biologikum Weihenstephan"
+      subtext_bold: 116@4218
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
-  entries:
-    - id: "2940"
-      type: building
-      name: "Campus \u0019C\u0017, Georg-Brauchle-Ring 56/58"
-      subtext: Gebäudeteil
-    - id: "2911"
-      type: building
-      name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, TUM Sprachenzentrum"
-      subtext: Gebäude
-    - id: "1910"
-      type: building
-      name: "Bildungscampus \u0019C\u0017, Weipertstr. 8-10"
-      subtext: Gebäude
-    - id: 1555c
-      type: building
-      name: "Bau 555 Gebäudeteil \u0019C\u0017"
-      subtext: Gebäudeteil
-    - id: "9376"
-      type: building
-      name: "Airbus Standort 76.\u0019C\u0017"
-      subtext: Gebäude
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

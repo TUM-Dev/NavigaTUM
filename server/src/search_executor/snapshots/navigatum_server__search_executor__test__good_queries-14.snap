@@ -1,63 +1,62 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: A search for the Architects name should return the correct room
 expression: actual
-info: "'03.08.011' should get '5608.03.011' in 1 results"
+info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Architects name should return the correct room"
 ---
 - facet: rooms
   entries:
-    - id: 5608.03.011
+    - id: 5601.EG.001
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017 (Seminarraum (M1/M7))"
+      name: "5601.EG.\u0019001\u0017 (Magistrale)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.011@5608
-      parsed_id: "MI \u001903.08.011\u0017"
-    - id: 5608.03.011A
+      subtext_bold: 00.01.001@5601
+      parsed_id: "MI \u001900.01.001\u0017"
+    - id: 9377.EG.001
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017A (Balkon)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.011A@5608
-      parsed_id: "MI \u001903.08.011\u0017A"
-    - id: 8102.03.108
+      name: "9377.EG.\u0019001\u0017 (come together)"
+      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
+      subtext_bold: 00.001@9377
+    - id: 2927.EG.001
       type: room
-      name: "8102.\u001903\u0017.108 (Hörsaal)"
-      subtext: "garching-hochbrück, Business Campus 2"
-      subtext_bold: BC2 3.1.08@8102
-    - id: 5608.03.033A
+      name: "2927.EG.\u0019001\u0017 (Bibliothek Theke)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Petersgasse 18 (PG 18)"
+      subtext_bold: 00.001@2927
+    - id: 3503.EG.001
       type: room
-      name: "5608.\u001903\u0017.033A (Kopierer)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.033A@5608
-    - id: 2410.03.308
+      name: "3503.EG.\u0019001\u0017 (Büro)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Petersgasse 5 (PG 05)"
+      subtext_bold: 00.001@3503
+    - id: 3510.EG.001
       type: room
-      name: "2410.\u001903\u0017.308 (WC-Damen)"
-      subtext: "Heßstraße 134, Munich School of Robotics and Machine Intelligence"
-      subtext_bold: 03.08@2410
-    - id: 5608.03.015
+      name: "3510.EG.\u0019001\u0017 (Büro)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Fürstenstraße 11"
+      subtext_bold: 00.001@3510
+    - id: 5302.EG.001A
       type: room
-      name: "5608.\u001903\u0017.015 (WC-Herren)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.015@5608
-    - id: 5608.03.016
+      name: "5302.EG.\u0019001\u0017A (Büro)"
+      subtext: "garching, Centrum Baustoffe und Materialprüfung (CBM)"
+      subtext_bold: 00.001.A@5302
+    - id: 9379.EG.001
       type: room
-      name: "5608.\u001903\u0017.016 (WC-Barrierefrei / Wickeltisch)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.016@5608
-    - id: 5608.03.017A
+      name: "9379.EG.\u0019001\u0017 (Teeküche)"
+      subtext: "taufkirchen-ottobr., Lise Meitner Str. 8"
+      subtext_bold: 00.001@9379
+    - id: 5132.EG.001
       type: room
-      name: "5608.\u001903\u0017.017A (Putzraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.017A@5608
-    - id: 5608.03.021
+      name: "5132.EG.\u0019001\u0017 (Post)"
+      subtext: "garching, Boltzmannstr. 12"
+      subtext_bold: 00.001@5132
+    - id: 3508.EG.001
       type: room
-      name: "5608.\u001903\u0017.021 (Büro)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.021@5608
-    - id: 5608.03.022
+      name: "3508.EG.\u0019001\u0017 (Ordensraum)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Albrechtgasse 28"
+      subtext_bold: 00.001@3508
+    - id: 3502.EG.011
       type: room
-      name: "5608.\u001903\u0017.022 (Besprechungsraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.022@5608
+      name: 3502.EG.011 (Flur)
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Schulgasse 22 (SG 22)"
+      subtext_bold: 00.001@3502
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

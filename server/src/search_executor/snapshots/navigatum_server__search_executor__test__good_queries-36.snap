@@ -1,60 +1,64 @@
 ---
 source: src/search_executor/mod.rs
-description: "This should match this Lecture hall and not the HS 1, just because both are in the Bolzmanstr. *3* 4 is the best case."
+description: Architects names should be matchable literally
 expression: actual
-info: "'MI HS3' should get '5606.EG.011' in 1 results # This should match this Lecture hall and not the HS 1, just because both are in the Bolzmanstr. *3* 4 is the best case."
+info: "'N-1406' should get '0104.U1.406' in 1 results # Architects names should be matchable literally"
 ---
 - facet: rooms
   entries:
-    - id: 5606.EG.011
+    - id: 0104.U1.406
       type: room
-      name: "5606.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 \u00193\u0017)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.06.011@5606
-    - id: 5602.EG.001
+      name: 0104.U1.406 (Physikal. Versuchslabor)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N-1406@0104
+      parsed_id: "\u0019N-1406\u0017 E-Techn…hysik (N4)"
+    - id: 0104.01.406
       type: room
-      name: "5602.EG.001 (\u0019MI\u0017 \u0019HS\u0017 1,  Friedrich L. Bauer \u0019Hörsaal\u0017)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.02.001@5602
-    - id: 5604.EG.011
+      name: 0104.01.406 (Studentenarb. m. DV)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1406@0104
+    - id: 0103.U1.311
       type: room
-      name: "5604.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 2)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.011@5604
-    - id: 5602.EG.002
+      name: 0103.U1.311 (Praktikum/Umbau)
+      subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
+      subtext_bold: N-1311@0103
+    - id: 0108.U1.806A
       type: room
-      name: "5602.EG.002 (\u0019MI\u0017 \u0019Hörsaal\u0017 Regieraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.02.002@5602
-    - id: 5602.U1.001
+      name: 0108.U1.806A (Experimenteller Raum)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N-1806A@0108
+    - id: 0108.U1.806B
       type: room
-      name: 5602.U1.001 (Technikraum)
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: "-1.02.001@5602"
-    - id: 5602.U1.004
+      name: 0108.U1.806B (Experimenteller Raum)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N-1806B@0108
+    - id: 0108.U1.825
       type: room
-      name: 5602.U1.004 (Treppe im Freien)
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: "-1.02.004@5602"
-  n_visible: 6
+      name: 0108.U1.825 (Experimenteller Raum)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N-1825@0108
+    - id: 0108.U1.825A
+      type: room
+      name: 0108.U1.825A (Experimenteller Raum)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N-1825A@0108
+    - id: 9201.EG.005
+      type: room
+      name: 9201.EG.005 (Seminarraum 2)
+      subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
+      subtext_bold: EG-05@9201
+    - id: 9201.EG.006
+      type: room
+      name: 9201.EG.006 (Seminarraum 1)
+      subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
+      subtext_bold: EG-06@9201
+  n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
-    - id: "5602"
+    - id: "9201"
       type: building
-      name: "\u0019Hörsaal\u0017 1 (BT02)"
-      subtext: Gebäudeteil
-    - id: mi
-      type: joined_building
-      name: "Fakultät Mathematik & Informatik (FMI oder \u0019MI\u0017)"
-      subtext: Gebäudekomplex
-    - id: "5605"
-      type: building
-      name: Finger 05 (BT05)
-      subtext: Gebäudeteil
-    - id: "5606"
-      type: building
-      name: Finger 06 (BT06)
-      subtext: Gebäudeteil
+      name: "TUM FZ Friedrich \u0019N\u0017. Schwarz Berchtesgaden"
+      subtext: Gebäude
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

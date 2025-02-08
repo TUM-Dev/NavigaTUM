@@ -7,6 +7,10 @@
 - target: wzw
   query: wzw
 # building queries
+- target: '5417'
+  query: interims I
+  among: 2
+  comment: 'Note: Interims iV and interims I can be matched here'
 - target: '5301'
   query: '5301'
 - target: garching-interims

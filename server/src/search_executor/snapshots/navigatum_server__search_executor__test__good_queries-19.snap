@@ -1,66 +1,59 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: splitting necessary
 expression: actual
-info: "'1801 maschinen' should get '5508.02.801' in 1 results"
+info: "'MW2001' should get '5510.02.001' in 1 results # splitting necessary"
 ---
 - facet: rooms
   entries:
-    - id: 5508.02.801
+    - id: 5510.02.001
       type: room
-      name: 5508.02.801 (Hörsaal)
+      name: "5510.02.001 (\u0019MW\u0017 \u00192001\u0017 Rudolf-Diesel-Hörsaal)"
       subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 1801@5508
-      parsed_id: "MW \u00191801\u0017"
-    - id: 0508.01.801
+      subtext_bold: 2001@5510
+    - id: 5502.01.250
       type: room
-      name: 0508.01.801 (Wasch.-/Putzraum)
-      subtext: "stammgelände, Heizkraftwerk (Z8)"
-      subtext_bold: 1801@0508
-      parsed_id: "\u00191801\u0017 Heizkraftwerk (Z8)"
-    - id: 0106.U1.801
+      name: 5502.01.250 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1250@5502
+    - id: 5502.EG.250
       type: room
-      name: 0106.U1.801 (Archiv)
-      subtext: "stammgelände, Materialprüfamt (N6)"
-      subtext_bold: N-1801@0106
-    - id: 0108.01.801
+      name: 5502.EG.250 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0250@5502
+    - id: 5503.EG.350
       type: room
-      name: 0108.01.801 (Labor)
-      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
-      subtext_bold: N1801@0108
-    - id: 2332.01.217
+      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0350@5503
+    - id: 5506.EG.608M
       type: room
-      name: "2332.01.217 ((32.\u00191\u0017.\u0019801\u0017) Büro)"
-      subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
-      subtext_bold: 01.2332.217@2332
-    - id: 4192.01.801
-      type: room
-      name: 4192.01.801 (Büro)
-      subtext: "staatsgut-veitshof, ehem. Wasserwerk"
-      subtext_bold: R1@4192
-    - id: 5132.01.801
-      type: room
-      name: 5132.01.801 (Technik RLT)
-      subtext: "garching, Boltzmannstr. 12"
-      subtext_bold: 01.801@5132
-    - id: 5101.01.801
-      type: room
-      name: 5101.01.801 (Installationsschacht)
-      subtext: "garching, Physik I"
-      subtext_bold: ""
-    - id: 5132.U1.801
-      type: room
-      name: 5132.U1.801 (Technik)
-      subtext: "garching, Boltzmannstr. 12"
-      subtext_bold: "-1.801@5132"
-    - id: 3505.01.102
-      type: room
-      name: 3505.01.102 (Treppe)
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
-      subtext_bold: 01.801@3505
-  n_visible: 10
+      name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0608M@5506
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
-  entries: []
+  entries:
+    - id: mw
+      type: joined_building
+      name: "Maschinenwesen (\u0019MW\u0017)"
+      subtext: Gebäudekomplex
+    - id: "5506"
+      type: building
+      name: "Gebäudeteil 6, Institut für Luft- und Raumfahrt"
+      subtext: Gebäudeteil
+    - id: "5501"
+      type: building
+      name: "Gebäudeteil 1, Institut für Mechatronik"
+      subtext: Gebäudeteil
+    - id: "5502"
+      type: building
+      name: "Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung"
+      subtext: Gebäudeteil
+    - id: "5504"
+      type: building
+      name: "Gebäudeteil 4, Institut für Verfahrenstechnik"
+      subtext: Gebäudeteil
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
