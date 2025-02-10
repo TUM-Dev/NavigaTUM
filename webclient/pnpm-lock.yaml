@@ -69,8 +69,8 @@ importers:
         specifier: 4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.7.3))
       vue3-carousel:
-        specifier: 0.13.0
-        version: 0.13.0(vue@3.5.13(typescript@5.7.3))
+        specifier: 0.14.0
+        version: 0.14.0(vue@3.5.13(typescript@5.7.3))
     devDependencies:
       '@nuxt/eslint':
         specifier: 1.0.1
@@ -5255,8 +5255,8 @@ packages:
     peerDependencies:
       typescript: '>=5.0.0'
 
-  vue3-carousel@0.13.0:
-    resolution: {integrity: sha512-vio91KI4mVMlCDbVhGzW9nIyYqxu0moqroPR/OrJeaCvAK3SJYxqvH36a4/t1oEJYJsTgh+IuNiNi6c+7DVKZg==}
+  vue3-carousel@0.14.0:
+    resolution: {integrity: sha512-YR3eEPKlcdUqAJmv41iVqbHhabz9AwFJqtgJgxQdtcYqDizUhHbC+aJbYvbG66FTViP+5lEqDmRQyn1IM8mXxQ==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -11797,7 +11797,7 @@ snapshots:
       '@vue/language-core': 2.2.0(typescript@5.7.3)
       typescript: 5.7.3
 
-  vue3-carousel@0.13.0(vue@3.5.13(typescript@5.7.3)):
+  vue3-carousel@0.14.0(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       vue: 3.5.13(typescript@5.7.3)
 
