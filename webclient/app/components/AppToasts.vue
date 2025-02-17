@@ -1,10 +1,11 @@
 <script setup lang="ts">
 const { t } = useI18n({ useScope: "local" });
+const month = computed<number>(() => new Date().getMonth() + 1);
 </script>
 
 <template>
   <Toast
-    v-if="[3, 4, 8, 9].includes(new Date().getMonth())"
+    v-if="[2, 3, 4, 8, 9].includes(month)"
     :id="'osm_sc_link-' + new Date().getFullYear()"
     level="info"
     :dismissable="true"
