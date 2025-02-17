@@ -3,7 +3,12 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <Toast id="osm_sc_link ws25" level="info" :dismissable="true">
+  <Toast
+    v-if="[3, 4, 8, 9].includes(new Date().getMonth())"
+    :id="'osm_sc_link-' + new Date().getFullYear()"
+    level="info"
+    :dismissable="true"
+  >
     <I18nT class="text-sm" tag="span" keypath="street_complete">
       <template #osm_sc_link>
         <NuxtLink
