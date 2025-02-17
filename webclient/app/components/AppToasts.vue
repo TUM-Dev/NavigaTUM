@@ -26,7 +26,7 @@ const month = computed<number>(() => new Date().getMonth() + 1);
 
 <i18n lang="yaml">
 de:
-  street_complete: Wenn du während der Lernpausen für Prüfungen spazieren gehst, macht es Spaß, {osm_sc_link}. Genauere Karten helfen uns, bessere Navigationserlebnisse zu entwickeln.
+  street_complete: Falls du während Lernpausen für Prüfungen spazieren gehst, macht es Spaß, {osm_sc_link}. Genauere Karten helfen uns, bessere Navigationserlebnisse zu entwickeln.
   osm_sc_link: OpenStreetMap mit StreetComplete zu verbessern
 en:
   street_complete: If you go for walks during exam-study breaks, helping us by {osm_sc_link} is fun. More accurate maps assist us in building better navigation experiences.
