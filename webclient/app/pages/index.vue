@@ -170,8 +170,6 @@ de:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
   sites_overview:
     others: Sonstige
-  street_complete: If you go for walks during exam-study breaks, helping us by {osm_sc_link} is fun. More accurate maps assist us in building better navigation experiences.
-  osm_sc_link: improving OpenStreetMap with StreetComplete
 en:
   less: less
   less_aria: show more buildings
@@ -184,6 +182,4 @@ en:
   description: Find rooms, buildings and other places at TUM with excellence. A modern alternative to RoomFinder, developed by students.
   sites_overview:
     others: Others
-  street_complete: If you go for walks during exam-study breaks, helping us by {osm_sc_link} is fun. More accurate maps assist us in building better navigation experiences.
-  osm_sc_link: improving OpenStreetMap with StreetComplete
 </i18n>
