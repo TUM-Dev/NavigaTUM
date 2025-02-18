@@ -3429,16 +3429,6 @@
     "name": "FRM-Poststelle (Container)",
     "tumonline_id": 1609
   },
-  "5132": {
-    "address": {
-      "place": "Garching b. M\u00fcnchen",
-      "street": "Boltzmannstr. 12",
-      "zip_code": 85748
-    },
-    "area_id": 35,
-    "name": "Center f.Organoid Systems & Tissue Engin",
-    "tumonline_id": 3349
-  },
   "5140": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
