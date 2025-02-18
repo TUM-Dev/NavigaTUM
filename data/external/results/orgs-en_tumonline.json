@@ -4072,7 +4072,7 @@
   "45391": {
     "code": "TUZEFAM",
     "name": "TUM Family Service",
-    "path": "TUM/Central Administration/Diversity & Equal Opportunities/TUM Family Service"
+    "path": "TUM/Central Administration/Diversity & Inclusion/TUM Family Service"
   },
   "45411": {
     "code": "TUPESIN",
@@ -4756,8 +4756,8 @@
   },
   "47957": {
     "code": "TUZVSCH",
-    "name": "Staff Unit Diversity & Equal Opportunities",
-    "path": "TUM/Central Administration/Diversity & Equal Opportunities"
+    "name": "Staff Unit Diversity & Inclusion",
+    "path": "TUM/Central Administration/Diversity & Inclusion"
   },
   "47997": {
     "code": "TUWZC1N",
@@ -5482,7 +5482,7 @@
   "49397": {
     "code": "TUZEACS",
     "name": "Accommodation Service",
-    "path": "TUM/Central Administration/Diversity & Equal Opportunities/Accommodation Service"
+    "path": "TUM/Central Administration/Diversity & Inclusion/Accommodation Service"
   },
   "49398": {
     "code": "TUWIB39",
@@ -7971,8 +7971,8 @@
   },
   "52785": {
     "code": "TUS2S06",
-    "name": "Study and Graduate Education (ED) - School Office",
-    "path": "TUM/Schools/Engineering and Design/School Office/Study and Graduate Education (ED)"
+    "name": "Academic and Student Affairs (ED) - School Office",
+    "path": "TUM/Schools/Engineering and Design/School Office/Academic and Student Affairs (ED)"
   },
   "52787": {
     "code": "TUS2S08",
@@ -11173,5 +11173,15 @@
     "code": "TUPESTA",
     "name": "START Munich e.V.",
     "path": "TUM/Institutions close to the University/Student initiatives/START Munich e.V."
+  },
+  "57077": {
+    "code": "TUXS60S",
+    "name": "Degree Program Zertifikat \u201cResearch, Leadership, and Social Responsibility\u201d TUM und Uni Bayreuth (MGT)",
+    "path": "TUM/Schools/Management/Academic Program Administration/School of Management Location Munich/Degree Program"
+  },
+  "57097": {
+    "code": "TUS4G0L",
+    "name": "Associate Professorship of Global Change Limnology (Prof. Waldvogel)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Global Change Limnology (Prof. Waldvogel)"
   }
 }
