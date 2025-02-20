@@ -13,17 +13,7 @@
     "horizon-fog-blend": 0.5,
     "fog-color": "#0000ff",
     "fog-ground-blend": 0.5,
-    "atmosphere-blend": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        0,
-        1,
-        10,
-        1,
-        12,
-        0
-    ]
+    "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 1, 10, 1, 12, 0]
   },
   "sources": {
     "nav": {
