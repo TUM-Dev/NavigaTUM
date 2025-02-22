@@ -9,7 +9,7 @@ readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 default-run = "navigatum-server"
-rust-version = "1.84.0"
+rust-version = "1.85.0"
 
 [[bin]]
 name = "navigatum-server"
