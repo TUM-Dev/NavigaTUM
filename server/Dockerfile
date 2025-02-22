@@ -55,6 +55,7 @@ ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # possible values "release"|"debug"
 ARG     PROFILE=release
 ENV     PROFILE=${PROFILE}
+ENV     RUST_BACKTRACE=1
 
 RUN     apk update --quiet \
      && apk add --quiet --no-cache libgcc tini curl libpq-dev
