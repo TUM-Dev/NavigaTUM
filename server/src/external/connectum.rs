@@ -115,19 +115,27 @@ impl OauthAccessToken {
           .trim()
           .to_string();
         if client_id.is_empty() {
-            anyhow::bail!("environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint")
+            anyhow::bail!(
+                "environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint"
+            )
         }
         let client_secret = std::env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
           .map_err(|e| anyhow::anyhow!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint: {e:?}"))?
           .trim()
           .to_string();
         if client_secret.is_empty() {
-            anyhow::bail!("environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint")
+            anyhow::bail!(
+                "environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint"
+            )
         }
 
         // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/isalms/CAMPUSonline_SP/.well-known/openid-configuration
-        let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/auth")?;
-        let token_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/token")?;
+        let auth_url = Url::parse(
+            "https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/auth",
+        )?;
+        let token_url = Url::parse(
+            "https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/token",
+        )?;
 
         let http_client = reqwest::Client::builder()
             // no redirects to prevent [SSRF-vulns](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)

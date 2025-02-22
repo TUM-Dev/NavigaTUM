@@ -2,7 +2,7 @@
 name = "navigatum-server"
 version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
-edition = "2021"
+edition = "2024"
 description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
 repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"

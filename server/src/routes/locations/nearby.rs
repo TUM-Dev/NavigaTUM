@@ -1,6 +1,6 @@
 use crate::db::public_transport::Transportation;
 use actix_web::http::header::{CacheControl, CacheDirective};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 use tracing::error;
 

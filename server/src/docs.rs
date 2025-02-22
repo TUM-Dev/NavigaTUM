@@ -1,6 +1,7 @@
 use actix_web::{
+    App,
     dev::{ServiceFactory, ServiceRequest},
-    web, App,
+    web,
 };
 use utoipa_actix_web::UtoipaApp;
 use utoipa_redoc::{Redoc, Servable};
@@ -85,10 +86,12 @@ If you'd like to help out or join us in this adventure, we would love to talk to
                 }).unwrap())
                 .build()))
             .build();
-    openapi.servers = Some(vec![ServerBuilder::new()
-        .url("https://nav.tum.de")
-        .description(Some("production"))
-        .build()]);
+    openapi.servers = Some(vec![
+        ServerBuilder::new()
+            .url("https://nav.tum.de")
+            .description(Some("production"))
+            .build(),
+    ]);
     openapi.tags = Some(vec![
         TagBuilder::new()
             .name("locations".to_string())

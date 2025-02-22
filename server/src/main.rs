@@ -5,7 +5,7 @@ use std::sync::Arc;
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
 use actix_middleware_etag::Etag;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
@@ -21,7 +21,7 @@ mod limited;
 mod localisation;
 mod search_executor;
 mod setup;
-use utoipa_actix_web::{scope, AppExt};
+use utoipa_actix_web::{AppExt, scope};
 mod db;
 pub mod external;
 pub mod overlays;
@@ -123,7 +123,9 @@ pub fn setup_logging() {
     };
     let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| default_level.to_string());
     // these overrides exist to filter away stuff I don't think we should ever care about
-    let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
+    let filter = format!(
+        "{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info"
+    );
 
     let filter = EnvFilter::builder().parse_lossy(filter);
 
