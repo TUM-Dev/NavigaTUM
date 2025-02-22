@@ -159,7 +159,6 @@ fn main() -> anyhow::Result<()> {
             ..Default::default()
         },
     ));
-    std::env::set_var("RUST_BACKTRACE", "1");
 
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
