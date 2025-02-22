@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use tracing::debug;
 use valhalla_client::costing::Costing;
 use valhalla_client::route::Location;
-use valhalla_client::{route, Units, Valhalla};
+use valhalla_client::{Units, Valhalla, route};
 
 #[derive(Clone, Debug)]
 pub struct ValhallaWrapper(Valhalla);

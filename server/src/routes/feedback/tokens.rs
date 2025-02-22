@@ -1,7 +1,7 @@
 use std::fmt;
 
-use actix_web::{post, HttpResponse};
-use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
+use actix_web::{HttpResponse, post};
+use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 use tracing::error;

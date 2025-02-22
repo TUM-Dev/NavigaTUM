@@ -1,7 +1,7 @@
 use std::fmt;
 use std::ops::Range;
 
-use futures::{stream::FuturesUnordered, StreamExt};
+use futures::{StreamExt, stream::FuturesUnordered};
 use tracing::warn;
 
 use crate::external::download_map_image::MapImageDownloadTask;

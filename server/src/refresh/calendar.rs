@@ -1,8 +1,8 @@
 use crate::db::calendar::Event;
 use crate::external::connectum::APIRequestor;
 use crate::limited::vec::LimitedVec;
-use futures::stream::FuturesUnordered;
 use futures::StreamExt;
+use futures::stream::FuturesUnordered;
 use serde::{Deserialize, Serialize, Serializer};
 use sqlx::PgPool;
 use std::env;
@@ -55,7 +55,9 @@ fn can_never_succeed() -> bool {
         Ok(s) => s.trim().is_empty(),
     };
     if client_id_invalid {
-        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, necessary to refresh all calendars");
+        error!(
+            "cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, necessary to refresh all calendars"
+        );
         return true;
     }
     let client_secret_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
@@ -63,7 +65,9 @@ fn can_never_succeed() -> bool {
         Ok(s) => s.trim().is_empty(),
     };
     if client_secret_invalid {
-        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, necessary to refresh all calendars");
+        error!(
+            "cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, necessary to refresh all calendars"
+        );
         return true;
     }
     false

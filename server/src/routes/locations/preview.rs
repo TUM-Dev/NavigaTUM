@@ -5,9 +5,9 @@ use crate::db::location::{Location, LocationKeyAlias};
 use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::overlays::map::OverlayMapTask;
-use crate::overlays::text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
+use crate::overlays::text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use image::{ImageBuffer, Rgba};
 use serde::Deserialize;
 use sqlx::PgPool;
@@ -86,7 +86,9 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
 }
 
 fn load_default_image() -> LimitedVec<u8> {
-    warn!("Loading default preview image, as map rendering failed. Check the connection to the tileserver");
+    warn!(
+        "Loading default preview image, as map rendering failed. Check the connection to the tileserver"
+    );
     let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
