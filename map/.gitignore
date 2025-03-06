@@ -8,3 +8,4 @@ martin/fonts/
 martin/sprites/maki
 gtfs_feeds
 *.parquet
+*.geojson
