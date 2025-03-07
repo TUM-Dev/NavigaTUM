@@ -11,4 +11,4 @@ requests==2.32.3
 requests-oauthlib==2.0.0
 ruamel.yaml==0.18.10
 tqdm==4.67.1
-utm==0.8.0
+utm==0.8.1
