@@ -1,5 +1,8 @@
 # 'Building' 0000 contains some buildings and places not in TUMonline as rooms
 - "0000"
+- "1545" # removed upstream
+- "1650" # removed upstream
+- "1652" # removed upstream
 - "1999" # not our building anymore
 # Teared down and replaced by 2330-2334 most likely
 - "2301"
@@ -15,6 +18,20 @@
 - "2360" # Pfortencontainer C1
 - "2361" # Umkleide-Werkstatt-Container C2
 - "2904" # Nymphenburgerstr. 39
+- "4182" # removed upstream
+- "4184" # removed upstream
+- "4190" # removed upstream
+- "4605" # removed upstream
+- "4607" # removed upstream
+- "4608" # removed upstream
+- "4609" # removed upstream
+- "4610" # removed upstream
+- "4611" # removed upstream
+- "4612" # removed upstream
+- "4612" # removed upstream
+- "4613" # removed upstream
+- "4614" # removed upstream
+- "4615" # removed upstream
 # "Institut für Grünlandlehre u. Haushaltstechnik"
 # Either no longer existing or it was renamed.
 - "4201"
