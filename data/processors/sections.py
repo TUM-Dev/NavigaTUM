@@ -18,8 +18,7 @@ def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
                 "code": entry["tumonline_data"]["operator"],
                 "name": entry["tumonline_data"]["operator_name"],
                 "url": (
-                    f"https://campus.tum.de/tumonline/webnav.navigate_to"
-                    f"?corg={entry['tumonline_data']['operator_id']}"
+                    f"https://campus.tum.de/tumonline/webnav.navigate_to?corg={entry['tumonline_data']['operator_id']}"
                 ),
                 "id": entry["tumonline_data"]["operator_id"],
             }
