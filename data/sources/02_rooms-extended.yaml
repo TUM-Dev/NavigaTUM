@@ -401,6 +401,12 @@
 "5506.EG.690C":
   name: Werkstatt Akaflieg München
   short_name: Akaflieg Werkstatt
+  usage:
+    name:
+      de: Werkstatt
+      en: Workshop
+    din_277: NF3.2
+    din277_name: Werkstätten
   props:
     links:
       - text:
@@ -410,12 +416,12 @@
 "5506.U1.632":
   name: Konstruktionsbüro Akaflieg München
   short_name: Akaflieg KoBü
-    usage:
-      name:
-        de: Büro
-        en: Office
-      din_277: NF2.1
-      din_277_desc: Büroräume
+  usage:
+    name:
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
   props:
     links:
       - text:
