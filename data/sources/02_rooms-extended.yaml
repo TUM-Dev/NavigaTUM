@@ -398,6 +398,30 @@
       en: WC Women
     din_277: NF7.1
     din_277_desc: Sanitärräume
+"5506.EG.690C":
+  name: Werkstatt Akaflieg München
+  short_name: Akaflieg Werkstatt
+  props:
+    links:
+      - text:
+          de: Weitere Informationen
+          en: more information
+        url: https://www.akaflieg.vo.tum.de/
+"5506.U1.632":
+  name: Konstruktionsbüro Akaflieg München
+  short_name: Akaflieg KoBü
+    usage:
+      name:
+        de: Büro
+        en: Office
+      din_277: NF2.1
+      din_277_desc: Büroräume
+  props:
+    links:
+      - text:
+          de: Weitere Informationen
+          en: more information
+        url: https://www.akaflieg.vo.tum.de/
 
 # === unternehmertum ===
 "7894.EG.302":
