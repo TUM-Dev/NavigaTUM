@@ -157,3 +157,6 @@ StuVe: [ SV, Studentische Vertretung, AStA ]
 # since the new mensa is not not new anymore, differentiating this is not usefull
 # some people might still refer to it this way
 "neue Mensa": ["Mensa Garching"]
+
+# feature request from akaflieg
+Konstruktionsbüro: [KoBÜ]
