@@ -2,7 +2,7 @@
 skips = ["B101"]
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.13"
 ignore_missing_imports = true
 disallow_incomplete_defs = true
 no_implicit_optional = true
