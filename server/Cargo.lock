@@ -6330,7 +6330,7 @@ dependencies = [
 [[package]]
 name = "valhalla-client"
 version = "0.4.0"
-source = "git+https://github.com/CommanderStorm/valhalla-client-rs.git?branch=async-api#17801902975f036c17a3ab2e256fc527c721b4d6"
+source = "git+https://github.com/jelmer/valhalla-client-rs.git?branch=master#c778825223ee053109639bc46d27764ce42fdfff"
 dependencies = [
  "chrono",
  "geo-types",
