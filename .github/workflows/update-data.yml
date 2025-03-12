@@ -21,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
       - run: rm data/external/results/*tumonline.json
