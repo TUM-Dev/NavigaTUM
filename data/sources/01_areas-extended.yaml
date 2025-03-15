@@ -368,17 +368,13 @@ mri-psychosomatik:
     coords: { lat: 48.13837, lon: 11.60221 }
     osm: [ "way/75376287" ]
 
-1545:
-    coords: { lat: 48.13669, lon: 11.60303 }
-    osm: [ "way/75376279" ]
-
 1546: # Somewhere completely different than 545 and 547
     coords: { lat: 48.13785, lon: 11.59837 }
     osm: [ "way/75376221" ]
 
 1547:
     coords: { lat: 48.13669, lon: 11.60272 }
-    osm: [ "way/75376279" ] # Same building as 1545, but 1547 is the smaller part of it
+    osm: [ "way/75376279" ]
 
 1548:
     coords: { lat: 48.13688, lon: 11.60357 }

@@ -93,7 +93,6 @@
     1542:Trogerstr. 26 (Bau 542):
     1543:Trogerstr. 32, Humangenetik (Bau 543):
     1544:Trogerstr. 32 (Rgb.) (Bau 544):
-    1545:Mikrobiologie, Tierställe (Bau 545):
     1546:Ismaninger Str. 15, Klinik für Strahlentherapie (Bau 546):
     -1547:Mikrobiologie, Tierställe (Bau 547): 
     1548:Schneckenburgerstr. 8, GSF-Container ("Schneckenbunker"), Virologie (Bau 548):
@@ -127,8 +126,6 @@
     1603:Altbau 2+3, Biologisches Institut (Bau 603):
     1607:Altbau 7, Institut für Pharmakologie und Toxikologie (Bau 607):
     -1608:Altbau 8, Institut für Medizinische Mikr (Bau 608):
-    1650:Tierstall für Pharmakologie (Bau 650):
-    1652:Tierställe (Bau 652):
   1708:Klinikum Schwabing (NR), Kinder und Jugendmedizin (Bau 708):
   19:Campus Heilbronn:heilbronn[campus]
     1901:Bildungscampus D, Gebäude 2, Vorlesungssäle:
@@ -295,15 +292,11 @@
       418,419:Staatsgut Veitshof:veitshof[site]
         4180:Verwaltungsgebäude:
         4181:Maschinenhalle:
-        4182:Bullenstall:
         4183:Wohnung / Garage:
-        4184:Mehrzweckstall:
-        4185:Offenstall:
         4186:Gärfuttersilo:
         4187:Dungsilo:
         4188:Fahrsilo:
         4189:Strohlagerhalle:
-        4190:Jungviehstall:
         4191:Fahrsilo:
         :ehem. Wasserwerk:veitshof-wasserwerk
           4192:ehem. Wasserwerk:
@@ -378,26 +371,16 @@
       4404:Seminargebäude:
       4405:Remise:
     452:Versuchsstation Viehhausen STG.WST.:viehhausen[site]
-      4521:Mehrzweckhalle:
+      4521:Maschinenhalle:
       4522:Landwirtschafliche Freifläche:
-      4523:Hühnerstall:
+      4523:Mehrzweckhalle:
       4524:Tankstelle Viehhof:
     46:Versuchsstation Thalhausen:thalhausen[site]
       4601:Wohngebäude:
       4602:Zentralgebäude:
       4603:Betriebsgebäude:
       4604:Maschinenhalle:
-      4605:Rinder/Kälber:
       4606:Futterzentrale:
-      4607:Tr. Sauen/Eber:
-      4608:Mastschweine 1:
-      4609:Ferkel/Sauen:
-      4610:Mastschweine 2:
-      4611:Legehennen/Broiler:
-      4612:Probemaststall:
-      4613:Elterntierstall:
-      4614:Futtergang:
-      4615:Animal Research Center Thalhausen (ARC T):4615,arc-t
       4616:Güllebehälter:
       4620:Versuchsfelder:
     4800:Halle Achering:
