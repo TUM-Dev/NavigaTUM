@@ -27,7 +27,10 @@ impl ValhallaWrapper {
     ) -> anyhow::Result<route::Trip> {
         debug!(?from, ?to, "routing request");
         let request = route::Manifest::builder()
-            .locations([Location::from(from), Location::from(to)])
+            .locations([
+                Location::from(from).radius(20),
+                Location::from(to).radius(20),
+            ])
             .costing(costing)
             .units(Units::Metric)
             .language(if should_use_english { "en-US" } else { "de-DE" });
