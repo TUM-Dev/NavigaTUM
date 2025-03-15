@@ -9,7 +9,10 @@ pub struct ValhallaWrapper(Valhalla);
 
 impl Default for ValhallaWrapper {
     fn default() -> Self {
-        let base_url = "https://nav.tum.de/valhalla".parse().unwrap();
+        let base_url = std::env::var("VALHALLA_URL")
+            .unwrap_or_else(|_| "https://nav.tum.de/valhalla".to_string())
+            .parse()
+            .expect("Valhalla url is not a valid url");
         ValhallaWrapper(Valhalla::new(base_url))
     }
 }
