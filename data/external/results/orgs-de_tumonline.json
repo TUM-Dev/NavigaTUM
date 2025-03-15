@@ -244,6 +244,11 @@
     "name": "Studiendekan",
     "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Studiendekan"
   },
+  "14635": {
+    "code": "TUCHWA0",
+    "name": "Institut f\u00fcr Wasserchemie und Chemische Balneologie",
+    "path": "TUM/Schools/Natural Sciences/Wasserchemie und Chemische Balneologie"
+  },
   "14684": {
     "code": "TUCHAC6",
     "name": "Lehrstuhl f\u00fcr Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. F\u00e4ssler)",
@@ -366,8 +371,8 @@
   },
   "14827": {
     "code": "TUEDS01",
-    "name": "Professur f\u00fcr Technikgeschichte (Dr. Reichenberger komm.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Technikgeschichte (Dr. Reichenberger komm.)"
+    "name": "Professur f\u00fcr Technikgeschichte (Prof. Novick)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Technikgeschichte (Prof. Novick)"
   },
   "14828": {
     "code": "TUEDS02",
@@ -3741,8 +3746,8 @@
   },
   "44384": {
     "code": "TUBVCMS",
-    "name": "Lehrstuhl f\u00fcr Computergest\u00fctzte Modellierung und Simulation (Prof. Borrmann)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computergest\u00fctzte Modellierung und Simulation (Prof. Borrmann)"
+    "name": "Lehrstuhl f\u00fcr Computing in Civil and Building Engineering (Prof. Borrmann)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computing in Civil and Building Engineering (Prof. Borrmann)"
   },
   "44404": {
     "code": "TUMAM15",
@@ -4726,8 +4731,8 @@
   },
   "47857": {
     "code": "TUPOL04",
-    "name": "Professur f\u00fcr Political Philosophy and Theory (Prof. Ulbricht komm.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Philosophy and Theory (Prof. Ulbricht komm.)"
+    "name": "Professur f\u00fcr Politische Theorie & Philosophie  (Prof. Westphal)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Politische Theorie & Philosophie  (Prof. Westphal)"
   },
   "47877": {
     "code": "TUPOL05",
@@ -5771,8 +5776,8 @@
   },
   "50242": {
     "code": "TUWZN5B",
-    "name": "Lehrstuhl f\u00fcr Nutritional Systems Biology (Prof. Somoza)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Nutritional Systems Biology (Prof. Somoza)"
+    "name": "Lehrstuhl f\u00fcr Nutritional Systems Biology (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Nutritional Systems Biology (N.N.)"
   },
   "50257": {
     "code": "TUEDS31",
@@ -11183,5 +11188,20 @@
     "code": "TUS4G0L",
     "name": "Professur f\u00fcr Global Change Limnology (Prof. Waldvogel)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Global Change Limnology (Prof. Waldvogel)"
+  },
+  "57117": {
+    "code": "TUWIH14",
+    "name": "Lehrstuhl f\u00fcr Marketing Analytics (Prof. Eckert)",
+    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing Analytics (Prof. Eckert)"
+  },
+  "57137": {
+    "code": "TUEIMMC",
+    "name": "Eignungskommission Studiengang M.Sc. Microelectronics and Chip Design",
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik/Aussch\u00fcsse und Kommissionen/Eignungskommissionen/M.Sc. Microelectronics and Chip Design"
+  },
+  "57157": {
+    "code": "TUWIH15",
+    "name": "Lehrstuhl f\u00fcr Advanced Analytics in Manufacturing (Prof. Otto)",
+    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Advanced Analytics in Manufacturing (Prof. Otto)"
   }
 }
