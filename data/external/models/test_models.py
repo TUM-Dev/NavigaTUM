@@ -2,27 +2,7 @@ from typing import Literal
 
 import pytest
 
-from external.models import nat, public_transport, roomfinder, tumonline
-
-
-def test_nat_building():
-    """Load all buildings from the nat.Building"""
-    nat.Building.load_all()
-
-
-def test_nat_room():
-    """Load all rooms from the nat.Room"""
-    nat.Room.load_all()
-
-
-def test_nat_campus():
-    """Load all campus from the nat.Campus"""
-    nat.Campus.load_all()
-
-
-def test_nat_org():
-    """Load all orgs from the nat.Campus"""
-    nat.Organisation.load_all()
+from external.models import public_transport, roomfinder, tumonline
 
 
 def test_roomfinder_map():
