@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nWITH coodinates_for_keys(key, coordinate) as (SELECT key, point(lat, lon)::geometry as coordinate\n                                              from de)\n\nSELECT t.id,\n       t.name,\n       CASE -- case statement to make sqlx believe it's nullable\n           WHEN\n               parent.id IS NOT NULL\n           THEN parent.id\n           ELSE NULL\n       END as parent_id,\n       CASE -- case statement to make sqlx believe it's nullable\n           WHEN\n               parent.name IS NOT NULL\n           THEN parent.name\n           ELSE NULL\n       END as parent_name,\n       ST_X(t.coordinate::geometry)                             as lat,\n       ST_Y(t.coordinate::geometry)                             as lon,\n       ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) as distance_meters\nFROM coodinates_for_keys c,\n     transportation_stations t\n     LEFT OUTER JOIN transportation_stations parent on t.parent = parent.id\nWHERE ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) < 1000\n  AND c.key = $1\nORDER BY ST_DISTANCE(t.coordinate::geometry, c.coordinate, false)\nLIMIT 50",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "parent_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "parent_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "lat",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 5,
+        "name": "lon",
+        "type_info": "Float8"
+      },
+      {
+        "ordinal": 6,
+        "name": "distance_meters",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "11dd3d2d42a3b248dad75cb9a617b4caf482f8049069d3b96f463a4067c809f1"
+}
