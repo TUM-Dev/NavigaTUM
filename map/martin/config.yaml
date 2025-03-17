@@ -7,6 +7,9 @@ sprites:
   - /map/sprites/navigatum
 fonts:
   - /map/fonts
+pmtiles:
+  sources:
+    shortbread: /data/shortbread.pmtiles
 mbtiles:
   sources:
     # named source matching source name to a single file
