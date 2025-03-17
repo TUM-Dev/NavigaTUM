@@ -21,8 +21,18 @@ WITH coodinates_for_keys(key, coordinate) as (SELECT key, point(lat, lon)::geome
 
 SELECT t.id,
        t.name,
-       parent.id as parent_id,
-       parent.name as parent_name,
+       CASE -- case statement to make sqlx believe it's nullable
+           WHEN
+               parent.id IS NOT NULL
+           THEN parent.id
+           ELSE NULL
+       END as parent_id,
+       CASE -- case statement to make sqlx believe it's nullable
+           WHEN
+               parent.name IS NOT NULL
+           THEN parent.name
+           ELSE NULL
+       END as parent_name,
        ST_X(t.coordinate::geometry)                             as lat,
        ST_Y(t.coordinate::geometry)                             as lon,
        ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) as distance_meters
