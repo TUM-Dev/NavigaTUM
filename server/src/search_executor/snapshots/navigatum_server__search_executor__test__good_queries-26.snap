@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: "seminar room, should be preferred over other rooms"
 expression: actual
 info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be preferred over other rooms"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -18,6 +19,12 @@ info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be pr
       subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
       subtext_bold: 1116@0401
       parsed_id: "\u00191116\u0017 Richard…. 18 (SW1)"
+    - id: 0205.01.116
+      type: room
+      name: 0205.01.116 (Lager)
+      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext_bold: 1116@0205
+      parsed_id: "\u00191116\u0017 Arcisstr. 19 (S5)"
     - id: 5111.U1.116
       type: room
       name: 5111.U1.116 (Glas u. brennbare Stoffe)
@@ -56,11 +63,6 @@ info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be pr
       name: 2315.01.116 (Biochemisches Labor)
       subtext: "campus-im-olympiapark-sz, Präventionszentrum"
       subtext_bold: 15116@2315
-    - id: 4218.01.116
-      type: room
-      name: 4218.01.116 (Sterilbänke (gem. Nutzung))
-      subtext: "weihenstephan, Biologikum Weihenstephan"
-      subtext_bold: 116@4218
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

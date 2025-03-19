@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'03.08.011' should get '5608.03.011' in 1 results"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -25,7 +26,7 @@ info: "'03.08.011' should get '5608.03.011' in 1 results"
       subtext_bold: BC2 3.1.08@8102
     - id: 5608.03.033A
       type: room
-      name: "5608.\u001903\u0017.033A (Kopierer)"
+      name: "5608.\u001903\u0017.033A (Serverraum)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.033A@5608
     - id: 2410.03.308
