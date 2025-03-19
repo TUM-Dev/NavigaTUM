@@ -4,7 +4,7 @@
   "metadata": {
     "maputnik:license": "https://github.com/maputnik/osm-liberty/blob/gh-pages/LICENSE.md",
     "maputnik:renderer": "mbgljs",
-    "openmaptiles:version": "3.x"
+    "shortbread:version": "1.0"
   },
   "sky": {
     "sky-color": "#199EF3",
@@ -160,24 +160,26 @@
       "layout": { "visibility": "none" },
       "paint": {
         "circle-color": "rgba(94, 180, 100, 0.61)",
-        "circle-radius": {
-          "stops": [
-            [17, 5],
-            [18, 15],
-            [19, 30],
-            [20, 60],
-            [21, 120],
-            [22, 240],
-            [23, 480]
-          ]
-        },
-        "circle-opacity": {
-          "stops": [
-            [17, 0.1],
-            [18, 0.3],
-            [19, 0.4]
-          ]
-        },
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          5,
+          18,
+          15,
+          19,
+          30,
+          20,
+          60,
+          21,
+          120,
+          22,
+          240,
+          23,
+          480
+        ],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.1, 18, 0.3, 19, 0.4],
         "circle-blur": 0.4
       }
     },
@@ -247,16 +249,7 @@
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "rgb(190,221,243)",
-        "line-width": {
-          "stops": [
-            [9, 0],
-            [10, 3],
-            [15, 5],
-            [17, 9],
-            [18, 20],
-            [20, 60]
-          ]
-        }
+        "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0, 10, 3, 15, 5, 17, 9, 18, 20, 20, 60]
       }
     },
     {
@@ -283,16 +276,7 @@
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "rgb(190,221,243)",
-        "line-width": {
-          "stops": [
-            [13, 0],
-            [14, 1],
-            [15, 2],
-            [17, 6],
-            [18, 12],
-            [20, 30]
-          ]
-        }
+        "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0, 14, 1, 15, 2, 17, 6, 18, 12, 20, 30]
       }
     },
     {
@@ -305,15 +289,7 @@
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "rgb(190,221,243)",
-        "line-width": {
-          "stops": [
-            [14, 0],
-            [15, 1],
-            [17, 4],
-            [18, 8],
-            [20, 20]
-          ]
-        }
+        "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1, 17, 4, 18, 8, 20, 20]
       }
     },
     {
@@ -325,12 +301,7 @@
       "filter": ["==", ["get", "kind"], "water"],
       "paint": {
         "fill-color": "rgb(190,221,243)",
-        "fill-opacity": {
-          "stops": [
-            [4, 0],
-            [6, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 6, 1]
       }
     },
     {
@@ -342,12 +313,7 @@
       "filter": ["==", ["get", "kind"], "river"],
       "paint": {
         "fill-color": "rgb(190,221,243)",
-        "fill-opacity": {
-          "stops": [
-            [4, 0],
-            [6, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 6, 1]
       }
     },
     {
@@ -359,12 +325,7 @@
       "filter": ["in", ["get", "kind"], ["literal", ["basin", "dock", "reservoir"]]],
       "paint": {
         "fill-color": "rgb(190,221,243)",
-        "fill-opacity": {
-          "stops": [
-            [4, 0],
-            [6, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 6, 1]
       }
     },
     {
@@ -376,12 +337,7 @@
       "filter": ["==", ["get", "kind"], "dam"],
       "paint": {
         "fill-color": "rgb(249,244,238)",
-        "fill-opacity": {
-          "stops": [
-            [12, 0],
-            [13, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1]
       }
     },
     {
@@ -402,12 +358,7 @@
       "filter": ["in", ["get", "kind"], ["literal", ["breakwater", "groyne", "pier"]]],
       "paint": {
         "fill-color": "rgb(249,244,238)",
-        "fill-opacity": {
-          "stops": [
-            [12, 0],
-            [13, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1]
       }
     },
     {
@@ -711,12 +662,7 @@
       "paint": {
         "fill-color": "rgba(207, 207, 207, 1)",
         "fill-antialias": true,
-        "fill-opacity": {
-          "stops": [
-            [15, 0],
-            [16, 0.8]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.8]
       }
     },
     {
@@ -1073,13 +1019,7 @@
         "icon-image": "arrow",
         "symbol-placement": "line",
         "icon-optional": true,
-        "icon-size": {
-          "base": 1,
-          "stops": [
-            [15.5, 0],
-            [20, 1]
-          ]
-        }
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 15.5, 0, 20, 1]
       },
       "paint": { "icon-opacity": 0.5 }
     },
@@ -1095,13 +1035,7 @@
         "symbol-placement": "line",
         "icon-rotate": 180,
         "icon-optional": true,
-        "icon-size": {
-          "base": 1,
-          "stops": [
-            [15.5, 0],
-            [20, 1]
-          ]
-        }
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 15.5, 0, 20, 1]
       }
     },
     {
@@ -1578,7 +1512,7 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 18,
-      "filter": ["any", ["in", "amenity", "bench"]],
+      "filter": ["any", ["match", ["get", "amenity"], ["bench"], true, false]],
       "layout": {
         "icon-optional": true,
         "icon-image": [
@@ -1597,12 +1531,7 @@
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
-        "icon-opacity": {
-          "stops": [
-            [18, 0],
-            [19, 1]
-          ]
-        }
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 1]
       }
     },
     {
@@ -1611,7 +1540,11 @@
       "source": "nav",
       "source-layer": "recreational_nodes",
       "minzoom": 18,
-      "filter": ["any", ["==", "amenity", "lounger"], ["==", "leisure", "picnic_table"]],
+      "filter": [
+        "any",
+        ["case", ["==", ["typeof", ["get", "amenity"]], "string"], ["==", ["get", "amenity"], "lounger"], false],
+        ["case", ["==", ["typeof", ["get", "leisure"]], "string"], ["==", ["get", "leisure"], "picnic_table"], false]
+      ],
       "layout": {
         "icon-optional": true,
         "icon-image": [
@@ -1630,12 +1563,7 @@
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
-        "icon-opacity": {
-          "stops": [
-            [18, 0],
-            [19, 1]
-          ]
-        }
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 1]
       }
     },
     {
@@ -2238,12 +2166,7 @@
       "minzoom": 16,
       "paint": {
         "fill-color": "rgba(143, 139, 139, 0.2)",
-        "fill-opacity": {
-          "stops": [
-            [16, 0],
-            [18, 1]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
       }
     },
     {
@@ -2255,13 +2178,7 @@
       "filter": ["==", ["get", "kind"], "construction"],
       "paint": {
         "fill-color": "rgba(252, 215, 141, 1)",
-        "fill-opacity": {
-          "stops": [
-            [15.5, 0],
-            [16, 0.05],
-            [17, 0.2]
-          ]
-        }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15.5, 0, 16, 0.05, 17, 0.2]
       }
     },
     {
@@ -2273,13 +2190,7 @@
       "filter": ["==", ["get", "kind"], "construction"],
       "paint": {
         "line-color": "rgba(250, 188, 2, 1)",
-        "line-opacity": {
-          "stops": [
-            [15.5, 0],
-            [16, 0.1],
-            [17, 0.4]
-          ]
-        },
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 15.5, 0, 16, 0.1, 17, 0.4],
         "line-offset": 1,
         "line-dasharray": [2, 3],
         "line-width": 3
@@ -2298,13 +2209,7 @@
         "icon-size": 1.5
       },
       "paint": {
-        "icon-opacity": {
-          "stops": [
-            [15, 0],
-            [16, 0.2],
-            [17, 0.65]
-          ]
-        },
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2, 17, 0.65],
         "icon-color": "rgba(255, 145, 0, 1)"
       }
     }
