@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: "'5604.02.033' is a valid result before the two lab course rooms"
 expression: actual
 info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' is a valid result before the two lab course rooms"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -43,7 +44,7 @@ info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' i
       subtext_bold: 003@4404
     - id: 0103.U1.301
       type: room
-      name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum)"
+      name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum (Gesperrt))"
       subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
       subtext_bold: "-1301@0103"
     - id: 4124.EG.320
