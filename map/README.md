@@ -62,11 +62,12 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[fast => ~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
 
   ```bash
-  docker run --rm --user=$UID -it \
+  docker run --rm --user=$UID -it --pull always \
   -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data \
   ghcr.io/onthegomap/planetiler:latest \
   /data/planetiler/shortbread_custom.yml \
   --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
   --fetch-wikidata --languages=de,en \
   --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram \
    --area=germany \
@@ -78,11 +79,12 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slower => ~1 hour] Only <b>Germany</b> with lower RAM (click to expand)</summary>
 
   ```bash
-  docker run --rm --user=$UID -it \
+  docker run --rm --user=$UID -it --pull always \
   -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data \
   ghcr.io/onthegomap/planetiler:latest \
   /data/planetiler/shortbread_custom.yml \
   --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
   --fetch-wikidata --languages=de,en \
   --Xmx10g --storage=mmap \
    --area=germany \
@@ -94,11 +96,12 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slow => ~3 hours] <b>Planet</b> with approx 128GB of RAM (click to expand)</summary>
 
   ```bash
-  docker run --rm --user=$UID -it \
+  docker run --rm --user=$UID -it --pull always \
   -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data \
   ghcr.io/onthegomap/planetiler:latest \
   /data/planetiler/shortbread_custom.yml \
   --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
   --fetch-wikidata --languages=de,en \
   --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram \
   --area=planet --bounds=world \
@@ -110,11 +113,12 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slowest => ~24 hours] <b>Planet</b> with lower amounts of RAM (click to expand)</summary>
 
   ```bash
-  docker run --rm --user=$UID -it \
+  docker run --rm --user=$UID -it --pull always \
   -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data \
   ghcr.io/onthegomap/planetiler:latest \
   /data/planetiler/shortbread_custom.yml \
   --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
   --fetch-wikidata --languages=de,en \
   --Xmx25g --nodemap-type=array --storage=mmap \
   --area=planet --bounds=world \
