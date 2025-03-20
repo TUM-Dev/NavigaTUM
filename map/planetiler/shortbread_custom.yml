@@ -357,7 +357,9 @@ layers:
     min_zoom: 14
     include_when:
       military: danger_area
-      leisure: sports_center
+      leisure:
+      - sports_centre
+      - pitch
       landuse: construction
       amenity:
       - university
@@ -365,6 +367,8 @@ layers:
       - prison
       - parking
       - bicycle_parking
+      - motorcycle_parking
+      - bicycle_rental
     attributes:
     - key: kind
       type: match_value
@@ -373,7 +377,7 @@ layers:
   features:
   - source: osm
     geometry: polygon
-    min_zoom: 14
+    min_zoom: 13
     include_when:
       building: __any__
     exclude_when:
@@ -386,10 +390,7 @@ layers:
     min_zoom: 14
     include_when: &address_filter
       addr:housenumber: __any__
-      addr:housename: __any__
     attributes: &address_attributes
-    - key: name
-      tag_value: addr:housename
     - key: number
       tag_value: addr:housenumber
   - source: osm
@@ -657,6 +658,7 @@ layers:
         - bar
         - bench
         - bicycle_rental
+        - bicycle_parking
         - biergarten
         - cafe
         - car_rental
@@ -667,6 +669,7 @@ layers:
         - college
         - community_centre
         - courthouse
+        - charging_station
         - dentist
         - doctors
         - dog_park
@@ -676,16 +679,20 @@ layers:
         - fire_station
         - food_court
         - fountain
+        - fuel
         - grave_yard
         - hospital
         - hunting_stand
+        - ice_cream
         - library
+        - lounger
         - marketplace
+        - motorcycle_parking
         - nightclub
         - nursing_home
+        - parking
         - pharmacy
         - place_of_worship
-        - playground
         - police
         - post_box
         - post_office
@@ -727,6 +734,7 @@ layers:
         - sports_centre
         - stadium
         - swimming_pool
+        - picnic_table
         - water_park
       man_made: &poi_filter_man_made
         - lighthouse
@@ -737,8 +745,6 @@ layers:
         - water_works
         - watermill
         - windmill
-      office: &poi_filter_office
-        - diplomatic
       shop: &poi_filter_shop
         - alcohol
         - bakery
@@ -821,9 +827,6 @@ layers:
     - key: highway
       include_when:
         highway:  *poi_filter_highway
-    - key: office
-      include_when:
-        office:  *poi_filter_office
     - *name
     - *name_en
     - *name_de
@@ -831,14 +834,6 @@ layers:
       tag_value: addr:housename
     - key: housenumber
       tag_value: addr:housenumber
-    - key: cuisine
-      include_when:
-        amenity:
-          - restaurant
-          - fast_food
-          - pub
-          - bar
-          - cafe
     - key: sport
       include_when:
         leisure:
@@ -899,6 +894,14 @@ layers:
         - else: false
       include_when:
         amenity: bank
+    - key: capacity
+      type: integer
+      include_when:
+        amenity:
+          - bicycle_rental
+          - parking
+          - bicycle_parking
+          - motorcycle_parking
   - source: osm
     geometry: polygon_point_on_surface
     min_zoom: 14
@@ -937,6 +940,11 @@ layers:
         - tag_value: railway
         - tag_value: highway
         - "aerialway_station"
+    - key: subway
+      value:
+        - if: { subway: yes }
+          value: true
+        - else: false
     - *name
     - *name_en
     - *name_de
