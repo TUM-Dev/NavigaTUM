@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
-import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
@@ -101,8 +101,6 @@ function initMap(containerId: string): Map {
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
-
-    attributionControl: false,
   });
   if (props.debugMode) {
     const debugMarker = new Marker({ draggable: true }).setLngLat([props.coords.lon, props.coords.lat]).addTo(map);
@@ -180,15 +178,6 @@ function initMap(containerId: string): Map {
       trackUserLocation: true,
     });
     map.addControl(location);
-
-    // The attributionControl is automatically open, which takes up a lot of
-    // space on the small map display that we have. That's why we add it ourselves
-    // and then toggle it.
-    // It's only added after loading because if we add it directly on map initialization
-    // for some reason it doesn't work.
-    const attrib = new AttributionControl({ compact: true });
-    map.addControl(attrib);
-    attrib._toggleAttribution();
   });
 
   interface FloorChangedEvent {
