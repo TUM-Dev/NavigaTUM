@@ -349,7 +349,11 @@ layers:
   features:
   - source: osm
     geometry: polygon
-    min_zoom: 14
+    min_zoom:
+      default_value: 14
+      overrides:
+        10:
+          amenity: university
     include_when:
       military: danger_area
       leisure:
