@@ -382,6 +382,27 @@ layers:
       building: __any__
     exclude_when:
       building: no
+    attributes:
+    - key: height
+      type: integer
+      value:
+        - if: { height: __any__ }
+          tag_value: height
+        - if: { building:levels: __any__ }
+          value: '${ uint(feature.tags["building:levels"]) * 3u }'
+        - else: 4
+      min_zoom: 14
+      max_zoom: 17
+    - key: min_height
+      type: integer
+      value:
+        - if: { min_height: __any__ }
+          tag_value: min_height
+        - if: { building:min_level: __any__ }
+          value: '${ uint(feature.tags["building:min_level"]) * 3u }'
+        - else: 0
+      min_zoom: 14
+      max_zoom: 17
 
 - id: addresses
   features:
