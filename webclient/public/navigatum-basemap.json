@@ -34,18 +34,6 @@
       "paint": { "background-color": "rgb(239,239,239)" }
     },
     {
-      "id": "ocean",
-      "type": "fill",
-      "source": "nav",
-      "source-layer": "ocean",
-      "minzoom": 0,
-      "filter": ["all"],
-      "paint": {
-        "fill-color": "rgb(190,221,243)",
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 0, 6, 1]
-      }
-    },
-    {
       "id": "natural_earth",
       "type": "raster",
       "source": "natural_earth_shaded_relief",
@@ -53,6 +41,15 @@
       "paint": {
         "raster-opacity": ["interpolate", ["exponential", 1.5], ["zoom"], 4, 0.7, 6, 0]
       }
+    },
+    {
+      "id": "ocean",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "ocean",
+      "minzoom": 0,
+      "filter": ["all"],
+      "paint": { "fill-color": "rgb(190,221,243)", "fill-opacity": 1 }
     },
     {
       "id": "land_residential",
@@ -151,7 +148,7 @@
         "fill-opacity": {
           "stops": [
             [7, 0],
-            [8, 0.4]
+            [7.5, 0.4]
           ]
         }
       }
@@ -197,12 +194,12 @@
       "layout": { "visibility": "visible" },
       "paint": {
         "fill-antialias": false,
-        "fill-color": "rgba(255, 249, 221, 1)",
+        "fill-color": "rgba(200, 207, 147, 1)",
         "fill-opacity": {
           "stops": [
             [10, 0],
             [10.5, 0.1],
-            [12, 0.5]
+            [12, 0.2]
           ]
         }
       }
@@ -358,12 +355,24 @@
       }
     },
     {
-      "id": "tmp",
+      "id": "sites_university",
       "type": "fill",
       "source": "nav",
       "source-layer": "sites",
-      "filter": ["all", ["==", "kind", "university"]],
-      "paint": { "fill-color": "rgba(230, 124, 255, 1)", "fill-opacity": 0.1 }
+      "minzoom": 10,
+      "maxzoom": 14,
+      "filter": ["==", ["get", "kind"], "university"],
+      "paint": {
+        "fill-color": "rgba(230, 124, 255, 1)",
+        "fill-opacity": {
+          "stops": [
+            [10, 0],
+            [11, 0.1],
+            [13, 0.1],
+            [14, 0]
+          ]
+        }
+      }
     },
     {
       "id": "water_lines_river",
@@ -1629,25 +1638,12 @@
       }
     },
     {
-      "id": "boundary_2_z5-",
+      "id": "boundary_2",
       "type": "line",
       "source": "nav",
       "source-layer": "boundaries",
-      "minzoom": 0,
-      "filter": ["==", ["get", "admin_level"], 2],
-      "layout": { "line-cap": "round", "line-join": "round" },
-      "paint": {
-        "line-color": ["case", ["get", "maritime"], ["literal", "hsl(210,20%,41%)"], ["literal", "hsl(210,1%,41%)"]],
-        "line-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.4, 4, 1],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
-      }
-    },
-    {
-      "id": "boundary_2_z0-4",
-      "type": "line",
-      "source": "nav",
-      "source-layer": "boundaries",
-      "maxzoom": 5,
+      "minzoom": 2,
+      "maxzoom": 10,
       "filter": ["==", ["get", "admin_level"], 2],
       "layout": {
         "line-cap": "round",
@@ -1656,8 +1652,8 @@
       },
       "paint": {
         "line-color": ["case", ["get", "maritime"], ["literal", "hsl(210,20%,41%)"], ["literal", "hsl(210,1%,41%)"]],
-        "line-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.4, 4, 1],
-        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
+        "line-opacity": 1,
+        "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0, 3, 1, 5, 1.2, 12, 3]
       }
     },
     {
