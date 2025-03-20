@@ -24,12 +24,13 @@ definitions:
   attributes:
   - &name
     key: name
-  - &name_en
-    key: name_en
-    tag_value: name:en
-  - &name_de
-    key: name_de
-    tag_value: name:de
+    type: string
+    value:
+      coalesce:
+        - tag_value: name:de
+        - tag_value: name
+        - tag_value: name:en
+        - value: ''
 
 layers:
 
@@ -78,8 +79,6 @@ layers:
     - key: kind
       type: match_value
     - *name
-    - *name_en
-    - *name_de
 
 - id: water_lines
   features:
@@ -144,8 +143,6 @@ layers:
     - key: kind
       type: match_value
     - *name
-    - *name_en
-    - *name_de
     - *water_lines_attr_tunnel
     - *water_lines_attr_bridge
 
@@ -246,8 +243,6 @@ layers:
               place: [ city, town, village, hamlet ]
               capital: '4'
     - *name
-    - *name_en
-    - *name_de
     - key: population
       type: integer
       value:
@@ -580,8 +575,6 @@ layers:
     - key: kind
       value: '${ match_value.replace("_link", "") }'
     - *name
-    - *name_en
-    - *name_de
     # TODO use ref var to avoid duplicating logic
     - key: ref
       exclude_when: &missing_ref
@@ -626,8 +619,6 @@ layers:
     - key: kind
       type: match_value
     - *name
-    - *name_en
-    - *name_de
 
 - id: street_labels_points # TODO update documentation (streetS_labels_points)
   features:
@@ -641,8 +632,6 @@ layers:
       type: match_value
     - key: ref
     - *name
-    - *name_en
-    - *name_de
 
 - id: bridges
   features:
@@ -849,8 +838,6 @@ layers:
       include_when:
         highway:  *poi_filter_highway
     - *name
-    - *name_en
-    - *name_de
     - key: housename
       tag_value: addr:housename
     - key: housenumber
@@ -869,44 +856,6 @@ layers:
     - key: tower:type
       include_when:
         man_made: tower
-    - key: religion
-      include_when:
-        amenity: place_of_worship
-    - key: denomination
-      include_when:
-        amenity: place_of_worship
-    - key: recycling:glass_bottles
-      type: boolean
-      value:
-        - if: { "recycling:glass_bottles": yes }
-          value: true
-        - else: false
-      include_when:
-        amenity: recycling
-    - key: recycling:paper
-      type: boolean
-      value:
-        - if: { "recycling:paper": yes }
-          value: true
-        - else: false
-      include_when:
-        amenity: recycling
-    - key: recycling:clothes
-      type: boolean
-      value:
-        - if: { "recycling:clothes": yes }
-          value: true
-        - else: false
-      include_when:
-        amenity: recycling
-    - key: recycling:scrap_metal
-      type: boolean
-      value:
-        - if: { "recycling:scrap_metal": yes }
-          value: true
-        - else: false
-      include_when:
-        amenity: recycling
     - key: atm
       type: boolean
       value:
@@ -967,9 +916,6 @@ layers:
           value: true
         - else: false
     - *name
-    - *name_en
-    - *name_de
-    - key: iata
   - source: osm
     geometry: polygon_point_on_surface
     min_zoom: *public_transport_zoom

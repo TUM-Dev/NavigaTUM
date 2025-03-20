@@ -48,6 +48,7 @@
       "source": "nav",
       "source-layer": "land",
       "minzoom": 10,
+      "maxzoom": 15,
       "filter": ["==", ["get", "kind"], "residential"],
       "paint": {
         "fill-color": ["interpolate", ["linear"], ["zoom"], 9, "hsla(0,3%,85%,0.84)", 12, "hsla(35,57%,88%,0.49)"],
@@ -55,7 +56,8 @@
           "stops": [
             [1, 1],
             [13.8, 1],
-            [14.4, 0.2]
+            [14.4, 0.2],
+            [15, 0]
           ]
         }
       }
@@ -68,6 +70,25 @@
       "minzoom": 4,
       "filter": ["==", ["get", "kind"], "glacier"],
       "paint": { "fill-color": "rgb(255,255,255)" }
+    },
+    {
+      "id": "land_playground",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "land",
+      "minzoom": 11,
+      "filter": ["==", ["get", "kind"], "playground"],
+      "paint": {
+        "fill-color": "rgba(232, 231, 200, 1)",
+        "fill-opacity": {
+          "stops": [
+            [11, 0.3],
+            [15, 0.7]
+          ]
+        },
+        "fill-outline-color": "rgba(208, 159, 95, 1)",
+        "fill-antialias": true
+      }
     },
     {
       "id": "land_park",
@@ -216,7 +237,13 @@
       "source": "nav",
       "source-layer": "sites",
       "minzoom": 15,
-      "filter": ["==", ["get", "kind"], "parking"],
+      "filter": [
+        "match",
+        ["get", "kind"],
+        ["parking", "bicycle_parking", "motorcycle_parking", "bicycle_rental"],
+        true,
+        false
+      ],
       "paint": { "fill-color": "rgba(177, 180, 194, 1)", "fill-opacity": 0.075 }
     },
     {
@@ -245,6 +272,19 @@
       "minzoom": 14,
       "filter": ["==", ["get", "kind"], "school"],
       "paint": { "fill-color": "rgb(236,238,204)" }
+    },
+    {
+      "id": "sites_sport",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "sites",
+      "minzoom": 15,
+      "filter": ["match", ["get", "kind"], ["pitch", "sports_centre"], true, false],
+      "paint": {
+        "fill-color": "rgba(135, 213, 105, 1)",
+        "fill-opacity": 0.3,
+        "fill-outline-color": "rgba(1, 105, 51, 1)"
+      }
     },
     {
       "id": "water_lines_river",
@@ -584,7 +624,13 @@
       ],
       "paint": {
         "line-color": "#bbb",
-        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 16, 1, 20, 2]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 16, 1, 20, 2],
+        "line-opacity": {
+          "stops": [
+            [16, 0],
+            [17, 1]
+          ]
+        }
       }
     },
     {
@@ -602,7 +648,13 @@
       "paint": {
         "line-color": "#bbb",
         "line-dasharray": [0.2, 8],
-        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 16, 3, 20, 8]
+        "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 16, 3, 20, 8],
+        "line-opacity": {
+          "stops": [
+            [16, 0],
+            [17, 1]
+          ]
+        }
       }
     },
     {
@@ -809,7 +861,11 @@
         ["!", ["get", "link"]],
         ["==", ["get", "kind"], "motorway"]
       ],
-      "layout": { "line-cap": "round", "line-join": "round" },
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-color": "#e9ac77",
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 5, 0.4, 6, 0.7, 7, 1.75, 20, 22]
@@ -828,7 +884,11 @@
         ["!", ["get", "link"]],
         ["==", ["get", "kind"], "motorway"]
       ],
-      "layout": { "line-cap": "round", "line-join": "round" },
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-color": "#fc8",
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 12.5, 0, 13, 1.5, 14, 2.5, 20, 11.5]
@@ -840,7 +900,7 @@
       "source": "nav",
       "source-layer": "streets",
       "minzoom": 15,
-      "filter": ["all", ["==", ["get", "kind"], "steps"]],
+      "filter": ["==", ["get", "kind"], "steps"],
       "layout": {
         "line-cap": "butt",
         "line-join": "bevel",
@@ -850,7 +910,25 @@
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 15.5, 0, 16, 2, 20, 7.5],
         "line-opacity": 0.8,
-        "line-dasharray": [1, 0.7]
+        "line-dasharray": [0.7, 0.4]
+      }
+    },
+    {
+      "id": "streets_cycleway",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "streets",
+      "minzoom": 15,
+      "filter": ["==", ["get", "kind"], "cycleway"],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(218, 200, 221, 1)",
+        "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 15, 0, 15.5, 0.5, 16, 2, 20, 7.5],
+        "line-dasharray": [0.5, 0.3]
       }
     },
     {
@@ -917,6 +995,7 @@
       "type": "line",
       "source": "nav",
       "source-layer": "streets",
+      "minzoom": 13.5,
       "filter": [
         "all",
         ["in", ["geometry-type"], "LineString"],
@@ -931,7 +1010,21 @@
       }
     },
     {
-      "id": "streets_secondary_tertiary",
+      "id": "streets_xl-light",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "streets",
+      "minzoom": 6.5,
+      "maxzoom": 12,
+      "filter": ["match", ["get", "kind"], ["secondary", "tertiary"], true, false],
+      "layout": { "line-cap": "round", "line-join": "round" },
+      "paint": {
+        "line-color": "#fea",
+        "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 6.5, 0, 8, 0.5, 20, 13]
+      }
+    },
+    {
+      "id": "streets_xl",
       "type": "line",
       "source": "nav",
       "source-layer": "streets",
@@ -948,7 +1041,21 @@
       }
     },
     {
-      "id": "streets_trunk_primary",
+      "id": "streets_xxl-light",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "streets",
+      "minzoom": 5,
+      "maxzoom": 12,
+      "filter": ["all", ["match", ["get", "kind"], ["primary", "trunk"], true, false]],
+      "layout": { "line-join": "round" },
+      "paint": {
+        "line-color": "#fea",
+        "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 5, 0, 7, 1, 20, 18]
+      }
+    },
+    {
+      "id": "streets_xxl_primary",
       "type": "line",
       "source": "nav",
       "source-layer": "streets",
@@ -965,6 +1072,24 @@
       }
     },
     {
+      "id": "streets_motorway-light",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "streets",
+      "minzoom": 5,
+      "maxzoom": 12,
+      "filter": ["==", ["get", "kind"], "motorway"],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": ["interpolate", ["linear"], ["zoom"], 5, "hsl(26,87%,62%)", 6, "#fc8"],
+        "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 5, 0, 7, 1, 20, 18]
+      }
+    },
+    {
       "id": "streets_motorway",
       "type": "line",
       "source": "nav",
@@ -977,7 +1102,11 @@
         ["==", ["get", "kind"], "motorway"],
         ["!", ["get", "link"]]
       ],
-      "layout": { "line-cap": "round", "line-join": "round" },
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-color": ["interpolate", ["linear"], ["zoom"], 5, "hsl(26,87%,62%)", 6, "#fc8"],
         "line-width": ["interpolate", ["exponential", 1.2], ["zoom"], 5, 0, 7, 1, 20, 18]
@@ -1307,7 +1436,7 @@
       "minzoom": 13,
       "paint": {
         "fill-color": "rgba(152, 198, 234, 1)",
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 13, 0, 13.8, 1, 14.4, 1, 14.5, 0, 16.4, 0, 16.5, 1],
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 13, 0, 13.8, 1, 14.4, 1, 14.5, 0, 16.2, 0, 16.4, 1],
         "fill-antialias": true,
         "fill-outline-color": ["interpolate", ["linear"], ["zoom"], 14, "hsla(35,6%,79%,0.32)", 14.3, "hsl(35,6%,79%)"]
       }
@@ -1317,24 +1446,42 @@
       "type": "fill-extrusion",
       "source": "nav",
       "source-layer": "buildings",
-      "minzoom": 13.5,
+      "minzoom": 14,
       "maxzoom": 16.5,
       "paint": {
-        "fill-extrusion-height": 30,
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          0,
+          14.5,
+          30,
+          16.2,
+          30,
+          16.3,
+          20,
+          16.4,
+          3,
+          16.5,
+          0
+        ],
         "fill-extrusion-base": 0,
         "fill-extrusion-opacity": [
           "interpolate",
           ["linear"],
           ["zoom"],
-          13.5,
-          0,
           14,
+          0,
+          14.5,
           0.8,
+          16.2,
+          0.8,
+          16.3,
+          0.5,
           16.4,
-          0.8,
-          16.5,
           0.1,
-          16.6,
+          16.5,
           0
         ],
         "fill-extrusion-color": ["interpolate", ["linear"], ["zoom"], 13, "#98c6ea", 15, "#64a0c8", 20, "#005293"],
@@ -1422,35 +1569,6 @@
       }
     },
     {
-      "id": "poi_gate",
-      "type": "symbol",
-      "source": "nav",
-      "source-layer": "poi",
-      "minzoom": 17,
-      "filter": ["match", ["get", "kind"], ["gate", "tail_gate"], true, false],
-      "layout": {
-        "icon-image": "gate",
-        "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name"]],
-        "text-font": ["Roboto Condensed Italic"],
-        "text-max-width": 9,
-        "text-offset": [0.9, 0],
-        "text-size": 14,
-        "icon-optional": true,
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(159, 159, 159, 1)",
-        "text-halo-color": "#fff",
-        "icon-color": "rgba(159, 159, 159, 1)",
-        "icon-halo-color": "#fff",
-        "text-halo-width": 1,
-        "text-halo-blur": 1,
-        "icon-halo-width": 2,
-        "icon-halo-blur": 1
-      }
-    },
-    {
       "id": "poi_parking",
       "type": "symbol",
       "source": "nav",
@@ -1458,15 +1576,15 @@
       "minzoom": 16,
       "filter": [
         "match",
-        ["get", "kind"],
+        ["get", "amenity"],
         ["bicycle_rental", "parking", "bicycle_parking", "motorcycle_parking"],
-        ["!", ["has", "level"]],
+        true,
         false
       ],
       "layout": {
         "icon-image": [
           "match",
-          ["get", "kind"],
+          ["get", "amenity"],
           ["bicycle_rental"],
           ["literal", "bicycle-share"],
           ["bicycle_parking"],
@@ -1482,7 +1600,7 @@
         "icon-allow-overlap": false,
         "icon-ignore-placement": false,
         "icon-size": 1.2,
-        "visibility": "none",
+        "visibility": "visible",
         "text-optional": true
       },
       "paint": {
@@ -1512,10 +1630,31 @@
           16.5,
           0,
           17,
-          ["min", ["/", ["-", ["literal", 100], ["number", ["get", "rank"]]], ["literal", 70]], ["literal", 1]],
+          ["min", ["/", ["-", ["literal", 100], ["number", ["get", "capacity"]]], ["literal", 70]], ["literal", 1]],
           20,
           1
         ]
+      }
+    },
+    {
+      "id": "poi_waste",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "pois",
+      "minzoom": 19,
+      "filter": ["==", ["get", "amenity"], "waste_basket"],
+      "layout": {
+        "icon-optional": true,
+        "visibility": "visible",
+        "text-optional": true,
+        "icon-image": "waste-basket"
+      },
+      "paint": {
+        "icon-color": "#725A51",
+        "icon-halo-color": "#fff",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 19, 0, 20, 1]
       }
     },
     {
@@ -1523,7 +1662,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "pois",
-      "minzoom": 18,
+      "minzoom": 17,
       "filter": [
         "any",
         ["match", ["get", "amenity"], ["bench", "lounger"], true, false],
@@ -1548,40 +1687,7 @@
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
-        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 1]
-      }
-    },
-    {
-      "id": "poi_office",
-      "type": "symbol",
-      "source": "nav",
-      "source-layer": "pois",
-      "minzoom": 18,
-      "filter": ["match", ["get", "kind"], ["office", "college"], ["!", ["has", "level"]], false],
-      "layout": {
-        "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name"]],
-        "text-font": ["Roboto Condensed Italic"],
-        "text-max-width": 9,
-        "text-offset": [0.9, 0],
-        "text-size": 14,
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": "rgba(20, 39, 87, 1)",
-        "text-halo-color": "#fff",
-        "icon-color": [
-          "match",
-          ["get", "name"],
-          ["der tu film"],
-          ["literal", "rgba(20, 39, 87, 1)"],
-          ["literal", "rgba(0, 0, 0, 1)"]
-        ],
-        "icon-halo-color": "#fff",
-        "text-halo-width": 1,
-        "text-halo-blur": 1,
-        "icon-halo-width": 2,
-        "icon-halo-blur": 1
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 18, 0.1, 19, 1]
       }
     },
     {
@@ -1590,7 +1696,7 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 16,
-      "filter": ["match", ["get", "kind"], ["fuel"], true, false],
+      "filter": ["match", ["get", "amenity"], ["fuel", "charging_station"], true, false],
       "layout": {
         "text-anchor": "left",
         "text-field": "",
@@ -1602,12 +1708,12 @@
         "icon-ignore-placement": false,
         "icon-image": [
           "match",
-          ["get", "subclass"],
+          ["get", "amenity"],
           ["charging_station"],
           ["literal", "charging-station"],
-          ["get", "subclass"]
+          ["literal", "fuel"]
         ],
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "#4898FF",
@@ -1618,6 +1724,55 @@
         "text-halo-width": 1,
         "icon-halo-width": 2,
         "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_playground",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "land",
+      "minzoom": 16,
+      "filter": ["==", ["get", "kind"], "playground"],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-image": "playground",
+        "icon-size": {
+          "stops": [
+            [16, 0.5],
+            [19, 2]
+          ]
+        },
+        "text-optional": true,
+        "symbol-z-order": "auto",
+        "symbol-placement": "point",
+        "text-pitch-alignment": "auto"
+      },
+      "paint": {
+        "text-color": "rgba(142, 78, 45, 1)",
+        "text-halo-color": "#fff",
+        "icon-color": "rgba(202, 132, 96, 1)",
+        "icon-halo-color": "#fff",
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1,
+        "icon-halo-width": 1,
+        "text-opacity": {
+          "stops": [
+            [16, 0],
+            [18, 1]
+          ]
+        },
+        "icon-opacity": {
+          "stops": [
+            [16, 0],
+            [18, 1]
+          ]
+        }
       }
     },
     {
@@ -1657,10 +1812,18 @@
       "layout": {
         "icon-image": [
           "match",
-          ["get", "subclass"],
+          ["get", "sport"],
           ["table_tennis"],
           ["literal", "table-tennis"],
-          ["beachvolleyball"],
+          ["soccer"],
+          ["literal", "soccer"],
+          ["swimming"],
+          ["literal", "swimming"],
+          ["skateboard"],
+          ["literal", "skateboard"],
+          ["tennis", "squash"],
+          ["literal", "tennis"],
+          ["beachvolleyball", "volleyball"],
           ["literal", "volleyball"],
           ["american_football"],
           ["literal", "american-football"],
@@ -1668,6 +1831,12 @@
           ["literal", "mountain"],
           ["multi"],
           ["literal", "pitch"],
+          ["baseball"],
+          ["literal", "baseball"],
+          ["basketball"],
+          ["literal", "basketball"],
+          ["cricket"],
+          ["literal", "cricket"],
           ["fitness-centre"],
           ["literal", "fitness-centre"],
           ["literal", "pitch"]
@@ -1699,12 +1868,22 @@
       "filter": [
         "match",
         ["get", "amenity"],
-        ["lodging", "shop", "atm", "museum", "post", "recycling", "bank", "cinema", "theatre"],
-        ["!", ["has", "level"]],
+        ["lodging", "shop", "atm", "museum", "post", "bank", "recycling", "cinema", "theatre", "toilets", "grave_yard"],
+        true,
         false
       ],
       "layout": {
-        "icon-image": ["match", ["get", "kind"], ["atm"], ["literal", "bank"], ["get", "kind"]],
+        "icon-image": [
+          "match",
+          ["get", "amenity"],
+          ["atm"],
+          ["literal", "bank"],
+          ["toilets"],
+          ["literal", "toilet"],
+          ["grave_yard"],
+          ["literal", "cemetery"],
+          ["get", "amenity"]
+        ],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name"]],
         "text-font": ["Roboto Condensed Italic"],
@@ -1751,20 +1930,64 @@
       }
     },
     {
-      "id": "poi_food",
+      "id": "poi_shops",
       "type": "symbol",
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 16,
-      "filter": ["match", ["get", "amenity"], ["restaurant", "fast-food", "pub", "bar", "cafe"], true, false],
+      "filter": ["match", ["get", "shop"], ["supermarket", "greengrocer", "bakery", "butcher"], true, false],
       "layout": {
-        "icon-image": ["match", ["get", "subclass"], ["fast_food"], ["literal", "fast-food"], ["get", "kind"]],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
-        "text-size": 14
+        "text-size": 14,
+        "icon-image": "grocery"
+      },
+      "paint": {
+        "text-color": "#D97201",
+        "text-halo-color": "#fff",
+        "icon-color": "#D97201",
+        "icon-halo-color": "#fff",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_food",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "pois",
+      "minzoom": 16,
+      "filter": [
+        "match",
+        ["get", "amenity"],
+        ["restaurant", "fast_food", "ice_cream", "pub", "bar", "cafe", "biergarten"],
+        true,
+        false
+      ],
+      "layout": {
+        "icon-image": [
+          "match",
+          ["get", "amenity"],
+          ["fast_food"],
+          ["literal", "fast-food"],
+          ["ice_cream"],
+          ["literal", "ice-cream"],
+          ["biergarten", "pub"],
+          ["literal", "beer"],
+          ["get", "amenity"]
+        ],
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-allow-overlap": false
       },
       "paint": {
         "text-color": "#D97201",
@@ -1810,15 +2033,25 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 15,
-      "filter": ["match", ["get", "kind"], ["fire_station", "hospital"], true, false],
+      "filter": ["match", ["get", "amenity"], ["fire_station", "hospital"], true, false],
       "layout": {
-        "icon-image": ["match", ["get", "kind"], ["fire_station"], ["literal", "fire-station"], ["get", "kind"]],
+        "icon-image": [
+          "case",
+          ["==", ["get", "amenity"], "fire_station"],
+          ["literal", "fire-station"],
+          ["literal", "hospital"]
+        ],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
-        "text-size": 14
+        "text-size": 14,
+        "icon-optional": false,
+        "icon-ignore-placement": false,
+        "icon-allow-overlap": false,
+        "text-allow-overlap": true,
+        "text-ignore-placement": false
       },
       "paint": {
         "text-color": "#BA3827",
@@ -1828,7 +2061,19 @@
         "text-halo-width": 1,
         "text-halo-blur": 1,
         "icon-halo-width": 2,
-        "icon-halo-blur": 1
+        "icon-halo-blur": 1,
+        "icon-opacity": {
+          "stops": [
+            [15, 0],
+            [15.5, 1]
+          ]
+        },
+        "text-opacity": {
+          "stops": [
+            [16, 0],
+            [16.5, 1]
+          ]
+        }
       }
     },
     {
@@ -1895,6 +2140,46 @@
       }
     },
     {
+      "id": "poi_transit_important-subway",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "public_transport",
+      "minzoom": 13,
+      "filter": ["all", ["get", "subway"], ["==", ["get", "kind"], "station"]],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-allow-overlap": false,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+        "icon-offset": [-2, 0],
+        "icon-size": 1.4,
+        "icon-image": "u-bahn-munich"
+      },
+      "paint": {
+        "text-color": "#086ab1",
+        "text-halo-color": "#fff",
+        "icon-color": [
+          "match",
+          ["get", "subclass"],
+          ["subway"],
+          ["literal", "#086ab1"],
+          ["station"],
+          ["literal", "#00894d"],
+          ["literal", "rgba(0, 109, 255, 1)"]
+        ],
+        "icon-halo-color": "#fff",
+        "text-halo-blur": 1,
+        "text-halo-width": 1,
+        "icon-halo-blur": 1,
+        "icon-halo-width": 5
+      }
+    },
+    {
       "id": "poi_transit_important",
       "type": "symbol",
       "source": "nav",
@@ -1902,19 +2187,11 @@
       "minzoom": 13,
       "filter": [
         "all",
-        ["match", ["get", "kind"], ["aerodrome", "helipad", "station"], true, false],
-        ["match", ["get", "kind"], ["halt", "tram_stop"], false, true]
+        ["!", ["get", "subway"]],
+        ["match", ["get", "kind"], ["station", "aerodrome", "helipad"], true, false]
       ],
       "layout": {
-        "icon-image": [
-          "match",
-          ["get", "subclass"],
-          ["subway"],
-          ["literal", "u-bahn-munich"],
-          ["station"],
-          ["literal", "s-bahn-munich"],
-          ["get", "kind"]
-        ],
+        "icon-image": ["match", ["get", "kind"], ["station"], ["literal", "s-bahn-munich"], ["get", "kind"]],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name"]],
         "text-font": ["Roboto Condensed Italic"],
@@ -1930,9 +2207,7 @@
       "paint": {
         "text-color": [
           "match",
-          ["get", "subclass"],
-          ["subway"],
-          ["literal", "#086ab1"],
+          ["get", "kind"],
           ["station"],
           ["literal", "#00894d"],
           ["literal", "rgba(0, 109, 255, 1)"]
@@ -1955,7 +2230,35 @@
       }
     },
     {
-      "id": "streets_label",
+      "id": "label-housenumber",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "addresses",
+      "minzoom": 18,
+      "filter": ["all"],
+      "layout": {
+        "symbol-placement": "point",
+        "text-anchor": "center",
+        "text-field": ["to-string", ["get", "number"]],
+        "text-font": ["Roboto Regular"],
+        "text-offset": [0, 0.15],
+        "text-size": 12,
+        "text-optional": true
+      },
+      "paint": {
+        "text-color": "#765",
+        "text-halo-blur": 0.5,
+        "text-halo-width": 1,
+        "text-opacity": {
+          "stops": [
+            [18, 0],
+            [19, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "label_streets",
       "type": "symbol",
       "source": "nav",
       "source-layer": "street_labels",
@@ -1976,7 +2279,7 @@
       }
     },
     {
-      "id": "streets_shield",
+      "id": "label_street_shields",
       "type": "symbol",
       "source": "nav",
       "source-layer": "street_labels",
@@ -2139,10 +2442,10 @@
       }
     },
     {
-      "id": "platform",
+      "id": "sites_platform",
       "type": "fill",
       "source": "nav",
-      "source-layer": "platforms",
+      "source-layer": "platform_polygons",
       "minzoom": 16,
       "paint": {
         "fill-color": "rgba(143, 139, 139, 0.2)",
