@@ -2538,7 +2538,7 @@
           "case",
           ["get", "maritime"],
           ["literal", "#7681ad"],
-          ["literal", "#9e9cab"]
+          ["literal", "rgba(138, 100, 179, 1)"]
         ],
         "line-dasharray": [5, 1],
         "line-width": ["interpolate", ["linear"], ["zoom"], 7, 1, 12, 2]
@@ -3537,7 +3537,7 @@
           ["zoom"],
           7.5,
           0,
-          8,
+          8.5,
           ["interpolate", ["linear"], ["get", "population"], 5000, 0, 20000, 1],
           9,
           1,
@@ -3573,7 +3573,7 @@
           ["exponential", 1.4],
           ["get", "population"],
           100000,
-          15,
+          13,
           1000000,
           20
         ],
@@ -3602,7 +3602,7 @@
         "text-transform": "none"
       },
       "paint": {
-        "text-color": "#334",
+        "text-color": "rgba(138, 100, 179, 1)",
         "text-halo-blur": 1,
         "text-halo-color": "rgba(255,255,255,0.8)",
         "text-halo-width": 1
