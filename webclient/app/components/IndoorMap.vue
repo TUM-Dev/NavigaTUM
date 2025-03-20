@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
-import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
@@ -87,9 +87,6 @@ async function initMap(containerId: string): Promise<Map> {
 
     center: [11.670099, 48.266921],
     zoom: zoom.value,
-
-    // done manually, to have more control over when it is extended
-    attributionControl: false,
   });
 
   // Each source / style change causes the map to get
@@ -149,15 +146,6 @@ async function initMap(containerId: string): Promise<Map> {
       trackUserLocation: true,
     });
     map.addControl(location);
-
-    // The attributionControl is automatically open, which takes up a lot of
-    // space on the small map display that we have. That's why we add it ourselves
-    // and then toggle it.
-    // It's only added after loading because if we add it directly on map initialization
-    // for some reason it doesn't work.
-    const attrib = new AttributionControl({ compact: true });
-    map.addControl(attrib);
-    attrib._toggleAttribution();
 
     map.addSource("route", {
       type: "geojson",
