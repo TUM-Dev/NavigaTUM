@@ -1,12 +1,13 @@
 # Tileserver-maps
 
-This folder contains the static maps tileserver and vector tiles server for NavigaTUM.
+This folder contains the configuration of how vector tiles server for NavigaTUM.
 
 ## Getting started
 
-As a basis of generating images it is important to have a tileset (`output.mbtiles`) and a style.
-The style is a JSON file that defines how the map should look like.
-The tileset is a sqlite database that contains the map data.
+As a basis of generating images it is important to have a tileset (`output.pmtiles`) and a style:
+- The style is a JSON file that defines how the map should look like.
+- The tileset is a sqlite database that contains the map data.
+
 A tileserver takes these two components and produces a variety of
 formats ([MVT](https://github.com/mapbox/vector-tile-spec), png, webp, json, etc.) for the frontend.
 
@@ -53,12 +54,24 @@ If you really need a tileset and can't meet these requirements, shoot us a messa
 Generating `europe` takes 3h10m on a modern laptop with 32GB RAM and an SSD. The following commands are optimised for
 this.
 
+> [!NOTE]
+> below commands expect to be run from the root of the repository
+
 From the root of the repository, run either (depending on your waiting tolerance and available RAM):
 
 - <details><summary>[fast => ~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
 
   ```bash
-  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g  --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram
+  docker run --rm --user=$UID -it --pull always \
+  -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data \
+  ghcr.io/onthegomap/planetiler:latest \
+  /data/planetiler/shortbread_custom.yml \
+  --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
+  --fetch-wikidata --languages=de,en \
+  --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram \
+   --area=germany \
+   --output=/data/output.pmtiles
   ```
 
   </details>
@@ -66,7 +79,16 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slower => ~1 hour] Only <b>Germany</b> with lower RAM (click to expand)</summary>
 
   ```bash
-  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g --storage=mmap
+  docker run --rm --user=$UID -it --pull always \
+  -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data \
+  ghcr.io/onthegomap/planetiler:latest \
+  /data/planetiler/shortbread_custom.yml \
+  --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
+  --fetch-wikidata --languages=de,en \
+  --Xmx10g --storage=mmap \
+   --area=germany \
+   --output=/data/output.pmtiles
   ```
 
   </details>
@@ -74,7 +96,16 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slow => ~3 hours] <b>Planet</b> with approx 128GB of RAM (click to expand)</summary>
 
   ```bash
-  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram
+  docker run --rm --user=$UID -it --pull always \
+  -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data \
+  ghcr.io/onthegomap/planetiler:latest \
+  /data/planetiler/shortbread_custom.yml \
+  --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
+  --fetch-wikidata --languages=de,en \
+  --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram \
+  --area=planet --bounds=world \
+  --output=/data/output.pmtiles
   ```
 
   </details>
@@ -82,14 +113,23 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[slowest => ~24 hours] <b>Planet</b> with lower amounts of RAM (click to expand)</summary>
 
   ```bash
-  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx25g --nodemap-type=array --storage=mmap
+  docker run --rm --user=$UID -it --pull always \
+  -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data \
+  ghcr.io/onthegomap/planetiler:latest \
+  /data/planetiler/shortbread_custom.yml \
+  --download --download-threads=10 --download-chunk-size-mb=1000 \
+  --free_natural_earth_after_read=true --free_water_polygons_after_read=true --free_lake_centerlines_after_read=true --compress_temp=true \
+  --fetch-wikidata --languages=de,en \
+  --Xmx25g --nodemap-type=array --storage=mmap \
+  --area=planet --bounds=world \
+  --output=/data/output.pmtiles
   ```
 
   </details>
 
 ### Serve the tileset
 
-After generating `output.mbtiles` you can serve it with a tileserver.
+After generating `output.pmtiles` you can serve it with a tileserver.
 We use [martin](https://github.com/maplibre/martin) for this, but there are other ones out there.
 This may be one optimisation point in the future.
 
@@ -98,6 +138,14 @@ From the root of the repository, run:
 ```bash
 docker compose -f docker-compose.local.yml up --build
 ```
+
+> [!TIP]
+> For developing which data lands in the style, it can be helpful to run martin locally:
+> ```bash
+> docker run -p 3000:3000 --rm --user=$UID -it -v "$(pwd)/map":/data \
+> ghcr.io/maplibre/martin:latest \
+> /data/output.pmtiles
+> ```
 
 ### Fonts + Sprites for martin
 
@@ -110,3 +158,15 @@ sh ./martin/setup.sh
 
 > [!TIP]
 > This is already automatically configured in the docker compose file. No need to do extra work
+
+### Adding additional data
+
+If you want to add additional data to the tileset, you can do so by adding a new layer to the style or by modifying an existing one.
+
+You can find more information on how to do this in the [Planetiler documentation](https://github.com/onthegomap/planetiler/tree/main/planetiler-custommap).
+
+To run tests, we recommend downloading the jar file from the [Planetiler releases page](https://github.com/onthegomap/planetiler/releases) and then running the following command:
+
+```bash
+java -jar planetiler.jar verify ./map/planetiler/shortbread_custom.yml --watch
+```
