@@ -392,7 +392,7 @@ layers:
       value:
         - if: { height: __any__ }
           tag_value: height
-        - if: { building:levels: __any__ }
+        - if: { "building:levels": __any__ }
           value: '${ uint(feature.tags["building:levels"]) * 3u }'
         - else: 4
       min_zoom: 14
@@ -402,7 +402,7 @@ layers:
       value:
         - if: { min_height: __any__ }
           tag_value: min_height
-        - if: { building:min_level: __any__ }
+        - if: { "building:min_level": __any__ }
           value: '${ uint(feature.tags["building:min_level"]) * 3u }'
         - else: 0
       min_zoom: 14
