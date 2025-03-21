@@ -400,7 +400,6 @@ layers:
           value: '${ uint(feature.tags["building:levels"]) * 3u }'
         - else: 4
       min_zoom: 14
-      max_zoom: 17
     - key: min_height
       type: integer
       value:
@@ -410,7 +409,6 @@ layers:
           value: '${ uint(feature.tags["building:min_level"]) * 3u }'
         - else: 0
       min_zoom: 14
-      max_zoom: 17
 
 - id: addresses
   features:
