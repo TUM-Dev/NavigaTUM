@@ -395,7 +395,7 @@ layers:
       type: integer
       value:
         - if: { height: __any__ }
-          value: '${ uint(feature.tags["height"]) }'
+          value: '${ feature.tags["height"].matches(r"^\d+ ?m?$") ? uint(feature.tags["height"].replace(" m", "")) : 4u }'
         - if: { "building:levels": __any__ }
           value: '${ uint(feature.tags["building:levels"]) * 3u }'
         - else: 4
@@ -404,7 +404,7 @@ layers:
       type: integer
       value:
         - if: { min_height: __any__ }
-          value: '${ uint(feature.tags["height"]) }'
+          value: '${ feature.tags["min_height"].matches(r"^\d+ ?m?$") ? uint(feature.tags["min_height"].replace(" m", "")) : 4u }'
         - if: { "building:min_level": __any__ }
           value: '${ uint(feature.tags["building:min_level"]) * 3u }'
         - else: 0
