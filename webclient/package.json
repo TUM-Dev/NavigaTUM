@@ -20,8 +20,8 @@
     "@fullcalendar/vue3": "6.1.15",
     "@headlessui/vue": "1.7.23",
     "@heroicons/vue": "2.2.0",
-    "@nuxt/content": "3.3.0",
-    "@nuxt/image": "1.9.0",
+    "@nuxt/content": "3.4.0",
+    "@nuxt/image": "1.10.0",
     "@nuxtjs/color-mode": "3.5.2",
     "@vueuse/core": "13.0.0",
     "@vueuse/nuxt": "13.0.0",
@@ -29,11 +29,11 @@
     "maplibre-gl": "5.2.0",
     "maplibre-gl-indoor": "0.0.22",
     "nightwind": "1.1.13",
-    "nuxt": "3.15.3",
+    "nuxt": "3.16.1",
     "sharp": "0.33.5",
     "vue": "3.5.13",
     "vue-router": "4.5.0",
-    "vue3-carousel": "0.14.0"
+    "vue3-carousel": "0.15.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "1.2.0",
