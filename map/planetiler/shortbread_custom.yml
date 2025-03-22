@@ -373,11 +373,12 @@ layers:
       type: match_value
     - key: surface
       include_when:
-        all:
+        __all__:
           leisure:
             - pitch
             - sports_centre
           surface:
+            - sand
             - grass
             - tartan
 
