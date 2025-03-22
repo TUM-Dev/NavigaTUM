@@ -240,7 +240,7 @@
       "type": "circle",
       "source": "nav",
       "source-layer": "trees",
-      "minzoom": 18,
+      "minzoom": 17,
       "layout": { "visibility": "visible" },
       "paint": {
         "circle-color": "rgba(94, 180, 100, 0.61)",
@@ -248,7 +248,7 @@
           "interpolate",
           ["linear"],
           ["zoom"],
-          18,
+          17,
           5,
           19,
           15,
@@ -263,7 +263,7 @@
           24,
           480
         ],
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0.1, 19, 0.3, 20, 0.4],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 19, 0.3, 20, 0.4],
         "circle-blur": 0.4
       }
     },
@@ -343,7 +343,12 @@
           ["literal", "rgba(255, 135, 102, 1)"],
           ["literal", "rgba(135, 213, 105, 1)"]
         ],
-        "fill-opacity": 0.3,
+        "fill-opacity": {
+          "stops": [
+            [15, 0],
+            [16, 0.3]
+          ]
+        },
         "fill-outline-color": [
           "case",
           ["==", ["get", "surface"], "sand"],
@@ -1568,10 +1573,10 @@
       "type": "fill",
       "source": "nav",
       "source-layer": "buildings",
-      "minzoom": 13,
+      "minzoom": 13.5,
       "paint": {
         "fill-color": "rgba(152, 198, 234, 1)",
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 13, 0, 13.8, 1, 14.4, 1, 14.5, 0, 16.2, 0, 16.4, 1],
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 13.5, 0, 13.8, 1],
         "fill-antialias": true,
         "fill-outline-color": ["interpolate", ["linear"], ["zoom"], 14, "hsla(35,6%,79%,0.32)", 14.3, "hsl(35,6%,79%)"]
       }
@@ -1581,7 +1586,7 @@
       "type": "fill-extrusion",
       "source": "nav",
       "source-layer": "buildings",
-      "minzoom": 14,
+      "minzoom": 14.2,
       "maxzoom": 16.5,
       "paint": {
         "fill-extrusion-height": [
@@ -1606,7 +1611,7 @@
           "interpolate",
           ["linear"],
           ["zoom"],
-          14,
+          14.2,
           0,
           14.5,
           0.8,
@@ -2016,9 +2021,23 @@
         "text-size": 14
       },
       "paint": {
-        "text-color": "#77A723",
+        "text-color": [
+          "case",
+          ["==", ["get", "surface"], "sand"],
+          ["literal", "rgba(209, 162, 67, 1)"],
+          ["==", ["get", "surface"], "tartan"],
+          ["literal", "rgba(153, 65, 41, 1)"],
+          ["literal", "#77A723"]
+        ],
         "text-halo-color": "#fff",
-        "icon-color": "#77A723",
+        "icon-color": [
+          "case",
+          ["==", ["get", "surface"], "sand"],
+          ["literal", "rgba(209, 162, 67, 1)"],
+          ["==", ["get", "surface"], "tartan"],
+          ["literal", "rgba(153, 65, 41, 1)"],
+          ["literal", "#77A723"]
+        ],
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
@@ -2449,15 +2468,21 @@
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
-        "text-size": 14,
-        "icon-allow-overlap": true,
+        "text-size": {
+          "stops": [
+            [10, 12],
+            [11, 14]
+          ]
+        },
+        "icon-allow-overlap": false,
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "icon-offset": [-2, 0],
         "icon-size": 1.4,
         "icon-image": "u-bahn-munich",
-        "icon-ignore-placement": true,
-        "icon-optional": false
+        "icon-ignore-placement": false,
+        "icon-optional": false,
+        "symbol-avoid-edges": false
       },
       "paint": {
         "text-color": "#086ab1",
@@ -2495,7 +2520,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "public_transport",
-      "minzoom": 13,
+      "minzoom": 10,
       "filter": [
         "all",
         ["!", ["get", "subway"]],
@@ -2535,7 +2560,13 @@
         "text-halo-blur": 1,
         "text-halo-width": 1,
         "icon-halo-blur": 1,
-        "icon-halo-width": 5
+        "icon-halo-width": 5,
+        "text-opacity": {
+          "stops": [
+            [10, 0],
+            [11, 1]
+          ]
+        }
       }
     },
     {
