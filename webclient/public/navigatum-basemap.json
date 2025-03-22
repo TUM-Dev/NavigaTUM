@@ -1703,7 +1703,7 @@
       "filter": [
         "match",
         ["get", "amenity"],
-        ["bicycle_rental", "parking", "bicycle_parking", "motorcycle_parking"],
+        ["bicycle_parking", "bicycle_rental", "motorcycle_parking", "parking"],
         true,
         false
       ],
@@ -1969,7 +1969,13 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 16,
-      "filter": ["match", ["get", "leisure"], ["pitch", "sports_centre"], true, false],
+      "filter": [
+        "match",
+        ["get", "leisure"],
+        ["pitch", "sports_centre", "water_park", "swimming_pool", "stadium"],
+        true,
+        false
+      ],
       "layout": {
         "icon-image": [
           "match",
@@ -2029,7 +2035,7 @@
       "filter": [
         "match",
         ["get", "amenity"],
-        ["lodging", "shop", "atm", "museum", "post", "bank", "recycling", "cinema", "theatre", "toilets", "grave_yard"],
+        ["atm", "bank", "cinema", "grave_yard", "post_box", "post_office", "recycling", "theatre", "toilets"],
         true,
         false
       ],
@@ -2043,6 +2049,8 @@
           ["literal", "toilet"],
           ["grave_yard"],
           ["literal", "cemetery"],
+          ["post_box", "post_office"],
+          ["literal", "post"],
           ["get", "amenity"]
         ],
         "text-anchor": "left",
@@ -2117,7 +2125,23 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 16,
-      "filter": ["match", ["get", "shop"], ["supermarket", "greengrocer", "bakery", "butcher"], true, false],
+      "filter": [
+        "match",
+        ["get", "shop"],
+        [
+          "alcohol",
+          "bakery",
+          "beverages",
+          "butcher",
+          "convenience",
+          "department_store",
+          "greengrocer",
+          "kiosk",
+          "supermarket"
+        ],
+        true,
+        false
+      ],
       "layout": {
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name"]],
@@ -2147,7 +2171,7 @@
       "filter": [
         "match",
         ["get", "amenity"],
-        ["restaurant", "fast_food", "ice_cream", "pub", "bar", "cafe", "biergarten"],
+        ["restaurant", "fast_food", "ice_cream", "food_court", "pub", "bar", "cafe", "biergarten"],
         true,
         false
       ],
@@ -2155,7 +2179,7 @@
         "icon-image": [
           "match",
           ["get", "amenity"],
-          ["fast_food"],
+          ["fast_food", "food_court"],
           ["literal", "fast-food"],
           ["ice_cream"],
           ["literal", "ice-cream"],
@@ -2221,7 +2245,7 @@
       "source": "nav",
       "source-layer": "pois",
       "minzoom": 15,
-      "filter": ["match", ["get", "amenity"], ["fire_station", "hospital"], true, false],
+      "filter": ["match", ["get", "amenity"], ["fire_station", "hospital", "clinic"], true, false],
       "layout": {
         "icon-image": [
           "case",
