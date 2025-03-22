@@ -240,7 +240,7 @@
       "type": "circle",
       "source": "nav",
       "source-layer": "trees",
-      "minzoom": 17,
+      "minzoom": 18,
       "layout": { "visibility": "visible" },
       "paint": {
         "circle-color": "rgba(94, 180, 100, 0.61)",
@@ -248,22 +248,22 @@
           "interpolate",
           ["linear"],
           ["zoom"],
-          17,
-          5,
           18,
-          15,
+          5,
           19,
-          30,
+          15,
           20,
-          60,
+          30,
           21,
-          120,
+          60,
           22,
-          240,
+          120,
           23,
+          240,
+          24,
           480
         ],
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.1, 18, 0.3, 19, 0.4],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0.1, 19, 0.3, 20, 0.4],
         "circle-blur": 0.4
       }
     },
@@ -1795,7 +1795,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "pois",
-      "minzoom": 19,
+      "minzoom": 18,
       "filter": ["==", ["get", "amenity"], "waste_basket"],
       "layout": {
         "icon-optional": true,
@@ -1808,7 +1808,7 @@
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
-        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 19, 0, 20, 1]
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 1]
       }
     },
     {
