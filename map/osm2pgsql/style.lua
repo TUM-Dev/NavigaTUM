@@ -17,17 +17,6 @@ tables.indoor_nodes =
         {column = "geom", type = "point", not_null = true}
     }
 )
-tables.recreational_nodes =
-    osm2pgsql.define_node_table(
-    "recreational_nodes",
-    {
-        {column = "natural", type = "text" },
-        {column = "amenity", type = "text" },
-        {column = "leisure", type = "text" },
-        {column = "man_made", type = "text" },
-        {column = "geom", type = "point", not_null = true}
-    }
-)
 tables.indoor_ways =
     osm2pgsql.define_way_table(
     "indoor_ways",
@@ -229,24 +218,6 @@ end
 function osm2pgsql.process_node(object)
     --  Uncomment next line to look at the object data:
     --  print(inspect(object))
-
-    if object.tags.natural == 'tree' or
-       object.tags.amenity == 'bench' or
-       object.tags.amenity == 'lounger' or
-       object.tags.leisure == 'picnic_table' or
-       object.tags.man_made == 'maypole' or
-       object.tags.man_made == 'mast' or
-       object.tags.man_made == 'water_tap' then
-        tables.recreational_nodes:insert(
-            {
-                natural = object.tags.natural,
-                amenity = object.tags.amenity,
-                leisure = object.tags.leisure,
-                man_made = object.tags.man_made,
-                geom = object:as_point()
-            }
-        )
-    end
 
     if clean_tags_indoor(object.tags) then
         return
