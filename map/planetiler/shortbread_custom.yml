@@ -944,7 +944,7 @@ layers:
   features:
   - source: osm
     geometry: polygon
-    min_zoom: 16
+    min_zoom: 14
     include_when:
       public_transport: platform
 
@@ -952,6 +952,6 @@ layers:
   features:
   - source: osm
     geometry: point
-    min_zoom: 17
+    min_zoom: 14
     include_when:
       natural: tree
