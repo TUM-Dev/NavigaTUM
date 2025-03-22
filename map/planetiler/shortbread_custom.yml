@@ -395,7 +395,7 @@ layers:
       type: integer
       value:
         - if: { height: __any__ }
-          tag_value: height
+          value: '${ uint(feature.tags["height"]) }'
         - if: { "building:levels": __any__ }
           value: '${ uint(feature.tags["building:levels"]) * 3u }'
         - else: 4
@@ -404,7 +404,7 @@ layers:
       type: integer
       value:
         - if: { min_height: __any__ }
-          tag_value: min_height
+          value: '${ uint(feature.tags["height"]) }'
         - if: { "building:min_level": __any__ }
           value: '${ uint(feature.tags["building:min_level"]) * 3u }'
         - else: 0
