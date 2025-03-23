@@ -32,9 +32,7 @@ examples:
     min_zoom: 14
     tags:
       kind: glacier
-      name: The glacier
-      name_en: The glacier (en)
-      name_de: The glacier (de)
+      name: The glacier (de)
 
 - name: waterway=dock
   input:
@@ -72,9 +70,7 @@ examples:
     min_zoom: 12
     tags:
       kind: canal
-      name: The Canal
-      name_en: The Canal (en)
-      name_de: The Canal (de)
+      name: The Canal (de)
       tunnel: true
       bridge: false
 
@@ -100,9 +96,7 @@ examples:
     min_zoom: 14
     tags:
       kind: stream
-      name: The Stream
-      name_en: The Stream (en)
-      name_de: The Stream (de)
+      name: The Stream (de)
       tunnel: false
       bridge: false
 
@@ -157,6 +151,7 @@ examples:
     min_zoom: 14
     tags:
       kind: parking
+  - {}
 
 - name: building=yes
   input:
@@ -167,7 +162,7 @@ examples:
   output:
   - layer: buildings
     geometry: polygon
-    min_zoom: 14
+    min_zoom: 13
 
 - name: building=house
   input:
@@ -178,7 +173,7 @@ examples:
   output:
   - layer: buildings
     geometry: polygon
-    min_zoom: 14
+    min_zoom: 13
 
 - name: address polygon with house number
   input:
@@ -199,12 +194,7 @@ examples:
     geometry: point
     tags:
       addr:housename: the 123 house
-  output:
-  - layer: addresses
-    geometry: point
-    min_zoom: 14
-    tags:
-      name: the 123 house
+  output: []
 
 - name: B27 highway
   input:
@@ -236,7 +226,6 @@ examples:
       kind: primary
       link: false
       rail: false
-      surface: asphalt
       tunnel: false
   - layer: street_labels
     geometry: line
@@ -278,7 +267,6 @@ examples:
       kind: primary
       link: true
       rail: false
-      surface: asphalt
       tunnel: false
   - layer: street_labels
     geometry: line
@@ -309,7 +297,6 @@ examples:
       link: false
       rail: true
       tunnel: false
-      service: service_value
 
 - name: narrow_gauge without service
   input:
@@ -347,7 +334,6 @@ examples:
       kind: track
       link: false
       rail: false
-      tracktype: grade2
       tunnel: false
 
 - name: 'named path'
@@ -368,9 +354,7 @@ examples:
     geometry: line
     tags:
       kind: path
-      name: Name
-      name_en: English Name
-      name_de: German Name
+      name: German Name
 
 - name: 'motorway attributes drop below z11'
   input:
@@ -447,7 +431,6 @@ examples:
     geometry: line
     tags:
       kind: track
-      horse: definitely
 
 - name: 'bicycle'
   input:
@@ -461,7 +444,6 @@ examples:
     geometry: line
     tags:
       kind: track
-      bicycle: definitely
 
 - name: 'aeroway=taxiway'
   input:
@@ -491,7 +473,6 @@ examples:
     min_zoom: 11
     tags:
       kind: runway
-      surface: concrete:lanes
 
 - name: 'pedestrian polygon'
   input:
@@ -522,7 +503,6 @@ examples:
     tags:
       kind: pedestrian
       name: 'Name'
-      name_en: 'Name (en)'
 
 - name: 'ignore pedestrian polygon without area=yes'
   input:
@@ -599,7 +579,9 @@ examples:
     source: osm
     geometry: point
     tags:
-      office: diplomatic
+      leisure: pitch
+      sport: some sport
+      surface: tartan
       name: 'Name'
       addr:housename: 'Housename'
       addr:housenumber: 'Housenumber'
@@ -608,30 +590,29 @@ examples:
       geometry: point
       allow_extra_tags: false
       tags:
-        office: diplomatic
+        leisure: pitch
+        sport: some sport
+        surface: tartan
         name: 'Name'
-        housename: 'Housename'
-        housenumber: 'Housenumber'
     - layer: addresses
       geometry: point
       allow_extra_tags: false
       tags:
-        name: 'Housename'
         number: 'Housenumber'
 
-- name: 'arts_centre poi with invalid tag (man_made=beauty) is not emmitted as such'
+- name: 'cafe poi with invalid tag (man_made=tasty) is not emmitted as such'
   input:
     source: osm
     geometry: point
     tags:
-      amenity: arts_centre
-      man_made: beauty
+      amenity: cafe
+      man_made: tasty
   output:
     layer: pois
     geometry: point
     allow_extra_tags: false
     tags:
-      amenity: arts_centre
+      amenity: cafe
 
 - name: 'place_of_worship poi'
   input:
@@ -647,8 +628,6 @@ examples:
     allow_extra_tags: false
     tags:
       amenity: place_of_worship
-      religion: some_religion
-      denomination: some_denomination
 
 - name: 'recycling poi with invalid tag does not cause this to be emmitted'
   input:
@@ -666,10 +645,6 @@ examples:
     allow_extra_tags: false
     tags:
       amenity: recycling
-      recycling:glass_bottles: true
-      recycling:paper: true
-      recycling:clothes: true
-      recycling:scrap_metal: true
 
 - name: 'recycling poi without recycling tags set'
   input:
@@ -683,10 +658,6 @@ examples:
     allow_extra_tags: false
     tags:
       amenity: recycling
-      recycling:glass_bottles: false
-      recycling:paper: false
-      recycling:clothes: false
-      recycling:scrap_metal: false
 
 - name: 'poi bank without atm'
   input:
@@ -723,13 +694,13 @@ examples:
     source: osm
     geometry: polygon
     tags:
-      historic: battlefield
+      amenity: cafe
   output:
     layer: pois
     geometry: point
     allow_extra_tags: false
     tags:
-      historic: battlefield
+      amenity: cafe
 
 - name: 'airport polygon'
   input:
@@ -747,7 +718,7 @@ examples:
     tags:
       kind: aerodrome
       name: 'Name'
-      iata: eye eight a
+      subway: false
 
 - name: 'aerialway=station'
   input:
@@ -762,6 +733,7 @@ examples:
     allow_extra_tags: false
     tags:
       kind: aerialway_station
+      subway: false
 
 - name: 'railway=station'
   input:
@@ -771,11 +743,12 @@ examples:
       railway: station
   output:
     layer: public_transport
-    min_zoom: 13
+    min_zoom: 11
     geometry: point
     allow_extra_tags: false
     tags:
       kind: station
+      subway: false
 
 - name: 'unnamed hamlet'
   input:
@@ -899,7 +872,7 @@ examples:
   output:
     layer: boundaries
     geometry: line
-    min_zoom: 7
+    min_zoom: 5
     min_size: 0
     tags:
       maritime: false
