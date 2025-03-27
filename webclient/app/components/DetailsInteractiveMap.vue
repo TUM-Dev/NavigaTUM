@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
-import { FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
@@ -12,7 +18,7 @@ const props = defineProps<{
   id: LocationDetailsResponse["id"];
   debugMode: boolean;
 }>();
-const map = ref<Map | undefined>(undefined);
+const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const runtimeConfig = useRuntimeConfig();
@@ -29,7 +35,7 @@ type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 function loadInteractiveMap() {
   if (!webglSupport) return;
 
-  const doMapUpdate = function () {
+  const doMapUpdate = () => {
     // The map might or might not be initialized depending on the type
     // of navigation.
     if (document.getElementById("interactive-legacy-map")) {
@@ -45,7 +51,7 @@ function loadInteractiveMap() {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
       // @ts-expect-error somehow this is too deep for typescript
-      _marker.addTo(map.value as Map);
+      _marker.addTo(map.value as MapLibreMap);
       marker.value = _marker;
     }
 
@@ -80,8 +86,8 @@ function createMarker(hueRotation = 0) {
   return markerDiv;
 }
 
-function initMap(containerId: string): Map {
-  const map = new Map({
+function initMap(containerId: string): MapLibreMap {
+  const map = new MapLibreMap({
     container: containerId,
     // while having the hash in the url is nice, it is overridden on map load anyway => not much use
     hash: false,
@@ -103,7 +109,9 @@ function initMap(containerId: string): Map {
     zoom: 11, // Zoomed out so that the whole city is visible
   });
   if (props.debugMode) {
-    const debugMarker = new Marker({ draggable: true }).setLngLat([props.coords.lon, props.coords.lat]).addTo(map);
+    const debugMarker = new Marker({ draggable: true })
+      .setLngLat([props.coords.lon, props.coords.lat])
+      .addTo(map);
 
     debugMarker.on("dragend", () => {
       const lngLat = debugMarker.getLngLat();
@@ -132,7 +140,7 @@ function initMap(containerId: string): Map {
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia && window.matchMedia("only screen and (max-width: 480px)").matches;
+    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenContainer = isMobile
       ? document.getElementById("interactive-legacy-map")
       : document.getElementById("interactive-legacy-map-container");
@@ -156,8 +164,12 @@ function initMap(containerId: string): Map {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -212,8 +224,10 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 
   if (imgUrl === null) {
     // Hide overlay
-    if (map.value?.getLayer("overlay")) map.value?.setLayoutProperty("overlay", "visibility", "none");
-    if (map.value?.getLayer("overlay-bg")) map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
+    if (map.value?.getLayer("overlay"))
+      map.value?.setLayoutProperty("overlay", "visibility", "none");
+    if (map.value?.getLayer("overlay-bg"))
+      map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
     const source = map.value?.getSource("overlay") as ImageSource | undefined;
     if (source === undefined) {
@@ -268,7 +282,9 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
+        console.info(
+          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
+        );
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }

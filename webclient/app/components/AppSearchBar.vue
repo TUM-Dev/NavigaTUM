@@ -17,15 +17,19 @@ const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
-  if (!data.value) return [];
+  if (!data.value) return [] as string[];
 
-  const visible: string[] = [];
-  data.value.sections.forEach((section) => {
+  const visible: string[] = [] as string[];
+  for (const section of data.value.sections) {
     if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value ? Infinity : section.n_visible;
+      const max_sites_buildings = sites_buildings_expanded.value
+        ? Number.POSITIVE_INFINITY
+        : section.n_visible;
       visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
-    } else visible.push(...section.entries.map((e) => e.id));
-  });
+    } else {
+      visible.push(...section.entries.map((e) => e.id));
+    }
+  }
   return visible;
 });
 
@@ -97,8 +101,14 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "Enter":
-      if (highlighted.value !== undefined) searchGoTo(visibleElements.value[highlighted.value]!);
-      else searchGo(false);
+      if (highlighted.value !== undefined) {
+        const visible = visibleElements.value[highlighted.value];
+        if (visible !== undefined) {
+          searchGoTo(visible);
+        } else {
+          searchGo(true);
+        }
+      } else searchGo(false);
       break;
     default:
       break;
@@ -272,4 +282,5 @@ en:
     rooms: Rooms
   results: 1 result | {count} results
   approx_results: approx. {count} results
+</i18n>
 </i18n>

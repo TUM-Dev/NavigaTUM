@@ -38,12 +38,12 @@ type EntryFacet = {
 export function extractFacets(data: SearchResponse, roomName: string, buildingName: string) {
   const sections: SectionFacet[] = [];
 
-  data.sections.forEach((section) => {
+  for (const section of data.sections) {
     const entries: EntryFacet[] = [];
 
     switch (section.facet) {
       case "rooms":
-        section.entries.forEach((entry: ResultEntry) => {
+        for (const entry of section.entries) {
           entries.push({
             id: entry.id,
             name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
@@ -52,7 +52,7 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
             subtext_bold: _allowHighlighting(entry.subtext_bold || ""), // we explicitly dont let vue sanitise this text
             parsed_id: _allowHighlighting(entry.parsed_id || ""), // we explicitly dont let vue sanitise this text
           });
-        });
+        }
         sections.push({
           facet: "rooms",
           name: roomName,
@@ -61,7 +61,7 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
         });
         break;
       case "sites_buildings":
-        section.entries.forEach((entry: ResultEntry) => {
+        for (const entry of section.entries) {
           entries.push({
             id: entry.id,
             name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
@@ -70,7 +70,7 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
             subtext_bold: null,
             parsed_id: null,
           });
-        });
+        }
         sections.push({
           facet: "sites_buildings",
           name: buildingName,
@@ -80,7 +80,7 @@ export function extractFacets(data: SearchResponse, roomName: string, buildingNa
           n_visible: section.n_visible || entries.length,
         });
     }
-  });
+  }
 
   return sections;
 }

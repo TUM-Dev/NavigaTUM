@@ -11,8 +11,12 @@ const runtimeConfig = useRuntimeConfig();
 const feedback = useFeedback();
 
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
-const query_limit_buildings = computed<number>(() => parseInt(firstOrDefault(route.query.limit_buildings, "10")));
-const query_limit_rooms = computed<number>(() => parseInt(firstOrDefault(route.query.limit_rooms, "50")));
+const query_limit_buildings = computed<number>(() =>
+  Number.parseInt(firstOrDefault(route.query.limit_buildings, "10"))
+);
+const query_limit_rooms = computed<number>(() =>
+  Number.parseInt(firstOrDefault(route.query.limit_rooms, "50"))
+);
 const query_limit_all = computed<number>(() => query_limit_rooms.value + query_limit_rooms.value);
 const apiUrl = computed(() => {
   const params = new URLSearchParams();
@@ -37,21 +41,21 @@ const description = computed(() => {
   if (!data.value) return "";
   let sectionsDescr = "";
   let estimatedTotalHits = 0;
-  data.value.sections.forEach((section) => {
+  for (const section of data.value.sections) {
     if (section.estimatedTotalHits) {
-      let facetStr;
+      let facetStr = t("sections.rooms");
       if (section.facet === "sites_buildings") {
         facetStr = t("sections.buildings");
         if (section.estimatedTotalHits !== section.n_visible) {
           const visibleStr = t("sections.of_which_visible");
           facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
         }
-      } else facetStr = t("sections.rooms");
+      }
       if (estimatedTotalHits > 0) sectionsDescr += t("sections.and");
       sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
     }
     estimatedTotalHits += section.estimatedTotalHits;
-  });
+  }
   if (estimatedTotalHits === 0) sectionsDescr = t("sections.no_buildings_rooms_found");
   else sectionsDescr += t("sections.were_found");
   return sectionsDescr;

@@ -70,7 +70,7 @@ To ensure a secure and efficient browsing experience, we recommend updating your
 Outdated browsers may not be able to render the website correctly thus leading to reduced functionality or lead to potential security vulnerabilities.
 
 If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
-Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`,
+Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`
   );
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }

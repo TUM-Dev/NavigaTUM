@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { MapPinIcon } from "@heroicons/vue/24/outline";
-import { ArrowRightIcon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
+import {
+  ArrowRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
 
 /**
@@ -84,7 +89,7 @@ const sites_overview: readonly SitesOverview[] = [
   },
 ];
 
-const title = computed(() => t("sites") + " - NavigaTUM");
+const title = computed(() => `${t("sites")} - NavigaTUM`);
 useSeoMeta({
   title: title,
   ogTitle: title,
