@@ -15,11 +15,8 @@ const isOpen = defineModel<boolean>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
 watchEffect(() => {
-  if (isOpen.value) {
-    return document.querySelector("body")?.classList.add("overflow-y-hidden");
-  } else {
-    return document.querySelector("body")?.classList.remove("overflow-y-hidden");
-  }
+  if (isOpen.value) return document.querySelector("body")?.classList.add("overflow-y-hidden");
+  return document.querySelector("body")?.classList.remove("overflow-y-hidden");
 });
 
 onMounted(() => {

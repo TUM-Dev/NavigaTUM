@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FullCalendar from "@fullcalendar/vue3";
+import type FullCalendar from "@fullcalendar/vue3";
 import type { CalendarOptions, EventInput, EventSourceFuncArg } from "@fullcalendar/core";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -8,7 +8,8 @@ import type { components, operations } from "~/api_types";
 import deLocale from "@fullcalendar/core/locales/de";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 
-type CalendarResponse = operations["calendar_handler"]["responses"][200]["content"]["application/json"];
+type CalendarResponse =
+  operations["calendar_handler"]["responses"][200]["content"]["application/json"];
 type CalendarBody = operations["calendar_handler"]["requestBody"]["content"]["application/json"];
 type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
@@ -26,7 +27,9 @@ interface Color {
   textColor: string;
 }
 
-function colorForType(entry_type: "lecture" | "exercise" | "exam" | "barred" | "other"): Color | Record<string, never> {
+function colorForType(
+  entry_type: "lecture" | "exercise" | "exam" | "barred" | "other"
+): Color | Record<string, never> {
   switch (entry_type) {
     case "lecture":
       return { backgroundColor: "#93bae6", borderColor: "#3070b3", textColor: "#13243e" };
@@ -65,7 +68,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   for (const [k, v] of Object.entries(data)) {
     items.push(
       ...v.events.map((e) => {
-        const title = locale.value == "de" ? e.title_de : e.title_en;
+        const title = locale.value === "de" ? e.title_de : e.title_en;
         const color = colorForType(e.entry_type);
         return {
           id: e.id.toString(),
@@ -74,7 +77,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
           end: new Date(e.end_at),
           ...color,
         };
-      }),
+      })
     );
   }
   return items;
@@ -110,7 +113,7 @@ const calendarOptions: CalendarOptions = {
     center: "title",
     right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
   },
-  locale: locale.value == "de" ? deLocale : enLocale,
+  locale: locale.value === "de" ? deLocale : enLocale,
   height: 700,
   // like '14:30'
   views: {
