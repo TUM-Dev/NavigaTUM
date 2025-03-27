@@ -42,7 +42,10 @@ export default defineNuxtConfig({
         { name: "msapplication-TileColor", content: "#0065bd" },
         { name: "theme-color", content: "#ffffff" },
         { name: "author", content: "OpenSource @ TUM e.V. partnering with TUM IT Management" },
-        { name: "copyright", content: "GNU General Public License v3.0. Images may be licensed differently." },
+        {
+          name: "copyright",
+          content: "GNU General Public License v3.0. Images may be licensed differently.",
+        },
         { name: "robots", content: "index, follow" },
         { name: "rating", content: "safe for kids" },
         { name: "og:url", content: "https://nav.tum.de" },

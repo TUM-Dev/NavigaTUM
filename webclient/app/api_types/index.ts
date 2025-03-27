@@ -361,7 +361,14 @@ export type components = {
       readonly entries: readonly components["schemas"]["FeaturedOverviewItemResponse"][];
     };
     /** @enum {string} */
-    readonly FeedbackCategory: "bug" | "feature" | "search" | "navigation" | "entry" | "general" | "other";
+    readonly FeedbackCategory:
+      | "bug"
+      | "feature"
+      | "search"
+      | "navigation"
+      | "entry"
+      | "general"
+      | "other";
     readonly PostFeedbackRequest: {
       /**
        * @description The body/description of the feedback

@@ -13,7 +13,11 @@ const props = defineProps<{
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { t } = useI18n({ useScope: "local" });
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const {
+  copy,
+  copied,
+  isSupported: clipboardIsSupported,
+} = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
 
 const modalOpen = ref(false);

@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
+} from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
 
@@ -17,9 +23,9 @@ const search = ref("");
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
   const combinedList = [] as RoomsOverviewUsageChildResponse[];
-  usages.forEach((usage) => {
+  for (const usage of usages) {
     combinedList.push(...usage.children);
-  });
+  }
   return combinedList;
 });
 type SelectedRoomGroup = {
@@ -40,9 +46,12 @@ const filteredList = computed<RoomsOverviewUsageChildResponse[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
   return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
-const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsageChildResponse>(filteredList, {
-  itemHeight: 36,
-});
+const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsageChildResponse>(
+  filteredList,
+  {
+    itemHeight: 36,
+  }
+);
 </script>
 
 <template>

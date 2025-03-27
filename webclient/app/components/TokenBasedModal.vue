@@ -44,7 +44,9 @@ function _send() {
       loading.value = false;
       if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         token.value = null;
-        r.text().then((url) => (successUrl.value = url));
+        r.text().then((url) => {
+          successUrl.value = url;
+        });
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
         error.value.message = `${t("status.server_error")} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
@@ -95,7 +97,8 @@ function sendForm() {
   // Token may only be used after a short delay.
   const MINIMUM_DELAY_MS = 10_000;
   const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
-  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS) setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
+    setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
   else _send();
 }
 </script>
