@@ -4,7 +4,7 @@ This folder contains the configuration of how vector tiles server for NavigaTUM.
 
 ## Getting started
 
-As a basis of generating images it is important to have a tileset (`output.pmtiles`) and a style:
+As a basis of generating images it is important to have a tileset (`output.mbtiles`) and a style:
 - The style is a JSON file that defines how the map should look like.
 - The tileset is a sqlite database that contains the map data.
 
@@ -71,7 +71,7 @@ From the root of the repository, run either (depending on your waiting tolerance
   --fetch-wikidata --languages=de,en \
   --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram \
    --area=germany \
-   --output=/data/output.pmtiles
+   --output=/data/output.mbtiles
   ```
 
   </details>
@@ -88,7 +88,7 @@ From the root of the repository, run either (depending on your waiting tolerance
   --fetch-wikidata --languages=de,en \
   --Xmx10g --storage=mmap \
    --area=germany \
-   --output=/data/output.pmtiles
+   --output=/data/output.mbtiles
   ```
 
   </details>
@@ -105,7 +105,7 @@ From the root of the repository, run either (depending on your waiting tolerance
   --fetch-wikidata --languages=de,en \
   --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram \
   --area=planet --bounds=world \
-  --output=/data/output.pmtiles
+  --output=/data/output.mbtiles
   ```
 
   </details>
@@ -122,14 +122,14 @@ From the root of the repository, run either (depending on your waiting tolerance
   --fetch-wikidata --languages=de,en \
   --Xmx25g --nodemap-type=array --storage=mmap \
   --area=planet --bounds=world \
-  --output=/data/output.pmtiles
+  --output=/data/output.mbtiles
   ```
 
   </details>
 
 ### Serve the tileset
 
-After generating `output.pmtiles` you can serve it with a tileserver.
+After generating `output.mbtiles` you can serve it with a tileserver.
 We use [martin](https://github.com/maplibre/martin) for this, but there are other ones out there.
 This may be one optimisation point in the future.
 
@@ -144,7 +144,7 @@ docker compose -f docker-compose.local.yml up --build
 > ```bash
 > docker run -p 3000:3000 --rm --user=$UID -it -v "$(pwd)/map":/data \
 > ghcr.io/maplibre/martin:latest \
-> /data/output.pmtiles
+> /data/output.mbtiles
 > ```
 
 ### Fonts + Sprites for martin
