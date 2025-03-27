@@ -3,6 +3,6 @@ pre-commit==4.2.0
 pytest==8.3.5
 ruff==0.11.2
 types-Pillow==10.2.0.20240822
-types-PyYAML==6.0.12.20241230
+types-PyYAML==6.0.12.20250326
 types-requests==2.32.0.20250306
 types-termcolor==1.1.6.2
