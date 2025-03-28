@@ -3,6 +3,12 @@ schema_description: A basic, lean, general-purpose vector tile schema for OpenSt
 attribution: <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>
 examples: shortbread_custom.spec.yml
 args:
+  simplify_tolerance: 1
+  simplify_tolerance_at_max_zoom: 0.05
+  min_feature_size_at_max_zoom: 0.05
+  min_feature_size: 2
+  maxzoom: 15
+  render_maxzoom: 15
   area:
     description: Geofabrik area to download
     default: germany
@@ -344,6 +350,9 @@ layers:
     attributes:
     - key: kind
       value: '${match_value == "forest" ? "wood": match_value}'
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
 
 - id: sites
   features:
@@ -381,6 +390,9 @@ layers:
             - sand
             - grass
             - tartan
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
 
 - id: buildings
   features:
@@ -410,12 +422,15 @@ layers:
           value: '${ feature.tags["building:min_level"].matches(r"^\d+$") ? uint(feature.tags["building:min_level"]) * 3u : 4u }'
         - else: 0
       min_zoom: 14
+  tile_post_process:
+    merge_polygons:
+      min_area: 2
 
 - id: addresses
   features:
   - source: osm
     geometry: polygon_centroid_if_convex
-    min_zoom: 14
+    min_zoom: 15
     include_when: &address_filter
       addr:housenumber: __any__
     attributes: &address_attributes
@@ -423,7 +438,7 @@ layers:
       tag_value: addr:housenumber
   - source: osm
     geometry: point
-    min_zoom: 14
+    min_zoom: 15
     include_when: *address_filter
     attributes: *address_attributes
 
@@ -527,6 +542,11 @@ layers:
       include_when:
         bridge: yes
       else: false
+  tile_post_process:
+    merge_line_strings:
+      min_length: 0.1
+      tolerance: 1
+      buffer: 1
 
 - id: street_labels
   features:
@@ -589,52 +609,6 @@ layers:
       value: '${ size(feature.tags["ref"].split(";")) }'
       exclude_when: *missing_ref
 
-- id: street_polygons
-  features:
-  - source: osm
-    geometry: polygon
-    min_zoom: 14
-    include_when:
-      __all__:
-      - highway: [ pedestrian, service ]
-      - area: yes
-    attributes:
-    - key: kind
-      type: match_value
-    - *bridge_attr
-    - *tunnel_attr
-    - key: surface
-    - key: rail
-      value: false # TODO omit?
-
-- id: street_polygons_labels
-  features:
-  - source: osm
-    geometry: polygon_point_on_surface
-    min_zoom: 14
-    include_when:
-      __all__:
-        highway: [ pedestrian, service ]
-        area: yes
-        name: __any__
-    attributes:
-    - key: kind
-      type: match_value
-    - *name
-
-- id: street_labels_points # TODO update documentation (streetS_labels_points)
-  features:
-  - source: osm
-    geometry: point
-    min_zoom: 12
-    include_when:
-      highway: motorway_junction
-    attributes:
-    - key: kind
-      type: match_value
-    - key: ref
-    - *name
-
 - id: bridges
   features:
   - source: osm
@@ -645,6 +619,9 @@ layers:
     attributes:
     - key: kind
       value: bridge
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
 
 - id: aerialways
   features:
@@ -656,12 +633,15 @@ layers:
     attributes:
     - key: kind
       type: match_value
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
 
 - id: pois
   features:
   - source: osm
     geometry: point
-    min_zoom: 14
+    min_zoom: 15
     include_when: &poi_filter
       amenity: &poi_filter_amenity
         - atm
@@ -865,14 +845,17 @@ layers:
   features:
   - source: osm
     geometry: polygon
-    min_zoom: 14
+    min_zoom: 15
     include_when:
       public_transport: platform
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
 
 - id: trees
   features:
   - source: osm
     geometry: point
-    min_zoom: 14
+    min_zoom: 15
     include_when:
       natural: tree
