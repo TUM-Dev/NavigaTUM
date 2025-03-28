@@ -48,8 +48,8 @@ importers:
         specifier: 13.0.0
         version: 13.0.0(vue-router@4.5.0(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
       maplibre-gl:
-        specifier: 5.2.0
-        version: 5.2.0
+        specifier: 5.3.0
+        version: 5.3.0
       maplibre-gl-indoor:
         specifier: 0.0.22
         version: 0.0.22
@@ -3812,8 +3812,8 @@ packages:
   maplibre-gl-indoor@0.0.22:
     resolution: {integrity: sha512-b+uSYqk1kiLBvyBXNhI4MzEWq1qcuGcdoT9aRZvU6+zNqAsK2JIngePZh98hn/7HaRSB2ijb+OabU1OvbSJ3uQ==}
 
-  maplibre-gl@5.2.0:
-    resolution: {integrity: sha512-9zZKD0M80qtDsqBet+EDuAhoCeA/cnAuZAA0p3hcGKGbyjM/SH+R6wQvnBEgvJz9UhDynnkoKdUwhI+fUkHoXQ==}
+  maplibre-gl@5.3.0:
+    resolution: {integrity: sha512-qru6B6jHlDPR4Q9/P4W1zEPbPofR4wwYbrrjiHKWI7yLtyXmpJ1/G1KaIYDr5uNdFbPZ7uiZAWdqtfdNLmIhGg==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   markdown-table@3.0.4:
@@ -10109,9 +10109,9 @@ snapshots:
       '@turf/bbox': 7.2.0
       '@turf/destination': 7.2.0
       '@turf/distance': 7.2.0
-      maplibre-gl: 5.2.0
+      maplibre-gl: 5.3.0
 
-  maplibre-gl@5.2.0:
+  maplibre-gl@5.3.0:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
