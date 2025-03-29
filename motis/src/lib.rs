@@ -1,5 +1,4 @@
 #![forbid(unsafe_code)]
-#![allow(format_code_in_doc_comments)]
 #![doc = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/README.md"))]
 
 pub use progenitor_client::{ByteStream, Error, ResponseValue};
@@ -167,7 +166,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for Direction {
         fn from(value: &Direction) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -260,7 +259,7 @@ pub mod types {
     /// }
     /// ```
     /// </details>
-    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
+    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug, Default)]
     pub struct Duration {
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
         pub duration: ::std::option::Option<f64>,
@@ -269,14 +268,6 @@ pub mod types {
     impl ::std::convert::From<&Duration> for Duration {
         fn from(value: &Duration) -> Self {
             value.clone()
-        }
-    }
-
-    impl ::std::default::Default for Duration {
-        fn default() -> Self {
-            Self {
-                duration: Default::default(),
-            }
         }
     }
 
@@ -424,7 +415,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for FareMediaType {
         fn from(value: &FareMediaType) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -691,7 +682,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for FareTransferRule {
         fn from(value: &FareTransferRule) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -1339,7 +1330,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for LocationType {
         fn from(value: &LocationType) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -1647,7 +1638,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for Mode {
         fn from(value: &Mode) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -1770,7 +1761,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for PedestrianProfile {
         fn from(value: &PedestrianProfile) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -2109,7 +2100,7 @@ pub mod types {
     /// }
     /// ```
     /// </details>
-    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
+    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug, Default)]
     pub struct Reachable {
         ///List of locations reachable by One-to-All
         #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
@@ -2121,15 +2112,6 @@ pub mod types {
     impl ::std::convert::From<&Reachable> for Reachable {
         fn from(value: &Reachable) -> Self {
             value.clone()
-        }
-    }
-
-    impl ::std::default::Default for Reachable {
-        fn default() -> Self {
-            Self {
-                all: Default::default(),
-                one: Default::default(),
-            }
         }
     }
 
@@ -2167,7 +2149,7 @@ pub mod types {
     /// }
     /// ```
     /// </details>
-    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
+    #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug, Default)]
     pub struct ReachablePlace {
         ///Total travel duration
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
@@ -2190,16 +2172,6 @@ pub mod types {
     impl ::std::convert::From<&ReachablePlace> for ReachablePlace {
         fn from(value: &ReachablePlace) -> Self {
             value.clone()
-        }
-    }
-
-    impl ::std::default::Default for ReachablePlace {
-        fn default() -> Self {
-            Self {
-                duration: Default::default(),
-                k: Default::default(),
-                place: Default::default(),
-            }
         }
     }
 
@@ -2417,7 +2389,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for RentalFormFactor {
         fn from(value: &RentalFormFactor) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -2529,7 +2501,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for RentalPropulsionType {
         fn from(value: &RentalPropulsionType) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -2628,7 +2600,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for RentalReturnConstraint {
         fn from(value: &RentalReturnConstraint) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -3001,7 +2973,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for StoptimesDirection {
         fn from(value: &StoptimesDirection) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -3375,7 +3347,7 @@ pub mod types {
 
     impl ::std::convert::From<&Self> for VertexType {
         fn from(value: &VertexType) -> Self {
-            value.clone()
+            *value
         }
     }
 
@@ -6625,240 +6597,204 @@ impl Client {
     /// - `additional_transfer_time`: Optional. Default is 0 minutes.
     ///
     ///Additional transfer time reserved for each transfer in minutes.
-    ///
     /// - `arrive_by`: Optional. Default is `false`.
-    ///
-    ///  - `arriveBy=true`: the parameters `date` and `time` refer to the
-    ///    arrival time
-    ///  - `arriveBy=false`: the parameters `date` and `time` refer to the
-    ///    departure time
-    ///
+    ///   - `true`: the parameters `date` and `time` refer to the arrival time
+    ///   - `false`: the parameters `date` and `time` refer to the departure time
     /// - `detailed_transfers`: - true: Compute transfer polylines and step
     ///   instructions.
     /// - false: Only return basic information (start time, end time, duration)
     ///   for transfers.
-    ///
     /// - `direct_modes`: Optional. Default is `WALK` which will compute walking
     ///   routes as direct connections.
-    ///
-    ///Modes used for direction connections from start to destination without
-    /// using transit. Results will be returned on the `direct` key.
-    ///
-    ///Note: Direct connections will only be returned on the first call. For
-    /// paging calls, they can be omitted.
-    ///
-    ///Note: Transit connections that are slower than the fastest direct
-    /// connection will not show up. This is being used as a cut-off during
-    /// transit routing to speed up the search. To prevent this, it's
-    /// possible to send two separate requests (one with only `transitModes` and
-    /// one with only `directModes`).
-    ///
-    ///Only non-transit modes such as `WALK`, `BIKE`, `CAR`, `BIKE_SHARING`,
-    /// etc. can be used.
-    ///
+    ///   
+    ///   Modes used for direction connections from start to destination without
+    ///   using transit. Results will be returned on the `direct` key.
+    ///   
+    ///   Note: Direct connections will only be returned on the first call. For
+    ///   paging calls, they can be omitted.
+    ///   
+    ///   Note: Transit connections that are slower than the fastest direct
+    ///   connection will not show up. This is being used as a cut-off during
+    ///   transit routing to speed up the search. To prevent this, it's
+    ///   possible to send two separate requests (one with only `transitModes` and
+    ///   one with only `directModes`).
+    ///   
+    ///   Only non-transit modes such as `WALK`, `BIKE`, `CAR`, `BIKE_SHARING`,
+    ///   etc. can be used.
     /// - `direct_rental_form_factors`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies to direct connections.
-    ///
-    ///A list of vehicle type form factors that are allowed to be used for
-    /// direct connections. If empty (the default), all form factors are
-    /// allowed. Example: `BICYCLE,SCOOTER_STANDING`.
-    ///
+    ///   
+    ///   Optional. Only applies to direct connections.
+    ///   
+    ///   A list of vehicle type form factors that are allowed to be used for
+    ///   direct connections. If empty (the default), all form factors are
+    ///   allowed. Example: `BICYCLE,SCOOTER_STANDING`.
     /// - `direct_rental_propulsion_types`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies to direct connections.
-    ///
-    ///A list of vehicle type form factors that are allowed to be used for
-    /// direct connections. If empty (the default), all propulsion types are
-    /// allowed. Example: `HUMAN,ELECTRIC,ELECTRIC_ASSIST`.
-    ///
+    ///   
+    ///   Optional. Only applies to direct connections.
+    ///   
+    ///   A list of vehicle type form factors that are allowed to be used for
+    ///   direct connections. If empty (the default), all propulsion types are
+    ///   allowed. Example: `HUMAN,ELECTRIC,ELECTRIC_ASSIST`.
     /// - `direct_rental_providers`: Experimental. Expect unannounced breaking
     ///   changes (without version bumps).
-    ///
-    ///Optional. Only applies to direct connections.
-    ///
-    ///A list of rental providers that are allowed to be used for direct
-    /// connections. If empty (the default), all providers are allowed.
-    ///
+    ///   
+    ///   Optional. Only applies to direct connections.
+    ///   
+    ///   A list of rental providers that are allowed to be used for direct
+    ///   connections. If empty (the default), all providers are allowed.
     /// - `fastest_direct_factor`: Optional. Experimental. Default is `1.0`.
-    ///Factor with which the duration of the fastest direct connection is
-    /// multiplied. Values > 1.0 allow connections that are slower than the
-    /// fastest direct connection to be found.
-    ///
+    ///   Factor with which the duration of the fastest direct connection is
+    ///   multiplied. Values > 1.0 allow connections that are slower than the
+    ///   fastest direct connection to be found.
     /// - `from_place`: \`latitude,longitude,level\` tuple in degrees OR stop id
     /// - `luggage`: Optional. Experimental. Number of luggage pieces; base
     ///   unit: airline cabin luggage (e.g. for ODM or price calculation)
-    ///
     /// - `max_direct_time`: Optional. Default is 30min which is `1800`.
-    ///Maximum time in seconds for direct connections.
-    ///
+    ///   Maximum time in seconds for direct connections.
     /// - `max_matching_distance`: Optional. Default is 25 meters.
-    ///
-    ///Maximum matching distance in meters to match geo coordinates to the
-    /// street network.
-    ///
+    ///   
+    ///   Maximum matching distance in meters to match geo coordinates to the
+    ///   street network.
     /// - `max_post_transit_time`: Optional. Default is 15min which is `900`.
-    ///Maximum time in seconds for the last street leg.
-    ///
+    ///   Maximum time in seconds for the last street leg.
     /// - `max_pre_transit_time`: Optional. Default is 15min which is `900`.
-    ///Maximum time in seconds for the first street leg.
-    ///
+    ///   Maximum time in seconds for the first street leg.
     /// - `max_transfers`: The maximum number of allowed transfers.
-    ///If not provided, the routing uses the server-side default value
-    ///which is hardcoded and very high to cover all use cases.
-    ///
-    ///*Warning*: Use with care. Setting this too low can lead to
-    ///optimal (e.g. the fastest) journeys not being found.
-    ///If this value is too low to reach the destination at all,
-    ///it can lead to slow routing performance.
-    ///
+    ///   If not provided, the routing uses the server-side default value
+    ///   which is hardcoded and very high to cover all use cases.
+    ///   
+    ///   *Warning*: Use with care. Setting this too low can lead to
+    ///   optimal (e.g. the fastest) journeys not being found.
+    ///   If this value is too low to reach the destination at all,
+    ///   it can lead to slow routing performance.
     /// - `max_travel_time`: The maximum travel time in minutes.
-    ///If not provided, the routing to uses the value
-    ///hardcoded in the server which is usually quite high.
-    ///
-    ///*Warning*: Use with care. Setting this too low can lead to
-    ///optimal (e.g. the least transfers) journeys not being found.
-    ///If this value is too low to reach the destination at all,
-    ///it can lead to slow routing performance.
-    ///
+    ///   If not provided, the routing to uses the value
+    ///   hardcoded in the server which is usually quite high.
+    ///   
+    ///   *Warning*: Use with care. Setting this too low can lead to
+    ///   optimal (e.g. the least transfers) journeys not being found.
+    ///   If this value is too low to reach the destination at all,
+    ///   it can lead to slow routing performance.
     /// - `min_transfer_time`: Optional. Default is 0 minutes.
-    ///
-    ///Minimum transfer time for each transfer in minutes.
-    ///
+    ///   
+    ///   Minimum transfer time for each transfer in minutes.
     /// - `num_itineraries`: The minimum number of itineraries to compute.
-    ///This is only relevant if `timetableView=true`.
-    ///The default value is 5.
-    ///
+    ///   This is only relevant if `timetableView=true`.
+    ///   The default value is 5.
     /// - `page_cursor`: Use the cursor to go to the next "page" of itineraries.
-    ///Copy the cursor from the last response and keep the original request as
-    /// is. This will enable you to search for itineraries in the next or
-    /// previous time-window.
-    ///
+    ///   Copy the cursor from the last response and keep the original request as
+    ///   is. This will enable you to search for itineraries in the next or
+    ///   previous time-window.
     /// - `passengers`: Optional. Experimental. Number of passengers (e.g. for
     ///   ODM or price calculation)
     /// - `pedestrian_profile`: Optional. Default is `FOOT`.
     ///
-    ///Accessibility profile to use for pedestrian routing in transfers
-    ///between transit connections, on the first mile, and last mile.
-    ///
+    /// Accessibility profile to use for pedestrian routing in transfers
+    /// between transit connections, on the first mile, and last mile.
     /// - `post_transit_modes`: Optional. Default is `WALK`. Only applies if the
     ///   `to` place is a coordinate (not a transit stop). Does not apply to
     ///   direct connections (see `directModes`).
-    ///
-    ///A list of modes that are allowed to be used from the last transit stop
-    /// to the `to` coordinate. Example: `WALK,BIKE_SHARING`.
-    ///
+    ///   
+    ///   A list of modes that are allowed to be used from the last transit stop
+    ///   to the `to` coordinate. Example: `WALK,BIKE_SHARING`.
     /// - `post_transit_rental_form_factors`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `to` place is a coordinate (not a transit
-    /// stop). Does not apply to direct connections (see
-    /// `directRentalFormFactors`).
-    ///
-    ///A list of vehicle type form factors that are allowed to be used from the
-    /// last transit stop to the `to` coordinate. If empty (the default),
-    /// all form factors are allowed. Example: `BICYCLE,SCOOTER_STANDING`.
-    ///
+    ///   
+    ///   Optional. Only applies if the `to` place is a coordinate (not a transit
+    ///   stop). Does not apply to direct connections (see
+    ///   `directRentalFormFactors`).
+    ///   
+    ///   A list of vehicle type form factors that are allowed to be used from the
+    ///   last transit stop to the `to` coordinate. If empty (the default),
+    ///   all form factors are allowed. Example: `BICYCLE,SCOOTER_STANDING`.
     /// - `post_transit_rental_propulsion_types`: Experimental. Expect
     ///   unannounced breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `to` place is a coordinate (not a transit
-    /// stop). Does not apply to direct connections (see
-    /// `directRentalPropulsionTypes`).
-    ///
-    ///A list of vehicle propulsion types that are allowed to be used from the
-    /// last transit stop to the `to` coordinate. If empty (the default),
-    /// all propulsion types are allowed. Example: `HUMAN,ELECTRIC,
-    /// ELECTRIC_ASSIST`.
-    ///
+    ///   
+    ///   Optional. Only applies if the `to` place is a coordinate (not a transit
+    ///   stop). Does not apply to direct connections (see
+    ///   `directRentalPropulsionTypes`).
+    ///   
+    ///   A list of vehicle propulsion types that are allowed to be used from the
+    ///   last transit stop to the `to` coordinate. If empty (the default),
+    ///   all propulsion types are allowed.
+    ///   Example: `HUMAN,ELECTRIC,ELECTRIC_ASSIST`.
     /// - `post_transit_rental_providers`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `to` place is a coordinate (not a transit
-    /// stop). Does not apply to direct connections (see
-    /// `directRentalProviders`).
-    ///
-    ///A list of rental providers that are allowed to be used from the last
-    /// transit stop to the `to` coordinate. If empty (the default), all
-    /// providers are allowed.
-    ///
+    ///   
+    ///   Optional. Only applies if the `to` place is a coordinate (not a transit
+    ///   stop). Does not apply to direct connections (see
+    ///   `directRentalProviders`).
+    ///   
+    ///   A list of rental providers that are allowed to be used from the last
+    ///   transit stop to the `to` coordinate. If empty (the default), all
+    ///   providers are allowed.
     /// - `pre_transit_modes`: Optional. Default is `WALK`. Only applies if the
     ///   `from` place is a coordinate (not a transit stop). Does not apply to
     ///   direct connections (see `directModes`).
-    ///
-    ///A list of modes that are allowed to be used from the `from` coordinate
-    /// to the first transit stop. Example: `WALK,BIKE_SHARING`.
-    ///
+    ///   
+    ///   A list of modes that are allowed to be used from the `from` coordinate
+    ///   to the first transit stop. Example: `WALK,BIKE_SHARING`.
     /// - `pre_transit_rental_form_factors`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `from` place is a coordinate (not a
-    /// transit stop). Does not apply to direct connections (see
-    /// `directRentalFormFactors`).
-    ///
-    ///A list of vehicle type form factors that are allowed to be used from the
-    /// `from` coordinate to the first transit stop. If empty (the default),
-    /// all form factors are allowed. Example: `BICYCLE,SCOOTER_STANDING`.
-    ///
+    ///   
+    ///   Optional. Only applies if the `from` place is a coordinate (not a
+    ///   transit stop). Does not apply to direct connections (see
+    ///   `directRentalFormFactors`).
+    ///   
+    ///   A list of vehicle type form factors that are allowed to be used from the
+    ///   `from` coordinate to the first transit stop. If empty (the default),
+    ///   all form factors are allowed. Example: `BICYCLE,SCOOTER_STANDING`.
     /// - `pre_transit_rental_propulsion_types`: Experimental. Expect
     ///   unannounced breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `from` place is a coordinate (not a
-    /// transit stop). Does not apply to direct connections (see
-    /// `directRentalPropulsionTypes`).
-    ///
-    ///A list of vehicle propulsion types that are allowed to be used from the
-    /// `from` coordinate to the first transit stop. If empty (the default),
-    /// all propulsion types are allowed. Example: `HUMAN,ELECTRIC,
-    /// ELECTRIC_ASSIST`.
-    ///
+    ///   
+    ///   Optional. Only applies if the `from` place is a coordinate (not a
+    ///   transit stop). Does not apply to direct connections (see
+    ///   `directRentalPropulsionTypes`).
+    ///   
+    ///   A list of vehicle propulsion types that are allowed to be used from the
+    ///   `from` coordinate to the first transit stop. If empty (the default),
+    ///   all propulsion types are allowed. Example: `HUMAN,ELECTRIC,
+    ///   ELECTRIC_ASSIST`.
     /// - `pre_transit_rental_providers`: Experimental. Expect unannounced
     ///   breaking changes (without version bumps).
-    ///
-    ///Optional. Only applies if the `from` place is a coordinate (not a
-    /// transit stop). Does not apply to direct connections (see
-    /// `directRentalProviders`).
-    ///
-    ///A list of rental providers that are allowed to be used from the `from`
-    /// coordinate to the first transit stop. If empty (the default), all
-    /// providers are allowed.
-    ///
+    ///   
+    ///   Optional. Only applies if the `from` place is a coordinate (not a
+    ///   transit stop). Does not apply to direct connections (see
+    ///   `directRentalProviders`).
+    ///   
+    ///   A list of rental providers that are allowed to be used from the `from`
+    ///   coordinate to the first transit stop. If empty (the default), all
+    ///   providers are allowed.
     /// - `require_bike_transport`: Optional. Default is `false`.
-    ///
-    ///If set to `true`, all used transit trips are required to allow bike
-    /// carriage.
-    ///
+    ///   
+    ///   If set to `true`, all used transit trips are required to allow bike carriage.
     /// - `search_window`: Optional. Default is 2 hours which is `7200`.
-    ///
-    ///The length of the search-window in seconds. Default value two hours.
-    ///
+    ///   
+    ///   The length of the search-window in seconds. Default value two hours.
     ///  - `arriveBy=true`: number of seconds between the earliest departure
     ///    time and latest departure time
     ///  - `arriveBy=false`: number of seconds between the earliest arrival time
     ///    and the latest arrival time
-    ///
     /// - `time`: Optional. Defaults to the current time.
-    ///
-    ///Departure time ($arriveBy=false) / arrival date ($arriveBy=true),
-    ///
+    ///   
+    ///   Departure time ($arriveBy=false) / arrival date ($arriveBy=true),
     /// - `timeout`: Optional. Query timeout in seconds.
     /// - `timetable_view`: Optional. Default is `true`.
-    ///
-    ///Search for the best trip options within a time window.
-    ///If true two itineraries are considered optimal
-    ///if one is better on arrival time (earliest wins)
-    ///and the other is better on departure time (latest wins).
-    ///In combination with arriveBy this parameter cover the following use
-    /// cases:
-    ///
-    ///`timetable=false` = waiting for the first transit departure/arrival is
-    /// considered travel time:
-    ///  - `arriveBy=true`: event (e.g. a meeting) starts at 10:00 am, compute
-    ///    the best journeys that arrive by that time (maximizes departure time)
-    ///  - `arriveBy=false`: event (e.g. a meeting) ends at 11:00 am, compute
-    ///    the best journeys that depart after that time
+    ///   
+    ///   Search for the best trip options within a time window.
+    ///   If true two itineraries are considered optimal
+    ///   if one is better on arrival time (earliest wins)
+    ///   and the other is better on departure time (latest wins).
+    ///   In combination with arriveBy this parameter cover the following use
+    ///   cases:
+    ///   - `timetable=false` = waiting for the first transit departure/arrival is
+    ///     considered travel time:
+    ///   - `arriveBy=true`: event (e.g. a meeting) starts at 10:00 am, compute
+    ///     the best journeys that arrive by that time (maximizes departure time)
+    ///   - `arriveBy=false`: event (e.g. a meeting) ends at 11:00 am, compute
+    ///     the best journeys that depart after that time
     ///
     ///`timetable=true` = optimize "later departure" + "earlier arrival" and
     /// give all options over a time window:
@@ -6866,28 +6802,21 @@ impl Client {
     ///    the arrival time window
     ///  - `arriveBy=false`: the time window around `date` and `time` refers to
     ///    the departure time window
-    ///
     /// - `to_place`: \`latitude,longitude,level\` tuple in degrees OR stop id
     /// - `transfer_time_factor`: Optional. Default is 1.0
-    ///
-    ///Factor to multiply minimum required transfer times with.
-    ///Values smaller than 1.0 are not supported.
-    ///
+    ///    
+    ///   Factor to multiply minimum required transfer times with.
+    ///   Values smaller than 1.0 are not supported.
     /// - `transit_modes`: Optional. Default is `TRANSIT` which allows all
     ///   transit modes (no restriction).
-    ///Allowed modes for the transit part. If empty, no transit connections
-    /// will be computed. For example, this can be used to allow only
-    /// `METRO,SUBWAY,TRAM`.
-    ///
+    ///   Allowed modes for the transit part. If empty, no transit connections
+    ///   will be computed. For example, this can be used to allow only
+    ///   `METRO,SUBWAY,TRAM`.
     /// - `use_routed_transfers`: Optional. Default is `false`.
-    ///
-    ///Whether to use transfers routed on OpenStreetMap data.
-    ///
-    /// - `via`: List of via stops to visit (only stop IDs, no coordinates
-    ///   allowed for now).
-    ///Also see the optional parameter `viaMinimumStay` to set a set a minimum
-    /// stay duration for each via stop.
-    ///
+    ///   Whether to use transfers routed on OpenStreetMap data.
+    /// - `via`: List of via stops to visit (only stop IDs, no coordinates allowed for now).
+    ///   Also see the optional parameter `viaMinimumStay` to set a set a minimum
+    ///   stay duration for each via stop.
     /// - `via_minimum_stay`: Optional. If not set, the default is `0,0` - no
     ///   stay required.
     ///
@@ -6897,7 +6826,6 @@ impl Client {
     ///This enables via stays without counting a transfer and can lead
     ///to better connections with less transfers. Transfer connections can
     ///still be found with `viaMinimumStay=0`.
-    ///
     /// - `with_fares`: Optional. Experimental. If set to true, the response
     ///   will contain fare information.
     ///```ignore
@@ -6958,16 +6886,15 @@ impl Client {
     ///Sends a `GET` request to `/api/v1/one-to-many`
     ///
     ///Arguments:
-    /// - `arrive_by`: true = many to one
-    ///false = one to many
-    ///
+    /// - `arrive_by`:
+    ///   true = many to one
+    ///   false = one to many
     /// - `many`: geo locations as latitude;longitude,latitude;longitude,...
     /// - `max`: maximum travel time in seconds
     /// - `max_matching_distance`: maximum matching distance in meters to match
     ///   geo coordinates to the street network
     /// - `mode`: routing profile to use (currently supported: \`WALK\`,
     ///   \`BIKE\`, \`CAR\`)
-    ///
     /// - `one`: geo location as latitude;longitude
     ///```ignore
     /// let response = client.one_to_many()
@@ -6984,61 +6911,48 @@ impl Client {
         builder::OneToMany::new(self)
     }
 
-    ///Computes all reachable locations from a given stop within a set
+    /// Computes all reachable locations from a given stop within a set
     /// duration. Each result entry will contain the fastest travel duration
     /// and the number of connections used.
     ///
     ///
-    ///Sends a `GET` request to `/api/experimental/one-to-all`
+    /// Sends a `GET` request to `/api/experimental/one-to-all`
     ///
-    ///Arguments:
+    /// Arguments:
     /// - `additional_transfer_time`: Optional. Default is 0 minutes.
     ///
     ///Additional transfer time reserved for each transfer in minutes.
-    ///
-    /// - `arrive_by`: true = all to one
-    ///false = one to all
-    ///
+    /// - `arrive_by`:
+    ///   true = all to one
+    ///   false = one to all
     /// - `max_transfers`: The maximum number of allowed transfers.
-    ///If not provided, the routing uses the server-side default value
-    ///which is hardcoded and very high to cover all use cases.
-    ///
-    ///*Warning*: Use with care. Setting this too low can lead to
-    ///optimal (e.g. the fastest) journeys not being found.
-    ///If this value is too low to reach the destination at all,
-    ///it can lead to slow routing performance.
-    ///
+    ///   If not provided, the routing uses the server-side default value
+    ///   which is hardcoded and very high to cover all use cases.
+    ///   
+    ///   *Warning*: Use with care. Setting this too low can lead to
+    ///   optimal (e.g. the fastest) journeys not being found.
+    ///   If this value is too low to reach the destination at all,
+    ///   it can lead to slow routing performance.
     /// - `max_travel_time`: maximum travel time in minutes
     /// - `min_transfer_time`: Optional. Default is 0 minutes.
-    ///
-    ///Minimum transfer time for each transfer in minutes.
-    ///
+    ///   Minimum transfer time for each transfer in minutes.
     /// - `one`: stop id of the starting or ending stop
     /// - `pedestrian_profile`: Optional. Default is `FOOT`.
-    ///
-    ///Accessibility profile to use for pedestrian routing in transfers
-    ///between transit connections and the first and last mile respectively.
-    ///
+    ///   Accessibility profile to use for pedestrian routing in transfers
+    ///   between transit connections and the first and last mile respectively.
     /// - `require_bike_transport`: Optional. Default is `false`.
-    ///
-    ///If set to `true`, all used transit trips are required to allow bike
-    /// carriage.
-    ///
+    ///   If set to `true`, all used transit trips are required to allow bike
+    ///   carriage.
     /// - `time`: Optional. Defaults to the current time.
-    ///
-    ///Departure time ($arriveBy=false) / arrival date ($arriveBy=true),
-    ///
+    ///   Departure time ($arriveBy=false) / arrival date ($arriveBy=true),
     /// - `transfer_time_factor`: Optional. Default is 1.0
-    ///
-    ///Factor to multiply minimum required transfer times with.
-    ///Values smaller than 1.0 are not supported.
-    ///
+    ///   Factor to multiply minimum required transfer times with.
+    ///   Values smaller than 1.0 are not supported.
     /// - `transit_modes`: Optional. Default is `TRANSIT` which allows all
     ///   transit modes (no restriction).
-    ///Allowed modes for the transit part. If empty, no transit connections
-    /// will be computed. For example, this can be used to allow only
-    /// `METRO,SUBWAY,TRAM`.
-    ///
+    ///   Allowed modes for the transit part. If empty, no transit connections
+    ///   will be computed. For example, this can be used to allow only
+    ///   `METRO,SUBWAY,TRAM`.
     /// - `use_routed_transfers`: Optional. Default is `false`.
     ///
     ///Whether to use transfers routed on OpenStreetMap data.
@@ -7064,19 +6978,19 @@ impl Client {
         builder::OneToAll::new(self)
     }
 
-    ///Translate coordinates to the closest address(es)/places/stops
+    /// Translate coordinates to the closest address(es)/places/stops
     ///
-    ///Sends a `GET` request to `/api/v1/reverse-geocode`
+    /// Sends a `GET` request to `/api/v1/reverse-geocode`
     ///
-    ///Arguments:
+    /// Arguments:
     /// - `place`: latitude, longitude in degrees
     /// - `type_`: Optional. Default is all types.
     ///
-    ///Only return results of the given type.
-    ///For example, this can be used to allow only `ADDRESS` and `STOP`
+    /// Only return results of the given type.
+    /// For example, this can be used to allow only `ADDRESS` and `STOP`
     /// results.
     ///
-    ///```ignore
+    /// ```ignore
     /// let response = client.reverse_geocode()
     ///    .place(place)
     ///    .type_(type_)
@@ -7087,23 +7001,21 @@ impl Client {
         builder::ReverseGeocode::new(self)
     }
 
-    ///Autocompletion & geocoding that resolves user input addresses including
+    /// Autocompletion & geocoding that resolves user input addresses including
     /// coordinates
     ///
-    ///Sends a `GET` request to `/api/v1/geocode`
+    /// Sends a `GET` request to `/api/v1/geocode`
     ///
-    ///Arguments:
+    /// Arguments:
     /// - `language`: language tags as used in OpenStreetMap
-    ///(usually ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
-    ///
+    ///   (usually ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
     /// - `text`: the (potentially partially typed) address to resolve
     /// - `type_`: Optional. Default is all types.
     ///
-    ///Only return results of the given types.
-    ///For example, this can be used to allow only `ADDRESS` and `STOP`
-    /// results.
+    /// Only return results of the given types.
+    /// For example, this can be used to allow only `ADDRESS` and `STOP` results.
     ///
-    ///```ignore
+    /// ```ignore
     /// let response = client.geocode()
     ///    .language(language)
     ///    .text(text)
@@ -7115,12 +7027,13 @@ impl Client {
         builder::Geocode::new(self)
     }
 
-    ///Get a trip as itinerary
+    /// Get a trip as itinerary
     ///
-    ///Sends a `GET` request to `/api/v1/trip`
+    /// Sends a `GET` request to `/api/v1/trip`
     ///
-    ///Arguments:
+    /// Arguments:
     /// - `trip_id`: trip identifier (e.g. from an itinerary leg or stop event)
+    ///
     ///```ignore
     /// let response = client.trip()
     ///    .trip_id(trip_id)
@@ -7131,43 +7044,35 @@ impl Client {
         builder::Trip::new(self)
     }
 
-    ///Get the next N departures or arrivals of a stop sorted by time
+    /// Get the next N departures or arrivals of a stop sorted by time
     ///
-    ///Sends a `GET` request to `/api/v1/stoptimes`
+    /// Sends a `GET` request to `/api/v1/stoptimes`
     ///
-    ///Arguments:
+    /// Arguments:
     /// - `arrive_by`: Optional. Default is `false`.
-    ///
-    ///  - `arriveBy=true`: the parameters `date` and `time` refer to the
-    ///    arrival time
-    ///  - `arriveBy=false`: the parameters `date` and `time` refer to the
-    ///    departure time
-    ///
+    ///   `true`: the parameters `date` and `time` refer to the arrival time
+    ///   `false`: the parameters `date` and `time` refer to the departure time
     /// - `direction`: This parameter will be ignored in case `pageCursor` is
     ///   set.
-    ///
-    ///Optional. Default is
-    ///  - `LATER` for `arriveBy=false`
-    ///  - `EARLIER` for `arriveBy=true`
-    ///
-    ///The response will contain the next `n` arrivals / departures
-    ///in case `EARLIER` is selected and the previous `n`
-    ///arrivals / departures if `LATER` is selected.
-    ///
+    ///   Optional. Default is
+    ///   - `LATER` for `arriveBy=false`
+    ///   - `EARLIER` for `arriveBy=true`
+    ///   
+    ///   The response will contain the next `n` arrivals / departures
+    ///   in case `EARLIER` is selected and the previous `n`
+    ///   arrivals / departures if `LATER` is selected.
     /// - `mode`: Optional. Default is all transit modes.
     ///   Only return arrivals/departures of the given modes.
     /// - `n`: the number of events
     /// - `page_cursor`: Use the cursor to go to the next "page" of stop times.
-    ///    Copy the cursor from the last response and keep the original request as
-    ///    is. This will enable you to search for stop times in the next or
-    ///    previous time-window.
-    ///
+    ///   Copy the cursor from the last response and keep the original request as
+    ///   is. This will enable you to search for stop times in the next or
+    ///   previous time-window.
     /// - `radius`: Optional. Radius in meters.
     ///   Default is that only stop times of the parent of the stop itself
     ///   and all stops with the same name (+ their child stops) are returned.
     ///   If set, all stops at parent stations and their child stops in the
     ///   specified radius are returned.
-    ///
     /// - `stop_id`: stop id of the stop to retrieve departures/arrivals for
     /// - `time`: Optional. Defaults to the current time.
     ///
@@ -9145,9 +9050,4 @@ pub mod builder {
             }
         }
     }
-}
-
-/// Items consumers will typically use such as the Client.
-pub mod prelude {
-    pub use self::super::Client;
 }
