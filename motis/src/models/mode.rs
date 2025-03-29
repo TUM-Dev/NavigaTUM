@@ -2,17 +2,16 @@ use serde::{Deserialize, Serialize};
 
 /// # Street modes
 ///
-///   - `WALK`
-///   - `BIKE`
-///   - `RENTAL`
-///   - `CAR`
-///   - `CAR_PARKING`
+/// - [`Mode::WALK`]
+/// - [`Mode::BIKE`]
+/// - [`Mode::RENTAL`]
+/// - [`Mode::CAR`]
+/// - [`Mode::CAR_PARKING`]
 ///
 /// # Transit modes
 ///
-///   - `TRANSIT`:
-///   - `TRAM`:
-///
+/// - [`Mode::TRANSIT`]
+/// - [`Mode::TRAM`]
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum Mode {

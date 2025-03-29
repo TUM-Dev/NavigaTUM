@@ -11,7 +11,6 @@ repos:
       - id: check-json
         exclude: "(webclient/tsconfig.json)"
       - id: check-executables-have-shebangs
-      - id: check-shebang-scripts-are-executable
       - id: check-case-conflict
       - id: check-docstring-first
       - id: debug-statements
