@@ -18,11 +18,13 @@ const runtimeConfig = useRuntimeConfig();
 const calendar = useCalendar();
 
 async function addLocation() {
-  let selectedLocation: string = "";
+  let selectedLocation = "";
   while (!selectedLocation) {
     selectedLocation = window.prompt(t("prompt.initial")) || "";
     try {
-      const result = await fetch(`${runtimeConfig.public.apiURL}/api/locations/${selectedLocation}`);
+      const result = await fetch(
+        `${runtimeConfig.public.apiURL}/api/locations/${selectedLocation}`
+      );
       if (!result.ok) {
         const userWantsToRetry = window.confirm(t("prompt.error_not_ok", [selectedLocation]));
         if (!userWantsToRetry) return;
@@ -37,11 +39,11 @@ async function addLocation() {
         continue;
       }
     } catch (e) {
-      window.alert("Failed because " + e);
+      window.alert(`Failed because ${e}`);
       selectedLocation = "";
       continue;
     }
-    if (calendar.value.find((k) => k == selectedLocation)) {
+    if (calendar.value.find((k) => k === selectedLocation)) {
       const userWantsToRetry = window.confirm(t("prompt.error_already_exists", [selectedLocation]));
       if (!userWantsToRetry) return;
       selectedLocation = "";

@@ -3,7 +3,8 @@
   "extends": [
     "config:base",
     "group:recommended",
-    "group:allNonMajor"
+    "group:allNonMajor",
+    "customManagers:biomeVersions"
   ],
   "timezone": "Europe/Berlin",
   "schedule": [
@@ -36,11 +37,6 @@
     {
       "matchPackagePatterns": ["eslint", "prettier", "postcss", "ruff", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*", "scss", "openapi-typescript"],
       "groupName": "linting",
-      "automerge": true
-    },
-    {
-      "matchPackagePatterns": ["nuxt"],
-      "groupName": "temporary-debump",
       "automerge": true
     },
     {

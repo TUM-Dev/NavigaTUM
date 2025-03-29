@@ -51,6 +51,5 @@ def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch
     for patch_check, _ in patches:
         if patch_check not in applied_patches:
             logging.warning(
-                f"The patch for roomcode: r'{patch_check.pattern}' was never applied. "
-                f"Make sure it is still required.",
+                f"The patch for roomcode: r'{patch_check.pattern}' was never applied. Make sure it is still required.",
             )

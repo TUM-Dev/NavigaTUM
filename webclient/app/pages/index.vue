@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { MapPinIcon } from "@heroicons/vue/24/outline";
-import { ArrowRightIcon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
+import {
+  ArrowRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
 
 /**
@@ -84,7 +89,7 @@ const sites_overview: readonly SitesOverview[] = [
   },
 ];
 
-const title = computed(() => t("sites") + " - NavigaTUM");
+const title = computed(() => `${t("sites")} - NavigaTUM`);
 useSeoMeta({
   title: title,
   ogTitle: title,
@@ -98,7 +103,8 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-3 pt-8">
+  <div class="flex flex-col justify-between gap-3 pt-6">
+    <AppToasts />
     <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
     <!-- <NuxtLink :to="localePath('#')" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>

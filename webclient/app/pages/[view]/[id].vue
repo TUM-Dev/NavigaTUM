@@ -24,7 +24,9 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
+const url = computed(
+  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
+);
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
@@ -33,11 +35,17 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
-const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
+const shownImage = ref<ImageInfoResponse | undefined>(
+  data.value?.imgs?.length ? data.value.imgs[0] : undefined
+);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const {
+  copy,
+  copied,
+  isSupported: clipboardIsSupported,
+} = useClipboard({ source: clipboardSource });
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
   mode: "replace",
@@ -78,17 +86,22 @@ watch([data], () => {
 
 const description = computed(() => {
   if (data.value === undefined || data.value === null) return "";
-  const detailsFor = t("details_for");
-  let description = `${detailsFor} ${data.value.type_common_name} ${data.value.name}`;
+
+  let description = t("details_for");
+  if (data.value.name.includes(data.value.type_common_name)) {
+    description += ` ${data.value.name}`;
+  } else {
+    description += ` ${data.value.type_common_name} ${data.value.name}`;
+  }
   if (data.value.props.computed) {
     description += ":";
-    data.value.props.computed.forEach((prop) => {
+    for (const prop of data.value.props.computed) {
       description += `\n- ${prop.name}: ${prop.text}`;
-    });
+    }
   }
   return description;
 });
-const title = computed(() => data.value?.name || route.params.id + " - Navigatum");
+const title = computed(() => data.value?.name || `${route.params.id} - Navigatum`);
 useSeoMeta({
   title: title,
   ogTitle: title,

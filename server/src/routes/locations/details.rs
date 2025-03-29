@@ -1,5 +1,5 @@
 use actix_web::http::header::{CacheControl, CacheDirective};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
@@ -532,7 +532,7 @@ mod tests {
     use tracing::info;
 
     use super::*;
-    use crate::{setup::tests::PostgresTestContainer, AppData};
+    use crate::{AppData, setup::tests::PostgresTestContainer};
 
     /// Allows testing if a modification has changed the output of the details API
     ///

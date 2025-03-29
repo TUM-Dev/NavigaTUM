@@ -46,7 +46,7 @@ watch(counter, () => {
     props.map.x - size / 2 - outerBorder,
     props.map.y - size / 2 - outerBorder,
     size + outerBorder * 2,
-    size + outerBorder * 2,
+    size + outerBorder * 2
   );
   // inner
   ctx.fillStyle = animationColors[counter.value % animationColors.length] ?? "#ffffff";
@@ -76,7 +76,10 @@ function getContext(): CanvasRenderingContext2D | null {
 function draw() {
   const ctx = getContext();
   if (ctx == null) return;
-  const mapURL = new URL(`${runtimeConfig.public.cdnURL}/cdn/maps/site_plans/${props.map.file}`, import.meta.url);
+  const mapURL = new URL(
+    `${runtimeConfig.public.cdnURL}/cdn/maps/site_plans/${props.map.file}`,
+    import.meta.url
+  );
   const mapSprite = new Image();
   mapSprite.src = mapURL.href;
 
@@ -84,10 +87,15 @@ function draw() {
     ctx?.drawImage(mapSprite, 0, 0);
     ctx.textAlign = "end";
     ctx.font = "12px sans-serif";
-    const txt = t("img_source") + ": " + props.map.source;
+    const txt = `${t("img_source")}: ${props.map.source}`;
     const measurement = ctx.measureText(txt);
     ctx.fillStyle = "#fafafa";
-    ctx?.fillRect(props.map.width - measurement.width - 10, props.map.height - 20, measurement.width + 10, 20);
+    ctx?.fillRect(
+      props.map.width - measurement.width - 10,
+      props.map.height - 20,
+      measurement.width + 10,
+      20
+    );
     ctx.fillStyle = "#374151";
     ctx.fillText(txt, props.map.width - 5, props.map.height - 5);
   });

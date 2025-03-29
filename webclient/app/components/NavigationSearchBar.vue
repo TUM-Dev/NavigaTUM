@@ -14,7 +14,7 @@ const router = useRouter();
 const currently_actively_picking = ref(false);
 
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
-const query = useRouteQuery<string>("q_" + props.queryId, "", {
+const query = useRouteQuery<string>(`q_${props.queryId}`, "", {
   mode: "replace",
   route,
   router,
@@ -32,12 +32,14 @@ const visibleElements = computed<string[]>(() => {
   if (!data.value) return [];
 
   const visible: string[] = [];
-  data.value.sections.forEach((section) => {
+  for (const section of data.value.sections) {
     if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value ? Infinity : section.n_visible;
+      const max_sites_buildings = sites_buildings_expanded.value
+        ? Number.POSITIVE_INFINITY
+        : section.n_visible;
       visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
     } else visible.push(...section.entries.map((e) => e.id));
-  });
+  }
   return visible;
 });
 
@@ -47,7 +49,10 @@ function select(id: string) {
   for (const section of data.value?.sections ?? []) {
     for (const entry of section.entries) {
       if (entry.id === id) {
-        query.value = entry.name.replaceAll("<b class='text-blue'>", "").replaceAll("</b>", "").trim();
+        query.value = entry.name
+          .replaceAll("<b class='text-blue'>", "")
+          .replaceAll("</b>", "")
+          .trim();
       }
     }
   }
@@ -90,7 +95,10 @@ function onKeyDown(e: KeyboardEvent): void {
     case "Enter":
       if (highlighted.value !== undefined) {
         e.preventDefault();
-        select(visibleElements.value[highlighted.value]!);
+        const visible = visibleElements.value[highlighted.value];
+        if (visible) {
+          select(visible);
+        }
       } else {
         query.value = "";
         selected.value = "";

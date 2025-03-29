@@ -359,16 +359,6 @@
     "name": "Trogerstr. 18, Pathologie",
     "tumonline_id": 1029
   },
-  "1545": {
-    "address": {
-      "place": "M\u00fcnchen",
-      "street": "Ismaningerstr. 22",
-      "zip_code": 81675
-    },
-    "area_id": 22,
-    "name": "Mikrobiologie, Tierst\u00e4lle",
-    "tumonline_id": 1771
-  },
   "1548": {
     "address": {
       "place": "M\u00fcnchen",
@@ -448,26 +438,6 @@
     "area_id": 21,
     "name": "Altbau 8, Institut f\u00fcr Medizinische Mikr",
     "tumonline_id": 1022
-  },
-  "1650": {
-    "address": {
-      "place": "M\u00fcnchen",
-      "street": "Dietlindenstr./Biedersteiner Str. 29",
-      "zip_code": 80802
-    },
-    "area_id": 21,
-    "name": "Tierstall f. Pharmakologie",
-    "tumonline_id": 1023
-  },
-  "1652": {
-    "address": {
-      "place": "M\u00fcnchen",
-      "street": "Dietlindenstr./Biedersteiner Str. 29",
-      "zip_code": 80802
-    },
-    "area_id": 21,
-    "name": "Tierst\u00e4lle",
-    "tumonline_id": 1024
   },
   "1713": {
     "address": {
@@ -558,16 +528,6 @@
     "area_id": 243,
     "name": "Bildungscampus K3",
     "tumonline_id": 3389
-  },
-  "1998": {
-    "address": {
-      "place": "Heilbronn",
-      "street": "Bildungscampus 3",
-      "zip_code": 74076
-    },
-    "area_id": 243,
-    "name": "Interim, Bildungscampus 3",
-    "tumonline_id": 3289
   },
   "2103": {
     "address": {
@@ -1879,16 +1839,6 @@
     "name": "Veitshof Maschinenhalle",
     "tumonline_id": 661
   },
-  "4182": {
-    "address": {
-      "place": "Freising",
-      "street": "Staatsgut Veitshof",
-      "zip_code": 85354
-    },
-    "area_id": 44,
-    "name": "Veitshof Bullenstall",
-    "tumonline_id": 662
-  },
   "4183": {
     "address": {
       "place": "Freising",
@@ -1898,26 +1848,6 @@
     "area_id": 44,
     "name": "Veitshof Wohnung/Garage",
     "tumonline_id": 663
-  },
-  "4184": {
-    "address": {
-      "place": "Freising",
-      "street": "Staatsgut Veitshof",
-      "zip_code": 85354
-    },
-    "area_id": 44,
-    "name": "Veitshof Mehrzweckstall",
-    "tumonline_id": 664
-  },
-  "4185": {
-    "address": {
-      "place": "Freising",
-      "street": "Staatsgut Veitshof",
-      "zip_code": 85354
-    },
-    "area_id": 44,
-    "name": "Veitshof Offenstall",
-    "tumonline_id": 665
   },
   "4186": {
     "address": {
@@ -1958,16 +1888,6 @@
     "area_id": 44,
     "name": "Veitshof Strohlagerhalle",
     "tumonline_id": 710
-  },
-  "4190": {
-    "address": {
-      "place": "Freising",
-      "street": "Staatsgut Veitshof",
-      "zip_code": 85354
-    },
-    "area_id": 44,
-    "name": "Veitshof Jungviehstall",
-    "tumonline_id": 711
   },
   "4191": {
     "address": {
@@ -2766,7 +2686,7 @@
       "zip_code": 85402
     },
     "area_id": 39,
-    "name": "Viehhausen Mehrzweckhalle STG.WST.",
+    "name": "Viehhausen Maschinenhalle",
     "tumonline_id": 900
   },
   "4522": {
@@ -2786,7 +2706,7 @@
       "zip_code": 85402
     },
     "area_id": 39,
-    "name": "Viehhausen H\u00fchnerstall STG.WST.",
+    "name": "Viehhausen Mehrzweckhalle",
     "tumonline_id": 894
   },
   "4524": {
@@ -2839,16 +2759,6 @@
     "name": "VST.Thalh.-Maschinenhalle",
     "tumonline_id": 740
   },
-  "4605": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Rinder/K\u00e4lber (L\u00f6bnitz)",
-    "tumonline_id": 741
-  },
   "4606": {
     "address": {
       "place": "Kranzberg",
@@ -2858,96 +2768,6 @@
     "area_id": 54,
     "name": "VST.Thalh.-Futterzentrale",
     "tumonline_id": 742
-  },
-  "4607": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Tr. Sauen/Eber (Besamungsst./",
-    "tumonline_id": 743
-  },
-  "4608": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Mastschweine 1 (Maststall)",
-    "tumonline_id": 744
-  },
-  "4609": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Ferkel/Sauen",
-    "tumonline_id": 745
-  },
-  "4610": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Mastschweine 2",
-    "tumonline_id": 746
-  },
-  "4611": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Legehennen/Broiler",
-    "tumonline_id": 736
-  },
-  "4612": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Probemaststall",
-    "tumonline_id": 730
-  },
-  "4613": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Elterntierstall",
-    "tumonline_id": 731
-  },
-  "4614": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "VST.Thalh.-Futtergang",
-    "tumonline_id": 732
-  },
-  "4615": {
-    "address": {
-      "place": "Kranzberg",
-      "street": "Staatsgut Thalhausen",
-      "zip_code": 85402
-    },
-    "area_id": 54,
-    "name": "Animal Research Center Thalhausen (ARC T",
-    "tumonline_id": 733
   },
   "4616": {
     "address": {
@@ -3339,6 +3159,16 @@
     "name": "Trafostation des ZNN",
     "tumonline_id": 1100
   },
+  "5117": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Paula-Hahn-Weinheimerstr. 1",
+      "zip_code": 85748
+    },
+    "area_id": 35,
+    "name": "Verf\u00fcgungsgeb\u00e4ude PH",
+    "tumonline_id": 3369
+  },
   "5120": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
@@ -3398,6 +3228,16 @@
     "area_id": 35,
     "name": "CALA (LMU)",
     "tumonline_id": 2069
+  },
+  "5128": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Am Coulombwall 3A",
+      "zip_code": 85748
+    },
+    "area_id": 35,
+    "name": "Zentrum f. Quantum Engineering",
+    "tumonline_id": 3329
   },
   "5130": {
     "address": {
@@ -3718,6 +3558,16 @@
     "area_id": 36,
     "name": "Interims H\u00f6rs\u00e4le II",
     "tumonline_id": 2269
+  },
+  "5417": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Lichtenbergstr. 4b",
+      "zip_code": 85748
+    },
+    "area_id": 36,
+    "name": "Interim Geb\u00e4ude NAT / OCS",
+    "tumonline_id": 3429
   },
   "5433": {
     "address": {
@@ -4349,6 +4199,16 @@
     "name": "Garmisch-Partenkirchen Bahnhofstr. 37 (A",
     "tumonline_id": 2330
   },
+  "9110": {
+    "address": {
+      "place": "Garmisch-Partenkirchen",
+      "street": "Breitenauerstra\u00dfe 1a",
+      "zip_code": 82467
+    },
+    "area_id": 223,
+    "name": "GP Geigergeb\u00e4ude",
+    "tumonline_id": 3469
+  },
   "9201": {
     "address": {
       "place": "Berchtesgaden",
@@ -4408,6 +4268,16 @@
     "area_id": 29,
     "name": "Hyperloop-Halle Ottobrunn (AM)",
     "tumonline_id": 3109
+  },
+  "9386": {
+    "address": {
+      "place": "Taufkirchen",
+      "street": "Willy-Messerschmitt 11",
+      "zip_code": 82024
+    },
+    "area_id": 29,
+    "name": "Willy-Messerschmitt-Str. 11 (AM)",
+    "tumonline_id": 3489
   },
   "9390": {
     "address": {

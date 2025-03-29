@@ -5,9 +5,9 @@ use crate::db::location::{Location, LocationKeyAlias};
 use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::overlays::map::OverlayMapTask;
-use crate::overlays::text::{cantarell_bold, cantarell_regular, OverlayText};
+use crate::overlays::text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use image::{ImageBuffer, Rgba};
 use serde::Deserialize;
 use sqlx::PgPool;
@@ -77,16 +77,18 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     } else {
         data.name.clone()
     };
-    OverlayText::with(&name, cantarell_bold())
+    OverlayText::with(&name, &CANTARELL_BOLD)
         .at(10, 125 - 10)
         .draw_onto(img);
-    OverlayText::with(&data.type_common_name, cantarell_regular())
+    OverlayText::with(&data.type_common_name, &CANTARELL_REGULAR)
         .at(10, 125 - 50)
         .draw_onto(img);
 }
 
 fn load_default_image() -> LimitedVec<u8> {
-    warn!("Loading default preview image, as map rendering failed. Check the connection to the tileserver");
+    warn!(
+        "Loading default preview image, as map rendering failed. Check the connection to the tileserver"
+    );
     let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());

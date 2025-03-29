@@ -1,0 +1,19 @@
+---
+source: src/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'26m@5510' should get '5510.EG.026M' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 5510.EG.026M
+      type: room
+      name: "\u00195510\u0017.EG.026M (School Office Finanzen)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: MW 0026M@5510
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

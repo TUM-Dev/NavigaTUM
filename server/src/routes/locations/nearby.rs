@@ -1,6 +1,6 @@
 use crate::db::public_transport::Transportation;
 use actix_web::http::header::{CacheControl, CacheDirective};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 use tracing::error;
 
@@ -35,7 +35,7 @@ pub async fn nearby_handler(
             .map(TransportationResponse::from)
             .collect(),
         Err(e) => {
-            error!(error = ?e, "Could not get nearby pois");
+            error!(error = ?e, id, "Could not get nearby pois");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error");

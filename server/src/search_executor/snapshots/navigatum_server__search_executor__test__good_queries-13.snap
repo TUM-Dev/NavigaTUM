@@ -1,62 +1,61 @@
 ---
 source: src/search_executor/mod.rs
-description: A search for the Architects name should return the correct room
+description: MI Magistrale
 expression: actual
-info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Architects name should return the correct room"
+info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
 ---
 - facet: rooms
   entries:
     - id: 5601.EG.001
       type: room
-      name: "5601.EG.\u0019001\u0017 (Magistrale)"
+      name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 (Magistrale)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.001@5601
-      parsed_id: "MI \u001900.01.001\u0017"
-    - id: 9377.EG.001
+    - id: 5601.EG.010
       type: room
-      name: "9377.EG.\u0019001\u0017 (come together)"
-      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
-      subtext_bold: 00.001@9377
-    - id: 2927.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.010 (Pforte)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.010@5601
+    - id: 5601.EG.002
       type: room
-      name: "2927.EG.\u0019001\u0017 (Bibliothek Theke)"
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Petersgasse 18 (PG 18)"
-      subtext_bold: 00.001@2927
-    - id: 3503.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.002 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.002@5601
+    - id: 5601.EG.003
       type: room
-      name: "3503.EG.\u0019001\u0017 (Büro)"
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Petersgasse 5 (PG 05)"
-      subtext_bold: 00.001@3503
-    - id: 3510.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.003 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.003@5601
+    - id: 5601.EG.004
       type: room
-      name: "3510.EG.\u0019001\u0017 (Büro)"
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Fürstenstraße 11"
-      subtext_bold: 00.001@3510
-    - id: 5302.EG.001A
+      name: "\u00195601\u0017.\u0019EG\u0017.004 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.004@5601
+    - id: 5601.EG.005
       type: room
-      name: "5302.EG.\u0019001\u0017A (Büro)"
-      subtext: "garching, Centrum Baustoffe und Materialprüfung (CBM)"
-      subtext_bold: 00.001.A@5302
-    - id: 9379.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.005 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.005@5601
+    - id: 5601.EG.008
       type: room
-      name: "9379.EG.\u0019001\u0017 (Teeküche)"
-      subtext: "taufkirchen-ottobr., Lise Meitner Str. 8"
-      subtext_bold: 00.001@9379
-    - id: 5132.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.008 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.008@5601
+    - id: 5601.EG.009
       type: room
-      name: "5132.EG.\u0019001\u0017 (Post)"
-      subtext: "garching, Boltzmannstr. 12"
-      subtext_bold: 00.001@5132
-    - id: 3508.EG.001
+      name: "\u00195601\u0017.\u0019EG\u0017.009 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.009@5601
+    - id: 5601.EG.011
       type: room
-      name: "3508.EG.\u0019001\u0017 (Ordensraum)"
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Albrechtgasse 28"
-      subtext_bold: 00.001@3508
-    - id: 3502.EG.011
+      name: "\u00195601\u0017.\u0019EG\u0017.011 (Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.011@5601
+    - id: 5601.EG.012
       type: room
-      name: 3502.EG.011 (Flur)
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Schulgasse 22 (SG 22)"
-      subtext_bold: 00.001@3502
+      name: "\u00195601\u0017.\u0019EG\u0017.012 (Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.012@5601
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

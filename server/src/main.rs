@@ -1,14 +1,12 @@
-use std::borrow::Cow;
 use std::collections::HashMap;
 use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
 use actix_middleware_etag::Etag;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
-use sentry::SessionMode;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::{PgPool, Pool, Postgres};
@@ -21,7 +19,7 @@ mod limited;
 mod localisation;
 mod search_executor;
 mod setup;
-use utoipa_actix_web::{scope, AppExt};
+use utoipa_actix_web::{AppExt, scope};
 mod db;
 pub mod external;
 pub mod overlays;
@@ -123,7 +121,9 @@ pub fn setup_logging() {
     };
     let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| default_level.to_string());
     // these overrides exist to filter away stuff I don't think we should ever care about
-    let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
+    let filter = format!(
+        "{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info"
+    );
 
     let filter = EnvFilter::builder().parse_lossy(filter);
 
@@ -134,36 +134,11 @@ pub fn setup_logging() {
 
     let registry = tracing_subscriber::registry()
         .with(filter)
-        .with(sentry::integrations::tracing::layer())
         .with(cfg!(not(any(debug_assertions, test))).then(|| Layer::default().json()))
         .with(cfg!(any(debug_assertions, test)).then(|| Layer::default().pretty()));
     tracing::subscriber::set_global_default(registry).unwrap();
 }
 
-fn main() -> anyhow::Result<()> {
-    setup_logging();
-    rustls::crypto::aws_lc_rs::default_provider()
-        .install_default()
-        .expect("no provider was set as default beforehand");
-    let release = match option_env!("GIT_COMMIT_SHA") {
-        Some(s) => Some(Cow::Borrowed(s)),
-        None => sentry::release_name!(),
-    };
-    let _guard = sentry::init((
-        "https://8f2054d6294447a1b573ea4badb76778@sentry.mm.rbg.tum.de/8",
-        sentry::ClientOptions {
-            release,
-            traces_sample_rate: 1.0,
-            session_mode: SessionMode::Request,
-            auto_session_tracking: true,
-            ..Default::default()
-        },
-    ));
-    std::env::set_var("RUST_BACKTRACE", "1");
-
-    actix_web::rt::System::new().block_on(async { run().await })?;
-    Ok(())
-}
 #[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started))]
 async fn run_maintenance_work(
     pool: Pool<Postgres>,
@@ -199,8 +174,13 @@ async fn run_maintenance_work(
     set.join_all().await;
 }
 
-/// we split main and run because otherwise sentry could not be properly instrumented
-async fn run() -> anyhow::Result<()> {
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    setup_logging();
+    rustls::crypto::aws_lc_rs::default_provider()
+        .install_default()
+        .expect("no provider was set as default beforehand");
+
     let data = AppData::new().await;
 
     // without this barrier an external client might race the RWLock for meilisearch_initialised and gain the read lock before it is allowed
@@ -239,7 +219,6 @@ async fn run() -> anyhow::Result<()> {
                 .wrap(cors)
                 .wrap(TracingLogger::default())
                 .wrap(middleware::Compress::default())
-                .wrap(sentry_actix::Sentry::new())
                 .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
                 .app_data(web::Data::new(data.clone()))
                 .into_utoipa_app()

@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
-import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
@@ -13,7 +19,7 @@ const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
   type: LocationDetailsResponse["type"];
 }>();
-const map = ref<Map | undefined>(undefined);
+const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
@@ -26,7 +32,7 @@ const zoom = computed<number>(() => {
 onMounted(async () => {
   if (!webglSupport) return;
 
-  const doMapUpdate = async function () {
+  const doMapUpdate = async () => {
     // The map might or might not be initialized depending on the type
     // of navigation.
     if (document.getElementById("interactive-indoor-map")) {
@@ -42,13 +48,14 @@ onMounted(async () => {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
-      _marker.addTo(map.value as Map);
+      _marker.addTo(map.value as MapLibreMap);
       marker.value = _marker;
     }
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
+    await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -66,8 +73,8 @@ function createMarker(hueRotation = 0): HTMLDivElement {
   return markerDiv;
 }
 
-async function initMap(containerId: string): Promise<Map> {
-  const map = new Map({
+async function initMap(containerId: string): Promise<MapLibreMap> {
+  const map = new MapLibreMap({
     container: containerId,
     // while having the hash in the url is nice, it is overridden on map load anyway => not much use
     hash: false,
@@ -87,9 +94,6 @@ async function initMap(containerId: string): Promise<Map> {
 
     center: [11.670099, 48.266921],
     zoom: zoom.value,
-
-    // done manually, to have more control over when it is extended
-    attributionControl: false,
   });
 
   // Each source / style change causes the map to get
@@ -103,7 +107,7 @@ async function initMap(containerId: string): Promise<Map> {
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia && window.matchMedia("only screen and (max-width: 480px)").matches;
+    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenContainer = isMobile
       ? document.getElementById("interactive-indoor-map")
       : document.getElementById("interactive-indoor-map-container");
@@ -127,8 +131,12 @@ async function initMap(containerId: string): Promise<Map> {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -149,15 +157,6 @@ async function initMap(containerId: string): Promise<Map> {
       trackUserLocation: true,
     });
     map.addControl(location);
-
-    // The attributionControl is automatically open, which takes up a lot of
-    // space on the small map display that we have. That's why we add it ourselves
-    // and then toggle it.
-    // It's only added after loading because if we add it directly on map initialization
-    // for some reason it doesn't work.
-    const attrib = new AttributionControl({ compact: true });
-    map.addControl(attrib);
-    attrib._toggleAttribution();
 
     map.addSource("route", {
       type: "geojson",
@@ -208,7 +207,7 @@ async function initMap(containerId: string): Promise<Map> {
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,
-    indoorOptions,
+    indoorOptions
   );
 
   // Add the specific control
@@ -217,7 +216,7 @@ async function initMap(containerId: string): Promise<Map> {
   return map;
 }
 
-function drawRoute(shapes: readonly Coordinate[], isAfterLoaded: boolean = false) {
+function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   const src = map.value?.getSource("route") as GeoJSONSource | undefined;
   if (!src || (!isAfterLoaded && !map.value?.loaded())) {
     afterLoaded.value = () => drawRoute(shapes, true);
@@ -234,7 +233,10 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded: boolean = false
   });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
-  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
+  fitBounds(
+    [Math.min(...longitudes), Math.max(...longitudes)],
+    [Math.min(...latitudes), Math.max(...latitudes)]
+  );
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
@@ -252,7 +254,7 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
       { lat: lat[1] + paddingLat, lng: lon[1] + paddingLon },
     ],
-    { maxZoom: 19 },
+    { maxZoom: 19 }
   );
 }
 

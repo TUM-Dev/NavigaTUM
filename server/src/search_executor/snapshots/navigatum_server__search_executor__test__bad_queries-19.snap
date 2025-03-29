@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 expression: actual
 info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -28,6 +29,16 @@ info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room,
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.032@2910
       parsed_id: "\u0019H.03\u00172 RiWa 1 (HfP/GOV)"
+    - id: 0205.03.311
+      type: room
+      name: "0205.\u001903\u0017.311 (WC-\u0019H\u0017)"
+      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext_bold: 3311@0205
+    - id: 0205.03.311A
+      type: room
+      name: "0205.\u001903\u0017.311A (Vorraum WC-\u0019H\u0017)"
+      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext_bold: 3311A@0205
     - id: 2910.03.301
       type: room
       name: "2910.\u001903\u0017.301 (Büro)"
@@ -48,16 +59,6 @@ info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room,
       name: "2910.\u001903\u0017.304 (Büro)"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.304@2910
-    - id: 2910.03.305
-      type: room
-      name: "2910.\u001903\u0017.305 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.305@2910
-    - id: 2910.03.306
-      type: room
-      name: "2910.\u001903\u0017.306 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.306@2910
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

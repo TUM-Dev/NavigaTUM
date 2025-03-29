@@ -1,4 +1,4 @@
-import type { IControl, Map } from "maplibre-gl";
+import type { IControl, Map as MapLibreMap } from "maplibre-gl";
 import { Evented } from "maplibre-gl";
 import type { components } from "~/api_types";
 
@@ -13,7 +13,7 @@ export class FloorControl extends Evented implements IControl {
   private readonly container: HTMLDivElement;
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
-  private map: Map | undefined;
+  private map: MapLibreMap | undefined;
 
   constructor() {
     super();
@@ -44,7 +44,7 @@ export class FloorControl extends Evented implements IControl {
     this.container.appendChild(verticalOpenClose);
   }
 
-  onAdd(map: Map): HTMLDivElement {
+  onAdd(map: MapLibreMap): HTMLDivElement {
     this.map = map;
 
     // To change on `fullscreen` click on mobile, we need to
@@ -74,7 +74,10 @@ export class FloorControl extends Evented implements IControl {
     // `visibleId` is the id of the visible floor.
     this.floor_list.innerHTML = "";
 
-    const clickHandlerBuilder = (allFloors: readonly OverlayMapEntryResponse[] | null, i: number) => {
+    const clickHandlerBuilder = (
+      allFloors: readonly OverlayMapEntryResponse[] | null,
+      i: number
+    ) => {
       // Because JS
       return () => {
         if (allFloors) {
@@ -93,17 +96,19 @@ export class FloorControl extends Evented implements IControl {
         if (!this.container.classList.contains("reduced")) this.container.classList.add("closed");
       };
     };
-    let btn;
+    let btn: HTMLButtonElement;
     let visibleI = null;
-    [...overlays.available].reverse().forEach((floor: OverlayMapEntryResponse, reversed_index: number) => {
-      const index = overlays.available.length - reversed_index - 1;
-      btn = document.createElement("button");
-      btn.innerText = floor.floor;
-      btn.addEventListener("click", clickHandlerBuilder(overlays.available, index));
-      this.floor_list.appendChild(btn);
+    [...overlays.available]
+      .reverse()
+      .forEach((floor: OverlayMapEntryResponse, reversed_index: number) => {
+        const index = overlays.available.length - reversed_index - 1;
+        btn = document.createElement("button");
+        btn.innerText = floor.floor;
+        btn.addEventListener("click", clickHandlerBuilder(overlays.available, index));
+        this.floor_list.appendChild(btn);
 
-      if (floor.id === overlays.default) visibleI = index;
-    });
+        if (floor.id === overlays.default) visibleI = index;
+      });
 
     if (visibleI === null) {
       this._setActiveFloor(this.floor_list.children.length, "∅");
@@ -133,7 +138,8 @@ export class FloorControl extends Evented implements IControl {
     // vertical (default) or horizontal layout
     const mapHeight = document.getElementById("interactive-map")?.clientHeight || 0;
     const topCtrlHeight = document.querySelector(".maplibregl-ctrl-top-left")?.clientHeight || 0;
-    const bottomCtrlHeight = document.querySelector(".maplibregl-ctrl-bottom-left")?.clientHeight || 0;
+    const bottomCtrlHeight =
+      document.querySelector(".maplibregl-ctrl-bottom-left")?.clientHeight || 0;
     const floorCtrlHeight = document.querySelector(".floor-ctrl")?.clientHeight || 0;
 
     // The buttons have a height of 29px
@@ -152,7 +158,8 @@ export class FloorControl extends Evented implements IControl {
 
       // 25px = 10px reserved for top/bottom margin + 5px between control groups
       // 29px = additional height from the open/collapse button
-      if (availableHeight - (requiredHeight + 29) > 25) this.container.classList.remove("horizontal");
+      if (availableHeight - (requiredHeight + 29) > 25)
+        this.container.classList.remove("horizontal");
       else this.container.classList.add("horizontal");
     }
   }

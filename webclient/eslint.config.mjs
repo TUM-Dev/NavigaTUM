@@ -42,7 +42,11 @@ export default withNuxt(
         ["script-setup", "composition"], // "script-setup", "composition", "composition-vue2", or "options"
       ],
       "vue/multi-word-component-names": "off",
-      "vue/component-name-in-template-casing": ["error", "PascalCase", { registeredComponentsOnly: false }],
+      "vue/component-name-in-template-casing": [
+        "error",
+        "PascalCase",
+        { registeredComponentsOnly: false },
+      ],
       "vue/custom-event-name-casing": ["error", "camelCase"],
       "vue/define-macros-order": "error",
       "vue/define-props-declaration": ["error", "type-based"],
@@ -75,7 +79,7 @@ export default withNuxt(
       "vue/v-for-delimiter-style": "error",
       "vue/no-constant-condition": "error",
     },
-  },
+  }
   // your custom flat configs go here, for example:
   // {
   //   files: ['**/*.ts', '**/*.tsx'],

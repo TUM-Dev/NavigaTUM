@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.12.7
+    image: getmeili/meilisearch:v1.13.3
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -80,10 +80,11 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
     healthcheck:
-      test: wget --quiet --spider http://localhost:7700/health
+      test: curl --silent http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
   db:
     image: postgis/postgis:17-3.4
     restart: unless-stopped
@@ -93,6 +94,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
+    command:
+      - -c
+      - synchronous_commit=off
     networks:
       - traefik_traefik
     expose:
@@ -104,8 +108,7 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      # requires docker v25 to be available for ubuntu
-      # start_interval: 20s
+      start_interval: 500ms
       start_period: 20s
   download-data:
     image: alpine:latest
@@ -145,6 +148,7 @@ services:
       interval: 60s
       retries: 2
       start_period: 5s
+      start_interval: 500ms
       timeout: 1s
   nominatim:
     image: mediagis/nominatim:4.5
@@ -177,6 +181,7 @@ services:
       interval: 60s
       retries: 2
       start_period: 5s
+      start_interval: 500ms
       timeout: 1s
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
@@ -269,7 +274,7 @@ services:
     volumes:
       - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:main # TODO: just to see sdf images in action.. don't keep this on permanently
+    image: ghcr.io/maplibre/martin:v0.15.0
     restart: unless-stopped
     command:
       - --config
@@ -281,6 +286,7 @@ services:
       - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
       - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker"
       - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/tiles"
+      - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customrequestheaders.Cache-Control=public, max-age=604800" # 7 days
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
       - traefik_traefik
@@ -302,10 +308,11 @@ services:
       - ./map/martin/:/map/:ro
       - tileserver-src:/data:ro
     healthcheck:
-      test: wget --spider http://localhost:3001/health || exit 1
+      test: wget --spider http://0.0.0.0:3001/health || exit 1
       retries: 10
       interval: 1s
       start_period: 1s
+      start_interval: 500ms
   redirect-domain:
     image: traefik/whoami:latest
     restart: unless-stopped
@@ -326,6 +333,7 @@ services:
       retries: 2
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
 
 volumes:
   tileserver-src:

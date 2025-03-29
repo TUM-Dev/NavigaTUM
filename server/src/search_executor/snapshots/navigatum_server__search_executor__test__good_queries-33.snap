@@ -1,64 +1,67 @@
 ---
 source: src/search_executor/mod.rs
-description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+description: ""
 expression: actual
-info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+info: "'1229 seminarraum' should get '0502.01.229' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 2910.EG.003
+    - id: 0502.01.229
       type: room
-      name: "2910.EG.\u0019003\u0017 (Seminarraum)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.003@2910
-      parsed_id: "\u0019H.003\u0017 RiWa 1 (HfP/GOV)"
-    - id: 5212.EG.003
+      name: "0502.01.229 (\u0019Seminarraum\u0017)"
+      subtext: "stammgelände, Zentralgebäude 2 (Z2)"
+      subtext_bold: 1229@0502
+      parsed_id: "\u00191229\u0017 Zentralgebäude 2 (Z2)"
+    - id: 5101.U1.229
       type: room
-      name: "5212.EG.\u0019003\u0017 (Post/Annahme)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.0.003@5212
-    - id: 5212.U1.003
+      name: 5101.U1.229 (Büro)
+      subtext: "garching, Physik I"
+      subtext_bold: 1229@5101
+      parsed_id: "PH \u00191229\u0017"
+    - id: 5502.01.229
       type: room
-      name: "5212.U1.\u0019003\u0017 (Kälte)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.-1.003@5212
-    - id: 2910.01.101
+      name: 5502.01.229 (Büro)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1229@5502
+      parsed_id: "MW \u00191229\u0017"
+    - id: 0502.U1.229
       type: room
-      name: 2910.01.101 (Gruppenarbeitsraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.101@2910
-    - id: 2910.01.102
+      name: 0502.U1.229 (Werkstatt)
+      subtext: "stammgelände, Zentralgebäude 2 (Z2)"
+      subtext_bold: "-1229@0502"
+    - id: 0102.U1.229
       type: room
-      name: 2910.01.102 (Gruppenarbeitsraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.102@2910
-    - id: 2910.02.202
+      name: 0102.U1.229 (Stromversorgung)
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1229@0102
+    - id: 2604.01.229
       type: room
-      name: 2910.02.202 (Seminarraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.202@2910
-    - id: 2910.02.204
+      name: 2604.01.229 (Chemielabor)
+      subtext: "pasing-franz-langinger-straße, Laborbau (BL. L)"
+      subtext_bold: 229@2604
+    - id: 2332.01.229
       type: room
-      name: 2910.02.204 (Seminarraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.204@2910
-    - id: 2910.02.206
+      name: 2332.01.229 ((32.1.239) Büro)
+      subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
+      subtext_bold: 01.2332.229@2332
+    - id: 2334.01.224
       type: room
-      name: 2910.02.206 (Seminarraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.206@2910
-    - id: 2910.EG.001
+      name: "2334.01.224 ((34.\u00191\u0017.\u0019229\u0017) Hilfskraft)"
+      subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
+      subtext_bold: 01.2334.224@2334
+    - id: 2601.01.229
       type: room
-      name: 2910.EG.001 (Seminarraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.001@2910
-  n_visible: 9
+      name: 2601.01.229 (Arbeitsraum/mit Besp.Grp.)
+      subtext: "pasing-franz-langinger-straße, Institut für Grundbau und Bodenmechanik (BL. G)"
+      subtext_bold: G229@2601
+    - id: 4308.01.229
+      type: room
+      name: 4308.01.229 (Büro)
+      subtext: "weihenstephan, Humanbiologie Zoologie"
+      subtext_bold: 2.29@4308
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
-  entries:
-    - id: "2910"
-      type: building
-      name: "Richard-Wagner-Str. 1 / Haus B + Haus \u0019H\u0017, Hochschule für Politik (HfP)/ Department of Governance (GOV)"
-      subtext: Gebäude
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

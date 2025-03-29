@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpResponse};
+use actix_web::{HttpResponse, post, web};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -283,17 +283,17 @@ impl From<String> for EventTypeResponse {
 }
 #[cfg(test)]
 mod db_tests {
+    use actix_web::App;
     use actix_web::http::header::ContentType;
     use actix_web::test;
-    use actix_web::App;
     use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
     use pretty_assertions::assert_eq;
     use serde_json::Value;
 
     use super::*;
+    use crate::AppData;
     use crate::db::calendar::EventType;
     use crate::setup::tests::PostgresTestContainer;
-    use crate::AppData;
 
     /// Workaround because [`Option::unwrap()`] is not (yet) available in const context.
     /// See https://github.com/rust-lang/rust/issues/67441 for further context

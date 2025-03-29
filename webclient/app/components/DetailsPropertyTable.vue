@@ -24,7 +24,7 @@ const { t } = useI18n({ useScope: "local" });
         <Btn
           size="text-md gap-2.5 px-3 py-1.5 rounded leading-snug"
           variant="secondary"
-          :to="`/navigate?coming_from=${id}&from=${id}&q_from=${name}`"
+          :to="`/navigate?coming_from=${id}&to=${id}&q_to=${name}`"
         >
           <span
             class="text-blue-800 bg-blue-100 my-auto me-2 h-5 min-h-5 min-w-5 rounded px-2.5 py-0.5 text-xs font-medium dark:text-blue-300 dark:bg-blue-900"

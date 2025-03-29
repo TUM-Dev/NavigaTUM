@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM    rust:1.84-alpine AS compiler
+FROM    rust:1.85-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
@@ -55,6 +55,7 @@ ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # possible values "release"|"debug"
 ARG     PROFILE=release
 ENV     PROFILE=${PROFILE}
+ENV     RUST_BACKTRACE=1
 
 RUN     apk update --quiet \
      && apk add --quiet --no-cache libgcc tini curl libpq-dev

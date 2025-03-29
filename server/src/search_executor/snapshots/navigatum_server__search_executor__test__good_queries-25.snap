@@ -1,66 +1,68 @@
 ---
 source: src/search_executor/mod.rs
-description: "seminar room, should be preferred over other rooms"
+description: "lecture hall, should be preferred over other rooms"
 expression: actual
-info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be preferred over other rooms"
+info: "'2503' should get '5101.EG.503' in 1 results # lecture hall, should be preferred over other rooms"
 ---
 - facet: rooms
   entries:
-    - id: 5111.01.116
+    - id: 5101.EG.503
       type: room
-      name: 5111.01.116 (Seminarraum)
-      subtext: "garching, Siedlungswasserwirtschaft"
-      subtext_bold: 1116@5111
-      parsed_id: "\u00191116\u0017 Siedlungswasserwirtschaft"
-    - id: 0401.01.116
+      name: 5101.EG.503 (Physik Hörsaal 3)
+      subtext: "garching, Physik I"
+      subtext_bold: 2503@5101
+      parsed_id: "PH \u00192503\u0017"
+    - id: 0505.02.503
       type: room
-      name: 0401.01.116 (Büro)
-      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
-      subtext_bold: 1116@0401
-      parsed_id: "\u00191116\u0017 Richard…. 18 (SW1)"
-    - id: 5111.U1.116
+      name: 0505.02.503 (Büro)
+      subtext: "stammgelände, Wirtschaftswissenschaften (Z5)"
+      subtext_bold: 2503@0505
+      parsed_id: "\u00192503\u0017 Wirtsch…aften (Z5)"
+    - id: 5505.02.503A
       type: room
-      name: 5111.U1.116 (Glas u. brennbare Stoffe)
-      subtext: "garching, Siedlungswasserwirtschaft"
-      subtext_bold: "-1116@5111"
-    - id: 5401.EG.116A
+      name: 5505.02.503A (Büro)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2503A@5505
+      parsed_id: "MW \u00192503\u0017A"
+    - id: 5505.02.503M
       type: room
-      name: 5401.EG.116A (Heizraum)
-      subtext: "garching, Chemie"
-      subtext_bold: 11160@5401
-      parsed_id: "CH \u00191116\u00170"
-    - id: 5401.EG.116B
+      name: 5505.02.503M (WC-Vorraum Herren)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2503M@5505
+      parsed_id: "MW \u00192503\u0017M"
+    - id: 5505.02.503N
       type: room
-      name: 5401.EG.116B (Flur)
-      subtext: "garching, Chemie"
-      subtext_bold: 11165@5401
-      parsed_id: "CH \u00191116\u00175"
-    - id: 5401.EG.116C
+      name: 5505.02.503N (WC-Vorraum Damen)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2503N@5505
+      parsed_id: "MW \u00192503\u0017N"
+    - id: 5505.02.503P
       type: room
-      name: 5401.EG.116C (Flur)
-      subtext: "garching, Chemie"
-      subtext_bold: 11166@5401
-      parsed_id: "CH \u00191116\u00176"
-    - id: 4124.01.116
+      name: 5505.02.503P (WC-Herren)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2503P@5505
+      parsed_id: "MW \u00192503\u0017P"
+    - id: 5505.02.503Q
       type: room
-      name: 4124.01.116 (Molekularbiologie Labor)
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: 01/1.16@4124
-    - id: 0101.01.116
+      name: 5505.02.503Q (WC-Damen)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2503Q@5505
+      parsed_id: "MW \u00192503\u0017Q"
+    - id: 0105.02.503
       type: room
-      name: 0101.01.116 (Drucker)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1116@0101
-    - id: 2315.01.116
+      name: 0105.02.503 (Chef.-Büro)
+      subtext: "stammgelände, E-Technik Neubau (N5)"
+      subtext_bold: N2503@0105
+    - id: 0305.02.503
       type: room
-      name: 2315.01.116 (Biochemisches Labor)
-      subtext: "campus-im-olympiapark-sz, Präventionszentrum"
-      subtext_bold: 15116@2315
-    - id: 4218.01.116
+      name: 0305.02.503 (WC-Damen)
+      subtext: "stammgelände, Block D (Südost 5, ehemalig LRZ)"
+      subtext_bold: S2503@0305
+    - id: 5115.02.503
       type: room
-      name: 4218.01.116 (Sterilbänke (gem. Nutzung))
-      subtext: "weihenstephan, Biologikum Weihenstephan"
-      subtext_bold: 116@4218
+      name: 5115.02.503 (Elt.)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 2.503@5115
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

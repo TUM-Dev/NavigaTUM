@@ -1,6 +1,6 @@
+use actix_web::HttpResponse;
 use actix_web::post;
 use actix_web::web::{Data, Json};
-use actix_web::HttpResponse;
 use serde::{Deserialize, Serialize};
 
 use super::tokens::RecordedTokens;

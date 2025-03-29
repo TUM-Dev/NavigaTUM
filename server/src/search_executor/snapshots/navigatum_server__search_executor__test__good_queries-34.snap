@@ -1,60 +1,64 @@
 ---
 source: src/search_executor/mod.rs
-description: ""
+description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 expression: actual
-info: "'MI HS 3' should get '5606.EG.011' in 1 results"
+info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 ---
 - facet: rooms
   entries:
-    - id: 5606.EG.011
+    - id: 2910.EG.003
       type: room
-      name: "5606.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 \u00193\u0017)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.06.011@5606
-    - id: 5602.EG.001
+      name: "2910.EG.\u0019003\u0017 (Seminarraum)"
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.003@2910
+      parsed_id: "\u0019H.003\u0017 RiWa 1 (HfP/GOV)"
+    - id: 5212.EG.003
       type: room
-      name: "5602.EG.001 (\u0019MI\u0017 \u0019HS\u0017 1,  Friedrich L. Bauer \u0019Hörsaal\u0017)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.02.001@5602
-    - id: 5604.EG.011
+      name: "5212.EG.\u0019003\u0017 (Post/Annahme)"
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: H.0.003@5212
+    - id: 5212.U1.003
       type: room
-      name: "5604.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 2)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.011@5604
-    - id: 5602.EG.002
+      name: "5212.U1.\u0019003\u0017 (Kälte)"
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: H.-1.003@5212
+    - id: 2910.01.101
       type: room
-      name: "5602.EG.002 (\u0019MI\u0017 \u0019Hörsaal\u0017 Regieraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.02.002@5602
-    - id: 5602.U1.001
+      name: 2910.01.101 (Gruppenarbeitsraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.101@2910
+    - id: 2910.01.102
       type: room
-      name: 5602.U1.001 (Technikraum)
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: "-1.02.001@5602"
-    - id: 5602.U1.004
+      name: 2910.01.102 (Gruppenarbeitsraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.102@2910
+    - id: 2910.02.202
       type: room
-      name: 5602.U1.004 (Treppe im Freien)
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: "-1.02.004@5602"
-  n_visible: 6
+      name: 2910.02.202 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.202@2910
+    - id: 2910.02.204
+      type: room
+      name: 2910.02.204 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.204@2910
+    - id: 2910.02.206
+      type: room
+      name: 2910.02.206 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.206@2910
+    - id: 2910.EG.001
+      type: room
+      name: 2910.EG.001 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.001@2910
+  n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
-    - id: "5602"
+    - id: "2910"
       type: building
-      name: "\u0019Hörsaal\u0017 1 (BT02)"
-      subtext: Gebäudeteil
-    - id: mi
-      type: joined_building
-      name: "Fakultät Mathematik & Informatik (FMI oder \u0019MI\u0017)"
-      subtext: Gebäudekomplex
-    - id: "5605"
-      type: building
-      name: Finger 05 (BT05)
-      subtext: Gebäudeteil
-    - id: "5606"
-      type: building
-      name: Finger 06 (BT06)
-      subtext: Gebäudeteil
+      name: "Richard-Wagner-Str. 1 / Haus B + Haus \u0019H\u0017, Hochschule für Politik (HfP)/ Department of Governance (GOV)"
+      subtext: Gebäude
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

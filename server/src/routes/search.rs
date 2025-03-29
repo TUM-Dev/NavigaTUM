@@ -1,10 +1,10 @@
 use std::fmt::{Debug, Formatter};
 use std::time::Instant;
 
-use crate::search_executor::{ResultFacet, ResultsSection};
 use crate::AppData;
+use crate::search_executor::{ResultFacet, ResultsSection};
 use actix_web::http::header::{CacheControl, CacheDirective};
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use cached::proc_macro::cached;
 use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};

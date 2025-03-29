@@ -8,6 +8,8 @@
 # building queries
 - target: '5620'
   query: interims I
+  among: 2
+  comment: 'Note: Interims iV and interims I can be matched here'
 - target: '0201'
   query: Studitum Arcisstr
   comment: 'Note: It is not really in Arcisstr., just close'

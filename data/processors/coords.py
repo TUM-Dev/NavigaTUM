@@ -111,6 +111,10 @@ def check_coords(input_data):
     for iid, data in input_data.items():
         if data["type"] == "root":
             continue
+        if "coords" not in data or "lat" not in data["coords"] or "lon" not in data["coords"]:
+            raise RuntimeError(
+                f"{iid}: Does not have proper coordinates assinged. Please provide an accurate coordinate!"
+            )
 
         if data["coords"]["lat"] == 0.0 or data["coords"]["lon"] == 0.0:
             raise RuntimeError(f"{iid}: lat and/or lon coordinate is zero. Please provide an accurate coordinate!")

@@ -9,7 +9,6 @@ from processors import (
     export,
     images,
     merge,
-    nat,
     poi,
     roomfinder,
     search,
@@ -51,9 +50,6 @@ def main() -> None:
     logging.info("-- 11 TUMonline buildings")
     tumonline.merge_tumonline_buildings(data)
 
-    logging.info("-- 12 NAT buildings")
-    nat.merge_nat_buildings(data)
-
     # --- Rooms ---
     # TUMonline is used as base
     logging.info("-- 15 TUMonline rooms")
@@ -62,10 +58,6 @@ def main() -> None:
     # merge data which is contributed by the mytum roomfinder (mostly coordinates)
     logging.info("-- 16 Roomfinder rooms")
     roomfinder.merge_roomfinder_rooms(data)
-
-    # merge data which is contributed by the nat roomfinder (additonal rooms, seating information, ...)
-    logging.info("-- 17 NAT rooms")
-    nat.merge_nat_rooms(data)
 
     # --- POIs ---
     logging.info("-- 21 POIs")

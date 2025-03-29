@@ -1,61 +1,61 @@
 ---
 source: src/search_executor/mod.rs
-description: MI Magistrale
+description: ""
 expression: actual
-info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
+info: "'5604.00.011' should get '5604.EG.011' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5601.EG.001
+    - id: 5604.EG.011
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 (Magistrale)"
+      name: "\u00195604\u0017.EG.\u0019011\u0017 (MI Hörsaal 2)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.001@5601
-    - id: 5601.EG.010
+      subtext_bold: 00.04.011@5604
+    - id: 5604.EG.034
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.010 (Pforte)"
+      name: "\u00195604\u0017.EG.034 (Demonstrationspraktikum)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.010@5601
-    - id: 5601.EG.002
+      subtext_bold: 00.04.034@5604
+    - id: 5604.EG.036
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.002 (Gang,  Weg im Freien)"
+      name: "\u00195604\u0017.EG.036 (Praktikumsraum-Physik)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.002@5601
-    - id: 5601.EG.003
+      subtext_bold: 00.04.036@5604
+    - id: 5604.EG.038
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.003 (Windfang)"
+      name: "\u00195604\u0017.EG.038 (Praktikumsraum-Physik)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.003@5601
-    - id: 5601.EG.004
+      subtext_bold: 00.04.038@5604
+    - id: 5604.EG.015
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.004 (Gang,  Weg im Freien)"
+      name: "\u00195604\u0017.EG.015 (WC-Herren)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.004@5601
-    - id: 5601.EG.005
+      subtext_bold: 00.04.015@5604
+    - id: 5604.EG.016A
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.005 (Windfang)"
+      name: "\u00195604\u0017.EG.016A (Putzraum)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.005@5601
-    - id: 5601.EG.008
+      subtext_bold: 00.04.016A@5604
+    - id: 5604.EG.019
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.008 (Gang,  Weg im Freien)"
+      name: "\u00195604\u0017.EG.019 (WC-Damen)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.008@5601
-    - id: 5601.EG.009
+      subtext_bold: 00.04.019@5604
+    - id: 5604.EG.013
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.009 (Windfang)"
+      name: "\u00195604\u0017.EG.013 (Abstellraum)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.009@5601
-    - id: 5601.EG.011
+      subtext_bold: 00.04.013@5604
+    - id: 5604.EG.016B
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.011 (Windfang)"
+      name: "\u00195604\u0017.EG.016B (Heizung/Brauchwassererwärmung)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.011@5601
-    - id: 5601.EG.012
+      subtext_bold: 00.04.016B@5604
+    - id: 5604.EG.018
       type: room
-      name: "\u00195601\u0017.\u0019EG\u0017.012 (Gang,  Weg im Freien)"
+      name: "\u00195604\u0017.EG.018 (Heizung/Brauchwassererwärmung)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.01.012@5601
+      subtext_bold: 00.04.018@5604
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

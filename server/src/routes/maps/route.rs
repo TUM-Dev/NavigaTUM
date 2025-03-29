@@ -1,5 +1,5 @@
 use crate::localisation;
-use actix_web::{get, web, HttpResponse};
+use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 #[expect(
     unused_imports,
@@ -10,8 +10,8 @@ use sqlx::PgPool;
 use std::ops::Deref;
 use tracing::{debug, error};
 use valhalla_client::costing::{
-    bicycle::BicycleType, pedestrian::PedestrianType, BicycleCostingOptions, Costing,
-    MultimodalCostingOptions, PedestrianCostingOptions,
+    BicycleCostingOptions, Costing, MultimodalCostingOptions, PedestrianCostingOptions,
+    bicycle::BicycleType, pedestrian::PedestrianType,
 };
 use valhalla_client::route::{
     Leg, Maneuver, ManeuverType, ShapePoint, Summary, TransitInfo, TransitStop, TransitStopType,

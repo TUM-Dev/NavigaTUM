@@ -47,7 +47,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.12.7
+    image: getmeili/meilisearch:v1.13.3
     restart: unless-stopped
     ports:
       - "7700:7700"
@@ -56,10 +56,11 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: development
     healthcheck:
-      test: wget --quiet --spider http://localhost:7700/health
+      test: curl --silent http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
+      start_interval: 500ms
   db:
     image: postgis/postgis:17-3.4
     restart: unless-stopped
@@ -69,6 +70,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
+    command:
+      - -c
+      - synchronous_commit=off
     ports:
       - "5432:5432"
     volumes:
@@ -77,6 +81,5 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      # requires docker v25 to be available for ubuntu
-      # start_interval: 20s
       start_period: 20s
+      start_interval: 500ms

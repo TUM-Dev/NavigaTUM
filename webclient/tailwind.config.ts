@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import nightwind from "nightwind";
 import colors from "tailwindcss/colors";
 
-export default <Partial<Config>>{
+export default (<Partial<Config>>{
   darkMode: "class",
   content: {
     relative: true,
@@ -54,4 +54,4 @@ export default <Partial<Config>>{
     },
   },
   plugins: [nightwind],
-};
+});
