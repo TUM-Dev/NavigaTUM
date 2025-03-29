@@ -2030,7 +2030,6 @@ pub mod types {
     /// </details>
     #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
     pub struct PlanResponse {
-        pub date: ::serde_json::Value,
         ///debug statistics
         #[serde(rename = "debugOutput")]
         pub debug_output: ::std::collections::HashMap<::std::string::String, i64>,
@@ -5140,7 +5139,6 @@ pub mod types {
 
         #[derive(Clone, Debug)]
         pub struct PlanResponse {
-            date: ::std::result::Result<::serde_json::Value, ::std::string::String>,
             debug_output: ::std::result::Result<
                 ::std::collections::HashMap<::std::string::String, i64>,
                 ::std::string::String,
@@ -5162,7 +5160,6 @@ pub mod types {
         impl ::std::default::Default for PlanResponse {
             fn default() -> Self {
                 Self {
-                    date: Err("no value supplied for date".to_string()),
                     debug_output: Err("no value supplied for debug_output".to_string()),
                     direct: Err("no value supplied for direct".to_string()),
                     from: Err("no value supplied for from".to_string()),
@@ -5178,16 +5175,6 @@ pub mod types {
         }
 
         impl PlanResponse {
-            pub fn date<T>(mut self, value: T) -> Self
-            where
-                T: ::std::convert::TryInto<::serde_json::Value>,
-                T::Error: ::std::fmt::Display,
-            {
-                self.date = value
-                    .try_into()
-                    .map_err(|e| format!("error converting supplied value for date: {}", e));
-                self
-            }
             pub fn debug_output<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<::std::collections::HashMap<::std::string::String, i64>>,
@@ -5287,7 +5274,6 @@ pub mod types {
                 value: PlanResponse,
             ) -> ::std::result::Result<Self, super::error::ConversionError> {
                 Ok(Self {
-                    date: value.date?,
                     debug_output: value.debug_output?,
                     direct: value.direct?,
                     from: value.from?,
@@ -5303,7 +5289,6 @@ pub mod types {
         impl ::std::convert::From<super::PlanResponse> for PlanResponse {
             fn from(value: super::PlanResponse) -> Self {
                 Self {
-                    date: Ok(value.date),
                     debug_output: Ok(value.debug_output),
                     direct: Ok(value.direct),
                     from: Ok(value.from),

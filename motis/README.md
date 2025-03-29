@@ -3,6 +3,8 @@
 This API-client was automatically generated to support the motis v2 api.
 It was generated (mostly, some manual editing was done) using
 
+See https://github.com/oxidecomputer/progenitor for docs on the generator used
+
 ```bash
 wget https://raw.githubusercontent.com/motis-project/motis/refs/heads/master/openapi.yaml
 sed -i 's/openapi: 3.1.0/openapi: 3.0.0/' openapi.yaml
