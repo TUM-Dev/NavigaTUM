@@ -1,22 +1,28 @@
 [package]
-name = "motis-client"
-version = "0.1.0"
-authors = ["Frank Elsinga <frank@elsinga.de>"]
+name = "motis-openapi-progenitor"
+version = "0.2.0"
 edition = "2024"
+authors = ["Frank Elsinga <frank@elsinga.de>"]
+description = "API-wrapper around the motis api used for routing"
+keywords = ["routing", "api", "openapi", "ppr", "csr"]
+categories = ["science::geo", "api-bindings", "asynchronous", "web-programming", "wasm"]
+repository = "https://github.com/TUM-Dev/navigatum"
+license = "MIT"
+rust-version = "1.85.1"
+homepage = "https://motis-project.de/"
 
 [lib]
 path = "src/lib.rs"
 
 [dependencies]
+bytes = "1.0"
+chrono = { version = "0.4", default-features=false, features = ["serde"] }
+futures-core = "0.3"
+progenitor-client = "0.9.1"
+reqwest = { version = "0.12", default-features=false, features = ["json", "stream"] }
 serde = { version = "1.0", features = ["derive"] }
-reqwest = { version = "0.10", features = ["stream", "json"] }
-tracing = "0.1.41"
-tokio = { version = "1", default-features = false, optional = true, features = ["rt", "net"] }
-serde_json = "1.0.135"
-serde_with = "3.12.0"
-url = "2.5.4"
-chrono = { version = "0.4.40", features = ["serde"] }
+serde_json = "1.0"
+serde_urlencoded = "0.7"
 
-[features]
-default = ["blocking"]
-blocking = ["dep:tokio"]
+[dev-dependencies]
+tokio-test= "0.4.4"
