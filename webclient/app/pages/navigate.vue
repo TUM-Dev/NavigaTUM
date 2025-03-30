@@ -19,7 +19,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">(
+const mode = useRouteQuery<"bicycle" | "public_transit" | "motorcycle" | "car" | "pedestrian">(
   "mode",
   "pedestrian",
   {
@@ -32,7 +32,7 @@ type RequestQuery = operations["route_handler"]["parameters"]["query"];
 type NavigationResponse =
   operations["route_handler"]["responses"][200]["content"]["application/json"];
 const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
+  "http://localhost:3003/api/maps/route",
   {
     query: {
       lang: locale as Ref<RequestQuery["lang"]>,

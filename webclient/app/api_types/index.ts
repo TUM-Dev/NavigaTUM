@@ -555,7 +555,7 @@ export type components = {
       readonly transit_info?: null | components["schemas"]["TransitInfoResponse"];
       /** @description Travel mode */
       readonly travel_mode: components["schemas"]["TravelModeResponse"];
-      readonly type: components["schemas"]["ManeuverTypeResponse"];
+      readonly types: components["schemas"]["ManeuverTypeResponse"];
       /**
        * @description Text suitable for use as a verbal arrive time instruction
        *
@@ -568,11 +568,6 @@ export type components = {
        * Typically used with a transit maneuver
        */
       readonly verbal_depart_instruction?: string | null;
-      /**
-       * @description `true` if `verbal_pre_transition_instruction` has been appended with
-       * the verbal instruction of the next maneuver
-       */
-      readonly verbal_multi_cue?: boolean | null;
       /** @description Text suitable for use as a verbal message immediately after the maneuver transition */
       readonly verbal_post_transition_instruction?: string | null;
       /** @description Text suitable for use as a verbal message immediately prior to the maneuver transition */
@@ -614,6 +609,8 @@ export type components = {
       | "merge"
       | "roundabout_enter"
       | "roundabout_exit"
+      | "circle_clockwise"
+      | "circle_counterclockwise"
       | "ferry_enter"
       | "ferry_exit"
       | "transit"
@@ -1017,11 +1014,8 @@ export type components = {
       readonly long_name: string;
       /**
        * @description Global transit route identifier
-       *
-       * **Tipp:** you use these as feed-ids in transitland.
-       * Example: <https://www.transit.land/feeds/f-9q9-bart>
        */
-      readonly onestop_id: string;
+      readonly trip_id: string;
       /**
        * @description Operator/agency name
        *
@@ -1034,7 +1028,7 @@ export type components = {
        * **Tipp:** you use these as feed-ids in transitland.
        * Example: <https://www.transit.land/feeds/o-u281z9-mvv>
        */
-      readonly operator_onestop_id: string;
+      readonly operator_id: string;
       /** @description Operator/agency URL */
       readonly operator_url: string;
       /** @description Short name describing the transit route */

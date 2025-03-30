@@ -1454,13 +1454,6 @@ components:
             Typically used with a transit maneuver
           examples:
           - Depart at 8:04 AM from 8 St - NYU
-        verbal_multi_cue:
-          type:
-          - boolean
-          - 'null'
-          description: |-
-            `true` if `verbal_pre_transition_instruction` has been appended with
-            the verbal instruction of the next maneuver
         verbal_post_transition_instruction:
           type:
           - string
@@ -1518,6 +1511,8 @@ components:
       - merge
       - roundabout_enter
       - roundabout_exit
+      - circle_clockwise
+      - circle_counterclockwise
       - ferry_enter
       - ferry_exit
       - transit
@@ -2136,14 +2131,14 @@ components:
     TransitInfoResponse:
       type: object
       required:
-      - onestop_id
+      - trip_id
       - short_name
       - long_name
       - headsign
       - color
       - text_color
       - description
-      - operator_onestop_id
+      - operator_id
       - operator_name
       - operator_url
       - transit_stops
@@ -2179,7 +2174,7 @@ components:
           description: Long name describing the transit route
           examples:
           - Broadway Express
-        onestop_id:
+        trip_id:
           type: string
           description: |-
             Global transit route identifier
@@ -2199,7 +2194,7 @@ components:
           - BART
           - King County Marine Division
           - Münchner Verkehrs- und Tarifverbund (MVV)
-        operator_onestop_id:
+        operator_id:
           type: string
           description: |-
             Global operator/agency identifier

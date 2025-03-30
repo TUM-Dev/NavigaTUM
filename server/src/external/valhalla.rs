@@ -33,7 +33,8 @@ impl ValhallaWrapper {
             ])
             .costing(costing)
             .units(Units::Metric)
-            .language(if should_use_english { "en-US" } else { "de-DE" });
+            .language(if should_use_english { "en-US" } else { "de-DE" })
+            .alternates(3);
         Ok(self.0.route(request).await?)
     }
 }

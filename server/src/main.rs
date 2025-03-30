@@ -1,3 +1,5 @@
+extern crate core;
+
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -33,11 +35,12 @@ const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
-    /// shared [sqlx::PgPool] to connect to postgis
+    /// shared [PgPool] to connect to postgis
     pool: PgPool,
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
     valhalla: external::valhalla::ValhallaWrapper,
+    motis: external::motis::MotisWrapper,
 }
 
 impl AppData {
@@ -56,6 +59,7 @@ impl From<PgPool> for AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
             valhalla: external::valhalla::ValhallaWrapper::default(),
+            motis: external::motis::MotisWrapper::default(),
         }
     }
 }

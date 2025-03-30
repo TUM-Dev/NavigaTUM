@@ -12,7 +12,7 @@ pub struct Description {
 impl Description {
     pub fn add_context(&mut self, additional_context: &str) {
         if !additional_context.is_empty() {
-            self += &format!("Additional context: {additional_context}\n");
+            self.body += &format!("Additional context: {additional_context}\n");
         }
     }
     pub fn appply_set<T: AppliableEdit>(
@@ -24,13 +24,13 @@ impl Description {
         if !set.is_empty() {
             self.title = format!("{amount} {category_name} edits", amount = set.len());
 
-            self += &format!("The following {category_name} edits were made:\n");
+            self.body += &format!("The following {category_name} edits were made:\n");
 
-            self += "| entry | edit | \n";
-            self += "| --- | --- | \n";
+            self.body += "| entry | edit | \n";
+            self.body += "| --- | --- | \n";
             for (key, value) in set {
                 let result = value.apply(&key, base_dir);
-                self += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
+                self.body += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
             }
         }
     }

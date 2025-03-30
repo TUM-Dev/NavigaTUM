@@ -36,7 +36,7 @@ const { t } = useI18n({ useScope: "local" });
           class="bg-zinc-200 flex flex-row items-center gap-3 overflow-auto rounded-md p-2 py-1 group-hover:bg-zinc-300"
           :aria-label="m.verbal_transition_alert_instruction ?? undefined"
         >
-          <NavigationRoutingManeuverIcon :type="m.type" />
+          <NavigationRoutingManeuverIcons :types="m.types" />
           <div class="text-zinc-900">{{ m.instruction }}</div>
         </div>
         <small

@@ -27,7 +27,7 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
 fn slugify<S: ToString>(input: S) -> String {
     let slugify_regex = Regex::new(r"[^a-zA-Z0-9-äöüß.]+").unwrap();
     let slug = slugify_regex
-        .replace_all(&input.into(), "-")
+        .replace_all(&input.to_string(), "-")
         .to_lowercase()
         .replace("--", "-");
     slug.trim_matches('-').to_string()
