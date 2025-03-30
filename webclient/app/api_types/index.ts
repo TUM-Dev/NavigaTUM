@@ -544,17 +544,6 @@ export type components = {
        * @example 103.01
        */
       readonly length_meters: number;
-      /**
-       * @description `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
-       * pavement
-       */
-      readonly rough?: boolean | null;
-      /**
-       * Format: int64
-       * @description The spoke to exit roundabout after entering
-       * @example 2
-       */
-      readonly roundabout_exit_count?: number | null;
       /** @description List of street names that are consistent along the entire nonobvious maneuver */
       readonly street_names?: readonly string[] | null;
       /**
@@ -563,8 +552,6 @@ export type components = {
        * @example 201.025
        */
       readonly time_seconds: number;
-      /** @description `true` if a toll booth is encountered on this maneuver */
-      readonly toll?: boolean | null;
       readonly transit_info?: null | components["schemas"]["TransitInfoResponse"];
       /** @description Travel mode */
       readonly travel_mode: components["schemas"]["TravelModeResponse"];
@@ -964,10 +951,6 @@ export type components = {
       readonly patched?: boolean | null;
     };
     readonly SummaryResponse: {
-      /** @description If the path uses one or more highway segments */
-      readonly has_highway: boolean;
-      /** @description If the path uses one or more toll segments */
-      readonly has_toll: boolean;
       /**
        * Format: double
        * @description Distance traveled in meters

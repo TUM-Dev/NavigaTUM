@@ -302,10 +302,6 @@ struct SummaryResponse {
     /// Distance traveled in meters
     #[schema(example = 103.01)]
     length_meters: f64,
-    /// If the path uses one or more toll segments
-    has_toll: bool,
-    /// If the path uses one or more highway segments
-    has_highway: bool,
     /// Minimum latitude of the sections bounding box
     #[schema(example = 48.26244490906312)]
     min_lat: f64,
@@ -324,8 +320,6 @@ impl From<Summary> for SummaryResponse {
         SummaryResponse {
             time_seconds: value.time,
             length_meters: value.length * 1000.0,
-            has_toll: value.has_toll,
-            has_highway: value.has_highway,
             min_lat: value.min_lat,
             min_lon: value.min_lon,
             max_lat: value.max_lat,
@@ -392,20 +386,12 @@ struct ManeuverResponse {
     /// Index into the list of shape points for the end of the maneuver
     #[schema(example = 3)]
     end_shape_index: usize,
-    /// `true` if a toll booth is encountered on this maneuver
-    toll: Option<bool>,
     /// `true` if a highway is encountered on this maneuver
     highway: Option<bool>,
-    /// `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
-    /// pavement
-    rough: Option<bool>,
     /// `true` if a gate is encountered on this maneuver
     gate: Option<bool>,
     /// `true` if a ferry is encountered on this maneuver
     ferry: Option<bool>,
-    /// The spoke to exit roundabout after entering
-    #[schema(example = 2)]
-    roundabout_exit_count: Option<i64>,
     /// Written depart time instruction
     ///
     /// Typically used with a transit maneuver
@@ -453,12 +439,9 @@ impl From<Maneuver> for ManeuverResponse {
             length_meters: value.length * 1000.0,
             begin_shape_index: value.begin_shape_index,
             end_shape_index: value.end_shape_index,
-            toll: value.toll,
             highway: value.highway,
-            rough: value.rough,
             gate: value.gate,
             ferry: value.ferry,
-            roundabout_exit_count: value.roundabout_exit_count,
             depart_instruction: value.depart_instruction,
             verbal_depart_instruction: value.verbal_depart_instruction,
             arrive_instruction: value.arrive_instruction,

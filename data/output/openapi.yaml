@@ -1403,20 +1403,6 @@ components:
           format: double
           description: Maneuver length in meters
           example: 103.01
-        rough:
-          type:
-          - boolean
-          - 'null'
-          description: |-
-            `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
-            pavement
-        roundabout_exit_count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: The spoke to exit roundabout after entering
-          example: 2
         street_names:
           type:
           - array
@@ -2097,19 +2083,11 @@ components:
       required:
       - time_seconds
       - length_meters
-      - has_toll
-      - has_highway
       - min_lat
       - min_lon
       - max_lat
       - max_lon
       properties:
-        has_highway:
-          type: boolean
-          description: If the path uses one or more highway segments
-        has_toll:
-          type: boolean
-          description: If the path uses one or more toll segments
         length_meters:
           type: number
           format: double

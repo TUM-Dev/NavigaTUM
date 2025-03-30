@@ -65,14 +65,11 @@ const description = computed(() => {
   const length_kilometers = (length_meters / 1000).toFixed(1);
   const time_seconds = data.value.summary.time_seconds;
   const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-  return t(
-    data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length",
-    {
-      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-      length:
-        length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-    }
-  );
+  return t("description_time_length", {
+    time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+    length:
+      length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+  });
 });
 useSeoMeta({
   title: title,
@@ -150,7 +147,6 @@ de:
   navigate_from: Navigiere von {from}
   navigate_to: Navigiere nach {to}
   navigate: Navigiere
-  description_highway_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}. Bitte beachten Sie, dass sie Autobahnfahrten beinhaltet.
   description_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}.
   description: Beste Route wird berechnet
   minutes: "sofort | eine Minute | {count} Minuten"
@@ -164,7 +160,6 @@ en:
   navigate_from: Navigating from {from}
   navigate_to: Navigating to {to}
   navigate: Navigating
-  description_highway_time_length: The trip will take {time} and span {length}. Note that it will include highway travel.
   description_time_length: The trip will take {time} and span {length}.
   description: Calculating best route
   minutes: "instant | one minute | {count} minutes"
