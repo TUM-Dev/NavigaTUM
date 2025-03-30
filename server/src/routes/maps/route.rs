@@ -306,8 +306,6 @@ struct SummaryResponse {
     has_toll: bool,
     /// If the path uses one or more highway segments
     has_highway: bool,
-    ///  if the path uses one or more ferry segments
-    has_ferry: bool,
     /// Minimum latitude of the sections bounding box
     #[schema(example = 48.26244490906312)]
     min_lat: f64,
@@ -328,7 +326,6 @@ impl From<Summary> for SummaryResponse {
             length_meters: value.length * 1000.0,
             has_toll: value.has_toll,
             has_highway: value.has_highway,
-            has_ferry: value.has_ferry,
             min_lat: value.min_lat,
             min_lon: value.min_lon,
             max_lat: value.max_lat,

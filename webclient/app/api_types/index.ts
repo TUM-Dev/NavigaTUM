@@ -964,8 +964,6 @@ export type components = {
       readonly patched?: boolean | null;
     };
     readonly SummaryResponse: {
-      /** @description if the path uses one or more ferry segments */
-      readonly has_ferry: boolean;
       /** @description If the path uses one or more highway segments */
       readonly has_highway: boolean;
       /** @description If the path uses one or more toll segments */

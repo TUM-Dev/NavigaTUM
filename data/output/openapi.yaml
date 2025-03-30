@@ -2099,15 +2099,11 @@ components:
       - length_meters
       - has_toll
       - has_highway
-      - has_ferry
       - min_lat
       - min_lon
       - max_lat
       - max_lon
       properties:
-        has_ferry:
-          type: boolean
-          description: if the path uses one or more ferry segments
         has_highway:
           type: boolean
           description: If the path uses one or more highway segments
