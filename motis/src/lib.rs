@@ -305,7 +305,7 @@ pub mod types {
     #[derive(:: serde :: Deserialize, :: serde :: Serialize, Clone, Debug)]
     pub struct EncodedPolyline {
         ///The number of points in the string
-        pub length: i64,
+        pub length: usize,
         ///The encoded points of the polyline using the Google polyline
         /// encoding with precision 7.
         pub points: ::std::string::String,
@@ -3531,7 +3531,7 @@ pub mod types {
 
         #[derive(Clone, Debug)]
         pub struct EncodedPolyline {
-            length: ::std::result::Result<i64, ::std::string::String>,
+            length: ::std::result::Result<usize, ::std::string::String>,
             points: ::std::result::Result<::std::string::String, ::std::string::String>,
         }
 
@@ -3547,7 +3547,7 @@ pub mod types {
         impl EncodedPolyline {
             pub fn length<T>(mut self, value: T) -> Self
             where
-                T: ::std::convert::TryInto<i64>,
+                T: ::std::convert::TryInto<usize>,
                 T::Error: ::std::fmt::Display,
             {
                 self.length = value
