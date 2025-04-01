@@ -63,7 +63,7 @@ impl RequestedLocation {
             RequestedLocation::Location(key) => {
                 let coords = sqlx::query_as!(
                     Coordinate,
-                    r#"SELECT lat,lon
+                    r#"SELECT lat,lon,null
                     FROM de
                     WHERE key = $1 and
                           lat IS NOT NULL and
@@ -219,9 +219,9 @@ enum PoweredTwoWheeledRestrictionRequest {
 /// The costing is fine-tuned by the server side accordingly.
 ///
 /// The logical hierarchy of the response is:
-/// - leg: The top level itinerary/options/alternatives presented to the user
-/// - maneuver: A major vehicle/mobility option
-/// - step: A (local) movement
+/// - itinerary: The top level itineraries/options/alternatives presented to the user
+/// - leg: A major vehicle/mobility option inside an itinerary
+/// - step: A (local) movement inside a leg
 ///
 /// Internally, this endpoint relies on
 /// - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
@@ -312,68 +312,68 @@ pub async fn route_handler(
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 struct RoutingResponse {
-    /// A trip contains one (or more) legs.
+    /// A trip contains one (or more) itineraries.
     ///
-    /// A leg can be thought of an itineary/option/alternative.
-    legs: Vec<leg::LegResponse>,
-    /// Overall summary over all legs
+    /// An itinerary can be thought of an itinerary/option/alternative.
+    itineraries: Vec<itinerary::ItineraryResponse>,
+    /// Overall summary over all itineraries
     ///
-    /// Contrary to the legs, these summaries behave a bit different:
-    /// - The times and lengths are the minimum of all options
-    /// - the bounding boxes are the union of all legs
-    summary: leg::SummaryResponse,
+    /// Contrary to the itinerary, these summaries behave a bit different:
+    /// - The times and lengths are the **minimum** of all options
+    /// - the bounding boxes are the **union** of all legs
+    summary: itinerary::SummaryResponse,
 }
 impl From<valhalla::Trip> for RoutingResponse {
     fn from(value: valhalla::Trip) -> Self {
         RoutingResponse {
-            legs: value.legs.into_iter().map(leg::LegResponse::from).collect(),
-            summary: leg::SummaryResponse::from(value.summary),
+            itineraries: value.legs.into_iter().map(itinerary::ItineraryResponse::from).collect(),
+            summary: itinerary::SummaryResponse::from(value.summary),
         }
     }
 }
 impl From<motis::PlanResponse> for RoutingResponse {
     fn from(value: motis::PlanResponse) -> Self {
-        let summary = leg::SummaryResponse::from(value.direct.as_slice());
+        let summary = itinerary::SummaryResponse::from(value.direct.as_slice());
         Self {
-            legs: value
+            itineraries: value
                 .itineraries
                 .into_iter()
-                .map(leg::LegResponse::from)
+                .map(itinerary::ItineraryResponse::from)
                 .collect(),
             summary,
         }
     }
 }
 
-mod leg {
-    use super::maneuver::*;
+mod itinerary {
+    use super::leg::*;
     use super::*;
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    pub(crate) struct LegResponse {
-        /// Summary what happens in this leg
+    pub(crate) struct ItineraryResponse {
+        /// Summary what happens in this itinerary
         summary: SummaryResponse,
-        /// Maneuvers this leg contains
+        /// Legs this itinerary contains
         ///
-        /// A Maneuver can is equivalent to using a major vehicle option (train, bike, feet, ...).
+        /// A Leg can is equivalent to using a major vehicle option (train, bike, feet, ...).
         /// They contain steps which represent the fine-grained routing.
-        maneuvers: Vec<ManeuverResponse>,
+        maneuvers: Vec<LegResponse>,
         /// The routes geometry
         shape: Vec<Coordinate>,
     }
-    impl From<valhalla::Leg> for LegResponse {
+    impl From<valhalla::Leg> for ItineraryResponse {
         fn from(value: valhalla::Leg) -> Self {
-            LegResponse {
+            ItineraryResponse {
                 summary: SummaryResponse::from(value.summary),
                 maneuvers: value
                     .maneuvers
                     .into_iter()
-                    .map(ManeuverResponse::from)
+                    .map(LegResponse::from)
                     .collect(),
                 shape: value.shape.into_iter().map(Coordinate::from).collect(),
             }
         }
     }
-    impl From<motis::Itinerary> for LegResponse {
+    impl From<motis::Itinerary> for ItineraryResponse {
         fn from(value: motis::Itinerary) -> Self {
             let summary = SummaryResponse::from(&value);
             let shape = value
@@ -386,15 +386,15 @@ mod leg {
                 })
                 .map(Coordinate::from)
                 .collect();
-            LegResponse {
+            ItineraryResponse {
                 summary,
-                maneuvers: value.legs.into_iter().map(ManeuverResponse::from).collect(),
+                maneuvers: value.legs.into_iter().map(leg::LegResponse::from).collect(),
                 shape,
             }
         }
     }
 
-    #[derive(Serialize, Debug, utoipa::ToSchema)]
+    #[derive(Serialize, Debug, Default, Copy, Clone, utoipa::ToSchema)]
     pub struct BBox {
         /// Minimum latitude of the sections bounding box
         #[schema(example = 48.26244490906312)]
@@ -408,6 +408,61 @@ mod leg {
         /// Maximum longitude of the sections bounding box
         #[schema(example = 48.26244490906312)]
         max_lon: f64,
+    }
+    impl From<&str> for BBox {
+        fn from(points: &str) -> Self {
+            let line_points = polyline::decode_polyline(points, 7)
+                .map(|l| l.into_points())
+                .unwrap_or_default();
+            BBox {
+                min_lat: line_points
+                    .iter()
+                    .map(|p| p.0.x)
+                    .min_by(f64::total_cmp)
+                    .unwrap_or_default(),
+                min_lon: line_points
+                    .iter()
+                    .map(|p| p.0.y)
+                    .min_by(f64::total_cmp)
+                    .unwrap_or_default(),
+                max_lat: line_points
+                    .iter()
+                    .map(|p| p.0.x)
+                    .max_by(f64::total_cmp)
+                    .unwrap_or_default(),
+                max_lon: line_points
+                    .iter()
+                    .map(|p| p.0.y)
+                    .max_by(f64::total_cmp)
+                    .unwrap_or_default(),
+            }
+        }
+    }
+    impl std::ops::Add<BBox> for BBox {
+        type Output = BBox;
+
+        fn add(mut self, rhs: BBox) -> Self::Output {
+            use std::cmp::{max_by, min_by};
+            self.max_lat = max_by(self.max_lat, rhs.max_lat, f64::total_cmp);
+            self.max_lon = max_by(self.max_lon, rhs.max_lon, f64::total_cmp);
+            self.min_lat = min_by(self.min_lat, rhs.min_lat, f64::total_cmp);
+            self.min_lon = min_by(self.min_lon, rhs.min_lon, f64::total_cmp);
+            self
+        }
+    }
+
+    impl std::iter::Sum for BBox {
+        fn sum<I: Iterator<Item = Self>>(mut iter: I) -> Self {
+            let mut accum = None;
+            while let Some(bbox) = iter.next() {
+                accum = Some(if let Some(tmp_accum) = accum {
+                    tmp_accum + bbox
+                } else {
+                    bbox
+                })
+            }
+            accum.unwrap_or_default()
+        }
     }
 
     #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -426,59 +481,33 @@ mod leg {
             SummaryResponse {
                 time_seconds: value.time,
                 length_meters: value.length * 1000.0,
-                min_lat: value.min_lat,
-                min_lon: value.min_lon,
-                max_lat: value.max_lat,
-                max_lon: value.max_lon,
+                bbox: BBox {
+                    min_lat: value.min_lat,
+                    min_lon: value.min_lon,
+                    max_lat: value.max_lat,
+                    max_lon: value.max_lon,
+                },
             }
         }
     }
     impl From<&[motis::Itinerary]> for SummaryResponse {
         fn from(value: &[motis::Itinerary]) -> Self {
             let summarys = value.iter().map(SummaryResponse::from).collect::<Vec<_>>();
+
             SummaryResponse {
                 time_seconds: summarys.iter().map(|s| s.time_seconds).sum(),
                 length_meters: summarys.iter().map(|s| s.length_meters).sum(),
-                min_lat: summarys
-                    .iter()
-                    .map(|s| s.min_lat)
-                    .min_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                min_lon: summarys
-                    .iter()
-                    .map(|s| s.min_lon)
-                    .min_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                max_lat: summarys
-                    .iter()
-                    .map(|s| s.max_lat)
-                    .max_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                max_lon: summarys
-                    .iter()
-                    .map(|s| s.max_lon)
-                    .max_by(f64::total_cmp)
-                    .unwrap_or_default(),
+                bbox: summarys.iter().map(|s| s.bbox).sum(),
             }
         }
     }
     impl From<&motis::Itinerary> for SummaryResponse {
         fn from(value: &motis::Itinerary) -> Self {
-            let mut points = Vec::with_capacity(
-                value
-                    .legs
-                    .iter()
-                    .map(|l| l.leg_geometry.length as usize)
-                    .sum(),
-            );
-            for leg in value.legs.iter() {
-                let line_points = polyline::decode_polyline(&leg.leg_geometry.points, 7)
-                    .map(|l| l.into_points())
-                    .unwrap();
-                for point in line_points {
-                    points.push(point);
-                }
-            }
+            let max_bbox = value
+                .legs
+                .iter()
+                .map(|l| BBox::from(l.leg_geometry.points.as_str()))
+                .sum();
             SummaryResponse {
                 time_seconds: value.duration as f64,
                 length_meters: value
@@ -486,84 +515,71 @@ mod leg {
                     .iter()
                     .map(|s| s.distance.unwrap_or_default())
                     .sum(),
-                min_lat: points
-                    .iter()
-                    .map(|p| p.0.x)
-                    .min_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                min_lon: points
-                    .iter()
-                    .map(|p| p.0.y)
-                    .min_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                max_lat: points
-                    .iter()
-                    .map(|p| p.0.x)
-                    .max_by(f64::total_cmp)
-                    .unwrap_or_default(),
-                max_lon: points
-                    .iter()
-                    .map(|p| p.0.y)
-                    .max_by(f64::total_cmp)
-                    .unwrap_or_default(),
+                bbox: max_bbox,
             }
         }
     }
 }
-mod maneuver {
-    use super::step::*;
+mod leg {
     use super::*;
-    use crate::routes::maps::route::leg::BBox;
     use core::ops::Range;
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    pub struct ManeuverResponse {
+    pub struct LegResponse {
         /// Travel mode
         #[schema(examples("drive", "pedestrian", "bicycle", "public_transit", "other"))]
-        travel_mode: ManeuverTravelModeResponse,
+        travel_mode: LegTravelModeResponse,
         /// Summary what happens in this maneuver
-        summary: ManeuverMetadataResponse,
+        summary: LegMetadataResponse,
         /// Contains attributes that describe a specific transit route
         transit_info: Option<TransitInfoResponse>,
         /// Steps contained in this maneuver
         ///
         /// Can be the equivalent of "walk down street" or "take this ICE"
-        steps: StepResponse,
+        steps: Vec<step::StepResponse>,
     }
-    impl From<valhalla::Maneuver> for ManeuverResponse {
+    impl From<valhalla::Maneuver> for LegResponse {
         fn from(value: valhalla::Maneuver) -> Self {
-            ManeuverResponse {
-                steps: todo!(),
-                instruction: value
-                    .instruction
-                    .strip_suffix(".")
-                    .map(|s| s.to_string())
-                    .unwrap_or(value.instruction),
-                verbal_transition_alert_instruction: value.verbal_transition_alert_instruction,
-                verbal_pre_transition_instruction: value.verbal_pre_transition_instruction,
-                verbal_post_transition_instruction: value.verbal_post_transition_instruction,
-                time_seconds: value.time,
-                length_meters: value.length * 1000.0,
-                begin_shape_index: value.begin_shape_index,
-                end_shape_index: value.end_shape_index,
-                highway: value.highway,
-                gate: value.gate,
-                ferry: value.ferry,
-                depart_instruction: value.depart_instruction,
-                verbal_depart_instruction: value.verbal_depart_instruction,
-                arrive_instruction: value.arrive_instruction,
-                verbal_arrive_instruction: value.verbal_arrive_instruction,
-                // we don't currently have transit info configured
+            LegResponse {
+                // transit is not configured for valhalla
                 transit_info: None,
-                travel_mode: TravelModeResponse::from(value.travel_mode),
+                travel_mode: LegTravelModeResponse::from(value.travel_mode),
+                steps: todo!(),
+                summary: LegMetadataResponse {
+                    time_seconds: todo!(),
+                    length_meters: todo!(),
+                    bbox: todo!(),
+                    shape_index: todo!(),
+                    highway: todo!(),
+                    gate: todo!(),
+                    ferry: todo!(),
+                },
             }
         }
     }
 
-    impl From<motis::Leg> for ManeuverResponse {
-        fn from(value: motis::Leg) -> Self {
+    impl From<(usize, motis::Leg)> for LegResponse {
+        fn from((base_shape_idx, value): (usize, motis::Leg)) -> Self {
             debug!(?value, "got leg");
+            let mut steps = value
+                .steps
+                .into_iter()
+                .map(step::StepResponse::from)
+                .collect::<Vec<_>>();
+            // shift the shape indexes by the
+            let mut step_shape_idx = base_shape_idx;
+            for step in steps.iter_mut() {
+                step.summary.shape_index.start += step_shape_idx;
+                step.summary.shape_index.end += step_shape_idx;
+                step_shape_idx = step.summary.shape_index.end;
+                debug_assert!(
+                    step.summary.shape_index.start < base_shape_idx + value.leg_geometry.length
+                );
+                debug_assert!(
+                    step.summary.shape_index.end < base_shape_idx + value.leg_geometry.length
+                );
+            }
             let transit_info = TransitInfoResponse {
                 trip_id: value.trip_id,
                 short_name: value.route_short_name,
@@ -574,39 +590,35 @@ mod maneuver {
                 operator_id: value.agency_id,
                 operator_name: value.agency_name,
                 operator_url: value.agency_url,
-                steps: value
-                    .steps
-                    .into_iter()
-                    .map(TransitStepResponse::from)
-                    .collect(),
             };
-            ManeuverResponse {
-                summary: ManeuverMetadataResponse {
+            LegResponse {
+                summary: LegMetadataResponse {
                     time_seconds: value.duration as f64,
                     length_meters: value.distance.unwrap_or_default(),
-                    begin_shape_index: todo!(),
-                    end_shape_index: todo!(),
+                    shape_index: base_shape_idx..(base_shape_idx + value.leg_geometry.length),
+                    bbox: itinerary::BBox::from(value.leg_geometry.points.as_str()),
                     highway: None,
                     gate: None,
                     ferry: None,
                 },
-                travel_mode: ManeuverTravelModeResponse::from(value.mode),
+                travel_mode: LegTravelModeResponse::from(value.mode),
                 transit_info: Some(transit_info),
+                steps,
             }
         }
     }
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    struct ManeuverMetadataResponse {
+    struct LegMetadataResponse {
         /// Estimated time along the maneuver in seconds
         #[schema(example = 201.025)]
         time_seconds: f64,
-        /// Maneuver length in meters
+        /// Leg length in meters
         #[schema(example = 103.01)]
         length_meters: f64,
         /// A bounding box containing all items exactly
-        bbox: BBox,
+        bbox: itinerary::BBox,
         /// Indexes where the list of shape points the maneuver starts/stops
         shape_index: Range<usize>,
 
@@ -665,14 +677,14 @@ mod maneuver {
 
     #[derive(Serialize, Debug, utoipa::ToSchema)]
     #[serde(rename_all = "snake_case")]
-    enum ManeuverTravelModeResponse {
+    enum LegTravelModeResponse {
         Drive,
         Pedestrian,
         Bicycle,
         PublicTransit,
         Other,
     }
-    impl From<valhalla::TravelMode> for ManeuverTravelModeResponse {
+    impl From<valhalla::TravelMode> for LegTravelModeResponse {
         fn from(value: valhalla::TravelMode) -> Self {
             match value {
                 valhalla::TravelMode::Drive => Self::Drive,
@@ -682,7 +694,7 @@ mod maneuver {
             }
         }
     }
-    impl From<motis::Mode> for ManeuverTravelModeResponse {
+    impl From<motis::Mode> for LegTravelModeResponse {
         fn from(value: motis::Mode) -> Self {
             match value {
                 motis::Mode::Airplane => Self::PublicTransit,
@@ -710,24 +722,23 @@ mod maneuver {
 }
 mod step {
     use super::*;
-    use crate::routes::maps::route::leg::BBox;
     use std::ops::Range;
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    struct StepResponse {
+    pub struct StepResponse {
         /// Which icon should the router display for this step
         r#type: StepTypeResponse,
         /// Summary what happens in this step
-        summary: StepMetadataResponse,
+        pub(crate) summary: StepMetadataResponse,
         /// Text-Instructions to either show or audibly tell the user
         instructions: InstructionStepResponse,
     }
 
     /// instructions associated with a step
     #[serde_with::skip_serializing_none]
-    #[derive(Serialize, Debug, utoipa::ToSchema)]
-    pub struct InstructionStepResponse {
+    #[derive(Serialize, Debug, Default, utoipa::ToSchema)]
+    struct InstructionStepResponse {
         instruction: String,
 
         /// Text suitable for use as a verbal alert in a navigation application
@@ -762,6 +773,25 @@ mod step {
         /// Typically used with a transit maneuver
         #[schema(examples("Arrive at 8:10 AM at 34 St - Herald Sq"))]
         verbal_arrive_instruction: Option<String>,
+    }
+
+    impl From<valhalla::Maneuver> for InstructionStepResponse{
+        fn from(value: valhalla::Maneuver) -> Self {
+            InstructionStepResponse {
+                instruction: value
+                    .instruction
+                    .strip_suffix(".")
+                    .map(|s| s.to_string())
+                    .unwrap_or(value.instruction),
+                verbal_transition_alert_instruction: value.verbal_transition_alert_instruction,
+                verbal_pre_transition_instruction: value.verbal_pre_transition_instruction,
+                verbal_post_transition_instruction: value.verbal_post_transition_instruction,
+                depart_instruction: value.depart_instruction,
+                verbal_depart_instruction: value.verbal_depart_instruction,
+                arrive_instruction: value.arrive_instruction,
+                verbal_arrive_instruction: value.verbal_arrive_instruction,
+            }
+        }
     }
 
     /// Allows differentiating an icon in the frontend
@@ -898,13 +928,16 @@ mod step {
     struct StepMetadataResponse {
         ///OpenStreetMap way index
         osm_way: Option<i64>,
+        /// Estimated time along the maneuver in seconds
+        #[schema(example = 201.025)]
+        time_seconds: Option<f64>,
         /// Distance traveled in meters
         #[schema(examples(60))]
         length_meters: f64,
         /// A bounding box containing all items exactly
-        bbox: BBox,
+        bbox: itinerary::BBox,
         /// Indexes where the list of shape points the maneuver starts/stops
-        shape_index: Range<usize>,
+        pub(crate) shape_index: Range<usize>,
 
         /// [`level`-tag](http://wiki.openstreetmap.org/wiki/Key:level) this step starts at
         #[schema(example = 1.0)]
@@ -912,6 +945,19 @@ mod step {
         /// [`level`-tag](http://wiki.openstreetmap.org/wiki/Key:level) this step ends at
         #[schema(example = 2.0)]
         to_level: f64,
+    }
+    impl From<&valhalla::Maneuver> for StepMetadataResponse{
+        fn from(value: &valhalla::Maneuver) -> Self {
+            StepMetadataResponse{
+                osm_way: None,
+                time_seconds: Some(value.time),
+                length_meters: value.length * 1000.0,
+                shape_index: value.begin_shape_index..value.end_shape_index,
+                bbox: todo!(),
+                from_level: todo!(),
+                to_level: todo!(),
+            }
+        }
     }
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -934,18 +980,21 @@ mod step {
         #[serde(skip_serializing_if = "String::is_empty")]
         street_name: String,
     }
-    impl From<motis::StepInstruction> for TransitStepResponse {
+    impl From<motis::StepInstruction> for StepResponse {
         fn from(value: motis::StepInstruction) -> Self {
-            TransitStepResponse {
-                area: value.area,
-                exit: value.exit,
-                osm_way: value.osm_way,
-                length_meters: value.distance,
+            // todo: generate instructions
+            StepResponse {
+                summary: StepMetadataResponse {
+                    osm_way: value.osm_way,
+                    time_seconds: None,
+                    length_meters: value.distance,
+                    bbox: itinerary::BBox::from(value.polyline.points.as_str()),
+                    shape_index: 0..value.polyline.length,
+                    from_level: value.from_level,
+                    to_level: value.to_level,
+                },
+                instructions: Default::default(),
                 r#type: StepTypeResponse::from(value.relative_direction),
-                stay_on: value.stay_on,
-                street_name: value.street_name,
-                from_level: value.from_level,
-                to_level: value.to_level,
             }
         }
     }

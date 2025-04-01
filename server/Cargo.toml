@@ -78,13 +78,13 @@ geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.2"
 valhalla-client = { version = "0.4.0", default-features = false }
-motis-openapi-progenitor = "0.2"
+motis-openapi-progenitor = "0.2.1"
 polyline = "0.11.0"
 
 # docs
-utoipa-actix-web = "0.1.2"
-utoipa = { version = "5.3.1", features = ["yaml", "chrono", "actix_extras", "url"] }
-utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
+utoipa-actix-web = { git = "https://github.com/CommanderStorm/utoipa.git", branch = "range" }
+utoipa = { git = "https://github.com/CommanderStorm/utoipa.git", branch = "range", features = ["yaml", "chrono", "actix_extras", "url"] }
+utoipa-redoc = { git = "https://github.com/CommanderStorm/utoipa.git", branch = "range", features = ["actix-web"] }
 url = "2.5.4"
 
 [dev-dependencies]
@@ -93,7 +93,6 @@ pretty_assertions = "1.4.1"
 testcontainers = { version = "0.23.1", features = ["watchdog"] }
 testcontainers-modules = { version = "0.11.5", features = ["meilisearch", "postgres"] }
 tracing-test = "0.2.5"
-
 
 [profile.release]
 strip = false
