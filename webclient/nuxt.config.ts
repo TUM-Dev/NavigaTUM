@@ -107,6 +107,9 @@ export default defineNuxtConfig({
       cookieCrossOrigin: false,
       redirectOn: "root", // only redirect if somebody visits / to have better SEO
     },
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
   devtools: { enabled: true },
   postcss: {
