@@ -151,7 +151,7 @@ services:
       start_interval: 500ms
       timeout: 1s
   nominatim:
-    image: mediagis/nominatim:4.5
+    image: mediagis/nominatim:5.1
     restart: unless-stopped
     networks:
       - traefik_traefik
