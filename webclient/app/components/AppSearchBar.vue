@@ -283,4 +283,3 @@ en:
   results: 1 result | {count} results
   approx_results: approx. {count} results
 </i18n>
-</i18n>
