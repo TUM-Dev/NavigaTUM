@@ -44,7 +44,7 @@
     "@types/nightwind": "1.0.0",
     "@vue/tsconfig": "0.7.0",
     "autoprefixer": "10.4.21",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "openapi-typescript": "6.7.6",
     "postcss": "8.5.3",
     "prettier": "3.5.3",
