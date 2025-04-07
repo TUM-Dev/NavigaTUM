@@ -103,7 +103,7 @@ function initMap(containerId: string): MapLibreMap {
       preserveDrawingBuffer: false,
     },
 
-    style: "/navigatum-basemap.json",
+    style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible

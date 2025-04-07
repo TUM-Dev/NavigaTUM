@@ -7,6 +7,8 @@ sprites:
   - /map/sprites/navigatum
 fonts:
   - /map/fonts
+styles:
+  - /map/navigatum-basemap.json
 mbtiles:
   sources:
     # named source matching source name to a single file
