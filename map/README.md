@@ -30,14 +30,14 @@ To run maputnik, you can either
 Our style can be found here and can either be "Load[ed] from Url" or uploaded into maputnik manually:
 
 ```
-https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/map/styles/navigatum-basemap.json
+https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/map/martin/navigatum-basemap.json
 ```
 
 | Step 1                                                                                         | Step 2                                                                                              |
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
-### generate your own tileset
+### generate your own tiles
 
 Sadly tilesets are really large (`germany` is ~10GB, `planet` ~90GB).
 Because of limited bandwidth and storage space we can't provide a tileset for everyone.
