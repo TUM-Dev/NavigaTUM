@@ -186,7 +186,7 @@ examples:
     geometry: point
     min_zoom: 14
     tags:
-      number: 123
+      housenumber: 123
 
 - name: address point with house name
   input:
@@ -598,7 +598,7 @@ examples:
       geometry: point
       allow_extra_tags: false
       tags:
-        number: 'Housenumber'
+        housenumber: 'Housenumber'
 
 - name: 'cafe poi with invalid tag (man_made=tasty) is not emmitted as such'
   input:
