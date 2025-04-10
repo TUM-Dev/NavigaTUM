@@ -434,7 +434,7 @@ layers:
     include_when: &address_filter
       addr:housenumber: __any__
     attributes: &address_attributes
-    - key: number
+    - key: housenumber
       tag_value: addr:housenumber
   - source: osm
     geometry: point
