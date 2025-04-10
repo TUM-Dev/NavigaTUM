@@ -37,7 +37,7 @@ examples:
 - name: waterway=dock
   input:
     source: osm
-    geometry: polygon
+    geometry: POLYGON ((-0.5 -0.5, 0.5 -0.5, 0.5 0.5, -0.5 0.5, -0.5 -0.5))
     tags:
       waterway: dock
   output:
@@ -53,8 +53,8 @@ examples:
     geometry: line
     tags:
       waterway: canal
-      name: The Canal
       tunnel: yes
+      name: The Canal
       name:en: The Canal (en)
       name:de: The Canal (de)
   output:
@@ -65,14 +65,14 @@ examples:
       kind: canal
       tunnel: true
       bridge: false
-  - layer: water_line_labels
+  - layer: water_lines_labels
     geometry: line
     min_zoom: 12
     tags:
       kind: canal
-      name: The Canal (de)
       tunnel: true
       bridge: false
+      name: The Canal
 
 - name: waterway=stream linestring
   input:
@@ -91,14 +91,76 @@ examples:
       kind: stream
       tunnel: false
       bridge: false
-  - layer: water_line_labels
+  - layer: water_lines_labels
     geometry: line
     min_zoom: 14
     tags:
       kind: stream
-      name: The Stream (de)
       tunnel: false
       bridge: false
+      name: The Stream
+
+- name: waterway=dam line
+  input:
+    source: osm
+    geometry: line
+    tags:
+      waterway: dam
+  output:
+  - layer: dam_lines
+    geometry: line
+    min_zoom: 12
+    tags:
+      kind: dam
+
+- name: waterway=dam polygon
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      waterway: dam
+  output:
+  - layer: dam_polygons
+    geometry: polygon
+    min_zoom: 12
+    tags:
+      kind: dam
+
+- name: dykes are not dams
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      man_made: dyke
+      embankment: dyke
+      geological: dyke
+  output: []
+
+- name: man_made=pier polygon
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      man_made: pier
+  output:
+  - layer: pier_polygons
+    geometry: polygon
+    min_zoom: 12
+    tags:
+      kind: pier
+
+- name: man_made=pier line
+  input:
+    source: osm
+    geometry: line
+    tags:
+      man_made: pier
+  output:
+  - layer: pier_lines
+    geometry: line
+    min_zoom: 12
+    tags:
+      kind: pier
 
 - name: landuse=grass
   input:
@@ -574,6 +636,54 @@ examples:
     tags:
       kind: gondola
 
+- name: ferry without motor at z12
+  input:
+    source: osm
+    geometry: line
+    tags:
+      route: ferry
+      motor_vehicle: no
+      name: Name
+      name:en: 'Name (en)'
+      name:de: 'Name (de)'
+  output:
+    layer: ferries
+    geometry: line
+    min_zoom: 12
+    at_zoom: 12
+    tags:
+      kind: ferry
+      name: Name
+      name_en: 'Name (en)'
+      name_de: 'Name (de)'
+
+- name: ferry without motor at z11
+  input:
+    source: osm
+    geometry: line
+    tags:
+      route: ferry
+      motor_vehicle: no
+      name: Name
+  output:
+    at_zoom: 11
+
+- name: ferry with motor at z11
+  input:
+    source: osm
+    geometry: line
+    tags:
+      route: ferry
+      name: Name
+  output:
+    layer: ferries
+    geometry: line
+    min_zoom: 10
+    at_zoom: 11
+    tags:
+      kind: ferry
+      name: Name
+
 - name: 'pois can have names and adresses'
   input:
     source: osm
@@ -860,6 +970,26 @@ examples:
     tags:
       maritime: true
       admin_level: 2
+      disputed: false
+
+- name: 'country coastline'
+  input:
+    source: osm
+    geometry: line
+    # TODO from relation
+    tags:
+      boundary: administrative
+      admin_level: '2'
+      natural: coastline
+  output:
+    layer: boundaries
+    geometry: line
+    min_zoom: 0
+    min_size: 0
+    tags:
+      maritime: true
+      admin_level: 2
+      disputed: false
 
 - name: 'state boundary'
   input:
