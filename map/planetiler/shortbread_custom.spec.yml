@@ -72,7 +72,7 @@ examples:
       kind: canal
       tunnel: true
       bridge: false
-      name: The Canal
+      name: The Canal (de)
 
 - name: waterway=stream linestring
   input:
@@ -98,7 +98,7 @@ examples:
       kind: stream
       tunnel: false
       bridge: false
-      name: The Stream
+      name: The Stream (de)
 
 - name: waterway=dam line
   input:
@@ -207,13 +207,21 @@ examples:
     geometry: polygon
     tags:
       amenity: parking
+      capacity: 100
   output:
   - layer: sites
     geometry: polygon
     min_zoom: 14
+    allow_extra_tags: false
     tags:
       kind: parking
-  - {}
+  - layer: pois
+    geometry: point
+    min_zoom: 14
+    allow_extra_tags: false
+    tags:
+      amenity: parking
+      capacity: 100
 
 - name: building=yes
   input:
@@ -246,7 +254,7 @@ examples:
   output:
   - layer: addresses
     geometry: point
-    min_zoom: 14
+    min_zoom: 15
     tags:
       housenumber: 123
 
@@ -282,7 +290,7 @@ examples:
   - layer: streets
     geometry: line
     min_zoom: 8
-    min_size: 0
+    min_size: 0.05
     tags:
       bridge: false
       kind: primary
@@ -323,7 +331,7 @@ examples:
     geometry: line
     min_zoom: 8
     allow_extra_tags: false
-    min_size: 0
+    min_size: 0.05
     tags:
       bridge: false
       kind: primary
@@ -352,7 +360,7 @@ examples:
     geometry: line
     min_zoom: 8
     allow_extra_tags: false
-    min_size: 0
+    min_size: 0.05
     tags:
       bridge: false
       kind: rail
@@ -555,8 +563,6 @@ examples:
     tags:
       bridge: false
       kind: pedestrian
-      rail: false
-      surface: paving_stones
       tunnel: false
   - layer: street_polygons_labels
     geometry: point
@@ -653,9 +659,7 @@ examples:
     at_zoom: 12
     tags:
       kind: ferry
-      name: Name
-      name_en: 'Name (en)'
-      name_de: 'Name (de)'
+      name: Name (de)
 
 - name: ferry without motor at z11
   input:
@@ -710,7 +714,7 @@ examples:
       tags:
         housenumber: 'Housenumber'
 
-- name: 'cafe poi with invalid tag (man_made=tasty) is not emmitted as such'
+- name: 'arts_centre poi with invalid tag (man_made=beauty) is not emmitted as such'
   input:
     source: osm
     geometry: point
@@ -812,6 +816,22 @@ examples:
     tags:
       amenity: cafe
 
+- name: 'train station point'
+  input:
+    source: osm
+    geometry: point
+    tags:
+      railway: station
+      name: 'Name'
+  output:
+    layer: public_transport
+    geometry: point
+    allow_extra_tags: false
+    tags:
+      kind: station
+      name: 'Name'
+
+      subway: false
 - name: 'airport polygon'
   input:
     source: osm
@@ -966,7 +986,7 @@ examples:
     layer: boundaries
     geometry: line
     min_zoom: 0
-    min_size: 0
+    min_size: 0.05
     tags:
       maritime: true
       admin_level: 2
@@ -985,7 +1005,7 @@ examples:
     layer: boundaries
     geometry: line
     min_zoom: 0
-    min_size: 0
+    min_size: 0.05
     tags:
       maritime: true
       admin_level: 2
@@ -1003,10 +1023,11 @@ examples:
     layer: boundaries
     geometry: line
     min_zoom: 5
-    min_size: 0
+    min_size: 0.05
     tags:
       maritime: false
       admin_level: 4
+      disputed: false
 
 # TODO take min admin level
 

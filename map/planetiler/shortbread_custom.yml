@@ -220,6 +220,13 @@ layers:
       else: false
     - key: admin_level
       type: integer
+    - key: disputed
+      value: true
+      include_when:
+        disputed: yes
+        # TODO: member of a relation with boundary=disputed and (admin_level unset or between 2 and 4)
+        # see https://github.com/shortbread-tiles/shortbread-docs/issues/43
+      else: false
 
 - id: boundary_labels
   features:
@@ -228,6 +235,7 @@ layers:
     min_zoom:
       default_value: 5
       overrides:
+        # WAY_AREA is in ha
         2: '${ feature.tags.has("ADMIN_LEVEL", "2") && double(feature.tags.WAY_AREA) >= 2e8 }'
         3: '${ double(feature.tags.WAY_AREA) >= 7e7 }'
         4: '${ double(feature.tags.WAY_AREA) >= 1e7 }'
@@ -257,6 +265,7 @@ layers:
       - village
       - hamlet
       - suburb
+      - quarter
       - neighbourhood
       - isolated_dwelling
       - farm
@@ -308,6 +317,8 @@ layers:
           if: { place: town }
         - value: 1000
           if: { place: suburb }
+        - value: 500
+          if: { place: quarter }
         - value: 100
           if: { place: [ village, neighborhood ] }
         - value: 50
@@ -316,7 +327,7 @@ layers:
           if: { place: [ isolated_dwelling, farm ] }
         - else: 0
 
-#  Land Use, Land Cover, Buildings
+##  Land Use, Land Cover, Buildings
 - id: land
   features:
   - source: osm
@@ -332,6 +343,7 @@ layers:
       - farmland
       - farmyard
       - forest
+      - garages
       - grass
       - greenfield
       - greenhouse_horticulture
@@ -381,6 +393,7 @@ layers:
           - commercial
           - farmland
           - farmyard
+          - garages
           - greenfield
           - industrial
           - landfill
@@ -392,7 +405,6 @@ layers:
           - sand
         13:
           amenity: grave_yard
-          natural: wood
           landuse: cemetery
     attributes:
     - key: kind
@@ -595,6 +607,24 @@ layers:
       tolerance: 1
       buffer: 1
 
+- id: street_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 14
+    include_when:
+      __all__:
+      - highway: [ pedestrian, service ]
+      - area: yes
+    attributes:
+    - key: kind
+      type: match_value
+    - *bridge_attr
+    - *tunnel_attr
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
+
 - id: street_labels
   features:
   - source: osm
@@ -656,6 +686,34 @@ layers:
       value: '${ size(feature.tags["ref"].split(";")) }'
       exclude_when: *missing_ref
 
+- id: street_polygons_labels
+  features:
+  - source: osm
+    geometry: polygon_point_on_surface
+    min_zoom: 14
+    include_when:
+      __all__:
+        highway: [ pedestrian, service ]
+        area: yes
+        name: __any__
+    attributes:
+    - key: kind
+      type: match_value
+    - *name
+
+- id: street_labels_points
+  features:
+  - source: osm
+    geometry: point
+    min_zoom: 12
+    include_when:
+      highway: motorway_junction
+    attributes:
+    - key: kind
+      type: match_value
+    - key: ref
+    - *name
+
 - id: bridges
   features:
   - source: osm
@@ -676,7 +734,16 @@ layers:
     geometry: line
     min_zoom: 12
     include_when:
-      aerialway: __any__
+      aerialway:
+      - cable_car
+      - gondola
+      - goods
+      - chair_lift
+      - drag_lift
+      - t-bar
+      - j-bar
+      - platter
+      - rope_tow
     attributes:
     - key: kind
       type: match_value
