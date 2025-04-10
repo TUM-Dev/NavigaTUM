@@ -1954,10 +1954,10 @@
       }
     },
     {
-      "id": "water_line_labels",
+      "id": "water_lines_labels",
       "type": "symbol",
       "source": "nav",
-      "source-layer": "water_line_labels",
+      "source-layer": "water_lines_labels",
       "minzoom": 12,
       "filter": ["all"],
       "layout": {
