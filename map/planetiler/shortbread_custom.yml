@@ -152,6 +152,48 @@ layers:
     - *water_lines_attr_tunnel
     - *water_lines_attr_bridge
 
+- id: dam_lines
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 12
+    include_when: &dam_filter
+      # note that dykes are not dams
+      waterway: dam
+    attributes: &dam_atrs
+    - key: kind
+      value: dam
+
+- id: dam_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 12
+    include_when: *dam_filter
+    attributes: *dam_atrs
+
+- id: pier_lines
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 12
+    include_when: &pier_filter
+      man_made: 
+        - pier
+        - breakwater
+        - groyne
+    attributes: &pier_attrs
+    - key: kind
+      type: match_value
+
+- id: pier_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 12
+    include_when: *pier_filter
+    attributes: *pier_attrs
+
 ##  Countries, States, Cities
 - id: boundaries
   features:
@@ -171,6 +213,11 @@ layers:
     attributes:
     - key: maritime
       type: boolean
+      value: true
+      include_when:
+        maritime: __any__
+        natural: coastline
+      else: false
     - key: admin_level
       type: integer
 
@@ -637,7 +684,24 @@ layers:
     merge_polygons:
       min_area: 1
 
-## Pois
+- id: ferries
+  features:
+  - source: osm
+    geometry: line
+    min_zoom:
+      default_value: 12
+      overrides:
+        10:
+          __not__:
+            motor_vehicle: no
+    include_when:
+      route: ferry
+    attributes:
+    - key: kind
+      type: match_value
+    - *name
+
+##  Points of Interest
 - id: public_transport
   features:
   - source: osm
