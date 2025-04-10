@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FullCalendar from "@fullcalendar/vue3";
+import type FullCalendar from "@fullcalendar/vue3";
 import type { CalendarOptions, EventInput, EventSourceFuncArg } from "@fullcalendar/core";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
