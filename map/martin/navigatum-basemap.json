@@ -2069,7 +2069,7 @@
       "layout": {
         "symbol-placement": "point",
         "text-anchor": "center",
-        "text-field": ["to-string", ["get", "number"]],
+        "text-field": ["to-string", ["get", "housenumber"]],
         "text-font": ["Roboto Regular"],
         "text-offset": [0, 0.15],
         "text-size": 12,
