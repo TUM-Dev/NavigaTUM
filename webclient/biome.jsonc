@@ -42,6 +42,10 @@
       "recommended": true,
       "suspicious": {
         "noArrayIndexKey": "off"
+      },
+      "style": {
+        // ! removes code whe need for the claendar !
+        "useImportType": "off"
       }
     }
   }

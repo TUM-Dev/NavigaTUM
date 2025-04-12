@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type FullCalendar from "@fullcalendar/vue3";
 import type { CalendarOptions, EventInput, EventSourceFuncArg } from "@fullcalendar/core";
+import type { components, operations } from "~/api_types";
+import FullCalendar from "@fullcalendar/vue3";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import type { components, operations } from "~/api_types";
 import deLocale from "@fullcalendar/core/locales/de";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 
