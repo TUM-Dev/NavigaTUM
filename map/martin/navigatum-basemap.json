@@ -2800,6 +2800,10 @@
           ["get", "kind"],
           ["station"],
           ["literal", "s-bahn-munich"],
+          ["aerodrome"],
+          ["literal", "airport"],
+          ["helipad"],
+          ["literal", "heliport"],
           ["get", "kind"]
         ],
         "text-anchor": "left",
