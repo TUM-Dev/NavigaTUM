@@ -83,7 +83,6 @@ export default defineNuxtConfig({
 }`,
           type: "application/ld+json",
         },
-        { innerHTML: "window.$plausible = [];" },
       ],
     },
   },
