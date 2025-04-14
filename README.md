@@ -48,8 +48,8 @@ Depending on what you want to work on, you **do not need to set up all of them**
 - `data/` contains the code to obtain and process the data
 - `server/` contains the APIs written in Rust
 - `webclient/` contains a JS based web-frontend for the API
-- `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it
+- `DEPLOYMENT.md` contains deployment related documentation
 
 Let's go through them one by one, but first, you need to clone the repository:
 
