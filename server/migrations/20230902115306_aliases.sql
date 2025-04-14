@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 CREATE TABLE aliases
 (
     id         SERIAL PRIMARY KEY NOT NULL,

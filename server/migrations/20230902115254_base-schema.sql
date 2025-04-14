@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 CREATE TABLE de
 (
     key               TEXT UNIQUE PRIMARY KEY NOT NULL,

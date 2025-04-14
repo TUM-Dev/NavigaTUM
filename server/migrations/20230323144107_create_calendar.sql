@@ -1,4 +1,4 @@
--- Your SQL goes here
+-- Add migration script here
 CREATE TABLE calendar (
     key                     VARCHAR(30) NOT NULL,
     dtstart                 TIMESTAMP NOT NULL,

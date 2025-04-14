@@ -1,4 +1,4 @@
--- Your SQL goes here
+-- Add migration script here
 DROP TABLE IF EXISTS calendar;
 DROP INDEX IF EXISTS calendar_lut;
 
