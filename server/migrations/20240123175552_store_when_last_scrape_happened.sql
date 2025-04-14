@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 ALTER TABLE de ADD last_calendar_scrape_at TIMESTAMPTZ DEFAULT NULL;
 COMMENT ON COLUMN de.last_calendar_scrape_at IS 'the last time the calendar was scraped for this room';
 

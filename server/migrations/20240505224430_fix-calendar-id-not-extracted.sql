@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 DROP TABLE rooms;
 
 -- migrating to using the json type instead of having elaborate insertion logic

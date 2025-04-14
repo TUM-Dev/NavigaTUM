@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 ALTER TABLE en DROP CONSTRAINT en_key_fkey;
 ALTER TABLE en ADD FOREIGN KEY (key) REFERENCES de ON UPDATE CASCADE ON DELETE CASCADE;
 
