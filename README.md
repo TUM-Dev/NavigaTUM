@@ -65,15 +65,25 @@ download the latest compiled files by running the server.
 
 Otherwise, you can follow the steps in the [data documentation](data/README.md).
 
+### Webclient
+
+Follow the steps in the [webclient documentation](webclient/README.md).
+If you want to only run the webclient locally, you can skip the "Data" and "Server" sections or use docker to run a close-to-production version
+
+By default, the webclient will use the public API.
+If you want to use a local version, you can use docker to run a close-to-production version.
+
+Further details on our frontend can be found in the [webclient documentation](webclient/README.md).
+
 ### Server
 
-If you want to work only on the webclient (and not server or data), you don't need to set up the server.
-You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our
-ready-made docker images to run the server locally:
+To build the server locally, you can run the following command:
 
 ```bash
 docker compose -f docker-compose.local.yml up --build
 ```
+
+The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [`http://localhost:3000`](http://localhost:3000).
 
 > [!NOTE]
 > We also need to run an incremental compilation for our server.
@@ -94,13 +104,7 @@ docker compose -f docker-compose.local.yml up --build
 > - [planetiler](https://github.com/onthegomap/planetiler) (for generating basemap tiles database of our tileserver)
 > - [martin](https://github.com/maplibre/martin) (as it would not have any data to pull on)
 
-Otherwise, you can follow the steps in the [server documentation](server/README.md).
-
-### Webclient
-
-Follow the steps in the [webclient documentation](webclient/README.md).
-If you want to only run the webclient locally, you can skip the "Data" and "Server" steps above and use docker (as seen
-above) or you can [edit the webclient configuration](webclient/README.md#testing) to point to production.
+Further details on our backend can be found in the [server documentation](server/README.md).
 
 ### Formatting
 
@@ -126,20 +130,3 @@ You can also automatically **format files on every commit** by running the follo
 ```bash
 pre-commit install
 ```
-
-## License
-
-All code is licensed under the GNU GPL v3:
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.

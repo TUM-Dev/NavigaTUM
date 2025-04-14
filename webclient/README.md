@@ -23,10 +23,10 @@ Most modern IDEs (like the PyCharm+RustRover+WebStorm combination) should work a
 pnpm install
 ```
 
-## Run
+## Runing in development mode
 
-Ensure that _NavigaTUM-server_ is running in the background.
-By default, the webclient will connect to the server on `https://nav.tum.de`.  
+Ensure a server running _NavigaTUM's API_ is available.
+By default, the webclient will connect to the server on [`https://nav.tum.de/api`](https://nav.tum.de/api).  
 If you want to connect to a local version instead, change the environemnt
 variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
 
@@ -38,14 +38,10 @@ To get a local server running, you can do so:
   docker compose -f docker-compose.local.yml up --build
   ```
 
+To run the webclient in development mode:
+
 ```sh
 pnpm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm run build
 ```
 
 ### Linting with [ESLint](https://eslint.org/) and formatting via prettier
@@ -55,8 +51,17 @@ pnpm run lint
 pnpm run format
 ```
 
+### Type-Check, Compile and Minify for Production
+
+Sometimes you might want to run the type-checker and compiler separately:
+
+```sh
+pnpm run build
+```
+
 ### Update the API's type definitions
 
+The `openapi.yaml` file at the root of the project is used to generate the typescript types for the api.
 From the folder of this README, run:
 
 ```sh
