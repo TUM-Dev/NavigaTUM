@@ -20,6 +20,7 @@ If you'd like to help out or join us in this adventure, we would love to talk to
 
 <img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="50%"/>
 <img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="100%"/><img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="100%"/>
+<img alt="Screenshot of the navigation-page" src="./resources/website-screenshots/navigate_light.png#gh-light-mode-only" width="100%"/><img alt="Screenshot of the navigation-page" src="./resources/website-screenshots/navigate_dark.png#gh-dark-mode-only" width="100%"/>
 
 ## API Documentation and native clients
 
