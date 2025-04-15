@@ -16,6 +16,38 @@
       en: Office
     din_277: NF2.1
     din_277_desc: Büroräume
+"0104.U1.403":
+    name: Fachschaft EI (aktuell im N0128)
+    usage:
+      name:
+        de: Fachschaft EI
+        en: Student Council EI
+      din_277: NF2.1
+      din_277_desc: Büroräume
+    props:
+      links:
+        - text:
+            de: Homepage
+            en: Homepage
+          url: https://www.fs.ei.tum.de/
+      comment:
+        de: Aktuell im N0128 wegen Sanierungsarbeiten
+        en: Currently in N0128 due to construction work
+"0101.EG.128":
+    name: Fachschaft EI
+    short_name: FSEI
+    usage:
+      name:
+        de: Fachschaft EI
+        en: Student Council EI
+      din_277: NF2.1
+      din_277_desc: Büroräume
+    props:
+      links:
+        - text:
+            de: Homepage
+            en: Homepage
+          url: https://www.fs.ei.tum.de/
 # StudiTUM Innenstadt switched to only-unisex toilets
 # previous WC-Damen:
 "0201.EG.004":
