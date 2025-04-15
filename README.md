@@ -19,7 +19,7 @@ If you'd like to help out or join us in this adventure, we would love to talk to
 ## Screenshots
 
 <img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="50%"/>
-<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="100%"/><img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="100%"/>
+<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="50%"/><img alt="Screenshot of the mechanical engineering buidlings plan" src="./data/sources/img/maps/site_plans/mw_0.webp" width="50%"/>
 <img alt="Screenshot of the navigation-page" src="./resources/website-screenshots/navigate_light.png#gh-light-mode-only" width="100%"/><img alt="Screenshot of the navigation-page" src="./resources/website-screenshots/navigate_dark.png#gh-dark-mode-only" width="100%"/>
 
 ## API Documentation and native clients
@@ -68,7 +68,8 @@ Otherwise, you can follow the steps in the [data documentation](data/README.md).
 ### Webclient
 
 Follow the steps in the [webclient documentation](webclient/README.md).
-If you want to only run the webclient locally, you can skip the "Data" and "Server" sections or use docker to run a close-to-production version
+If you want to only run the webclient locally, you can skip the "Data" and "Server" sections or use docker to run a
+close-to-production version
 
 By default, the webclient will use the public API.
 If you want to use a local version, you can use docker to run a close-to-production version.
@@ -83,7 +84,8 @@ To build the server locally, you can run the following command:
 docker compose -f docker-compose.local.yml up --build
 ```
 
-The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [`http://localhost:3000`](http://localhost:3000).
+The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [
+`http://localhost:3000`](http://localhost:3000).
 
 > [!NOTE]
 > We also need to run an incremental compilation for our server.
