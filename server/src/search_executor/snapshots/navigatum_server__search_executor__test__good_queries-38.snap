@@ -8,7 +8,7 @@ info: "'n1403' should get '0104.U1.403' in 2 results # This is 'N-1403@0104', bu
   entries:
     - id: 0104.U1.403
       type: room
-      name: 0104.U1.403 (Fachschaft EI)
+      name: 0104.U1.403 (Fachschaft EI (aktuell im N0128))
       subtext: "stammgelände, E-Technik Elektrophysik (N4)"
       subtext_bold: N-1403@0104
     - id: 0104.01.403
