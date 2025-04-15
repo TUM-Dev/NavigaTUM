@@ -199,8 +199,7 @@ def extract_exported_item(data, entry):
         del result["children"]
         del result["children_flat"]
     for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
-        if key in result:
-            del result[key]
+        result.pop(key, None)
     if "props" in result:
         prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
