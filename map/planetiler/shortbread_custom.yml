@@ -1039,13 +1039,13 @@ layers:
       natural: hedge
     attributes:
     - key: kind
-      match:
-        - value: natural
-          if: { barrier: [ hedge, log ], natural: hedge }
-        - value: soft
-          if: { barrier: [block, cable_barrier, chain, ditch, jersey_barrier, rope] }
-        - else: wall
-      type: match_value
+      value:
+        match:
+          - value: natural
+            if: { barrier: [ hedge, log ], natural: hedge }
+          - value: soft
+            if: { barrier: [block, cable_barrier, chain, ditch, jersey_barrier, rope] }
+          - else: wall
   tile_post_process:
     merge_line_strings:
       min_length: 0.1
@@ -1082,16 +1082,16 @@ layers:
       - bollard
     attributes:
     - key: kind
-      match:
-        - value: turnstile
-          if: { barrier: [ full-height_turnstile, turnstile ] }
-        - value: circle
-          if: { barrier: [ bollard ] }
-        - value: vehicle_gate
-          if: { barrier: [ lift_gate, sliding_beam, sliding_gate, swing_gate ] }
-        - value: gate
-          if: { barrier: [ gate, cycle_barrier, wicket_gate ] }
-        - value: blocking
-          if: { barrier: [ bar, barrier_board, chain, jersey_barrier, log, rope, tyres, tank_trap ] }
-        - else: unknown
-      type: match_value
+      value:
+        match:
+          - value: turnstile
+            if: { barrier: [ full-height_turnstile, turnstile ] }
+          - value: circle
+            if: { barrier: [ bollard ] }
+          - value: vehicle_gate
+            if: { barrier: [ lift_gate, sliding_beam, sliding_gate, swing_gate ] }
+          - value: gate
+            if: { barrier: [ gate, cycle_barrier, wicket_gate ] }
+          - value: blocking
+            if: { barrier: [ bar, barrier_board, chain, jersey_barrier, log, rope, tyres, tank_trap ] }
+          - else: unknown
