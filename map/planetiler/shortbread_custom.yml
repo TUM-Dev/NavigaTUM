@@ -376,6 +376,7 @@ layers:
       - shrubbery
       - shingle
       - wood
+      barrier: hedge
       wetland:
       - bog
       - marsh
@@ -407,6 +408,7 @@ layers:
         13:
           amenity: grave_yard
           landuse: cemetery
+          barrier: hedge
     attributes:
     - key: kind
       value: '${match_value == "forest" ? "wood": match_value}'
