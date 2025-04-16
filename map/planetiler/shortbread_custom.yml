@@ -1086,7 +1086,7 @@ layers:
         - value: turnstile
           if: { barrier: [ full-height_turnstile, turnstile ] }
         - value: circle
-          if: { barrier: [ 	bollard ] }
+          if: { barrier: [ bollard ] }
         - value: vehicle_gate
           if: { barrier: [ lift_gate, sliding_beam, sliding_gate, swing_gate ] }
         - value: gate
