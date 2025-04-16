@@ -360,7 +360,7 @@
       "source": "nav",
       "source-layer": "land",
       "minzoom": 11,
-      "filter": ["==", ["get", "kind"], "scrub"],
+      "filter": ["any", ["==", ["get", "kind"], "scrub"], ["==", ["get", "kind"], "shrubbery"]],
       "paint": {
         "fill-antialias": false,
         "fill-color": "rgba(197, 213, 154, 1)",
