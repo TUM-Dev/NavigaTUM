@@ -999,4 +999,99 @@ layers:
     geometry: point
     min_zoom: 15
     include_when:
-      natural: tree
+      natural:
+        - tree
+        - shrub
+      barrier: planter
+
+- id: tree_rows
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 15
+    include_when:
+      natural: tree_row
+
+- id: barrier_lines
+  features:
+  - source: osm
+    geometry: line
+    min_size: 0
+    min_zoom: 15
+    include_when:
+      barrier:
+      - block # according to wiki not correct, but often used
+      - cable_barrier
+      - ditch
+      - fence
+      - guard_rail
+      - handrail
+      - hedge
+      - retaining_wall
+      - wall
+      - chain
+      - jersey_barrier
+      - log
+      - rope
+      - tank_trap
+      - tyres
+      - delineators
+      natural: hedge
+    attributes:
+    - key: kind
+      match:
+        - value: natural
+          if: { barrier: [ hedge, log ], natural: hedge }
+        - value: soft
+          if: { barrier: [block, cable_barrier, chain, ditch, jersey_barrier, rope] }
+        - else: wall
+      type: match_value
+  tile_post_process:
+    merge_line_strings:
+      min_length: 0.1
+      tolerance: 1
+      buffer: 1
+
+- id: barrier_points
+  features:
+  - source: osm
+    geometry: point
+    min_zoom: 15
+    include_when:
+      barrier:
+      - block
+      - bollard
+      - cycle_barrier
+      - debris
+      - full-height_turnstile
+      - turnstile
+      - gate
+      - lift_gate
+      - sliding_beam
+      - sliding_gate
+      - swing_gate
+      - wicket_gate
+      - bar
+      - barrier_board
+      - chain
+      - jersey_barrier
+      - log
+      - rope
+      - tyres
+      - tank_trap
+      - bollard
+    attributes:
+    - key: kind
+      match:
+        - value: turnstile
+          if: { barrier: [ full-height_turnstile, turnstile ] }
+        - value: circle
+          if: { barrier: [ 	bollard ] }
+        - value: vehicle_gate
+          if: { barrier: [ lift_gate, sliding_beam, sliding_gate, swing_gate ] }
+        - value: gate
+          if: { barrier: [ gate, cycle_barrier, wicket_gate ] }
+        - value: blocking
+          if: { barrier: [ bar, barrier_board, chain, jersey_barrier, log, rope, tyres, tank_trap ] }
+        - else: unknown
+      type: match_value
