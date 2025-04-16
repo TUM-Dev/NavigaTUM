@@ -423,15 +423,33 @@
       "type": "fill",
       "source": "nav",
       "source-layer": "land",
-      "minzoom": 13,
+      "minzoom": 15,
       "filter": ["==", ["get", "kind"], "hedge"],
       "paint": {
         "fill-antialias": false,
         "fill-color": "rgb(124, 156, 112)",
         "fill-opacity": {
           "stops": [
-            [13, 0],
-            [14, 0.4]
+            [15, 0],
+            [16, 0.4]
+          ]
+        }
+      }
+    },
+    {
+      "id": "land_wall",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "land",
+      "minzoom": 15,
+      "filter": ["==", ["get", "kind"], "wall"],
+      "paint": {
+        "fill-antialias": false,
+        "fill-color": "rgb(106, 106, 106)",
+        "fill-opacity": {
+          "stops": [
+            [15, 0],
+            [16, 0.4]
           ]
         }
       }
