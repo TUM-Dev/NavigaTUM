@@ -78,15 +78,15 @@ Our CSS framework is [Tailwind](https://tailwindcss.com/).
 
 ```plain
 webclient
-├── public/        # 🠔 Static assets such as icons, which cannot get inlined
-├── api_types/     # 🠔 code generated via openapi.yaml for typechecking reasons
+├── public/        # 🠔 Static assets such as icons, which cannot get inlined.
+├── api_types/     # 🠔 Code generated via openapi.yaml for typechecking reasons.
 ├── content/       # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-├── assets/        # 🠔 Static assets such as icons
-│   └── logos      # 🠔 The Logos used by the app
+├── assets/        # 🠔 Static assets such as icons.
+│   └── logos      # 🠔 The Logos used by the app.
 ├── components/    # 🠔 Vue components, which are used in views.
 ├── pages/         # 🠔 The pages are parts of App.vue, which are loaded based their file names.
-├── nuxt.config.ts # 🠔 core configuration of nuxt
-└── package.json   # 🠔 Node package definition and dependencies
+├── nuxt.config.ts # 🠔 Core configuration of nuxt.
+└── package.json   # 🠔 Node package definition and dependencies.
 ```
 
 ## Testing
