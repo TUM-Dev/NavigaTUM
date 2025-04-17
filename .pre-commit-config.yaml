@@ -5,9 +5,7 @@ repos:
       - id: check-ast
       - id: check-toml
       - id: check-yaml
-        args:
-          - --allow-multiple-documents
-        exclude: "(data/data_format_geo-entry.yaml)|(deployment/k3s/.*)|(webclient/pnpm-lock.yaml)"
+        exclude: "(data/data_format_geo-entry.yaml)|(webclient/pnpm-lock.yaml)"
       - id: check-json
         exclude: "(webclient/tsconfig.json)"
       - id: check-executables-have-shebangs
@@ -26,16 +24,18 @@ repos:
       - id: cargo-fmt
         name: cargo fmt
         entry: cargo fmt --all --manifest-path "server/Cargo.toml"
-        language: system
+        language: rust
         pass_filenames: false
+        files: *.rs
   # only webclient
   - repo: local
     hooks:
       - id: webclient-format
-        name: pnpm run format
-        entry: pnpm run --prefix webclient format
-        language: system
+        name: npm run format
+        entry: npm run --prefix webclient format
+        language: node
         pass_filenames: false
+        files: (*.vue|*.js|*.ts|*.json|*.jsonc)
   # only data
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
