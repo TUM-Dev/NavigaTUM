@@ -101,6 +101,7 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "Enter":
+      e.preventDefault();
       if (highlighted.value !== undefined) {
         const visible = visibleElements.value[highlighted.value];
         if (visible !== undefined) {
