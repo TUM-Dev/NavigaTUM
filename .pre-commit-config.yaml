@@ -26,7 +26,7 @@ repos:
         entry: cargo fmt --all --manifest-path "server/Cargo.toml"
         language: rust
         pass_filenames: false
-        files: "*.rs"
+        files: ".*\\.rs"
   # only webclient
   - repo: local
     hooks:
@@ -35,7 +35,7 @@ repos:
         entry: npm run --prefix webclient format
         language: node
         pass_filenames: false
-        files: (*.vue|*.js|*.ts|*.json|*.jsonc)
+        files: (.*\\vue|.*\\m?js|.*\\ts|.*\\json)
   # only data
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
