@@ -3620,6 +3620,63 @@
       }
     },
     {
+      "id": "barrier_points",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "barrier_points",
+      "minzoom": 17,
+      "layout": {
+        "icon-image": [
+          "match",
+          ["get", "kind"],
+          "turnstile",
+          "turnstile",
+          "vehicle_gate",
+          "lift-gate",
+          "gate",
+          "gate",
+          "blocking",
+          "barrier",
+          "circle"
+        ],
+        "symbol-placement": "point",
+        "icon-optional": true,
+        "icon-size": {"stops": [[17, 0.5], [19, 1]]}
+      },
+      "paint": {
+        "icon-opacity": {"stops": [[17, 0], [19, 0.4], [20, 0.8]]},
+        "icon-color": "rgba(173, 173, 173, 1)"
+      }
+    },
+    {
+      "id": "barrier_lines",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "barrier_lines",
+      "minzoom": 15,
+      "paint": {
+        "line-color": [
+          "match",
+          ["get", "kind"],
+          "natural",
+          "rgb(98, 181, 102)",
+          "soft",
+          "rgb(160, 157, 157)",
+          "rgb(121, 121, 121)"
+        ],
+        "line-opacity": {"stops": [[16, 0], [18, 0.2]]},
+        "line-width": [
+          "match",
+          ["get", "kind"],
+          "natural",
+          ["literal", 4],
+          "soft",
+          ["literal", 2],
+          ["literal", 3]
+        ]
+      }
+    },
+    {
       "id": "place_village",
       "type": "symbol",
       "source": "nav",
