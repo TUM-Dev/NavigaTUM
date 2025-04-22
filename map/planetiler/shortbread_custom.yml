@@ -1049,8 +1049,8 @@ layers:
   tile_post_process:
     merge_line_strings:
       min_length: 0.1
-      tolerance: 1
-      buffer: 1
+      tolerance: 0.2
+      buffer: 0.2
 
 - id: barrier_points
   features:
