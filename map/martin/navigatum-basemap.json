@@ -236,7 +236,8 @@
       "filter": [
         "any",
         ["==", ["get", "kind"], "park"],
-        ["==", ["get", "kind"], "garden"]
+        ["==", ["get", "kind"], "garden"],
+        ["==", ["get", "kind"], "flowerbed"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
