@@ -343,6 +343,7 @@ layers:
       - farmland
       - farmyard
       - forest
+      - flowerbed
       - garages
       - grass
       - greenfield
@@ -410,6 +411,7 @@ layers:
         13:
           amenity: grave_yard
           landuse: cemetery
+          landuse: flowerbed
         15:
           barrier:
           - hedge
