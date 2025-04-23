@@ -197,12 +197,6 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     afterLoaded.value();
   });
 
-  map.on("style.load", () => {
-    map.setProjection({
-      type: "globe", // Set projection to globe
-    });
-  });
-
   const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,

@@ -25,6 +25,7 @@
       0
     ]
   },
+  "projection": {"type": "globe"},
   "sources": {
     "nav": {"type": "vector", "url": "https://nav.tum.de/tiles/shortbread"},
     "natural_earth_shaded_relief": {
