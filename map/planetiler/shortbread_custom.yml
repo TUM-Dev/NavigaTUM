@@ -342,6 +342,7 @@ layers:
       - commercial
       - farmland
       - farmyard
+      - flowerbed
       - forest
       - garages
       - grass
