@@ -32,7 +32,7 @@ RUN cp -r sources/img/* output \
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
 
-FROM nginx:1.27 AS production-stage
+FROM nginx:1.28 AS production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
