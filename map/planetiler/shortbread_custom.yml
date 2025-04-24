@@ -410,8 +410,9 @@ layers:
           - sand
         13:
           amenity: grave_yard
-          landuse: cemetery
-          landuse: flowerbed
+          landuse:
+          - cemetery
+          - flowerbed
         15:
           barrier:
           - hedge
