@@ -438,6 +438,78 @@
       }
     },
     {
+      "id": "land_tree_rows",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "tree_rows",
+      "minzoom": 17,
+      "layout": {
+        "symbol-placement": "line",
+        "text-field": "",
+        "icon-image": "circle",
+        "icon-optional": true,
+        "visibility": "visible",
+        "icon-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          0.5,
+          19,
+          1.5,
+          20,
+          3,
+          21,
+          6,
+          22,
+          12,
+          23,
+          24,
+          24,
+          48
+        ],
+        "icon-ignore-placement": false,
+        "icon-allow-overlap": true,
+        "symbol-spacing": {"stops": [[17, 5], [19, 50], [21, 200], [22, 800]]},
+        "symbol-avoid-edges": true
+      },
+      "paint": {
+        "icon-color": "rgba(94, 180, 100, 0.3)",
+        "icon-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          0,
+          19,
+          0.3,
+          20,
+          0.4
+        ],
+        "icon-halo-color": "rgba(94, 180, 100, 0.3)",
+        "icon-halo-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          0.5,
+          19,
+          1.5,
+          20,
+          3,
+          21,
+          6,
+          22,
+          12,
+          23,
+          24,
+          24,
+          48
+        ],
+        "icon-halo-blur": 10
+      }
+    },
+    {
       "id": "land_cemetery",
       "type": "fill",
       "source": "nav",
