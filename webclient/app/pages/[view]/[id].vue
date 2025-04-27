@@ -170,7 +170,7 @@ useSeoMeta({
               :title="t('header.calendar')"
               @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
             >
-              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4 hover:text-blue-900" />
+              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-7 w-7 hover:text-blue-900" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
             <DetailsFeedbackButton />
