@@ -2,7 +2,7 @@
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import { CalendarDaysIcon } from "@heroicons/vue/16/solid";
+import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import { useRouteQuery } from "@vueuse/router";
