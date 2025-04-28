@@ -37,7 +37,7 @@ const shareOptions = () =>
     class="focusable rounded-sm"
     @click="modalOpen = true"
   >
-    <ShareIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
+    <ShareIcon class="text-blue-600 h-7 w-7 hover:text-blue-900" />
   </button>
   <ClientOnly>
     <LazyModal v-model="modalOpen" :title="t('share')">
