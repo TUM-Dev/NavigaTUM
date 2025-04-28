@@ -2,7 +2,7 @@
 import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
-import { ShareIcon } from "@heroicons/vue/16/solid";
+import { ShareIcon } from "@heroicons/vue/24/outline";
 import { ClipboardDocumentCheckIcon, ClipboardIcon } from "@heroicons/vue/20/solid";
 
 const props = defineProps<{
