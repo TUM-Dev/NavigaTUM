@@ -24,7 +24,7 @@ async function updateLocale(value: "de" | "en") {
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>
-        <AdjustmentsHorizontalIcon class="text-zinc-900 h-6 w-6" />
+        <AdjustmentsHorizontalIcon class="text-zinc-900 h-7 w-7" />
       </MenuButton>
     </div>
     <Transition

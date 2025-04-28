@@ -168,7 +168,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       :aria-label="t('input.aria-actionlabel')"
       :title="t('input.action')"
     >
-      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-6 w-6" />
+      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-7 w-7" />
     </button>
   </form>
   <!-- Autocomplete -->
