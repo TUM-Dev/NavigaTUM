@@ -4,7 +4,7 @@ defusedxml==0.7.1
 lxml==5.4.0
 Pillow==11.2.1
 polars==1.9.0
-pyarrow==19.0.1
+pyarrow==20.0.0
 pydantic==2.11.3
 pyyaml==6.0.2
 requests==2.32.3
