@@ -18,7 +18,7 @@ defineExpose({ refetchEvents });
 const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
 
-const earliest_last_sync = defineModel<string | null>("earliest_last_sync");
+const earliest_last_sync = defineModel<Date | null>("earliest_last_sync");
 const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
 
 interface Color {
@@ -84,18 +84,16 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
 }
 
 function extractInfos(data: CalendarResponse): void {
-  const last_syncs: Date[] = [];
+  let last_sync: Date | null = null;
   for (const d of Object.values(data)) {
     if (d.location.last_calendar_scrape_at) {
-      last_syncs.push(new Date(d.location.last_calendar_scrape_at));
+      const sync = new Date(d.location.last_calendar_scrape_at);
+      if (last_sync === null || sync < last_sync) {
+        last_sync = sync;
+      }
     }
   }
-  earliest_last_sync.value = last_syncs
-    .reduce((d1, d2) => (d1 < d2 ? d1 : d2))
-    .toLocaleString(locale.value, {
-      timeStyle: "short",
-      dateStyle: "short",
-    });
+  earliest_last_sync.value = last_sync;
   const tempLocationMap = new Map<string, CalendarLocationResponse>();
   for (const [key, v] of Object.entries(data)) {
     tempLocationMap.set(key, v.location);
