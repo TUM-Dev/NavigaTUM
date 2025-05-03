@@ -1,5 +1,0 @@
-tsconfig.json
-.output
-.nuxt
-node_modules
-pnpm-lock.yaml
