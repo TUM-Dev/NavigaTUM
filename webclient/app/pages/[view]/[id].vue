@@ -28,7 +28,6 @@ const url = computed(
   () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
 );
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
-  key: "details",
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,

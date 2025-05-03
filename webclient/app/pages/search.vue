@@ -31,7 +31,6 @@ const apiUrl = computed(() => {
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data } = useFetch<SearchResponse>(apiUrl, {
-  key: "search-page",
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,

@@ -127,7 +127,6 @@ const url = computed(() => {
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data, error } = await useFetch<SearchResponse>(url, {
-  key: "search-bar",
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,
