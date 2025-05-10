@@ -17,7 +17,7 @@ path = "src/main.rs"
 
 [dependencies]
 # logging/obeservability
-actix-web-prom = { version = "0.9.0", default-features = false, features = [] }
+actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
 tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json", "fmt"] }
 tracing = "0.1.41"
 tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
