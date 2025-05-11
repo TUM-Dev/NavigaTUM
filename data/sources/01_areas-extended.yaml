@@ -869,7 +869,7 @@ physik-main:
     osm: [ "way/308082257" ]
 
 5128: # Am Coulombwall 3A
-    coords: { lat: 48.26922644587703, lon: 11.678323243773276 }
+    coords: { lat: 48.26905148008035, lon: 11.677593682921696 }
 
 mll:
     coords: { lat: 48.26839, lon: 11.67818 }
