@@ -414,6 +414,8 @@ layers:
           - grass
           - cemetery
           - flowerbed
+          natural:
+          - scrub
         15:
           barrier:
           - hedge
