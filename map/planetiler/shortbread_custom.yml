@@ -387,7 +387,7 @@ layers:
       - swamp
       - wet_meadow
     min_zoom:
-      default_value: 11
+      default_value: 12
       overrides:
         7:
           natural: wood
@@ -411,6 +411,7 @@ layers:
         13:
           amenity: grave_yard
           landuse:
+          - grass
           - cemetery
           - flowerbed
         15:
@@ -422,7 +423,7 @@ layers:
       value: '${match_value == "forest" ? "wood": match_value}'
   tile_post_process:
     merge_polygons:
-      min_area: 1
+      min_area: 0.5
 
 - id: sites
   features:
