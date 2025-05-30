@@ -273,7 +273,7 @@ services:
     volumes:
       - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:v0.16.0
+    image: ghcr.io/maplibre/martin:v0.17.0
     restart: unless-stopped
     command:
       - --config
