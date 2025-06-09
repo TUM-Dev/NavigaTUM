@@ -101,6 +101,7 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "Enter":
+      e.preventDefault();
       if (highlighted.value !== undefined) {
         const visible = visibleElements.value[highlighted.value];
         if (visible !== undefined) {
@@ -126,7 +127,6 @@ const url = computed(() => {
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data, error } = await useFetch<SearchResponse>(url, {
-  key: "search",
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,
@@ -167,7 +167,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       :aria-label="t('input.aria-actionlabel')"
       :title="t('input.action')"
     >
-      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-6 w-6" />
+      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-7 w-7" />
     </button>
   </form>
   <!-- Autocomplete -->
@@ -282,5 +282,4 @@ en:
     rooms: Rooms
   results: 1 result | {count} results
   approx_results: approx. {count} results
-</i18n>
 </i18n>

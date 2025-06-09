@@ -7,7 +7,7 @@ This folder contains the JavaScript-based webclient for NavigaTUM.
 ### Prerequisites
 
 For getting started, there are some system dependencies which you will need.
-Please follow the [system dependencies docs](/resources/documentation/Dependencies.md) before trying to run this part of
+Please follow the [system dependencies docs](/SYSTEM_DEPENDENCIES.md) before trying to run this part of
 our project.
 
 ### Recommended IDE Setup
@@ -23,10 +23,10 @@ Most modern IDEs (like the PyCharm+RustRover+WebStorm combination) should work a
 pnpm install
 ```
 
-## Run
+## Runing in development mode
 
-Ensure that _NavigaTUM-server_ is running in the background.
-By default, the webclient will connect to the server on `https://nav.tum.de`.  
+Ensure a server running _NavigaTUM's API_ is available.
+By default, the webclient will connect to the server on [`https://nav.tum.de/api`](https://nav.tum.de/api).  
 If you want to connect to a local version instead, change the environemnt
 variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
 
@@ -38,14 +38,10 @@ To get a local server running, you can do so:
   docker compose -f docker-compose.local.yml up --build
   ```
 
+To run the webclient in development mode:
+
 ```sh
 pnpm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm run build
 ```
 
 ### Linting with [ESLint](https://eslint.org/) and formatting via prettier
@@ -55,8 +51,17 @@ pnpm run lint
 pnpm run format
 ```
 
+### Type-Check, Compile and Minify for Production
+
+Sometimes you might want to run the type-checker and compiler separately:
+
+```sh
+pnpm run build
+```
+
 ### Update the API's type definitions
 
+The `openapi.yaml` file at the root of the project is used to generate the typescript types for the api.
 From the folder of this README, run:
 
 ```sh
@@ -73,15 +78,15 @@ Our CSS framework is [Tailwind](https://tailwindcss.com/).
 
 ```plain
 webclient
-├── public/        # 🠔 Static assets such as icons, which cannot get inlined
-├── api_types/     # 🠔 code generated via openapi.yaml for typechecking reasons
+├── public/        # 🠔 Static assets such as icons, which cannot get inlined.
+├── api_types/     # 🠔 Code generated via openapi.yaml for typechecking reasons.
 ├── content/       # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-├── assets/        # 🠔 Static assets such as icons
-│   └── logos      # 🠔 The Logos used by the app
+├── assets/        # 🠔 Static assets such as icons.
+│   └── logos      # 🠔 The Logos used by the app.
 ├── components/    # 🠔 Vue components, which are used in views.
 ├── pages/         # 🠔 The pages are parts of App.vue, which are loaded based their file names.
-├── nuxt.config.ts # 🠔 core configuration of nuxt
-└── package.json   # 🠔 Node package definition and dependencies
+├── nuxt.config.ts # 🠔 Core configuration of nuxt.
+└── package.json   # 🠔 Node package definition and dependencies.
 ```
 
 ## Testing

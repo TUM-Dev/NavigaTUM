@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-10-29",
+  compatibilityDate: "2025-04-30",
   future: {
     compatibilityVersion: 4,
   },
@@ -83,7 +83,6 @@ export default defineNuxtConfig({
 }`,
           type: "application/ld+json",
         },
-        { innerHTML: "window.$plausible = [];" },
       ],
     },
   },
@@ -106,6 +105,9 @@ export default defineNuxtConfig({
       cookieKey: "lang",
       cookieCrossOrigin: false,
       redirectOn: "root", // only redirect if somebody visits / to have better SEO
+    },
+    bundle: {
+      optimizeTranslationDirective: false,
     },
   },
   devtools: { enabled: true },

@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 
 alter table de
     add coordinate_accuracy text generated always as ((((data -> 'coords'::text) ->> 'accuracy'::text))::text) stored null;

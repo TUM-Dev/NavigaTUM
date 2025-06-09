@@ -2,7 +2,7 @@
 import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
-import { ShareIcon } from "@heroicons/vue/16/solid";
+import { ShareIcon } from "@heroicons/vue/24/outline";
 import { ClipboardDocumentCheckIcon, ClipboardIcon } from "@heroicons/vue/20/solid";
 
 const props = defineProps<{
@@ -37,7 +37,7 @@ const shareOptions = () =>
     class="focusable rounded-sm"
     @click="modalOpen = true"
   >
-    <ShareIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
+    <ShareIcon class="text-blue-600 h-7 w-7 hover:text-blue-900" />
   </button>
   <ClientOnly>
     <LazyModal v-model="modalOpen" :title="t('share')">

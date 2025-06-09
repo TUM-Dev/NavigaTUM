@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FlagIcon } from "@heroicons/vue/16/solid";
+import { FlagIcon } from "@heroicons/vue/24/outline";
 import { useFeedback } from "~/composables/feedback";
 
 const route = useRoute();
@@ -25,7 +25,7 @@ const { t } = useI18n({ useScope: "local" });
       }
     "
   >
-    <FlagIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
+    <FlagIcon class="text-blue-600 h-7 w-7 hover:text-blue-900" />
   </button>
 </template>
 

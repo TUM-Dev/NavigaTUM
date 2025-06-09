@@ -1,4 +1,4 @@
--- Add up migration script here
+-- Add migration script here
 -- these are pretty major changes => we should re-download everything
 UPDATE en SET last_calendar_scrape_at = NULL WHERE last_calendar_scrape_at IS NOT NULL;
 UPDATE de SET last_calendar_scrape_at = NULL WHERE last_calendar_scrape_at IS NOT NULL;

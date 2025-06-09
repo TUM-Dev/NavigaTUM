@@ -88,7 +88,7 @@ impl AppliableEdit for Coordinate {
             // persist comments
             if lines[pos].contains('#') {
                 new_line += " #";
-                new_line += lines[pos].split('#').last().unwrap();
+                new_line += lines[pos].split('#').next_back().unwrap();
             }
             lines[pos] = &new_line;
         } else {

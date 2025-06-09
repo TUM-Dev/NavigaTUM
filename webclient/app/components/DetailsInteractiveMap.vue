@@ -103,7 +103,7 @@ function initMap(containerId: string): MapLibreMap {
       preserveDrawingBuffer: false,
     },
 
-    style: "/navigatum-basemap.json",
+    style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
@@ -119,12 +119,6 @@ function initMap(containerId: string): MapLibreMap {
       navigator.clipboard.writeText(`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
     });
   }
-
-  map.on("style.load", () => {
-    map.setProjection({
-      type: "globe", // Set projection to globe
-    });
-  });
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable

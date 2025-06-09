@@ -8,9 +8,9 @@ type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"
 
 const feedback = useFeedback();
 const calendar = useCalendar();
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 // all the below are updated by the calendar
-const earliest_last_sync = ref<string | null>(null);
+const earliest_last_sync = ref<Date | null>(null);
 const locations = ref<Map<string, CalendarLocationResponse>>(new Map());
 const modalOpen = ref(!!calendar.value.length);
 watchEffect(() => {
@@ -80,11 +80,13 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
               :showing="calendar"
             />
             <p class="pt-2 text-xs">
-              {{ t("footer.disclaimer") }} <br />
+              {{ t("footer.disclaimer") }}<br />
               {{ t("footer.please_check") }}
               <template v-if="earliest_last_sync !== null">
                 <br />
-                {{ t("footer.last_sync", [earliest_last_sync]) }}
+                <I18nT keypath="footer.last_sync">
+                    <NuxtTime :datetime="earliest_last_sync" time-style="short" date-style="short" :locale="locale"/>
+                </I18nT>
               </template>
             </p>
           </div>

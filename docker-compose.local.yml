@@ -47,7 +47,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.13.3
+    image: getmeili/meilisearch:v1.14.0
     restart: unless-stopped
     ports:
       - "7700:7700"
@@ -75,8 +75,6 @@ services:
       - synchronous_commit=off
     ports:
       - "5432:5432"
-    volumes:
-      - ./resources/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5

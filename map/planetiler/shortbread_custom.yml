@@ -40,7 +40,7 @@ definitions:
 
 layers:
 
-#  Water
+##  Water
 
 - id: ocean
   features:
@@ -127,7 +127,7 @@ layers:
           - trestle
       else: false
 
-- id: water_line_labels
+- id: water_lines_labels
   features:
   - source: osm
     geometry: line
@@ -152,6 +152,48 @@ layers:
     - *water_lines_attr_tunnel
     - *water_lines_attr_bridge
 
+- id: dam_lines
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 12
+    include_when: &dam_filter
+      # note that dykes are not dams
+      waterway: dam
+    attributes: &dam_atrs
+    - key: kind
+      value: dam
+
+- id: dam_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 12
+    include_when: *dam_filter
+    attributes: *dam_atrs
+
+- id: pier_lines
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 12
+    include_when: &pier_filter
+      man_made: 
+        - pier
+        - breakwater
+        - groyne
+    attributes: &pier_attrs
+    - key: kind
+      type: match_value
+
+- id: pier_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 12
+    include_when: *pier_filter
+    attributes: *pier_attrs
+
 ##  Countries, States, Cities
 - id: boundaries
   features:
@@ -171,8 +213,20 @@ layers:
     attributes:
     - key: maritime
       type: boolean
+      value: true
+      include_when:
+        maritime: __any__
+        natural: coastline
+      else: false
     - key: admin_level
       type: integer
+    - key: disputed
+      value: true
+      include_when:
+        disputed: yes
+        # TODO: member of a relation with boundary=disputed and (admin_level unset or between 2 and 4)
+        # see https://github.com/shortbread-tiles/shortbread-docs/issues/43
+      else: false
 
 - id: boundary_labels
   features:
@@ -181,6 +235,7 @@ layers:
     min_zoom:
       default_value: 5
       overrides:
+        # WAY_AREA is in ha
         2: '${ feature.tags.has("ADMIN_LEVEL", "2") && double(feature.tags.WAY_AREA) >= 2e8 }'
         3: '${ double(feature.tags.WAY_AREA) >= 7e7 }'
         4: '${ double(feature.tags.WAY_AREA) >= 1e7 }'
@@ -210,6 +265,7 @@ layers:
       - village
       - hamlet
       - suburb
+      - quarter
       - neighbourhood
       - isolated_dwelling
       - farm
@@ -261,6 +317,8 @@ layers:
           if: { place: town }
         - value: 1000
           if: { place: suburb }
+        - value: 500
+          if: { place: quarter }
         - value: 100
           if: { place: [ village, neighborhood ] }
         - value: 50
@@ -269,7 +327,7 @@ layers:
           if: { place: [ isolated_dwelling, farm ] }
         - else: 0
 
-#  Land Use, Land Cover, Buildings
+##  Land Use, Land Cover, Buildings
 - id: land
   features:
   - source: osm
@@ -285,6 +343,8 @@ layers:
       - farmland
       - farmyard
       - forest
+      - flowerbed
+      - garages
       - grass
       - greenfield
       - greenhouse_horticulture
@@ -314,8 +374,12 @@ layers:
       - sand
       - scree
       - scrub
+      - shrubbery
       - shingle
       - wood
+      barrier:
+      - hedge
+      - wall
       wetland:
       - bog
       - marsh
@@ -323,7 +387,7 @@ layers:
       - swamp
       - wet_meadow
     min_zoom:
-      default_value: 11
+      default_value: 12
       overrides:
         7:
           natural: wood
@@ -334,6 +398,7 @@ layers:
           - commercial
           - farmland
           - farmyard
+          - garages
           - greenfield
           - industrial
           - landfill
@@ -345,14 +410,22 @@ layers:
           - sand
         13:
           amenity: grave_yard
-          natural: wood
-          landuse: cemetery
+          landuse:
+          - grass
+          - cemetery
+          - flowerbed
+          natural:
+          - scrub
+        15:
+          barrier:
+          - hedge
+          - wall
     attributes:
     - key: kind
       value: '${match_value == "forest" ? "wood": match_value}'
   tile_post_process:
     merge_polygons:
-      min_area: 1
+      min_area: 0.5
 
 - id: sites
   features:
@@ -434,7 +507,7 @@ layers:
     include_when: &address_filter
       addr:housenumber: __any__
     attributes: &address_attributes
-    - key: number
+    - key: housenumber
       tag_value: addr:housenumber
   - source: osm
     geometry: point
@@ -548,6 +621,24 @@ layers:
       tolerance: 1
       buffer: 1
 
+- id: street_polygons
+  features:
+  - source: osm
+    geometry: polygon
+    min_zoom: 14
+    include_when:
+      __all__:
+      - highway: [ pedestrian, service ]
+      - area: yes
+    attributes:
+    - key: kind
+      type: match_value
+    - *bridge_attr
+    - *tunnel_attr
+  tile_post_process:
+    merge_polygons:
+      min_area: 1
+
 - id: street_labels
   features:
   - source: osm
@@ -609,6 +700,34 @@ layers:
       value: '${ size(feature.tags["ref"].split(";")) }'
       exclude_when: *missing_ref
 
+- id: street_polygons_labels
+  features:
+  - source: osm
+    geometry: polygon_point_on_surface
+    min_zoom: 14
+    include_when:
+      __all__:
+        highway: [ pedestrian, service ]
+        area: yes
+        name: __any__
+    attributes:
+    - key: kind
+      type: match_value
+    - *name
+
+- id: street_labels_points
+  features:
+  - source: osm
+    geometry: point
+    min_zoom: 12
+    include_when:
+      highway: motorway_junction
+    attributes:
+    - key: kind
+      type: match_value
+    - key: ref
+    - *name
+
 - id: bridges
   features:
   - source: osm
@@ -629,13 +748,86 @@ layers:
     geometry: line
     min_zoom: 12
     include_when:
-      aerialway: __any__
+      aerialway:
+      - cable_car
+      - gondola
+      - goods
+      - chair_lift
+      - drag_lift
+      - t-bar
+      - j-bar
+      - platter
+      - rope_tow
     attributes:
     - key: kind
       type: match_value
   tile_post_process:
     merge_polygons:
       min_area: 1
+
+- id: ferries
+  features:
+  - source: osm
+    geometry: line
+    min_zoom:
+      default_value: 12
+      overrides:
+        10:
+          __not__:
+            motor_vehicle: no
+    include_when:
+      route: ferry
+    attributes:
+    - key: kind
+      type: match_value
+    - *name
+
+##  Points of Interest
+- id: public_transport
+  features:
+  - source: osm
+    geometry: point
+    min_zoom: &public_transport_zoom
+      default_value: 14
+      overrides:
+        11:
+          aeroway: aerodrome
+          railway: station
+        12:
+          amenity: ferry_terminal
+        13:
+          railway: [ station, halt ]
+          aerialway: station
+          aeroway: helipad
+          amenity: bus_station
+    include_when: &public_transport_filter
+      aerialway: station
+      aeroway: [ aerodrome, helipad ]
+      amenity: [ bus_station, ferry_terminal ]
+      highway: bus_stop
+      railway: [ station, halt, tram_stop ]
+    attributes: &public_transport_attrs
+    - key: kind
+      value:
+        # only aerialway=station needs special handling
+        coalesce:
+        - tag_value: aeroway
+        - tag_value: amenity
+        - tag_value: railway
+        - tag_value: highway
+        - "aerialway_station"
+    - key: subway
+      value:
+        - if: { subway: yes }
+          value: true
+        - else: false
+    - *name
+  - source: osm
+    geometry: polygon_point_on_surface
+    min_zoom: *public_transport_zoom
+    include_when: *public_transport_filter
+    attributes: *public_transport_attrs
+
 
 - id: pois
   features:
@@ -796,51 +988,6 @@ layers:
     include_when: *poi_filter
     attributes: *poi_attrs
 
-- id: public_transport
-  features:
-  - source: osm
-    geometry: point
-    min_zoom: &public_transport_zoom
-      default_value: 14
-      overrides:
-        11:
-          aeroway: aerodrome
-          railway: station
-        12:
-          amenity: ferry_terminal
-        13:
-          railway: [ station, halt ]
-          aerialway: station
-          aeroway: helipad
-          amenity: bus_station
-    include_when: &public_transport_filter
-      aerialway: station
-      aeroway: [ aerodrome, helipad ]
-      amenity: [ bus_station, ferry_terminal ]
-      highway: bus_stop
-      railway: [ station, halt, tram_stop ]
-    attributes: &public_transport_attrs
-    - key: kind
-      value:
-        # only aerialway=station needs special handling
-        coalesce:
-        - tag_value: aeroway
-        - tag_value: amenity
-        - tag_value: railway
-        - tag_value: highway
-        - "aerialway_station"
-    - key: subway
-      value:
-        - if: { subway: yes }
-          value: true
-        - else: false
-    - *name
-  - source: osm
-    geometry: polygon_point_on_surface
-    min_zoom: *public_transport_zoom
-    include_when: *public_transport_filter
-    attributes: *public_transport_attrs
-
 - id: platform_polygons
   features:
   - source: osm
@@ -858,4 +1005,99 @@ layers:
     geometry: point
     min_zoom: 15
     include_when:
-      natural: tree
+      natural:
+        - tree
+        - shrub
+      barrier: planter
+
+- id: tree_rows
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 15
+    include_when:
+      natural: tree_row
+
+- id: barrier_lines
+  features:
+  - source: osm
+    geometry: line
+    min_size: 0
+    min_zoom: 15
+    include_when:
+      barrier:
+      - block # according to wiki not correct, but often used
+      - cable_barrier
+      - ditch
+      - fence
+      - guard_rail
+      - handrail
+      - hedge
+      - retaining_wall
+      - wall
+      - chain
+      - jersey_barrier
+      - log
+      - rope
+      - tank_trap
+      - tyres
+      - delineators
+      natural: hedge
+    attributes:
+    - key: kind
+      value:
+        match:
+          - value: natural
+            if: { barrier: [ hedge, log ], natural: hedge }
+          - value: soft
+            if: { barrier: [block, cable_barrier, chain, ditch, jersey_barrier, rope] }
+          - else: wall
+  tile_post_process:
+    merge_line_strings:
+      min_length: 0.1
+      tolerance: 0.2
+      buffer: 0.2
+
+- id: barrier_points
+  features:
+  - source: osm
+    geometry: point
+    min_zoom: 15
+    include_when:
+      barrier:
+      - block
+      - bollard
+      - cycle_barrier
+      - debris
+      - full-height_turnstile
+      - turnstile
+      - gate
+      - lift_gate
+      - sliding_beam
+      - sliding_gate
+      - swing_gate
+      - wicket_gate
+      - bar
+      - barrier_board
+      - chain
+      - jersey_barrier
+      - log
+      - rope
+      - tyres
+      - tank_trap
+      - bollard
+    attributes:
+    - key: kind
+      value:
+        match:
+          - value: turnstile
+            if: { barrier: [ full-height_turnstile, turnstile ] }
+          - value: circle
+            if: { barrier: [ bollard ] }
+          - value: vehicle_gate
+            if: { barrier: [ lift_gate, sliding_beam, sliding_gate, swing_gate ] }
+          - value: gate
+            if: { barrier: [ gate, cycle_barrier, wicket_gate ] }
+          - value: blocking
+            if: { barrier: [ bar, barrier_board, chain, jersey_barrier, log, rope, tyres, tank_trap ] }
+          - else: unknown

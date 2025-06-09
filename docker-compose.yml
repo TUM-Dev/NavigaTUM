@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.13.3
+    image: getmeili/meilisearch:v1.14.0
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -103,7 +103,6 @@ services:
       - "5432"
     volumes:
       - postgis-data:/var/lib/postgresql/data
-      - ./resources/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
@@ -151,7 +150,7 @@ services:
       start_interval: 500ms
       timeout: 1s
   nominatim:
-    image: mediagis/nominatim:4.5
+    image: mediagis/nominatim:5.1
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -274,7 +273,7 @@ services:
     volumes:
       - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:v0.15.0
+    image: ghcr.io/maplibre/martin:v0.17.0
     restart: unless-stopped
     command:
       - --config
@@ -284,9 +283,9 @@ services:
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
       - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
-      - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker"
+      - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker, navigatum-martin-cache-headers@docker"
       - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/tiles"
-      - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customrequestheaders.Cache-Control=public, max-age=604800" # 7 days
+      - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age=604800" # 7 days
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
       - traefik_traefik

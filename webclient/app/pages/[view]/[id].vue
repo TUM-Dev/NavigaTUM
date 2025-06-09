@@ -2,7 +2,7 @@
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import { CalendarDaysIcon } from "@heroicons/vue/16/solid";
+import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import { useRouteQuery } from "@vueuse/router";
@@ -28,7 +28,6 @@ const url = computed(
   () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
 );
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
-  key: "details",
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,
@@ -170,7 +169,7 @@ useSeoMeta({
               :title="t('header.calendar')"
               @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
             >
-              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />
+              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-7 w-7 hover:text-blue-900" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
             <DetailsFeedbackButton />

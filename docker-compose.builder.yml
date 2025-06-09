@@ -9,23 +9,24 @@ services:
       JAVA_TOOL_OPTIONS: -Xmx25g
     volumes:
       - /tmp/navigatum/map:/data
+      - ./map/planetiler:/conf
     command:
+      - ../conf/shortbread_custom.yml
       - --download
       - --download-threads=10
       - --download-chunk-size-mb=1000
-      - --fetch-wikidata
-      - --languages=de,en
-      - --area=planet
-      - --bounds=world
-      - --Xmx25g
-      - --nodemap-type=array
-      - --storage=mmap
-      - --tile_compression=none
-      - --free_osm_after_read=true
       - --free_natural_earth_after_read=true
       - --free_water_polygons_after_read=true
       - --free_lake_centerlines_after_read=true
-      - --compress_temp=true
+      - --compress_temp=true 
+      - --fetch-wikidata
+      - --languages=de,en
+      - --Xmx25g
+      - --nodemap-type=array
+      - --storage=mmap
+      - --area=planet
+      - --bounds=world
+      - --output=/data/output.mbtiles
       - --force=true
   valhalla-build:
     image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest

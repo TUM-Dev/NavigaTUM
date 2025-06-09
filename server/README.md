@@ -7,7 +7,8 @@ This folder contains the main backend server for NavigaTUM.
 ### Prerequisites
 
 For getting started, there are some system dependencies which you will need.
-Please follow the [system dependencies docs](/resources/documentation/Dependencies.md) before trying to run this part of
+Please follow the [system dependencies docs](/SYSTEM_DEPENDENCIES.md
+) before trying to run this part of
 our project.
 
 ### Additional dependency
