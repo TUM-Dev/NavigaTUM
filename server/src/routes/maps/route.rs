@@ -45,170 +45,184 @@ impl From<geo_types::Point> for Coordinate {
         }
     }
 }
-
-#[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
-#[serde(untagged)]
-enum RequestedLocation {
-    /// Either an
-    /// - external address which was looked up or
-    /// - the user's current location  
-    Coordinate(Coordinate),
-    /// Our (uni internal) key for location identification
-    Location(String),
-}
-impl RequestedLocation {
-    async fn try_resolve_coordinates(&self, pool: &PgPool) -> anyhow::Result<Option<Coordinate>> {
-        match self {
-            RequestedLocation::Coordinate(coords) => Ok(Some(*coords)),
-            RequestedLocation::Location(key) => {
-                let coords = sqlx::query_as!(
-                    Coordinate,
-                    r#"SELECT lat,lon,null as level
+mod req {
+    use super::*;
+    #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
+    #[serde(untagged)]
+    pub(super) enum RequestedLocation {
+        /// Either an
+        /// - external address which was looked up or
+        /// - the user's current location  
+        Coordinate(Coordinate),
+        /// Our (uni internal) key for location identification
+        Location(String),
+    }
+    impl RequestedLocation {
+        pub(super) async fn try_resolve_coordinates(
+            &self,
+            pool: &PgPool,
+        ) -> anyhow::Result<Option<Coordinate>> {
+            match self {
+                RequestedLocation::Coordinate(coords) => Ok(Some(*coords)),
+                RequestedLocation::Location(key) => {
+                    let coord = sqlx::query_as!(
+                        CoordinateWithoutLevel,
+                        r#"SELECT lat,lon
                     FROM de
-                    WHERE key = $1 and
-                          lat IS NOT NULL and
-                          lon IS NOT NULL"#,
-                    key
-                )
-                .fetch_optional(pool)
-                .await?;
-                Ok(coords)
+                    WHERE key = $1"#,
+                        key
+                    )
+                    .fetch_optional(pool)
+                    .await?;
+                    match coord {
+                        Some(CoordinateWithoutLevel { lat, lon }) => Ok(Some(Coordinate {
+                            lat,
+                            lon,
+                            level: None,
+                        })),
+                        None => Ok(None),
+                    }
+                }
             }
         }
     }
-}
 
-/// Transport mode the user wants to use
-#[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
-#[serde(rename_all = "snake_case")]
-enum CostingRequest {
-    Pedestrian,
-    Bicycle,
-    Motorcycle,
-    Car,
-    PublicTransit,
-}
-impl From<&RoutingRequest> for Costing {
-    fn from(
-        RoutingRequest {
-            route_costing,
-            pedestrian_type,
-            ptw_type,
-            bicycle_type,
-            ..
-        }: &RoutingRequest,
-    ) -> Self {
-        match route_costing {
-            CostingRequest::Pedestrian => Costing::Pedestrian(
-                PedestrianCostingOptions::builder().r#type(PedestrianType::from(*pedestrian_type)),
-            ),
-            CostingRequest::Bicycle => Costing::Bicycle(
-                BicycleCostingOptions::builder().bicycle_type(BicycleType::from(*bicycle_type)),
-            ),
-            CostingRequest::Motorcycle => match ptw_type {
-                PoweredTwoWheeledRestrictionRequest::Moped => {
-                    Costing::Motorcycle(Default::default())
-                }
-                PoweredTwoWheeledRestrictionRequest::Motorcycle => {
-                    Costing::MotorScooter(Default::default())
-                }
-            },
-            CostingRequest::Car => Costing::Auto(Default::default()),
-            CostingRequest::PublicTransit => {
-                let pedestrian_costing = PedestrianCostingOptions::builder()
-                    .r#type(PedestrianType::from(*pedestrian_type));
-                Costing::Multimodal(
-                    MultimodalCostingOptions::builder()
-                        .pedestrian(pedestrian_costing)
-                        .transit(Default::default()),
-                )
-            }
-        }
+    struct CoordinateWithoutLevel {
+        lat: f64,
+        lon: f64,
     }
-}
 
-#[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
-struct RoutingRequest {
-    #[serde(flatten, default)]
-    lang: localisation::LangQueryArgs,
-    /// Start of the route
-    from: RequestedLocation,
-    /// Destination of the route
-    to: RequestedLocation,
     /// Transport mode the user wants to use
-    route_costing: CostingRequest,
+    #[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+    #[serde(rename_all = "snake_case")]
+    pub(super) enum CostingRequest {
+        Pedestrian,
+        Bicycle,
+        Motorcycle,
+        Car,
+        PublicTransit,
+    }
+    impl From<&RoutingRequest> for Costing {
+        fn from(
+            RoutingRequest {
+                route_costing,
+                pedestrian_type,
+                ptw_type,
+                bicycle_type,
+                ..
+            }: &RoutingRequest,
+        ) -> Self {
+            match route_costing {
+                CostingRequest::Pedestrian => Costing::Pedestrian(
+                    PedestrianCostingOptions::builder()
+                        .r#type(PedestrianType::from(*pedestrian_type)),
+                ),
+                CostingRequest::Bicycle => Costing::Bicycle(
+                    BicycleCostingOptions::builder().bicycle_type(BicycleType::from(*bicycle_type)),
+                ),
+                CostingRequest::Motorcycle => match ptw_type {
+                    PoweredTwoWheeledRestrictionRequest::Moped => {
+                        Costing::Motorcycle(Default::default())
+                    }
+                    PoweredTwoWheeledRestrictionRequest::Motorcycle => {
+                        Costing::MotorScooter(Default::default())
+                    }
+                },
+                CostingRequest::Car => Costing::Auto(Default::default()),
+                CostingRequest::PublicTransit => {
+                    let pedestrian_costing = PedestrianCostingOptions::builder()
+                        .r#type(PedestrianType::from(*pedestrian_type));
+                    Costing::Multimodal(
+                        MultimodalCostingOptions::builder()
+                            .pedestrian(pedestrian_costing)
+                            .transit(Default::default()),
+                    )
+                }
+            }
+        }
+    }
+
+    #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
+    pub(super) struct RoutingRequest {
+        #[serde(flatten, default)]
+        pub(super) lang: localisation::LangQueryArgs,
+        /// Start of the route
+        pub(super) from: RequestedLocation,
+        /// Destination of the route
+        pub(super) to: RequestedLocation,
+        /// Transport mode the user wants to use
+        pub(super) route_costing: CostingRequest,
+        /// Does the user have specific walking restrictions?
+        #[serde(default)]
+        pub(super) pedestrian_type: PedestrianTypeRequest,
+        /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
+        #[serde(default)]
+        pub(super) ptw_type: PoweredTwoWheeledRestrictionRequest,
+        /// Which kind of bicycle do you ride?
+        #[serde(default)]
+        pub(super) bicycle_type: BicycleRestrictionRequest,
+    }
+
     /// Does the user have specific walking restrictions?
-    #[serde(default)]
-    pedestrian_type: PedestrianTypeRequest,
-    /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
-    #[serde(default)]
-    ptw_type: PoweredTwoWheeledRestrictionRequest,
+    #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+    #[serde(rename_all = "snake_case")]
+    pub(super) enum PedestrianTypeRequest {
+        #[default]
+        None,
+        Blind,
+        Wheelchair,
+    }
+
+    impl From<PedestrianTypeRequest> for PedestrianType {
+        fn from(value: PedestrianTypeRequest) -> Self {
+            match value {
+                PedestrianTypeRequest::None => PedestrianType::Blind,
+                PedestrianTypeRequest::Blind => PedestrianType::Blind,
+                PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+            }
+        }
+    }
+
     /// Which kind of bicycle do you ride?
-    #[serde(default)]
-    bicycle_type: BicycleRestrictionRequest,
-}
-
-/// Does the user have specific walking restrictions?
-#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
-#[serde(rename_all = "snake_case")]
-enum PedestrianTypeRequest {
-    #[default]
-    None,
-    Blind,
-    // TODO
-    // Wheelchair,
-}
-
-impl From<PedestrianTypeRequest> for PedestrianType {
-    fn from(value: PedestrianTypeRequest) -> Self {
-        match value {
-            PedestrianTypeRequest::None => PedestrianType::Blind,
-            PedestrianTypeRequest::Blind => PedestrianType::Blind,
-            // TODO
-            // PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+    #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+    #[serde(rename_all = "snake_case")]
+    pub(super) enum BicycleRestrictionRequest {
+        /// Road-bike
+        ///
+        /// A road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces.
+        Road,
+        /// Hybrid- or City-bike
+        ///
+        /// A bicycle made mostly for city riding or casual riding on roads and paths with good surfaces.
+        #[default]
+        Hybrid,
+        /// Cross-bike
+        ///
+        /// A cyclo-cross bicycle, which is similar to a road bicycle but with wider tires suitable to rougher surfaces.
+        Cross,
+        /// Mountain-bike
+        ///
+        /// A mountain bicycle suitable for most surfaces but generally heavier and slower on paved surfaces.
+        Mountain,
+    }
+    impl From<BicycleRestrictionRequest> for BicycleType {
+        fn from(bicycle_type: BicycleRestrictionRequest) -> Self {
+            match bicycle_type {
+                BicycleRestrictionRequest::Road => BicycleType::Road,
+                BicycleRestrictionRequest::Hybrid => BicycleType::Hybrid,
+                BicycleRestrictionRequest::Cross => BicycleType::Cross,
+                BicycleRestrictionRequest::Mountain => BicycleType::Mountain,
+            }
         }
     }
-}
-
-/// Which kind of bicycle do you ride?
-#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
-#[serde(rename_all = "snake_case")]
-enum BicycleRestrictionRequest {
-    /// Road-bike
-    ///
-    /// A road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces.
-    Road,
-    /// Hybrid- or City-bike
-    ///
-    /// A bicycle made mostly for city riding or casual riding on roads and paths with good surfaces.
-    #[default]
-    Hybrid,
-    /// Cross-bike
-    ///
-    /// A cyclo-cross bicycle, which is similar to a road bicycle but with wider tires suitable to rougher surfaces.
-    Cross,
-    /// Mountain-bike
-    ///
-    /// A mountain bicycle suitable for most surfaces but generally heavier and slower on paved surfaces.
-    Mountain,
-}
-impl From<BicycleRestrictionRequest> for BicycleType {
-    fn from(bicycle_type: BicycleRestrictionRequest) -> Self {
-        match bicycle_type {
-            BicycleRestrictionRequest::Road => BicycleType::Road,
-            BicycleRestrictionRequest::Hybrid => BicycleType::Hybrid,
-            BicycleRestrictionRequest::Cross => BicycleType::Cross,
-            BicycleRestrictionRequest::Mountain => BicycleType::Mountain,
-        }
+    /// Does the user have a moped or motorcycle?
+    #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+    #[serde(rename_all = "snake_case")]
+    pub(super) enum PoweredTwoWheeledRestrictionRequest {
+        #[default]
+        Motorcycle,
+        Moped,
     }
-}
-/// Does the user have a moped or motorcycle
-#[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
-#[serde(rename_all = "snake_case")]
-enum PoweredTwoWheeledRestrictionRequest {
-    #[default]
-    Motorcycle,
-    Moped,
 }
 
 /// Routing requests
@@ -232,7 +246,7 @@ enum PoweredTwoWheeledRestrictionRequest {
 ///   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
 #[utoipa::path(
     tags=["maps"],
-    params(RoutingRequest),
+    params(req::RoutingRequest),
     responses(
         (status = 200, description = "**Routing solution**", body=RoutingResponse, content_type = "application/json"),
         (status = 404, description = "**Not found.** The requested location does not exist", body = String, content_type = "text/plain", example = "Not found"),
@@ -241,7 +255,7 @@ enum PoweredTwoWheeledRestrictionRequest {
 )]
 #[get("/api/maps/route")]
 pub async fn route_handler(
-    args: web::Query<RoutingRequest>,
+    args: web::Query<req::RoutingRequest>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let from = args.from.try_resolve_coordinates(&data.pool).await;
@@ -257,11 +271,11 @@ pub async fn route_handler(
             error!(from=?args.from,to=?args.to,error = ?e,"could not resolve into coordinates");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to resolve key");
+                .body("Failed to resolve location into a coordinate+level pair");
         }
     };
 
-    if args.route_costing == CostingRequest::PublicTransit {
+    if args.route_costing == req::CostingRequest::PublicTransit {
         let routing = data
             .motis
             .plan(
@@ -325,11 +339,12 @@ struct RoutingResponse {
 }
 impl From<valhalla::Trip> for RoutingResponse {
     fn from(value: valhalla::Trip) -> Self {
+        let level_changes = value.summary.level_changes.clone().unwrap_or_default();
         RoutingResponse {
             itineraries: value
                 .legs
                 .into_iter()
-                .map(itinerary::ItineraryResponse::from)
+                .map(|l| itinerary::ItineraryResponse::from((level_changes.as_slice(), l)))
                 .collect(),
             summary: itinerary::SummaryResponse::from(value.summary),
         }
@@ -353,22 +368,57 @@ mod itinerary {
     use super::leg::*;
     use super::*;
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    pub(crate) struct ItineraryResponse {
+    pub(super) struct ItineraryResponse {
         /// Summary what happens in this itinerary
         summary: SummaryResponse,
         /// Legs this itinerary contains
         ///
-        /// A Leg can is equivalent to using a major vehicle option (train, bike, feet, ...).
+        /// A Leg can be equivalent to using a major vehicle option (train, bike, feet, ...).
         /// They contain steps which represent the fine-grained routing.
         maneuvers: Vec<LegResponse>,
-        /// The routes geometry
+        /// The routes' geometry
         shape: Vec<Coordinate>,
     }
-    impl From<valhalla::Leg> for ItineraryResponse {
-        fn from(value: valhalla::Leg) -> Self {
+    impl From<(&[(usize, f32)], valhalla::Leg)> for ItineraryResponse {
+        fn from((level_changes, value): (&[(usize, f32)], valhalla::Leg)) -> Self {
+            // valhalla stores their level changes in the index, level format
+            // => we need to extract minmax for each strip
+            debug_assert!(level_changes.iter().map(|(i, _)| i).is_sorted());
+            let mut maneuvers = Vec::with_capacity(value.maneuvers.len());
+            let mut first = 0;
+            let start_level = level_changes.first().map(|l| l.1).unwrap_or_default();
+            let end_level = level_changes.last().map(|l| l.1).unwrap_or_default();
+            for maneuver in value.maneuvers.into_iter() {
+                assert!(maneuver.begin_shape_index <= maneuver.end_shape_index);
+                assert!(maneuver.begin_shape_index >= first);
+
+                let mut last = level_changes.len();
+                for (l_idx, (m_idx, _)) in level_changes[first + 1..].iter().enumerate() {
+                    if m_idx > &maneuver.end_shape_index {
+                        last = l_idx - 1;
+                        break;
+                    }
+                }
+
+                let levels = match (level_changes[first..last].len(), first, last) {
+                    (0, 0, 0) => (start_level, start_level), // before the first
+                    (0, first, _) if first == level_changes.len() => (end_level, end_level), // after the last
+                    (0, first, last) => (level_changes[first - 1].1, level_changes[last].1), // somewhere in between
+                    (_, first, last) => level_changes[first..last]
+                        .iter()
+                        .fold((f32::MAX, f32::MIN), |(min_acc, max_acc), (_, l)| {
+                            (f32::min(*l, min_acc), f32::max(*l, max_acc))
+                        }),
+                };
+                maneuvers.push(LegResponse::from((levels, maneuver)));
+
+                first = last;
+            }
+            assert_eq!(first, level_changes.len());
+
             ItineraryResponse {
                 summary: SummaryResponse::from(value.summary),
-                maneuvers: value.maneuvers.into_iter().map(LegResponse::from).collect(),
+                maneuvers,
                 shape: value.shape.into_iter().map(Coordinate::from).collect(),
             }
         }
@@ -454,16 +504,14 @@ mod itinerary {
     }
 
     impl std::iter::Sum for BBox {
-        fn sum<I: Iterator<Item = Self>>(mut iter: I) -> Self {
-            let mut accum = None;
-            while let Some(bbox) = iter.next() {
-                accum = Some(if let Some(tmp_accum) = accum {
-                    tmp_accum + bbox
-                } else {
-                    bbox
+        fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+            iter.fold(None, |acc, bbox| {
+                Some(match acc {
+                    Some(tmp_accum) => tmp_accum + bbox,
+                    None => bbox,
                 })
-            }
-            accum.unwrap_or_default()
+            })
+            .unwrap_or_default()
         }
     }
 
@@ -525,6 +573,7 @@ mod itinerary {
 mod leg {
     use super::*;
     use core::ops::Range;
+    use step::StepResponse;
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -539,23 +588,22 @@ mod leg {
         /// Steps contained in this maneuver
         ///
         /// Can be the equivalent of "walk down street" or "take this ICE"
-        steps: Vec<step::StepResponse>,
+        steps: Vec<StepResponse>,
     }
-    impl From<valhalla::Maneuver> for LegResponse {
-        fn from(value: valhalla::Maneuver) -> Self {
+    impl From<((f32, f32), valhalla::Maneuver)> for LegResponse {
+        fn from((levels, value): ((f32, f32), valhalla::Maneuver)) -> Self {
             LegResponse {
                 // transit is not configured for valhalla
                 transit_info: None,
                 travel_mode: LegTravelModeResponse::from(value.travel_mode),
-                steps: todo!(),
+                steps: vec![StepResponse::from((levels, value.clone()))],
                 summary: LegMetadataResponse {
-                    time_seconds: todo!(),
-                    length_meters: todo!(),
-                    bbox: todo!(),
-                    shape_index: todo!(),
-                    highway: todo!(),
-                    gate: todo!(),
-                    ferry: todo!(),
+                    time_seconds: value.time,
+                    length_meters: value.length,
+                    shape_index: value.begin_shape_index..(value.end_shape_index + 1),
+                    highway: value.highway,
+                    gate: value.gate,
+                    ferry: value.ferry,
                 },
             }
         }
@@ -567,7 +615,7 @@ mod leg {
             let mut steps = value
                 .steps
                 .into_iter()
-                .map(step::StepResponse::from)
+                .map(StepResponse::from)
                 .collect::<Vec<_>>();
             // shift the shape indexes by the
             let mut step_shape_idx = base_shape_idx;
@@ -598,7 +646,6 @@ mod leg {
                     time_seconds: value.duration as f64,
                     length_meters: value.distance.unwrap_or_default(),
                     shape_index: base_shape_idx..(base_shape_idx + value.leg_geometry.length),
-                    bbox: itinerary::BBox::from(value.leg_geometry.points.as_str()),
                     highway: None,
                     gate: None,
                     ferry: None,
@@ -612,15 +659,13 @@ mod leg {
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    struct LegMetadataResponse {
+    pub(super) struct LegMetadataResponse {
         /// Estimated time along the maneuver in seconds
         #[schema(example = 201.025)]
         time_seconds: f64,
         /// Leg length in meters
         #[schema(example = 103.01)]
         length_meters: f64,
-        /// A bounding box containing all items exactly
-        bbox: itinerary::BBox,
         /// Indexes where the list of shape points the maneuver starts/stops
         shape_index: Range<usize>,
 
@@ -673,7 +718,7 @@ mod leg {
         ))]
         operator_name: Option<String>,
         /// Operator/agency URL
-        #[schema(examples("http://web.mta.info/", "http://www.mvv-muenchen.de/"))]
+        #[schema(examples("https://web.mta.info/", "https://www.mvv-muenchen.de/"))]
         operator_url: Option<String>,
     }
 
@@ -732,9 +777,25 @@ mod step {
         /// Which icon should the router display for this step
         r#type: StepTypeResponse,
         /// Summary what happens in this step
-        pub(crate) summary: StepMetadataResponse,
+        pub(super) summary: StepMetadataResponse,
         /// Text-Instructions to either show or audibly tell the user
         instructions: InstructionStepResponse,
+    }
+    impl From<((f32, f32), valhalla::Maneuver)> for StepResponse {
+        fn from(((from_level, to_level), value): ((f32, f32), valhalla::Maneuver)) -> Self {
+            StepResponse {
+                r#type: StepTypeResponse::from(value.type_),
+                summary: StepMetadataResponse {
+                    osm_way: None,
+                    time_seconds: Some(value.time),
+                    length_meters: value.length,
+                    shape_index: value.begin_shape_index..(value.end_shape_index + 1),
+                    from_level: from_level as f64,
+                    to_level: to_level as f64,
+                },
+                instructions: Default::default(),
+            }
+        }
     }
 
     /// instructions associated with a step
@@ -927,7 +988,7 @@ mod step {
 
     #[serde_with::skip_serializing_none]
     #[derive(Serialize, Debug, utoipa::ToSchema)]
-    struct StepMetadataResponse {
+    pub(super) struct StepMetadataResponse {
         ///OpenStreetMap way index
         osm_way: Option<i64>,
         /// Estimated time along the maneuver in seconds
@@ -936,10 +997,8 @@ mod step {
         /// Distance traveled in meters
         #[schema(examples(60))]
         length_meters: f64,
-        /// A bounding box containing all items exactly
-        bbox: itinerary::BBox,
         /// Indexes where the list of shape points the maneuver starts/stops
-        pub(crate) shape_index: Range<usize>,
+        pub(super) shape_index: Range<usize>,
 
         /// [`level`-tag](http://wiki.openstreetmap.org/wiki/Key:level) this step starts at
         #[schema(example = 1.0)]
@@ -947,40 +1006,6 @@ mod step {
         /// [`level`-tag](http://wiki.openstreetmap.org/wiki/Key:level) this step ends at
         #[schema(example = 2.0)]
         to_level: f64,
-    }
-    impl From<&valhalla::Maneuver> for StepMetadataResponse {
-        fn from(value: &valhalla::Maneuver) -> Self {
-            StepMetadataResponse {
-                osm_way: None,
-                time_seconds: Some(value.time),
-                length_meters: value.length * 1000.0,
-                shape_index: value.begin_shape_index..value.end_shape_index,
-                bbox: todo!(),
-                from_level: todo!(),
-                to_level: todo!(),
-            }
-        }
-    }
-    #[serde_with::skip_serializing_none]
-    #[derive(Serialize, Debug, utoipa::ToSchema)]
-    struct TransitStepResponse {
-        /// **Not implemented!**
-        /// This step is on an open area, such as a plaza or train platform,
-        /// and thus the directions should say something like "cross"
-        area: bool,
-        /// **Not implemented!**
-        /// When exiting a highway or traffic circle, the exit name/number.
-        #[serde(skip_serializing_if = "String::is_empty")]
-        exit: String,
-
-        r#type: StepTypeResponse,
-        /// **Not implemented!**
-        /// Indicates whether a street changes direction at an intersection.
-        stay_on: bool,
-        ///The name of the street.
-        #[schema(examples("Bolzmanstraße"))]
-        #[serde(skip_serializing_if = "String::is_empty")]
-        street_name: String,
     }
     impl From<motis::StepInstruction> for StepResponse {
         fn from(value: motis::StepInstruction) -> Self {
@@ -990,7 +1015,6 @@ mod step {
                     osm_way: value.osm_way,
                     time_seconds: None,
                     length_meters: value.distance,
-                    bbox: itinerary::BBox::from(value.polyline.points.as_str()),
                     shape_index: 0..value.polyline.length,
                     from_level: value.from_level,
                     to_level: value.to_level,
