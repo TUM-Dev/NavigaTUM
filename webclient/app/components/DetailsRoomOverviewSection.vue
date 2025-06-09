@@ -17,9 +17,6 @@ const props = defineProps<{
   readonly rooms?: RoomsOverviewResponse | null;
 }>();
 
-// Keep language preference when going from building page to room page
-const localePath = useLocalePath();
-
 const { t } = useI18n({ useScope: "local" });
 const selectedUsage = ref(-1);
 const search = ref("");
@@ -174,9 +171,8 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
             <NuxtLinkLocale
               v-for="(room, index) in list"
               :key="index"
-              :to="localePath(`/view/${room.data.id}`)"
+              :to="`/view/${room.data.id}`"
               class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-blue-500"
-              external
             >
               <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
               {{ room.data.name }}
