@@ -51,7 +51,7 @@ impl From<geo_types::Point> for Coordinate {
 enum RequestedLocation {
     /// Either an
     /// - external address which was looked up or
-    /// - the users current location  
+    /// - the user's current location  
     Coordinate(Coordinate),
     /// Our (uni internal) key for location identification
     Location(String),
@@ -63,7 +63,7 @@ impl RequestedLocation {
             RequestedLocation::Location(key) => {
                 let coords = sqlx::query_as!(
                     Coordinate,
-                    r#"SELECT lat,lon,null
+                    r#"SELECT lat,lon,null as level
                     FROM de
                     WHERE key = $1 and
                           lat IS NOT NULL and
@@ -326,7 +326,11 @@ struct RoutingResponse {
 impl From<valhalla::Trip> for RoutingResponse {
     fn from(value: valhalla::Trip) -> Self {
         RoutingResponse {
-            itineraries: value.legs.into_iter().map(itinerary::ItineraryResponse::from).collect(),
+            itineraries: value
+                .legs
+                .into_iter()
+                .map(itinerary::ItineraryResponse::from)
+                .collect(),
             summary: itinerary::SummaryResponse::from(value.summary),
         }
     }
@@ -364,11 +368,7 @@ mod itinerary {
         fn from(value: valhalla::Leg) -> Self {
             ItineraryResponse {
                 summary: SummaryResponse::from(value.summary),
-                maneuvers: value
-                    .maneuvers
-                    .into_iter()
-                    .map(LegResponse::from)
-                    .collect(),
+                maneuvers: value.maneuvers.into_iter().map(LegResponse::from).collect(),
                 shape: value.shape.into_iter().map(Coordinate::from).collect(),
             }
         }
@@ -376,19 +376,21 @@ mod itinerary {
     impl From<motis::Itinerary> for ItineraryResponse {
         fn from(value: motis::Itinerary) -> Self {
             let summary = SummaryResponse::from(&value);
-            let shape = value
-                .legs
-                .iter()
-                .flat_map(|e| {
-                    polyline::decode_polyline(&e.leg_geometry.points, 7)
-                        .map(|l| l.into_points())
-                        .unwrap_or_default()
-                })
-                .map(Coordinate::from)
-                .collect();
+
+            let mut maneuvers = Vec::with_capacity(value.legs.len());
+            let mut shape = Vec::new();
+            let mut base = 0_usize;
+            for leg in value.legs {
+                let poly = polyline::decode_polyline(&leg.leg_geometry.points, 7)
+                    .map(|l| l.into_points())
+                    .unwrap_or_default();
+                maneuvers.push(LegResponse::from((base, leg)));
+                base += poly.len();
+                shape.extend(poly.into_iter().map(Coordinate::from));
+            }
             ItineraryResponse {
                 summary,
-                maneuvers: value.legs.into_iter().map(leg::LegResponse::from).collect(),
+                maneuvers,
                 shape,
             }
         }
@@ -775,7 +777,7 @@ mod step {
         verbal_arrive_instruction: Option<String>,
     }
 
-    impl From<valhalla::Maneuver> for InstructionStepResponse{
+    impl From<valhalla::Maneuver> for InstructionStepResponse {
         fn from(value: valhalla::Maneuver) -> Self {
             InstructionStepResponse {
                 instruction: value
@@ -946,9 +948,9 @@ mod step {
         #[schema(example = 2.0)]
         to_level: f64,
     }
-    impl From<&valhalla::Maneuver> for StepMetadataResponse{
+    impl From<&valhalla::Maneuver> for StepMetadataResponse {
         fn from(value: &valhalla::Maneuver) -> Self {
-            StepMetadataResponse{
+            StepMetadataResponse {
                 osm_way: None,
                 time_seconds: Some(value.time),
                 length_meters: value.length * 1000.0,
