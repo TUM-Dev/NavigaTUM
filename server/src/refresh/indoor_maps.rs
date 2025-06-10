@@ -4,10 +4,14 @@ use std::time::Duration;
 const SECONDS_PER_HOUR: u64 = 60 * 60;
 #[tracing::instrument(skip(pool))]
 pub async fn all_entries(pool: &PgPool) {
-    let mut interval = tokio::time::interval(Duration::from_secs(SECONDS_PER_HOUR)); //
+    let mut interval = tokio::time::interval(Duration::from_secs(SECONDS_PER_HOUR));
+    let mut backoff_time = 0.5;
     loop {
-        if let Ok(()) = repopulate_indoor_features(pool).await {
+        if repopulate_indoor_features(pool).await.is_ok() {
             interval.tick().await;
+        } else {
+            tokio::time::sleep(Duration::from_secs_f32(backoff_time)).await;
+            backoff_time *= 1.5;
         }
     }
 }
