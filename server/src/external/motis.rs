@@ -27,7 +27,7 @@ impl MotisWrapper {
             .to_place(to)
             .detailed_transfers(false)
             .passengers(1)
-            .max_post_transit_time(60 * 30)
+            .max_pre_transit_time(60 * 30)
             .max_post_transit_time(60 * 30)
             .num_itineraries(5)
             .send()

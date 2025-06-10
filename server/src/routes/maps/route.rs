@@ -268,7 +268,7 @@ pub async fn route_handler(
                 .body("Not found");
         }
         (Err(e), _) | (_, Err(e)) => {
-            error!(from=?args.from,to=?args.to,error = ?e,"could not resolve into coordinates");
+            error!(from=?args.from,to=?args.to,error = ?e, "could not resolve into coordinates");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Failed to resolve location into a coordinate+level pair");
@@ -290,7 +290,7 @@ pub async fn route_handler(
             .await;
         match routing {
             Ok(response) => {
-                debug!(routing_solution=?response,"got routing solution");
+                debug!(routing_solution=?response, "got a routing solution");
                 HttpResponse::Ok().json(RoutingResponse::from(response))
             }
             Err(e) => {
@@ -312,11 +312,11 @@ pub async fn route_handler(
             .await;
         match routing {
             Ok(response) => {
-                debug!(routing_solution=?response,"got routing solution");
+                debug!(routing_solution=?response, "got a routing solution");
                 HttpResponse::Ok().json(RoutingResponse::from(response))
             }
             Err(e) => {
-                error!(error=?e,"error routing");
+                error!(error=?e, "error routing");
                 HttpResponse::InternalServerError()
                     .content_type("text/plain")
                     .body("Could not generate a route, please try again later")
@@ -389,13 +389,13 @@ mod itinerary {
             let start_level = level_changes.first().map(|l| l.1).unwrap_or_default();
             let end_level = level_changes.last().map(|l| l.1).unwrap_or_default();
             for maneuver in value.maneuvers.into_iter() {
-                assert!(maneuver.begin_shape_index <= maneuver.end_shape_index);
-                assert!(maneuver.begin_shape_index >= first);
+                debug_assert!(maneuver.begin_shape_index <= maneuver.end_shape_index);
+                debug_assert!(first <= maneuver.begin_shape_index);
 
                 let mut last = level_changes.len();
                 for (l_idx, (m_idx, _)) in level_changes[first + 1..].iter().enumerate() {
                     if m_idx > &maneuver.end_shape_index {
-                        last = l_idx - 1;
+                        last = first + l_idx - 1;
                         break;
                     }
                 }
@@ -410,11 +410,12 @@ mod itinerary {
                             (f32::min(*l, min_acc), f32::max(*l, max_acc))
                         }),
                 };
+                debug_assert!(maneuver.end_shape_index <= last);
                 maneuvers.push(LegResponse::from((levels, maneuver)));
 
                 first = last;
             }
-            assert_eq!(first, level_changes.len());
+            debug_assert_eq!(first, level_changes.len());
 
             ItineraryResponse {
                 summary: SummaryResponse::from(value.summary),
@@ -617,17 +618,26 @@ mod leg {
                 .into_iter()
                 .map(StepResponse::from)
                 .collect::<Vec<_>>();
-            // shift the shape indexes by the
+            // shift the shape indexes
             let mut step_shape_idx = base_shape_idx;
             for step in steps.iter_mut() {
                 step.summary.shape_index.start += step_shape_idx;
                 step.summary.shape_index.end += step_shape_idx;
                 step_shape_idx = step.summary.shape_index.end;
-                debug_assert!(
-                    step.summary.shape_index.start < base_shape_idx + value.leg_geometry.length
+                debug_assert!(step.summary.shape_index.start <= step.summary.shape_index.end);
+                debug_assert_eq!(
+                    step.summary.shape_index.start,
+                    step_shape_idx + value.leg_geometry.length
                 );
                 debug_assert!(
-                    step.summary.shape_index.end < base_shape_idx + value.leg_geometry.length
+                    step.summary.shape_index.start <= base_shape_idx + value.leg_geometry.length
+                );
+                debug_assert_eq!(
+                    step.summary.shape_index.end,
+                    step_shape_idx + value.leg_geometry.length
+                );
+                debug_assert!(
+                    step.summary.shape_index.end <= base_shape_idx + value.leg_geometry.length
                 );
             }
             let transit_info = TransitInfoResponse {
