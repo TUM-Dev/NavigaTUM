@@ -7,8 +7,8 @@ polars==1.9.0
 pyarrow==20.0.0
 pydantic==2.11.5
 pyyaml==6.0.2
-requests==2.32.3
+requests==2.32.4
 requests-oauthlib==2.0.0
-ruamel.yaml==0.18.13
+ruamel.yaml==0.18.14
 tqdm==4.67.1
 utm==0.8.1
