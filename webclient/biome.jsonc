@@ -1,10 +1,8 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "ignore": ["package.json", "node_modules/**", ".nuxt/**", ".output/**"]
+    "includes": ["**", "!**/package.json", "!**/node_modules/**", "!**/.nuxt/**", "!**/.output/**"]
   },
   "vcs": {
     "enabled": true,
@@ -19,7 +17,7 @@
     "indentWidth": 2,
     "lineWidth": 100,
     "lineEnding": "lf",
-    "ignore": []
+    "includes": ["**"]
   },
   "javascript": {
     "formatter": {
@@ -45,7 +43,17 @@
       },
       "style": {
         // ! removes code whe need for the claendar !
-        "useImportType": "off"
+        "useImportType": "off",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   }
