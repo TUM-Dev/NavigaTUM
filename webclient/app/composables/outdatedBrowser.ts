@@ -75,7 +75,7 @@ Thank you for your understanding, and we look forward to providing you with an e
 	);
 	localStorage.setItem(
 		"lastOutdatedBrowserWarningTime",
-		new Date().getTime().toString(),
+		Date.now().getTime().toString(),
 	);
 }
 export {};

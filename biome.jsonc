@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
     "includes": ["**", "!**/package.json", "!**/node_modules/**", "!**/.nuxt/**", "!**/.output/**"]
@@ -33,6 +33,9 @@
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "vue": "recommended"
+    },
     "rules": {
       "nursery": {
         "useSortedClasses": "error"
@@ -40,6 +43,10 @@
       "recommended": true,
       "suspicious": {
         "noArrayIndexKey": "off"
+      },
+      "correctness": {
+        // ! removes code whe need in general !
+        "noUnusedVariables": "off"
       },
       "style": {
         // ! removes code whe need for the claendar !
@@ -57,21 +64,21 @@
       }
     }
   },
-"overrides": [
-		{
-			"includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
-			"linter": {
-				"rules": {
-					"style": {
-						"useConst": "off",
-						"useImportType": "off"
-					},
-					"correctness": {
-						"noUnusedVariables": "off",
-						"noUnusedImports": "off"
-					}
-				}
-			}
-		}
-	]
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
