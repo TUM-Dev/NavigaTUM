@@ -8,7 +8,7 @@ defineProps<{ data: LocationDetailsResponse }>();
 
 const shownImage = defineModel<ImageInfoResponse>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
-	required: true,
+  required: true,
 });
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();

@@ -1,13 +1,11 @@
 <script setup lang="ts">
+import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 
-import { useRouteQuery } from "@vueuse/router";
-
-type SearchResponse =
-	operations["search_handler"]["responses"][200]["content"]["application/json"];
+type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
 const props = defineProps<{
-	queryId: string;
+  queryId: string;
 }>();
 const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
@@ -16,119 +14,116 @@ const currently_actively_picking = ref(false);
 
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const query = useRouteQuery<string>(`q_${props.queryId}`, "", {
-	mode: "replace",
-	route,
-	router,
+  mode: "replace",
+  route,
+  router,
 });
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const selected = useRouteQuery<string>(props.queryId, "", {
-	mode: "replace",
-	route,
-	router,
+  mode: "replace",
+  route,
+  router,
 });
 const highlighted = ref<number>(0);
 const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
-	if (!data.value) return [];
+  if (!data.value) return [];
 
-	const visible: string[] = [];
-	for (const section of data.value.sections) {
-		if (section.facet === "sites_buildings") {
-			const max_sites_buildings = sites_buildings_expanded.value
-				? Number.POSITIVE_INFINITY
-				: section.n_visible;
-			visible.push(
-				...section.entries.slice(0, max_sites_buildings).map((e) => e.id),
-			);
-		} else visible.push(...section.entries.map((e) => e.id));
-	}
-	return visible;
+  const visible: string[] = [];
+  for (const section of data.value.sections) {
+    if (section.facet === "sites_buildings") {
+      const max_sites_buildings = sites_buildings_expanded.value
+        ? Number.POSITIVE_INFINITY
+        : section.n_visible;
+      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
+    } else visible.push(...section.entries.map((e) => e.id));
+  }
+  return visible;
 });
 
 function select(id: string) {
-	currently_actively_picking.value = false;
-	selected.value = id;
-	for (const section of data.value?.sections ?? []) {
-		for (const entry of section.entries) {
-			if (entry.id === id) {
-				query.value = entry.name
-					.replaceAll("<b class='text-blue'>", "")
-					.replaceAll("</b>", "")
-					.trim();
-			}
-		}
-	}
+  currently_actively_picking.value = false;
+  selected.value = id;
+  for (const section of data.value?.sections ?? []) {
+    for (const entry of section.entries) {
+      if (entry.id === id) {
+        query.value = entry.name
+          .replaceAll("<b class='text-blue'>", "")
+          .replaceAll("</b>", "")
+          .trim();
+      }
+    }
+  }
 }
 
 function onKeyDown(e: KeyboardEvent): void {
-	switch (e.key) {
-		case "Escape":
-			document.getElementById("search")?.blur();
-			break;
+  switch (e.key) {
+    case "Escape":
+      document.getElementById("search")?.blur();
+      break;
 
-		case "ArrowDown":
-			console.log(highlighted.value);
-			console.log(visibleElements.value);
-			if (visibleElements.value.length === 0) {
-				e.preventDefault();
-				break;
-			}
+    case "ArrowDown":
+      console.log(highlighted.value);
+      console.log(visibleElements.value);
+      if (visibleElements.value.length === 0) {
+        e.preventDefault();
+        break;
+      }
 
-			highlighted.value =
-				(highlighted.value + 1) % visibleElements.value.length;
-			e.preventDefault();
-			break;
+      highlighted.value = (highlighted.value + 1) % visibleElements.value.length;
+      e.preventDefault();
+      break;
 
-		case "ArrowUp":
-			console.log(highlighted.value);
-			console.log(visibleElements.value);
-			if (visibleElements.value.length === 0) {
-				e.preventDefault();
-				break;
-			}
+    case "ArrowUp":
+      console.log(highlighted.value);
+      console.log(visibleElements.value);
+      if (visibleElements.value.length === 0) {
+        e.preventDefault();
+        break;
+      }
 
-			if (highlighted.value <= 0) {
-				highlighted.value = visibleElements.value.length - 1;
-			} else {
-				highlighted.value -= 1;
-			}
-			e.preventDefault();
-			break;
+      if (highlighted.value <= 0) {
+        highlighted.value = visibleElements.value.length - 1;
+      } else {
+        highlighted.value -= 1;
+      }
+      e.preventDefault();
+      break;
 
-		case "Enter":
-			if (highlighted.value !== undefined) {
-				e.preventDefault();
-				const visible = visibleElements.value[highlighted.value];
-				if (visible) {
-					select(visible);
-				}
-			} else {
-				query.value = "";
-				selected.value = "";
-			}
-			break;
-		default:
-			break;
-	}
+    case "Enter":
+      if (highlighted.value !== undefined) {
+        e.preventDefault();
+        const visible = visibleElements.value[highlighted.value];
+        if (visible) {
+          select(visible);
+        }
+      } else {
+        query.value = "";
+        selected.value = "";
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 const runtimeConfig = useRuntimeConfig();
 const url = computed(() => {
-	const params = new URLSearchParams();
-	params.append("q", query.value);
-	params.append("lang", locale.value);
-	params.append("pre_highlight", "<b class='text-blue'>");
-	params.append("post_highlight", "</b>");
-	params.append("search_addresses", "true");
+  const params = new URLSearchParams();
+  params.append("q", query.value);
+  params.append("lang", locale.value);
+  params.append("pre_highlight", "<b class='text-blue'>");
+  params.append("post_highlight", "</b>");
+  params.append("search_addresses", "true");
 
-	return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data, error } = await useFetch<SearchResponse>(url, {
-	dedupe: "cancel",
-	credentials: "omit",
-	retry: 120,
-	retryDelay: 1000,
+  dedupe: "cancel",
+  credentials: "omit",
+  retry: 120,
+  retryDelay: 1000,
 });
 </script>
 

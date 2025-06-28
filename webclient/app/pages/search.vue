@@ -12,64 +12,61 @@ const feedback = useFeedback();
 
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
 const query_limit_buildings = computed<number>(() =>
-	Number.parseInt(firstOrDefault(route.query.limit_buildings, "10")),
+  Number.parseInt(firstOrDefault(route.query.limit_buildings, "10"))
 );
 const query_limit_rooms = computed<number>(() =>
-	Number.parseInt(firstOrDefault(route.query.limit_rooms, "50")),
+  Number.parseInt(firstOrDefault(route.query.limit_rooms, "50"))
 );
-const query_limit_all = computed<number>(
-	() => query_limit_rooms.value + query_limit_rooms.value,
-);
+const query_limit_all = computed<number>(() => query_limit_rooms.value + query_limit_rooms.value);
 const apiUrl = computed(() => {
-	const params = new URLSearchParams();
-	params.append("q", query_q.value);
-	params.append("limit_buildings", query_limit_buildings.value.toString());
-	params.append("limit_rooms", query_limit_rooms.value.toString());
-	params.append("limit_all", query_limit_all.value.toString());
-	params.append("lang", locale.value);
-	params.append("pre_highlight", "<b class='text-blue'>");
-	params.append("post_highlight", "</b>");
+  const params = new URLSearchParams();
+  params.append("q", query_q.value);
+  params.append("limit_buildings", query_limit_buildings.value.toString());
+  params.append("limit_rooms", query_limit_rooms.value.toString());
+  params.append("limit_all", query_limit_all.value.toString());
+  params.append("lang", locale.value);
+  params.append("pre_highlight", "<b class='text-blue'>");
+  params.append("post_highlight", "</b>");
 
-	return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data } = useFetch<SearchResponse>(apiUrl, {
-	dedupe: "cancel",
-	credentials: "omit",
-	retry: 120,
-	retryDelay: 1000,
+  dedupe: "cancel",
+  credentials: "omit",
+  retry: 120,
+  retryDelay: 1000,
 });
 const description = computed(() => {
-	if (!data.value) return "";
-	let sectionsDescr = "";
-	let estimatedTotalHits = 0;
-	for (const section of data.value.sections) {
-		if (section.estimatedTotalHits) {
-			let facetStr = t("sections.rooms");
-			if (section.facet === "sites_buildings") {
-				facetStr = t("sections.buildings");
-				if (section.estimatedTotalHits !== section.n_visible) {
-					const visibleStr = t("sections.of_which_visible");
-					facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
-				}
-			}
-			if (estimatedTotalHits > 0) sectionsDescr += t("sections.and");
-			sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
-		}
-		estimatedTotalHits += section.estimatedTotalHits;
-	}
-	if (estimatedTotalHits === 0)
-		sectionsDescr = t("sections.no_buildings_rooms_found");
-	else sectionsDescr += t("sections.were_found");
-	return sectionsDescr;
+  if (!data.value) return "";
+  let sectionsDescr = "";
+  let estimatedTotalHits = 0;
+  for (const section of data.value.sections) {
+    if (section.estimatedTotalHits) {
+      let facetStr = t("sections.rooms");
+      if (section.facet === "sites_buildings") {
+        facetStr = t("sections.buildings");
+        if (section.estimatedTotalHits !== section.n_visible) {
+          const visibleStr = t("sections.of_which_visible");
+          facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
+        }
+      }
+      if (estimatedTotalHits > 0) sectionsDescr += t("sections.and");
+      sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
+    }
+    estimatedTotalHits += section.estimatedTotalHits;
+  }
+  if (estimatedTotalHits === 0) sectionsDescr = t("sections.no_buildings_rooms_found");
+  else sectionsDescr += t("sections.were_found");
+  return sectionsDescr;
 });
 const title = computed(() => `${t("search_for")} "${route.query.q}"`);
 useSeoMeta({
-	title: title,
-	ogTitle: title,
-	description: description,
-	ogDescription: description,
-	ogImage: "https://nav.tum.de/navigatum-card.png",
-	twitterCard: "summary",
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
+  ogImage: "https://nav.tum.de/navigatum-card.png",
+  twitterCard: "summary",
 });
 </script>
 

@@ -1,35 +1,31 @@
 <script setup lang="ts">
-import type {
-	BackgroundLayerSpecification,
-	Coordinates,
-	ImageSource,
-} from "maplibre-gl";
+import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import {
-	FullscreenControl,
-	GeolocateControl,
-	Map as MapLibreMap,
-	Marker,
-	NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
 } from "maplibre-gl";
+import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
-import type { components } from "~/api_types";
 
 const props = defineProps<{
-	coords: LocationDetailsResponse["coords"];
-	type: LocationDetailsResponse["type"];
-	maps: LocationDetailsResponse["maps"];
-	id: LocationDetailsResponse["id"];
-	debugMode: boolean;
+  coords: LocationDetailsResponse["coords"];
+  type: LocationDetailsResponse["type"];
+  maps: LocationDetailsResponse["maps"];
+  id: LocationDetailsResponse["id"];
+  debugMode: boolean;
 }>();
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => {
-	if (props.type === "building") return 17;
-	if (props.type === "room") return 18;
-	return 16;
+  if (props.type === "building") return 17;
+  if (props.type === "room") return 18;
+  return 16;
 });
 
 const initialLoaded = ref(false);
@@ -37,285 +33,259 @@ const initialLoaded = ref(false);
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 function loadInteractiveMap() {
-	if (!webglSupport) return;
+  if (!webglSupport) return;
 
-	const doMapUpdate = () => {
-		// The map might or might not be initialized depending on the type
-		// of navigation.
-		if (document.getElementById("interactive-legacy-map")) {
-			if (
-				document
-					.getElementById("interactive-legacy-map")
-					?.classList.contains("maplibregl-map")
-			) {
-				marker.value?.remove();
-			} else {
-				map.value = initMap("interactive-legacy-map");
+  const doMapUpdate = () => {
+    // The map might or might not be initialized depending on the type
+    // of navigation.
+    if (document.getElementById("interactive-legacy-map")) {
+      if (document.getElementById("interactive-legacy-map")?.classList.contains("maplibregl-map")) {
+        marker.value?.remove();
+      } else {
+        map.value = initMap("interactive-legacy-map");
 
-				document
-					.getElementById("interactive-legacy-map")
-					?.classList.remove("loading");
-			}
-		}
-		if (map.value !== undefined) {
-			const _marker = new Marker({ element: createMarker() });
-			_marker.setLngLat([props.coords.lon, props.coords.lat]);
-			// @ts-expect-error somehow this is too deep for typescript
-			_marker.addTo(map.value as MapLibreMap);
-			marker.value = _marker;
-		}
+        document.getElementById("interactive-legacy-map")?.classList.remove("loading");
+      }
+    }
+    if (map.value !== undefined) {
+      const _marker = new Marker({ element: createMarker() });
+      _marker.setLngLat([props.coords.lon, props.coords.lat]);
+      // @ts-expect-error somehow this is too deep for typescript
+      _marker.addTo(map.value as MapLibreMap);
+      marker.value = _marker;
+    }
 
-		const overlays = props.maps?.overlays;
-		if (overlays) floorControl.value.updateFloors(overlays);
-		else floorControl.value.resetFloors();
+    const overlays = props.maps?.overlays;
+    if (overlays) floorControl.value.updateFloors(overlays);
+    else floorControl.value.resetFloors();
 
-		map.value?.flyTo({
-			center: [props.coords.lon, props.coords.lat],
-			zoom: zoom.value,
-			speed: 1,
-			maxDuration: 2000,
-		});
-	};
+    map.value?.flyTo({
+      center: [props.coords.lon, props.coords.lat],
+      zoom: zoom.value,
+      speed: 1,
+      maxDuration: 2000,
+    });
+  };
 
-	// The map element should be visible when initializing
-	if (!document.querySelector("#interactive-legacy-map .maplibregl-canvas"))
-		nextTick(doMapUpdate);
-	else doMapUpdate();
+  // The map element should be visible when initializing
+  if (!document.querySelector("#interactive-legacy-map .maplibregl-canvas")) nextTick(doMapUpdate);
+  else doMapUpdate();
 }
 
 function createMarker(hueRotation = 0) {
-	const markerDiv = document.createElement("div");
-	const markerIcon = document.createElement("span");
-	markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
-	markerIcon.classList.add("marker");
-	markerIcon.classList.add("marker-pin");
-	markerDiv.appendChild(markerIcon);
-	const markerShadow = document.createElement("span");
-	markerShadow.classList.add("marker");
-	markerShadow.classList.add("marker-shadow");
-	markerDiv.appendChild(markerShadow);
-	return markerDiv;
+  const markerDiv = document.createElement("div");
+  const markerIcon = document.createElement("span");
+  markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
+  markerIcon.classList.add("marker");
+  markerIcon.classList.add("marker-pin");
+  markerDiv.appendChild(markerIcon);
+  const markerShadow = document.createElement("span");
+  markerShadow.classList.add("marker");
+  markerShadow.classList.add("marker-shadow");
+  markerDiv.appendChild(markerShadow);
+  return markerDiv;
 }
 
 function initMap(containerId: string): MapLibreMap {
-	const map = new MapLibreMap({
-		container: containerId,
-		// while having the hash in the url is nice, it is overridden on map load anyway => not much use
-		hash: false,
+  const map = new MapLibreMap({
+    container: containerId,
+    // while having the hash in the url is nice, it is overridden on map load anyway => not much use
+    hash: false,
 
-		canvasContextAttributes: {
-			// create the gl context with MSAA antialiasing, so custom layers are antialiasing.
-			// slower, but prettier and therefore worth it for our use case
-			antialias: true,
+    canvasContextAttributes: {
+      // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
+      // slower, but prettier and therefore worth it for our use case
+      antialias: true,
 
-			// without this true, printing the webpage is not possible
-			// with this true the performance is halfed though...
-			// => we are deliberetely not supporing printing of this part of the webpage
-			preserveDrawingBuffer: false,
-		},
+      // without this true, printing the webpage is not possible
+      // with this true the performance is halfed though...
+      // => we are deliberetely not supporing printing of this part of the webpage
+      preserveDrawingBuffer: false,
+    },
 
-		style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
+    style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
 
-		center: [11.5748, 48.14], // Approx Munich
-		zoom: 11, // Zoomed out so that the whole city is visible
-	});
-	if (props.debugMode) {
-		const debugMarker = new Marker({ draggable: true })
-			.setLngLat([props.coords.lon, props.coords.lat])
-			.addTo(map);
+    center: [11.5748, 48.14], // Approx Munich
+    zoom: 11, // Zoomed out so that the whole city is visible
+  });
+  if (props.debugMode) {
+    const debugMarker = new Marker({ draggable: true })
+      .setLngLat([props.coords.lon, props.coords.lat])
+      .addTo(map);
 
-		debugMarker.on("dragend", () => {
-			const lngLat = debugMarker.getLngLat();
-			console.log(
-				`debug marker "${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`,
-			);
-			navigator.clipboard.writeText(
-				`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`,
-			);
-		});
-	}
+    debugMarker.on("dragend", () => {
+      const lngLat = debugMarker.getLngLat();
+      console.log(`debug marker "${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
+      navigator.clipboard.writeText(`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
+    });
+  }
 
-	// Each source / style change causes the map to get
-	// into "loading" state, so map.loaded() is not reliable
-	// enough to know whether just the initial loading has
-	// succeeded.
-	map.on("load", () => {
-		initialLoaded.value = true;
+  // Each source / style change causes the map to get
+  // into "loading" state, so map.loaded() is not reliable
+  // enough to know whether just the initial loading has
+  // succeeded.
+  map.on("load", () => {
+    initialLoaded.value = true;
 
-		// controls
-		map.addControl(new NavigationControl({}), "top-left");
+    // controls
+    map.addControl(new NavigationControl({}), "top-left");
 
-		// (Browser) Fullscreen is enabled only on mobile, on desktop the map
-		// is maximized instead. This is determined once to select the correct
-		// container to maximize, and then remains unchanged even if the browser
-		// is resized (not relevant for users but for developers).
-		const isMobile = window.matchMedia(
-			"only screen and (max-width: 480px)",
-		).matches;
-		const fullscreenContainer = isMobile
-			? document.getElementById("interactive-legacy-map")
-			: document.getElementById("interactive-legacy-map-container");
-		const fullscreenCtl = new FullscreenControl({
-			container: fullscreenContainer as HTMLElement,
-		});
-		// "Backup" the maplibregl default fullscreen handler
-		const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
-		fullscreenCtl._onClickFullscreen = () => {
-			if (isMobile) defaultOnClickFullscreen();
-			else {
-				if (fullscreenCtl._container.classList.contains("maximize")) {
-					fullscreenCtl._container.classList.remove("maximize");
-					document.body.classList.remove("overflow-y-hidden");
-					fullscreenCtl._fullscreenButton.classList.remove(
-						"maplibregl-ctrl-shrink",
-					);
-				} else {
-					fullscreenCtl._container.classList.add("maximize");
-					fullscreenCtl._fullscreenButton.classList.add(
-						"maplibregl-ctrl-shrink",
-					);
-					document.body.classList.add("overflow-y-hidden");
-					window.scrollTo({ top: 0, behavior: "auto" });
-				}
+    // (Browser) Fullscreen is enabled only on mobile, on desktop the map
+    // is maximized instead. This is determined once to select the correct
+    // container to maximize, and then remains unchanged even if the browser
+    // is resized (not relevant for users but for developers).
+    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
+    const fullscreenContainer = isMobile
+      ? document.getElementById("interactive-legacy-map")
+      : document.getElementById("interactive-legacy-map-container");
+    const fullscreenCtl = new FullscreenControl({
+      container: fullscreenContainer as HTMLElement,
+    });
+    // "Backup" the maplibregl default fullscreen handler
+    const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
+    fullscreenCtl._onClickFullscreen = () => {
+      if (isMobile) defaultOnClickFullscreen();
+      else {
+        if (fullscreenCtl._container.classList.contains("maximize")) {
+          fullscreenCtl._container.classList.remove("maximize");
+          document.body.classList.remove("overflow-y-hidden");
+          fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
+        } else {
+          fullscreenCtl._container.classList.add("maximize");
+          fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
+          document.body.classList.add("overflow-y-hidden");
+          window.scrollTo({ top: 0, behavior: "auto" });
+        }
 
-				fullscreenCtl._fullscreen =
-					fullscreenCtl._container.classList.contains("maximize");
-				fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-					? "Exit fullscreen"
-					: "Enter fullscreen";
-				fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-					? "Exit fullscreen"
-					: "Enter fullscreen";
-				fullscreenCtl._map.resize();
-			}
-		};
-		// There is a bug that the map doesn't update to the new size
-		// when changing between fullscreen in the mobile version.
-		if (isMobile) {
-			const fullscreenObserver = new ResizeObserver(() => {
-				fullscreenCtl._map.resize();
-			});
-			fullscreenObserver.observe(fullscreenCtl._container);
-		}
-		map.addControl(fullscreenCtl);
+        fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._map.resize();
+      }
+    };
+    // There is a bug that the map doesn't update to the new size
+    // when changing between fullscreen in the mobile version.
+    if (isMobile) {
+      const fullscreenObserver = new ResizeObserver(() => {
+        fullscreenCtl._map.resize();
+      });
+      fullscreenObserver.observe(fullscreenCtl._container);
+    }
+    map.addControl(fullscreenCtl);
 
-		const location = new GeolocateControl({
-			positionOptions: {
-				enableHighAccuracy: true,
-			},
-			trackUserLocation: true,
-		});
-		map.addControl(location);
-	});
+    const location = new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    map.addControl(location);
+  });
 
-	interface FloorChangedEvent {
-		file: string | null;
-		coords: Coordinates | undefined;
-	}
+  interface FloorChangedEvent {
+    file: string | null;
+    coords: Coordinates | undefined;
+  }
 
-	floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-		const url = args.file
-			? `${runtimeConfig.public.cdnURL}/cdn/maps/overlays/${args.file}`
-			: null;
-		setOverlayImage(url, args.coords);
-	});
-	map.addControl(floorControl.value, "bottom-left");
+  floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
+    const url = args.file ? `${runtimeConfig.public.cdnURL}/cdn/maps/overlays/${args.file}` : null;
+    setOverlayImage(url, args.coords);
+  });
+  map.addControl(floorControl.value, "bottom-left");
 
-	return map;
+  return map;
 }
 
 // Set the currently visible overlay image in the map,
 // or hide it if imgUrl is null.
-function setOverlayImage(
-	imgUrl: string | null,
-	coords: Coordinates | undefined,
-) {
-	// Even if the map is initialized, it could be that
-	// it hasn't loaded yet, so we need to postpone adding
-	// the overlay layer.
-	// However, the official `loaded()` function is a problem
-	// here, because the map is shortly in a "loading" state
-	// when source / style is changed, even though the initial
-	// loading is complete (and only the initial loading seems
-	// to be required to do changes here)
-	if (!initialLoaded.value) {
-		map.value?.on("load", () => setOverlayImage(imgUrl, coords));
-		return;
-	}
+function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined) {
+  // Even if the map is initialized, it could be that
+  // it hasn't loaded yet, so we need to postpone adding
+  // the overlay layer.
+  // However, the official `loaded()` function is a problem
+  // here, because the map is shortly in a "loading" state
+  // when source / style is changed, even though the initial
+  // loading is complete (and only the initial loading seems
+  // to be required to do changes here)
+  if (!initialLoaded.value) {
+    map.value?.on("load", () => setOverlayImage(imgUrl, coords));
+    return;
+  }
 
-	if (imgUrl === null) {
-		// Hide overlay
-		if (map.value?.getLayer("overlay"))
-			map.value?.setLayoutProperty("overlay", "visibility", "none");
-		if (map.value?.getLayer("overlay-bg"))
-			map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
-	} else {
-		const source = map.value?.getSource("overlay") as ImageSource | undefined;
-		if (source === undefined) {
-			if (coords !== undefined)
-				map.value?.addSource("overlay", {
-					type: "image",
-					url: imgUrl,
-					coordinates: coords,
-				});
-		} else
-			source.updateImage({
-				url: imgUrl,
-				coordinates: coords,
-			});
+  if (imgUrl === null) {
+    // Hide overlay
+    if (map.value?.getLayer("overlay"))
+      map.value?.setLayoutProperty("overlay", "visibility", "none");
+    if (map.value?.getLayer("overlay-bg"))
+      map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
+  } else {
+    const source = map.value?.getSource("overlay") as ImageSource | undefined;
+    if (source === undefined) {
+      if (coords !== undefined)
+        map.value?.addSource("overlay", {
+          type: "image",
+          url: imgUrl,
+          coordinates: coords,
+        });
+    } else
+      source.updateImage({
+        url: imgUrl,
+        coordinates: coords,
+      });
 
-		const layer = map.value?.getLayer("overlay") as
-			| BackgroundLayerSpecification
-			| undefined;
-		if (!layer) {
-			map.value?.addLayer({
-				id: "overlay-bg",
-				type: "background",
-				paint: {
-					"background-color": "#ffffff",
-					"background-opacity": 0.6,
-				},
-			});
-			map.value?.addLayer({
-				id: "overlay",
-				type: "raster",
-				source: "overlay",
-				paint: {
-					"raster-fade-duration": 0,
-				},
-			});
-		} else {
-			map.value?.setLayoutProperty("overlay", "visibility", "visible");
-			map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
-		}
-	}
+    const layer = map.value?.getLayer("overlay") as BackgroundLayerSpecification | undefined;
+    if (!layer) {
+      map.value?.addLayer({
+        id: "overlay-bg",
+        type: "background",
+        paint: {
+          "background-color": "#ffffff",
+          "background-opacity": 0.6,
+        },
+      });
+      map.value?.addLayer({
+        id: "overlay",
+        type: "raster",
+        source: "overlay",
+        paint: {
+          "raster-fade-duration": 0,
+        },
+      });
+    } else {
+      map.value?.setLayoutProperty("overlay", "visibility", "visible");
+      map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
+    }
+  }
 }
 
 // --- Loading components ---
 onMounted(() => {
-	nextTick(() => {
-		// Even though 'mounted' is called there is no guarantee apparently,
-		// that we can reference the map by ID in the DOM yet. For this reason we
-		// try to poll now (Not the best solution probably)
-		let timeoutInMs = 25;
+  nextTick(() => {
+    // Even though 'mounted' is called there is no guarantee apparently,
+    // that we can reference the map by ID in the DOM yet. For this reason we
+    // try to poll now (Not the best solution probably)
+    let timeoutInMs = 25;
 
-		function pollMap() {
-			const canLoadMap =
-				document.getElementById("interactive-legacy-map") !== null;
-			if (canLoadMap) {
-				loadInteractiveMap();
-				window.scrollTo({ top: 0, behavior: "auto" });
-			} else {
-				console.info(
-					`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`,
-				);
-				setTimeout(pollMap, timeoutInMs);
-				timeoutInMs *= 1.5;
-			}
-		}
+    function pollMap() {
+      const canLoadMap = document.getElementById("interactive-legacy-map") !== null;
+      if (canLoadMap) {
+        loadInteractiveMap();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      } else {
+        console.info(
+          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
+        );
+        setTimeout(pollMap, timeoutInMs);
+        timeoutInMs *= 1.5;
+      }
+    }
 
-		pollMap();
-	});
+    pollMap();
+  });
 });
 </script>
 

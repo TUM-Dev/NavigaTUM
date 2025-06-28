@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useFeedbackToken } from "~/composables/feedbackToken";
 import { useFeedback } from "~/composables/feedback";
+import { useFeedbackToken } from "~/composables/feedbackToken";
 
 const props = defineProps<{
-	data: { [index: string]: string | boolean | number };
+  data: { [index: string]: string | boolean | number };
 }>();
 
 const runtimeConfig = useRuntimeConfig();
@@ -15,95 +15,91 @@ const privacyChecked = ref(false);
 const feedback = useFeedback();
 
 function closeForm() {
-	feedback.value.open = false;
-	successUrl.value = "";
-	error.value.blockSend = false;
-	error.value.message = "";
+  feedback.value.open = false;
+  successUrl.value = "";
+  error.value.blockSend = false;
+  error.value.message = "";
 }
 
 enum SubmissionStatus {
-	SUCCESSFULLY_CREATED = 201,
-	UNAVAILABLE_FOR_LEGAL_REASONS = 451,
-	SERVER_ERROR = 500,
-	FORBIDDEN = 403,
+  SUCCESSFULLY_CREATED = 201,
+  UNAVAILABLE_FOR_LEGAL_REASONS = 451,
+  SERVER_ERROR = 500,
+  FORBIDDEN = 403,
 }
 
 function _send() {
-	// data is a `Window` which cannot be cloned by `structuredClone`, but can be by JSON.
-	const data = JSON.parse(JSON.stringify(props.data));
-	data.privacy_checked = privacyChecked.value;
-	data.token = token.value?.token;
-	fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/feedback`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(data),
-	})
-		.then((r) => {
-			loading.value = false;
-			if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
-				token.value = null;
-				r.text().then((url) => {
-					successUrl.value = url;
-				});
-			} else if (r.status === SubmissionStatus.SERVER_ERROR) {
-				error.value.message = `${t("status.server_error")} (${r.text()})`;
-			} else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
-				error.value.message = t("error.please_accept_privacy_statement");
-			} else if (r.status === SubmissionStatus.FORBIDDEN) {
-				token.value = null;
-				error.value.message = `${t("error.send_invalid_token")} (${r.text()})`;
-			} else {
-				// we reset the token here to be sure that it is the cause of the error
-				token.value = null;
-				error.value.message = `${t("status.send_unexpected_status")}: ${r.status}`;
-			}
-			if (r.status !== SubmissionStatus.SUCCESSFULLY_CREATED) {
-				document
-					.getElementById("token-modal-error")
-					?.scrollIntoView({ behavior: "smooth" });
-			}
-		})
-		.catch((r) => {
-			loading.value = false;
-			error.value.message = t("error.send_req_failed");
-			console.error(r);
-			document
-				.getElementById("token-modal-error")
-				?.scrollIntoView({ behavior: "smooth" });
-		});
+  // data is a `Window` which cannot be cloned by `structuredClone`, but can be by JSON.
+  const data = JSON.parse(JSON.stringify(props.data));
+  data.privacy_checked = privacyChecked.value;
+  data.token = token.value?.token;
+  fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/feedback`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((r) => {
+      loading.value = false;
+      if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
+        token.value = null;
+        r.text().then((url) => {
+          successUrl.value = url;
+        });
+      } else if (r.status === SubmissionStatus.SERVER_ERROR) {
+        error.value.message = `${t("status.server_error")} (${r.text()})`;
+      } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
+        error.value.message = t("error.please_accept_privacy_statement");
+      } else if (r.status === SubmissionStatus.FORBIDDEN) {
+        token.value = null;
+        error.value.message = `${t("error.send_invalid_token")} (${r.text()})`;
+      } else {
+        // we reset the token here to be sure that it is the cause of the error
+        token.value = null;
+        error.value.message = `${t("status.send_unexpected_status")}: ${r.status}`;
+      }
+      if (r.status !== SubmissionStatus.SUCCESSFULLY_CREATED) {
+        document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
+      }
+    })
+    .catch((r) => {
+      loading.value = false;
+      error.value.message = t("error.send_req_failed");
+      console.error(r);
+      document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
+    });
 }
 
 function sendForm() {
-	// validate the own form
-	if (token.value === null) {
-		error.value.message = t("error.send_no_token");
-		error.value.blockSend = true;
-		return;
-	}
-	if (!privacyChecked.value) {
-		error.value.message = t("error.please_accept_privacy_statement");
-		return;
-	}
+  // validate the own form
+  if (token.value === null) {
+    error.value.message = t("error.send_no_token");
+    error.value.blockSend = true;
+    return;
+  }
+  if (!privacyChecked.value) {
+    error.value.message = t("error.please_accept_privacy_statement");
+    return;
+  }
 
-	// validate the foreign form
-	if (feedback.value.data.subject.length < 3) {
-		error.value.message = t("error.form.too_short_subject");
-		return;
-	}
-	if (feedback.value.data.body.length < 10) {
-		error.value.message = t("error.form.too_short_body");
-		return;
-	}
+  // validate the foreign form
+  if (feedback.value.data.subject.length < 3) {
+    error.value.message = t("error.form.too_short_subject");
+    return;
+  }
+  if (feedback.value.data.body.length < 10) {
+    error.value.message = t("error.form.too_short_body");
+    return;
+  }
 
-	loading.value = true;
-	// Token may only be used after a short delay.
-	const MINIMUM_DELAY_MS = 10_000;
-	const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
-	if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
-		setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
-	else _send();
+  loading.value = true;
+  // Token may only be used after a short delay.
+  const MINIMUM_DELAY_MS = 10_000;
+  const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
+    setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  else _send();
 }
 </script>
 

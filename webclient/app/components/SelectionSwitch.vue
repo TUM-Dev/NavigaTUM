@@ -3,7 +3,7 @@ import { Listbox, ListboxButton, ListboxOptions } from "@headlessui/vue";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 
 interface Props {
-	label?: string;
+  label?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), { label: "" });

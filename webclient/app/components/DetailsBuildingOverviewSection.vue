@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import {
+  BuildingOffice2Icon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@heroicons/vue/24/outline";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
-import {
-	BuildingOffice2Icon,
-	ChevronDownIcon,
-	ChevronRightIcon,
-	ChevronUpIcon,
-} from "@heroicons/vue/24/outline";
 
-type BuildingsOverviewResponse =
-	components["schemas"]["BuildingsOverviewResponse"];
+type BuildingsOverviewResponse = components["schemas"]["BuildingsOverviewResponse"];
 
 const props = defineProps<{
-	readonly buildings?: BuildingsOverviewResponse | null;
+  readonly buildings?: BuildingsOverviewResponse | null;
 }>();
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);

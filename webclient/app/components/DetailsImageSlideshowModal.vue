@@ -10,34 +10,34 @@ const runtimeConfig = useRuntimeConfig();
 
 const shownImage = defineModel<ImageInfoResponse>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
-	required: true,
+  required: true,
 });
 
 type OnSlideData = {
-	currentSlideIndex: number;
-	prevSlideIndex: number;
-	slidesCount: number;
+  currentSlideIndex: number;
+  prevSlideIndex: number;
+  slidesCount: number;
 };
 
 function onSlide(slide: unknown): void {
-	// destructured here to make ts happy
-	const { currentSlideIndex } = slide as OnSlideData;
-	shownImage.value = props.imgs[currentSlideIndex];
+  // destructured here to make ts happy
+  const { currentSlideIndex } = slide as OnSlideData;
+  shownImage.value = props.imgs[currentSlideIndex];
 }
 
 interface SubTitle {
-	title: string;
-	url?: string | null;
-	text: string;
+  title: string;
+  url?: string | null;
+  text: string;
 }
 
 const subtitles = computed<SubTitle[]>(() => {
-	if (!shownImage.value) return [];
-	return [
-		{ title: t("source"), ...shownImage.value.source },
-		{ title: t("license"), ...shownImage.value.license },
-		{ title: t("author"), ...shownImage.value.author },
-	];
+  if (!shownImage.value) return [];
+  return [
+    { title: t("source"), ...shownImage.value.source },
+    { title: t("license"), ...shownImage.value.license },
+    { title: t("author"), ...shownImage.value.author },
+  ];
 });
 </script>
 

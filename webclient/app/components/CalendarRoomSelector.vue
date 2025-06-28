@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { CalendarIcon } from "@heroicons/vue/16/solid";
+import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
-type CalendarLocationResponse =
-	components["schemas"]["CalendarLocationResponse"];
+type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
 defineProps<{
-	readonly data: Map<string, CalendarLocationResponse>;
+  readonly data: Map<string, CalendarLocationResponse>;
 }>();
 const emit = defineEmits(["change"]);
 
@@ -19,47 +18,41 @@ const runtimeConfig = useRuntimeConfig();
 const calendar = useCalendar();
 
 async function addLocation() {
-	let selectedLocation = "";
-	while (!selectedLocation) {
-		selectedLocation = window.prompt(t("prompt.initial")) || "";
-		try {
-			const result = await fetch(
-				`${runtimeConfig.public.apiURL}/api/locations/${selectedLocation}`,
-			);
-			if (!result.ok) {
-				const userWantsToRetry = window.confirm(
-					t("prompt.error_not_ok", [selectedLocation]),
-				);
-				if (!userWantsToRetry) return;
-				selectedLocation = "";
-				continue;
-			}
-			const res = (await result.json()) as LocationDetailsResponse;
-			if (!res.props.calendar_url) {
-				const userWantsToRetry = window.confirm(
-					t("prompt.error_not_calendar", [selectedLocation]),
-				);
-				if (!userWantsToRetry) return;
-				selectedLocation = "";
-				continue;
-			}
-		} catch (e) {
-			window.alert(`Failed because ${e}`);
-			selectedLocation = "";
-			continue;
-		}
-		if (calendar.value.find((k) => k === selectedLocation)) {
-			const userWantsToRetry = window.confirm(
-				t("prompt.error_already_exists", [selectedLocation]),
-			);
-			if (!userWantsToRetry) return;
-			selectedLocation = "";
-		}
-	}
-	calendar.value = [...calendar.value, selectedLocation];
-	emit("change");
-	// todo: debug why this is not syncinc apropriately, quite a crude hack
-	setTimeout(() => location.reload(), 500);
+  let selectedLocation = "";
+  while (!selectedLocation) {
+    selectedLocation = window.prompt(t("prompt.initial")) || "";
+    try {
+      const result = await fetch(
+        `${runtimeConfig.public.apiURL}/api/locations/${selectedLocation}`
+      );
+      if (!result.ok) {
+        const userWantsToRetry = window.confirm(t("prompt.error_not_ok", [selectedLocation]));
+        if (!userWantsToRetry) return;
+        selectedLocation = "";
+        continue;
+      }
+      const res = (await result.json()) as LocationDetailsResponse;
+      if (!res.props.calendar_url) {
+        const userWantsToRetry = window.confirm(t("prompt.error_not_calendar", [selectedLocation]));
+        if (!userWantsToRetry) return;
+        selectedLocation = "";
+        continue;
+      }
+    } catch (e) {
+      window.alert(`Failed because ${e}`);
+      selectedLocation = "";
+      continue;
+    }
+    if (calendar.value.find((k) => k === selectedLocation)) {
+      const userWantsToRetry = window.confirm(t("prompt.error_already_exists", [selectedLocation]));
+      if (!userWantsToRetry) return;
+      selectedLocation = "";
+    }
+  }
+  calendar.value = [...calendar.value, selectedLocation];
+  emit("change");
+  // todo: debug why this is not syncinc apropriately, quite a crude hack
+  setTimeout(() => location.reload(), 500);
 }
 </script>
 

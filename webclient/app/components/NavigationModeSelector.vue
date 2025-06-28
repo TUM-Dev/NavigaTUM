@@ -1,8 +1,6 @@
 <script setup lang="ts">
-const mode = defineModel<
-	"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian"
->("mode", {
-	required: true,
+const mode = defineModel<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", {
+  required: true,
 });
 const { t } = useI18n({ useScope: "local" });
 </script>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import {
-	BuildingOffice2Icon,
-	BuildingOfficeIcon,
-	MagnifyingGlassIcon,
-	MapPinIcon,
+  BuildingOffice2Icon,
+  BuildingOfficeIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
 } from "@heroicons/vue/24/outline/index.js";
 import type { components } from "~/api_types/index.js";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
 type ResultEntryItem = {
-	type: ResultEntry["type"];
-	parsed_id: ResultEntry["parsed_id"];
+  type: ResultEntry["type"];
+  parsed_id: ResultEntry["parsed_id"];
 };
 defineProps<{ item: ResultEntryItem }>();
 </script>

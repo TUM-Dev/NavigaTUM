@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { components } from "~/api_types/index.js";
+
 type ResultEntry = components["schemas"]["ResultEntry"];
 
 defineProps<{
-	item: ResultEntry;
-	highlighted: boolean;
+  item: ResultEntry;
+  highlighted: boolean;
 }>();
 const emit = defineEmits(["click", "mousedown", "mouseover"]);
 </script>

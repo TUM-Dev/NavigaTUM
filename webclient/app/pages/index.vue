@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { MapPinIcon } from "@heroicons/vue/24/outline";
 import {
-	ArrowRightIcon,
-	ChevronDownIcon,
-	ChevronRightIcon,
-	ChevronUpIcon,
+  ArrowRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
 } from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
 
@@ -13,91 +13,90 @@ import type { components } from "~/api_types";
  * It is sorted by the number of rooms in the site, descending.
  * The first entry is the site with the most importance
  */
-type SitesOverview =
-	components["schemas"]["RoomsOverviewUsageChildResponse"] & {
-		/**
-		 * Format: int64
-		 * @description A recommendation how many of the entries should be displayed by default.
-		 * The number is usually from 0-5.
-		 * More results might be displayed when clicking "expand".
-		 * If this field is not present, then all entries are displayed.
-		 *
-		 * @example 6
-		 */
-		readonly n_visible: number;
-		/**
-		 * @description A select list of buildings, that are in this site.
-		 * Derived from the areatree.
-		 */
-		readonly children: readonly components["schemas"]["RoomsOverviewUsageChildResponse"][];
-	};
+type SitesOverview = components["schemas"]["RoomsOverviewUsageChildResponse"] & {
+  /**
+   * Format: int64
+   * @description A recommendation how many of the entries should be displayed by default.
+   * The number is usually from 0-5.
+   * More results might be displayed when clicking "expand".
+   * If this field is not present, then all entries are displayed.
+   *
+   * @example 6
+   */
+  readonly n_visible: number;
+  /**
+   * @description A select list of buildings, that are in this site.
+   * Derived from the areatree.
+   */
+  readonly children: readonly components["schemas"]["RoomsOverviewUsageChildResponse"][];
+};
 
 const { t } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const sites_overview: readonly SitesOverview[] = [
-	{
-		children: [
-			{ id: "mi", name: "Mathematik / Informatik" },
-			{ id: "mw", name: "Maschinenwesen" },
-			{ id: "physik", name: "Physik" },
-			{ id: "chemie", name: "Chemie" },
-			{ id: "garching-interims", name: "Interimshörsäle" },
-			{ id: "5532", name: "StudiTUM Garching" },
-		],
-		id: "garching",
-		n_visible: 4,
-		name: "Garching Forschungszentrum",
-	},
-	{
-		children: [
-			{ id: "zentralgelaende", name: "Zentralgelände" },
-			{ id: "nordgelaende", name: "Nordgelände" },
-			{ id: "suedgelaende", name: "Südgelände" },
-			{ id: "suedwestgelaende", name: "Südwestgelände" },
-			{ id: "0201", name: "StudiTUM Innenstadt" },
-			{ id: "2910", name: "RiWa 1 (HfP, Governance)" },
-		],
-		id: "stammgelaende",
-		n_visible: 3,
-		name: "Stammgelände",
-	},
-	{
-		children: [
-			{ id: "wzw-berg", name: "Gebiet 4100 Berg" },
-			{ id: "wzw-mitte", name: "Gebiet 4200 Mitte" },
-			{ id: "wzw-nord", name: "Gebiet 4300 Nord" },
-			{ id: "duernast", name: "Dürnast (Versuchsstation)" },
-			{ id: "roggenstein", name: "Roggenstein (Versuchsstation)" },
-			{ id: "thalhausen", name: "Thalhausen (Versuchsstation)" },
-			{ id: "veitshof", name: "Veitshof (Stallungen)" },
-			{ id: "viehhausen", name: "Viehhausen (Versuchsstation)" },
-		],
-		id: "wzw",
-		n_visible: 3,
-		name: "Weihenstephan (Freising)",
-	},
-	{
-		children: [
-			{ id: "mri", name: "MRI Klinikum rechts der Isar" },
-			{ id: "olympiapark", name: "Campus im Olympiapark" },
-			{ id: "cs", name: "Campus Straubing" },
-			{ id: "garching-hochbrueck", name: "Garching Hochbrück" },
-			{ id: "taufkirchen-ottobrunn", name: "Taufkirchen / Ottobrunn" },
-		],
-		id: "others",
-		n_visible: 5,
-		name: t("sites_overview.others"),
-	},
+  {
+    children: [
+      { id: "mi", name: "Mathematik / Informatik" },
+      { id: "mw", name: "Maschinenwesen" },
+      { id: "physik", name: "Physik" },
+      { id: "chemie", name: "Chemie" },
+      { id: "garching-interims", name: "Interimshörsäle" },
+      { id: "5532", name: "StudiTUM Garching" },
+    ],
+    id: "garching",
+    n_visible: 4,
+    name: "Garching Forschungszentrum",
+  },
+  {
+    children: [
+      { id: "zentralgelaende", name: "Zentralgelände" },
+      { id: "nordgelaende", name: "Nordgelände" },
+      { id: "suedgelaende", name: "Südgelände" },
+      { id: "suedwestgelaende", name: "Südwestgelände" },
+      { id: "0201", name: "StudiTUM Innenstadt" },
+      { id: "2910", name: "RiWa 1 (HfP, Governance)" },
+    ],
+    id: "stammgelaende",
+    n_visible: 3,
+    name: "Stammgelände",
+  },
+  {
+    children: [
+      { id: "wzw-berg", name: "Gebiet 4100 Berg" },
+      { id: "wzw-mitte", name: "Gebiet 4200 Mitte" },
+      { id: "wzw-nord", name: "Gebiet 4300 Nord" },
+      { id: "duernast", name: "Dürnast (Versuchsstation)" },
+      { id: "roggenstein", name: "Roggenstein (Versuchsstation)" },
+      { id: "thalhausen", name: "Thalhausen (Versuchsstation)" },
+      { id: "veitshof", name: "Veitshof (Stallungen)" },
+      { id: "viehhausen", name: "Viehhausen (Versuchsstation)" },
+    ],
+    id: "wzw",
+    n_visible: 3,
+    name: "Weihenstephan (Freising)",
+  },
+  {
+    children: [
+      { id: "mri", name: "MRI Klinikum rechts der Isar" },
+      { id: "olympiapark", name: "Campus im Olympiapark" },
+      { id: "cs", name: "Campus Straubing" },
+      { id: "garching-hochbrueck", name: "Garching Hochbrück" },
+      { id: "taufkirchen-ottobrunn", name: "Taufkirchen / Ottobrunn" },
+    ],
+    id: "others",
+    n_visible: 5,
+    name: t("sites_overview.others"),
+  },
 ];
 
 const title = computed(() => `${t("sites")} - NavigaTUM`);
 useSeoMeta({
-	title: title,
-	ogTitle: title,
-	description: t("description"),
-	ogDescription: t("description"),
-	ogImage: "https://nav.tum.de/navigatum-card.png",
-	twitterCard: "summary",
+  title: title,
+  ogTitle: title,
+  description: t("description"),
+  ogDescription: t("description"),
+  ogImage: "https://nav.tum.de/navigatum-card.png",
+  twitterCard: "summary",
 });
 
 const openPanels = ref<(boolean | undefined)[]>([]);

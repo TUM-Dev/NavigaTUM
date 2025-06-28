@@ -6,138 +6,131 @@ import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
-	required: true,
+  required: true,
 });
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
 const keep_focus = ref(false);
-const query = ref(
-	Array.isArray(route.query.q)
-		? (route.query.q[0] ?? "")
-		: (route.query.q ?? ""),
-);
+const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
-	if (!data.value) return [] as string[];
+  if (!data.value) return [] as string[];
 
-	const visible: string[] = [] as string[];
-	for (const section of data.value.sections) {
-		if (section.facet === "sites_buildings") {
-			const max_sites_buildings = sites_buildings_expanded.value
-				? Number.POSITIVE_INFINITY
-				: section.n_visible;
-			visible.push(
-				...section.entries.slice(0, max_sites_buildings).map((e) => e.id),
-			);
-		} else {
-			visible.push(...section.entries.map((e) => e.id));
-		}
-	}
-	return visible;
+  const visible: string[] = [] as string[];
+  for (const section of data.value.sections) {
+    if (section.facet === "sites_buildings") {
+      const max_sites_buildings = sites_buildings_expanded.value
+        ? Number.POSITIVE_INFINITY
+        : section.n_visible;
+      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
+    } else {
+      visible.push(...section.entries.map((e) => e.id));
+    }
+  }
+  return visible;
 });
 
 function searchFocus(): void {
-	searchBarFocused.value = true;
-	highlighted.value = undefined;
+  searchBarFocused.value = true;
+  highlighted.value = undefined;
 }
 
 function searchBlur(): void {
-	if (keep_focus.value) {
-		setTimeout(() => {
-			// This is relevant if the call is delayed and focused has
-			// already been disabled e.g. when clicking on an entry.
-			if (searchBarFocused.value) document.getElementById("search")?.focus();
-		}, 0);
-		keep_focus.value = false;
-	} else {
-		searchBarFocused.value = false;
-	}
+  if (keep_focus.value) {
+    setTimeout(() => {
+      // This is relevant if the call is delayed and focused has
+      // already been disabled e.g. when clicking on an entry.
+      if (searchBarFocused.value) document.getElementById("search")?.focus();
+    }, 0);
+    keep_focus.value = false;
+  } else {
+    searchBarFocused.value = false;
+  }
 }
 
 async function searchGo(cleanQuery: boolean): Promise<void> {
-	if (query.value.length === 0) return;
+  if (query.value.length === 0) return;
 
-	await navigateTo(localePath(`/search?q=${query.value}`));
-	searchBarFocused.value = false;
-	if (cleanQuery) {
-		query.value = "";
-	}
-	document.getElementById("search")?.blur();
+  await navigateTo(localePath(`/search?q=${query.value}`));
+  searchBarFocused.value = false;
+  if (cleanQuery) {
+    query.value = "";
+  }
+  document.getElementById("search")?.blur();
 }
 
 async function searchGoTo(id: string): Promise<void> {
-	await navigateTo(localePath(`/view/${id}`));
-	searchBarFocused.value = false;
-	query.value = "";
-	document.getElementById("search")?.blur();
+  await navigateTo(localePath(`/view/${id}`));
+  searchBarFocused.value = false;
+  query.value = "";
+  document.getElementById("search")?.blur();
 }
 
 function onKeyDown(e: KeyboardEvent): void {
-	switch (e.key) {
-		case "Escape":
-			document.getElementById("search")?.blur();
-			break;
+  switch (e.key) {
+    case "Escape":
+      document.getElementById("search")?.blur();
+      break;
 
-		case "ArrowDown":
-			if (highlighted.value === undefined) {
-				highlighted.value = 0;
-				e.preventDefault();
-				break;
-			}
+    case "ArrowDown":
+      if (highlighted.value === undefined) {
+        highlighted.value = 0;
+        e.preventDefault();
+        break;
+      }
 
-			highlighted.value =
-				(highlighted.value + 1) % visibleElements.value.length;
-			e.preventDefault();
-			break;
+      highlighted.value = (highlighted.value + 1) % visibleElements.value.length;
+      e.preventDefault();
+      break;
 
-		case "ArrowUp":
-			if (visibleElements.value.length === 0) {
-				highlighted.value = undefined;
-				e.preventDefault();
-				break;
-			}
-			if (highlighted.value === 0 || highlighted.value === undefined) {
-				highlighted.value = visibleElements.value.length - 1;
-			} else {
-				highlighted.value -= 1;
-			}
-			e.preventDefault();
-			break;
+    case "ArrowUp":
+      if (visibleElements.value.length === 0) {
+        highlighted.value = undefined;
+        e.preventDefault();
+        break;
+      }
+      if (highlighted.value === 0 || highlighted.value === undefined) {
+        highlighted.value = visibleElements.value.length - 1;
+      } else {
+        highlighted.value -= 1;
+      }
+      e.preventDefault();
+      break;
 
-		case "Enter":
-			e.preventDefault();
-			if (highlighted.value !== undefined) {
-				const visible = visibleElements.value[highlighted.value];
-				if (visible !== undefined) {
-					searchGoTo(visible);
-				} else {
-					searchGo(true);
-				}
-			} else searchGo(false);
-			break;
-		default:
-			break;
-	}
+    case "Enter":
+      e.preventDefault();
+      if (highlighted.value !== undefined) {
+        const visible = visibleElements.value[highlighted.value];
+        if (visible !== undefined) {
+          searchGoTo(visible);
+        } else {
+          searchGo(true);
+        }
+      } else searchGo(false);
+      break;
+    default:
+      break;
+  }
 }
 
 const runtimeConfig = useRuntimeConfig();
 const url = computed(() => {
-	const params = new URLSearchParams();
-	params.append("q", query.value);
-	params.append("lang", locale.value);
-	params.append("pre_highlight", "<b class='text-blue'>");
-	params.append("post_highlight", "</b>");
+  const params = new URLSearchParams();
+  params.append("q", query.value);
+  params.append("lang", locale.value);
+  params.append("pre_highlight", "<b class='text-blue'>");
+  params.append("post_highlight", "</b>");
 
-	return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data, error } = await useFetch<SearchResponse>(url, {
-	dedupe: "cancel",
-	credentials: "omit",
-	retry: 120,
-	retryDelay: 1000,
+  dedupe: "cancel",
+  credentials: "omit",
+  retry: 120,
+  retryDelay: 1000,
 });
 </script>
 

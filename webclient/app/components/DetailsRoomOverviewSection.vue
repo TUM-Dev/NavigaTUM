@@ -1,61 +1,57 @@
 <script setup lang="ts">
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import {
-	Listbox,
-	ListboxButton,
-	ListboxOption,
-	ListboxOptions,
-} from "@headlessui/vue";
-import {
-	CheckIcon,
-	ChevronUpDownIcon,
-	FunnelIcon,
-	MagnifyingGlassIcon,
-	MapPinIcon,
+  CheckIcon,
+  ChevronUpDownIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
 } from "@heroicons/vue/24/outline";
-import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
+import type { components } from "~/api_types";
 
 type RoomsOverviewResponse = components["schemas"]["RoomsOverviewResponse"];
-type RoomsOverviewUsageChildResponse =
-	components["schemas"]["RoomsOverviewUsageChildResponse"];
+type RoomsOverviewUsageChildResponse = components["schemas"]["RoomsOverviewUsageChildResponse"];
 
 const props = defineProps<{
-	readonly rooms?: RoomsOverviewResponse | null;
+  readonly rooms?: RoomsOverviewResponse | null;
 }>();
 
 const { t } = useI18n({ useScope: "local" });
 const selectedUsage = ref(-1);
 const search = ref("");
 const combined_list = computed(() => {
-	const usages = props.rooms?.usages || [];
-	const combinedList = [] as RoomsOverviewUsageChildResponse[];
-	for (const usage of usages) {
-		combinedList.push(...usage.children);
-	}
-	return combinedList;
+  const usages = props.rooms?.usages || [];
+  const combinedList = [] as RoomsOverviewUsageChildResponse[];
+  for (const usage of usages) {
+    combinedList.push(...usage.children);
+  }
+  return combinedList;
 });
 type SelectedRoomGroup = {
-	rooms: readonly RoomsOverviewUsageChildResponse[];
-	label: string;
+  rooms: readonly RoomsOverviewUsageChildResponse[];
+  label: string;
 };
 const selectedRooms = computed<SelectedRoomGroup>(() => {
-	if (selectedUsage.value === -1) {
-		return { rooms: combined_list.value, label: t("any_usage") };
-	}
-	const rooms_usgage = props.rooms?.usages || [];
-	return {
-		rooms: rooms_usgage[selectedUsage.value]?.children ?? [],
-		label: rooms_usgage[selectedUsage.value]?.name ?? "usage-out-of-range",
-	};
+  if (selectedUsage.value === -1) {
+    return { rooms: combined_list.value, label: t("any_usage") };
+  }
+  const rooms_usgage = props.rooms?.usages || [];
+  return {
+    rooms: rooms_usgage[selectedUsage.value]?.children ?? [],
+    label: rooms_usgage[selectedUsage.value]?.name ?? "usage-out-of-range",
+  };
 });
 const filteredList = computed<RoomsOverviewUsageChildResponse[]>(() => {
-	const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
-	return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
+  const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
+  return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
-const { list, containerProps, wrapperProps } =
-	useVirtualList<RoomsOverviewUsageChildResponse>(filteredList, {
-		itemHeight: 36,
-	});
+const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsageChildResponse>(
+  filteredList,
+  {
+    itemHeight: 36,
+  }
+);
 </script>
 
 <template>
