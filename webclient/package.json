@@ -56,12 +56,16 @@
 	"type": "module",
 	"packageManager": "pnpm@10.7.0",
 	"pnpm": {
+		"overrides": {
+			"vite": "npm:rolldown-vite@latest"
+		},
 		"onlyBuiltDependencies": [
 			"@biomejs/biome",
 			"@parcel/watcher",
 			"better-sqlite3",
 			"esbuild",
-			"sharp"
+			"sharp",
+			"unrs-resolver"
 		],
 		"supportedArchitectures": {
 			"os": [
