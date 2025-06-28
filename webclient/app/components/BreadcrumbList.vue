@@ -1,6 +1,8 @@
 <script setup lang="ts">
 type Item = { to: string; name: string };
-const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { class: "" });
+const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
+  class: "",
+});
 </script>
 
 <template>

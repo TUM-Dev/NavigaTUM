@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { CalendarIcon } from "@heroicons/vue/16/solid";
+import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";

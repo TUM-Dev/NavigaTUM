@@ -1,75 +1,75 @@
 {
-  "name": "navigatum",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "type-check": "nuxt typecheck",
-    "type-refresh": "openapi-typescript ../openapi.yaml --output app/api_types/index.ts --export-type --immutable-types --support-array-length && pnpm run format && pnpm run lint && pnpm run type-check",
-    "lint": "biome lint --write --error-on-warnings . ",
-    "format": "biome format --write ./"
-  },
-  "dependencies": {
-    "@fullcalendar/core": "6.1.17",
-    "@fullcalendar/daygrid": "6.1.17",
-    "@fullcalendar/list": "6.1.17",
-    "@fullcalendar/timegrid": "6.1.17",
-    "@fullcalendar/vue3": "6.1.17",
-    "@headlessui/vue": "1.7.23",
-    "@heroicons/vue": "2.2.0",
-    "@nuxt/content": "3.6.1",
-    "@nuxt/image": "1.10.0",
-    "@nuxtjs/color-mode": "3.5.2",
-    "@vueuse/core": "13.4.0",
-    "@vueuse/nuxt": "13.4.0",
-    "@vueuse/router": "13.4.0",
-    "maplibre-gl": "5.6.0",
-    "maplibre-gl-indoor": "0.0.22",
-    "nightwind": "1.1.13",
-    "nuxt": "3.17.5",
-    "sharp": "0.34.2",
-    "vue": "3.5.17",
-    "vue-router": "4.5.1",
-    "vue3-carousel": "0.16.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@nuxt/eslint": "1.4.1",
-    "@nuxtjs/i18n": "9.5.6",
-    "@nuxtjs/tailwindcss": "6.14.0",
-    "@types/geojson": "7946.0.16",
-    "@types/nightwind": "1.0.0",
-    "@vue/tsconfig": "0.7.0",
-    "autoprefixer": "10.4.21",
-    "eslint": "9.30.0",
-    "openapi-typescript": "6.7.6",
-    "postcss": "8.5.6",
-    "prettier": "3.6.2",
-    "prettier-plugin-tailwindcss": "0.6.13",
-    "tailwindcss": "3.4.17",
-    "typescript": "5.8.3",
-    "vue-tsc": "2.2.10"
-  },
-  "type": "module",
-  "packageManager": "pnpm@10.7.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@parcel/watcher",
-      "better-sqlite3",
-      "esbuild",
-      "sharp"
-    ],
-    "supportedArchitectures": {
-      "os": [
-        "current"
-      ],
-      "cpu": [
-        "x64"
-      ]
-    }
-  }
+	"name": "navigatum",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt dev",
+		"build": "nuxt build",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"type-check": "nuxt typecheck",
+		"type-refresh": "openapi-typescript ../openapi.yaml --output app/api_types/index.ts --export-type --immutable-types --support-array-length && pnpm run format && pnpm run lint && pnpm run type-check",
+		"lint": "biome lint --write --error-on-warnings . ",
+		"format": "biome format --write && biome check --formatter-enabled=false --linter-enabled=false --write"
+	},
+	"dependencies": {
+		"@fullcalendar/core": "6.1.17",
+		"@fullcalendar/daygrid": "6.1.17",
+		"@fullcalendar/list": "6.1.17",
+		"@fullcalendar/timegrid": "6.1.17",
+		"@fullcalendar/vue3": "6.1.17",
+		"@headlessui/vue": "1.7.23",
+		"@heroicons/vue": "2.2.0",
+		"@nuxt/content": "3.6.1",
+		"@nuxt/image": "1.10.0",
+		"@nuxtjs/color-mode": "3.5.2",
+		"@vueuse/core": "13.4.0",
+		"@vueuse/nuxt": "13.4.0",
+		"@vueuse/router": "13.4.0",
+		"maplibre-gl": "5.6.0",
+		"maplibre-gl-indoor": "0.0.22",
+		"nightwind": "1.1.13",
+		"nuxt": "3.17.5",
+		"sharp": "0.34.2",
+		"vue": "3.5.17",
+		"vue-router": "4.5.1",
+		"vue3-carousel": "0.16.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.0.6",
+		"@nuxt/eslint": "1.4.1",
+		"@nuxtjs/i18n": "9.5.6",
+		"@nuxtjs/tailwindcss": "6.14.0",
+		"@types/geojson": "7946.0.16",
+		"@types/nightwind": "1.0.0",
+		"@vue/tsconfig": "0.7.0",
+		"autoprefixer": "10.4.21",
+		"eslint": "9.30.0",
+		"openapi-typescript": "6.7.6",
+		"postcss": "8.5.6",
+		"prettier": "3.6.2",
+		"prettier-plugin-tailwindcss": "0.6.13",
+		"tailwindcss": "3.4.17",
+		"typescript": "5.8.3",
+		"vue-tsc": "2.2.10"
+	},
+	"type": "module",
+	"packageManager": "pnpm@10.7.0",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"@parcel/watcher",
+			"better-sqlite3",
+			"esbuild",
+			"sharp"
+		],
+		"supportedArchitectures": {
+			"os": [
+				"current"
+			],
+			"cpu": [
+				"x64"
+			]
+		}
+	}
 }

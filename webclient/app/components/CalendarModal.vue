@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useFeedback } from "~/composables/feedback";
-import { useCalendar } from "~/composables/calendar";
-import type { components } from "~/api_types";
 import type { CalendarFull } from "#components";
+import type { components } from "~/api_types";
+import { useCalendar } from "~/composables/calendar";
+import { useFeedback } from "~/composables/feedback";
 
 type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 

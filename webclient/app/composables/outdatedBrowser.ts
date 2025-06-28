@@ -49,10 +49,10 @@ function shouldWarnForOutdatedBrowser(): boolean {
   console.table(browser);
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
   if (optLastTime === null) return true;
-  const lastTime = new Date(optLastTime);
+  const lastTime = parseInt(optLastTime);
 
-  const currentTime: Date = new Date();
-  const msSinceLastWarning = currentTime.getTime() - lastTime.getTime();
+  const currentTime = Date.now();
+  const msSinceLastWarning = currentTime - lastTime;
   const daysSinceLastWarning = msSinceLastWarning / (1000 * 60 * 60 * 24);
   return daysSinceLastWarning > 1;
 }
@@ -72,6 +72,6 @@ Outdated browsers may not be able to render the website correctly thus leading t
 If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
 Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`
   );
-  localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
+  localStorage.setItem("lastOutdatedBrowserWarningTime", Date.now().toString());
 }
 export {};

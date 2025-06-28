@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
 import nightwind from "nightwind";
+import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 
 export default (<Partial<Config>>{

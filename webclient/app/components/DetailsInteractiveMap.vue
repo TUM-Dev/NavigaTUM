@@ -7,9 +7,9 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
+import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
-import type { components } from "~/api_types";
 
 const props = defineProps<{
   coords: LocationDetailsResponse["coords"];

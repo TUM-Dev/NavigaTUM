@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { CheckIcon } from "@heroicons/vue/24/outline";
 import { ListboxOption } from "@headlessui/vue";
+import { CheckIcon } from "@heroicons/vue/24/outline";
 
 defineProps<{ value: string }>();
 </script>

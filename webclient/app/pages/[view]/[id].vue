@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useClipboard } from "@vueuse/core";
-import type { components } from "~/api_types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
+import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import { useClipboard } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
+import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
+import type { components } from "~/api_types";
 
 definePageMeta({
   validate(route) {

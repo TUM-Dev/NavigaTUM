@@ -1,6 +1,6 @@
+import { useLocalStorage } from "@vueuse/core";
 import type { Ref } from "vue";
 import type { components } from "~/api_types";
-import { useLocalStorage } from "@vueuse/core";
 
 type TokenResponse = components["schemas"]["TokenResponse"];
 
@@ -33,7 +33,9 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
     token.value === null ||
     Date.now() - token.value.created_at > TOKEN_VALIDITY_FRONTEND_HOURS * MS_PER_HOUR
   ) {
-    fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/get_token`, { method: "POST" })
+    fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/get_token`, {
+      method: "POST",
+    })
       .then((r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
           r.json()

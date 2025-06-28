@@ -8,5 +8,10 @@ type FeedbackState = {
 export const useFeedback = () =>
   useState<FeedbackState>("feedback", () => ({
     open: false,
-    data: { category: "general", subject: "", body: "", deletion_requested: false },
+    data: {
+      category: "general",
+      subject: "",
+      body: "",
+      deletion_requested: false,
+    },
   }));

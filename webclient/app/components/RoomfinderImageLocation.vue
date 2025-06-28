@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { components } from "~/api_types";
 import { useInterval } from "@vueuse/core";
+import type { components } from "~/api_types";
 
 type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];
 

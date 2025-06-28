@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useFeedbackToken } from "~/composables/feedbackToken";
 import { useFeedback } from "~/composables/feedback";
+import { useFeedbackToken } from "~/composables/feedbackToken";
 
 const props = defineProps<{
   data: { [index: string]: string | boolean | number };
