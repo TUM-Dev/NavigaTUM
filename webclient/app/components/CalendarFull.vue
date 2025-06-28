@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { CalendarOptions, EventInput, EventSourceFuncArg } from "@fullcalendar/core";
-import type { components, operations } from "~/api_types";
-import FullCalendar from "@fullcalendar/vue3";
-import listPlugin from "@fullcalendar/list";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import dayGridPlugin from "@fullcalendar/daygrid";
 import deLocale from "@fullcalendar/core/locales/de";
 import enLocale from "@fullcalendar/core/locales/en-gb";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from "@fullcalendar/list";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import type FullCalendar from "@fullcalendar/vue3";
+import type { components, operations } from "~/api_types";
 
 type CalendarResponse =
   operations["calendar_handler"]["responses"][200]["content"]["application/json"];
@@ -32,15 +32,35 @@ function colorForType(
 ): Color | Record<string, never> {
   switch (entry_type) {
     case "lecture":
-      return { backgroundColor: "#93bae6", borderColor: "#3070b3", textColor: "#13243e" };
+      return {
+        backgroundColor: "#93bae6",
+        borderColor: "#3070b3",
+        textColor: "#13243e",
+      };
     case "exam":
-      return { backgroundColor: "#e6bbe2", borderColor: "#c56fb9", textColor: "#3f1837" };
+      return {
+        backgroundColor: "#e6bbe2",
+        borderColor: "#c56fb9",
+        textColor: "#3f1837",
+      };
     case "exercise":
-      return { backgroundColor: "#fdba74", borderColor: "#f97316", textColor: "#431407" };
+      return {
+        backgroundColor: "#fdba74",
+        borderColor: "#f97316",
+        textColor: "#431407",
+      };
     case "other":
-      return { backgroundColor: "#d4d4d8", borderColor: "#71717a", textColor: "#09090b" };
+      return {
+        backgroundColor: "#d4d4d8",
+        borderColor: "#71717a",
+        textColor: "#09090b",
+      };
     case "barred":
-      return { backgroundColor: "#fca5a5", borderColor: "#ef4444", textColor: "#450a0a" };
+      return {
+        backgroundColor: "#fca5a5",
+        borderColor: "#ef4444",
+        textColor: "#450a0a",
+      };
     default:
       return {};
   }

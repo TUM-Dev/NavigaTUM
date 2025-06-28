@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import type { components } from "~/api_types";
 import {
   ArrowLeftEndOnRectangleIcon,
+  ArrowLeftIcon,
   ArrowLeftStartOnRectangleIcon,
+  ArrowPathIcon,
+  ArrowRightIcon,
+  ArrowsUpDownIcon,
   ArrowTurnUpLeftIcon,
   ArrowTurnUpRightIcon,
+  ArrowUpCircleIcon,
   ArrowUpIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  MapPinIcon,
-  ArrowsUpDownIcon,
-  TicketIcon,
+  ArrowUpLeftIcon,
+  ArrowUpRightIcon,
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
+  ChevronDoubleDownIcon,
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
-  ChevronDoubleDownIcon,
-  ArrowUpRightIcon,
-  ArrowUpLeftIcon,
-  ArrowPathIcon,
-  ArrowUturnRightIcon,
-  ArrowUturnLeftIcon,
-  ArrowUpCircleIcon,
+  MapPinIcon,
+  TicketIcon,
 } from "@heroicons/vue/24/outline";
+import type { components } from "~/api_types";
 
 type ManeuverTypeResponse = components["schemas"]["ManeuverTypeResponse"];
 defineProps<{ type: ManeuverTypeResponse }>();

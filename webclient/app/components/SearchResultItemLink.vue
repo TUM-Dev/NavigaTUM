@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { components } from "~/api_types/index.js";
+
 type ResultEntry = components["schemas"]["ResultEntry"];
 
 defineProps<{

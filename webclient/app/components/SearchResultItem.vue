@@ -2,6 +2,7 @@
 import { ChevronRightIcon } from "@heroicons/vue/16/solid/index.js";
 import type { components } from "~/api_types/index.js";
 import PreviewIcon from "~/components/PreviewIcon.vue";
+
 type ResultEntry = components["schemas"]["ResultEntry"];
 
 defineProps<{

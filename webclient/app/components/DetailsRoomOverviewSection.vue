@@ -7,8 +7,8 @@ import {
   MagnifyingGlassIcon,
   MapPinIcon,
 } from "@heroicons/vue/24/outline";
-import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
+import type { components } from "~/api_types";
 
 type RoomsOverviewResponse = components["schemas"]["RoomsOverviewResponse"];
 type RoomsOverviewUsageChildResponse = components["schemas"]["RoomsOverviewUsageChildResponse"];

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import IndoorMap from "~/components/IndoorMap.vue";
 import { ChevronLeftIcon } from "@heroicons/vue/16/solid";
-import { firstOrDefault } from "~/composables/common";
 import { useRouteQuery } from "@vueuse/router";
-import Toast from "~/components/Toast.vue";
 import type { Ref } from "vue";
 import { useTemplateRef } from "vue";
 import type { operations } from "~/api_types";
+import IndoorMap from "~/components/IndoorMap.vue";
+import Toast from "~/components/Toast.vue";
+import { firstOrDefault } from "~/composables/common";
 
 definePageMeta({
   layout: "navigation",
@@ -52,7 +52,10 @@ effect(() => {
 });
 const title = computed(() => {
   if (!!selected_from.value && !!selected_to.value)
-    return t("navigate_from_to", { from: selected_from.value, to: selected_to.value });
+    return t("navigate_from_to", {
+      from: selected_from.value,
+      to: selected_to.value,
+    });
   if (selected_from.value) return t("navigate_from", { from: selected_from.value });
   if (selected_to.value) return t("navigate_to", { to: selected_to.value });
   return t("navigate");

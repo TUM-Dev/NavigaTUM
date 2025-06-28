@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import type { components } from "~/api_types";
 
 type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];

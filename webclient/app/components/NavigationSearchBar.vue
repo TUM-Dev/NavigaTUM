@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { operations } from "~/api_types";
-
 import { useRouteQuery } from "@vueuse/router";
+import type { operations } from "~/api_types";
 
 type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 

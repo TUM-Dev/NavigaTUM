@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
+import type { GeoJSONSource } from "maplibre-gl";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -7,10 +7,10 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
-import { webglSupport } from "~/composables/webglSupport";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
+import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
-import type { GeoJSONSource } from "maplibre-gl";
+import { webglSupport } from "~/composables/webglSupport";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
@@ -197,7 +197,9 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     afterLoaded.value();
   });
 
-  const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
+  const indoorOptions = {
+    showFeaturesWithEmptyLevel: false,
+  } as IndoorMapOptions;
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
 import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/20/solid";
+import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
 import SelectionOption from "~/components/SelectionOption.vue";
 
 const colorMode = useColorMode();
