@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
-import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/20/solid";
+import {
+	ComputerDesktopIcon,
+	MoonIcon,
+	SunIcon,
+} from "@heroicons/vue/20/solid";
 import SelectionOption from "~/components/SelectionOption.vue";
 
 const colorMode = useColorMode();
@@ -11,7 +15,7 @@ const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 async function updateLocale(value: "de" | "en") {
-  await navigateTo(switchLocalePath(value));
+	await navigateTo(switchLocalePath(value));
 }
 </script>
 

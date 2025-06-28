@@ -8,10 +8,12 @@ import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import { useRouteQuery } from "@vueuse/router";
 
 definePageMeta({
-  validate(route) {
-    return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
-  },
-  layout: "details",
+	validate(route) {
+		return /(view|campus|site|building|room|poi)/.test(
+			route.params.view as string,
+		);
+	},
+	layout: "details",
 });
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -25,89 +27,96 @@ const router = useRouter();
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
 const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
+	() =>
+		`${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`,
 );
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
-  dedupe: "cancel",
-  credentials: "omit",
-  retry: 120,
-  retryDelay: 1000,
+	dedupe: "cancel",
+	credentials: "omit",
+	retry: 120,
+	retryDelay: 1000,
 });
 
 const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
+	data.value?.imgs?.length ? data.value.imgs[0] : undefined,
 );
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
+	copy,
+	copied,
+	isSupported: clipboardIsSupported,
 } = useClipboard({ source: clipboardSource });
 
-const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
-  mode: "replace",
-  route,
-  router,
-  transform: (val) => (val === "plans" ? "plans" : "interactive"),
-});
+const selectedMap = useRouteQuery<"interactive" | "plans">(
+	"map",
+	"interactive",
+	{
+		mode: "replace",
+		route,
+		router,
+		transform: (val) => (val === "plans" ? "plans" : "interactive"),
+	},
+);
 
 watchEffect(async () => {
-  if (route.params.id === "root") {
-    await navigateTo({ path: localePath("/"), replace: true });
-  }
+	if (route.params.id === "root") {
+		await navigateTo({ path: localePath("/"), replace: true });
+	}
 });
 watchEffect(async () => {
-  if (error.value) {
-    await navigateTo({
-      path: "/404",
-      query: { ...route.query, path: route.path },
-      hash: route.hash,
-      replace: true,
-    });
-  }
+	if (error.value) {
+		await navigateTo({
+			path: "/404",
+			query: { ...route.query, path: route.path },
+			hash: route.hash,
+			replace: true,
+		});
+	}
 });
 watch([data, route], async () => {
-  if (!data.value) return;
-  const redirectPath = localePath(data.value.redirect_url);
-  if (route.path !== redirectPath) {
-    await navigateTo({ path: redirectPath, query: route.query, replace: true });
-  }
+	if (!data.value) return;
+	const redirectPath = localePath(data.value.redirect_url);
+	if (route.path !== redirectPath) {
+		await navigateTo({ path: redirectPath, query: route.query, replace: true });
+	}
 });
 watch([data], () => {
-  if (!data.value) return;
-  // --- Additional data ---
-  slideshowOpen.value = false;
-  // --- Images ---
-  shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
+	if (!data.value) return;
+	// --- Additional data ---
+	slideshowOpen.value = false;
+	// --- Images ---
+	shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
 });
 
 const description = computed(() => {
-  if (data.value === undefined || data.value === null) return "";
+	if (data.value === undefined || data.value === null) return "";
 
-  let description = t("details_for");
-  if (data.value.name.includes(data.value.type_common_name)) {
-    description += ` ${data.value.name}`;
-  } else {
-    description += ` ${data.value.type_common_name} ${data.value.name}`;
-  }
-  if (data.value.props.computed) {
-    description += ":";
-    for (const prop of data.value.props.computed) {
-      description += `\n- ${prop.name}: ${prop.text}`;
-    }
-  }
-  return description;
+	let description = t("details_for");
+	if (data.value.name.includes(data.value.type_common_name)) {
+		description += ` ${data.value.name}`;
+	} else {
+		description += ` ${data.value.type_common_name} ${data.value.name}`;
+	}
+	if (data.value.props.computed) {
+		description += ":";
+		for (const prop of data.value.props.computed) {
+			description += `\n- ${prop.name}: ${prop.text}`;
+		}
+	}
+	return description;
 });
-const title = computed(() => data.value?.name || `${route.params.id} - Navigatum`);
+const title = computed(
+	() => data.value?.name || `${route.params.id} - Navigatum`,
+);
 useSeoMeta({
-  title: title,
-  ogTitle: title,
-  description: description,
-  ogDescription: description,
-  ogImage: `https://nav.tum.de/api/locations/${route.params.id}/preview`,
-  twitterCard: "summary_large_image",
+	title: title,
+	ogTitle: title,
+	description: description,
+	ogDescription: description,
+	ogImage: `https://nav.tum.de/api/locations/${route.params.id}/preview`,
+	twitterCard: "summary_large_image",
 });
 </script>
 

@@ -2,10 +2,10 @@
 import type { operations } from "~/api_types";
 
 type NavigationResponse =
-  operations["route_handler"]["responses"][200]["content"]["application/json"];
+	operations["route_handler"]["responses"][200]["content"]["application/json"];
 defineProps<{ data: NavigationResponse }>();
 const emit = defineEmits<{
-  selectManeuver: [id: { begin_shape_index: number; end_shape_index: number }];
+	selectManeuver: [id: { begin_shape_index: number; end_shape_index: number }];
 }>();
 const { t } = useI18n({ useScope: "local" });
 </script>

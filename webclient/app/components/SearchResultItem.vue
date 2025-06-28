@@ -5,8 +5,8 @@ import PreviewIcon from "~/components/PreviewIcon.vue";
 type ResultEntry = components["schemas"]["ResultEntry"];
 
 defineProps<{
-  item: ResultEntry;
-  highlighted: boolean;
+	item: ResultEntry;
+	highlighted: boolean;
 }>();
 </script>
 

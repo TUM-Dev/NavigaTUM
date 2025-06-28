@@ -3,30 +3,33 @@ import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { ShareIcon } from "@heroicons/vue/24/outline";
-import { ClipboardDocumentCheckIcon, ClipboardIcon } from "@heroicons/vue/20/solid";
+import {
+	ClipboardDocumentCheckIcon,
+	ClipboardIcon,
+} from "@heroicons/vue/20/solid";
 
 const props = defineProps<{
-  readonly coords: components["schemas"]["Coordinate"];
-  readonly name: string;
+	readonly coords: components["schemas"]["Coordinate"];
+	readonly name: string;
 }>();
 
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { t } = useI18n({ useScope: "local" });
 const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
+	copy,
+	copied,
+	isSupported: clipboardIsSupported,
 } = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
 
 const modalOpen = ref(false);
 const shareOptions = () =>
-  ({
-    title: props.name,
-    text: document.title,
-    url: clipboardSource.value,
-  }) as UseShareOptions;
+	({
+		title: props.name,
+		text: document.title,
+		url: clipboardSource.value,
+	}) as UseShareOptions;
 </script>
 
 <template>

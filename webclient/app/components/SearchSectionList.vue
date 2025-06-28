@@ -5,9 +5,9 @@ import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 defineProps<{
-  data: SearchResponse;
-  queryLimitBuildings: number;
-  queryLimitRooms: number;
+	data: SearchResponse;
+	queryLimitBuildings: number;
+	queryLimitRooms: number;
 }>();
 const { t } = useI18n({ useScope: "local" });
 const route = useRoute();

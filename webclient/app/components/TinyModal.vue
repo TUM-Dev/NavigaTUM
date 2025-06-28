@@ -2,20 +2,20 @@
 import { useBreakpoints } from "@vueuse/core";
 
 const props = defineProps<{
-  content: {
-    title?: string | null;
-    body: string;
-    footer?: string | null;
-  };
+	content: {
+		title?: string | null;
+		body: string;
+		footer?: string | null;
+	};
 }>();
 
 const { t } = useI18n({ useScope: "local" });
 const breakpoints = useBreakpoints({
-  xs: 0,
-  sm: 601,
-  md: 841,
-  lg: 961,
-  xl: 1281,
+	xs: 0,
+	sm: 601,
+	md: 841,
+	lg: 961,
+	xl: 1281,
 });
 const showPopoverInstead = breakpoints.greaterOrEqual("md");
 const modalOpen = ref(false);

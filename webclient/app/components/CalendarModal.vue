@@ -4,7 +4,8 @@ import { useCalendar } from "~/composables/calendar";
 import type { components } from "~/api_types";
 import type { CalendarFull } from "#components";
 
-type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
+type CalendarLocationResponse =
+	components["schemas"]["CalendarLocationResponse"];
 
 const feedback = useFeedback();
 const calendar = useCalendar();
@@ -14,9 +15,9 @@ const earliest_last_sync = ref<Date | null>(null);
 const locations = ref<Map<string, CalendarLocationResponse>>(new Map());
 const modalOpen = ref(!!calendar.value.length);
 watchEffect(() => {
-  if (!!calendar.value.length && !modalOpen.value) {
-    modalOpen.value = true;
-  }
+	if (!!calendar.value.length && !modalOpen.value) {
+		modalOpen.value = true;
+	}
 });
 const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
 </script>

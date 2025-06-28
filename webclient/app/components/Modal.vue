@@ -2,39 +2,40 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 
 export interface Props {
-  title: string;
-  disableClose?: boolean;
-  class?: string;
+	title: string;
+	disableClose?: boolean;
+	class?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
+	class: "",
 });
 const emit = defineEmits(["close"]);
 const isOpen = defineModel<boolean>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
 watchEffect(() => {
-  if (isOpen.value) return document.querySelector("body")?.classList.add("overflow-y-hidden");
-  return document.querySelector("body")?.classList.remove("overflow-y-hidden");
+	if (isOpen.value)
+		return document.querySelector("body")?.classList.add("overflow-y-hidden");
+	return document.querySelector("body")?.classList.remove("overflow-y-hidden");
 });
 
 onMounted(() => {
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  });
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") {
+			close();
+		}
+	});
 });
 onBeforeUnmount(() => {
-  document.querySelector("body")?.classList.remove("overflow-y-hidden");
+	document.querySelector("body")?.classList.remove("overflow-y-hidden");
 });
 
 function close() {
-  if (props.disableClose) return;
-  document.querySelector("body")?.classList.remove("overflow-y-hidden");
-  emit("close");
-  isOpen.value = false;
+	if (props.disableClose) return;
+	document.querySelector("body")?.classList.remove("overflow-y-hidden");
+	emit("close");
+	isOpen.value = false;
 }
 </script>
 

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 withDefaults(
-  defineProps<{
-    id?: string;
-    msg?: string;
-    level?: "error" | "warning" | "info" | "default";
-    dismissable?: boolean;
-  }>(),
-  { level: "default", msg: "", id: undefined, dismissable: false }
+	defineProps<{
+		id?: string;
+		msg?: string;
+		level?: "error" | "warning" | "info" | "default";
+		dismissable?: boolean;
+	}>(),
+	{ level: "default", msg: "", id: undefined, dismissable: false },
 );
 const shown = useCookie<string[]>("shownToasts", {
-  default: () => [],
+	default: () => [],
 });
 const { t } = useI18n({ useScope: "local" });
 </script>

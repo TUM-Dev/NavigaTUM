@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { ArrowTopRightOnSquareIcon, InformationCircleIcon } from "@heroicons/vue/24/outline";
+import {
+	ArrowTopRightOnSquareIcon,
+	InformationCircleIcon,
+} from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
 
 type Props = components["schemas"]["PropsResponse"];
 
-defineProps<{ props: Props; id: string; name: string; navigationEnabled: boolean }>();
+defineProps<{
+	props: Props;
+	id: string;
+	name: string;
+	navigationEnabled: boolean;
+}>();
 const { t } = useI18n({ useScope: "local" });
 </script>
 

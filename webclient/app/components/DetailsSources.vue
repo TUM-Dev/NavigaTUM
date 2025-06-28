@@ -6,9 +6,9 @@ type CoordinateResponse = components["schemas"]["CoordinateResponse"];
 type SourcesResponse = components["schemas"]["SourcesResponse"];
 
 defineProps<{
-  coords: CoordinateResponse;
-  sources: SourcesResponse;
-  image?: ImageInfoResponse;
+	coords: CoordinateResponse;
+	sources: SourcesResponse;
+	image?: ImageInfoResponse;
 }>();
 
 const { t } = useI18n({ useScope: "local" });

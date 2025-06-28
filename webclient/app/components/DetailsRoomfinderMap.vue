@@ -1,28 +1,34 @@
 <script setup lang="ts">
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
+import {
+	Listbox,
+	ListboxButton,
+	ListboxOption,
+	ListboxOptions,
+} from "@headlessui/vue";
 import type { components } from "~/api_types";
 
-type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];
+type RoomfinderMapEntryResponse =
+	components["schemas"]["RoomfinderMapEntryResponse"];
 
 const props = defineProps<{
-  available: readonly RoomfinderMapEntryResponse[];
-  defaultMapId: string;
+	available: readonly RoomfinderMapEntryResponse[];
+	defaultMapId: string;
 }>();
 const { t } = useI18n({ useScope: "local" });
 
 const modalOpen = ref(false);
 onBeforeMount(() => {
-  for (let index = 0; index < props.available.length; index++) {
-    if (props.available[index]?.id === props.defaultMapId) {
-      selected_index.value = index;
-      return;
-    }
-  }
+	for (let index = 0; index < props.available.length; index++) {
+		if (props.available[index]?.id === props.defaultMapId) {
+			selected_index.value = index;
+			return;
+		}
+	}
 });
 const selected_index = ref(0);
 const selectedMap = computed<RoomfinderMapEntryResponse>(() => {
-  return props.available[selected_index.value] as RoomfinderMapEntryResponse;
+	return props.available[selected_index.value] as RoomfinderMapEntryResponse;
 });
 </script>
 

@@ -7,26 +7,26 @@ const feedback = useFeedback();
 const colorMode = useColorMode();
 const { t, locale } = useI18n({ useScope: "local" });
 const navigation = computed(() => [
-  {
-    name: t("sourcecode.text"),
-    href: "https://github.com/TUM-Dev/navigatum",
-  },
-  {
-    name: t("api.text"),
-    href: "https://nav.tum.de/api",
-  },
-  {
-    name: t("about.text"),
-    href: t("about.link"),
-  },
-  {
-    name: t("privacy.text"),
-    href: t("privacy.link"),
-  },
-  {
-    name: t("imprint.text"),
-    href: t("imprint.link"),
-  },
+	{
+		name: t("sourcecode.text"),
+		href: "https://github.com/TUM-Dev/navigatum",
+	},
+	{
+		name: t("api.text"),
+		href: "https://nav.tum.de/api",
+	},
+	{
+		name: t("about.text"),
+		href: t("about.link"),
+	},
+	{
+		name: t("privacy.text"),
+		href: t("privacy.link"),
+	},
+	{
+		name: t("imprint.text"),
+		href: t("imprint.link"),
+	},
 ]);
 </script>
 
