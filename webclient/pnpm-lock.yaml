@@ -12,20 +12,20 @@ importers:
   .:
     dependencies:
       '@fullcalendar/core':
-        specifier: 6.1.17
-        version: 6.1.17
+        specifier: 6.1.18
+        version: 6.1.18
       '@fullcalendar/daygrid':
-        specifier: 6.1.17
-        version: 6.1.17(@fullcalendar/core@6.1.17)
+        specifier: 6.1.18
+        version: 6.1.18(@fullcalendar/core@6.1.18)
       '@fullcalendar/list':
-        specifier: 6.1.17
-        version: 6.1.17(@fullcalendar/core@6.1.17)
+        specifier: 6.1.18
+        version: 6.1.18(@fullcalendar/core@6.1.18)
       '@fullcalendar/timegrid':
-        specifier: 6.1.17
-        version: 6.1.17(@fullcalendar/core@6.1.17)
+        specifier: 6.1.18
+        version: 6.1.18(@fullcalendar/core@6.1.18)
       '@fullcalendar/vue3':
-        specifier: 6.1.17
-        version: 6.1.17(@fullcalendar/core@6.1.17)(vue@3.5.17(typescript@5.8.3))
+        specifier: 6.1.18
+        version: 6.1.18(@fullcalendar/core@6.1.18)(vue@3.5.17(typescript@5.8.3))
       '@headlessui/vue':
         specifier: 1.7.23
         version: 1.7.23(vue@3.5.17(typescript@5.8.3))
@@ -733,28 +733,28 @@ packages:
   '@fastify/busboy@3.1.1':
     resolution: {integrity: sha512-5DGmA8FTdB2XbDeEwc/5ZXBl6UbBAyBOOLlPuBnZ/N1SwdH9Ii+cOX3tBROlDgcTXxjOYnLMVoKk9+FXAw0CJw==}
 
-  '@fullcalendar/core@6.1.17':
-    resolution: {integrity: sha512-0W7lnIrv18ruJ5zeWBeNZXO8qCWlzxDdp9COFEsZnyNjiEhUVnrW/dPbjRKYpL0edGG0/Lhs0ghp1z/5ekt8ZA==}
+  '@fullcalendar/core@6.1.18':
+    resolution: {integrity: sha512-cD7XtZIZZ87Cg2+itnpsONCsZ89VIfLLDZ22pQX4IQVWlpYUB3bcCf878DhWkqyEen6dhi5ePtBoqYgm5K+0fQ==}
 
-  '@fullcalendar/daygrid@6.1.17':
-    resolution: {integrity: sha512-K7m+pd7oVJ9fW4h7CLDdDGJbc9szJ1xDU1DZ2ag+7oOo1aCNLv44CehzkkknM6r8EYlOOhgaelxQpKAI4glj7A==}
+  '@fullcalendar/daygrid@6.1.18':
+    resolution: {integrity: sha512-s452Zle1SdMEzZDw+pDczm8m3JLIZzS9ANMThXTnqeqJewW1gqNFYas18aHypJSgF9Fh9rDJjTSUw04BpXB/Mg==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.17
+      '@fullcalendar/core': ~6.1.18
 
-  '@fullcalendar/list@6.1.17':
-    resolution: {integrity: sha512-fkyK49F9IxwlGUBVhJGsFpd/LTi/vRVERLIAe1HmBaGkjwpxnynm8TMLb9mZip97wvDk3CmZWduMe6PxscAlow==}
+  '@fullcalendar/list@6.1.18':
+    resolution: {integrity: sha512-XPZI50mq3HXyDQ5sT3jmqQUuwG8zQb5H14dQIUAmOHAIFRA3WpkxlzrXO0U1SrosvGySMPyyNNxvMKI1Q/jL7A==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.17
+      '@fullcalendar/core': ~6.1.18
 
-  '@fullcalendar/timegrid@6.1.17':
-    resolution: {integrity: sha512-K4PlA3L3lclLOs3IX8cvddeiJI9ZVMD7RA9IqaWwbvac771971foc9tFze9YY+Pqesf6S+vhS2dWtEVlERaGlQ==}
+  '@fullcalendar/timegrid@6.1.18':
+    resolution: {integrity: sha512-T/ouhs+T1tM8JcW7Cjx+KiohL/qQWKqvRITwjol8ktJ1e1N/6noC40/obR1tyolqOxMRWHjJkYoj9fUqfoez9A==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.17
+      '@fullcalendar/core': ~6.1.18
 
-  '@fullcalendar/vue3@6.1.17':
-    resolution: {integrity: sha512-0+qi/PK/xCkTQXh2CaeN2AkP+SvQTznPhwBXuIyrtsR0Ua8UpmGEXI+my3qQ6o003r8gPUY2e785ywIyhX2zCA==}
+  '@fullcalendar/vue3@6.1.18':
+    resolution: {integrity: sha512-YMagwTumxsIx3GFYWLa9Yr73EMA+JuH6S3EeZGS+rEjvG5fDGdf+33rxGMzmw+LdO7SWi3ctbzRnJlv3fnm3RQ==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.17
+      '@fullcalendar/core': ~6.1.18
       vue: ^3.0.11
 
   '@headlessui/vue@1.7.23':
@@ -7257,26 +7257,26 @@ snapshots:
 
   '@fastify/busboy@3.1.1': {}
 
-  '@fullcalendar/core@6.1.17':
+  '@fullcalendar/core@6.1.18':
     dependencies:
       preact: 10.12.1
 
-  '@fullcalendar/daygrid@6.1.17(@fullcalendar/core@6.1.17)':
+  '@fullcalendar/daygrid@6.1.18(@fullcalendar/core@6.1.18)':
     dependencies:
-      '@fullcalendar/core': 6.1.17
+      '@fullcalendar/core': 6.1.18
 
-  '@fullcalendar/list@6.1.17(@fullcalendar/core@6.1.17)':
+  '@fullcalendar/list@6.1.18(@fullcalendar/core@6.1.18)':
     dependencies:
-      '@fullcalendar/core': 6.1.17
+      '@fullcalendar/core': 6.1.18
 
-  '@fullcalendar/timegrid@6.1.17(@fullcalendar/core@6.1.17)':
+  '@fullcalendar/timegrid@6.1.18(@fullcalendar/core@6.1.18)':
     dependencies:
-      '@fullcalendar/core': 6.1.17
-      '@fullcalendar/daygrid': 6.1.17(@fullcalendar/core@6.1.17)
+      '@fullcalendar/core': 6.1.18
+      '@fullcalendar/daygrid': 6.1.18(@fullcalendar/core@6.1.18)
 
-  '@fullcalendar/vue3@6.1.17(@fullcalendar/core@6.1.17)(vue@3.5.17(typescript@5.8.3))':
+  '@fullcalendar/vue3@6.1.18(@fullcalendar/core@6.1.18)(vue@3.5.17(typescript@5.8.3))':
     dependencies:
-      '@fullcalendar/core': 6.1.17
+      '@fullcalendar/core': 6.1.18
       vue: 3.5.17(typescript@5.8.3)
 
   '@headlessui/vue@1.7.23(vue@3.5.17(typescript@5.8.3))':
