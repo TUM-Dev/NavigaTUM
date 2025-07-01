@@ -13,11 +13,11 @@
 		"format": "biome format --write && biome check --formatter-enabled=false --linter-enabled=false --write"
 	},
 	"dependencies": {
-		"@fullcalendar/core": "6.1.17",
-		"@fullcalendar/daygrid": "6.1.17",
-		"@fullcalendar/list": "6.1.17",
-		"@fullcalendar/timegrid": "6.1.17",
-		"@fullcalendar/vue3": "6.1.17",
+		"@fullcalendar/core": "6.1.18",
+		"@fullcalendar/daygrid": "6.1.18",
+		"@fullcalendar/list": "6.1.18",
+		"@fullcalendar/timegrid": "6.1.18",
+		"@fullcalendar/vue3": "6.1.18",
 		"@headlessui/vue": "1.7.23",
 		"@heroicons/vue": "2.2.0",
 		"@nuxt/content": "3.6.1",
