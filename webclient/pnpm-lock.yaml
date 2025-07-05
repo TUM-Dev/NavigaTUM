@@ -33,8 +33,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(vue@3.5.17(typescript@5.8.3))
       '@nuxt/content':
-        specifier: 3.6.2
-        version: 3.6.2(better-sqlite3@11.9.1)(magicast@0.3.5)(vue-component-type-helpers@2.2.10)
+        specifier: 3.6.3
+        version: 3.6.3(better-sqlite3@11.9.1)(magicast@0.3.5)(vue-component-type-helpers@2.2.10)
       '@nuxt/image':
         specifier: 1.10.0
         version: 1.10.0(@netlify/blobs@8.2.0)(db0@0.3.2(better-sqlite3@11.9.1))(ioredis@5.6.1)(magicast@0.3.5)
@@ -1008,12 +1008,12 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  '@nuxt/content@3.6.2':
-    resolution: {integrity: sha512-i9UG6Y0+HROaodeqBT3VXFSBsiNBIDu8rKgbq1Bk4nbwAys/s861hZC/b+vLvwMAkNRuOG7vsxnaa33re48TJg==}
+  '@nuxt/content@3.6.3':
+    resolution: {integrity: sha512-AF9/h5YWLXqQi8m1T40lEQLw7zeV98+LdcHRVrrYsWnFKiScRzJhtn+4uzYqUCKx7KPuXK1GszOvUrY3Ke0Q2w==}
     peerDependencies:
       '@electric-sql/pglite': '*'
       '@libsql/client': '*'
-      better-sqlite3: 12.0.0
+      better-sqlite3: ^12.0.0
       sqlite3: '*'
     peerDependenciesMeta:
       '@electric-sql/pglite':
@@ -1677,9 +1677,6 @@ packages:
   '@shikijs/langs@3.7.0':
     resolution: {integrity: sha512-1zYtdfXLr9xDKLTGy5kb7O0zDQsxXiIsw1iIBcNOO8Yi5/Y1qDbJ+0VsFoqTlzdmneO8Ij35g7QKF8kcLyznCQ==}
 
-  '@shikijs/themes@3.6.0':
-    resolution: {integrity: sha512-Fq2j4nWr1DF4drvmhqKq8x5vVQ27VncF8XZMBuHuQMZvUSS3NBgpqfwz/FoGe36+W6PvniZ1yDlg2d4kmYDU6w==}
-
   '@shikijs/themes@3.7.0':
     resolution: {integrity: sha512-VJx8497iZPy5zLiiCTSIaOChIcKQwR0FebwE9S3rcN0+J/GTWwQ1v/bqhTbpbY3zybPKeO8wdammqkpXc4NVjQ==}
 
@@ -1688,9 +1685,6 @@ packages:
 
   '@shikijs/types@3.3.0':
     resolution: {integrity: sha512-KPCGnHG6k06QG/2pnYGbFtFvpVJmC3uIpXrAiPrawETifujPBv0Se2oUxm5qYgjCvGJS9InKvjytOdN+bGuX+Q==}
-
-  '@shikijs/types@3.6.0':
-    resolution: {integrity: sha512-cLWFiToxYu0aAzJqhXTQsFiJRTFDAGl93IrMSBNaGSzs7ixkLfdG6pH11HipuWFGW5vyx4X47W8HDQ7eSrmBUg==}
 
   '@shikijs/types@3.7.0':
     resolution: {integrity: sha512-MGaLeaRlSWpnP0XSAum3kP3a8vtcTsITqoEPYdt3lQG3YCdQH4DnEhodkYcNMcU0uW0RffhoD1O3e0vG5eSBBg==}
@@ -6340,11 +6334,11 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.25.63:
-    resolution: {integrity: sha512-3ttCkqhtpncYXfP0f6dsyabbYV/nEUW+Xlu89jiXbTBifUfjaSqXOG6JnQPLtqt87n7KAmnMqcjay6c0Wq0Vbw==}
-
   zod@3.25.71:
     resolution: {integrity: sha512-BsBc/NPk7h8WsUWYWYL+BajcJPY8YhjelaWu2NMLuzgraKAz4Lb4/6K11g9jpuDetjMiqhZ6YaexFLOC0Ogi3Q==}
+
+  zod@3.25.74:
+    resolution: {integrity: sha512-J8poo92VuhKjNknViHRAIuuN6li/EwFbAC8OedzI8uxpEPGiXHGQu9wemIAioIpqgfB4SySaJhdk0mH5Y4ICBg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -7228,7 +7222,7 @@ snapshots:
       unixify: 1.0.0
       urlpattern-polyfill: 8.0.2
       yargs: 17.7.2
-      zod: 3.25.63
+      zod: 3.25.71
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -7287,7 +7281,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxt/content@3.6.2(better-sqlite3@11.9.1)(magicast@0.3.5)(vue-component-type-helpers@2.2.10)':
+  '@nuxt/content@3.6.3(better-sqlite3@11.9.1)(magicast@0.3.5)(vue-component-type-helpers@2.2.10)':
     dependencies:
       '@nuxt/kit': 3.17.6(magicast@0.3.5)
       '@nuxtjs/mdc': 0.17.0(magicast@0.3.5)
@@ -7332,8 +7326,8 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       unist-util-visit: 5.0.0
       ws: 8.18.3
-      zod: 3.25.71
-      zod-to-json-schema: 3.24.6(zod@3.25.71)
+      zod: 3.25.74
+      zod-to-json-schema: 3.24.6(zod@3.25.74)
     optionalDependencies:
       better-sqlite3: 11.9.1
     transitivePeerDependencies:
@@ -7748,7 +7742,7 @@ snapshots:
     dependencies:
       '@nuxt/kit': 3.17.6(magicast@0.3.5)
       '@shikijs/langs': 3.7.0
-      '@shikijs/themes': 3.6.0
+      '@shikijs/themes': 3.7.0
       '@shikijs/transformers': 3.3.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
@@ -8202,10 +8196,6 @@ snapshots:
     dependencies:
       '@shikijs/types': 3.7.0
 
-  '@shikijs/themes@3.6.0':
-    dependencies:
-      '@shikijs/types': 3.6.0
-
   '@shikijs/themes@3.7.0':
     dependencies:
       '@shikijs/types': 3.7.0
@@ -8216,11 +8206,6 @@ snapshots:
       '@shikijs/types': 3.3.0
 
   '@shikijs/types@3.3.0':
-    dependencies:
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
-
-  '@shikijs/types@3.6.0':
     dependencies:
       '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
@@ -9070,13 +9055,13 @@ snapshots:
       confbox: 0.2.2
       defu: 6.1.4
       dotenv: 16.5.0
-      exsolve: 1.0.5
+      exsolve: 1.0.7
       giget: 2.0.0
       jiti: 2.4.2
       ohash: 2.0.11
       pathe: 2.0.3
       perfect-debounce: 1.0.0
-      pkg-types: 2.1.0
+      pkg-types: 2.2.0
       rc9: 2.1.2
     optionalDependencies:
       magicast: 0.3.5
@@ -13714,12 +13699,12 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod-to-json-schema@3.24.6(zod@3.25.71):
+  zod-to-json-schema@3.24.6(zod@3.25.74):
     dependencies:
-      zod: 3.25.71
-
-  zod@3.25.63: {}
+      zod: 3.25.74
 
   zod@3.25.71: {}
+
+  zod@3.25.74: {}
 
   zwitch@2.0.4: {}
