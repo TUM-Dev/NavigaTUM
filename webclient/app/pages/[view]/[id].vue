@@ -288,7 +288,7 @@ de:
     calendar: Kalender öffnen
     copy_link: Link kopieren
     favorites: Zu Favoriten hinzufügen
-  Loading data...: Lädt daten...
+  Loading data...: Lädt Daten...
 en:
   image_alt: Header image, showing the building
   details_for: Details for

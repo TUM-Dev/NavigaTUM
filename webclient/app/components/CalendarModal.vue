@@ -110,7 +110,7 @@ de:
     disclaimer: Stündlich aktualisiert und identische Termine zusammengefasst.
     please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
     last_sync: Stand {0}
-  Loading data...: Lädt daten...
+  Loading data...: Lädt Daten...
 en:
   title: Calendar
   close: Close
