@@ -5,7 +5,7 @@ import enLocale from "@fullcalendar/core/locales/en-gb";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import type FullCalendar from "@fullcalendar/vue3";
+import FullCalendar from "@fullcalendar/vue3";
 import type { components, operations } from "~/api_types";
 
 type CalendarResponse =
@@ -67,6 +67,7 @@ function colorForType(
 }
 
 async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
+  console.log(arg);
   const body: CalendarBody = {
     start_after: arg.startStr,
     end_before: arg.endStr,
@@ -81,6 +82,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
     retryDelay: 1000,
     headers: { "Content-Type": "application/json" },
   });
+  console.log(data);
   extractInfos(data);
 
   const items = [];
