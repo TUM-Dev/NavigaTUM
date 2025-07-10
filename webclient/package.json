@@ -30,7 +30,7 @@
 		"maplibre-gl-indoor": "0.0.22",
 		"nightwind": "1.1.13",
 		"nuxt": "3.17.6",
-		"sharp": "0.34.2",
+		"sharp": "0.34.3",
 		"vue": "3.5.17",
 		"vue-router": "4.5.1",
 		"vue3-carousel": "0.16.0"
