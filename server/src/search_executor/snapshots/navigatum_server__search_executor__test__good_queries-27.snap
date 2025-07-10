@@ -42,7 +42,7 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
       subtext: Gebäudeteil
     - id: "2911"
       type: building
-      name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, TUM Sprachenzentrum"
+      name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, Sprachenzentrum / Alumni & Career"
       subtext: Gebäude
     - id: "1910"
       type: building
