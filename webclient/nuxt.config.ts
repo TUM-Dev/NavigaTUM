@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-04-30",
-  future: {
-    compatibilityVersion: 4,
-  },
+  compatibilityDate: "2025-07-21",
   runtimeConfig: {
     public: {
       apiURL: "https://nav.tum.de",
