@@ -26,6 +26,7 @@
 		"@vueuse/core": "13.5.0",
 		"@vueuse/nuxt": "13.5.0",
 		"@vueuse/router": "13.5.0",
+		"better-sqlite3": "^12.2.0",
 		"maplibre-gl": "5.6.1",
 		"maplibre-gl-indoor": "0.0.22",
 		"nightwind": "1.1.13",
