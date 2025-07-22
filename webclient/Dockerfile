@@ -26,7 +26,6 @@ RUN corepack enable
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json .
-COPY eslint.config.mjs .
 COPY ./*.ts .
 RUN pnpm install --frozen-lockfile
 
