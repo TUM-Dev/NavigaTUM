@@ -12,13 +12,11 @@ const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
 
-// eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const query = useRouteQuery<string>(`q_${props.queryId}`, "", {
   mode: "replace",
   route,
   router,
 });
-// eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const selected = useRouteQuery<string>(props.queryId, "", {
   mode: "replace",
   route,

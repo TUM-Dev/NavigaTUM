@@ -185,5 +185,4 @@ export default defineNuxtConfig({
       "sharp", // sharp somehow has problems when not transpiled causing "module not transpiled" errors
     ],
   },
-  eslint: {},
 });
