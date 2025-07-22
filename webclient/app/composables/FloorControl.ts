@@ -13,7 +13,6 @@ export class FloorControl extends Evented implements IControl {
   private readonly container: HTMLDivElement;
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
-  private map: MapLibreMap | undefined;
 
   constructor() {
     super();
@@ -44,8 +43,7 @@ export class FloorControl extends Evented implements IControl {
     this.container.appendChild(verticalOpenClose);
   }
 
-  onAdd(map: MapLibreMap): HTMLDivElement {
-    this.map = map;
+  onAdd(_map: MapLibreMap): HTMLDivElement {
 
     // To change on `fullscreen` click on mobile, we need to
     // observe window size changed
@@ -61,7 +59,7 @@ export class FloorControl extends Evented implements IControl {
 
   onRemove(): void {
     this.container.remove();
-    this.map = undefined;
+    this.resize_observer?.disconnect();
   }
 
   public resetFloors(): void {
