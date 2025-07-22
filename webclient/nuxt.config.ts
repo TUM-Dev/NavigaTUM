@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "@nuxt/eslint",
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",

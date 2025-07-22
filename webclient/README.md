@@ -44,7 +44,7 @@ To run the webclient in development mode:
 pnpm run dev
 ```
 
-### Linting with [ESLint](https://eslint.org/) and formatting via prettier
+### Linting/Formatting with [biome](https://biomejs.dev/)
 
 ```sh
 pnpm run lint
