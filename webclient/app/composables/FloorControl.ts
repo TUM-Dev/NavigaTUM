@@ -44,7 +44,6 @@ export class FloorControl extends Evented implements IControl {
   }
 
   onAdd(_map: MapLibreMap): HTMLDivElement {
-
     // To change on `fullscreen` click on mobile, we need to
     // observe window size changed
     if (ResizeObserver) {
