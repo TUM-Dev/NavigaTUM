@@ -1081,6 +1081,9 @@ galileo:
 # no specific coordinates
 5416: # Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude
     osm: [ "way/618517674" ]
+5417: # Interims IV, Interim Gebäude NAT / OCS
+    osm: [ "way/1351252291" ]
+    coords: { lat: 48.267878, lon: 11.668366 }
 5539: # Interimshörsäle III, Interims-Tentomax MW
     osm: [ "way/618517675" ]
     coords: { lat: 48.26638702163251, lon: 11.671288967701608 }
