@@ -519,16 +519,6 @@
     "name": "Bildungscampus/Etzelstr.38",
     "tumonline_id": 3191
   },
-  "1920": {
-    "address": {
-      "place": "Heilbronn",
-      "street": "Berliner Platz 12",
-      "zip_code": 74072
-    },
-    "area_id": 243,
-    "name": "Bildungscampus K3",
-    "tumonline_id": 3389
-  },
   "2103": {
     "address": {
       "place": "M\u00fcnchen",
@@ -772,8 +762,8 @@
   "2353": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Staudingerstr.",
-      "zip_code": 81737
+      "street": "Staudingerstr. 17",
+      "zip_code": 81735
     },
     "area_id": 18,
     "name": "(SZ) Eislaufstadion Ost (AM)",
@@ -1158,16 +1148,6 @@
     "area_id": 29,
     "name": "Munich Urban Colab",
     "tumonline_id": 2869
-  },
-  "3035": {
-    "address": {
-      "place": "Oberschlei\u00dfheim",
-      "street": "Ingolst\u00e4dter Landstr. 1",
-      "zip_code": 85764
-    },
-    "area_id": 79,
-    "name": "Helmholtz Biologikum",
-    "tumonline_id": 1141
   },
   "3100": {
     "address": {
@@ -2278,16 +2258,6 @@
     "area_id": 42,
     "name": "HSWT",
     "tumonline_id": 2152
-  },
-  "4299": {
-    "address": {
-      "place": "Freising",
-      "street": "Hohenbachernstra\u00dfe 9",
-      "zip_code": 85354
-    },
-    "area_id": 42,
-    "name": "Hochschulgemeinde Freising",
-    "tumonline_id": 1809
   },
   "4304": {
     "address": {
@@ -3559,16 +3529,6 @@
     "name": "Interims H\u00f6rs\u00e4le II",
     "tumonline_id": 2269
   },
-  "5417": {
-    "address": {
-      "place": "Garching b. M\u00fcnchen",
-      "street": "Lichtenbergstr. 4b",
-      "zip_code": 85748
-    },
-    "area_id": 36,
-    "name": "Interim Geb\u00e4ude NAT / OCS",
-    "tumonline_id": 3429
-  },
   "5433": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
@@ -4278,6 +4238,16 @@
     "area_id": 29,
     "name": "Willy-Messerschmitt-Str. 11 (AM)",
     "tumonline_id": 3489
+  },
+  "9387": {
+    "address": {
+      "place": "Taufkirchen",
+      "street": "Willy-Messerschmitt-Stra\u00dfe 5",
+      "zip_code": 82024
+    },
+    "area_id": 29,
+    "name": "Interimshauptgeb\u00e4ude",
+    "tumonline_id": 3551
   },
   "9390": {
     "address": {
