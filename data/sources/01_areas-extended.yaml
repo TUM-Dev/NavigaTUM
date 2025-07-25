@@ -504,8 +504,6 @@ heilbronn:
 
 1915:
     coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
-1920:
-  coords: { lat: 49.14614775592658, lon: 9.220833988729073 }
 
 1998: # Bildungscampus K3
     coords: { lat: 49.146680868726946, lon: 9.218137968390192 }
@@ -1083,9 +1081,6 @@ galileo:
 # no specific coordinates
 5416: # Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude
     osm: [ "way/618517674" ]
-5417: # Interims IV, Interim Gebäude NAT / OCS
-    osm: [ "way/1351252291" ]
-    coords: { lat: 48.267878, lon: 11.668366 }
 5539: # Interimshörsäle III, Interims-Tentomax MW
     osm: [ "way/618517675" ]
     coords: { lat: 48.26638702163251, lon: 11.671288967701608 }
@@ -1214,6 +1209,9 @@ taufkirchen-ottobrunn:
 9380:
     coords: { lat: 48.05229, lon: 11.65547 }
 
+9387: # Interimshauptgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
+    coords: { lat: 48.048269, lon: 11.657245 }
+    osm: [ "way/1123333684" ]
 9390:
     coords: { lat: 48.08765, lon: 11.29609 }
     osm: [ "way/1123333684" ]
