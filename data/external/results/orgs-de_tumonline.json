@@ -321,8 +321,8 @@
   },
   "14810": {
     "code": "TUWIB05",
-    "name": "Lehrstuhl f\u00fcr Marketing (Dr. Schnurr komm.)",
-    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Dr. Schnurr komm.)"
+    "name": "Lehrstuhl f\u00fcr Marketing (Prof. Bergner komm.)",
+    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Prof. Bergner komm.)"
   },
   "14811": {
     "code": "TUWIB01",
@@ -451,8 +451,8 @@
   },
   "14945": {
     "code": "TUBVHBB",
-    "name": "Lehrstuhl f\u00fcr Holzbau und Baukonstruktion (Prof. Winter)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Holzbau und Baukonstruktion (Prof. Winter)"
+    "name": "Lehrstuhl f\u00fcr Ingenieurholzbau und Baukonstruktion (Prof. Fink)\t",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Ingenieurholzbau und Baukonstruktion (Prof. Fink)\t"
   },
   "14946": {
     "code": "TUBVMBA",
@@ -481,8 +481,8 @@
   },
   "15045": {
     "code": "TUBVWBW",
-    "name": "Lehrstuhl f\u00fcr Hydraulic Engineering (Prof. R\u00fcther)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Hydraulic Engineering (Prof. R\u00fcther)"
+    "name": "Lehrstuhl f\u00fcr Wasserbau (Prof. R\u00fcther)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Wasserbau (Prof. R\u00fcther)"
   },
   "15047": {
     "code": "TUBVHFM",
@@ -561,8 +561,8 @@
   },
   "15140": {
     "code": "TUARL02",
-    "name": "Professur f\u00fcr Kunst in der Architektur (Prof. Erlund/Prof. Fogelberg komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Kunst in der Architektur (Prof. Erlund/Prof. Fogelberg komm.)"
+    "name": "Professur f\u00fcr Kunst in der Architektur (Prof. Erlund)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Kunst in der Architektur (Prof. Erlund)"
   },
   "15142": {
     "code": "TUARL04",
@@ -636,8 +636,8 @@
   },
   "15234": {
     "code": "TUARL22",
-    "name": "Lehrstuhl f\u00fcr Raumentwicklung (Prof. Boucsein komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Raumentwicklung (Prof. Boucsein komm.)"
+    "name": "Lehrstuhl f\u00fcr Raumplanung und Raumentwicklung (Prof. Howe)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Raumplanung und Raumentwicklung (Prof. Howe)"
   },
   "15236": {
     "code": "TUARL25",
@@ -1487,7 +1487,7 @@
   "15934": {
     "code": "TUME1M1",
     "name": "Lehrstuhl f\u00fcr Innere Medizin I - Kardiologie (DHM) (Prof. Schunkert)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Innere Medizin I - Kardiologie (DHM) (Prof. Schunkert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Innere Medizin I - Kardiologie (DHM) (Prof. Schunkert)"
   },
   "15939": {
     "code": "TUME2M1",
@@ -1496,8 +1496,8 @@
   },
   "15941": {
     "code": "TUME2M3",
-    "name": "Professur f\u00fcr Nephrologie (Prof. Heemann)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)/Nephrologie (Prof. Heemann)"
+    "name": "Professur f\u00fcr Nephrologie (Prof. Renders komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Renders komm.)/Nephrologie (Prof. Renders komm.)"
   },
   "15946": {
     "code": "TUME3M1",
@@ -1611,8 +1611,8 @@
   },
   "16037": {
     "code": "TUMERO3",
-    "name": "Professur f\u00fcr Neuroradiologie (Prof. Zimmer)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostische und Interventionelle Radiologie (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)/Neuroradiologie (Prof. Zimmer)"
+    "name": "Professur f\u00fcr Neuroradiologie (Prof. Kirschke)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostische und Interventionelle Neuroradiologie (Prof. Kirschke)/Neuroradiologie (Prof. Kirschke)"
   },
   "16041": {
     "code": "TUMEHM1",
@@ -1667,17 +1667,17 @@
   "16100": {
     "code": "TUMEDH1",
     "name": "Klinik f\u00fcr Herz- und Gef\u00e4\u00dfchirurgie (DHM) (Prof. Krane)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Gef\u00e4\u00dfchirurgie (DHM) (Prof. Krane)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Gef\u00e4\u00dfchirurgie (DHM) (Prof. Krane)"
   },
   "16101": {
     "code": "TUMEDH2",
     "name": "Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)"
   },
   "16102": {
     "code": "TUMEDH0",
     "name": "Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)"
   },
   "16110": {
     "code": "TUMEER1",
@@ -1731,8 +1731,8 @@
   },
   "16133": {
     "code": "TUSPL01",
-    "name": "Professur f\u00fcr Biomechanik im Sport (Prof. Schwirtz)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Biomechanik im Sport (Prof. Schwirtz)"
+    "name": "Professur f\u00fcr Biomechanik im Sport (Prof. Paternoster komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Biomechanik im Sport (Prof. Paternoster komm.)"
   },
   "16134": {
     "code": "TUMWSGM",
@@ -1796,8 +1796,8 @@
   },
   "16211": {
     "code": "TUPHE23",
-    "name": "Lehrstuhl f\u00fcr Technische Physik (Prof. Gross/Prof. Filipp)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Technische Physik (Prof. Gross/Prof. Filipp)"
+    "name": "Lehrstuhl f\u00fcr Technische Physik (Prof. Filipp)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Technische Physik (Prof. Filipp)"
   },
   "16213": {
     "code": "TUPHE25",
@@ -2071,28 +2071,28 @@
   },
   "20226": {
     "code": "TUPRVP1",
-    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr Studium & Lehre",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Studium & Lehre"
+    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Studium & Lehre",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Studium & Lehre"
   },
   "20227": {
     "code": "TUPRVP2",
-    "name": "Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin f\u00fcr Internationale Allianzen & Alumni",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Internationale Allianzen & Alumni"
+    "name": "Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin Internationale Allianzen & Alumni",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin Internationale Allianzen & Alumni"
   },
   "20228": {
     "code": "TUPRVP3",
-    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr Forschung & Innovation",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Forschung & Innovation"
+    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Forschung & Innovation",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Forschung & Innovation"
   },
   "20229": {
     "code": "TUPRVP4",
-    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr Digitalisierung und IT-Systeme (CIO)",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Digitalisierung und IT-Systeme (CIO)"
+    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Digitalisierung und IT-Systeme (CIO)",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident Digitalisierung und IT-Systeme (CIO)"
   },
   "20230": {
     "code": "TUPRKAN",
-    "name": "Kanzler",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Kanzler"
+    "name": "Kanzler: Verwaltung und Finanzen",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Kanzler: Verwaltung und Finanzen"
   },
   "20674": {
     "code": "TUMAM17",
@@ -2156,8 +2156,8 @@
   },
   "21453": {
     "code": "TUPHE27",
-    "name": "Lehrstuhl f\u00fcr Zellbiophysik (Prof. Bausch)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Zellbiophysik (Prof. Bausch)"
+    "name": "Lehrstuhl f\u00fcr Heinz Nixdorf Stiftungslehrstuhl f\u00fcr Zellbiophysik (Prof. Bausch)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Heinz Nixdorf Stiftungslehrstuhl f\u00fcr Zellbiophysik (Prof. Bausch)"
   },
   "21511": {
     "code": "TUPHENA",
@@ -2231,8 +2231,8 @@
   },
   "22510": {
     "code": "TUCHTC3",
-    "name": "Wacker-Lehrstuhl f\u00fcr Makromolekulare Chemie (Prof. Rieger)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Rieger)"
+    "name": "Wacker-Lehrstuhl f\u00fcr Makromolekulare Chemie (Prof. Adams komm.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Adams komm.)"
   },
   "23046": {
     "code": "TUCHAC4",
@@ -2421,8 +2421,8 @@
   },
   "25971": {
     "code": "TUZVR21",
-    "name": "Personalbetreuung Zentrales (HSP, Hochschulreferate, Zentr. Serviceeinrichtungen, ZV, Graduate School, TUM Institute f. Life Long Learning), TUM School of Medicine and Health: Dep. Preclinical Medicine,TUM School of Social Sciences and Technology (Ref.21)",
-    "path": "TUM/Zentrale Verwaltung/Personal (ZA 2)/Personalbetreuung Zentrales (HSP, Hochschulreferate, Zentr. Serviceeinrichtungen, ZV, Graduate School, TUM Institute f. Life Long Learning), TUM School of Medicine and Health: Dep. Preclinical Medicine,TUM School of Social Sciences and Technology (Ref.21)"
+    "name": "Personalbetreuung Zentrales (HSP, Hochschulreferate, Zentrale Serviceeinrichtungen, ZV, TUM Institute f. Life Long Learning), TUM School of Medicine and Health: Dep. Preclinical Medicine,TUM School of Social Sciences and Technology (Ref.21)",
+    "path": "TUM/Zentrale Verwaltung/Personal (ZA 2)/Personalbetreuung Zentrales (HSP, Hochschulreferate, Zentrale Serviceeinrichtungen, ZV, TUM Institute f. Life Long Learning), TUM School of Medicine and Health: Dep. Preclinical Medicine,TUM School of Social Sciences and Technology (Ref.21)"
   },
   "25975": {
     "code": "TUZVR22",
@@ -2706,8 +2706,8 @@
   },
   "27717": {
     "code": "TUMEMI3",
-    "name": "Professur f\u00fcr Engineering Immune Cells for Therapy (Prof. Schumann)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medizinische Mikrobiologie, Immunologie und Hygiene (Prof. Busch)/Engineering Immune Cells for Therapy (Prof. Schumann)"
+    "name": "Professur f\u00fcr Engineering Immune Cells for Therapy (N.N.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medizinische Mikrobiologie, Immunologie und Hygiene (Prof. Busch)/Engineering Immune Cells for Therapy (N.N.)"
   },
   "27718": {
     "code": "TUMEMI2",
@@ -2717,12 +2717,12 @@
   "27783": {
     "code": "TUMEDH3",
     "name": "Professur f\u00fcr Kardioan\u00e4sthesie (DHM) (Prof. Tassani-Prell)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Institut f\u00fcr An\u00e4sthesiologie (DHM) (Prof. Tassani-Prell)/Kardioan\u00e4sthesie (DHM) (Prof. Tassani-Prell)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Institut f\u00fcr An\u00e4sthesiologie (DHM) (Prof. Tassani-Prell)/Kardioan\u00e4sthesie (DHM) (Prof. Tassani-Prell)"
   },
   "27785": {
     "code": "TUMEDH5",
     "name": "Professur f\u00fcr Experimentelle und Molekulare Kinderkardiologie (DHM) (Prof. G\u00f6rlach)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)/Experimentelle und Molekulare Kinderkardiologie (DHM) (Prof. G\u00f6rlach)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)/Experimentelle und Molekulare Kinderkardiologie (DHM) (Prof. G\u00f6rlach)"
   },
   "27799": {
     "code": "TUMEER2",
@@ -3039,11 +3039,6 @@
     "name": "Werkstatt Elektrotechnik am TUM CiO (ZA 4)",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Werkstatt Elektrotechnik am TUM CiO (ZA 4)"
   },
-  "38006": {
-    "code": "TUZV44Y",
-    "name": "Wassersportplatz Starnberg (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Wassersportplatz Starnberg (ZA 4)"
-  },
   "38010": {
     "code": "TUZV45A",
     "name": "H\u00f6rsaalvergabe (ZA 4)",
@@ -3196,8 +3191,8 @@
   },
   "40834": {
     "code": "TUWZM4D",
-    "name": "Interdepartmentelles Labor f\u00fcr Stabile Isotope (BE)",
-    "path": "TUM/Schools/Life Sciences/Interdepartmentelles Labor f\u00fcr Stabile Isotope (BE)"
+    "name": "Center of Stable Isotope Analyses (CeSIA) (BE)\t",
+    "path": "TUM/Schools/Life Sciences/Center of Stable Isotope Analyses (CeSIA) (BE)\t"
   },
   "40884": {
     "code": "TUMAM31",
@@ -3256,8 +3251,8 @@
   },
   "41947": {
     "code": "TUEDS13",
-    "name": "Lehrstuhl f\u00fcr Wissenschaftskommunikation (Prof. Heckl)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Wissenschaftskommunikation (Prof. Heckl)"
+    "name": "Lehrstuhl f\u00fcr Wissenschaftskommunikation und Technikfolgenabsch\u00e4tzung (Prof. Decker)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Wissenschaftskommunikation und Technikfolgenabsch\u00e4tzung (Prof. Decker)"
   },
   "42041": {
     "code": "TUMERZ0",
@@ -3276,8 +3271,8 @@
   },
   "42297": {
     "code": "TUSPL09",
-    "name": "Lehrstuhl f\u00fcr Trainingswissenschaft und Sportinformatik (N.N.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Trainingswissenschaft und Sportinformatik (N.N.)"
+    "name": "Lehrstuhl f\u00fcr Trainingswissenschaft und Sportinformatik (Link komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Trainingswissenschaft und Sportinformatik (Link komm.)"
   },
   "42357": {
     "code": "TUPREOE",
@@ -3686,8 +3681,8 @@
   },
   "44149": {
     "code": "TUWZB5T",
-    "name": "Lehrstuhl f\u00fcr \u00d6konomik des Gartenbaus und Landschaftsbaus (Prof. Bitsch)",
-    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/\u00d6konomik des Gartenbaus und Landschaftsbaus (Prof. Bitsch)"
+    "name": "Lehrstuhl f\u00fcr \u00d6konomik des Gartenbaus und Landschaftsbaus (N.N.)",
+    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/\u00d6konomik des Gartenbaus und Landschaftsbaus (N.N.)"
   },
   "44150": {
     "code": "TUZEITM",
@@ -3761,8 +3756,8 @@
   },
   "44444": {
     "code": "TUWZK1A",
-    "name": "Kleintierforschungszentrum Weihenstephan",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Kleintier-Unit/Kleintierforschungszentrum Weihenstephan"
+    "name": "Kleintier-Unit",
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Kleintier-Unit/Kleintier-Unit"
   },
   "44486": {
     "code": "TUPHFSV",
@@ -3931,8 +3926,8 @@
   },
   "44945": {
     "code": "TUPRVP7",
-    "name": "Vizepr\u00e4sident Controlling & Planung",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Controlling & Planung"
+    "name": "Vizepr\u00e4sident Controlling & Planung, Stellvertretender Kanzler",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sident Controlling & Planung, Stellvertretender Kanzler"
   },
   "44965": {
     "code": "TUMEDF1",
@@ -3946,8 +3941,8 @@
   },
   "45007": {
     "code": "TUPRVP5",
-    "name": "Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin f\u00fcr Talent Management & Diversity",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Talent Management & Diversity"
+    "name": "Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin Talent Management & Diversity",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Gesch\u00e4ftsf\u00fchrende Vizepr\u00e4sidentin Talent Management & Diversity"
   },
   "45008": {
     "code": "TUZVHSL",
@@ -4561,8 +4556,8 @@
   },
   "47277": {
     "code": "TUBVMOB",
-    "name": "Professur f\u00fcr Verkehrsverhalten (Prof. Moeckel)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Prof. Moeckel)"
+    "name": "Professur f\u00fcr Verkehrsverhalten (Moreno Chou komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Moreno Chou komm.)"
   },
   "47278": {
     "code": "TUPHTCQ",
@@ -4587,7 +4582,7 @@
   "47357": {
     "code": "TUCHOCG",
     "name": "Professur f\u00fcr Supramolekulare Chemie (Prof. Boekhoven)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Supramolekulare Chemie (Prof. Boekhoven)"
+    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Supramolekulare Chemie (Prof. Boekhoven)"
   },
   "47377": {
     "code": "TUCHACC",
@@ -4656,7 +4651,7 @@
   },
   "47598": {
     "code": "TUCHACD",
-    "name": "Professur f\u00fcr Siliciumchemie (Prof. Inoue)",
+    "name": "Lehrstuhl f\u00fcr Siliciumchemie (Prof. Inoue)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Siliciumchemie (Prof. Inoue)"
   },
   "47617": {
@@ -4801,8 +4796,8 @@
   },
   "48099": {
     "code": "TUPHEDM",
-    "name": "Professur f\u00fcr Dark Matter (Prof. Mertens)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Dark Matter (Prof. Mertens)"
+    "name": "Professur f\u00fcr Dark Matter (Prof. Sch\u00f6nert komm.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Dark Matter (Prof. Sch\u00f6nert komm.)"
   },
   "48100": {
     "code": "TUPHEOC",
@@ -5066,8 +5061,8 @@
   },
   "48537": {
     "code": "TUZET00",
-    "name": "Gesch\u00e4ftsstelle",
-    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr translationale Krebsforschung (TranslaTUM)/Gesch\u00e4ftsstelle"
+    "name": "Gesch\u00e4ftsstelle TranslaTUM",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr translationale Krebsforschung (TranslaTUM)/Gesch\u00e4ftsstelle TranslaTUM"
   },
   "48538": {
     "code": "TUZET01",
@@ -5151,18 +5146,13 @@
   },
   "48677": {
     "code": "TUMEKCK",
-    "name": "Koordinierungsstelle f\u00fcr Chancengleichheit und Karriereplanung",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Medizin/Fakult\u00e4tsverwaltung/Koordinierungsstelle f\u00fcr Chancengleichheit und Karriereplanung"
+    "name": "Talent Management and Diversity (MH) School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Talent Management and Diversity (MH)"
   },
   "48697": {
     "code": "TUCSP04",
     "name": "Professur f\u00fcr Chemische und Thermische Verfahrenstechnik (Prof. Burger)",
     "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrst\u00fchle und Professuren/Chemische und Thermische Verfahrenstechnik (Prof. Burger)"
-  },
-  "48698": {
-    "code": "TUWZE1B",
-    "name": "Lehrstuhl f\u00fcr Experimentelle Bioinformatik (N.N.)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Experimentelle Bioinformatik (N.N.)"
   },
   "48717": {
     "code": "TUWZVH1",
@@ -5481,8 +5471,8 @@
   },
   "49382": {
     "code": "TUWIH01",
-    "name": "Campus Heilbronn Gruppe - Center TUM Campus Heilbronn (MGT)",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Campus Heilbronn Gruppe"
+    "name": "Campus Heilbronn Gruppe - Einheiten TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Campus Heilbronn Gruppe"
   },
   "49397": {
     "code": "TUZEACS",
@@ -5549,11 +5539,6 @@
     "name": "Entsorgung und Umwelt (ZA 4)",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)"
   },
-  "49637": {
-    "code": "TUWZLPT",
-    "name": "Nachwuchsforschungsgruppe \"LipiTUM - A Computational Platform for Lipidomics and Lipotyping in Systems Medicine\"",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Nachwuchsforschungsgruppe \"LipiTUM - A Computational Platform for Lipidomics and Lipotyping in Systems Medicine\""
-  },
   "49638": {
     "code": "TUEIMLI",
     "name": "Professur f\u00fcr Machine Learning (Prof. Heckel)",
@@ -5611,8 +5596,8 @@
   },
   "49878": {
     "code": "TUPOL13",
-    "name": "Professur f\u00fcr Law, Science, and Technology (Prof. Djeffal)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Law, Science, and Technology (Prof. Djeffal)"
+    "name": "Professur f\u00fcr Recht, Innovation und Legal Design (Prof. Djeffal)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Recht, Innovation und Legal Design (Prof. Djeffal)"
   },
   "49897": {
     "code": "TUMEMO0",
@@ -5711,8 +5696,8 @@
   },
   "50137": {
     "code": "TUWIH08",
-    "name": "Professur f\u00fcr Innovation and Digitalization (Prof. F\u00f6rderer) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Digitalization (Prof. F\u00f6rderer) (TUM Campus Heilbronn)"
+    "name": "Professur f\u00fcr Innovation and Digitalization (N.N.) (TUM Campus Heilbronn)",
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Digitalization (N.N.) (TUM Campus Heilbronn)"
   },
   "50157": {
     "code": "TUMWMAT",
@@ -5841,8 +5826,8 @@
   },
   "50498": {
     "code": "TUMENW3",
-    "name": "Professur f\u00fcr Brain Circuit Function and Dysfunction (Prof. Portugues Peters)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neurowissenschaften (Prof. Misgeld komm.)/Brain Circuit Function and Dysfunction (Prof. Portugues Peters)"
+    "name": "Professur f\u00fcr Brain Circuit Function and Dysfunction (N.N.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neurowissenschaften (Prof. Misgeld komm.)/Brain Circuit Function and Dysfunction (N.N.)"
   },
   "50499": {
     "code": "TULRFSV",
@@ -5867,7 +5852,7 @@
   "50618": {
     "code": "TUPRVP9",
     "name": "Vizepr\u00e4sident Entrepreneurship",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Entrepreneurship"
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sident Entrepreneurship"
   },
   "50637": {
     "code": "TUPOL15",
@@ -5902,7 +5887,7 @@
   "50777": {
     "code": "TUPRV10",
     "name": "Vizepr\u00e4sidentin Compliance",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Compliance"
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sidentin Compliance"
   },
   "50817": {
     "code": "TUWZI2M",
@@ -5951,18 +5936,18 @@
   },
   "50937": {
     "code": "TUPOL16",
-    "name": "Professur f\u00fcr International Political Economy (Seb\u00f6 komm.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/International Political Economy (Seb\u00f6 komm.)"
+    "name": "Professur f\u00fcr International Political Economy (N.N.)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/International Political Economy (N.N.)"
   },
   "50958": {
     "code": "TUMEDH6",
     "name": "Klinik f\u00fcr Chirurgie angeborener Herzfehler und Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Chirurgie angeborener Herzfehler und Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Chirurgie angeborener Herzfehler und Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)"
   },
   "50977": {
     "code": "TUWIB42",
-    "name": "Professur f\u00fcr Entrepreneurial Management (Prof. Zhao)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Management (Prof. Zhao)"
+    "name": "Professur f\u00fcr Entrepreneurial Management (N.N.)",
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Management (N.N.)"
   },
   "50997": {
     "code": "TULRAAS",
@@ -6116,8 +6101,8 @@
   },
   "51337": {
     "code": "TUWIB44",
-    "name": "Professur f\u00fcr Entrepreneurship and Communities (Prof. Vedula)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship and Communities (Prof. Vedula)"
+    "name": "Professur f\u00fcr Entrepreneurship and Communities (Prof. Alexy komm.)",
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship and Communities (Prof. Alexy komm.)"
   },
   "51338": {
     "code": "TUWZD1A",
@@ -6176,8 +6161,8 @@
   },
   "51497": {
     "code": "TUINF28",
-    "name": "Informatik 9 - Professur f\u00fcr Machine Learning for Robotics (Prof. Leutenegger)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Machine Learning for Robotics (Prof. Leutenegger)"
+    "name": "Informatik 9 - Professur f\u00fcr Machine Learning for Robotics (Marin komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Machine Learning for Robotics (Marin komm.)"
   },
   "51517": {
     "code": "TUS4C2M",
@@ -7756,12 +7741,12 @@
   },
   "52430": {
     "code": "TUS7VRI",
-    "name": "Prodekanin Forschung und Innovation der TUM School of Social Sciences and Technology",
+    "name": "Prodekan/in Forschung und Innovation der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Prodekane/Forschung und Innovation"
   },
   "52431": {
     "code": "TUS7VST",
-    "name": "Prodekanin Studium und Lehre der TUM School of Social Sciences and Technology",
+    "name": "Prodekan Studium und Lehre der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Prodekane/Studium und Lehre"
   },
   "52432": {
@@ -7946,18 +7931,18 @@
   },
   "52777": {
     "code": "TUS6CHN",
-    "name": "Center TUM Campus Heilbronn (MGT) der TUM School of Management",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)"
+    "name": "Einheiten TUM Campus Heilbronn (MGT) der TUM School of Management",
+    "path": "TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)"
   },
   "52778": {
     "code": "TUS6CDT",
-    "name": "Center for Digital Transformation (CDT) - Center TUM Campus Heilbronn (MGT)",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Center for Digital Transformation (CDT)"
+    "name": "Center for Digital Transformation (CDT) - Einheiten TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Center for Digital Transformation (CDT)"
   },
   "52779": {
     "code": "TUS6CFE",
-    "name": "Global Center for Family Enterprise (GCFE) - Center TUM Campus Heilbronn (MGT)",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Global Center for Family Enterprise (GCFE)"
+    "name": "Global Center for Family Enterprise (GCFE) - Einheiten TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Global Center for Family Enterprise (GCFE)"
   },
   "52780": {
     "code": "TUS2OTD",
@@ -8477,7 +8462,7 @@
   "53378": {
     "code": "TUPRV11",
     "name": "Vizepr\u00e4sidentin Global Communication & Public Engagement",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Global Communication & Public Engagement"
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sidentin Global Communication & Public Engagement"
   },
   "53417": {
     "code": "TUXS60O",
@@ -8791,8 +8776,8 @@
   },
   "53737": {
     "code": "TUS6B49",
-    "name": "Professur f\u00fcr Entrepreneurial Finance (Prof. Momtaz)",
-    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Momtaz)"
+    "name": "Professur f\u00fcr Entrepreneurial Finance (Prof. Kaserer)",
+    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Kaserer)"
   },
   "53777": {
     "code": "TUS7HTL",
@@ -9482,7 +9467,7 @@
   "54574": {
     "code": "TUPRV12",
     "name": "Vizepr\u00e4sident Sustainable Transformation",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Sustainable Transformation"
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sident Sustainable Transformation"
   },
   "54577": {
     "code": "TUS2FEA",
@@ -9532,17 +9517,17 @@
   "54617": {
     "code": "TUMEDH9",
     "name": "Professur f\u00fcr Fr\u00fchphase klinischer Studien in der Kardiologie (DHM) (Prof. Joner)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Fr\u00fchphase klinischer Studien in der Kardiologie (DHM) (Prof. Joner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Fr\u00fchphase klinischer Studien in der Kardiologie (DHM) (Prof. Joner)"
   },
   "54618": {
     "code": "TUMEDH8",
     "name": "Professur f\u00fcr Kardiovaskul\u00e4re Inflammation (DHM) (Prof. Sager)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Kardiovaskul\u00e4re Inflammation (DHM) (Prof. Sager)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (DHM) (Prof. Schunkert)/Kardiovaskul\u00e4re Inflammation (DHM) (Prof. Sager)"
   },
   "54619": {
     "code": "TUMEDH7",
     "name": "Institut f\u00fcr An\u00e4sthesiologie (DHM) (Prof. Tassani-Prell)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Institut f\u00fcr An\u00e4sthesiologie (DHM) (Prof. Tassani-Prell)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Institut f\u00fcr An\u00e4sthesiologie (DHM) (Prof. Tassani-Prell)"
   },
   "54637": {
     "code": "TUXS60P",
@@ -9552,7 +9537,7 @@
   "54657": {
     "code": "TUMEDHA",
     "name": "Lehrstuhl f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)/Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)/Kinderkardiologie und angeborene Herzfehler (DHM) (Prof. Ewert)"
   },
   "54658": {
     "code": "TUME2M7",
@@ -9566,8 +9551,8 @@
   },
   "54660": {
     "code": "TUME2M8",
-    "name": "Abteilung f\u00fcr Nephrologie (Prof. Heemann)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)"
+    "name": "Abteilung f\u00fcr Nephrologie (Prof. Renders komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Renders komm.)"
   },
   "54661": {
     "code": "TUMEMS0",
@@ -9582,7 +9567,7 @@
   "54663": {
     "code": "TUMEDHC",
     "name": "Lehrstuhl f\u00fcr Herzchirurgie (DHM) (Prof. Krane)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Gef\u00e4\u00dfchirurgie (DHM) (Prof. Krane)/Herzchirurgie (DHM) (Prof. Krane)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Herz- und Gef\u00e4\u00dfchirurgie (DHM) (Prof. Krane)/Herzchirurgie (DHM) (Prof. Krane)"
   },
   "54664": {
     "code": "TUMEND0",
@@ -9606,13 +9591,13 @@
   },
   "54668": {
     "code": "TUMERO7",
-    "name": "Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostische und Interventionelle Radiologie (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)"
+    "name": "Institut f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Kirschke)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostische und Interventionelle Neuroradiologie (Prof. Kirschke)"
   },
   "54669": {
     "code": "TUMEDHB",
     "name": "Lehrstuhl f\u00fcr Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Chirurgie angeborener Herzfehler und Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)/Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik f\u00fcr Chirurgie angeborener Herzfehler und Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)/Kinderherzchirurgie (DHM) (Prof. H\u00f6rer)"
   },
   "54677": {
     "code": "TUS2HSP",
@@ -9626,8 +9611,8 @@
   },
   "54717": {
     "code": "TUS4P1D",
-    "name": "Professur f\u00fcr Funktionelle Phytometabolomik (Prof. Dawid)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Funktionelle Phytometabolomik (Prof. Dawid)"
+    "name": "Lehrstuhl f\u00fcr Chemosensorische Lebensmittelsysteme (Prof. Dawid)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Chemosensorische Lebensmittelsysteme (Prof. Dawid)"
   },
   "54737": {
     "code": "TUS7RDS",
@@ -9721,8 +9706,8 @@
   },
   "54937": {
     "code": "TUS4C9L",
-    "name": "Center of Advanced Light Microscopy (CALM) (LS) - School Office",
-    "path": "TUM/Schools/Life Sciences/School Office/Center of Advanced Light Microscopy (CALM) (LS)"
+    "name": "Center of Advanced Light Microscopy (CALM) (BE)",
+    "path": "TUM/Schools/Life Sciences/Center of Advanced Light Microscopy (CALM) (BE)"
   },
   "54957": {
     "code": "TUS1308",
@@ -9782,12 +9767,12 @@
   "55097": {
     "code": "TUMEDHE",
     "name": "Institut f\u00fcr Radiologie und Nuklearmedizin (DHM) (Dr. Martinoff)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Institut f\u00fcr Radiologie und Nuklearmedizin (DHM) (Dr. Martinoff)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Institut f\u00fcr Radiologie und Nuklearmedizin (DHM) (Dr. Martinoff)"
   },
   "55098": {
     "code": "TUMEDHF",
     "name": "Institut f\u00fcr Laboratoriumsmedizin (DHM) (Prof. Holdenrieder)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Institut f\u00fcr Laboratoriumsmedizin (DHM) (Prof. Holdenrieder)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Institut f\u00fcr Laboratoriumsmedizin (DHM) (Prof. Holdenrieder)"
   },
   "55117": {
     "code": "TUXB500",
@@ -10281,8 +10266,8 @@
   },
   "55377": {
     "code": "TUS2BJT",
-    "name": "Lehrstuhl f\u00fcr Binder Jetting Technology (Prof. Lowke)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Materials Engineering/Binder Jetting Technology (Prof. Lowke)"
+    "name": "Lehrstuhl f\u00fcr Werkstoffe und Methoden des Digitalen Bauens (Prof. Lowke)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Materials Engineering/Werkstoffe und Methoden des Digitalen Bauens (Prof. Lowke)"
   },
   "55397": {
     "code": "TUS7AST",
@@ -10401,8 +10386,8 @@
   },
   "55597": {
     "code": "TUS1312",
-    "name": "Lehrstuhl f\u00fcr Darstellungstheorie (Dr. Cobbe, komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Darstellungstheorie (Dr. Cobbe, komm.)"
+    "name": "Professur f\u00fcr Darstellungstheorie (Prof. Kus)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Darstellungstheorie (Prof. Kus)"
   },
   "55637": {
     "code": "TUS4D5B",
@@ -10921,8 +10906,8 @@
   },
   "56518": {
     "code": "TUPEX06",
-    "name": "TUM Emeriti",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Weitere Personen/TUM Emeriti"
+    "name": "Professuren Emeriti Card",
+    "path": "TUM/Partnerschaftliche Einrichtungen/Weitere Personen/Professuren Emeriti Card"
   },
   "56537": {
     "code": "TUS4Z6P",
@@ -10971,8 +10956,8 @@
   },
   "56657": {
     "code": "TUPRV13",
-    "name": "Vizepr\u00e4sident Campus Heilbronn",
-    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Campus Heilbronn"
+    "name": "Vizepr\u00e4sident TUM Campus Heilbronn",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Vizepr\u00e4sident TUM Campus Heilbronn"
   },
   "56658": {
     "code": "TUS1318",
@@ -11202,6 +11187,126 @@
   "57157": {
     "code": "TUWIH15",
     "name": "Lehrstuhl f\u00fcr Advanced Analytics in Manufacturing (Prof. Otto)",
-    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Advanced Analytics in Manufacturing (Prof. Otto)"
+    "path": "TUM/Schools/Management/Departments/Operations and Technology/Advanced Analytics in Manufacturing (Prof. Otto)"
+  },
+  "57177": {
+    "code": "TUZEIOV",
+    "name": "Kantonesisch",
+    "path": "TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Kantonesisch"
+  },
+  "57197": {
+    "code": "TUXB508",
+    "name": "Studiengangsb\u00fcndel Weiteres",
+    "path": "TUM/Schools/Medicine and Health/Studienorganisation/Weiteres"
+  },
+  "57198": {
+    "code": "TUXS51V",
+    "name": "Studiengang Kuratorium",
+    "path": "TUM/Schools/Medicine and Health/Studienorganisation/Weiteres/Kuratorium"
+  },
+  "57199": {
+    "code": "TUXS51W",
+    "name": "Studiengang StiF",
+    "path": "TUM/Schools/Medicine and Health/Studienorganisation/Weiteres/StiF"
+  },
+  "57200": {
+    "code": "TUXS51X",
+    "name": "Studiengang KNS/Bode",
+    "path": "TUM/Schools/Medicine and Health/Studienorganisation/Weiteres/KNS/Bode"
+  },
+  "57201": {
+    "code": "TUXS51Y",
+    "name": "Studiengang USC",
+    "path": "TUM/Schools/Medicine and Health/Studienorganisation/Weiteres/USC"
+  },
+  "57217": {
+    "code": "TUS2CME",
+    "name": "Lehrstuhl f\u00fcr Computergest\u00fctzte Modellierung und Simulation (Prof. Esser komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computergest\u00fctzte Modellierung und Simulation (Prof. Esser komm.)"
+  },
+  "57218": {
+    "code": "TUPECRE",
+    "name": "TUMCREATE",
+    "path": "TUM/Partnerschaftliche Einrichtungen/TUMCREATE"
+  },
+  "57219": {
+    "code": "TUZEAMC",
+    "name": "Atomistic Modeling Center (AMC)",
+    "path": "TUM/Integrative Research Institutes/Munich Data Science Institute (MDSI)/Atomistic Modeling Center (AMC)"
+  },
+  "57237": {
+    "code": "TUS2FSE",
+    "name": "Professur f\u00fcr Brandwissenschaft und Brandingenieurwesen (Prof. Hammann)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Brandwissenschaft und Brandingenieurwesen (Prof. Hammann)"
+  },
+  "57257": {
+    "code": "TUS6DSM",
+    "name": "Unit for Data Science in Management - Einheiten TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Unit for Data Science in Management"
+  },
+  "57258": {
+    "code": "TUS4C4U",
+    "name": "Cell Analysis Unit (CAnU)(BE)",
+    "path": "TUM/Schools/Life Sciences/Cell Analysis Unit (CAnU)(BE)"
+  },
+  "57277": {
+    "code": "TUZVSOR",
+    "name": "Stabsstelle Organisationsentwicklung in der Verwaltung der TUM",
+    "path": "TUM/Zentrale Verwaltung/Organisationsentwicklung in der Verwaltung der TUM"
+  },
+  "57297": {
+    "code": "TUZVTPS",
+    "name": "Technische Projektsteuerung (ZA4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Technische Projektsteuerung (ZA4)"
+  },
+  "57317": {
+    "code": "TUS4N2S",
+    "name": "Professur f\u00fcr Integrated Organoid Systems (Prof. Dowbaj)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Integrated Organoid Systems (Prof. Dowbaj)"
+  },
+  "57337": {
+    "code": "TUS3RDP",
+    "name": "Datenschutzbevollm\u00e4chtigte/r der TUM School of Natural Sciences",
+    "path": "TUM/Schools/Natural Sciences/Beauftragte/Datenschutzbevollm\u00e4chtigte/r"
+  },
+  "57357": {
+    "code": "TUS4M9P",
+    "name": "Lehrstuhl f\u00fcr Mikrobielle Physiologie (Prof. Pester)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Mikrobielle Physiologie (Prof. Pester)"
+  },
+  "57377": {
+    "code": "TUS3014",
+    "name": "Professur f\u00fcr AI-Guided Protein Design (Prof. Schlichth\u00e4rle)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/AI-Guided Protein Design (Prof. Schlichth\u00e4rle)"
+  },
+  "57397": {
+    "code": "TUS1324",
+    "name": "Professur f\u00fcr N-Dimensional User Experience (Prof. Pirker)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/N-Dimensional User Experience (Prof. Pirker)"
+  },
+  "57418": {
+    "code": "TUZEARC",
+    "name": "TUM Animal Research Center (GARC)",
+    "path": "TUM/Technology Core Facilities/TUM Animal Research Center (GARC)"
+  },
+  "57437": {
+    "code": "TUZEI19",
+    "name": "ZIEL-Prof. Weisz (LS)",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Weisz (LS)"
+  },
+  "57438": {
+    "code": "TUZEI21",
+    "name": "ZIEL-Prof. Bartelt (LS)",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Bartelt (LS)"
+  },
+  "57439": {
+    "code": "TUZEI20",
+    "name": "ZIEL-Prof. Stecher-Letsch (LS)",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Stecher-Letsch (LS)"
+  },
+  "57440": {
+    "code": "TUZEI22",
+    "name": "ZIEL-Prof. Timper (MH 1513)",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Timper (MH 1513)"
   }
 }
