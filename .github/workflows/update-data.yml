@@ -24,6 +24,7 @@ jobs:
           python-version: '3.13'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
+      - run: ls -lah data/external/results
       - run: rm data/external/results/*tumonline.json
         working-directory: data/external
       - name: Download tumonline data
