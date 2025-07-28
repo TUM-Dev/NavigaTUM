@@ -11,6 +11,8 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v4
@@ -39,6 +41,8 @@ jobs:
           CARGO_INCREMENTAL: 0
   linting:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v4

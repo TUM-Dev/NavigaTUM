@@ -30,8 +30,8 @@ jobs:
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: PYTHONPATH=$PYTHONPATH:.. python3 scrapers/tumonline.py
         env:
-          CONNECTUM_OAUTH_CLIENT_ID: ${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}
-          CONNECTUM_OAUTH_CLIENT_SECRET: ${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}
+          CONNECTUM_OAUTH_CLIENT_ID: "${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}"
+          CONNECTUM_OAUTH_CLIENT_SECRET: "${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}"
         working-directory: data/external
       - continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: ls -lah data/external/results
