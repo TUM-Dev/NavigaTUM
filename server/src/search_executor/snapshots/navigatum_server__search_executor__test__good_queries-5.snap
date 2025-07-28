@@ -10,6 +10,10 @@ info: "'interims' should get 'garching-interims' in 1 results"
       type: area
       name: "\u0019Interimshörsäle\u0017"
       subtext: Gebiet / Gruppe von Gebäuden
+    - id: "9387"
+      type: building
+      name: "\u0019Interims\u0017hauptgebäude"
+      subtext: Gebäude
     - id: "5417"
       type: building
       name: "\u0019Interim\u0017 Gebäude NAT / OCS"
@@ -21,10 +25,6 @@ info: "'interims' should get 'garching-interims' in 1 results"
     - id: "5416"
       type: building
       name: "\u0019Interimshörsäle\u0017 II, Jürgen Manchot-Hörsaalgebäude"
-      subtext: Gebäude
-    - id: "5620"
-      type: building
-      name: "\u0019Interimshörsäle\u0017 I"
       subtext: Gebäude
   n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
