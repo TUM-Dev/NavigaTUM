@@ -1,9 +1,20 @@
 name: Security audit
+permissions:
+  contents: read
+github-token:
+  action-input:
+    input: token
+    is-default: false
+  permissions:
+    issues: write
+    issues-reason: to create issues
+    checks: write
+    checks-reason: to create check
 on:
   schedule:
     - cron: '51 6,18 * * *'
   push:
-    paths: 
+    paths:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
   workflow_dispatch:
@@ -12,9 +23,9 @@ jobs:
   security_audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - run: mv server/* .
-      - uses: rustsec/audit-check@v2.0.0
+      - uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ignore: RUSTSEC-2023-0071,RUSTSEC-2024-0363,RUSTSEC-2024-0379,RUSTSEC-2024-0384,RUSTSEC-2024-0421,RUSTSEC-2025-0004,RUSTSEC-2025-0006
