@@ -21,6 +21,11 @@ info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
       name: "5101.EG.501 (Rudolf-Mößbauer-\u0019Hörsaal\u0017)"
       subtext: "garching, Physik I"
       subtext_bold: 2501@5101
+    - id: 3505.EG.027
+      type: room
+      name: "3505.EG.027 (Ausbildungslabor,  biologisch-pysikalisch)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
+      subtext_bold: 00.450@3505
     - id: 0102.U1.216D
       type: room
       name: "0102.U1.\u00192\u001716D (Versuchsraum \u0019HS\u0017/NS)"
@@ -41,11 +46,6 @@ info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
       name: "0102.U1.\u00192\u001716G (Versuchsraum \u0019HS\u0017/NS)"
       subtext: "stammgelände, Hochvolthaus (N2)"
       subtext_bold: N-1216G@0102
-    - id: 3505.EG.027
-      type: room
-      name: "3505.EG.027 (Ausbildungslabor,  biologisch-pysikalisch)"
-      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
-      subtext_bold: 00.450@3505
     - id: 5101.EG.501A
       type: room
       name: "5101.EG.501A (Projektorraum \u0019HS\u0017 PH 1)"
