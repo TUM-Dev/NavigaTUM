@@ -42,16 +42,16 @@ info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Arch
       name: "9379.EG.\u0019001\u0017 (Teeküche)"
       subtext: "taufkirchen-ottobr., Lise Meitner Str. 8"
       subtext_bold: 00.001@9379
-    - id: 5132.EG.001
-      type: room
-      name: "5132.EG.\u0019001\u0017 (Post)"
-      subtext: "garching, Boltzmannstr. 12"
-      subtext_bold: 00.001@5132
     - id: 3508.EG.001
       type: room
       name: "3508.EG.\u0019001\u0017 (Ordensraum)"
       subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Albrechtgasse 28"
       subtext_bold: 00.001@3508
+    - id: 5132.EG.001
+      type: room
+      name: "5132.EG.\u0019001\u0017 (Ruheraum)"
+      subtext: "garching, Boltzmannstr. 12"
+      subtext_bold: 00.001@5132
     - id: 3502.EG.011
       type: room
       name: 3502.EG.011 (Flur)

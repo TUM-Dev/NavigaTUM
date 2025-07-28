@@ -3,7 +3,6 @@ source: src/search_executor/mod.rs
 description: "seminar room, should be preferred over other rooms"
 expression: actual
 info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be preferred over other rooms"
-snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -13,6 +12,11 @@ snapshot_kind: text
       subtext: "garching, Siedlungswasserwirtschaft"
       subtext_bold: 1116@5111
       parsed_id: "\u00191116\u0017 Siedlungswasserwirtschaft"
+    - id: 2910.02.255
+      type: room
+      name: "2910.02.255 (Büro (gem. Nutzung \u00191116\u0017010400 + \u00191116\u0017010500))"
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: B.255@2910
     - id: 0401.01.116
       type: room
       name: 0401.01.116 (Büro)
@@ -48,11 +52,6 @@ snapshot_kind: text
       subtext: "garching, Chemie"
       subtext_bold: 11166@5401
       parsed_id: "CH \u00191116\u00176"
-    - id: 4124.01.116
-      type: room
-      name: 4124.01.116 (Molekularbiologie Labor)
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: 01/1.16@4124
     - id: 0101.01.116
       type: room
       name: 0101.01.116 (Drucker)

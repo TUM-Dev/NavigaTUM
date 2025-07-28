@@ -41,7 +41,7 @@ info: "'Interims 2' should get '5416' in 1 results"
       subtext_bold: 010@5416
     - id: 5417.01.002
       type: room
-      name: 5417.01.002 (Mol.Lab S1)
+      name: 5417.01.002 (Microbial Lab S1)
       subtext: "garching, Interims IV"
       subtext_bold: 01.5417.002@5417
     - id: 5416.EG.005

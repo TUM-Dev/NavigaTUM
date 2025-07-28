@@ -14,7 +14,7 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       parsed_id: "MW \u00191801\u0017"
     - id: 0508.01.801
       type: room
-      name: 0508.01.801 (Wasch.-/Putzraum)
+      name: 0508.01.801 (WC/Dusche)
       subtext: "stammgelände, Heizkraftwerk (Z8)"
       subtext_bold: 1801@0508
       parsed_id: "\u00191801\u0017 Heizkraftwerk (Z8)"

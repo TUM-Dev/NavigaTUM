@@ -51,11 +51,11 @@ info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 's
       name: 2906.DG.009 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 6009@2906
-    - id: 2906.02.001
+    - id: 2906.02.013
       type: room
-      name: 2906.02.001 (Bibliothek)
+      name: 2906.02.013 (Elektroniklabor)
       subtext: Karlstraße 45/47
-      subtext_bold: 2001@2906
+      subtext_bold: 2013@2906
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

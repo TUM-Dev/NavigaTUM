@@ -48,13 +48,13 @@ info: "'MI HS3' should get '5606.EG.011' in 1 results # This should match this L
       type: joined_building
       name: "Fakultät Mathematik & Informatik (FMI oder \u0019MI\u0017)"
       subtext: Gebäudekomplex
-    - id: "5605"
-      type: building
-      name: Finger 05 (BT05)
-      subtext: Gebäudeteil
     - id: "5606"
       type: building
       name: Finger 06 (BT06)
+      subtext: Gebäudeteil
+    - id: "5605"
+      type: building
+      name: Finger 05 (BT05)
       subtext: Gebäudeteil
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
