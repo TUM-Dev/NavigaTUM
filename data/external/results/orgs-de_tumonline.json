@@ -1636,8 +1636,8 @@
   },
   "16057": {
     "code": "TUMEPA1",
-    "name": "Lehrstuhl f\u00fcr Pathologie (N.N.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Allgemeine Pathologie und Pathologische Anatomie (Dr. Mogler komm.)/Pathologie (N.N.)"
+    "name": "Lehrstuhl f\u00fcr Pathologie (Prof. Mogler komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Allgemeine Pathologie und Pathologische Anatomie (Dr. Mogler komm.)/Pathologie (Prof. Mogler komm.)"
   },
   "16065": {
     "code": "TUMEPT1",
@@ -11308,5 +11308,15 @@
     "code": "TUZEI22",
     "name": "ZIEL-Prof. Timper (MH 1513)",
     "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Timper (MH 1513)"
+  },
+  "57457": {
+    "code": "TUWIH16",
+    "name": "Professur f\u00fcr Transportation Analytics (Prof. Li) (TUM Campus Heilbronn)",
+    "path": "TUM/Schools/Management/Departments/Operations and Technology/Transportation Analytics (Prof. Li) (TUM Campus Heilbronn)"
+  },
+  "57458": {
+    "code": "TUZVRUG",
+    "name": "Raum- und Geodatenbestand (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Raum- und Geodatenbestand (ZA 4)"
   }
 }
