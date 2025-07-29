@@ -1636,8 +1636,8 @@
   },
   "16057": {
     "code": "TUMEPA1",
-    "name": "Chair of Pathology (N.N.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Pathology (N.N.)"
+    "name": "Chair of Pathology (Prof. Mogler komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Pathology (Prof. Mogler komm.)"
   },
   "16065": {
     "code": "TUMEPT1",
@@ -11308,5 +11308,15 @@
     "code": "TUZEI22",
     "name": "Area ZIEL-Prof. Timper (MH 1513)",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "57457": {
+    "code": "TUWIH16",
+    "name": "Assistant Professorship of Transportation Analytics (DSS) (Prof. Li)",
+    "path": "TUM/Schools/Management/Departments/Operations and Technology/Transportation Analytics (DSS) (Prof. Li)"
+  },
+  "57458": {
+    "code": "TUZVRUG",
+    "name": "Spatial and geodata inventory (ZA4)",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Spatial and geodata inventory (ZA4)"
   }
 }
