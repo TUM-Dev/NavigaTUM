@@ -282,7 +282,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
       - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && (PathPrefix(`/tiles`) || PathPrefix(`/_/`))"
+      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && (PathPrefix(`/tiles`) || PathPrefix(`/_/`) || PathPrefix(`/catalog`))"
       - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker, navigatum-martin-cache-headers@docker"
       - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/tiles"
       - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age=604800" # 7 days
