@@ -2629,11 +2629,6 @@
     "name": "Teilbibliothek Weihenstephan",
     "path": "TUM/Zentrale Serviceeinrichtungen/Universit\u00e4tsbibliothek/Standort Freising/Teilbibliothek Weihenstephan"
   },
-  "26744": {
-    "code": "TUZEBCH",
-    "name": "Teilbibliothek Chemie",
-    "path": "TUM/Zentrale Serviceeinrichtungen/Universit\u00e4tsbibliothek/Standort Garching/Teilbibliothek Chemie"
-  },
   "26745": {
     "code": "TUZEBMW",
     "name": "Teilbibliothek Maschinenwesen",
@@ -2643,11 +2638,6 @@
     "code": "TUZEBMI",
     "name": "Teilbibliothek Mathematik / Informatik",
     "path": "TUM/Zentrale Serviceeinrichtungen/Universit\u00e4tsbibliothek/Standort Garching/Teilbibliothek Mathematik / Informatik"
-  },
-  "26747": {
-    "code": "TUZEBPH",
-    "name": "Teilbibliothek Physik",
-    "path": "TUM/Zentrale Serviceeinrichtungen/Universit\u00e4tsbibliothek/Standort Garching/Teilbibliothek Physik"
   },
   "26827": {
     "code": "TUZEIVE",
@@ -3032,12 +3022,12 @@
   "38003": {
     "code": "TUZV44V",
     "name": "Hausmeisterdienste am TUM CiO (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)"
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)"
   },
   "38004": {
     "code": "TUZV44W",
     "name": "Werkstatt Elektrotechnik am TUM CiO (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Werkstatt Elektrotechnik am TUM CiO (ZA 4)"
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Werkstatt Elektrotechnik am TUM CiO (ZA 4)"
   },
   "38010": {
     "code": "TUZV45A",
@@ -3179,11 +3169,6 @@
     "name": "Professur f\u00fcr Molekulare Katalyse (Prof. K\u00fchn)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Molekulare Katalyse (Prof. K\u00fchn)"
   },
-  "40661": {
-    "code": "TUEDFED",
-    "name": "Ehemalige TUM School of Education",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education"
-  },
   "40711": {
     "code": "TUMEZN1",
     "name": "Lehrstuhl f\u00fcr Zellbiologie des Nervensystems (Prof. Misgeld)",
@@ -3238,11 +3223,6 @@
     "code": "TUMEDE4",
     "name": "Professur f\u00fcr Epigenetik der Hautalterung (Prof. Djabali)",
     "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Epigenetik der Hautalterung (Prof. Djabali)"
-  },
-  "41836": {
-    "code": "TUEINST",
-    "name": "Juniorprofessur f\u00fcr Neurowissenschaftliche Systemtheorie (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik/Lehrst\u00fchle und Professuren/Neurowissenschaftliche Systemtheorie (N.N.)"
   },
   "41916": {
     "code": "TUMAM14",
@@ -10187,7 +10167,7 @@
   "55301": {
     "code": "TUZVCIO",
     "name": "Campus im Olympiapark (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)"
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)"
   },
   "55302": {
     "code": "TUZVVUF",
@@ -10213,11 +10193,6 @@
     "code": "TUZVEUM",
     "name": "Energie- und Medienversorgung (ZA 4)",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Energie- und Medienversorgung (ZA 4)"
-  },
-  "55307": {
-    "code": "TUZVTPL",
-    "name": "Technische Projektsteuerung Life Sciences (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Technische Projektsteuerung Life Sciences (ZA 4)"
   },
   "55317": {
     "code": "TUS4P9N",

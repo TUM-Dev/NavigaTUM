@@ -2629,11 +2629,6 @@
     "name": "Central Service Institutions     Teilbibliothek Weihenstephan",
     "path": "TUM/Central Service Institutions/University Libraries/Site Weihenstephan/Central Service Institutions"
   },
-  "26744": {
-    "code": "TUZEBCH",
-    "name": "Central Service Institutions     Teilbibliothek Chemie",
-    "path": "TUM/Central Service Institutions/University Libraries/Site Garching/Central Service Institutions"
-  },
   "26745": {
     "code": "TUZEBMW",
     "name": "Central Service Institutions     Teilbibliothek Maschinenwesen",
@@ -2642,11 +2637,6 @@
   "26746": {
     "code": "TUZEBMI",
     "name": "Central Service Institutions     Teilbibliothek Mathematik / Informatik",
-    "path": "TUM/Central Service Institutions/University Libraries/Site Garching/Central Service Institutions"
-  },
-  "26747": {
-    "code": "TUZEBPH",
-    "name": "Central Service Institutions     Teilbibliothek Physik",
     "path": "TUM/Central Service Institutions/University Libraries/Site Garching/Central Service Institutions"
   },
   "26827": {
@@ -3032,12 +3022,12 @@
   "38003": {
     "code": "TUZV44V",
     "name": "Maintenance Service at TUM CiO (Central department 4)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Maintenance Service at TUM CiO (Central department 4)"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Maintenance Service at TUM CiO (Central department 4)"
   },
   "38004": {
     "code": "TUZV44W",
     "name": "Electrical engineering, Metalworking shop (Central department 4)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Electrical engineering, Metalworking shop (Central department 4)"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Electrical engineering, Metalworking shop (Central department 4)"
   },
   "38010": {
     "code": "TUZV45A",
@@ -3179,11 +3169,6 @@
     "name": "Associate Professorship of Molecular Catalysis (Prof. K\u00fchn)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Molecular Catalysis (Prof. K\u00fchn)"
   },
-  "40661": {
-    "code": "TUEDFED",
-    "name": "Former TUM School of Education",
-    "path": "TUM/Academic department/Former TUM School of Education"
-  },
   "40711": {
     "code": "TUMEZN1",
     "name": "Chair of Neuronal Cell Biology (Prof. Misgeld)",
@@ -3238,11 +3223,6 @@
     "code": "TUMEDE4",
     "name": "Associate Professorship of Epigenetics of Skin Aging (Prof. Djabali)",
     "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Epigenetics of Skin Aging (Prof. Djabali)"
-  },
-  "41836": {
-    "code": "TUEINST",
-    "name": "Assistant Professorship of Neuroscientific System Theory (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Chairs and Professorships/Neuroscientific System Theory (N.N.)"
   },
   "41916": {
     "code": "TUMAM14",
@@ -10187,7 +10167,7 @@
   "55301": {
     "code": "TUZVCIO",
     "name": "TUM Campus at the Olympic Park (Central department 4)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)"
   },
   "55302": {
     "code": "TUZVVUF",
@@ -10213,11 +10193,6 @@
     "code": "TUZVEUM",
     "name": "Energy and Media Supply (Central department 4)",
     "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Central Technology (Central department 4)/Energy and Media Supply (Central department 4)"
-  },
-  "55307": {
-    "code": "TUZVTPL",
-    "name": "Technical Project Management Life Sciences (Central department 4)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Weihenstephan (Central department 4)/Technical Project Management Life Sciences (Central department 4)"
   },
   "55317": {
     "code": "TUS4P9N",
