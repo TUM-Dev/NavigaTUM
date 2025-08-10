@@ -236,26 +236,3 @@ impl From<ConnectumEvent> for Event {
         }
     }
 }
-
-#[derive(Clone, Debug, sqlx::Type)]
-#[sqlx(type_name = "EventType")]
-#[sqlx(rename_all = "lowercase")]
-pub enum EventType {
-    Lecture,
-    Exercise,
-    Exam,
-    Barred,
-    Other,
-}
-
-impl Display for EventType {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            EventType::Lecture => write!(f, "lecture"),
-            EventType::Exercise => write!(f, "exercise"),
-            EventType::Exam => write!(f, "exam"),
-            EventType::Barred => write!(f, "barred"),
-            EventType::Other => write!(f, "other"),
-        }
-    }
-}
