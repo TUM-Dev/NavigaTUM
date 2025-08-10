@@ -2,23 +2,10 @@
 import { useEditProposal } from "~/composables/editProposal";
 import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
 
-interface Props {
-  /**
-   * Current room context - if provided, this room will be pre-selected for edits
-   */
-  currentRoom?: {
-    id: string;
-    name: string;
-  };
-}
-
-const props = defineProps<Props>();
-
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
 
 // State for managing edits
-const showLocationPicker = ref(false);
 const showImageMetadataModal = ref(false);
 const selectedImageFile = ref<{ base64: string; fileName: string } | null>(null);
 
@@ -29,20 +16,6 @@ const imageMetadata = ref({
   source: { text: "", url: "" },
   offsets: { header: null as number | null, thumb: null as number | null },
 });
-
-// Get initial coordinates from existing edits or use TUM default
-const getInitialCoordinates = () => {
-  const edits = editProposal.value.data.edits;
-  for (const roomId of Object.keys(edits)) {
-    const edit = edits[roomId];
-    if (edit && edit.coordinate) {
-      return { lat: edit.coordinate.lat, lon: edit.coordinate.lon };
-    }
-  }
-  return { lat: 48.2624449, lon: 11.6677914 }; // TUM Hauptgebäude default
-};
-
-const locationPickerCoords = ref(getInitialCoordinates());
 
 // Computed properties
 const hasEdits = computed(() => Object.keys(editProposal.value.data.edits).length > 0);
@@ -93,11 +66,6 @@ function handleImageUpload() {
   }
 }
 
-function getCurrentRoomContext(): string | null {
-  // Return current room if available
-  return props.currentRoom?.id || null;
-}
-
 function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = {
@@ -134,7 +102,7 @@ function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
 }
 
 function startLocationEdit() {
-  const roomId = getCurrentRoomContext();
+  const roomId = editProposal.selected?.id;
   if (!roomId) {
     console.error("No room context available for location edit");
     return;
@@ -147,23 +115,11 @@ function startLocationEdit() {
       image: null,
     };
   }
-
-  // Update picker coordinates to existing location or default
-  const existingEdit = editProposal.value.data.edits[roomId];
-  if (existingEdit && existingEdit.coordinate) {
-    locationPickerCoords.value.lat = existingEdit.coordinate.lat;
-    locationPickerCoords.value.lon = existingEdit.coordinate.lon;
-  } else {
-    const initialCoords = getInitialCoordinates();
-    locationPickerCoords.value.lat = initialCoords.lat;
-    locationPickerCoords.value.lon = initialCoords.lon;
-  }
-
-  showLocationPicker.value = true;
+  editProposal.value.locationPicker.open = true;
 }
 
 function onLocationSelected(lat: number, lon: number) {
-  const roomId = getCurrentRoomContext();
+  const roomId = editProposal.selected?.id;
   if (roomId) {
     if (!editProposal.value.data.edits[roomId]) {
       editProposal.value.data.edits[roomId] = {
@@ -174,18 +130,13 @@ function onLocationSelected(lat: number, lon: number) {
 
     editProposal.value.data.edits[roomId]!.coordinate = { lat, lon };
   }
-
-  showLocationPicker.value = false;
-}
-
-function cancelLocationPicker() {
-  showLocationPicker.value = false;
+  editProposal.value.locationPicker.open = false;
 }
 
 function confirmImageMetadata(metadata: typeof imageMetadata.value) {
   showImageMetadataModal.value = false;
 
-  const roomId = getCurrentRoomContext();
+  const roomId = editProposal.selected?.id;
   if (roomId && selectedImageFile.value) {
     addImageEditForRoom(roomId, selectedImageFile.value.base64, metadata);
     selectedImageFile.value = null;
@@ -211,15 +162,6 @@ function cancelImageMetadata() {
     source: { text: "", url: "" },
     offsets: { header: null, thumb: null },
   };
-}
-
-function getRoomDisplayName(roomId: string): string {
-  // Check current room first
-  if (props.currentRoom && props.currentRoom.id === roomId) {
-    return `${props.currentRoom.name} (${props.currentRoom.id})`;
-  }
-  // Fallback to room ID if no current room context
-  return roomId;
 }
 
 function getEditTypeDisplay(roomId: string): string {
@@ -276,16 +218,16 @@ function getEditTypeDisplay(roomId: string): string {
         <ImageMetadataModal :show="showImageMetadataModal" :metadata="imageMetadata" @confirm="confirmImageMetadata" @cancel="cancelImageMetadata" />
 
         <!-- Location Picker Modal -->
-        <div v-if="showLocationPicker" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="cancelLocationPicker">
+        <div v-if="editProposal.value.locationPicker.open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="()=>editProposal.value.locationPicker.open = falses">
           <div class="bg-white rounded-lg p-6 m-4 max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <h3 class="text-lg font-semibold mb-4 text-zinc-900">{{ t("select_location") }}</h3>
             <LocationPicker
-              :initial-lat="locationPickerCoords.lat"
-              :initial-lon="locationPickerCoords.lon"
+              :initial-lat="editProposal.value.locationPicker.lat"
+              :initial-lon="editProposal.value.locationPicker.lon"
               @coordinates-changed="
-                (lat, lon) => {
-                  locationPickerCoords.lat = lat;
-                  locationPickerCoords.lon = lon;
+                (lat: number, lon: number) => {
+                  editProposal.value.locationPicker.lat = lat;
+                  editProposal.value.locationPicker.lon = lon;
                 }
               "
             />
@@ -308,7 +250,7 @@ function getEditTypeDisplay(roomId: string): string {
           <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
             <div class="flex justify-between items-start">
               <div class="flex-grow">
-                <p class="font-medium text-sm text-zinc-900">{{ getRoomDisplayName(String(roomId)) }}</p>
+                <p class="font-medium text-sm text-zinc-900">{{ editProposal.value.selected?.name }}</p>
                 <div class="text-xs text-zinc-600 mt-1">
                   <p>{{ t("edit_type") }}: {{ getEditTypeDisplay(String(roomId)) }}</p>
                 </div>

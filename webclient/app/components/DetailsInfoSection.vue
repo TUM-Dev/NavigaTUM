@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { PlusIcon } from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
+import { useEditProposal } from "~/composables/editProposal";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 
-defineProps<{ data: LocationDetailsResponse }>();
+const props = defineProps<{ data: LocationDetailsResponse }>();
 
 const shownImage = defineModel<ImageInfoResponse>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
@@ -12,6 +14,15 @@ const slideshowOpen = defineModel<boolean>("slideshow_open", {
 });
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
+const editProposal = useEditProposal();
+
+const suggestImage = () => {
+  editProposal.suggestImage(
+    props.data.id,
+    props.data.name,
+    `I would like to suggest a new image for ${props.data.name} (${props.data.id}) that would be helpful for navigation.`,
+  );
+};
 </script>
 
 <template>
@@ -20,12 +31,7 @@ const runtimeConfig = useRuntimeConfig();
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">
       {{ t("info_title") }}
     </h2>
-    <DetailsPropertyTable
-      :id="data.id"
-      :props="data.props"
-      :name="data.name"
-      :navigation-enabled="data.coords.accuracy !== 'building'"
-    />
+    <DetailsPropertyTable :id="data.id" :props="data.props" :name="data.name" :navigation-enabled="data.coords.accuracy !== 'building'" />
   </div>
 
   <!-- Informationen card (desktop) -->
@@ -33,38 +39,43 @@ const runtimeConfig = useRuntimeConfig();
        as long as only little information is there -->
   <div class="hidden lg:block">
     <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
-      <button
-        v-if="data.imgs?.length && data.imgs[0]"
-        type="button"
-        class="focusable rounded-t-lg"
-        @click="slideshowOpen = true"
-      >
-        <NuxtImg
-          :alt="t('image_alt')"
-          :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-          class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
-          preload
-          placeholder
-          sizes="500px sm:200px md:300px md:400px"
-          densities="x1 x2"
-        />
-      </button>
+      <div v-if="data.imgs?.length && data.imgs[0]" class="relative rounded-t-lg">
+        <button type="button" class="focusable block w-full rounded-t-lg" @click="slideshowOpen = true">
+          <NuxtImg
+            :alt="t('image_alt')"
+            :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
+            class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
+            preload
+            placeholder
+            sizes="500px sm:200px md:300px md:400px"
+            densities="x1 x2"
+          />
+        </button>
+        <button
+          type="button"
+          class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm transition-colors"
+          :title="t('add_image')"
+          @click="suggestImage"
+        >
+          <PlusIcon class="h-4 w-4 text-zinc-600" />
+        </button>
+      </div>
+      <div v-else-if="!data.imgs?.length" class="bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-t-lg">
+        <button
+          type="button"
+          class="w-full aspect-[4/3] flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-700 hover:border-zinc-400 transition-colors"
+          @click="suggestImage"
+        >
+          <PlusIcon class="h-8 w-8 mb-2" />
+          <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
+        </button>
+      </div>
       <div class="px-5 py-3">
         <span class="sr-only">{{ t("info_title") }}</span>
-        <DetailsPropertyTable
-          v-if="data"
-          :id="data.id"
-          :props="data.props"
-          :name="data.name"
-          :navigation-enabled="data.coords.accuracy !== 'building'"
-        />
+        <DetailsPropertyTable v-if="data" :id="data.id" :props="data.props" :name="data.name" :navigation-enabled="data.coords.accuracy !== 'building'" />
         <div class="mt-3 grid gap-2">
           <Toast v-if="data.coords.accuracy === 'building'" level="warning" :msg="t('msg.inaccurate_only_building')" />
-          <Toast
-            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('msg.no_floor_overlay')"
-          />
+          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('msg.no_floor_overlay')" />
           <Toast v-if="data.props?.comment" :msg="data.props.comment" />
         </div>
       </div>
@@ -85,12 +96,16 @@ const runtimeConfig = useRuntimeConfig();
 de:
   image_alt: Header-Bild, zeigt das Gebäude
   info_title: Informationen
+  add_image: Bild hinzufügen
+  add_first_image: Erstes Bild hinzufügen
   msg:
     inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
 en:
   image_alt: Header image, showing the building
   info_title: Information
+  add_image: Add image
+  add_first_image: Add first image
   msg:
     inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.

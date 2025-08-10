@@ -49,10 +49,17 @@ function openEditProposal() {
 
   // Pre-populate coordinates if provided and we have an entityId
   if (props.coordinates && props.entityId) {
-    editProposal.value.data.edits[props.entityId]["coordinate"] = {
-        lat: props.coordinates.lat,
-        lon: props.coordinates.lon,
+    // Initialize edit object if it doesn't exist
+    if (!editProposal.value.data.edits[props.entityId]) {
+      editProposal.value.data.edits[props.entityId] = {
+        coordinate: null,
+        image: null,
       };
+    }
+    editProposal.value.data.edits[props.entityId].coordinate = {
+      lat: props.coordinates.lat,
+      lon: props.coordinates.lon,
+    };
   }
 
   editProposal.value.open = true;

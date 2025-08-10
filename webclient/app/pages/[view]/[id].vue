@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import { CalendarDaysIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { useClipboard } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import type { components } from "~/api_types";
+import { useEditProposal } from "~/composables/editProposal";
 
 definePageMeta({
   validate(route) {
@@ -24,9 +25,7 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -34,17 +33,28 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const editProposal = useEditProposal();
+
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+
+// Helper functions for edit proposals
+const suggestLocationFix = () => {
+  if (!data.value) return;
+  editProposal.suggestLocationFix(data.value.id, data.value.name, { lat: data.value.coords.lat, lon: data.value.coords.lon });
+};
+
+const suggestImage = () => {
+  if (!data.value) return;
+  editProposal.suggestImage(
+    data.value.id,
+    data.value.name,
+    `I would like to suggest a new image for ${data.value.name} (${data.value.id}) that would be helpful for navigation.`,
+  );
+};
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
   mode: "replace",
@@ -114,24 +124,40 @@ useSeoMeta({
 <template>
   <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
-    <button
-      v-if="data.imgs?.length && data.imgs[0]"
-      type="button"
-      class="focusable block lg:hidden print:!hidden"
-      @click="slideshowOpen = true"
-    >
-      <NuxtImg
-        width="256"
-        height="105"
-        :alt="t('image_alt')"
-        :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-        sizes="1024px sm:256px md:512px"
-        densities="x1 x2"
-        class="block w-full"
-        preload
-        :placeholder="[256, 105]"
-      />
-    </button>
+    <div v-if="data.imgs?.length && data.imgs[0]" class="relative block lg:hidden print:!hidden">
+      <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
+        <NuxtImg
+          width="256"
+          height="105"
+          :alt="t('image_alt')"
+          :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
+          sizes="1024px sm:256px md:512px"
+          densities="x1 x2"
+          class="block w-full"
+          preload
+          :placeholder="[256, 105]"
+        />
+      </button>
+      <button
+        type="button"
+        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm transition-colors"
+        :title="t('add_image')"
+        @click="suggestImage"
+      >
+        <PlusIcon class="h-4 w-4 text-zinc-600" />
+      </button>
+    </div>
+    <!-- No header image placeholder (on mobile) -->
+    <div v-else-if="!data.imgs?.length" class="relative block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg">
+      <button
+        type="button"
+        class="w-full aspect-[256/105] flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-700 hover:border-zinc-400 transition-colors"
+        @click="suggestImage"
+      >
+        <PlusIcon class="h-8 w-8 mb-2" />
+        <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
+      </button>
+    </div>
 
     <!-- Entry header / title -->
     <div class="px-5">
@@ -172,6 +198,15 @@ useSeoMeta({
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-7 w-7 hover:text-blue-900" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
+            <ClientOnly>
+              <EditProposalTrigger
+                :entity-id="data.id"
+                :coordinates="{ lat: data.coords.lat, lon: data.coords.lon }"
+                :context="`Improvements for ${data.name} (${data.id})`"
+                variant="link"
+                size="sm"
+              />
+            </ClientOnly>
             <DetailsFeedbackButton />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
@@ -193,23 +228,22 @@ useSeoMeta({
         @change="(index) => (selectedMap = index === 0 ? 'interactive' : 'plans')"
       >
         <div class="mb-3 grid gap-2 lg:hidden">
-          <Toast
-            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('no_floor_overlay')"
-          />
+          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('no_floor_overlay')" />
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
+          <div
+            v-if="data.type === 'room' && data.coords.accuracy === null"
+            class="text-blue-900 bg-blue-100 border-blue-300 text-pretty rounded border p-1.5 text-sm leading-5 flex justify-between items-center"
+          >
+            <span>{{ t("location_not_verified") }}</span>
+            <button type="button" class="text-blue-600 hover:text-blue-800 text-sm font-medium ml-2" @click="suggestLocationFix">
+              {{ t("help_verify") }}
+            </button>
+          </div>
         </div>
         <TabPanels>
           <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
             <ClientOnly>
-              <DetailsInteractiveMap
-                :id="data.id"
-                :coords="data.coords"
-                :type="data.type"
-                :maps="data.maps"
-                :debug-mode="!!route.query.debug"
-              />
+              <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :debug-mode="!!route.query.debug" />
             </ClientOnly>
           </TabPanel>
           <TabPanel id="plansMapPanel" :tab-index="1">
@@ -228,9 +262,7 @@ useSeoMeta({
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
-                selectedMap === 'interactive'
-                  ? 'text-zinc-900 bg-zinc-300 shadow'
-                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
+                selectedMap === 'interactive' ? 'text-zinc-900 bg-zinc-300 shadow' : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
               ]"
             >
               {{ t("map.interactive") }}
@@ -257,15 +289,16 @@ useSeoMeta({
       <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
     </div>
 
+    <!-- Edit Proposal Modal -->
+    <ClientOnly>
+      <EditProposalModal />
+    </ClientOnly>
+
     <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
     <ClientOnly>
       <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
     </ClientOnly>
-    <DetailsSources
-      :coords="data.coords"
-      :sources="data.sources"
-      :image="data.imgs?.length ? data.imgs[0] : undefined"
-    />
+    <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
@@ -288,6 +321,10 @@ de:
     calendar: Kalender öffnen
     copy_link: Link kopieren
     favorites: Zu Favoriten hinzufügen
+  add_image: Bild hinzufügen
+  add_first_image: Erstes Bild hinzufügen
+  location_not_verified: Position dieses Raums ist nicht verifiziert
+  help_verify: Helfen zu verifizieren
   Loading data...: Lädt Daten...
 en:
   image_alt: Header image, showing the building
@@ -300,5 +337,9 @@ en:
     calendar: Open calendar
     copy_link: Copy link
     favorites: Add to favorites
+  add_image: Add image
+  add_first_image: Add first image
+  location_not_verified: This room's location is not verified
+  help_verify: Help verify
   Loading data...: Loading data...
 </i18n>
