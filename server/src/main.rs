@@ -197,8 +197,8 @@ async fn main() -> anyhow::Result<()> {
     // feedback specific initialisation
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)
-        .seconds_per_request(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
-        .burst_size(50)
+        .seconds_per_request(SECONDS_PER_DAY / 60) // replenish new token every .. seconds
+        .burst_size(100)
         .finish()
         .expect("Invalid configuration of the governor");
     let recorded_tokens = web::Data::new(feedback::tokens::RecordedTokens::default());
