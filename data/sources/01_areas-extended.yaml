@@ -908,10 +908,6 @@ frm-2:
     coords: { lat: 48.26616, lon: 11.67343 }
     osm: [ "way/774866202" ]
 
-# estimates, exact position uncertain (RCM-BMA/ELA-Container)
-5268:
-    coords: { lat: 48.26501, lon: 11.67426 }
-
 5305:
     coords: { lat: 48.26700052343523, lon: 11.671869485689989 }
 
