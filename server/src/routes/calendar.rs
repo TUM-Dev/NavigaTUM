@@ -292,7 +292,6 @@ mod db_tests {
 
     use super::*;
     use crate::AppData;
-    use crate::db::calendar::EventType;
     use crate::setup::tests::PostgresTestContainer;
 
     /// Workaround because [`Option::unwrap()`] is not (yet) available in const context.
@@ -341,7 +340,7 @@ mod db_tests {
                     title_de: "Quantenteleportation".into(),
                     title_en: "Quantum teleportation".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
-                    entry_type: EventType::Lecture.to_string(),
+                    entry_type: "lecture".to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -352,7 +351,7 @@ mod db_tests {
                     title_de: "Quantenteleportation 2".into(),
                     title_en: "Quantum teleportation 2".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
-                    entry_type: EventType::Lecture.to_string(),
+                    entry_type: "lecture".to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -363,7 +362,7 @@ mod db_tests {
                     title_de: "Wartung".into(),
                     title_en: "maintenance".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
-                    entry_type: EventType::Barred.to_string(),
+                    entry_type: "barred".to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -374,7 +373,7 @@ mod db_tests {
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
-                    entry_type: EventType::Other.to_string(),
+                    entry_type: "other".to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -385,7 +384,7 @@ mod db_tests {
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
-                    entry_type: EventType::Exam.to_string(),
+                    entry_type: "exam".to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
             ],
