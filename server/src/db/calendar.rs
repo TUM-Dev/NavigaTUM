@@ -4,7 +4,7 @@ use crate::limited::vec::LimitedVec;
 use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 use std::collections::HashMap;
-use std::fmt::{Debug, Display, Formatter};
+use std::fmt::{Debug, Formatter};
 use tracing::debug;
 use tracing::error;
 use tracing::warn;
