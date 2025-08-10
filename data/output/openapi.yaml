@@ -1130,7 +1130,7 @@ components:
           description: The image encoded as base64
           contentEncoding: base64
         metadata:
-          "$ref": "#/components/schemas/Source"
+          "$ref": "#/components/schemas/ImageMetadata"
     ImageInfoResponse:
       type: object
       description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp`
@@ -2041,12 +2041,11 @@ components:
           oneOf:
           - type: 'null'
           - "$ref": "#/components/schemas/RoomsOverviewResponse"
-    Source:
+    ImageMetadata:
       type: object
       required:
       - author
       - license
-      - source
       properties:
         author:
           type: string
@@ -2056,8 +2055,6 @@ components:
           oneOf:
           - type: 'null'
           - "$ref": "#/components/schemas/Offsets"
-        source:
-          "$ref": "#/components/schemas/Property"
     SourceResponse:
       type: object
       required:
