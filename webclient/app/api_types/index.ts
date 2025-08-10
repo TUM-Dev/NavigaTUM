@@ -410,7 +410,7 @@ export type components = {
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
-      readonly metadata: components["schemas"]["Source"];
+      readonly metadata: components["schemas"]["ImageMetadata"];
     };
     /** @description The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint */
     readonly ImageInfoResponse: {
@@ -935,11 +935,10 @@ export type components = {
       readonly featured_overview?: null | components["schemas"]["FeaturedOverviewResponse"];
       readonly rooms_overview?: null | components["schemas"]["RoomsOverviewResponse"];
     };
-    readonly Source: {
+    readonly ImageMetadata: {
       readonly author: string;
       readonly license: components["schemas"]["Property"];
       readonly offsets?: null | components["schemas"]["Offsets"];
-      readonly source: components["schemas"]["Property"];
     };
     readonly SourceResponse: {
       /**
