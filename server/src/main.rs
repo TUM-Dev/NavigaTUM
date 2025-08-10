@@ -214,7 +214,7 @@ async fn main() -> anyhow::Result<()> {
 
         docs::add_openapi_docs(
             App::new()
-                .wrap(Etag)
+                .wrap(Etag::default())
                 .wrap(prometheus.clone())
                 .wrap(cors)
                 .wrap(TracingLogger::default())
