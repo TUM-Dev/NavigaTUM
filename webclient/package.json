@@ -51,7 +51,7 @@
 		"vue-tsc": "2.2.12"
 	},
 	"type": "module",
-	"packageManager": "pnpm@10.7.0",
+	"packageManager": "pnpm@10.14.0",
 	"pnpm": {
 		"overrides": {
 			"vite": "npm:rolldown-vite@latest"
