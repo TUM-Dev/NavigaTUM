@@ -47,7 +47,7 @@
 		"openapi-typescript": "6.7.6",
 		"postcss": "8.5.6",
 		"tailwindcss": "3.4.17",
-		"typescript": "5.8.3",
+		"typescript": "5.9.2",
 		"vue-tsc": "2.2.12"
 	},
 	"type": "module",
