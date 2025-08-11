@@ -72,9 +72,8 @@ impl Image {
         Ok(())
     }
     fn image_should_be_saved_at(key: &str, image_dir: &Path) -> PathBuf {
-        let image_dir = image_dir.join("lg");
         let search_prefix = format!("{key}_");
-        let next_free_slot = std::fs::read_dir(image_dir.clone())
+        let next_free_slot = std::fs::read_dir(image_dir)
             .unwrap()
             .filter_map(Result::ok)
             .map(|e| e.file_name().to_str().unwrap().to_string())
@@ -105,8 +104,8 @@ impl Image {
 }
 impl AppliableEdit for Image {
     fn apply(&self, key: &str, base_dir: &Path) -> String {
-        let image_dir = base_dir.join("data").join("images");
-        let target = Self::image_should_be_saved_at(key, &image_dir);
+        let image_dir = base_dir.join("data").join("sources").join("img");
+        let target = Self::image_should_be_saved_at(key, &image_dir.join("lg"));
 
         let content_result = self.save_content(&target);
         let metadata_result = self.save_metadata(key, &image_dir);
