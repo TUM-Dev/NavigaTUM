@@ -132,20 +132,12 @@ useSeoMeta({
           :placeholder="[256, 105]"
         />
       </button>
-      <button
-        type="button"
-        class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm transition-colors"
-        :title="t('add_image')"
-        @click="suggestImage"
-      >
-        <PlusIcon class="h-4 w-4 text-zinc-600" />
-      </button>
     </div>
     <!-- No header image placeholder (on mobile) -->
-    <div v-else-if="!data.imgs?.length" class="relative block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg">
+    <div v-else-if="!data.imgs?.length" class="relative group hover:bg-zinc-200 hover:border-zinc-400 m-1 mt-2 block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg">
       <button
         type="button"
-        class="w-full aspect-[256/105] flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-700 hover:border-zinc-400 transition-colors"
+        class="w-full h-20 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
         @click="suggestImage"
       >
         <PlusIcon class="h-8 w-8 mb-2" />
@@ -265,11 +257,6 @@ useSeoMeta({
       <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
     </div>
 
-    <!-- Edit Proposal Modal -->
-    <ClientOnly>
-      <EditProposalModal />
-    </ClientOnly>
-
     <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
     <ClientOnly>
       <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
@@ -282,6 +269,7 @@ useSeoMeta({
   </div>
   <ClientOnly>
     <LazyCalendarModal v-if="calendar.length" />
+    <LazyEditProposalModal v-if="editProposal.open" />
   </ClientOnly>
 </template>
 

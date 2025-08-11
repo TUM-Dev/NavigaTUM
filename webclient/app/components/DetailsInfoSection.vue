@@ -65,19 +65,11 @@ const suggestLocationFix = () => {
             densities="x1 x2"
           />
         </button>
-        <button
-          type="button"
-          class="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm transition-colors"
-          :title="t('add_image')"
-          @click="suggestImage"
-        >
-          <PlusIcon class="h-4 w-4 text-zinc-600" />
-        </button>
       </div>
-      <div v-else-if="!data.imgs?.length" class="bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-t-lg">
+      <div v-else-if="!data.imgs?.length" class="bg-zinc-100 group hover:border-zinc-400 hover:bg-zinc-200 border-2 border-dashed border-zinc-300 rounded-t-lg">
         <button
           type="button"
-          class="w-full aspect-[4/3] flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-700 hover:border-zinc-400 transition-colors"
+          class="w-full h-24 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400"
           @click="suggestImage"
         >
           <PlusIcon class="h-8 w-8 mb-2" />
