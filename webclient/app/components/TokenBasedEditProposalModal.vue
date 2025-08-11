@@ -118,7 +118,7 @@ function sendForm() {
 
     <div class="flex flex-col gap-1">
       <slot name="modal" />
-      <div>
+      <div class="mt-6">
         <Checkbox id="privacy-checked" v-model="privacyChecked">
           <template #default>
             <I18nT tag="p" keypath="public.agreement" class="font-bold">

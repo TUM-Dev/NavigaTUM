@@ -89,31 +89,32 @@
           />
         </div>
 
-        <!-- License -->
+        <!-- License Info -->
         <div>
-          <label class="block text-sm font-medium text-zinc-700 mb-1"> {{ t("image_license") }} <span class="text-red-500">*</span> </label>
-          <input
-            v-model="localMetadata.license.text"
-            type="text"
-            :placeholder="t('image_license_placeholder')"
-            class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
-            required
-          />
-          <input
-            v-model="localMetadata.license.url"
-            type="url"
-            :placeholder="t('image_license_url_placeholder')"
-            class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex items-start">
+              <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <div>
+                <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
+                <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="flex gap-2 mt-6">
-        <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !localMetadata.license.text || !selectedFile">
-          {{ t("confirm_metadata") }}
-        </Btn>
+      <div class="flex justify-end gap-2 mt-6">
         <Btn variant="secondary" @click="emit('cancel')">
           {{ t("cancel") }}
+        </Btn>
+        <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !selectedFile">
+          {{ t("confirm") }}
         </Btn>
       </div>
     </div>
@@ -145,7 +146,7 @@ const { t } = useI18n();
 // Create a local copy of metadata to avoid mutating props
 const localMetadata = ref<ImageMetadata>({
   author: "",
-  license: { text: "", url: "" },
+  license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
 });
 
 // Computed property for selected file
@@ -163,7 +164,7 @@ watch(
   (newMetadata: DeepWritable<ImageMetadata>) => {
     localMetadata.value = {
       author: newMetadata.author,
-      license: { ...newMetadata.license },
+      license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
     };
   },
   { immediate: true },
@@ -265,10 +266,9 @@ de:
   selected_file: Ausgewählte Datei
   image_author: Autor
   image_author_placeholder: Wer hat dieses Bild erstellt?
-  image_license: Lizenz
-  image_license_placeholder: z.B. CC BY 4.0, Eigenes Werk, etc.
-  image_license_url_placeholder: Link zur Lizenz (optional)
-  confirm_metadata: Metadaten bestätigen
+  license_info_title: CC BY 4.0 - Frei zu verwenden mit Namensnennung
+  license_info_description: Alle hochgeladenen Bilder werden unter der CC BY 4.0 Lizenz veröffentlicht. Das bedeutet, jeder kann das Bild verwenden, solange du als Autor genannt wirst.
+  confirm: Bild hinzufügen
   cancel: Abbrechen
 en:
   image_metadata_title: Suggest a new Image
@@ -285,9 +285,8 @@ en:
   selected_file: Selected file
   image_author: Author
   image_author_placeholder: Who created this image?
-  image_license: License
-  image_license_placeholder: e.g. CC BY 4.0, Own work, etc.
-  image_license_url_placeholder: Link to license (optional)
-  confirm_metadata: Confirm Metadata
+  license_info_title: CC BY 4.0 - Free to use with attribution
+  license_info_description: All uploaded images are published under the CC BY 4.0 license. This means anyone can use the image as long as they credit you as the author.
+  confirm: Add image
   cancel: Cancel
 </i18n>
