@@ -12,7 +12,7 @@ pub struct Description {
 impl Description {
     pub fn add_context(&mut self, additional_context: &str) {
         if !additional_context.is_empty() {
-            self.body += &format!("Additional context: {additional_context}\n");
+            self.body += &format!("## Additional context:\n> {additional_context}\n");
         }
     }
     pub fn appply_set<T: AppliableEdit>(
@@ -22,9 +22,14 @@ impl Description {
         base_dir: &Path,
     ) {
         if !set.is_empty() {
-            self.title = format!("{amount} {category_name} edits", amount = set.len());
+            let edits = if set.len() == 1 { "edit" } else { "edits" };
+            if self.title.is_empty() {
+                self.title = format!("{amount} {category_name} {edits}", amount = set.len());
+            } else {
+                self.title += &format!(" and {amount} {category_name} {edits}", amount = set.len());
+            }
 
-            self.body += &format!("The following {category_name} edits were made:\n");
+            self.body += &format!("\nThe following {category_name} edits were made:\n");
 
             self.body += "| entry | edit | \n";
             self.body += "| --- | --- | \n";
