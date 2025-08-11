@@ -13,10 +13,12 @@ use super::AppliableEdit;
 
 #[serde_with::skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
-pub struct Source {
+pub struct ImageMetadata {
+    /// Who created the image
     author: String,
+    /// The license under which the image is distributed
     license: Property,
-    source: Property,
+    /// Advanced metadata to control how the image is displayed
     offsets: Option<Offsets>,
 }
 #[serde_with::skip_serializing_none]
@@ -37,14 +39,14 @@ pub struct Image {
     /// The image encoded as base64
     #[schema(content_encoding = "base64")]
     content: String,
-    metadata: Source,
+    metadata: ImageMetadata,
 }
 
 impl Image {
     fn apply_metadata_to(
         &self,
         key: &str,
-        image_sources: &mut BTreeMap<String, BTreeMap<u32, Source>>,
+        image_sources: &mut BTreeMap<String, BTreeMap<u32, ImageMetadata>>,
     ) {
         let metadata = self.metadata.clone();
         match image_sources.get_mut(key) {
@@ -60,7 +62,7 @@ impl Image {
     fn save_metadata(&self, key: &str, image_dir: &Path) -> anyhow::Result<()> {
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
-            serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, Source>>>(file)?;
+            serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, ImageMetadata>>>(file)?;
         // add the desired change
         self.apply_metadata_to(key, &mut image_sources);
         // save to disk
@@ -141,13 +143,9 @@ mod tests {
     fn test_image() -> Image {
         Image {
             content: "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII=".to_string(),
-            metadata: Source {
+            metadata: ImageMetadata {
                 author: "String".to_string(),
                 license: Property {
-                    text: "String".to_string(),
-                    url: None,
-                },
-                source: Property {
                     text: "String".to_string(),
                     url: None,
                 },

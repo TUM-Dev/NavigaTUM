@@ -3349,16 +3349,6 @@
     "name": "Werkstatt u. B\u00fcrogeb\u00e4ude FRM II (UYW)",
     "tumonline_id": 2449
   },
-  "5268": {
-    "address": {
-      "place": "Garching b. M\u00fcnchen",
-      "street": "Walther-Mei\u00dfner-Str. 3",
-      "zip_code": 85748
-    },
-    "area_id": 37,
-    "name": "RCM-BMA/ELA-Container",
-    "tumonline_id": 1830
-  },
   "5301": {
     "address": {
       "place": "Garching b. M\u00fcnchen",
@@ -3738,16 +3728,6 @@
     "area_id": 34,
     "name": "StudiTUM-Garching",
     "tumonline_id": 2229
-  },
-  "5537": {
-    "address": {
-      "place": "Garching b. M\u00fcnchen",
-      "street": "Boltzmannstr. 15",
-      "zip_code": 85748
-    },
-    "area_id": 34,
-    "name": "Interims-Zelt-TUMshop",
-    "tumonline_id": 2630
   },
   "5539": {
     "address": {
