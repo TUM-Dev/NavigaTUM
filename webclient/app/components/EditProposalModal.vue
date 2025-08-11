@@ -2,22 +2,8 @@
 import { useEditProposal } from "~/composables/editProposal";
 import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
 
-import type { components } from "~/api_types";
-import type { DeepWritable } from "ts-essentials";
-type ImageMetadata = components["schemas"]["ImageMetadata"];
-
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
-
-// State for managing edits
-const showImageMetadataModal = ref(false);
-const selectedImageFile = ref<{ base64: string; fileName: string } | null>(null);
-
-// Image metadata state
-const imageMetadata = ref<DeepWritable<ImageMetadata>>({
-  author: "",
-  license: { text: "", url: "" },
-});
 
 // Computed properties
 const hasEdits = computed(() => (editProposal.value?.data?.edits ? Object.keys(editProposal.value.data.edits).length > 0 : false));
@@ -44,41 +30,11 @@ function removeEdit(roomId: string) {
 
 function startAddEdit(editType: "image" | "location") {
   if (editType === "image") {
-    // Handle image upload directly
-    handleImageUpload();
+    // Open image metadata modal directly
+    editProposal.value.imageUpload.open = true;
   } else {
     // Start location editing directly
     startLocationEdit();
-  }
-}
-
-function handleImageUpload() {
-  if (process.client && typeof document !== "undefined") {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = (event) => {
-      const file = (event.target as HTMLInputElement)?.files?.[0];
-      if (file) {
-        const fileName = file.name || "uploaded-file";
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const result = e.target?.result as string;
-          if (result) {
-            const base64 = result.split(",")[1];
-            if (base64) {
-              // Store the image data and initialize metadata with filename
-              selectedImageFile.value = { base64, fileName };
-
-              // Always show metadata modal first for images
-              showImageMetadataModal.value = true;
-            }
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-    input.click();
   }
 }
 
@@ -92,25 +48,13 @@ function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
     };
   }
 
-  // Clean up metadata - remove empty URLs and null offsets
+  // Clean up metadata - remove empty URLs
   const cleanMetadata = {
     author: metadata.author,
     license: {
       text: metadata.license.text,
       url: metadata.license.url || null,
     },
-    source: {
-      text: metadata.source.text,
-      url: metadata.source.url || null,
-    },
-    ...(metadata.offsets.header !== null || metadata.offsets.thumb !== null
-      ? {
-          offsets: {
-            header: metadata.offsets.header,
-            thumb: metadata.offsets.thumb,
-          },
-        }
-      : {}),
   };
 
   if (editProposal.value.data.edits[roomId]) {
@@ -161,31 +105,35 @@ function onLocationSelected(lat: number, lon: number) {
   editProposal.value.locationPicker.open = false;
 }
 
-function confirmImageMetadata(metadata: typeof imageMetadata.value) {
-  showImageMetadataModal.value = false;
+function confirmImageMetadata(metadata: typeof editProposal.value.imageUpload.metadata) {
+  editProposal.value.imageUpload.open = false;
 
   const roomId = editProposal.value.selected?.id;
-  if (roomId && selectedImageFile.value) {
-    addImageEditForRoom(roomId, selectedImageFile.value.base64, metadata);
-    selectedImageFile.value = null;
-    // Reset metadata for next use
-    imageMetadata.value = {
+  if (roomId && editProposal.value.imageUpload.selectedFile) {
+    addImageEditForRoom(roomId, editProposal.value.imageUpload.selectedFile.base64, metadata);
+    // Reset for next use
+    editProposal.value.imageUpload.selectedFile = null;
+    editProposal.value.imageUpload.metadata = {
       author: "",
       license: { text: "", url: "" },
     };
   } else {
-    console.error("No room context available for image edit");
+    console.error("No room context or file available for image edit");
   }
 }
 
 function cancelImageMetadata() {
-  showImageMetadataModal.value = false;
-  selectedImageFile.value = null;
+  editProposal.value.imageUpload.open = false;
+  editProposal.value.imageUpload.selectedFile = null;
   // Reset metadata
-  imageMetadata.value = {
+  editProposal.value.imageUpload.metadata = {
     author: "",
     license: { text: "", url: "" },
   };
+}
+
+function handleFileSelected(file: { base64: string; fileName: string } | null) {
+  editProposal.value.imageUpload.selectedFile = file;
 }
 
 function getEditTypeDisplay(roomId: string): string {
@@ -246,7 +194,14 @@ function getEditTypeDisplay(roomId: string): string {
         </div>
 
         <!-- Image Metadata Modal -->
-        <ImageMetadataModal :show="showImageMetadataModal" :metadata="imageMetadata" @confirm="confirmImageMetadata" @cancel="cancelImageMetadata" />
+        <ImageMetadataModal
+          :show="editProposal.imageUpload.open"
+          :metadata="editProposal.imageUpload.metadata"
+          :selected-file="editProposal.imageUpload.selectedFile"
+          @confirm="confirmImageMetadata"
+          @cancel="cancelImageMetadata"
+          @file-selected="handleFileSelected"
+        />
 
         <!-- Location Picker Modal -->
         <div

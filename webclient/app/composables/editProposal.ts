@@ -14,14 +14,22 @@ type EditProposalState = {
     lat: number;
     lon: number;
   };
+  imageUpload: {
+    open: boolean;
+    selectedFile: {
+      base64: string;
+      fileName: string;
+    } | null;
+    metadata: DeepWritable<components["schemas"]["ImageMetadata"]>;
+  };
 };
 
-export const useEditProposal = () => 
+export const useEditProposal = () =>
   useState<EditProposalState>("editProposal", () => ({
     open: false,
     selected: {
       id: null,
-      name: null
+      name: null,
     },
     data: {
       additional_context: "",
@@ -31,5 +39,13 @@ export const useEditProposal = () =>
       open: false,
       lat: 0,
       lon: 0,
+    },
+    imageUpload: {
+      open: false,
+      selectedFile: null,
+      metadata: {
+        author: "",
+        license: { text: "", url: "" },
+      },
     },
   }));
