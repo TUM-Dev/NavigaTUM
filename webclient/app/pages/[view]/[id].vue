@@ -229,7 +229,7 @@ useSeoMeta({
         <TabPanels>
           <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
             <ClientOnly>
-              <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :debug-mode="!!route.query.debug" />
+              <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
             </ClientOnly>
           </TabPanel>
           <TabPanel id="plansMapPanel" :tab-index="1">
