@@ -198,15 +198,6 @@ useSeoMeta({
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-7 w-7 hover:text-blue-900" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
-            <ClientOnly>
-              <EditProposalTrigger
-                :entity-id="data.id"
-                :coordinates="{ lat: data.coords.lat, lon: data.coords.lon }"
-                :context="`Improvements for ${data.name} (${data.id})`"
-                variant="link"
-                size="sm"
-              />
-            </ClientOnly>
             <DetailsFeedbackButton />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
@@ -230,15 +221,6 @@ useSeoMeta({
         <div class="mb-3 grid gap-2 lg:hidden">
           <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('no_floor_overlay')" />
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
-          <div
-            v-if="data.type === 'room' && data.coords.accuracy === null"
-            class="text-blue-900 bg-blue-100 border-blue-300 text-pretty rounded border p-1.5 text-sm leading-5 flex justify-between items-center"
-          >
-            <span>{{ t("location_not_verified") }}</span>
-            <button type="button" class="text-blue-600 hover:text-blue-800 text-sm font-medium ml-2" @click="suggestLocationFix">
-              {{ t("help_verify") }}
-            </button>
-          </div>
         </div>
         <TabPanels>
           <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
@@ -323,8 +305,6 @@ de:
     favorites: Zu Favoriten hinzufügen
   add_image: Bild hinzufügen
   add_first_image: Erstes Bild hinzufügen
-  location_not_verified: Position dieses Raums ist nicht verifiziert
-  help_verify: Helfen zu verifizieren
   Loading data...: Lädt Daten...
 en:
   image_alt: Header image, showing the building
@@ -339,7 +319,5 @@ en:
     favorites: Add to favorites
   add_image: Add image
   add_first_image: Add first image
-  location_not_verified: This room's location is not verified
-  help_verify: Help verify
   Loading data...: Loading data...
 </i18n>

@@ -23,6 +23,14 @@ const suggestImage = () => {
     `I would like to suggest a new image for ${props.data.name} (${props.data.id}) that would be helpful for navigation.`,
   );
 };
+
+const suggestLocationFix = () => {
+  editProposal.openWithContext(
+    `The location for ${props.data.name} (${props.data.id}) is only accurate to building level. I can help provide a more precise location within the building.`,
+    props.data.id,
+    { lat: props.data.coords.lat, lon: props.data.coords.lon },
+  );
+};
 </script>
 
 <template>
@@ -74,7 +82,15 @@ const suggestImage = () => {
         <span class="sr-only">{{ t("info_title") }}</span>
         <DetailsPropertyTable v-if="data" :id="data.id" :props="data.props" :name="data.name" :navigation-enabled="data.coords.accuracy !== 'building'" />
         <div class="mt-3 grid gap-2">
-          <Toast v-if="data.coords.accuracy === 'building'" level="warning" :msg="t('msg.inaccurate_only_building')" />
+          <div
+            v-if="data.coords.accuracy === 'building'"
+            class="text-orange-900 bg-orange-100 border-orange-300 text-pretty rounded border p-1.5 text-sm leading-5 flex justify-between items-center"
+          >
+            <span>{{ t("msg.inaccurate_only_building") }}</span>
+            <button type="button" class="text-orange-600 hover:text-orange-800 text-sm font-medium ml-2" @click="suggestLocationFix">
+              {{ t("suggest_edit") }}
+            </button>
+          </div>
           <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('msg.no_floor_overlay')" />
           <Toast v-if="data.props?.comment" :msg="data.props.comment" />
         </div>
@@ -98,6 +114,7 @@ de:
   info_title: Informationen
   add_image: Bild hinzufügen
   add_first_image: Erstes Bild hinzufügen
+  suggest_edit: Bearbeiten
   msg:
     inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
@@ -106,6 +123,7 @@ en:
   info_title: Information
   add_image: Add image
   add_first_image: Add first image
+  suggest_edit: Suggest edit
   msg:
     inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.

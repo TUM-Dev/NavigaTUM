@@ -4,11 +4,6 @@ type EditRequest = components["schemas"]["EditRequest"];
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 type EditProposalState = {
   open: boolean;
-  locationPicker:{
-    open: boolean;
-    lat: number|null;
-    lon: number|null;
-  };
   selected: {
     roomId: string;
     name: string;
@@ -19,11 +14,6 @@ type EditProposalState = {
 export const useEditProposal = () => {
   const state = useState<EditProposalState>("editProposal", () => ({
     open: false,
-    locationPicker:{
-      open: false,
-      lat: null,
-      lon: null,
-    },
     selected: null,
     data: {
       additional_context: "",
@@ -47,7 +37,7 @@ export const useEditProposal = () => {
     roomName: string,
     coordinates: { lat: number; lon: number }
   ) => {
-    state.value.data.additional_context = `The location coordinates for ${roomName} (${roomId}) seem incorrect. Please verify the position on the map.`;
+    state.value.data.additional_context = `The location for ${roomName} (${roomId}) is only accurate to building level. I can help provide a more precise location within the building.`;
 
     initializeRoomEdit(roomId);
     const roomEdit = state.value.data.edits[roomId];
