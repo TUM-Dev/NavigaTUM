@@ -18,11 +18,19 @@ const imageMetadata = ref({
 });
 
 // Computed properties
-const hasEdits = computed(() => Object.keys(editProposal.value.data.edits).length > 0);
+const hasEdits = computed(() => (editProposal.value?.data?.edits ? Object.keys(editProposal.value.data.edits).length > 0 : false));
+
+// Location picker coordinates computed from state
+const locationPickerCoords = computed(() => ({
+  lat: editProposal.value?.locationPicker?.lat || 0,
+  lon: editProposal.value?.locationPicker?.lon || 0,
+}));
 
 // Methods
 function removeEdit(roomId: string) {
-  delete editProposal.value.data.edits[roomId];
+  if (editProposal.value?.data?.edits) {
+    delete editProposal.value.data.edits[roomId];
+  }
 }
 
 function startAddEdit(editType: "image" | "location") {
@@ -67,6 +75,8 @@ function handleImageUpload() {
 }
 
 function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
+  if (!editProposal.value?.data?.edits) return;
+
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = {
       coordinate: null,
@@ -95,15 +105,17 @@ function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
       : {}),
   };
 
-  editProposal.value.data.edits[roomId].image = {
-    content: base64,
-    metadata: cleanMetadata,
-  };
+  if (editProposal.value.data.edits[roomId]) {
+    editProposal.value.data.edits[roomId].image = {
+      content: base64,
+      metadata: cleanMetadata,
+    };
+  }
 }
 
 function startLocationEdit() {
-  const roomId = editProposal.selected?.id;
-  if (!roomId) {
+  const roomId = editProposal.value?.selected?.id;
+  if (!roomId || !editProposal.value?.data?.edits) {
     console.error("No room context available for location edit");
     return;
   }
@@ -115,12 +127,20 @@ function startLocationEdit() {
       image: null,
     };
   }
-  editProposal.value.locationPicker.open = true;
+  if (editProposal.value.locationPicker) {
+    editProposal.value.locationPicker.open = true;
+  }
+}
+
+function cancelLocationPicker() {
+  if (editProposal.value?.locationPicker) {
+    editProposal.value.locationPicker.open = false;
+  }
 }
 
 function onLocationSelected(lat: number, lon: number) {
-  const roomId = editProposal.selected?.id;
-  if (roomId) {
+  const roomId = editProposal.value?.selected?.id;
+  if (roomId && editProposal.value?.data?.edits) {
     if (!editProposal.value.data.edits[roomId]) {
       editProposal.value.data.edits[roomId] = {
         coordinate: null,
@@ -136,7 +156,7 @@ function onLocationSelected(lat: number, lon: number) {
 function confirmImageMetadata(metadata: typeof imageMetadata.value) {
   showImageMetadataModal.value = false;
 
-  const roomId = editProposal.selected?.id;
+  const roomId = editProposal.value.selected?.id;
   if (roomId && selectedImageFile.value) {
     addImageEditForRoom(roomId, selectedImageFile.value.base64, metadata);
     selectedImageFile.value = null;
@@ -218,16 +238,16 @@ function getEditTypeDisplay(roomId: string): string {
         <ImageMetadataModal :show="showImageMetadataModal" :metadata="imageMetadata" @confirm="confirmImageMetadata" @cancel="cancelImageMetadata" />
 
         <!-- Location Picker Modal -->
-        <div v-if="editProposal.value.locationPicker.open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="()=>editProposal.value.locationPicker.open = falses">
+        <div v-if="editProposal.locationPicker.open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="()=>editProposal.locationPicker.open = false">
           <div class="bg-white rounded-lg p-6 m-4 max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <h3 class="text-lg font-semibold mb-4 text-zinc-900">{{ t("select_location") }}</h3>
             <LocationPicker
-              :initial-lat="editProposal.value.locationPicker.lat"
-              :initial-lon="editProposal.value.locationPicker.lon"
+              :initial-lat="editProposal.locationPicker.lat"
+              :initial-lon="editProposal.locationPicker.lon"
               @coordinates-changed="
                 (lat: number, lon: number) => {
-                  editProposal.value.locationPicker.lat = lat;
-                  editProposal.value.locationPicker.lon = lon;
+                  editProposal.locationPicker.lat = lat;
+                  editProposal.locationPicker.lon = lon;
                 }
               "
             />
@@ -250,7 +270,7 @@ function getEditTypeDisplay(roomId: string): string {
           <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
             <div class="flex justify-between items-start">
               <div class="flex-grow">
-                <p class="font-medium text-sm text-zinc-900">{{ editProposal.value.selected?.name }}</p>
+                <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>
                 <div class="text-xs text-zinc-600 mt-1">
                   <p>{{ t("edit_type") }}: {{ getEditTypeDisplay(String(roomId)) }}</p>
                 </div>

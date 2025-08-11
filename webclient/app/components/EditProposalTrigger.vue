@@ -56,7 +56,7 @@ function openEditProposal() {
         image: null,
       };
     }
-    editProposal.value.data.edits[props.entityId].coordinate = {
+    editProposal.value.data.edits[props.entityId]!.coordinate = {
       lat: props.coordinates.lat,
       lon: props.coordinates.lon,
     };
