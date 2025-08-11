@@ -20,7 +20,7 @@ use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
 mod coordinate;
-mod discription;
+mod description;
 mod image;
 mod tmp_repo;
 
@@ -54,14 +54,17 @@ pub struct EditRequest {
     privacy_checked: bool,
 }
 
-const GIT_URL: &str = "git@github.com:TUM-Dev/NavigaTUM.git";
 impl EditRequest {
     #[tracing::instrument]
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
     ) -> anyhow::Result<String> {
-        let repo = TempRepo::clone_and_checkout(GIT_URL, branch_name).await?;
+        let Some(pat) = crate::external::github::GitHub::github_token() else {
+            anyhow::bail!("Failed to get GitHub token");
+        };
+        let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
+        let repo = TempRepo::clone_and_checkout(&url, branch_name).await?;
         let desc = repo.apply_and_gen_description(self);
         repo.commit(&desc.title).await?;
         repo.push().await?;
@@ -83,11 +86,11 @@ impl EditRequest {
             .edits
             .0
             .iter()
-            .any(|(_, edit)| edit.coordinate.is_none())
+            .any(|(_, edit)| edit.coordinate.is_some())
         {
             labels.push("coordinate".to_string());
         }
-        if self.edits.0.iter().any(|(_, edit)| edit.image.is_none()) {
+        if self.edits.0.iter().any(|(_, edit)| edit.image.is_some()) {
             labels.push("image".to_string());
         }
         labels
