@@ -282,4 +282,3 @@ en:
   success_response_at: You can see our response at {this_pr}
   success_this_pr: this GitHub pull request
 </i18n>
-</i18n>

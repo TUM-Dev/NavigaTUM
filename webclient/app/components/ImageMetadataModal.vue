@@ -1,101 +1,3 @@
-<template>
-  <div v-if="show" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="emit('cancel')">
-    <div class="bg-white rounded-lg p-6 m-4 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-      <h3 class="text-lg font-semibold mb-4 text-zinc-900">{{ t("image_metadata_title") }}</h3>
-
-      <div class="space-y-4">
-        <!-- File Upload Drop Zone -->
-        <div>
-          <label class="block text-sm font-medium text-zinc-700 mb-2"> {{ t("select_image") }} <span class="text-red-500">*</span> </label>
-          <div
-            ref="dropZone"
-            :class="[
-              'border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 cursor-pointer relative overflow-hidden',
-              isDragOver
-                ? 'border-blue-500 bg-blue-50 scale-105 shadow-lg'
-                : selectedFile
-                  ? 'border-blue-400 bg-blue-50 hover:border-blue-500 hover:bg-blue-100'
-                  : 'border-zinc-300 bg-gradient-to-br from-zinc-50 to-zinc-100 hover:border-blue-400 hover:bg-gradient-to-br hover:from-blue-50 hover:to-zinc-100 hover:shadow-md',
-            ]"
-            @click="triggerFileInput"
-            @dragover.prevent="handleDragOver"
-            @dragleave.prevent="handleDragLeave"
-            @drop.prevent="handleDrop"
-          >
-            <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
-
-            <div v-if="!selectedFile" class="space-y-3">
-              <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
-                <PhotoIcon class="mx-auto h-16 w-16 text-zinc-400" />
-              </div>
-              <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600' : 'text-zinc-600']">
-                <p class="text-lg font-medium">
-                  {{ isDragOver ? t("release_to_upload") : t("drop_image_here") }}
-                </p>
-                <p class="text-sm mt-1">{{ t("or_click_to_browse") }}</p>
-                <p class="text-xs text-zinc-500 mt-2">{{ t("supported_formats", ["JPG, PNG, GIF, WebP (max 10MB)"]) }}</p>
-              </div>
-            </div>
-
-            <div v-else class="space-y-3">
-              <div>
-                <DocumentCheckIcon class="mx-auto h-16 w-16 text-blue-500" />
-              </div>
-              <div class="text-zinc-700">
-                <p class="text-lg font-medium text-blue-700">{{ selectedFile.fileName }}</p>
-                <p class="text-sm text-blue-600 mb-3">{{ t("file_selected_successfully") }}</p>
-                <button
-                  @click.stop="removeSelectedFile"
-                  class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 hover:border-slate-300 transition-colors duration-200"
-                >
-                  <XMarkIcon class="w-3 h-3 mr-1" />
-                  {{ t("remove_file") }}
-                </button>
-              </div>
-            </div>
-            <!-- Error message -->
-            <p v-if="fileError" class="text-sm text-red-600 mt-2 font-medium">{{ fileError }}</p>
-          </div>
-        </div>
-
-        <!-- Author -->
-        <div>
-          <label class="block text-sm font-medium text-zinc-700 mb-1"> {{ t("image_author") }} <span class="text-red-500">*</span> </label>
-          <input
-            v-model="localMetadata.author"
-            type="text"
-            :placeholder="t('image_author_placeholder')"
-            class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        <!-- License Info -->
-        <div>
-          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div class="flex items-start">
-              <InformationCircleIcon class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
-              <div>
-                <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
-                <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex justify-end gap-2 mt-6">
-        <Btn variant="secondary" @click="emit('cancel')">
-          {{ t("cancel") }}
-        </Btn>
-        <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !selectedFile">
-          {{ t("confirm") }}
-        </Btn>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {
   DocumentCheckIcon,
@@ -109,10 +11,10 @@ import type { components } from "~/api_types";
 type ImageMetadata = components["schemas"]["ImageMetadata"];
 
 interface Props {
-  show: boolean;
   metadata: DeepWritable<ImageMetadata>;
   selectedFile: { base64: string; fileName: string } | null;
 }
+const modalOpen = ref(true);
 
 interface Emits {
   (e: "confirm", metadata: ImageMetadata): void;
@@ -231,6 +133,100 @@ function processFile(file: File) {
   reader.readAsDataURL(file);
 }
 </script>
+
+<template>
+  <Modal v-model="modalOpen" :title="t('image_metadata_title')" class="!min-w-[90vw]" @close="emit('cancel')">
+    <div class="space-y-4">
+      <!-- File Upload Drop Zone -->
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-2"> {{ t("select_image") }} <span class="text-red-500">*</span> </label>
+        <div
+          ref="dropZone"
+          :class="[
+            'border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 cursor-pointer relative overflow-hidden',
+            isDragOver
+              ? 'border-blue-500 bg-blue-50 scale-105 shadow-lg'
+              : selectedFile
+                ? 'border-blue-400 bg-blue-50 hover:border-blue-500 hover:bg-blue-100'
+                : 'border-zinc-300 bg-gradient-to-br from-zinc-50 to-zinc-100 hover:border-blue-400 hover:bg-gradient-to-br hover:from-blue-50 hover:to-zinc-100 hover:shadow-md',
+          ]"
+          @click="triggerFileInput"
+          @dragover.prevent="handleDragOver"
+          @dragleave.prevent="handleDragLeave"
+          @drop.prevent="handleDrop"
+        >
+          <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
+
+          <div v-if="!selectedFile" class="space-y-3">
+            <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
+              <PhotoIcon class="mx-auto h-16 w-16 text-zinc-400" />
+            </div>
+            <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600' : 'text-zinc-600']">
+              <p class="text-lg font-medium">
+                {{ isDragOver ? t("release_to_upload") : t("drop_image_here") }}
+              </p>
+              <p class="text-sm mt-1">{{ t("or_click_to_browse") }}</p>
+              <p class="text-xs text-zinc-500 mt-2">{{ t("supported_formats", ["JPG, PNG, GIF, WebP (max 10MB)"]) }}</p>
+            </div>
+          </div>
+
+          <div v-else class="space-y-3">
+            <div>
+              <DocumentCheckIcon class="mx-auto h-16 w-16 text-blue-500" />
+            </div>
+            <div class="text-zinc-700">
+              <p class="text-lg font-medium text-blue-700">{{ selectedFile.fileName }}</p>
+              <p class="text-sm text-blue-600 mb-3">{{ t("file_selected_successfully") }}</p>
+              <button
+                @click.stop="removeSelectedFile"
+                class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 hover:border-slate-300 transition-colors duration-200"
+              >
+                <XMarkIcon class="w-3 h-3 mr-1" />
+                {{ t("remove_file") }}
+              </button>
+            </div>
+          </div>
+          <!-- Error message -->
+          <p v-if="fileError" class="text-sm text-red-600 mt-2 font-medium">{{ fileError }}</p>
+        </div>
+      </div>
+
+      <!-- Author -->
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-1"> {{ t("image_author") }} <span class="text-red-500">*</span> </label>
+        <input
+          v-model="localMetadata.author"
+          type="text"
+          :placeholder="t('image_author_placeholder')"
+          class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
+
+      <!-- License Info -->
+      <div>
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div class="flex items-start">
+            <InformationCircleIcon class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
+              <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <Btn variant="secondary" @click="emit('cancel')">
+        {{ t("cancel") }}
+      </Btn>
+      <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !selectedFile">
+        {{ t("confirm") }}
+      </Btn>
+    </div>
+  </Modal>
+</template>
 
 <i18n lang="yaml">
 de:
