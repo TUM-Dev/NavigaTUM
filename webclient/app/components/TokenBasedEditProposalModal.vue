@@ -280,7 +280,7 @@ en:
     right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
     right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
   sending: Sending
-  try_again_later: not possible
+  try_again_later: Please try again later
   send: Send
   thank_you: Thank you!
 </i18n>
