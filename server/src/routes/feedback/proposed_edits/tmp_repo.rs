@@ -1,8 +1,9 @@
+use anyhow::Context;
 use tokio::process::Command;
 use tracing::{debug, info};
 
 use super::EditRequest;
-use super::discription::Description;
+use super::description::Description;
 
 #[derive(Debug)]
 pub struct TempRepo {
@@ -11,7 +12,7 @@ pub struct TempRepo {
 }
 impl TempRepo {
     #[tracing::instrument]
-    pub async fn clone_and_checkout(url: &'static str, branch_name: &str) -> anyhow::Result<Self> {
+    pub async fn clone_and_checkout(url: &str, branch_name: &str) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
         info!(url, target_dir= ?dir,"Cloning repository");
@@ -72,16 +73,36 @@ impl TempRepo {
             .arg("add")
             .arg(".")
             .output()
-            .await?;
+            .await
+            .context("Failed to add files to git")?;
         debug!(output=?out,"git add output");
+        let out = Command::new("git")
+            .current_dir(&self.dir)
+            .arg("config")
+            .arg("user.email")
+            .arg("actions@github.com")
+            .output()
+            .await
+            .context("Failed to config user.email")?;
+        debug!(output=?out,"git config user.email output");
+        let out = Command::new("git")
+            .current_dir(&self.dir)
+            .arg("config")
+            .arg("user.name")
+            .arg("GitHub Actions")
+            .output()
+            .await
+            .context("Failed to config user.name")?;
+        debug!(output=?out,"git config user.name output");
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("commit")
             .arg("--all") // run git add . before commit
-            .arg("-m")
+            .arg("--message")
             .arg(title)
             .output()
-            .await?;
+            .await
+            .context("Failed to commit changes")?;
         debug!(output=?out,"git commit output");
         match out.status.code() {
             Some(0) => Ok(()),
@@ -95,7 +116,8 @@ impl TempRepo {
             .current_dir(&self.dir)
             .arg("status")
             .output()
-            .await?;
+            .await
+            .context("Failed to run git status")?;
         debug!(output=?out,"git status output");
         if out.status.code() != Some(0) {
             anyhow::bail!("git status failed with output: {out:?}");
@@ -107,7 +129,8 @@ impl TempRepo {
             .arg("origin")
             .arg(&self.branch_name)
             .output()
-            .await?;
+            .await
+            .context("Failed to push to upstream")?;
         debug!(output=?out,"git push output");
         match out.status.code() {
             Some(0) => Ok(()),

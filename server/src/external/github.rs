@@ -9,7 +9,7 @@ pub struct GitHub {
 }
 impl Default for GitHub {
     fn default() -> Self {
-        let octocrab = if let Some(personal_token) = github_token() {
+        let octocrab = if let Some(personal_token) = Self::github_token() {
             Octocrab::builder()
                 .personal_token(personal_token)
                 .build()
@@ -132,14 +132,14 @@ impl GitHub {
         let re = Regex::new(r"[ \t]*\n").unwrap();
         re.replace_all(&s_clean, "  \n").to_string()
     }
-}
 
-fn github_token() -> Option<String> {
-    match std::env::var("GITHUB_TOKEN") {
-        Ok(token) => Some(token.trim().to_string()),
-        Err(e) => {
-            error!(error = ?e, "GITHUB_TOKEN has to be set for feedback");
-            None
+    pub fn github_token() -> Option<String> {
+        match std::env::var("GITHUB_TOKEN") {
+            Ok(token) => Some(token.trim().to_string()),
+            Err(e) => {
+                error!(error = ?e, "GITHUB_TOKEN has to be set for feedback");
+                None
+            }
         }
     }
 }

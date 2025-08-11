@@ -12,7 +12,7 @@ pub struct Description {
 impl Description {
     pub fn add_context(&mut self, additional_context: &str) {
         if !additional_context.is_empty() {
-            self.body += &format!("Additional context: {additional_context}\n");
+            self.body += &format!("## Additional context:\n> {additional_context}\n");
         }
     }
     pub fn appply_set<T: AppliableEdit>(
@@ -22,12 +22,17 @@ impl Description {
         base_dir: &Path,
     ) {
         if !set.is_empty() {
-            self.title = format!("{amount} {category_name} edits", amount = set.len());
+            let edits = if set.len() == 1 { "edit" } else { "edits" };
+            if self.title.is_empty() {
+                self.title = format!("{amount} {category_name} {edits}", amount = set.len());
+            } else {
+                self.title += &format!(" and {amount} {category_name} {edits}", amount = set.len());
+            }
 
-            self.body += &format!("The following {category_name} edits were made:\n");
+            self.body += &format!("\nThe following {category_name} edits were made:\n");
 
-            self.body += "| entry | edit | \n";
-            self.body += "| --- | --- | \n";
+            self.body += "| entry | edit |\n";
+            self.body += "| ---   | ---  |\n";
             for (key, value) in set {
                 let result = value.apply(&key, base_dir);
                 self.body += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
@@ -54,7 +59,10 @@ mod tests {
         description.add_context("context");
         description.add_context(""); // should be a noop
         assert_eq!(description.title, "title");
-        assert_eq!(description.body, "body\nAdditional context: context\n");
+        assert_eq!(
+            description.body,
+            "body\n## Additional context:\n> context\n"
+        );
     }
 
     #[derive(Default)]
@@ -79,10 +87,10 @@ mod tests {
         let mut description = Description::default();
         let set = HashMap::from([("key".to_string(), TestEdit)]);
         description.appply_set("category", set, Path::new(""));
-        assert_eq!(description.title, "1 category edits");
+        assert_eq!(description.title, "1 category edit");
         assert_eq!(
             description.body,
-            "The following category edits were made:\n| entry | edit | \n| --- | --- | \n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
+            "\nThe following category edits were made:\n| entry | edit |\n| ---   | ---  |\n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
         );
     }
 }
