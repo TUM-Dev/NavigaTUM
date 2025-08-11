@@ -59,7 +59,10 @@ mod tests {
         description.add_context("context");
         description.add_context(""); // should be a noop
         assert_eq!(description.title, "title");
-        assert_eq!(description.body, "body\nAdditional context: context\n");
+        assert_eq!(
+            description.body,
+            "body\n## Additional context:\n> context\n"
+        );
     }
 
     #[derive(Default)]
@@ -87,7 +90,7 @@ mod tests {
         assert_eq!(description.title, "1 category edit");
         assert_eq!(
             description.body,
-            "The following category edits were made:\n| entry | edit | \n| --- | --- | \n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
+            "The following category edits were made:\n| entry | edit | \n| ---  | ---  | \n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
         );
     }
 }
