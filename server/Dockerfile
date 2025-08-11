@@ -58,7 +58,7 @@ ENV     PROFILE=${PROFILE}
 ENV     RUST_BACKTRACE=1
 
 RUN     apk update --quiet \
-     && apk add --quiet --no-cache libgcc tini curl libpq-dev
+     && apk add --quiet --no-cache libgcc tini curl libpq-dev git
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
