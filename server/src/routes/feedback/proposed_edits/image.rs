@@ -1,5 +1,6 @@
 use std::cmp::max;
 use std::collections::BTreeMap;
+use std::fmt::Debug;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 
@@ -34,7 +35,7 @@ pub struct Offsets {
     header: Option<i32>,
     thumb: Option<i32>,
 }
-#[derive(Debug, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
+#[derive(Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Image {
     /// The image encoded as base64
     #[schema(content_encoding = "base64")]
@@ -129,6 +130,15 @@ impl AppliableEdit for Image {
                 "Error saving metadata+content".to_string()
             }
         }
+    }
+}
+
+impl Debug for Image {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Image")
+            .field("content", &format!("{}KB", self.content.len() / 1024))
+            .field("metadata", &self.metadata)
+            .finish()
     }
 }
 

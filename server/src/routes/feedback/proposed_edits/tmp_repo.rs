@@ -57,11 +57,16 @@ impl TempRepo {
         let image_edits = edits.edits_for(|edit| edit.image);
         description.appply_set("image", image_edits, self.dir.path());
 
+        let first_line = description.body.lines().next();
+        info!(description_first_line=?first_line, title=description.title, "generated description");
+
         description
     }
 
     #[tracing::instrument]
     pub async fn commit(&self, title: &str) -> anyhow::Result<()> {
+        info!(title, "Commiting changes");
+
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("add")
@@ -85,6 +90,7 @@ impl TempRepo {
     }
     #[tracing::instrument]
     pub async fn push(&self) -> anyhow::Result<()> {
+        info!("Pushing changes to the remote");
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("status")
