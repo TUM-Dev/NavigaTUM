@@ -22,7 +22,7 @@ impl Default for GitHub {
     }
 }
 impl GitHub {
-    #[tracing::instrument]
+    #[tracing::instrument(skip(description))]
     pub async fn open_issue(
         self,
         title: &str,
@@ -64,7 +64,7 @@ impl GitHub {
         }
     }
 
-    #[tracing::instrument]
+    #[tracing::instrument(skip(description))]
     pub async fn open_pr(
         self,
         branch: String,
