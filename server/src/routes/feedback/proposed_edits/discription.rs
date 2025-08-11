@@ -31,8 +31,8 @@ impl Description {
 
             self.body += &format!("\nThe following {category_name} edits were made:\n");
 
-            self.body += "| entry | edit | \n";
-            self.body += "| --- | --- | \n";
+            self.body += "| entry | edit |\n";
+            self.body += "| ---   | ---  |\n";
             for (key, value) in set {
                 let result = value.apply(&key, base_dir);
                 self.body += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
