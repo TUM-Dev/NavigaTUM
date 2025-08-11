@@ -26,14 +26,7 @@
 
             <div v-if="!selectedFile" class="space-y-3">
               <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
-                <svg class="mx-auto h-16 w-16 text-zinc-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                <PhotoIcon class="mx-auto h-16 w-16 text-zinc-400" />
               </div>
               <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600' : 'text-zinc-600']">
                 <p class="text-lg font-medium">
@@ -46,13 +39,7 @@
 
             <div v-else class="space-y-3">
               <div>
-                <svg class="mx-auto h-16 w-16 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <DocumentCheckIcon class="mx-auto h-16 w-16 text-blue-500" />
               </div>
               <div class="text-zinc-700">
                 <p class="text-lg font-medium text-blue-700">{{ selectedFile.fileName }}</p>
@@ -61,13 +48,7 @@
                   @click.stop="removeSelectedFile"
                   class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 hover:border-slate-300 transition-colors duration-200"
                 >
-                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <XMarkIcon class="w-3 h-3 mr-1" />
                   {{ t("remove_file") }}
                 </button>
               </div>
@@ -93,13 +74,7 @@
         <div>
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div class="flex items-start">
-              <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fill-rule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <InformationCircleIcon class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
               <div>
                 <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
                 <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>
@@ -122,6 +97,7 @@
 </template>
 
 <script setup lang="ts">
+import { PhotoIcon, DocumentCheckIcon, XMarkIcon, InformationCircleIcon } from "@heroicons/vue/24/solid";
 import type { components } from "~/api_types";
 import type { DeepWritable } from "ts-essentials";
 type ImageMetadata = components["schemas"]["ImageMetadata"];
