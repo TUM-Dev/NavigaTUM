@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
 import { useFeedbackToken } from "~/composables/feedbackToken";
 
+type EditRequest = components["schemas"]["EditRequest"];
+
 const props = defineProps<{
-  data: { [index: string]: any };
+  data: Pick<EditRequest, "edits" | "additional_context">;
 }>();
 
 const runtimeConfig = useRuntimeConfig();

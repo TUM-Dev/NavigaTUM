@@ -72,7 +72,7 @@ function handleDrop(event: DragEvent) {
   }
 }
 
-function handleDragOver(event: DragEvent) {
+function handleDragOver() {
   isDragOver.value = true;
 }
 

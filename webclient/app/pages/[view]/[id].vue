@@ -152,7 +152,10 @@ useSeoMeta({
       </button>
     </div>
     <!-- No header image placeholder (on mobile) -->
-    <div v-else-if="!data.imgs?.length" class="relative group hover:bg-zinc-200 hover:border-zinc-400 m-1 mt-2 block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg">
+    <div
+      v-else-if="!data.imgs?.length"
+      class="relative group hover:bg-zinc-200 hover:border-zinc-400 m-1 mt-2 block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg"
+    >
       <button
         type="button"
         class="w-full h-20 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"

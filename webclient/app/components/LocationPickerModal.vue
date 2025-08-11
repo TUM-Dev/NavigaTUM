@@ -22,7 +22,7 @@ interface LocationPickerEmits {
 }
 
 const props = withDefaults(defineProps<LocationPickerProps>(), { zoom: 17 });
-const modalOpen = defineModel<boolean>("open", {required: true});
+const modalOpen = defineModel<boolean>("open", { required: true });
 const { t } = useI18n({ useScope: "local" });
 const emit = defineEmits<LocationPickerEmits>();
 

@@ -64,7 +64,7 @@ function onLocationSelected() {
       };
     }
 
-    editProposal.value.data.edits[roomId]!.coordinate = {
+    editProposal.value.data.edits[roomId].coordinate = {
       lat: editProposal.value.locationPicker.lat,
       lon: editProposal.value.locationPicker.lon,
     };
