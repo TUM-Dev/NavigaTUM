@@ -27,7 +27,7 @@ pub mod refresh;
 pub mod routes;
 use routes::*;
 
-const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
+const MAX_JSON_PAYLOAD: usize = 1024 * 1024 * 10; // 10 MB
 
 const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 
