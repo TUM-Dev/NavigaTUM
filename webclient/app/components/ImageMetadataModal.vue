@@ -14,7 +14,9 @@ interface Props {
   metadata: DeepWritable<ImageMetadata>;
   selectedFile: { base64: string; fileName: string } | null;
 }
-const modalOpen = ref(true);
+const modalOpen = defineModel<boolean>("open", {
+  required: true,
+});
 
 interface Emits {
   (e: "confirm", metadata: ImageMetadata): void;
@@ -25,7 +27,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const { t } = useI18n();
+const { t } = useI18n({ useScope: "local" });
 
 // Create a local copy of metadata to avoid mutating props
 const localMetadata = ref<ImageMetadata>({

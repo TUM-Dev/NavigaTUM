@@ -10,21 +10,19 @@ import {
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
-  initialLat?: number;
-  initialLon?: number;
+  initialLat: number;
+  initialLon: number;
   zoom?: number;
 }
 
 interface LocationPickerEmits {
   coordinatesChanged: [lat: number, lon: number];
+  confirm: [];
+  cancel: [];
 }
 
-const props = withDefaults(defineProps<LocationPickerProps>(), {
-  initialLat: 48.2624449, // TUM Hauptgebäude default
-  initialLon: 11.6677914,
-  zoom: 17,
-});
-
+const props = withDefaults(defineProps<LocationPickerProps>(), { zoom: 17 });
+const modalOpen = defineModel<boolean>("open", {required: true});
 const { t } = useI18n({ useScope: "local" });
 const emit = defineEmits<LocationPickerEmits>();
 
@@ -177,22 +175,33 @@ defineExpose({
 </script>
 
 <template>
-  <div class="location-picker">
-    <!-- Instructions above map -->
-    <div
-      class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
-      :class="{
-        'dark:bg-black bg-white': webglSupport,
-        'bg-red-300 text-red-950': !webglSupport,
-      }"
-    >
-      <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
-      <LazyMapGLNotSupported v-else />
+  <Modal v-model="modalOpen" :title="t('select_location')" @close="emit('cancel')">
+    <div class="location-picker">
+      <!-- Instructions above map -->
+      <div
+        class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
+        :class="{
+          'dark:bg-black bg-white': webglSupport,
+          'bg-red-300 text-red-950': !webglSupport,
+        }"
+      >
+        <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
+        <LazyMapGLNotSupported v-else />
+      </div>
+      <div class="text-sm text-center">
+        {{t('clickMap')}}
+      </div>
     </div>
-    <div class="text-sm text-center">
-      {{t('clickMap')}}
+    
+    <div class="flex gap-2 mt-4">
+      <Btn variant="primary" @click="emit('confirm')">
+        {{ t("confirm_location") }}
+      </Btn>
+      <Btn variant="secondary" @click="emit('cancel')">
+        {{ t("cancel") }}
+      </Btn>
     </div>
-  </div>
+  </Modal>
 </template>
 
 <style lang="postcss">
@@ -235,8 +244,14 @@ defineExpose({
 }
 </style>
 <i18n lang="yaml">
-en:
-  clickMap: Click anywhere on the map to select a location
 de:
+  select_location: Standort auswählen
   clickMap: Klick auf der Karte, um eine Position auszuwählen
+  cancel: Abbrechen
+  confirm_location: Standort bestätigen
+en:
+  select_location: Select Location
+  clickMap: Click anywhere on the map to select a location
+  cancel: Cancel
+  confirm_location: Confirm Location
 </i18n>

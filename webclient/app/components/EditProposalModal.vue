@@ -162,7 +162,7 @@ function getEditTypeDisplay(roomId: string): string {
 
         <!-- Image Metadata Modal -->
         <ImageMetadataModal
-          :show="editProposal.imageUpload.open"
+          v-model:open="editProposal.imageUpload.open"
           :metadata="editProposal.imageUpload.metadata"
           :selected-file="editProposal.imageUpload.selectedFile"
           @confirm="confirmImageMetadata"
@@ -171,33 +171,19 @@ function getEditTypeDisplay(roomId: string): string {
         />
 
         <!-- Location Picker Modal -->
-        <div
-          v-if="editProposal.locationPicker.open"
-          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          @click.self="() => (editProposal.locationPicker.open = false)"
-        >
-          <div class="bg-white rounded-lg p-6 m-4 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <h3 class="text-lg font-semibold mb-4 text-zinc-900">{{ t("select_location") }}</h3>
-            <LocationPicker
-              :initial-lat="editProposal.locationPicker.lat"
-              :initial-lon="editProposal.locationPicker.lon"
-              @coordinates-changed="
-                (lat: number, lon: number) => {
-                  editProposal.locationPicker.lat = lat;
-                  editProposal.locationPicker.lon = lon;
-                }
-              "
-            />
-            <div class="flex gap-2 mt-4">
-              <Btn variant="primary" @click="onLocationSelected">
-                {{ t("confirm_location") }}
-              </Btn>
-              <Btn variant="secondary" @click="()=> editProposal.locationPicker.open = false">
-                {{ t("cancel") }}
-              </Btn>
-            </div>
-          </div>
-        </div>
+        <LocationPickerModal
+          v-model:open="editProposal.locationPicker.open"
+          :initial-lat="editProposal.locationPicker.lat"
+          :initial-lon="editProposal.locationPicker.lon"
+          @coordinates-changed="
+            (lat: number, lon: number) => {
+              editProposal.locationPicker.lat = lat;
+              editProposal.locationPicker.lon = lon;
+            }
+          "
+          @confirm="onLocationSelected"
+          @cancel="()=> editProposal.locationPicker.open = false"
+        />
       </div>
 
       <!-- Current Edits -->
@@ -245,9 +231,6 @@ de:
   room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
   map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
   map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
-  select_location: Standort auswählen
-  confirm_location: Standort bestätigen
-  cancel: Abbrechen
   edit_type: Änderungstyp {0}
   room_edits: Raum-Änderungen
   image_attached: Bild angehängt
@@ -269,9 +252,6 @@ en:
   room_position_wrong_desc: Correct this room's position in Navigatum
   map_missing_roads_title: Other details (paths, vegetation) missing from map
   map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
-  select_location: Select Location
-  confirm_location: Confirm Location
-  cancel: Cancel
   edit_type: Edit Type {0}
   room_edits: Room Edits
   image_attached: Image attached
