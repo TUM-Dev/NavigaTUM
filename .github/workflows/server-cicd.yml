@@ -15,7 +15,7 @@ jobs:
       contents: read
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup | Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1.13.0
         with:
@@ -45,7 +45,7 @@ jobs:
       contents: read
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup | Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1.13.0
         with:
