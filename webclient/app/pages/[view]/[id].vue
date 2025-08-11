@@ -25,7 +25,9 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
+const url = computed(
+  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
+);
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -35,19 +37,35 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
 
 const editProposal = useEditProposal();
 
-const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
+const shownImage = ref<ImageInfoResponse | undefined>(
+  data.value?.imgs?.length ? data.value.imgs[0] : undefined
+);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const {
+  copy,
+  copied,
+  isSupported: clipboardIsSupported,
+} = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!data.value) return;
+
   editProposal.value.selected = {
     id: data.value.id,
     name: data.value.name,
   };
-  editProposal.value.data.additional_context =`I would like to suggest a new image for ${data.value.name} (${data.value.id}) that would be helpful for navigation.`
+  if (!editProposal.value.data.additional_context) {
+    editProposal.value.data.additional_context = `I would like to suggest a new image for ${data.value.name} (${data.value.id}).`;
+  }
+  editProposal.value.locationPicker = {
+    lat: data.value.coords.lat,
+    lon: data.value.coords.lon,
+    open: false,
+  };
+  editProposal.value.open = true;
+  editProposal.value.imageUpload.open = true;
 };
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {

@@ -1,46 +1,22 @@
 <script setup lang="ts">
-import { useEditProposal } from "~/composables/editProposal";
 import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
+import { useEditProposal } from "~/composables/editProposal";
 
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
 
-// Computed properties
-const hasEdits = computed(() => (editProposal.value?.data?.edits ? Object.keys(editProposal.value.data.edits).length > 0 : false));
-
-// Location picker coordinates computed from state
-const locationPickerCoords = computed(() => ({
-  lat: editProposal.value?.locationPicker?.lat || 0,
-  lon: editProposal.value?.locationPicker?.lon || 0,
-}));
-
-// OSM edit URL computed from current coordinates
 const osmEditUrl = computed(() => {
-  const lat = editProposal.value?.locationPicker?.lat || 48.1351; // Default to Munich
-  const lon = editProposal.value?.locationPicker?.lon || 11.582;
+  const lat = editProposal.value.locationPicker.lat;
+  const lon = editProposal.value.locationPicker.lon;
   return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
 });
 
 // Methods
-function removeEdit(roomId: string) {
-  if (editProposal.value?.data?.edits) {
-    delete editProposal.value.data.edits[roomId];
-  }
-}
-
-function startAddEdit(editType: "image" | "location") {
-  if (editType === "image") {
-    // Open image metadata modal directly
-    editProposal.value.imageUpload.open = true;
-  } else {
-    // Start location editing directly
-    startLocationEdit();
-  }
-}
-
-function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
-  if (!editProposal.value?.data?.edits) return;
-
+function addImageEditForRoom(
+  roomId: string,
+  base64: string,
+  metadata: typeof editProposal.value.imageUpload.metadata
+) {
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = {
       coordinate: null,
@@ -49,18 +25,14 @@ function addImageEditForRoom(roomId: string, base64: string, metadata: any) {
   }
 
   // Clean up metadata - remove empty URLs
-  const cleanMetadata = {
-    author: metadata.author,
-    license: {
-      text: metadata.license.text,
-      url: metadata.license.url || null,
-    },
-  };
+  if (!metadata.license.url) {
+    metadata.license.url = null;
+  }
 
   if (editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId].image = {
       content: base64,
-      metadata: cleanMetadata,
+      metadata: metadata,
     };
   }
 }
@@ -79,20 +51,12 @@ function startLocationEdit() {
       image: null,
     };
   }
-  if (editProposal.value.locationPicker) {
-    editProposal.value.locationPicker.open = true;
-  }
+  editProposal.value.locationPicker.open = true;
 }
 
-function cancelLocationPicker() {
-  if (editProposal.value?.locationPicker) {
-    editProposal.value.locationPicker.open = false;
-  }
-}
-
-function onLocationSelected(lat: number, lon: number) {
-  const roomId = editProposal.value?.selected?.id;
-  if (roomId && editProposal.value?.data?.edits) {
+function onLocationSelected() {
+  const roomId = editProposal.value.selected.id;
+  if (roomId && editProposal.value.data.edits) {
     if (!editProposal.value.data.edits[roomId]) {
       editProposal.value.data.edits[roomId] = {
         coordinate: null,
@@ -100,7 +64,10 @@ function onLocationSelected(lat: number, lon: number) {
       };
     }
 
-    editProposal.value.data.edits[roomId]!.coordinate = { lat, lon };
+    editProposal.value.data.edits[roomId]!.coordinate = {
+      lat: editProposal.value.locationPicker.lat,
+      lon: editProposal.value.locationPicker.lon,
+    };
   }
   editProposal.value.locationPicker.open = false;
 }
@@ -171,14 +138,14 @@ function getEditTypeDisplay(roomId: string): string {
         <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("suggest_changes") }}</label>
 
         <div class="space-y-2">
-          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startAddEdit('image')">
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="()=>editProposal.imageUpload.open = true">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("suggest_image_title") }}</span>
               <span class="text-xs text-zinc-200 font-normal">{{ t("suggest_image_desc") }}</span>
             </div>
           </Btn>
 
-          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startAddEdit('location')">
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startLocationEdit">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
               <span class="text-xs text-zinc-200 font-normal">{{ t("room_position_wrong_desc") }}</span>
@@ -222,10 +189,10 @@ function getEditTypeDisplay(roomId: string): string {
               "
             />
             <div class="flex gap-2 mt-4">
-              <Btn variant="primary" @click="onLocationSelected(locationPickerCoords.lat, locationPickerCoords.lon)">
+              <Btn variant="primary" @click="onLocationSelected">
                 {{ t("confirm_location") }}
               </Btn>
-              <Btn variant="secondary" @click="cancelLocationPicker">
+              <Btn variant="secondary" @click="()=> editProposal.locationPicker.open = false">
                 {{ t("cancel") }}
               </Btn>
             </div>
@@ -234,7 +201,7 @@ function getEditTypeDisplay(roomId: string): string {
       </div>
 
       <!-- Current Edits -->
-      <div class="pt-4 pb-8" v-if="hasEdits">
+      <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.edits).length">
         <label class="text-zinc-600 text-sm font-semibold">{{ t("current_edits") }}</label>
         <div class="space-y-2 mt-2">
           <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
@@ -242,10 +209,10 @@ function getEditTypeDisplay(roomId: string): string {
               <div class="flex-grow">
                 <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>
                 <div class="text-xs text-zinc-600 mt-1">
-                  <p>{{ t("edit_type") }}: {{ getEditTypeDisplay(String(roomId)) }}</p>
+                  <p>{{ t("edit_type", [getEditTypeDisplay(String(roomId))]) }}</p>
                 </div>
               </div>
-              <button @click="removeEdit(String(roomId))" class="text-red-600 hover:text-red-800 text-sm">
+              <button @click="()=>delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
                 {{ t("remove") }}
               </button>
             </div>
@@ -281,7 +248,7 @@ de:
   select_location: Standort auswählen
   confirm_location: Standort bestätigen
   cancel: Abbrechen
-  edit_type: Änderungstyp
+  edit_type: Änderungstyp {0}
   room_edits: Raum-Änderungen
   image_attached: Bild angehängt
   coordinate: Koordinaten
@@ -305,7 +272,7 @@ en:
   select_location: Select Location
   confirm_location: Confirm Location
   cancel: Cancel
-  edit_type: Edit Type
+  edit_type: Edit Type {0}
   room_edits: Room Edits
   image_attached: Image attached
   coordinate: Coordinate
@@ -314,4 +281,5 @@ en:
   success_thank_you: Thank you for your edit proposal! We will process it as soon as possible.
   success_response_at: You can see our response at {this_pr}
   success_this_pr: this GitHub pull request
+</i18n>
 </i18n>

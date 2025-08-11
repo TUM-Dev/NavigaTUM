@@ -16,6 +16,8 @@ const editProposal = useEditProposal();
 
 function closeForm() {
   editProposal.value.open = false;
+  editProposal.value.imageUpload.open = false;
+  editProposal.value.locationPicker.open = false;
   successUrl.value = "";
   error.value.blockSend = false;
   error.value.message = "";
@@ -107,7 +109,8 @@ function sendForm() {
   // Token may only be used after a short delay.
   const MINIMUM_DELAY_MS = 10_000;
   const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
-  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS) setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
+    setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
   else _send();
 }
 </script>

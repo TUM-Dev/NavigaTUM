@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { Coordinates } from "maplibre-gl";
-import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -137,7 +143,7 @@ watch(
       });
     }
   },
-  { immediate: false },
+  { immediate: false }
 );
 
 onMounted(() => {

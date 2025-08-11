@@ -97,9 +97,15 @@
 </template>
 
 <script setup lang="ts">
-import { PhotoIcon, DocumentCheckIcon, XMarkIcon, InformationCircleIcon } from "@heroicons/vue/24/solid";
-import type { components } from "~/api_types";
+import {
+  DocumentCheckIcon,
+  InformationCircleIcon,
+  PhotoIcon,
+  XMarkIcon,
+} from "@heroicons/vue/24/solid";
 import type { DeepWritable } from "ts-essentials";
+import type { components } from "~/api_types";
+
 type ImageMetadata = components["schemas"]["ImageMetadata"];
 
 interface Props {
@@ -143,7 +149,7 @@ watch(
       license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
     };
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 // File upload handlers
