@@ -3,7 +3,7 @@ use tokio::process::Command;
 use tracing::{debug, info};
 
 use super::EditRequest;
-use super::discription::Description;
+use super::description::Description;
 
 #[derive(Debug)]
 pub struct TempRepo {
@@ -130,7 +130,7 @@ impl TempRepo {
             .arg(&self.branch_name)
             .output()
             .await
-            .context("Failed push to upstream")?;
+            .context("Failed to push to upstream")?;
         debug!(output=?out,"git push output");
         match out.status.code() {
             Some(0) => Ok(()),

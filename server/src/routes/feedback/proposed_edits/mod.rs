@@ -20,7 +20,7 @@ use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
 mod coordinate;
-mod discription;
+mod description;
 mod image;
 mod tmp_repo;
 
@@ -86,11 +86,11 @@ impl EditRequest {
             .edits
             .0
             .iter()
-            .any(|(_, edit)| !edit.coordinate.is_none())
+            .any(|(_, edit)| edit.coordinate.is_some())
         {
             labels.push("coordinate".to_string());
         }
-        if self.edits.0.iter().any(|(_, edit)| !edit.image.is_none()) {
+        if self.edits.0.iter().any(|(_, edit)| edit.image.is_some()) {
             labels.push("image".to_string());
         }
         labels
