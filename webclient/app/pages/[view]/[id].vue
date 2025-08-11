@@ -41,19 +41,13 @@ const slideshowOpen = ref(false);
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
-// Helper functions for edit proposals
-const suggestLocationFix = () => {
-  if (!data.value) return;
-  editProposal.suggestLocationFix(data.value.id, data.value.name, { lat: data.value.coords.lat, lon: data.value.coords.lon });
-};
-
 const suggestImage = () => {
   if (!data.value) return;
-  editProposal.suggestImage(
-    data.value.id,
-    data.value.name,
-    `I would like to suggest a new image for ${data.value.name} (${data.value.id}) that would be helpful for navigation.`,
-  );
+  editProposal.value.selected = {
+    id: data.value.id,
+    name: data.value.name,
+  };
+  editProposal.value.data.additional_context =`I would like to suggest a new image for ${data.value.name} (${data.value.id}) that would be helpful for navigation.`
 };
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {

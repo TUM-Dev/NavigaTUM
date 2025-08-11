@@ -197,7 +197,7 @@ function getEditTypeDisplay(roomId: string): string {
 </script>
 
 <template>
-  <TokenBasedEditProposalModal :data="editProposal.data">
+  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data">
     <template #modal>
       <!-- Additional Context -->
       <div class="flex flex-col">

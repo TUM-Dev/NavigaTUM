@@ -17,19 +17,25 @@ const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 
 const suggestImage = () => {
-  editProposal.suggestImage(
-    props.data.id,
-    props.data.name,
-    `I would like to suggest a new image for ${props.data.name} (${props.data.id}) that would be helpful for navigation.`,
-  );
+  editProposal.value.selected = {
+    id: props.data.id,
+    name: props.data.name,
+  };
+  editProposal.value.data.additional_context = `I would like to suggest a new image for ${props.data.name} (${props.data.id}) that would be helpful for navigation.`;
 };
 
 const suggestLocationFix = () => {
-  editProposal.openWithContext(
-    `The location for ${props.data.name} (${props.data.id}) is only accurate to building level. I can help provide a more precise location within the building.`,
-    props.data.id,
-    { lat: props.data.coords.lat, lon: props.data.coords.lon },
-  );
+  if (!editProposal.value.data.additional_context) {
+    editProposal.value.data.additional_context = `The location for ${props.data.name} (${props.data.id}) is only accurate to building level. I can help provide a more precise location within the building.`;
+  }
+  editProposal.value.selected.id = props.data.id;
+  editProposal.value.selected.name = props.data.name;
+  editProposal.value.locationPicker = {
+    lat: props.data.coords.lat,
+    lon: props.data.coords.lon,
+    open: true,
+  };
+  editProposal.value.open = true;
 };
 </script>
 
