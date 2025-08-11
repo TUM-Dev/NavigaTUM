@@ -90,7 +90,7 @@ mod tests {
         assert_eq!(description.title, "1 category edit");
         assert_eq!(
             description.body,
-            "The following category edits were made:\n| entry | edit |\n| ---   | ---  |\n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
+            "\nThe following category edits were made:\n| entry | edit |\n| ---   | ---  |\n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
         );
     }
 }
