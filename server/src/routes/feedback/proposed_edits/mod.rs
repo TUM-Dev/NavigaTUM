@@ -20,7 +20,7 @@ use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
 mod coordinate;
-mod discription;
+mod description;
 mod image;
 mod tmp_repo;
 

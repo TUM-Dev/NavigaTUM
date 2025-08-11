@@ -3,7 +3,7 @@ use tokio::process::Command;
 use tracing::{debug, info};
 
 use super::EditRequest;
-use super::discription::Description;
+use super::description::Description;
 
 #[derive(Debug)]
 pub struct TempRepo {
