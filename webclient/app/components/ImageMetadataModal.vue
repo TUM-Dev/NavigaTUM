@@ -38,27 +38,6 @@
           />
         </div>
 
-        <!-- Source -->
-        <div>
-          <label class="block text-sm font-medium text-zinc-700 mb-1">
-            {{ t("image_source") }} <span class="text-red-500">*</span>
-          </label>
-          <input
-            v-model="localMetadata.source.text"
-            type="text"
-            :placeholder="t('image_source_placeholder')"
-            class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
-            required
-          />
-          <input
-            v-model="localMetadata.source.url"
-            type="url"
-            :placeholder="t('image_source_url_placeholder')"
-            class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-      </div>
-
       <div class="flex gap-2 mt-6">
         <Btn
           variant="primary"

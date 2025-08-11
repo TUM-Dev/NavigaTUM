@@ -2,6 +2,10 @@
 import { useEditProposal } from "~/composables/editProposal";
 import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
 
+import type { components } from "~/api_types";
+import type { DeepWritable } from "ts-essentials";
+type ImageMetadata = components["schemas"]["ImageMetadata"];
+
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
 
@@ -10,11 +14,9 @@ const showImageMetadataModal = ref(false);
 const selectedImageFile = ref<{ base64: string; fileName: string } | null>(null);
 
 // Image metadata state
-const imageMetadata = ref({
+const imageMetadata = ref<DeepWritable<ImageMetadata>>({
   author: "",
   license: { text: "", url: "" },
-  source: { text: "", url: "" },
-  offsets: { header: null as number | null, thumb: null as number | null },
 });
 
 // Computed properties
@@ -67,7 +69,6 @@ function handleImageUpload() {
             if (base64) {
               // Store the image data and initialize metadata with filename
               selectedImageFile.value = { base64, fileName };
-              imageMetadata.value.source.text = fileName;
 
               // Always show metadata modal first for images
               showImageMetadataModal.value = true;
@@ -171,8 +172,6 @@ function confirmImageMetadata(metadata: typeof imageMetadata.value) {
     imageMetadata.value = {
       author: "",
       license: { text: "", url: "" },
-      source: { text: "", url: "" },
-      offsets: { header: null, thumb: null },
     };
   } else {
     console.error("No room context available for image edit");
@@ -186,8 +185,6 @@ function cancelImageMetadata() {
   imageMetadata.value = {
     author: "",
     license: { text: "", url: "" },
-    source: { text: "", url: "" },
-    offsets: { header: null, thumb: null },
   };
 }
 
