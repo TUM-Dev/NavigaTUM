@@ -51,14 +51,16 @@ function _send() {
           successUrl.value = url;
         });
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
-        let txt = await r.text();
-        error.value.message = `${t("status.server_error")} (${txt})`;
+        r.text().then((txt) => {
+          error.value.message = `${t("status.server_error")} (${txt})`;
+        });
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
         error.value.message = t("error.please_accept_privacy_statement");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        let txt = await r.text();
-        error.value.message = `${t("error.send_invalid_token")} (${txt})`;
+        r.text().then((txt) => {
+          error.value.message = `${t("error.send_invalid_token")} (${txt})`;
+        });
       } else if (r.status === SubmissionStatus.BAD_REQUEST) {
         error.value.message = t("error.bad_request");
       } else if (r.status === SubmissionStatus.UNPROCESSABLE_ENTITY) {
@@ -76,9 +78,7 @@ function _send() {
       loading.value = false;
       error.value.message = t("error.send_req_failed");
       console.error(r);
-      if (process.client && typeof document !== "undefined") {
-        document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
-      }
+      document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
     });
 }
 
