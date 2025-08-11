@@ -26,6 +26,13 @@ const locationPickerCoords = computed(() => ({
   lon: editProposal.value?.locationPicker?.lon || 0,
 }));
 
+// OSM edit URL computed from current coordinates
+const osmEditUrl = computed(() => {
+  const lat = editProposal.value?.locationPicker?.lat || 48.1351; // Default to Munich
+  const lon = editProposal.value?.locationPicker?.lon || 11.582;
+  return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
+});
+
 // Methods
 function removeEdit(roomId: string) {
   if (editProposal.value?.data?.edits) {
@@ -228,8 +235,15 @@ function getEditTypeDisplay(roomId: string): string {
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startAddEdit('location')">
             <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("location_wrong_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("location_wrong_desc") }}</span>
+              <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
+              <span class="text-xs text-zinc-200 font-normal">{{ t("room_position_wrong_desc") }}</span>
+            </div>
+          </Btn>
+
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
+            <div class="flex flex-col items-start">
+              <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
+              <span class="text-xs text-zinc-200 font-normal">{{ t("map_missing_roads_desc") }}</span>
             </div>
           </Btn>
         </div>
@@ -238,7 +252,11 @@ function getEditTypeDisplay(roomId: string): string {
         <ImageMetadataModal :show="showImageMetadataModal" :metadata="imageMetadata" @confirm="confirmImageMetadata" @cancel="cancelImageMetadata" />
 
         <!-- Location Picker Modal -->
-        <div v-if="editProposal.locationPicker.open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="()=>editProposal.locationPicker.open = false">
+        <div
+          v-if="editProposal.locationPicker.open"
+          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          @click.self="() => (editProposal.locationPicker.open = false)"
+        >
           <div class="bg-white rounded-lg p-6 m-4 max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <h3 class="text-lg font-semibold mb-4 text-zinc-900">{{ t("select_location") }}</h3>
             <LocationPicker
@@ -304,8 +322,10 @@ de:
   suggest_changes: Was möchtest du ändern?
   suggest_image_title: Neues Bild vorschlagen
   suggest_image_desc: Ein Foto vom Raum, Gebäude oder Standort hinzufügen
-  location_wrong_title: Der Standort ist falsch
-  location_wrong_desc: Position auf der Karte korrigieren
+  room_position_wrong_title: Raum ist falsch positioniert
+  room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
+  map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
+  map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
   select_location: Standort auswählen
   confirm_location: Standort bestätigen
   cancel: Abbrechen
@@ -326,8 +346,10 @@ en:
   suggest_changes: What would you like to change?
   suggest_image_title: Suggest a new image
   suggest_image_desc: Add a photo of the room, building, or location
-  location_wrong_title: The location is wrong
-  location_wrong_desc: Correct position on the map
+  room_position_wrong_title: Room is positioned incorrectly
+  room_position_wrong_desc: Correct this room's position in Navigatum
+  map_missing_roads_title: Other details (paths, vegetation) missing from map
+  map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
   select_location: Select Location
   confirm_location: Confirm Location
   cancel: Cancel

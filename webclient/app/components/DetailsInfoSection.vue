@@ -17,11 +17,13 @@ const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 
 const suggestImage = () => {
+  console.log("suggestImage");
   editProposal.value.selected = {
     id: props.data.id,
     name: props.data.name,
   };
   editProposal.value.data.additional_context = `I would like to suggest a new image for ${props.data.name} (${props.data.id}) that would be helpful for navigation.`;
+  editProposal.value.open = true;
 };
 
 const suggestLocationFix = () => {
@@ -82,10 +84,10 @@ const suggestLocationFix = () => {
         <div class="mt-3 grid gap-2">
           <div
             v-if="data.coords.accuracy === 'building'"
-            class="text-orange-900 bg-orange-100 border-orange-300 text-pretty rounded border p-1.5 text-sm leading-5 flex justify-between items-center"
+            class="text-orange-900 flex-col bg-orange-100 border-orange-300 text-pretty rounded border p-1.5 text-sm leading-5 flex justify-between items-start"
           >
             <span>{{ t("msg.inaccurate_only_building") }}</span>
-            <button type="button" class="text-orange-600 hover:text-orange-800 text-sm font-medium ml-2" @click="suggestLocationFix">
+            <button type="button" class="pt-2 text-orange-600 hover:text-orange-800 text-sm font-medium ml-2" @click="suggestLocationFix">
               {{ t("suggest_edit") }}
             </button>
           </div>
@@ -112,7 +114,7 @@ de:
   info_title: Informationen
   add_image: Bild hinzufügen
   add_first_image: Erstes Bild hinzufügen
-  suggest_edit: Bearbeiten
+  suggest_edit: Ich weiß wo es liegt
   msg:
     inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
@@ -121,7 +123,7 @@ en:
   info_title: Information
   add_image: Add image
   add_first_image: Add first image
-  suggest_edit: Suggest edit
+  suggest_edit: I know where it is
   msg:
     inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.
