@@ -11293,5 +11293,15 @@
     "code": "TUZVRUG",
     "name": "Raum- und Geodatenbestand (ZA 4)",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Raum- und Geodatenbestand (ZA 4)"
+  },
+  "57497": {
+    "code": "TUXS242",
+    "name": "Studiengang MAS Sustainable Real Estate",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/MAS Sustainable Real Estate"
+  },
+  "57517": {
+    "code": "TUPEBAP",
+    "name": "BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik",
+    "path": "TUM/Partnerschaftliche Einrichtungen/BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik"
   }
 }
