@@ -71,7 +71,7 @@ impl Coordinate {
     }
 }
 impl AppliableEdit for Coordinate {
-    fn apply(&self, key: &str, base_dir: &Path) -> String {
+    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
         let file = Self::best_matching_file(key, base_dir);
         let content = std::fs::read_to_string(file.clone()).unwrap();
         let mut lines = content.lines().collect::<Vec<&str>>();

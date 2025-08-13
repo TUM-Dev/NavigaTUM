@@ -30,7 +30,7 @@ struct Edit {
     image: Option<Image>,
 }
 pub trait AppliableEdit {
-    fn apply(&self, key: &str, base_dir: &Path) -> String;
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
 }
 
 #[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
@@ -65,7 +65,7 @@ impl EditRequest {
         };
         let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
         let repo = TempRepo::clone_and_checkout(&url, branch_name).await?;
-        let desc = repo.apply_and_gen_description(self);
+        let desc = repo.apply_and_gen_description(self, branch_name);
         repo.commit(&desc.title).await?;
         repo.push().await?;
         Ok(desc.body)
