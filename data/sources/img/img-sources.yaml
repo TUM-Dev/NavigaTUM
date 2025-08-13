@@ -1,200 +1,115 @@
-"0101":
+'0101':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-4213.01.318: # baywa coworking space
-  0:
-    author: Frank Elsinga
-    license:
-      text: CC0 1.0
-      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-  1:
-    author: Frank Elsinga
-    license:
-      text: CC0 1.0
-      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-  2:
-    author: Frank Elsinga
-    license:
-      text: CC0 1.0
-      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 0101.01.195:
   0:
     author: MaxEmanuel
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen_5.jpg
   1:
     author: MaxEmanuel
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen.jpg
-"0102":
+'0102':
   0:
     author: AHert
     license:
       text: CC-BY-SA 3.0
       url: https://creativecommons.org/licenses/by-sa/3.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:TUM-N2_Muenchen-02.jpg
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0103":
+'0103':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0104":
+'0104':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 0104.U1.403:
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0105":
+'0105':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0106":
+'0106':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0109":
+'0109':
   0:
     author: Astrid Eckert
     license:
       text: '©Astrid Eckert / TUM; Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights./ Free for use in reporting on the Technical University of Munich (TUM) with the copyright noted. '
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1436311
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0201":
+'0201':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0206":
+'0206':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0501":
+'0501':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0502":
+'0502':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0503":
+'0503':
   0:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1436302
     offsets:
       header: 400
   1:
@@ -202,175 +117,109 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0504":
+'0504':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0505":
+'0505':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0506":
+'0506':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0508":
+'0508':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
-"0509":
+'0509':
   0:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1431682
   1:
     author: Uli Benz
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599301
   2:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   3:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   4:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 0509.02.986:
   0:
     author: Uli Benz
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599301
   1:
     author: Uli Benz
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599303
   2:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1431682
   3:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232770?show_id=1431682
 0509.EG.980:
   0:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232770?show_id=1431682
   1:
     author: Uli Benz
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599303
   2:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1431682
   3:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599301
-"0510":
+'0510':
   0:
     author: Astrid Eckert
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1584779
     offsets:
       header: 400
   1:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1487578
   2:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '1552':
   0:
     author: Astrid Eckert
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1613195
     offsets:
       header: 400
 '2319':
@@ -378,57 +227,37 @@
     author: Uli Benz
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601091
 2319.EG.001:
   0:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601091
 '2522':
   0:
     author: Andreas Heddergott / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TU München with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1381870
   1:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1487686
 '2801':
   0:
     author: Benz, Uli / TUM
     license:
       text: frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1271682
 '2906':
   0:
     author: Bernhard Maier
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: TUM IT Support
 '2927':
   0:
     author: Frank Elsinga
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: -400
       thumb: 100
@@ -438,9 +267,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 100
       thumb: 100
@@ -450,9 +276,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: -400
       thumb: 300
@@ -461,9 +284,6 @@
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1487673
     offsets:
       header: 250
 '3502':
@@ -472,9 +292,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 50
 '3503':
@@ -483,18 +300,12 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '3504':
   0:
     author: Frank Elsinga
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 400
 '3505':
@@ -503,18 +314,12 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '3515':
   0:
     author: Frank Elsinga
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: -200
 '4001':
@@ -522,17 +327,11 @@
     author: Benz, Uli / TUM
     license:
       text: frei für Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=972321
 '4102':
   0:
     author: Uli Benz / TU München
     license:
       text: Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1435162
     offsets:
       header: 400
 '4111':
@@ -540,53 +339,48 @@
     author: TUM/ A. Heddergott
     license:
       text: ©TUM/ A. Heddergott; frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1294179
   1:
     author: TUM/ A. Heddergott
     license:
       text: ©TUM/ A. Heddergott; frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1294174
   2:
     author: TUM Pro Lehre Medienproduktion
     license:
       text: ©TUM Pro Lehre Medienproduktion; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1520111
   3:
     author: TUM/ A. Heddergott
     license:
       text: ©TUM/ A. Heddergott; frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1294179
   4:
     author: TUM/ A. Heddergott
     license:
       text: ©TUM/ A. Heddergott; frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1294176
 '4115':
   0:
     author: Heddergott, Andreas / TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1206530
+4213.01.318:
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+  1:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+  2:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
 '4216':
   0:
     author: Uli Benz
     license:
       text: ©Uli Benz / TUM; frei für Berichterstattung über die TUM unter Nennung des Copyrights; de
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1538250
     offsets:
       header: -100
 '4217':
@@ -594,9 +388,6 @@
     author: Benz, Uli / TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1206522
     offsets:
       header: 400
 '4218':
@@ -604,9 +395,6 @@
     author: Benz, Uli / TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1206515
     offsets:
       header: 200
 '4220':
@@ -614,67 +402,43 @@
     author: Benz, Uli / TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=672787
 '4317':
   0:
     author: Benz, Uli
     license:
       text: ©Uli Benz/TUM; Verwendung frei bei Berichterstattung über die TUM unter Angabe des Copyright/ Free for use in reporting about TUM with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=652434
 '4318':
   0:
     author: A. Heddergott /TUM
     license:
       text: ©Andreas Heddergott / TU München - Verwendung frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1452040
 '5115':
   0:
     author: HennArchitekten, München
     license:
       text: frei für Berichterstattung über TUM; Bitte HennArchitekten, München als Urheber nennen!
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=736488
     offsets:
       header: 100
   1:
     author: HennArchitekten, München
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=736495
     offsets:
       header: 200
   2:
     author: HennArchitekten, München
     license:
       text: frei für Berichterstattung über TUM; Bitte HennArchitekten, München als Urheber nennen!
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=736488
 '5126':
   0:
     author: 'Foto: Thorsten Naeser / Max-Planck-Institut für Quantenoptik'
     license:
       text: frei für Berichterstattung über TUM, LMU, MPQ und CALA
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=982203
 '5301':
   0:
     author: Buck, Markus
     license:
       text: frei zur Berichterstattung der TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232770?show_id=1252278
     offsets:
       header: -50
 '5302':
@@ -683,17 +447,11 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '5304':
   0:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1519378
     offsets:
       header: 150
       thumb: -1000
@@ -701,23 +459,14 @@
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1519379
   2:
     author: meck architekten GmbH
     license:
       text: frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1307395
   3:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1519383
     offsets:
       header: -450
 '5401':
@@ -726,275 +475,176 @@
     license:
       text: CC-BY-SA 4.0
       url: https://creativecommons.org/licenses/by-sa/4.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:TB_Chemie.jpg
 5401.01.101K:
   0:
     author: Scharger, Albert / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=615172
 '5410':
   0:
     author: Klein&Sänger, Architekten
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=802794
   1:
     author: Andreas Heddergott / TUM
     license:
       text: frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1304557
 '5413':
   0:
     author: Ulrich Benz / TUM
     license:
       text: frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1304319
 '5414':
   0:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1290719
   1:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1290890
   2:
     author: Stefan Hobmaier
     license:
       text: ©Stefan Hobmaier / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1510340
   3:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TU München with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1366133
     offsets:
       header: 200
   4:
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TU München with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1366134
   5:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232772?show_id=1290890
 '5415':
   0:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted .
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599400
   1:
     author: Carpus+Partner
     license:
       text: frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1398639
 '5416':
   0:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1463396
   1:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1463396
 '5433':
   0:
     author: Ebener, Marcus / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1252334
   1:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1519437
   2:
     author: Ebener, Marcus  / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1252331
   3:
     author: Ebener, Marcus / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1252332
   4:
     author: Ebener, Marcus / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1361667?show_id=1252334
   5:
     author: Ebener, Marcus  / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1252331
 5506.EG.679:
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 5506.EG.690H:
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 5506.EG.690J:
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 5506.EG.690M:
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '5510':
   0:
     author: Benz, Uli / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=998437
 '5530':
   0:
     author: Benz, Uli / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=998437
   1:
     author: Eckert, Astrid / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TUM unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1165646
 '5531':
   0:
     author: Eckert, Astrid / TUM
     license:
       text: Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1007219
   1:
     author: Eckert, Astrid / TUM
     license:
       text: Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1007219
 '5532':
   0:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Frei für Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1475835
   1:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Frei für Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1475834
 5532.Z1.003:
   0:
     author: Uli Benz
     license:
       text: '© Uli Benz/ TU Muenchen Verwendung: Frei fuer Berichterstattung ueber die TU Muenchen unter Nennung des Copyrights.de Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted '
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232774?show_id=1475840
 '5539':
   0:
     author: Frank Elsinga
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 100
+5606.EG.041:
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '5620':
   0:
     author: Frank Elsinga
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: -100
 '5622':
@@ -1003,26 +653,17 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
   1:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '5701':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 100
 '5901':
@@ -1030,147 +671,87 @@
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1305049
   1:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1305045
   2:
     author: HENN / TUM
     license:
       text: Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. / Free for use in reporting on the TUM with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1439555
   3:
     author: Henn Architektur / TUM
     license:
       text: Verwendung frei für Berichterstattung über die Technische Universität  München (TUM) unter Nennung des Copyrights. / Free for use in reporting on the TUM  with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1439048
   4:
     author: Henn GmbH
     license:
       text: frei für Berichterstattung über TU München unter Nennung des Copyrights/free use with credit and related coverage
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1304955
   5:
     author: HENN / TUM
     license:
       text: Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. / Free for use in reporting on the TUM with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1439555
   6:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1305045
     offsets:
       header: 200
   7:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1304961
   8:
     author: Henn GmbH
     license:
       text: frei für Berichterstattung über TU München unter Nennung des Copyrights/free use with credit and related coverage
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1304954
   9:
     author: Uli Benz / TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1305049
   10:
     author: HENN / TUM
     license:
       text: Verwendung frei für Berichterstattung über die Technische Universität München (TUM) unter Nennung des Copyrights. Free for use in reporting on the TUM with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1439553
 '6202':
   0:
     author: Andreas Heddergott / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1453748
   1:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1596893
   2:
     author: TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1597127
   3:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1596887
   4:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1596889
   5:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1596884
   6:
     author: Fabian Vogl
     license:
       text: ©Fabian Vogl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1596882
   7:
     author: TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1597127
 7894.EG.302:
   0:
     author: Nick-Marlon Loth
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: TUM Venture Labs
-      url: https://tum-venture-labs.de
     offsets:
       thumb: -500
 '8101':
@@ -1179,9 +760,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: -100
 '8102':
@@ -1190,9 +768,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       thumb: -300
 '8104':
@@ -1201,18 +776,12 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
 '8111':
   0:
     author: David Bonello
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    source:
-      text: NavigaTUM Team
-      url: https://nav.tum.de
     offsets:
       header: 100
 '9001':
@@ -1220,162 +789,99 @@
     author: Andreas Heddergott / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296845
   1:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296799
   2:
     author: Andreas Heddergott / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296839
   3:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296841
   4:
     author: Andreas Heddergott / TUM
     license:
       text: ©Andreas Heddergott / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1297308
   5:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1296810
     offsets:
       header: 400
   6:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für Berichterstattung über die TUM bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1308203
   7:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für Berichterstattung über die TUM bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232772?show_id=1308203
 9001.01.103:
   0:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296841
   1:
     author: Andreas Heddergott / TUM
     license:
       text: ©Andreas Heddergott / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1297308
   2:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1296810
   3:
     author: Andreas Heddergott / TUM
     license:
       text: ©Andreas Heddergott / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1297311
     offsets:
       header: 400
   4:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM Fotostelle; frei für die Berichterstattung über die TUM unter Nennung des Copyrights; frei für Berichterstattung über die TUM bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1308203
 9001.02.208:
   0:
     author: Andreas Heddergott / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296845
   1:
     author: Andreas Heddergott / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296839
   2:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296797
 9001.EG.012:
   0:
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1296818
 '9201':
   0:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1515046
 '9376':
   0:
     author: Andreas Heddergott / TUM
     license:
       text: free for reporting on TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232772?show_id=1278913
     offsets:
       header: 200
   1:
     author: Andreas Heddergott / TUM
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232772?show_id=1278912
     offsets:
       header: 200
   2:
     author: Andreas Heddergott / TUM
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1278916
     offsets:
       header: -200
 '9377':
@@ -1383,42 +889,27 @@
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601027
     offsets:
       header: 500
   1:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601034
   2:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601037
 chemie:
   0:
     author: '''Graf-flugplatz'''
     license:
       text: CC-BY-SA 3.0
       url: https://creativecommons.org/licenses/by-sa/3.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:110910047-TUM.jpg
 cs:
   0:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1487673
     offsets:
       header: 250
 frm-2:
@@ -1426,129 +917,75 @@ frm-2:
     author: Battenberg, Andreas / TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1198008
   1:
     author: Wenzel Schürmann /TUM
     license:
       text: frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=998176
   2:
     author: Battenberg, Andreas / TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232772?show_id=1198007
   3:
     author: TU München
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=654821
   4:
     author: Uli Benz
     license:
       text: '©Uli Benz / TUM Fotostelle Verwendung: Frei für Berichterstattung über die TUM unter Nennung des Copyrights.'
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1349737
   5:
     author: Wenzel Schürmann/ TU München
     license:
       text: frei zur Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=816710
   6:
     author: Eckert, Astrid / TUM
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1253414
   7:
     author: Wenzel Schürmann / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1554160
   8:
     author: Eckert, Astrid / TUM
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1253414
   9:
     author: Wenzel Schürmann/ TU München
     license:
       text: frei zur Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=816711
   10:
     author: Juli Eberle / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1577112
   11:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights /Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1591524
   12:
     author: Battenberg, Andreas / TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1198008
   13:
     author: Wenzel Schürmann/ TU München
     license:
       text: frei zur Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=816710
   14:
     author: Scharger, Albert / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=614687
   15:
     author: TU München
     license:
       text: frei für Berichterstattung über TUM
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=654821
 galileo:
   0:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232774?show_id=1599389
   1:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted .
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1599391
     offsets:
       header: 200
 garching:
@@ -1557,331 +994,205 @@ garching:
     license:
       text: CC-BY-SA 3.0
       url: https://creativecommons.org/licenses/by-sa/3.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:110403022-TUM.JPG
   1:
     author: Bayerische Vermessungsverwaltung
     license:
       text: CC-BY 3.0
       url: https://creativecommons.org/licenses/by/3.0/deed.en
-    source:
-      text: www.geodaten.bayern.de
-      url: https://www.geodaten.bayern.de
 heilbronn:
   0:
     author: J. Häffner / TUM
     license:
       text: ©Jürgen Häffner; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1472545
   1:
     author: Jürgen Häffner / TUM
     license:
       text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1472429
   2:
     author: Dieter Schwarz Stiftung
     license:
       text: Verwendung frei für Berichterstattung über den Bildungscampus Heilbronn bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1430559
   3:
     author: Jürgen Häffner / Dieter Schwarz Stiftung
     license:
       text: Verwendung frei für Berichterstattung über den Bildungscampus Heilbronn bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1430689
   4:
     author: Magmell / Dieter Schwarz Stiftung
     license:
       text: Verwendung frei für Berichterstattung über den Bildungscampus Heilbronn bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1430556
 mi:
   0:
     author: Astrid Eckert
     license:
       text: '©Astrid Eckert / TUM: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1575463
   1:
     author: Benz, Uli / TUM
     license:
       text: ©Uli Benz / TUM; frei für Berichterstattung über die TU München unter Nennung des Copyrights; Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=614549
   2:
     author: Astrid Eckert
     license:
       text: 'Astrid Eckert / TUM: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.'
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1575463
   3:
     author: Scharger, Albert / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=614629
     offsets:
       header: -150
   4:
     author: Scharger, Albert / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=608137
     offsets:
       header: 300
   6:
     author: Andreas Heddergott / TUM
     license:
       text: "frei für Berichterstattung über TU München; Die Parabelrutsche ist ein Kunstwerk von Brunner/Ritz. Bei Verwendung des Bildmaterials sind entsprechende Verwertungsrechte bei der VG Bild-Kunst einzuholen. \r\nIm Bildnachweis deshalb bitte den jeweiligen Fotografen / TUM angeben und VG Bild-Kunst, Bonn YYYY."
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1360513
 mri:
   0:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1613195
     offsets:
       header: 400
   1:
     author: Klinikums rechts der Isar
     license:
       text: Verwendung frei für Berichterstattung über die TU München und das Klinikums rechts der Isarunter Nennung des Copyrights / Free for use in reporting on TU München and Klinikums rechts der Isar with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1361058
 mw:
   0:
     author: Renardo la vulpo
     license:
       text: CC-BY-SA 4.0
       url: https://creativecommons.org/licenses/by-sa/4.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:Garching,_Eberhard-von-Kuenheim-Bau,_2.jpeg
     offsets:
       header: 300
   1:
     author: Heddergott, Andreas / TUM
     license:
       text: frei füer Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1165202
   2:
     author: Andreas Heddergott
     license:
       text: ©Andreas Heddergott / TUM150; frei für die Berichterstattung über die TUM unter Nennung des Copyrightde
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1436723?show_id=1437615
     offsets:
       header: 200
   3:
     author: Benz, Uli / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=998437
     offsets:
       header: -200
   4:
     author: Heddergott, Andreas / TUM
     license:
       text: frei füer Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1165202
 obernach:
   0:
     author: Manfred Schmierl
     license:
       text: ©Manfred Schmierl / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1552212
   1:
     author: Virtuelles Alpenobservatorium (VAO)
     license:
       text: ©Virtuelles Alpenobservatorium (VAO) / Lehrstuhl für Wasserbau und Wasserwirtschaft / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1552211
   2:
     author: Virtuelles Alpenobservatorium (VAO)
     license:
       text: ©Virtuelles Alpenobservatorium (VAO) / Lehrstuhl für Wasserbau und Wasserwirtschaft / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232769?show_id=1552211
 olympiapark:
   0:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1442246
   1:
     author: A. Eckert
     license:
       text: ©Astrid Eckert  / TUM Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1443390
   2:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=1442252
   3:
     author: A. Eckert
     license:
       text: ©Astrid Eckert / TUM Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1443375
     offsets:
       header: 200
   4:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1442249
   5:
     author: A. Eckert
     license:
       text: ©Astrid Eckert / TUM Verwendung frei für die Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1443390
     offsets:
       header: 700
   6:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1442252
   7:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1601089
   8:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1442248
   9:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1442246
   10:
     author: Studio Roland Schmid
     license:
       text: Free for coverage of TUM Campus in the Olympic Park with mention of copyright; Frei für Berichterstattung über TUM Campus im Olympiapark bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1442250
 physik:
   0:
     author: '''Graf-flugplatz'''
     license:
       text: CC-BY-SA 3.0
       url: https://creativecommons.org/licenses/by-sa/3.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:110403019-TUM.JPG
 physik-main:
   0:
     author: Andreas Battenberg / TUM
     license:
       text: ©Andreas Battenberg / TUM; frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232786?show_id=1273589
     offsets:
       header: -100
   1:
     author: Andreas Battenberg / TUM
     license:
       text: ©Andreas Battenberg / TUM; frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232786?show_id=1273590
   2:
     author: Andreas Battenberg / TUM
     license:
       text: ©Andreas Battenberg / TUM; frei für Berichterstattung über TU München
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232786?show_id=1273588
 stammgelaende:
   0:
     author: Maximilian Dörrbecker
     license:
       text: CC-BY-SA 2.5
       url: https://creativecommons.org/licenses/by-sa/2.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_TU_M%C3%BCnchen_(Luftbild).jpg
   1:
     author: Fred Romero
     license:
       text: CC-BY 2.0
       url: https://creativecommons.org/licenses/by/2.0/deed.en
-    source:
-      text: Wikimedia Commons
-      url: https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_Technische_Universit%C3%A4t_(2).jpg
     offsets:
       header: 100
   2:
     author: FOTAG Luftbild München
     license:
       text: Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=652205
 taufkirchen-ottobrunn:
   0:
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232768?show_id=1601027
     offsets:
       header: 500
 wzw:
@@ -1889,65 +1200,38 @@ wzw:
     author: Heddergott, Andreas / TUM
     license:
       text: frei zur Berichterstattung über die TU München unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/652209?show_id=997939
   1:
     author: Michael Obermeier/Michael Folgmann
     license:
       text: ©TUM Pro Lehre Medienproduktion Frei für Berichterstattung über TU München bei Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1453695
   2:
     author: Ronald Zöllner
     license:
       text: ©Ronald Zöllner / ediundsepp Gestaltungsgesellschaft mbH / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1620033
   3:
     author: Ronald Zöllner
     license:
       text: ©Ronald Zöllner / ediundsepp Gestaltungsgesellschaft mbH / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1620026
   4:
     author: Ronald Zöllner
     license:
       text: ©Ronald Zöllner / ediundsepp Gestaltungsgesellschaft mbH / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1620039
   5:
     author: Ronald Zöllner
     license:
       text: ©Ronald Zöllner / ediundsepp Gestaltungsgesellschaft mbH / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1620031
   6:
     author: Ronald Zöllner
     license:
       text: ©Ronald Zöllner / ediundsepp Gestaltungsgesellschaft mbH / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1620029
 zentralgelaende:
   0:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232767?show_id=1584779
     offsets:
       header: 400
   1:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-    source:
-      text: mediaTUM
-      url: https://mediatum.ub.tum.de/1232770?show_id=1398713

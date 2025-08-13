@@ -1,7 +1,7 @@
 name: Webclient CI/CD
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-webclient
   cancel-in-progress: true
 on:
   pull_request:
