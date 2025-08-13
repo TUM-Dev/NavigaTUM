@@ -96,20 +96,25 @@ impl EditRequest {
         labels
     }
     fn extract_subject(&self) -> String {
+        use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
         match (coordinate_edits.len(), image_edits.len()) {
-            (0, 0) => "No Edits".to_string(),
-            (1..=5, 0) => format!("Coordinate Edit for {:?}", coordinate_edits.keys()),
-            (0, 1..=5) => format!("Added Images for {:?}", image_edits.keys()),
-            (0, is) => format!("Added {is} Images"),
-            (1..=3, 1..=3) => format!(
-                "Edited Images for {:?} and Coordinates for {:?}",
-                image_edits.keys(),
-                coordinate_edits.keys()
+            (0, 0) => "no edits".to_string(),
+            (1..=5, 0) => format!(
+                "coordinate edit for `{}`",
+                coordinate_edits.keys().join("`, `")
             ),
-            (cs, 0) => format!("Edited {cs} Coordinates"),
-            (cs, is) => format!("Edited {is} Images and {cs} Coordinates"),
+            (0, 1) => format!("add image for `{}`", image_edits.keys().next().unwrap()),
+            (0, 2..=5) => format!("add images for `{}`", image_edits.keys().join("`, `")),
+            (0, is) => format!("add {is} images"),
+            (cs, 0) => format!("Edited {cs} coordinates"),
+            (1..=3, 1..=3) => format!(
+                "edited images for `{}` and coordinates for `{}`",
+                image_edits.keys().join("`, `"),
+                coordinate_edits.keys().join("`, `")
+            ),
+            (cs, is) => format!("edited {is} images and {cs} coordinates"),
         }
     }
 }
@@ -179,7 +184,7 @@ pub async fn propose_edits(
                 .open_pr(
                     branch_name,
                     &format!(
-                        "[User-Provided] {subject}",
+                        "chore(data): {subject}",
                         subject = req_data.extract_subject()
                     ),
                     &description,
