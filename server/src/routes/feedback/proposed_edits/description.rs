@@ -20,6 +20,7 @@ impl Description {
         category_name: &'static str,
         set: HashMap<String, T>,
         base_dir: &Path,
+        branch: &str,
     ) {
         if !set.is_empty() {
             let edits = if set.len() == 1 { "edit" } else { "edits" };
@@ -34,7 +35,7 @@ impl Description {
             self.body += "| entry | edit |\n";
             self.body += "| ---   | ---  |\n";
             for (key, value) in set {
-                let result = value.apply(&key, base_dir);
+                let result = value.apply(&key, base_dir, branch);
                 self.body += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
             }
         }
@@ -77,7 +78,7 @@ mod tests {
     fn test_apply_set_empty() {
         let mut description = Description::default();
         let set: HashMap<String, TestEdit> = HashMap::default();
-        description.appply_set("category", set, Path::new(""));
+        description.appply_set("category", set, Path::new(""), "none");
         assert_eq!(description.title, "");
         assert_eq!(description.body, "");
     }
@@ -86,7 +87,7 @@ mod tests {
     fn test_apply_set() {
         let mut description = Description::default();
         let set = HashMap::from([("key".to_string(), TestEdit)]);
-        description.appply_set("category", set, Path::new(""));
+        description.appply_set("category", set, Path::new(""), "none");
         assert_eq!(description.title, "1 category edit");
         assert_eq!(
             description.body,

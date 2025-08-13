@@ -49,14 +49,14 @@ impl TempRepo {
     }
 
     #[tracing::instrument]
-    pub fn apply_and_gen_description(&self, edits: &EditRequest) -> Description {
+    pub fn apply_and_gen_description(&self, edits: &EditRequest, branch_name: &str) -> Description {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
 
         let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
-        description.appply_set("coordinate", coordinate_edits, self.dir.path());
+        description.appply_set("coordinate", coordinate_edits, self.dir.path(), branch_name);
         let image_edits = edits.edits_for(|edit| edit.image);
-        description.appply_set("image", image_edits, self.dir.path());
+        description.appply_set("image", image_edits, self.dir.path(), branch_name);
 
         let first_line = description.body.lines().next();
         info!(description_first_line=?first_line, title=description.title, "generated description");

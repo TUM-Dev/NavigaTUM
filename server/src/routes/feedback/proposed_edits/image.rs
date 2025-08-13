@@ -81,18 +81,6 @@ impl Image {
             .count();
         image_dir.join(format!("{key}_{next_free_slot}.webp"))
     }
-    fn base64_webp_thumbnail(&self) -> anyhow::Result<String> {
-        let bytes = BASE64_STANDARD.decode(&self.content)?;
-        let image = image::load_from_memory(&bytes)?;
-
-        let image = image.thumbnail(64, 32);
-        let mut target = Vec::new();
-        image.write_to(
-            &mut std::io::Cursor::new(&mut target),
-            image::ImageFormat::WebP,
-        )?;
-        Ok(BASE64_STANDARD.encode(target))
-    }
     fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
         let image = image::load_from_memory(&bytes)?;
@@ -114,7 +102,7 @@ impl Image {
     }
 }
 impl AppliableEdit for Image {
-    fn apply(&self, key: &str, base_dir: &Path) -> String {
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String {
         let image_dir = base_dir.join("data").join("sources").join("img");
         let target = Self::image_should_be_saved_at(key, &image_dir.join("lg"));
 
@@ -122,8 +110,8 @@ impl AppliableEdit for Image {
         let metadata_result = self.save_metadata(key, &image_dir);
 
         let success = format!(
-            "<img src='data:image/webp;base64,{thumbnail}' alt='image for {key}' height='50%' />  Layout",
-            thumbnail = self.base64_webp_thumbnail().unwrap_or_default()
+            "![image showing {key}](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename})",
+            filename = target.file_name().unwrap_or_default().to_string_lossy()
         );
         match (content_result, metadata_result) {
             (Ok(()), Ok(())) => success,
