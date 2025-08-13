@@ -5801,7 +5801,7 @@
   },
   "50478": {
     "code": "TUINF24",
-    "name": "Informatics 3 - Assistant Professorship of Database Systems (Prof. Giceva)",
+    "name": "Informatics 3 - Associate Professorship of Database Systems (Prof. Giceva)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Database Systems (Prof. Giceva)"
   },
   "50498": {
@@ -7801,7 +7801,7 @@
   },
   "52538": {
     "code": "TUPHTTP",
-    "name": "Assistant Professorship of Theoretical Particle Physics (Prof. Tancredi)",
+    "name": "Associate Professorship of Theoretical Particle Physics (Prof. Tancredi)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Particle Physics (Prof. Tancredi)"
   },
   "52557": {
@@ -11293,5 +11293,15 @@
     "code": "TUZVRUG",
     "name": "Spatial and geodata inventory (ZA4)",
     "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Spatial and geodata inventory (ZA4)"
+  },
+  "57497": {
+    "code": "TUXS242",
+    "name": "Degree Program MAS Sustainable Real Estate",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program"
+  },
+  "57517": {
+    "code": "TUPEBAP",
+    "name": "BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik",
+    "path": "TUM/Institutions close to the University/BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik"
   }
 }
