@@ -7,7 +7,7 @@ const feedback = useFeedback();
 </script>
 
 <template>
-  <TokenBasedModal :data="feedback.data">
+  <TokenBasedFeedbackModal :data="feedback.data">
     <template #modal>
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
@@ -57,7 +57,7 @@ const feedback = useFeedback();
         </template>
       </I18nT>
     </template>
-  </TokenBasedModal>
+  </TokenBasedFeedbackModal>
 </template>
 
 <i18n lang="yaml">

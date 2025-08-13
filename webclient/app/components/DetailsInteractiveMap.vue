@@ -16,7 +16,6 @@ const props = defineProps<{
   type: LocationDetailsResponse["type"];
   maps: LocationDetailsResponse["maps"];
   id: LocationDetailsResponse["id"];
-  debugMode: boolean;
 }>();
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
@@ -108,17 +107,6 @@ function initMap(containerId: string): MapLibreMap {
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
   });
-  if (props.debugMode) {
-    const debugMarker = new Marker({ draggable: true })
-      .setLngLat([props.coords.lon, props.coords.lat])
-      .addTo(map);
-
-    debugMarker.on("dragend", () => {
-      const lngLat = debugMarker.getLngLat();
-      console.log(`debug marker "${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
-      navigator.clipboard.writeText(`"${props.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
-    });
-  }
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable

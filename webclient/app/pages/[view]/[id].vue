@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import { CalendarDaysIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { useClipboard } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import type { components } from "~/api_types";
+import { useEditProposal } from "~/composables/editProposal";
 
 definePageMeta({
   validate(route) {
@@ -34,6 +35,8 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
+const editProposal = useEditProposal();
+
 const shownImage = ref<ImageInfoResponse | undefined>(
   data.value?.imgs?.length ? data.value.imgs[0] : undefined
 );
@@ -45,6 +48,25 @@ const {
   copied,
   isSupported: clipboardIsSupported,
 } = useClipboard({ source: clipboardSource });
+
+const suggestImage = () => {
+  if (!data.value) return;
+
+  editProposal.value.selected = {
+    id: data.value.id,
+    name: data.value.name,
+  };
+  if (!editProposal.value.data.additional_context) {
+    editProposal.value.data.additional_context = `I would like to suggest a new image for ${data.value.name} (${data.value.id}).`;
+  }
+  editProposal.value.locationPicker = {
+    lat: data.value.coords.lat,
+    lon: data.value.coords.lon,
+    open: false,
+  };
+  editProposal.value.open = true;
+  editProposal.value.imageUpload.open = true;
+};
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
   mode: "replace",
@@ -114,24 +136,35 @@ useSeoMeta({
 <template>
   <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
-    <button
-      v-if="data.imgs?.length && data.imgs[0]"
-      type="button"
-      class="focusable block lg:hidden print:!hidden"
-      @click="slideshowOpen = true"
+    <div v-if="data.imgs?.length && data.imgs[0]" class="relative block lg:hidden print:!hidden">
+      <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
+        <NuxtImg
+          width="256"
+          height="105"
+          :alt="t('image_alt')"
+          :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
+          sizes="1024px sm:256px md:512px"
+          densities="x1 x2"
+          class="block w-full"
+          preload
+          :placeholder="[256, 105]"
+        />
+      </button>
+    </div>
+    <!-- No header image placeholder (on mobile) -->
+    <div
+      v-else-if="!data.imgs?.length"
+      class="relative group hover:bg-zinc-200 hover:border-zinc-400 m-1 mt-2 block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg"
     >
-      <NuxtImg
-        width="256"
-        height="105"
-        :alt="t('image_alt')"
-        :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-        sizes="1024px sm:256px md:512px"
-        densities="x1 x2"
-        class="block w-full"
-        preload
-        :placeholder="[256, 105]"
-      />
-    </button>
+      <button
+        type="button"
+        class="w-full h-20 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
+        @click="suggestImage"
+      >
+        <PlusIcon class="h-8 w-8 mb-2" />
+        <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
+      </button>
+    </div>
 
     <!-- Entry header / title -->
     <div class="px-5">
@@ -193,23 +226,13 @@ useSeoMeta({
         @change="(index) => (selectedMap = index === 0 ? 'interactive' : 'plans')"
       >
         <div class="mb-3 grid gap-2 lg:hidden">
-          <Toast
-            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('no_floor_overlay')"
-          />
+          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('no_floor_overlay')" />
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <TabPanels>
           <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
             <ClientOnly>
-              <DetailsInteractiveMap
-                :id="data.id"
-                :coords="data.coords"
-                :type="data.type"
-                :maps="data.maps"
-                :debug-mode="!!route.query.debug"
-              />
+              <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
             </ClientOnly>
           </TabPanel>
           <TabPanel id="plansMapPanel" :tab-index="1">
@@ -228,9 +251,7 @@ useSeoMeta({
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
-                selectedMap === 'interactive'
-                  ? 'text-zinc-900 bg-zinc-300 shadow'
-                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
+                selectedMap === 'interactive' ? 'text-zinc-900 bg-zinc-300 shadow' : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
               ]"
             >
               {{ t("map.interactive") }}
@@ -261,11 +282,7 @@ useSeoMeta({
     <ClientOnly>
       <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
     </ClientOnly>
-    <DetailsSources
-      :coords="data.coords"
-      :sources="data.sources"
-      :image="data.imgs?.length ? data.imgs[0] : undefined"
-    />
+    <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
@@ -273,6 +290,7 @@ useSeoMeta({
   </div>
   <ClientOnly>
     <LazyCalendarModal v-if="calendar.length" />
+    <LazyEditProposalModal v-if="editProposal.open" />
   </ClientOnly>
 </template>
 
@@ -288,6 +306,8 @@ de:
     calendar: Kalender öffnen
     copy_link: Link kopieren
     favorites: Zu Favoriten hinzufügen
+  add_image: Bild hinzufügen
+  add_first_image: Erstes Bild hinzufügen
   Loading data...: Lädt Daten...
 en:
   image_alt: Header image, showing the building
@@ -300,5 +320,7 @@ en:
     calendar: Open calendar
     copy_link: Copy link
     favorites: Add to favorites
+  add_image: Add image
+  add_first_image: Add first image
   Loading data...: Loading data...
 </i18n>
