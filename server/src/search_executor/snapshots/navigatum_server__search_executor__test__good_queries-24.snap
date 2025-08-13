@@ -23,7 +23,7 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       subtext_bold: 042@5109
     - id: 4213.01.342
       type: room
-      name: "4213.01.\u0019342\u0017 (Labor (gem. Nutzung 1124302010;1110064600))"
+      name: "4213.01.\u0019342\u0017 (Labor)"
       subtext: "weihenstephan, Lebensmitteltechnikum"
       subtext_bold: O42@4213
     - id: 4213.EG.342
