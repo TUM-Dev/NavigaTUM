@@ -63,5 +63,5 @@ de:
 en:
   links: Links
   no_information_known: No information known
-  navigate from here: Start navigation
+  start navigation: Start navigation
 </i18n>
