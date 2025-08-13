@@ -1,7 +1,7 @@
 name: Linting
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-linting
   cancel-in-progress: true
 on:
   pull_request:
