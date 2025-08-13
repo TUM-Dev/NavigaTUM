@@ -78,8 +78,7 @@ impl Image {
             .filter_map(Result::ok)
             .map(|e| e.file_name().to_str().unwrap().to_string())
             .filter(|filename| filename.starts_with(&search_prefix))
-            .count()
-            + 1;
+            .count();
         image_dir.join(format!("{key}_{next_free_slot}.webp"))
     }
     fn base64_webp_thumbnail(&self) -> anyhow::Result<String> {
