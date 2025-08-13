@@ -411,7 +411,6 @@ struct ImageInfoResponse {
     #[schema(examples("mi_0.webp"))]
     name: String,
     author: URLRefResponse,
-    source: PossibleURLRefResponse,
     license: PossibleURLRefResponse,
 }
 

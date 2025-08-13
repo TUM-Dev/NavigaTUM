@@ -37,7 +37,6 @@ TImageSource = TypeVar("TImageSource", bound="ImageSource")
 class ImageSource(PydanticConfiguration):
     author: str
     license: UrlStr
-    source: UrlStr
     offsets: ImageOffset = Field(default_factory=ImageOffset)
 
     @classmethod

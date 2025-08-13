@@ -33,13 +33,6 @@ const { t } = useI18n({ useScope: "local" });
       <p v-if="image">
         {{ t("header_img") }}:
         <span>{{ image.author.text }}</span>
-        <span v-if="image.source">
-          •
-          <NuxtLink v-if="image.source.url" :to="image.source.url" target="_blank" external>
-            {{ image.source.text }}
-          </NuxtLink>
-          <template v-else>{{ image.source.text }}</template>
-        </span>
         <span v-if="image.license">
           •
           <NuxtLink v-if="image.license.url" :to="image.license.url" target="_blank" external>
