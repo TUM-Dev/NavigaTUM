@@ -43,7 +43,7 @@
 		"@nuxtjs/tailwindcss": "6.14.0",
 		"@types/geojson": "7946.0.16",
 		"@types/nightwind": "1.0.0",
-		"@vue/tsconfig": "0.7.0",
+		"@vue/tsconfig": "0.8.0",
 		"autoprefixer": "10.4.21",
 		"openapi-typescript": "6.7.6",
 		"postcss": "8.5.6",
