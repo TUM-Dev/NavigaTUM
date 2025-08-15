@@ -94,8 +94,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
       '@vue/tsconfig':
-        specifier: 0.7.0
-        version: 0.7.0(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
+        specifier: 0.8.0
+        version: 0.8.0(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
       autoprefixer:
         specifier: 10.4.21
         version: 10.4.21(postcss@8.5.6)
@@ -2134,8 +2134,8 @@ packages:
   '@vue/shared@3.5.18':
     resolution: {integrity: sha512-cZy8Dq+uuIXbxCZpuLd2GJdeSO/lIzIspC2WtkqIpje5QyFbvLaI5wZtdUjLHjGZrlVX6GilejatWwVYYRc8tA==}
 
-  '@vue/tsconfig@0.7.0':
-    resolution: {integrity: sha512-ku2uNz5MaZ9IerPPUyOHzyjhXoX2kVJaVf7hL315DC17vS6IiZRmmCPfggNbU16QTvM80+uYYy3eYJB59WCtvg==}
+  '@vue/tsconfig@0.8.0':
+    resolution: {integrity: sha512-HqJDMjxk9D3mbXAcO9IxqKPeKlVnRWvzyHtgY35L/VoLKubqn7zX80UeiD3jfS/gf+qS7ZlO5KmfXMUrsQtOeQ==}
     peerDependencies:
       typescript: 5.x
       vue: ^3.4.0
@@ -8191,7 +8191,7 @@ snapshots:
 
   '@vue/shared@3.5.18': {}
 
-  '@vue/tsconfig@0.7.0(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))':
+  '@vue/tsconfig@0.8.0(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))':
     optionalDependencies:
       typescript: 5.9.2
       vue: 3.5.18(typescript@5.9.2)
