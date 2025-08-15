@@ -69,7 +69,7 @@ mod tests {
     #[derive(Default)]
     struct TestEdit;
     impl AppliableEdit for TestEdit {
-        fn apply(&self, _key: &str, _base_dir: &Path) -> String {
+        fn apply(&self, _key: &str, _base_dir: &Path, _branch: &str) -> String {
             "applied_value".to_string()
         }
     }

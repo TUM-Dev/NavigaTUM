@@ -181,17 +181,17 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, target_file) = setup();
         fs::write(&target_file, "\"0\": { lat: 1.0, lon: 1.0 }\n").unwrap();
-        coord.apply("2", dir.path());
+        coord.apply("2", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"2\": { lat: 0, lon: 0 }\n"
         );
-        coord.apply("000.991", dir.path());
+        coord.apply("000.991", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"000.991\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n"
         );
-        coord.apply("1", dir.path());
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"000.991\": { lat: 0, lon: 0 }\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n"
@@ -207,7 +207,7 @@ mod tests {
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n",
         )
         .unwrap();
-        coord.apply("1", dir.path());
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n"
@@ -224,14 +224,14 @@ mod tests {
         )
         .unwrap();
         // inserting chars works
-        coord.apply("beta", dir.path());
+        coord.apply("beta", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"alpha\": { lat: 1.0, lon: 1.0 }\n\"beta\": { lat: 0, lon: 0 }\n\"zulu\": { lat: 1.0, lon: 1.0 }\n"
         );
 
         // inserting numbers
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 0, lon: 0 }\n\"alpha\": { lat: 1.0, lon: 1.0 }\n\"beta\": { lat: 0, lon: 0 }\n\"zulu\": { lat: 1.0, lon: 1.0 }\n"
@@ -247,12 +247,12 @@ mod tests {
             "\"0\": { lat: 1.0, lon: 1.0 }\n\"1\": { lat: 1.0, lon: 1.0 }\n",
         )
         .unwrap();
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 0, lon: 0 }\n\"1\": { lat: 1.0, lon: 1.0 }\n"
         );
-        coord.apply("1", dir.path());
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 0, lon: 0 }\n\"1\": { lat: 0, lon: 0 }\n"
@@ -268,12 +268,12 @@ mod tests {
             "\"1\": { lat: 1.0, lon: 1.0 }\n\"0\": { lat: 1.0, lon: 1.0 }\n",
         )
         .unwrap();
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"1\": { lat: 1.0, lon: 1.0 }\n\"0\": { lat: 0, lon: 0 }\n"
         );
-        coord.apply("1", dir.path());
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"1\": { lat: 0, lon: 0 }\n\"0\": { lat: 0, lon: 0 }\n"
@@ -290,19 +290,19 @@ mod tests {
         )
         .unwrap();
 
-        coord.apply("1", dir.path());
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "#comment\n\"0\": { lat: 1.0, lon: 1.0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n#comment\n"
         );
 
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "#comment\n\"0\": { lat: 0, lon: 0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n#comment\n"
         );
 
-        coord.apply("2", dir.path());
+        coord.apply("2", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "#comment\n\"0\": { lat: 0, lon: 0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n#comment\n"
@@ -315,7 +315,7 @@ mod tests {
         let (dir, target_file) = setup();
         fs::write(&target_file, "#abc\n\n\n#abc\n").unwrap();
 
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "#abc\n\n\n#abc\n\"0\": { lat: 0, lon: 0 }\n"
@@ -326,11 +326,11 @@ mod tests {
     fn test_newline_at_eof() {
         let coord = Coordinate::default();
         let (dir, target_file) = setup();
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         let expected = "\"0\": { lat: 0, lon: 0 }\n";
         assert_eq!(fs::read_to_string(&target_file).unwrap(), expected);
         fs::write(&target_file, "\"0\": { lat: 0, lon: 0 }\n\n\n").unwrap();
-        coord.apply("0", dir.path());
+        coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&target_file).unwrap(),
             "\"0\": { lat: 0, lon: 0 }\n"
