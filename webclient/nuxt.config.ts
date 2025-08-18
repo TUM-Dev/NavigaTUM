@@ -51,6 +51,10 @@ export default defineNuxtConfig({
           href: "/favicons/safari-pinned-tab.svg",
           color: "#0065bd",
         },
+        {
+          rel: "me",
+          href: "https://chaos.social/@CommanderStorm",
+        },
       ],
       meta: [
         { name: "fediverse:creator", content: "@CommanderStorm@chaos.social" },
