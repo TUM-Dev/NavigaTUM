@@ -53,6 +53,7 @@ export default defineNuxtConfig({
         },
       ],
       meta: [
+        { name: "fediverse:creator", content: "@CommanderStorm@chaos.social" },
         { name: "msapplication-TileColor", content: "#0065bd" },
         { name: "theme-color", content: "#ffffff" },
         {
