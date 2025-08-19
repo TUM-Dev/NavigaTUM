@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.17.1
+    image: getmeili/meilisearch:v1.18.0
     restart: unless-stopped
     networks:
       - traefik_traefik
