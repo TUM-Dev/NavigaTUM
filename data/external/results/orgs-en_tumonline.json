@@ -1151,8 +1151,8 @@
   },
   "15614": {
     "code": "TUWZS6U",
-    "name": "Chair of Aquatic Systems Biology - Location Iffeldorf  (Prof. Geist)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Aquatic Systems Biology - Location Iffeldorf  (Prof. Geist)"
+    "name": "Core Facility TUM Limnology Unit",
+    "path": "TUM/Schools/Life Sciences/TUM Limnology Unit"
   },
   "15616": {
     "code": "TUWZQ3Z",
@@ -1736,8 +1736,8 @@
   },
   "16134": {
     "code": "TUMWSGM",
-    "name": "Associate Professorship of Sport Equipment and Sport Materials (Prof.Senner)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Sport Equipment and Sport Materials (Prof.Senner)"
+    "name": "Associate Professorship of Sport Equipment and Sport Materials (Prof. Bengler komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Sport Equipment and Sport Materials (Prof. Bengler komm.)"
   },
   "16135": {
     "code": "TUSPL08",
@@ -3022,7 +3022,7 @@
   "38003": {
     "code": "TUZV44V",
     "name": "Maintenance Service at TUM CiO (Central department 4)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Maintenance Service at TUM CiO (Central department 4)"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Maintenance Service at TUM CiO (Central department 4)"
   },
   "38004": {
     "code": "TUZV44W",
@@ -3251,8 +3251,8 @@
   },
   "42297": {
     "code": "TUSPL09",
-    "name": "Chair of Training Science and Computer Science in Sports (Link komm.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Training Science and Computer Science in Sports (Link komm.)"
+    "name": "Chair of Experimental Training Sciences (Prof. Schumann)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Experimental Training Sciences (Prof. Schumann)"
   },
   "42357": {
     "code": "TUPREOE",
@@ -4536,8 +4536,8 @@
   },
   "47277": {
     "code": "TUBVMOB",
-    "name": "Associate Professorship of Travel Behavior (Prof. Moreno Chou komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Travel Behavior (Prof. Moreno Chou komm.)"
+    "name": "Associate Professorship of Travel Behavior (Prof. Bogenberger komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Travel Behavior (Prof. Bogenberger komm.)"
   },
   "47278": {
     "code": "TUPHTCQ",
@@ -11294,6 +11294,11 @@
     "name": "Spatial and geodata inventory (ZA4)",
     "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Spatial and geodata inventory (ZA4)"
   },
+  "57477": {
+    "code": "TUS5MSZ",
+    "name": "M\u00fcnchener Studienzentrum (MSZ)",
+    "path": "TUM/Schools/Medicine and Health/M\u00fcnchener Studienzentrum (MSZ)"
+  },
   "57497": {
     "code": "TUXS242",
     "name": "Degree Program MAS Sustainable Real Estate",
@@ -11303,5 +11308,40 @@
     "code": "TUPEBAP",
     "name": "BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik",
     "path": "TUM/Institutions close to the University/BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik"
+  },
+  "57537": {
+    "code": "TUS5WED",
+    "name": "Weitere Einheiten DHM",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM"
+  },
+  "57538": {
+    "code": "TUS5SVW",
+    "name": "Sonstige Verwaltung",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM/Sonstige Verwaltung"
+  },
+  "57539": {
+    "code": "TUS5RZ0",
+    "name": "Informationstechnologie",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM/Informationstechnologie"
+  },
+  "57557": {
+    "code": "TUCHNUC",
+    "name": "Exzellenzcluster NUCLEATE: Nucleic acid research and technologies",
+    "path": "TUM/Research projects/Exzellenzcluster NUCLEATE: Nucleic acid research and technologies"
+  },
+  "57560": {
+    "code": "TUCHTRM",
+    "name": "Exzellenzcluster TransforM: Munich Center for Transformative Technologies and Social Change",
+    "path": "TUM/Research projects/Exzellenzcluster TransforM: Munich Center for Transformative Technologies and Social Change"
+  },
+  "57562": {
+    "code": "TUCHBID",
+    "name": "Exzellenzcluster BioSysteM: Biosystem-Design Munich",
+    "path": "TUM/Research projects/Exzellenzcluster BioSysteM: Biosystem-Design Munich"
+  },
+  "57563": {
+    "code": "TUS7AGP",
+    "name": "Associate Professorship of Algorithmic Governance and Public Policy (Prof. Gritsenko)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Algorithmic Governance and Public Policy (Prof. Gritsenko)"
   }
 }
