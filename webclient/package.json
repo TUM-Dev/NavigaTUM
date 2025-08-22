@@ -33,7 +33,7 @@
 		"nuxt": "4.0.3",
 		"sharp": "0.34.3",
 		"ts-essentials": "^10.1.1",
-		"vue": "3.5.18",
+		"vue": "3.5.19",
 		"vue-router": "4.5.1",
 		"vue3-carousel": "0.16.0"
 	},
