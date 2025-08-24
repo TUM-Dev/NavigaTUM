@@ -8,7 +8,7 @@ info: "'neue Mensa' should get '5304' in 1 results"
   entries:
     - id: "5304"
       type: building
-      name: "\u0019Mensa\u0017 \u0019Garching\u0017"
+      name: "\u0019Mensa Garching\u0017"
       subtext: Gebäude
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"

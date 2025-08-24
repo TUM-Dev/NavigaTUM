@@ -18,7 +18,7 @@ info: "'Raum 0337 mw' should get '5503.EG.337' in 1 results"
       subtext_bold: 0337@0503
     - id: 2334.EG.128
       type: room
-      name: "2334.EG.128 ((34.\u00190\u0017.\u0019337\u0017) Büro)"
+      name: "2334.EG.128 ((34.\u00190.337\u0017) Büro)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 00.2334.128@2334
     - id: 0509.EG.980

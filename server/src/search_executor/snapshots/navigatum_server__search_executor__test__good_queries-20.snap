@@ -30,7 +30,7 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       subtext_bold: N1801@0108
     - id: 2332.01.217
       type: room
-      name: "2332.01.217 ((32.\u00191\u0017.\u0019801\u0017) Büro)"
+      name: "2332.01.217 ((32.\u00191.801\u0017) Büro)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
       subtext_bold: 01.2332.217@2332
     - id: 4192.01.801
