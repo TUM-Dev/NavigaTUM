@@ -24,39 +24,60 @@ impl Coordinate {
 }
 impl AppliableEdit for Coordinate {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
+        use std::io::{BufRead, BufReader, BufWriter, Write};
+
         let csv_file = Self::get_coordinates_csv_path(base_dir);
-        let content = std::fs::read_to_string(&csv_file).unwrap();
-        let mut lines = content.lines().collect::<Vec<&str>>();
+        let temp_file = csv_file.with_extension("tmp");
 
-        // Find existing entry
-        let pos_of_line_to_edit = lines
-            .iter()
-            .skip(1) // Skip header
-            .position(|l| l.starts_with(&format!("{key},")));
+        {
+            // Write header
+            let output = std::fs::File::create(&temp_file).unwrap();
+            let mut writer = BufWriter::new(output);
+            writeln!(writer, "id,lat,lon").unwrap();
 
-        let new_line = format!("{},{},{}", key, self.lat, self.lon);
+            let mut inserted = false;
+            let mut updated = false;
 
-        if let Some(pos) = pos_of_line_to_edit {
-            // Update existing entry (add 1 to account for header)
-            lines[pos + 1] = &new_line;
-        } else {
-            // Insert new entry in sorted position
-            let mut insert_pos = 1; // Start after header
-            for (i, line) in lines.iter().skip(1).enumerate() {
-                if let Some(existing_key) = line.split(',').next() {
-                    if existing_key > key {
-                        insert_pos = i;
-                        break;
+            // Process remaining lines
+            {
+                let input = std::fs::File::open(&csv_file).unwrap();
+                for line_result in BufReader::new(input).lines() {
+                    let line = line_result.unwrap();
+
+                    // Skip empty lines
+                    if line.trim().is_empty() {
+                        continue;
                     }
-                    insert_pos = i;
+
+                    if let Some(existing_key) = line.split(',').next() {
+                        if existing_key == key {
+                            // Update existing entry
+                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
+                                .unwrap();
+                            updated = true;
+                        } else if !updated && !inserted && existing_key > key {
+                            // Insert new entry before this line (only if key doesn't exist)
+                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
+                                .unwrap();
+                            writeln!(writer, "{line}",).unwrap();
+                            inserted = true;
+                        } else {
+                            // Write existing line as-is
+                            writeln!(writer, "{}", line).unwrap();
+                        }
+                    }
                 }
             }
-            lines.insert(insert_pos, &new_line);
+
+            // If we haven't inserted and haven't updated, append at the end
+            if !updated && !inserted {
+                writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon).unwrap();
+            }
+            writeln!(writer).unwrap();
         }
 
-        let content = lines.join("\n");
-        let content = format!("{}\n", content.trim_end());
-        std::fs::write(&csv_file, content).unwrap();
+        // Replace original file with temp file
+        std::fs::rename(&temp_file, &csv_file).unwrap();
 
         format!(
             "https://nav.tum.de/api/preview_edit/{key}?to_lat={lat}&to_lon={lon}",
@@ -162,19 +183,19 @@ mod tests {
     }
 
     #[test]
-    fn test_edit_incorrectly_sorted() {
+    fn test_edit_correctly_sorted_updates() {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
-        fs::write(&csv_file, "id,lat,lon\n1,1.0,1.0\n0,1.0,1.0\n").unwrap();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n1,1.0,1.0\n").unwrap();
         coord.apply("0", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
-            "id,lat,lon\n1,1.0,1.0\n0,0,0\n"
+            "id,lat,lon\n0,0,0\n1,1.0,1.0\n"
         );
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
-            "id,lat,lon\n1,0,0\n0,0,0\n"
+            "id,lat,lon\n0,0,0\n1,0,0\n"
         );
     }
 
