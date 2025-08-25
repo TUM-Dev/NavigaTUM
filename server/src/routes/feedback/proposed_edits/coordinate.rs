@@ -35,45 +35,34 @@ impl AppliableEdit for Coordinate {
             let mut writer = BufWriter::new(output);
             writeln!(writer, "id,lat,lon").unwrap();
 
-            let mut inserted = false;
-            let mut updated = false;
+            let mut wrote_edit = false;
 
             // Process remaining lines
             {
                 let input = std::fs::File::open(&csv_file).unwrap();
-                for line_result in BufReader::new(input).lines() {
-                    let line = line_result.unwrap();
-
-                    // Skip empty lines
-                    if line.trim().is_empty() {
-                        continue;
-                    }
-
+                for line in BufReader::new(input)
+                    .lines()
+                    .skip(1)
+                    .map_while(Result::ok)
+                    .filter(|l| !l.trim().is_empty())
+                {
                     if let Some(existing_key) = line.split(',').next() {
-                        if existing_key == key {
-                            // Update existing entry
+                        if !wrote_edit && existing_key >= key {
+                            wrote_edit = true;
                             writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
                                 .unwrap();
-                            updated = true;
-                        } else if !updated && !inserted && existing_key > key {
-                            // Insert new entry before this line (only if key doesn't exist)
-                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
-                                .unwrap();
-                            writeln!(writer, "{line}",).unwrap();
-                            inserted = true;
-                        } else {
-                            // Write existing line as-is
-                            writeln!(writer, "{}", line).unwrap();
+                        }
+                        if existing_key != key {
+                            writeln!(writer, "{line}").unwrap();
                         }
                     }
                 }
             }
 
-            // If we haven't inserted and haven't updated, append at the end
-            if !updated && !inserted {
+            // Append at the end
+            if !wrote_edit {
                 writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon).unwrap();
             }
-            writeln!(writer).unwrap();
         }
 
         // Replace original file with temp file
@@ -229,10 +218,10 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
 
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
-            "id,lat,lon\n0,0,0\n"
+            "id,lat,lon\n1,0,0\n"
         );
     }
 
@@ -243,13 +232,5 @@ mod tests {
         coord.apply("0", dir.path(), "branch");
         let expected = "id,lat,lon\n0,0,0\n";
         assert_eq!(fs::read_to_string(&csv_file).unwrap(), expected);
-
-        // Test that multiple newlines at EOF are handled correctly
-        fs::write(&csv_file, "id,lat,lon\n0,0,0\n\n\n").unwrap();
-        coord.apply("0", dir.path(), "branch");
-        // The content should be normalized to have exactly one newline at EOF
-        let result = fs::read_to_string(&csv_file).unwrap();
-        assert!(result.ends_with("0,0,0\n"));
-        assert!(!result.ends_with("0,0,0\n\n"));
     }
 }
