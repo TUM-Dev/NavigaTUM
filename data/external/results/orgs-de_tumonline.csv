@@ -649,7 +649,7 @@ org_id,code,name,path
 42041,TUMERZ0,Informationstechnologie,TUM/Schools/Medicine and Health/Weitere Einheiten MRI/Informationstechnologie
 42043,TUMEAP0,Apotheke,TUM/Schools/Medicine and Health/Weitere Einheiten MRI/Apotheke
 42231,TUEDS11,Lehrstuhl für Didaktik der Mathematik (Prof. Obersteiner),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Didaktik der Mathematik (Prof. Obersteiner)
-42297,TUSPL09,Lehrstuhl für Experimentelle Trainingswissenschaften (Prof. Schumann),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Experimentelle Trainingswissenschaften (Prof. Schumann)
+42297,TUSPL09,Professur für Experimentelle Trainingswissenschaften (Prof. Schumann),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Experimentelle Trainingswissenschaften (Prof. Schumann)
 42357,TUPREOE,TUM Emeriti of Excellence,TUM/Hochschulpräsidium/Beauftragte und Bevollmächtigte des Präsidenten/TUM Emeriti of Excellence
 42566,TUZEFCL,Forschungscluster,TUM/Forschungscluster
 42570,TUPHUCL,Exzellenzcluster ORIGINS: Vom Ursprung des Universums bis zu den ersten Bausteinen des Lebens,TUM/Forschungscluster/Exzellenzcluster ORIGINS: Vom Ursprung des Universums bis zu den ersten Bausteinen des Lebens
@@ -2268,3 +2268,4 @@ org_id,code,name,path
 57560,TUCHTRM,Exzellenzcluster TransforM: Münchner Zentrum für Transformative Technologien und gesellschaftlichen Wandel,TUM/Forschungscluster/Exzellenzcluster TransforM: Münchner Zentrum für Transformative Technologien und gesellschaftlichen Wandel
 57562,TUCHBID,Exzellenzcluster BioSysteM: Biosystem-Design München,TUM/Forschungscluster/Exzellenzcluster BioSysteM: Biosystem-Design München
 57563,TUS7AGP,Professur für Algorithmic Governance and Public Policy (Prof. Gritsenko),TUM/Schools/Social Sciences and Technology/Departments/Governance/Algorithmic Governance and Public Policy (Prof. Gritsenko)
+57577,TUS6DFB,Professur für Management of Digital Food Businesses (Prof. Buisman),TUM/Schools/Management/Departments/Operations and Technology/Management of Digital Food Businesses (Prof. Buisman)
