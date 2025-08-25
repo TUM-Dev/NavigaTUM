@@ -459,14 +459,6 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
-    :Max-Planck-Institut Garching:mpi,mpg[site] # manually added, see NAT merger
-      :Max-Planck-Institut für Plasmaphysik:ipp[building]
-      :Max-Planck-Institut für Astrophysik:mpa[building]
-      :Max-Planck-Institut für Biochemie:mpb[building]
-      :Max-Planck-Institut für extraterrestrische Physik:mpe[building]
-      :Max-Planck-Institut für Physik:mpp[building]
-      :Max-Planck-Institut für Quantenoptik:mpq[building]
-      :Exzellenzcluster ORIGINS:origins-cluster[building]
     52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ)|FRM II:frm-2[area]
       5201:Flachbau 1 (UYL):
       5202:Flachbau 2+3 (Zyklotron):
