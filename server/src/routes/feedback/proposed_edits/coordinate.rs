@@ -1,42 +1,8 @@
-use std::ops::Range;
 use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
 
 use super::AppliableEdit;
-
-struct CoordinateFile {
-    path: PathBuf,
-}
-
-impl From<PathBuf> for CoordinateFile {
-    fn from(path: PathBuf) -> Self {
-        Self { path }
-    }
-}
-
-impl CoordinateFile {
-    fn matches(&self) -> Range<u32> {
-        let name = self.path.file_name().unwrap().to_str().unwrap();
-        let prefix = name
-            .split('_')
-            .next()
-            .unwrap_or(name)
-            .split('.')
-            .next()
-            .unwrap();
-        let range = prefix
-            .split('-')
-            .filter_map(|s| s.parse::<u32>().ok())
-            .collect::<Vec<u32>>();
-        match range.len() {
-            0 => 0..99999,
-            1 => range[0]..range[0],
-            2 => range[0]..range[1],
-            _ => panic!("Invalid range: {range:?}"),
-        }
-    }
-}
 
 #[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
 pub struct Coordinate {
@@ -49,64 +15,61 @@ pub struct Coordinate {
 }
 
 impl Coordinate {
-    fn best_matching_file(key: &str, base_dir: &Path) -> PathBuf {
-        // we extract the building from the key, defaulting to 90000, as this is out of the range of all buildings
-        let key = key.split('-').next().unwrap_or(key);
-        let building = key.parse::<u32>().unwrap_or(90000);
-
-        let coord_dir = base_dir.join("data").join("sources").join("coordinates");
-        let filenames = std::fs::read_dir(coord_dir)
-            .unwrap()
-            .map(|res| res.map(|e| e.path()))
-            .filter_map(Result::ok)
-            .map(CoordinateFile::from);
-        let best_match = filenames
-            .filter(|co| co.matches().contains(&building))
-            .min_by_key(|f| {
-                let Range { start, end } = f.matches();
-                end - start
-            })
-            .expect("No matching file found, which is impossible");
-        best_match.path
+    fn get_coordinates_csv_path(base_dir: &Path) -> PathBuf {
+        base_dir
+            .join("data")
+            .join("sources")
+            .join("coordinates.csv")
     }
 }
 impl AppliableEdit for Coordinate {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
-        let file = Self::best_matching_file(key, base_dir);
-        let content = std::fs::read_to_string(file.clone()).unwrap();
-        let mut lines = content.lines().collect::<Vec<&str>>();
-        let pos_of_line_to_edit = lines
-            .iter()
-            .position(|l| l.starts_with(&format!("\"{key}\": ")));
-        let mut new_line = format!(
-            "\"{key}\": {{ lat: {lat}, lon: {lon} }}",
-            lat = self.lat,
-            lon = self.lon,
-        );
+        use std::io::{BufRead, BufReader, BufWriter, Write};
 
-        if let Some(pos) = pos_of_line_to_edit {
-            // persist comments
-            if lines[pos].contains('#') {
-                new_line += " #";
-                new_line += lines[pos].split('#').next_back().unwrap();
+        let csv_file = Self::get_coordinates_csv_path(base_dir);
+        let temp_file = csv_file.with_extension("tmp");
+
+        {
+            // Write header
+            let output = std::fs::File::create(&temp_file).unwrap();
+            let mut writer = BufWriter::new(output);
+            writeln!(writer, "id,lat,lon").unwrap();
+
+            let mut wrote_edit = false;
+
+            // Process remaining lines
+            {
+                let input = std::fs::File::open(&csv_file).unwrap();
+                for line in BufReader::new(input)
+                    .lines()
+                    .skip(1)
+                    .map_while(Result::ok)
+                    .filter(|l| !l.trim().is_empty())
+                {
+                    if let Some(existing_key) = line.split(',').next() {
+                        if !wrote_edit && existing_key >= key {
+                            wrote_edit = true;
+                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
+                                .unwrap();
+                        }
+                        if existing_key != key {
+                            writeln!(writer, "{line}").unwrap();
+                        }
+                    }
+                }
             }
-            lines[pos] = &new_line;
-        } else {
-            //we need to insert a new line at a fitting position
-            let pos_of_line_to_insert = lines
-                .iter()
-                .position(|l| {
-                    let key_at_pos = l.split("\":").next().unwrap().strip_prefix('"');
-                    key_at_pos > Some(key)
-                })
-                .unwrap_or(lines.len());
-            lines.insert(pos_of_line_to_insert, &new_line);
+
+            // Append at the end
+            if !wrote_edit {
+                writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon).unwrap();
+            }
         }
-        let content = lines.join("\n").trim().to_string();
-        std::fs::write(file.as_path(), content + "\n").unwrap();
+
+        // Replace original file with temp file
+        std::fs::rename(&temp_file, &csv_file).unwrap();
+
         format!(
-            "https://nav.tum.de/api/preview_edit/{k}?to_lat={lat}&to_lon={lon}",
-            k = key,
+            "https://nav.tum.de/api/preview_edit/{key}?to_lat={lat}&to_lon={lon}",
             lat = self.lat,
             lon = self.lon
         )
@@ -123,217 +86,151 @@ mod tests {
 
     fn setup() -> (tempfile::TempDir, PathBuf) {
         let dir = tempfile::TempDir::new().unwrap();
-        let coord_dir = dir.path().join("data").join("sources").join("coordinates");
-        fs::create_dir_all(&coord_dir).unwrap();
+        let sources_dir = dir.path().join("data").join("sources");
+        fs::create_dir_all(&sources_dir).unwrap();
 
-        fs::write(coord_dir.join("100-200.yaml"), "").unwrap();
-        fs::write(coord_dir.join("100-110.yaml"), "").unwrap();
-        fs::write(coord_dir.join("101-102.yaml"), "").unwrap();
-        fs::write(coord_dir.join("rest.yaml"), "").unwrap();
-        (dir, coord_dir.join("rest.yaml"))
+        let csv_file = sources_dir.join("coordinates.csv");
+        fs::write(&csv_file, "id,lat,lon\n").unwrap();
+        (dir, csv_file)
     }
 
     #[test]
-    fn test_matches() {
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100.json"));
-        std::assert_eq!(file.matches(), 0..100);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42.json"));
-        std::assert_eq!(file.matches(), 42..42);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100_abc.json"));
-        std::assert_eq!(file.matches(), 0..100);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42_abc.json"));
-        std::assert_eq!(file.matches(), 42..42);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/rest.yaml"));
-        std::assert_eq!(file.matches(), 0..99999);
-    }
-
-    #[test]
-    fn test_best_matching_file() {
-        let (dir, target_file) = setup();
-        assert_eq!(
-            Coordinate::best_matching_file("100", dir.path()),
-            target_file.parent().unwrap().join("100-110.yaml")
-        );
-        assert_eq!(
-            Coordinate::best_matching_file("101", dir.path()),
-            target_file.parent().unwrap().join("101-102.yaml")
-        );
-        assert_eq!(
-            Coordinate::best_matching_file("130", dir.path()),
-            target_file.parent().unwrap().join("100-200.yaml")
-        );
-        assert_eq!(
-            Coordinate::best_matching_file("11", dir.path()),
-            target_file
-        );
-        assert_eq!(
-            Coordinate::best_matching_file("300", dir.path()),
-            target_file
-        );
-        assert_eq!(
-            Coordinate::best_matching_file("mi", dir.path()),
-            target_file
-        );
+    fn test_get_coordinates_csv_path() {
+        let (dir, csv_file) = setup();
+        assert_eq!(Coordinate::get_coordinates_csv_path(dir.path()), csv_file);
     }
 
     #[test]
     fn test_insertion_alphabetical() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(&target_file, "\"0\": { lat: 1.0, lon: 1.0 }\n").unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n").unwrap();
         coord.apply("2", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"2\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,1.0,1.0\n2,0,0\n"
         );
         coord.apply("000.991", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"000.991\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,1.0,1.0\n000.991,0,0\n2,0,0\n"
         );
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"000.991\": { lat: 0, lon: 0 }\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,1.0,1.0\n000.991,0,0\n1,0,0\n2,0,0\n"
         );
     }
 
     #[test]
     fn test_prefix_alphabetical() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(
-            &target_file,
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n",
-        )
-        .unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n2,1.0,1.0\n").unwrap();
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,1.0,1.0\n1,0,0\n2,1.0,1.0\n"
         );
     }
 
     #[test]
     fn test_insertion_char_friendly() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(
-            &target_file,
-            "\"alpha\": { lat: 1.0, lon: 1.0 }\n\"zulu\": { lat: 1.0, lon: 1.0 }\n",
-        )
-        .unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\nalpha,1.0,1.0\nzulu,1.0,1.0\n").unwrap();
         // inserting chars works
         coord.apply("beta", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"alpha\": { lat: 1.0, lon: 1.0 }\n\"beta\": { lat: 0, lon: 0 }\n\"zulu\": { lat: 1.0, lon: 1.0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\nalpha,1.0,1.0\nbeta,0,0\nzulu,1.0,1.0\n"
         );
 
         // inserting numbers
         coord.apply("0", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 0, lon: 0 }\n\"alpha\": { lat: 1.0, lon: 1.0 }\n\"beta\": { lat: 0, lon: 0 }\n\"zulu\": { lat: 1.0, lon: 1.0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\nalpha,1.0,1.0\nbeta,0,0\nzulu,1.0,1.0\n"
         );
     }
 
     #[test]
     fn test_edit_correctly_sorted() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(
-            &target_file,
-            "\"0\": { lat: 1.0, lon: 1.0 }\n\"1\": { lat: 1.0, lon: 1.0 }\n",
-        )
-        .unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n1,1.0,1.0\n").unwrap();
         coord.apply("0", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 0, lon: 0 }\n\"1\": { lat: 1.0, lon: 1.0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,1.0,1.0\n"
         );
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 0, lon: 0 }\n\"1\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,0,0\n"
         );
     }
 
     #[test]
-    fn test_edit_incorrectly_sorted() {
+    fn test_edit_correctly_sorted_updates() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(
-            &target_file,
-            "\"1\": { lat: 1.0, lon: 1.0 }\n\"0\": { lat: 1.0, lon: 1.0 }\n",
-        )
-        .unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n1,1.0,1.0\n").unwrap();
         coord.apply("0", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"1\": { lat: 1.0, lon: 1.0 }\n\"0\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,1.0,1.0\n"
         );
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"1\": { lat: 0, lon: 0 }\n\"0\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,0,0\n"
         );
     }
 
     #[test]
-    fn test_insertion_comment_preserving() {
+    fn test_basic_csv_operations() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(
-            &target_file,
-            "#comment\n\"0\": { lat: 1.0, lon: 1.0 } # inline_comment\n#comment\n\"2\": { lat: 1.0, lon: 1.0 }\n#comment\n",
-        )
-        .unwrap();
+        let (dir, csv_file) = setup();
+        fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n2,1.0,1.0\n").unwrap();
 
         coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "#comment\n\"0\": { lat: 1.0, lon: 1.0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n#comment\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,1.0,1.0\n1,0,0\n2,1.0,1.0\n"
         );
 
         coord.apply("0", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "#comment\n\"0\": { lat: 0, lon: 0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 1.0, lon: 1.0 }\n#comment\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,0,0\n2,1.0,1.0\n"
         );
 
         coord.apply("2", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "#comment\n\"0\": { lat: 0, lon: 0 } # inline_comment\n#comment\n\"1\": { lat: 0, lon: 0 }\n\"2\": { lat: 0, lon: 0 }\n#comment\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n0,0,0\n1,0,0\n2,0,0\n"
         );
     }
 
     #[test]
-    fn test_insertion_whitespace_preserving() {
+    fn test_empty_csv_insertion() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
-        fs::write(&target_file, "#abc\n\n\n#abc\n").unwrap();
+        let (dir, csv_file) = setup();
 
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch");
         assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "#abc\n\n\n#abc\n\"0\": { lat: 0, lon: 0 }\n"
+            fs::read_to_string(&csv_file).unwrap(),
+            "id,lat,lon\n1,0,0\n"
         );
     }
 
     #[test]
     fn test_newline_at_eof() {
         let coord = Coordinate::default();
-        let (dir, target_file) = setup();
+        let (dir, csv_file) = setup();
         coord.apply("0", dir.path(), "branch");
-        let expected = "\"0\": { lat: 0, lon: 0 }\n";
-        assert_eq!(fs::read_to_string(&target_file).unwrap(), expected);
-        fs::write(&target_file, "\"0\": { lat: 0, lon: 0 }\n\n\n").unwrap();
-        coord.apply("0", dir.path(), "branch");
-        assert_eq!(
-            fs::read_to_string(&target_file).unwrap(),
-            "\"0\": { lat: 0, lon: 0 }\n"
-        );
+        let expected = "id,lat,lon\n0,0,0\n";
+        assert_eq!(fs::read_to_string(&csv_file).unwrap(), expected);
     }
 }
