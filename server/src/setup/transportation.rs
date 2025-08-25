@@ -69,7 +69,6 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     let name_col = df.column("name")?.str()?;
     let lat_col = df.column("lat")?.f32()?;
     let lon_col = df.column("lon")?.f32()?;
-    let is_sev_col = df.column("is_sev")?.bool()?;
 
     // Convert to DBStation structs
     let mut stations = Vec::new();
