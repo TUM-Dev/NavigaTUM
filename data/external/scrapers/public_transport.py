@@ -1,5 +1,3 @@
-import csv
-import json
 import logging
 from math import prod
 from zipfile import ZipFile
