@@ -111,7 +111,7 @@ def parse_image_filename(image_name: str) -> tuple[str, int]:
 def _add_source_info(fname, source_data):
     _id, _index = parse_image_filename(fname)
 
-    required_fields = ["author", "license", "source"]
+    required_fields = ["author", "license"]
     for field in required_fields:
         if field not in source_data[_index]:
             logging.warning(f"No {field} information for image '{fname}', it will not be used")
@@ -123,7 +123,6 @@ def _add_source_info(fname, source_data):
     return {
         "name": fname,
         "author": _parse(source_data[_index]["author"]),
-        "source": _parse(source_data[_index]["source"]),
         "license": _parse(source_data[_index]["license"]),
     }
 
