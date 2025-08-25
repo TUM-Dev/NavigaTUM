@@ -88,6 +88,12 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+'0401':
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '0501':
   0:
     author: David Bonello
