@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 from typing import Any, TypeVar
 
@@ -7,7 +8,7 @@ from utils import TranslatableStr
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
-COORDINATES_PATH = SOURCES_PATH / "coordinates"
+COORDINATES_CSV = SOURCES_PATH / "coordinates.csv"
 
 
 def load_yaml(path: Path) -> Any:
@@ -50,15 +51,21 @@ def load_yaml(path: Path) -> Any:
 
 def add_coordinates(data: dict) -> None:
     """
-    Merge coordinates from yaml files placed at path on top of the given data.
+    Merge coordinates from CSV file on top of the given data.
 
-    Merging happens in alphanumeric order, so later files would overwrite earlier files.
     This operates on the data dict directly without creating a copy.
     """
-    for file in sorted(COORDINATES_PATH.iterdir()):
-        yaml_data = load_yaml(file)
+    with COORDINATES_CSV.open("r", encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            entry_id = row["id"]
 
-        recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
+            # Build coordinate object from CSV row
+            coords = {"lat": float(row["lat"]), "lon": float(row["lon"])}
+
+            # No additional columns needed - CSV contains only id, lat, lon
+
+            recursively_merge(data, {entry_id: {"coords": coords}})
 
 
 A = TypeVar("A")
