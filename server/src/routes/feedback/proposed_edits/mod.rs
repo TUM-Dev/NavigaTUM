@@ -103,10 +103,13 @@ impl EditRequest {
             (0, 0) => "no edits".to_string(),
             (1..=5, 0) => format!(
                 "coordinate edit for `{}`",
-                coordinate_edits.keys().join("`, `")
+                coordinate_edits.keys().sorted().join("`, `")
             ),
             (0, 1) => format!("add image for `{}`", image_edits.keys().next().unwrap()),
-            (0, 2..=5) => format!("add images for `{}`", image_edits.keys().join("`, `")),
+            (0, 2..=5) => format!(
+                "add images for `{}`",
+                image_edits.keys().sorted().join("`, `")
+            ),
             (0, is) => format!("add {is} images"),
             (cs, 0) => format!("Edited {cs} coordinates"),
             (1..=3, 1..=3) => format!(
