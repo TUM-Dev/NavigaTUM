@@ -4,6 +4,7 @@ import os
 import typing
 
 import backoff
+import polars as pl
 import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -58,8 +59,27 @@ def scrape_buildings() -> None:
 
     buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
     buildings = {f"{r.pop('building_id'):04d}": _sanitise_building_value(r) for r in buildings}
-    with (CACHE_PATH / "buildings_tumonline.json").open("w", encoding="utf-8") as file:
-        json.dump(buildings, file, indent=2, sort_keys=True)
+
+    # Convert to CSV format
+    rows = []
+    for building_key, building_data in buildings.items():
+        address = building_data.get("address", {})
+        row = {
+            "building_key": str(building_key),
+            "address_place": str(address.get("place", "")),
+            "address_street": str(address.get("street", "")),
+            "address_zip_code": int(address.get("zip_code", 0)),
+            "area_id": int(building_data.get("area_id", 0)),
+            "name": str(building_data.get("name", "")),
+            "tumonline_id": int(building_data.get("tumonline_id", 0)),
+            "filter_id": building_data.get("filter_id") if building_data.get("filter_id") is not None else None,
+        }
+        rows.append(row)
+
+    df = pl.DataFrame(rows, infer_schema_length=None)
+    # Sort by building_key for consistency
+    df = df.sort("building_key")
+    df.write_csv(CACHE_PATH / "buildings_tumonline.csv")
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
@@ -88,8 +108,40 @@ def scrape_rooms() -> None:
     rooms = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
     rooms = {r["room_code"]: _sanitise_room_value(r) for r in rooms}
 
-    with (CACHE_PATH / "rooms_tumonline.json").open("w", encoding="utf-8") as file:
-        json.dump(rooms, file, indent=2, sort_keys=True)
+    # Convert to CSV format
+    rows = []
+    for room_key, room_data in rooms.items():
+        address = room_data.get("address", {})
+        seats = room_data.get("seats", {})
+
+        row = {
+            "room_key": str(room_key),
+            "address_place": str(address.get("place", "")),
+            "address_street": str(address.get("street", "")),
+            "address_zip_code": int(address.get("zip_code", 0)),
+            "seats_sitting": seats.get("sitting") if seats.get("sitting") is not None else None,
+            "seats_wheelchair": seats.get("wheelchair") if seats.get("wheelchair") is not None else None,
+            "seats_standing": seats.get("standing") if seats.get("standing") is not None else None,
+            "floor_type": str(room_data.get("floor_type", "")),
+            "floor_level": str(room_data.get("floor_level", "")),
+            "tumonline_id": int(room_data.get("tumonline_id", 0)),
+            "area_id": int(room_data.get("area_id", 0)),
+            "building_id": int(room_data.get("building_id", 0)),
+            "main_operator_id": int(room_data.get("main_operator_id", 0)),
+            "usage_id": int(room_data.get("usage_id", 0)),
+            "alt_name": str(room_data.get("alt_name", "")) if room_data.get("alt_name") else None,
+            "arch_name": str(room_data.get("arch_name", "")) if room_data.get("arch_name") else None,
+            "calendar_resource_nr": room_data.get("calendar_resource_nr")
+            if room_data.get("calendar_resource_nr") is not None
+            else None,
+            "patched": bool(room_data.get("patched", False)),
+        }
+        rows.append(row)
+
+    df = pl.DataFrame(rows, infer_schema_length=None)
+    # Sort by room_key for consistency
+    df = df.sort("room_key")
+    df.write_csv(CACHE_PATH / "rooms_tumonline.csv")
 
 
 def _clean_spaces(_string: str) -> str:
@@ -104,8 +156,22 @@ def scrape_usages() -> None:
 
     usages = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
     usages = {u.pop("id"): u for u in usages}
-    with (CACHE_PATH / "usages_tumonline.json").open("w", encoding="utf-8") as file:
-        json.dump(usages, file, indent=2, sort_keys=True)
+
+    # Convert to CSV format
+    rows = []
+    for usage_id, usage_data in usages.items():
+        row = {
+            "usage_id": int(usage_id),
+            "din277_id": str(usage_data.get("din277_id", "")),
+            "din277_name": str(usage_data.get("din277_name", "")),
+            "name": str(usage_data.get("name", "")),
+        }
+        rows.append(row)
+
+    df = pl.DataFrame(rows, infer_schema_length=None)
+    # Sort by usage_id for consistency
+    df = df.sort("usage_id")
+    df.write_csv(CACHE_PATH / "usages_tumonline.csv")
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
@@ -135,8 +201,21 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
                 "path": search_organisation["orgPath"],
             }
 
-    with (CACHE_PATH / f"orgs-{lang}_tumonline.json").open("w", encoding="utf-8") as file:
-        json.dump(orgs, file, indent=2, sort_keys=True)
+    # Convert to CSV format
+    rows = []
+    for org_id, org_data in orgs.items():
+        row = {
+            "org_id": int(org_id),
+            "code": str(org_data.get("code", "")),
+            "name": str(org_data.get("name", "")),
+            "path": str(org_data.get("path", "")),
+        }
+        rows.append(row)
+
+    df = pl.DataFrame(rows, infer_schema_length=None)
+    # Sort by org_id for consistency
+    df = df.sort("org_id")
+    df.write_csv(CACHE_PATH / f"orgs-{lang}_tumonline.csv")
 
 
 if __name__ == "__main__":
