@@ -258,12 +258,24 @@
     author: Benz, Uli / TUM
     license:
       text: frei für Berichterstattung über TU München
+'2903':
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '2906':
   0:
     author: Bernhard Maier
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+'2910':
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '2927':
   0:
     author: Frank Elsinga
