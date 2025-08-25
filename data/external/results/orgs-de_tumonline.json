@@ -1151,8 +1151,8 @@
   },
   "15614": {
     "code": "TUWZS6U",
-    "name": "Lehrstuhl f\u00fcr Aquatische Systembiologie - Standort Iffeldorf (Prof. Geist)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Aquatische Systembiologie - Standort Iffeldorf (Prof. Geist)"
+    "name": "Core Facility TUM Limnology Unit",
+    "path": "TUM/Schools/Life Sciences/TUM Limnology Unit"
   },
   "15616": {
     "code": "TUWZQ3Z",
@@ -1736,8 +1736,8 @@
   },
   "16134": {
     "code": "TUMWSGM",
-    "name": "Professur f\u00fcr Sportger\u00e4te und Sportmaterialien (Prof. Senner)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Sportger\u00e4te und Sportmaterialien (Prof. Senner)"
+    "name": "Professur f\u00fcr Sportger\u00e4te und Sportmaterialien (Prof. Bengler komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Sportger\u00e4te und Sportmaterialien (Prof. Bengler komm.)"
   },
   "16135": {
     "code": "TUSPL08",
@@ -3022,7 +3022,7 @@
   "38003": {
     "code": "TUZV44V",
     "name": "Hausmeisterdienste am TUM CiO (ZA 4)",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)"
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)"
   },
   "38004": {
     "code": "TUZV44W",
@@ -3251,8 +3251,8 @@
   },
   "42297": {
     "code": "TUSPL09",
-    "name": "Lehrstuhl f\u00fcr Trainingswissenschaft und Sportinformatik (Link komm.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Trainingswissenschaft und Sportinformatik (Link komm.)"
+    "name": "Lehrstuhl f\u00fcr Experimentelle Trainingswissenschaften (Prof. Schumann)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Experimentelle Trainingswissenschaften (Prof. Schumann)"
   },
   "42357": {
     "code": "TUPREOE",
@@ -4536,8 +4536,8 @@
   },
   "47277": {
     "code": "TUBVMOB",
-    "name": "Professur f\u00fcr Verkehrsverhalten (Moreno Chou komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Moreno Chou komm.)"
+    "name": "Professur f\u00fcr Verkehrsverhalten (Bogenberger komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Bogenberger komm.)"
   },
   "47278": {
     "code": "TUPHTCQ",
@@ -11294,6 +11294,11 @@
     "name": "Raum- und Geodatenbestand (ZA 4)",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Raum- und Geodatenbestand (ZA 4)"
   },
+  "57477": {
+    "code": "TUS5MSZ",
+    "name": "M\u00fcnchener Studienzentrum (MSZ)",
+    "path": "TUM/Schools/Medicine and Health/M\u00fcnchener Studienzentrum (MSZ)"
+  },
   "57497": {
     "code": "TUXS242",
     "name": "Studiengang MAS Sustainable Real Estate",
@@ -11303,5 +11308,40 @@
     "code": "TUPEBAP",
     "name": "BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik",
     "path": "TUM/Partnerschaftliche Einrichtungen/BayAP - Bayerisches Hochschul- und Innovationszentrum f\u00fcr Asien Pazifik"
+  },
+  "57537": {
+    "code": "TUS5WED",
+    "name": "Weitere Einheiten DHM",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM"
+  },
+  "57538": {
+    "code": "TUS5SVW",
+    "name": "Sonstige Verwaltung",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM/Sonstige Verwaltung"
+  },
+  "57539": {
+    "code": "TUS5RZ0",
+    "name": "Informationstechnologie",
+    "path": "TUM/Schools/Medicine and Health/Weitere Einheiten DHM/Informationstechnologie"
+  },
+  "57557": {
+    "code": "TUCHNUC",
+    "name": "Exzellenzcluster NUCLEATE: Nukleins\u00e4ureforschung und -technologien",
+    "path": "TUM/Forschungscluster/Exzellenzcluster NUCLEATE: Nukleins\u00e4ureforschung und -technologien"
+  },
+  "57560": {
+    "code": "TUCHTRM",
+    "name": "Exzellenzcluster TransforM: M\u00fcnchner Zentrum f\u00fcr Transformative Technologien und gesellschaftlichen Wandel",
+    "path": "TUM/Forschungscluster/Exzellenzcluster TransforM: M\u00fcnchner Zentrum f\u00fcr Transformative Technologien und gesellschaftlichen Wandel"
+  },
+  "57562": {
+    "code": "TUCHBID",
+    "name": "Exzellenzcluster BioSysteM: Biosystem-Design M\u00fcnchen",
+    "path": "TUM/Forschungscluster/Exzellenzcluster BioSysteM: Biosystem-Design M\u00fcnchen"
+  },
+  "57563": {
+    "code": "TUS7AGP",
+    "name": "Professur f\u00fcr Algorithmic Governance and Public Policy (Prof. Gritsenko)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Algorithmic Governance and Public Policy (Prof. Gritsenko)"
   }
 }
