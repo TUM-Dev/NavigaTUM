@@ -1,0 +1,186 @@
+usage_id,din277_id,din277_name,name
+1,TF8.4,Elektrische Stromversorgung,Anlage eines Energieversorgungsunternehmens
+2,NF4.2,"Archive, Sammlungsräume",Archiv
+3,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Atelier
+4,VF9.3,Schächte für Förderanlagen,Aufzug
+5,TF8.6,Aufzugs- und Förderanlagen,Aufzugsanlage
+6,NF5.6,Versammlungsräume,Aula
+7,VF9.2,Treppen,Außenstiege
+8,NF1.1,Wohnräume,Balkon
+9,NF3.2,Werkstätten,Beobachterraum
+10,NF5.4,Bibliotheksräume,Bibliothek
+11,NF3.5,"Chemische, bakteriologische, morphologische Labors",Brutraum
+12,NF2.1,Büroräume,Büro
+13,VF9.4,Fahrzeugverkehrsflächen,Durchfahrt
+14,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Labor - EDV
+15,VF9.1,"Flure, Hallen",Foyer
+16,VF9.1,"Flure, Hallen",Gang
+17,TF8.1,Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (außer für Heizzwecke) und Flüssigkeiten),Gasanlage
+18,NF4.1,Lagerräume,Geräteraum
+19,TF8.9,Sonstige betriebstechnische Anlagen,Haustechnik
+20,NF5.1,Unterrichtsräume mit festem Gestühl,Hörsaal
+22,NF5.1,Unterrichtsräume mit festem Gestühl,Hörsaalnebenraum
+23,NF7.6,Räume für zentrale Technik,Hörsaaltechnik
+24,VF9.2,Treppen,Innenstiege
+25,TF8.3,Raumlufttechnische Anlagen,Klimatechnische Anlage
+27,TF8.5,Fernmeldetechnik,Kommunikationstechnische Anlage
+28,NF3.8,Küchen,Küche
+29,NF3.3,Technologische Labors,Labor
+30,NF4.1,Lagerräume,Lager
+31,VF9.9,Sonstige Verkehrsflächen,Luftraum
+32,TF8.3,Raumlufttechnische Anlagen,Lufttechnische Anlage
+33,NF3.3,Technologische Labors,Meßraum
+34,NF2.5,Schalterräume,Portierloge
+35,NF3.3,Technologische Labors,Prüfstand
+36,VF9.9,Sonstige Verkehrsflächen,Rampe
+37,NF7.1,Sanitärräume,Sanitärraum
+38,TF8.9,Sonstige betriebstechnische Anlagen,Schacht
+39,NF7.7,Schutzräume,Schutzraum
+40,NF2.1,Büroräume,Sekretariat
+41,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Seminarraum
+42,NF2.3,Besprechungsräume,Sitzungszimmer
+44,NF1.2,Gemeinschaftsräume,Sozialraum
+45,NF1.5,Speiseräume,Speiseraum
+46,TF8.4,Elektrische Stromversorgung,Starkstromanlage
+47,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Studierbereich
+48,NF1.1,Wohnräume,Terrasse
+49,NF3.3,Technologische Labors,Versuchshalle
+50,VF9.1,"Flure, Hallen",Vorraum
+51,NF3.2,Werkstätten,Werkstatt
+52,VF9.1,"Flure, Hallen",Windfang
+53,NF1.1,Wohnräume,Wohnung
+54,TF8.2,Heizung und Brauchwasser-erwärmung,Wärmetechnische Anlage
+55,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Zeichensaal
+100,NF7.4,Fahrzeugabstellflä,Garage
+101,NF7.1,Sanitärräume,Reinigung
+102,NF3.5,"Chemische, bakteriologische, morphologische Labors",Labor - Chemie
+103,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Labor - Physik
+104,NF2.8,Bürotechnikräume,Labor - Foto
+105,VF9.1,"Flure, Hallen",Schleuse
+106,NF3.6,Räume für Tierhaltung,Tierstall
+107,NF3.2,Werkstätten,Tischlerei
+108,NF3.2,Werkstätten,Metallverarbeitung
+109,NF3.2,Werkstätten,Druckerei
+110,NF2.8,Bürotechnikräume,Kopierraum
+111,NF1.2,Gemeinschaftsräume,Reinigung-Aufenthalt
+112,NF7.1,Sanitärräume,Bad
+113,NF7.1,Sanitärräume,Dusche
+114,NF7.1,Sanitärräume,WC
+115,NF7.1,Sanitärräume,WC Herren
+116,NF7.1,Sanitärräume,WC Damen
+117,NF7.1,Sanitärräume,WC Barrierefrei
+118,NF7.1,Sanitärräume,WC Vorraum
+119,TF8.4,Elektrische Stromversorgung,Energieversorgungskanal
+120,TF8.9,Sonstige betriebstechnische Anlagen,Gebäudeleittechnik
+121,NF7.2,Garderoben,Garderobe
+122,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Labor - Elektronik
+123,VF9.9,Sonstige Verkehrsflächen,Lichtschacht
+124,NF6.2,Räume mit besonderer medizinischer Ausstattung,Raum mit medizin. Ausstattung
+125,NF5.7,"Bühnen-, Studioräume","Bühnen-, Studioraum"
+126,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Tonstudio
+127,NF5.7,"Bühnen-, Studioräume",Konzertsaal
+128,NF5.5,Sporträume,Sportraum
+129,NF5.9,Sakralräume,Sakralraum
+130,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Unterrichtsraum
+131,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Übungsraum
+132,NF4.1,Lagerräume,Chemikalienlager
+133,NF2.8,Bürotechnikräume,EDV-Raum
+134,TF8.9,Sonstige betriebstechnische Anlagen,Technikraum
+135,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Sprachlabor
+136,NF3.1,Werkhallen,Vorbereitungsraum
+137,NF7.9,Sonstige Räume,Dachterrasse
+138,NF7.9,Sonstige Räume,Hubschrauberlandeplatz
+139,NF1.5,Speiseräume,Cafeteria
+140,NF3.3,Technologische Labors,Mikroskopiersaal
+141,NF6.2,Räume mit besonderer medizinischer Ausstattung,Seziersaal
+142,NF2.3,Besprechungsräume,Konferenzraum
+143,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Studierlokal
+144,NF3.3,Technologische Labors,Phantomraum
+145,VF9.1,"Flure, Hallen",Halle
+146,NF1.2,Gemeinschaftsräume,Kindergarten
+147,NF1.5,Speiseräume,Mensa
+148,NF5.8,Schauräume,Ausstellungssaal
+149,NF6.1,Räume mit allgemeiner medizinischer Ausstattung,Station
+150,NF5.4,Bibliotheksräume,Lesesaal
+151,TF8.5,Fernmeldetechnik,Telefonzelle
+152,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Labor - Audio
+153,NF3.4,"Physikalische, physikalisch-technische, elektrotechnische Labors",Labor - Video
+154,NF5.8,Schauräume,Galerie
+155,NF3.1,Werkhallen,Werkhalle
+156,NF7.4,Fahrzeugabstellflä,Tiefgarage
+157,VF9.9,Sonstige Verkehrsflächen,Garten
+158,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Tanzsaal
+159,NF7.3,Abstellräume,Abstellraum
+160,TF8.4,Elektrische Stromversorgung,Elektrische Stromversorgung
+161,NF5.4,Bibliotheksräume,Film und AV-Medien
+162,NF5.4,Bibliotheksräume,Diathek
+163,NF5.4,Bibliotheksräume,Videothek
+164,NF4.5,Verkaufsräume,Geschäftsraum
+165,NF4.5,Verkaufsräume,Kiosk
+166,NF3.7,Räume für Pflanzenzucht,"Glas-, Gewächshaus"
+167,NF3.6,Räume für Tierhaltung,Stall
+168,NF3.6,Räume für Tierhaltung,Futteraufbereitung
+169,NF3.6,Räume für Tierhaltung,Aquarium
+170,NF7.9,Sonstige Räume,Grotte
+171,NF3.5,"Chemische, bakteriologische, morphologische Labors",Labor - Medizin
+172,NF3.5,"Chemische, bakteriologische, morphologische Labors",Labor - Biologie
+173,NF3.5,"Chemische, bakteriologische, morphologische Labors",Labor - Gerichtsmedizin
+174,NF3.5,"Chemische, bakteriologische, morphologische Labors",Labor - Sportmedizin
+175,NF6.4,Räume für Strahlendiagnostik,Röntgendiagnostik
+176,NF6.6,Räume für Physiotherapie und Rehabilitation,Physiotherapie und Rehabiliation
+177,NF6.3,"Räume für operative Eingriffe, Endoskopien und Entbindungen",Operationsraum
+178,NF6.1,Räume mit allgemeiner medizinischer Ausstattung,Behandlungsraum
+179,NF7.3,Abstellräume,Fahrradraum
+180,NF4.4,Annahme- und Ausgaberäume,Poststelle
+181,NF3.9,Sonderarbeitsräume,Wäscherei
+182,TF8.1,Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (außer für Heizzwecke) und Flüssigkeiten),Wasseraufbereitung
+183,TF8.1,Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (außer für Heizzwecke) und Flüssigkeiten),Wassertechnische Anlage
+184,TF8.1,Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (außer für Heizzwecke) und Flüssigkeiten),Neutralisationsanlage
+185,TF8.1,Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (außer für Heizzwecke) und Flüssigkeiten),Sandfilter
+186,NF4.4,Annahme- und Ausgaberäume,Anlieferung
+187,NF4.2,"Archive, Sammlungsräume",Lehrmittelraum
+188,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Musikunterricht
+189,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Instrumentalunterricht
+190,NF5.4,Bibliotheksräume,Freihandbibliothek
+191,NF5.5,Sporträume,Turnsaal
+192,NF5.5,Sporträume,Schwimmhalle
+193,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Werkraum
+194,NF3.3,Technologische Labors,Labor (Technik)
+195,VF9.3,Schächte für Förderanlagen,Aufzugsschacht
+196,NF2.3,Besprechungsräume,Besprechungsraum
+197,NF3.6,Räume für Tierhaltung,Tierhaltung
+198,NF3.8,Küchen,Teeküche
+199,NF4.3,Kühlräume,Kühlraum
+200,NF4.9,Sonstige Lagerräume,Sonstiger Lagerraum
+201,TF8.2,Heizung und Brauchwasser-erwärmung,Heizungsanlage
+202,TF8.5,Fernmeldetechnik,Fernmeldetechnik
+203,VF9.2,Treppen,Stiege
+204,VF9.4,Fahrzeugverkehrsflächen,Fahrzeugverkehrsfläche
+205,NF7.1,Sanitärräume,Putzraum
+206,VF9.1,"Flure, Hallen",Gang (Galerie)
+207,TF8.9,Sonstige betriebstechnische Anlagen,Serverraum
+208,NF5.2,Allgemeine Unterrichts- und Übungsräume ohne festes Gestühl,Studentenarbeitsraum
+209,NF3.9,Sonderarbeitsräume,Sonderarbeitsraum
+210,NF7.1,Sanitärräume,Waschraum
+211,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Praktikumsraum - Physik
+212,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Praktikumsraum - Chemie
+213,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Praktikumsraum - EDV
+214,NF7.3,Abstellräume,Müllsammelraum
+215,NF7.3,Abstellräume,Müll-/Wertstoffcontainer
+216,NF7.3,Abstellräume,Abfallsammelstation
+217,NF7.9,Sonstige Räume,Freifläche
+218,NF7.9,Sonstige Räume,Freiluftfläche
+219,VF9.1,"Flure, Hallen",Fluchtweg
+220,NF5.5,Sporträume,Sporthalle
+221,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Ensembleraum
+222,VF9.1,"Flure, Hallen",Flur
+223,VF9.2,Treppen,Treppenhaus
+224,NF6.1,Räume mit allgemeiner medizinischer Ausstattung,Untersuchungsraum
+225,NF3.9,Sonderarbeitsräume,Labor - Psychologie
+226,NF7.9,Sonstige Räume,Dachboden
+227,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Forum
+228,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Praktikumsraum
+229,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Mediengestützter Unterrichtsraum
+230,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Musik-/Sprechunterrichtsraum
+231,NF5.3,Besondere Unterrichts- und Übungsräume ohne festes Gestühl,Praxisraum
+232,NF1.2,Gemeinschaftsräume,Kommunikationszone
