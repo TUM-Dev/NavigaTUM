@@ -55,6 +55,7 @@ def add_coordinates(data: dict) -> None:
 
     This operates on the data dict directly without creating a copy.
     """
+    entries_which_should_not_exist = set()
     with COORDINATES_CSV.open("r", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
@@ -64,8 +65,13 @@ def add_coordinates(data: dict) -> None:
             coords = {"lat": float(row["lat"]), "lon": float(row["lon"])}
 
             # No additional columns needed - CSV contains only id, lat, lon
+            if entry_id in data:
+                recursively_merge(data, {entry_id: {"coords": coords}})
+            else:
+                entries_which_should_not_exist.add(entry_id)
 
-            recursively_merge(data, {entry_id: {"coords": coords}})
+    if entries_which_should_not_exist:
+        raise RuntimeError(f"Coordinates exist for entries which should not exist: {entries_which_should_not_exist}")
 
 
 A = TypeVar("A")
