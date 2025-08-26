@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     "group:recommended",
     "group:allNonMajor",
     "customManagers:biomeVersions"
@@ -16,44 +16,83 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "major-release",
       "automerge": false
     },
     {
-      "matchDepTypes": ["devDependencies"],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
       "groupName": "devDependencies"
     },
     {
-      "matchPackagePatterns": ["pytest", "cypress", "pretty_assertions", "testcontainers_modules", "testcontainers"],
       "groupName": "testing",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "/pytest/",
+        "/cypress/",
+        "/pretty_assertions/",
+        "/testcontainers_modules/",
+        "/testcontainers/"
+      ]
     },
     {
-      "matchPackagePatterns": ["serde", "base64", "tracing", "rustls", "tokio"],
       "groupName": "rust-stable",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "/serde/",
+        "/base64/",
+        "/tracing/",
+        "/rustls/",
+        "/tokio/"
+      ]
     },
     {
-      "matchPackagePatterns": ["@biomejs/biome", "pre-commit", "postcss", "ruff", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*", "scss", "openapi-typescript"],
       "groupName": "linting",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "/@biomejs/biome/",
+        "/pre-commit/",
+        "/postcss/",
+        "/ruff/",
+        "/pretty_assertions/",
+        "/pre-commit/",
+        "/mypy/",
+        "/sourcery/",
+        "/@types/.*/",
+        "/types-.*/",
+        "/scss/",
+        "/openapi-typescript/"
+      ]
     },
     {
-      "matchPackagePatterns": ["polars"],
       "groupName": "temporary-debump3",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "/polars/"
+      ]
     },
     {
-      "matchPackagePatterns": ["maplibre-gl", "maplibre-gl-indoor"],
       "groupName": "maplibre",
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "/maplibre-gl/",
+        "/maplibre-gl-indoor/"
+      ]
     },
     {
-      "matchUpdateTypes": ["minor","patch"],
-      "matchPackagePatterns": ["pnpm"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "pnpm-ignore-non-major",
-      "enabled": false
+      "enabled": false,
+      "matchPackageNames": [
+        "/pnpm/"
+      ]
     }
   ]
 }
