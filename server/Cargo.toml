@@ -89,8 +89,8 @@ itertools = "0.14.0"
 [dev-dependencies]
 insta = { version = "1.42.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.1"
-testcontainers = { version = "0.24.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.12.0", features = ["meilisearch", "postgres"] }
+testcontainers = { version = "0.25.0", features = ["watchdog"] }
+testcontainers-modules = { version = "0.13.0", features = ["meilisearch", "postgres"] }
 tracing-test = "0.2.5"
 
 
