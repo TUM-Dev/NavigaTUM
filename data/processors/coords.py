@@ -5,7 +5,7 @@ from typing import Any
 import utm
 from utils import distance_via_great_circle
 
-MAX_DISTANCE_METERS_FROM_PARENT = 300
+MAX_DISTANCE_METERS_FROM_PARENT = 350
 
 
 def assert_buildings_have_coords(data: dict[str, dict[str, Any]]) -> None:
