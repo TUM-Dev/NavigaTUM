@@ -39,14 +39,14 @@ importers:
         specifier: 3.5.2
         version: 3.5.2(magicast@0.3.5)
       '@vueuse/core':
-        specifier: 13.7.0
-        version: 13.7.0(vue@3.5.20(typescript@5.9.2))
+        specifier: 13.8.0
+        version: 13.8.0(vue@3.5.20(typescript@5.9.2))
       '@vueuse/nuxt':
-        specifier: 13.7.0
-        version: 13.7.0(magicast@0.3.5)(nuxt@4.0.3(@biomejs/biome@2.2.2)(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.20)(better-sqlite3@12.2.0)(db0@0.3.2(better-sqlite3@12.2.0))(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.46.2)(terser@5.43.1)(typescript@5.9.2)(vite@7.1.1(@types/node@24.2.1)(jiti@2.5.1)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@2.2.12(typescript@5.9.2))(yaml@2.8.1))(vue@3.5.20(typescript@5.9.2))
+        specifier: 13.8.0
+        version: 13.8.0(magicast@0.3.5)(nuxt@4.0.3(@biomejs/biome@2.2.2)(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.20)(better-sqlite3@12.2.0)(db0@0.3.2(better-sqlite3@12.2.0))(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.46.2)(terser@5.43.1)(typescript@5.9.2)(vite@7.1.1(@types/node@24.2.1)(jiti@2.5.1)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@2.2.12(typescript@5.9.2))(yaml@2.8.1))(vue@3.5.20(typescript@5.9.2))
       '@vueuse/router':
-        specifier: 13.7.0
-        version: 13.7.0(vue-router@4.5.1(vue@3.5.20(typescript@5.9.2)))(vue@3.5.20(typescript@5.9.2))
+        specifier: 13.8.0
+        version: 13.8.0(vue-router@4.5.1(vue@3.5.20(typescript@5.9.2)))(vue@3.5.20(typescript@5.9.2))
       better-sqlite3:
         specifier: 12.2.0
         version: 12.2.0
@@ -2180,28 +2180,28 @@ packages:
       vue:
         optional: true
 
-  '@vueuse/core@13.7.0':
-    resolution: {integrity: sha512-myagn09+c6BmS6yHc1gTwwsdZilAovHslMjyykmZH3JNyzI5HoWhv114IIdytXiPipdHJ2gDUx0PB93jRduJYg==}
+  '@vueuse/core@13.8.0':
+    resolution: {integrity: sha512-rmBcgpEpxY0ZmyQQR94q1qkUcHREiLxQwNyWrtjMDipD0WTH/JBcAt0gdcn2PsH0SA76ec291cHFngmyaBhlxA==}
     peerDependencies:
       vue: ^3.5.0
 
-  '@vueuse/metadata@13.7.0':
-    resolution: {integrity: sha512-8okFhS/1ite8EwUdZZfvTYowNTfXmVCOrBFlA31O0HD8HKXhY+WtTRyF0LwbpJfoFPc+s9anNJIXMVrvP7UTZg==}
+  '@vueuse/metadata@13.8.0':
+    resolution: {integrity: sha512-BYMp3Gp1kBUPv7AfQnJYP96mkX7g7cKdTIgwv/Jgd+pfQhz678naoZOAcknRtPLP4cFblDDW7rF4e3KFa+PfIA==}
 
-  '@vueuse/nuxt@13.7.0':
-    resolution: {integrity: sha512-LYSitaGaTowchiXQVqIO7aJ2M2qpwAjxhkAbAXhplJ2GAnKUgPGaVauai3u97LJUbI1cU8/e0b6fYOi3RTUF6g==}
+  '@vueuse/nuxt@13.8.0':
+    resolution: {integrity: sha512-RpD/CWl6nJ6q92+EpPCsnwlq/N7YqTm1TRV9SY7ERt3WRaMzkIyMfYMGOonpGRG2Y0XSHK9aiWi8+QpoB1YKDw==}
     peerDependencies:
       nuxt: ^3.0.0 || ^4.0.0-0
       vue: ^3.5.0
 
-  '@vueuse/router@13.7.0':
-    resolution: {integrity: sha512-nsl86yjQ/RNeSf3KDY9QnAWQxfPQAfXFHANC4GhDGNW+BXYRPVqh2+hXLn8K/EoD2dwZ2apsCqgLYwNfLLM+tw==}
+  '@vueuse/router@13.8.0':
+    resolution: {integrity: sha512-h9pT7ryg9eMbs0eprE+nKmER3oGiMMm0hT4PQKY9hkZ70oedZhPXPA2GM2TOcg+qg2/o953WVRYzxB7HpoT6FQ==}
     peerDependencies:
       vue: ^3.5.0
       vue-router: ^4.0.0
 
-  '@vueuse/shared@13.7.0':
-    resolution: {integrity: sha512-Wi2LpJi4UA9kM0OZ0FCZslACp92HlVNw1KPaDY6RAzvQ+J1s7seOtcOpmkfbD5aBSmMn9NvOakc8ZxMxmDXTIg==}
+  '@vueuse/shared@13.8.0':
+    resolution: {integrity: sha512-x4nfM0ykW+RmNJ4/1IzZsuLuWWrNTxlTWUiehTGI54wnOxIgI9EDdu/O5S77ac6hvQ3hk2KpOVFHaM0M796Kbw==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -3872,6 +3872,10 @@ packages:
     resolution: {integrity: sha512-WunYko2W1NcdfAFpuLUoucsgULmgDBRkdxHxWQ7mK0cQqwPiy8E1enjuRBrhLtZkB5iScJ1XIPdhVEFK8aOLSg==}
     engines: {node: '>=14'}
 
+  local-pkg@1.1.2:
+    resolution: {integrity: sha512-arhlxbFRmoQHl33a0Zkle/YWlmNwoyt6QNZEIJcqNbdrsix5Lvc4HyyI3EnwxTYlZYc32EbYrQ8SzEZ7dqgg9A==}
+    engines: {node: '>=14'}
+
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -4588,6 +4592,9 @@ packages:
   pkg-types@2.2.0:
     resolution: {integrity: sha512-2SM/GZGAEkPp3KWORxQZns4M+WSeXbC2HEvmOIJe3Cmiv6ieAJvdVhDldtHqM5J1Y7MrR1XhkBT/rMlhh9FdqQ==}
 
+  pkg-types@2.3.0:
+    resolution: {integrity: sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==}
+
   portfinder@1.0.37:
     resolution: {integrity: sha512-yuGIEjDAYnnOex9ddMnKZEMFE0CcGo6zbfzDklkmT1m5z734ss6JMzN9rNB3+RR7iS+F10D4/BVIaXOyh8PQKw==}
     engines: {node: '>= 10.12'}
@@ -4876,6 +4883,9 @@ packages:
 
   quansync@0.2.10:
     resolution: {integrity: sha512-t41VRkMYbkHyCYmOvx/6URnN80H7k4X0lLdBMGsz+maAwrJQYB1djpV6vHrQIBE0WBSGqhtEHrK9U3DWWH8v7A==}
+
+  quansync@0.2.11:
+    resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -8299,33 +8309,33 @@ snapshots:
       typescript: 5.9.2
       vue: 3.5.20(typescript@5.9.2)
 
-  '@vueuse/core@13.7.0(vue@3.5.20(typescript@5.9.2))':
+  '@vueuse/core@13.8.0(vue@3.5.20(typescript@5.9.2))':
     dependencies:
       '@types/web-bluetooth': 0.0.21
-      '@vueuse/metadata': 13.7.0
-      '@vueuse/shared': 13.7.0(vue@3.5.20(typescript@5.9.2))
+      '@vueuse/metadata': 13.8.0
+      '@vueuse/shared': 13.8.0(vue@3.5.20(typescript@5.9.2))
       vue: 3.5.20(typescript@5.9.2)
 
-  '@vueuse/metadata@13.7.0': {}
+  '@vueuse/metadata@13.8.0': {}
 
-  '@vueuse/nuxt@13.7.0(magicast@0.3.5)(nuxt@4.0.3(@biomejs/biome@2.2.2)(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.20)(better-sqlite3@12.2.0)(db0@0.3.2(better-sqlite3@12.2.0))(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.46.2)(terser@5.43.1)(typescript@5.9.2)(vite@7.1.1(@types/node@24.2.1)(jiti@2.5.1)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@2.2.12(typescript@5.9.2))(yaml@2.8.1))(vue@3.5.20(typescript@5.9.2))':
+  '@vueuse/nuxt@13.8.0(magicast@0.3.5)(nuxt@4.0.3(@biomejs/biome@2.2.2)(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.20)(better-sqlite3@12.2.0)(db0@0.3.2(better-sqlite3@12.2.0))(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.46.2)(terser@5.43.1)(typescript@5.9.2)(vite@7.1.1(@types/node@24.2.1)(jiti@2.5.1)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@2.2.12(typescript@5.9.2))(yaml@2.8.1))(vue@3.5.20(typescript@5.9.2))':
     dependencies:
-      '@nuxt/kit': 4.0.3(magicast@0.3.5)
-      '@vueuse/core': 13.7.0(vue@3.5.20(typescript@5.9.2))
-      '@vueuse/metadata': 13.7.0
-      local-pkg: 1.1.1
+      '@nuxt/kit': 3.18.1(magicast@0.3.5)
+      '@vueuse/core': 13.8.0(vue@3.5.20(typescript@5.9.2))
+      '@vueuse/metadata': 13.8.0
+      local-pkg: 1.1.2
       nuxt: 4.0.3(@biomejs/biome@2.2.2)(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.20)(better-sqlite3@12.2.0)(db0@0.3.2(better-sqlite3@12.2.0))(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.46.2)(terser@5.43.1)(typescript@5.9.2)(vite@7.1.1(@types/node@24.2.1)(jiti@2.5.1)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@2.2.12(typescript@5.9.2))(yaml@2.8.1)
       vue: 3.5.20(typescript@5.9.2)
     transitivePeerDependencies:
       - magicast
 
-  '@vueuse/router@13.7.0(vue-router@4.5.1(vue@3.5.20(typescript@5.9.2)))(vue@3.5.20(typescript@5.9.2))':
+  '@vueuse/router@13.8.0(vue-router@4.5.1(vue@3.5.20(typescript@5.9.2)))(vue@3.5.20(typescript@5.9.2))':
     dependencies:
-      '@vueuse/shared': 13.7.0(vue@3.5.20(typescript@5.9.2))
+      '@vueuse/shared': 13.8.0(vue@3.5.20(typescript@5.9.2))
       vue: 3.5.20(typescript@5.9.2)
       vue-router: 4.5.1(vue@3.5.20(typescript@5.9.2))
 
-  '@vueuse/shared@13.7.0(vue@3.5.20(typescript@5.9.2))':
+  '@vueuse/shared@13.8.0(vue@3.5.20(typescript@5.9.2))':
     dependencies:
       vue: 3.5.20(typescript@5.9.2)
 
@@ -10145,6 +10155,12 @@ snapshots:
       pkg-types: 2.2.0
       quansync: 0.2.10
 
+  local-pkg@1.1.2:
+    dependencies:
+      mlly: 1.7.4
+      pkg-types: 2.3.0
+      quansync: 0.2.11
+
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -11292,6 +11308,12 @@ snapshots:
       exsolve: 1.0.7
       pathe: 2.0.3
 
+  pkg-types@2.3.0:
+    dependencies:
+      confbox: 0.2.2
+      exsolve: 1.0.7
+      pathe: 2.0.3
+
   portfinder@1.0.37:
     dependencies:
       async: 3.2.6
@@ -11578,6 +11600,8 @@ snapshots:
       side-channel: 1.1.0
 
   quansync@0.2.10: {}
+
+  quansync@0.2.11: {}
 
   queue-microtask@1.2.3: {}
 
