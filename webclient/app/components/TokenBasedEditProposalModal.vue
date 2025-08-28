@@ -24,6 +24,22 @@ function closeForm() {
   successUrl.value = "";
   error.value.blockSend = false;
   error.value.message = "";
+  privacyChecked.value = false;
+}
+
+function resetFormData() {
+  // Reset form data after successful submission
+  editProposal.value.data.additional_context = "";
+  editProposal.value.data.edits = {};
+  editProposal.value.selected.id = null;
+  editProposal.value.selected.name = null;
+  editProposal.value.imageUpload.selectedFile = null;
+  editProposal.value.imageUpload.metadata = {
+    author: "",
+    license: { text: "", url: "" },
+  };
+  editProposal.value.locationPicker.lat = 0;
+  editProposal.value.locationPicker.lon = 0;
 }
 
 enum SubmissionStatus {
@@ -52,6 +68,7 @@ function _send() {
       loading.value = false;
       if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         token.value = null;
+        resetFormData(); // Reset form data only on successful submission
         r.text().then((url) => {
           successUrl.value = url;
         });

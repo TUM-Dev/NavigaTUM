@@ -138,7 +138,7 @@ function getEditTypeDisplay(roomId: string): string {
         <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("suggest_changes") }}</label>
 
         <div class="space-y-2">
-          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="()=>editProposal.imageUpload.open = true">
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("suggest_image_title") }}</span>
               <span class="text-xs text-zinc-200 font-normal">{{ t("suggest_image_desc") }}</span>
@@ -182,7 +182,7 @@ function getEditTypeDisplay(roomId: string): string {
             }
           "
           @confirm="onLocationSelected"
-          @cancel="()=> editProposal.locationPicker.open = false"
+          @cancel="() => (editProposal.locationPicker.open = false)"
         />
       </div>
 
@@ -198,7 +198,7 @@ function getEditTypeDisplay(roomId: string): string {
                   <p>{{ t("edit_type", [getEditTypeDisplay(String(roomId))]) }}</p>
                 </div>
               </div>
-              <button @click="()=>delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
+              <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
                 {{ t("remove") }}
               </button>
             </div>
