@@ -12,10 +12,10 @@ const feedback = useFeedback();
 
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
 const query_limit_buildings = computed<number>(() =>
-  Number.parseInt(firstOrDefault(route.query.limit_buildings, "10"))
+  Number.parseInt(firstOrDefault(route.query.limit_buildings, "10"), 10)
 );
 const query_limit_rooms = computed<number>(() =>
-  Number.parseInt(firstOrDefault(route.query.limit_rooms, "50"))
+  Number.parseInt(firstOrDefault(route.query.limit_rooms, "50"), 10)
 );
 const query_limit_all = computed<number>(() => query_limit_rooms.value + query_limit_rooms.value);
 const apiUrl = computed(() => {

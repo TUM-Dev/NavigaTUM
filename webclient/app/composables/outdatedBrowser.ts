@@ -49,7 +49,7 @@ function shouldWarnForOutdatedBrowser(): boolean {
   console.table(browser);
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
   if (optLastTime === null) return true;
-  const lastTime = Number.parseInt(optLastTime);
+  const lastTime = Number.parseInt(optLastTime, 10);
 
   const currentTime = Date.now();
   const msSinceLastWarning = currentTime - lastTime;
