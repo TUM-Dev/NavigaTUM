@@ -90,19 +90,21 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   if (!data.value) return;
 
   const coords = data.value.legs[0].shape.slice(from_shape_index, to_shape_index);
-  const latitudes = coords.map((c) => c.lat);
-  const longitudes = coords.map((c) => c.lon);
+  const latitudes = coords.map((c: { lat: number; lon: number }) => c.lat);
+  const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
     [Math.min(...latitudes), Math.max(...latitudes)]
   );
 }
+
+function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_index: number }) {
+  setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
+}
 </script>
 
 <template>
-  <div
-    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse"
-  >
+  <div class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse">
     <div class="min-h-96 grow">
       <ClientOnly>
         <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
@@ -125,13 +127,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
       </form>
-      <NavigationRoutingResults
-        v-if="status === 'success' && !!data"
-        :data="data"
-        @select-maneuver="
-          ({ begin_shape_index, end_shape_index }) => setBoundingBoxFromIndex(begin_shape_index, end_shape_index)
-        "
-      />
+      <NavigationRoutingResults v-if="status === 'success' && !!data" :data="data" @select-maneuver="handleSelectManeuver" />
       <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}

@@ -10,6 +10,10 @@ const { t } = useI18n({ useScope: "local" });
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
+watchEffect(() => {
+  updateLocale(locale.value as "de" | "en");
+});
+
 async function updateLocale(value: "de" | "en") {
   await navigateTo(switchLocalePath(value));
 }
@@ -58,7 +62,6 @@ async function updateLocale(value: "de" | "en") {
           <SelectionSwitch
             v-model="locale"
             :label="t('language')"
-            @update:model-value="(value) => updateLocale(value as 'de' | 'en')"
           >
             <SelectionOption value="de">de</SelectionOption>
             <SelectionOption value="en">en</SelectionOption>
