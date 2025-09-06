@@ -7,7 +7,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const model = defineModel<"de" | "en">({ required: true });
+const model = defineModel<string>({ required: true });
 </script>
 
 <template>
@@ -24,7 +24,11 @@ const model = defineModel<"de" | "en">({ required: true });
           </span>
         </ListboxButton>
 
-        <Transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <Transition
+          leave-active-class="transition duration-100 ease-in"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
           <ListboxOptions
             class="ring-black/5 bg-zinc-200 absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 focus:outline-none sm:text-sm"
           >
