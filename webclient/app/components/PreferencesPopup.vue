@@ -10,8 +10,8 @@ const { t } = useI18n({ useScope: "local" });
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-watchEffect(() => {
-  updateLocale(locale.value as "de" | "en");
+watch(locale, async (value) => {
+  await updateLocale(value as "de" | "en");
 });
 
 async function updateLocale(value: "de" | "en") {
