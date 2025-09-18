@@ -7,7 +7,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const model = defineModel<"de" | "en">({ required: true });
+const model = defineModel<string>({ required: true });
 </script>
 
 <template>
