@@ -293,9 +293,9 @@ pub async fn route_handler(
         };
         debug!(routing_solution=?response,"got routing solution");
 
-        HttpResponse::Ok().json(RoutingResponse::Valhalla(valhalla::ValhallaRoutingResponse::from(
-            response,
-        )))
+        HttpResponse::Ok().json(RoutingResponse::Valhalla(
+            valhalla::ValhallaRoutingResponse::from(response),
+        ))
     }
 }
 
