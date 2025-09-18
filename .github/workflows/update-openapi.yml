@@ -60,20 +60,19 @@ jobs:
 
       - name: Run | Start server in background
         working-directory: server
-        run: |
-          SKIP_MS_SETUP=true \
-          SKIP_DB_SETUP=true \
-          LOG_LEVEL=info \
-          cargo run &
+        run: cargo run &
         env:
           CARGO_INCREMENTAL: 0
+          SKIP_MS_SETUP: true
+          SKIP_DB_SETUP: true
+          LOG_LEVEL: info
 
       - name: Wait | Server startup
         run: |
           echo "Waiting for server to start..."
           timeout=60
           count=0
-          until curl -f http://localhost:8080/api/status > /dev/null 2>&1; do
+          until curl -f http://localhost:3003/api/status > /dev/null 2>&1; do
             if [ $count -ge $timeout ]; then
               echo "Server failed to start within $timeout seconds"
               exit 1
