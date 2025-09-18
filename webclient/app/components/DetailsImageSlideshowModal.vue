@@ -34,7 +34,6 @@ interface SubTitle {
 const subtitles = computed<SubTitle[]>(() => {
   if (!shownImage.value) return [];
   return [
-    { title: t("source"), ...shownImage.value.source },
     { title: t("license"), ...shownImage.value.license },
     { title: t("author"), ...shownImage.value.author },
   ];

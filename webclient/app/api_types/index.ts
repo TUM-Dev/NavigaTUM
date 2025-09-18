@@ -218,7 +218,7 @@ export type components = {
        * Format: date-time
        * @description last time the calendar was scraped for this room
        */
-      readonly last_calendar_scrape_at?: string | null;
+      readonly last_calendar_scrape_at: string;
       /** @description name of the entry in a human-readable form */
       readonly name: string;
       /**
@@ -369,44 +369,6 @@ export type components = {
       | "entry"
       | "general"
       | "other";
-    readonly PostFeedbackRequest: {
-      /**
-       * @description The body/description of the feedback
-       *
-       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
-       * @example A clear description what happened where and how we should improve it
-       */
-      readonly body: string;
-      /** @description The category of the feedback. */
-      readonly category?: components["schemas"]["FeedbackCategory"];
-      /**
-       * @description Whether the user has requested to delete the issue.
-       *
-       * This flag means:
-       * - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-       * - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-       */
-      readonly deletion_requested: boolean;
-      /**
-       * @description Whether the user has checked the privacy-checkbox.
-       *
-       * We are posting the feedback publicly on GitHub (not a EU-Company).
-       * **You MUST also include such a checkmark.**
-       */
-      readonly privacy_checked: boolean;
-      /**
-       * @description The subject/title of the feedback
-       *
-       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
-       * @example A catchy title
-       */
-      readonly subject: string;
-      /**
-       * @description The JWT token, that can be used to generate feedback
-       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
-       */
-      readonly token: string;
-    };
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -421,7 +383,13 @@ export type components = {
        * consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
        */
       readonly name: string;
-      readonly source: components["schemas"]["PossibleURLRefResponse"];
+    };
+    readonly ImageMetadata: {
+      /** @description Who created the image */
+      readonly author: string;
+      /** @description The license under which the image is distributed */
+      readonly license: components["schemas"]["Property"];
+      readonly offsets?: null | components["schemas"]["Offsets"];
     };
     readonly LegResponse: {
       readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
@@ -479,8 +447,14 @@ export type components = {
        *
        * Present on both redirects and normal entries, to allow for the common /view/:id path
        */
-      readonly redirect_url: string;
-      readonly sections?: null | components["schemas"]["SectionsResponse"];
+      readonly redirect_url?: string;
+      /**
+       * @description Information for different sections on the page like the
+       * - buildings overview,
+       * - rooms overview and
+       * - featured view
+       */
+      readonly sections?: components["schemas"]["SectionsResponse"];
       /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
       readonly sources: components["schemas"]["SourcesResponse"];
       /** @description The type of the entry */
@@ -749,6 +723,44 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly PostFeedbackRequest: {
+      /**
+       * @description The body/description of the feedback
+       *
+       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       * @example A clear description what happened where and how we should improve it
+       */
+      readonly body: string;
+      /** @description The category of the feedback. */
+      readonly category?: components["schemas"]["FeedbackCategory"];
+      /**
+       * @description Whether the user has requested to delete the issue.
+       *
+       * This flag means:
+       * - If the user has requested to delete the issue, we will delete it from GitHub after processing it
+       * - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
+       */
+      readonly deletion_requested: boolean;
+      /**
+       * @description Whether the user has checked the privacy-checkbox.
+       *
+       * We are posting the feedback publicly on GitHub (not a EU-Company).
+       * **You MUST also include such a checkmark.**
+       */
+      readonly privacy_checked: boolean;
+      /**
+       * @description The subject/title of the feedback
+       *
+       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       * @example A catchy title
+       */
+      readonly subject: string;
+      /**
+       * @description The JWT token, that can be used to generate feedback
+       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+       */
+      readonly token: string;
+    };
     readonly Property: {
       readonly text: string;
       readonly url?: string | null;
@@ -934,11 +946,6 @@ export type components = {
       readonly buildings_overview?: null | components["schemas"]["BuildingsOverviewResponse"];
       readonly featured_overview?: null | components["schemas"]["FeaturedOverviewResponse"];
       readonly rooms_overview?: null | components["schemas"]["RoomsOverviewResponse"];
-    };
-    readonly ImageMetadata: {
-      readonly author: string;
-      readonly license: components["schemas"]["Property"];
-      readonly offsets?: null | components["schemas"]["Offsets"];
     };
     readonly SourceResponse: {
       /**
@@ -1525,29 +1532,17 @@ export type operations = {
       query: {
         lang?: "de" | "en";
         /** @description Start of the route */
-        from: string;
+        from: components["schemas"]["Coordinate"] | string;
         /** @description Destination of the route */
-        to: string;
-        /**
-         * @description Transport mode the user wants to use
-         * @enum {sting}
-         */
-        route_costing: string;
-        /**
-         * @description Does the user have specific walking restrictions?
-         * @enum {string}
-         */
-        pedestrian_type?: string;
-        /**
-         * @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
-         * @enum {string}
-         */
-        ptw_type?: string;
-        /**
-         * @description Which kind of bicycle do you ride?
-         * @enum {string}
-         */
-        bicycle_type?: string;
+        to: components["schemas"]["Coordinate"] | string;
+        /** @description Transport mode the user wants to use */
+        route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
+        /** @description Does the user have specific walking restrictions? */
+        pedestrian_type?: "none" | "blind";
+        /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
+        ptw_type?: "motorcycle" | "moped";
+        /** @description Which kind of bicycle do you ride? */
+        bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
       };
     };
     responses: {

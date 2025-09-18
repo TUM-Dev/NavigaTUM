@@ -1,4 +1,4 @@
-use crate::localisation;
+use crate::localisation::{self, LanguageOptions};
 use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 #[expect(
@@ -19,7 +19,7 @@ use valhalla_client::route::{
 };
 
 #[derive(Deserialize, Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
-struct Coordinate {
+pub struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]
     lat: f64,
@@ -38,10 +38,10 @@ impl From<ShapePoint> for Coordinate {
 
 #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
 #[serde(untagged)]
-enum RequestedLocation {
+pub enum RequestedLocation {
     /// Either an
     /// - external address which was looked up or
-    /// - the users current location  
+    /// - the users current location
     Coordinate(Coordinate),
     /// Our (uni internal) key for location identification
     Location(String),
@@ -71,7 +71,7 @@ impl RequestedLocation {
 /// Transport mode the user wants to use
 #[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum CostingRequest {
+pub enum CostingRequest {
     Pedestrian,
     Bicycle,
     Motorcycle,
@@ -118,30 +118,37 @@ impl From<&RoutingRequest> for Costing {
 }
 
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
-struct RoutingRequest {
+pub struct RoutingRequest {
     #[serde(flatten, default)]
-    lang: localisation::LangQueryArgs,
+    #[param(inline)]
+    lang: localisation::LanguageOptions,
     /// Start of the route
+    #[param(inline)]
     from: RequestedLocation,
     /// Destination of the route
+    #[param(inline)]
     to: RequestedLocation,
     /// Transport mode the user wants to use
+    #[param(inline)]
     route_costing: CostingRequest,
     /// Does the user have specific walking restrictions?
     #[serde(default)]
+    #[param(inline)]
     pedestrian_type: PedestrianTypeRequest,
     /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
     #[serde(default)]
+    #[param(inline)]
     ptw_type: PoweredTwoWheeledRestrictionRequest,
     /// Which kind of bicycle do you ride?
     #[serde(default)]
+    #[param(inline)]
     bicycle_type: BicycleRestrictionRequest,
 }
 
 /// Does the user have specific walking restrictions?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum PedestrianTypeRequest {
+pub enum PedestrianTypeRequest {
     #[default]
     None,
     Blind,
@@ -163,7 +170,7 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 /// Which kind of bicycle do you ride?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum BicycleRestrictionRequest {
+pub enum BicycleRestrictionRequest {
     /// Road-bike
     ///
     /// A road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces.
@@ -195,7 +202,7 @@ impl From<BicycleRestrictionRequest> for BicycleType {
 /// Does the user have a moped or motorcycle
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum PoweredTwoWheeledRestrictionRequest {
+pub enum PoweredTwoWheeledRestrictionRequest {
     #[default]
     Motorcycle,
     Moped,
@@ -211,7 +218,7 @@ enum PoweredTwoWheeledRestrictionRequest {
 /// Internally, this endpoint relies on
 /// - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
 /// - our database to resolve ids.
-///   
+///
 ///   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
 ///   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
 ///
@@ -260,7 +267,7 @@ pub async fn route_handler(
             (from.lat as f32, from.lon as f32),
             (to.lat as f32, to.lon as f32),
             Costing::from(args.deref()),
-            args.lang.should_use_english(),
+            args.lang == LanguageOptions::En,
         )
         .await;
     let response = match routing {
@@ -277,7 +284,7 @@ pub async fn route_handler(
     HttpResponse::Ok().json(RoutingResponse::from(response))
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct RoutingResponse {
+pub struct RoutingResponse {
     /// A trip contains one (or more) legs.
     ///
     /// A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
@@ -295,7 +302,7 @@ impl From<Trip> for RoutingResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct SummaryResponse {
+pub struct SummaryResponse {
     /// Estimated elapsed time in seconds
     #[schema(example = 201.025)]
     time_seconds: f64,
@@ -338,7 +345,7 @@ impl From<Summary> for SummaryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct LegResponse {
+pub struct LegResponse {
     summary: SummaryResponse,
     maneuvers: Vec<ManeuverResponse>,
     shape: Vec<Coordinate>,
@@ -358,7 +365,7 @@ impl From<Leg> for LegResponse {
 }
 #[serde_with::skip_serializing_none]
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct ManeuverResponse {
+pub struct ManeuverResponse {
     r#type: ManeuverTypeResponse,
 
     instruction: String,
@@ -475,7 +482,7 @@ impl From<Maneuver> for ManeuverResponse {
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum ManeuverTypeResponse {
+pub enum ManeuverTypeResponse {
     None,
     Start,
     StartRight,
@@ -575,7 +582,7 @@ impl From<ManeuverType> for ManeuverTypeResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 
-struct TransitInfoResponse {
+pub struct TransitInfoResponse {
     /// Global transit route identifier
     ///
     /// **Tipp:** you use these as feed-ids in transitland.
@@ -653,7 +660,7 @@ impl From<TransitInfo> for TransitInfoResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TravelModeResponse {
+pub enum TravelModeResponse {
     Drive,
     Pedestrian,
     Bicycle,
@@ -670,7 +677,7 @@ impl From<TravelMode> for TravelModeResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct TransitStopResponse {
+pub struct TransitStopResponse {
     r#type: TransitStopTypeResponse,
     /// Name of the stop or station
     #[schema(examples("14 St - Union Sq"))]
@@ -706,7 +713,7 @@ impl From<TransitStop> for TransitStopResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TransitStopTypeResponse {
+pub enum TransitStopTypeResponse {
     /// Simple stop
     Stop,
     /// Station

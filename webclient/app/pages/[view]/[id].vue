@@ -92,7 +92,7 @@ watchEffect(async () => {
 });
 watch([data, route], async () => {
   if (!data.value) return;
-  const redirectPath = localePath(data.value.redirect_url);
+  const redirectPath = localePath(data.value.redirect_url as string);
   if (route.path !== redirectPath) {
     await navigateTo({ path: redirectPath, query: route.query, replace: true });
   }
