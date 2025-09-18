@@ -108,7 +108,7 @@ jobs:
           curl -f http://localhost:3003/api/openapi.json -o openapi.json
           
           echo "Converting JSON to YAML..."
-          yq eval -P '.' openapi.json > data/output/openapi.yaml
+          yq -Poy openapi.json > data/output/openapi.yaml
           
           echo "Cleaning up temporary file..."
           rm openapi.json
