@@ -47,6 +47,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
+          cache-dependency-path: webclient/pnpm-lock.yaml
 
       - name: Install | Dependencies
         run: pnpm install
