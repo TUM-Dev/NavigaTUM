@@ -1374,7 +1374,7 @@ export type operations = {
     parameters: {
       query?: {
         /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
-        lang?: components["schemas"]["LanguageOptions"];
+        lang?: "de" | "en";
       };
       path: {
         /** @description ID of the location */
@@ -1431,8 +1431,8 @@ export type operations = {
   maps_handler: {
     parameters: {
       query?: {
-        lang?: components["schemas"]["LangQueryArgs"];
-        format?: components["schemas"]["PreviewFormat"];
+        lang?: "de" | "en";
+        format?: "open_graph" | "square";
       };
       path: {
         id: string;
@@ -1530,19 +1530,19 @@ export type operations = {
   route_handler: {
     parameters: {
       query: {
-        lang?: components["schemas"]["LangQueryArgs"];
+        lang?: "de" | "en";
         /** @description Start of the route */
-        from: components["schemas"]["RequestedLocation"];
+        from: components["schemas"]["Coordinate"] | string;
         /** @description Destination of the route */
-        to: components["schemas"]["RequestedLocation"];
+        to: components["schemas"]["Coordinate"] | string;
         /** @description Transport mode the user wants to use */
-        route_costing: components["schemas"]["CostingRequest"];
+        route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
         /** @description Does the user have specific walking restrictions? */
-        pedestrian_type?: components["schemas"]["PedestrianTypeRequest"];
+        pedestrian_type?: "none" | "blind";
         /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
-        ptw_type?: components["schemas"]["PoweredTwoWheeledRestrictionRequest"];
+        ptw_type?: "motorcycle" | "moped";
         /** @description Which kind of bicycle do you ride? */
-        bicycle_type?: components["schemas"]["BicycleRestrictionRequest"];
+        bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
       };
     };
     responses: {

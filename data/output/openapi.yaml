@@ -247,7 +247,10 @@ paths:
           description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
           required: false
           schema:
-            $ref: '#/components/schemas/LanguageOptions'
+            type: string
+            enum:
+              - de
+              - en
       responses:
         "200":
           description: '**Details** about the **location**'
@@ -310,12 +313,18 @@ paths:
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/LangQueryArgs'
+            type: string
+            enum:
+              - de
+              - en
         - name: format
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/PreviewFormat'
+            type: string
+            enum:
+              - open_graph
+              - square
       responses:
         "200":
           description: '**Preview image**'
@@ -415,43 +424,81 @@ paths:
           in: query
           required: false
           schema:
-            $ref: '#/components/schemas/LangQueryArgs'
+            type: string
+            enum:
+              - de
+              - en
         - name: from
           in: query
           description: Start of the route
           required: true
           schema:
-            $ref: '#/components/schemas/RequestedLocation'
+            oneOf:
+              - $ref: '#/components/schemas/Coordinate'
+                description: |-
+                  Either an
+                  - external address which was looked up or
+                  - the users current location
+              - type: string
+                description: Our (uni internal) key for location identification
         - name: to
           in: query
           description: Destination of the route
           required: true
           schema:
-            $ref: '#/components/schemas/RequestedLocation'
+            oneOf:
+              - $ref: '#/components/schemas/Coordinate'
+                description: |-
+                  Either an
+                  - external address which was looked up or
+                  - the users current location
+              - type: string
+                description: Our (uni internal) key for location identification
         - name: route_costing
           in: query
           description: Transport mode the user wants to use
           required: true
           schema:
-            $ref: '#/components/schemas/CostingRequest'
+            type: string
+            description: Transport mode the user wants to use
+            enum:
+              - pedestrian
+              - bicycle
+              - motorcycle
+              - car
+              - public_transit
         - name: pedestrian_type
           in: query
           description: Does the user have specific walking restrictions?
           required: false
           schema:
-            $ref: '#/components/schemas/PedestrianTypeRequest'
+            type: string
+            description: Does the user have specific walking restrictions?
+            enum:
+              - none
+              - blind
         - name: ptw_type
           in: query
           description: Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
           required: false
           schema:
-            $ref: '#/components/schemas/PoweredTwoWheeledRestrictionRequest'
+            type: string
+            description: Does the user have a moped or motorcycle
+            enum:
+              - motorcycle
+              - moped
         - name: bicycle_type
           in: query
           description: Which kind of bicycle do you ride?
           required: false
           schema:
-            $ref: '#/components/schemas/BicycleRestrictionRequest'
+            type: string
+            description: Which kind of bicycle do you ride?
+            enum:
+              - road
+              - hybrid
+              - cross
+              - mountain
       responses:
         "200":
           description: '**Routing solution**'
