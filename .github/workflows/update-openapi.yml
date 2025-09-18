@@ -15,6 +15,20 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    services:
+      postgres:
+        image: postgis/postgis:15-3.3
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: navigatum
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v5
@@ -65,7 +79,10 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           SKIP_MS_SETUP: true
-          SKIP_DB_SETUP: true
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_URL: localhost
+          POSTGRES_DB: navigatum
           LOG_LEVEL: info
 
       - name: Wait | Server startup
