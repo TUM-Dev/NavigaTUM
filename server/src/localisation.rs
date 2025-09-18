@@ -25,5 +25,5 @@ impl Display for LanguageOptions {
 pub struct LangQueryArgs {
     /// The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
     #[param(inline)]
-    lang: LanguageOptions,
+    pub lang: LanguageOptions,
 }
