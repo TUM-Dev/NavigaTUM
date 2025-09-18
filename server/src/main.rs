@@ -38,6 +38,7 @@ pub struct AppData {
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
     valhalla: external::valhalla::ValhallaWrapper,
+    motis: external::motis::MotisWrapper,
 }
 
 impl AppData {
@@ -56,6 +57,7 @@ impl From<PgPool> for AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
             valhalla: external::valhalla::ValhallaWrapper::default(),
+            motis: external::motis::MotisWrapper::default(),
         }
     }
 }

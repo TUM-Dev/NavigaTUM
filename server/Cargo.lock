@@ -3085,6 +3085,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "motis-openapi-progenitor"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e301894106088f33bbfcd9d9cb792b3ab20570d6c1c083ad9edcc6b1c3d8031e"
+dependencies = [
+ "chrono",
+ "progenitor-client",
+ "reqwest",
+ "serde",
+]
+
+[[package]]
 name = "mutually_exclusive_features"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3147,6 +3159,7 @@ dependencies = [
  "jsonwebtoken",
  "logos",
  "meilisearch-sdk",
+ "motis-openapi-progenitor",
  "oauth2",
  "octocrab",
  "polars",
@@ -4334,6 +4347,21 @@ checksum = "52717f9a02b6965224f95ca2a81e2e0c5c43baacd28ca057577988930b6c3d5b"
 dependencies = [
  "quote",
  "syn",
+]
+
+[[package]]
+name = "progenitor-client"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "296003fd74e64c77aeb2c10eae850eb543211a8557dd3b3de6f4230b5071e44b"
+dependencies = [
+ "bytes",
+ "futures-core",
+ "percent-encoding",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
 ]
 
 [[package]]
