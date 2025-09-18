@@ -1,4 +1,3 @@
-
 openapi: 3.1.0
 info:
   title: NavigaTUM
@@ -28,16 +27,18 @@ info:
     url: https://www.gnu.org/licenses/
   version: 1.0.0
   x-logo:
+    altText: null
+    backgroundColor: null
     href: https://nav.tum.de
     url: https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/webclient/app/assets/logos/navigatum.svg
 servers:
-- url: https://nav.tum.de
-  description: production
+  - url: https://nav.tum.de
+    description: production
 paths:
-  "/api/calendar":
+  /api/calendar:
     post:
       tags:
-      - calendar
+        - calendar
       summary: Retrieve Calendar Entries
       description: |-
         Retrieves calendar entries for specific `ids` within the requested time span.
@@ -50,46 +51,44 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Arguments"
+              $ref: '#/components/schemas/Arguments'
         required: true
       responses:
-        '200':
-          description: "**Entries of the calendar** in the requested time span"
+        "200":
+          description: '**Entries of the calendar** in the requested time span'
           content:
             application/json:
               schema:
                 type: object
                 additionalProperties:
-                  "$ref": "#/components/schemas/LocationEventsResponse"
+                  $ref: '#/components/schemas/LocationEventsResponse'
                 propertyNames:
                   type: string
-        '400':
-          description: "**Bad Request.** Not all fields in the body are present as
-            defined above"
+        "400":
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
           content:
             text/plain:
               schema:
                 type: string
-              example: Too many ids to query. We suspect that users don't need this.
-                If you need this limit increased, please send us a message
-        '404':
-          description: "**Not found.** The requested location does not have a calendar"
+              example: Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message
+        "404":
+          description: '**Not found.** The requested location does not have a calendar'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-        '503':
-          description: "**Not Ready.** please retry later"
+        "503":
+          description: '**Not Ready.** please retry later'
           content:
             text/plain:
               schema:
                 type: string
               example: Waiting for first sync with TUMonline
-  "/api/feedback/feedback":
+  /api/feedback/feedback:
     post:
       tags:
-      - feedback
+        - feedback
       summary: Post feedback
       description: |-
         ***Do not abuse this endpoint.***
@@ -109,22 +108,20 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PostFeedbackRequest"
+              $ref: '#/components/schemas/PostFeedbackRequest'
         required: true
       responses:
-        '201':
-          description: The feedback has been **successfully posted to GitHub**. We
-            return the link to the GitHub issue.
+        "201":
+          description: The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.
           content:
             text/plain:
               schema:
                 type: string
                 format: uri
               example: https://github.com/TUM-Dev/navigatum/issues/9
-        '400':
-          description: "**Bad Request.** Not all fields in the body are present as
-            defined above"
-        '403':
+        "400":
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
+        "403":
           description: |-
             **Forbidden.** Causes are (delivered via the body):
 
@@ -136,23 +133,18 @@ paths:
             text/plain:
               schema:
                 type: string
-        '422':
-          description: "**Unprocessable Entity.** Subject or body missing or too short."
-        '451':
-          description: "**Unavailable for legal reasons.** Using this endpoint without
-            accepting the privacy policy is not allowed. For us to post to GitHub,
-            this has to be `true`"
-        '500':
-          description: "**Internal Server Error.** We have a problem communicating
-            with GitHubs servers. Please try again later"
-        '503':
-          description: "**Service unavailable.** We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later."
-  "/api/feedback/get_token":
+        "422":
+          description: '**Unprocessable Entity.** Subject or body missing or too short.'
+        "451":
+          description: '**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be `true`'
+        "500":
+          description: '**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later'
+        "503":
+          description: '**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.'
+  /api/feedback/get_token:
     post:
       tags:
-      - feedback
+        - feedback
       summary: Get a feedback-token
       description: |-
         ***Do not abuse this endpoint.***
@@ -171,23 +163,20 @@ paths:
         Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
       operationId: get_token
       responses:
-        '201':
-          description: "**Created** a usable token"
+        "201":
+          description: '**Created** a usable token'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/TokenResponse"
-        '429':
-          description: "**Too many requests.** We are rate-limiting everyone's requests,
-            please try again later."
-        '503':
-          description: "**Service unavailable.** We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later."
-  "/api/feedback/propose_edits":
+                $ref: '#/components/schemas/TokenResponse'
+        "429":
+          description: '**Too many requests.** We are rate-limiting everyone''s requests, please try again later.'
+        "503":
+          description: '**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.'
+  /api/feedback/propose_edits:
     post:
       tags:
-      - feedback
+        - feedback
       summary: Post Edit-Requests
       description: |-
         ***Do not abuse this endpoint.***
@@ -204,22 +193,20 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/EditRequest"
+              $ref: '#/components/schemas/EditRequest'
         required: true
       responses:
-        '201':
-          description: The edit request feedback has been **successfully posted to
-            GitHub**. We return the link to the GitHub issue.
+        "201":
+          description: The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.
           content:
             text/plain:
               schema:
                 type: string
                 format: uri
               example: https://github.com/TUM-Dev/navigatum/issues/9
-        '400':
-          description: "**Bad Request.** Not all fields in the body are present as
-            defined above"
-        '403':
+        "400":
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
+        "403":
           description: |-
             **Forbidden.** Causes are (delivered via the body):
 
@@ -227,23 +214,18 @@ paths:
             - `Token not old enough, please wait`: Tokens are only valid after 10s.
             - `Token expired`: Tokens are only valid for 12h.
             - `Token already used`: Tokens are non reusable/refreshable single-use items.
-        '422':
-          description: "**Unprocessable Entity.** Subject or body missing or too short."
-        '451':
-          description: "**Unavailable for legal reasons.** Using this endpoint without
-            accepting the privacy policy is not allowed. For us to post to GitHub,
-            this has to be true"
-        '500':
-          description: "**Internal Server Error.** We have a problem communicating
-            with GitHubs servers. Please try again later."
-        '503':
-          description: Service unavailable. We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later.
-  "/api/locations/{id}":
+        "422":
+          description: '**Unprocessable Entity.** Subject or body missing or too short.'
+        "451":
+          description: '**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true'
+        "500":
+          description: '**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later.'
+        "503":
+          description: Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.
+  /api/locations/{id}:
     get:
       tags:
-      - locations
+        - locations
       summary: Get entry-details
       description: |-
         This returns the full data available for the entry (room/building).
@@ -254,68 +236,67 @@ paths:
         More about this data format is described in the NavigaTUM-data documentation
       operationId: get_handler
       parameters:
-      - name: id
-        in: path
-        description: ID of the location
-        required: true
-        schema:
-          type: string
-      - name: lang
-        in: query
-        description: The language you want your preview to be in. If either this or
-          the query parameter is set to en, this will be delivered.
-        required: false
-        schema:
-          type: string
-          enum:
-          - de
-          - en
+        - name: id
+          in: path
+          description: ID of the location
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            enum:
+              - de
+              - en
       responses:
-        '200':
-          description: "**Details** about the **location**"
+        "200":
+          description: '**Details** about the **location**'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LocationDetailsResponse"
-        '404':
-          description: "**Not found.** Make sure that requested item exists"
+                $ref: '#/components/schemas/LocationDetailsResponse'
+        "404":
+          description: '**Not found.** Make sure that requested item exists'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-  "/api/locations/{id}/nearby":
+  /api/locations/{id}/nearby:
     get:
       tags:
-      - locations
+        - locations
       summary: Get the nearby items
       description: Shows nearby POIs like public transport stations
       operationId: nearby_handler
       parameters:
-      - name: id
-        in: path
-        description: ID of a location
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: ID of a location
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
+        "200":
           description: Things **nearby to the location**
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NearbyLocationsResponse"
-        '404':
-          description: "**Not found.** Make sure that requested item exists"
+                $ref: '#/components/schemas/NearbyLocationsResponse'
+        "404":
+          description: '**Not found.** Make sure that requested item exists'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-  "/api/locations/{id}/preview":
+  /api/locations/{id}/preview:
     get:
       tags:
-      - locations
+        - locations
       summary: Get a entry-preview
       description: |-
         This returns a 1200x630px preview for the location (room/building/..).
@@ -323,105 +304,103 @@ paths:
         This is usefully for implementing custom OpenGraph images for detail previews.
       operationId: maps_handler
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: lang
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-            - de
-            - en
-      - name: format
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-          - open_graph
-          - square
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - de
+              - en
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - open_graph
+              - square
       responses:
-        '200':
-          description: "**Preview image**"
+        "200":
+          description: '**Preview image**'
           content:
             image/png: {}
-        '404':
-          description: "**Not found.** Make sure that requested item exists"
+        "404":
+          description: '**Not found.** Make sure that requested item exists'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-  "/api/maps/indoor":
+  /api/maps/indoor:
     get:
       tags:
-      - maps
+        - maps
       summary: Lists indoor maps in bounding box
       description: Returns all the available maps for a given bbox
       operationId: list_indoor_maps
       parameters:
-      - name: bbox
-        in: query
-        description: |-
-          Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
+        - name: bbox
+          in: query
+          description: |-
+            Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
 
-          Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
-        required: true
-        schema:
-          type: string
+            Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: "**List indoor maps** in bounding box"
+        "200":
+          description: '**List indoor maps** in bounding box'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/RemoteMap"
-        '400':
-          description: "**Bad Request.** Please check that the input provided matches
-            above."
+                  $ref: '#/components/schemas/RemoteMap'
+        "400":
+          description: '**Bad Request.** Please check that the input provided matches above.'
           content:
             text/plain:
               schema:
                 type: string
-              example: the bbox-parameter needs 4 floating point numbers of format
-                y,x,y,x
-  "/api/maps/indoor/{id}":
+              example: the bbox-parameter needs 4 floating point numbers of format y,x,y,x
+  /api/maps/indoor/{id}:
     get:
       tags:
-      - maps
+        - maps
       summary: Get indoor features
       description: Get all features of a certain indoor map
       operationId: get_indoor_map
       parameters:
-      - name: id
-        in: path
-        description: ID of the indoor map
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: id
+          in: path
+          description: ID of the indoor map
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
-        '200':
-          description: "**Indoor features** as GeoJSON"
+        "200":
+          description: '**Indoor features** as GeoJSON'
           content:
             application/json: {}
-        '404':
-          description: "**Not found.** The requested location does not have a calendar"
+        "404":
+          description: '**Not found.** The requested location does not have a calendar'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-  "/api/maps/route":
+  /api/maps/route:
     get:
       tags:
-      - maps
+        - maps
       summary: Routing requests
       description: |-
         **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
@@ -441,93 +420,113 @@ paths:
         - [Motis](https://github.com/motis-project/motis)
       operationId: route_handler
       parameters:
-      - name: lang
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-          - de
-          - en
-      - name: from
-        in: query
-        description: Start of the route
-        required: true
-        schema:
-          type: string
-      - name: to
-        in: query
-        description: Destination of the route
-        required: true
-        schema:
-          type: string
-      - name: route_costing
-        in: query
-        description: Transport mode the user wants to use
-        required: true
-        type: sting
-        enum:
-        - pedestrian
-        - bicycle
-        - motorcycle
-        - car
-        - public_transit
-      - name: pedestrian_type
-        in: query
-        description: Does the user have specific walking restrictions?
-        required: false
-        type: string
-        enum:
-        - none
-        - blind
-        - wheelchair
-      - name: ptw_type
-        in: query
-        description: Does the user prefer mopeds or motorcycles for powered two-wheeled
-          (ptw)?
-        required: false
-        type: string
-        enum:
-        - motorcycle
-        - moped
-      - name: bicycle_type
-        in: query
-        description: Which kind of bicycle do you ride?
-        required: false
-        type: string
-        enum:
-        - road
-        - hybrid
-        - cross
-        - mountain
+        - name: lang
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - de
+              - en
+        - name: from
+          in: query
+          description: Start of the route
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Coordinate'
+                description: |-
+                  Either an
+                  - external address which was looked up or
+                  - the users current location
+              - type: string
+                description: Our (uni internal) key for location identification
+        - name: to
+          in: query
+          description: Destination of the route
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Coordinate'
+                description: |-
+                  Either an
+                  - external address which was looked up or
+                  - the users current location
+              - type: string
+                description: Our (uni internal) key for location identification
+        - name: route_costing
+          in: query
+          description: Transport mode the user wants to use
+          required: true
+          schema:
+            type: string
+            description: Transport mode the user wants to use
+            enum:
+              - pedestrian
+              - bicycle
+              - motorcycle
+              - car
+              - public_transit
+        - name: pedestrian_type
+          in: query
+          description: Does the user have specific walking restrictions?
+          required: false
+          schema:
+            type: string
+            description: Does the user have specific walking restrictions?
+            enum:
+              - none
+              - blind
+        - name: ptw_type
+          in: query
+          description: Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
+          required: false
+          schema:
+            type: string
+            description: Does the user have a moped or motorcycle
+            enum:
+              - motorcycle
+              - moped
+        - name: bicycle_type
+          in: query
+          description: Which kind of bicycle do you ride?
+          required: false
+          schema:
+            type: string
+            description: Which kind of bicycle do you ride?
+            enum:
+              - road
+              - hybrid
+              - cross
+              - mountain
       responses:
-        '200':
-          description: "**Routing solution**"
+        "200":
+          description: '**Routing solution**'
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/RoutingResponse"
-        '404':
-          description: "**Not found.** The requested location does not exist"
+                $ref: '#/components/schemas/RoutingResponse'
+        "404":
+          description: '**Not found.** The requested location does not exist'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-  "/api/openapi.json":
+  /api/openapi.json:
     get:
       summary: Openapi service definition
       description: Usefull for consuming in external openapi tooling
       operationId: openapi_doc
       responses:
-        '200':
+        "200":
           description: The openapi definition
           content:
             application/json: {}
-  "/api/search":
+  /api/search:
     get:
       tags:
-      - locations
+        - locations
       summary: Search entries
       description: |-
         This endpoint is designed to support search-as-you-type results.
@@ -539,127 +538,124 @@ paths:
         Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
       operationId: search_handler
       parameters:
-      - name: q
-        in: query
-        description: |-
-          string you want to search for.
+        - name: q
+          in: query
+          description: |-
+            string you want to search for.
 
-          The amounts returned can be controlled using the `limit\*` paramerters.
+            The amounts returned can be controlled using the `limit\*` paramerters.
 
-          The following query-filters are supported:
-          - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-          - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-          - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-          - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
-        required: true
-        schema:
-          type: string
-      - name: search_addresses
-        in: query
-        description: |-
-          Include adresses in the saerch
+            The following query-filters are supported:
+            - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+            - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
+            - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
+            - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+          required: true
+          schema:
+            type: string
+        - name: search_addresses
+          in: query
+          description: |-
+            Include adresses in the saerch
 
-          Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
-          Only activate this when you really need it.
-        required: false
-        schema:
-          type:
-          - boolean
-          - 'null'
-      - name: limit_buildings
-        in: query
-        description: |-
-          Maximum number of buildings/sites to return.
+            Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
+            Only activate this when you really need it.
+          required: false
+          schema:
+            type:
+              - boolean
+              - "null"
+        - name: limit_buildings
+          in: query
+          description: |-
+            Maximum number of buildings/sites to return.
 
-          Clamped to `0`..`1000`.
-          If this is a problem for you, please open an issue.
-        required: false
-        schema:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-      - name: limit_rooms
-        in: query
-        description: |-
-          Maximum number of rooms to return.
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
+          required: false
+          schema:
+            type:
+              - integer
+              - "null"
+            minimum: 0
+        - name: limit_rooms
+          in: query
+          description: |-
+            Maximum number of rooms to return.
 
-          Clamped to `0`..`1000`.
-          If this is an problem for you, please open an issue.
-        required: false
-        schema:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-      - name: limit_all
-        in: query
-        description: |-
-          Maximum number of results to return.
+            Clamped to `0`..`1000`.
+            If this is an problem for you, please open an issue.
+          required: false
+          schema:
+            type:
+              - integer
+              - "null"
+            minimum: 0
+        - name: limit_all
+          in: query
+          description: |-
+            Maximum number of results to return.
 
-          Clamped to `1`..`1000`.
-          If this is an problem for you, please open an issue.
-        required: false
-        schema:
-          type:
-          - integer
-          - 'null'
-          minimum: 0
-      - name: pre_highlight
-        in: query
-        description: |-
-          string to include in front of highlighted sequences.
+            Clamped to `1`..`1000`.
+            If this is an problem for you, please open an issue.
+          required: false
+          schema:
+            type:
+              - integer
+              - "null"
+            minimum: 0
+        - name: pre_highlight
+          in: query
+          description: |-
+            string to include in front of highlighted sequences.
 
-          If this and `post_highlight` are empty, highlighting is disabled.
-          For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-        required: false
-        schema:
-          type:
-          - string
-          - 'null'
-      - name: post_highlight
-        in: query
-        description: |-
-          string to include after the highlighted sequences.
+            If this and `post_highlight` are empty, highlighting is disabled.
+            For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+          required: false
+          schema:
+            type:
+              - string
+              - "null"
+        - name: post_highlight
+          in: query
+          description: |-
+            string to include after the highlighted sequences.
 
-          If this and `pre_highlight` are empty, highlighting is disabled.
-          For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-        required: false
-        schema:
-          type:
-          - string
-          - 'null'
+            If this and `pre_highlight` are empty, highlighting is disabled.
+            For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+          required: false
+          schema:
+            type:
+              - string
+              - "null"
       responses:
-        '200':
+        "200":
           description: Search entries
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SearchResponse"
-        '400':
-          description: "**Bad Request.** Not all fields in the body are present as
-            defined above"
+                $ref: '#/components/schemas/SearchResponse'
+        "400":
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
           content:
             text/plain:
               schema:
                 type: string
               example: 'Query deserialize error: invalid digit found in string'
-        '404':
-          description: "**Not found.** `q` is empty. Since searching for nothing is
-            nonsensical, we dont support this."
+        "404":
+          description: '**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
-        '414':
-          description: "**URI Too Long.** The uri you are trying to request is unreasonably
-            long. Search querys dont have thousands of chars.."
+        "414":
+          description: '**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..'
           content:
             text/plain:
               schema:
                 type: string
-  "/api/status":
+  /api/status:
     get:
       summary: API healthcheck
       description: |-
@@ -667,7 +663,7 @@ paths:
         **Should never happen.**
       operationId: health_status_handler
       responses:
-        '200':
+        "200":
           description: API is **healthy**
           content:
             text/plain:
@@ -676,7 +672,7 @@ paths:
               example: |-
                 healthy
                 source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
-        '503':
+        "503":
           description: API is **NOT healthy**
           content:
             text/plain:
@@ -690,17 +686,17 @@ components:
     Arguments:
       type: object
       required:
-      - ids
-      - start_after
-      - end_before
+        - ids
+        - start_after
+        - end_before
       properties:
         end_before:
           type: string
           format: date-time
           description: The last allowed time the calendar would like to display
           examples:
-          - '2039-01-19T03:14:07+01:00'
-          - 2042-01-07T00:00:00 UTC
+            - "2039-01-19T03:14:07+01:00"
+            - 2042-01-07T00:00:00 UTC
         ids:
           type: array
           items:
@@ -710,10 +706,10 @@ components:
 
             Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
           example:
-          - 5605.EG.011
-          - 5510.02.001
-          - 5606.EG.036
-          - '5304'
+            - 5605.EG.011
+            - 5510.02.001
+            - 5606.EG.036
+            - "5304"
           maxItems: 10
           minItems: 1
         start_after:
@@ -721,14 +717,14 @@ components:
           format: date-time
           description: The first allowed time the calendar would like to display
           examples:
-          - '2039-01-19T03:14:07+01:00'
-          - 2042-01-07T00:00:00 UTC
+            - "2039-01-19T03:14:07+01:00"
+            - 2042-01-07T00:00:00 UTC
     BuildingsOverviewItemResponse:
       type: object
       required:
-      - id
-      - name
-      - subtext
+        - id
+        - name
+        - subtext
       properties:
         id:
           type: string
@@ -741,19 +737,19 @@ components:
           description: What should be displayed below this Building
         thumb:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: The thumbnail for the building
     BuildingsOverviewResponse:
       type: object
       required:
-      - entries
-      - n_visible
+        - entries
+        - n_visible
       properties:
         entries:
           type: array
           items:
-            "$ref": "#/components/schemas/BuildingsOverviewItemResponse"
+            $ref: '#/components/schemas/BuildingsOverviewItemResponse'
         n_visible:
           type: integer
           format: int32
@@ -761,19 +757,20 @@ components:
     CalendarLocationResponse:
       type: object
       required:
-      - key
-      - name
-      - type_common_name
-      - type
+        - key
+        - name
+        - last_calendar_scrape_at
+        - type_common_name
+        - type
       properties:
         calendar_url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: Link to the calendar of the room
           examples:
-          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
-          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
         key:
           type: string
           description: |-
@@ -782,23 +779,21 @@ components:
             Included to enable multi-room calendars.
             Format: BUILDING.LEVEL.NUMBER
           examples:
-          - 5602.EG.001
-          - 5121.EG.003
+            - 5602.EG.001
+            - 5121.EG.003
         last_calendar_scrape_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           description: last time the calendar was scraped for this room
           examples:
-          - '2039-01-19T03:14:07+01:00'
-          - 2042-01-07T00:00:00 UTC
+            - "2039-01-19T03:14:07+01:00"
+            - 2042-01-07T00:00:00 UTC
         name:
           type: string
           description: name of the entry in a human-readable form
           examples:
-          - 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
-          - 5121.EG.003 (Computerraum)
+            - 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
+            - 5121.EG.003 (Computerraum)
         type:
           type: string
           description: |-
@@ -813,42 +808,42 @@ components:
             - `campus`
             - `poi`
           examples:
-          - room
-          - building
-          - joined_building
-          - area
-          - site
-          - campus
-          - poi
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
         type_common_name:
           type: string
           description: Type of the entry in a human-readable form
           examples:
-          - Serverraum
-          - Büro
+            - Serverraum
+            - Büro
     ComputedPropResponse:
       type: object
       required:
-      - name
-      - text
+        - name
+        - text
       properties:
         extra:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/ExtraComputedPropResponse"
+            - type: "null"
+            - $ref: '#/components/schemas/ExtraComputedPropResponse'
         name:
           type: string
           examples:
-          - Raumkennung
+            - Raumkennung
         text:
           type: string
           examples:
-          - 5602.EG.001
+            - 5602.EG.001
     Coordinate:
       type: object
       required:
-      - lat
-      - lon
+        - lat
+        - lon
       properties:
         lat:
           type: number
@@ -863,21 +858,21 @@ components:
     CoordinateAccuracyResponse:
       type: string
       enum:
-      - building
+        - building
     CoordinateResponse:
       type: object
       required:
-      - lat
-      - lon
-      - source
+        - lat
+        - lon
+        - source
       properties:
         accuracy:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/CoordinateAccuracyResponse"
-            description: |-
-              How accurate the coordinate is.
-              Only present, if it is limited to a degree (e.g. we only know the building)
+            - type: "null"
+            - $ref: '#/components/schemas/CoordinateAccuracyResponse'
+              description: |-
+                How accurate the coordinate is.
+                Only present, if it is limited to a degree (e.g. we only know the building)
         lat:
           type: number
           format: double
@@ -889,26 +884,26 @@ components:
           description: Longitude
           example: 48.26244490906312
         source:
-          "$ref": "#/components/schemas/CoordinateSourceResponse"
+          $ref: '#/components/schemas/CoordinateSourceResponse'
           description: Source of the Coordinates
     CoordinateSourceResponse:
       type: string
       enum:
-      - navigatum
-      - roomfinder
-      - inferred
+        - navigatum
+        - roomfinder
+        - inferred
     DefaultMapsResponse:
       type: string
       enum:
-      - interactive
-      - roomfinder
+        - interactive
+        - roomfinder
     EditRequest:
       type: object
       required:
-      - token
-      - edits
-      - additional_context
-      - privacy_checked
+        - token
+        - edits
+        - additional_context
+        - privacy_checked
       properties:
         additional_context:
           type: string
@@ -918,9 +913,8 @@ components:
             Will be displayed in the discription field of the PR
           example: I have a picture of the room, please add it to the roomfinder
         edits:
-          "$ref": "#/components/schemas/LimitedHashMap_String_Edit"
-          description: The edits to be made to the room. The keys are the ID of the
-            props to be edited, the values are the proposed Edits.
+          $ref: '#/components/schemas/LimitedHashMap_String_Edit'
+          description: The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
         privacy_checked:
           type: boolean
           description: |-
@@ -935,29 +929,28 @@ components:
     EventResponse:
       type: object
       required:
-      - id
-      - room_code
-      - start_at
-      - end_at
-      - title_de
-      - title_en
-      - entry_type
-      - detailed_entry_type
+        - id
+        - room_code
+        - start_at
+        - end_at
+        - title_de
+        - title_en
+        - entry_type
+        - detailed_entry_type
       properties:
         detailed_entry_type:
           type: string
-          description: For some Entrys, we do have more information (what kind of
-            a `lecture` is it? What kind of an other `entry` is it?)
+          description: For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
           examples:
-          - Abhaltung
+            - Abhaltung
         end_at:
           type: string
           format: date-time
           description: end of the entry
           examples:
-          - '2019-01-01T00:00:00'
+            - 2019-01-01T00:00:00
         entry_type:
-          "$ref": "#/components/schemas/EventTypeResponse"
+          $ref: '#/components/schemas/EventTypeResponse'
           description: |-
             What this calendar entry means.
 
@@ -967,7 +960,7 @@ components:
           format: int32
           description: ID of the calendar entry used in TUMonline internally
           examples:
-          - 6424
+            - 6424
         room_code:
           type: string
           description: |-
@@ -976,67 +969,67 @@ components:
             Included to enable multi-room calendars.
             Format: BUILDING.LEVEL.NUMBER
           examples:
-          - 5602.EG.001
-          - 5121.EG.003
+            - 5602.EG.001
+            - 5121.EG.003
         start_at:
           type: string
           format: date-time
           description: start of the entry
           examples:
-          - '2018-01-01T00:00:00'
+            - 2018-01-01T00:00:00
         stp_type:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: Lecture-type
           examples:
-          - Vorlesung mit Zentralübung
+            - Vorlesung mit Zentralübung
         title_de:
           type: string
           description: German title of the Entry
           examples:
-          - Quantenteleportation
+            - Quantenteleportation
         title_en:
           type: string
           description: English title of the Entry
           examples:
-          - Quantum teleportation
+            - Quantum teleportation
     EventTypeResponse:
       type: string
       enum:
-      - lecture
-      - exercise
-      - exam
-      - barred
-      - other
+        - lecture
+        - exercise
+        - exam
+        - barred
+        - other
     ExtraComputedPropResponse:
       type: object
       required:
-      - body
+        - body
       properties:
         body:
           type: string
           examples:
-          - 'for exams: 102 in tight, 71 in wide, 49 in corona'
+            - 'for exams: 102 in tight, 71 in wide, 49 in corona'
         footer:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           examples:
-          - data based on a Survey of chimneysweeps
+            - data based on a Survey of chimneysweeps
         header:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           examples:
-          - Genauere Angaben
+            - Genauere Angaben
     FeaturedOverviewItemResponse:
       type: object
       required:
-      - id
-      - name
-      - subtext
-      - image_url
+        - id
+        - name
+        - subtext
+        - image_url
       properties:
         id:
           type: string
@@ -1053,124 +1046,87 @@ components:
     FeaturedOverviewResponse:
       type: object
       required:
-      - entries
+        - entries
       properties:
         entries:
           type: array
           items:
-            "$ref": "#/components/schemas/FeaturedOverviewItemResponse"
+            $ref: '#/components/schemas/FeaturedOverviewItemResponse'
     FeedbackCategory:
       type: string
       enum:
-      - bug
-      - feature
-      - search
-      - navigation
-      - entry
-      - general
-      - other
-    PostFeedbackRequest:
-      type: object
-      required:
-      - token
-      - subject
-      - body
-      - privacy_checked
-      - deletion_requested
-      properties:
-        body:
-          type: string
-          description: |-
-            The body/description of the feedback
-
-            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
-          example: A clear description what happened where and how we should improve
-            it
-          maxLength: 1048576
-          minLength: 10
-        category:
-          "$ref": "#/components/schemas/FeedbackCategory"
-          description: The category of the feedback.
-        deletion_requested:
-          type: boolean
-          description: |-
-            Whether the user has requested to delete the issue.
-
-            This flag means:
-            - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-            - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-        privacy_checked:
-          type: boolean
-          description: |-
-            Whether the user has checked the privacy-checkbox.
-
-            We are posting the feedback publicly on GitHub (not a EU-Company).
-            **You MUST also include such a checkmark.**
-        subject:
-          type: string
-          description: |-
-            The subject/title of the feedback
-
-            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
-          example: A catchy title
-          maxLength: 512
-          minLength: 4
-        token:
-          type: string
-          description: The JWT token, that can be used to generate feedback
-          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+        - bug
+        - feature
+        - search
+        - navigation
+        - entry
+        - general
+        - other
     Image:
       type: object
       required:
-      - content
-      - metadata
+        - content
+        - metadata
       properties:
         content:
           type: string
           description: The image encoded as base64
           contentEncoding: base64
         metadata:
-          "$ref": "#/components/schemas/ImageMetadata"
+          $ref: '#/components/schemas/ImageMetadata'
     ImageInfoResponse:
       type: object
-      description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp`
-        endpoint
+      description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
       required:
-      - name
-      - author
-      - source
-      - license
+        - name
+        - author
+        - license
       properties:
         author:
-          "$ref": "#/components/schemas/URLRefResponse"
+          $ref: '#/components/schemas/URLRefResponse'
         license:
-          "$ref": "#/components/schemas/PossibleURLRefResponse"
+          $ref: '#/components/schemas/PossibleURLRefResponse'
         name:
           type: string
           description: |-
             The name of the image file.
             consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
           examples:
-          - mi_0.webp
-        source:
-          "$ref": "#/components/schemas/PossibleURLRefResponse"
+            - mi_0.webp
+    ImageMetadata:
+      type: object
+      required:
+        - author
+        - license
+      properties:
+        author:
+          type: string
+          description: Who created the image
+        license:
+          $ref: '#/components/schemas/Property'
+          description: The license under which the image is distributed
+        offsets:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/Offsets'
+              description: Advanced metadata to control how the image is displayed
     LegResponse:
       type: object
       required:
-      - summary
-      - maneuvers
-      - shape
+        - summary
+        - maneuvers
+        - shape
       properties:
         maneuvers:
           type: array
           items:
-            "$ref": "#/components/schemas/ManeuverResponse"
+            $ref: '#/components/schemas/ManeuverResponse'
         shape:
           type: array
           items:
-            "$ref": "#/components/schemas/Coordinate"
+            $ref: '#/components/schemas/Coordinate'
         summary:
-          "$ref": "#/components/schemas/SummaryResponse"
+          $ref: '#/components/schemas/SummaryResponse'
     LimitedHashMap_String_Edit:
       type: object
       additionalProperties:
@@ -1178,37 +1134,36 @@ components:
         properties:
           coordinate:
             oneOf:
-            - type: 'null'
-            - "$ref": "#/components/schemas/Coordinate"
+              - type: "null"
+              - $ref: '#/components/schemas/Coordinate'
           image:
             oneOf:
-            - type: 'null'
-            - "$ref": "#/components/schemas/Image"
+              - type: "null"
+              - $ref: '#/components/schemas/Image'
       propertyNames:
         type: string
     LocationDetailsResponse:
       type: object
       required:
-      - id
-      - type
-      - type_common_name
-      - name
-      - aliases
-      - parents
-      - parent_names
-      - props
-      - ranking_factors
-      - redirect_url
-      - sources
-      - coords
-      - maps
+        - id
+        - type
+        - type_common_name
+        - name
+        - aliases
+        - parents
+        - parent_names
+        - props
+        - ranking_factors
+        - sources
+        - coords
+        - maps
       properties:
         aliases:
           type: array
           items:
             type: string
             examples:
-            - - 26503@5406
+              - - 26503@5406
           description: |-
             A list of alternative ids for this entry.
 
@@ -1216,40 +1171,40 @@ components:
             - `id` which is the unique identifier or
             - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
         coords:
-          "$ref": "#/components/schemas/CoordinateResponse"
+          $ref: '#/components/schemas/CoordinateResponse'
           description: Coordinate of the location
         id:
           type: string
           description: The id, that was requested
           examples:
-          - 5606.EG.036
+            - 5606.EG.036
         imgs:
           type:
-          - array
-          - 'null'
+            - array
+            - "null"
           items:
-            "$ref": "#/components/schemas/ImageInfoResponse"
+            $ref: '#/components/schemas/ImageInfoResponse'
           description: |-
             The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
 
             TODO: Sometimes missing, sometimes not.. so weird..
         maps:
-          "$ref": "#/components/schemas/MapsResponse"
+          $ref: '#/components/schemas/MapsResponse'
           description: Print or overlay maps for said location
         name:
           type: string
           description: The name of the entry in a human-readable form
           examples:
-          - 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
+            - 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
         parent_names:
           type: array
           items:
             type: string
             examples:
-            - - Standorte
-              - Garching Forschungszentrum
-              - Fakultät Mathematik & Informatik (FMI oder MI)
-              - Finger 06 (BT06)
+              - - Standorte
+                - Garching Forschungszentrum
+                - Fakultät Mathematik & Informatik (FMI oder MI)
+                - Finger 06 (BT06)
           description: |-
             The ids of the parents.
 
@@ -1261,10 +1216,10 @@ components:
           items:
             type: string
             examples:
-            - - root
-              - garching
-              - mi
-              - '5602'
+              - - root
+                - garching
+                - mi
+                - "5602"
           description: |-
             The ids of the parents.
 
@@ -1272,10 +1227,10 @@ components:
             See `parent_names` for their human names.
           minItems: 1
         props:
-          "$ref": "#/components/schemas/PropsResponse"
+          $ref: '#/components/schemas/PropsResponse'
           description: Data for the info-card table
         ranking_factors:
-          "$ref": "#/components/schemas/RankingFactorsResponse"
+          $ref: '#/components/schemas/RankingFactorsResponse'
         redirect_url:
           type: string
           description: |-
@@ -1283,72 +1238,69 @@ components:
 
             Present on both redirects and normal entries, to allow for the common /view/:id path
           examples:
-          - "/room/5606.EG.036"
+            - /room/5606.EG.036
         sections:
-          oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/SectionsResponse"
-            description: |-
-              Information for different sections on the page like the
-              - buildings overview,
-              - rooms overview and
-              - featured view
+          $ref: '#/components/schemas/SectionsResponse'
+          description: |-
+            Information for different sections on the page like the
+            - buildings overview,
+            - rooms overview and
+            - featured view
         sources:
-          "$ref": "#/components/schemas/SourcesResponse"
-          description: Where we got our data from, should be displayed at the bottom
-            of any page containing this data
+          $ref: '#/components/schemas/SourcesResponse'
+          description: Where we got our data from, should be displayed at the bottom of any page containing this data
         type:
-          "$ref": "#/components/schemas/LocationTypeResponse"
+          $ref: '#/components/schemas/LocationTypeResponse'
           description: The type of the entry
         type_common_name:
           type: string
           description: The type of the entry in a human-readable form
           examples:
-          - Büro
+            - Büro
     LocationEventsResponse:
       type: object
       required:
-      - events
-      - location
+        - events
+        - location
       properties:
         events:
           type: array
           items:
-            "$ref": "#/components/schemas/EventResponse"
+            $ref: '#/components/schemas/EventResponse'
         location:
-          "$ref": "#/components/schemas/CalendarLocationResponse"
+          $ref: '#/components/schemas/CalendarLocationResponse'
     LocationTypeResponse:
       type: string
       enum:
-      - room
-      - building
-      - joined_building
-      - area
-      - site
-      - campus
-      - poi
-      - other
+        - room
+        - building
+        - joined_building
+        - area
+        - site
+        - campus
+        - poi
+        - other
     ManeuverResponse:
       type: object
       required:
-      - type
-      - instruction
-      - time_seconds
-      - length_meters
-      - begin_shape_index
-      - end_shape_index
-      - travel_mode
+        - type
+        - instruction
+        - time_seconds
+        - length_meters
+        - begin_shape_index
+        - end_shape_index
+        - travel_mode
       properties:
         arrive_instruction:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Written arrive time instruction
 
             Typically used with a transit maneuver
           examples:
-          - 'Arrive: 8:10 AM at 34 St - Herald Sq'
+            - 'Arrive: 8:10 AM at 34 St - Herald Sq'
         begin_shape_index:
           type: integer
           description: Index into the list of shape points for the start of the maneuver
@@ -1356,26 +1308,26 @@ components:
           minimum: 0
         begin_street_names:
           type:
-          - array
-          - 'null'
+            - array
+            - "null"
           items:
             type: string
             examples:
-            - - Josef Fischaber Straße
+              - - Josef Fischaber Straße
           description: |-
             When present, these are the street names at the beginning (transition point) of the
             nonobvious maneuver (if they are different from the names that are consistent along the
             entire nonobvious maneuver)
         depart_instruction:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Written depart time instruction
 
             Typically used with a transit maneuver
           examples:
-          - 'Depart: 8:04 AM from 8 St - NYU'
+            - 'Depart: 8:04 AM from 8 St - NYU'
         end_shape_index:
           type: integer
           description: Index into the list of shape points for the end of the maneuver
@@ -1383,19 +1335,19 @@ components:
           minimum: 0
         ferry:
           type:
-          - boolean
-          - 'null'
-          description: "`true` if a ferry is encountered on this maneuver"
+            - boolean
+            - "null"
+          description: '`true` if a ferry is encountered on this maneuver'
         gate:
           type:
-          - boolean
-          - 'null'
-          description: "`true` if a gate is encountered on this maneuver"
+            - boolean
+            - "null"
+          description: '`true` if a gate is encountered on this maneuver'
         highway:
           type:
-          - boolean
-          - 'null'
-          description: "`true` if a highway is encountered on this maneuver"
+            - boolean
+            - "null"
+          description: '`true` if a highway is encountered on this maneuver'
         instruction:
           type: string
         length_meters:
@@ -1405,28 +1357,27 @@ components:
           example: 103.01
         rough:
           type:
-          - boolean
-          - 'null'
+            - boolean
+            - "null"
           description: |-
             `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
             pavement
         roundabout_exit_count:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int64
           description: The spoke to exit roundabout after entering
           example: 2
         street_names:
           type:
-          - array
-          - 'null'
+            - array
+            - "null"
           items:
             type: string
             examples:
-            - - Münchnerstraße
-          description: List of street names that are consistent along the entire nonobvious
-            maneuver
+              - - Münchnerstraße
+          description: List of street names that are consistent along the entire nonobvious maneuver
         time_seconds:
           type: number
           format: double
@@ -1434,182 +1385,179 @@ components:
           example: 201.025
         toll:
           type:
-          - boolean
-          - 'null'
-          description: "`true` if a toll booth is encountered on this maneuver"
+            - boolean
+            - "null"
+          description: '`true` if a toll booth is encountered on this maneuver'
         transit_info:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/TransitInfoResponse"
-            description: Contains the attributes that describe a specific transit
-              route
+            - type: "null"
+            - $ref: '#/components/schemas/TransitInfoResponse'
+              description: Contains the attributes that describe a specific transit route
         travel_mode:
-          "$ref": "#/components/schemas/TravelModeResponse"
+          $ref: '#/components/schemas/TravelModeResponse'
           description: Travel mode
         type:
-          "$ref": "#/components/schemas/ManeuverTypeResponse"
+          $ref: '#/components/schemas/ManeuverTypeResponse'
         verbal_arrive_instruction:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Text suitable for use as a verbal arrive time instruction
 
             Typically used with a transit maneuver
           examples:
-          - Arrive at 8:10 AM at 34 St - Herald Sq
+            - Arrive at 8:10 AM at 34 St - Herald Sq
         verbal_depart_instruction:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Text suitable for use as a verbal depart time instruction
 
             Typically used with a transit maneuver
           examples:
-          - Depart at 8:04 AM from 8 St - NYU
+            - Depart at 8:04 AM from 8 St - NYU
         verbal_multi_cue:
           type:
-          - boolean
-          - 'null'
+            - boolean
+            - "null"
           description: |-
             `true` if `verbal_pre_transition_instruction` has been appended with
             the verbal instruction of the next maneuver
         verbal_post_transition_instruction:
           type:
-          - string
-          - 'null'
-          description: Text suitable for use as a verbal message immediately after
-            the maneuver transition
+            - string
+            - "null"
+          description: Text suitable for use as a verbal message immediately after the maneuver transition
           examples:
-          - Continue on U.S. 2 22 for 3.9 miles
+            - Continue on U.S. 2 22 for 3.9 miles
         verbal_pre_transition_instruction:
           type:
-          - string
-          - 'null'
-          description: Text suitable for use as a verbal message immediately prior
-            to the maneuver transition
+            - string
+            - "null"
+          description: Text suitable for use as a verbal message immediately prior to the maneuver transition
           examples:
-          - Turn right onto North Prince Street, U.S. 2 22
+            - Turn right onto North Prince Street, U.S. 2 22
         verbal_transition_alert_instruction:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Text suitable for use as a verbal alert in a navigation application
 
             The transition alert instruction will prepare the user for the forthcoming transition
           examples:
-          - Turn right onto North Prince Street
+            - Turn right onto North Prince Street
     ManeuverTypeResponse:
       type: string
       enum:
-      - none
-      - start
-      - start_right
-      - start_left
-      - destination
-      - destination_right
-      - destination_left
-      - becomes
-      - continue
-      - slight_right
-      - right
-      - sharp_right
-      - uturn_right
-      - uturn_left
-      - sharp_left
-      - left
-      - slight_left
-      - ramp_straight
-      - ramp_right
-      - ramp_left
-      - exit_right
-      - exit_left
-      - stay_straight
-      - stay_right
-      - stay_left
-      - merge
-      - roundabout_enter
-      - roundabout_exit
-      - ferry_enter
-      - ferry_exit
-      - transit
-      - transit_transfer
-      - transit_remain_on
-      - transit_connection_start
-      - transit_connection_transfer
-      - transit_connection_destination
-      - post_transit_connection_destination
-      - merge_right
-      - merge_left
-      - elevator_enter
-      - steps_enter
-      - escalator_enter
-      - building_enter
-      - building_exit
+        - none
+        - start
+        - start_right
+        - start_left
+        - destination
+        - destination_right
+        - destination_left
+        - becomes
+        - continue
+        - slight_right
+        - right
+        - sharp_right
+        - uturn_right
+        - uturn_left
+        - sharp_left
+        - left
+        - slight_left
+        - ramp_straight
+        - ramp_right
+        - ramp_left
+        - exit_right
+        - exit_left
+        - stay_straight
+        - stay_right
+        - stay_left
+        - merge
+        - roundabout_enter
+        - roundabout_exit
+        - ferry_enter
+        - ferry_exit
+        - transit
+        - transit_transfer
+        - transit_remain_on
+        - transit_connection_start
+        - transit_connection_transfer
+        - transit_connection_destination
+        - post_transit_connection_destination
+        - merge_right
+        - merge_left
+        - elevator_enter
+        - steps_enter
+        - escalator_enter
+        - building_enter
+        - building_exit
     MapsResponse:
       type: object
       required:
-      - default
+        - default
       properties:
         default:
-          "$ref": "#/components/schemas/DefaultMapsResponse"
+          $ref: '#/components/schemas/DefaultMapsResponse'
           description: type of the Map that should be shown by default
         overlays:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/OverlayMapsResponse"
-            description: |-
-              `None` would mean no overlay maps are displayed by default.
-              For rooms, you should add a warning that no floor map is available for this room
+            - type: "null"
+            - $ref: '#/components/schemas/OverlayMapsResponse'
+              description: |-
+                `None` would mean no overlay maps are displayed by default.
+                For rooms, you should add a warning that no floor map is available for this room
         roomfinder:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/RoomfinderMapResponse"
+            - type: "null"
+            - $ref: '#/components/schemas/RoomfinderMapResponse'
     NearbyLocationsResponse:
       type: object
       required:
-      - public_transport
+        - public_transport
       properties:
         public_transport:
           type: array
           items:
-            "$ref": "#/components/schemas/TransportationResponse"
+            $ref: '#/components/schemas/TransportationResponse'
           maxItems: 50
     Offsets:
       type: object
       properties:
         header:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int32
         thumb:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int32
     OperatorResponse:
       type: object
       description: Operator of a location
       required:
-      - id
-      - url
-      - code
-      - name
+        - id
+        - url
+        - code
+        - name
       properties:
         code:
           type: string
           description: designation code of the operator
           examples:
-          - TUS7000
+            - TUS7000
         id:
           type: integer
           format: int32
           description: ID of the operator
           examples:
-          - 51901
+            - 51901
           minimum: 0
         name:
           type: string
@@ -1618,20 +1566,20 @@ components:
              are no longer active (e.g. id=38698), but where the operator has not been
             updated in TUMonline.
           examples:
-          - TUM School of Social Sciences and Technology
+            - TUM School of Social Sciences and Technology
         url:
           type: string
           description: Link to the operator
           examples:
-          - https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
+            - https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
     OverlayMapEntryResponse:
       type: object
       required:
-      - id
-      - floor
-      - name
-      - file
-      - coordinates
+        - id
+        - floor
+        - name
+        - file
+        - coordinates
       properties:
         coordinates:
           type: array
@@ -1639,21 +1587,20 @@ components:
             type: array
             items: false
             prefixItems:
-            - type: number
-              format: double
-            - type: number
-              format: double
-          description: Coordinates are four `[lon, lat]` pairs, for the top left,
-            top right, bottom right, bottom left image corners.
+              - type: number
+                format: double
+              - type: number
+                format: double
+          description: Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
           example:
-          - - 11.666739
-            - 48.263478
-          - - 11.669666
-            - 48.263125
-          - - 11.669222
-            - 48.261585
-          - - 11.666331
-            - 48.261929
+            - - 11.666739
+              - 48.263478
+            - - 11.669666
+              - 48.263125
+            - - 11.669222
+              - 48.261585
+            - - 11.666331
+              - 48.261929
           maxItems: 4
           minItems: 4
         file:
@@ -1684,16 +1631,16 @@ components:
     OverlayMapsResponse:
       type: object
       required:
-      - available
+        - available
       properties:
         available:
           type: array
           items:
-            "$ref": "#/components/schemas/OverlayMapEntryResponse"
+            $ref: '#/components/schemas/OverlayMapEntryResponse'
         default:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int32
           description: |-
             The floor-id of the map, that should be shown as a default.
@@ -1705,39 +1652,88 @@ components:
       type: object
       description: A link with a localized link text and url
       required:
-      - text
+        - text
       properties:
         text:
           type: string
         url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
+    PostFeedbackRequest:
+      type: object
+      required:
+        - token
+        - subject
+        - body
+        - privacy_checked
+        - deletion_requested
+      properties:
+        body:
+          type: string
+          description: |-
+            The body/description of the feedback
+
+            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+          example: A clear description what happened where and how we should improve it
+          maxLength: 1048576
+          minLength: 10
+        category:
+          $ref: '#/components/schemas/FeedbackCategory'
+          description: The category of the feedback.
+        deletion_requested:
+          type: boolean
+          description: |-
+            Whether the user has requested to delete the issue.
+
+            This flag means:
+            - If the user has requested to delete the issue, we will delete it from GitHub after processing it
+            - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
+        privacy_checked:
+          type: boolean
+          description: |-
+            Whether the user has checked the privacy-checkbox.
+
+            We are posting the feedback publicly on GitHub (not a EU-Company).
+            **You MUST also include such a checkmark.**
+        subject:
+          type: string
+          description: |-
+            The subject/title of the feedback
+
+            Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+          example: A catchy title
+          maxLength: 512
+          minLength: 4
+        token:
+          type: string
+          description: The JWT token, that can be used to generate feedback
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
     Property:
       type: object
       required:
-      - text
+        - text
       properties:
         text:
           type: string
         url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
     PropsResponse:
       type: object
       description: Data for the info-card table
       required:
-      - computed
+        - computed
       properties:
         calendar_url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: Link to the calendar of the room
           examples:
-          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
-          - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
         comment:
           type: string
           description: |-
@@ -1747,27 +1743,27 @@ components:
         computed:
           type: array
           items:
-            "$ref": "#/components/schemas/ComputedPropResponse"
+            $ref: '#/components/schemas/ComputedPropResponse'
         links:
           type: array
           items:
-            "$ref": "#/components/schemas/PossibleURLRefResponse"
+            $ref: '#/components/schemas/PossibleURLRefResponse'
         operator:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/OperatorResponse"
-            description: The operator of the room
+            - type: "null"
+            - $ref: '#/components/schemas/OperatorResponse'
+              description: The operator of the room
     RankingFactorsResponse:
       type: object
       required:
-      - rank_combined
-      - rank_type
-      - rank_usage
+        - rank_combined
+        - rank_type
+        - rank_usage
       properties:
         rank_boost:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int32
           minimum: 0
         rank_combined:
@@ -1776,8 +1772,8 @@ components:
           minimum: 0
         rank_custom:
           type:
-          - integer
-          - 'null'
+            - integer
+            - "null"
           format: int32
           minimum: 0
         rank_type:
@@ -1791,13 +1787,13 @@ components:
     RemoteMap:
       type: object
       required:
-      - name
-      - url
+        - name
+        - url
       properties:
         name:
           type: string
           description: Name of the map
-          example: '1234'
+          example: "1234"
         url:
           type: string
           format: uri
@@ -1806,10 +1802,10 @@ components:
     ResultEntry:
       type: object
       required:
-      - id
-      - type
-      - name
-      - subtext
+        - id
+        - type
+        - name
+        - subtext
       properties:
         id:
           type: string
@@ -1825,8 +1821,8 @@ components:
           example: "5510.03.002 (\x19MW\x17 2001, Empore)"
         parsed_id:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             This is an optional feature, that is only supported for some rooms.
 
@@ -1844,8 +1840,8 @@ components:
           example: Maschinenwesen (MW)
         subtext_bold:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: |-
             Subtext to show below the search (by default in bold and after the non-bold subtext).
 
@@ -1858,28 +1854,28 @@ components:
     ResultFacet:
       type: string
       enum:
-      - sites_buildings
-      - rooms
-      - addresses
+        - sites_buildings
+        - rooms
+        - addresses
     ResultsSection:
       type: object
       required:
-      - facet
-      - entries
-      - n_visible
-      - estimatedTotalHits
+        - facet
+        - entries
+        - n_visible
+        - estimatedTotalHits
       properties:
         entries:
           type: array
           items:
-            "$ref": "#/components/schemas/ResultEntry"
+            $ref: '#/components/schemas/ResultEntry'
         estimatedTotalHits:
           type: integer
           description: The estimated (not exact) number of hits for that query
           example: 6
           minimum: 0
         facet:
-          "$ref": "#/components/schemas/ResultFacet"
+          $ref: '#/components/schemas/ResultFacet'
           description: These indicate the type of item this represents
         n_visible:
           type: integer
@@ -1893,15 +1889,15 @@ components:
     RoomfinderMapEntryResponse:
       type: object
       required:
-      - name
-      - id
-      - scale
-      - height
-      - width
-      - x
-      - "y"
-      - source
-      - file
+        - name
+        - id
+        - scale
+        - height
+        - width
+        - x
+        - y
+        - source
+        - file
       properties:
         file:
           type: string
@@ -1930,39 +1926,39 @@ components:
           type: integer
           format: int32
           description: x Position on map image
-        "y":
+        y:
           type: integer
           format: int32
           description: y Position on map image
     RoomfinderMapResponse:
       type: object
       required:
-      - default
-      - available
+        - default
+        - available
       properties:
         available:
           type: array
           items:
-            "$ref": "#/components/schemas/RoomfinderMapEntryResponse"
+            $ref: '#/components/schemas/RoomfinderMapEntryResponse'
         default:
           type: string
           description: The id of the map, that should be shown as a default
           examples:
-          - rf142
+            - rf142
     RoomsOverviewResponse:
       type: object
       required:
-      - usages
+        - usages
       properties:
         usages:
           type: array
           items:
-            "$ref": "#/components/schemas/RoomsOverviewUsageResponse"
+            $ref: '#/components/schemas/RoomsOverviewUsageResponse'
     RoomsOverviewUsageChildResponse:
       type: object
       required:
-      - id
-      - name
+        - id
+        - name
       properties:
         id:
           type: string
@@ -1971,14 +1967,14 @@ components:
     RoomsOverviewUsageResponse:
       type: object
       required:
-      - name
-      - count
-      - children
+        - name
+        - count
+        - children
       properties:
         children:
           type: array
           items:
-            "$ref": "#/components/schemas/RoomsOverviewUsageChildResponse"
+            $ref: '#/components/schemas/RoomsOverviewUsageChildResponse'
         count:
           type: integer
           format: int32
@@ -1988,13 +1984,13 @@ components:
     RoutingResponse:
       type: object
       required:
-      - legs
-      - summary
+        - legs
+        - summary
       properties:
         legs:
           type: array
           items:
-            "$ref": "#/components/schemas/LegResponse"
+            $ref: '#/components/schemas/LegResponse'
           description: |-
             A trip contains one (or more) legs.
 
@@ -2002,19 +1998,19 @@ components:
           maxItems: 1
           minItems: 1
         summary:
-          "$ref": "#/components/schemas/SummaryResponse"
+          $ref: '#/components/schemas/SummaryResponse'
           description: Trip summary
     SearchResponse:
       type: object
       description: Returned search results by this
       required:
-      - sections
-      - time_ms
+        - sections
+        - time_ms
       properties:
         sections:
           type: array
           items:
-            "$ref": "#/components/schemas/ResultsSection"
+            $ref: '#/components/schemas/ResultsSection'
         time_ms:
           type: integer
           format: int32
@@ -2031,34 +2027,20 @@ components:
       properties:
         buildings_overview:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/BuildingsOverviewResponse"
+            - type: "null"
+            - $ref: '#/components/schemas/BuildingsOverviewResponse'
         featured_overview:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/FeaturedOverviewResponse"
+            - type: "null"
+            - $ref: '#/components/schemas/FeaturedOverviewResponse'
         rooms_overview:
           oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/RoomsOverviewResponse"
-    ImageMetadata:
-      type: object
-      required:
-      - author
-      - license
-      properties:
-        author:
-          type: string
-        license:
-          "$ref": "#/components/schemas/Property"
-        offsets:
-          oneOf:
-          - type: 'null'
-          - "$ref": "#/components/schemas/Offsets"
+            - type: "null"
+            - $ref: '#/components/schemas/RoomsOverviewResponse'
     SourceResponse:
       type: object
       required:
-      - name
+        - name
       properties:
         name:
           type: string
@@ -2066,41 +2048,40 @@ components:
           example: NavigaTUM
         url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: Url of the provider
           example: https://nav.tum.de
     SourcesResponse:
       type: object
-      description: Where we got our data from, should be displayed at the bottom of
-        any page containing this data
+      description: Where we got our data from, should be displayed at the bottom of any page containing this data
       required:
-      - base
+        - base
       properties:
         base:
           type: array
           items:
-            "$ref": "#/components/schemas/SourceResponse"
+            $ref: '#/components/schemas/SourceResponse'
           description: What is the basis of the data we have
         patched:
           type:
-          - boolean
-          - 'null'
+            - boolean
+            - "null"
           description: |-
             Was this entry patched by us? (e.g. to fix a typo in the name/...)
             If so, we should not display the source, as it is not the original source.
     SummaryResponse:
       type: object
       required:
-      - time_seconds
-      - length_meters
-      - has_toll
-      - has_highway
-      - has_ferry
-      - min_lat
-      - min_lon
-      - max_lat
-      - max_lon
+        - time_seconds
+        - length_meters
+        - has_toll
+        - has_highway
+        - has_ferry
+        - min_lat
+        - min_lon
+        - max_lat
+        - max_lon
       properties:
         has_ferry:
           type: boolean
@@ -2144,14 +2125,14 @@ components:
     TokenResponse:
       type: object
       required:
-      - created_at
-      - token
+        - created_at
+        - token
       properties:
         created_at:
           type: integer
           format: int64
           description: Unix timestamp of when the token was created
-          example: '1629564181'
+          example: "1629564181"
         token:
           type: string
           description: The JWT token, that can be used to generate feedback
@@ -2159,17 +2140,17 @@ components:
     TransitInfoResponse:
       type: object
       required:
-      - onestop_id
-      - short_name
-      - long_name
-      - headsign
-      - color
-      - text_color
-      - description
-      - operator_onestop_id
-      - operator_name
-      - operator_url
-      - transit_stops
+        - onestop_id
+        - short_name
+        - long_name
+        - headsign
+        - color
+        - text_color
+        - description
+        - operator_onestop_id
+        - operator_name
+        - operator_url
+        - transit_stops
       properties:
         color:
           type: integer
@@ -2179,29 +2160,28 @@ components:
 
             The value for yellow would be `16567306`
           examples:
-          - 16567306
+            - 16567306
         description:
           type: string
           description: The description of the transit route
           examples:
-          - |-
-            Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
-            N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
-            Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
-            Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
-            depending on the time. Late night trains operate via Whitehall Street, Manhattan.
-            Late night service is local
+            - |-
+              Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
+              N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
+              Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
+              Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
+              depending on the time. Late night trains operate via Whitehall Street, Manhattan.
+              Late night service is local
         headsign:
           type: string
-          description: The sign on a public transport vehicle that identifies the
-            route destination to passengers
+          description: The sign on a public transport vehicle that identifies the route destination to passengers
           examples:
-          - ASTORIA - DITMARS BLVD
+            - ASTORIA - DITMARS BLVD
         long_name:
           type: string
           description: Long name describing the transit route
           examples:
-          - Broadway Express
+            - Broadway Express
         onestop_id:
           type: string
           description: |-
@@ -2210,8 +2190,8 @@ components:
             **Tipp:** you use these as feed-ids in transitland.
             Example: <https://www.transit.land/feeds/f-9q9-bart>
           examples:
-          - f-9q9-bart
-          - f-zeus~schwäbisch~gmünd~gbfs
+            - f-9q9-bart
+            - f-zeus~schwäbisch~gmünd~gbfs
         operator_name:
           type: string
           description: |-
@@ -2219,9 +2199,9 @@ components:
 
             Short name is used over long name
           examples:
-          - BART
-          - King County Marine Division
-          - Münchner Verkehrs- und Tarifverbund (MVV)
+            - BART
+            - King County Marine Division
+            - Münchner Verkehrs- und Tarifverbund (MVV)
         operator_onestop_id:
           type: string
           description: |-
@@ -2230,18 +2210,18 @@ components:
             **Tipp:** you use these as feed-ids in transitland.
             Example: <https://www.transit.land/feeds/o-u281z9-mvv>
           examples:
-          - o-u281z9-mvv
+            - o-u281z9-mvv
         operator_url:
           type: string
           description: Operator/agency URL
           examples:
-          - http://web.mta.info/
-          - http://www.mvv-muenchen.de/
+            - http://web.mta.info/
+            - http://www.mvv-muenchen.de/
         short_name:
           type: string
           description: Short name describing the transit route
           examples:
-          - N
+            - N
         text_color:
           type: string
           description: |-
@@ -2249,24 +2229,23 @@ components:
 
             The value for black would be `0`
           examples:
-          - 0
+            - 0
         transit_stops:
           type: array
           items:
-            "$ref": "#/components/schemas/TransitStopResponse"
-          description: A list of the stops/stations associated with a specific transit
-            route
+            $ref: '#/components/schemas/TransitStopResponse'
+          description: A list of the stops/stations associated with a specific transit route
     TransitStopResponse:
       type: object
       required:
-      - type
-      - name
-      - arrival_date_time
-      - departure_date_time
-      - is_parent_stop
-      - assumed_schedule
-      - lat
-      - lon
+        - type
+        - name
+        - arrival_date_time
+        - departure_date_time
+        - is_parent_stop
+        - assumed_schedule
+        - lat
+        - lon
       properties:
         arrival_date_time:
           type: string
@@ -2274,15 +2253,14 @@ components:
           description: Arrival date and time
         assumed_schedule:
           type: boolean
-          description: "`true` if the times are based on an assumed schedule because
-            the actual schedule is not known"
+          description: '`true` if the times are based on an assumed schedule because the actual schedule is not known'
         departure_date_time:
           type: string
           format: date-time
           description: Departure date and time
         is_parent_stop:
           type: boolean
-          description: "`true` if this stop is a marked as a parent stop"
+          description: '`true` if this stop is a marked as a parent stop'
         lat:
           type: number
           format: double
@@ -2297,22 +2275,22 @@ components:
           type: string
           description: Name of the stop or station
           examples:
-          - 14 St - Union Sq
+            - 14 St - Union Sq
         type:
-          "$ref": "#/components/schemas/TransitStopTypeResponse"
+          $ref: '#/components/schemas/TransitStopTypeResponse'
     TransitStopTypeResponse:
       type: string
       enum:
-      - stop
-      - station
+        - stop
+        - station
     TransportationResponse:
       type: object
       required:
-      - id
-      - name
-      - lat
-      - lon
-      - distance_meters
+        - id
+        - name
+        - lat
+        - lon
+        - distance_meters
       properties:
         distance_meters:
           type: number
@@ -2321,8 +2299,7 @@ components:
           exclusiveMinimum: 0
         id:
           type: string
-          description: The globally unique and somewhat stable id of the station from
-            the transport agency
+          description: The globally unique and somewhat stable id of the station from the transport agency
           example: de:09184:2073:0:1
         lat:
           type: number
@@ -2340,46 +2317,45 @@ components:
           example: Garching, Boltzmannstraße
         parent_id:
           type:
-          - string
-          - 'null'
-          description: The globally unique and somewhat stable id of the station from
-            the transport agency
+            - string
+            - "null"
+          description: The globally unique and somewhat stable id of the station from the transport agency
           example: de:09184:2073
         parent_name:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
           description: How the station was named by the operator
           example: Boltzmannstraße
     TravelModeResponse:
       type: string
       enum:
-      - drive
-      - pedestrian
-      - bicycle
-      - public_transit
+        - drive
+        - pedestrian
+        - bicycle
+        - public_transit
     URLRefResponse:
       type: object
       description: A link with a localized link text and url
       required:
-      - text
+        - text
       properties:
         text:
           type: string
         url:
           type:
-          - string
-          - 'null'
+            - string
+            - "null"
 tags:
-- name: locations
-  description: API to access/search for location information
-- name: calendar
-  description: APIs to access calendar-data
-- name: feedback
-  description: APIs to give feedback
-- name: maps
-  description: API to access for map-data
+  - name: locations
+    description: API to access/search for location information
+  - name: calendar
+    description: APIs to access calendar-data
+  - name: feedback
+    description: APIs to give feedback
+  - name: maps
+    description: API to access for map-data
 externalDocs:
   url: https://github.com/TUM-Dev/navigatum
   description: Visit our GitHub Page for more in-depth documentation
-"$schema": http://json-schema.org/draft-07/schema
+$schema: http://json-schema.org/draft-07/schema

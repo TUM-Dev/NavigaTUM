@@ -25,7 +25,7 @@ impl From<Trip> for RoutingResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct SummaryResponse {
+pub struct SummaryResponse {
     /// Estimated elapsed time in seconds
     #[schema(example = 201.025)]
     time_seconds: f64,
@@ -68,7 +68,7 @@ impl From<Summary> for SummaryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct LegResponse {
+pub struct LegResponse {
     summary: SummaryResponse,
     maneuvers: Vec<ManeuverResponse>,
     shape: Vec<Coordinate>,
@@ -88,7 +88,7 @@ impl From<Leg> for LegResponse {
 }
 #[serde_with::skip_serializing_none]
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct ManeuverResponse {
+pub struct ManeuverResponse {
     r#type: ManeuverTypeResponse,
 
     instruction: String,
@@ -205,7 +205,7 @@ impl From<Maneuver> for ManeuverResponse {
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum ManeuverTypeResponse {
+pub enum ManeuverTypeResponse {
     None,
     Start,
     StartRight,
@@ -305,7 +305,7 @@ impl From<ManeuverType> for ManeuverTypeResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 
-struct TransitInfoResponse {
+pub struct TransitInfoResponse {
     /// Global transit route identifier
     ///
     /// **Tipp:** you use these as feed-ids in transitland.
@@ -383,7 +383,7 @@ impl From<TransitInfo> for TransitInfoResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TravelModeResponse {
+pub enum TravelModeResponse {
     Drive,
     Pedestrian,
     Bicycle,
@@ -400,7 +400,7 @@ impl From<TravelMode> for TravelModeResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct TransitStopResponse {
+pub struct TransitStopResponse {
     r#type: TransitStopTypeResponse,
     /// Name of the stop or station
     #[schema(examples("14 St - Union Sq"))]
@@ -436,7 +436,7 @@ impl From<TransitStop> for TransitStopResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TransitStopTypeResponse {
+pub enum TransitStopTypeResponse {
     /// Simple stop
     Stop,
     /// Station

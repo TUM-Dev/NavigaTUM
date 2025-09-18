@@ -3,7 +3,7 @@ use std::io::Cursor;
 
 use crate::db::location::{Location, LocationKeyAlias};
 use crate::limited::vec::LimitedVec;
-use crate::localisation;
+use crate::localisation::LanguageOptions;
 use crate::overlays::map::OverlayMapTask;
 use crate::overlays::text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
@@ -134,7 +134,9 @@ impl Display for PreviewFormat {
 #[serde(default)]
 struct QueryArgs {
     #[serde(flatten, default)]
-    lang: localisation::LangQueryArgs,
+    #[param(inline)]
+    lang: LanguageOptions,
+    #[param(inline)]
     format: PreviewFormat,
 }
 
@@ -170,21 +172,21 @@ pub async fn maps_handler(
             .insert_header((LOCATION, redirect_url))
             .finish();
     }
-    let data = match Location::fetch_optional(&data.pool, &id, args.lang.should_use_english()).await
-    {
-        Ok(Some(data)) => data,
-        Ok(None) => {
-            return HttpResponse::NotFound()
-                .content_type("text/plain")
-                .body("Not found");
-        }
-        Err(e) => {
-            error!(error = ?e, "Error preparing statement");
-            return HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Could not get data for location, please try again later");
-        }
-    };
+    let data =
+        match Location::fetch_optional(&data.pool, &id, args.lang == LanguageOptions::En).await {
+            Ok(Some(data)) => data,
+            Ok(None) => {
+                return HttpResponse::NotFound()
+                    .content_type("text/plain")
+                    .body("Not found");
+            }
+            Err(e) => {
+                error!(error = ?e, "Error preparing statement");
+                return HttpResponse::InternalServerError()
+                    .content_type("text/plain")
+                    .body("Could not get data for location, please try again later");
+            }
+        };
     let img = construct_image_from_data(data, args.format)
         .await
         .unwrap_or_else(load_default_image);
