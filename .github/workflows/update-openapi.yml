@@ -79,6 +79,7 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           SKIP_MS_SETUP: true
+          SKIP_DB_SETUP: true
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_URL: localhost
