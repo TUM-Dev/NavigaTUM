@@ -57,7 +57,7 @@ pub async fn get_handler(
             .content_type("text/plain")
             .body("Not found");
     };
-    let result = if args.should_use_english() {
+    let result = if args.lang == LanguageOptions::En {
         sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
             .fetch_optional(&data.pool)
             .await

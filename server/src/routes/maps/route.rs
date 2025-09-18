@@ -1,4 +1,4 @@
-use crate::localisation;
+use crate::localisation::{self, LanguageOptions};
 use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 #[expect(
@@ -41,7 +41,7 @@ impl From<ShapePoint> for Coordinate {
 pub enum RequestedLocation {
     /// Either an
     /// - external address which was looked up or
-    /// - the users current location  
+    /// - the users current location
     Coordinate(Coordinate),
     /// Our (uni internal) key for location identification
     Location(String),
@@ -121,7 +121,7 @@ impl From<&RoutingRequest> for Costing {
 pub struct RoutingRequest {
     #[serde(flatten, default)]
     #[param(inline)]
-    lang: localisation::LangQueryArgs,
+    lang: localisation::LanguageOptions,
     /// Start of the route
     #[param(inline)]
     from: RequestedLocation,
@@ -218,7 +218,7 @@ pub enum PoweredTwoWheeledRestrictionRequest {
 /// Internally, this endpoint relies on
 /// - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
 /// - our database to resolve ids.
-///   
+///
 ///   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
 ///   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
 ///
@@ -267,7 +267,7 @@ pub async fn route_handler(
             (from.lat as f32, from.lon as f32),
             (to.lat as f32, to.lon as f32),
             Costing::from(args.deref()),
-            args.lang.should_use_english(),
+            args.lang == LanguageOptions::En,
         )
         .await;
     let response = match routing {
