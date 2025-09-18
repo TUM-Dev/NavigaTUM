@@ -126,15 +126,19 @@ pub struct RoutingRequest {
     /// Destination of the route
     to: RequestedLocation,
     /// Transport mode the user wants to use
+    #[param(inline)]
     route_costing: CostingRequest,
     /// Does the user have specific walking restrictions?
     #[serde(default)]
+    #[param(inline)]
     pedestrian_type: PedestrianTypeRequest,
     /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
     #[serde(default)]
+    #[param(inline)]
     ptw_type: PoweredTwoWheeledRestrictionRequest,
     /// Which kind of bicycle do you ride?
     #[serde(default)]
+    #[param(inline)]
     bicycle_type: BicycleRestrictionRequest,
 }
 
