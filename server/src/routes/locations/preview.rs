@@ -134,7 +134,9 @@ impl Display for PreviewFormat {
 #[serde(default)]
 struct QueryArgs {
     #[serde(flatten, default)]
+    #[param(inline)]
     lang: localisation::LangQueryArgs,
+    #[param(inline)]
     format: PreviewFormat,
 }
 
