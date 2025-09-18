@@ -1,4 +1,4 @@
-use crate::localisation;
+use crate::localisation::LanguageOptions;
 use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
 #[expect(
@@ -121,21 +121,28 @@ impl From<&RoutingRequest> for Costing {
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
 struct RoutingRequest {
     #[serde(flatten, default)]
-    lang: localisation::LangQueryArgs,
+    #[param(inline)]
+    lang: LanguageOptions,
     /// Start of the route
+    #[param(inline)]
     from: RequestedLocation,
     /// Destination of the route
+    #[param(inline)]
     to: RequestedLocation,
     /// Transport mode the user wants to use
+    #[param(inline)]
     route_costing: CostingRequest,
     /// Does the user have specific walking restrictions?
     #[serde(default)]
+    #[param(inline)]
     pedestrian_type: PedestrianTypeRequest,
     /// Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
     #[serde(default)]
+    #[param(inline)]
     ptw_type: PoweredTwoWheeledRestrictionRequest,
     /// Which kind of bicycle do you ride?
     #[serde(default)]
+    #[param(inline)]
     bicycle_type: BicycleRestrictionRequest,
 }
 
@@ -272,7 +279,7 @@ pub async fn route_handler(
                 (from.lat as f32, from.lon as f32),
                 (to.lat as f32, to.lon as f32),
                 Costing::from(args.deref()),
-                args.lang.should_use_english(),
+                args.lang == LanguageOptions::En,
             )
             .await;
         let response = match routing {
