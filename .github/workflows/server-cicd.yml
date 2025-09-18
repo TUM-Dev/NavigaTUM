@@ -17,14 +17,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
         uses: actions/checkout@v5
-      - name: Setup | Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.15.0
-        with:
-          toolchain: stable
-          components: clippy
-          cache: false
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@v2
         with:
@@ -47,13 +42,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
         uses: actions/checkout@v5
-      - name: Setup | Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.15.0
-        with:
-          toolchain: stable
-          cache: false
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@v2
         with:
