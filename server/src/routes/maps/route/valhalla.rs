@@ -7,7 +7,7 @@ use valhalla_client::route::{
 use crate::routes::maps::route::Coordinate;
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-pub struct RoutingResponse {
+pub struct ValhallaRoutingResponse {
     /// A trip contains one (or more) legs.
     ///
     /// A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
@@ -16,9 +16,9 @@ pub struct RoutingResponse {
     /// Trip summary
     summary: SummaryResponse,
 }
-impl From<Trip> for RoutingResponse {
+impl From<Trip> for ValhallaRoutingResponse {
     fn from(value: Trip) -> Self {
-        RoutingResponse {
+        ValhallaRoutingResponse {
             legs: value.legs.into_iter().map(LegResponse::from).collect(),
             summary: SummaryResponse::from(value.summary),
         }

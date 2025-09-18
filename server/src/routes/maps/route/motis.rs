@@ -2,7 +2,7 @@ use motis_openapi_progenitor::types::*;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-pub struct RoutingResponse {
+pub struct MotisRoutingResponse {
     #[cfg(debug_assertions)]
     ///debug statistics
     pub debug_output: std::collections::HashMap<String, i64>,
@@ -30,9 +30,9 @@ pub struct RoutingResponse {
     /// before the current result.
     pub previous_page_cursor: String,
 }
-impl From<PlanResponse> for RoutingResponse {
+impl From<PlanResponse> for MotisRoutingResponse {
     fn from(value: PlanResponse) -> Self {
-        RoutingResponse {
+        MotisRoutingResponse {
             #[cfg(debug_assertions)]
             debug_output: value.debug_output,
             direct: value

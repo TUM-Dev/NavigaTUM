@@ -269,7 +269,7 @@ pub async fn route_handler(
         };
         debug!(routing_solution=?response,"got routing solution");
 
-        HttpResponse::Ok().json(RoutingResponse::Motis(motis::RoutingResponse::from(
+        HttpResponse::Ok().json(RoutingResponse::Motis(motis::MotisRoutingResponse::from(
             response,
         )))
     } else {
@@ -293,15 +293,15 @@ pub async fn route_handler(
         };
         debug!(routing_solution=?response,"got routing solution");
 
-        HttpResponse::Ok().json(RoutingResponse::Valhalla(valhalla::RoutingResponse::from(
+        HttpResponse::Ok().json(RoutingResponse::Valhalla(valhalla::ValhallaRoutingResponse::from(
             response,
         )))
     }
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-#[serde(tag = "type")]
+#[serde(tag = "router")]
 enum RoutingResponse {
-    Valhalla(valhalla::RoutingResponse),
-    Motis(motis::RoutingResponse),
+    Valhalla(valhalla::ValhallaRoutingResponse),
+    Motis(motis::MotisRoutingResponse),
 }
