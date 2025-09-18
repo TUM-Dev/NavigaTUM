@@ -3,6 +3,15 @@
  * Do not make direct changes to the file.
  */
 
+/** OneOf type helpers */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+type OneOf<T extends any[]> = T extends [infer Only]
+  ? Only
+  : T extends [infer A, infer B, ...infer Rest]
+    ? OneOf<[XOR<A, B>, ...Rest]>
+    : never;
+
 export type paths = {
   "/api/calendar": {
     /**
@@ -865,6 +874,41 @@ export type components = {
       | "Funicular"
       | "ArealLift"
       | "Other";
+    readonly MotisRoutingResponse: {
+      /** @description debug statistics */
+      readonly debug_output: {
+        [key: string]: number;
+      };
+      /**
+       * @description Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
+       *
+       *  The starting time (`arriveBy=false`) / arrival time
+       *  (`arriveBy=true`) is always the queried `time` parameter (set to
+       *  "now" if not set). But all `direct` connections are meant
+       *  to be independent of absolute times.
+       */
+      readonly direct: readonly components["schemas"]["ItineraryResponse"][];
+      /** @description list of itineraries */
+      readonly itineraries: readonly components["schemas"]["ItineraryResponse"][];
+      /**
+       * @description Use the cursor to get the next page of results.
+       *
+       * Insert the cursor
+       *  into the request and post it to get the next page.
+       *  The next page is a set of itineraries departing AFTER the last
+       *  itinerary in this result.
+       */
+      readonly next_page_cursor: string;
+      /**
+       * @description Use the cursor to get the previous page of results. Insert the
+       *  cursor into the request and post it to get the previous page.
+       *  The previous page is a set of itineraries departing BEFORE the first
+       *  itinerary in the result for a depart after search. When using the
+       *  default sort order the previous set of itineraries is inserted
+       *  before the current result.
+       */
+      readonly previous_page_cursor: string;
+    };
     readonly NearbyLocationsResponse: {
       readonly public_transport: readonly components["schemas"]["TransportationResponse"][];
     };
@@ -1249,41 +1293,18 @@ export type components = {
       readonly count: number;
       readonly name: string;
     };
-    readonly RoutingResponse: {
-      /** @description debug statistics */
-      readonly debug_output: {
-        [key: string]: number;
-      };
-      /**
-       * @description Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
-       *
-       *  The starting time (`arriveBy=false`) / arrival time
-       *  (`arriveBy=true`) is always the queried `time` parameter (set to
-       *  "now" if not set). But all `direct` connections are meant
-       *  to be independent of absolute times.
-       */
-      readonly direct: readonly components["schemas"]["ItineraryResponse"][];
-      /** @description list of itineraries */
-      readonly itineraries: readonly components["schemas"]["ItineraryResponse"][];
-      /**
-       * @description Use the cursor to get the next page of results.
-       *
-       * Insert the cursor
-       *  into the request and post it to get the next page.
-       *  The next page is a set of itineraries departing AFTER the last
-       *  itinerary in this result.
-       */
-      readonly next_page_cursor: string;
-      /**
-       * @description Use the cursor to get the previous page of results. Insert the
-       *  cursor into the request and post it to get the previous page.
-       *  The previous page is a set of itineraries departing BEFORE the first
-       *  itinerary in the result for a depart after search. When using the
-       *  default sort order the previous set of itineraries is inserted
-       *  before the current result.
-       */
-      readonly previous_page_cursor: string;
-    };
+    readonly RoutingResponse: OneOf<
+      [
+        components["schemas"]["ValhallaRoutingResponse"] & {
+          /** @enum {string} */
+          readonly router: "Valhalla";
+        },
+        components["schemas"]["MotisRoutingResponse"] & {
+          /** @enum {string} */
+          readonly router: "Motis";
+        },
+      ]
+    >;
     /** @description Returned search results by this */
     readonly SearchResponse: {
       readonly sections: readonly components["schemas"]["ResultsSection"][];
@@ -1559,6 +1580,16 @@ export type components = {
     readonly URLRefResponse: {
       readonly text: string;
       readonly url?: string | null;
+    };
+    readonly ValhallaRoutingResponse: {
+      /**
+       * @description A trip contains one (or more) legs.
+       *
+       * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+       */
+      readonly legs: readonly [components["schemas"]["LegResponse"]];
+      /** @description Trip summary */
+      readonly summary: components["schemas"]["SummaryResponse"];
     };
     /** @enum {string} */
     readonly VertexTypeResponse: "Normal" | "Bikeshare" | "Transit";

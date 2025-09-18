@@ -1850,6 +1850,57 @@ components:
         - Funicular
         - ArealLift
         - Other
+    MotisRoutingResponse:
+      type: object
+      required:
+        - debug_output
+        - direct
+        - itineraries
+        - next_page_cursor
+        - previous_page_cursor
+      properties:
+        debug_output:
+          type: object
+          description: debug statistics
+          additionalProperties:
+            type: integer
+            format: int64
+          propertyNames:
+            type: string
+        direct:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItineraryResponse'
+          description: |-
+            Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
+
+             The starting time (`arriveBy=false`) / arrival time
+             (`arriveBy=true`) is always the queried `time` parameter (set to
+             "now" if not set). But all `direct` connections are meant
+             to be independent of absolute times.
+        itineraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItineraryResponse'
+          description: list of itineraries
+        next_page_cursor:
+          type: string
+          description: |-
+            Use the cursor to get the next page of results.
+
+            Insert the cursor
+             into the request and post it to get the next page.
+             The next page is a set of itineraries departing AFTER the last
+             itinerary in this result.
+        previous_page_cursor:
+          type: string
+          description: |-
+            Use the cursor to get the previous page of results. Insert the
+             cursor into the request and post it to get the previous page.
+             The previous page is a set of itineraries departing BEFORE the first
+             itinerary in the result for a depart after search. When using the
+             default sort order the previous set of itineraries is inserted
+             before the current result.
     NearbyLocationsResponse:
       type: object
       required:
@@ -2468,56 +2519,27 @@ components:
         name:
           type: string
     RoutingResponse:
-      type: object
-      required:
-        - debug_output
-        - direct
-        - itineraries
-        - next_page_cursor
-        - previous_page_cursor
-      properties:
-        debug_output:
-          type: object
-          description: debug statistics
-          additionalProperties:
-            type: integer
-            format: int64
-          propertyNames:
-            type: string
-        direct:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItineraryResponse'
-          description: |-
-            Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
-
-             The starting time (`arriveBy=false`) / arrival time
-             (`arriveBy=true`) is always the queried `time` parameter (set to
-             "now" if not set). But all `direct` connections are meant
-             to be independent of absolute times.
-        itineraries:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItineraryResponse'
-          description: list of itineraries
-        next_page_cursor:
-          type: string
-          description: |-
-            Use the cursor to get the next page of results.
-
-            Insert the cursor
-             into the request and post it to get the next page.
-             The next page is a set of itineraries departing AFTER the last
-             itinerary in this result.
-        previous_page_cursor:
-          type: string
-          description: |-
-            Use the cursor to get the previous page of results. Insert the
-             cursor into the request and post it to get the previous page.
-             The previous page is a set of itineraries departing BEFORE the first
-             itinerary in the result for a depart after search. When using the
-             default sort order the previous set of itineraries is inserted
-             before the current result.
+      oneOf:
+        - allOf:
+            - $ref: '#/components/schemas/ValhallaRoutingResponse'
+            - type: object
+              required:
+                - router
+              properties:
+                router:
+                  type: string
+                  enum:
+                    - Valhalla
+        - allOf:
+            - $ref: '#/components/schemas/MotisRoutingResponse'
+            - type: object
+              required:
+                - router
+              properties:
+                router:
+                  type: string
+                  enum:
+                    - Motis
     SearchResponse:
       type: object
       description: Returned search results by this
@@ -2943,6 +2965,25 @@ components:
           type:
             - string
             - "null"
+    ValhallaRoutingResponse:
+      type: object
+      required:
+        - legs
+        - summary
+      properties:
+        legs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegResponse'
+          description: |-
+            A trip contains one (or more) legs.
+
+            A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+          maxItems: 1
+          minItems: 1
+        summary:
+          $ref: '#/components/schemas/SummaryResponse'
+          description: Trip summary
     VertexTypeResponse:
       type: string
       enum:
