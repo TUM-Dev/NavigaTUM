@@ -50,7 +50,7 @@ jobs:
           cache-dependency-path: webclient/pnpm-lock.yaml
 
       - name: Install | Dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         working-directory: webclient
 
       - name: Build | Compile server
