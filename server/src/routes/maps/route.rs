@@ -120,10 +120,13 @@ impl From<&RoutingRequest> for Costing {
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
 pub struct RoutingRequest {
     #[serde(flatten, default)]
+    #[param(inline)]
     lang: localisation::LangQueryArgs,
     /// Start of the route
+    #[param(inline)]
     from: RequestedLocation,
     /// Destination of the route
+    #[param(inline)]
     to: RequestedLocation,
     /// Transport mode the user wants to use
     #[param(inline)]
