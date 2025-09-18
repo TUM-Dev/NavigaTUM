@@ -19,7 +19,7 @@ use valhalla_client::route::{
 };
 
 #[derive(Deserialize, Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
-struct Coordinate {
+pub struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]
     lat: f64,
@@ -38,7 +38,7 @@ impl From<ShapePoint> for Coordinate {
 
 #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
 #[serde(untagged)]
-enum RequestedLocation {
+pub enum RequestedLocation {
     /// Either an
     /// - external address which was looked up or
     /// - the users current location  
@@ -71,7 +71,7 @@ impl RequestedLocation {
 /// Transport mode the user wants to use
 #[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum CostingRequest {
+pub enum CostingRequest {
     Pedestrian,
     Bicycle,
     Motorcycle,
@@ -118,7 +118,7 @@ impl From<&RoutingRequest> for Costing {
 }
 
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
-struct RoutingRequest {
+pub struct RoutingRequest {
     #[serde(flatten, default)]
     lang: localisation::LangQueryArgs,
     /// Start of the route
@@ -141,7 +141,7 @@ struct RoutingRequest {
 /// Does the user have specific walking restrictions?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum PedestrianTypeRequest {
+pub enum PedestrianTypeRequest {
     #[default]
     None,
     Blind,
@@ -163,7 +163,7 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 /// Which kind of bicycle do you ride?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum BicycleRestrictionRequest {
+pub enum BicycleRestrictionRequest {
     /// Road-bike
     ///
     /// A road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces.
@@ -195,7 +195,7 @@ impl From<BicycleRestrictionRequest> for BicycleType {
 /// Does the user have a moped or motorcycle
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum PoweredTwoWheeledRestrictionRequest {
+pub enum PoweredTwoWheeledRestrictionRequest {
     #[default]
     Motorcycle,
     Moped,
@@ -277,7 +277,7 @@ pub async fn route_handler(
     HttpResponse::Ok().json(RoutingResponse::from(response))
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct RoutingResponse {
+pub struct RoutingResponse {
     /// A trip contains one (or more) legs.
     ///
     /// A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
@@ -295,7 +295,7 @@ impl From<Trip> for RoutingResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct SummaryResponse {
+pub struct SummaryResponse {
     /// Estimated elapsed time in seconds
     #[schema(example = 201.025)]
     time_seconds: f64,
@@ -338,7 +338,7 @@ impl From<Summary> for SummaryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct LegResponse {
+pub struct LegResponse {
     summary: SummaryResponse,
     maneuvers: Vec<ManeuverResponse>,
     shape: Vec<Coordinate>,
@@ -358,7 +358,7 @@ impl From<Leg> for LegResponse {
 }
 #[serde_with::skip_serializing_none]
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct ManeuverResponse {
+pub struct ManeuverResponse {
     r#type: ManeuverTypeResponse,
 
     instruction: String,
@@ -475,7 +475,7 @@ impl From<Maneuver> for ManeuverResponse {
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum ManeuverTypeResponse {
+pub enum ManeuverTypeResponse {
     None,
     Start,
     StartRight,
@@ -575,7 +575,7 @@ impl From<ManeuverType> for ManeuverTypeResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 
-struct TransitInfoResponse {
+pub struct TransitInfoResponse {
     /// Global transit route identifier
     ///
     /// **Tipp:** you use these as feed-ids in transitland.
@@ -653,7 +653,7 @@ impl From<TransitInfo> for TransitInfoResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TravelModeResponse {
+pub enum TravelModeResponse {
     Drive,
     Pedestrian,
     Bicycle,
@@ -670,7 +670,7 @@ impl From<TravelMode> for TravelModeResponse {
     }
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-struct TransitStopResponse {
+pub struct TransitStopResponse {
     r#type: TransitStopTypeResponse,
     /// Name of the stop or station
     #[schema(examples("14 St - Union Sq"))]
@@ -706,7 +706,7 @@ impl From<TransitStop> for TransitStopResponse {
 }
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
-enum TransitStopTypeResponse {
+pub enum TransitStopTypeResponse {
     /// Simple stop
     Stop,
     /// Station
