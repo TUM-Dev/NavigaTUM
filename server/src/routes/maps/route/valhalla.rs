@@ -19,7 +19,11 @@ pub struct ValhallaRoutingResponse {
 impl From<Trip> for ValhallaRoutingResponse {
     fn from(value: Trip) -> Self {
         ValhallaRoutingResponse {
-            legs: value.legs.into_iter().map(ValhallaLegResponse::from).collect(),
+            legs: value
+                .legs
+                .into_iter()
+                .map(ValhallaLegResponse::from)
+                .collect(),
             summary: SummaryResponse::from(value.summary),
         }
     }
