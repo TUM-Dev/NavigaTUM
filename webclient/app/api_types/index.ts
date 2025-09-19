@@ -501,7 +501,7 @@ export type components = {
        */
       readonly end_time: string;
       /** @description Journey legs */
-      readonly legs: readonly components["schemas"]["ValhallaLegResponse"][];
+      readonly legs: readonly components["schemas"]["MotisLegResponse"][];
       /**
        * Format: date-time
        * @description journey departure time
@@ -512,113 +512,6 @@ export type components = {
        * @description The number of transfers this trip has.
        */
       readonly transfer_count: number;
-    };
-    readonly ValhallaLegResponse: {
-      readonly agency_id?: string | null;
-      readonly agency_name?: string | null;
-      readonly agency_url?: string | null;
-      /** @description Alerts for this stop. */
-      readonly alerts?: readonly components["schemas"]["AlertResponse"][];
-      /** @description Whether this trip is cancelled */
-      readonly cancelled?: boolean | null;
-      /**
-       * Format: double
-       * @description Distance in meters
-       */
-      readonly distance?: number | null;
-      /**
-       * Format: int64
-       * @description Leg duration in seconds
-       *
-       * If leg is footpath:
-       *   The footpath duration is derived from the default footpath
-       *   duration using the query parameters `transferTimeFactor` and
-       *   `additionalTransferTime` as follows:
-       *   `leg.duration = defaultDuration * transferTimeFactor +
-       *  additionalTransferTime.`  In case the defaultDuration is
-       *  needed, it can be calculated by  `defaultDuration =
-       *  (leg.duration - additionalTransferTime) / transferTimeFactor`.
-       *   Note that the default values are `transferTimeFactor = 1` and
-       *   `additionalTransferTime = 0` in case they are not explicitly
-       *   provided in the query.
-       */
-      readonly duration: number;
-      /**
-       * Format: int64
-       * @description Index into the
-       *  `Itinerary.fareTransfers[fareTransferIndex].
-       *  effectiveFareLegProducts` array to identify which effective
-       *  fare leg this itinerary leg belongs to
-       */
-      readonly effective_fare_leg_index?: number | null;
-      /**
-       * Format: date-time
-       * @description leg arrival time
-       */
-      readonly end_time: string;
-      /**
-       * Format: int64
-       * @description Index into `Itinerary.fareTransfers` array
-       * to identify which fare transfer this leg belongs to
-       */
-      readonly fare_transfer_index?: number | null;
-      readonly from: components["schemas"]["PlaceResponse"];
-      /**
-       * @description For transit legs, the headsign of the bus or train being used.
-       * For non-transit legs, null
-       */
-      readonly headsign?: string | null;
-      /**
-       * @description For transit legs, if the rider should stay on the vehicle as it
-       *  changes route names.
-       */
-      readonly interline_with_previous_leg?: boolean | null;
-      /**
-       * @description For transit legs, intermediate stops between the Place where the leg
-       *  originates and the Place where the leg ends. For non-transit
-       *  legs, null.
-       */
-      readonly intermediate_stops?: readonly components["schemas"]["PlaceResponse"][];
-      /** @description Polyline geometry (precision 6) of the leg. */
-      readonly leg_geometry: string;
-      readonly mode: components["schemas"]["ModeResponse"];
-      /** @description Whether there is real-time data about this leg */
-      readonly real_time: boolean;
-      readonly rental?: null | components["schemas"]["RentalResponse"];
-      readonly route_color?: string | null;
-      readonly route_short_name?: string | null;
-      readonly route_text_color?: string | null;
-      readonly route_type?: string | null;
-      /**
-       * @description Whether this leg was originally scheduled to run or is an additional
-       *  service.
-       *  Scheduled times will equal realtime times in this case.
-       */
-      readonly scheduled: boolean;
-      /**
-       * Format: date-time
-       * @description scheduled leg arrival time
-       */
-      readonly scheduled_end_time: string;
-      /**
-       * Format: date-time
-       * @description scheduled leg departure time
-       */
-      readonly scheduled_start_time: string;
-      /** @description Filename and line number where this trip is from */
-      readonly source?: string | null;
-      /**
-       * Format: date-time
-       * @description leg departure time
-       */
-      readonly start_time: string;
-      /**
-       * @description A series of turn by turn instructions
-       * used for walking, biking and driving.
-       */
-      readonly steps?: readonly components["schemas"]["StepInstructionResponse"][];
-      readonly to: components["schemas"]["PlaceResponse"];
-      readonly trip_id?: string | null;
     };
     readonly LimitedHashMap_String_Edit: {
       [key: string]: {
@@ -874,6 +767,113 @@ export type components = {
       | "Funicular"
       | "ArealLift"
       | "Other";
+    readonly MotisLegResponse: {
+      readonly agency_id?: string | null;
+      readonly agency_name?: string | null;
+      readonly agency_url?: string | null;
+      /** @description Alerts for this stop. */
+      readonly alerts?: readonly components["schemas"]["AlertResponse"][];
+      /** @description Whether this trip is cancelled */
+      readonly cancelled?: boolean | null;
+      /**
+       * Format: double
+       * @description Distance in meters
+       */
+      readonly distance?: number | null;
+      /**
+       * Format: int64
+       * @description Leg duration in seconds
+       *
+       * If leg is footpath:
+       *   The footpath duration is derived from the default footpath
+       *   duration using the query parameters `transferTimeFactor` and
+       *   `additionalTransferTime` as follows:
+       *   `leg.duration = defaultDuration * transferTimeFactor +
+       *  additionalTransferTime.`  In case the defaultDuration is
+       *  needed, it can be calculated by  `defaultDuration =
+       *  (leg.duration - additionalTransferTime) / transferTimeFactor`.
+       *   Note that the default values are `transferTimeFactor = 1` and
+       *   `additionalTransferTime = 0` in case they are not explicitly
+       *   provided in the query.
+       */
+      readonly duration: number;
+      /**
+       * Format: int64
+       * @description Index into the
+       *  `Itinerary.fareTransfers[fareTransferIndex].
+       *  effectiveFareLegProducts` array to identify which effective
+       *  fare leg this itinerary leg belongs to
+       */
+      readonly effective_fare_leg_index?: number | null;
+      /**
+       * Format: date-time
+       * @description leg arrival time
+       */
+      readonly end_time: string;
+      /**
+       * Format: int64
+       * @description Index into `Itinerary.fareTransfers` array
+       * to identify which fare transfer this leg belongs to
+       */
+      readonly fare_transfer_index?: number | null;
+      readonly from: components["schemas"]["PlaceResponse"];
+      /**
+       * @description For transit legs, the headsign of the bus or train being used.
+       * For non-transit legs, null
+       */
+      readonly headsign?: string | null;
+      /**
+       * @description For transit legs, if the rider should stay on the vehicle as it
+       *  changes route names.
+       */
+      readonly interline_with_previous_leg?: boolean | null;
+      /**
+       * @description For transit legs, intermediate stops between the Place where the leg
+       *  originates and the Place where the leg ends. For non-transit
+       *  legs, null.
+       */
+      readonly intermediate_stops?: readonly components["schemas"]["PlaceResponse"][];
+      /** @description Polyline geometry (precision 6) of the leg. */
+      readonly leg_geometry: string;
+      readonly mode: components["schemas"]["ModeResponse"];
+      /** @description Whether there is real-time data about this leg */
+      readonly real_time: boolean;
+      readonly rental?: null | components["schemas"]["RentalResponse"];
+      readonly route_color?: string | null;
+      readonly route_short_name?: string | null;
+      readonly route_text_color?: string | null;
+      readonly route_type?: string | null;
+      /**
+       * @description Whether this leg was originally scheduled to run or is an additional
+       *  service.
+       *  Scheduled times will equal realtime times in this case.
+       */
+      readonly scheduled: boolean;
+      /**
+       * Format: date-time
+       * @description scheduled leg arrival time
+       */
+      readonly scheduled_end_time: string;
+      /**
+       * Format: date-time
+       * @description scheduled leg departure time
+       */
+      readonly scheduled_start_time: string;
+      /** @description Filename and line number where this trip is from */
+      readonly source?: string | null;
+      /**
+       * Format: date-time
+       * @description leg departure time
+       */
+      readonly start_time: string;
+      /**
+       * @description A series of turn by turn instructions
+       * used for walking, biking and driving.
+       */
+      readonly steps?: readonly components["schemas"]["StepInstructionResponse"][];
+      readonly to: components["schemas"]["PlaceResponse"];
+      readonly trip_id?: string | null;
+    };
     readonly MotisRoutingResponse: {
       /** @description debug statistics */
       readonly debug_output: {
@@ -1581,13 +1581,18 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly ValhallaLegResponse: {
+      readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
+      readonly shape: readonly components["schemas"]["Coordinate"][];
+      readonly summary: components["schemas"]["SummaryResponse"];
+    };
     readonly ValhallaRoutingResponse: {
       /**
        * @description A trip contains one (or more) legs.
        *
        * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
        */
-      readonly legs: readonly [components["schemas"]["LegResponse"]];
+      readonly legs: readonly [components["schemas"]["ValhallaLegResponse"]];
       /** @description Trip summary */
       readonly summary: components["schemas"]["SummaryResponse"];
     };

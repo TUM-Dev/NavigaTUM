@@ -1254,7 +1254,7 @@ components:
         legs:
           type: array
           items:
-            $ref: '#/components/schemas/LegResponse'
+            $ref: '#/components/schemas/MotisLegResponse'
           description: Journey legs
         start_time:
           type: string
@@ -1264,176 +1264,6 @@ components:
           type: integer
           format: int64
           description: The number of transfers this trip has.
-    LegResponse:
-      type: object
-      required:
-        - duration
-        - end_time
-        - from
-        - to
-        - leg_geometry
-        - mode
-        - real_time
-        - scheduled
-        - scheduled_end_time
-        - scheduled_start_time
-        - start_time
-      properties:
-        agency_id:
-          type:
-            - string
-            - "null"
-        agency_name:
-          type:
-            - string
-            - "null"
-        agency_url:
-          type:
-            - string
-            - "null"
-        alerts:
-          type: array
-          items:
-            $ref: '#/components/schemas/AlertResponse'
-          description: Alerts for this stop.
-        cancelled:
-          type:
-            - boolean
-            - "null"
-          description: Whether this trip is cancelled
-        distance:
-          type:
-            - number
-            - "null"
-          format: double
-          description: Distance in meters
-        duration:
-          type: integer
-          format: int64
-          description: |-
-            Leg duration in seconds
-
-            If leg is footpath:
-              The footpath duration is derived from the default footpath
-              duration using the query parameters `transferTimeFactor` and
-              `additionalTransferTime` as follows:
-              `leg.duration = defaultDuration * transferTimeFactor +
-             additionalTransferTime.`  In case the defaultDuration is
-             needed, it can be calculated by  `defaultDuration =
-             (leg.duration - additionalTransferTime) / transferTimeFactor`.
-              Note that the default values are `transferTimeFactor = 1` and
-              `additionalTransferTime = 0` in case they are not explicitly
-              provided in the query.
-        effective_fare_leg_index:
-          type:
-            - integer
-            - "null"
-          format: int64
-          description: |-
-            Index into the
-             `Itinerary.fareTransfers[fareTransferIndex].
-             effectiveFareLegProducts` array to identify which effective
-             fare leg this itinerary leg belongs to
-        end_time:
-          type: string
-          format: date-time
-          description: leg arrival time
-        fare_transfer_index:
-          type:
-            - integer
-            - "null"
-          format: int64
-          description: |-
-            Index into `Itinerary.fareTransfers` array
-            to identify which fare transfer this leg belongs to
-        from:
-          $ref: '#/components/schemas/PlaceResponse'
-        headsign:
-          type:
-            - string
-            - "null"
-          description: |-
-            For transit legs, the headsign of the bus or train being used.
-            For non-transit legs, null
-        interline_with_previous_leg:
-          type:
-            - boolean
-            - "null"
-          description: |-
-            For transit legs, if the rider should stay on the vehicle as it
-             changes route names.
-        intermediate_stops:
-          type: array
-          items:
-            $ref: '#/components/schemas/PlaceResponse'
-          description: |-
-            For transit legs, intermediate stops between the Place where the leg
-             originates and the Place where the leg ends. For non-transit
-             legs, null.
-        leg_geometry:
-          type: string
-          description: Polyline geometry (precision 6) of the leg.
-        mode:
-          $ref: '#/components/schemas/ModeResponse'
-        real_time:
-          type: boolean
-          description: Whether there is real-time data about this leg
-        rental:
-          oneOf:
-            - type: "null"
-            - $ref: '#/components/schemas/RentalResponse'
-        route_color:
-          type:
-            - string
-            - "null"
-        route_short_name:
-          type:
-            - string
-            - "null"
-        route_text_color:
-          type:
-            - string
-            - "null"
-        route_type:
-          type:
-            - string
-            - "null"
-        scheduled:
-          type: boolean
-          description: |-
-            Whether this leg was originally scheduled to run or is an additional
-             service.
-             Scheduled times will equal realtime times in this case.
-        scheduled_end_time:
-          type: string
-          format: date-time
-          description: scheduled leg arrival time
-        scheduled_start_time:
-          type: string
-          format: date-time
-          description: scheduled leg departure time
-        source:
-          type:
-            - string
-            - "null"
-          description: Filename and line number where this trip is from
-        start_time:
-          type: string
-          format: date-time
-          description: leg departure time
-        steps:
-          type: array
-          items:
-            $ref: '#/components/schemas/StepInstructionResponse'
-          description: |-
-            A series of turn by turn instructions
-            used for walking, biking and driving.
-        to:
-          $ref: '#/components/schemas/PlaceResponse'
-        trip_id:
-          type:
-            - string
-            - "null"
     LimitedHashMap_String_Edit:
       type: object
       additionalProperties:
@@ -1850,6 +1680,176 @@ components:
         - Funicular
         - ArealLift
         - Other
+    MotisLegResponse:
+      type: object
+      required:
+        - duration
+        - end_time
+        - from
+        - to
+        - leg_geometry
+        - mode
+        - real_time
+        - scheduled
+        - scheduled_end_time
+        - scheduled_start_time
+        - start_time
+      properties:
+        agency_id:
+          type:
+            - string
+            - "null"
+        agency_name:
+          type:
+            - string
+            - "null"
+        agency_url:
+          type:
+            - string
+            - "null"
+        alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertResponse'
+          description: Alerts for this stop.
+        cancelled:
+          type:
+            - boolean
+            - "null"
+          description: Whether this trip is cancelled
+        distance:
+          type:
+            - number
+            - "null"
+          format: double
+          description: Distance in meters
+        duration:
+          type: integer
+          format: int64
+          description: |-
+            Leg duration in seconds
+
+            If leg is footpath:
+              The footpath duration is derived from the default footpath
+              duration using the query parameters `transferTimeFactor` and
+              `additionalTransferTime` as follows:
+              `leg.duration = defaultDuration * transferTimeFactor +
+             additionalTransferTime.`  In case the defaultDuration is
+             needed, it can be calculated by  `defaultDuration =
+             (leg.duration - additionalTransferTime) / transferTimeFactor`.
+              Note that the default values are `transferTimeFactor = 1` and
+              `additionalTransferTime = 0` in case they are not explicitly
+              provided in the query.
+        effective_fare_leg_index:
+          type:
+            - integer
+            - "null"
+          format: int64
+          description: |-
+            Index into the
+             `Itinerary.fareTransfers[fareTransferIndex].
+             effectiveFareLegProducts` array to identify which effective
+             fare leg this itinerary leg belongs to
+        end_time:
+          type: string
+          format: date-time
+          description: leg arrival time
+        fare_transfer_index:
+          type:
+            - integer
+            - "null"
+          format: int64
+          description: |-
+            Index into `Itinerary.fareTransfers` array
+            to identify which fare transfer this leg belongs to
+        from:
+          $ref: '#/components/schemas/PlaceResponse'
+        headsign:
+          type:
+            - string
+            - "null"
+          description: |-
+            For transit legs, the headsign of the bus or train being used.
+            For non-transit legs, null
+        interline_with_previous_leg:
+          type:
+            - boolean
+            - "null"
+          description: |-
+            For transit legs, if the rider should stay on the vehicle as it
+             changes route names.
+        intermediate_stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceResponse'
+          description: |-
+            For transit legs, intermediate stops between the Place where the leg
+             originates and the Place where the leg ends. For non-transit
+             legs, null.
+        leg_geometry:
+          type: string
+          description: Polyline geometry (precision 6) of the leg.
+        mode:
+          $ref: '#/components/schemas/ModeResponse'
+        real_time:
+          type: boolean
+          description: Whether there is real-time data about this leg
+        rental:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/RentalResponse'
+        route_color:
+          type:
+            - string
+            - "null"
+        route_short_name:
+          type:
+            - string
+            - "null"
+        route_text_color:
+          type:
+            - string
+            - "null"
+        route_type:
+          type:
+            - string
+            - "null"
+        scheduled:
+          type: boolean
+          description: |-
+            Whether this leg was originally scheduled to run or is an additional
+             service.
+             Scheduled times will equal realtime times in this case.
+        scheduled_end_time:
+          type: string
+          format: date-time
+          description: scheduled leg arrival time
+        scheduled_start_time:
+          type: string
+          format: date-time
+          description: scheduled leg departure time
+        source:
+          type:
+            - string
+            - "null"
+          description: Filename and line number where this trip is from
+        start_time:
+          type: string
+          format: date-time
+          description: leg departure time
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/StepInstructionResponse'
+          description: |-
+            A series of turn by turn instructions
+            used for walking, biking and driving.
+        to:
+          $ref: '#/components/schemas/PlaceResponse'
+        trip_id:
+          type:
+            - string
+            - "null"
     MotisRoutingResponse:
       type: object
       required:
@@ -2965,6 +2965,23 @@ components:
           type:
             - string
             - "null"
+    ValhallaLegResponse:
+      type: object
+      required:
+        - summary
+        - maneuvers
+        - shape
+      properties:
+        maneuvers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManeuverResponse'
+        shape:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coordinate'
+        summary:
+          $ref: '#/components/schemas/SummaryResponse'
     ValhallaRoutingResponse:
       type: object
       required:
@@ -2974,7 +2991,7 @@ components:
         legs:
           type: array
           items:
-            $ref: '#/components/schemas/LegResponse'
+            $ref: '#/components/schemas/ValhallaLegResponse'
           description: |-
             A trip contains one (or more) legs.
 
