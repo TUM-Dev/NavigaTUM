@@ -47,8 +47,8 @@ const { data, status, error } = await useFetch<NavigationResponse>(
 );
 effect(() => {
   if (!data.value || !indoorMap.value) return;
-  if (data.value.router == "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
-  else if (data.value.router == "motis") {
+  if (data.value.router === "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
+  else if (data.value.router === "motis") {
     throw new Error("Motis route drawing not implemented");
   }
 });
@@ -78,13 +78,14 @@ const description = computed(() => {
           length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
       }
     );
-  }if (data.value?.router === "motis") {
+  }
+  if (data.value?.router === "motis") {
     const length_meters = data.value.itineraries.length;
     return t("description_public_transport", {
       itinerary_count: data.value.itineraries.length,
     });
   }
-    return t("description");
+  return t("description");
 });
 useSeoMeta({
   title: title,
