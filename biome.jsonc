@@ -61,9 +61,9 @@
         "noUnusedTemplateLiteral": "error",
         "useNumberNamespace": "error",
         "noInferrableTypes": "error",
-        "noUselessElse": "error",
-      },
-    },
+        "noUselessElse": "error"
+      }
+    }
   },
   "overrides": [
     {
@@ -72,14 +72,14 @@
         "rules": {
           "style": {
             "useConst": "off",
-            "useImportType": "off",
+            "useImportType": "off"
           },
           "correctness": {
             "noUnusedVariables": "off",
-            "noUnusedImports": "off",
-          },
-        },
-      },
-    },
-  ],
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
