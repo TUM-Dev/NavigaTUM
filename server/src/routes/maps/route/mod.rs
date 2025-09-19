@@ -301,6 +301,7 @@ pub async fn route_handler(
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(tag = "router")]
+#[serde(rename_all = "snake_case")]
 enum RoutingResponse {
     Valhalla(valhalla::ValhallaRoutingResponse),
     Motis(motis::MotisRoutingResponse),
