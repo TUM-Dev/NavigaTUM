@@ -2529,7 +2529,7 @@ components:
                 router:
                   type: string
                   enum:
-                    - Valhalla
+                    - valhalla
         - allOf:
             - $ref: '#/components/schemas/MotisRoutingResponse'
             - type: object
@@ -2539,7 +2539,7 @@ components:
                 router:
                   type: string
                   enum:
-                    - Motis
+                    - motis
     SearchResponse:
       type: object
       description: Returned search results by this

@@ -1297,11 +1297,11 @@ export type components = {
       [
         components["schemas"]["ValhallaRoutingResponse"] & {
           /** @enum {string} */
-          readonly router: "Valhalla";
+          readonly router: "valhalla";
         },
         components["schemas"]["MotisRoutingResponse"] & {
           /** @enum {string} */
-          readonly router: "Motis";
+          readonly router: "motis";
         },
       ]
     >;
