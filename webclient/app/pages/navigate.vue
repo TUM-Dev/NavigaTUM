@@ -167,7 +167,7 @@ de:
   navigate: Navigiere
   description_highway_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}. Bitte beachten Sie, dass sie Autobahnfahrten beinhaltet.
   description_time_length: Die Fahrt dauert {time} und erstreckt sich über {length}.
-  description_public_transport: {itinerary_count} optionen um mit öffentlichen Verkehrsmitteln zu reisen.
+  description_public_transport: "{itinerary_count} optionen um mit öffentlichen Verkehrsmitteln zu reisen."
   description: Beste Route wird berechnet
   minutes: "sofort | eine Minute | {count} Minuten"
   seconds: "sofort | eine Sekunde | {count} Sekunden"
@@ -182,7 +182,7 @@ en:
   navigate: Navigating
   description_highway_time_length: The trip will take {time} and span {length}. Note that it will include highway travel.
   description_time_length: The trip will take {time} and span {length}.
-  description_public_transport: {itinerary_count} options to travel with public transport.
+  description_public_transport: "{itinerary_count} options to travel with public transport."
   description: Calculating best route
   minutes: "instant | one minute | {count} minutes"
   seconds: "instant | one second | {count} seconds"
