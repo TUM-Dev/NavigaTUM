@@ -114,6 +114,7 @@ jobs:
         working-directory: webclient
 
       - name: Commit and push changes
+        if: always()
         id: check_changes
         run: |
           if git diff --quiet; then

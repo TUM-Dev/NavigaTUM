@@ -3,6 +3,15 @@
  * Do not make direct changes to the file.
  */
 
+/** OneOf type helpers */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+type OneOf<T extends any[]> = T extends [infer Only]
+  ? Only
+  : T extends [infer A, infer B, ...infer Rest]
+    ? OneOf<[XOR<A, B>, ...Rest]>
+    : never;
+
 export type paths = {
   "/api/calendar": {
     /**
@@ -165,6 +174,79 @@ export type webhooks = Record<string, never>;
 
 export type components = {
   schemas: {
+    /** @enum {string} */
+    readonly AlertCauseResponse:
+      | "UNKNOWN_CAUSE"
+      | "OTHER_CAUSE"
+      | "TECHNICAL_PROBLEM"
+      | "STRIKE"
+      | "DEMONSTRATION"
+      | "ACCIDENT"
+      | "HOLIDAY"
+      | "WEATHER"
+      | "MAINTENANCE"
+      | "CONSTRUCTION"
+      | "POLICE_ACTIVITY"
+      | "MEDICAL_EMERGENCY";
+    /** @enum {string} */
+    readonly AlertEffectResponse:
+      | "NO_SERVICE"
+      | "REDUCED_SERVICE"
+      | "SIGNIFICANT_DELAYS"
+      | "DETOUR"
+      | "ADDITIONAL_SERVICE"
+      | "MODIFIED_SERVICE"
+      | "OTHER_EFFECT"
+      | "UNKNOWN_EFFECT"
+      | "STOP_MOVED"
+      | "NO_EFFECT"
+      | "ACCESSIBILITY_ISSUE";
+    readonly AlertResponse: {
+      readonly cause?: null | components["schemas"]["AlertCauseResponse"];
+      /**
+       * @description Description of the cause of the alert that allows for
+       *  agency-specific language; more specific than the Cause.
+       */
+      readonly cause_detail?: string | null;
+      /**
+       * @description Description for the alert.
+       * This plain-text string will be formatted as the body of the alert
+       *  (or shown on an explicit "expand" request by the user).
+       *  The information in the description should add to the information of
+       *  the header.
+       */
+      readonly description_text: string;
+      readonly effect?: null | components["schemas"]["AlertEffectResponse"];
+      /**
+       * @description Description of the effect of the alert that allows for
+       *  agency-specific language; more specific than the Effect.
+       */
+      readonly effect_detail?: string | null;
+      /**
+       * @description Header for the alert. This plain-text string will be highlighted,
+       *  for example in boldface.
+       */
+      readonly header_text: string;
+      /**
+       * @description Text describing the appearance of the linked image in the image
+       *  field (e.g., in case the image can't be displayed or the
+       *  user can't see the image for accessibility reasons). See the
+       *  HTML spec for alt image text.
+       */
+      readonly image_alternative_text?: string | null;
+      /**
+       * @description IANA media type as to specify the type of image to be displayed. The
+       *  type must start with "image/"
+       */
+      readonly image_media_type?: string | null;
+      /** @description String containing an URL linking to an image. */
+      readonly image_url?: string | null;
+      readonly severity_level?: null | components["schemas"]["AlertSeverityLevelResponse"];
+      /** @description The URL which provides additional information about the alert. */
+      readonly url?: string | null;
+    };
+    /** @enum {string} */
+    readonly AlertSeverityLevelResponse: "UNKNOWN_SEVERITY" | "INFO" | "WARNING" | "SEVERE";
     readonly Arguments: {
       /**
        * Format: date-time
@@ -279,6 +361,22 @@ export type components = {
     readonly CoordinateSourceResponse: "navigatum" | "roomfinder" | "inferred";
     /** @enum {string} */
     readonly DefaultMapsResponse: "interactive" | "roomfinder";
+    /** @enum {string} */
+    readonly DirectionResponse:
+      | "Depart"
+      | "HardLeft"
+      | "Left"
+      | "SlightlyLeft"
+      | "Continue"
+      | "SlightlyRight"
+      | "Right"
+      | "HardRight"
+      | "CircleClockwise"
+      | "CircleCounterclockwise"
+      | "Stairs"
+      | "Elevator"
+      | "UturnLeft"
+      | "UturnRight";
     readonly EditRequest: {
       /**
        * @description Additional context for the edit.
@@ -391,10 +489,29 @@ export type components = {
       readonly license: components["schemas"]["Property"];
       readonly offsets?: null | components["schemas"]["Offsets"];
     };
-    readonly LegResponse: {
-      readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
-      readonly shape: readonly components["schemas"]["Coordinate"][];
-      readonly summary: components["schemas"]["SummaryResponse"];
+    readonly ItineraryResponse: {
+      /**
+       * Format: int64
+       * @description journey duration in seconds
+       */
+      readonly duration: number;
+      /**
+       * Format: date-time
+       * @description journey arrival time
+       */
+      readonly end_time: string;
+      /** @description Journey legs */
+      readonly legs: readonly components["schemas"]["MotisLegResponse"][];
+      /**
+       * Format: date-time
+       * @description journey departure time
+       */
+      readonly start_time: string;
+      /**
+       * Format: int64
+       * @description The number of transfers this trip has.
+       */
+      readonly transfer_count: number;
     };
     readonly LimitedHashMap_String_Edit: {
       [key: string]: {
@@ -623,6 +740,175 @@ export type components = {
       readonly overlays?: null | components["schemas"]["OverlayMapsResponse"];
       readonly roomfinder?: null | components["schemas"]["RoomfinderMapResponse"];
     };
+    /** @enum {string} */
+    readonly ModeResponse:
+      | "Walk"
+      | "Bike"
+      | "Rental"
+      | "Car"
+      | "CarParking"
+      | "Odm"
+      | "Flex"
+      | "Transit"
+      | "Tram"
+      | "Subway"
+      | "Ferry"
+      | "Airplane"
+      | "Metro"
+      | "Bus"
+      | "Coach"
+      | "Rail"
+      | "HighspeedRail"
+      | "LongDistance"
+      | "NightRail"
+      | "RegionalFastRail"
+      | "RegionalRail"
+      | "CableCar"
+      | "Funicular"
+      | "ArealLift"
+      | "Other";
+    readonly MotisLegResponse: {
+      readonly agency_id?: string | null;
+      readonly agency_name?: string | null;
+      readonly agency_url?: string | null;
+      /** @description Alerts for this stop. */
+      readonly alerts?: readonly components["schemas"]["AlertResponse"][];
+      /** @description Whether this trip is cancelled */
+      readonly cancelled?: boolean | null;
+      /**
+       * Format: double
+       * @description Distance in meters
+       */
+      readonly distance?: number | null;
+      /**
+       * Format: int64
+       * @description Leg duration in seconds
+       *
+       * If leg is footpath:
+       *   The footpath duration is derived from the default footpath
+       *   duration using the query parameters `transferTimeFactor` and
+       *   `additionalTransferTime` as follows:
+       *   `leg.duration = defaultDuration * transferTimeFactor +
+       *  additionalTransferTime.`  In case the defaultDuration is
+       *  needed, it can be calculated by  `defaultDuration =
+       *  (leg.duration - additionalTransferTime) / transferTimeFactor`.
+       *   Note that the default values are `transferTimeFactor = 1` and
+       *   `additionalTransferTime = 0` in case they are not explicitly
+       *   provided in the query.
+       */
+      readonly duration: number;
+      /**
+       * Format: int64
+       * @description Index into the
+       *  `Itinerary.fareTransfers[fareTransferIndex].
+       *  effectiveFareLegProducts` array to identify which effective
+       *  fare leg this itinerary leg belongs to
+       */
+      readonly effective_fare_leg_index?: number | null;
+      /**
+       * Format: date-time
+       * @description leg arrival time
+       */
+      readonly end_time: string;
+      /**
+       * Format: int64
+       * @description Index into `Itinerary.fareTransfers` array
+       * to identify which fare transfer this leg belongs to
+       */
+      readonly fare_transfer_index?: number | null;
+      readonly from: components["schemas"]["PlaceResponse"];
+      /**
+       * @description For transit legs, the headsign of the bus or train being used.
+       * For non-transit legs, null
+       */
+      readonly headsign?: string | null;
+      /**
+       * @description For transit legs, if the rider should stay on the vehicle as it
+       *  changes route names.
+       */
+      readonly interline_with_previous_leg?: boolean | null;
+      /**
+       * @description For transit legs, intermediate stops between the Place where the leg
+       *  originates and the Place where the leg ends. For non-transit
+       *  legs, null.
+       */
+      readonly intermediate_stops?: readonly components["schemas"]["PlaceResponse"][];
+      /** @description Polyline geometry (precision 6) of the leg. */
+      readonly leg_geometry: string;
+      readonly mode: components["schemas"]["ModeResponse"];
+      /** @description Whether there is real-time data about this leg */
+      readonly real_time: boolean;
+      readonly rental?: null | components["schemas"]["RentalResponse"];
+      readonly route_color?: string | null;
+      readonly route_short_name?: string | null;
+      readonly route_text_color?: string | null;
+      readonly route_type?: string | null;
+      /**
+       * @description Whether this leg was originally scheduled to run or is an additional
+       *  service.
+       *  Scheduled times will equal realtime times in this case.
+       */
+      readonly scheduled: boolean;
+      /**
+       * Format: date-time
+       * @description scheduled leg arrival time
+       */
+      readonly scheduled_end_time: string;
+      /**
+       * Format: date-time
+       * @description scheduled leg departure time
+       */
+      readonly scheduled_start_time: string;
+      /** @description Filename and line number where this trip is from */
+      readonly source?: string | null;
+      /**
+       * Format: date-time
+       * @description leg departure time
+       */
+      readonly start_time: string;
+      /**
+       * @description A series of turn by turn instructions
+       * used for walking, biking and driving.
+       */
+      readonly steps?: readonly components["schemas"]["StepInstructionResponse"][];
+      readonly to: components["schemas"]["PlaceResponse"];
+      readonly trip_id?: string | null;
+    };
+    readonly MotisRoutingResponse: {
+      /** @description debug statistics */
+      readonly debug_output: {
+        [key: string]: number;
+      };
+      /**
+       * @description Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
+       *
+       *  The starting time (`arriveBy=false`) / arrival time
+       *  (`arriveBy=true`) is always the queried `time` parameter (set to
+       *  "now" if not set). But all `direct` connections are meant
+       *  to be independent of absolute times.
+       */
+      readonly direct: readonly components["schemas"]["ItineraryResponse"][];
+      /** @description list of itineraries */
+      readonly itineraries: readonly components["schemas"]["ItineraryResponse"][];
+      /**
+       * @description Use the cursor to get the next page of results.
+       *
+       * Insert the cursor
+       *  into the request and post it to get the next page.
+       *  The next page is a set of itineraries departing AFTER the last
+       *  itinerary in this result.
+       */
+      readonly next_page_cursor: string;
+      /**
+       * @description Use the cursor to get the previous page of results. Insert the
+       *  cursor into the request and post it to get the previous page.
+       *  The previous page is a set of itineraries departing BEFORE the first
+       *  itinerary in the result for a depart after search. When using the
+       *  default sort order the previous set of itineraries is inserted
+       *  before the current result.
+       */
+      readonly previous_page_cursor: string;
+    };
     readonly NearbyLocationsResponse: {
       readonly public_transport: readonly components["schemas"]["TransportationResponse"][];
     };
@@ -718,6 +1004,56 @@ export type components = {
        */
       readonly default?: number | null;
     };
+    readonly PlaceResponse: {
+      /** @description Alerts for this stop. */
+      readonly alerts?: readonly components["schemas"]["AlertResponse"][];
+      /**
+       * Format: date-time
+       * @description arrival time
+       */
+      readonly arrival?: string | null;
+      /** @description scheduled track from the static schedule timetable dataset */
+      readonly cancelled?: boolean | null;
+      /**
+       * Format: date-time
+       * @description departure time
+       */
+      readonly departure?: string | null;
+      /** @description description of the location that provides more detailed information */
+      readonly description?: string | null;
+      /** Format: double */
+      readonly lat: number;
+      /** Format: double */
+      readonly level: number;
+      /** Format: double */
+      readonly lon: number;
+      /** @description name of the transit stop / PoI / address */
+      readonly name: string;
+      /**
+       * Format: date-time
+       * @description Whether this stop is cancelled due to the realtime situation.
+       */
+      readonly scheduled_arrival?: string | null;
+      /**
+       * Format: date-time
+       * @description scheduled departure time
+       */
+      readonly scheduled_departure?: string | null;
+      /** @description scheduled arrival time */
+      readonly scheduled_track?: string | null;
+      /**
+       * @description The ID of the stop. This is often something that users don't care
+       *  about.
+       */
+      readonly stop_id?: string | null;
+      /**
+       * @description The current track/platform information, updated with real-time
+       *  updates if available. Can be missing if neither real-time
+       *  updates nor the schedule timetable contains track information.
+       */
+      readonly track?: string | null;
+      readonly vertex_type?: null | components["schemas"]["VertexTypeResponse"];
+    };
     /** @description A link with a localized link text and url */
     readonly PossibleURLRefResponse: {
       readonly text: string;
@@ -803,6 +1139,45 @@ export type components = {
        * @example https://nav.tum.de/api/maps/indoor/1234
        */
       readonly url: string;
+    };
+    /** @enum {string} */
+    readonly RentalFormFactorResponse:
+      | "Bicycle"
+      | "CargoBicycle"
+      | "Car"
+      | "Moped"
+      | "ScooterStanding"
+      | "ScooterSeated"
+      | "Other";
+    readonly RentalResponse: {
+      readonly form_factor?: null | components["schemas"]["RentalFormFactorResponse"];
+      /**
+       * @description Name of the station where the vehicle is picked up (empty for free
+       *  floating vehicles)
+       */
+      readonly from_station_name?: string | null;
+      /**
+       * @description Rental URI for Android (deep link to the specific station or
+       *  vehicle)
+       */
+      readonly rental_uri_android?: string | null;
+      /** @description Rental URI for iOS (deep link to the specific station or vehicle) */
+      readonly rental_uri_ios?: string | null;
+      /** @description Rental URI for web (deep link to the specific station or vehicle) */
+      readonly rental_uri_web?: string | null;
+      /** @description Name of the station */
+      readonly station_name?: string | null;
+      /** @description Vehicle share system ID */
+      readonly system_id: string;
+      /** @description Vehicle share system name */
+      readonly system_name?: string | null;
+      /**
+       * @description Name of the station where the vehicle is returned (empty for free
+       *  floating vehicles)
+       */
+      readonly to_station_name?: string | null;
+      /** @description URL of the vehicle share system */
+      readonly url?: string | null;
     };
     readonly ResultEntry: {
       /**
@@ -918,16 +1293,18 @@ export type components = {
       readonly count: number;
       readonly name: string;
     };
-    readonly RoutingResponse: {
-      /**
-       * @description A trip contains one (or more) legs.
-       *
-       * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
-       */
-      readonly legs: readonly [components["schemas"]["LegResponse"]];
-      /** @description Trip summary */
-      readonly summary: components["schemas"]["SummaryResponse"];
-    };
+    readonly RoutingResponse: OneOf<
+      [
+        components["schemas"]["ValhallaRoutingResponse"] & {
+          /** @enum {string} */
+          readonly router: "valhalla";
+        },
+        components["schemas"]["MotisRoutingResponse"] & {
+          /** @enum {string} */
+          readonly router: "motis";
+        },
+      ]
+    >;
     /** @description Returned search results by this */
     readonly SearchResponse: {
       readonly sections: readonly components["schemas"]["ResultsSection"][];
@@ -968,6 +1345,61 @@ export type components = {
        * If so, we should not display the source, as it is not the original source.
        */
       readonly patched?: boolean | null;
+    };
+    readonly StepInstructionResponse: {
+      /**
+       * @description Experimental. Indicates whether access to this part of the route is
+       * restricted.
+       * See: <https://wiki.openstreetmap.org/wiki/Conditional_restrictions>
+       */
+      readonly access_restriction?: string | null;
+      /**
+       * @description Not implemented!
+       * This step is on an open area, such as a plaza or train platform,
+       * and thus the directions should say something like "cross"
+       */
+      readonly area: boolean;
+      /** Format: double */
+      readonly distance: number;
+      /**
+       * Format: int64
+       * @description decline in meters across this path segment
+       */
+      readonly elevation_down?: number | null;
+      /**
+       * Format: int64
+       * @description incline in meters across this path segment
+       */
+      readonly elevation_up?: number | null;
+      /**
+       * @description Not implemented!
+       * When exiting a highway or traffic circle, the exit name/number.
+       */
+      readonly exit: string;
+      /** Format: double */
+      readonly from_level: number;
+      /**
+       * Format: int64
+       * @description OpenStreetMap way index
+       */
+      readonly osm_way?: number | null;
+      /** @description Polyline geometry (precision 6) of the leg. */
+      readonly polyline: string;
+      readonly relative_direction: components["schemas"]["DirectionResponse"];
+      /**
+       * @description Indicates whether or not a street changes direction at an
+       *  intersection.
+       */
+      readonly stay_on: boolean;
+      /** @description The name of the street. */
+      readonly street_name: string;
+      /** Format: double */
+      readonly to_level: number;
+      /**
+       * @description Indicates that a fee must be paid by general traffic to use a road,
+       *  road bridge or road tunnel.
+       */
+      readonly toll?: boolean | null;
     };
     readonly SummaryResponse: {
       /** @description if the path uses one or more ferry segments */
@@ -1149,6 +1581,23 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly ValhallaLegResponse: {
+      readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
+      readonly shape: readonly components["schemas"]["Coordinate"][];
+      readonly summary: components["schemas"]["SummaryResponse"];
+    };
+    readonly ValhallaRoutingResponse: {
+      /**
+       * @description A trip contains one (or more) legs.
+       *
+       * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+       */
+      readonly legs: readonly [components["schemas"]["ValhallaLegResponse"]];
+      /** @description Trip summary */
+      readonly summary: components["schemas"]["SummaryResponse"];
+    };
+    /** @enum {string} */
+    readonly VertexTypeResponse: "Normal" | "Bikeshare" | "Transit";
   };
   responses: never;
   parameters: never;

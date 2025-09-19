@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { operations } from "~/api_types";
+import type { components } from "~/api_types";
 
-type NavigationResponse =
-  operations["route_handler"]["responses"][200]["content"]["application/json"];
-defineProps<{ data: NavigationResponse }>();
+type ValhallaRoutingResponse = components["schemas"]["ValhallaRoutingResponse"];
+defineProps<{ data: ValhallaRoutingResponse }>();
 const emit = defineEmits<{
   selectManeuver: [id: { begin_shape_index: number; end_shape_index: number }];
 }>();

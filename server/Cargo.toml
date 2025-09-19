@@ -9,7 +9,7 @@ readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 default-run = "navigatum-server"
-rust-version = "1.85.0"
+rust-version = "1.90.0"
 
 [[bin]]
 name = "navigatum-server"
@@ -23,7 +23,7 @@ tracing = "0.1.41"
 tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
 tracing-actix-web = "0.7.15"
 
-# errors 
+# errors
 anyhow = { version = "1.0.95", features = ["backtrace"] }
 
 #serialisation
@@ -78,6 +78,7 @@ geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.6"
 valhalla-client = { version = "0.4.0", default-features = false }
+motis-openapi-progenitor = "0.2.2"
 
 # docs
 utoipa-actix-web = "0.1.2"
