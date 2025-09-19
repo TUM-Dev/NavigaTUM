@@ -47,8 +47,11 @@ const { data, status, error } = await useFetch<NavigationResponse>(
 );
 effect(() => {
   if (!data.value || !indoorMap.value) return;
-
-  indoorMap.value.drawRoute(data.value.legs[0].shape);
+  if (data.value.router == "valhalla")
+    indoorMap.value.drawRoute(data.value.legs[0].shape);
+  else if (data.value.router == "motis") {
+    throw new Error("Motis route drawing not implemented");
+  }
 });
 const title = computed(() => {
   if (!!selected_from.value && !!selected_to.value)
