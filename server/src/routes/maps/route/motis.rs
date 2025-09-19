@@ -58,7 +58,7 @@ pub struct ItineraryResponse {
     ///journey arrival time
     pub end_time: chrono::DateTime<chrono::offset::Utc>,
     ///Journey legs
-    pub legs: Vec<LegResponse>,
+    pub legs: Vec<MotisLegResponse>,
     ///journey departure time
     pub start_time: chrono::DateTime<chrono::offset::Utc>,
     ///The number of transfers this trip has.
@@ -70,7 +70,7 @@ impl From<Itinerary> for ItineraryResponse {
         ItineraryResponse {
             duration: value.duration,
             end_time: value.end_time,
-            legs: value.legs.into_iter().map(LegResponse::from).collect(),
+            legs: value.legs.into_iter().map(MotisLegResponse::from).collect(),
             start_time: value.start_time,
             transfer_count: value.transfers,
         }
@@ -78,7 +78,7 @@ impl From<Itinerary> for ItineraryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-pub struct LegResponse {
+pub struct MotisLegResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -177,10 +177,10 @@ pub struct LegResponse {
     pub trip_id: Option<String>,
 }
 
-impl From<Leg> for LegResponse {
+impl From<Leg> for MotisLegResponse {
     fn from(value: Leg) -> Self {
         assert_eq!(value.leg_geometry.precision, 6);
-        LegResponse {
+        MotisLegResponse {
             agency_id: value.agency_id,
             agency_name: value.agency_name,
             agency_url: value.agency_url,

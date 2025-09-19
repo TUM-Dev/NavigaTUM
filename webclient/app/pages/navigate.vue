@@ -19,32 +19,24 @@ const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">(
-  "mode",
-  "pedestrian",
-  {
-    mode: "replace",
-    route,
-    router,
-  }
-);
+const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", "pedestrian", {
+  mode: "replace",
+  route,
+  router,
+});
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse =
-  operations["route_handler"]["responses"][200]["content"]["application/json"];
-const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
-  {
-    query: {
-      lang: locale as Ref<RequestQuery["lang"]>,
-      from: selected_from as Ref<RequestQuery["from"]>,
-      to: selected_to as Ref<RequestQuery["to"]>,
-      route_costing: mode as Ref<RequestQuery["route_costing"]>,
-      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-      ptw_type: undefined as RequestQuery["ptw_type"],
-      bicycle_type: undefined as RequestQuery["bicycle_type"],
-    },
-  }
-);
+type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
+const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
+  query: {
+    lang: locale as Ref<RequestQuery["lang"]>,
+    from: selected_from as Ref<RequestQuery["from"]>,
+    to: selected_to as Ref<RequestQuery["to"]>,
+    route_costing: mode as Ref<RequestQuery["route_costing"]>,
+    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+    ptw_type: undefined as RequestQuery["ptw_type"],
+    bicycle_type: undefined as RequestQuery["bicycle_type"],
+  },
+});
 effect(() => {
   if (!data.value || !indoorMap.value) return;
 
@@ -68,14 +60,10 @@ const description = computed(() => {
   const length_kilometers = (length_meters / 1000).toFixed(1);
   const time_seconds = data.value.summary.time_seconds;
   const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-  return t(
-    data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length",
-    {
-      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-      length:
-        length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-    }
-  );
+  return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
+    time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+    length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+  });
 });
 useSeoMeta({
   title: title,
@@ -94,7 +82,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
+    [Math.min(...latitudes), Math.max(...latitudes)],
   );
 }
 
@@ -104,7 +92,9 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
 </script>
 
 <template>
-  <div class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse">
+  <div
+    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse"
+  >
     <div class="min-h-96 grow">
       <ClientOnly>
         <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
@@ -127,7 +117,11 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
       </form>
-      <NavigationRoutingResults v-if="status === 'success' && !!data" :data="data" @select-maneuver="handleSelectManeuver" />
+      <ValhallaNavigationRoutingResults
+        v-if="status === 'success' && data?.router === 'valhalla'"
+        :data="data"
+        @select-maneuver="handleSelectManeuver"
+      />
       <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}

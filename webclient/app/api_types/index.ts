@@ -501,7 +501,7 @@ export type components = {
        */
       readonly end_time: string;
       /** @description Journey legs */
-      readonly legs: readonly components["schemas"]["LegResponse"][];
+      readonly legs: readonly components["schemas"]["ValhallaLegResponse"][];
       /**
        * Format: date-time
        * @description journey departure time
@@ -513,7 +513,7 @@ export type components = {
        */
       readonly transfer_count: number;
     };
-    readonly LegResponse: {
+    readonly ValhallaLegResponse: {
       readonly agency_id?: string | null;
       readonly agency_name?: string | null;
       readonly agency_url?: string | null;

@@ -12,14 +12,14 @@ pub struct ValhallaRoutingResponse {
     ///
     /// A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
     #[schema(min_items = 1, max_items = 1)]
-    legs: Vec<LegResponse>,
+    legs: Vec<ValhallaLegResponse>,
     /// Trip summary
     summary: SummaryResponse,
 }
 impl From<Trip> for ValhallaRoutingResponse {
     fn from(value: Trip) -> Self {
         ValhallaRoutingResponse {
-            legs: value.legs.into_iter().map(LegResponse::from).collect(),
+            legs: value.legs.into_iter().map(ValhallaLegResponse::from).collect(),
             summary: SummaryResponse::from(value.summary),
         }
     }
@@ -68,14 +68,14 @@ impl From<Summary> for SummaryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
-pub struct LegResponse {
+pub struct ValhallaLegResponse {
     summary: SummaryResponse,
     maneuvers: Vec<ManeuverResponse>,
     shape: Vec<Coordinate>,
 }
-impl From<Leg> for LegResponse {
+impl From<Leg> for ValhallaLegResponse {
     fn from(value: Leg) -> Self {
-        LegResponse {
+        ValhallaLegResponse {
             summary: SummaryResponse::from(value.summary),
             maneuvers: value
                 .maneuvers
