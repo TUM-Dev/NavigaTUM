@@ -19,24 +19,32 @@ const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", "pedestrian", {
-  mode: "replace",
-  route,
-  router,
-});
+const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">(
+  "mode",
+  "pedestrian",
+  {
+    mode: "replace",
+    route,
+    router,
+  }
+);
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
-const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
-  query: {
-    lang: locale as Ref<RequestQuery["lang"]>,
-    from: selected_from as Ref<RequestQuery["from"]>,
-    to: selected_to as Ref<RequestQuery["to"]>,
-    route_costing: mode as Ref<RequestQuery["route_costing"]>,
-    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-    ptw_type: undefined as RequestQuery["ptw_type"],
-    bicycle_type: undefined as RequestQuery["bicycle_type"],
-  },
-});
+type NavigationResponse =
+  operations["route_handler"]["responses"][200]["content"]["application/json"];
+const { data, status, error } = await useFetch<NavigationResponse>(
+  "https://nav.tum.de/api/maps/route",
+  {
+    query: {
+      lang: locale as Ref<RequestQuery["lang"]>,
+      from: selected_from as Ref<RequestQuery["from"]>,
+      to: selected_to as Ref<RequestQuery["to"]>,
+      route_costing: mode as Ref<RequestQuery["route_costing"]>,
+      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+      ptw_type: undefined as RequestQuery["ptw_type"],
+      bicycle_type: undefined as RequestQuery["bicycle_type"],
+    },
+  }
+);
 effect(() => {
   if (!data.value || !indoorMap.value) return;
   if (data.value.router == "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
@@ -60,18 +68,23 @@ const description = computed(() => {
     const length_kilometers = (length_meters / 1000).toFixed(1);
     const time_seconds = data.value.summary.time_seconds;
     const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-    return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
-      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-      length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-    });
-  } else if (data.value?.router === "motis") {
+    return t(
+      data.value.summary.has_highway
+        ? "description_highway_time_length"
+        : "description_time_length",
+      {
+        time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+        length:
+          length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+      }
+    );
+  }if (data.value?.router === "motis") {
     const length_meters = data.value.itineraries.length;
     return t("description_public_transport", {
       itinerary_count: data.value.itineraries.length,
     });
-  } else {
-    return t("description");
   }
+    return t("description");
 });
 useSeoMeta({
   title: title,
@@ -90,7 +103,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)],
+    [Math.min(...latitudes), Math.max(...latitudes)]
   );
 }
 
