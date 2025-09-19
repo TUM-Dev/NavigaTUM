@@ -119,7 +119,7 @@ impl From<&RoutingRequest> for Costing {
 
 #[derive(Deserialize, Debug, utoipa::ToSchema, utoipa::IntoParams)]
 pub struct RoutingRequest {
-    #[serde(flatten, default)]
+    #[serde(default)]
     #[param(inline)]
     lang: localisation::LanguageOptions,
     /// Start of the route

@@ -21,9 +21,9 @@ impl Display for LanguageOptions {
 #[derive(
     Deserialize, Serialize, Copy, Clone, Debug, Eq, PartialEq, Default, utoipa::IntoParams,
 )]
-#[serde(default)]
 pub struct LangQueryArgs {
     /// The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+    #[serde(default)]
     #[param(inline)]
     pub lang: LanguageOptions,
 }
