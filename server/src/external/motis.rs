@@ -7,8 +7,8 @@ pub struct MotisWrapper(Client);
 
 impl Default for MotisWrapper {
     fn default() -> Self {
-        let base_url = std::env::var("MOTIS_URL")
-            .unwrap_or_else(|_| "https://api.transitous.org/api/".to_string());
+        let base_url =
+            std::env::var("MOTIS_URL").unwrap_or_else(|_| "https://api.transitous.org".to_string());
         MotisWrapper(Client::new(&base_url))
     }
 }
