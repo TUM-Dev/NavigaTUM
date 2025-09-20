@@ -224,6 +224,7 @@ impl From<Leg> for MotisLegResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum ModeResponse {
     Walk,
     Bike,
@@ -337,6 +338,7 @@ pub mod rental {
         }
     }
     #[derive(Serialize, Debug, utoipa::ToSchema)]
+    #[serde(rename_all = "snake_case")]
     pub enum RentalFormFactorResponse {
         Bicycle,
         CargoBicycle,
@@ -421,6 +423,7 @@ impl From<StepInstruction> for StepInstructionResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum DirectionResponse {
     Depart,
     HardLeft,
@@ -530,6 +533,7 @@ impl From<Place> for PlaceResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum VertexTypeResponse {
     ///  latitude / longitude coordinate or address
     Normal,
@@ -609,30 +613,19 @@ impl From<Alert> for AlertResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum AlertCauseResponse {
-    #[serde(rename = "UNKNOWN_CAUSE")]
     UnknownCause,
-    #[serde(rename = "OTHER_CAUSE")]
     OtherCause,
-    #[serde(rename = "TECHNICAL_PROBLEM")]
     TechnicalProblem,
-    #[serde(rename = "STRIKE")]
     Strike,
-    #[serde(rename = "DEMONSTRATION")]
     Demonstration,
-    #[serde(rename = "ACCIDENT")]
     Accident,
-    #[serde(rename = "HOLIDAY")]
     Holiday,
-    #[serde(rename = "WEATHER")]
     Weather,
-    #[serde(rename = "MAINTENANCE")]
     Maintenance,
-    #[serde(rename = "CONSTRUCTION")]
     Construction,
-    #[serde(rename = "POLICE_ACTIVITY")]
     PoliceActivity,
-    #[serde(rename = "MEDICAL_EMERGENCY")]
     MedicalEmergency,
 }
 impl From<AlertCause> for AlertCauseResponse {
@@ -655,28 +648,18 @@ impl From<AlertCause> for AlertCauseResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum AlertEffectResponse {
-    #[serde(rename = "NO_SERVICE")]
     NoService,
-    #[serde(rename = "REDUCED_SERVICE")]
     ReducedService,
-    #[serde(rename = "SIGNIFICANT_DELAYS")]
     SignificantDelays,
-    #[serde(rename = "DETOUR")]
     Detour,
-    #[serde(rename = "ADDITIONAL_SERVICE")]
     AdditionalService,
-    #[serde(rename = "MODIFIED_SERVICE")]
     ModifiedService,
-    #[serde(rename = "OTHER_EFFECT")]
     OtherEffect,
-    #[serde(rename = "UNKNOWN_EFFECT")]
     UnknownEffect,
-    #[serde(rename = "STOP_MOVED")]
     StopMoved,
-    #[serde(rename = "NO_EFFECT")]
     NoEffect,
-    #[serde(rename = "ACCESSIBILITY_ISSUE")]
     AccessibilityIssue,
 }
 impl From<AlertEffect> for AlertEffectResponse {
@@ -698,14 +681,11 @@ impl From<AlertEffect> for AlertEffectResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum AlertSeverityLevelResponse {
-    #[serde(rename = "UNKNOWN_SEVERITY")]
     Unknown,
-    #[serde(rename = "INFO")]
     Info,
-    #[serde(rename = "WARNING")]
     Warning,
-    #[serde(rename = "SEVERE")]
     Severe,
 }
 
