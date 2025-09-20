@@ -176,31 +176,31 @@ export type components = {
   schemas: {
     /** @enum {string} */
     readonly AlertCauseResponse:
-      | "UNKNOWN_CAUSE"
-      | "OTHER_CAUSE"
-      | "TECHNICAL_PROBLEM"
-      | "STRIKE"
-      | "DEMONSTRATION"
-      | "ACCIDENT"
-      | "HOLIDAY"
-      | "WEATHER"
-      | "MAINTENANCE"
-      | "CONSTRUCTION"
-      | "POLICE_ACTIVITY"
-      | "MEDICAL_EMERGENCY";
+      | "unknown_cause"
+      | "other_cause"
+      | "technical_problem"
+      | "strike"
+      | "demonstration"
+      | "accident"
+      | "holiday"
+      | "weather"
+      | "maintenance"
+      | "construction"
+      | "police_activity"
+      | "medical_emergency";
     /** @enum {string} */
     readonly AlertEffectResponse:
-      | "NO_SERVICE"
-      | "REDUCED_SERVICE"
-      | "SIGNIFICANT_DELAYS"
-      | "DETOUR"
-      | "ADDITIONAL_SERVICE"
-      | "MODIFIED_SERVICE"
-      | "OTHER_EFFECT"
-      | "UNKNOWN_EFFECT"
-      | "STOP_MOVED"
-      | "NO_EFFECT"
-      | "ACCESSIBILITY_ISSUE";
+      | "no_service"
+      | "reduced_service"
+      | "significant_delays"
+      | "detour"
+      | "additional_service"
+      | "modified_service"
+      | "other_effect"
+      | "unknown_effect"
+      | "stop_moved"
+      | "no_effect"
+      | "accessibility_issue";
     readonly AlertResponse: {
       readonly cause?: null | components["schemas"]["AlertCauseResponse"];
       /**
@@ -246,7 +246,7 @@ export type components = {
       readonly url?: string | null;
     };
     /** @enum {string} */
-    readonly AlertSeverityLevelResponse: "UNKNOWN_SEVERITY" | "INFO" | "WARNING" | "SEVERE";
+    readonly AlertSeverityLevelResponse: "unknown" | "info" | "warning" | "severe";
     readonly Arguments: {
       /**
        * Format: date-time
@@ -363,20 +363,20 @@ export type components = {
     readonly DefaultMapsResponse: "interactive" | "roomfinder";
     /** @enum {string} */
     readonly DirectionResponse:
-      | "Depart"
-      | "HardLeft"
-      | "Left"
-      | "SlightlyLeft"
-      | "Continue"
-      | "SlightlyRight"
-      | "Right"
-      | "HardRight"
-      | "CircleClockwise"
-      | "CircleCounterclockwise"
-      | "Stairs"
-      | "Elevator"
-      | "UturnLeft"
-      | "UturnRight";
+      | "depart"
+      | "hard_left"
+      | "left"
+      | "slightly_left"
+      | "continue"
+      | "slightly_right"
+      | "right"
+      | "hard_right"
+      | "circle_clockwise"
+      | "circle_counterclockwise"
+      | "stairs"
+      | "elevator"
+      | "uturn_left"
+      | "uturn_right";
     readonly EditRequest: {
       /**
        * @description Additional context for the edit.
@@ -742,31 +742,31 @@ export type components = {
     };
     /** @enum {string} */
     readonly ModeResponse:
-      | "Walk"
-      | "Bike"
-      | "Rental"
-      | "Car"
-      | "CarParking"
-      | "Odm"
-      | "Flex"
-      | "Transit"
-      | "Tram"
-      | "Subway"
-      | "Ferry"
-      | "Airplane"
-      | "Metro"
-      | "Bus"
-      | "Coach"
-      | "Rail"
-      | "HighspeedRail"
-      | "LongDistance"
-      | "NightRail"
-      | "RegionalFastRail"
-      | "RegionalRail"
-      | "CableCar"
-      | "Funicular"
-      | "ArealLift"
-      | "Other";
+      | "walk"
+      | "bike"
+      | "rental"
+      | "car"
+      | "car_parking"
+      | "odm"
+      | "flex"
+      | "transit"
+      | "tram"
+      | "subway"
+      | "ferry"
+      | "airplane"
+      | "metro"
+      | "bus"
+      | "coach"
+      | "rail"
+      | "highspeed_rail"
+      | "long_distance"
+      | "night_rail"
+      | "regional_fast_rail"
+      | "regional_rail"
+      | "cable_car"
+      | "funicular"
+      | "areal_lift"
+      | "other";
     readonly MotisLegResponse: {
       readonly agency_id?: string | null;
       readonly agency_name?: string | null;
@@ -1142,13 +1142,13 @@ export type components = {
     };
     /** @enum {string} */
     readonly RentalFormFactorResponse:
-      | "Bicycle"
-      | "CargoBicycle"
-      | "Car"
-      | "Moped"
-      | "ScooterStanding"
-      | "ScooterSeated"
-      | "Other";
+      | "bicycle"
+      | "cargo_bicycle"
+      | "car"
+      | "moped"
+      | "scooter_standing"
+      | "scooter_seated"
+      | "other";
     readonly RentalResponse: {
       readonly form_factor?: null | components["schemas"]["RentalFormFactorResponse"];
       /**
@@ -1597,7 +1597,7 @@ export type components = {
       readonly summary: components["schemas"]["SummaryResponse"];
     };
     /** @enum {string} */
-    readonly VertexTypeResponse: "Normal" | "Bikeshare" | "Transit";
+    readonly VertexTypeResponse: "normal" | "bikeshare" | "transit";
   };
   responses: never;
   parameters: never;

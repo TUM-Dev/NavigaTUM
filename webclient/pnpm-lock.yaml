@@ -29,6 +29,9 @@ importers:
       '@heroicons/vue':
         specifier: 2.2.0
         version: 2.2.0(vue@3.5.21(typescript@5.9.2))
+      '@mdi/js':
+        specifier: ^7.4.47
+        version: 7.4.47
       '@nuxt/content':
         specifier: 3.7.1
         version: 3.7.1(better-sqlite3@12.2.0)(magicast@0.3.5)
@@ -1038,6 +1041,9 @@ packages:
 
   '@maplibre/vt-pbf@4.0.3':
     resolution: {integrity: sha512-YsW99BwnT+ukJRkseBcLuZHfITB4puJoxnqPVjo72rhW/TaawVYsgQHcqWLzTxqknttYoDpgyERzWSa/XrETdA==}
+
+  '@mdi/js@7.4.47':
+    resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
 
   '@miyaneee/rollup-plugin-json5@1.2.0':
     resolution: {integrity: sha512-JjTIaXZp9WzhUHpElrqPnl1AzBi/rvRs065F71+aTmlqvTMVkdbjZ8vfFl4nRlgJy+TPBw69ZK4pwFdmOAt4aA==}
@@ -6729,6 +6735,8 @@ snapshots:
       geojson-vt: 4.0.2
       pbf: 4.0.1
       supercluster: 8.0.1
+
+  '@mdi/js@7.4.47': {}
 
   '@miyaneee/rollup-plugin-json5@1.2.0(rollup@4.50.2)':
     dependencies:
