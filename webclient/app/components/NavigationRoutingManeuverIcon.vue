@@ -1,25 +1,26 @@
 <script setup lang="ts">
 import {
-  ArrowLeftEndOnRectangleIcon,
-  ArrowLeftIcon,
-  ArrowLeftStartOnRectangleIcon,
-  ArrowPathIcon,
-  ArrowRightIcon,
-  ArrowsUpDownIcon,
-  ArrowTurnUpLeftIcon,
-  ArrowTurnUpRightIcon,
-  ArrowUpCircleIcon,
-  ArrowUpIcon,
-  ArrowUpLeftIcon,
-  ArrowUpRightIcon,
-  ArrowUturnLeftIcon,
-  ArrowUturnRightIcon,
-  ChevronDoubleDownIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  MapPinIcon,
-  TicketIcon,
-} from "@heroicons/vue/24/outline";
+  mdiArrowLeft,
+  mdiArrowLeftTop,
+  mdiArrowRight,
+  mdiArrowTopLeft,
+  mdiArrowTopRight,
+  mdiArrowULeftTop,
+  mdiArrowUp,
+  mdiArrowUpCircle,
+  mdiArrowUpDown,
+  mdiArrowUpLeft,
+  mdiArrowUpRight,
+  mdiArrowURightTop,
+  mdiChevronDoubleDown,
+  mdiChevronDoubleLeft,
+  mdiChevronDoubleRight,
+  mdiExitToApp,
+  mdiLogin,
+  mdiMapMarker,
+  mdiRefresh,
+  mdiTicket,
+} from "@mdi/js";
 import type { components } from "~/api_types";
 
 type ManeuverTypeResponse = components["schemas"]["ManeuverTypeResponse"];
@@ -28,15 +29,19 @@ defineProps<{ type: ManeuverTypeResponse }>();
 
 <template>
   <div class="text-zinc-900 min-w-11 rounded-full p-2">
-    <ArrowLeftEndOnRectangleIcon v-if="type === 'building_exit' || type === 'exit_left'" class="mx-auto h-7 w-7" />
-    <ArrowLeftEndOnRectangleIcon v-else-if="type === 'exit_right'" class="mx-auto h-7 w-7 scale-x-[-1]" />
-    <ArrowLeftStartOnRectangleIcon v-else-if="type === 'building_enter'" class="mx-auto h-7 w-7" />
-    <ArrowsUpDownIcon
+    <MdiIcon :path="mdiExitToApp" :size="28" v-if="type === 'building_exit' || type === 'exit_left'" class="mx-auto" />
+    <MdiIcon :path="mdiExitToApp" :size="28" v-else-if="type === 'exit_right'" class="mx-auto scale-x-[-1]" />
+    <MdiIcon :path="mdiLogin" :size="28" v-else-if="type === 'building_enter'" class="mx-auto" />
+    <MdiIcon
+      :path="mdiArrowUpDown"
+      :size="28"
       v-else-if="type === 'elevator_enter' || type === 'escalator_enter' || type === 'steps_enter'"
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
 
-    <TicketIcon
+    <MdiIcon
+      :path="mdiTicket"
+      :size="28"
       v-else-if="
         type === 'transit' ||
         type === 'transit_transfer' ||
@@ -48,35 +53,53 @@ defineProps<{ type: ManeuverTypeResponse }>();
         type === 'ferry_enter' ||
         type === 'ferry_exit'
       "
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
 
-    <ArrowTurnUpLeftIcon v-else-if="type === 'left' || type === 'sharp_left'" class="mx-auto h-7 w-7" />
-    <ArrowTurnUpRightIcon v-else-if="type === 'right' || type === 'sharp_right'" class="mx-auto h-7 w-7" />
-    <ArrowUpIcon
+    <MdiIcon :path="mdiArrowTopLeft" :size="28" v-else-if="type === 'left' || type === 'sharp_left'" class="mx-auto" />
+    <MdiIcon
+      :path="mdiArrowTopRight"
+      :size="28"
+      v-else-if="type === 'right' || type === 'sharp_right'"
+      class="mx-auto"
+    />
+    <MdiIcon
+      :path="mdiArrowUp"
+      :size="28"
       v-else-if="type === 'start' || type === 'becomes' || type === 'stay_straight' || type === 'ramp_straight'"
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
-    <ChevronDoubleLeftIcon v-else-if="type === 'merge_left'" class="mx-auto h-7 w-7" />
-    <ChevronDoubleRightIcon v-else-if="type === 'merge_right'" class="mx-auto h-7 w-7" />
-    <ChevronDoubleDownIcon v-else-if="type === 'merge'" class="mx-auto h-7 w-7" />
-    <ArrowUpRightIcon
+    <MdiIcon :path="mdiChevronDoubleLeft" :size="28" v-else-if="type === 'merge_left'" class="mx-auto" />
+    <MdiIcon :path="mdiChevronDoubleRight" :size="28" v-else-if="type === 'merge_right'" class="mx-auto" />
+    <MdiIcon :path="mdiChevronDoubleDown" :size="28" v-else-if="type === 'merge'" class="mx-auto" />
+    <MdiIcon
+      :path="mdiArrowUpRight"
+      :size="28"
       v-else-if="type === 'slight_right' || type === 'stay_right' || type === 'ramp_right'"
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
-    <ArrowUpLeftIcon
+    <MdiIcon
+      :path="mdiArrowUpLeft"
+      :size="28"
       v-else-if="type === 'slight_left' || type === 'stay_left' || type === 'ramp_left'"
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
-    <ArrowPathIcon v-else-if="type === 'roundabout_enter' || type === 'roundabout_exit'" class="mx-auto h-7 w-7" />
-    <ArrowUturnRightIcon v-else-if="type === 'uturn_right'" class="mx-auto h-7 w-7" />
-    <ArrowUturnLeftIcon v-else-if="type === 'uturn_left'" class="mx-auto h-7 w-7" />
-    <ArrowUpCircleIcon v-else-if="type === 'continue'" class="mx-auto h-7 w-7" />
-    <ArrowLeftIcon v-else-if="type === 'start_left'" class="mx-auto h-7 w-7" />
-    <ArrowRightIcon v-else-if="type === 'start_right'" class="mx-auto h-7 w-7" />
-    <MapPinIcon
+    <MdiIcon
+      :path="mdiRefresh"
+      :size="28"
+      v-else-if="type === 'roundabout_enter' || type === 'roundabout_exit'"
+      class="mx-auto"
+    />
+    <MdiIcon :path="mdiArrowURightTop" :size="28" v-else-if="type === 'uturn_right'" class="mx-auto" />
+    <MdiIcon :path="mdiArrowULeftTop" :size="28" v-else-if="type === 'uturn_left'" class="mx-auto" />
+    <MdiIcon :path="mdiArrowUpCircle" :size="28" v-else-if="type === 'continue'" class="mx-auto" />
+    <MdiIcon :path="mdiArrowLeft" :size="28" v-else-if="type === 'start_left'" class="mx-auto" />
+    <MdiIcon :path="mdiArrowRight" :size="28" v-else-if="type === 'start_right'" class="mx-auto" />
+    <MdiIcon
+      :path="mdiMapMarker"
+      :size="28"
       v-else-if="type === 'destination' || type === 'destination_left' || type === 'destination_right'"
-      class="mx-auto h-7 w-7"
+      class="mx-auto"
     />
     <div v-else>{{ type }}</div>
   </div>

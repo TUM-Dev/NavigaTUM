@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/20/solid";
-import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
+import { mdiMonitor, mdiMoonWaningCrescent, mdiTune, mdiWhiteBalanceSunny } from "@mdi/js";
 import SelectionOption from "~/components/SelectionOption.vue";
 
 const colorMode = useColorMode();
@@ -28,7 +27,7 @@ async function updateLocale(value: "de" | "en") {
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>
-        <AdjustmentsHorizontalIcon class="text-zinc-900 h-7 w-7" />
+        <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900" />
       </MenuButton>
     </div>
     <Transition
@@ -45,15 +44,15 @@ async function updateLocale(value: "de" | "en") {
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
           <SelectionSwitch v-model="colorMode.preference" label="Theme">
             <SelectionOption value="system">
-              <ComputerDesktopIcon class="mt-0.5 h-4 w-4" />
+              <MdiIcon :path="mdiMonitor" :size="16" class="mt-0.5" />
               system
             </SelectionOption>
             <SelectionOption value="dark">
-              <MoonIcon class="mb-0.5 h-4 w-4" />
+              <MdiIcon :path="mdiMoonWaningCrescent" :size="16" class="mb-0.5" />
               dark
             </SelectionOption>
             <SelectionOption value="light">
-              <SunIcon class="h-4 w-4" />
+              <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
               light
             </SelectionOption>
           </SelectionSwitch>

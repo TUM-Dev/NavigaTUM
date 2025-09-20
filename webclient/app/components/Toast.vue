@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { mdiClose } from "@mdi/js";
 
 withDefaults(
   defineProps<{
@@ -38,7 +38,7 @@ const { t } = useI18n({ useScope: "local" });
       class="group text-zinc-800 p-2 hover:text-blue-800"
       @click.prevent="() => shown.push(id)"
     >
-      <XMarkIcon v-if="dismissable" class="h-4 w-4 stroke-1 group-hover:stroke-2" />
+      <MdiIcon v-if="dismissable" :path="mdiClose" :size="16" />
     </button>
   </div>
 </template>

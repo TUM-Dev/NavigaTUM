@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
-import {
-  CheckIcon,
-  ChevronUpDownIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  MapPinIcon,
-} from "@heroicons/vue/24/outline";
+import { mdiCheck, mdiFilter, mdiMagnify, mdiMapMarker, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { useVirtualList } from "@vueuse/core";
 import type { components } from "~/api_types";
 
@@ -66,11 +60,11 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
           class="focusable text-zinc-600 bg-zinc-200 border-zinc-400 relative w-full rounded-sm border py-2 pr-10 text-left sm:text-sm"
         >
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <FunnelIcon class="h-4 w-4" />
+            <MdiIcon :path="mdiFilter" :size="16" />
           </span>
           <span class="block truncate ps-8">{{ selectedRooms.label }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon class="h-5 w-5" />
+            <MdiIcon :path="mdiUnfoldMoreHorizontal" :size="20" />
           </span>
         </ListboxButton>
 
@@ -94,7 +88,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
                 :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
                 <span v-if="selected" class="text-blue-600 my-auto">
-                  <CheckIcon class="h-5 w-5" />
+                  <MdiIcon :path="mdiCheck" :size="20" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
                   <span
@@ -122,7 +116,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
                 :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
                 <span v-if="selected" class="text-blue-600 my-auto">
-                  <CheckIcon class="h-5 w-5" />
+                  <MdiIcon :path="mdiCheck" :size="20" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
                   <span
@@ -141,7 +135,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
         </Transition>
       </Listbox>
       <div class="bg-zinc-200 border-zinc-400 z-0 flex w-full shrink items-center border">
-        <MagnifyingGlassIcon class="text-zinc-600 h-4 w-6 pl-2" aria-hidden="true" />
+        <MdiIcon :path="mdiMagnify" :size="24" class="text-zinc-600 pl-2" aria-hidden="true" />
         <textarea
           id="search-input"
           v-model="search"
@@ -174,7 +168,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
               :to="`/view/${room.data.id}`"
               class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-blue-500"
             >
-              <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
+              <MdiIcon :path="mdiMapMarker" :size="16" class="my-auto" aria-hidden="true" />
               {{ room.data.name }}
             </NuxtLinkLocale>
           </li>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ClipboardDocumentCheckIcon, ClipboardIcon } from "@heroicons/vue/20/solid";
-import { ShareIcon } from "@heroicons/vue/24/outline";
+import { mdiClipboard, mdiClipboardCheck, mdiShare } from "@mdi/js";
 import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
@@ -37,7 +36,7 @@ const shareOptions = () =>
     class="focusable rounded-sm"
     @click="modalOpen = true"
   >
-    <ShareIcon class="text-blue-600 h-7 w-7 hover:text-blue-900" />
+    <MdiIcon :path="mdiShare" :size="28" class="text-blue-600 hover:text-blue-900" />
   </button>
   <ClientOnly>
     <LazyModal v-model="modalOpen" :title="t('share')">
@@ -59,12 +58,12 @@ const shareOptions = () =>
         <div class="flex flex-col gap-2">
           <h3 class="text-md text-zinc-600 font-semibold">{{ t("share") }}</h3>
           <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
-            <ShareIcon v-if="copied" class="my-auto h-4 w-4" />
+            <MdiIcon :path="mdiShare" :size="24" v-if="copied" class="my-auto h-4 w-4" />
             {{ t("share_link") }}
           </Btn>
           <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
-            <ClipboardDocumentCheckIcon v-if="copied" class="my-auto h-4 w-4" />
-            <ClipboardIcon v-else class="my-auto h-4 w-4" />
+            <MdiIcon :path="mdiClipboardCheck" :size="24" v-if="copied" class="my-auto h-4 w-4" />
+            <MdiIcon :path="mdiClipboard" :size="24" v-else class="my-auto h-4 w-4" />
             {{ copied ? t("copied") : t("copy_link") }}
           </Btn>
         </div>

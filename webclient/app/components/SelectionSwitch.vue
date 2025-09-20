@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Listbox, ListboxButton, ListboxOptions } from "@headlessui/vue";
-import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
+import { mdiUnfoldMoreHorizontal } from "@mdi/js";
 
 interface Props {
   label?: string;
@@ -20,7 +20,7 @@ const model = defineModel<string>({ required: true });
         >
           <span class="text-zinc-600 block truncate">{{ model }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon class="text-zinc-600 h-5 w-5" aria-hidden="true" />
+            <MdiIcon :path="mdiUnfoldMoreHorizontal" :size="20" class="text-zinc-600" aria-hidden="true" />
           </span>
         </ListboxButton>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronLeftIcon } from "@heroicons/vue/16/solid";
+import { mdiChevronLeft } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { Ref } from "vue";
 import { useTemplateRef } from "vue";
@@ -130,7 +130,7 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
         class="focusable text-blue-400 rounded-md pb-2 hover:text-blue-500 hover:underline"
       >
         <div class="my-auto flex flex-row gap-2">
-          <ChevronLeftIcon class="h-4 w-4" />
+          <MdiIcon :path="mdiChevronLeft" :size="16" />
           <span class="text-xs font-semibold uppercase">{{ t("back") }}</span>
         </div>
       </NuxtLinkLocale>

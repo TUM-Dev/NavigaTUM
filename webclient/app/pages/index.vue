@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { MapPinIcon } from "@heroicons/vue/24/outline";
 import {
-  ArrowRightIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-} from "@heroicons/vue/24/solid";
+  mdiArrowRight,
+  mdiChevronDown,
+  mdiChevronRight,
+  mdiChevronUp,
+  mdiMapMarker,
+} from "@mdi/js";
 import type { components } from "~/api_types";
 
 /**
@@ -107,7 +107,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
   <div class="flex flex-col justify-between gap-3 pt-6">
     <AppToasts />
     <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
-    <!-- <NuxtLink :to="localePath('#')" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
+    <!-- <NuxtLink :to="localePath('#')" class="flex flex-row"><MdiIcon :path="mdiMapMarker" :size="16" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>
   <div class="mt-5">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -124,7 +124,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
             <h2 class="text-md font-semibold">{{ site.name }}</h2>
-            <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
+            <MdiIcon :path="mdiArrowRight" :size="24" v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </NuxtLink>
           <h2 v-else class="text-md text-zinc-700 font-semibold">{{ site.name }}</h2>
         </div>
@@ -137,10 +137,10 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             class="focusable text-blue-600 flex flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
             <div class="flex flex-row gap-2">
-              <MapPinIcon class="my-auto h-4 w-5" />
+              <MdiIcon :path="mdiMapMarker" :size="24" class="my-auto" />
               <span>{{ c.name }}</span>
             </div>
-            <ChevronRightIcon class="my-auto hidden h-4 w-4 sm:block" />
+            <MdiIcon :path="mdiChevronRight" :size="16" class="my-auto hidden sm:block" />
           </NuxtLink>
           <div v-if="site.children.length > site.n_visible" class="mx-auto">
             <Btn
@@ -149,11 +149,11 @@ const openPanels = ref<(boolean | undefined)[]>([]);
               :aria-label="t('less_aria')"
               @click="() => (openPanels[siteIndex] = false)"
             >
-              <ChevronUpIcon class="h-4 w-4" />
+              <MdiIcon :path="mdiChevronUp" :size="16" />
               {{ t("less") }}
             </Btn>
             <Btn v-else variant="linkButton" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
-              <ChevronDownIcon class="my-auto h-4 w-4" />
+              <MdiIcon :path="mdiChevronDown" :size="16" class="my-auto" />
               {{ t("more") }}
             </Btn>
           </div>

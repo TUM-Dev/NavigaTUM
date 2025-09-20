@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowTopRightOnSquareIcon, InformationCircleIcon } from "@heroicons/vue/24/outline";
+import { mdiInformation, mdiOpenInNew } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type Props = components["schemas"]["PropsResponse"];
@@ -20,7 +20,7 @@ const { t } = useI18n({ useScope: "local" });
       <span>{{ prop.text }}</span>
       <TinyModal v-if="prop.extra?.body" :content="prop.extra">
         <template #icon>
-          <InformationCircleIcon class="h-4 w-4" />
+          <MdiIcon :path="mdiInformation" :size="16" />
         </template>
       </TinyModal>
     </p>
@@ -44,7 +44,7 @@ const { t } = useI18n({ useScope: "local" });
           variant="secondary"
           :to="link.url"
         >
-          <ArrowTopRightOnSquareIcon class="my-auto h-5 min-h-5 w-5 min-w-5 pb-0.5" />
+          <MdiIcon :path="mdiOpenInNew" :size="20" class="my-auto min- min- pb-0.5" />
           {{ link.text }}
         </Btn>
       </li>
