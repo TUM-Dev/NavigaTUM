@@ -19,7 +19,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">(
+const mode = useRouteQuery<RequestQuery["route_costing"]>(
   "mode",
   "pedestrian",
   {
