@@ -157,14 +157,10 @@ const formatDelay = (delayMinutes: number) => {
                     <div class="text-zinc-500 text-sm flex items-center gap-1">
                       {{ formatTime(leg.start_time) }}
                       <span
-                        v-if="leg.scheduled_start_time"
+                        v-if="calculateDelay(leg.scheduled_start_time, leg.start_time)"
                         :class="{
-                          'text-red-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! > 5,
-                          'text-orange-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 5,
-                          'text-green-600': [-1, 0, 1].includes(
-                            calculateDelay(leg.scheduled_start_time, leg.start_time),
-                          ),
-                          'text-fuchsia-pink-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 0,
+                          'text-red-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! > 0,
+                          'text-green-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 0,
                         }"
                         class="text-xs font-medium"
                       >

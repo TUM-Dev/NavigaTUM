@@ -48,6 +48,6 @@ defineProps<{ direction: DirectionResponse }>();
     <MdiIcon v-else-if="direction === 'elevator'" :path="mdiElevator" :size="16" />
 
     <!-- Fallback -->
-    <span v-else class="text-xs font-bold">{{ direction.slice(0, 2).toUpperCase() }}</span>
+    <span v-else class="text-xs font-bold">{{ (direction as string).slice(0, 2).toUpperCase() }}</span>
   </div>
 </template>
