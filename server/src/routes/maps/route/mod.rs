@@ -36,6 +36,11 @@ impl From<ShapePoint> for Coordinate {
         }
     }
 }
+impl std::fmt::Display for Coordinate {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{},{}", self.lat, self.lon)
+    }
+}
 
 #[derive(Deserialize, Clone, Debug, PartialEq, utoipa::ToSchema)]
 #[serde(untagged)]
@@ -144,6 +149,11 @@ struct RoutingRequest {
     #[serde(default)]
     #[param(inline)]
     bicycle_type: BicycleRestrictionRequest,
+    /// Cursor position for pagination
+    /// Only avaliable for some costings
+    #[serde(default)]
+    #[param(inline)]
+    page_cursor: Option<String>,
 }
 
 /// Does the user have specific walking restrictions?
@@ -257,7 +267,14 @@ pub async fn route_handler(
     };
 
     if args.route_costing == CostingRequest::PublicTransit {
-        let routing = data.motis.route("", "").await;
+        let routing = data
+            .motis
+            .route(
+                &from.to_string(),
+                &to.to_string(),
+                args.page_cursor.as_deref(),
+            )
+            .await;
         let response = match routing {
             Ok(response) => response,
             Err(e) => {
