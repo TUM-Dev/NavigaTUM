@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import {
-  mdiArrowUp,
+  mdiArrowDown,
   mdiArrowLeft,
   mdiArrowRight,
   mdiArrowTopLeft,
   mdiArrowTopRight,
-  mdiArrowULeftTop,
-  mdiArrowURightTop,
-  mdiRotateLeft,
-  mdiRotateRight,
-  mdiStairs,
+  mdiArrowUp,
+  mdiAxisXRotateClockwise,
+  mdiAxisXRotateCounterclockwise,
   mdiElevator,
   mdiPlay,
-  mdiStraight,
 } from "@mdi/js";
 import type { components } from "~/api_types";
 
@@ -39,15 +36,15 @@ defineProps<{ direction: DirectionResponse }>();
     <MdiIcon v-else-if="direction === 'slightly_right'" :path="mdiArrowTopRight" :size="16" class="opacity-60" />
 
     <!-- U-turns -->
-    <MdiIcon v-else-if="direction === 'uturn_left'" :path="mdiArrowULeftTop" :size="16" />
-    <MdiIcon v-else-if="direction === 'uturn_right'" :path="mdiArrowURightTop" :size="16" />
+    <MdiIcon v-else-if="direction === 'uturn_left'" :path="mdiArrowDown" :size="16" class="rotate-180" />
+    <MdiIcon v-else-if="direction === 'uturn_right'" :path="mdiArrowDown" :size="16" class="rotate-180" />
 
     <!-- Circles/Roundabouts -->
-    <MdiIcon v-else-if="direction === 'circle_clockwise'" :path="mdiRotateRight" :size="16" />
-    <MdiIcon v-else-if="direction === 'circle_counterclockwise'" :path="mdiRotateLeft" :size="16" />
+    <MdiIcon v-else-if="direction === 'circle_clockwise'" :path="mdiAxisXRotateClockwise" :size="16" />
+    <MdiIcon v-else-if="direction === 'circle_counterclockwise'" :path="mdiAxisXRotateCounterclockwise" :size="16" />
 
     <!-- Vertical movement -->
-    <MdiIcon v-else-if="direction === 'stairs'" :path="mdiStairs" :size="16" />
+    <MdiIcon v-else-if="direction === 'stairs'" :path="mdiArrowUp" :size="16" />
     <MdiIcon v-else-if="direction === 'elevator'" :path="mdiElevator" :size="16" />
 
     <!-- Fallback -->

@@ -161,7 +161,9 @@ const formatDelay = (delayMinutes: number) => {
                         :class="{
                           'text-red-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! > 5,
                           'text-orange-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 5,
-                          'text-green-600': [-1,0,1].includes(calculateDelay(leg.scheduled_start_time, leg.start_time)),
+                          'text-green-600': [-1, 0, 1].includes(
+                            calculateDelay(leg.scheduled_start_time, leg.start_time),
+                          ),
                           'text-fuchsia-pink-600': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 0,
                         }"
                         class="text-xs font-medium"
@@ -224,6 +226,37 @@ const formatDelay = (delayMinutes: number) => {
                 >
                   {{ t("intermediate_stops", leg.intermediate_stops.length) }}
                 </div>
+
+                <!-- Walking Instructions -->
+                <div v-if="leg.steps && leg.steps.length > 0" class="mt-3">
+                  <details class="group">
+                    <summary
+                      class="text-zinc-600 cursor-pointer text-sm font-medium hover:text-zinc-800 flex items-center gap-2"
+                    >
+                      {{ t("walking_instructions") }}
+                      <span class="text-zinc-400 text-xs">({{ leg.steps.length }} {{ t("steps") }})</span>
+                    </summary>
+                    <div class="mt-2 space-y-2 pl-4">
+                      <div v-for="(step, k) in leg.steps" :key="`step-${k}`" class="flex items-start gap-3 py-1">
+                        <WalkingDirectionIcon :direction="step.relative_direction" />
+                        <div class="flex-grow text-sm">
+                          <div class="text-zinc-900">
+                            <span v-if="step.street_name">{{ step.street_name }}</span>
+                            <span v-else>{{ t("continue") }}</span>
+                          </div>
+                          <div class="text-zinc-600 text-xs flex items-center gap-2">
+                            {{ formatDistance(step.distance) }}
+                            <span v-if="step.elevation_up || step.elevation_down" class="text-zinc-500">
+                              <span v-if="step.elevation_up">↗ {{ step.elevation_up }}m</span>
+                              <span v-if="step.elevation_down">↘ {{ step.elevation_down }}m</span>
+                            </span>
+                            <span v-if="step.toll" class="text-amber-600">{{ t("toll") }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                </div>
               </div>
             </div>
           </div>
@@ -254,6 +287,10 @@ de:
   intermediate_stops: "keine Zwischenstopps | ein Zwischenstopp | {count} Zwischenstopps"
   no_routes_found: "Keine Routen gefunden"
   platform: "Gleis"
+  walking_instructions: "Wegbeschreibung"
+  steps: "Schritte"
+  continue: "Geradeaus"
+  toll: "Maut"
 en:
   minutes: "instant | one minute | {count} minutes"
   seconds: "instant | one second | {count} seconds"
@@ -266,4 +303,8 @@ en:
   intermediate_stops: "no intermediate stops | one intermediate stop | {count} intermediate stops"
   no_routes_found: "No routes found"
   platform: "Platform"
+  walking_instructions: "Walking directions"
+  steps: "steps"
+  continue: "Continue"
+  toll: "Toll"
 </i18n>
