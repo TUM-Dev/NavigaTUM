@@ -17,6 +17,7 @@ jobs:
     permissions:
       contents: read
     steps:
+      - run: rustup update stable && rustup default stable
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
