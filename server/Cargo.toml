@@ -78,7 +78,7 @@ geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.6"
 valhalla-client = { version = "0.4.0", default-features = false }
-motis-openapi-progenitor = "0.2.2"
+motis-openapi-progenitor = "0.3.0"
 
 # docs
 utoipa-actix-web = "0.1.2"
