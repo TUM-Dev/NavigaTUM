@@ -1992,6 +1992,11 @@ export type operations = {
         ptw_type?: "motorcycle" | "moped";
         /** @description Which kind of bicycle do you ride? */
         bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
+        /**
+         * @description Cursor position for pagination
+         * Only avaliable for some costings
+         */
+        page_cursor?: string | null;
       };
     };
     responses: {
