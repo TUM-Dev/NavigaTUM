@@ -499,6 +499,16 @@ paths:
               - hybrid
               - cross
               - mountain
+        - name: page_cursor
+          in: query
+          description: |-
+            Cursor position for pagination
+            Only avaliable for some costings
+          required: false
+          schema:
+            type:
+              - string
+              - "null"
       responses:
         "200":
           description: '**Routing solution**'
