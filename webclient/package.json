@@ -18,6 +18,7 @@
 		"@fullcalendar/list": "6.1.19",
 		"@fullcalendar/timegrid": "6.1.19",
 		"@fullcalendar/vue3": "6.1.19",
+		"@googlemaps/polyline-codec": "1.0.28",
 		"@headlessui/vue": "1.7.23",
 		"@mdi/js": "^7.4.47",
 		"@nuxt/content": "3.7.1",

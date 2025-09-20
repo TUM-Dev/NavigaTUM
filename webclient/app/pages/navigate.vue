@@ -50,8 +50,12 @@ effect(() => {
   if (!data.value || !indoorMap.value) return;
   if (data.value.router === "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
   if (data.value?.router === "motis") {
-    // TODO: Implement Motis route drawing on map
-    console.log("Motis route drawing not yet implemented");
+    // Reset to first itinerary when data changes
+    selectedItineraryIndex.value = 0;
+    // Draw the first itinerary if available
+    if (data.value.itineraries.length > 0 && indoorMap.value && data.value.itineraries[0]) {
+      indoorMap.value.drawMotisItinerary(data.value.itineraries[0]);
+    }
   }
 });
 
@@ -115,8 +119,36 @@ async function loadMotisPage(cursor?: string) {
   await refresh();
 }
 
-function handleSelectLeg(legIndex: number) {
-  console.log("Selected leg:", legIndex);
+// Currently selected itinerary for map display
+const selectedItineraryIndex = ref(0);
+
+function handleSelectLeg(itineraryIndex: number, legIndex: number) {
+  console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
+  if (data.value?.router === "motis" && indoorMap.value) {
+    // If selecting a different itinerary, redraw the route
+    if (selectedItineraryIndex.value !== itineraryIndex) {
+      selectedItineraryIndex.value = itineraryIndex;
+      if (data.value.itineraries[itineraryIndex]) {
+        indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
+      }
+    }
+
+    // Highlight the selected leg on the map
+    indoorMap.value.highlightMotisLeg(legIndex);
+
+    // Focus map on the selected leg
+    if (data.value.itineraries[itineraryIndex]) {
+      indoorMap.value.focusOnMotisLeg(legIndex, data.value.itineraries[itineraryIndex]);
+    }
+  }
+}
+
+function handleSelectItinerary(itineraryIndex: number) {
+  console.log("Selected itinerary:", itineraryIndex);
+  if (data.value?.router === "motis" && indoorMap.value && data.value.itineraries[itineraryIndex]) {
+    selectedItineraryIndex.value = itineraryIndex;
+    indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
+  }
 }
 </script>
 
@@ -157,6 +189,7 @@ function handleSelectLeg(legIndex: number) {
         :loading="false"
         :page-cursor="pageCursor"
         @select-leg="handleSelectLeg"
+        @select-itinerary="handleSelectItinerary"
         @retry="() => refresh()"
         @load-next="loadMotisPage"
         @load-previous="loadMotisPage"

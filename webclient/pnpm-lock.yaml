@@ -23,6 +23,9 @@ importers:
       '@fullcalendar/vue3':
         specifier: 6.1.19
         version: 6.1.19(@fullcalendar/core@6.1.19)(vue@3.5.21(typescript@5.9.2))
+      '@googlemaps/polyline-codec':
+        specifier: 1.0.28
+        version: 1.0.28
       '@headlessui/vue':
         specifier: 1.7.23
         version: 1.7.23(vue@3.5.21(typescript@5.9.2))
@@ -716,6 +719,9 @@ packages:
     peerDependencies:
       '@fullcalendar/core': ~6.1.19
       vue: ^3.0.11
+
+  '@googlemaps/polyline-codec@1.0.28':
+    resolution: {integrity: sha512-m7rh8sbxlrHvebXEweBHX8r1uPtToPRYxWDD6p6k2YG8hyhBe0Wi6xRUVFpxpEseMNgF+OBotFQC5senj8K7TQ==}
 
   '@headlessui/vue@1.7.23':
     resolution: {integrity: sha512-JzdCNqurrtuu0YW6QaDtR2PIYCKPUWq28csDyMvN4zmGccmE7lz40Is6hc3LA4HFeCI7sekZ/PQMTNmn9I/4Wg==}
@@ -6415,6 +6421,8 @@ snapshots:
     dependencies:
       '@fullcalendar/core': 6.1.19
       vue: 3.5.21(typescript@5.9.2)
+
+  '@googlemaps/polyline-codec@1.0.28': {}
 
   '@headlessui/vue@1.7.23(vue@3.5.21(typescript@5.9.2))':
     dependencies:

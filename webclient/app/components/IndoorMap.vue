@@ -1,19 +1,34 @@
 <script setup lang="ts">
 import type { GeoJSONSource } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { webglSupport } from "~/composables/webglSupport";
+import {
+  decodeMotisGeometry,
+  calculateItineraryBounds,
+  calculateLegBounds,
+  extractAllStops,
+  getTransitModeStyle,
+  getStopMarkerStyle,
+} from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
+type ItineraryResponse = components["schemas"]["ItineraryResponse"];
+type MotisLegResponse = components["schemas"]["MotisLegResponse"];
+type PlaceResponse = components["schemas"]["PlaceResponse"];
+
+// Simplified GeoJSON Feature type to avoid deep type inference
+interface SimpleGeoJSONFeature {
+  type: "Feature";
+  properties: Record<string, any>;
+  geometry: {
+    type: "LineString";
+    coordinates: number[][];
+  };
+}
 
 const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
@@ -23,6 +38,10 @@ const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
+
+// Motis routing state
+const motisMarkers = ref<Marker[]>([]);
+const highlightedLegIndex = ref<number | null>(null);
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
   if (props.type === "room") return 18;
@@ -54,8 +73,7 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
-    await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -131,12 +149,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -158,6 +172,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     });
     map.addControl(location);
 
+    // Add Valhalla route source and layers
     map.addSource("route", {
       type: "geojson",
       data: {
@@ -194,6 +209,66 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         "icon-color": "#e37222",
       },
     });
+
+    // Add Motis route sources and layers
+    map.addSource("motis-routes", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+    });
+
+    // Add multiple layers for different transport modes
+    map.addLayer({
+      id: "motis-route-walk",
+      type: "line",
+      source: "motis-routes",
+      filter: ["==", ["get", "mode"], "walk"],
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": ["get", "color"],
+        "line-width": ["get", "weight"],
+        "line-opacity": ["get", "opacity"],
+        "line-dasharray": [5, 5],
+      },
+    });
+
+    map.addLayer({
+      id: "motis-route-transit",
+      type: "line",
+      source: "motis-routes",
+      filter: ["!=", ["get", "mode"], "walk"],
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": ["get", "color"],
+        "line-width": ["get", "weight"],
+        "line-opacity": ["get", "opacity"],
+      },
+    });
+
+    // Highlighted leg layer
+    map.addLayer({
+      id: "motis-route-highlighted",
+      type: "line",
+      source: "motis-routes",
+      filter: ["==", ["get", "legIndex"], -1], // Initially show nothing
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#FF6B35",
+        "line-width": 8,
+        "line-opacity": 0.9,
+      },
+    });
     afterLoaded.value();
   });
 
@@ -203,7 +278,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,
-    indoorOptions
+    indoorOptions,
   );
 
   // Add the specific control
@@ -229,10 +304,7 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
-  fitBounds(
-    [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
-  );
+  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
@@ -250,11 +322,159 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
       { lat: lat[1] + paddingLat, lng: lon[1] + paddingLon },
     ],
-    { maxZoom: 19 }
+    { maxZoom: 19 },
   );
 }
 
-defineExpose({ drawRoute, fitBounds });
+/**
+ * Draw Motis itinerary on the map
+ */
+function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false) {
+  const src = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  if (!src || (!isAfterLoaded && !map.value?.loaded())) {
+    afterLoaded.value = () => drawMotisItinerary(itinerary, true);
+    return;
+  }
+
+  // Clear existing markers
+  clearMotisRoutes();
+
+  // Create GeoJSON features for each leg
+  const features: SimpleGeoJSONFeature[] = itinerary.legs.map((leg, index) => {
+    const coordinates = decodeMotisGeometry(leg.leg_geometry);
+    const style = getTransitModeStyle(leg.mode);
+
+    return {
+      type: "Feature",
+      properties: {
+        legIndex: index,
+        mode: leg.mode,
+        color: style.color,
+        weight: style.weight,
+        opacity: style.opacity,
+        routeShortName: leg.route_short_name || null,
+        headsign: leg.headsign || null,
+        fromName: leg.from.name,
+        toName: leg.to.name,
+      },
+      geometry: {
+        type: "LineString",
+        coordinates: coordinates.map(({ lat, lon }) => [lon, lat]),
+      },
+    };
+  });
+
+  // Update the source with new features
+  src.setData({
+    type: "FeatureCollection",
+    features,
+  });
+
+  // Add stop markers
+  const stops = extractAllStops(itinerary);
+  for (const stop of stops) {
+    const markerStyle = getStopMarkerStyle(stop);
+    const markerDiv = createTransitStopMarker(stop, markerStyle);
+
+    const marker = new Marker({ element: markerDiv }) as any;
+    marker.setLngLat([stop.lon, stop.lat]);
+    if (map.value) {
+      marker.addTo(map.value as MapLibreMap);
+    }
+    motisMarkers.value.push(marker as Marker);
+  }
+
+  // Fit map to show entire route
+  const bounds = calculateItineraryBounds(itinerary);
+  fitBounds([bounds.minLon, bounds.maxLon], [bounds.minLat, bounds.maxLat]);
+}
+
+/**
+ * Highlight a specific leg of the Motis route
+ */
+function highlightMotisLeg(legIndex: number) {
+  if (!map.value?.loaded()) return;
+
+  highlightedLegIndex.value = legIndex;
+
+  // Update the filter for the highlighted layer
+  map.value.setFilter("motis-route-highlighted", ["==", ["get", "legIndex"], legIndex]);
+}
+
+/**
+ * Focus map on a specific leg
+ */
+function focusOnMotisLeg(legIndex: number, itinerary: ItineraryResponse) {
+  if (legIndex < 0 || legIndex >= itinerary.legs.length) return;
+
+  const leg = itinerary.legs[legIndex];
+  if (!leg) return;
+  const bounds = calculateLegBounds(leg.leg_geometry, leg.from, leg.to);
+
+  fitBounds([bounds.minLon, bounds.maxLon], [bounds.minLat, bounds.maxLat]);
+}
+
+/**
+ * Clear all Motis routes and markers
+ */
+function clearMotisRoutes() {
+  // Clear markers
+  for (const marker of motisMarkers.value) {
+    marker.remove();
+  }
+  motisMarkers.value = [];
+
+  // Clear highlighted leg
+  highlightedLegIndex.value = null;
+  if (map.value?.loaded()) {
+    map.value.setFilter("motis-route-highlighted", ["==", ["get", "legIndex"], -1]);
+  }
+
+  // Clear route data
+  const src = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  if (src) {
+    src.setData({
+      type: "FeatureCollection",
+      features: [],
+    });
+  }
+}
+
+/**
+ * Create a transit stop marker element
+ */
+function createTransitStopMarker(
+  stop: PlaceResponse,
+  style: { color: string; size: "small" | "medium" | "large"; icon?: string },
+): HTMLDivElement {
+  const markerDiv = document.createElement("div");
+  markerDiv.className = "motis-stop-marker";
+
+  const markerIcon = document.createElement("div");
+  markerIcon.className = `motis-stop-icon motis-stop-${style.size}`;
+  markerIcon.style.backgroundColor = style.color;
+  markerIcon.title = stop.name;
+
+  // Add platform/track info if available
+  if (stop.track) {
+    const trackInfo = document.createElement("div");
+    trackInfo.className = "motis-stop-track";
+    trackInfo.textContent = stop.track;
+    markerIcon.appendChild(trackInfo);
+  }
+
+  markerDiv.appendChild(markerIcon);
+  return markerDiv;
+}
+
+defineExpose({
+  drawRoute,
+  fitBounds,
+  drawMotisItinerary,
+  highlightMotisLeg,
+  focusOnMotisLeg,
+  clearMotisRoutes,
+});
 </script>
 
 <template>
@@ -316,5 +536,56 @@ defineExpose({ drawRoute, fitBounds });
     top: -20px;
     left: -12px;
   }
+}
+
+/* --- Motis transit stop markers --- */
+.motis-stop-marker {
+  position: relative;
+  pointer-events: none;
+}
+
+.motis-stop-icon {
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 8px;
+  font-weight: bold;
+
+  &.motis-stop-small {
+    width: 8px;
+    height: 8px;
+    transform: translate(-4px, -4px);
+  }
+
+  &.motis-stop-medium {
+    width: 12px;
+    height: 12px;
+    transform: translate(-6px, -6px);
+  }
+
+  &.motis-stop-large {
+    width: 16px;
+    height: 16px;
+    transform: translate(-8px, -8px);
+  }
+}
+
+.motis-stop-track {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 9px;
+  white-space: nowrap;
+  pointer-events: none;
 }
 </style>

@@ -13,7 +13,8 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  selectLeg: [legIndex: number];
+  selectLeg: [itineraryIndex: number, legIndex: number];
+  selectItinerary: [itineraryIndex: number];
   retry: [];
   loadPrevious: [cursor: string];
   loadNext: [cursor: string];
@@ -35,20 +36,18 @@ const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}h ${minutes}m`;
-  } else if (seconds >= 60) {
+  }if (seconds >= 60) {
     return t("minutes", Math.ceil(seconds / 60));
-  } else {
-    return t("seconds", seconds);
   }
+    return t("seconds", seconds);
 };
 
 // Helper function to format distance
 const formatDistance = (meters: number) => {
   if (meters >= 1000) {
     return t("kilometers", [(meters / 1000).toFixed(1)]);
-  } else {
-    return t("meters", Math.round(meters));
   }
+    return t("meters", Math.round(meters));
 };
 
 // Helper function to calculate delay in minutes
@@ -64,9 +63,8 @@ const formatDelay = (delayMinutes: number) => {
   if (delayMinutes === 0) return null;
   if (delayMinutes > 0) {
     return `+${delayMinutes}`;
-  } else {
-    return `${delayMinutes}`;
   }
+    return `${delayMinutes}`;
 };
 
 // Check if pagination controls should be shown
@@ -142,7 +140,7 @@ const handleNextPage = () => {
             v-for="(leg, j) in itinerary.legs"
             :key="`direct-leg-${j}`"
             class="group cursor-pointer py-1"
-            @click="emit('selectLeg', j)"
+            @click="emit('selectLeg', i, j)"
           >
             <div
               class="bg-white flex flex-row items-center gap-3 overflow-auto rounded-md border p-3 group-hover:bg-zinc-100"
@@ -189,7 +187,11 @@ const handleNextPage = () => {
 
         <div v-for="(itinerary, i) in data.itineraries" :key="`itinerary-${i}`" class="mb-6 rounded-lg border">
           <!-- Itinerary Header -->
-          <div class="bg-zinc-50 flex items-center justify-between rounded-t-lg p-4">
+          <div
+            class="bg-zinc-50 flex items-center justify-between rounded-t-lg p-4 cursor-pointer hover:bg-zinc-100 transition-colors"
+            @click="emit('selectItinerary', i)"
+            :title="`${t('select_itinerary')} ${i + 1}`"
+          >
             <div class="flex items-center gap-4">
               <span class="text-zinc-900 font-semibold">
                 {{ formatTime(itinerary.start_time) }} - {{ formatTime(itinerary.end_time) }}
@@ -207,7 +209,7 @@ const handleNextPage = () => {
               v-for="(leg, j) in itinerary.legs"
               :key="`leg-${j}`"
               class="group cursor-pointer p-4 transition-colors hover:bg-zinc-50"
-              @click="emit('selectLeg', j)"
+              @click="emit('selectLeg', i, j)"
             >
               <div class="flex items-start gap-3">
                 <!-- Mode Icon -->
@@ -488,6 +490,7 @@ de:
   no_routes_found: Keine Routen gefunden
   no_routes_description: Es konnten keine Verbindungen für Ihre Suchanfrage gefunden werden. Versuchen Sie andere Parameter oder eine andere Zeit.
   try_again: Erneut versuchen
+  select_itinerary: Route auswählen
 
 en:
   loading_routes: Loading routes
@@ -518,4 +521,5 @@ en:
   no_routes_found: No routes found
   no_routes_description: No connections could be found for your search query. Try different parameters or a different time.
   try_again: Try again
+  select_itinerary: Select route
 </i18n>
