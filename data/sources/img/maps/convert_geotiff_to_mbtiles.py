@@ -5,8 +5,8 @@ import re
 
 # Directories
 OVERLAYS_DIR = Path("./overlays")
-LEVELS_DIR.mkdir(exist_ok=True)
 LEVELS_DIR = Path("./overlay_levels")
+LEVELS_DIR.mkdir(exist_ok=True)
 
 
 def convert_geotiff_to_mbtiles(tif_path: Path):
@@ -39,15 +39,17 @@ def process_level(level: str):
     print(f"Processing level {level}")
     input_files = list(LEVELS_DIR.glob(f"*_{level}.mbtiles"))
     if not input_files:
-        continue
+        print(f"No input files found for level {level}")
+        return
 
     sources = ",".join([f.name.replace(".mbtiles", "") for f in input_files])
 
     output = LEVELS_DIR / f"{level}.mbtiles"
+    output.unlink(missing_ok=True)
 
     subprocess.run(
         [
-            "martin-cp",
+            "/home/frank/.cargo/bin/martin-cp",
             *map(str, input_files),
             "--source",
             sources,
