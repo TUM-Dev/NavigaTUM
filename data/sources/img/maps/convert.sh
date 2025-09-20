@@ -33,6 +33,6 @@ for lvl in $levels; do
     input="$(ls ./overlay_levels/*_$lvl.mbtiles)"
     sources=$(echo "$input" | tr '\n' ',' | sed 's#./overlay_levels/##g' | sed 's#\.mbtiles##g' | sed 's#,$##')
     output="./overlay_levels/${lvl}.mbtiles"
-    martin-cp $(echo "$input" | tr '\n' ' ') --source "$sources" --auto-bounds calc --encoding identity --max-zoom 20 --min-zoom 16 --mbtiles-type normalized --output-file "${output}"
+    RUST_LOG=info martin-cp $(echo "$input" | tr '\n' ' ') --source "$sources" --auto-bounds calc --encoding identity --max-zoom 20 --min-zoom 16 --mbtiles-type normalized --output-file "${output}"
     rm $(echo "$input" | tr '\n' ' ')
 done
