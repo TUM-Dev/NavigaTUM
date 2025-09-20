@@ -3144,14 +3144,17 @@ dependencies = [
 
 [[package]]
 name = "motis-openapi-progenitor"
-version = "0.2.2"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e301894106088f33bbfcd9d9cb792b3ab20570d6c1c083ad9edcc6b1c3d8031e"
+checksum = "655721926fff25ed7e878ca492642befc72ea33f6f76d73744b136451139a331"
 dependencies = [
+ "bytes",
  "chrono",
+ "futures-core",
  "progenitor-client",
  "reqwest",
  "serde",
+ "serde_urlencoded",
 ]
 
 [[package]]
@@ -4419,9 +4422,9 @@ dependencies = [
 
 [[package]]
 name = "progenitor-client"
-version = "0.10.0"
+version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "296003fd74e64c77aeb2c10eae850eb543211a8557dd3b3de6f4230b5071e44b"
+checksum = "920f044db9ec07a3339175729794d3701e11d338dcf8cfd946df838102307780"
 dependencies = [
  "bytes",
  "futures-core",

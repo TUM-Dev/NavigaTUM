@@ -161,7 +161,7 @@ pub struct MotisLegResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_text_color: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub route_type: Option<String>,
+    pub route_type: Option<i64>,
 
     ///scheduled leg arrival time
     pub scheduled_end_time: chrono::DateTime<chrono::offset::Utc>,
@@ -231,6 +231,7 @@ pub enum ModeResponse {
     Rental,
     Car,
     CarParking,
+    CarDropoff,
     Odm,
     Flex,
     Transit,
@@ -280,6 +281,7 @@ impl From<Mode> for ModeResponse {
             Mode::Funicular => ModeResponse::Funicular,
             Mode::ArealLift => ModeResponse::ArealLift,
             Mode::Other => ModeResponse::Other,
+            Mode::CarDropoff => ModeResponse::CarDropoff,
         }
     }
 }
