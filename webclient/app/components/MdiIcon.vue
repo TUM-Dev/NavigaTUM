@@ -5,7 +5,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 24
+  size: 24,
 });
 </script>
 

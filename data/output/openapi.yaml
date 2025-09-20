@@ -686,32 +686,32 @@ components:
     AlertCauseResponse:
       type: string
       enum:
-        - UNKNOWN_CAUSE
-        - OTHER_CAUSE
-        - TECHNICAL_PROBLEM
-        - STRIKE
-        - DEMONSTRATION
-        - ACCIDENT
-        - HOLIDAY
-        - WEATHER
-        - MAINTENANCE
-        - CONSTRUCTION
-        - POLICE_ACTIVITY
-        - MEDICAL_EMERGENCY
+        - unknown_cause
+        - other_cause
+        - technical_problem
+        - strike
+        - demonstration
+        - accident
+        - holiday
+        - weather
+        - maintenance
+        - construction
+        - police_activity
+        - medical_emergency
     AlertEffectResponse:
       type: string
       enum:
-        - NO_SERVICE
-        - REDUCED_SERVICE
-        - SIGNIFICANT_DELAYS
-        - DETOUR
-        - ADDITIONAL_SERVICE
-        - MODIFIED_SERVICE
-        - OTHER_EFFECT
-        - UNKNOWN_EFFECT
-        - STOP_MOVED
-        - NO_EFFECT
-        - ACCESSIBILITY_ISSUE
+        - no_service
+        - reduced_service
+        - significant_delays
+        - detour
+        - additional_service
+        - modified_service
+        - other_effect
+        - unknown_effect
+        - stop_moved
+        - no_effect
+        - accessibility_issue
     AlertResponse:
       type: object
       required:
@@ -786,10 +786,10 @@ components:
     AlertSeverityLevelResponse:
       type: string
       enum:
-        - UNKNOWN_SEVERITY
-        - INFO
-        - WARNING
-        - SEVERE
+        - unknown
+        - info
+        - warning
+        - severe
     Arguments:
       type: object
       required:
@@ -1007,20 +1007,20 @@ components:
     DirectionResponse:
       type: string
       enum:
-        - Depart
-        - HardLeft
-        - Left
-        - SlightlyLeft
-        - Continue
-        - SlightlyRight
-        - Right
-        - HardRight
-        - CircleClockwise
-        - CircleCounterclockwise
-        - Stairs
-        - Elevator
-        - UturnLeft
-        - UturnRight
+        - depart
+        - hard_left
+        - left
+        - slightly_left
+        - continue
+        - slightly_right
+        - right
+        - hard_right
+        - circle_clockwise
+        - circle_counterclockwise
+        - stairs
+        - elevator
+        - uturn_left
+        - uturn_right
     EditRequest:
       type: object
       required:
@@ -1655,31 +1655,31 @@ components:
     ModeResponse:
       type: string
       enum:
-        - Walk
-        - Bike
-        - Rental
-        - Car
-        - CarParking
-        - Odm
-        - Flex
-        - Transit
-        - Tram
-        - Subway
-        - Ferry
-        - Airplane
-        - Metro
-        - Bus
-        - Coach
-        - Rail
-        - HighspeedRail
-        - LongDistance
-        - NightRail
-        - RegionalFastRail
-        - RegionalRail
-        - CableCar
-        - Funicular
-        - ArealLift
-        - Other
+        - walk
+        - bike
+        - rental
+        - car
+        - car_parking
+        - odm
+        - flex
+        - transit
+        - tram
+        - subway
+        - ferry
+        - airplane
+        - metro
+        - bus
+        - coach
+        - rail
+        - highspeed_rail
+        - long_distance
+        - night_rail
+        - regional_fast_rail
+        - regional_rail
+        - cable_car
+        - funicular
+        - areal_lift
+        - other
     MotisLegResponse:
       type: object
       required:
@@ -2271,13 +2271,13 @@ components:
     RentalFormFactorResponse:
       type: string
       enum:
-        - Bicycle
-        - CargoBicycle
-        - Car
-        - Moped
-        - ScooterStanding
-        - ScooterSeated
-        - Other
+        - bicycle
+        - cargo_bicycle
+        - car
+        - moped
+        - scooter_standing
+        - scooter_seated
+        - other
     RentalResponse:
       type: object
       required:
@@ -3004,9 +3004,9 @@ components:
     VertexTypeResponse:
       type: string
       enum:
-        - Normal
-        - Bikeshare
-        - Transit
+        - normal
+        - bikeshare
+        - transit
 tags:
   - name: locations
     description: API to access/search for location information

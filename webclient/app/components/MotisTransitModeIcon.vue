@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {
-  mdiWalk,
-  mdiBike,
-  mdiCar,
-  mdiParking,
-  mdiTrain,
-  mdiBus,
-  mdiTram,
-  mdiSubway,
-  mdiFerry,
   mdiAirplane,
-  mdiTransitConnection,
+  mdiBike,
+  mdiBus,
+  mdiCar,
+  mdiFerry,
+  mdiParking,
   mdiPhoneClassic,
-  mdiVanUtility,
   mdiScooter,
+  mdiSubway,
+  mdiTrain,
+  mdiTram,
+  mdiTransitConnection,
+  mdiVanUtility,
+  mdiWalk,
 } from "@mdi/js";
 import type { components } from "~/api_types";
 

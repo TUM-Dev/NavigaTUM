@@ -11,8 +11,8 @@ const { t } = useI18n({ useScope: "local" });
 // Helper function to format time
 const formatTime = (dateString: string) => {
   return new Date(dateString).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
@@ -22,20 +22,18 @@ const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}h ${minutes}m`;
-  } else if (seconds >= 60) {
+  }if (seconds >= 60) {
     return t("minutes", Math.ceil(seconds / 60));
-  } else {
-    return t("seconds", seconds);
   }
+    return t("seconds", seconds);
 };
 
 // Helper function to format distance
 const formatDistance = (meters: number) => {
   if (meters >= 1000) {
     return t("kilometers", [(meters / 1000).toFixed(1)]);
-  } else {
-    return t("meters", Math.round(meters));
   }
+    return t("meters", Math.round(meters));
 };
 </script>
 
