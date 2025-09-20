@@ -14,16 +14,24 @@ impl Default for MotisWrapper {
 }
 
 impl MotisWrapper {
-    pub async fn route(&self, from: &str, to: &str) -> anyhow::Result<PlanResponse> {
+    pub async fn route(
+        &self,
+        from: &str,
+        to: &str,
+        page_cursor: Option<&str>,
+    ) -> anyhow::Result<PlanResponse> {
         debug!(?from, ?to, "routing request");
-        let result = self
+        let mut request = self
             .0
             .plan()
+            .detailed_transfers(true)
+            .num_itineraries(5)
             .from_place(from)
-            .to_place(to)
-            .send()
-            .await?
-            .into_inner();
-        Ok(result)
+            .to_place(to);
+        if let Some(cursor) = page_cursor {
+            request = request.page_cursor(cursor);
+        }
+
+        Ok(request.send().await?.into_inner())
     }
 }
