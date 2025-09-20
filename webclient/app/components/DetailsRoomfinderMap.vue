@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+import { mdiCheck, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type RoomfinderMapEntryResponse = components["schemas"]["RoomfinderMapEntryResponse"];
@@ -36,7 +36,7 @@ const selectedMap = computed<RoomfinderMapEntryResponse>(() => {
           >
             <span class="block truncate">1:{{ selectedMap.scale }}, {{ selectedMap.name }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon class="text-zinc-400 h-5 w-5" />
+              <MdiIcon :path="mdiUnfoldMoreHorizontal" :size="20" class="text-zinc-400" />
             </span>
           </ListboxButton>
 
@@ -63,7 +63,7 @@ const selectedMap = computed<RoomfinderMapEntryResponse>(() => {
                     1:{{ map.scale }}, {{ map.name }}
                   </span>
                   <span v-if="selected" class="text-blue-600 absolute inset-y-0 left-0 flex items-center pl-3">
-                    <CheckIcon class="h-5 w-5" />
+                    <MdiIcon :path="mdiCheck" :size="20" />
                   </span>
                 </li>
               </ListboxOption>

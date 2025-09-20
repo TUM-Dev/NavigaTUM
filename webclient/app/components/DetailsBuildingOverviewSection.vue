@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {
-  BuildingOffice2Icon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-} from "@heroicons/vue/24/outline";
+  mdiArrowRight,
+  mdiChevronDown,
+  mdiChevronRight,
+  mdiChevronUp,
+  mdiOfficeBuilding,
+} from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 
@@ -22,7 +23,7 @@ const runtimeConfig = useRuntimeConfig();
 <template>
   <section v-if="props.buildings" class="px-5 print:!hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
-    <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /></NuxtLinkLocale> -->
+    <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <MdiIcon :path="mdiArrowRight" :size="16" /></NuxtLinkLocale> -->
     <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <NuxtLinkLocale
@@ -43,14 +44,14 @@ const runtimeConfig = useRuntimeConfig();
               />
             </figure>
             <div v-else class="text-white bg-blue-500 min-w-11 rounded-full p-2">
-              <BuildingOffice2Icon class="mx-auto h-7 w-7" />
+              <MdiIcon :path="mdiOfficeBuilding" :size="28" class="mx-auto" />
             </div>
             <div class="flex flex-col justify-evenly">
               <div class="line-clamp-2 text-balance">{{ b.name }}</div>
               <small class="text-zinc-600">{{ b.subtext }}</small>
             </div>
           </div>
-          <ChevronRightIcon class="h-4 w-4" />
+          <MdiIcon :path="mdiChevronRight" :size="16" />
         </NuxtLinkLocale>
       </template>
     </div>
@@ -61,11 +62,11 @@ const runtimeConfig = useRuntimeConfig();
         @click="toggleBuildingsExpanded()"
       >
         <template v-if="buildingsExpanded">
-          <ChevronUpIcon class="mt-0.5 h-4 w-4" />
+          <MdiIcon :path="mdiChevronUp" :size="16" class="mt-0.5" />
           {{ t("less") }}
         </template>
         <template v-else>
-          <ChevronDownIcon class="mt-0.5 h-4 w-4" />
+          <MdiIcon :path="mdiChevronDown" :size="16" class="mt-0.5" />
           {{ t("more") }}
         </template>
       </Btn>

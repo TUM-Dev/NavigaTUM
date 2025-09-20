@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronRightIcon } from "@heroicons/vue/16/solid/index.js";
+import { mdiChevronRight } from "@mdi/js";
 import type { components } from "~/api_types/index.js";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 
@@ -21,7 +21,7 @@ defineProps<{
           class="flex flex-row items-center"
         >
           <span class="text-zinc-900 shrink-0" v-html="item.parsed_id" />
-          <ChevronRightIcon class="text-zinc-400 h-4 w-4 shrink-0" />
+          <MdiIcon :path="mdiChevronRight" :size="16" class="text-zinc-400 shrink-0" />
           <span class="text-zinc-400 line-clamp-1 shrink text-sm" v-html="item.name" />
         </div>
         <span v-else class="line-clamp-1" v-html="item.name" />

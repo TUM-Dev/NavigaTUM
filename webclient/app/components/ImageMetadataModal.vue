@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  DocumentCheckIcon,
-  InformationCircleIcon,
-  PhotoIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/solid";
+import { mdiClose, mdiFileCheck, mdiImage, mdiInformation } from "@mdi/js";
 import type { DeepWritable } from "ts-essentials";
 import type { components } from "~/api_types";
 
@@ -161,7 +156,7 @@ function processFile(file: File) {
 
           <div v-if="!selectedFile" class="space-y-3">
             <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
-              <PhotoIcon class="mx-auto h-16 w-16 text-zinc-400" />
+              <MdiIcon :path="mdiImage" :size="64" class="mx-auto text-zinc-400" />
             </div>
             <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600' : 'text-zinc-600']">
               <p class="text-lg font-medium">
@@ -174,7 +169,7 @@ function processFile(file: File) {
 
           <div v-else class="space-y-3">
             <div>
-              <DocumentCheckIcon class="mx-auto h-16 w-16 text-blue-500" />
+              <MdiIcon :path="mdiFileCheck" :size="64" class="mx-auto text-blue-500" />
             </div>
             <div class="text-zinc-700">
               <p class="text-lg font-medium text-blue-700">{{ selectedFile.fileName }}</p>
@@ -183,7 +178,7 @@ function processFile(file: File) {
                 @click.stop="removeSelectedFile"
                 class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 hover:border-slate-300 transition-colors duration-200"
               >
-                <XMarkIcon class="w-3 h-3 mr-1" />
+                <MdiIcon :path="mdiClose" :size="12" class="mr-1" />
                 {{ t("remove_file") }}
               </button>
             </div>
@@ -209,7 +204,7 @@ function processFile(file: File) {
       <div>
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div class="flex items-start">
-            <InformationCircleIcon class="w-5 h-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
+            <MdiIcon :path="mdiInformation" :size="20" class="text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
             <div>
               <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
               <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>

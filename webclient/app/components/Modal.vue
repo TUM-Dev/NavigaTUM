@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { mdiClose } from "@mdi/js";
 
 export interface Props {
   title: string;
@@ -61,7 +61,7 @@ function close() {
               class="focusable text-zinc-800 mx-4 my-2 text-xl"
               @click.prevent="close"
             >
-              <XMarkIcon class="h-4 w-4" />
+              <MdiIcon :path="mdiClose" :size="16" />
             </button>
           </div>
           <div class="bg-white text-zinc-600 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-100">
