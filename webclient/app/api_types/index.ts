@@ -2008,7 +2008,7 @@ export type operations = {
         /** @description Transport mode the user wants to use */
         route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
         /** @description Does the user have specific walking restrictions? */
-        pedestrian_type?: "none" | "blind";
+        pedestrian_type?: "standard" | "blind" | "wheelchair";
         /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
         ptw_type?: "motorcycle" | "moped";
         /** @description Which kind of bicycle do you ride? */

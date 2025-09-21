@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiMonitor, mdiMoonWaningCrescent, mdiTune, mdiWhiteBalanceSunny } from "@mdi/js";
-import { mdiWalk, mdiBike, mdiMotorbike, mdiCar, mdiBus } from "@mdi/js";
-import { mdiAccountMultiple, mdiEye } from "@mdi/js";
-import { mdiSpeedometer, mdiRoadVariant, mdiBikeFast, mdiImageFilterHdr } from "@mdi/js";
+import { mdiAccountMultiple, mdiBike, mdiBikeFast, mdiBus, mdiCar, mdiEye, mdiImageFilterHdr, mdiMonitor, mdiMoonWaningCrescent, mdiMotorbike, mdiRoadVariant, mdiSpeedometer, mdiTune, mdiWalk, mdiWhiteBalanceSunny } from "@mdi/js";
 import type { UserRoutingPreferences } from "~/composables/userPreferences";
 
 const colorMode = useColorMode();
