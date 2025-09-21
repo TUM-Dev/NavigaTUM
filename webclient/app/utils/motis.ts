@@ -113,6 +113,151 @@ export function extractAllStops(itinerary: ItineraryResponse): PlaceResponse[] {
 }
 
 /**
+ * Extract stops with platform display context and transport mode information
+ */
+export function extractStopsWithContext(itinerary: ItineraryResponse): any[] {
+  const stopsWithContext: any[] = [];
+
+  // Helper to check if a leg is walking
+  const isWalkingLeg = (legIndex: number) => {
+    const leg = itinerary.legs[legIndex];
+    return leg && leg.mode === "walk";
+  };
+
+  // Helper to check if this is the journey start (first non-walking leg)
+  const isJourneyStart = (legIndex: number) => {
+    for (let i = 0; i < legIndex; i++) {
+      if (!isWalkingLeg(i)) return false;
+    }
+    return true;
+  };
+
+  // Helper to check if this is the journey end (last non-walking leg)
+  const isJourneyEnd = (legIndex: number) => {
+    for (let i = legIndex + 1; i < itinerary.legs.length; i++) {
+      if (!isWalkingLeg(i)) return false;
+    }
+    return true;
+  };
+
+  // Helper to check if a mode is rail-based
+  const isRailMode = (mode: string) => {
+    return [
+      "rail",
+      "highspeed_rail",
+      "long_distance",
+      "night_rail",
+      "regional_fast_rail",
+      "regional_rail",
+      "subway",
+      "metro",
+      "tram",
+    ].includes(mode);
+  };
+
+  for (let legIndex = 0; legIndex < itinerary.legs.length; legIndex++) {
+    const leg = itinerary.legs[legIndex];
+    if (!leg || leg.mode === "walk") continue;
+
+    const prevLeg = legIndex > 0 ? itinerary.legs[legIndex - 1] : null;
+
+    // Add starting point with context
+    const fromStop = {
+      ...leg.from,
+      showPlatform: false,
+      platformText: undefined as string | undefined,
+      transportModes: [leg.mode], // Track what transport modes use this stop
+      isImportant: isJourneyStart(legIndex) || prevLeg?.mode !== "walk", // Important if journey start or transfer
+    };
+
+    if (leg.from.track) {
+      if (isJourneyStart(legIndex)) {
+        // Journey start: show just platform number
+        fromStop.showPlatform = true;
+        fromStop.platformText = leg.from.track;
+      } else if (prevLeg?.to.track && prevLeg.to.track !== leg.from.track) {
+        // Transfer with platform change: show platform transition
+        fromStop.showPlatform = true;
+        fromStop.platformText = `${prevLeg.to.track} → ${leg.from.track}`;
+      }
+    }
+
+    // Add if not already present, or merge transport modes if it exists
+    const existingStop = stopsWithContext.find(
+      (stop) => stop.lat === fromStop.lat && stop.lon === fromStop.lon
+    );
+    if (existingStop) {
+      if (!existingStop.transportModes.includes(leg.mode)) {
+        existingStop.transportModes.push(leg.mode);
+      }
+      // If this is important, mark the existing stop as important
+      if (fromStop.isImportant) {
+        existingStop.isImportant = true;
+      }
+    } else {
+      stopsWithContext.push(fromStop);
+    }
+
+    // Add intermediate stops (never show platform - they are through stations)
+    if (leg.intermediate_stops) {
+      for (const stop of leg.intermediate_stops) {
+        const existingIntermediateStop = stopsWithContext.find(
+          (s) => s.lat === stop.lat && s.lon === stop.lon
+        );
+        if (existingIntermediateStop) {
+          if (!existingIntermediateStop.transportModes.includes(leg.mode)) {
+            existingIntermediateStop.transportModes.push(leg.mode);
+          }
+          // Intermediate stops are never important (through stations)
+        } else {
+          stopsWithContext.push({
+            ...stop,
+            showPlatform: false,
+            transportModes: [leg.mode],
+            isImportant: false, // Through stations are not important
+          });
+        }
+      }
+    }
+
+    // Add ending point with context
+    const toStop = {
+      ...leg.to,
+      showPlatform: false,
+      platformText: undefined as string | undefined,
+      transportModes: [leg.mode],
+      isImportant:
+        isJourneyEnd(legIndex) ||
+        (legIndex < itinerary.legs.length - 1 && !isWalkingLeg(legIndex + 1)), // Important if journey end or transfer
+    };
+
+    if (leg.to.track && isJourneyEnd(legIndex)) {
+      // Journey end: show just platform number
+      toStop.showPlatform = true;
+      toStop.platformText = leg.to.track;
+    }
+
+    // Add if not already present, or merge transport modes if it exists
+    const existingToStop = stopsWithContext.find(
+      (stop) => stop.lat === toStop.lat && stop.lon === toStop.lon
+    );
+    if (existingToStop) {
+      if (!existingToStop.transportModes.includes(leg.mode)) {
+        existingToStop.transportModes.push(leg.mode);
+      }
+      // If this is important, mark the existing stop as important
+      if (toStop.isImportant) {
+        existingToStop.isImportant = true;
+      }
+    } else {
+      stopsWithContext.push(toStop);
+    }
+  }
+
+  return stopsWithContext;
+}
+
+/**
  * Extract only transfer stops (where users change vehicles)
  */
 export function extractTransferStops(itinerary: ItineraryResponse): PlaceResponse[] {
@@ -303,16 +448,75 @@ export function getTransitModeStyle(mode: ModeResponse): {
 /**
  * Get marker styling for different stop types
  */
-export function getStopMarkerStyle(stop: PlaceResponse): {
+export function getStopMarkerStyle(stop: any): {
   color: string;
   size: "small" | "medium" | "large";
   icon?: string;
 } {
-  // Check if it's a major station/transfer point
+  // Helper to check if any transport mode is rail-based
+  const isRailStation = (transportModes?: string[]) => {
+    if (!transportModes) return false;
+    return transportModes.some((mode) =>
+      [
+        "rail",
+        "highspeed_rail",
+        "long_distance",
+        "night_rail",
+        "regional_fast_rail",
+        "regional_rail",
+        "subway",
+        "metro",
+      ].includes(mode)
+    );
+  };
+
+  // Helper to check if any transport mode is tram
+  const isTramStop = (transportModes?: string[]) => {
+    if (!transportModes) return false;
+    return transportModes.includes("tram");
+  };
+
+  // Helper to check if any transport mode is bus
+  const isBusStop = (transportModes?: string[]) => {
+    if (!transportModes) return false;
+    return transportModes.some((mode) => ["bus", "coach"].includes(mode));
+  };
+
+  // Determine size based on importance
+  const size = stop.isImportant ? "large" : "small";
+
+  // Check if it's a train station (rail-based transport)
+  if (isRailStation(stop.transportModes)) {
+    return {
+      color: "#3B82F6", // Blue for train stations
+      size: size,
+      icon: "train",
+    };
+  }
+
+  // Check if it's a tram stop
+  if (isTramStop(stop.transportModes)) {
+    return {
+      color: "#F59E0B", // Orange for tram
+      size: size,
+      icon: "tram",
+    };
+  }
+
+  // Check if it's a bus stop
+  if (isBusStop(stop.transportModes)) {
+    return {
+      color: "#EF4444", // Red for bus
+      size: size,
+      icon: "bus",
+    };
+  }
+
+  // Check if it's a major station/transfer point (fallback)
   if (stop.vertex_type === "transit") {
     return {
       color: "#3B82F6",
-      size: "large",
+      size: stop.isImportant ? "large" : "medium",
       icon: "transit",
     };
   }
@@ -320,7 +524,7 @@ export function getStopMarkerStyle(stop: PlaceResponse): {
   // Regular stop
   return {
     color: "#6B7280",
-    size: "medium",
+    size: stop.isImportant ? "medium" : "small",
     icon: "stop",
   };
 }

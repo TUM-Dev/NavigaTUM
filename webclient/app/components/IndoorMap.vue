@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import type { GeoJSONSource } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
@@ -16,6 +10,7 @@ import {
   calculateLegBounds,
   decodeMotisGeometry,
   extractAllStops,
+  extractStopsWithContext,
   getStopMarkerStyle,
   getTransitModeStyle,
 } from "~/utils/motis";
@@ -376,8 +371,8 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
     features,
   });
 
-  // Add stop markers
-  const stops = extractAllStops(itinerary);
+  // Add stop markers with context-aware platform display
+  const stops = extractStopsWithContext(itinerary);
   for (const stop of stops) {
     const markerStyle = getStopMarkerStyle(stop);
     const markerDiv = createTransitStopMarker(stop, markerStyle);
@@ -450,8 +445,8 @@ function clearMotisRoutes() {
  * Create a transit stop marker element
  */
 function createTransitStopMarker(
-  stop: PlaceResponse,
-  style: { color: string; size: "small" | "medium" | "large"; icon?: string }
+  stop: any,
+  style: { color: string; size: "small" | "medium" | "large"; icon?: string },
 ): HTMLDivElement {
   const markerDiv = document.createElement("div");
   markerDiv.className = "motis-stop-marker";
@@ -461,11 +456,49 @@ function createTransitStopMarker(
   markerIcon.style.backgroundColor = style.color;
   markerIcon.title = stop.name;
 
-  // Add platform/track info if available
-  if (stop.track) {
+  // Add icon if specified
+  if (style.icon) {
+    const iconElement = document.createElement("div");
+    iconElement.className = "motis-stop-icon-svg";
+
+    // Create SVG icons based on transport type
+    let svgPath = "";
+    switch (style.icon) {
+      case "train":
+        svgPath =
+          "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2M21,9V7L15,1H9L3,7V9A3,3 0 0,0 0,12A3,3 0 0,0 3,15V19A1,1 0 0,0 4,20H5A1,1 0 0,0 6,19V15H18V19A1,1 0 0,0 19,20H20A1,1 0 0,0 21,19V15A3,3 0 0,0 24,12A3,3 0 0,0 21,9M19,12A1,1 0 0,1 18,11A1,1 0 0,1 19,10A1,1 0 0,1 20,11A1,1 0 0,1 19,12M5,12A1,1 0 0,1 4,11A1,1 0 0,1 5,10A1,1 0 0,1 6,11A1,1 0 0,1 5,12M7,7.5L9.5,5H14.5L17,7.5V9H7V7.5Z";
+        break;
+      case "bus":
+        svgPath =
+          "M18,11H6V6H18M16.5,17A1.5,1.5 0 0,1 15,15.5A1.5,1.5 0 0,1 16.5,14A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 16.5,17M7.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,14A1.5,1.5 0 0,1 9,15.5A1.5,1.5 0 0,1 7.5,17M4,16C4,16.88 4.39,17.67 5,18.22V20A1,1 0 0,0 6,21H7A1,1 0 0,0 8,20V19H16V20A1,1 0 0,0 17,21H18A1,1 0 0,0 19,20V18.22C19.61,17.67 20,16.88 20,16V6C20,2.5 16.42,2 12,2C7.58,2 4,2.5 4,6V16Z";
+        break;
+      case "tram":
+        svgPath =
+          "M19,15L20.25,17.25L19,19.5L15.75,19.5L17,17.25L15.75,15M9,15L10.25,17.25L9,19.5L5.75,19.5L7,17.25L5.75,15M18,10.5V6C18,5.5 17.8,5.1 17.4,4.8L16,2H8L6.6,4.8C6.2,5.1 6,5.5 6,6V10.5A3.5,3.5 0 0,0 9.5,14H14.5A3.5,3.5 0 0,0 18,10.5M8,6H16V10H8V6Z";
+        break;
+      default:
+        svgPath = "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2Z";
+    }
+
+    const iconSize = style.size === "small" ? "8" : style.size === "medium" ? "10" : "12";
+    iconElement.innerHTML =
+      '<svg viewBox="0 0 24 24" width="' +
+      iconSize +
+      '" height="' +
+      iconSize +
+      '" fill="white">' +
+      '<path d="' +
+      svgPath +
+      '"/>' +
+      "</svg>";
+    markerIcon.appendChild(iconElement);
+  }
+
+  // Add platform/track info only if showPlatform is true
+  if (stop.showPlatform && stop.platformText) {
     const trackInfo = document.createElement("div");
     trackInfo.className = "motis-stop-track";
-    trackInfo.textContent = stop.track;
+    trackInfo.textContent = stop.platformText;
     markerIcon.appendChild(trackInfo);
   }
 
@@ -566,6 +599,9 @@ defineExpose({
     width: 8px;
     height: 8px;
     transform: translate(-4px, -4px);
+    opacity: 0.7;
+    border-width: 1px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   }
 
   &.motis-stop-medium {
@@ -592,6 +628,18 @@ defineExpose({
   border-radius: 3px;
   font-size: 9px;
   white-space: nowrap;
-  pointer-events: none;
+  z-index: 2;
+}
+
+.motis-stop-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.motis-stop-icon-svg svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 </style>
