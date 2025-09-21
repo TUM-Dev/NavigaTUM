@@ -5,11 +5,11 @@ interface Props {
   previousPageCursor?: string | null;
   nextPageCursor?: string | null;
   loading?: boolean;
-  size?: 'sm' | 'lg';
+  size?: "sm" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'sm'
+  size: "sm",
 });
 
 const emit = defineEmits<{
