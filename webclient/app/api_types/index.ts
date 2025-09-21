@@ -835,7 +835,12 @@ export type components = {
        * Implementations should default to white (FFFFFF) when omitted or left empty.
        * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
        */
-      readonly route_color?: string | null;
+      readonly route_color: string;
+      /**
+       * @description Short name of a route.
+       *
+       * Often a short, abstract identifier (e.g., "32", "100X", "Green") that riders use to identify a route
+       */
       readonly route_short_name?: string | null;
       /**
        * @description Legible color to use for text drawn against a background of `route_color`.
@@ -843,7 +848,7 @@ export type components = {
        * Implementations should default to black (000000) when omitted or left empty.
        * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
        */
-      readonly route_text_color?: string | null;
+      readonly route_text_color: string;
       /**
        * Format: int64
        * @description Indicates the type of transportation used on a route.

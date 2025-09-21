@@ -1,3 +1,4 @@
+use chroma_forge::Color;
 use motis_openapi_progenitor::types::*;
 use serde::Serialize;
 
@@ -79,25 +80,21 @@ impl From<Itinerary> for ItineraryResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde_with::skip_serializing_none]
 pub struct MotisLegResponse {
     /// Identifies a transit brand which is often synonymous with a transit agency.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_id: Option<String>,
     /// Full name of the transit agency
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_name: Option<String>,
     /// URL of the transit agency
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_url: Option<String>,
 
     ///Alerts for this stop.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub alerts: Vec<AlertResponse>,
     ///Whether this trip is cancelled
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cancelled: Option<bool>,
     /// Distance in meters
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub distance: Option<f64>,
     ///Leg duration in seconds
     ///
@@ -120,11 +117,9 @@ pub struct MotisLegResponse {
 
     ///For transit legs, the headsign of the bus or train being used.
     ///For non-transit legs, null
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub headsign: Option<String>,
     ///For transit legs, if the rider should stay on the vehicle as it
     /// changes route names.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub interline_with_previous_leg: Option<bool>,
     ///For transit legs, intermediate stops between the Place where the leg
     /// originates and the Place where the leg ends. For non-transit
@@ -146,22 +141,21 @@ pub struct MotisLegResponse {
     /// Scheduled times will equal realtime times in this case.
     pub scheduled: bool,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub rental: Option<rental::RentalResponse>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     /// Route color designation that matches public facing material.
     ///
     /// Implementations should default to white (FFFFFF) when omitted or left empty.
     /// The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
-    pub route_color: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub route_short_name: Option<String>,
+    pub route_color: String,
     /// Legible color to use for text drawn against a background of `route_color`.
     ///
     /// Implementations should default to black (000000) when omitted or left empty.
     /// The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub route_text_color: Option<String>,
+    pub route_text_color: String,
+    /// Short name of a route.
+    ///
+    /// Often a short, abstract identifier (e.g., "32", "100X", "Green") that riders use to identify a route
+    pub route_short_name: Option<String>,
     /// Indicates the type of transportation used on a route.
     ///
     /// According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
@@ -176,7 +170,6 @@ pub struct MotisLegResponse {
     /// -  7: Funicular. Any rail system designed for steep inclines.
     /// - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
     /// - 12: Monorail. Railway in which the track consists of a single rail or a beam.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_type: Option<i64>,
 
     ///scheduled leg arrival time
@@ -184,19 +177,19 @@ pub struct MotisLegResponse {
     ///scheduled leg departure time
     pub scheduled_start_time: chrono::DateTime<chrono::offset::Utc>,
     ///Filename and line number where this trip is from
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
     ///leg departure time
     pub start_time: chrono::DateTime<chrono::offset::Utc>,
 
     /// Identifies a trip
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub trip_id: Option<String>,
 }
 
 impl From<Leg> for MotisLegResponse {
     fn from(value: Leg) -> Self {
         assert_eq!(value.leg_geometry.precision, 6);
+        let (color, accent_color) = infer_route_color(&value);
+
         MotisLegResponse {
             agency_id: value.agency_id,
             agency_name: value.agency_name,
@@ -225,9 +218,9 @@ impl From<Leg> for MotisLegResponse {
             real_time: value.real_time,
             scheduled: value.scheduled,
             rental: value.rental.map(rental::RentalResponse::from),
-            route_color: value.route_color,
+            route_color: color,
             route_short_name: value.route_short_name,
-            route_text_color: value.route_text_color,
+            route_text_color: accent_color,
             route_type: value.route_type,
             scheduled_end_time: value.scheduled_end_time,
             scheduled_start_time: value.scheduled_start_time,
@@ -236,6 +229,81 @@ impl From<Leg> for MotisLegResponse {
             trip_id: value.trip_id,
         }
     }
+}
+
+fn infer_route_color(value: &Leg) -> (String, String) {
+    let color = if let Some(Ok(color)) = value.route_color.as_deref().map(Color::from_hex) {
+        color
+    } else if value.agency_id.as_deref().is_some_and(|id| id == "mvg")
+        && let Some(headsign) = value.headsign.as_deref()
+    {
+        infer_mvv_headsign(headsign).unwrap_or(infer_color_from_route_type(value.route_type))
+    } else {
+        infer_color_from_route_type(value.route_type)
+    };
+    let contrast = color.contrasting_text_color().to_rgb();
+    let color = color.to_rgb();
+    return (
+        format!("#{:02X}{:02X}{:02X}", color.r, color.g, color.b),
+        format!("#{:02X}{:02X}{:02X}", contrast.r, contrast.g, contrast.b),
+    );
+}
+
+fn infer_mvv_headsign(headsign: &str) -> Option<Color> {
+    match headsign {
+        // ubahn colors from https://en.wikipedia.org/wiki/Module:Adjacent_stations/Munich_U-Bahn
+        "U1" => Some(Color::from_hex("#52822f")),
+        "U2" => Some(Color::from_hex("#c20831")),
+        "U3" => Some(Color::from_hex("#ec6725")),
+        "U4" => Some(Color::from_hex("#00a984")),
+        "U5" => Some(Color::from_hex("#bc7a00")),
+        "U6" => Some(Color::from_hex("#0065ae")),
+        "U7" => Some(Color::from_hex("#52822f")),
+        "U8" => Some(Color::from_hex("#c20831")),
+        // https://en.wikipedia.org/wiki/Module:Adjacent_stations/Munich_S-Bahn
+        "S1" => Some(Color::from_hex("#19BBE7")),
+        "S2" => Some(Color::from_hex("#78B82C")),
+        "S3" => Some(Color::from_hex("#961B81")),
+        "S4" => Some(Color::from_hex("#E30614")),
+        "S5" => Some(Color::from_hex("#00517F")),
+        "S6" => Some(Color::from_hex("#00975F")),
+        "S7" => Some(Color::from_hex("#943226")),
+        "S8" => Some(Color::from_hex("#F0AB00")),
+        "S20" => Some(Color::from_hex("#EA516D")),
+        _ => None,
+    }
+    .map(|color| color.expect("all colors are static and valid"))
+}
+/// values according to <https://gtfs.org/reference/static/#routestxt> `route_type`
+fn infer_color_from_route_type(route_type: Option<i64>) -> Color {
+    match route_type {
+        // -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+        // -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
+        // -> Straßenbahn München
+        Some(0) | Some(5) => Color::from_hex("#d31f20"),
+        // -  1: Subway, Metro. Any underground rail system within a metropolitan area.
+        // -> U-Bahn München
+        Some(1) => Color::from_hex("#0065b0"),
+        // -  2: Rail. Used for intercity or long-distance travel.
+        // - 12: Monorail. Railway in which the track consists of a single rail or a beam.
+        // -> DB
+        Some(2) | Some(12) => Color::from_hex("#EC0016"),
+        // -  3: Bus. Used for short- and long-distance bus routes.
+        // - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
+        // -> bus münchen
+        Some(3) | Some(11) => Color::from_hex("#005567"),
+        // -  4: Ferry. Used for short- and long-distance boat service.
+        // -> https://de.m.wikipedia.org/wiki/Datei:Bayerische_Seenschifffahrt_logo.svg
+        Some(4) => Color::from_hex("#006aa3"),
+        // -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
+        // -> light blue?
+        Some(6) => Color::from_hex("#8dd1f0"),
+        // -  7: Funicular. Any rail system designed for steep inclines.
+        // -> zugspitzbahn?
+        Some(7) => Color::from_hex("#e10019"),
+        _ => Color::from_hex("#3b82f6"),
+    }
+    .expect("all colors are static and valid")
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -320,6 +388,7 @@ impl From<Mode> for ModeResponse {
 pub mod rental {
     use super::*;
     #[derive(Serialize, Debug, utoipa::ToSchema)]
+    #[serde_with::skip_serializing_none]
     pub struct RentalResponse {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub form_factor: Option<RentalFormFactorResponse>,
@@ -397,11 +466,11 @@ pub mod rental {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde_with::skip_serializing_none]
 pub struct StepInstructionResponse {
     /// Experimental. Indicates whether access to this part of the route is
     /// restricted.
     /// See: <https://wiki.openstreetmap.org/wiki/Conditional_restrictions>
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub access_restriction: Option<String>,
     ///Not implemented!
     ///This step is on an open area, such as a plaza or train platform,
@@ -409,17 +478,14 @@ pub struct StepInstructionResponse {
     pub area: bool,
     pub distance: f64,
     ///decline in meters across this path segment
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub elevation_down: Option<i64>,
     ///incline in meters across this path segment
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub elevation_up: Option<i64>,
     ///Not implemented!
     ///When exiting a highway or traffic circle, the exit name/number.
     pub exit: String,
     pub from_level: f64,
     ///OpenStreetMap way index
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub osm_way: Option<i64>,
     /// Polyline geometry (precision 6) of the leg.
     pub polyline: String,
@@ -495,24 +561,20 @@ impl From<Direction> for DirectionResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde_with::skip_serializing_none]
 pub struct PlaceResponse {
     ///Alerts for this stop.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub alerts: Vec<AlertResponse>,
     ///arrival time
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
     ///scheduled arrival time
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
     ///scheduled departure time
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_departure: Option<chrono::DateTime<chrono::offset::Utc>>,
     ///Whether this stop is cancelled due to the realtime situation
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cancelled: Option<bool>,
     ///departure time
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub departure: Option<chrono::DateTime<chrono::offset::Utc>>,
 
     pub lat: f64,
@@ -522,22 +584,17 @@ pub struct PlaceResponse {
     ///name of the transit stop / PoI / address
     pub name: String,
     ///description of the location that provides more detailed information
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     /// scheduled track from the static schedule timetable dataset
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_track: Option<String>,
     ///The ID of the stop. This is often something that users don't care
     /// about.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub stop_id: Option<String>,
     ///The current track/platform information, updated with real-time
     /// updates if available. Can be missing if neither real-time
     /// updates nor the schedule timetable contains track information.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub track: Option<String>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub vertex_type: Option<VertexTypeResponse>,
 }
 
@@ -609,12 +666,11 @@ impl From<VertexType> for VertexTypeResponse {
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
+#[serde_with::skip_serializing_none]
 pub struct AlertResponse {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cause: Option<AlertCauseResponse>,
     ///Description of the cause of the alert that allows for
     /// agency-specific language; more specific than the Cause.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cause_detail: Option<String>,
     ///Description for the alert.
     ///This plain-text string will be formatted as the body of the alert
@@ -622,11 +678,9 @@ pub struct AlertResponse {
     /// The information in the description should add to the information of
     /// the header.
     pub description_text: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub effect: Option<AlertEffectResponse>,
     ///Description of the effect of the alert that allows for
     /// agency-specific language; more specific than the Effect.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub effect_detail: Option<String>,
     ///Header for the alert. This plain-text string will be highlighted,
     /// for example in boldface.
@@ -635,19 +689,14 @@ pub struct AlertResponse {
     /// field (e.g., in case the image can't be displayed or the
     /// user can't see the image for accessibility reasons). See the
     /// HTML spec for alt image text.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub image_alternative_text: Option<String>,
     ///IANA media type as to specify the type of image to be displayed. The
     /// type must start with "image/"
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub image_media_type: Option<String>,
     ///String containing an URL linking to an image.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub image_url: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub severity_level: Option<AlertSeverityLevelResponse>,
     ///The URL which provides additional information about the alert.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
 }
 impl From<Alert> for AlertResponse {

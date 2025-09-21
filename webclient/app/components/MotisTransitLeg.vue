@@ -95,8 +95,8 @@ const previousLeg = computed(() => getPreviousLegInfo(props.legIndex));
           <span
             class="rounded px-2 py-1 text-sm font-bold text-white"
             :style="{
-              backgroundColor: leg.route_color || '#3b82f6',
-              color: leg.route_text_color || 'white',
+              backgroundColor: leg.route_color,
+              color: leg.route_text_color,
             }"
           >
             {{ leg.route_short_name }}
@@ -135,8 +135,8 @@ const previousLeg = computed(() => getPreviousLegInfo(props.legIndex));
                   <span
                     class="rounded px-1.5 py-0.5 text-xs font-bold text-white"
                     :style="{
-                      backgroundColor: leg.route_color || '#3b82f6',
-                      color: leg.route_text_color || 'white',
+                      backgroundColor: leg.route_color,
+                      color: leg.route_text_color,
                     }"
                   >
                     {{ leg.route_short_name }}

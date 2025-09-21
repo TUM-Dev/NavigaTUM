@@ -942,6 +942,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
+name = "chroma-forge"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad87fbab3e20e831a56bc925a4d566ed7d5fc49f320327f1bc06ae72b11d7bc1"
+
+[[package]]
 name = "chrono"
 version = "0.4.42"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3218,6 +3224,7 @@ dependencies = [
  "anyhow",
  "base64 0.22.1",
  "cached",
+ "chroma-forge",
  "chrono",
  "futures",
  "geo",
