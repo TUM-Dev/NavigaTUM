@@ -10,6 +10,7 @@ import {
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
+import { useSharedGeolocation } from "~/composables/geolocation";
 import { webglSupport } from "~/composables/webglSupport";
 import {
   calculateItineraryBounds,
@@ -45,6 +46,10 @@ const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
+const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+
+// Geolocation state
+const geolocationState = useSharedGeolocation();
 
 // Motis routing state
 const motisMarkers = ref<Marker[]>([]);
@@ -182,7 +187,26 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       trackUserLocation: true,
     });
+
+    // Listen for geolocation events
+    location.on("geolocate", (e) => {
+      geolocationState.value.mapGeolocationActive = true;
+      // Store the user location coordinates
+      geolocationState.value.userLocation = {
+        lat: e.coords.latitude,
+        lon: e.coords.longitude,
+      };
+    });
+
+    location.on("error", () => {
+      geolocationState.value.mapGeolocationActive = false;
+      geolocationState.value.userLocation = null;
+      // Clear the triggering search bar ID so animation stops
+      geolocationState.value.triggeringSearchBarId = null;
+    });
+
     map.addControl(location);
+    geolocateControl.value = location;
 
     // Add Valhalla route source and layers
     map.addSource("route", {
@@ -521,6 +545,21 @@ function createTransitStopMarker(
   return markerDiv;
 }
 
+// Watch for geolocation trigger requests
+watch(
+  () => geolocationState.value.shouldTriggerMapGeolocation,
+  (shouldTrigger) => {
+    if (shouldTrigger) {
+      geolocateControl.value?.trigger();
+      geolocationState.value.shouldTriggerMapGeolocation = false;
+    }
+  }
+);
+
+function triggerGeolocation() {
+  geolocateControl.value?.trigger();
+}
+
 defineExpose({
   drawRoute,
   fitBounds,
@@ -528,6 +567,7 @@ defineExpose({
   highlightMotisLeg,
   focusOnMotisLeg,
   clearMotisRoutes,
+  triggerGeolocation,
 });
 </script>
 

@@ -10,6 +10,22 @@ import { firstOrDefault } from "~/composables/common";
 
 import type { TimeSelection } from "~/types/navigation";
 
+// Utility function to parse coordinate IDs and convert to coordinate objects
+function parseCoordinateId(value: string): { lat: number; lon: number } | string {
+  if (value.startsWith("coord:")) {
+    const coordString = value.substring(6);
+    const coords = coordString.split(",");
+    if (coords.length === 2 && coords[0] && coords[1]) {
+      const lat = Number.parseFloat(coords[0]);
+      const lon = Number.parseFloat(coords[1]);
+      if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
+        return { lat, lon };
+      }
+    }
+  }
+  return value;
+}
+
 definePageMeta({
   layout: "navigation",
 });
@@ -39,8 +55,8 @@ const { data, status, error } = await useFetch<NavigationResponse>(
   {
     query: computed(() => ({
       lang: locale.value,
-      from: selected_from.value,
-      to: selected_to.value,
+      from: parseCoordinateId(selected_from.value),
+      to: parseCoordinateId(selected_to.value),
       route_costing: mode.value,
       page_cursor: motisPageCursor.value,
       pedestrian_type: undefined as RequestQuery["pedestrian_type"],
@@ -49,6 +65,11 @@ const { data, status, error } = await useFetch<NavigationResponse>(
       arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
       time: debouncedTimeSelection.value?.time.toISOString(),
     })),
+    dedupe: "defer",
+    credentials: "omit",
+    retry: 10,
+    retryDelay: 1000,
+    key: "navigation",
   }
 );
 
