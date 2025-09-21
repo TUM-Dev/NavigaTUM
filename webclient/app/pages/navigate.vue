@@ -25,26 +25,22 @@ const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", 
   router,
 });
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse =
-  operations["route_handler"]["responses"][200]["content"]["application/json"];
+type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
 
 // Page cursor for Motis pagination
 const pageCursor = ref<string | undefined>(undefined);
-const { data, status, error, refresh } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
-  {
-    query: computed(() => ({
-      lang: locale.value,
-      from: selected_from.value,
-      to: selected_to.value,
-      route_costing: mode.value,
-      page_cursor: pageCursor.value,
-      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-      ptw_type: undefined as RequestQuery["ptw_type"],
-      bicycle_type: undefined as RequestQuery["bicycle_type"],
-    })),
-  }
-);
+const { data, status, error, refresh } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
+  query: computed(() => ({
+    lang: locale.value,
+    from: selected_from.value,
+    to: selected_to.value,
+    route_costing: mode.value,
+    page_cursor: pageCursor.value,
+    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+    ptw_type: undefined as RequestQuery["ptw_type"],
+    bicycle_type: undefined as RequestQuery["bicycle_type"],
+  })),
+});
 
 effect(() => {
   if (!data.value || !indoorMap.value) return;
@@ -75,16 +71,10 @@ const description = computed(() => {
     const length_kilometers = (length_meters / 1000).toFixed(1);
     const time_seconds = data.value.summary.time_seconds;
     const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-    return t(
-      data.value.summary.has_highway
-        ? "description_highway_time_length"
-        : "description_time_length",
-      {
-        time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-        length:
-          length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-      }
-    );
+    return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
+      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+      length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+    });
   }
   if (data.value?.router === "motis") {
     return t("description_public_transport", {
@@ -111,7 +101,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
+    [Math.min(...latitudes), Math.max(...latitudes)],
   );
 }
 
@@ -120,10 +110,7 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
 }
 
 // Handle Motis pagination
-async function loadMotisPage(cursor?: string) {
-  pageCursor.value = cursor;
-  await refresh();
-}
+async function loadMotisPage(cursor?: string) {}
 
 // Currently selected itinerary for map display
 const selectedItineraryIndex = ref(0);
@@ -192,13 +179,9 @@ function handleSelectItinerary(itineraryIndex: number) {
       <MotisNavigationRoutingResults
         v-else-if="status === 'success' && data?.router === 'motis'"
         :data="data"
-        :loading="false"
-        :page-cursor="pageCursor"
+        v-model:page-cursor="pageCursor"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
-        @retry="() => refresh()"
-        @load-next="loadMotisPage"
-        @load-previous="loadMotisPage"
       />
       <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
