@@ -1719,6 +1719,8 @@ components:
         - mode
         - real_time
         - scheduled
+        - route_color
+        - route_text_color
         - scheduled_end_time
         - scheduled_start_time
         - start_time
@@ -1812,9 +1814,7 @@ components:
             - type: "null"
             - $ref: '#/components/schemas/RentalResponse'
         route_color:
-          type:
-            - string
-            - "null"
+          type: string
           description: |-
             Route color designation that matches public facing material.
 
@@ -1824,10 +1824,12 @@ components:
           type:
             - string
             - "null"
+          description: |-
+            Short name of a route.
+
+            Often a short, abstract identifier (e.g., "32", "100X", "Green") that riders use to identify a route
         route_text_color:
-          type:
-            - string
-            - "null"
+          type: string
           description: |-
             Legible color to use for text drawn against a background of `route_color`.
 
