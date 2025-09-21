@@ -109,18 +109,8 @@ pub struct MotisLegResponse {
     ///  `additionalTransferTime = 0` in case they are not explicitly
     ///  provided in the query.
     pub duration: i64,
-    ///Index into the
-    /// `Itinerary.fareTransfers[fareTransferIndex].
-    /// effectiveFareLegProducts` array to identify which effective
-    /// fare leg this itinerary leg belongs to
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub effective_fare_leg_index: Option<i64>,
     ///leg arrival time
     pub end_time: chrono::DateTime<chrono::offset::Utc>,
-    ///Index into `Itinerary.fareTransfers` array
-    ///to identify which fare transfer this leg belongs to
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub fare_transfer_index: Option<i64>,
     pub from: PlaceResponse,
     pub to: PlaceResponse,
 
@@ -188,9 +178,7 @@ impl From<Leg> for MotisLegResponse {
             cancelled: value.cancelled,
             distance: value.distance,
             duration: value.duration,
-            effective_fare_leg_index: value.effective_fare_leg_index,
             end_time: value.end_time,
-            fare_transfer_index: value.fare_transfer_index,
             from: PlaceResponse::from(value.from),
             to: PlaceResponse::from(value.to),
             headsign: value.headsign,
