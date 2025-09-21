@@ -24,10 +24,7 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <div v-if="itineraries.length > 0">
-    <div class="flex items-center justify-between mb-3">
-      <h3 class="text-zinc-700 text-lg font-semibold">
-        {{ t("transit_connections") }}
-      </h3>
+    <div class="flex items-center justify-end mb-3">
       <!-- Pagination Controls - Top -->
       <MotisPaginationControls
         :previous-page-cursor="previousPageCursor"
@@ -59,11 +56,3 @@ const { t } = useI18n({ useScope: "local" });
     />
   </div>
 </template>
-
-<i18n lang="yaml">
-de:
-  transit_connections: Öffentliche Verkehrsmittel
-
-en:
-  transit_connections: Public transport
-</i18n>
