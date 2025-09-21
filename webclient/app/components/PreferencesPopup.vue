@@ -177,7 +177,8 @@ function selectLanguage(lang: "de" | "en") {
 
           <!-- Preferred Transport Mode Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("preferredTransportMode") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("preferredTransportMode") }}</h3>
+            <p class="text-sm text-zinc-600 mb-4">{{ t("preferredTransportMode.help") }}</p>
             <TabGroup
               :default-index="
                 ['pedestrian', 'bicycle', 'motorcycle', 'car', 'public_transit'].indexOf(preferences.route_costing)
@@ -280,7 +281,8 @@ function selectLanguage(lang: "de" | "en") {
 
           <!-- Pedestrian Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("pedestrianType") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("pedestrianType") }}</h3>
+            <p class="text-sm text-zinc-600 mb-4">{{ t("pedestrianType.help") }}</p>
             <TabGroup :default-index="['none', 'blind', 'wheelchair'].indexOf(preferences.pedestrian_type || 'none')">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
                 <Tab as="template" v-slot="{ selected }">
@@ -334,7 +336,8 @@ function selectLanguage(lang: "de" | "en") {
 
           <!-- Bicycle Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("bicycleType") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("bicycleType") }}</h3>
+            <p class="text-sm text-zinc-600 mb-4">{{ t("bicycleType.help") }}</p>
             <TabGroup
               :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')"
             >
@@ -405,7 +408,8 @@ function selectLanguage(lang: "de" | "en") {
 
           <!-- Motorcycle Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("ptwType") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("ptwType") }}</h3>
+            <p class="text-sm text-zinc-600 mb-4">{{ t("ptwType.help") }}</p>
             <TabGroup :default-index="['motorcycle', 'moped'].indexOf(preferences.ptw_type || 'motorcycle')">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
                 <Tab as="template" v-slot="{ selected }">
@@ -456,21 +460,25 @@ de:
   theme.dark: Dunkel
   theme.light: Hell
   preferredTransportMode: Bevorzugtes Verkehrsmittel
+  preferredTransportMode.help: Dies wird als Standard für die Navigation verwendet.
   transport.pedestrian: Zu Fuß
   transport.bicycle: Fahrrad
   transport.motorcycle: Motorrad
   transport.car: Auto
   transport.publicTransit: Öffentliche Verkehrsmittel
   pedestrianType: Fußgänger-Typ
+  pedestrianType.help: Wählen Sie dies, falls Sie Barrierefreiheit benötigen wie Ansagen oder Aufzüge.
   pedestrian.none: Standard
   pedestrian.blind: Blind
   pedestrian.wheelchair: Rollstuhl
   bicycleType: Fahrrad-Typ
+  bicycleType.help: Dies beeinflusst welche Wege für Sie ausgewählt werden. Rennräder meiden unbefestigte Wege.
   bicycle.road: Rennrad
   bicycle.hybrid: Standard
   bicycle.cross: Crossrad
   bicycle.mountain: Mountainbike
   ptwType: Zweirad-Typ
+  ptwType.help: Dies beeinflusst welche Straßen Sie befahren dürfen und Ihre Geschwindigkeitsbegrenzungen.
   ptw.motorcycle: Motorrad
   ptw.moped: Moped
 en:
@@ -481,21 +489,25 @@ en:
   theme.dark: Dark
   theme.light: Light
   preferredTransportMode: Preferred Transport Mode
+  preferredTransportMode.help: This will be used as the default for navigation.
   transport.pedestrian: Walking
   transport.bicycle: Bicycle
   transport.motorcycle: Motorcycle
   transport.car: Car
   transport.publicTransit: Public Transit
   pedestrianType: Pedestrian Type
+  pedestrianType.help: Select this if you need accessibility features like narration or elevators.
   pedestrian.none: Standard
   pedestrian.blind: Blind
   pedestrian.wheelchair: Wheelchair
   bicycleType: Bicycle Type
+  bicycleType.help: This affects which paths are selected for you. Road bikes avoid unpaved paths.
   bicycle.road: Road
   bicycle.hybrid: Standard
   bicycle.cross: Cross
   bicycle.mountain: Mountain
   ptwType: Two-Wheeler Type
+  ptwType.help: This affects which roads you can use and your speed limits.
   ptw.motorcycle: Motorcycle
   ptw.moped: Moped
 </i18n>
