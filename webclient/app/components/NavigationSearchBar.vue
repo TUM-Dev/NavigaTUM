@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { mdiCrosshairsGps } from "@mdi/js";
-import { useGeolocation } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
+import { useSharedGeolocation } from "~/composables/geolocation";
 
 type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
@@ -13,8 +13,9 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
-const { coords, locatedAt, error: geoError, resume, pause } = useGeolocation();
-const isGettingLocation = ref(false);
+
+// Use shared geolocation state
+const geolocationState = useSharedGeolocation();
 
 const isGeolocationSupported = computed(() => {
   return process.client && typeof navigator !== "undefined" && "geolocation" in navigator;
@@ -59,54 +60,8 @@ function select(id: string) {
 }
 
 function useCurrentLocation() {
-  if (!import.meta.client || typeof navigator === "undefined" || !("geolocation" in navigator)) {
-    alert(t("gps.error.not_supported"));
-    return;
-  }
-
-  // Check if running on HTTPS or localhost
-  const isSecureContext = window.location.protocol === "https:" || window.location.hostname === "localhost";
-  if (!isSecureContext) {
-    alert(t("gps.error.https_required"));
-    return;
-  }
-
-  isGettingLocation.value = true;
-
-  // Use native geolocation API directly to maintain user gesture connection
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      // Success callback
-      query.value = t("gps.my_location");
-      selected.value = `${position.coords.latitude},${position.coords.longitude}`;
-      currently_actively_picking.value = false;
-      isGettingLocation.value = false;
-    },
-    (error) => {
-      // Error callback
-      isGettingLocation.value = false;
-
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          alert(t("gps.error.permission_denied"));
-          break;
-        case error.POSITION_UNAVAILABLE:
-          alert(t("gps.error.position_unavailable"));
-          break;
-        case error.TIMEOUT:
-          alert(t("gps.error.timeout"));
-          break;
-        default:
-          alert(t("gps.error.general"));
-      }
-    },
-    {
-      // Options
-      timeout: 15000,
-      enableHighAccuracy: true,
-      maximumAge: 300000, // 5 minutes
-    },
-  );
+  // Trigger the map's geolocation control
+  geolocationState.value.shouldTriggerMapGeolocation = true;
 }
 
 function onKeyDown(e: KeyboardEvent): void {
@@ -209,22 +164,14 @@ const { data, error } = await useFetch<SearchResponse>(url, {
     />
     <ClientOnly>
       <button
-        v-if="isGeolocationSupported"
+        v-if="isGeolocationSupported && !geolocationState.mapGeolocationActive"
         type="button"
         class="focusable text-zinc-600 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
-        :disabled="isGettingLocation"
         :title="t('gps.use_current_location')"
         :aria-label="t('gps.use_current_location')"
         @click="useCurrentLocation"
       >
-        <MdiIcon
-          :path="mdiCrosshairsGps"
-          :size="16"
-          :class="{
-            'animate-pulse text-blue-600': isGettingLocation,
-            'text-zinc-600 mr-1': !isGettingLocation,
-          }"
-        />
+        <MdiIcon :path="mdiCrosshairsGps" :size="16" class="text-zinc-600 mr-1" />
       </button>
     </ClientOnly>
   </div>

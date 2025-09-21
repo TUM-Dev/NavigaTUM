@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import type { GeoJSONSource } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { webglSupport } from "~/composables/webglSupport";
+import { useSharedGeolocation } from "~/composables/geolocation";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
@@ -45,6 +40,10 @@ const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
+const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+
+// Geolocation state
+const geolocationState = useSharedGeolocation();
 
 // Motis routing state
 const motisMarkers = ref<Marker[]>([]);
@@ -80,8 +79,7 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
-    await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -157,12 +155,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -182,7 +176,18 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       trackUserLocation: true,
     });
+
+    // Listen for geolocation events
+    location.on("geolocate", () => {
+      geolocationState.value.mapGeolocationActive = true;
+    });
+
+    location.on("error", () => {
+      geolocationState.value.mapGeolocationActive = false;
+    });
+
     map.addControl(location);
+    geolocateControl.value = location;
 
     // Add Valhalla route source and layers
     map.addSource("route", {
@@ -290,7 +295,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,
-    indoorOptions
+    indoorOptions,
   );
 
   // Add the specific control
@@ -316,10 +321,7 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
-  fitBounds(
-    [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
-  );
+  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
@@ -337,7 +339,7 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
       { lat: lat[1] + paddingLat, lng: lon[1] + paddingLon },
     ],
-    { maxZoom: 19 }
+    { maxZoom: 19 },
   );
 }
 
@@ -460,7 +462,7 @@ function clearMotisRoutes() {
  */
 function createTransitStopMarker(
   stop: any,
-  style: { color: string; size: "small" | "medium" | "large"; icon?: string }
+  style: { color: string; size: "small" | "medium" | "large"; icon?: string },
 ): HTMLDivElement {
   const markerDiv = document.createElement("div");
   markerDiv.className = "motis-stop-marker";
@@ -491,8 +493,7 @@ function createTransitStopMarker(
           "M19,15L20.25,17.25L19,19.5L15.75,19.5L17,17.25L15.75,15M9,15L10.25,17.25L9,19.5L5.75,19.5L7,17.25L5.75,15M18,10.5V6C18,5.5 17.8,5.1 17.4,4.8L16,2H8L6.6,4.8C6.2,5.1 6,5.5 6,6V10.5A3.5,3.5 0 0,0 9.5,14H14.5A3.5,3.5 0 0,0 18,10.5M8,6H16V10H8V6Z";
         break;
       default:
-        svgPath =
-          "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2Z";
+        svgPath = "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2Z";
     }
 
     const iconSize = style.size === "small" ? "8" : style.size === "medium" ? "10" : "12";
@@ -521,6 +522,21 @@ function createTransitStopMarker(
   return markerDiv;
 }
 
+// Watch for geolocation trigger requests
+watch(
+  () => geolocationState.value.shouldTriggerMapGeolocation,
+  (shouldTrigger) => {
+    if (shouldTrigger) {
+      geolocateControl.value?.trigger();
+      geolocationState.value.shouldTriggerMapGeolocation = false;
+    }
+  },
+);
+
+function triggerGeolocation() {
+  geolocateControl.value?.trigger();
+}
+
 defineExpose({
   drawRoute,
   fitBounds,
@@ -528,6 +544,7 @@ defineExpose({
   highlightMotisLeg,
   focusOnMotisLeg,
   clearMotisRoutes,
+  triggerGeolocation,
 });
 </script>
 
