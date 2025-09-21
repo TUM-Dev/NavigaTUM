@@ -7,16 +7,14 @@ const { t } = useI18n({ useScope: "local" });
 <template>
   <Toast id="nav-disclaimer" level="warning">
     {{ t("disclaimer_0") }}:
-    <ul class="ms-5 list-outside list-disc">
-      <I18nT tag="li" keypath="disclaimer_1">
-        <template #route_planning>
-          <b class="font-bold">{{ t("disclaimer_1_route_planning") }}</b>
-        </template>
-        <template #interior_shortcuts>
-          <b class="font-bold">{{ t("disclaimer_1_interior_shortcuts") }}</b>
-        </template>
-      </I18nT>
-    </ul>
+    <I18nT keypath="disclaimer_1">
+      <template #route_planning>
+        <b class="font-bold">{{ t("disclaimer_1_route_planning") }}</b>
+      </template>
+      <template #interior_shortcuts>
+        <b class="font-bold">{{ t("disclaimer_1_interior_shortcuts") }}</b>
+      </template>
+    </I18nT>
     <Btn
       variant="link"
       :aria-label="t('open-feedback-form')"
