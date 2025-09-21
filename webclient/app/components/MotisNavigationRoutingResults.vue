@@ -240,16 +240,6 @@ const getTransitLegs = (itinerary: {
 
       <!-- Transit itineraries summary -->
       <div v-if="data.itineraries && data.itineraries.length > 0">
-        <div class="flex items-center justify-end mb-3">
-          <!-- Pagination Controls - Top -->
-          <MotisPaginationControls
-            :previous-page-cursor="data.previous_page_cursor"
-            :next-page-cursor="data.next_page_cursor"
-            v-model:page-cursor="pageCursor"
-            size="sm"
-          />
-        </div>
-
         <div class="space-y-2 w-full max-w-full">
           <div
             v-for="(itinerary, i) in data.itineraries"
@@ -303,7 +293,7 @@ const getTransitLegs = (itinerary: {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                        <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->

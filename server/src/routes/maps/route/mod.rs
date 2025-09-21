@@ -154,6 +154,15 @@ struct RoutingRequest {
     #[serde(default)]
     #[param(inline)]
     page_cursor: Option<String>,
+    /// Time for the route (ISO 8601 format)
+    /// Used with arrive_by to determine if this is departure or arrival time
+    #[serde(default)]
+    #[param(inline)]
+    time: Option<chrono::DateTime<chrono::Utc>>,
+    /// Whether the time parameter represents arrival time (true) or departure time (false/not set)
+    #[serde(default)]
+    #[param(inline)]
+    arrive_by: bool,
 }
 
 /// Does the user have specific walking restrictions?
@@ -273,6 +282,8 @@ pub async fn route_handler(
                 &from.to_string(),
                 &to.to_string(),
                 args.page_cursor.as_deref(),
+                args.time.as_ref(),
+                args.arrive_by,
             )
             .await;
         let response = match routing {
