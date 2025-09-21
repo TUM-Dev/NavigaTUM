@@ -16,9 +16,9 @@ function parseCoordinateId(value: string): { lat: number; lon: number } | string
     const coordString = value.substring(6);
     const coords = coordString.split(",");
     if (coords.length === 2 && coords[0] && coords[1]) {
-      const lat = parseFloat(coords[0]);
-      const lon = parseFloat(coords[1]);
-      if (!isNaN(lat) && !isNaN(lon)) {
+      const lat = Number.parseFloat(coords[0]);
+      const lon = Number.parseFloat(coords[1]);
+      if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
         return { lat, lon };
       }
     }
@@ -43,31 +43,35 @@ const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", 
   router,
 });
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
+type NavigationResponse =
+  operations["route_handler"]["responses"][200]["content"]["application/json"];
 
 const timeSelection = ref<TimeSelection | undefined>(undefined);
 const debouncedTimeSelection = refDebounced(timeSelection, 200);
 const motisPageCursor = ref<string | undefined>(undefined);
 
-const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
-  query: computed(() => ({
-    lang: locale.value,
-    from: parseCoordinateId(selected_from.value),
-    to: parseCoordinateId(selected_to.value),
-    route_costing: mode.value,
-    page_cursor: motisPageCursor.value,
-    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-    ptw_type: undefined as RequestQuery["ptw_type"],
-    bicycle_type: undefined as RequestQuery["bicycle_type"],
-    arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
-    time: debouncedTimeSelection.value?.time.toISOString(),
-  })),
-  dedupe: "defer",
-  credentials: "omit",
-  retry: 10,
-  retryDelay: 1000,
-  key: "navigation",
-});
+const { data, status, error } = await useFetch<NavigationResponse>(
+  "https://nav.tum.de/api/maps/route",
+  {
+    query: computed(() => ({
+      lang: locale.value,
+      from: parseCoordinateId(selected_from.value),
+      to: parseCoordinateId(selected_to.value),
+      route_costing: mode.value,
+      page_cursor: motisPageCursor.value,
+      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+      ptw_type: undefined as RequestQuery["ptw_type"],
+      bicycle_type: undefined as RequestQuery["bicycle_type"],
+      arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
+      time: debouncedTimeSelection.value?.time.toISOString(),
+    })),
+    dedupe: "defer",
+    credentials: "omit",
+    retry: 10,
+    retryDelay: 1000,
+    key: "navigation",
+  }
+);
 
 effect(() => {
   if (!data.value || !indoorMap.value) return;
@@ -98,10 +102,16 @@ const description = computed(() => {
     const length_kilometers = (length_meters / 1000).toFixed(1);
     const time_seconds = data.value.summary.time_seconds;
     const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-    return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
-      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-      length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-    });
+    return t(
+      data.value.summary.has_highway
+        ? "description_highway_time_length"
+        : "description_time_length",
+      {
+        time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+        length:
+          length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+      }
+    );
   }
   if (data.value?.router === "motis") {
     return t("description_public_transport", {
@@ -128,7 +138,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)],
+    [Math.min(...latitudes), Math.max(...latitudes)]
   );
 }
 

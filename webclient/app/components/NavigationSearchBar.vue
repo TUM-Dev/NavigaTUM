@@ -17,6 +17,9 @@ const currently_actively_picking = ref(false);
 // Use shared geolocation state
 const geolocationState = useSharedGeolocation();
 
+// Track if this search bar is currently searching for location
+const isSearchingLocation = ref(false);
+
 // Watch for location updates for this specific search bar
 watch(
   () => geolocationState.value.userLocation,
@@ -25,10 +28,22 @@ watch(
       query.value = t("gps.my_location");
       selected.value = `${location.lat},${location.lon}`;
       currently_actively_picking.value = false;
+      isSearchingLocation.value = false;
       // Clear the triggering search bar ID
       geolocationState.value.triggeringSearchBarId = null;
     }
-  },
+  }
+);
+
+// Watch for when geolocation request is cleared (due to error or completion)
+watch(
+  () => geolocationState.value.triggeringSearchBarId,
+  (triggeringId) => {
+    if (triggeringId !== props.queryId && isSearchingLocation.value) {
+      // This search bar was searching but is no longer the triggering one
+      isSearchingLocation.value = false;
+    }
+  }
 );
 
 const isGeolocationSupported = computed(() => {
@@ -54,7 +69,9 @@ const visibleElements = computed<string[]>(() => {
   const visible: string[] = [];
   for (const section of data.value.sections) {
     if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value ? Number.POSITIVE_INFINITY : section.n_visible;
+      const max_sites_buildings = sites_buildings_expanded.value
+        ? Number.POSITIVE_INFINITY
+        : section.n_visible;
       visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
     } else visible.push(...section.entries.map((e) => e.id));
   }
@@ -67,13 +84,21 @@ function select(id: string) {
   for (const section of data.value?.sections ?? []) {
     for (const entry of section.entries) {
       if (entry.id === id) {
-        query.value = entry.name.replaceAll("<b class='text-blue'>", "").replaceAll("</b>", "").trim();
+        query.value = entry.name
+          .replaceAll("<b class='text-blue'>", "")
+          .replaceAll("</b>", "")
+          .trim();
       }
     }
   }
 }
 
 function useCurrentLocation() {
+  // Show searching message immediately
+  query.value = t("gps.searching_location");
+  currently_actively_picking.value = false;
+  isSearchingLocation.value = true;
+
   // Mark this search bar as the one that triggered geolocation
   geolocationState.value.triggeringSearchBarId = props.queryId;
   // Trigger the map's geolocation control
@@ -187,7 +212,17 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         :aria-label="t('gps.use_current_location')"
         @click="useCurrentLocation"
       >
-        <MdiIcon :path="mdiCrosshairsGps" :size="16" class="text-zinc-600 mr-1" />
+        <MdiIcon
+          :path="mdiCrosshairsGps"
+          :size="16"
+          :class="[
+            'mr-1',
+            {
+              'text-blue-600 animate-pulse': isSearchingLocation,
+              'text-zinc-600': !isSearchingLocation,
+            },
+          ]"
+        />
       </button>
     </ClientOnly>
   </div>
@@ -262,6 +297,7 @@ de:
   gps:
     use_current_location: Aktuellen Standort verwenden (GPS)
     my_location: Mein Standort
+    searching_location: Standort wird gesucht...
     error:
       permission_denied: Standortzugriff wurde verweigert. Bitte erlaube den Zugriff auf deinen Standort in den Browser-Einstellungen.
       position_unavailable: Standort konnte nicht ermittelt werden. Bitte versuche es später erneut.
@@ -286,6 +322,7 @@ en:
   gps:
     use_current_location: Use current location (GPS)
     my_location: My location
+    searching_location: Searching for location...
     error:
       permission_denied: Location access was denied. Please allow location access in your browser settings.
       position_unavailable: Location could not be determined. Please try again later.
