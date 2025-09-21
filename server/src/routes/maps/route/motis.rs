@@ -243,28 +243,44 @@ impl From<Leg> for MotisLegResponse {
 pub enum ModeResponse {
     Walk,
     Bike,
+    /// Experimental. Expect unannounced breaking changes (without version bumps) for all parameters and returned structs.
     Rental,
     Car,
+    /// Experimental. Expect unannounced breaking changes (without version bumps) for all parameters and returned structs.
     CarParking,
+    /// Experimental. Expect unannounced breaking changes (without version bumps) for all parameters and returned structs.
     CarDropoff,
+    /// on-demand taxis from the Prima+ÖV Project
     Odm,
+    /// flexible transports
     Flex,
+    ///  translates to `RAIL,TRAM,BUS,FERRY,AIRPLANE,COACH,CABLE_CAR,FUNICULAR,AREAL_LIFT,OTHER`
     Transit,
     Tram,
     Subway,
     Ferry,
     Airplane,
     Metro,
+    /// short distance buses (does not include `COACH`)
     Bus,
+    /// long distance buses (does not include `BUS`)
     Coach,
+    /// translates to `HIGHSPEED_RAIL,LONG_DISTANCE,NIGHT_RAIL,REGIONAL_RAIL,REGIONAL_FAST_RAIL,METRO,SUBWAY`
     Rail,
+    /// long distance high speed trains (e.g. TGV)
     HighspeedRail,
+    ///  long distance inter city trains
     LongDistance,
+    /// long distance night trains
     NightRail,
+    /// regional express routes that skip low traffic stops to be faster
     RegionalFastRail,
     RegionalRail,
+    /// Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
     CableCar,
+    /// unicular. Any rail system designed for steep inclines.
     Funicular,
+    /// Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
     ArealLift,
     Other,
 }
