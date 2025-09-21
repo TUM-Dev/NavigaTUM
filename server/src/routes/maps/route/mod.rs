@@ -282,7 +282,7 @@ pub async fn route_handler(
                 &from.to_string(),
                 &to.to_string(),
                 args.page_cursor.as_deref(),
-                args.time,
+                args.time.as_ref(),
                 args.arrive_by,
             )
             .await;
