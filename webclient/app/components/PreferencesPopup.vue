@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiMonitor, mdiMoonWaningCrescent, mdiTune, mdiWhiteBalanceSunny } from "@mdi/js";
-import { mdiWalk, mdiBike, mdiScooter, mdiCar, mdiBus } from "@mdi/js";
-import Modal from "~/components/Modal.vue";
+import { mdiWalk, mdiBike, mdiMotorbike, mdiCar, mdiBus } from "@mdi/js";
+import { mdiAccountMultiple, mdiEye } from "@mdi/js";
+import { mdiSpeedometer, mdiRoadVariant, mdiBikeFast, mdiImageFilterHdr } from "@mdi/js";
 import type { UserRoutingPreferences } from "~/composables/userPreferences";
 
 const colorMode = useColorMode();
@@ -21,39 +22,6 @@ watch(locale, async (value) => {
 async function updateLocale(value: "de" | "en") {
   await navigateTo(switchLocalePath(value));
 }
-
-function openPreferences() {
-  isOpen.value = true;
-}
-
-function closePreferences() {
-  isOpen.value = false;
-}
-
-// Setting update functions
-function selectTransportMode(mode: UserRoutingPreferences["route_costing"]) {
-  updatePreference("route_costing", mode);
-}
-
-function selectPedestrianType(type: "none" | "blind") {
-  updatePreference("pedestrian_type", type);
-}
-
-function selectBicycleType(type: NonNullable<UserRoutingPreferences["bicycle_type"]>) {
-  updatePreference("bicycle_type", type);
-}
-
-function selectPtwType(type: NonNullable<UserRoutingPreferences["ptw_type"]>) {
-  updatePreference("ptw_type", type);
-}
-
-function selectTheme(theme: "system" | "dark" | "light") {
-  colorMode.preference = theme;
-}
-
-function selectLanguage(lang: "de" | "en") {
-  locale.value = lang;
-}
 </script>
 
 <template>
@@ -62,7 +30,7 @@ function selectLanguage(lang: "de" | "en") {
     <button
       id="preferences"
       class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white ring-opacity-0 hover:bg-zinc-100/10 hover:ring-opacity-20 focus:outline-none focus:ring-opacity-100"
-      @click="openPreferences"
+      @click="isOpen = true"
     >
       <span class="absolute -inset-1.5" />
       <span class="sr-only">Open preferences menu</span>
@@ -71,7 +39,7 @@ function selectLanguage(lang: "de" | "en") {
 
     <!-- Modal Dialog -->
     <ClientOnly>
-      <LazyModal v-model="isOpen" :title="t('preferences')" class="bg-white" @close="closePreferences">
+      <LazyModal v-model="isOpen" :title="t('preferences')" class="bg-white" @close="isOpen = false">
         <div class="space-y-8">
           <!-- Theme Setting -->
           <div>
@@ -88,7 +56,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTheme('system')"
+                    @click="colorMode = 'system'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMonitor" :size="16" />
@@ -106,7 +74,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTheme('light')"
+                    @click="colorMode='light'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
@@ -124,7 +92,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTheme('dark')"
+                    @click="colorMode='dark'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMoonWaningCrescent" :size="16" />
@@ -151,7 +119,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectLanguage('de')"
+                    @click="locale = 'de'"
                   >
                     Deutsch
                   </button>
@@ -166,7 +134,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectLanguage('en')"
+                    @click="locale = 'en'"
                   >
                     English
                   </button>
@@ -195,7 +163,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTransportMode('pedestrian')"
+                    @click="updatePreference('route_costing', 'pedestrian')"
                   >
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiWalk" :size="20" />
@@ -213,7 +181,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTransportMode('bicycle')"
+                    @click="updatePreference('route_costing', 'bicycle')"
                   >
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiBike" :size="20" />
@@ -231,10 +199,10 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTransportMode('motorcycle')"
+                    @click="updatePreference('route_costing', 'motorcycle')"
                   >
                     <div class="flex items-center gap-2">
-                      <MdiIcon :path="mdiScooter" :size="20" />
+                      <MdiIcon :path="mdiMotorbike" :size="20" />
                       {{ t("transport.motorcycle") }}
                     </div>
                   </button>
@@ -249,7 +217,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTransportMode('car')"
+                    @click="updatePreference('route_costing', 'car')"
                   >
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiCar" :size="20" />
@@ -267,7 +235,7 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectTransportMode('public_transit')"
+                    @click="updatePreference('route_costing', 'public_transit')"
                   >
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiBus" :size="20" />
@@ -283,7 +251,7 @@ function selectLanguage(lang: "de" | "en") {
           <div>
             <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("pedestrianType") }}</h3>
             <p class="text-sm text-zinc-600 mb-4">{{ t("pedestrianType.help") }}</p>
-            <TabGroup :default-index="['none', 'blind', 'wheelchair'].indexOf(preferences.pedestrian_type || 'none')">
+            <TabGroup :default-index="preferences.pedestrian_type === 'blind' ? 1 : 0">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
@@ -295,9 +263,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectPedestrianType('none')"
+                    @click="updatePreference('route_costing', 'standard')"
                   >
-                    {{ t("pedestrian.none") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiAccountMultiple" :size="16" />
+                      {{ t("pedestrian.none") }}
+                    </div>
                   </button>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
@@ -310,24 +281,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectPedestrianType('wheelchair')"
+                    @click="updatePreference('pedestrian_type', 'blind')"
                   >
-                    {{ t("pedestrian.wheelchair") }}
-                  </button>
-                </Tab>
-                <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
-                    ]"
-                    @click="selectPedestrianType('blind')"
-                  >
-                    {{ t("pedestrian.blind") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiEye" :size="16" />
+                      {{ t("pedestrian.blind") }}
+                    </div>
                   </button>
                 </Tab>
               </TabList>
@@ -352,9 +311,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectBicycleType('hybrid')"
+                    @click="updatePreference('bicycle_type', 'hybrid')"
                   >
-                    {{ t("bicycle.hybrid") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiBike" :size="16" />
+                      {{ t("bicycle.hybrid") }}
+                    </div>
                   </button>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
@@ -367,9 +329,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectBicycleType('road')"
+                    @click="updatePreference('bicycle_type', 'road')"
                   >
-                    {{ t("bicycle.road") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiSpeedometer" :size="16" />
+                      {{ t("bicycle.road") }}
+                    </div>
                   </button>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
@@ -382,9 +347,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectBicycleType('cross')"
+                    @click="updatePreference('bicycle_type', 'cross')"
                   >
-                    {{ t("bicycle.cross") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiRoadVariant" :size="16" />
+                      {{ t("bicycle.cross") }}
+                    </div>
                   </button>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
@@ -397,9 +365,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectBicycleType('mountain')"
+                    @click="updatePreference('bicycle_type', 'mountain')"
                   >
-                    {{ t("bicycle.mountain") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiImageFilterHdr" :size="16" />
+                      {{ t("bicycle.mountain") }}
+                    </div>
                   </button>
                 </Tab>
               </TabList>
@@ -422,9 +393,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectPtwType('motorcycle')"
+                    @click="updatePreference('ptw_type','motorcycle')"
                   >
-                    {{ t("ptw.motorcycle") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiMotorbike" :size="16" />
+                      {{ t("ptw.motorcycle") }}
+                    </div>
                   </button>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
@@ -437,9 +411,12 @@ function selectLanguage(lang: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="selectPtwType('moped')"
+                    @click="updatePreference('ptw_type','moped')"
                   >
-                    {{ t("ptw.moped") }}
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiBike" :size="16" />
+                      {{ t("ptw.moped") }}
+                    </div>
                   </button>
                 </Tab>
               </TabList>
@@ -470,7 +447,6 @@ de:
   pedestrianType.help: Wählen Sie dies, falls Sie Barrierefreiheit benötigen wie Ansagen oder Aufzüge.
   pedestrian.none: Standard
   pedestrian.blind: Blind
-  pedestrian.wheelchair: Rollstuhl
   bicycleType: Fahrrad-Typ
   bicycleType.help: Dies beeinflusst welche Wege für Sie ausgewählt werden. Rennräder meiden unbefestigte Wege.
   bicycle.road: Rennrad
@@ -499,7 +475,6 @@ en:
   pedestrianType.help: Select this if you need accessibility features like narration or elevators.
   pedestrian.none: Standard
   pedestrian.blind: Blind
-  pedestrian.wheelchair: Wheelchair
   bicycleType: Bicycle Type
   bicycleType.help: This affects which paths are selected for you. Road bikes avoid unpaved paths.
   bicycle.road: Road

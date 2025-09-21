@@ -2,18 +2,18 @@ export interface UserRoutingPreferences {
   /** @description Preferred Transport mode the user wants to use */
   route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
   /** @description Does the user have specific walking restrictions? (affects narration and routing) */
-  pedestrian_type?: "none" | "blind";
+  pedestrian_type: "wheelchair" | "blind" | "standard";
   /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
-  ptw_type?: "motorcycle" | "moped";
+  ptw_type: "motorcycle" | "moped";
   /** @description Which kind of bicycle do you ride? */
-  bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
+  bicycle_type: "road" | "hybrid" | "cross" | "mountain";
 }
 
 const defaultPreferences: UserRoutingPreferences = {
   route_costing: "pedestrian",
-  pedestrian_type: "none",
+  pedestrian_type: "standard",
   ptw_type: "motorcycle",
-  bicycle_type: "road",
+  bicycle_type: "hybrid",
 };
 
 export const useUserPreferences = () => {
