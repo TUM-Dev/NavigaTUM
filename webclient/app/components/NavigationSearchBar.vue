@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { mdiCrosshairsGps } from "@mdi/js";
+import { useGeolocation } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 
@@ -11,6 +13,12 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
+const { coords, locatedAt, error: geoError, resume, pause } = useGeolocation();
+const isGettingLocation = ref(false);
+
+const isGeolocationSupported = computed(() => {
+  return process.client && typeof navigator !== "undefined" && "geolocation" in navigator;
+});
 
 const query = useRouteQuery<string>(`q_${props.queryId}`, "", {
   mode: "replace",
@@ -31,9 +39,7 @@ const visibleElements = computed<string[]>(() => {
   const visible: string[] = [];
   for (const section of data.value.sections) {
     if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value
-        ? Number.POSITIVE_INFINITY
-        : section.n_visible;
+      const max_sites_buildings = sites_buildings_expanded.value ? Number.POSITIVE_INFINITY : section.n_visible;
       visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
     } else visible.push(...section.entries.map((e) => e.id));
   }
@@ -46,12 +52,81 @@ function select(id: string) {
   for (const section of data.value?.sections ?? []) {
     for (const entry of section.entries) {
       if (entry.id === id) {
-        query.value = entry.name
-          .replaceAll("<b class='text-blue'>", "")
-          .replaceAll("</b>", "")
-          .trim();
+        query.value = entry.name.replaceAll("<b class='text-blue'>", "").replaceAll("</b>", "").trim();
       }
     }
+  }
+}
+
+async function useCurrentLocation() {
+  if (!process.client || typeof navigator === "undefined" || !("geolocation" in navigator)) {
+    alert(t("gps.error.not_supported"));
+    return;
+  }
+
+  // Check if running on HTTPS or localhost
+  const isSecureContext = window.location.protocol === "https:" || window.location.hostname === "localhost";
+  if (!isSecureContext) {
+    alert(t("gps.error.https_required"));
+    return;
+  }
+
+  try {
+    isGettingLocation.value = true;
+
+    // Resume geolocation to get fresh coordinates
+    resume();
+
+    // Wait for coordinates to be available or error to occur
+    await new Promise<void>((resolve, reject) => {
+      const unwatch = watch(
+        [coords, geoError],
+        ([newCoords, newError]) => {
+          if (newError) {
+            unwatch();
+            reject(newError);
+          } else if (newCoords && newCoords.latitude && newCoords.longitude) {
+            unwatch();
+            resolve();
+          }
+        },
+        { immediate: true },
+      );
+
+      // Timeout after 15 seconds
+      setTimeout(() => {
+        unwatch();
+        reject({ code: 3, message: "Timeout" });
+      }, 15000);
+    });
+
+    if (coords.value) {
+      query.value = t("gps.my_location");
+      selected.value = `${coords.value.latitude},${coords.value.longitude}`;
+      currently_actively_picking.value = false;
+    }
+  } catch (error: any) {
+    // Handle GeolocationPositionError specifically
+    if (error && typeof error.code === "number") {
+      switch (error.code) {
+        case 1: // PERMISSION_DENIED
+          alert(t("gps.error.permission_denied"));
+          break;
+        case 2: // POSITION_UNAVAILABLE
+          alert(t("gps.error.position_unavailable"));
+          break;
+        case 3: // TIMEOUT
+          alert(t("gps.error.timeout"));
+          break;
+        default:
+          alert(t("gps.error.general"));
+      }
+    } else {
+      alert(t("gps.error.general"));
+    }
+  } finally {
+    isGettingLocation.value = false;
+    pause(); // Stop watching location to save battery
   }
 }
 
@@ -143,7 +218,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       maxlength="2048"
       :name="queryId"
       type="text"
-      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 pe-5 ps-3 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
+      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
       :placeholder="t('input.placeholder-' + queryId)"
       :aria-label="t('input.aria-searchlabel')"
       @focus="
@@ -153,6 +228,26 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       "
       @keydown="onKeyDown"
     />
+    <ClientOnly>
+      <button
+        v-if="isGeolocationSupported"
+        type="button"
+        class="focusable text-zinc-600 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
+        :disabled="isGettingLocation"
+        :title="t('gps.use_current_location')"
+        :aria-label="t('gps.use_current_location')"
+        @click="useCurrentLocation"
+      >
+        <MdiIcon
+          :path="mdiCrosshairsGps"
+          :size="16"
+          :class="{
+            'animate-pulse text-blue-600': isGettingLocation,
+            'text-zinc-600 mr-1': !isGettingLocation,
+          }"
+        />
+      </button>
+    </ClientOnly>
   </div>
   <!-- Autocomplete -->
   <ClientOnly>
@@ -222,6 +317,16 @@ de:
     addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
+  gps:
+    use_current_location: Aktuellen Standort verwenden (GPS)
+    my_location: Mein Standort
+    error:
+      permission_denied: Standortzugriff wurde verweigert. Bitte erlaube den Zugriff auf deinen Standort in den Browser-Einstellungen.
+      position_unavailable: Standort konnte nicht ermittelt werden. Bitte versuche es später erneut.
+      timeout: Standortermittlung dauerte zu lange. Bitte versuche es erneut.
+      general: Fehler beim Ermitteln des Standorts. Bitte versuche es erneut.
+      not_supported: Geolokation wird von diesem Browser nicht unterstützt.
+      https_required: Geolokation erfordert eine sichere Verbindung (HTTPS).
 en:
   input:
     placeholder-from: From
@@ -236,4 +341,14 @@ en:
     addresses: Adresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
+  gps:
+    use_current_location: Use current location (GPS)
+    my_location: My location
+    error:
+      permission_denied: Location access was denied. Please allow location access in your browser settings.
+      position_unavailable: Location could not be determined. Please try again later.
+      timeout: Location request timed out. Please try again.
+      general: Error getting location. Please try again.
+      not_supported: Geolocation is not supported by this browser.
+      https_required: Geolocation requires a secure connection (HTTPS).
 </i18n>
