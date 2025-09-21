@@ -183,12 +183,12 @@ struct RoutingRequest {
     arrive_by: bool,
 }
 
-/// Does the user have specific walking restrictions?
+/// Does the user have specific walking needs?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum PedestrianTypeRequest {
     #[default]
-    None,
+    Standard,
     Blind,
     Wheelchair,
 }
