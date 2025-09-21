@@ -190,17 +190,27 @@ enum PedestrianTypeRequest {
     #[default]
     None,
     Blind,
-    // TODO
-    // Wheelchair,
+    Wheelchair,
 }
 
 impl From<PedestrianTypeRequest> for PedestrianType {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::None => PedestrianType::Blind,
+            PedestrianTypeRequest::None => PedestrianType::Foot,
             PedestrianTypeRequest::Blind => PedestrianType::Blind,
-            // TODO
-            // PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+            PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+        }
+    }
+}
+impl From<PedestrianTypeRequest> for motis_openapi_progenitor::types::PedestrianProfile {
+    fn from(value: PedestrianTypeRequest) -> Self {
+        match value {
+            PedestrianTypeRequest::None | PedestrianTypeRequest::Blind => {
+                motis_openapi_progenitor::types::PedestrianProfile::Foot
+            }
+            PedestrianTypeRequest::Wheelchair => {
+                motis_openapi_progenitor::types::PedestrianProfile::Wheelchair
+            }
         }
     }
 }
@@ -303,6 +313,7 @@ pub async fn route_handler(
                 args.time.as_ref(),
                 args.arrive_by,
                 args.lang == LanguageOptions::En,
+                args.pedestrian_type.into(),
             )
             .await;
         let response = match routing {
