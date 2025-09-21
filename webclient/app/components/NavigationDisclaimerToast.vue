@@ -6,13 +6,12 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <Toast id="nav-disclaimer" level="warning">
-    {{ t("disclaimer_0") }}
-    <I18nT keypath="disclaimer_1">
+    <I18nT keypath="disclaimer">
       <template #route_planning>
-        <b class="font-bold">{{ t("disclaimer_1_route_planning") }}</b>
+        <b class="font-bold">{{ t("disclaimer_route_planning") }}</b>
       </template>
       <template #barrier_free_routing>
-        <b class="font-bold">{{ t("disclaimer_1_barrier_free_routing") }}</b>
+        <b class="font-bold">{{ t("disclaimer_barrier_free_routing") }}</b>
       </template>
     </I18nT>
     <Btn
@@ -38,19 +37,17 @@ const { t } = useI18n({ useScope: "local" });
 
 <i18n lang="yaml">
 de:
-  disclaimer_0: Beta-Phase: Noch nicht implementiert sind
-  disclaimer_1_route_planning: Routenplanung
-  disclaimer_1_barrier_free_routing: barrierefreies Routing
-  disclaimer_1: "{route_planning} und {barrier_free_routing}."
+  disclaimer: "Beta-Phase: Noch nicht implementiert ist {route_planning} und {barrier_free_routing}."
+  disclaimer_route_planning: indoor
+  disclaimer_barrier_free_routing: barrierefreies Routing
   disclaimer_cta: Wir würden wir uns trotzdem über dein Feedback freuen 😊
   open-feedback-form: Öffnet das Feedback-Formular
   found_issues: "Ich habe diese Probleme gefunden:"
   got_here_and_found_issues: "Ich habe die Navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
 en:
-  disclaimer_0: Beta stage: Not implemented are
-  disclaimer_1_route_planning: Indoor routing
-  disclaimer_1_barrier_free_routing: barrier-free routing
-  disclaimer_1: "{route_planning} and {barrier_free_routing}."
+  disclaimer: "Beta stage: Not implemented is {route_planning} and {barrier_free_routing}."
+  disclaimer_route_planning: indoor
+  disclaimer_barrier_free_routing: barrier-free routing
   disclaimer_cta: We would still appreciate your feedback 😊
   open-feedback-form: Open the feedback form
   found_issues: "I have found these problems:"
