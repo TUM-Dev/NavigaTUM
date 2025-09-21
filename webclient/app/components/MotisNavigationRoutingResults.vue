@@ -8,10 +8,15 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 const pageCursor = defineModel<string | undefined>("pageCursor", {
   required: true,
 });
-const mocktimeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(undefined);
-const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>("time", {
-  required: true,
-});
+const mocktimeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(
+  undefined
+);
+const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(
+  "time",
+  {
+    required: true,
+  }
+);
 const props = defineProps<{
   data: MotisRoutingResponse;
 }>();
@@ -38,10 +43,12 @@ const showTransitOverflow = ref(false);
 const checkOverflow = () => {
   nextTick(() => {
     if (transitContainer.value) {
-      showDirectOverflow.value = transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
+      showDirectOverflow.value =
+        transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
     }
     if (transitContainer2.value) {
-      showTransitOverflow.value = transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
+      showTransitOverflow.value =
+        transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
     }
   });
 };
@@ -146,7 +153,9 @@ const getTransitLegs = (itinerary: {
       // Deduplicate consecutive similar legs (same mode and route)
       const lastLeg = transitLegs[transitLegs.length - 1];
       const isDuplicate =
-        lastLeg && lastLeg.mode === newLeg.mode && lastLeg.route_short_name === newLeg.route_short_name;
+        lastLeg &&
+        lastLeg.mode === newLeg.mode &&
+        lastLeg.route_short_name === newLeg.route_short_name;
 
       if (!isDuplicate) {
         transitLegs.push(newLeg);

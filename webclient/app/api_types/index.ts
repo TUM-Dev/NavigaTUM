@@ -2013,6 +2013,13 @@ export type operations = {
          * Only avaliable for some costings
          */
         page_cursor?: string | null;
+        /**
+         * @description Time for the route (ISO 8601 format)
+         * Used with arrive_by to determine if this is departure or arrival time
+         */
+        time?: string | null;
+        /** @description Whether the time parameter represents arrival time (true) or departure time (false/not set) */
+        arrive_by?: boolean;
       };
     };
     responses: {

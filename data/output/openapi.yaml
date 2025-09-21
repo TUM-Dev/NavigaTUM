@@ -509,6 +509,23 @@ paths:
             type:
               - string
               - "null"
+        - name: time
+          in: query
+          description: |-
+            Time for the route (ISO 8601 format)
+            Used with arrive_by to determine if this is departure or arrival time
+          required: false
+          schema:
+            type:
+              - string
+              - "null"
+            format: date-time
+        - name: arrive_by
+          in: query
+          description: Whether the time parameter represents arrival time (true) or departure time (false/not set)
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: '**Routing solution**'

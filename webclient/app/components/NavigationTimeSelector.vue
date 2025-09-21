@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { mdiCheck, mdiUnfoldMoreHorizontal } from "@mdi/js";
+import { computed } from "vue";
 
 type TimeSelection = { type: "depart_at" | "arrive_by"; time: Date };
 const timeSelection = defineModel<TimeSelection | undefined>("timeSelection");

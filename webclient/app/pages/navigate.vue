@@ -24,25 +24,29 @@ const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", 
   router,
 });
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
+type NavigationResponse =
+  operations["route_handler"]["responses"][200]["content"]["application/json"];
 
-const timeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date} | undefined>(undefined);
+const timeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(undefined);
 // Page cursor for Motis pagination
 const pageCursor = ref<string | undefined>(undefined);
-const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
-  query: computed(() => ({
-    lang: locale.value,
-    from: selected_from.value,
-    to: selected_to.value,
-    route_costing: mode.value,
-    page_cursor: pageCursor.value,
-    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-    ptw_type: undefined as RequestQuery["ptw_type"],
-    bicycle_type: undefined as RequestQuery["bicycle_type"],
-    arrive_by: timeSelection.value?.type === "arrive_by" ? "true" : "false",
-    time: timeSelection.value?.time.toISOString(),
-  })),
-});
+const { data, status, error } = await useFetch<NavigationResponse>(
+  "https://nav.tum.de/api/maps/route",
+  {
+    query: computed(() => ({
+      lang: locale.value,
+      from: selected_from.value,
+      to: selected_to.value,
+      route_costing: mode.value,
+      page_cursor: pageCursor.value,
+      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+      ptw_type: undefined as RequestQuery["ptw_type"],
+      bicycle_type: undefined as RequestQuery["bicycle_type"],
+      arrive_by: timeSelection.value?.type === "arrive_by" ? "true" : "false",
+      time: timeSelection.value?.time.toISOString(),
+    })),
+  }
+);
 
 effect(() => {
   if (!data.value || !indoorMap.value) return;
@@ -73,10 +77,16 @@ const description = computed(() => {
     const length_kilometers = (length_meters / 1000).toFixed(1);
     const time_seconds = data.value.summary.time_seconds;
     const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-    return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
-      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-      length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-    });
+    return t(
+      data.value.summary.has_highway
+        ? "description_highway_time_length"
+        : "description_time_length",
+      {
+        time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+        length:
+          length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+      }
+    );
   }
   if (data.value?.router === "motis") {
     return t("description_public_transport", {
@@ -103,7 +113,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)],
+    [Math.min(...latitudes), Math.max(...latitudes)]
   );
 }
 

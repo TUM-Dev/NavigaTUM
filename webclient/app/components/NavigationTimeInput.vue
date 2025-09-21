@@ -30,8 +30,8 @@ const timeValue = computed({
     if (!timeSelection.value || !value) return;
     try {
       const [hoursStr = "0", minutesStr = "0"] = value.split(":");
-      const hours = parseInt(hoursStr, 10);
-      const minutes = parseInt(minutesStr, 10);
+      const hours = Number.parseInt(hoursStr, 10);
+      const minutes = Number.parseInt(minutesStr, 10);
 
       if (!isNaN(hours) && !isNaN(minutes)) {
         const newDate = new Date(timeSelection.value.time);
