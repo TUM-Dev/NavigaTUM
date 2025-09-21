@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiAlertOctagon, mdiAlert, mdiInformationOutline, mdiBullhornOutline } from "@mdi/js";
+import { mdiAlert, mdiAlertOctagon, mdiBullhornOutline, mdiInformationOutline } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type AlertResponse = components["schemas"]["AlertResponse"];
