@@ -62,6 +62,11 @@ const { data, status, error } = await useFetch<NavigationResponse>("https://nav.
     arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
     time: debouncedTimeSelection.value?.time.toISOString(),
   })),
+  dedupe: "defer",
+  credentials: "omit",
+  retry: 10,
+  retryDelay: 1000,
+  key: "navigation",
 });
 
 effect(() => {

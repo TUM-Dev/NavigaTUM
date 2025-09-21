@@ -178,12 +178,18 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     });
 
     // Listen for geolocation events
-    location.on("geolocate", () => {
+    location.on("geolocate", (e) => {
       geolocationState.value.mapGeolocationActive = true;
+      // Store the user location coordinates
+      geolocationState.value.userLocation = {
+        lat: e.coords.latitude,
+        lon: e.coords.longitude,
+      };
     });
 
     location.on("error", () => {
       geolocationState.value.mapGeolocationActive = false;
+      geolocationState.value.userLocation = null;
     });
 
     map.addControl(location);

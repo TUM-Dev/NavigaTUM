@@ -17,6 +17,20 @@ const currently_actively_picking = ref(false);
 // Use shared geolocation state
 const geolocationState = useSharedGeolocation();
 
+// Watch for location updates for this specific search bar
+watch(
+  () => geolocationState.value.userLocation,
+  (location) => {
+    if (location && geolocationState.value.triggeringSearchBarId === props.queryId) {
+      query.value = t("gps.my_location");
+      selected.value = `${location.lat},${location.lon}`;
+      currently_actively_picking.value = false;
+      // Clear the triggering search bar ID
+      geolocationState.value.triggeringSearchBarId = null;
+    }
+  },
+);
+
 const isGeolocationSupported = computed(() => {
   return process.client && typeof navigator !== "undefined" && "geolocation" in navigator;
 });
@@ -60,6 +74,8 @@ function select(id: string) {
 }
 
 function useCurrentLocation() {
+  // Mark this search bar as the one that triggered geolocation
+  geolocationState.value.triggeringSearchBarId = props.queryId;
   // Trigger the map's geolocation control
   geolocationState.value.shouldTriggerMapGeolocation = true;
 }
