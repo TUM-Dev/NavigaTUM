@@ -30,7 +30,7 @@ type NavigationResponse =
 
 // Page cursor for Motis pagination
 const pageCursor = ref<string | undefined>(undefined);
-const { data, status, error, refresh } = await useFetch<NavigationResponse>(
+const { data, status, error } = await useFetch<NavigationResponse>(
   "https://nav.tum.de/api/maps/route",
   {
     query: computed(() => ({
@@ -119,12 +119,6 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
   setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
 }
 
-// Handle Motis pagination
-async function loadMotisPage(cursor?: string) {
-  pageCursor.value = cursor;
-  await refresh();
-}
-
 // Currently selected itinerary for map display
 const selectedItineraryIndex = ref(0);
 
@@ -192,13 +186,9 @@ function handleSelectItinerary(itineraryIndex: number) {
       <MotisNavigationRoutingResults
         v-else-if="status === 'success' && data?.router === 'motis'"
         :data="data"
-        :loading="false"
-        :page-cursor="pageCursor"
+        v-model:page-cursor="pageCursor"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
-        @retry="() => refresh()"
-        @load-next="loadMotisPage"
-        @load-previous="loadMotisPage"
       />
       <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />

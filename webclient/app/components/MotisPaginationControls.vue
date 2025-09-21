@@ -4,18 +4,15 @@ import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 interface Props {
   previousPageCursor?: string | null;
   nextPageCursor?: string | null;
-  loading?: boolean;
   size?: "sm" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: "sm",
 });
-
-const emit = defineEmits<{
-  loadPrevious: [cursor: string];
-  loadNext: [cursor: string];
-}>();
+const pageCursor = defineModel<string | undefined>("pageCursor", {
+  required: true,
+});
 
 const { t } = useI18n({ useScope: "local" });
 
@@ -25,13 +22,13 @@ const showPagination = computed(() => {
 
 const handlePreviousPage = () => {
   if (props.previousPageCursor) {
-    emit("loadPrevious", props.previousPageCursor);
+    pageCursor.value = props.previousPageCursor;
   }
 };
 
 const handleNextPage = () => {
   if (props.nextPageCursor) {
-    emit("loadNext", props.nextPageCursor);
+    pageCursor.value = props.nextPageCursor;
   }
 };
 </script>
@@ -41,7 +38,7 @@ const handleNextPage = () => {
     <!-- Small pagination controls (for top of list) -->
     <div v-if="size === 'sm'" class="flex items-center gap-2">
       <button
-        :disabled="!previousPageCursor || loading"
+        :disabled="!previousPageCursor"
         @click="handlePreviousPage"
         class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 bg-zinc-100 rounded hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
@@ -49,7 +46,7 @@ const handleNextPage = () => {
         {{ t("earlier") }}
       </button>
       <button
-        :disabled="!nextPageCursor || loading"
+        :disabled="!nextPageCursor"
         @click="handleNextPage"
         class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 bg-zinc-100 rounded hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
@@ -61,7 +58,7 @@ const handleNextPage = () => {
     <!-- Large pagination controls (for bottom of list) -->
     <div v-else class="flex justify-center gap-4 mt-6 pt-4 border-t border-zinc-200">
       <button
-        :disabled="!previousPageCursor || loading"
+        :disabled="!previousPageCursor"
         @click="handlePreviousPage"
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
@@ -69,7 +66,7 @@ const handleNextPage = () => {
         {{ t("load_earlier_connections") }}
       </button>
       <button
-        :disabled="!nextPageCursor || loading"
+        :disabled="!nextPageCursor"
         @click="handleNextPage"
         class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
@@ -84,12 +81,12 @@ const handleNextPage = () => {
 de:
   earlier: Früher
   later: Später
-  load_earlier_connections: Frühere Verbindungen laden
-  load_later_connections: Spätere Verbindungen laden
+  load_earlier_connections: Frühere Verbindungen
+  load_later_connections: Spätere Verbindungen
 
 en:
   earlier: Earlier
   later: Later
-  load_earlier_connections: Load earlier connections
-  load_later_connections: Load later connections
+  load_earlier_connections: Earlier connections
+  load_later_connections: Later connections
 </i18n>
