@@ -6,13 +6,13 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <Toast id="nav-disclaimer" level="warning">
-    {{ t("disclaimer_0") }}:
+    {{ t("disclaimer_0") }}
     <I18nT keypath="disclaimer_1">
       <template #route_planning>
         <b class="font-bold">{{ t("disclaimer_1_route_planning") }}</b>
       </template>
-      <template #interior_shortcuts>
-        <b class="font-bold">{{ t("disclaimer_1_interior_shortcuts") }}</b>
+      <template #barrier_free_routing>
+        <b class="font-bold">{{ t("disclaimer_1_barrier_free_routing") }}</b>
       </template>
     </I18nT>
     <Btn
@@ -38,19 +38,19 @@ const { t } = useI18n({ useScope: "local" });
 
 <i18n lang="yaml">
 de:
-  disclaimer_0: Dies ist derzeit in einer Beta-Phase. Die folgenden Punkte sind noch nicht implementiert
+  disclaimer_0: Beta-Phase: Noch nicht implementiert sind
   disclaimer_1_route_planning: Routenplanung
-  disclaimer_1_interior_shortcuts: Abkürzungen im Innenbereich
-  disclaimer_1: "{route_planning} und {interior_shortcuts}. Der Import der CAD-Daten und Implementierung von barrierefreien Routing sind noch nicht abgeschlossen"
+  disclaimer_1_barrier_free_routing: barrierefreies Routing
+  disclaimer_1: "{route_planning} und {barrier_free_routing}."
   disclaimer_cta: Wir würden wir uns trotzdem über dein Feedback freuen 😊
   open-feedback-form: Öffnet das Feedback-Formular
   found_issues: "Ich habe diese Probleme gefunden:"
   got_here_and_found_issues: "Ich habe die Navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
 en:
-  disclaimer_0: This is currently in a beta stage. These are the issues that are currently not implemented
+  disclaimer_0: Beta stage: Not implemented are
   disclaimer_1_route_planning: Indoor routing
-  disclaimer_1_interior_shortcuts: shortcuts
-  disclaimer_1: "{route_planning} and {interior_shortcuts}. CAD-data import and accessible routing implementation is not yet done"
+  disclaimer_1_barrier_free_routing: barrier-free routing
+  disclaimer_1: "{route_planning} and {barrier_free_routing}."
   disclaimer_cta: We would still appreciate your feedback 😊
   open-feedback-form: Open the feedback form
   found_issues: "I have found these problems:"

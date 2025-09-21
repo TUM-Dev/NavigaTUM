@@ -18,11 +18,17 @@ import {
 import type { components } from "~/api_types";
 
 type ModeResponse = components["schemas"]["ModeResponse"];
-defineProps<{ mode: ModeResponse }>();
+defineProps<{
+  mode: ModeResponse;
+  transparent?: boolean;
+}>();
 </script>
 
 <template>
-  <div class="bg-blue-100 text-blue-800 flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium">
+  <div
+    class="flex items-center justify-center text-xs font-medium"
+    :class="transparent ? 'text-current' : 'bg-blue-100 text-blue-800 h-8 w-8 rounded-full'"
+  >
     <!-- Walking -->
     <MdiIcon v-if="mode === 'walk'" :path="mdiWalk" :size="16" />
 
