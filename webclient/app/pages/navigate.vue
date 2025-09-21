@@ -34,44 +34,45 @@ const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
 const { t, locale } = useI18n({ useScope: "local" });
+const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", {
-  mode: "replace",
-  route,
-  router,
-});
+const mode = useRouteQuery<RequestQuery["route_costing"]>(
+  "mode",
+  computed(() => preferences.value.route_costing),
+  {
+    mode: "replace",
+    route,
+    router,
+  },
+);
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
-type NavigationResponse =
-  operations["route_handler"]["responses"][200]["content"]["application/json"];
+type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
 
 const timeSelection = ref<TimeSelection | undefined>(undefined);
 const debouncedTimeSelection = refDebounced(timeSelection, 200);
 const motisPageCursor = ref<string | undefined>(undefined);
 
-const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
-  {
-    query: computed(() => ({
-      lang: locale.value,
-      from: parseCoordinateId(selected_from.value),
-      to: parseCoordinateId(selected_to.value),
-      route_costing: mode.value,
-      page_cursor: motisPageCursor.value,
-      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-      ptw_type: undefined as RequestQuery["ptw_type"],
-      bicycle_type: undefined as RequestQuery["bicycle_type"],
-      arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
-      time: debouncedTimeSelection.value?.time.toISOString(),
-    })),
-    dedupe: "defer",
-    credentials: "omit",
-    retry: 10,
-    retryDelay: 1000,
-    key: "navigation",
-  }
-);
+const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
+  query: computed(() => ({
+    lang: locale.value,
+    from: parseCoordinateId(selected_from.value),
+    to: parseCoordinateId(selected_to.value),
+    route_costing: mode.value,
+    page_cursor: motisPageCursor.value,
+    pedestrian_type: preferences.value.pedestrian_type,
+    ptw_type: preferences.value.ptw_type,
+    bicycle_type: preferences.value.bicycle_type,
+    arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
+    time: debouncedTimeSelection.value?.time.toISOString(),
+  })),
+  dedupe: "defer",
+  credentials: "omit",
+  retry: 10,
+  retryDelay: 1000,
+  key: "navigation",
+});
 
 effect(() => {
   if (!data.value || !indoorMap.value) return;
@@ -102,16 +103,10 @@ const description = computed(() => {
     const length_kilometers = (length_meters / 1000).toFixed(1);
     const time_seconds = data.value.summary.time_seconds;
     const time_minutes = Math.ceil(data.value.summary.time_seconds / 60);
-    return t(
-      data.value.summary.has_highway
-        ? "description_highway_time_length"
-        : "description_time_length",
-      {
-        time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
-        length:
-          length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
-      }
-    );
+    return t(data.value.summary.has_highway ? "description_highway_time_length" : "description_time_length", {
+      time: time_seconds >= 60 ? t("minutes", time_minutes) : t("seconds", time_seconds),
+      length: length_meters >= 1000 ? t("kilometers", [length_kilometers]) : t("meters", length_meters),
+    });
   }
   if (data.value?.router === "motis") {
     return t("description_public_transport", {
@@ -138,7 +133,7 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   const longitudes = coords.map((c: { lat: number; lon: number }) => c.lon);
   indoorMap.value?.fitBounds(
     [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
+    [Math.min(...latitudes), Math.max(...latitudes)],
   );
 }
 
