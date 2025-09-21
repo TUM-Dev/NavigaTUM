@@ -196,7 +196,7 @@ enum PedestrianTypeRequest {
 impl From<PedestrianTypeRequest> for PedestrianType {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::None => PedestrianType::Foot,
+            PedestrianTypeRequest::Standard => PedestrianType::Foot,
             PedestrianTypeRequest::Blind => PedestrianType::Blind,
             PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
         }
