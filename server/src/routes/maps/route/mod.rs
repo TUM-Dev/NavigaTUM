@@ -205,7 +205,7 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 impl From<PedestrianTypeRequest> for motis_openapi_progenitor::types::PedestrianProfile {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::None | PedestrianTypeRequest::Blind => {
+            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => {
                 motis_openapi_progenitor::types::PedestrianProfile::Foot
             }
             PedestrianTypeRequest::Wheelchair => {
