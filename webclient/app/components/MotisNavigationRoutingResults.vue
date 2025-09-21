@@ -290,16 +290,26 @@ const handleNextPage = () => {
                     <span v-if="leg.distance"> • {{ formatDistance(leg.distance) }}</span>
                   </div>
 
-                  <!-- Alerts -->
-                  <div v-if="leg.alerts && leg.alerts.length > 0" class="mt-2">
-                    <div
-                      v-for="(alert, k) in leg.alerts"
-                      :key="`alert-${k}`"
-                      class="bg-amber-50 text-amber-800 rounded p-2 text-sm"
-                    >
-                      {{ alert.header_text }}
-                    </div>
-                  </div>
+                  <!-- Departure Stop Alerts -->
+                  <MotisAlertList
+                    v-if="leg.from.alerts && leg.from.alerts.length > 0"
+                    :alerts="leg.from.alerts"
+                    :title="t('departure_stop_alerts')"
+                    size="sm"
+                    class="mt-2"
+                  />
+
+                  <!-- Arrival Stop Alerts -->
+                  <MotisAlertList
+                    v-if="leg.to.alerts && leg.to.alerts.length > 0"
+                    :alerts="leg.to.alerts"
+                    :title="t('arrival_stop_alerts')"
+                    size="sm"
+                    class="mt-2"
+                  />
+
+                  <!-- Leg Alerts -->
+                  <MotisAlertList v-if="leg.alerts && leg.alerts.length > 0" :alerts="leg.alerts" class="mt-2" />
 
                   <!-- Cancelled indicator -->
                   <div v-if="leg.cancelled" class="text-red-600 mt-1 text-sm font-medium">
@@ -373,6 +383,15 @@ const handleNextPage = () => {
                               {{ t("cancelled") }}
                             </span>
                           </div>
+
+                          <!-- Stop-level alerts -->
+                          <MotisAlertList
+                            v-if="stop.alerts && stop.alerts.length > 0"
+                            :alerts="stop.alerts"
+                            size="sm"
+                            :show-cause-effect="false"
+                            class="mt-1"
+                          />
                         </div>
                       </div>
                     </details>
@@ -401,7 +420,7 @@ const handleNextPage = () => {
                                 <span v-if="step.elevation_up">↗ {{ step.elevation_up }}m</span>
                                 <span v-if="step.elevation_down">↘ {{ step.elevation_down }}m</span>
                               </span>
-                              <span v-if="step.toll" class="text-amber-600">{{ t("toll") }}</span>
+                              <span v-if="step.toll" class="text-orange-600">{{ t("toll") }}</span>
                             </div>
                           </div>
                         </div>
@@ -492,6 +511,8 @@ de:
   no_routes_description: Es konnten keine Verbindungen für Ihre Suchanfrage gefunden werden. Versuchen Sie andere Parameter oder eine andere Zeit.
   try_again: Erneut versuchen
   select_itinerary: Route auswählen
+  departure_stop_alerts: Abfahrtshaltestelle
+  arrival_stop_alerts: Ankunftshaltestelle
 
 en:
   loading_routes: Loading routes
@@ -523,4 +544,6 @@ en:
   no_routes_description: No connections could be found for your search query. Try different parameters or a different time.
   try_again: Try again
   select_itinerary: Select route
+  departure_stop_alerts: Departure stop
+  arrival_stop_alerts: Arrival stop
 </i18n>
