@@ -8,15 +8,9 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 const pageCursor = defineModel<string | undefined>("pageCursor", {
   required: true,
 });
-const mocktimeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(
-  undefined
-);
-const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(
-  "time",
-  {
-    required: true,
-  }
-);
+const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>("time", {
+  required: true,
+});
 const props = defineProps<{
   data: MotisRoutingResponse;
 }>();
