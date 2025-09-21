@@ -1710,14 +1710,17 @@ components:
           type:
             - string
             - "null"
+          description: Identifies a transit brand which is often synonymous with a transit agency.
         agency_name:
           type:
             - string
             - "null"
+          description: Full name of the transit agency
         agency_url:
           type:
             - string
             - "null"
+          description: URL of the transit agency
         alerts:
           type: array
           items:
@@ -1795,6 +1798,11 @@ components:
           type:
             - string
             - "null"
+          description: |-
+            Route color designation that matches public facing material.
+
+            Implementations should default to white (FFFFFF) when omitted or left empty.
+            The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
         route_short_name:
           type:
             - string
@@ -1803,11 +1811,31 @@ components:
           type:
             - string
             - "null"
+          description: |-
+            Legible color to use for text drawn against a background of `route_color`.
+
+            Implementations should default to black (000000) when omitted or left empty.
+            The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
         route_type:
           type:
             - integer
             - "null"
           format: int64
+          description: |-
+            Indicates the type of transportation used on a route.
+
+            According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
+
+            -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+            -  1: Subway, Metro. Any underground rail system within a metropolitan area.
+            -  2: Rail. Used for intercity or long-distance travel.
+            -  3: Bus. Used for short- and long-distance bus routes.
+            -  4: Ferry. Used for short- and long-distance boat service.
+            -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
+            -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
+            -  7: Funicular. Any rail system designed for steep inclines.
+            - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
+            - 12: Monorail. Railway in which the track consists of a single rail or a beam.
         scheduled:
           type: boolean
           description: |-
@@ -1844,23 +1872,15 @@ components:
           type:
             - string
             - "null"
+          description: Identifies a trip
     MotisRoutingResponse:
       type: object
       required:
-        - debug_output
         - direct
         - itineraries
         - next_page_cursor
         - previous_page_cursor
       properties:
-        debug_output:
-          type: object
-          description: debug statistics
-          additionalProperties:
-            type: integer
-            format: int64
-          propertyNames:
-            type: string
         direct:
           type: array
           items:
@@ -2051,7 +2071,7 @@ components:
           type:
             - boolean
             - "null"
-          description: scheduled track from the static schedule timetable dataset
+          description: Whether this stop is cancelled due to the realtime situation
         departure:
           type:
             - string
@@ -2080,7 +2100,7 @@ components:
             - string
             - "null"
           format: date-time
-          description: Whether this stop is cancelled due to the realtime situation.
+          description: scheduled arrival time
         scheduled_departure:
           type:
             - string
@@ -2091,7 +2111,7 @@ components:
           type:
             - string
             - "null"
-          description: scheduled arrival time
+          description: scheduled track from the static schedule timetable dataset
         stop_id:
           type:
             - string

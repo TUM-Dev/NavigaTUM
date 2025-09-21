@@ -769,8 +769,11 @@ export type components = {
       | "areal_lift"
       | "other";
     readonly MotisLegResponse: {
+      /** @description Identifies a transit brand which is often synonymous with a transit agency. */
       readonly agency_id?: string | null;
+      /** @description Full name of the transit agency */
       readonly agency_name?: string | null;
+      /** @description URL of the transit agency */
       readonly agency_url?: string | null;
       /** @description Alerts for this stop. */
       readonly alerts?: readonly components["schemas"]["AlertResponse"][];
@@ -826,10 +829,38 @@ export type components = {
       /** @description Whether there is real-time data about this leg */
       readonly real_time: boolean;
       readonly rental?: null | components["schemas"]["RentalResponse"];
+      /**
+       * @description Route color designation that matches public facing material.
+       *
+       * Implementations should default to white (FFFFFF) when omitted or left empty.
+       * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
+       */
       readonly route_color?: string | null;
       readonly route_short_name?: string | null;
+      /**
+       * @description Legible color to use for text drawn against a background of `route_color`.
+       *
+       * Implementations should default to black (000000) when omitted or left empty.
+       * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
+       */
       readonly route_text_color?: string | null;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description Indicates the type of transportation used on a route.
+       *
+       * According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
+       *
+       * -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+       * -  1: Subway, Metro. Any underground rail system within a metropolitan area.
+       * -  2: Rail. Used for intercity or long-distance travel.
+       * -  3: Bus. Used for short- and long-distance bus routes.
+       * -  4: Ferry. Used for short- and long-distance boat service.
+       * -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
+       * -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
+       * -  7: Funicular. Any rail system designed for steep inclines.
+       * - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
+       * - 12: Monorail. Railway in which the track consists of a single rail or a beam.
+       */
       readonly route_type?: number | null;
       /**
        * @description Whether this leg was originally scheduled to run or is an additional
@@ -860,13 +891,10 @@ export type components = {
        */
       readonly steps?: readonly components["schemas"]["StepInstructionResponse"][];
       readonly to: components["schemas"]["PlaceResponse"];
+      /** @description Identifies a trip */
       readonly trip_id?: string | null;
     };
     readonly MotisRoutingResponse: {
-      /** @description debug statistics */
-      readonly debug_output: {
-        [key: string]: number;
-      };
       /**
        * @description Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
        *
@@ -1000,7 +1028,7 @@ export type components = {
        * @description arrival time
        */
       readonly arrival?: string | null;
-      /** @description scheduled track from the static schedule timetable dataset */
+      /** @description Whether this stop is cancelled due to the realtime situation */
       readonly cancelled?: boolean | null;
       /**
        * Format: date-time
@@ -1019,7 +1047,7 @@ export type components = {
       readonly name: string;
       /**
        * Format: date-time
-       * @description Whether this stop is cancelled due to the realtime situation.
+       * @description scheduled arrival time
        */
       readonly scheduled_arrival?: string | null;
       /**
@@ -1027,7 +1055,7 @@ export type components = {
        * @description scheduled departure time
        */
       readonly scheduled_departure?: string | null;
-      /** @description scheduled arrival time */
+      /** @description scheduled track from the static schedule timetable dataset */
       readonly scheduled_track?: string | null;
       /**
        * @description The ID of the stop. This is often something that users don't care
