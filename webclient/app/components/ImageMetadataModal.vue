@@ -235,7 +235,7 @@ de:
   supported_formats: Unterstützt {0}
   file_selected_successfully: Datei erfolgreich ausgewählt
   remove_file: Datei entfernen
-  invalid_file_type: Ungültiger Dateityp. Bitte wählen Sie ein Bild (JPG, PNG, GIF, WebP).
+  invalid_file_type: Ungültiger Dateityp. Bitte wähle ein Bild (JPG, PNG, GIF, WebP).
   file_too_large: Datei zu groß (max 10MB).
   file_read_error: Fehler beim Lesen der Datei.
   selected_file: Ausgewählte Datei

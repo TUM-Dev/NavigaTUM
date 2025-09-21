@@ -4,6 +4,7 @@ use serde::Serialize;
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 pub struct MotisRoutingResponse {
     #[cfg(debug_assertions)]
+    #[schema(ignore)]
     ///debug statistics
     pub debug_output: std::collections::HashMap<String, i64>,
     ///Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
@@ -79,10 +80,13 @@ impl From<Itinerary> for ItineraryResponse {
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 pub struct MotisLegResponse {
+    /// Identifies a transit brand which is often synonymous with a transit agency.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_id: Option<String>,
+    /// Full name of the transit agency
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_name: Option<String>,
+    /// URL of the transit agency
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agency_url: Option<String>,
 
@@ -109,18 +113,8 @@ pub struct MotisLegResponse {
     ///  `additionalTransferTime = 0` in case they are not explicitly
     ///  provided in the query.
     pub duration: i64,
-    ///Index into the
-    /// `Itinerary.fareTransfers[fareTransferIndex].
-    /// effectiveFareLegProducts` array to identify which effective
-    /// fare leg this itinerary leg belongs to
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub effective_fare_leg_index: Option<i64>,
     ///leg arrival time
     pub end_time: chrono::DateTime<chrono::offset::Utc>,
-    ///Index into `Itinerary.fareTransfers` array
-    ///to identify which fare transfer this leg belongs to
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub fare_transfer_index: Option<i64>,
     pub from: PlaceResponse,
     pub to: PlaceResponse,
 
@@ -155,11 +149,33 @@ pub struct MotisLegResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub rental: Option<rental::RentalResponse>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    /// Route color designation that matches public facing material.
+    ///
+    /// Implementations should default to white (FFFFFF) when omitted or left empty.
+    /// The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
     pub route_color: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_short_name: Option<String>,
+    /// Legible color to use for text drawn against a background of `route_color`.
+    ///
+    /// Implementations should default to black (000000) when omitted or left empty.
+    /// The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_text_color: Option<String>,
+    /// Indicates the type of transportation used on a route.
+    ///
+    /// According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
+    ///
+    /// -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+    /// -  1: Subway, Metro. Any underground rail system within a metropolitan area.
+    /// -  2: Rail. Used for intercity or long-distance travel.
+    /// -  3: Bus. Used for short- and long-distance bus routes.
+    /// -  4: Ferry. Used for short- and long-distance boat service.
+    /// -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
+    /// -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
+    /// -  7: Funicular. Any rail system designed for steep inclines.
+    /// - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
+    /// - 12: Monorail. Railway in which the track consists of a single rail or a beam.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub route_type: Option<i64>,
 
@@ -173,6 +189,7 @@ pub struct MotisLegResponse {
     ///leg departure time
     pub start_time: chrono::DateTime<chrono::offset::Utc>,
 
+    /// Identifies a trip
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub trip_id: Option<String>,
 }
@@ -188,9 +205,7 @@ impl From<Leg> for MotisLegResponse {
             cancelled: value.cancelled,
             distance: value.distance,
             duration: value.duration,
-            effective_fare_leg_index: value.effective_fare_leg_index,
             end_time: value.end_time,
-            fare_transfer_index: value.fare_transfer_index,
             from: PlaceResponse::from(value.from),
             to: PlaceResponse::from(value.to),
             headsign: value.headsign,
@@ -469,16 +484,15 @@ pub struct PlaceResponse {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub alerts: Vec<AlertResponse>,
     ///arrival time
-
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
-    ///Whether this stop is cancelled due to the realtime situation.
+    ///scheduled arrival time
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
     ///scheduled departure time
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_departure: Option<chrono::DateTime<chrono::offset::Utc>>,
-    ///scheduled track from the static schedule timetable dataset
+    ///Whether this stop is cancelled due to the realtime situation
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cancelled: Option<bool>,
     ///departure time
@@ -494,8 +508,7 @@ pub struct PlaceResponse {
     ///description of the location that provides more detailed information
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    ///scheduled arrival time
-
+    /// scheduled track from the static schedule timetable dataset
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub scheduled_track: Option<String>,
     ///The ID of the stop. This is often something that users don't care
@@ -526,9 +539,34 @@ impl From<Place> for PlaceResponse {
             description: value.description,
             scheduled_arrival: value.scheduled_arrival,
             scheduled_departure: value.scheduled_departure,
-            scheduled_track: value.scheduled_track,
+            // why, MVG, why???
+            scheduled_track: value.scheduled_track.map(|s| match s.as_str() {
+                "50" => "0".to_string(),
+                "51" => "1".to_string(),
+                "52" => "2".to_string(),
+                "53" => "3".to_string(),
+                "54" => "4".to_string(),
+                "55" => "5".to_string(),
+                "56" => "6".to_string(),
+                "57" => "7".to_string(),
+                "58" => "8".to_string(),
+                "59" => "9".to_string(),
+                _ => s.to_string(),
+            }),
             stop_id: value.stop_id,
-            track: value.track,
+            track: value.track.map(|s| match s.as_str() {
+                "50" => "0".to_string(),
+                "51" => "1".to_string(),
+                "52" => "2".to_string(),
+                "53" => "3".to_string(),
+                "54" => "4".to_string(),
+                "55" => "5".to_string(),
+                "56" => "6".to_string(),
+                "57" => "7".to_string(),
+                "58" => "8".to_string(),
+                "59" => "9".to_string(),
+                _ => s.to_string(),
+            }),
             vertex_type: value.vertex_type.map(VertexTypeResponse::from),
         }
     }

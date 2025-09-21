@@ -19,39 +19,46 @@ const { t, locale } = useI18n({ useScope: "local" });
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">(
-  "mode",
-  "pedestrian",
-  {
-    mode: "replace",
-    route,
-    router,
-  }
-);
+const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", {
+  mode: "replace",
+  route,
+  router,
+});
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
 type NavigationResponse =
   operations["route_handler"]["responses"][200]["content"]["application/json"];
-const { data, status, error } = await useFetch<NavigationResponse>(
+
+// Page cursor for Motis pagination
+const pageCursor = ref<string | undefined>(undefined);
+const { data, status, error, refresh } = await useFetch<NavigationResponse>(
   "https://nav.tum.de/api/maps/route",
   {
-    query: {
-      lang: locale as Ref<RequestQuery["lang"]>,
-      from: selected_from as Ref<RequestQuery["from"]>,
-      to: selected_to as Ref<RequestQuery["to"]>,
-      route_costing: mode as Ref<RequestQuery["route_costing"]>,
+    query: computed(() => ({
+      lang: locale.value,
+      from: selected_from.value,
+      to: selected_to.value,
+      route_costing: mode.value,
+      page_cursor: pageCursor.value,
       pedestrian_type: undefined as RequestQuery["pedestrian_type"],
       ptw_type: undefined as RequestQuery["ptw_type"],
       bicycle_type: undefined as RequestQuery["bicycle_type"],
-    },
+    })),
   }
 );
+
 effect(() => {
   if (!data.value || !indoorMap.value) return;
   if (data.value.router === "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
-  else if (data.value.router === "motis") {
-    throw new Error("Motis route drawing not implemented");
+  if (data.value?.router === "motis") {
+    // Reset to first itinerary when data changes
+    selectedItineraryIndex.value = 0;
+    // Draw the first itinerary if available
+    if (data.value.itineraries.length > 0 && indoorMap.value && data.value.itineraries[0]) {
+      indoorMap.value.drawMotisItinerary(data.value.itineraries[0]);
+    }
   }
 });
+
 const title = computed(() => {
   if (!!selected_from.value && !!selected_to.value)
     return t("navigate_from_to", {
@@ -80,11 +87,11 @@ const description = computed(() => {
     );
   }
   if (data.value?.router === "motis") {
-    const length_meters = data.value.itineraries.length;
     return t("description_public_transport", {
       itinerary_count: data.value.itineraries.length,
     });
   }
+
   return t("description");
 });
 useSeoMeta({
@@ -110,6 +117,44 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
 
 function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_index: number }) {
   setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
+}
+
+// Handle Motis pagination
+async function loadMotisPage(cursor?: string) {
+  pageCursor.value = cursor;
+  await refresh();
+}
+
+// Currently selected itinerary for map display
+const selectedItineraryIndex = ref(0);
+
+function handleSelectLeg(itineraryIndex: number, legIndex: number) {
+  console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
+  if (data.value?.router === "motis" && indoorMap.value) {
+    // If selecting a different itinerary, redraw the route
+    if (selectedItineraryIndex.value !== itineraryIndex) {
+      selectedItineraryIndex.value = itineraryIndex;
+      if (data.value.itineraries[itineraryIndex]) {
+        indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
+      }
+    }
+
+    // Highlight the selected leg on the map
+    indoorMap.value.highlightMotisLeg(legIndex);
+
+    // Focus map on the selected leg
+    if (data.value.itineraries[itineraryIndex]) {
+      indoorMap.value.focusOnMotisLeg(legIndex, data.value.itineraries[itineraryIndex]);
+    }
+  }
+}
+
+function handleSelectItinerary(itineraryIndex: number) {
+  console.log("Selected itinerary:", itineraryIndex);
+  if (data.value?.router === "motis" && indoorMap.value && data.value.itineraries[itineraryIndex]) {
+    selectedItineraryIndex.value = itineraryIndex;
+    indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
+  }
 }
 </script>
 
@@ -144,6 +189,17 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
         :data="data"
         @select-maneuver="handleSelectManeuver"
       />
+      <MotisNavigationRoutingResults
+        v-else-if="status === 'success' && data?.router === 'motis'"
+        :data="data"
+        :loading="false"
+        :page-cursor="pageCursor"
+        @select-leg="handleSelectLeg"
+        @select-itinerary="handleSelectItinerary"
+        @retry="() => refresh()"
+        @load-next="loadMotisPage"
+        @load-previous="loadMotisPage"
+      />
       <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
@@ -151,6 +207,7 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
       <Toast v-else-if="status === 'error' && !!error && error.statusCode !== 404" id="nav-error" level="error">
         {{ error.message }}
       </Toast>
+
       <div v-if="status === 'success' && !!data" class="border-zinc-500 border-t p-1" />
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
     </div>

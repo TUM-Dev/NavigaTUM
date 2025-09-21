@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const mode = defineModel<"bicycle" | "transit" | "motorcycle" | "car" | "pedestrian">("mode", {
-  required: true,
-});
+const mode = defineModel<"bicycle" | "public_transit" | "motorcycle" | "car" | "pedestrian">(
+  "mode",
+  {
+    required: true,
+  }
+);
 const { t } = useI18n({ useScope: "local" });
 </script>
 
@@ -42,12 +45,12 @@ const { t } = useI18n({ useScope: "local" });
       </svg>
     </Btn>
     <Btn
-      :variant="mode === 'transit' ? 'primary' : 'secondary'"
-      :disabled="true"
+      :variant="mode === 'public_transit' ? 'primary' : 'secondary'"
+      :disabled="mode == 'public_transit'"
       size="md"
-      :title="t('aria-transit')"
-      :aria-label="t('aria-transit')"
-      @click="mode = 'transit'"
+      :title="t('aria-public_transit')"
+      :aria-label="t('aria-public_transit')"
+      @click="mode = 'public_transit'"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -94,14 +97,14 @@ de:
   back: zurück
   aria-motorcycle: Motorrad
   aria-bicycle: Fahrrad
-  aria-transit: Transit
+  aria-public_transit: Transit
   aria-car: Auto
   aria-pedestrian: Fußgänger
 en:
   back: back
   aria-motorcycle: Motorcycle
   aria-bicycle: Bicycle
-  aria-transit: Transit
+  aria-public_transit: Transit
   aria-car: Car
   aria-pedestrian: Pedestrian
 </i18n>
