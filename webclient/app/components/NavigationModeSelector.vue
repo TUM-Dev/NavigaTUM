@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const mode = defineModel<"bicycle" | "public_transit" | "motorcycle" | "car" | "pedestrian">("mode", {
-  required: true,
-});
+const mode = defineModel<"bicycle" | "public_transit" | "motorcycle" | "car" | "pedestrian">(
+  "mode",
+  {
+    required: true,
+  }
+);
 const { t } = useI18n({ useScope: "local" });
 </script>
 

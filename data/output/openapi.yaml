@@ -1670,6 +1670,7 @@ components:
         - rental
         - car
         - car_parking
+        - car_dropoff
         - odm
         - flex
         - transit
@@ -1750,28 +1751,10 @@ components:
               Note that the default values are `transferTimeFactor = 1` and
               `additionalTransferTime = 0` in case they are not explicitly
               provided in the query.
-        effective_fare_leg_index:
-          type:
-            - integer
-            - "null"
-          format: int64
-          description: |-
-            Index into the
-             `Itinerary.fareTransfers[fareTransferIndex].
-             effectiveFareLegProducts` array to identify which effective
-             fare leg this itinerary leg belongs to
         end_time:
           type: string
           format: date-time
           description: leg arrival time
-        fare_transfer_index:
-          type:
-            - integer
-            - "null"
-          format: int64
-          description: |-
-            Index into `Itinerary.fareTransfers` array
-            to identify which fare transfer this leg belongs to
         from:
           $ref: '#/components/schemas/PlaceResponse'
         headsign:
@@ -1822,8 +1805,9 @@ components:
             - "null"
         route_type:
           type:
-            - string
+            - integer
             - "null"
+          format: int64
         scheduled:
           type: boolean
           description: |-

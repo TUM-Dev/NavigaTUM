@@ -747,6 +747,7 @@ export type components = {
       | "rental"
       | "car"
       | "car_parking"
+      | "car_dropoff"
       | "odm"
       | "flex"
       | "transit"
@@ -798,24 +799,10 @@ export type components = {
        */
       readonly duration: number;
       /**
-       * Format: int64
-       * @description Index into the
-       *  `Itinerary.fareTransfers[fareTransferIndex].
-       *  effectiveFareLegProducts` array to identify which effective
-       *  fare leg this itinerary leg belongs to
-       */
-      readonly effective_fare_leg_index?: number | null;
-      /**
        * Format: date-time
        * @description leg arrival time
        */
       readonly end_time: string;
-      /**
-       * Format: int64
-       * @description Index into `Itinerary.fareTransfers` array
-       * to identify which fare transfer this leg belongs to
-       */
-      readonly fare_transfer_index?: number | null;
       readonly from: components["schemas"]["PlaceResponse"];
       /**
        * @description For transit legs, the headsign of the bus or train being used.
@@ -842,7 +829,8 @@ export type components = {
       readonly route_color?: string | null;
       readonly route_short_name?: string | null;
       readonly route_text_color?: string | null;
-      readonly route_type?: string | null;
+      /** Format: int64 */
+      readonly route_type?: number | null;
       /**
        * @description Whether this leg was originally scheduled to run or is an additional
        *  service.

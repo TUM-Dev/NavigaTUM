@@ -36,10 +36,11 @@ const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}h ${minutes}m`;
-  }if (seconds >= 60) {
+  }
+  if (seconds >= 60) {
     return t("minutes", Math.ceil(seconds / 60));
   }
-    return t("seconds", seconds);
+  return t("seconds", seconds);
 };
 
 // Helper function to format distance
@@ -47,7 +48,7 @@ const formatDistance = (meters: number) => {
   if (meters >= 1000) {
     return t("kilometers", [(meters / 1000).toFixed(1)]);
   }
-    return t("meters", Math.round(meters));
+  return t("meters", Math.round(meters));
 };
 
 // Helper function to calculate delay in minutes
@@ -64,7 +65,7 @@ const formatDelay = (delayMinutes: number) => {
   if (delayMinutes > 0) {
     return `+${delayMinutes}`;
   }
-    return `${delayMinutes}`;
+  return `${delayMinutes}`;
 };
 
 // Check if pagination controls should be shown
