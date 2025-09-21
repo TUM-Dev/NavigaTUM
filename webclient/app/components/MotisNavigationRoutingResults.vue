@@ -35,7 +35,7 @@ const hasResults = computed(() => {
       <MotisDirectConnections
         v-if="data.direct && data.direct.length > 0"
         :connections="data.direct"
-        @select-leg="emit('selectLeg', $event[0], $event[1])"
+        @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
       />
 
       <!-- Public Transit Itineraries -->
@@ -45,7 +45,7 @@ const hasResults = computed(() => {
         :previous-page-cursor="data.previous_page_cursor"
         :next-page-cursor="data.next_page_cursor"
         :loading="loading"
-        @select-leg="emit('selectLeg', $event[0], $event[1])"
+        @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
         @select-itinerary="emit('selectItinerary', $event)"
         @load-previous="emit('loadPrevious', $event)"
         @load-next="emit('loadNext', $event)"

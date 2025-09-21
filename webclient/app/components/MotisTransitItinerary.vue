@@ -67,7 +67,7 @@ const formatDuration = (seconds: number) => {
         :itinerary="itinerary"
         :leg-index="j"
         :itinerary-index="itineraryIndex"
-        @select-leg="emit('selectLeg', $event[0], $event[1])"
+        @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
       />
     </div>
   </div>

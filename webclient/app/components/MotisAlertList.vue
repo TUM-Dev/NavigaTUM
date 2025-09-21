@@ -4,7 +4,7 @@ import type { components } from "~/api_types";
 type AlertResponse = components["schemas"]["AlertResponse"];
 
 interface Props {
-  alerts: AlertResponse[];
+  alerts: readonly AlertResponse[];
   title?: string;
   size?: "sm" | "md" | "lg";
   showDescription?: boolean;

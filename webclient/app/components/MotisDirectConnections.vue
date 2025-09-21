@@ -5,7 +5,7 @@ type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
 type DirectConnection = NonNullable<MotisRoutingResponse["direct"]>[0];
 
 interface Props {
-  connections: DirectConnection[];
+  connections: readonly DirectConnection[];
 }
 
 const props = defineProps<Props>();

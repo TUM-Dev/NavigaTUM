@@ -5,7 +5,7 @@ type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
 type Itinerary = NonNullable<MotisRoutingResponse["itineraries"]>[0];
 
 interface Props {
-  itineraries: Itinerary[];
+  itineraries: readonly Itinerary[];
   previousPageCursor?: string | null;
   nextPageCursor?: string | null;
   loading?: boolean;
@@ -41,7 +41,7 @@ const { t } = useI18n({ useScope: "local" });
       :key="`itinerary-${i}`"
       :itinerary="itinerary"
       :itinerary-index="i"
-      @select-leg="emit('selectLeg', $event[0], $event[1])"
+      @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
       @select-itinerary="emit('selectItinerary', $event)"
     />
 
