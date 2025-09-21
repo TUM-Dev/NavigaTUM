@@ -26,14 +26,7 @@ const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", 
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
 type NavigationResponse = operations["route_handler"]["responses"][200]["content"]["application/json"];
 
-// Time selection state
-interface TimeSelection {
-  type: "depart_at" | "arrive_by";
-  time: Date;
-}
-
-const timeSelection = ref<TimeSelection | undefined>(undefined);
-
+const timeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date} | undefined>(undefined);
 // Page cursor for Motis pagination
 const pageCursor = ref<string | undefined>(undefined);
 const { data, status, error } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
@@ -176,7 +169,6 @@ function handleSelectItinerary(itineraryIndex: number) {
       <form action="/navigate" autocomplete="off" method="GET" role="search" class="flex flex-col gap-2">
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
-        <NavigationTimeSelector v-model:time-selection="timeSelection" />
       </form>
       <ValhallaNavigationRoutingResults
         v-if="status === 'success' && data?.router === 'valhalla'"
@@ -187,6 +179,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         v-else-if="status === 'success' && data?.router === 'motis'"
         :data="data"
         v-model:page-cursor="pageCursor"
+        v-model:time="timeSelection"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
       />

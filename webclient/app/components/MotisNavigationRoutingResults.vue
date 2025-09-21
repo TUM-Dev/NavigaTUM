@@ -8,6 +8,9 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 const pageCursor = defineModel<string | undefined>("pageCursor", {
   required: true,
 });
+const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>("time", {
+  required: true,
+});
 const props = defineProps<{
   data: MotisRoutingResponse;
 }>();
@@ -34,12 +37,10 @@ const showTransitOverflow = ref(false);
 const checkOverflow = () => {
   nextTick(() => {
     if (transitContainer.value) {
-      showDirectOverflow.value =
-        transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
+      showDirectOverflow.value = transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
     }
     if (transitContainer2.value) {
-      showTransitOverflow.value =
-        transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
+      showTransitOverflow.value = transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
     }
   });
 };
@@ -144,9 +145,7 @@ const getTransitLegs = (itinerary: {
       // Deduplicate consecutive similar legs (same mode and route)
       const lastLeg = transitLegs[transitLegs.length - 1];
       const isDuplicate =
-        lastLeg &&
-        lastLeg.mode === newLeg.mode &&
-        lastLeg.route_short_name === newLeg.route_short_name;
+        lastLeg && lastLeg.mode === newLeg.mode && lastLeg.route_short_name === newLeg.route_short_name;
 
       if (!isDuplicate) {
         transitLegs.push(newLeg);
@@ -241,7 +240,7 @@ const getTransitLegs = (itinerary: {
       <!-- Transit itineraries summary -->
       <div v-if="data.itineraries && data.itineraries.length > 0">
         <div class="flex items-center justify-end mb-3">
-          <!-- Pagination Controls - Top -->
+          <NavigationTimeSelector v-model:time-selection="timeSelection" />
           <MotisPaginationControls
             :previous-page-cursor="data.previous_page_cursor"
             :next-page-cursor="data.next_page_cursor"
@@ -303,7 +302,7 @@ const getTransitLegs = (itinerary: {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                        <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
