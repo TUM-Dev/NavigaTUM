@@ -1,7 +1,22 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiAccountMultiple, mdiBike, mdiBikeFast, mdiBus, mdiCar, mdiEye, mdiImageFilterHdr, mdiMonitor, mdiMoonWaningCrescent, mdiMotorbike, mdiRoadVariant, mdiSpeedometer, mdiTune, mdiWalk, mdiWhiteBalanceSunny } from "@mdi/js";
-import type { UserRoutingPreferences } from "~/composables/userPreferences";
+import {
+  mdiAccountMultiple,
+  mdiBike,
+  mdiBikeFast,
+  mdiBus,
+  mdiCar,
+  mdiEye,
+  mdiImageFilterHdr,
+  mdiMonitor,
+  mdiMoonWaningCrescent,
+  mdiMotorbike,
+  mdiRoadVariant,
+  mdiSpeedometer,
+  mdiTune,
+  mdiWalk,
+  mdiWhiteBalanceSunny,
+} from "@mdi/js";
 
 const colorMode = useColorMode();
 const { t } = useI18n({ useScope: "local" });
@@ -53,7 +68,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode = 'system'"
+                    @click="colorMode.value = 'system'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMonitor" :size="16" />
@@ -71,7 +86,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode='light'"
+                    @click="colorMode.value='light'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
@@ -89,7 +104,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode='dark'"
+                    @click="colorMode.value='dark'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMoonWaningCrescent" :size="16" />
@@ -260,7 +275,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="updatePreference('route_costing', 'standard')"
+                    @click="updatePreference('pedestrian_type', 'standard')"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiAccountMultiple" :size="16" />
