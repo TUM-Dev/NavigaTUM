@@ -1,6 +1,6 @@
 name: Security audit
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-audit
+  group: ${{ github.workflow }}-${{ github.ref }}-audit
   cancel-in-progress: true
 
 permissions:
