@@ -8,6 +8,7 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 const pageCursor = defineModel<string | undefined>("pageCursor", {
   required: true,
 });
+const mocktimeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(undefined);
 const timeSelection = defineModel<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>("time", {
   required: true,
 });
@@ -239,7 +240,7 @@ const getTransitLegs = (itinerary: {
 
       <!-- Transit itineraries summary -->
       <div v-if="data.itineraries && data.itineraries.length > 0">
-        <div class="flex items-center justify-end mb-3">
+        <div class="flex items-center justify-between mb-3">
           <NavigationTimeSelector v-model:time-selection="timeSelection" />
           <MotisPaginationControls
             :previous-page-cursor="data.previous_page_cursor"
@@ -248,6 +249,8 @@ const getTransitLegs = (itinerary: {
             size="sm"
           />
         </div>
+
+        <NavigationTimeInput v-model:time-selection="timeSelection" />
 
         <div class="space-y-2 w-full max-w-full">
           <div

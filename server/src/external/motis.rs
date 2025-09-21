@@ -19,6 +19,8 @@ impl MotisWrapper {
         from: &str,
         to: &str,
         page_cursor: Option<&str>,
+        time: Option<&chrono::DateTime<chrono::Utc>>,
+        arrive_by: bool,
     ) -> anyhow::Result<PlanResponse> {
         debug!(?from, ?to, "routing request");
         let mut request = self
@@ -30,6 +32,9 @@ impl MotisWrapper {
             .to_place(to);
         if let Some(cursor) = page_cursor {
             request = request.page_cursor(cursor);
+        }
+        if let Some(time) = time {
+            request = request.time(*time).arrive_by(arrive_by);
         }
 
         Ok(request.send().await?.into_inner())

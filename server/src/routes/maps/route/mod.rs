@@ -158,12 +158,10 @@ struct RoutingRequest {
     /// Used with arrive_by to determine if this is departure or arrival time
     #[serde(default)]
     #[param(inline)]
-    #[allow(unused)]
     time: Option<chrono::DateTime<chrono::Utc>>,
     /// Whether the time parameter represents arrival time (true) or departure time (false/not set)
     #[serde(default)]
     #[param(inline)]
-    #[allow(unused)]
     arrive_by: bool,
 }
 
@@ -284,6 +282,8 @@ pub async fn route_handler(
                 &from.to_string(),
                 &to.to_string(),
                 args.page_cursor.as_deref(),
+                args.time,
+                args.arrive_by,
             )
             .await;
         let response = match routing {
