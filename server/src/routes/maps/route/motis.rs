@@ -244,8 +244,8 @@ fn infer_route_color(value: &Leg) -> (String, String) {
     let contrast = color.contrasting_text_color().to_rgb();
     let color = color.to_rgb();
     return (
-        format!("{:02X}{:02X}{:02X}", color.r, color.g, color.b),
-        format!("{:02X}{:02X}{:02X}", contrast.r, contrast.g, contrast.b),
+        format!("#{:02X}{:02X}{:02X}", color.r, color.g, color.b),
+        format!("#{:02X}{:02X}{:02X}", contrast.r, contrast.g, contrast.b),
     );
 }
 
