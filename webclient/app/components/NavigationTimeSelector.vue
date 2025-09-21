@@ -2,8 +2,8 @@
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { mdiCheck, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { computed } from "vue";
+import type { TimeSelection } from "~/types/navigation";
 
-type TimeSelection = { type: "depart_at" | "arrive_by"; time: Date };
 const timeSelection = defineModel<TimeSelection | undefined>("timeSelection");
 
 const { t } = useI18n({ useScope: "local" });

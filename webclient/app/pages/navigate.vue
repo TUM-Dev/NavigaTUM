@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { mdiChevronLeft } from "@mdi/js";
+import { refDebounced } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import { useTemplateRef } from "vue";
 import type { operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { firstOrDefault } from "~/composables/common";
+
+import type { TimeSelection } from "~/types/navigation";
 
 definePageMeta({
   layout: "navigation",
@@ -27,9 +30,10 @@ type RequestQuery = operations["route_handler"]["parameters"]["query"];
 type NavigationResponse =
   operations["route_handler"]["responses"][200]["content"]["application/json"];
 
-const timeSelection = ref<{ type: "depart_at" | "arrive_by"; time: Date } | undefined>(undefined);
-// Page cursor for Motis pagination
-const pageCursor = ref<string | undefined>(undefined);
+const timeSelection = ref<TimeSelection | undefined>(undefined);
+const debouncedTimeSelection = refDebounced(timeSelection, 200);
+const motisPageCursor = ref<string | undefined>(undefined);
+
 const { data, status, error } = await useFetch<NavigationResponse>(
   "https://nav.tum.de/api/maps/route",
   {
@@ -38,12 +42,12 @@ const { data, status, error } = await useFetch<NavigationResponse>(
       from: selected_from.value,
       to: selected_to.value,
       route_costing: mode.value,
-      page_cursor: pageCursor.value,
+      page_cursor: motisPageCursor.value,
       pedestrian_type: undefined as RequestQuery["pedestrian_type"],
       ptw_type: undefined as RequestQuery["ptw_type"],
       bicycle_type: undefined as RequestQuery["bicycle_type"],
-      arrive_by: timeSelection.value?.type === "arrive_by" ? "true" : "false",
-      time: timeSelection.value?.time.toISOString(),
+      arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
+      time: debouncedTimeSelection.value?.time.toISOString(),
     })),
   }
 );
@@ -179,6 +183,19 @@ function handleSelectItinerary(itineraryIndex: number) {
       <form action="/navigate" autocomplete="off" method="GET" role="search" class="flex flex-col gap-2">
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
+        <div v-if="mode === 'public_transit'" class="mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <NavigationTimeSelector v-model:time-selection="timeSelection" />
+            <MotisPaginationControls
+              v-if="data?.previous_page_cursor || data?.next_page_cursor"
+              :previous-page-cursor="data.previous_page_cursor"
+              :next-page-cursor="data.next_page_cursor"
+              v-model:page-cursor="motisPageCursor"
+              size="sm"
+            />
+          </div>
+          <NavigationTimeInput v-model:time-selection="timeSelection" />
+        </div>
       </form>
       <ValhallaNavigationRoutingResults
         v-if="status === 'success' && data?.router === 'valhalla'"
@@ -188,7 +205,7 @@ function handleSelectItinerary(itineraryIndex: number) {
       <MotisNavigationRoutingResults
         v-else-if="status === 'success' && data?.router === 'motis'"
         :data="data"
-        v-model:page-cursor="pageCursor"
+        v-model:page-cursor="motisPageCursor"
         v-model:time="timeSelection"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"

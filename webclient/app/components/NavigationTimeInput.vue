@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-type TimeSelection = { type: "depart_at" | "arrive_by"; time: Date };
+import type { TimeSelection } from "~/types/navigation";
+
 const timeSelection = defineModel<TimeSelection | undefined>("timeSelection");
 
 // Helper to format time to HH:mm string
@@ -33,7 +34,7 @@ const timeValue = computed({
       const hours = Number.parseInt(hoursStr, 10);
       const minutes = Number.parseInt(minutesStr, 10);
 
-      if (!isNaN(hours) && !isNaN(minutes)) {
+      if (!Number.isNaN(hours) && !Number.isNaN(minutes)) {
         const newDate = new Date(timeSelection.value.time);
         newDate.setHours(hours, minutes);
         timeSelection.value = {
@@ -56,7 +57,7 @@ const dateValue = computed({
     if (!timeSelection.value || !value) return;
     try {
       const newDate = new Date(value);
-      if (!isNaN(newDate.getTime())) {
+      if (!Number.isNaN(newDate.getTime())) {
         // Preserve the current time when changing the date
         const currentTime = timeSelection.value.time;
         newDate.setHours(currentTime.getHours(), currentTime.getMinutes());
