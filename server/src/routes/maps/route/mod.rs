@@ -284,6 +284,7 @@ pub async fn route_handler(
                 args.page_cursor.as_deref(),
                 args.time.as_ref(),
                 args.arrive_by,
+                args.lang == LanguageOptions::En,
             )
             .await;
         let response = match routing {

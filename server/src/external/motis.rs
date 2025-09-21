@@ -21,14 +21,17 @@ impl MotisWrapper {
         page_cursor: Option<&str>,
         time: Option<&chrono::DateTime<chrono::Utc>>,
         arrive_by: bool,
+        should_use_english: bool,
     ) -> anyhow::Result<PlanResponse> {
         debug!(?from, ?to, "routing request");
         let mut request = self
             .0
             .plan()
+            .use_routed_transfers(true)
             .detailed_transfers(true)
             .num_itineraries(5)
             .from_place(from)
+            .language(if should_use_english { "en" } else { "de" })
             .to_place(to);
         if let Some(cursor) = page_cursor {
             request = request.page_cursor(cursor);
