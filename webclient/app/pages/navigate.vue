@@ -206,7 +206,6 @@ function handleSelectItinerary(itineraryIndex: number) {
         v-else-if="status === 'success' && data?.router === 'motis'"
         :data="data"
         v-model:page-cursor="motisPageCursor"
-        v-model:time="timeSelection"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
       />

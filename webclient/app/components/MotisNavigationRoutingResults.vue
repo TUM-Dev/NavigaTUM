@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, watch } from "vue";
 import type { components } from "~/api_types";
-import type { TimeSelection } from "~/types/navigation";
 
 type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
 type ModeResponse = components["schemas"]["ModeResponse"];
 
 const pageCursor = defineModel<string | undefined>("pageCursor", {
-  required: true,
-});
-const timeSelection = defineModel<TimeSelection | undefined>("time", {
   required: true,
 });
 const props = defineProps<{
