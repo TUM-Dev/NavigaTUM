@@ -34,10 +34,12 @@ const showTransitOverflow = ref(false);
 const checkOverflow = () => {
   nextTick(() => {
     if (transitContainer.value) {
-      showDirectOverflow.value = transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
+      showDirectOverflow.value =
+        transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
     }
     if (transitContainer2.value) {
-      showTransitOverflow.value = transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
+      showTransitOverflow.value =
+        transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
     }
   });
 };
@@ -142,7 +144,9 @@ const getTransitLegs = (itinerary: {
       // Deduplicate consecutive similar legs (same mode and route)
       const lastLeg = transitLegs[transitLegs.length - 1];
       const isDuplicate =
-        lastLeg && lastLeg.mode === newLeg.mode && lastLeg.route_short_name === newLeg.route_short_name;
+        lastLeg &&
+        lastLeg.mode === newLeg.mode &&
+        lastLeg.route_short_name === newLeg.route_short_name;
 
       if (!isDuplicate) {
         transitLegs.push(newLeg);
@@ -241,10 +245,8 @@ const getTransitLegs = (itinerary: {
           <MotisPaginationControls
             :previous-page-cursor="data.previous_page_cursor"
             :next-page-cursor="data.next_page_cursor"
-            :loading="false"
+            v-model:page-cursor="pageCursor"
             size="sm"
-            @load-previous="emit('loadPrevious', $event)"
-            @load-next="emit('loadNext', $event)"
           />
         </div>
 
@@ -322,10 +324,8 @@ const getTransitLegs = (itinerary: {
           <MotisPaginationControls
             :previous-page-cursor="data.previous_page_cursor"
             :next-page-cursor="data.next_page_cursor"
-            :loading="false"
             size="lg"
-            @load-previous="emit('loadPrevious', $event)"
-            @load-next="emit('loadNext', $event)"
+            v-model:page-cursor="pageCursor"
           />
         </div>
       </div>
