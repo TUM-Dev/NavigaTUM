@@ -79,8 +79,7 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
-    await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -156,12 +155,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -289,7 +284,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,
-    indoorOptions
+    indoorOptions,
   );
 
   // Add the specific control
@@ -315,10 +310,7 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
-  fitBounds(
-    [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
-  );
+  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
@@ -336,7 +328,7 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
       { lat: lat[1] + paddingLat, lng: lon[1] + paddingLon },
     ],
-    { maxZoom: 19 }
+    { maxZoom: 19 },
   );
 }
 
@@ -390,12 +382,12 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
     const markerStyle = getStopMarkerStyle(stop);
     const markerDiv = createTransitStopMarker(stop, markerStyle);
 
-    const marker = new Marker({ element: markerDiv }) as any;
+    const marker = new Marker({ element: markerDiv });
     marker.setLngLat([stop.lon, stop.lat]);
     if (map.value) {
       marker.addTo(map.value as MapLibreMap);
     }
-    motisMarkers.value.push(marker as Marker);
+    motisMarkers.value.push(marker);
   }
 
   // Fit map to show entire route
