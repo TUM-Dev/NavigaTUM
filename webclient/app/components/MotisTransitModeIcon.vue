@@ -27,7 +27,7 @@ defineProps<{
 <template>
   <div
     class="flex items-center justify-center text-xs font-medium"
-    :class="transparent ? 'text-current' : 'bg-blue-100 text-blue-800 h-8 w-8 rounded-full'"
+    :class="transparent ? '' : 'bg-blue-100 text-blue-800 h-8 w-8 rounded-full'"
   >
     <!-- Walking -->
     <MdiIcon v-if="mode === 'walk'" :path="mdiWalk" :size="16" />

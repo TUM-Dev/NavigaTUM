@@ -223,7 +223,7 @@ const getTransitLegs = (itinerary: {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 flex-shrink-0" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
@@ -302,10 +302,8 @@ const getTransitLegs = (itinerary: {
                         <MotisTransitModeIcon :mode="leg.mode" class="w-3 h-3" transparent />
                         {{ leg.route_short_name }}
                       </div>
-                      <div class="text-black-900" v-else>
-                        <!-- Non-transit or transit without route info -->
-                        <MotisTransitModeIcon :mode="leg.mode" class="w-5 h-5" transparent />
-                      </div>
+                      <!-- Non-transit or transit without route info -->
+                        <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
