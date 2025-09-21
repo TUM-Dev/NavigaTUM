@@ -1,13 +1,9 @@
-export interface UserRoutingPreferences {
-  /** @description Preferred Transport mode the user wants to use */
-  route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
-  /** @description Does the user have specific walking restrictions? (affects narration and routing) */
-  pedestrian_type: "wheelchair" | "blind" | "standard";
-  /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
-  ptw_type: "motorcycle" | "moped";
-  /** @description Which kind of bicycle do you ride? */
-  bicycle_type: "road" | "hybrid" | "cross" | "mountain";
-}
+import type { paths } from "@/api_types";
+
+type UserRoutingPreferences = Pick<
+  paths["/api/maps/route"]["get"]["parameters"]["query"],
+  "route_costing" | "pedestrian_type" | "ptw_type" | "bicycle_type"
+>;
 
 const defaultPreferences: UserRoutingPreferences = {
   route_costing: "pedestrian",
