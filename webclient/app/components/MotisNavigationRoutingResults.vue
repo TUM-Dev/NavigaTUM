@@ -3,7 +3,7 @@ import { nextTick, onMounted, onUnmounted, watch } from "vue";
 import type { components } from "~/api_types";
 
 type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
-type ModeResponse = components["schemas"]["ModeResponse"];
+type MotisLegResponse = components["schemas"]["MotisLegResponse"];
 
 const pageCursor = defineModel<string | undefined>("pageCursor", {
   required: true,
@@ -111,46 +111,30 @@ const formatDuration = (seconds: number) => {
 };
 
 // Get transit legs for an itinerary summary
-const getTransitLegs = (itinerary: {
-  legs?: readonly {
-    mode?: ModeResponse;
-    route_short_name?: string | null;
-    route_color?: string | null;
-    route_text_color?: string | null;
-  }[];
-}) => {
-  const transitLegs: Array<{
-    mode: ModeResponse;
-    route_short_name?: string | null;
-    route_color?: string | null;
-    route_text_color?: string | null;
-  }> = [];
+const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
+  type TransitLeg = Pick<
+    MotisLegResponse,
+    "mode" | "route_short_name" | "route_color" | "route_text_color"
+  >;
+  let transitLegs: Array<TransitLeg> = [];
 
-  itinerary.legs?.forEach((leg) => {
-    if (leg.mode) {
-      const newLeg = {
-        mode: leg.mode,
-        route_short_name: ["bus", "tram", "subway", "metro", "rail", "coach"].includes(leg.mode)
-          ? leg.route_short_name
-          : undefined,
-        route_color: ["bus", "tram", "subway", "metro", "rail", "coach"].includes(leg.mode)
-          ? leg.route_color
-          : undefined,
-        route_text_color: ["bus", "tram", "subway", "metro", "rail", "coach"].includes(leg.mode)
-          ? leg.route_text_color
-          : undefined,
-      };
+  legs.forEach((leg) => {
+    const newLeg = {
+      mode: leg.mode,
+      route_short_name: leg.route_short_name,
+      route_color: leg.route_color,
+      route_text_color: leg.route_text_color,
+    };
 
-      // Deduplicate consecutive similar legs (same mode and route)
-      const lastLeg = transitLegs[transitLegs.length - 1];
-      const isDuplicate =
-        lastLeg &&
-        lastLeg.mode === newLeg.mode &&
-        lastLeg.route_short_name === newLeg.route_short_name;
+    // Deduplicate consecutive similar legs (same mode and route)
+    const lastLeg = transitLegs[transitLegs.length - 1];
+    const isDuplicate =
+      lastLeg &&
+      lastLeg.mode === newLeg.mode &&
+      lastLeg.route_short_name === newLeg.route_short_name;
 
-      if (!isDuplicate) {
-        transitLegs.push(newLeg);
-      }
+    if (!isDuplicate) {
+      transitLegs.push(newLeg);
     }
   });
 
@@ -195,7 +179,10 @@ const getTransitLegs = (itinerary: {
                 <!-- Transit summary below time -->
                 <div class="relative">
                   <div ref="transitContainer" class="flex items-center gap-1 overflow-x-auto scrollbar-hide">
-                    <template v-for="(leg, legIndex) in getTransitLegs(connection)" :key="`${leg.mode}-${legIndex}`">
+                    <template
+                      v-for="(leg, legIndex) in getTransitLegs(connection.legs)"
+                      :key="`${leg.mode}-${legIndex}`"
+                    >
                       <!-- Separator arrow between legs -->
                       <svg
                         v-if="legIndex > 0"
@@ -215,8 +202,8 @@ const getTransitLegs = (itinerary: {
                         v-if="leg.route_short_name"
                         class="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold min-w-[2rem] h-5 shadow-sm flex-shrink-0"
                         :style="{
-                          backgroundColor: leg.route_color ? `#${leg.route_color}` : '#3B82F6',
-                          color: leg.route_text_color ? `#${leg.route_text_color}` : '#FFFFFF',
+                          backgroundColor: leg.route_color,
+                          color: leg.route_text_color,
                         }"
                       >
                         <MotisTransitModeIcon :mode="leg.mode" class="w-3 h-3" transparent />
@@ -265,7 +252,10 @@ const getTransitLegs = (itinerary: {
                 <!-- Transit summary below time -->
                 <div class="relative">
                   <div ref="transitContainer2" class="flex items-center gap-1 overflow-x-auto scrollbar-hide">
-                    <template v-for="(leg, legIndex) in getTransitLegs(itinerary)" :key="`${leg.mode}-${legIndex}`">
+                    <template
+                      v-for="(leg, legIndex) in getTransitLegs(itinerary.legs)"
+                      :key="`${leg.mode}-${legIndex}`"
+                    >
                       <!-- Separator arrow between legs -->
                       <svg
                         v-if="legIndex > 0"
@@ -285,8 +275,8 @@ const getTransitLegs = (itinerary: {
                         v-if="leg.route_short_name"
                         class="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold min-w-[2rem] h-5 shadow-sm flex-shrink-0"
                         :style="{
-                          backgroundColor: leg.route_color ? `#${leg.route_color}` : '#3B82F6',
-                          color: leg.route_text_color ? `#${leg.route_text_color}` : '#FFFFFF',
+                          backgroundColor: leg.route_color,
+                          color: leg.route_text_color,
                         }"
                       >
                         <MotisTransitModeIcon :mode="leg.mode" class="w-3 h-3" transparent />
