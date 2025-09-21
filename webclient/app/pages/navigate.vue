@@ -29,26 +29,19 @@ type NavigationResponse =
   operations["route_handler"]["responses"][200]["content"]["application/json"];
 
 // Page cursor for Motis pagination
-const pageCursor = useRouteQuery<string | undefined>("cursor", undefined, {
-  mode: "replace",
-  route,
-  router,
+const pageCursor = ref<string | undefined>(undefined);
+const { data, status, error, refresh } = await useFetch<NavigationResponse>("https://nav.tum.de/api/maps/route", {
+  query: computed(() => ({
+    lang: locale.value,
+    from: selected_from.value,
+    to: selected_to.value,
+    route_costing: mode.value,
+    page_cursor: pageCursor.value,
+    pedestrian_type: undefined as RequestQuery["pedestrian_type"],
+    ptw_type: undefined as RequestQuery["ptw_type"],
+    bicycle_type: undefined as RequestQuery["bicycle_type"],
+  })),
 });
-const { data, status, error, refresh } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
-  {
-    query: computed(() => ({
-      lang: locale.value,
-      from: selected_from.value,
-      to: selected_to.value,
-      route_costing: mode.value,
-      page_cursor: pageCursor.value,
-      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-      ptw_type: undefined as RequestQuery["ptw_type"],
-      bicycle_type: undefined as RequestQuery["bicycle_type"],
-    })),
-  }
-);
 
 effect(() => {
   if (!data.value || !indoorMap.value) return;
