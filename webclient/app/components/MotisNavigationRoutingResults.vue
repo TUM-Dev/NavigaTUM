@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiChevronLeft, mdiChevronRight, mdiRefresh } from "@mdi/js";
+import { mdiChevronLeft, mdiChevronRight, mdiRefresh, mdiTransitConnectionVariant } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
@@ -66,6 +66,14 @@ const formatDelay = (delayMinutes: number) => {
     return `+${delayMinutes}`;
   }
   return `${delayMinutes}`;
+};
+
+// Helper function to safely get previous leg info for interline display
+const getPreviousLegInfo = (itinerary: any, currentIndex: number) => {
+  if (currentIndex <= 0 || !itinerary.legs[currentIndex - 1]) {
+    return null;
+  }
+  return itinerary.legs[currentIndex - 1];
 };
 
 // Check if pagination controls should be shown
@@ -234,6 +242,50 @@ const handleNextPage = () => {
                     <span v-if="leg.headsign" class="text-zinc-600 text-sm">
                       {{ leg.headsign }}
                     </span>
+                  </div>
+
+                  <!-- Interline Information -->
+                  <div v-if="leg.interline_with_previous_leg" class="mb-2">
+                    <div
+                      class="flex items-start gap-2 bg-blue-50 text-blue-800 px-3 py-2 rounded-md border border-blue-200"
+                    >
+                      <MdiIcon
+                        :path="mdiTransitConnectionVariant"
+                        :size="16"
+                        class="text-blue-600 mt-0.5 flex-shrink-0"
+                      />
+                      <div class="flex-grow">
+                        <div class="font-medium text-sm">{{ t("stay_on_vehicle") }}</div>
+                        <div class="text-blue-700 text-xs mt-2">
+                          <div
+                            v-if="
+                              getPreviousLegInfo(itinerary, j)?.route_short_name &&
+                              leg.route_short_name &&
+                              getPreviousLegInfo(itinerary, j)?.route_short_name !== leg.route_short_name
+                            "
+                            class="flex items-center gap-2"
+                          >
+                            <span class="text-blue-700">{{ t("route_becomes_short") }}:</span>
+                            <span class="rounded px-1.5 py-0.5 text-xs font-bold text-white bg-blue-600">
+                              {{ getPreviousLegInfo(itinerary, j)?.route_short_name }}
+                            </span>
+                            <span class="text-blue-600">→</span>
+                            <span
+                              class="rounded px-1.5 py-0.5 text-xs font-bold text-white"
+                              :style="{
+                                backgroundColor: leg.route_color || '#3b82f6',
+                                color: leg.route_text_color || 'white',
+                              }"
+                            >
+                              {{ leg.route_short_name }}
+                            </span>
+                          </div>
+                          <div v-else>
+                            {{ t("interline_explanation") }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <!-- From/To -->
@@ -508,11 +560,15 @@ de:
   load_earlier_connections: Frühere Verbindungen laden
   load_later_connections: Spätere Verbindungen laden
   no_routes_found: Keine Routen gefunden
-  no_routes_description: Es konnten keine Verbindungen für Ihre Suchanfrage gefunden werden. Versuchen Sie andere Parameter oder eine andere Zeit.
+  no_routes_description: Es konnten keine Verbindungen für Ihre Suchanfrage gefunden werden. Versuche andere Parameter oder eine andere Zeit.
   try_again: Erneut versuchen
   select_itinerary: Route auswählen
   departure_stop_alerts: Abfahrtshaltestelle
   arrival_stop_alerts: Ankunftshaltestelle
+  stay_on_vehicle: Im Fahrzeug bleiben
+  interline_explanation: Das Fahrzeug ändert seine Route, aber du musst nicht umsteigen
+  route_becomes: Linie {from} wird zu Linie {to}
+  route_becomes_short: Linie wechselt
 
 en:
   loading_routes: Loading routes
@@ -546,4 +602,8 @@ en:
   select_itinerary: Select route
   departure_stop_alerts: Departure stop
   arrival_stop_alerts: Arrival stop
+  stay_on_vehicle: Stay on vehicle
+  interline_explanation: The vehicle changes route, but you don't need to transfer
+  route_becomes: Line {from} becomes Line {to}
+  route_becomes_short: Line changes
 </i18n>

@@ -28,10 +28,10 @@ de:
     known_good_browsers: Beliebte Browser wie Google Chrome, Mozilla Firefox und Microsoft Edge sind dafür bekannt, dass sie WebGL-Funktionen haben.
     no_browser_support: Es tut uns leid, aber es scheint, dass Ihr Browser WebGL nicht unterstützt, was für die Anzeige der Karte erforderlich ist.
     please_try: Um dieses Problem zu beheben und die Karte anzuzeigen, empfehlen wir, eine der folgenden Möglichkeiten auszuprobieren
-    try_different_browser: Alternativ können Sie auch einen anderen Browser verwenden, der WebGL unterstützt.
-    try_different_browser2: Versuchen Sie, einen dieser Browser zu installieren und die Karte erneut aufzurufen.
-    upgrade_browser: Aktualisieren Sie Ihren aktuellen Browser auf die neueste Version, da neuere Versionen oft Unterstützung für WebGL enthalten.
-    visit_official_website_to_upgrade_browser: Sie können die offizielle Website Ihres Browsers besuchen, um das neueste Update herunterzuladen und zu installieren.
+    try_different_browser: Alternativ kannst du auch einen anderen Browser verwenden, der WebGL unterstützt.
+    try_different_browser2: Versuche, einen dieser Browser zu installieren und die Karte erneut aufzurufen.
+    upgrade_browser: Aktualisiere deinen aktuellen Browser auf die neueste Version, da neuere Versionen oft Unterstützung für WebGL enthalten.
+    visit_official_website_to_upgrade_browser: Du kannst die offizielle Website Ihres Browsers besuchen, um das neueste Update herunterzuladen und zu installieren.
 en:
   no_webgl:
     explain_webgl: WebGL is a technology that enables interactive 3D graphics directly in the web browser, and unfortunately, your browser does not seem to have this capability.
