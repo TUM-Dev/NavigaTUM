@@ -19,7 +19,7 @@ use valhalla_client::{
 mod motis;
 mod valhalla;
 
-#[derive(Deserialize, Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
+#[derive(Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
 struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]
@@ -39,6 +39,24 @@ impl From<ShapePoint> for Coordinate {
 impl std::fmt::Display for Coordinate {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{},{}", self.lat, self.lon)
+    }
+}
+impl<'de> serde::Deserialize<'de> for Coordinate {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let (p1, p2) = s
+            .split_once(',')
+            .ok_or(serde::de::Error::custom("expected 'lat,lon'"))?;
+        let lat = p1
+            .parse::<f64>()
+            .map_err(|_| serde::de::Error::custom("invalid latitude"))?;
+        let lon = p2
+            .parse::<f64>()
+            .map_err(|_| serde::de::Error::custom("invalid longitude"))?;
+        Ok(Coordinate { lat, lon })
     }
 }
 
