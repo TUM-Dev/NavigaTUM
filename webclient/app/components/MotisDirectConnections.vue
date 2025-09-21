@@ -47,9 +47,6 @@ const formatDistance = (meters: number) => {
 
 <template>
   <div v-if="connections.length > 0" class="mb-6">
-    <h3 class="text-zinc-700 mb-3 text-lg font-semibold">
-      {{ t("direct_connections") }}
-    </h3>
     <div v-for="(itinerary, i) in connections" :key="`direct-${i}`" class="bg-zinc-50 mb-3 rounded-lg border p-4">
       <div class="mb-2 flex items-center justify-between">
         <span class="text-zinc-900 font-medium">
