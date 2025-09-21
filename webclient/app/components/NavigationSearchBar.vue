@@ -58,8 +58,8 @@ function select(id: string) {
   }
 }
 
-async function useCurrentLocation() {
-  if (!process.client || typeof navigator === "undefined" || !("geolocation" in navigator)) {
+function useCurrentLocation() {
+  if (!import.meta.client || typeof navigator === "undefined" || !("geolocation" in navigator)) {
     alert(t("gps.error.not_supported"));
     return;
   }
@@ -71,63 +71,42 @@ async function useCurrentLocation() {
     return;
   }
 
-  try {
-    isGettingLocation.value = true;
+  isGettingLocation.value = true;
 
-    // Resume geolocation to get fresh coordinates
-    resume();
-
-    // Wait for coordinates to be available or error to occur
-    await new Promise<void>((resolve, reject) => {
-      const unwatch = watch(
-        [coords, geoError],
-        ([newCoords, newError]) => {
-          if (newError) {
-            unwatch();
-            reject(newError);
-          } else if (newCoords && newCoords.latitude && newCoords.longitude) {
-            unwatch();
-            resolve();
-          }
-        },
-        { immediate: true },
-      );
-
-      // Timeout after 15 seconds
-      setTimeout(() => {
-        unwatch();
-        reject({ code: 3, message: "Timeout" });
-      }, 15000);
-    });
-
-    if (coords.value) {
+  // Use native geolocation API directly to maintain user gesture connection
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      // Success callback
       query.value = t("gps.my_location");
-      selected.value = `${coords.value.latitude},${coords.value.longitude}`;
+      selected.value = `${position.coords.latitude},${position.coords.longitude}`;
       currently_actively_picking.value = false;
-    }
-  } catch (error: any) {
-    // Handle GeolocationPositionError specifically
-    if (error && typeof error.code === "number") {
+      isGettingLocation.value = false;
+    },
+    (error) => {
+      // Error callback
+      isGettingLocation.value = false;
+
       switch (error.code) {
-        case 1: // PERMISSION_DENIED
+        case error.PERMISSION_DENIED:
           alert(t("gps.error.permission_denied"));
           break;
-        case 2: // POSITION_UNAVAILABLE
+        case error.POSITION_UNAVAILABLE:
           alert(t("gps.error.position_unavailable"));
           break;
-        case 3: // TIMEOUT
+        case error.TIMEOUT:
           alert(t("gps.error.timeout"));
           break;
         default:
           alert(t("gps.error.general"));
       }
-    } else {
-      alert(t("gps.error.general"));
-    }
-  } finally {
-    isGettingLocation.value = false;
-    pause(); // Stop watching location to save battery
-  }
+    },
+    {
+      // Options
+      timeout: 15000,
+      enableHighAccuracy: true,
+      maximumAge: 300000, // 5 minutes
+    },
+  );
 }
 
 function onKeyDown(e: KeyboardEvent): void {
