@@ -231,10 +231,16 @@ impl From<Leg> for MotisLegResponse {
     }
 }
 
+const AGENCY_UBANHN_MÜNCHEN: &str = "8118";
+const AGENCY_DB_REGIO: &str = "10446";
+
 fn infer_route_color(value: &Leg) -> (String, String) {
     let color = if let Some(Ok(color)) = value.route_color.as_deref().map(Color::from_hex) {
         color
-    } else if value.agency_id.as_deref().is_some_and(|id| id == "mvg")
+    } else if value
+        .agency_id
+        .as_deref()
+        .is_some_and(|id| AGENCY_DB_REGIO == id || AGENCY_UBANHN_MÜNCHEN == id)
         && let Some(headsign) = value.headsign.as_deref()
     {
         infer_mvv_headsign(headsign).unwrap_or(infer_color_from_route_type(value.route_type))
