@@ -183,24 +183,34 @@ struct RoutingRequest {
     arrive_by: bool,
 }
 
-/// Does the user have specific walking restrictions?
+/// Does the user have specific walking needs?
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum PedestrianTypeRequest {
     #[default]
-    None,
+    Standard,
     Blind,
-    // TODO
-    // Wheelchair,
+    Wheelchair,
 }
 
 impl From<PedestrianTypeRequest> for PedestrianType {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::None => PedestrianType::Blind,
+            PedestrianTypeRequest::Standard => PedestrianType::Foot,
             PedestrianTypeRequest::Blind => PedestrianType::Blind,
-            // TODO
-            // PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+            PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+        }
+    }
+}
+impl From<PedestrianTypeRequest> for motis_openapi_progenitor::types::PedestrianProfile {
+    fn from(value: PedestrianTypeRequest) -> Self {
+        match value {
+            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => {
+                motis_openapi_progenitor::types::PedestrianProfile::Foot
+            }
+            PedestrianTypeRequest::Wheelchair => {
+                motis_openapi_progenitor::types::PedestrianProfile::Wheelchair
+            }
         }
     }
 }
@@ -303,6 +313,7 @@ pub async fn route_handler(
                 args.time.as_ref(),
                 args.arrive_by,
                 args.lang == LanguageOptions::En,
+                args.pedestrian_type.into(),
             )
             .await;
         let response = match routing {

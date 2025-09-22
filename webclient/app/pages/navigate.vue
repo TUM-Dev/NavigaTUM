@@ -34,14 +34,19 @@ const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
 const { t, locale } = useI18n({ useScope: "local" });
+const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
-const mode = useRouteQuery<RequestQuery["route_costing"]>("mode", "pedestrian", {
-  mode: "replace",
-  route,
-  router,
-});
+const mode = useRouteQuery<RequestQuery["route_costing"]>(
+  "mode",
+  computed(() => preferences.value.route_costing),
+  {
+    mode: "replace",
+    route,
+    router,
+  }
+);
 type RequestQuery = operations["route_handler"]["parameters"]["query"];
 type NavigationResponse =
   operations["route_handler"]["responses"][200]["content"]["application/json"];
@@ -59,9 +64,9 @@ const { data, status, error } = await useFetch<NavigationResponse>(
       to: parseCoordinateId(selected_to.value),
       route_costing: mode.value,
       page_cursor: motisPageCursor.value,
-      pedestrian_type: undefined as RequestQuery["pedestrian_type"],
-      ptw_type: undefined as RequestQuery["ptw_type"],
-      bicycle_type: undefined as RequestQuery["bicycle_type"],
+      pedestrian_type: preferences.value.pedestrian_type,
+      ptw_type: preferences.value.ptw_type,
+      bicycle_type: preferences.value.bicycle_type,
       arrive_by: debouncedTimeSelection.value?.type === "arrive_by" ? "true" : "false",
       time: debouncedTimeSelection.value?.time.toISOString(),
     })),

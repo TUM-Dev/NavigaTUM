@@ -473,10 +473,11 @@ paths:
           required: false
           schema:
             type: string
-            description: Does the user have specific walking restrictions?
+            description: Does the user have specific walking needs?
             enum:
-              - none
+              - standard
               - blind
+              - wheelchair
         - name: ptw_type
           in: query
           description: Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
