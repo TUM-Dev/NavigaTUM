@@ -15,6 +15,7 @@ import {
   mdiSpeedometer,
   mdiTune,
   mdiWalk,
+  mdiWheelchairAccessibility,
   mdiWhiteBalanceSunny,
 } from "@mdi/js";
 
@@ -86,7 +87,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode.value='light'"
+                    @click="colorMode.value = 'light'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
@@ -104,7 +105,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode.value='dark'"
+                    @click="colorMode.value = 'dark'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMoonWaningCrescent" :size="16" />
@@ -263,7 +264,11 @@ async function updateLocale(value: "de" | "en") {
           <div>
             <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("pedestrianType") }}</h3>
             <p class="text-sm text-zinc-600 mb-4">{{ t("pedestrianType.help") }}</p>
-            <TabGroup :default-index="preferences.pedestrian_type === 'blind' ? 1 : 0">
+            <TabGroup
+              :default-index="
+                preferences.pedestrian_type === 'blind' ? 2 : preferences.pedestrian_type === 'wheelchair' ? 1 : 0
+              "
+            >
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
@@ -279,7 +284,25 @@ async function updateLocale(value: "de" | "en") {
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiAccountMultiple" :size="16" />
-                      {{ t("pedestrian.none") }}
+                      {{ t("pedestrian.standard") }}
+                    </div>
+                  </button>
+                </Tab>
+                <Tab as="template" v-slot="{ selected }">
+                  <button
+                    :class="[
+                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
+                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'focus:outline-none focus:ring-2 transition-all',
+                      selected
+                        ? 'bg-white text-zinc-700 shadow'
+                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                    ]"
+                    @click="updatePreference('pedestrian_type', 'wheelchair')"
+                  >
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mdiWheelchairAccessibility" :size="16" />
+                      {{ t("pedestrian.wheelchair") }}
                     </div>
                   </button>
                 </Tab>
@@ -405,7 +428,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="updatePreference('ptw_type','motorcycle')"
+                    @click="updatePreference('ptw_type', 'motorcycle')"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMotorbike" :size="16" />
@@ -423,7 +446,7 @@ async function updateLocale(value: "de" | "en") {
                         ? 'bg-white text-zinc-700 shadow'
                         : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="updatePreference('ptw_type','moped')"
+                    @click="updatePreference('ptw_type', 'moped')"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiBike" :size="16" />
@@ -457,8 +480,9 @@ de:
   transport.publicTransit: Öffentliche Verkehrsmittel
   pedestrianType: Fußgänger-Typ
   pedestrianType.help: Wählen Sie dies, falls Sie Barrierefreiheit benötigen wie Ansagen oder Aufzüge.
-  pedestrian.none: Standard
+  pedestrian.standard: Standard
   pedestrian.blind: Blind
+  pedestrian.wheelchair: Rollstuhl
   bicycleType: Fahrrad-Typ
   bicycleType.help: Dies beeinflusst welche Wege für Sie ausgewählt werden. Rennräder meiden unbefestigte Wege.
   bicycle.road: Rennrad
@@ -485,8 +509,9 @@ en:
   transport.publicTransit: Public Transit
   pedestrianType: Pedestrian Type
   pedestrianType.help: Select this if you need accessibility features like narration or elevators.
-  pedestrian.none: Standard
+  pedestrian.standard: Standard
   pedestrian.blind: Blind
+  pedestrian.wheelchair: Wheelchair
   bicycleType: Bicycle Type
   bicycleType.help: This affects which paths are selected for you. Road bikes avoid unpaved paths.
   bicycle.road: Road
