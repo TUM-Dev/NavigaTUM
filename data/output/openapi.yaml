@@ -456,17 +456,22 @@ paths:
                 description: Our (uni internal) key for location identification
         - name: route_costing
           in: query
-          description: Transport mode the user wants to use
-          required: true
+          description: |-
+            Transport mode the user wants to use
+
+            If not specified, the default is based on how far the destinations are apart and requested time.
+          required: false
           schema:
-            type: string
-            description: Transport mode the user wants to use
-            enum:
-              - pedestrian
-              - bicycle
-              - motorcycle
-              - car
-              - public_transit
+            oneOf:
+              - type: "null"
+              - type: string
+                description: Transport mode the user wants to use
+                enum:
+                  - pedestrian
+                  - bicycle
+                  - motorcycle
+                  - car
+                  - public_transit
         - name: pedestrian_type
           in: query
           description: Does the user have specific walking restrictions?
