@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 )]
 use serde_json::json;
 use sqlx::PgPool;
-use std::ops::Deref;
 use tracing::{debug, error};
 use valhalla_client::{
     costing::{
@@ -27,6 +26,24 @@ struct Coordinate {
     /// Longitude
     #[schema(example = 48.26244490906312)]
     lon: f64,
+}
+impl Coordinate {
+    /// Great-circle distance (Haversine formula)
+    fn distance_to(&self, other: &Coordinate) -> f64 {
+        const EARTH_RADIUS_KM: f64 = 6371.0;
+
+        let (lat1, lon1) = (self.lat.to_radians(), self.lon.to_radians());
+        let (lat2, lon2) = (other.lat.to_radians(), other.lon.to_radians());
+
+        let dlat = lat2 - lat1;
+        let dlon = lon2 - lon1;
+
+        let a = (dlat / 2.0).sin().powi(2) + lat1.cos() * lat2.cos() * (dlon / 2.0).sin().powi(2);
+
+        let c = 2.0 * a.sqrt().atan2((1.0 - a).sqrt());
+
+        EARTH_RADIUS_KM * c
+    }
 }
 impl From<ShapePoint> for Coordinate {
     fn from(value: ShapePoint) -> Self {
@@ -102,22 +119,43 @@ enum CostingRequest {
     Car,
     PublicTransit,
 }
-impl From<&RoutingRequest> for Costing {
-    fn from(
-        RoutingRequest {
-            route_costing,
-            pedestrian_type,
-            ptw_type,
-            bicycle_type,
-            ..
-        }: &RoutingRequest,
-    ) -> Self {
-        match route_costing {
+impl CostingRequest {
+    fn smart_default(route_costing: Option<Self>, from: Coordinate, to: Coordinate) -> Self {
+        if let Some(cost) = route_costing {
+            cost
+        } else {
+            // clear domination:
+            // pedestrian is always dominated by public transit
+            // if a user has car access, they likely prefer car
+            // we can't know if they have, so car dominates ptw
+            //
+            // unclear domination (these have holes):
+            // bicycle for small distances is good, but after 3km, public transit is better
+            // car is better after 40km
+            //
+            // => decision:
+            // car vs public transit vs bicycle
+            if from.distance_to(&to) < 3000.0 {
+                Self::Bicycle
+            } else if from.distance_to(&to) < 40000.0 {
+                Self::PublicTransit
+            } else {
+                Self::Car
+            }
+        }
+    }
+    fn to_valhalla(
+        self,
+        pedestrian_type: PedestrianTypeRequest,
+        bicycle_type: BicycleRestrictionRequest,
+        ptw_type: PoweredTwoWheeledRestrictionRequest,
+    ) -> Costing {
+        match self {
             CostingRequest::Pedestrian => Costing::Pedestrian(
-                PedestrianCostingOptions::builder().r#type(PedestrianType::from(*pedestrian_type)),
+                PedestrianCostingOptions::builder().r#type(PedestrianType::from(pedestrian_type)),
             ),
             CostingRequest::Bicycle => Costing::Bicycle(
-                BicycleCostingOptions::builder().bicycle_type(BicycleType::from(*bicycle_type)),
+                BicycleCostingOptions::builder().bicycle_type(BicycleType::from(bicycle_type)),
             ),
             CostingRequest::Motorcycle => match ptw_type {
                 PoweredTwoWheeledRestrictionRequest::Moped => {
@@ -130,7 +168,7 @@ impl From<&RoutingRequest> for Costing {
             CostingRequest::Car => Costing::Auto(Default::default()),
             CostingRequest::PublicTransit => {
                 let pedestrian_costing = PedestrianCostingOptions::builder()
-                    .r#type(PedestrianType::from(*pedestrian_type));
+                    .r#type(PedestrianType::from(pedestrian_type));
                 Costing::Multimodal(
                     MultimodalCostingOptions::builder()
                         .pedestrian(pedestrian_costing)
@@ -153,8 +191,10 @@ struct RoutingRequest {
     #[param(inline)]
     to: RequestedLocation,
     /// Transport mode the user wants to use
+    ///
+    /// If not specified, the default is based on how far the destinations are apart and requested time.
     #[param(inline)]
-    route_costing: CostingRequest,
+    route_costing: Option<CostingRequest>,
     /// Does the user have specific walking restrictions?
     #[serde(default)]
     #[param(inline)]
@@ -302,8 +342,9 @@ pub async fn route_handler(
                 .body("Failed to resolve key");
         }
     };
+    let costing = CostingRequest::smart_default(args.route_costing, from, to);
 
-    if args.route_costing == CostingRequest::PublicTransit {
+    if costing == CostingRequest::PublicTransit {
         let routing = data
             .motis
             .route(
@@ -336,7 +377,7 @@ pub async fn route_handler(
             .route(
                 (from.lat as f32, from.lon as f32),
                 (to.lat as f32, to.lon as f32),
-                Costing::from(args.deref()),
+                costing.to_valhalla(args.pedestrian_type, args.bicycle_type, args.ptw_type),
                 args.lang == LanguageOptions::En,
             )
             .await;
