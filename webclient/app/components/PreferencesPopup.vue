@@ -335,7 +335,7 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup
               :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')"
             >
-              <TabList class="grid grid-cols-2 gap-2 rounded-lg bg-zinc-100 p-2">
+              <TabList class="grid grid-cols-4 gap-2 rounded-lg bg-zinc-100 p-2">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
@@ -506,7 +506,7 @@ en:
   transport.bicycle: Bicycle
   transport.motorcycle: Motorcycle
   transport.car: Car
-  transport.publicTransit: Public Transit
+  transport.publicTransit: Transit
   pedestrianType: Pedestrian Type
   pedestrianType.help: Select this if you need accessibility features like narration or elevators.
   pedestrian.standard: Standard
