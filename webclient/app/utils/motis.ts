@@ -155,66 +155,111 @@ export function extractStopsWithContext(itinerary: ItineraryResponse): any[] {
     ].includes(mode);
   };
 
+  // Helper to find the next non-walking leg
+  const findNextTransitLeg = (startIndex: number) => {
+    for (let i = startIndex + 1; i < itinerary.legs.length; i++) {
+      if (!isWalkingLeg(i)) return i;
+    }
+    return -1;
+  };
+
+  // Helper to find the previous non-walking leg
+  const findPreviousTransitLeg = (startIndex: number) => {
+    for (let i = startIndex - 1; i >= 0; i--) {
+      if (!isWalkingLeg(i)) return i;
+    }
+    return -1;
+  };
+
   for (let legIndex = 0; legIndex < itinerary.legs.length; legIndex++) {
     const leg = itinerary.legs[legIndex];
     if (!leg || leg.mode === "walk") continue;
 
-    const prevLeg = legIndex > 0 ? itinerary.legs[legIndex - 1] : null;
+    const prevTransitLegIndex = findPreviousTransitLeg(legIndex);
+    const nextTransitLegIndex = findNextTransitLeg(legIndex);
+    const prevTransitLeg = prevTransitLegIndex >= 0 ? itinerary.legs[prevTransitLegIndex] : null;
+    const nextTransitLeg = nextTransitLegIndex >= 0 ? itinerary.legs[nextTransitLegIndex] : null;
+
+    // Determine if this is a transfer stop
+    const isTransferStart = prevTransitLeg && prevTransitLeg.to.name === leg.from.name;
+    const isTransferEnd = nextTransitLeg && leg.to.name === nextTransitLeg.from.name;
 
     // Add starting point with context
     const fromStop = {
       ...leg.from,
       showPlatform: false,
       platformText: undefined as string | undefined,
-      transportModes: [leg.mode], // Track what transport modes use this stop
-      isImportant: isJourneyStart(legIndex) || prevLeg?.mode !== "walk", // Important if journey start or transfer
+      transportModes: [leg.mode],
+      isImportant: isJourneyStart(legIndex) || isTransferStart,
+      isTransfer: isTransferStart,
+      transferType: undefined as string | undefined,
     };
 
+    // Handle platform display for departure points
     if (leg.from.track) {
       if (isJourneyStart(legIndex)) {
-        // Journey start: show just platform number
+        // Journey start: show departure platform
         fromStop.showPlatform = true;
-        fromStop.platformText = leg.from.track;
-      } else if (prevLeg?.to.track && prevLeg.to.track !== leg.from.track) {
-        // Transfer with platform change: show platform transition
-        fromStop.showPlatform = true;
-        fromStop.platformText = `${prevLeg.to.track} → ${leg.from.track}`;
+        fromStop.platformText = `Pl. ${leg.from.track}`;
+      } else if (isTransferStart && prevTransitLeg?.to.track) {
+        // Transfer: show platform change with more explicit format
+        const fromPlatform = prevTransitLeg.to.track;
+        const toPlatform = leg.from.track;
+        if (fromPlatform !== toPlatform) {
+          fromStop.showPlatform = true;
+          fromStop.platformText = `${fromPlatform} → ${toPlatform}`;
+          fromStop.transferType = "platform_change";
+        } else {
+          // Same platform transfer
+          fromStop.showPlatform = true;
+          fromStop.platformText = `Pl. ${toPlatform}`;
+          fromStop.transferType = "same_platform";
+        }
       }
     }
 
     // Add if not already present, or merge transport modes if it exists
     const existingStop = stopsWithContext.find(
-      (stop) => stop.lat === fromStop.lat && stop.lon === fromStop.lon
+      (stop) =>
+        Math.abs(stop.lat - fromStop.lat) < 0.0001 && Math.abs(stop.lon - fromStop.lon) < 0.0001
     );
     if (existingStop) {
       if (!existingStop.transportModes.includes(leg.mode)) {
         existingStop.transportModes.push(leg.mode);
       }
-      // If this is important, mark the existing stop as important
+      // Merge platform information if this has more specific info
+      if (fromStop.showPlatform && fromStop.platformText) {
+        existingStop.showPlatform = true;
+        existingStop.platformText = fromStop.platformText;
+        existingStop.transferType = fromStop.transferType;
+      }
       if (fromStop.isImportant) {
         existingStop.isImportant = true;
+      }
+      if (fromStop.isTransfer) {
+        existingStop.isTransfer = true;
       }
     } else {
       stopsWithContext.push(fromStop);
     }
 
-    // Add intermediate stops (never show platform - they are through stations)
+    // Add intermediate stops (through stations - minimal display)
     if (leg.intermediate_stops) {
       for (const stop of leg.intermediate_stops) {
         const existingIntermediateStop = stopsWithContext.find(
-          (s) => s.lat === stop.lat && s.lon === stop.lon
+          (s) => Math.abs(s.lat - stop.lat) < 0.0001 && Math.abs(s.lon - stop.lon) < 0.0001
         );
         if (existingIntermediateStop) {
           if (!existingIntermediateStop.transportModes.includes(leg.mode)) {
             existingIntermediateStop.transportModes.push(leg.mode);
           }
-          // Intermediate stops are never important (through stations)
         } else {
           stopsWithContext.push({
             ...stop,
             showPlatform: false,
             transportModes: [leg.mode],
-            isImportant: false, // Through stations are not important
+            isImportant: false,
+            isTransfer: false,
           });
         }
       }
@@ -226,28 +271,37 @@ export function extractStopsWithContext(itinerary: ItineraryResponse): any[] {
       showPlatform: false,
       platformText: undefined as string | undefined,
       transportModes: [leg.mode],
-      isImportant:
-        isJourneyEnd(legIndex) ||
-        (legIndex < itinerary.legs.length - 1 && !isWalkingLeg(legIndex + 1)), // Important if journey end or transfer
+      isImportant: isJourneyEnd(legIndex) || isTransferEnd,
+      isTransfer: isTransferEnd,
+      transferType: undefined as string | undefined,
     };
 
+    // Handle platform display for arrival points
     if (leg.to.track && isJourneyEnd(legIndex)) {
-      // Journey end: show just platform number
+      // Journey end: show arrival platform
       toStop.showPlatform = true;
-      toStop.platformText = leg.to.track;
+      toStop.platformText = `Pl. ${leg.to.track}`;
     }
 
     // Add if not already present, or merge transport modes if it exists
     const existingToStop = stopsWithContext.find(
-      (stop) => stop.lat === toStop.lat && stop.lon === toStop.lon
+      (stop) => Math.abs(stop.lat - toStop.lat) < 0.0001 && Math.abs(stop.lon - toStop.lon) < 0.0001
     );
     if (existingToStop) {
       if (!existingToStop.transportModes.includes(leg.mode)) {
         existingToStop.transportModes.push(leg.mode);
       }
-      // If this is important, mark the existing stop as important
+      // Merge platform information if this has more specific info
+      if (toStop.showPlatform && toStop.platformText) {
+        existingToStop.showPlatform = true;
+        existingToStop.platformText = toStop.platformText;
+        existingToStop.transferType = toStop.transferType;
+      }
       if (toStop.isImportant) {
         existingToStop.isImportant = true;
+      }
+      if (toStop.isTransfer) {
+        existingToStop.isTransfer = true;
       }
     } else {
       stopsWithContext.push(toStop);
@@ -293,162 +347,71 @@ export function extractTransferStops(itinerary: ItineraryResponse): PlaceRespons
 /**
  * Get styling for different transport modes
  */
-export function getTransitModeStyle(mode: ModeResponse): {
+export function getTransitModeStyle(
+  mode: ModeResponse,
+  routeColor?: string
+): {
   color: string;
   weight: number;
   opacity: number;
   dashArray?: string;
 } {
-  const styles: Record<
-    string,
-    {
-      color: string;
-      weight: number;
-      opacity: number;
-      dashArray?: string;
-    }
-  > = {
-    walk: {
+  // Special case for walking - use dashed gray line
+  if (mode === "walk") {
+    return {
       color: "#6B7280",
       weight: 3,
-      dashArray: "5,5",
+      dashArray: "2,3",
       opacity: 0.8,
-    },
-    bus: {
-      color: "#EF4444",
-      weight: 4,
-      opacity: 1.0,
-    },
-    rail: {
-      color: "#3B82F6",
-      weight: 5,
-      opacity: 1.0,
-    },
-    subway: {
-      color: "#8B5CF6",
-      weight: 5,
-      opacity: 1.0,
-    },
-    metro: {
-      color: "#8B5CF6",
-      weight: 5,
-      opacity: 1.0,
-    },
-    tram: {
-      color: "#F59E0B",
-      weight: 4,
-      opacity: 1.0,
-    },
-    regional_rail: {
-      color: "#059669",
-      weight: 5,
-      opacity: 1.0,
-    },
-    regional_fast_rail: {
-      color: "#059669",
-      weight: 5,
-      opacity: 1.0,
-    },
-    long_distance: {
-      color: "#DC2626",
-      weight: 6,
-      opacity: 1.0,
-    },
-    night_rail: {
-      color: "#1F2937",
-      weight: 6,
-      opacity: 1.0,
-    },
-    highspeed_rail: {
-      color: "#7C2D12",
-      weight: 6,
-      opacity: 1.0,
-    },
-    ferry: {
-      color: "#0891B2",
-      weight: 4,
-      opacity: 1.0,
-    },
-    airplane: {
-      color: "#6366F1",
-      weight: 4,
-      opacity: 1.0,
-    },
-    coach: {
-      color: "#DC2626",
-      weight: 4,
-      opacity: 1.0,
-    },
-    cable_car: {
-      color: "#9CA3AF",
-      weight: 3,
-      opacity: 1.0,
-    },
-    funicular: {
-      color: "#6B7280",
-      weight: 3,
-      opacity: 1.0,
-    },
-    areal_lift: {
-      color: "#E5E7EB",
-      weight: 2,
-      opacity: 1.0,
-    },
-    bike: {
-      color: "#16A34A",
-      weight: 3,
-      opacity: 0.9,
-    },
-    rental: {
-      color: "#CA8A04",
-      weight: 3,
-      opacity: 0.9,
-    },
-    car: {
-      color: "#374151",
-      weight: 4,
-      opacity: 0.9,
-    },
-    car_parking: {
-      color: "#6B7280",
-      weight: 3,
-      opacity: 0.8,
-    },
-    odm: {
-      color: "#8B5CF6",
-      weight: 3,
-      opacity: 0.9,
-    },
-    flex: {
-      color: "#F59E0B",
-      weight: 3,
-      opacity: 0.9,
-    },
-    transit: {
-      color: "#3B82F6",
-      weight: 4,
-      opacity: 1.0,
-    },
-    other: {
-      color: "#9CA3AF",
-      weight: 3,
-      opacity: 0.8,
-    },
+    };
+  }
+
+  // For all other modes, use the route color (no fallback)
+  const color = routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000";
+
+  // Define weight and opacity based on mode type
+  const modeStyles: Record<string, { weight: number; opacity: number }> = {
+    bus: { weight: 4, opacity: 1.0 },
+    rail: { weight: 5, opacity: 1.0 },
+    subway: { weight: 5, opacity: 1.0 },
+    metro: { weight: 5, opacity: 1.0 },
+    tram: { weight: 4, opacity: 1.0 },
+    regional_rail: { weight: 5, opacity: 1.0 },
+    regional_fast_rail: { weight: 5, opacity: 1.0 },
+    long_distance: { weight: 6, opacity: 1.0 },
+    night_rail: { weight: 6, opacity: 1.0 },
+    highspeed_rail: { weight: 6, opacity: 1.0 },
+    ferry: { weight: 4, opacity: 1.0 },
+    airplane: { weight: 4, opacity: 1.0 },
+    coach: { weight: 4, opacity: 1.0 },
+    cable_car: { weight: 3, opacity: 1.0 },
+    funicular: { weight: 3, opacity: 1.0 },
+    areal_lift: { weight: 2, opacity: 1.0 },
+    bike: { weight: 3, opacity: 0.9 },
+    rental: { weight: 3, opacity: 0.9 },
+    car: { weight: 4, opacity: 0.9 },
+    car_parking: { weight: 3, opacity: 0.8 },
+    odm: { weight: 3, opacity: 0.9 },
+    flex: { weight: 3, opacity: 0.9 },
+    transit: { weight: 4, opacity: 1.0 },
   };
 
-  return (
-    styles[mode] || {
-      color: "#6B7280",
-      weight: 3,
-      opacity: 0.8,
-    }
-  );
+  const styleProps = modeStyles[mode] || { weight: 3, opacity: 0.8 };
+
+  return {
+    color,
+    weight: styleProps.weight,
+    opacity: styleProps.opacity,
+  };
 }
 
 /**
  * Get marker styling for different stop types
  */
-export function getStopMarkerStyle(stop: any): {
+export function getStopMarkerStyle(
+  stop: any,
+  routeColor?: string
+): {
   color: string;
   size: "small" | "medium" | "large";
   icon?: string;
@@ -482,50 +445,42 @@ export function getStopMarkerStyle(stop: any): {
     return transportModes.some((mode) => ["bus", "coach"].includes(mode));
   };
 
-  // Determine size based on importance
-  const size = stop.isImportant ? "large" : "small";
+  // Determine size based on importance and transfer status
+  let size: "small" | "medium" | "large" = "small";
+  if (stop.isTransfer && stop.transferType === "platform_change") {
+    size = "large"; // Make platform changes very prominent
+  } else if (stop.isImportant) {
+    size = "medium";
+  }
 
-  // Check if it's a train station (rail-based transport)
+  // Special styling for transfer stops with platform changes
+  if (stop.isTransfer && stop.transferType === "platform_change") {
+    return {
+      color: routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000",
+      size: "large", // Always make platform changes large
+      icon: "platform_change", // Special icon for platform changes
+    };
+  }
+
+  // Use route color for all stops (no fallbacks except black for missing color)
+  const color = routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000";
+  let icon = "circle";
+
+  // Determine icon based on transport modes
   if (isRailStation(stop.transportModes)) {
-    return {
-      color: "#3B82F6", // Blue for train stations
-      size: size,
-      icon: "train",
-    };
+    icon = "train";
+  } else if (isTramStop(stop.transportModes)) {
+    icon = "tram";
+  } else if (isBusStop(stop.transportModes)) {
+    icon = "bus";
+  } else if (stop.vertex_type === "transit" || stop.isTransfer) {
+    icon = "rail-metro";
   }
 
-  // Check if it's a tram stop
-  if (isTramStop(stop.transportModes)) {
-    return {
-      color: "#F59E0B", // Orange for tram
-      size: size,
-      icon: "tram",
-    };
-  }
-
-  // Check if it's a bus stop
-  if (isBusStop(stop.transportModes)) {
-    return {
-      color: "#EF4444", // Red for bus
-      size: size,
-      icon: "bus",
-    };
-  }
-
-  // Check if it's a major station/transfer point (fallback)
-  if (stop.vertex_type === "transit") {
-    return {
-      color: "#3B82F6",
-      size: stop.isImportant ? "large" : "medium",
-      icon: "transit",
-    };
-  }
-
-  // Regular stop
   return {
-    color: "#6B7280",
-    size: stop.isImportant ? "medium" : "small",
-    icon: "stop",
+    color,
+    size: size,
+    icon: icon,
   };
 }
 
