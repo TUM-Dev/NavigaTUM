@@ -322,9 +322,10 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       paint: {
         "icon-color": ["get", "iconColor"],
-        "text-color": "#000000",
+        "text-color": ["get", "textColor"],
         "text-halo-color": "#FFFFFF",
-        "text-halo-width": 2,
+        "text-halo-width": 3,
+        "text-halo-blur": 1,
       },
     });
     afterLoaded.value();
@@ -402,7 +403,7 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   // Create GeoJSON features for each leg
   const routeFeatures: SimpleGeoJSONFeature[] = itinerary.legs.map((leg, index) => {
     const coordinates = decodeMotisGeometry(leg.leg_geometry);
-    const style = getTransitModeStyle(leg.mode, leg.route_color);
+    const style = getTransitModeStyle(leg.mode, leg.route_color, leg.route_text_color);
 
     return {
       type: "Feature",
@@ -410,6 +411,7 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
         legIndex: index,
         mode: leg.mode,
         color: style.color,
+        textColor: style.textColor,
         weight: style.weight,
         opacity: style.opacity,
 
@@ -434,16 +436,18 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   // Create stop symbols with context-aware platform display
   const stops = extractStopsWithContext(itinerary);
   const stopFeatures = stops.map((stop) => {
-    // Find the route color from the corresponding leg
+    // Find the route colors from the corresponding leg
     let routeColor: string | undefined;
+    let routeTextColor: string | undefined;
     for (const leg of itinerary.legs) {
       if (stop.transportModes && stop.transportModes.includes(leg.mode)) {
         routeColor = leg.route_color;
+        routeTextColor = leg.route_text_color;
         break;
       }
     }
 
-    const style = getStopMarkerStyle(stop, routeColor);
+    const style = getStopMarkerStyle(stop, routeColor, routeTextColor);
 
     return {
       type: "Feature" as const,
@@ -453,6 +457,7 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
         icon: getStopSymbolName(style.icon),
         iconSize: getIconSize(style.size),
         iconColor: style.color,
+        textColor: style.textColor,
         isImportant: stop.isImportant,
         isTransfer: stop.isTransfer || false,
         transferType: stop.transferType || "",

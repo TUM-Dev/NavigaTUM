@@ -349,9 +349,11 @@ export function extractTransferStops(itinerary: ItineraryResponse): PlaceRespons
  */
 export function getTransitModeStyle(
   mode: ModeResponse,
-  routeColor?: string
+  routeColor: string,
+  routeTextColor: string
 ): {
   color: string;
+  textColor: string;
   weight: number;
   opacity: number;
   dashArray?: string;
@@ -360,14 +362,12 @@ export function getTransitModeStyle(
   if (mode === "walk") {
     return {
       color: "#6B7280",
+      textColor: "#FFFFFF",
       weight: 3,
       dashArray: "2,3",
       opacity: 0.8,
     };
   }
-
-  // For all other modes, use the route color (no fallback)
-  const color = routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000";
 
   // Define weight and opacity based on mode type
   const modeStyles: Record<string, { weight: number; opacity: number }> = {
@@ -399,7 +399,8 @@ export function getTransitModeStyle(
   const styleProps = modeStyles[mode] || { weight: 3, opacity: 0.8 };
 
   return {
-    color,
+    color: routeColor,
+    textColor: routeTextColor,
     weight: styleProps.weight,
     opacity: styleProps.opacity,
   };
@@ -410,9 +411,11 @@ export function getTransitModeStyle(
  */
 export function getStopMarkerStyle(
   stop: any,
-  routeColor?: string
+  routeColor?: string,
+  routeTextColor?: string
 ): {
   color: string;
+  textColor: string;
   size: "small" | "medium" | "large";
   icon?: string;
 } {
@@ -457,13 +460,16 @@ export function getStopMarkerStyle(
   if (stop.isTransfer && stop.transferType === "platform_change") {
     return {
       color: routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000",
+      textColor: routeTextColor && routeTextColor.length === 6 ? `#${routeTextColor}` : "#FFFFFF",
       size: "large", // Always make platform changes large
       icon: "platform_change", // Special icon for platform changes
     };
   }
 
-  // Use route color for all stops (no fallbacks except black for missing color)
+  // Use route color and text color for all stops
   const color = routeColor && routeColor.length === 6 ? `#${routeColor}` : "#000000";
+  const textColor =
+    routeTextColor && routeTextColor.length === 6 ? `#${routeTextColor}` : "#FFFFFF";
   let icon = "circle";
 
   // Determine icon based on transport modes
@@ -479,6 +485,7 @@ export function getStopMarkerStyle(
 
   return {
     color,
+    textColor,
     size: size,
     icon: icon,
   };
