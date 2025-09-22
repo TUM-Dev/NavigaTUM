@@ -2005,8 +2005,12 @@ export type operations = {
         from: components["schemas"]["Coordinate"] | string;
         /** @description Destination of the route */
         to: components["schemas"]["Coordinate"] | string;
-        /** @description Transport mode the user wants to use */
-        route_costing: "pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit";
+        /**
+         * @description Transport mode the user wants to use
+         *
+         * If not specified, the default is based on how far the destinations are apart and requested time.
+         */
+        route_costing?: null | ("pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit");
         /** @description Does the user have specific walking restrictions? */
         pedestrian_type?: "standard" | "blind" | "wheelchair";
         /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
