@@ -6,15 +6,7 @@ import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { webglSupport } from "~/composables/webglSupport";
-import {
-  calculateItineraryBounds,
-  calculateLegBounds,
-  decodeMotisGeometry,
-  extractAllStops,
-  extractStopsWithContext,
-  getStopMarkerStyle,
-  getTransitModeStyle,
-} from "~/utils/motis";
+import { calculateItineraryBounds, calculateLegBounds, decodeMotisGeometry, getTransitModeStyle } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
@@ -294,40 +286,6 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
     });
 
-    // Add source for transit stops
-    map.addSource("motis-stops", {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: [],
-      },
-    });
-
-    // Symbol layer for transit stops
-    map.addLayer({
-      id: "motis-stops-symbols",
-      type: "symbol",
-      source: "motis-stops",
-      layout: {
-        "icon-image": ["get", "icon"],
-        "icon-size": ["get", "iconSize"],
-        "icon-allow-overlap": true,
-        "text-field": ["get", "platformText"],
-        "text-font": ["Roboto Regular", "Arial Unicode MS Regular"],
-        "text-size": ["case", ["get", "isTransfer"], 12, 10],
-        "text-offset": [0, -2.2],
-        "text-anchor": "bottom",
-        "text-allow-overlap": true,
-        "text-optional": true,
-      },
-      paint: {
-        "icon-color": ["get", "iconColor"],
-        "text-color": ["get", "textColor"],
-        "text-halo-color": "#FFFFFF",
-        "text-halo-width": 3,
-        "text-halo-blur": 1,
-      },
-    });
     afterLoaded.value();
   });
 
@@ -390,9 +348,8 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
  */
 function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false) {
   const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
-  const stopsSrc = map.value?.getSource("motis-stops") as GeoJSONSource | undefined;
 
-  if (!routesSrc || !stopsSrc || (!isAfterLoaded && !map.value?.loaded())) {
+  if (!routesSrc || (!isAfterLoaded && !map.value?.loaded())) {
     afterLoaded.value = () => drawMotisItinerary(itinerary, true);
     return;
   }
@@ -431,48 +388,6 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   routesSrc.setData({
     type: "FeatureCollection",
     features: routeFeatures,
-  });
-
-  // Create stop symbols with context-aware platform display
-  const stops = extractStopsWithContext(itinerary);
-  const stopFeatures = stops.map((stop) => {
-    // Find the route colors from the corresponding leg
-    let routeColor: string | undefined;
-    let routeTextColor: string | undefined;
-    for (const leg of itinerary.legs) {
-      if (stop.transportModes && stop.transportModes.includes(leg.mode)) {
-        routeColor = leg.route_color;
-        routeTextColor = leg.route_text_color;
-        break;
-      }
-    }
-
-    const style = getStopMarkerStyle(stop, routeColor, routeTextColor);
-
-    return {
-      type: "Feature" as const,
-      properties: {
-        name: stop.name,
-        platformText: stop.showPlatform ? stop.platformText || "" : "",
-        icon: getStopSymbolName(style.icon),
-        iconSize: getIconSize(style.size),
-        iconColor: style.color,
-        textColor: style.textColor,
-        isImportant: stop.isImportant,
-        isTransfer: stop.isTransfer || false,
-        transferType: stop.transferType || "",
-      },
-      geometry: {
-        type: "Point" as const,
-        coordinates: [stop.lon, stop.lat],
-      },
-    };
-  });
-
-  // Update the stops source
-  stopsSrc.setData({
-    type: "FeatureCollection",
-    features: stopFeatures,
   });
 
   // Fit map to show entire route
@@ -522,57 +437,6 @@ function clearMotisRoutes() {
       type: "FeatureCollection",
       features: [],
     });
-  }
-
-  // Clear stops data
-  const stopsSrc = map.value?.getSource("motis-stops") as GeoJSONSource | undefined;
-  if (stopsSrc) {
-    stopsSrc.setData({
-      type: "FeatureCollection",
-      features: [],
-    });
-  }
-}
-
-/**
- * Get symbol name for map icon
- */
-function getStopSymbolName(iconType?: string): string {
-  switch (iconType) {
-    case "train":
-      return "rail";
-    case "bus":
-      return "bus";
-    case "tram":
-      return "rail-light";
-    case "rail-metro":
-      return "rail-metro";
-    case "platform_change":
-      return "arrow"; // Use arrow icon for platform changes
-    case "transfer":
-      return "rail-metro";
-    case "transit":
-      return "rail";
-    case "circle":
-      return "circle";
-    default:
-      return "circle";
-  }
-}
-
-/**
- * Get icon size multiplier based on importance
- */
-function getIconSize(size: "small" | "medium" | "large"): number {
-  switch (size) {
-    case "small":
-      return 0.8;
-    case "medium":
-      return 1.0;
-    case "large":
-      return 1.3;
-    default:
-      return 1.0;
   }
 }
 
