@@ -241,9 +241,10 @@ fn infer_route_color(value: &Leg) -> (String, String) {
         .agency_id
         .as_deref()
         .is_some_and(|id| AGENCY_DB_REGIO == id || AGENCY_UBANHN_MÜNCHEN == id)
-        && let Some(headsign) = value.headsign.as_deref()
+        && let Some(display_name) = value.display_name.as_deref()
     {
-        infer_mvv_headsign(headsign).unwrap_or(infer_color_from_route_type(value.route_type))
+        infer_mvv_display_name(display_name)
+            .unwrap_or(infer_color_from_route_type(value.route_type))
     } else {
         infer_color_from_route_type(value.route_type)
     };
@@ -255,7 +256,7 @@ fn infer_route_color(value: &Leg) -> (String, String) {
     );
 }
 
-fn infer_mvv_headsign(headsign: &str) -> Option<Color> {
+fn infer_mvv_display_name(headsign: &str) -> Option<Color> {
     match headsign {
         // ubahn colors from https://en.wikipedia.org/wiki/Module:Adjacent_stations/Munich_U-Bahn
         "U1" => Some(Color::from_hex("#52822f")),
