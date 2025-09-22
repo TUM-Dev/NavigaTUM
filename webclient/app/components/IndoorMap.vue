@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import type { GeoJSONSource } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
@@ -16,10 +10,9 @@ import {
   calculateItineraryBounds,
   calculateLegBounds,
   decodeMotisGeometry,
-  extractAllStops,
-  extractStopsWithContext,
-  getStopMarkerStyle,
+  extractPlatformChangeMarkers,
   getTransitModeStyle,
+  type PlatformChangeMarker,
 } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -52,7 +45,6 @@ const geolocateControl = ref<GeolocateControl | undefined>(undefined);
 const geolocationState = useSharedGeolocation();
 
 // Motis routing state
-const motisMarkers = ref<Marker[]>([]);
 const highlightedLegIndex = ref<number | null>(null);
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
@@ -85,8 +77,7 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
-    await nextTick(doMapUpdate);
+  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await nextTick(doMapUpdate);
   else await doMapUpdate();
 });
 
@@ -162,12 +153,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -269,7 +256,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         "line-color": ["get", "color"],
         "line-width": ["get", "weight"],
         "line-opacity": ["get", "opacity"],
-        "line-dasharray": [5, 5],
+        "line-dasharray": [2, 3],
       },
     });
 
@@ -300,11 +287,59 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         "line-cap": "round",
       },
       paint: {
-        "line-color": "#FF6B35",
+        "line-color": ["get", "color"],
         "line-width": 8,
         "line-opacity": 0.9,
       },
     });
+
+    // Add source for platform change markers
+    map.addSource("platform-changes", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+    });
+
+    // Add platform change layers AFTER all route layers so they render on top
+    map.addLayer({
+      id: "platform-changes",
+      type: "circle",
+      source: "platform-changes",
+      minzoom: 0,
+      maxzoom: 24,
+      paint: {
+        "circle-radius": 6,
+        "circle-color": "#FF6B35",
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#FFFFFF",
+        "circle-opacity": 0.9,
+      },
+    });
+
+    // Platform change text layer
+    map.addLayer({
+      id: "platform-changes-text",
+      type: "symbol",
+      source: "platform-changes",
+      minzoom: 10,
+      layout: {
+        "text-field": ["get", "platformText"],
+        "text-font": ["Roboto Regular"],
+        "text-size": 11,
+        "text-offset": [0, -1],
+        "text-anchor": "bottom",
+        "text-allow-overlap": true,
+      },
+      paint: {
+        "text-color": "#FF6B35",
+        "text-halo-color": "#FFFFFF",
+        "text-halo-width": 2,
+        "text-halo-blur": 0.5,
+      },
+    });
+
     afterLoaded.value();
   });
 
@@ -314,7 +349,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapServerHandler = MapServerHandler.manage(
     `${runtimeConfig.public.apiURL}/api/maps/indoor`,
     map,
-    indoorOptions
+    indoorOptions,
   );
 
   // Add the specific control
@@ -340,10 +375,7 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
-  fitBounds(
-    [Math.min(...longitudes), Math.max(...longitudes)],
-    [Math.min(...latitudes), Math.max(...latitudes)]
-  );
+  fitBounds([Math.min(...longitudes), Math.max(...longitudes)], [Math.min(...latitudes), Math.max(...latitudes)]);
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
@@ -361,7 +393,7 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
       { lat: lat[0] - paddingLat, lng: lon[0] - paddingLon },
       { lat: lat[1] + paddingLat, lng: lon[1] + paddingLon },
     ],
-    { maxZoom: 19 }
+    { maxZoom: 19 },
   );
 }
 
@@ -369,19 +401,21 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
  * Draw Motis itinerary on the map
  */
 function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false) {
-  const src = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
-  if (!src || (!isAfterLoaded && !map.value?.loaded())) {
+  const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  const platformChangesSrc = map.value?.getSource("platform-changes") as GeoJSONSource | undefined;
+
+  if (!routesSrc || !platformChangesSrc || (!isAfterLoaded && !map.value?.loaded())) {
     afterLoaded.value = () => drawMotisItinerary(itinerary, true);
     return;
   }
 
-  // Clear existing markers
+  // Clear existing routes
   clearMotisRoutes();
 
   // Create GeoJSON features for each leg
-  const features: SimpleGeoJSONFeature[] = itinerary.legs.map((leg, index) => {
+  const routeFeatures: SimpleGeoJSONFeature[] = itinerary.legs.map((leg, index) => {
     const coordinates = decodeMotisGeometry(leg.leg_geometry);
-    const style = getTransitModeStyle(leg.mode);
+    const style = getTransitModeStyle(leg.mode, leg.route_color, leg.route_text_color);
 
     return {
       type: "Feature",
@@ -389,8 +423,10 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
         legIndex: index,
         mode: leg.mode,
         color: style.color,
+        textColor: style.textColor,
         weight: style.weight,
         opacity: style.opacity,
+
         routeShortName: leg.route_short_name || null,
         headsign: leg.headsign || null,
         fromName: leg.from.name,
@@ -403,25 +439,33 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
     };
   });
 
-  // Update the source with new features
-  src.setData({
+  // Update the routes source
+  routesSrc.setData({
     type: "FeatureCollection",
-    features,
+    features: routeFeatures,
   });
 
-  // Add stop markers with context-aware platform display
-  const stops = extractStopsWithContext(itinerary);
-  for (const stop of stops) {
-    const markerStyle = getStopMarkerStyle(stop);
-    const markerDiv = createTransitStopMarker(stop, markerStyle);
+  // Create platform change markers
+  const platformChanges = extractPlatformChangeMarkers(itinerary);
+  const platformChangeFeatures = platformChanges.map((change) => {
+    return {
+      type: "Feature" as const,
+      properties: {
+        platformText: `${change.name}\nChange platforms\n${change.fromPlatform} to ${change.toPlatform}`,
+        name: change.name,
+      },
+      geometry: {
+        type: "Point" as const,
+        coordinates: [change.lon, change.lat],
+      },
+    };
+  });
 
-    const marker = new Marker({ element: markerDiv });
-    marker.setLngLat([stop.lon, stop.lat]);
-    if (map.value) {
-      marker.addTo(map.value as MapLibreMap);
-    }
-    motisMarkers.value.push(marker);
-  }
+  // Update platform changes source
+  platformChangesSrc.setData({
+    type: "FeatureCollection",
+    features: platformChangeFeatures,
+  });
 
   // Fit map to show entire route
   const bounds = calculateItineraryBounds(itinerary);
@@ -454,15 +498,9 @@ function focusOnMotisLeg(legIndex: number, itinerary: ItineraryResponse) {
 }
 
 /**
- * Clear all Motis routes and markers
+ * Clear all Motis routes and symbols
  */
 function clearMotisRoutes() {
-  // Clear markers
-  for (const marker of motisMarkers.value) {
-    marker.remove();
-  }
-  motisMarkers.value = [];
-
   // Clear highlighted leg
   highlightedLegIndex.value = null;
   if (map.value?.loaded()) {
@@ -470,79 +508,13 @@ function clearMotisRoutes() {
   }
 
   // Clear route data
-  const src = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
-  if (src) {
-    src.setData({
+  const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  if (routesSrc) {
+    routesSrc.setData({
       type: "FeatureCollection",
       features: [],
     });
   }
-}
-
-/**
- * Create a transit stop marker element
- */
-function createTransitStopMarker(
-  stop: any,
-  style: { color: string; size: "small" | "medium" | "large"; icon?: string }
-): HTMLDivElement {
-  const markerDiv = document.createElement("div");
-  markerDiv.className = "motis-stop-marker";
-
-  const markerIcon = document.createElement("div");
-  markerIcon.className = `motis-stop-icon motis-stop-${style.size}`;
-  markerIcon.style.backgroundColor = style.color;
-  markerIcon.title = stop.name;
-
-  // Add icon if specified
-  if (style.icon) {
-    const iconElement = document.createElement("div");
-    iconElement.className = "motis-stop-icon-svg";
-
-    // Create SVG icons based on transport type
-    let svgPath = "";
-    switch (style.icon) {
-      case "train":
-        svgPath =
-          "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2M21,9V7L15,1H9L3,7V9A3,3 0 0,0 0,12A3,3 0 0,0 3,15V19A1,1 0 0,0 4,20H5A1,1 0 0,0 6,19V15H18V19A1,1 0 0,0 19,20H20A1,1 0 0,0 21,19V15A3,3 0 0,0 24,12A3,3 0 0,0 21,9M19,12A1,1 0 0,1 18,11A1,1 0 0,1 19,10A1,1 0 0,1 20,11A1,1 0 0,1 19,12M5,12A1,1 0 0,1 4,11A1,1 0 0,1 5,10A1,1 0 0,1 6,11A1,1 0 0,1 5,12M7,7.5L9.5,5H14.5L17,7.5V9H7V7.5Z";
-        break;
-      case "bus":
-        svgPath =
-          "M18,11H6V6H18M16.5,17A1.5,1.5 0 0,1 15,15.5A1.5,1.5 0 0,1 16.5,14A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 16.5,17M7.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,14A1.5,1.5 0 0,1 9,15.5A1.5,1.5 0 0,1 7.5,17M4,16C4,16.88 4.39,17.67 5,18.22V20A1,1 0 0,0 6,21H7A1,1 0 0,0 8,20V19H16V20A1,1 0 0,0 17,21H18A1,1 0 0,0 19,20V18.22C19.61,17.67 20,16.88 20,16V6C20,2.5 16.42,2 12,2C7.58,2 4,2.5 4,6V16Z";
-        break;
-      case "tram":
-        svgPath =
-          "M19,15L20.25,17.25L19,19.5L15.75,19.5L17,17.25L15.75,15M9,15L10.25,17.25L9,19.5L5.75,19.5L7,17.25L5.75,15M18,10.5V6C18,5.5 17.8,5.1 17.4,4.8L16,2H8L6.6,4.8C6.2,5.1 6,5.5 6,6V10.5A3.5,3.5 0 0,0 9.5,14H14.5A3.5,3.5 0 0,0 18,10.5M8,6H16V10H8V6Z";
-        break;
-      default:
-        svgPath =
-          "M12,2C13.11,2 14,2.9 14,4C14,5.11 13.11,6 12,6C10.89,6 10,5.11 10,4C10,2.9 10.89,2 12,2Z";
-    }
-
-    const iconSize = style.size === "small" ? "8" : style.size === "medium" ? "10" : "12";
-    iconElement.innerHTML =
-      '<svg viewBox="0 0 24 24" width="' +
-      iconSize +
-      '" height="' +
-      iconSize +
-      '" fill="white">' +
-      '<path d="' +
-      svgPath +
-      '"/>' +
-      "</svg>";
-    markerIcon.appendChild(iconElement);
-  }
-
-  // Add platform/track info only if showPlatform is true
-  if (stop.showPlatform && stop.platformText) {
-    const trackInfo = document.createElement("div");
-    trackInfo.className = "motis-stop-track";
-    trackInfo.textContent = stop.platformText;
-    markerIcon.appendChild(trackInfo);
-  }
-
-  markerDiv.appendChild(markerIcon);
-  return markerDiv;
 }
 
 // Watch for geolocation trigger requests
@@ -553,7 +525,7 @@ watch(
       geolocateControl.value?.trigger();
       geolocationState.value.shouldTriggerMapGeolocation = false;
     }
-  }
+  },
 );
 
 function triggerGeolocation() {
@@ -630,71 +602,5 @@ defineExpose({
     top: -20px;
     left: -12px;
   }
-}
-
-/* --- Motis transit stop markers --- */
-.motis-stop-marker {
-  position: relative;
-  pointer-events: none;
-}
-
-.motis-stop-icon {
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 8px;
-  font-weight: bold;
-
-  &.motis-stop-small {
-    width: 8px;
-    height: 8px;
-    transform: translate(-4px, -4px);
-    opacity: 0.7;
-    border-width: 1px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  }
-
-  &.motis-stop-medium {
-    width: 12px;
-    height: 12px;
-    transform: translate(-6px, -6px);
-  }
-
-  &.motis-stop-large {
-    width: 16px;
-    height: 16px;
-    transform: translate(-8px, -8px);
-  }
-}
-
-.motis-stop-track {
-  position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 1px 4px;
-  border-radius: 3px;
-  font-size: 9px;
-  white-space: nowrap;
-  z-index: 2;
-}
-
-.motis-stop-icon-svg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.motis-stop-icon-svg svg {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 </style>
