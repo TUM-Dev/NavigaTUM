@@ -6,6 +6,15 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type PlaceResponse = components["schemas"]["PlaceResponse"];
 
+// Platform change marker type
+export interface PlatformChangeMarker {
+  lat: number;
+  lon: number;
+  name: string;
+  fromPlatform: string;
+  toPlatform: string;
+}
+
 /**
  * Decode Motis polyline geometry to coordinates
  */
@@ -80,6 +89,42 @@ export function calculateLegBounds(
   }
 
   return { minLat, maxLat, minLon, maxLon };
+}
+
+/**
+ * Extract platform change markers from an itinerary
+ */
+export function extractPlatformChangeMarkers(itinerary: ItineraryResponse): PlatformChangeMarker[] {
+  const markers: PlatformChangeMarker[] = [];
+
+  // Find all transit legs (non-walking)
+  const transitLegs = itinerary.legs.filter((leg) => leg.mode !== "walk");
+
+  for (let i = 0; i < transitLegs.length - 1; i++) {
+    const currentLeg = transitLegs[i];
+    const nextLeg = transitLegs[i + 1];
+
+    if (!currentLeg || !nextLeg) continue;
+
+    // Only show platform changes for exact same station with different tracks
+    const isTransferAtSameStation = currentLeg.to.name === nextLeg.from.name;
+    const hasBothTracks = currentLeg.to.track && nextLeg.from.track;
+    const isDifferentPlatforms = hasBothTracks && currentLeg.to.track !== nextLeg.from.track;
+
+    if (isTransferAtSameStation && isDifferentPlatforms) {
+      const marker = {
+        lat: currentLeg.to.lat,
+        lon: currentLeg.to.lon,
+        name: currentLeg.to.name,
+        fromPlatform: currentLeg.to.track || "",
+        toPlatform: nextLeg.from.track || "",
+      };
+
+      markers.push(marker);
+    }
+  }
+
+  return markers;
 }
 
 /**

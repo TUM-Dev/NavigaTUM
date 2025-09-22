@@ -6,7 +6,14 @@ import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { webglSupport } from "~/composables/webglSupport";
-import { calculateItineraryBounds, calculateLegBounds, decodeMotisGeometry, getTransitModeStyle } from "~/utils/motis";
+import {
+  calculateItineraryBounds,
+  calculateLegBounds,
+  decodeMotisGeometry,
+  extractPlatformChangeMarkers,
+  getTransitModeStyle,
+  type PlatformChangeMarker,
+} from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
@@ -286,6 +293,53 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
     });
 
+    // Add source for platform change markers
+    map.addSource("platform-changes", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+    });
+
+    // Add platform change layers AFTER all route layers so they render on top
+    map.addLayer({
+      id: "platform-changes",
+      type: "circle",
+      source: "platform-changes",
+      minzoom: 0,
+      maxzoom: 24,
+      paint: {
+        "circle-radius": 6,
+        "circle-color": "#FF6B35",
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#FFFFFF",
+        "circle-opacity": 0.9,
+      },
+    });
+
+    // Platform change text layer
+    map.addLayer({
+      id: "platform-changes-text",
+      type: "symbol",
+      source: "platform-changes",
+      minzoom: 10,
+      layout: {
+        "text-field": ["get", "platformText"],
+        "text-font": ["Roboto Regular"],
+        "text-size": 11,
+        "text-offset": [0, -1],
+        "text-anchor": "bottom",
+        "text-allow-overlap": true,
+      },
+      paint: {
+        "text-color": "#FF6B35",
+        "text-halo-color": "#FFFFFF",
+        "text-halo-width": 2,
+        "text-halo-blur": 0.5,
+      },
+    });
+
     afterLoaded.value();
   });
 
@@ -348,8 +402,9 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
  */
 function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false) {
   const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  const platformChangesSrc = map.value?.getSource("platform-changes") as GeoJSONSource | undefined;
 
-  if (!routesSrc || (!isAfterLoaded && !map.value?.loaded())) {
+  if (!routesSrc || !platformChangesSrc || (!isAfterLoaded && !map.value?.loaded())) {
     afterLoaded.value = () => drawMotisItinerary(itinerary, true);
     return;
   }
@@ -388,6 +443,28 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   routesSrc.setData({
     type: "FeatureCollection",
     features: routeFeatures,
+  });
+
+  // Create platform change markers
+  const platformChanges = extractPlatformChangeMarkers(itinerary);
+  const platformChangeFeatures = platformChanges.map((change) => {
+    return {
+      type: "Feature" as const,
+      properties: {
+        platformText: `${change.name}\nChange platforms\n${change.fromPlatform} to ${change.toPlatform}`,
+        name: change.name,
+      },
+      geometry: {
+        type: "Point" as const,
+        coordinates: [change.lon, change.lat],
+      },
+    };
+  });
+
+  // Update platform changes source
+  platformChangesSrc.setData({
+    type: "FeatureCollection",
+    features: platformChangeFeatures,
   });
 
   // Fit map to show entire route
