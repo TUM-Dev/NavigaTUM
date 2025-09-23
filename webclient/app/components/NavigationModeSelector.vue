@@ -1,10 +1,11 @@
 <script setup lang="ts">
-const mode = defineModel<"bicycle" | "public_transit" | "motorcycle" | "car" | "pedestrian">(
-  "mode",
-  {
-    required: true,
-  }
-);
+import type { paths } from "@/api_types";
+
+type NavigationMode = paths["/api/maps/route"]["get"]["parameters"]["query"]["route_costing"];
+
+const mode = defineModel<NavigationMode>("mode", {
+  required: true,
+});
 const { t } = useI18n({ useScope: "local" });
 </script>
 

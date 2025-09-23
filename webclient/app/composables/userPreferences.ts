@@ -1,9 +1,12 @@
 import type { paths } from "@/api_types";
 
-type UserRoutingPreferences = Pick<
-  paths["/api/maps/route"]["get"]["parameters"]["query"],
-  "route_costing" | "pedestrian_type" | "ptw_type" | "bicycle_type"
->;
+type RoutingQuery = paths["/api/maps/route"]["get"]["parameters"]["query"];
+interface UserRoutingPreferences {
+  route_costing: NonNullable<RoutingQuery["route_costing"]>;
+  pedestrian_type: NonNullable<RoutingQuery["pedestrian_type"]>;
+  ptw_type: NonNullable<RoutingQuery["ptw_type"]>;
+  bicycle_type: NonNullable<RoutingQuery["bicycle_type"]>;
+}
 
 const defaultPreferences: UserRoutingPreferences = {
   route_costing: "pedestrian",

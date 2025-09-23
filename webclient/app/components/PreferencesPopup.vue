@@ -65,9 +65,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="colorMode.value = 'system'"
                   >
@@ -83,9 +81,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="colorMode.value = 'light'"
                   >
@@ -101,9 +97,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="colorMode.value = 'dark'"
                   >
@@ -128,9 +122,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="locale = 'de'"
                   >
@@ -143,9 +135,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="locale = 'en'"
                   >
@@ -160,11 +150,7 @@ async function updateLocale(value: "de" | "en") {
           <div>
             <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("preferredTransportMode") }}</h3>
             <p class="text-sm text-zinc-600 mb-4">{{ t("preferredTransportMode.help") }}</p>
-            <TabGroup
-              :default-index="
-                ['pedestrian', 'bicycle', 'motorcycle', 'car', 'public_transit'].indexOf(preferences.route_costing)
-              "
-            >
+            <TabGroup :default-index="['pedestrian', 'bicycle', 'motorcycle', 'car', 'public_transit'].indexOf(preferences.route_costing)">
               <TabList class="flex flex-wrap gap-2 rounded-lg bg-zinc-100 p-2">
                 <Tab as="template" v-slot="{ selected }">
                   <button
@@ -172,9 +158,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('route_costing', 'pedestrian')"
                   >
@@ -190,9 +174,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('route_costing', 'bicycle')"
                   >
@@ -208,9 +190,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('route_costing', 'motorcycle')"
                   >
@@ -226,9 +206,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('route_costing', 'car')"
                   >
@@ -244,9 +222,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('route_costing', 'public_transit')"
                   >
@@ -264,11 +240,7 @@ async function updateLocale(value: "de" | "en") {
           <div>
             <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("pedestrianType") }}</h3>
             <p class="text-sm text-zinc-600 mb-4">{{ t("pedestrianType.help") }}</p>
-            <TabGroup
-              :default-index="
-                preferences.pedestrian_type === 'blind' ? 2 : preferences.pedestrian_type === 'wheelchair' ? 1 : 0
-              "
-            >
+            <TabGroup :default-index="preferences.pedestrian_type === 'blind' ? 2 : preferences.pedestrian_type === 'wheelchair' ? 1 : 0">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
@@ -276,9 +248,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('pedestrian_type', 'standard')"
                   >
@@ -294,9 +264,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('pedestrian_type', 'wheelchair')"
                   >
@@ -312,9 +280,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('pedestrian_type', 'blind')"
                   >
@@ -332,9 +298,7 @@ async function updateLocale(value: "de" | "en") {
           <div>
             <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("bicycleType") }}</h3>
             <p class="text-sm text-zinc-600 mb-4">{{ t("bicycleType.help") }}</p>
-            <TabGroup
-              :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')"
-            >
+            <TabGroup :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')">
               <TabList class="grid grid-cols-4 gap-2 rounded-lg bg-zinc-100 p-2">
                 <Tab as="template" v-slot="{ selected }">
                   <button
@@ -342,9 +306,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('bicycle_type', 'hybrid')"
                   >
@@ -360,9 +322,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('bicycle_type', 'road')"
                   >
@@ -378,9 +338,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('bicycle_type', 'cross')"
                   >
@@ -396,9 +354,7 @@ async function updateLocale(value: "de" | "en") {
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('bicycle_type', 'mountain')"
                   >
@@ -424,9 +380,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('ptw_type', 'motorcycle')"
                   >
@@ -442,9 +396,7 @@ async function updateLocale(value: "de" | "en") {
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
                       'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected
-                        ? 'bg-white text-zinc-700 shadow'
-                        : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
                     @click="updatePreference('ptw_type', 'moped')"
                   >
