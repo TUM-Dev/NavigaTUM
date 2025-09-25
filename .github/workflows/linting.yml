@@ -35,6 +35,7 @@ jobs:
           python-version: '3.13'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
+      - run: rustup component add rustfmt
       - name: Run pre-commit
         continue-on-error: ${{ github.ref == 'refs/heads/main' }}
         uses: pre-commit/action@v3.0.1
