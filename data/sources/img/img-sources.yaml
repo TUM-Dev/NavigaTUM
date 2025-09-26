@@ -1260,6 +1260,12 @@ stammgelaende:
     author: FOTAG Luftbild München
     license:
       text: Free for use in reporting on TUM, with the copyright noted
+suedostgelaende:
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 taufkirchen-ottobrunn:
   0:
     author: Uli Benz
