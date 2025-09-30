@@ -1121,10 +1121,6 @@ garching-hochbrueck:
 taufkirchen-ottobrunn:
     coords: { lat: 48.05453, lon: 11.65308 }
 
-9376:
-    coords: { lat: 48.04672, lon: 11.65797 }
-    osm: [ "way/543899732" ]
-
 9377:
     coords: { lat: 48.05453, lon: 11.65308 }
 

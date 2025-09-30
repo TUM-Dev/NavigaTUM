@@ -996,26 +996,7 @@
   0:
     author: Uli Benz
     license:
-      text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-'9376':
-  0:
-    author: Andreas Heddergott / TUM
-    license:
-      text: free for reporting on TUM
-    offsets:
-      header: 200
-  1:
-    author: Andreas Heddergott / TUM
-    license:
-      text: frei für Berichterstattung über TUM
-    offsets:
-      header: 200
-  2:
-    author: Andreas Heddergott / TUM
-    license:
-      text: frei für Berichterstattung über TUM
-    offsets:
-      header: -200
+      text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
 '9377':
   0:
     author: Uli Benz

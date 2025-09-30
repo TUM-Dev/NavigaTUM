@@ -53,9 +53,5 @@ snapshot_kind: text
       type: building
       name: "Bau 555 Gebäudeteil \u0019C\u0017"
       subtext: Gebäudeteil
-    - id: "9376"
-      type: building
-      name: "Airbus Standort 76.\u0019C\u0017"
-      subtext: Gebäude
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
