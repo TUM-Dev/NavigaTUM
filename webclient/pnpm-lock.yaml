@@ -54,8 +54,8 @@ importers:
         specifier: 12.4.1
         version: 12.4.1
       maplibre-gl:
-        specifier: 5.7.3
-        version: 5.7.3
+        specifier: 5.8.0
+        version: 5.8.0
       maplibre-gl-indoor:
         specifier: 0.0.22
         version: 0.0.22
@@ -1042,8 +1042,8 @@ packages:
     resolution: {integrity: sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==}
     engines: {node: '>=6.0.0'}
 
-  '@maplibre/maplibre-gl-style-spec@24.1.1':
-    resolution: {integrity: sha512-xErR4lvMdzPNTxmglGEhSZxeyG55OusHjGhcPSrdZUnskBMPliVBQBxuzevmkQkb8gnl/UGDCYR+Byy3rkAgYQ==}
+  '@maplibre/maplibre-gl-style-spec@24.2.0':
+    resolution: {integrity: sha512-cE80g83fRcBbZbQC70siOUxUK6YJ/5ZkClDZbmm+hzrUbv+J6yntkMmcpdz9DbOrWOM7FHKR5rruc6Q/hWx5cA==}
     hasBin: true
 
   '@maplibre/vt-pbf@4.0.3':
@@ -3897,8 +3897,8 @@ packages:
   maplibre-gl-indoor@0.0.22:
     resolution: {integrity: sha512-b+uSYqk1kiLBvyBXNhI4MzEWq1qcuGcdoT9aRZvU6+zNqAsK2JIngePZh98hn/7HaRSB2ijb+OabU1OvbSJ3uQ==}
 
-  maplibre-gl@5.7.3:
-    resolution: {integrity: sha512-T6XsjwcSfOr0vtAt4GTzx4m/vD6nrbR0+61MgMzZ9REQwILSEnhqwNpFuFbDedX6LC3ZWjZWnxN7fN/I66WoDQ==}
+  maplibre-gl@5.8.0:
+    resolution: {integrity: sha512-zLblPFK+z5sxeitDF8RL2cnqfRaivNwxbGoQMfwAm9st6d1lRGTxgI7NNNr/U1AEPkp5+X+wjROagiHvJD8aqg==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   markdown-table@3.0.4:
@@ -6730,7 +6730,7 @@ snapshots:
 
   '@mapbox/whoots-js@3.1.0': {}
 
-  '@maplibre/maplibre-gl-style-spec@24.1.1':
+  '@maplibre/maplibre-gl-style-spec@24.2.0':
     dependencies:
       '@mapbox/jsonlint-lines-primitives': 2.0.2
       '@mapbox/unitbezier': 0.0.1
@@ -10034,9 +10034,9 @@ snapshots:
       '@turf/bbox': 7.2.0
       '@turf/destination': 7.2.0
       '@turf/distance': 7.2.0
-      maplibre-gl: 5.7.3
+      maplibre-gl: 5.8.0
 
-  maplibre-gl@5.7.3:
+  maplibre-gl@5.8.0:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
@@ -10045,7 +10045,7 @@ snapshots:
       '@mapbox/unitbezier': 0.0.1
       '@mapbox/vector-tile': 2.0.4
       '@mapbox/whoots-js': 3.1.0
-      '@maplibre/maplibre-gl-style-spec': 24.1.1
+      '@maplibre/maplibre-gl-style-spec': 24.2.0
       '@maplibre/vt-pbf': 4.0.3
       '@types/geojson': 7946.0.16
       '@types/geojson-vt': 3.2.5
