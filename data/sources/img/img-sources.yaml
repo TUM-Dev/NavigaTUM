@@ -159,6 +159,12 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+0501.EG.120:
+  0:
+    author: Me
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '0502':
   0:
     author: David Bonello
@@ -716,18 +722,6 @@
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Frei für Berichterstattung über die TUM unter Nennung des Copyrights
-5532.EG.001:
-  0:
-    author: Alexander Pach
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
-5532.EG.002:
-  0:
-    author: Alexander Pach
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
 5532.01.108:
   0:
     author: Alexander Pach
@@ -741,6 +735,18 @@
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
 5532.03.302:
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+5532.EG.001:
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+5532.EG.002:
   0:
     author: Alexander Pach
     license:
