@@ -1,4 +1,4 @@
-Hörsaalgebäude# Achtung: führende Nullen (z.B. "0305: ...") werden im Oktettsystem gelesen,
+# Achtung: führende Nullen (z.B. "0305: ...") werden im Oktettsystem gelesen,
 # deswegen müssen in dem Fall Quotes verwendet werden
 
 root:
