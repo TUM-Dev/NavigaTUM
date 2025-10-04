@@ -31,12 +31,16 @@ fn able_to_process_feedback() -> bool {
 const TOKEN_MIN_AGE: i64 = 5;
 const TOKEN_MAX_AGE: i64 = 3600 * 12; // 12h
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Claims {
-    exp: i64, // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
-    iat: i64, // Optional. Issued at (as UTC timestamp)
-    nbf: i64, // Optional. Not Before (as UTC timestamp)
-    kid: u64, // Optional. Key ID
+    /// Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
+    exp: i64,
+    /// Optional. Issued at (as UTC timestamp)
+    iat: i64,
+    /// Optional. Not Before (as UTC timestamp)
+    nbf: i64,
+    /// Optional. Key ID
+    kid: u64,
 }
 
 impl Default for Claims {
