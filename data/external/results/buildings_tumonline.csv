@@ -1,4 +1,4 @@
-Hörsaalgebäudebuilding_key,address_place,address_street,address_zip_code,area_id,name,tumonline_id,filter_id
+building_key,address_place,address_street,address_zip_code,area_id,name,tumonline_id,filter_id
 0101,München,Theresienstr. 90,80333,27,(N1) Hörsäle (U-Trakt),561,
 0102,München,Theresienstr. 90,80333,27,(N2) Hochvolthaus,562,
 0103,München,Theresienstr. 90,80333,27,(N3) El.Masch./Geräte,563,
@@ -420,5 +420,5 @@ Hörsaalgebäudebuilding_key,address_place,address_street,address_zip_code,area_
 9379,Ottobrunn,Lise-Meitner-Str. 8,85521,29,Lise Meitner Str. 8 (AM),2949,
 9380,Ottobrunn,Caroline-Herschel-Str. 100,85521,29,Hyperloop-Halle Ottobrunn (AM),3109,
 9386,Taufkirchen,Willy-Messerschmitt 11,82024,29,Willy-Messerschmitt-Str. 11 (AM),3489,
-9387,Taufkirchen,Willy-Messerschmitt-Straße 5,82024,29,Interimshauptgebäude,3551,
+9387,Taufkirchen,Willy-Messerschmitt-Straße 5,82024,29,Hörsaalgebäude,3551,
 9390,Weßling,Claude-Dornier-Str. 1,82234,29,Aviation Flight Test Center/Halle 507 (A,3129,

@@ -1,4 +1,4 @@
-Hörsaalgebäude# Achtung: führende Nullen (z.B. "0305: ...") werden im Oktettsystem gelesen,
+# Achtung: führende Nullen (z.B. "0305: ...") werden im Oktettsystem gelesen,
 # deswegen müssen in dem Fall Quotes verwendet werden
 
 root:
@@ -1138,7 +1138,7 @@ taufkirchen-ottobrunn:
 9380:
     coords: { lat: 48.05229, lon: 11.65547 }
 
-9387: # Interimshauptgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
+9387: # Hörsaalgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
     coords: { lat: 48.048269, lon: 11.657245 }
     osm: [ "way/1123333684" ]
 9390:
