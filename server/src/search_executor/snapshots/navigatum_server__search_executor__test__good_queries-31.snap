@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'019 lmu' should get '5123.EG.019' in 1 results"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -39,7 +40,7 @@ info: "'019 lmu' should get '5123.EG.019' in 1 results"
     - id: 9387.EG.019
       type: room
       name: "9387.EG.\u0019019\u0017 (OTN Hörsaal 9)"
-      subtext: "taufkirchen-ottobr., Hörsaalgebäude"
+      subtext: "taufkirchen-ottobr., Hörsaalgebäude (Willy-Messerschmitt-Str. 5)"
       subtext_bold: 00.9387.019@9387
     - id: 8111.EG.019
       type: room
