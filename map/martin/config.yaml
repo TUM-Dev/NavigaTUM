@@ -10,6 +10,8 @@ fonts:
 styles:
   - /map/navigatum-basemap.json
 mbtiles:
+  paths:
+    - /data/level_overlays
   sources:
     # named source matching source name to a single file
     shortbread: /data/output.mbtiles
