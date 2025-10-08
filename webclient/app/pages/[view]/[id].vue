@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import { CalendarDaysIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
@@ -161,7 +160,7 @@ useSeoMeta({
         class="w-full h-20 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
         @click="suggestImage"
       >
-        <PlusIcon class="h-8 w-8 mb-2" />
+        <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
         <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
       </button>
     </div>
@@ -186,8 +185,8 @@ useSeoMeta({
           class="-ms-8 hidden px-1 text-transparent transition-colors focus:text-zinc-800 group-hover:text-zinc-800 lg:block"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
-          <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
-          <LinkIcon v-else class="h-4 w-4" />
+          <MdiIcon :path="mdiClipboardCheck" :size="24" v-if="copied" class="h-4 w-4" />
+          <MdiIcon :path="mdiLink" :size="24" v-else class="h-4 w-4" />
         </button>
         <h1 class="text-zinc-700 text-xl font-bold">{{ data.name }}</h1>
       </div>
@@ -202,7 +201,7 @@ useSeoMeta({
               :title="t('header.calendar')"
               @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
             >
-              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-7 w-7 hover:text-blue-900" />
+              <MdiIcon :path="mdiCalendarMonth" :size="28" class="text-blue-600 mt-0.5 hover:text-blue-900" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
             <DetailsFeedbackButton />

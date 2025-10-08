@@ -1121,10 +1121,6 @@ garching-hochbrueck:
 taufkirchen-ottobrunn:
     coords: { lat: 48.05453, lon: 11.65308 }
 
-9376:
-    coords: { lat: 48.04672, lon: 11.65797 }
-    osm: [ "way/543899732" ]
-
 9377:
     coords: { lat: 48.05453, lon: 11.65308 }
 
@@ -1142,7 +1138,7 @@ taufkirchen-ottobrunn:
 9380:
     coords: { lat: 48.05229, lon: 11.65547 }
 
-9387: # Interimshauptgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
+9387: # Hörsaalgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
     coords: { lat: 48.048269, lon: 11.657245 }
     osm: [ "way/1123333684" ]
 9390:

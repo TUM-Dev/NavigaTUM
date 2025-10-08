@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { mdiMagnify } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 
@@ -167,7 +167,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       :aria-label="t('input.aria-actionlabel')"
       :title="t('input.action')"
     >
-      <MagnifyingGlassIcon class="text-zinc-100 my-auto h-7 w-7" />
+      <MdiIcon :path="mdiMagnify" :size="28" class="text-zinc-100 my-auto" />
     </button>
   </form>
   <!-- Autocomplete -->
@@ -228,9 +228,9 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 
         <!--
       <li class="search-comment actions">
-        <Btn size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Btn>
-        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Btn>
-        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Seminarräume</Btn>
+        <Btn size="sm"><MdiIcon :path="mdiChevronRight" :size="16" /> in Gebäude Suchen</Btn>
+        <Btn size="sm"><MdiIcon :path="mdiMapMarker" :size="16" /> Hörsäle</Btn>
+        <Btn size="sm"><MdiIcon :path="mdiMapMarker" :size="16" /> Seminarräume</Btn>
       </li>
 
       <li class="divider" data-content="Veranstaltungen" />
@@ -238,7 +238,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         <NuxtLinkLocale :to="/event/">
           <div class="tile">
             <div class="tile-icon">
-              <ClockIcon class="h-4 w-4" />
+              <MdiIcon :path="mdiClock" :size="16" />
             </div>
             <div class="tile-content">
               <span class="tile-title">

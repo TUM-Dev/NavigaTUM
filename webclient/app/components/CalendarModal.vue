@@ -103,7 +103,7 @@ de:
   error:
     header: Beim Versuch, den Kalender anzuzeigen, ist ein Fehler aufgetreten
     reason: Der Grund für diesen Fehler ist
-    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktieren Sie uns bitte über das {feedbackForm}.
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktier uns bitte über das {feedbackForm}.
     feedback-form: Feedback-Formular
     feedback-open: Feedback-Formular öffnen
   footer:

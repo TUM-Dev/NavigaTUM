@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { CalendarIcon } from "@heroicons/vue/16/solid";
-import { PlusCircleIcon } from "@heroicons/vue/24/outline";
+import { mdiCalendar, mdiPlusCircle } from "@mdi/js";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";
@@ -76,7 +75,7 @@ async function addLocation() {
         </small>
         <small>
           <Btn :to="location.calendar_url" variant="link" size="text-xs font-semibold rounded-md">
-            <CalendarIcon class="mb-0.5 h-4 w-4" />
+            <MdiIcon :path="mdiCalendar" :size="16" class="mb-0.5" />
             {{ t("view_in_tumonline") }}
           </Btn>
         </small>
@@ -90,7 +89,7 @@ async function addLocation() {
         :aria-label="t('add_location')"
         @click="addLocation"
       >
-        <PlusCircleIcon class="group-hover:text-black h-5 w-5" />
+        <MdiIcon :path="mdiPlusCircle" :size="20" class="group-hover:text-black" />
       </button>
     </li>
   </ul>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { mdiCrosshairsGps } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
+import { useSharedGeolocation } from "~/composables/geolocation";
 
 type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
@@ -11,6 +13,42 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
+
+// Use shared geolocation state
+const geolocationState = useSharedGeolocation();
+
+// Track if this search bar is currently searching for location
+const isSearchingLocation = ref(false);
+
+// Watch for location updates for this specific search bar
+watch(
+  () => geolocationState.value.userLocation,
+  (location) => {
+    if (location && geolocationState.value.triggeringSearchBarId === props.queryId) {
+      query.value = t("gps.my_location");
+      selected.value = `${location.lat},${location.lon}`;
+      currently_actively_picking.value = false;
+      isSearchingLocation.value = false;
+      // Clear the triggering search bar ID
+      geolocationState.value.triggeringSearchBarId = null;
+    }
+  }
+);
+
+// Watch for when geolocation request is cleared (due to error or completion)
+watch(
+  () => geolocationState.value.triggeringSearchBarId,
+  (triggeringId) => {
+    if (triggeringId !== props.queryId && isSearchingLocation.value) {
+      // This search bar was searching but is no longer the triggering one
+      isSearchingLocation.value = false;
+    }
+  }
+);
+
+const isGeolocationSupported = computed(() => {
+  return process.client && typeof navigator !== "undefined" && "geolocation" in navigator;
+});
 
 const query = useRouteQuery<string>(`q_${props.queryId}`, "", {
   mode: "replace",
@@ -53,6 +91,18 @@ function select(id: string) {
       }
     }
   }
+}
+
+function useCurrentLocation() {
+  // Show searching message immediately
+  query.value = t("gps.searching_location");
+  currently_actively_picking.value = false;
+  isSearchingLocation.value = true;
+
+  // Mark this search bar as the one that triggered geolocation
+  geolocationState.value.triggeringSearchBarId = props.queryId;
+  // Trigger the map's geolocation control
+  geolocationState.value.shouldTriggerMapGeolocation = true;
 }
 
 function onKeyDown(e: KeyboardEvent): void {
@@ -143,7 +193,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       maxlength="2048"
       :name="queryId"
       type="text"
-      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 pe-5 ps-3 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
+      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
       :placeholder="t('input.placeholder-' + queryId)"
       :aria-label="t('input.aria-searchlabel')"
       @focus="
@@ -153,6 +203,28 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       "
       @keydown="onKeyDown"
     />
+    <ClientOnly>
+      <button
+        v-if="isGeolocationSupported && !geolocationState.mapGeolocationActive"
+        type="button"
+        class="focusable text-zinc-600 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
+        :title="t('gps.use_current_location')"
+        :aria-label="t('gps.use_current_location')"
+        @click="useCurrentLocation"
+      >
+        <MdiIcon
+          :path="mdiCrosshairsGps"
+          :size="16"
+          :class="[
+            'mr-1',
+            {
+              'text-blue-600 animate-pulse': isSearchingLocation,
+              'text-zinc-600': !isSearchingLocation,
+            },
+          ]"
+        />
+      </button>
+    </ClientOnly>
   </div>
   <!-- Autocomplete -->
   <ClientOnly>
@@ -222,6 +294,17 @@ de:
     addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
+  gps:
+    use_current_location: Aktuellen Standort verwenden (GPS)
+    my_location: Mein Standort
+    searching_location: Standort wird gesucht...
+    error:
+      permission_denied: Standortzugriff wurde verweigert. Bitte erlaube den Zugriff auf deinen Standort in den Browser-Einstellungen.
+      position_unavailable: Standort konnte nicht ermittelt werden. Bitte versuche es später erneut.
+      timeout: Standortermittlung dauerte zu lange. Bitte versuche es erneut.
+      general: Fehler beim Ermitteln des Standorts. Bitte versuche es erneut.
+      not_supported: Geolokation wird von diesem Browser nicht unterstützt.
+      https_required: Geolokation erfordert eine sichere Verbindung (HTTPS).
 en:
   input:
     placeholder-from: From
@@ -236,4 +319,15 @@ en:
     addresses: Adresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
+  gps:
+    use_current_location: Use current location (GPS)
+    my_location: My location
+    searching_location: Searching for location...
+    error:
+      permission_denied: Location access was denied. Please allow location access in your browser settings.
+      position_unavailable: Location could not be determined. Please try again later.
+      timeout: Location request timed out. Please try again.
+      general: Error getting location. Please try again.
+      not_supported: Geolocation is not supported by this browser.
+      https_required: Geolocation requires a secure connection (HTTPS).
 </i18n>

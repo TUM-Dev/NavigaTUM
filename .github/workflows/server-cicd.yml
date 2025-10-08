@@ -50,6 +50,7 @@ jobs:
         with:
           workspaces: |
             server
+      - run: rustup component add clippy
       - run: cargo clippy
         working-directory: server
         env:

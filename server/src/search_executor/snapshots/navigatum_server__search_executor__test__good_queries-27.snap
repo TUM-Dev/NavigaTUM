@@ -33,7 +33,12 @@ snapshot_kind: text
       name: 5140.01.201 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
-  n_visible: 5
+    - id: 5140.01.203
+      type: room
+      name: 5140.01.203 (Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3203@5140
+  n_visible: 6
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
@@ -53,9 +58,5 @@ snapshot_kind: text
       type: building
       name: "Bau 555 Gebäudeteil \u0019C\u0017"
       subtext: Gebäudeteil
-    - id: "9376"
-      type: building
-      name: "Airbus Standort 76.\u0019C\u0017"
-      subtext: Gebäude
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

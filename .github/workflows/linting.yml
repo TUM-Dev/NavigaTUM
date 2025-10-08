@@ -17,6 +17,7 @@ jobs:
     permissions:
       contents: read
     steps:
+      - run: rustup update stable && rustup default stable
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
@@ -34,16 +35,16 @@ jobs:
           python-version: '3.13'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
+      - run: rustup component add rustfmt
       - name: Run pre-commit
         continue-on-error: ${{ github.ref == 'refs/heads/main' }}
         uses: pre-commit/action@v3.0.1
+      - name: Install cargo-insta
+        run: cargo install cargo-insta --locked
       - name: Update server snapshots
         if: github.ref == 'refs/heads/main'
         working-directory: server
-        run: |
-          cargo install cargo-insta
-          cargo insta test
-          cargo insta accept
+        run: cargo insta test --accept
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         if: github.ref == 'refs/heads/main'

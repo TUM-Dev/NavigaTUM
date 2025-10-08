@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PlusIcon } from "@heroicons/vue/24/outline";
+import { mdiPlus } from "@mdi/js";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
 
@@ -83,7 +83,7 @@ const suggestLocationFix = () => {
           class="w-full h-24 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400"
           @click="suggestImage"
         >
-          <PlusIcon class="h-8 w-8 mb-2" />
+          <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
           <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
         </button>
       </div>

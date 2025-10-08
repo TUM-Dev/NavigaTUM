@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRightIcon } from "@heroicons/vue/24/outline";
+import { mdiArrowRight } from "@mdi/js";
 
 const route = useRoute();
 
@@ -34,7 +34,7 @@ const { t } = useI18n({ useScope: "local" });
           "
         >
           {{ t("call_to_action") }}
-          <ArrowRightIcon class="mt-0.5 h-4 w-4" />
+          <MdiIcon :path="mdiArrowRight" :size="16" class="mt-0.5" />
         </Btn>
       </div>
     </div>

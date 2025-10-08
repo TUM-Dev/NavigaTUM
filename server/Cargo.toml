@@ -9,7 +9,7 @@ readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 default-run = "navigatum-server"
-rust-version = "1.85.0"
+rust-version = "1.90.0"
 
 [[bin]]
 name = "navigatum-server"
@@ -23,7 +23,7 @@ tracing = "0.1.41"
 tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
 tracing-actix-web = "0.7.15"
 
-# errors 
+# errors
 anyhow = { version = "1.0.95", features = ["backtrace"] }
 
 #serialisation
@@ -47,7 +47,7 @@ sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', '
 chrono = { version = "0.4.39", default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = "0.29.0"
+meilisearch-sdk = "0.30.0"
 logos = "0.15.0"
 regex = "1.11.1"
 
@@ -61,7 +61,7 @@ imageproc = "0.25.0"
 ab_glyph = { version = "0.2.29", default-features = false }
 
 rand = "0.9.0"
-octocrab = { version = "0.45", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
+octocrab = { version = "0.46", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
 
 # auth/security
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
@@ -78,6 +78,8 @@ geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.6"
 valhalla-client = { version = "0.4.0", default-features = false }
+motis-openapi-progenitor = "0.3.0"
+chroma-forge = "1.0.0"
 
 # docs
 utoipa-actix-web = "0.1.2"

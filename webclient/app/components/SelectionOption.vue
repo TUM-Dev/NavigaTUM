@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ListboxOption } from "@headlessui/vue";
-import { CheckIcon } from "@heroicons/vue/24/outline";
+import { mdiCheck } from "@mdi/js";
 
 defineProps<{ value: string }>();
 </script>
@@ -15,7 +15,7 @@ defineProps<{ value: string }>();
         <slot />
       </span>
       <span v-if="selected" class="text-blue-600 absolute inset-y-0 right-0 flex items-center pr-3">
-        <CheckIcon class="h-5 w-5" aria-hidden="true" />
+        <MdiIcon :path="mdiCheck" :size="20" aria-hidden="true" />
       </span>
     </li>
   </ListboxOption>

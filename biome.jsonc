@@ -2,7 +2,7 @@
   "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "includes": ["**", "!**/package.json", "!**/node_modules/**", "!**/.nuxt/**", "!**/.output/**"]
+    "includes": ["**", "!**/package.json", "!**/node_modules", "!**/.nuxt", "!**/.output"]
   },
   "vcs": {
     "enabled": true,
@@ -42,11 +42,12 @@
       },
       "recommended": true,
       "suspicious": {
+        "noExplicitAny": "off",
         "noArrayIndexKey": "off"
       },
       "correctness": {
         // ! removes code whe need in general !
-        "noUnusedVariables": "off"
+        "noUnusedVariables": "off",
       },
       "style": {
         // ! removes code whe need for the claendar !
