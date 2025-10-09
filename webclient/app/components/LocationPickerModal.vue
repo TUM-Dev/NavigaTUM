@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
-import { FloorControl, FLOOR_LEVELS } from "~/composables/FloorControl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
+import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -169,7 +175,7 @@ watch(
       });
     }
   },
-  { immediate: false },
+  { immediate: false }
 );
 
 onMounted(() => {

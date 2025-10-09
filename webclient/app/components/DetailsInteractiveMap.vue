@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import type { components } from "~/api_types";
-import { FloorControl, FLOOR_LEVELS } from "~/composables/FloorControl";
+import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 const props = defineProps<{
@@ -115,7 +121,9 @@ function initMap(containerId: string): MapLibreMap {
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
     const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    const fullscreenContainer = isMobile ? document.getElementById("interactive-legacy-map") : document.getElementById("interactive-legacy-map-container");
+    const fullscreenContainer = isMobile
+      ? document.getElementById("interactive-legacy-map")
+      : document.getElementById("interactive-legacy-map-container");
     const fullscreenCtl = new FullscreenControl({
       container: fullscreenContainer as HTMLElement,
     });
@@ -136,8 +144,12 @@ function initMap(containerId: string): MapLibreMap {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -187,15 +199,7 @@ function addFloorLayers(map: MapLibreMap) {
         visibility: "none",
       },
       paint: {
-        "raster-opacity": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            16.4,
-            0,
-            16.5,
-            0.9
-        ],
+        "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9],
       },
     });
   }
@@ -215,7 +219,9 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
+        console.info(
+          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
+        );
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
