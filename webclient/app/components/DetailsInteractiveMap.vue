@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -8,7 +7,7 @@ import {
   NavigationControl,
 } from "maplibre-gl";
 import type { components } from "~/api_types";
-import { FloorControl } from "~/composables/FloorControl";
+import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 const props = defineProps<{
@@ -53,10 +52,6 @@ function loadInteractiveMap() {
       _marker.addTo(map.value as MapLibreMap);
       marker.value = _marker;
     }
-
-    const overlays = props.maps?.overlays;
-    if (overlays) floorControl.value.updateFloors(overlays);
-    else floorControl.value.resetFloors();
 
     map.value?.flyTo({
       center: [props.coords.lon, props.coords.lat],
@@ -114,6 +109,9 @@ function initMap(containerId: string): MapLibreMap {
   // succeeded.
   map.on("load", () => {
     initialLoaded.value = true;
+
+    // Add raster tile sources and layers for each floor level
+    addFloorLayers(map);
 
     // controls
     map.addControl(new NavigationControl({}), "top-left");
@@ -174,79 +172,36 @@ function initMap(containerId: string): MapLibreMap {
     map.addControl(location);
   });
 
-  interface FloorChangedEvent {
-    file: string | null;
-    coords: Coordinates | undefined;
-  }
-
-  floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-    const url = args.file ? `${runtimeConfig.public.cdnURL}/cdn/maps/overlays/${args.file}` : null;
-    setOverlayImage(url, args.coords);
-  });
   map.addControl(floorControl.value, "bottom-left");
 
   return map;
 }
 
-// Set the currently visible overlay image in the map,
-// or hide it if imgUrl is null.
-function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined) {
-  // Even if the map is initialized, it could be that
-  // it hasn't loaded yet, so we need to postpone adding
-  // the overlay layer.
-  // However, the official `loaded()` function is a problem
-  // here, because the map is shortly in a "loading" state
-  // when source / style is changed, even though the initial
-  // loading is complete (and only the initial loading seems
-  // to be required to do changes here)
-  if (!initialLoaded.value) {
-    map.value?.on("load", () => setOverlayImage(imgUrl, coords));
-    return;
-  }
+// Add floor tile layers to the map
+function addFloorLayers(map: MapLibreMap) {
+  for (const level of FLOOR_LEVELS) {
+    const sourceId = `floor-source-${level.id}`;
+    const layerId = `floor-level-${level.id}`;
 
-  if (imgUrl === null) {
-    // Hide overlay
-    if (map.value?.getLayer("overlay"))
-      map.value?.setLayoutProperty("overlay", "visibility", "none");
-    if (map.value?.getLayer("overlay-bg"))
-      map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
-  } else {
-    const source = map.value?.getSource("overlay") as ImageSource | undefined;
-    if (source === undefined) {
-      if (coords !== undefined)
-        map.value?.addSource("overlay", {
-          type: "image",
-          url: imgUrl,
-          coordinates: coords,
-        });
-    } else
-      source.updateImage({
-        url: imgUrl,
-        coordinates: coords,
-      });
+    // Add raster tile source
+    map.addSource(sourceId, {
+      type: "raster",
+      url: `https://nav.tum.de/tiles/level_${level.id}`,
+      tileSize: 256,
+    });
 
-    const layer = map.value?.getLayer("overlay") as BackgroundLayerSpecification | undefined;
-    if (!layer) {
-      map.value?.addLayer({
-        id: "overlay-bg",
-        type: "background",
-        paint: {
-          "background-color": "#ffffff",
-          "background-opacity": 0.6,
-        },
-      });
-      map.value?.addLayer({
-        id: "overlay",
-        type: "raster",
-        source: "overlay",
-        paint: {
-          "raster-fade-duration": 0,
-        },
-      });
-    } else {
-      map.value?.setLayoutProperty("overlay", "visibility", "visible");
-      map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
-    }
+    // Add raster layer (initially hidden)
+    map.addLayer({
+      id: layerId,
+      type: "raster",
+      source: sourceId,
+      layout: {
+        visibility: "none",
+      },
+      paint: {
+        "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9],
+      },
+    });
   }
 }
 
@@ -346,12 +301,8 @@ onMounted(() => {
 
 .maplibregl-ctrl-group.floor-ctrl {
   max-width: 100%;
-  display: none;
+  display: block;
   overflow: hidden;
-
-  &.visible {
-    display: block;
-  }
 
   &.closed #floor-list {
     display: none !important;

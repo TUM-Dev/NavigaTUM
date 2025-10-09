@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Coordinates } from "maplibre-gl";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -7,6 +6,7 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
+import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -28,6 +28,7 @@ const emit = defineEmits<LocationPickerEmits>();
 
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
+const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMapLoaded = ref(false);
 
@@ -50,6 +51,33 @@ function createMarker(hueRotation = 120) {
   return markerDiv;
 }
 
+function addFloorLayers(map: MapLibreMap) {
+  for (const level of FLOOR_LEVELS) {
+    const sourceId = `floor-source-${level.id}`;
+    const layerId = `floor-level-${level.id}`;
+
+    // Add raster tile source
+    map.addSource(sourceId, {
+      type: "raster",
+      url: `https://nav.tum.de/tiles/level_${level.id}`,
+      tileSize: 256,
+    });
+
+    // Add raster layer (initially hidden)
+    map.addLayer({
+      id: layerId,
+      type: "raster",
+      source: sourceId,
+      layout: {
+        visibility: "none",
+      },
+      paint: {
+        "raster-opacity": 0.9,
+      },
+    });
+  }
+}
+
 function initMap() {
   if (!webglSupport || !mapContainer.value) return;
 
@@ -67,6 +95,9 @@ function initMap() {
 
   mapInstance.on("load", () => {
     isMapLoaded.value = true;
+
+    // Add floor tile layers
+    addFloorLayers(mapInstance);
 
     // Add navigation controls
     mapInstance.addControl(new NavigationControl({}), "top-left");
@@ -88,6 +119,9 @@ function initMap() {
       trackUserLocation: false, // Don't continuously track, just allow one-time location
     });
     mapInstance.addControl(location);
+
+    // Add floor control
+    mapInstance.addControl(floorControl.value, "bottom-left");
 
     // Create draggable marker
     const draggableMarker = new Marker({
@@ -189,10 +223,10 @@ defineExpose({
         <LazyMapGLNotSupported v-else />
       </div>
       <div class="text-sm text-center">
-        {{t('clickMap')}}
+        {{ t("clickMap") }}
       </div>
     </div>
-    
+
     <div class="flex gap-2 mt-4">
       <Btn variant="primary" @click="emit('confirm')">
         {{ t("confirm_location") }}
@@ -240,6 +274,90 @@ defineExpose({
   /* Make the container properly sized */
   .maplibregl-map {
     border-radius: inherit;
+  }
+
+  /* Floor control styles */
+  .maplibregl-ctrl-group.floor-ctrl {
+    max-width: 100%;
+    display: block;
+    overflow: hidden;
+    color: black;
+
+    &.closed #floor-list {
+      display: none !important;
+    }
+
+    & button {
+      &.active {
+        background: #ececec;
+      }
+
+      & .arrow {
+        font-weight: normal;
+        font-size: 0.3rem;
+        line-height: 0.9rem;
+        vertical-align: top;
+      }
+    }
+
+    &.reduced > .vertical-oc,
+    &.reduced > .horizontal-oc {
+      display: none !important;
+    }
+
+    & > .vertical-oc,
+    & > .horizontal-oc {
+      font-weight: bold;
+      background: #ececec;
+    }
+
+    &.closed {
+      & > .vertical-oc,
+      & > .horizontal-oc {
+        background: #fff;
+      }
+
+      &:hover > .vertical-oc,
+      &:hover > .horizontal-oc {
+        background: #f2f2f2;
+      }
+    }
+
+    /* vertical is default layout */
+    & > .horizontal-oc {
+      display: none;
+    }
+
+    &.horizontal {
+      & > .horizontal-oc {
+        display: inline-block;
+      }
+
+      & > .vertical-oc {
+        display: none;
+      }
+
+      & #floor-list {
+        display: inline-block;
+        width: calc(100% - 29px);
+      }
+
+      & button {
+        display: inline-block;
+        border-top: 0;
+        border-left: 1px solid #ddd;
+
+        &.arrow {
+          font-size: 0.4rem;
+          vertical-align: bottom;
+          line-height: 1.1rem;
+        }
+
+        & + button {
+          border-top: 0;
+        }
+      }
+    }
   }
 }
 </style>
