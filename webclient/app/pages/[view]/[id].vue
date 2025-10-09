@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
@@ -24,9 +23,7 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -36,17 +33,11 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
 
 const editProposal = useEditProposal();
 
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!data.value) return;
@@ -217,62 +208,19 @@ useSeoMeta({
 
     <!-- First info section (map + infocard) -->
     <div class="grid grid-cols-1 gap-5 px-5 lg:grid-cols-3">
-      <TabGroup
-        class="col-span-1 lg:col-span-2"
-        as="div"
-        :selected-index="selectedMap === 'interactive' ? 0 : 1"
-        :default-index="selectedMap === 'interactive' ? 0 : 1"
-        @change="(index) => (selectedMap = index === 0 ? 'interactive' : 'plans')"
-      >
+      <div class="col-span-1 lg:col-span-2">
         <div class="mb-3 grid gap-2 lg:hidden">
-          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('no_floor_overlay')" />
+          <Toast
+            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
+            level="warning"
+            :msg="t('no_floor_overlay')"
+          />
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
-        <TabPanels>
-          <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
-            <ClientOnly>
-              <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
-            </ClientOnly>
-          </TabPanel>
-          <TabPanel id="plansMapPanel" :tab-index="1">
-            <ClientOnly>
-              <LazyDetailsRoomfinderMap
-                v-if="data.maps.roomfinder?.available"
-                :available="data.maps.roomfinder.available"
-                :default-map-id="data.maps.roomfinder.default"
-              />
-            </ClientOnly>
-          </TabPanel>
-        </TabPanels>
-        <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1 print:!hidden">
-          <Tab :tab-index="0" as="template" @click="selectedMap = 'interactive'">
-            <button
-              type="button"
-              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
-              :class="[
-                selectedMap === 'interactive' ? 'text-zinc-900 bg-zinc-300 shadow' : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
-              ]"
-            >
-              {{ t("map.interactive") }}
-            </button>
-          </Tab>
-          <Tab :tab-index="1" as="template" :disabled="!data.maps.roomfinder?.available" @click="selectedMap = 'plans'">
-            <button
-              type="button"
-              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
-              :class="{
-                'text-zinc-900 bg-zinc-300 shadow': selectedMap === 'plans',
-                'text-zinc-800 bg-zinc-300/5': selectedMap !== 'plans',
-                'hover:text-zinc-900 hover:bg-zinc-500/20': data.maps.roomfinder?.available,
-                '!text-zinc-400 cursor-not-allowed': !data.maps.roomfinder?.available,
-              }"
-            >
-              {{ t("map.plans") }}
-            </button>
-          </Tab>
-        </TabList>
-      </TabGroup>
-      <!-- Map container -->
+        <ClientOnly>
+          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
+        </ClientOnly>
+      </div>
 
       <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
     </div>
@@ -281,7 +229,11 @@ useSeoMeta({
     <ClientOnly>
       <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
     </ClientOnly>
-    <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
+    <DetailsSources
+      :coords="data.coords"
+      :sources="data.sources"
+      :image="data.imgs?.length ? data.imgs[0] : undefined"
+    />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
