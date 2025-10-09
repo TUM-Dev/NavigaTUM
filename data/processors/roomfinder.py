@@ -73,8 +73,6 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
                 "source": "roomfinder",
             },
         )
-        if building.maps:
-            b_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(building)
 
         b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", building.b_id)
 
@@ -142,8 +140,6 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
                 "source": "roomfinder",
             },
         )
-        if room.maps:
-            r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(room)
 
         # Add Roomfinder as source
         r_data.setdefault("sources", {}).setdefault("base", []).append(
@@ -152,46 +148,6 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
                 "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
             },
         )
-
-
-def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
-    """Get the maps data from a roomfinder object (room or building)"""
-    # Maps metadata is extracted in another step. The data here only references the maps.
-    # Maps are provided as tuples which are stored as arrays in the given JSON data.
-    maps = {
-        "available": [],
-        "default": None,
-    }
-    for mapdata in obj.maps:
-        maps["available"].append(
-            {
-                "scale": mapdata.scale,
-                "id": mapdata.map_id,
-                "name": mapdata.name,
-                "width": mapdata.width,
-                "height": mapdata.height,
-            },
-        )
-
-    if not obj.default_map:
-        return maps
-
-    maps["default"] = default = obj.default_map.map_id
-
-    # sometimes the default map is not in the available maps.
-    # This is the case for example the building with id "0510"
-    available_map_ids = [m["id"] for m in maps["available"]]
-    if default not in available_map_ids:
-        maps["available"].append(
-            {
-                "scale": obj.default_map.scale,
-                "id": obj.default_map.map_id,
-                "name": obj.default_map.name,
-                "width": obj.default_map.width,
-                "height": obj.default_map.height,
-            },
-        )
-    return maps
 
 
 def _find_room_id(room: roomfinder.Room, data: dict, arch_name_lookup: dict[str, str], patches) -> str | None:

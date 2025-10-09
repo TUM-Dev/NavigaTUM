@@ -2,7 +2,6 @@ import logging
 from multiprocessing import Process
 
 import processors.areatree.process as areatree
-import processors.maps.process as maps
 from processors import (
     aliases,
     coords,
@@ -82,12 +81,6 @@ def main() -> None:
     logging.info("-- 40 Coordinates")
     merge.add_coordinates(data)
     coords.add_and_check_coords(data)
-
-    logging.info("-- 45 Roomfinder maps")
-    maps.add_roomfinder_maps(data)
-
-    logging.info("-- 46 Overlay maps")
-    maps.add_overlay_maps(data)
 
     logging.info("-- 51 Add image information")
     images.add_img(data)
