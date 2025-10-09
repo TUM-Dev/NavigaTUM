@@ -23,7 +23,6 @@ export class FloorControl extends Evented implements IControl {
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
   private map: MapLibreMap | undefined;
-  private currentLevel: number | null = null;
 
   constructor() {
     super();
