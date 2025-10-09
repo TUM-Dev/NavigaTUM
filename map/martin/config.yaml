@@ -11,7 +11,7 @@ styles:
   - /map/navigatum-basemap.json
 mbtiles:
   paths:
-    - /data/level_overlays
+    - /map/martin/level_overlays
   sources:
     # named source matching source name to a single file
     shortbread: /data/output.mbtiles
