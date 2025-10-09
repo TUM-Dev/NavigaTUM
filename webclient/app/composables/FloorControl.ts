@@ -111,8 +111,6 @@ export class FloorControl extends Evented implements IControl {
   }
 
   private _setLevel(level: number | null): void {
-    this.currentLevel = level;
-
     // Update button states
     const buttons = this.floor_list.children;
     for (let i = 0; i < buttons.length; i++) {
