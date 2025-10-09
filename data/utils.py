@@ -95,7 +95,7 @@ def convert_to_webp(source: Path) -> None:
     """
     if source.is_dir():
         for img_path in source.iterdir():
-            if img_path.suffix not in [".webp", ".yaml", ".json"] and img_path.name != ".gitkeep":
+            if img_path.suffix not in [".webp", ".yaml", ".json", ".mbtiles"] and img_path.name != ".gitkeep":
                 convert_to_webp(img_path)
         return
 
