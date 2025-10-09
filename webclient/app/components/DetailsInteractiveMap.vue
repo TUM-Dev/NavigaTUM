@@ -170,6 +170,12 @@ function initMap(containerId: string): MapLibreMap {
       trackUserLocation: true,
     });
     map.addControl(location);
+
+    // Set default floor from API data if available
+    const defaultFloor = props.maps?.overlays?.default;
+    if (defaultFloor !== undefined && defaultFloor !== null) {
+      floorControl.value.setLevel(defaultFloor);
+    }
   });
 
   map.addControl(floorControl.value, "bottom-left");

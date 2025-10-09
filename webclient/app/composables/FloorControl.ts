@@ -87,7 +87,7 @@ export class FloorControl extends Evented implements IControl {
       const btn = document.createElement("button");
       btn.innerText = level.label;
       btn.addEventListener("click", () => {
-        this._setLevel(level.id);
+        this.setLevel(level.id);
         if (!this.container.classList.contains("reduced")) {
           this.container.classList.add("closed");
         }
@@ -100,7 +100,7 @@ export class FloorControl extends Evented implements IControl {
     hideBtn.innerText = "∅";
     hideBtn.classList.add("active"); // Start with all floors hidden
     hideBtn.addEventListener("click", () => {
-      this._setLevel(null);
+      this.setLevel(null);
       if (!this.container.classList.contains("reduced")) {
         this.container.classList.add("closed");
       }
@@ -110,7 +110,7 @@ export class FloorControl extends Evented implements IControl {
     this._recalculateLayout(this.floor_list.children.length);
   }
 
-  private _setLevel(level: number | null): void {
+  setLevel(level: number | null): void {
     // Update button states
     const buttons = this.floor_list.children;
     for (let i = 0; i < buttons.length; i++) {
