@@ -12,7 +12,7 @@ impl PostgresTestContainer {
     /// Create a postgres instance for testing against
     pub async fn new() -> Self {
         let container = testcontainers_modules::postgres::Postgres::default()
-            .with_tag("16-3.4")
+            .with_tag("18-3.6")
             .with_name("postgis/postgis")
             .start()
             .await
