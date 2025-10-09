@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: "typo + it's 'Fachschaftsbüro' in the data"
 expression: actual
 info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's 'Fachschaftsbüro' in the data"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -49,7 +50,7 @@ info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's '
     - id: 9377.01.130
       type: room
       name: "9377.01.130 (Projektraum \u0019Fachschaft\u0017)"
-      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
+      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9"
       subtext_bold: 01.130@9377
     - id: 0504.EG.424
       type: room

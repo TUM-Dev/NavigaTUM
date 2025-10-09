@@ -27,7 +27,7 @@ jobs:
           python-version: '3.13'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
-      - run: rm *tumonline.json
+      - run: rm *tumonline.csv
         working-directory: data/external/results/
       - name: Download tumonline data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious

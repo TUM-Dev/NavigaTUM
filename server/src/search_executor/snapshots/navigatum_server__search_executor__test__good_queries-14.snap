@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: A search for the Architects name should return the correct room
 expression: actual
 info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Architects name should return the correct room"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -15,7 +16,7 @@ info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Arch
     - id: 9377.EG.001
       type: room
       name: "9377.EG.\u0019001\u0017 (come together)"
-      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
+      subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9"
       subtext_bold: 00.001@9377
     - id: 2927.EG.001
       type: room
