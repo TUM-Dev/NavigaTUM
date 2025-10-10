@@ -234,12 +234,14 @@ function osm2pgsql.process_node(object)
       -- pois should not need layers. Using them is likely a bug
       object.tags.layer = nil
       -- we want the width_cm, no width_m
+      -- invalid or unset widths get 86cm
+      if object.tags.width ~= nil then
+        object.tags.width = tonumber(object.tags.width)
+      end
       if object.tags.width == nil then
         object.tags.width = 86
-      elseif object.tags.width == "" then
-        object.tags.width = 86
       else
-        object.tags.width = tonumber(object.tags.width) * 100
+        object.tags.width = object.tags.width * 100
       end
       for _, level in ipairs(SantiseLevel(object.tags.level)) do
           tables.doors:insert(
