@@ -29,25 +29,6 @@ postgres:
         width_cm: int8
         level_min: float8
         level_max: float8
-    indoor_nodes:
-      schema: public
-      table: indoor_nodes
-      srid: 3857
-      geometry_column: geom
-      geometry_type: POINT
-      properties:
-        node_id: int8
-        tags: jsonb
-    indoor_polygons:
-      schema: public
-      table: indoor_polygons
-      srid: 3857
-      geometry_column: geom
-      geometry_type: GEOMETRY
-      properties:
-        area_id: int8
-        tags: jsonb
-        type: text
     rooms:
       schema: public
       table: rooms
@@ -60,13 +41,4 @@ postgres:
         ref_tum: text
         level_min: float8
         level_max: float8
-    indoor_ways:
-      schema: public
-      table: indoor_ways
-      srid: 3857
-      geometry_column: geom
-      geometry_type: LINESTRING
-      properties:
-        tags: jsonb
-        way_id: int8
   functions: {}

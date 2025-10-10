@@ -47,7 +47,7 @@ watch(
 );
 
 const isGeolocationSupported = computed(() => {
-  return process.client && typeof navigator !== "undefined" && "geolocation" in navigator;
+  return typeof navigator !== "undefined" && "geolocation" in navigator;
 });
 
 const query = useRouteQuery<string>(`q_${props.queryId}`, "", {

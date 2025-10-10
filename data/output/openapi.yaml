@@ -337,66 +337,6 @@ paths:
               schema:
                 type: string
               example: Not found
-  /api/maps/indoor:
-    get:
-      tags:
-        - maps
-      summary: Lists indoor maps in bounding box
-      description: Returns all the available maps for a given bbox
-      operationId: list_indoor_maps
-      parameters:
-        - name: bbox
-          in: query
-          description: |-
-            Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
-
-            Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: '**List indoor maps** in bounding box'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RemoteMap'
-        "400":
-          description: '**Bad Request.** Please check that the input provided matches above.'
-          content:
-            text/plain:
-              schema:
-                type: string
-              example: the bbox-parameter needs 4 floating point numbers of format y,x,y,x
-  /api/maps/indoor/{id}:
-    get:
-      tags:
-        - maps
-      summary: Get indoor features
-      description: Get all features of a certain indoor map
-      operationId: get_indoor_map
-      parameters:
-        - name: id
-          in: path
-          description: ID of the indoor map
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: '**Indoor features** as GeoJSON'
-          content:
-            application/json: {}
-        "404":
-          description: '**Not found.** The requested location does not have a calendar'
-          content:
-            text/plain:
-              schema:
-                type: string
-              example: Not found
   /api/maps/route:
     get:
       tags:
@@ -2292,21 +2232,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-    RemoteMap:
-      type: object
-      required:
-        - name
-        - url
-      properties:
-        name:
-          type: string
-          description: Name of the map
-          example: "1234"
-        url:
-          type: string
-          format: uri
-          description: Where the indoor GeoJSON is located at
-          example: https://nav.tum.de/api/maps/indoor/1234
     RentalFormFactorResponse:
       type: string
       enum:
