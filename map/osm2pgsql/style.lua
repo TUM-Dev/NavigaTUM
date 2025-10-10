@@ -14,8 +14,8 @@ tables.doors =
     "doors",
     {
         {column = "width_cm", type = "integer", not_null = true},
-        {column = "level_min", type = "real"},
-        {column = "level_max", type = "real"},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         {column = "geom", type = "point", not_null = true}
     }
 )
@@ -23,7 +23,8 @@ tables.indoor_ways =
     osm2pgsql.define_way_table(
     "indoor_ways",
     {
-        {column = "tags", type = "jsonb"},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         {column = "geom", type = "linestring", not_null = true}
     }
 )
@@ -34,8 +35,8 @@ tables.rooms =
         {column = "indoor", type = "text", not_null = true},
         {column = "ref", type = "text"},
         {column = "ref_tum", type = "text"},
-        {column = "level_min", type = "real"},
-        {column = "level_max", type = "real"},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         -- The type of the `geom` column is `geometry`, because we need to store
         -- polygons AND multipolygons
         {column = "geom", type = "geometry", not_null = true}
@@ -43,10 +44,10 @@ tables.rooms =
 )
 
 -- Debug output: Show definition of tables
-for name, dtable in pairs(tables) do
+for name, _ in pairs(tables) do
     print("\ntable '" .. name .. "':")
-    print("  name='" .. dtable:name() .. "'")
-    --    print("  columns=" .. inspect(dtable:columns()))
+    -- print("  name='" .. dtable:name() .. "'")
+    -- print("  columns=" .. inspect(dtable:columns()))
 end
 
 -- These tag keys are generally regarded as useless for most rendering. Most
@@ -229,10 +230,18 @@ function osm2pgsql.process_node(object)
     if clean_tags_indoor(object.tags) then
         return
     end
-    -- pois should not need layers. Using them is likely a bug
-    object.tags.layer = nil
-    for _, level in ipairs(SantiseLevel(object.tags.level)) do
-        if object.tags.indoor == "door" then
+    if object.tags.indoor == "door" then
+      -- pois should not need layers. Using them is likely a bug
+      object.tags.layer = nil
+      -- we want the width_cm, no width_m
+      if object.tags.width == nil then
+        object.tags.width = 86
+      elseif object.tags.width == "" then
+        object.tags.width = 86
+      else
+        object.tags.width = tonumber(object.tags.width) * 100
+      end
+      for _, level in ipairs(SantiseLevel(object.tags.level)) do
           tables.doors:insert(
               {
                   width_cm = object.tags.width,
@@ -278,7 +287,9 @@ function osm2pgsql.process_way(object)
         else
             tables.indoor_ways:insert(
                 {
-                    tags = object.tags,
+                    level_min = level.min,
+                    level_max = level.max,
+                    indoor = object.tags.indoor,
                     geom = object:as_linestring()
                 }
             )
