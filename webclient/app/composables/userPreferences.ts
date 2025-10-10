@@ -19,7 +19,7 @@ export const useUserPreferences = () => {
   const preferences = useCookie<UserRoutingPreferences>("user-routing-preferences", {
     default: () => ({ ...defaultPreferences }),
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: import.meta.env.PROD,
     httpOnly: false,
   });
 
