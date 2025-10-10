@@ -169,8 +169,6 @@ async fn run_maintenance_work(
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     }
     let mut set = tokio::task::JoinSet::new();
-    let map_pool = pool.clone();
-    set.spawn(async move { refresh::indoor_maps::all_entries(&map_pool).await });
     let cal_pool = pool.clone();
     set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
     set.join_all().await;
@@ -227,8 +225,6 @@ async fn main() -> anyhow::Result<()> {
                 .app_data(recorded_tokens.clone())
                 .service(health_status_handler)
                 .service(calendar::calendar_handler)
-                .service(maps::indoor::list_indoor_maps)
-                .service(maps::indoor::get_indoor_map)
                 .service(maps::route::route_handler)
                 .service(search::search_handler)
                 .service(locations::details::get_handler)

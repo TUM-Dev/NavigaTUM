@@ -19,14 +19,6 @@ tables.doors =
         {column = "geom", type = "point", not_null = true}
     }
 )
-tables.indoor_nodes =
-    osm2pgsql.define_node_table(
-    "indoor_nodes",
-    {
-        {column = "tags", type = "jsonb"},
-        {column = "geom", type = "point", not_null = true}
-    }
-)
 tables.indoor_ways =
     osm2pgsql.define_way_table(
     "indoor_ways",
@@ -44,17 +36,6 @@ tables.rooms =
         {column = "ref_tum", type = "text"},
         {column = "level_min", type = "real"},
         {column = "level_max", type = "real"},
-        -- The type of the `geom` column is `geometry`, because we need to store
-        -- polygons AND multipolygons
-        {column = "geom", type = "geometry", not_null = true}
-    }
-)
-tables.indoor_polygons =
-    osm2pgsql.define_area_table(
-    "indoor_polygons",
-    {
-        {column = "type", type = "text"},
-        {column = "tags", type = "jsonb"},
         -- The type of the `geom` column is `geometry`, because we need to store
         -- polygons AND multipolygons
         {column = "geom", type = "geometry", not_null = true}
@@ -251,14 +232,6 @@ function osm2pgsql.process_node(object)
     -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
-        object.tags.level_min = level.min
-        object.tags.level_max = level.max
-        tables.indoor_nodes:insert(
-            {
-                tags = object.tags,
-                geom = object:as_point()
-            }
-        )
         if object.tags.indoor == "door" then
           tables.doors:insert(
               {
@@ -292,13 +265,6 @@ function osm2pgsql.process_way(object)
         -- Very simple check to decide whether a way is a polygon or not, in a
         -- real stylesheet we'd have to also look at the tags...
         if object.is_closed then
-            tables.indoor_polygons:insert(
-                {
-                    type = object.type,
-                    tags = object.tags,
-                    geom = object:as_polygon()
-                }
-            )
             tables.rooms:insert(
                 {
                   indoor = object.tags.indoor,
@@ -335,15 +301,6 @@ function osm2pgsql.process_relation(object)
     if object.tags.type == "multipolygon" or
        object.tags.type == "boundary" then
         for _, level in ipairs(SantiseLevel(object.tags.level)) do
-            object.tags.level_min = level.min
-            object.tags.level_max = level.max
-            tables.indoor_polygons:insert(
-                {
-                    type = object.type,
-                    tags = object.tags,
-                    geom = object:as_multipolygon()
-                }
-            )
             tables.rooms:insert(
                 {
                   indoor = object.tags.indoor,
