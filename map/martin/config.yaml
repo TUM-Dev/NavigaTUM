@@ -50,7 +50,7 @@ postgres:
         type: text
     rooms:
       schema: public
-      table: indoor_polygons
+      table: rooms
       srid: 3857
       geometry_column: geom
       geometry_type: GEOMETRY
