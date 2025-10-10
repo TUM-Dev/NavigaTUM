@@ -18,29 +18,6 @@ mbtiles:
 postgres:
   connection_string: $DATABASE_URL
   auto_publish: false
-  tables:
-    doors:
-      schema: public
-      table: doors
-      srid: 3857
-      geometry_column: geom
-      geometry_type: POINT
-      properties:
-        width_cm: int8
-        level_min: float8
-        level_max: float8
-    rooms:
-      schema: public
-      table: rooms
-      srid: 3857
-      geometry_column: geom
-      geometry_type: GEOMETRY
-      properties:
-        indoor: text
-        ref: text
-        ref_tum: text
-        level_min: float8
-        level_max: float8
   functions:
       indoor_rooms:
         schema: public

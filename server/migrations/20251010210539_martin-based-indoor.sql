@@ -10,16 +10,16 @@ BEGIN
   FROM (
     SELECT
       ST_AsMVTGeom(
-          ST_Transform(ST_CurveToLine(geom), 3857),
+          ST_CurveToLine(geom),
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
       indoor,
       ref,
       ref_tum
     FROM rooms
-    WHERE geom && ST_Transform(ST_TileEnvelope(z, x, y), 4326) AND
-          level_min >= COALESCE((query_params->>'level')::real, 0.0) AND
-          level_max <= COALESCE((query_params->>'level')::real, 0.0)
+    WHERE geom && ST_TileEnvelope(z, x, y) AND
+          level_min <= COALESCE((query_params->>'level')::real, 0.0) AND
+          level_max >= COALESCE((query_params->>'level')::real, 0.0)
   ) as tile
   WHERE geom IS NOT NULL;
 
@@ -34,7 +34,7 @@ DO $do$ BEGIN
         "attribution": "\u003Ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003E&copy; OpenStreetMap contributors\u003C/a\u003E",
         "vector_layers": [
             {
-                "id": "rooms",
+                "id": "indoor_rooms",
                 "fields": {
                     "indoor": "String",
                     "ref": "String",
@@ -58,14 +58,14 @@ BEGIN
   FROM (
     SELECT
       ST_AsMVTGeom(
-          ST_Transform(ST_CurveToLine(geom), 3857),
+          geom,
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
       width_cm
     FROM doors
-    WHERE geom && ST_Transform(ST_TileEnvelope(z, x, y), 4326) AND
-    level_min >= COALESCE((query_params->>'level')::real, 0.0) AND
-    level_max <= COALESCE((query_params->>'level')::real, 0.0)
+    WHERE geom && ST_TileEnvelope(z, x, y) AND
+          level_min <= COALESCE((query_params->>'level')::real, 0.0) AND
+          level_max >= COALESCE((query_params->>'level')::real, 0.0)
   ) as tile
   WHERE geom IS NOT NULL;
 
@@ -80,7 +80,7 @@ DO $do$ BEGIN
         "attribution": "\u003Ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003E&copy; OpenStreetMap contributors\u003C/a\u003E",
         "vector_layers": [
             {
-                "id": "doors",
+                "id": "indoor_doors",
                 "fields": {
                     "width_cm": "Number"
                 },
