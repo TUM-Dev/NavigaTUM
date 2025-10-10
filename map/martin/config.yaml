@@ -41,4 +41,16 @@ postgres:
         ref_tum: text
         level_min: float8
         level_max: float8
-  functions: {}
+  functions:
+      indoor_rooms:
+        schema: public
+        function: indoor_rooms
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
+      indoor_doors:
+        schema: public
+        function: indoor_doors
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
