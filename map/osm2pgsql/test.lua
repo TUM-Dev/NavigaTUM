@@ -33,7 +33,7 @@ local function equals(o1, o2, message)
     for key1, value1 in pairs(o1) do
         local value2 = o2[key1]
         if value2 == nil or equals(value1, value2, message) == false then
-            print(string.format("actual: %s\texpected: %s\tmsg: %s", inspect(o1), inspect(o2), message))
+            print(string.format("actual: %s\nexpected: %s\nmsg: %s", inspect(o1), inspect(o2), message))
             assert(false)
         end
         keySet[key1] = true
@@ -41,7 +41,7 @@ local function equals(o1, o2, message)
 
     for key2, _ in pairs(o2) do
         if not keySet[key2] then
-            print(string.format("actual: %s\texpected: %s\tmsg: %s", inspect(o1), inspect(o2), message))
+            print(string.format("actual: %s\nexpected: %s\nmsg: %s", inspect(o1), inspect(o2), message))
             assert(false)
         end
     end
@@ -58,9 +58,9 @@ test(
 test(
     "unit",
     function()
-        equals(SantiseLevel("1"), {"1~1"}, "single")
-        equals(SantiseLevel(" 1 "), {"1~1"}, "single with spaces")
-        equals(SantiseLevel("-1"), {"-1~-1"}, "single negative")
+        equals(SantiseLevel("1"), {{min = 1, max = 1}}, "single")
+        equals(SantiseLevel(" 1 "), {{min = 1, max = 1}}, "single with spaces")
+        equals(SantiseLevel("-1"), {{min = -1, max = -1}}, "single negative")
     end
 )
 
@@ -68,44 +68,44 @@ test(
     "unions",
     function()
         -- 1;2 is not equivalent to "1~2" due to half-floors
-        equals(SantiseLevel("1;2"), {"1~1", "2~2"}, "union")
-        equals(SantiseLevel("2;1"), {"2~2", "1~1"}, "union reverse")
-        equals(SantiseLevel("-1;-2"), {"-1~-1", "-2~-2"}, "union negative")
-        equals(SantiseLevel("-2;-1"), {"-2~-2", "-1~-1"}, "union negative reverse")
-        equals(SantiseLevel("-1"), {"-1~-1"}, "union nonvoering")
-        equals(SantiseLevel("3;1"), {"3~3", "1~1"}, "union nonvoering")
-        equals(SantiseLevel("1;3"), {"1~1", "3~3"}, "union nonvoering reverse")
-        equals(SantiseLevel("-3;-1"), {"-3~-3", "-1~-1"}, "union nonvoering negative")
-        equals(SantiseLevel("-1;-3"), {"-1~-1", "-3~-3"}, "union nonvoering negative reverse")
-        equals(SantiseLevel("-1;1"), {"-1~-1", "1~1"}, "union nonvoering mixed")
-        equals(SantiseLevel("1;-1"), {"1~1", "-1~-1"}, "union nonvoering mixed reverse")
-        equals(SantiseLevel("1;2;2"), {"1~1", "2~2"}, "duplicate union")
-        equals(SantiseLevel("2;1;2"), {"2~2", "1~1"}, "duplicate reversed1 union")
-        equals(SantiseLevel("1;2;2"), {"1~1", "2~2"}, "duplicate reversed2 union")
-        equals(SantiseLevel(" 1 ; 2 "), {"1~1", "2~2"}, "spaced union")
+        equals(SantiseLevel("1;2"), {{min = 1, max = 1}, {min = 2, max = 2}}, "union")
+        equals(SantiseLevel("2;1"), {{min = 2, max = 2}, {min = 1, max = 1}}, "union reverse")
+        equals(SantiseLevel("-1;-2"), {{min = -1, max = -1}, {min = -2, max = -2}}, "union negative")
+        equals(SantiseLevel("-2;-1"), {{min = -2, max = -2}, {min = -1, max = -1}}, "union negative reverse")
+        equals(SantiseLevel("-1"), {{min = -1, max = -1}}, "union nonvoering")
+        equals(SantiseLevel("3;1"), {{min = 3, max = 3}, {min = 1, max = 1}}, "union nonvoering")
+        equals(SantiseLevel("1;3"), {{min = 1, max = 1}, {min = 3, max = 3}}, "union nonvoering reverse")
+        equals(SantiseLevel("-3;-1"), {{min = -3, max = -3}, {min = -1, max = -1}}, "union nonvoering negative")
+        equals(SantiseLevel("-1;-3"), {{min = -1, max = -1}, {min = -3, max = -3}}, "union nonvoering negative reverse")
+        equals(SantiseLevel("-1;1"), {{min = -1, max = -1}, {min = 1, max = 1}}, "union nonvoering mixed")
+        equals(SantiseLevel("1;-1"), {{min = 1, max = 1}, {min = -1, max = -1}}, "union nonvoering mixed reverse")
+        equals(SantiseLevel("1;2;2"), {{min = 1, max = 1}, {min = 2, max = 2}}, "duplicate union")
+        equals(SantiseLevel("2;1;2"), {{min = 2, max = 2}, {min = 1, max = 1}}, "duplicate reversed1 union")
+        equals(SantiseLevel("1;2;2"), {{min = 1, max = 1}, {min = 2, max = 2}}, "duplicate reversed2 union")
+        equals(SantiseLevel(" 1 ; 2 "), {{min = 1, max = 1}, {min = 2, max = 2}}, "spaced union")
     end
 )
 
 test(
     "ranges",
     function()
-        equals(SantiseLevel("1-2"), {"1~2"}, "range")
-        equals(SantiseLevel("2-1"), {"1~2"}, "range reverse")
-        equals(SantiseLevel("-1--2"), {"-2~-1"}, "range negative")
-        equals(SantiseLevel("-2--1"), {"-2~-1"}, "range negative reverse")
-        equals(SantiseLevel("-1-1"), {"-1~1"}, "range mixed reverse")
-        equals(SantiseLevel("-1-1"), {"-1~1"}, "range mixed")
+        equals(SantiseLevel("1-2"), {{min = 1, max = 2}}, "range")
+        equals(SantiseLevel("2-1"), {{min = 1, max = 2}}, "range reverse")
+        equals(SantiseLevel("-1--2"), {{min = -2, max = -1}}, "range negative")
+        equals(SantiseLevel("-2--1"), {{min = -2, max = -1}}, "range negative reverse")
+        equals(SantiseLevel("1--1"), {{min = -1, max = 1}}, "range mixed reverse")
+        equals(SantiseLevel("-1-1"), {{min = -1, max = 1}}, "range mixed")
     end
 )
 
 test(
     "union ranges-range",
     function()
-        equals(SantiseLevel("1-2;0-3"), {"0~3"}, "completely ocovered")
-        equals(SantiseLevel("0-3;1-2"), {"0~3"}, "completely ocovered reversed")
-        equals(SantiseLevel("0-1;1-2"), {"0~2"}, "extend min touching")
-        equals(SantiseLevel("1-2;0-1"), {"0~2"}, "extend max touching")
-        equals(SantiseLevel("0-2;1-4"), {"0~4"}, "extend min covering")
-        equals(SantiseLevel("1-4;0-2"), {"0~4"}, "extend max covering")
+        equals(SantiseLevel("1-2;0-3"), {{min = 0, max = 3}}, "completely ocovered")
+        equals(SantiseLevel("0-3;1-2"), {{min = 0, max = 3}}, "completely ocovered reversed")
+        equals(SantiseLevel("0-1;1-2"), {{min = 0, max = 2}}, "extend min touching")
+        equals(SantiseLevel("1-2;0-1"), {{min = 0, max = 2}}, "extend max touching")
+        equals(SantiseLevel("0-2;1-4"), {{min = 0, max = 4}}, "extend min covering")
+        equals(SantiseLevel("1-4;0-2"), {{min = 0, max = 4}}, "extend max covering")
     end
 )

@@ -60,12 +60,7 @@ function SantiseLevel(level)
 
         table.insert(levels, range)
     end
-    local merged = without_cover(levels)
-    local formatted = {}
-    for _, lvl in ipairs(merged) do
-        table.insert(formatted, string.format("%d~%d", lvl.min, lvl.max))
-    end
-    return formatted
+    return without_cover(levels)
 end
 
 return SantiseLevel
