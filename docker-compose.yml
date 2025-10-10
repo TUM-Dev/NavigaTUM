@@ -108,7 +108,7 @@ services:
       start_period: 20s
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern
+    command: sh /map/download.sh europe/germany/bayern/oberbayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map
@@ -152,8 +152,8 @@ services:
     networks:
       - traefik_traefik
     environment:
-      PBF_PATH: /map/data/bayern-latest.osm.pbf
-      REPLICATION_URL: https://download.geofabrik.de/europe/germany/bayern-updates/
+      PBF_PATH: /map/data/oberbayern-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/germany/bayern/oberbayern-updates/
       UPDATE_MODE: continuous
       IMPORT_WIKIPEDIA: true
       IMPORT_STYLE: street
@@ -200,7 +200,7 @@ services:
       - db
       - --port
       - "5432"
-      - /map/data/bayern-latest.osm.pbf
+      - /map/data/oberbayern-latest.osm.pbf
       - --output=flex
       - --style
       - /map/osm2pgsql/style.lua
