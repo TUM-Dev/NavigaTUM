@@ -15,7 +15,8 @@ BEGIN
           4096, 64, true) AS geom,
       indoor,
       ref,
-      ref_tum
+      ref_tum,
+      students_have_access
     FROM rooms
     WHERE geom && ST_TileEnvelope(z, x, y) AND
           level_min <= COALESCE((query_params->>'level')::real, 0.0) AND
@@ -38,7 +39,8 @@ DO $do$ BEGIN
                 "fields": {
                     "indoor": "String",
                     "ref": "String",
-                    "ref_tum": "String"
+                    "ref_tum": "String",
+                    "students_have_access": "Boolean"
                 },
                 "maxzoom": 30,
                 "minzoom": 16
