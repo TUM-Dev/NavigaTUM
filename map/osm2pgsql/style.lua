@@ -35,6 +35,7 @@ tables.rooms =
         {column = "indoor", type = "text", not_null = true},
         {column = "ref", type = "text"},
         {column = "ref_tum", type = "text"},
+        {column = "students_have_access", type = "boolean", not_null = true},
         {column = "level_min", type = "real", not_null = true},
         {column = "level_max", type = "real", not_null = true},
         -- The type of the `geom` column is `geometry`, because we need to store
@@ -281,6 +282,7 @@ function osm2pgsql.process_way(object)
                   indoor = object.tags.indoor,
                   ref = object.tags.ref,
                   ref_tum = object.tags["ref:tum"],
+                  students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
                   level_min = level.min,
                   level_max = level.max,
                   geom = object:as_polygon()
