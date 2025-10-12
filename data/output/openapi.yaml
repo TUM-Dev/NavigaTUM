@@ -1159,6 +1159,52 @@ components:
         - entry
         - general
         - other
+    FloorResponse:
+      type: object
+      required:
+        - id
+        - floor
+        - name
+        - tumonline
+        - type
+      properties:
+        floor:
+          type: string
+          description: short name of the floor
+          examples:
+            - "-1"
+            - "0"
+            - Z1
+        id:
+          type: integer
+          format: int32
+          description: virtual ID for sorting
+        name:
+          type: string
+          description: how the floor is named in longer form
+          examples:
+            - 1st basement floor
+            - Ground floor
+            - 1st mezzanine, above ground floor
+        tumonline:
+          type: string
+          description: how TUMonline names the floor
+          examples:
+            - U1
+            - EG
+            - Z1
+        type:
+          $ref: '#/components/schemas/FloorType'
+          description: type of floor
+    FloorType:
+      type: string
+      enum:
+        - roof
+        - upper
+        - mezzanine
+        - ground
+        - semi_basement
+        - basement
     Image:
       type: object
       required:
@@ -2192,6 +2238,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ComputedPropResponse'
+        floors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FloorResponse'
         links:
           type: array
           items:

@@ -453,6 +453,23 @@ export type components = {
       | "entry"
       | "general"
       | "other";
+    readonly FloorResponse: {
+      /** @description short name of the floor */
+      readonly floor: string;
+      /**
+       * Format: int32
+       * @description virtual ID for sorting
+       */
+      readonly id: number;
+      /** @description how the floor is named in longer form */
+      readonly name: string;
+      /** @description how TUMonline names the floor */
+      readonly tumonline: string;
+      /** @description type of floor */
+      readonly type: components["schemas"]["FloorType"];
+    };
+    /** @enum {string} */
+    readonly FloorType: "roof" | "upper" | "mezzanine" | "ground" | "semi_basement" | "basement";
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -1119,6 +1136,7 @@ export type components = {
        */
       readonly comment?: string;
       readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
+      readonly floors?: readonly components["schemas"]["FloorResponse"][];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };
