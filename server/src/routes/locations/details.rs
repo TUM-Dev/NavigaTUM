@@ -380,6 +380,50 @@ struct PropsResponse {
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
     ))]
     calendar_url: Option<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    floors: Vec<FloorResponse>,
+}
+
+#[serde_with::skip_serializing_none]
+#[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
+struct FloorResponse {
+    /// virtual ID for sorting
+    id: i32,
+    /// short name of the floor
+    #[schema(examples("-1", "0", "Z1"))]
+    floor: String,
+    /// how the floor is named in longer form
+    #[schema(examples(
+        "1st basement floor",
+        "Ground floor",
+        "1st mezzanine, above ground floor"
+    ))]
+    name: String,
+    /// how TUMonline names the floor
+    #[schema(examples("U1", "EG", "Z1"))]
+    tumonline: String,
+    /// type of floor
+    #[schema(examples("basement", "ground", "roof", "mezzanine", "tp"))]
+    r#type: FloorType,
+}
+
+#[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum FloorType {
+    /// Top most floor floor, if accessible
+    Roof,
+    /// any floor above the ground floor
+    Upper,
+    /// a floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
+    Mezzanine,
+    /// the normal level of the bui
+    Ground,
+    /// a floor in a that is half a flight of stairs BELOW the normal level of the ground floor
+    /// in german: Tiefparterre
+    #[serde(alias = "tp")]
+    SemiBasement,
+    /// any floor below the ground floor
+    Basement,
 }
 
 #[serde_with::skip_serializing_none]
