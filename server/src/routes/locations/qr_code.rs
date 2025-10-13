@@ -75,7 +75,7 @@ pub async fn qr_code_handler(
                 .body("Not found");
         }
         Err(e) => {
-            error!(error = %e, "Failed to fetch location key alias. Assuming it is legitimate");
+            error!(error = %e, "Failed to fetch location key alias. Assuming it is legitimate, since the generated links are a 404 in the worst case");
             format!("https://nav.tum.de/view/{id}")
         }
     };
