@@ -130,12 +130,6 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
-'0402':
-  0:
-    author: Frank Elsinga
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
 '0501':
   0:
     author: David Bonello
@@ -281,13 +275,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-'1552':
-  0:
-    author: Astrid Eckert
-    license:
-      text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    offsets:
-      header: 400
 '2319':
   0:
     author: Uli Benz
@@ -366,15 +353,6 @@
     offsets:
       header: 100
       thumb: 100
-'2930':
-  0:
-    author: Frank Elsinga
-    license:
-      text: CC0 1.0
-      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    offsets:
-      header: -400
-      thumb: 300
 '3501':
   0:
     author: Andreas Heddergott

@@ -239,37 +239,11 @@ zentralgelaende:
     external_data:
         website: "https://www.translatum.tum.de/en/translatum/contact/"
 
-1523:
-    coords: { lat: 48.13697, lon: 11.60185 }
-    osm: [ "way/75376256" ]
-
-1720:
-    coords: { lat: 48.13490, lon: 11.61119 }
-    osm: [ "node/1383888738" ] # addr:housenumber
-    external_data:
-        website: "https://www.mri.tum.de/ki-und-informatik"
-    data_quality:
-        areatree_uncertain: true
-
-1524:
-    coords: { lat: 48.13719, lon: 11.60143 }
-    osm: [ "way/959755783" ]
-    external_data:
-        website: "https://www.sportortho.mri.tum.de/kontakt/"
-
-1531:
-    coords: { lat: 48.13607, lon: 11.60304 }
-    osm: [ "way/79418807" ]
-
-1532:
-    coords: { lat: 48.13616, lon: 11.60254 }
-    osm: [ "node/1385343448", "way/117158563" ] # 1st is "addr:housenumber", 2nd: containg building
 
 1533:
     coords: { lat: 48.13632, lon: 11.60249 }
     osm: [ "node/1385343446", "way/117158563" ] # 1st is "addr:housenumber", 2nd: containg building
 
-#1534 is (probably) held free for a building not belonging to MRI at the moment
 
 1536:
     osm: [ "way/76179067" ]
@@ -277,62 +251,15 @@ zentralgelaende:
 1538:
     osm: [ "way/76179061" ]
 
-1546: # Somewhere completely different than 545 and 547
-    coords: { lat: 48.13785, lon: 11.59837 }
-    osm: [ "way/75376221" ]
-
-1547:
-    coords: { lat: 48.13669, lon: 11.60272 }
-    osm: [ "way/75376279" ]
-
 1548:
     coords: { lat: 48.13688, lon: 11.60357 }
     osm: [ "way/75376266" ]
     external_data:
         website: "https://innatelab.virologie.med.tum.de/contact"
 
-1549:
-    coords: { lat: 48.13693, lon: 11.60310 }
-    osm: [ "way/75376234" ]
-
 1551: # Coordinate is wrong in the roomfinder
     coords: { lat: 48.13609, lon: 11.59980 }
     osm: [ "way/23684068", "way/75376269", "way/75376172" ]
-
-1552: # Coordinate is wrong in the roomfinder
-    coords: { lat: 48.13606, lon: 11.60060 }
-    osm: [ "way/75380883" ]
-
-1555:
-    coords: { lat: 48.13753, lon: 11.60362 }
-    external_data:
-        website: "https://www.apotheke.mri.tum.de"
-
-1555a:
-    coords: { lat: 48.13801, lon: 11.60324 }
-    osm: [ "way/75376229" ]
-
-1555b:
-    coords: { lat: 48.13756, lon: 11.60365 }
-    osm: [ "way/75376213" ]
-
-1555c:
-    coords: { lat: 48.13730, lon: 11.60296 }
-    osm: [ "way/75376173" ]
-
-1556:
-    coords: { lat: 48.13743, lon: 11.60116 }
-    osm: [ "way/75376278" ]
-
-1557:
-    coords: { lat: 48.13749, lon: 11.60154 }
-    osm: [ "relation/1656443" ]
-    external_data:
-        website: "https://www.radioonkologie.mri.tum.de/"
-
-1558:
-    coords: { lat: 48.13764, lon: 11.60092 }
-    osm: [ "way/117156988" ]
 
 1559:
     coords: { lat: 48.13814, lon: 11.60203 }
@@ -340,24 +267,12 @@ zentralgelaende:
     external_data:
         website: "https://www.mri.tum.de/virologie"
 
-1560:
-    coords: { lat: 48.13933, lon: 11.59992 }
-    osm: [ "relation/1155799" ]
-
-1561:
-    coords: { lat: 48.13831, lon: 11.59984 }
-    osm: [ "way/75376253" ]
-
 1713:
     osm: [ "way/75376200" ]
 
 1724:
     coords: { lat: 48.14030, lon: 11.60119 }
     osm: [ "way/117602301" ]
-
-1725:
-    coords: { lat: 48.12768, lon: 11.60264 }
-    osm: [ "way/100168381" ]
 
 1740:
     coords: { lat: 48.13890, lon: 11.60234 }
@@ -390,21 +305,6 @@ heilbronn:
 1915:
     coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
 
-# ========= Others in Munich and around =========
-2202:
-    name: "Fakultät für Design – Hochschule München"
-    coords: { lat: 48.15503, lon: 11.55472 }
-    osm: [ "relation/3634165" ]
-    props:
-        address:
-            street: "Lothstr. 17"
-            plz_place: "80335 München"
-            source: "navigatum"
-
-2311: # Kletterfelsen
-    # These are actually the coordinates of the newly built one
-    coords: { lat: 48.18232, lon: 11.54485 }
-
 # coordinates for 2364-2369 absolutely unknown. unclear where they are => address is taken as the coordinate
 "2364":
     coords: { lat: 48.1797454, lon: 11.5464106 }
@@ -426,22 +326,6 @@ heilbronn:
 2808:
     coords: { lat: 48.02197, lon: 12.55369 }
 
-2201: # To be removed
-    coords: { lat: 48.15517, lon: 11.55493 }
-
-2908:
-    coords: { lat: 48.14465, lon: 11.55536 }
-    osm: [ "way/264305950" ]
-
-2909:
-    coords: { lat: 48.14469, lon: 11.55598 }
-    osm: [ "way/59543687" ]
-
-2928:
-    # "Techn. Forschungszentrum Straubing (AM)" is maybe the "Technologie- und Förderzentrum TFZ"
-    coords: { lat: 48.88410, lon: 12.58393 }
-    osm: [ "way/154756625" ]
-
 2944:
     coords: { lat: 48.15666, lon: 11.55183 }
     osm: [ "node/8822946149" ]
@@ -456,10 +340,6 @@ heilbronn:
     coords: { lat: 48.884398346486286, lon: 12.572125157107354 }
 "3510": # Fürstenstraße 11
     coords: { lat: 48.88449009185628, lon: 12.572506952526691 }
-3537: # Entwicklungsgenetik
-    # Building 35.37 (https://www.helmholtz-munich.de/en/idg/)
-    coords: { lat: 48.22310, lon: 11.59418 }
-    osm: [ "way/738350809" ]
 
 # ========= Straubing =========
 cs:
@@ -596,11 +476,6 @@ veitshof:
                     en: "Organic Agriculture (DE)"
                 url: "https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/"
 
-
-4379:
-    coords: { lat: 48.40175, lon: 11.73189 }
-    osm: [ "way/763948746" ]
-
 # uncertain, but trafo stations anyway
 4202:
     coords: { lat: 48.40289, lon: 11.72364 }
@@ -709,16 +584,8 @@ frm-2:
     coords: { lat: 48.26826, lon: 11.67866 }
     osm: [ "way/159713511" ]
 
-5201:
-    coords: { lat: 48.26582, lon: 11.67346 }
-    osm: [ "way/774866203" ]  # OSM says: 5258
-
 5204:
     coords: { lat: 48.26480782182901, lon: 11.672907360363183 }
-
-5215:
-    coords: { lat: 48.26589, lon: 11.67431 }
-    osm: [ "way/23316556" ]
 
 5257:
     coords: { lat: 48.26616, lon: 11.67343 }
