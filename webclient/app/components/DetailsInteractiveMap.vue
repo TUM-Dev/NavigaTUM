@@ -7,7 +7,7 @@ import {
   NavigationControl,
 } from "maplibre-gl";
 import type { components } from "~/api_types";
-import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
+import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 const props = defineProps<{
@@ -111,9 +111,6 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    // Add raster tile sources and layers for each floor level
-    addFloorLayers(map);
-
     // controls
     map.addControl(new NavigationControl({}), "top-left");
 
@@ -174,16 +171,11 @@ function initMap(containerId: string): MapLibreMap {
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
-      const availableFloorIds = props.floors.map(
-        (floor: components["schemas"]["FloorResponse"]) => floor.id
-      );
+      const availableFloorIds = props.floors.map((floor) => floor.id);
       floorControl.value.setAvailableFloors(availableFloorIds);
-    }
-
-    // Set default floor from API data if available
-    const defaultFloor = props.maps?.overlays?.default;
-    if (defaultFloor !== undefined && defaultFloor !== null) {
-      floorControl.value.setLevel(defaultFloor);
+      if (props.floors.length === 1) {
+        floorControl.value.setLevel(availableFloorIds[0] || null);
+      }
     }
   });
 
@@ -204,34 +196,6 @@ function initMap(containerId: string): MapLibreMap {
   });
 
   return map;
-}
-
-// Add floor tile layers to the map
-function addFloorLayers(map: MapLibreMap) {
-  for (const level of FLOOR_LEVELS) {
-    const sourceId = `floor-source-${level.id}`;
-    const layerId = `floor-level-${level.id}`;
-
-    // Add raster tile source
-    map.addSource(sourceId, {
-      type: "raster",
-      url: `https://nav.tum.de/tiles/level_${level.id}`,
-      tileSize: 256,
-    });
-
-    // Add raster layer (initially hidden)
-    map.addLayer({
-      id: layerId,
-      type: "raster",
-      source: sourceId,
-      layout: {
-        visibility: "none",
-      },
-      paint: {
-        "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9],
-      },
-    });
-  }
 }
 
 // --- Loading components ---
