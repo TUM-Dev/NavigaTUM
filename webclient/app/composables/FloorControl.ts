@@ -83,7 +83,7 @@ export class FloorControl extends Evented implements IControl {
 
   setAvailableFloors(floorIds: number[]): void {
     this.availableFloors = new Set(floorIds);
-    
+
     this._renderFloorButtons();
   }
 

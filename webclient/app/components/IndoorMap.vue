@@ -77,6 +77,7 @@ onMounted(async () => {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
+      // @ts-expect-error somehow this is too deep for typescript
       _marker.addTo(map.value as MapLibreMap);
       marker.value = _marker;
     }
