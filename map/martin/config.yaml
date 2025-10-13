@@ -11,40 +11,23 @@ styles:
   - /map/navigatum-basemap.json
 mbtiles:
   paths:
-    - /data/level_overlays
+    - /map/level_overlays
   sources:
     # named source matching source name to a single file
     shortbread: /data/output.mbtiles
 postgres:
   connection_string: $DATABASE_URL
   auto_publish: false
-  tables:
-    indoor_nodes:
-      schema: public
-      table: indoor_nodes
-      srid: 3857
-      geometry_column: geom
-      geometry_type: POINT
-      properties:
-        node_id: int8
-        tags: jsonb
-    indoor_polygons:
-      schema: public
-      table: indoor_polygons
-      srid: 3857
-      geometry_column: geom
-      geometry_type: GEOMETRY
-      properties:
-        area_id: int8
-        tags: jsonb
-        type: text
-    indoor_ways:
-      schema: public
-      table: indoor_ways
-      srid: 3857
-      geometry_column: geom
-      geometry_type: LINESTRING
-      properties:
-        tags: jsonb
-        way_id: int8
-  functions: {}
+  functions:
+      indoor_rooms:
+        schema: public
+        function: indoor_rooms
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
+      indoor_doors:
+        schema: public
+        function: indoor_doors
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany

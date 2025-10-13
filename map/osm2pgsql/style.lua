@@ -9,11 +9,13 @@ SantiseLevel = require(".map.osm2pgsql.levels")
 print("osm2pgsql version: " .. osm2pgsql.version)
 
 local tables = {}
-tables.indoor_nodes =
+tables.doors =
     osm2pgsql.define_node_table(
-    "indoor_nodes",
+    "doors",
     {
-        {column = "tags", type = "jsonb"},
+        {column = "width_cm", type = "integer", not_null = true},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         {column = "geom", type = "point", not_null = true}
     }
 )
@@ -21,16 +23,21 @@ tables.indoor_ways =
     osm2pgsql.define_way_table(
     "indoor_ways",
     {
-        {column = "tags", type = "jsonb"},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         {column = "geom", type = "linestring", not_null = true}
     }
 )
-tables.indoor_polygons =
+tables.rooms =
     osm2pgsql.define_area_table(
-    "indoor_polygons",
+    "rooms",
     {
-        {column = "type", type = "text"},
-        {column = "tags", type = "jsonb"},
+        {column = "indoor", type = "text", not_null = true},
+        {column = "ref", type = "text"},
+        {column = "ref_tum", type = "text"},
+        {column = "students_have_access", type = "boolean", not_null = true},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
         -- The type of the `geom` column is `geometry`, because we need to store
         -- polygons AND multipolygons
         {column = "geom", type = "geometry", not_null = true}
@@ -38,10 +45,10 @@ tables.indoor_polygons =
 )
 
 -- Debug output: Show definition of tables
-for name, dtable in pairs(tables) do
+for name, _ in pairs(tables) do
     print("\ntable '" .. name .. "':")
-    print("  name='" .. dtable:name() .. "'")
-    --    print("  columns=" .. inspect(dtable:columns()))
+    -- print("  name='" .. dtable:name() .. "'")
+    -- print("  columns=" .. inspect(dtable:columns()))
 end
 
 -- These tag keys are generally regarded as useless for most rendering. Most
@@ -162,7 +169,9 @@ local delete_keys = {
     "import_uuid",
     "OBJTYPE",
     "SK53_bulk:load",
-    "mml:class"
+    "mml:class",
+    -- we are not doing 3D
+    "height"
 }
 
 local clean_useless_tags = osm2pgsql.make_clean_tags_func(delete_keys)
@@ -222,16 +231,29 @@ function osm2pgsql.process_node(object)
     if clean_tags_indoor(object.tags) then
         return
     end
-    -- pois should not need layers. Using them is likely a bug
-    object.tags.layer = nil
-    for _, level in ipairs(SantiseLevel(object.tags.level)) do
-        object.tags.level = level
-        tables.indoor_nodes:insert(
-            {
-                tags = object.tags,
-                geom = object:as_point()
-            }
-        )
+    if object.tags.indoor == "door" then
+      -- pois should not need layers. Using them is likely a bug
+      object.tags.layer = nil
+      -- we want the width_cm, no width_m
+      -- invalid or unset widths get 86cm
+      if object.tags.width ~= nil then
+        object.tags.width = tonumber(object.tags.width)
+      end
+      if object.tags.width == nil then
+        object.tags.width = 86
+      else
+        object.tags.width = object.tags.width * 100
+      end
+      for _, level in ipairs(SantiseLevel(object.tags.level)) do
+          tables.doors:insert(
+              {
+                  width_cm = object.tags.width,
+                  level_min = level.min,
+                  level_max = level.max,
+                  geom = object:as_point()
+              }
+          )
+        end
     end
 end
 
@@ -250,21 +272,28 @@ function osm2pgsql.process_way(object)
     end
 
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
-        object.tags.level = level
+        object.tags.level_min = level.min
+        object.tags.level_max = level.max
         -- Very simple check to decide whether a way is a polygon or not, in a
         -- real stylesheet we'd have to also look at the tags...
         if object.is_closed then
-            tables.indoor_polygons:insert(
+            tables.rooms:insert(
                 {
-                    type = object.type,
-                    tags = object.tags,
-                    geom = object:as_polygon()
+                  indoor = object.tags.indoor,
+                  ref = object.tags.ref,
+                  ref_tum = object.tags["ref:tum"],
+                  students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+                  level_min = level.min,
+                  level_max = level.max,
+                  geom = object:as_polygon()
                 }
             )
         else
             tables.indoor_ways:insert(
                 {
-                    tags = object.tags,
+                    level_min = level.min,
+                    level_max = level.max,
+                    indoor = object.tags.indoor,
                     geom = object:as_linestring()
                 }
             )
@@ -287,12 +316,14 @@ function osm2pgsql.process_relation(object)
     if object.tags.type == "multipolygon" or
        object.tags.type == "boundary" then
         for _, level in ipairs(SantiseLevel(object.tags.level)) do
-            object.tags.level = level
-            tables.indoor_polygons:insert(
+            tables.rooms:insert(
                 {
-                    type = object.type,
-                    tags = object.tags,
-                    geom = object:as_multipolygon()
+                  indoor = object.tags.indoor,
+                  ref = object.tags.ref,
+                  ref_tum = object.tags["ref:tum"],
+                  level_min = level.min,
+                  level_max = level.max,
+                  geom = object:as_multipolygon()
                 }
             )
         end

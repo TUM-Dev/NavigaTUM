@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.22.2
+    image: getmeili/meilisearch:v1.22.3
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -90,7 +90,6 @@ services:
     restart: unless-stopped
     environment:
       TZ: Europe/Berlin
-      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -101,8 +100,6 @@ services:
       - traefik_traefik
     expose:
       - "5432"
-    volumes:
-      - postgis-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
@@ -111,7 +108,7 @@ services:
       start_period: 20s
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern
+    command: sh /map/download.sh europe/germany/bayern/oberbayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map
@@ -155,8 +152,8 @@ services:
     networks:
       - traefik_traefik
     environment:
-      PBF_PATH: /map/data/bayern-latest.osm.pbf
-      REPLICATION_URL: https://download.geofabrik.de/europe/germany/bayern-updates/
+      PBF_PATH: /map/data/oberbayern-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/germany/bayern/oberbayern-updates/
       UPDATE_MODE: continuous
       IMPORT_WIKIPEDIA: true
       IMPORT_STYLE: street
@@ -203,7 +200,7 @@ services:
       - db
       - --port
       - "5432"
-      - /map/data/bayern-latest.osm.pbf
+      - /map/data/oberbayern-latest.osm.pbf
       - --output=flex
       - --style
       - /map/osm2pgsql/style.lua

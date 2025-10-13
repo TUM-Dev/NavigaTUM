@@ -380,6 +380,65 @@ struct PropsResponse {
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
     ))]
     calendar_url: Option<String>,
+    /// A sorted (lowest floor first) list of floors
+    ///
+    /// For buildings, this may contain multiple floors while rooms usually only have one floor.
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    floors: Vec<FloorResponse>,
+}
+
+#[serde_with::skip_serializing_none]
+#[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
+struct FloorResponse {
+    /// Virtual ID for sorting
+    ///
+    /// `0` represents the ground floor.
+    /// Numbers above/below represent where they are relative to the ground floor
+    ///
+    /// **WARNING**:
+    /// This ID is not guaranteed to be stable.
+    /// Not across buildings, nor within a building.
+    #[schema(examples(-1, 0, 1, 2, 3))]
+    id: i32,
+    /// Short name of the floor
+    #[schema(examples("-1", "0", "Z1"))]
+    #[serde(rename(deserialize = "floor"))]
+    short_name: String,
+    /// Longer name of the floor
+    #[schema(examples(
+        "1st basement floor",
+        "Ground floor",
+        "1st mezzanine, above ground floor"
+    ))]
+    name: String,
+    /// How TUMonline names the floor
+    #[schema(examples("U1", "EG", "Z1"))]
+    tumonline: String,
+    /// Type of floor
+    #[schema(examples("basement", "ground", "roof", "mezzanine", "tp"))]
+    r#type: FloorType,
+}
+
+#[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum FloorType {
+    /// Top most floor floor, if accessible
+    Roof,
+    /// Any floor above the ground floor
+    Upper,
+    /// A floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
+    ///
+    /// In German: "Zwischenebene" / "Mezzanine"
+    SemiUpper,
+    /// The normal level of the building
+    Ground,
+    /// A floor in a that is half a flight of stairs BELOW the normal level of the ground floor
+    ///
+    /// In German: "Tiefparterre"
+    #[serde(rename(deserialize = "tp"))]
+    SemiBasement,
+    /// Full floors below the ground floor
+    Basement,
 }
 
 #[serde_with::skip_serializing_none]

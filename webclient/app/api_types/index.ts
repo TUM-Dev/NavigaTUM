@@ -105,20 +105,6 @@ export type paths = {
      */
     get: operations["maps_handler"];
   };
-  "/api/maps/indoor": {
-    /**
-     * Lists indoor maps in bounding box
-     * @description Returns all the available maps for a given bbox
-     */
-    get: operations["list_indoor_maps"];
-  };
-  "/api/maps/indoor/{id}": {
-    /**
-     * Get indoor features
-     * @description Get all features of a certain indoor map
-     */
-    get: operations["get_indoor_map"];
-  };
   "/api/maps/route": {
     /**
      * Routing requests
@@ -467,6 +453,30 @@ export type components = {
       | "entry"
       | "general"
       | "other";
+    readonly FloorResponse: {
+      /**
+       * Format: int32
+       * @description Virtual ID for sorting
+       *
+       * `0` represents the ground floor.
+       * Numbers above/below represent where they are relative to the ground floor
+       *
+       * **WARNING**:
+       * This ID is not guaranteed to be stable.
+       * Not across buildings, nor within a building.
+       */
+      readonly id: number;
+      /** @description Longer name of the floor */
+      readonly name: string;
+      /** @description Short name of the floor */
+      readonly short_name: string;
+      /** @description How TUMonline names the floor */
+      readonly tumonline: string;
+      /** @description Type of floor */
+      readonly type: components["schemas"]["FloorType"];
+    };
+    /** @enum {string} */
+    readonly FloorType: "roof" | "upper" | "semi_upper" | "ground" | "semi_basement" | "basement";
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -1133,6 +1143,12 @@ export type components = {
        */
       readonly comment?: string;
       readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
+      /**
+       * @description A sorted (lowest floor first) list of floors
+       *
+       * For buildings, this may contain multiple floors while rooms usually only have one floor.
+       */
+      readonly floors?: readonly components["schemas"]["FloorResponse"][];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };
@@ -1147,19 +1163,6 @@ export type components = {
       readonly rank_type: number;
       /** Format: int32 */
       readonly rank_usage: number;
-    };
-    readonly RemoteMap: {
-      /**
-       * @description Name of the map
-       * @example 1234
-       */
-      readonly name: string;
-      /**
-       * Format: uri
-       * @description Where the indoor GeoJSON is located at
-       * @example https://nav.tum.de/api/maps/indoor/1234
-       */
-      readonly url: string;
     };
     /** @enum {string} */
     readonly RentalFormFactorResponse:
@@ -1916,62 +1919,6 @@ export type operations = {
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
-      404: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-    };
-  };
-  /**
-   * Lists indoor maps in bounding box
-   * @description Returns all the available maps for a given bbox
-   */
-  list_indoor_maps: {
-    parameters: {
-      query: {
-        /**
-         * @description Requires the bbox to be 4 floating point numbers of format `"y,x,y,x"`
-         *
-         * Bounding box according to <https://datatracker.ietf.org/doc/html/rfc7946#section-5>
-         */
-        bbox: string;
-      };
-    };
-    responses: {
-      /** @description **List indoor maps** in bounding box */
-      200: {
-        content: {
-          readonly "application/json": readonly components["schemas"]["RemoteMap"][];
-        };
-      };
-      /** @description **Bad Request.** Please check that the input provided matches above. */
-      400: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-    };
-  };
-  /**
-   * Get indoor features
-   * @description Get all features of a certain indoor map
-   */
-  get_indoor_map: {
-    parameters: {
-      path: {
-        /** @description ID of the indoor map */
-        id: number;
-      };
-    };
-    responses: {
-      /** @description **Indoor features** as GeoJSON */
-      200: {
-        content: {
-          readonly "application/json": unknown;
-        };
-      };
-      /** @description **Not found.** The requested location does not have a calendar */
       404: {
         content: {
           readonly "text/plain": string;

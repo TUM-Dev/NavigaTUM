@@ -49,7 +49,7 @@ def compute_floor_prop(data: dict[str, Any]) -> None:
         lookup = {floor["tumonline"]: floor for floor in floor_details}
         for room in room_data:
             room_entry = data[room["id"]]
-            room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
+            room_entry.setdefault("props", {})["floors"] = [lookup[room["floor"]]]
 
 
 def _collect_floors_room_data(data: dict[str, Any], entry: dict[str, Any]) -> list[dict[str, Any]]:
@@ -239,11 +239,13 @@ def _gen_computed_props(
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
-    if floor := props.get("floor"):
-        if floor["trivial"]:
-            computed.append({_("Stockwerk"): floor["name"]})
-        else:
-            computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
+    if floors := props.get("floors"):
+        if len(floors) == 1:
+            floor = floors[0]
+            if floor["trivial"]:
+                computed.append({_("Stockwerk"): floor["name"]})
+            else:
+                computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
     if "b_prefix" in entry and entry["b_prefix"] != _id:
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])
