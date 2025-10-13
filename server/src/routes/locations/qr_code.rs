@@ -7,7 +7,7 @@ use base64::prelude::BASE64_STANDARD;
 use fast_qr::convert::{Builder, Shape, image::ImageBuilder};
 use fast_qr::qr::QRBuilder;
 use serde::Deserialize;
-use tracing::error;
+use tracing::{debug, error, warn};
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct QrCodePathParams {
@@ -66,22 +66,18 @@ pub async fn qr_code_handler(
             .body("Invalid ID");
     }
 
-    let id = match LocationKeyAlias::fetch_optional(&data.pool, &id).await {
-        Ok(Some(id)) => format!("https://nav.tum.de/{type}/{id}", type = id.r#type
-          , id = id.key),
-        Ok(None) => {
-            return HttpResponse::NotFound()
-                .content_type("text/plain")
-                .body("Not found");
-        }
+    let url = match LocationKeyAlias::fetch_optional(&data.pool, &id).await {
+        Ok(Some(id)) => format!("https://nav.tum.de/{}", id.redirect_exact_match()),
+        Ok(None) => format!("https://nav.tum.de/view/{id}"),
         Err(e) => {
-            error!(error = %e, "Failed to fetch location key alias. Assuming it is legitimate, since the generated links are a 404 in the worst case");
+            warn!(error = %e,%id,  "Failed to fetch location key alias. Assuming it is legitimate, since the generated links are a 404 in the worst case");
             format!("https://nav.tum.de/view/{id}")
         }
     };
+    debug!(%url, "generating QR code");
 
     // Location exists, generate QR code
-    match generate_qr_code(&id) {
+    match generate_qr_code(&url) {
         Ok(qr_image) => HttpResponse::Ok()
             .content_type("image/png")
             .insert_header(CacheControl(vec![
