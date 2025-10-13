@@ -70,7 +70,7 @@ const qrCodeUrl = computed(() => `${runtimeConfig.public.apiURL}/api/locations/$
         <div class="flex flex-col gap-2">
           <h3 class="text-md text-zinc-600 font-semibold">{{ t("qr_code") }}</h3>
           <div class="flex justify-center">
-            <img :src="qrCodeUrl" :alt="t('qr_code_alt')" width="600" height="600" />
+            <img :src="qrCodeUrl" :alt="t('qr_code_alt')" width="600" height="600" class="bg-zinc-50 w-100" />
           </div>
         </div>
       </div>
