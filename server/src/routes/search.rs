@@ -235,6 +235,11 @@ pub async fn search_handler(
     data: web::Data<AppData>,
     web::Query(args): web::Query<SearchQueryArgs>,
 ) -> HttpResponse {
+    if args.q.len() > 1000 {
+        return HttpResponse::BadRequest()
+            .content_type("text/plain")
+            .body("The query is too long");
+    }
     let start_time = Instant::now();
     let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
 

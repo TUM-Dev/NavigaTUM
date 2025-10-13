@@ -1,0 +1,6 @@
+---
+source: src/routes/locations/qr_code.rs
+expression: qr_image.0
+extension: png
+snapshot_kind: binary
+---

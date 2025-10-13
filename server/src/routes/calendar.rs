@@ -36,6 +36,12 @@ impl Arguments {
             .into_iter()
             .map(|s| s.replace(|c: char| c.is_whitespace() || c.is_control(), ""))
             .collect::<Vec<String>>();
+        if ids.iter().any(|id| id.is_empty() || id.len() > 255) {
+            return Err(HttpResponse::BadRequest()
+                .content_type("text/plain")
+                .body("one ID has an invalid length"));
+        }
+
         if ids.len() > 10 {
             return Err(HttpResponse::BadRequest()
                 .content_type("text/plain")

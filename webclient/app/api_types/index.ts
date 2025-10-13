@@ -105,6 +105,14 @@ export type paths = {
      */
     get: operations["maps_handler"];
   };
+  "/api/locations/{id}/qr-code": {
+    /**
+     * Get a QR code for a location
+     * @description This returns a QR code image (PNG) that links to the location's detail page.
+     * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+     */
+    get: operations["qr_code_handler"];
+  };
   "/api/maps/route": {
     /**
      * Routing requests
@@ -1861,6 +1869,12 @@ export type operations = {
           readonly "application/json": components["schemas"]["LocationDetailsResponse"];
         };
       };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
       /** @description **Not found.** Make sure that requested item exists */
       404: {
         content: {
@@ -1885,6 +1899,12 @@ export type operations = {
       200: {
         content: {
           readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
+        };
+      };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
@@ -1918,8 +1938,52 @@ export type operations = {
           readonly "image/png": unknown;
         };
       };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
       /** @description **Not found.** Make sure that requested item exists */
       404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Get a QR code for a location
+   * @description This returns a QR code image (PNG) that links to the location's detail page.
+   * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+   */
+  qr_code_handler: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** @description **QR code image** */
+      200: {
+        content: {
+          readonly "image/png": unknown;
+        };
+      };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Not found.** Make sure that requested item exists */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Internal server error** */
+      500: {
         content: {
           readonly "text/plain": string;
         };
