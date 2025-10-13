@@ -61,7 +61,7 @@ function initMap() {
       antialias: true,
       preserveDrawingBuffer: false,
     },
-    style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
+    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
     center: [coordinates.value.lon, coordinates.value.lat],
     zoom: props.zoom,
   });

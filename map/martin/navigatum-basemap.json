@@ -19,54 +19,54 @@
   "sources": {
     "indoor-floor--2": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_-2",
+      "url": "https://nav.tum.de/martin/level_-2",
       "tileSize": 256
     },
     "indoor-floor--1": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_-1",
+      "url": "https://nav.tum.de/martin/level_-1",
       "tileSize": 256
     },
     "indoor-floor-0": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_0",
+      "url": "https://nav.tum.de/martin/level_0",
       "tileSize": 256
     },
     "indoor-floor-1": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_1",
+      "url": "https://nav.tum.de/martin/level_1",
       "tileSize": 256
     },
     "indoor-floor-2": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_2",
+      "url": "https://nav.tum.de/martin/level_2",
       "tileSize": 256
     },
     "indoor-floor-3": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_3",
+      "url": "https://nav.tum.de/martin/level_3",
       "tileSize": 256
     },
     "indoor-floor-4": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_4",
+      "url": "https://nav.tum.de/martin/level_4",
       "tileSize": 256
     },
     "indoor-floor-5": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_5",
+      "url": "https://nav.tum.de/martin/level_5",
       "tileSize": 256
     },
     "indoor-floor-6": {
       "type": "raster",
-      "url": "https://nav.tum.de/tiles/level_6",
+      "url": "https://nav.tum.de/martin/level_6",
       "tileSize": 256
     },
     "indoor": {
       "type": "vector",
-      "url": "https://nav.tum.de/tiles/indoor_rooms,indoor_doors?level=1.0"
+      "url": "https://nav.tum.de/martin/indoor_rooms,indoor_doors?level=1.0"
     },
-    "nav": { "type": "vector", "url": "https://nav.tum.de/tiles/shortbread" },
+    "nav": { "type": "vector", "url": "https://nav.tum.de/martin/shortbread" },
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
       "tileSize": 256,
@@ -74,8 +74,8 @@
       "type": "raster"
     }
   },
-  "sprite": "https://nav.tum.de/tiles/sdf_sprite/maki,navigatum",
-  "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
+  "sprite": "https://nav.tum.de/martin/sdf_sprite/maki,navigatum",
+  "glyphs": "https://nav.tum.de/martin/font/{fontstack}/{range}",
   "layers": [
     {
       "id": "bg-background",

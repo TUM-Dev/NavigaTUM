@@ -96,7 +96,7 @@ impl MapImageDownloadTask {
 #[tracing::instrument]
 async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec<u8>> {
     let url = format!(
-        "https://nav.tum.de/tiles/style/navigatum-basemap/{z}/{x}/{y}@2x.png",
+        "https://nav.tum.de/martin/style/navigatum-basemap/{z}/{x}/{y}@2x.png",
         x = location.x,
         y = location.y,
         z = location.z
