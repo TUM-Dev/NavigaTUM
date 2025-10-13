@@ -54,10 +54,10 @@ info: "'H.0003' should get '2910.EG.003' in 1 results # H.003 is the correct roo
       name: 2910.EG.003 (Seminarraum)
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.003@2910
-    - id: 5212.01.028
+    - id: 2910.01.158
       type: room
-      name: 5212.01.028 (Gemeinschaftsraum)
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.1.028@5212
+      name: 2910.01.158 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: B.158@2910
   n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"

@@ -12,16 +12,6 @@ info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.003@2910
       parsed_id: "\u0019H.003\u0017 RiWa 1 (HfP/GOV)"
-    - id: 5212.EG.003
-      type: room
-      name: "5212.EG.\u0019003\u0017 (Post/Annahme)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.0.003@5212
-    - id: 5212.U1.003
-      type: room
-      name: "5212.U1.\u0019003\u0017 (Kälte)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.-1.003@5212
     - id: 2910.01.101
       type: room
       name: 2910.01.101 (Gruppenarbeitsraum)
@@ -52,6 +42,16 @@ info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room
       name: 2910.EG.001 (Seminarraum)
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.001@2910
+    - id: 2910.EG.002
+      type: room
+      name: 2910.EG.002 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.002@2910
+    - id: 2910.01.158
+      type: room
+      name: 2910.01.158 (Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: B.158@2910
   n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
