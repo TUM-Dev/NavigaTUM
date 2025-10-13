@@ -230,6 +230,7 @@ async fn main() -> anyhow::Result<()> {
                 .service(locations::details::get_handler)
                 .service(locations::nearby::nearby_handler)
                 .service(locations::preview::maps_handler)
+                .service(locations::qr_code::qr_code_handler)
                 .service(feedback::post_feedback::send_feedback)
                 .service(feedback::proposed_edits::propose_edits)
                 .service(
