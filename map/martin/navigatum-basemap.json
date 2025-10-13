@@ -3266,7 +3266,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor--1",
@@ -3277,7 +3278,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-0",
@@ -3288,7 +3290,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-1",
@@ -3299,7 +3302,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-2",
@@ -3310,7 +3314,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-3",
@@ -3321,7 +3326,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-4",
@@ -3332,7 +3338,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-5",
@@ -3343,7 +3350,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     },
     {
       "id": "indoor-raster-floor-6",
@@ -3354,7 +3362,8 @@
       },
       "paint": {
         "raster-opacity": ["interpolate", ["linear"], ["zoom"], 16.4, 0, 16.5, 0.9]
-      }
+      },
+      "minzoom": 16
     }
   ],
   "layout": {
