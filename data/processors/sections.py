@@ -1,3 +1,4 @@
+import logging
 import typing
 from typing import Any
 
@@ -33,13 +34,12 @@ def compute_floor_prop(data: dict[str, Any]) -> None:
     This takes into account special floor numbering systems of buildings.
     """
     for _id, entry in data.items():
-        if entry["type"] not in {"building", "joined_building"}:
+        if entry["type"] not in {"building", "joined_building", "site", "campus"}:
             continue
 
-        parent_type = data[entry["parents"][-1]]["type"]
-        if parent_type == "joined_building" or "children_flat" not in entry:
+        if "children_flat" not in entry:
+            logging.warning(f"Entry {_id} has no children")
             continue
-
         room_data = _collect_floors_room_data(data, entry)
         floor_details = _get_floor_details(entry, room_data)
 
