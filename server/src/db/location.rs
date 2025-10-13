@@ -67,4 +67,32 @@ impl LocationKeyAlias {
         .fetch_optional(pool)
         .await
     }
+
+    #[tracing::instrument(skip(pool))]
+    pub async fn fetch_all(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Self>> {
+        sqlx::query_as!(
+            Self,
+            r#"
+        SELECT DISTINCT key, visible_id, type
+        FROM aliases
+        WHERE alias = $1 OR key = $1"#,
+            id
+        )
+        .fetch_all(pool)
+        .await
+    }
+
+    /// Formats a redirect as its exact location type.
+    pub fn redirect_exact_match(&self) -> String {
+        match self.r#type.as_str() {
+            "campus" => format!("/campus/{visible_id}", visible_id = self.visible_id),
+            "site" | "area" => format!("/site/{visible_id}", visible_id = self.visible_id),
+            "building" | "joined_building" => {
+                format!("/building/{visible_id}", visible_id = self.visible_id)
+            }
+            "room" | "virtual_room" => format!("/room/{visible_id}", visible_id = self.visible_id),
+            "poi" => format!("/poi/{visible_id}", visible_id = self.visible_id),
+            _ => format!("/view/{visible_id}", visible_id = self.visible_id), // can be triggered if we add a type but don't add it here
+        }
+    }
 }
