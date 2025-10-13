@@ -132,8 +132,6 @@ suedwestgelaende:
 
 "0401": # Richard-Wagner-Str. 18 (SW1)
     osm: [ "way/96113983" ]
-"0402": # v. Calker-Stiftung Wohnheim:
-    osm: [ "way/way/96114072" ]
 "0403": # Richard-Wagner-Str. 14 (SW3), Kindergarten
     osm: [ "way/96114001" ]
 2903: # Haus Soller Augustenstr. 44-46:
@@ -226,70 +224,14 @@ zentralgelaende:
 #thalhausen
 #roggenstein
 
-# ========= LMU =========
-"0050": # Fakultät für Physik
-    coords: { lat: 48.14942, lon: 11.57949 }
-    osm: [ "way/17974341" ]
-    props:
-        address:
-            street: "Schellingstr. 4"
-            plz_place: "80799 München"
-            source: "navigatum"
-
-1003: # Arnold-Sommerfeld-Zentrum
-    coords: { lat: 48.14791, lon: 11.57351 }
-    osm: [ "way/165494494" ]
-    props:
-        address:
-            street: "Theresienstr. 37"
-            plz_place: "80333 München"
-            source: "navigatum"
-
 # ========= MRI =========
 # If no coordinates are given, they are probably already in the roomfinder
 1501: # Bau 501
     osm: [ "way/19901815" ]
 
-1502:
-    coords: { lat: 48.13797, lon: 11.59976 }
-    osm: [ "way/75376262" ]
-
 1503:
     coords: { lat: 48.13797, lon: 11.59973 }
     osm: [ "way/117156865" ]
-
-1504:
-    coords: { lat: 48.13851, lon: 11.60063 }
-    osm: [ "way/117159469" ]
-
-1507:
-    coords: { lat: 48.13655, lon: 11.60102 }
-    osm: [ "way/75249749" ]
-
-1508:
-    coords: { lat: 48.13758, lon: 11.59986 }
-    osm: [ "way/120880254" ]
-
-1509:
-    coords: { lat: 48.13721, lon: 11.60094 }
-    osm: [ "way/75376275" ]
-
-1516:
-    coords: { lat: 48.13910, lon: 11.60056 }
-    osm: [ "relation/1155786" ]
-
-# 518 and 527 are together the mri-psychosomatik
-mri-psychosomatik:
-    external_data:
-        website: "https://psychosomatik.mri.tum.de/de/kontakt/anfahrt-lageplan"
-1518:
-    # (Custom coords, I think there are also some in Roomfinder)
-    coords: { lat: 48.13738, lon: 11.59819 }
-    osm: [ "way/75376237" ]
-1527:
-    # (Custom coords, I think there are also some in Roomfinder)
-    coords: { lat: 48.13671, lon: 11.60043 }
-    osm: [ "way/75376177" ]
 
 2522: # TranslaTUM, for some reason not "1522"
     coords: { lat: 48.13629, lon: 11.60198 }
@@ -329,44 +271,11 @@ mri-psychosomatik:
 
 #1534 is (probably) held free for a building not belonging to MRI at the moment
 
-1535:
-    coords: { lat: 48.13665, lon: 11.60239 }
-    osm: [ "way/75376215" ]
-
 1536:
     osm: [ "way/76179067" ]
 
-1537:
-    osm: [ "way/76179066" ]
-
 1538:
     osm: [ "way/76179061" ]
-
-1539:
-    coords: { lat: 48.13741, lon: 11.60222 }
-    osm: [ "way/76179062" ]
-
-1540:
-    coords: { lat: 48.13755, lon: 11.60220 }
-    osm: [ "way/120880396" ]
-
-1541:
-    coords: { lat: 48.13771, lon: 11.60214 }
-    osm: [ "way/120880374" ]
-
-1542:
-    coords: { lat: 48.13786, lon: 11.60209 }
-    osm: [ "way/76179060" ]
-
-1543:
-    coords: { lat: 48.13848, lon: 11.60195 }
-    osm: [ "way/75376183" ]
-    external_data:
-        website: "https://www.mri.tum.de/humangenetik"
-
-1544:
-    coords: { lat: 48.13837, lon: 11.60221 }
-    osm: [ "way/75376287" ]
 
 1546: # Somewhere completely different than 545 and 547
     coords: { lat: 48.13785, lon: 11.59837 }
@@ -439,32 +348,8 @@ mri-psychosomatik:
     coords: { lat: 48.13831, lon: 11.59984 }
     osm: [ "way/75376253" ]
 
-1711: # Has no (longer?) rooms in TUMonline, probably outdated
-    coords: { lat: 48.13551, lon: 11.60227 }
-    osm: [ "way/118670040" ] # Not complete building
-
-1712: # Has no (longer?) rooms in TUMonline, probably outdated
-    coords: { lat: 48.13517, lon: 11.60223 }
-    osm: [ "way/118671935" ] # Not complete building
-
 1713:
     osm: [ "way/75376200" ]
-
-1716:
-    coords: { lat: 48.13814, lon: 11.59843 }
-    osm: [ "way/85213214" ]
-
-1717:
-    coords: { lat: 48.13963, lon: 11.59923 }
-    osm: [ "way/85213218" ]
-
-1718: # Has no (longer?) rooms in TUMonline, probably outdated
-    coords: { lat: 48.13591, lon: 11.59878 }
-    osm: [ "way/120879027" ]
-
-1719: # Has no (longer?) rooms in TUMonline, probably outdated
-    coords: { lat: 48.13604, lon: 11.59883 }
-    osm: [ "way/120878682" ] # Not complete building
 
 1724:
     coords: { lat: 48.14030, lon: 11.60119 }
@@ -504,9 +389,6 @@ heilbronn:
 
 1915:
     coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
-
-1998: # Bildungscampus K3
-    coords: { lat: 49.146680868726946, lon: 9.218137968390192 }
 
 # ========= Others in Munich and around =========
 2202:
@@ -970,15 +852,6 @@ mi:
 5622: # Sportanlage / Dusche
     coords: { lat: 48.26350, lon: 11.66821 }
 
-5801: # "LRZ Neubau", likely refers to the LRZ building south of the MI
-    coords: { lat: 48.26165, lon: 11.66786 }
-    osm: [ "relation/14887477", "way/200593316", "way/200593314" ]
-    props:
-        address:
-            street: "Boltzmannstraße 1"
-            plz_place: "85748 Garching bei München"
-            source: "navigatum"
-
 5901: # EI (current status)
     coords: { lat: 48.26566, lon: 11.66256 }
     osm: [ "relation/11039458" ]
@@ -1033,15 +906,10 @@ garching-gebaeudemanagement:
     osm: [ "way/179243742" ]
 6103: # Hochspannungsgebäude
     osm: [ "way/24013693" ]
-6104: # Feuerwehr TUM Garching (Hallen West)
-    coords: { lat: 48.26079, lon: 11.65762 }
-    osm: [ "way/226147073" ]
-6106: # Trafostation Betriebsgebäude
-    osm: [ "way/24013693" ] # same as Hochspannungsgebäude, may be inaccurate
 6107: # Garagenbau
     osm: [ "way/179243727", "way/179243753" ] # large, small building
 
-feuerwehrwache-garching:
+6202:
     coords: { lat: 48.26075, lon: 11.65944 }
     props:
         address:
@@ -1057,18 +925,7 @@ feuerwehrwache-garching:
                     de: "Notruf: 089 289 112"
                     en: "Emergency Call: 089 289 112"
                 url: "tel:+4989289112"
-6202:
-    coords: { lat: 48.26055, lon: 11.65934 }
     osm: [ "way/24013702", "way/179243750", "way/179243737" ]
-6203:
-    coords: { lat: 48.26081, lon: 11.65919 }
-    osm: [ "way/24013700" ]
-6204:
-    coords: { lat: 48.26072, lon: 11.65980 }
-    osm: [ "way/24013697" ]
-6206:
-    coords: { lat: 48.26047, lon: 11.65994 }
-    osm: [ "way/179243758" ]
 
 7894: # Newton
     coords: { lat: 48.26996878943009, lon: 11.665900783489633 }
