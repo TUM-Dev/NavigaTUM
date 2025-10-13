@@ -390,7 +390,7 @@ struct PropsResponse {
 #[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
 struct FloorResponse {
-    /// virtual ID for sorting
+    /// Virtual ID for sorting
     ///
     /// `0` represents the ground floor.
     /// Numbers above/below represent where they are relative to the ground floor
