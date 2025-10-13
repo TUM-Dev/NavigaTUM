@@ -394,22 +394,27 @@ struct FloorResponse {
     ///
     /// `0` represents the ground floor.
     /// Numbers above/below represent where they are relative to the ground floor
+    ///
+    /// **WARNING**:
+    /// This ID is not guaranteed to be stable.
+    /// Not across buildings, nor within a building.
     #[schema(examples(-1, 0, 1, 2, 3))]
     id: i32,
-    /// short name of the floor
+    /// Short name of the floor
     #[schema(examples("-1", "0", "Z1"))]
-    floor: String,
-    /// how the floor is named in longer form
+    #[serde(alias = "floor")]
+    short_name: String,
+    /// Longer name of the floor
     #[schema(examples(
         "1st basement floor",
         "Ground floor",
         "1st mezzanine, above ground floor"
     ))]
     name: String,
-    /// how TUMonline names the floor
+    /// How TUMonline names the floor
     #[schema(examples("U1", "EG", "Z1"))]
     tumonline: String,
-    /// type of floor
+    /// Type of floor
     #[schema(examples("basement", "ground", "roof", "mezzanine", "tp"))]
     r#type: FloorType,
 }
@@ -419,17 +424,20 @@ struct FloorResponse {
 enum FloorType {
     /// Top most floor floor, if accessible
     Roof,
-    /// any floor above the ground floor
+    /// Any floor above the ground floor
     Upper,
-    /// a floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
-    Mezzanine,
-    /// the normal level of the bui
+    /// A floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
+    ///
+    /// In German: "Zwischenebene" / "Mezzanine"
+    SemiUpper,
+    /// The normal level of the building
     Ground,
-    /// a floor in a that is half a flight of stairs BELOW the normal level of the ground floor
-    /// in german: Tiefparterre
-    #[serde(alias = "tp")]
+    /// A floor in a that is half a flight of stairs BELOW the normal level of the ground floor
+    ///
+    /// In German: "Tiefparterre"
+    #[serde(rename(serialize = "tp"))]
     SemiBasement,
-    /// any floor below the ground floor
+    /// Full floors below the ground floor
     Basement,
 }
 
