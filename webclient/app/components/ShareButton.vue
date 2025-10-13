@@ -7,17 +7,15 @@ import type { components } from "~/api_types";
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
   readonly name: string;
+  readonly id: string;
 }>();
 
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { t } = useI18n({ useScope: "local" });
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
+const runtimeConfig = useRuntimeConfig();
 
 const modalOpen = ref(false);
 const shareOptions = () =>
@@ -26,6 +24,8 @@ const shareOptions = () =>
     text: document.title,
     url: clipboardSource.value,
   }) as UseShareOptions;
+
+const qrCodeUrl = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${props.id}/qr-code`);
 </script>
 
 <template>
@@ -67,6 +67,12 @@ const shareOptions = () =>
             {{ copied ? t("copied") : t("copy_link") }}
           </Btn>
         </div>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-md text-zinc-600 font-semibold">{{ t("qr_code") }}</h3>
+          <div class="flex justify-center">
+            <img :src="qrCodeUrl" :alt="t('qr_code_alt')" width="600" height="600" />
+          </div>
+        </div>
       </div>
     </LazyModal>
   </ClientOnly>
@@ -82,6 +88,8 @@ de:
   sharing_options: Externe Links und optionen diese seite zu teilen
   share: Teilen
   share_link: Teilen mit ...
+  qr_code: QR-Code
+  qr_code_alt: QR-Code für diese Seite
 en:
   copied: Copied
   copy_link: Copy link
@@ -91,4 +99,6 @@ en:
   sharing_options: External links and options to share this page
   share: Share
   share_link: Share with ...
+  qr_code: QR Code
+  qr_code_alt: QR code for this page
 </i18n>
