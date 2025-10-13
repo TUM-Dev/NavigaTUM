@@ -453,6 +453,30 @@ export type components = {
       | "entry"
       | "general"
       | "other";
+    readonly FloorResponse: {
+      /**
+       * Format: int32
+       * @description Virtual ID for sorting
+       *
+       * `0` represents the ground floor.
+       * Numbers above/below represent where they are relative to the ground floor
+       *
+       * **WARNING**:
+       * This ID is not guaranteed to be stable.
+       * Not across buildings, nor within a building.
+       */
+      readonly id: number;
+      /** @description Longer name of the floor */
+      readonly name: string;
+      /** @description Short name of the floor */
+      readonly short_name: string;
+      /** @description How TUMonline names the floor */
+      readonly tumonline: string;
+      /** @description Type of floor */
+      readonly type: components["schemas"]["FloorType"];
+    };
+    /** @enum {string} */
+    readonly FloorType: "roof" | "upper" | "semi_upper" | "ground" | "semi_basement" | "basement";
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -1119,6 +1143,12 @@ export type components = {
        */
       readonly comment?: string;
       readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
+      /**
+       * @description A sorted (lowest floor first) list of floors
+       *
+       * For buildings, this may contain multiple floors while rooms usually only have one floor.
+       */
+      readonly floors?: readonly components["schemas"]["FloorResponse"][];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };

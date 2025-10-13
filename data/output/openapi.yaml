@@ -1159,6 +1159,66 @@ components:
         - entry
         - general
         - other
+    FloorResponse:
+      type: object
+      required:
+        - id
+        - short_name
+        - name
+        - tumonline
+        - type
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: |-
+            Virtual ID for sorting
+
+            `0` represents the ground floor.
+            Numbers above/below represent where they are relative to the ground floor
+
+            **WARNING**:
+            This ID is not guaranteed to be stable.
+            Not across buildings, nor within a building.
+          examples:
+            - -1
+            - 0
+            - 1
+            - 2
+            - 3
+        name:
+          type: string
+          description: Longer name of the floor
+          examples:
+            - 1st basement floor
+            - Ground floor
+            - 1st mezzanine, above ground floor
+        short_name:
+          type: string
+          description: Short name of the floor
+          examples:
+            - "-1"
+            - "0"
+            - Z1
+        tumonline:
+          type: string
+          description: How TUMonline names the floor
+          examples:
+            - U1
+            - EG
+            - Z1
+        type:
+          $ref: '#/components/schemas/FloorType'
+          description: Type of floor
+    FloorType:
+      type: string
+      enum:
+        - roof
+        - upper
+        - semi_upper
+        - ground
+        - semi_basement
+        - basement
     Image:
       type: object
       required:
@@ -2192,6 +2252,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ComputedPropResponse'
+        floors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FloorResponse'
+          description: |-
+            A sorted (lowest floor first) list of floors
+
+            For buildings, this may contain multiple floors while rooms usually only have one floor.
         links:
           type: array
           items:
