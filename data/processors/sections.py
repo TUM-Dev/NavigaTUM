@@ -50,6 +50,7 @@ def compute_floor_prop(data: dict[str, Any]) -> None:
         for room in room_data:
             room_entry = data[room["id"]]
             room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
+            room_entry.setdefault("props", {})["floors"] = floor_details
 
 
 def _collect_floors_room_data(data: dict[str, Any], entry: dict[str, Any]) -> list[dict[str, Any]]:
@@ -239,7 +240,8 @@ def _gen_computed_props(
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
-    if floor := props.get("floor"):
+    if floors := props.get("floors") and len(floors) == 1:
+        floor = floors[0]
         if floor["trivial"]:
             computed.append({_("Stockwerk"): floor["name"]})
         else:
