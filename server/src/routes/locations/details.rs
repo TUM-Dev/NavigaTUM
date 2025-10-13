@@ -429,6 +429,7 @@ enum FloorType {
     /// A floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
     ///
     /// In German: "Zwischenebene" / "Mezzanine"
+    #[serde(rename(deserialize = "mezzanine"))]
     SemiUpper,
     /// The normal level of the building
     Ground,
