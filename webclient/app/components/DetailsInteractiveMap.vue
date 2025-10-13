@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
@@ -139,8 +145,12 @@ function initMap(containerId: string): MapLibreMap {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
+          ? "Exit fullscreen"
+          : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -164,7 +174,9 @@ function initMap(containerId: string): MapLibreMap {
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
-      const availableFloorIds = props.floors.map((floor: components["schemas"]["FloorResponse"]) => floor.id);
+      const availableFloorIds = props.floors.map(
+        (floor: components["schemas"]["FloorResponse"]) => floor.id
+      );
       floorControl.value.setAvailableFloors(availableFloorIds);
     }
 
@@ -236,7 +248,9 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
+        console.info(
+          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
+        );
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
