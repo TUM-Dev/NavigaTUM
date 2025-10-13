@@ -47,6 +47,7 @@ fn generate_qr_code(url: &str) -> anyhow::Result<LimitedVec<u8>> {
     params(QrCodePathParams),
     responses(
         (status = 200, description = "**QR code image**", content_type="image/png"),
+        (status = 400, description = "**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters", body = String, content_type = "text/plain", example = "Invalid ID"),
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
         (status = 500, description = "**Internal server error**", body = String, content_type = "text/plain"),
     )
@@ -59,6 +60,11 @@ pub async fn qr_code_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    if params.id.is_empty() || params.id.len() > 255 {
+        return HttpResponse::BadRequest()
+            .content_type("text/plain")
+            .body("Invalid ID");
+    }
 
     let id = match LocationKeyAlias::fetch_optional(&data.pool, &id).await {
         Ok(Some(id)) => format!("https://nav.tum.de/{type}/{id}", type = id.r#type

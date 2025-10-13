@@ -155,6 +155,7 @@ struct MapsPathParams {
     params(MapsPathParams, QueryArgs),
     responses(
         (status = 200, description = "**Preview image**", content_type="image/png"),
+        (status = 400, description = "**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters", body = String, content_type = "text/plain", example = "Invalid ID"),
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
@@ -167,6 +168,12 @@ pub async fn maps_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    if params.id.is_empty() || params.id.len() > 255 {
+        return HttpResponse::BadRequest()
+            .content_type("text/plain")
+            .body("Invalid ID");
+    }
+
     if let Some(redirect_url) = get_possible_redirect_url(&data.pool, &id, &args).await {
         return HttpResponse::PermanentRedirect()
             .insert_header((LOCATION, redirect_url))

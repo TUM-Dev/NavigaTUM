@@ -40,6 +40,7 @@ struct DetailsPathParams {
     params(DetailsPathParams, localisation::LangQueryArgs),
     responses(
         (status = 200, description = "**Details** about the **location**", body= LocationDetailsResponse, content_type="application/json"),
+        (status = 400, description = "**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters", body = String, content_type = "text/plain", example = "Invalid ID"),
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
@@ -52,6 +53,12 @@ pub async fn get_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    if params.id.is_empty() || params.id.len() > 255 {
+        return HttpResponse::BadRequest()
+            .content_type("text/plain")
+            .body("Invalid ID");
+    }
+
     let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.pool, &id).await else {
         return HttpResponse::NotFound()
             .content_type("text/plain")
