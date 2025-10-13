@@ -202,7 +202,7 @@ useSeoMeta({
             >
               <MdiIcon :path="mdiCalendarMonth" :size="28" class="text-blue-600 mt-0.5 hover:text-blue-900" />
             </button>
-            <ShareButton :coords="data.coords" :name="data.name" />
+            <ShareButton :coords="data.coords" :name="data.name" :id="data.id" />
             <DetailsFeedbackButton />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
