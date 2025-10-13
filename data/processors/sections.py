@@ -239,12 +239,13 @@ def _gen_computed_props(
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
-    if floors := props.get("floors") and len(floors) == 1:
-        floor = floors[0]
-        if floor["trivial"]:
-            computed.append({_("Stockwerk"): floor["name"]})
-        else:
-            computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
+    if floors := props.get("floors"):
+        if len(floors) == 1:
+            floor = floors[0]
+            if floor["trivial"]:
+                computed.append({_("Stockwerk"): floor["name"]})
+            else:
+                computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
     if "b_prefix" in entry and entry["b_prefix"] != _id:
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])
