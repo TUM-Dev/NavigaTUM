@@ -279,9 +279,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
       - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && (PathPrefix(`/tiles`) || PathPrefix(`/_/`))"
+      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && (PathPrefix(`/martin`) || PathPrefix(`/_/`))"
       - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker, navigatum-martin-cache-headers@docker"
-      - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/tiles"
+      - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/martin"
       - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age=604800" # 7 days
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
@@ -290,7 +290,7 @@ services:
       - "3001"
     environment:
       TZ: Europe/Berlin
-      BASE_PATH: /tiles/
+      BASE_PATH: /martin/
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
       RUST_LOG: info
     depends_on:

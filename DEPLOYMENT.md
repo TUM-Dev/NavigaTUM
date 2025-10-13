@@ -44,7 +44,7 @@ We run the following components at these paths:
 
 - `/` [webclient](../webclient) written in [`Vue`](https://vuejs.org/)/[`nuxt-4`](https://nuxt.dev)
 - `/api/` [server](../server) written in [`Rust`](https://www.rust-lang.org/)/[`actix-web`](https://actix.rs/)
-- `/tiles/` [`martin`](https://martin.maplibre.org/) tiles from OSM
+- `/martin/` [`martin`](https://martin.maplibre.org/) tiles from OSM
 - `/cdn` nginx server serving the static files we need
   slated to be folded into the `server`-startup
 
