@@ -49,8 +49,7 @@ def compute_floor_prop(data: dict[str, Any]) -> None:
         lookup = {floor["tumonline"]: floor for floor in floor_details}
         for room in room_data:
             room_entry = data[room["id"]]
-            room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
-            room_entry.setdefault("props", {})["floors"] = floor_details
+            room_entry.setdefault("props", {})["floors"] = [lookup[room["floor"]]]
 
 
 def _collect_floors_room_data(data: dict[str, Any], entry: dict[str, Any]) -> list[dict[str, Any]]:
