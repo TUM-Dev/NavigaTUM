@@ -23,6 +23,8 @@ export class FloorControl extends Evented implements IControl {
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
   private map: MapLibreMap | undefined;
+  /* Optional restriction of available floors */
+  private availableFloors: Set<number> = new Set();
 
   constructor() {
     super();
@@ -79,6 +81,12 @@ export class FloorControl extends Evented implements IControl {
     this.map = undefined;
   }
 
+  setAvailableFloors(floorIds: number[]): void {
+    this.availableFloors = new Set(floorIds);
+
+    this._renderFloorButtons();
+  }
+
   private _renderFloorButtons(): void {
     this.floor_list.innerHTML = "";
 
@@ -86,7 +94,16 @@ export class FloorControl extends Evented implements IControl {
     FLOOR_LEVELS.forEach((level) => {
       const btn = document.createElement("button");
       btn.innerText = level.label;
+      const isAvailable = this.availableFloors.size === 0 || this.availableFloors.has(level.id);
+
+      if (!isAvailable) {
+        btn.style.opacity = "0.4";
+        btn.style.cursor = "not-allowed";
+        btn.style.color = "#999";
+      }
+
       btn.addEventListener("click", () => {
+        if (!isAvailable) return;
         this.setLevel(level.id);
         if (!this.container.classList.contains("reduced")) {
           this.container.classList.add("closed");

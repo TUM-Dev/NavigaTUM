@@ -15,6 +15,7 @@ const props = defineProps<{
   type: LocationDetailsResponse["type"];
   maps: LocationDetailsResponse["maps"];
   id: LocationDetailsResponse["id"];
+  floors?: LocationDetailsResponse["props"]["floors"];
 }>();
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
@@ -171,6 +172,14 @@ function initMap(containerId: string): MapLibreMap {
     });
     map.addControl(location);
 
+    // Set available floors if provided
+    if (props.floors && props.floors.length > 0) {
+      const availableFloorIds = props.floors.map(
+        (floor: components["schemas"]["FloorResponse"]) => floor.id
+      );
+      floorControl.value.setAvailableFloors(availableFloorIds);
+    }
+
     // Set default floor from API data if available
     const defaultFloor = props.maps?.overlays?.default;
     if (defaultFloor !== undefined && defaultFloor !== null) {
@@ -179,6 +188,20 @@ function initMap(containerId: string): MapLibreMap {
   });
 
   map.addControl(floorControl.value, "bottom-left");
+
+  // Listen for floor level changes and adjust zoom if needed
+  floorControl.value.on("level-changed", (event: { level: number | null }) => {
+    if (event.level !== null && map) {
+      const currentMapZoom = map.getZoom();
+      // Our floors are only visible at zoom level 17+
+      if (currentMapZoom < 17) {
+        map.easeTo({
+          zoom: 17,
+          duration: 2000,
+        });
+      }
+    }
+  });
 
   return map;
 }

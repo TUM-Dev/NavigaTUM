@@ -226,7 +226,13 @@ useSeoMeta({
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <ClientOnly>
-          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
+          <DetailsInteractiveMap
+            :id="data.id"
+            :coords="data.coords"
+            :type="data.type"
+            :maps="data.maps"
+            :floors="data.props.floors"
+          />
         </ClientOnly>
       </div>
 
