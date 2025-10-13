@@ -1163,26 +1163,23 @@ components:
       type: object
       required:
         - id
-        - floor
+        - short_name
         - name
         - tumonline
         - type
       properties:
-        floor:
-          type: string
-          description: short name of the floor
-          examples:
-            - "-1"
-            - "0"
-            - Z1
         id:
           type: integer
           format: int32
           description: |-
-            virtual ID for sorting
+            Virtual ID for sorting
 
             `0` represents the ground floor.
             Numbers above/below represent where they are relative to the ground floor
+
+            **WARNING**:
+            This ID is not guaranteed to be stable.
+            Not across buildings, nor within a building.
           examples:
             - -1
             - 0
@@ -1191,27 +1188,34 @@ components:
             - 3
         name:
           type: string
-          description: how the floor is named in longer form
+          description: Longer name of the floor
           examples:
             - 1st basement floor
             - Ground floor
             - 1st mezzanine, above ground floor
+        short_name:
+          type: string
+          description: Short name of the floor
+          examples:
+            - "-1"
+            - "0"
+            - Z1
         tumonline:
           type: string
-          description: how TUMonline names the floor
+          description: How TUMonline names the floor
           examples:
             - U1
             - EG
             - Z1
         type:
           $ref: '#/components/schemas/FloorType'
-          description: type of floor
+          description: Type of floor
     FloorType:
       type: string
       enum:
         - roof
         - upper
-        - mezzanine
+        - semi_upper
         - ground
         - semi_basement
         - basement
