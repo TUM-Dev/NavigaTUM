@@ -1178,7 +1178,17 @@ components:
         id:
           type: integer
           format: int32
-          description: virtual ID for sorting
+          description: |-
+            virtual ID for sorting
+
+            `0` represents the ground floor.
+            Numbers above/below represent where they are relative to the ground floor
+          examples:
+            - -1
+            - 0
+            - 1
+            - 2
+            - 3
         name:
           type: string
           description: how the floor is named in longer form
@@ -2242,6 +2252,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FloorResponse'
+          description: |-
+            A sorted (lowest floor first) list of floors
+
+            For buildings, this may contain multiple floors while rooms usually only have one floor.
         links:
           type: array
           items:

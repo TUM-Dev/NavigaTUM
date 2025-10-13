@@ -459,6 +459,9 @@ export type components = {
       /**
        * Format: int32
        * @description virtual ID for sorting
+       *
+       * `0` represents the ground floor.
+       * Numbers above/below represent where they are relative to the ground floor
        */
       readonly id: number;
       /** @description how the floor is named in longer form */
@@ -1136,6 +1139,11 @@ export type components = {
        */
       readonly comment?: string;
       readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
+      /**
+       * @description A sorted (lowest floor first) list of floors
+       *
+       * For buildings, this may contain multiple floors while rooms usually only have one floor.
+       */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
