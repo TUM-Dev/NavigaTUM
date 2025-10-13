@@ -402,7 +402,7 @@ struct FloorResponse {
     id: i32,
     /// Short name of the floor
     #[schema(examples("-1", "0", "Z1"))]
-    #[serde(alias = "floor")]
+    #[serde(rename(deserialize = "floor"))]
     short_name: String,
     /// Longer name of the floor
     #[schema(examples(
@@ -435,7 +435,7 @@ enum FloorType {
     /// A floor in a that is half a flight of stairs BELOW the normal level of the ground floor
     ///
     /// In German: "Tiefparterre"
-    #[serde(rename(serialize = "tp"))]
+    #[serde(rename(deserialize = "tp"))]
     SemiBasement,
     /// Full floors below the ground floor
     Basement,
