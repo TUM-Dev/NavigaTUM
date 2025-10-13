@@ -23,9 +23,7 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -35,17 +33,11 @@ const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
 
 const editProposal = useEditProposal();
 
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!data.value) return;
@@ -226,7 +218,13 @@ useSeoMeta({
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <ClientOnly>
-          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" />
+          <DetailsInteractiveMap
+            :id="data.id"
+            :coords="data.coords"
+            :type="data.type"
+            :maps="data.maps"
+            :floors="data.props.floors"
+          />
         </ClientOnly>
       </div>
 

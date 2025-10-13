@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
@@ -15,6 +9,7 @@ const props = defineProps<{
   type: LocationDetailsResponse["type"];
   maps: LocationDetailsResponse["maps"];
   id: LocationDetailsResponse["id"];
+  floors?: LocationDetailsResponse["props"]["floors"];
 }>();
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
@@ -48,7 +43,6 @@ function loadInteractiveMap() {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
-      // @ts-expect-error somehow this is too deep for typescript
       _marker.addTo(map.value as MapLibreMap);
       marker.value = _marker;
     }
@@ -144,12 +138,8 @@ function initMap(containerId: string): MapLibreMap {
         }
 
         fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
         fullscreenCtl._map.resize();
       }
     };
@@ -170,6 +160,12 @@ function initMap(containerId: string): MapLibreMap {
       trackUserLocation: true,
     });
     map.addControl(location);
+
+    // Set available floors if provided
+    if (props.floors && props.floors.length > 0) {
+      const availableFloorIds = props.floors.map((floor: components["schemas"]["FloorResponse"]) => floor.id);
+      floorControl.value.setAvailableFloors(availableFloorIds);
+    }
 
     // Set default floor from API data if available
     const defaultFloor = props.maps?.overlays?.default;
@@ -225,9 +221,7 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(
-          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
-        );
+        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
