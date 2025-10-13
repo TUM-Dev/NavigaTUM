@@ -380,6 +380,9 @@ struct PropsResponse {
         "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
     ))]
     calendar_url: Option<String>,
+    /// A sorted (lowest floor first) list of floors
+    ///
+    /// For buildings, this may contain multiple floors while rooms usually only have one floor.
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     floors: Vec<FloorResponse>,
 }
@@ -388,6 +391,10 @@ struct PropsResponse {
 #[derive(Serialize, Deserialize, Debug, utoipa::ToSchema)]
 struct FloorResponse {
     /// virtual ID for sorting
+    ///
+    /// `0` represents the ground floor.
+    /// Numbers above/below represent where they are relative to the ground floor
+    #[schema(examples(-1, 0, 1, 2, 3))]
     id: i32,
     /// short name of the floor
     #[schema(examples("-1", "0", "Z1"))]
