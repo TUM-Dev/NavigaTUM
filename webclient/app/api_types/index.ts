@@ -105,6 +105,14 @@ export type paths = {
      */
     get: operations["maps_handler"];
   };
+  "/api/locations/{id}/qr-code": {
+    /**
+     * Get a QR code for a location
+     * @description This returns a QR code image (PNG) that links to the location's detail page.
+     * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+     */
+    get: operations["qr_code_handler"];
+  };
   "/api/maps/route": {
     /**
      * Routing requests
@@ -1920,6 +1928,38 @@ export type operations = {
       };
       /** @description **Not found.** Make sure that requested item exists */
       404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  /**
+   * Get a QR code for a location
+   * @description This returns a QR code image (PNG) that links to the location's detail page.
+   * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+   */
+  qr_code_handler: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** @description **QR code image** */
+      200: {
+        content: {
+          readonly "image/png": unknown;
+        };
+      };
+      /** @description **Not found.** Make sure that requested item exists */
+      404: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Internal server error** */
+      500: {
         content: {
           readonly "text/plain": string;
         };

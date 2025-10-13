@@ -337,6 +337,39 @@ paths:
               schema:
                 type: string
               example: Not found
+  /api/locations/{id}/qr-code:
+    get:
+      tags:
+        - locations
+      summary: Get a QR code for a location
+      description: |-
+        This returns a QR code image (PNG) that links to the location's detail page.
+        The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+      operationId: qr_code_handler
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: '**QR code image**'
+          content:
+            image/png: {}
+        "404":
+          description: '**Not found.** Make sure that requested item exists'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+        "500":
+          description: '**Internal server error**'
+          content:
+            text/plain:
+              schema:
+                type: string
   /api/maps/route:
     get:
       tags:
