@@ -165,7 +165,7 @@ export class FloorControl extends Evented implements IControl {
 
     // Hide all floor layers
     for (const floorLevel of FLOOR_LEVELS) {
-      const layerId = `floor-level-${floorLevel.id}`;
+      const layerId = `indoor-raster-floor-${floorLevel.id}`;
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "none");
       }
@@ -173,7 +173,7 @@ export class FloorControl extends Evented implements IControl {
 
     // Show the selected level
     if (level !== null) {
-      const layerId = `floor-level-${level}`;
+      const layerId = `indoor-raster-floor-${level}`;
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "visible");
       }

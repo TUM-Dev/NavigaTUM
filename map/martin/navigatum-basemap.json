@@ -17,50 +17,54 @@
   },
   "projection": { "type": "globe" },
   "sources": {
-    "floor-source--2": {
+    "indoor-floor--2": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_-2",
       "tileSize": 256
     },
-    "floor-source--1": {
+    "indoor-floor--1": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_-1",
       "tileSize": 256
     },
-    "floor-source-0": {
+    "indoor-floor-0": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_0",
       "tileSize": 256
     },
-    "floor-source-1": {
+    "indoor-floor-1": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_1",
       "tileSize": 256
     },
-    "floor-source-2": {
+    "indoor-floor-2": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_2",
       "tileSize": 256
     },
-    "floor-source-3": {
+    "indoor-floor-3": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_3",
       "tileSize": 256
     },
-    "floor-source-4": {
+    "indoor-floor-4": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_4",
       "tileSize": 256
     },
-    "floor-source-5": {
+    "indoor-floor-5": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_5",
       "tileSize": 256
     },
-    "floor-source-6": {
+    "indoor-floor-6": {
       "type": "raster",
       "url": "https://nav.tum.de/tiles/level_6",
       "tileSize": 256
+    },
+    "indoor": {
+      "type": "vector",
+      "url": "https://nav.tum.de/tiles/indoor_rooms,indoor_doors?level=1.0"
     },
     "nav": { "type": "vector", "url": "https://nav.tum.de/tiles/shortbread" },
     "natural_earth_shaded_relief": {
@@ -3256,7 +3260,7 @@
     {
       "id": "indoor-raster-floor--2",
       "type": "raster",
-      "source": "floor--2",
+      "source": "indoor-floor--2",
       "layout": {
         "visibility": "none"
       },
@@ -3267,7 +3271,7 @@
     {
       "id": "indoor-raster-floor--1",
       "type": "raster",
-      "source": "floor--1",
+      "source": "indoor-floor--1",
       "layout": {
         "visibility": "none"
       },
@@ -3278,7 +3282,7 @@
     {
       "id": "indoor-raster-floor-0",
       "type": "raster",
-      "source": "floor-0",
+      "source": "indoor-floor-0",
       "layout": {
         "visibility": "none"
       },
@@ -3289,7 +3293,7 @@
     {
       "id": "indoor-raster-floor-1",
       "type": "raster",
-      "source": "floor-1",
+      "source": "indoor-floor-1",
       "layout": {
         "visibility": "none"
       },
@@ -3300,7 +3304,7 @@
     {
       "id": "indoor-raster-floor-2",
       "type": "raster",
-      "source": "floor-2",
+      "source": "indoor-floor-2",
       "layout": {
         "visibility": "none"
       },
@@ -3311,7 +3315,7 @@
     {
       "id": "indoor-raster-floor-3",
       "type": "raster",
-      "source": "floor-3",
+      "source": "indoor-floor-3",
       "layout": {
         "visibility": "none"
       },
@@ -3322,7 +3326,7 @@
     {
       "id": "indoor-raster-floor-4",
       "type": "raster",
-      "source": "floor-4",
+      "source": "indoor-floor-4",
       "layout": {
         "visibility": "none"
       },
@@ -3333,7 +3337,7 @@
     {
       "id": "indoor-raster-floor-5",
       "type": "raster",
-      "source": "floor-5",
+      "source": "indoor-floor-5",
       "layout": {
         "visibility": "none"
       },
@@ -3344,7 +3348,7 @@
     {
       "id": "indoor-raster-floor-6",
       "type": "raster",
-      "source": "floor-6",
+      "source": "indoor-floor-6",
       "layout": {
         "visibility": "none"
       },
