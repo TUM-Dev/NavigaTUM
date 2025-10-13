@@ -1869,6 +1869,12 @@ export type operations = {
           readonly "application/json": components["schemas"]["LocationDetailsResponse"];
         };
       };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
       /** @description **Not found.** Make sure that requested item exists */
       404: {
         content: {
@@ -1893,6 +1899,12 @@ export type operations = {
       200: {
         content: {
           readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
+        };
+      };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
@@ -1926,6 +1938,12 @@ export type operations = {
           readonly "image/png": unknown;
         };
       };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
       /** @description **Not found.** Make sure that requested item exists */
       404: {
         content: {
@@ -1950,6 +1968,12 @@ export type operations = {
       200: {
         content: {
           readonly "image/png": unknown;
+        };
+      };
+      /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
+      400: {
+        content: {
+          readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */

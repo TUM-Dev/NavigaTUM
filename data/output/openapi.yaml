@@ -258,6 +258,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LocationDetailsResponse'
+        "400":
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Invalid ID
         "404":
           description: '**Not found.** Make sure that requested item exists'
           content:
@@ -286,6 +293,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NearbyLocationsResponse'
+        "400":
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Invalid ID
         "404":
           description: '**Not found.** Make sure that requested item exists'
           content:
@@ -330,6 +344,13 @@ paths:
           description: '**Preview image**'
           content:
             image/png: {}
+        "400":
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Invalid ID
         "404":
           description: '**Not found.** Make sure that requested item exists'
           content:
@@ -357,6 +378,13 @@ paths:
           description: '**QR code image**'
           content:
             image/png: {}
+        "400":
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Invalid ID
         "404":
           description: '**Not found.** Make sure that requested item exists'
           content:
