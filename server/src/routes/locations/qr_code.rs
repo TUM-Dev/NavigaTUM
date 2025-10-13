@@ -114,7 +114,7 @@ mod tests {
         );
 
         // Use insta binary snapshot to verify the exact output
-        insta::assert_binary_snapshot!("qr_code_5510.01.001.png", qr_image.0);
+        insta::assert_binary_snapshot!("qr_code_5510_00_001.png", qr_image.0);
     }
 
     #[test]
