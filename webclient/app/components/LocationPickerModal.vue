@@ -6,7 +6,7 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
-import { FLOOR_LEVELS, FloorControl } from "~/composables/FloorControl";
+import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -51,33 +51,6 @@ function createMarker(hueRotation = 120) {
   return markerDiv;
 }
 
-function addFloorLayers(map: MapLibreMap) {
-  for (const level of FLOOR_LEVELS) {
-    const sourceId = `floor-source-${level.id}`;
-    const layerId = `floor-level-${level.id}`;
-
-    // Add raster tile source
-    map.addSource(sourceId, {
-      type: "raster",
-      url: `https://nav.tum.de/tiles/level_${level.id}`,
-      tileSize: 256,
-    });
-
-    // Add raster layer (initially hidden)
-    map.addLayer({
-      id: layerId,
-      type: "raster",
-      source: sourceId,
-      layout: {
-        visibility: "none",
-      },
-      paint: {
-        "raster-opacity": 0.9,
-      },
-    });
-  }
-}
-
 function initMap() {
   if (!webglSupport || !mapContainer.value) return;
 
@@ -95,9 +68,6 @@ function initMap() {
 
   mapInstance.on("load", () => {
     isMapLoaded.value = true;
-
-    // Add floor tile layers
-    addFloorLayers(mapInstance);
 
     // Add navigation controls
     mapInstance.addControl(new NavigationControl({}), "top-left");
