@@ -98,6 +98,8 @@ services:
       - synchronous_commit=off
     networks:
       - traefik_traefik
+    volumes:
+      - postgis-data:/var/lib/postgresql
     expose:
       - "5432"
     healthcheck:

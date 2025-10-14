@@ -10,6 +10,8 @@ services:
     command:
       - -c
       - synchronous_commit=off
+    volumes:
+      - db_data:/var/lib/postgresql
     ports:
       - "5432:5432"
     healthcheck:
@@ -78,3 +80,6 @@ services:
 
 volumes:
   pgadmin_data:
+    driver: local
+  postgis-data:
+    driver: local
