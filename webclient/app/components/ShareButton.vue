@@ -76,7 +76,7 @@ const qrCodeUrl = computed(
         <div class="flex flex-col gap-2">
           <h3 class="text-md text-zinc-600 font-semibold">{{ t("qr_code") }}</h3>
           <div class="flex justify-center">
-            <img :src="qrCodeUrl" :alt="t('qr_code_alt')" width="600" height="600" class="bg-zinc-50 w-100" />
+            <img :src="qrCodeUrl" :alt="t('qr_code_alt')" width="500" height="500" class="bg-zinc-50 w-100 max-w-64" />
           </div>
         </div>
       </div>

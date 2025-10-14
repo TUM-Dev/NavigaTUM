@@ -29,8 +29,8 @@ fn generate_qr_code(url: &str) -> anyhow::Result<LimitedVec<u8>> {
         .shape(Shape::RoundedSquare)
         .module_color("#3070B3")
         .background_color("#ffffff")
-        .fit_width(600)
-        .fit_height(600)
+        .fit_width(500)
+        .fit_height(500)
         .image(format!("data:image/png;base64,{pin_base64}"))
         .to_bytes(&qrcode)
         .map_err(|e| anyhow::anyhow!("cannot build QR code: {e}"))?;
