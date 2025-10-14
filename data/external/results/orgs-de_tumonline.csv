@@ -218,7 +218,6 @@ org_id,code,name,path
 15578,TUWZX7T,Lehrstuhl für Humanbiologie (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Humanbiologie (N.N.)
 15579,TUWZQ9I,Lehrstuhl für Lebensmittelchemie und molekulare Sensorik (Dr. Dawid komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Lebensmittelchemie und molekulare Sensorik (Dr. Dawid komm.)
 15584,TUWZW4V,Lehrstuhl für Molekulare Ernährungsmedizin (Prof. Klingenspor),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Molekulare Ernährungsmedizin (Prof. Klingenspor)
-15592,TUWZX9O,Lehrstuhl für Technische Mikrobiologie (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Technische Mikrobiologie (N.N.)
 15593,TUWZY4Q,Professur für Biotechnologie der Naturstoffe (Prof. Schwab),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnologie der Naturstoffe (Prof. Schwab)
 15600,TUWZQ5P,Lehrstuhl für Atmosphärische Umweltforschung (Prof. Schmid),TUM/Schools/Life Sciences/Departments/Life Science Systems/Atmosphärische Umweltforschung (Prof. Schmid)
 15605,TUWZO9R,Lehrstuhl für Bodenkunde (Prof. Schweizer komm.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Bodenkunde (Prof. Schweizer komm.)
@@ -235,7 +234,6 @@ org_id,code,name,path
 15629,TUWZV2O,Lehrstuhl für Grünlandlehre (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Grünlandlehre (N.N.)
 15630,TUWZA6W,Lehrstuhl für Ökologischen Landbau und Pflanzenbausysteme (Prof. Hülsbergen),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ökologischen Landbau und Pflanzenbausysteme (Prof. Hülsbergen)
 15631,TUWZZ7X,Lehrstuhl für Pflanzenzüchtung (Prof. Schön),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzenzüchtung (Prof. Schön)
-15632,TUWZA2U,Lehrstuhl für Pflanzenernährung (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Pflanzenernährung (N.N.)
 15633,TUWZY5O,Lehrstuhl für Phytopathologie (Prof. Hückelhoven),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Phytopathologie (Prof. Hückelhoven)
 15636,TUWZU6A,Professur für Entwicklungsbiologie der Pflanzen (Prof. Schneitz),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Entwicklungsbiologie der Pflanzen (Prof. Schneitz)
 15643,TUWZI2W,Lehrstuhl für Systemverfahrenstechnik (Prof. Briesen),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Systemverfahrenstechnik (Prof. Briesen)
@@ -246,7 +244,6 @@ org_id,code,name,path
 15654,TUWZO8I,Professur für Holztechnologie (Prof. van de Kuilen),TUM/Schools/Engineering and Design/Departments/Materials Engineering/Holztechnologie (Prof. van de Kuilen)
 15667,TUWZO4U,Lehrstuhl für Biotechnologie der Nutztiere (Prof. Schusser komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnologie der Nutztiere (Prof. Schusser komm.)
 15668,TUWZV9T,Lehrstuhl für Tierphysiologie und Immunologie (Prof. Zehn),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Tierphysiologie und Immunologie (Prof. Zehn)
-15670,TUWZQ4U,Lehrstuhl für Tierzucht (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Tierzucht (N.N.)
 15671,TUWZU5Y,Lehrstuhl für Zoologie (Prof. Luksch),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Zoologie (Prof. Luksch)
 15674,TUWZA8Q,Lehrstuhl für Tierernährung (N.N),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Tierernährung (N.N)
 15681,TUWZA2G,Forschungszentrum Weihenstephan für Brau- und Lebensmittelqualität,TUM/Weitere wissenschaftliche Einrichtungen/Forschungszentrum Weihenstephan für Brau- und Lebensmittelqualität
@@ -468,7 +465,6 @@ org_id,code,name,path
 24672,TUINF10,Informatik 14 - Professur für Theoretische Informatik - (Prof. Räcke),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretische Informatik - (Prof. Räcke)"
 24673,TUINF15,Informatik 6 - Professur für Cyber Physical Systems (Prof. Althoff),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Cyber Physical Systems (Prof. Althoff)"
 24674,TUINF11,Informatik 6 - Professur für Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)"
-24777,TUWZA1A,Professur für Protein Modelling (Prof. Frischmann komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Protein Modelling (Prof. Frischmann komm.)
 25178,TUWZA2E,Lehrstuhl für Systembiologie der Pflanzen (Prof. Schwechheimer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Systembiologie der Pflanzen (Prof. Schwechheimer)
 25281,TUWZA1C,Lehrstuhl für Aquatische Systembiologie - Standort Weihenstephan (Prof. Geist),TUM/Schools/Life Sciences/Departments/Life Science Systems/Aquatische Systembiologie - Standort Weihenstephan (Prof. Geist)
 25806,TUZEFT2,Patent- und Lizenzbüro (AB 2),Patent- und Lizenzbüro (AB 2)
@@ -623,7 +619,6 @@ org_id,code,name,path
 39685,TUPESFZ,Campus München FU Hagen,TUM/Partnerschaftliche Einrichtungen/Campus München FU Hagen
 39687,TUPESWM,Studentenwerk München,TUM/Partnerschaftliche Einrichtungen/Studentenwerk München
 39688,TUPEWR0,Weitere Räume,TUM/Partnerschaftliche Einrichtungen/Weitere Räume
-39810,TUWZQ9P,Lehrstuhl für Biochemische Pflanzenpathologie (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biochemische Pflanzenpathologie (N.N.)
 39902,TUPECDT,Center for Digital Technology and Management (CDTM),TUM/Partnerschaftliche Einrichtungen/Center for Digital Technology and Management (CDTM)
 39906,TUPELRZ,Leibniz-Rechenzentrum (LRZ),TUM/Partnerschaftliche Einrichtungen/Leibniz-Rechenzentrum (LRZ)
 40033,TUPEUTM,UnternehmerTUM GmbH,TUM/Partnerschaftliche Einrichtungen/UnternehmerTUM GmbH
@@ -804,7 +799,6 @@ org_id,code,name,path
 45350,TUZEIRC,Integrative Research Institutes,TUM/Integrative Research Institutes
 45351,TUZEMCT,Ehemaliges Munich Center for Technology in Society (MCTS),TUM/Integrative Research Institutes/Ehemaliges Munich Center for Technology in Society (MCTS)
 45370,TUMWKME,Professur für Data-driven Materials Modeling (Prof. Koutsourelakis),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Data-driven Materials Modeling (Prof. Koutsourelakis)
-45391,TUZEFAM,TUM Familienservice,TUM/Zentrale Verwaltung/Diversity & Inclusion/TUM Familienservice
 45411,TUPESIN,Studentische Initiativen,TUM/Partnerschaftliche Einrichtungen/Studentische Initiativen
 45434,TUGSEDU,Graduate Center of Social Sciences and Technology,TUM/TUM Graduate School/Graduiertenzentren/Graduate Center of Social Sciences and Technology
 45439,TUMEGZ0,TUM Medical Graduate Center,TUM/Fakultäten/Ehemalige Fakultät für Medizin/Fakultätsverwaltung/TUM Medical Graduate Center
@@ -947,7 +941,7 @@ org_id,code,name,path
 48078,TUEICOD,Professur für Codierung und Kryptographie (Prof. Wachter-Zeh),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Codierung und Kryptographie (Prof. Wachter-Zeh)"
 48097,TUPHEMM,Professur für Experimental Biophysics (Prof. Duderstadt),TUM/Schools/Natural Sciences/Departments/Bioscience/Experimental Biophysics (Prof. Duderstadt)
 48098,TUPHEQM,Professur für Quantum Matter - Experimental Solid State Physics (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Quantum Matter - Experimental Solid State Physics (N.N.)
-48099,TUPHEDM,Professur für Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+48099,TUPHEDM,Professur für Dark Matter (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Dark Matter (N.N.)
 48100,TUPHEOC,Professur für Observational Cosmology (Prof. Suyu),TUM/Schools/Natural Sciences/Departments/Physics/Observational Cosmology (Prof. Suyu)
 48117,TUZVGET,Gentechnik,"TUM/Hochschulreferate/Gesundheit, Sicherheit, Strahlenschutz/Gentechnik"
 48120,TUPRBKA,Büro des Kanzlers,TUM/Hochschulpräsidium/Büro des Kanzlers
@@ -1083,7 +1077,6 @@ org_id,code,name,path
 49379,TUWIH03,Professur für Accounting (Prof. Stich) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Finance and Accounting/Accounting (Prof. Stich) (TUM Campus Heilbronn)
 49381,TUWIH05,Professur für Strategic Management (Prof. Li) (TUM Campus Heilbronn),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Strategic Management (Prof. Li) (TUM Campus Heilbronn)"
 49382,TUWIH01,Campus Heilbronn Gruppe - Einheiten TUM Campus Heilbronn (MGT),TUM/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Campus Heilbronn Gruppe
-49397,TUZEACS,Accommodation Service,TUM/Zentrale Verwaltung/Diversity & Inclusion/Accommodation Service
 49398,TUWIB39,Professur für Business Analytics and Intelligent Systems (Prof. Schiffer),TUM/Schools/Management/Departments/Operations and Technology/Business Analytics and Intelligent Systems (Prof. Schiffer)
 49417,TUEDS29,Professur für Schul- und Unterrichtsforschung (Prof. Holzberger),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Schul- und Unterrichtsforschung (Prof. Holzberger)
 49437,TUEDS30,Professur für Technikdidaktik für das berufliche Lehramt (Prof. Pittich),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Technikdidaktik für das berufliche Lehramt (Prof. Pittich)
@@ -1756,7 +1749,7 @@ org_id,code,name,path
 53862,TUXB40W,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Life Sciences/Studienorganisation/Landschaft/Studiengänge auslaufend
 53863,TUXB40Y,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Life Sciences/Studienorganisation/Promotionsprogramme LS/Studiengänge auslaufend
 53864,TUXB40X,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Life Sciences/Studienorganisation/Austauschprogramme Life Sciences/Studiengänge auslaufend
-53877,TUS1DEA,"Dekan/in der TUM School of Computation, Information and Technology","TUM/Schools/Computation, Information and Technology/Dekan/in"
+53877,TUS1DEA,"Dekan der TUM School of Computation, Information and Technology","TUM/Schools/Computation, Information and Technology/Dekan/in"
 53878,TUS3DEA,Dekan der TUM School of Natural Sciences,TUM/Schools/Natural Sciences/Dekan/in
 53897,TUZEICH,Core Facility Humanstudien,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Core Facility Humanstudien
 53898,TUZEICM,Core Facility Mikrobiom,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Core Facility Mikrobiom
