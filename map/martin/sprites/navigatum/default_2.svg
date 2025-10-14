@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 18">
   <g fill-rule="evenodd" color="#3a3836" transform="translate(-235 -441.36)">
-    <rect width="25" height="18" x="235" y="441.36" fill="#3a3836" overflow="visible" rx="2.38" ry="2.4" style="marker:none"/>
-    <rect width="23" height="16" x="236" y="442.36" fill="#fff" overflow="visible" rx="1.21" ry="1.23" style="marker:none"/>
+    <rect width="25" height="18" x="235" y="441.36" fill="#3a3836" overflow="visible" rx="2.38" ry="2.4"/>
+    <rect width="23" height="16" x="236" y="442.36" fill="#fff" overflow="visible" rx="1.21" ry="1.23"/>
   </g>
 </svg>
