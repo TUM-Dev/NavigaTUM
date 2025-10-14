@@ -5,6 +5,7 @@ use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tracing::error;
 
+use crate::db::location::LocationKeyAlias;
 use crate::localisation::{self, LanguageOptions};
 
 #[expect(
@@ -12,14 +13,6 @@ use crate::localisation::{self, LanguageOptions};
     reason = "has to be imported as otherwise utoipa generates incorrect code"
 )]
 use serde_json::json;
-
-#[derive(Debug, Clone)]
-#[allow(dead_code)] // false positive. Clippy can't detect this due to macros
-pub struct LocationKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct DetailsPathParams {
@@ -547,21 +540,11 @@ enum CoordinateSourceResponse {
 
 #[tracing::instrument(skip(pool))]
 async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
-    let result = sqlx::query_as!(
-        LocationKeyAlias,
-        r#"
-        SELECT DISTINCT key, visible_id, type
-        FROM aliases
-        WHERE alias = $1 OR key = $1 "#,
-        query
-    )
-    .fetch_all(pool)
-    .await;
-    match result {
+    match LocationKeyAlias::fetch_all(pool, query).await {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias
-                1 => extract_redirect_exact_match(&d[0].r#type, &d[0].visible_id),
+                1 => d[0].redirect_exact_match(),
                 _ => {
                     let keys = d
                         .clone()
@@ -578,17 +561,6 @@ async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, S
             error!(error = ?e,query,"Error requesting alias");
             None
         }
-    }
-}
-
-fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
-    match type_ {
-        "campus" => format!("/campus/{key}"),
-        "site" | "area" => format!("/site/{key}"),
-        "building" | "joined_building" => format!("/building/{key}"),
-        "room" | "virtual_room" => format!("/room/{key}"),
-        "poi" => format!("/poi/{key}"),
-        _ => format!("/view/{key}"), // can be triggered if we add a type but don't add it here
     }
 }
 
