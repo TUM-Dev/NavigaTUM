@@ -1,0 +1,80 @@
+services:
+  db:
+    image: postgis/postgis:18-3.6
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+      POSTGRES_PASSWORD: CHANGE_ME
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    command:
+      - -c
+      - synchronous_commit=off
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      retries: 5
+      interval: 10s
+      start_period: 20s
+      start_interval: 500ms
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: CHANGE_ME
+      TZ: Europe/Berlin
+    ports:
+      - "5050:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+  download-data:
+    image: alpine:latest
+    command: sh /map/download.sh europe/germany/bayern/oberbayern
+    environment:
+      TZ: Europe/Berlin
+    working_dir: /map
+    volumes:
+      - ./data/:/map/data/:rw
+      - ./gtfs_feeds/:/map/gtfs_feeds/:rw
+      - ./download.sh:/map/download.sh:ro
+      - ./valhalla.json:/map/valhalla.json:ro
+  osm2pgsql-init:
+    image: iboates/osm2pgsql:latest
+    environment:
+      TZ: Europe/Berlin
+      PGPASSWORD: CHANGE_ME
+    command:
+      - osm2pgsql
+      - --create
+      - --slim
+      - --cache
+      - "4096" # cache size in MB, maybe too low for optimum
+      - --database
+      - postgres
+      - --user
+      - postgres
+      - --host
+      - db
+      - --port
+      - "5432"
+      - /map/data/oberbayern-latest.osm.pbf
+      - --output=flex
+      - --style
+      - /map/osm2pgsql/style.lua
+    volumes:
+      - ./data/:/map/data/:ro
+      - ./osm2pgsql/:/map/osm2pgsql/:ro
+    depends_on:
+      #download-data:
+      #  condition: service_completed_successfully
+      db:
+        condition: service_healthy
+
+volumes:
+  pgadmin_data:

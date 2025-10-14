@@ -31,3 +31,9 @@ postgres:
         minzoom: 16
         maxzoom: 30
         bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
+      indoor_walls:
+        schema: public
+        function: indoor_walls
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
