@@ -218,7 +218,6 @@ org_id,code,name,path
 15578,TUWZX7T,Chair of Humanbiology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Humanbiology (N.N.)
 15579,TUWZQ9I,Chair of Food Chemistry and Molecular Sensory Science (Prof. Hofmann),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Chemistry and Molecular Sensory Science (Prof. Hofmann)
 15584,TUWZW4V,Chair of Molecular Nutritional Medicine (Prof. Klingenspor),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Molecular Nutritional Medicine (Prof. Klingenspor)
-15592,TUWZX9O,Chair of Technical Microbiology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Technical Microbiology (N.N.)
 15593,TUWZY4Q,Associate Professorship of Biotechnology of Natural Products (Prof. Schwab),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnology of Natural Products (Prof. Schwab)
 15600,TUWZQ5P,Chair of Atmospheric Environmental Research (Prof. Schmid),TUM/Schools/Life Sciences/Departments/Life Science Systems/Atmospheric Environmental Research (Prof. Schmid)
 15605,TUWZO9R,Chair of Soil Science (Prof. Schweizer komm.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Soil Science (Prof. Schweizer komm.)
@@ -235,7 +234,6 @@ org_id,code,name,path
 15629,TUWZV2O,Chair of Grassland (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Grassland (N.N.)
 15630,TUWZA6W,Chair of Organic Agriculture and Agronomy (Prof. Hülsbergen),TUM/Schools/Life Sciences/Departments/Life Science Systems/Organic Agriculture and Agronomy (Prof. Hülsbergen)
 15631,TUWZZ7X,Chair of Plant Breeding (Prof. Schön),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Plant Breeding (Prof. Schön)
-15632,TUWZA2U,Chair of Plant Nutrition (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Plant Nutrition (N.N.)
 15633,TUWZY5O,Chair of Phytopathology (Prof. Hückelhoven),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Phytopathology (Prof. Hückelhoven)
 15636,TUWZU6A,Associate Professorship of Plant Developmental Biology (Prof. Schneitz),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Plant Developmental Biology (Prof. Schneitz)
 15643,TUWZI2W,Chair of Process Systems Engineering (Prof. Briesen),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Process Systems Engineering (Prof. Briesen)
@@ -246,7 +244,6 @@ org_id,code,name,path
 15654,TUWZO8I,Associate Professorship of Wood Technology (Prof. van de Kuilen),TUM/Schools/Engineering and Design/Departments/Materials Engineering/Wood Technology (Prof. van de Kuilen)
 15667,TUWZO4U,Chair of Livestock Biotechnology (Prof. Schusser komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Livestock Biotechnology (Prof. Schusser komm.)
 15668,TUWZV9T,Chair of Animal Physiology and Immunology (Prof. Zehn),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Physiology and Immunology (Prof. Zehn)
-15670,TUWZQ4U,Chair of Animal Breeding (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Breeding (N.N.)
 15671,TUWZU5Y,Chair of Zoology (Prof. Luksch),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Zoology (Prof. Luksch)
 15674,TUWZA8Q,Chair of Animal Nutrition (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Nutrition (N.N.)
 15681,TUWZA2G,Research Center Weihenstephan for Brewing and Food Quality,TUM/Other Scientific Institutions/Research Center Weihenstephan for Brewing and Food Quality
@@ -468,7 +465,6 @@ org_id,code,name,path
 24672,TUINF10,Informatics 14 - Associate Professorship of Theoretical Computer Science (Prof. Räcke),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretical Computer Science (Prof. Räcke)"
 24673,TUINF15,Informatics 6 - Associate Professorship of Cyber Physical Systems (Prof. Althoff),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Cyber Physical Systems (Prof. Althoff)"
 24674,TUINF11,Informatics 6 - Associate Professorship of Machine Vision and Perception (Prof. Burschka),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Machine Vision and Perception (Prof. Burschka)"
-24777,TUWZA1A,Associate Professorship of Protein Modelling (Prof. Frischmann komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Protein Modelling (Prof. Frischmann komm.)
 25178,TUWZA2E,Chair of Plant Systems Biology (Prof. Schwechheimer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Plant Systems Biology (Prof. Schwechheimer)
 25281,TUWZA1C,Chair of Aquatic Systems Biology - Location Weihenstephan  (Prof. Geist),TUM/Schools/Life Sciences/Departments/Life Science Systems/Aquatic Systems Biology - Location Weihenstephan  (Prof. Geist)
 25806,TUZEFT2,Work group Patent- und Lizenzbüro (AB 2),Work group
@@ -623,7 +619,6 @@ org_id,code,name,path
 39685,TUPESFZ,Campus München FU Hagen,TUM/Institutions close to the University/Campus München FU Hagen
 39687,TUPESWM,Student services Munich,TUM/Institutions close to the University/Student services Munich
 39688,TUPEWR0,Additional rooms,TUM/Institutions close to the University/Additional rooms
-39810,TUWZQ9P,Chair of Biochemical Plant Pathology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biochemical Plant Pathology (N.N.)
 39902,TUPECDT,Center for Digital Technology and Management (CDTM),TUM/Institutions close to the University/Center for Digital Technology and Management (CDTM)
 39906,TUPELRZ,Leibniz-Rechenzentrum (LRZ),TUM/Institutions close to the University/Leibniz-Rechenzentrum (LRZ)
 40033,TUPEUTM,Center for Innovation and Business Creation at TUM,TUM/Institutions close to the University/Center for Innovation and Business Creation at TUM
@@ -804,7 +799,6 @@ org_id,code,name,path
 45350,TUZEIRC,Integrative Research Institutes,TUM/Integrative Research Institutes
 45351,TUZEMCT,Former Munich Center for Technology in Society (MCTS),TUM/Integrative Research Institutes/Former Munich Center for Technology in Society (MCTS)
 45370,TUMWKME,Associate Professorship of Data-driven Materials Modeling (Prof. Koutsourelakis),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Data-driven Materials Modeling (Prof. Koutsourelakis)
-45391,TUZEFAM,TUM Family Service,TUM/Central Administration/Diversity & Inclusion/TUM Family Service
 45411,TUPESIN,Student initiatives,TUM/Institutions close to the University/Student initiatives
 45434,TUGSEDU,Graduate Center of Social Sciences and Technology,TUM/TUM Graduate School/Graduate Centers/Graduate Center of Social Sciences and Technology
 45439,TUMEGZ0,TUM Medical Graduate Center,TUM/Academic department/Medicine/Department Administration/TUM Medical Graduate Center
@@ -947,7 +941,7 @@ org_id,code,name,path
 48078,TUEICOD,Associate Professorship of Coding and Cryptography (Prof. Wachter-Zeh),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Coding and Cryptography (Prof. Wachter-Zeh)"
 48097,TUPHEMM,Associate Professorship of Experimental Biophysics (Dr. Duderstadt),TUM/Schools/Natural Sciences/Departments/Bioscience/Experimental Biophysics (Dr. Duderstadt)
 48098,TUPHEQM,Assistant Professorship of Quantum Matter - Experimental Solid State Physics (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Quantum Matter - Experimental Solid State Physics (N.N.)
-48099,TUPHEDM,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+48099,TUPHEDM,Assistant Professorship of Dark Matter (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Dark Matter (N.N.)
 48100,TUPHEOC,Associate Professorship of Observational Cosmology (Prof. Suyu),TUM/Schools/Natural Sciences/Departments/Physics/Observational Cosmology (Prof. Suyu)
 48117,TUZVGET,Green genetic,"TUM/Functional Units/Health, Safety, Radiation Protection (HR6)/Green genetic"
 48120,TUPRBKA,Office of the Senior Executive Vice President,TUM/TUM Board of Management/Office of the Senior Executive Vice President
@@ -1083,7 +1077,6 @@ org_id,code,name,path
 49379,TUWIH03,Associate Professorship of Accounting (Prof. Stich) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Finance and Accounting/Accounting (Prof. Stich) (TUM Campus Heilbronn)
 49381,TUWIH05,Associate Professorship of Strategic Management (Prof. Li) (TUM Campus Heilbronn),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Strategic Management (Prof. Li) (TUM Campus Heilbronn)"
 49382,TUWIH01,Campus Heilbronn Group - Units TUM Campus Heilbronn (MGT),TUM/Schools/Management/Units TUM Campus Heilbronn (MGT)/Campus Heilbronn Group
-49397,TUZEACS,Accommodation Service,TUM/Central Administration/Diversity & Inclusion/Accommodation Service
 49398,TUWIB39,Associate Professorship of Business Analytics and Intelligent Systems (Prof. Schiffer),TUM/Schools/Management/Departments/Operations and Technology/Business Analytics and Intelligent Systems (Prof. Schiffer)
 49417,TUEDS29,Associate Professorship of Research on Learning and Instruction (Prof. Holzberger),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Research on Learning and Instruction (Prof. Holzberger)
 49437,TUEDS30,Associate Professorship of Technical Education for Vocational Teaching (Prof. Pittich),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Technical Education for Vocational Teaching (Prof. Pittich)
