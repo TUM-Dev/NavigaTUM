@@ -63,7 +63,7 @@ tables.pois =
 
 -- Debug output: Show definition of tables
 for name, _ in pairs(tables) do
-    print("\ntable '" .. name .. "':")
+    print("\ntable '" .. name .. "'")
     -- print("  name='" .. dtable:name() .. "'")
     -- print("  columns=" .. inspect(dtable:columns()))
 end
@@ -225,9 +225,11 @@ local function clean_tags_indoor(tags)
     end
     tags.inside = nil -- used to infer indoor, but nothing else
     -- to simplify our data model, we smudge some room= tags into the indoor= space
-    if tags.indoor == "room" and tags.room ~= nil then
-        if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" then
-            tags.indoor = "bath"
+    if tags.indoor == "room" then
+        if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" or tags.amenity == "toilet" or tags.amenity == "toilets" then
+            tags.indoor = "toilet"
+        elseif tags.amenity == "shower" or tags.amenity == "showers" or tags.room == "shower" or tags.room == "showers" or tags.indoor == "shower" or tags.indoor == "showers" then
+            tags.indoor = "shower"
         elseif tags.room == "elevator" then
             tags.indoor = "elevator"
         elseif tags.room == "stairs" then
@@ -318,7 +320,7 @@ function osm2pgsql.process_way(object)
               }
           )
           if object.tags.indoor ~= "corridor" then
-            tables.indoor_pois2:insert(
+            tables.pois:insert(
                 {
                   indoor = object.tags.indoor,
                   ref = object.tags.ref,
