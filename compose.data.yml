@@ -10,8 +10,6 @@ services:
     command:
       - -c
       - synchronous_commit=off
-    volumes:
-      - db_data:/var/lib/postgresql
     ports:
       - "5432:5432"
     healthcheck:
@@ -42,11 +40,11 @@ services:
       TZ: Europe/Berlin
     working_dir: /map
     volumes:
-      - ./data/:/map/data/:rw
-      - ./gtfs_feeds/:/map/gtfs_feeds/:rw
-      - ./download.sh:/map/download.sh:ro
-      - ./valhalla.json:/map/valhalla.json:ro
-  osm2pgsql-init:
+      - ./map/data/:/map/data/:rw
+      - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
+      - ./map/download.sh:/map/download.sh:ro
+      - ./map/valhalla.json:/map/valhalla.json:ro
+  osm2pgsql:
     image: iboates/osm2pgsql:latest
     environment:
       TZ: Europe/Berlin
@@ -70,16 +68,14 @@ services:
       - --style
       - /map/osm2pgsql/style.lua
     volumes:
-      - ./data/:/map/data/:ro
-      - ./osm2pgsql/:/map/osm2pgsql/:ro
+      - ./map/data/:/map/data/:ro
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
     depends_on:
-      #download-data:
-      #  condition: service_completed_successfully
+      download-data:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
 
 volumes:
   pgadmin_data:
-    driver: local
-  postgis-data:
     driver: local

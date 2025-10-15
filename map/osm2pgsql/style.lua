@@ -33,7 +33,6 @@ tables.rooms =
     "rooms",
     {
         {column = "indoor", type = "text", not_null = true},
-        {column = "ref", type = "text"},
         {column = "ref_tum", type = "text"},
         {column = "students_have_access", type = "boolean", not_null = true},
         {column = "level_min", type = "real", not_null = true},
@@ -43,10 +42,29 @@ tables.rooms =
         {column = "geom", type = "geometry", not_null = true}
     }
 )
+tables.pois =
+    osm2pgsql.define_area_table(
+    "pois",
+    {
+        {column = "indoor", type = "text", not_null = true},
+        {column = "ref", type = "text"},
+        {column = "name", type = "text"},
+        {column = "students_have_access", type = "boolean", not_null = true},
+        {column = "is_male_toilet", type = "boolean", not_null = true},
+        {column = "is_female_toilet", type = "boolean", not_null = true},
+        {column = "is_unisex_toilet", type = "boolean", not_null = true},
+        {column = "is_shower", type = "boolean", not_null = true},
+        {column = "area", type = "real", not_null = true},
+        {column = "level_min", type = "real", not_null = true},
+        {column = "level_max", type = "real", not_null = true},
+        -- why can this not be a point???
+        {column = "geom", type = "point", not_null = true}
+    }
+)
 
 -- Debug output: Show definition of tables
 for name, _ in pairs(tables) do
-    print("\ntable '" .. name .. "':")
+    print("\ntable '" .. name .. "'")
     -- print("  name='" .. dtable:name() .. "'")
     -- print("  columns=" .. inspect(dtable:columns()))
 end
@@ -208,9 +226,11 @@ local function clean_tags_indoor(tags)
     end
     tags.inside = nil -- used to infer indoor, but nothing else
     -- to simplify our data model, we smudge some room= tags into the indoor= space
-    if tags.indoor == "room" and tags.room ~= nil then
-        if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" then
-            tags.indoor = "bath"
+    if tags.indoor == "room" then
+        if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" or tags.amenity == "toilet" or tags.amenity == "toilets" then
+            tags.indoor = "toilet"
+        elseif tags.amenity == "shower" or tags.amenity == "showers" or tags.room == "shower" or tags.room == "showers" or tags.indoor == "shower" or tags.indoor == "showers" then
+            tags.indoor = "shower"
         elseif tags.room == "elevator" then
             tags.indoor = "elevator"
         elseif tags.room == "stairs" then
@@ -289,17 +309,35 @@ function osm2pgsql.process_way(object)
         -- Very simple check to decide whether a way is a polygon or not, in a
         -- real stylesheet we'd have to also look at the tags...
         if object.is_closed then
-            tables.rooms:insert(
+          local geom = object:as_polygon()
+          tables.rooms:insert(
+              {
+                indoor = object.tags.indoor,
+                ref_tum = object.tags["ref:tum"],
+                students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+                level_min = level.min,
+                level_max = level.max,
+                geom = geom
+              }
+          )
+          if object.tags.indoor ~= "corridor" then
+            tables.pois:insert(
                 {
                   indoor = object.tags.indoor,
+                  name = object.tags.name,
                   ref = object.tags.ref,
-                  ref_tum = object.tags["ref:tum"],
                   students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+                  is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
+                  is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
+                  is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+                  is_shower = object.tags.indoor == "shower",
+                  area = geom:area(),
                   level_min = level.min,
                   level_max = level.max,
-                  geom = object:as_polygon()
+                  geom = geom:pole_of_inaccessibility({stretch = 3})
                 }
             )
+          end
         else
             tables.indoor_ways:insert(
                 {
@@ -327,17 +365,39 @@ function osm2pgsql.process_relation(object)
     -- Store multipolygons and boundaries as polygons
     if object.tags.type == "multipolygon" or
        object.tags.type == "boundary" then
+        local geom = object:as_multipolygon()
         for _, level in ipairs(SantiseLevel(object.tags.level)) do
             tables.rooms:insert(
                 {
                   indoor = object.tags.indoor,
-                  ref = object.tags.ref,
                   ref_tum = object.tags["ref:tum"],
                   level_min = level.min,
                   level_max = level.max,
-                  geom = object:as_multipolygon()
+                  geom = geom
                 }
             )
+            if object.tags.indoor ~= "corridor" then
+                -- The pole_of_inaccessibility() function only works for polygons,
+                -- not multipolygons. So we split up the multipolygons here and
+                -- calculate the pole for each part separately.
+                for g in geom:geometries() do
+                    tables.pois:insert(
+                        {
+                          indoor = object.tags.indoor,
+                          ref = object.tags.ref,
+                          students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+                          is_male_toilet = object.tags.indoor == "toilet" and object.tags.male,
+                          is_female_toilet = object.tags.indoor == "toilet" and object.tags.female,
+                          is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex,
+                          is_shower = object.tags.indoor == "shower",
+                          area = g:area(),
+                          level_min = level.min,
+                          level_max = level.max,
+                          geom = geom:pole_of_inaccessibility({stretch = 3})
+                        }
+                    )
+                end
+            end
         end
     end
 end

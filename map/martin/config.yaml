@@ -8,7 +8,8 @@ sprites:
 fonts:
   - /map/fonts
 styles:
-  - /map/navigatum-basemap.json
+  - /map/styles/indoor.json
+  - /map/styles/navigatum-basemap.json
 mbtiles:
   paths:
     - /map/level_overlays
@@ -34,6 +35,12 @@ postgres:
       indoor_walls:
         schema: public
         function: indoor_walls
+        minzoom: 16
+        maxzoom: 30
+        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
+      indoor_pois:
+        schema: public
+        function: indoor_pois
         minzoom: 16
         maxzoom: 30
         bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
