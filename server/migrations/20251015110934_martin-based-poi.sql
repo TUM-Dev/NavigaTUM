@@ -48,7 +48,7 @@ DO $do$ BEGIN
                     "is_female_toilet": "Boolean",
                     "is_unisex_toilet": "Boolean",
                     "is_shower": "Boolean",
-                    "area": "Boolean"
+                    "area": "Real"
                 },
                 "maxzoom": 30,
                 "minzoom": 16
