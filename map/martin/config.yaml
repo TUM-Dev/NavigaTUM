@@ -8,7 +8,8 @@ sprites:
 fonts:
   - /map/fonts
 styles:
-  - /map/navigatum-basemap.json
+  - /map/styles/indoor.json
+  - /map/styles/navigatum-basemap.json
 mbtiles:
   paths:
     - /map/level_overlays
