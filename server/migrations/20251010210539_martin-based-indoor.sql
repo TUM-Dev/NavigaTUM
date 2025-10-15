@@ -14,7 +14,6 @@ BEGIN
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
       indoor,
-      CASE WHEN indoor != 'corridor' THEN ref ELSE NULL END AS ref,
       ref_tum,
       students_have_access
     FROM rooms
@@ -38,7 +37,6 @@ DO $do$ BEGIN
                 "id": "indoor_rooms",
                 "fields": {
                     "indoor": "String",
-                    "ref": "String",
                     "ref_tum": "String",
                     "students_have_access": "Boolean"
                 },
