@@ -24,7 +24,7 @@ BEGIN
     FROM pois
     WHERE geom && ST_TileEnvelope(z, x, y) AND
           level_min <= COALESCE((query_params->>'level')::real, 0.0) AND
-          level_max >= COALESCE((query_params->>'level')::real, 0.0) AND
+          level_max >= COALESCE((query_params->>'level')::real, 0.0)
   ) as tile
   WHERE geom IS NOT NULL;
 
