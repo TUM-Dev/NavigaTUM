@@ -207,6 +207,18 @@ local function clean_tags_indoor(tags)
         end
     end
     tags.inside = nil -- used to infer indoor, but nothing else
+    -- to simplify our data model, we smudge some room= tags into the indoor= space
+    if tags.indoor == "room" and tags.room ~= nil then
+        if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" then
+            tags.indoor = "bath"
+        elseif tags.room == "elevator" then
+            tags.indoor = "elevator"
+        elseif tags.room == "stairs" then
+            tags.indoor = "stairs"
+        elseif tags.room == "auditorium" or  tags.room == "lecture_hall" then
+            tags.indoor = "auditorium"
+        end
+    end
 
     -- why are there so many objects with just the layer set, nothing else
     if tags.indoor == nil and tags.level ~= nil and #(tags) == 1 then

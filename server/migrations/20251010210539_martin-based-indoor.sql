@@ -14,7 +14,7 @@ BEGIN
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
       indoor,
-      ref,
+      CASE WHEN indoor != 'corridor' THEN ref ELSE NULL END AS ref,
       ref_tum,
       students_have_access
     FROM rooms

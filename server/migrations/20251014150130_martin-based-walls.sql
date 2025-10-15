@@ -25,7 +25,8 @@ BEGIN
         AND level_max >= COALESCE((query_params->>'level')::real, 0.0)
     ) v_walls,
     (
-      SELECT ST_Union(ST_Buffer(geom, width_cm / 100.0 / 2.0, 'endcap=round')) AS geom
+      -- +5cm because we have rounded corners in the rendering and otherwise this looks weird
+      SELECT ST_Union(ST_Buffer(geom, width_cm / 100.0 / 2.0 + 0.05, 'endcap=round')) AS geom
       FROM doors
       WHERE geom && ST_TileEnvelope(z, x, y)
             AND level_min <= COALESCE((query_params->>'level')::real, 0.0)
