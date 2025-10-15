@@ -43,7 +43,7 @@ tables.rooms =
     }
 )
 tables.pois =
-    osm2pgsql.define_node_table(
+    osm2pgsql.define_area_table(
     "pois",
     {
         {column = "indoor", type = "text", not_null = true},
