@@ -14,6 +14,7 @@ BEGIN
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
       indoor,
+      name,
       ref,
       students_have_access,
       is_male_toilet,
@@ -42,6 +43,7 @@ DO $do$ BEGIN
                 "id": "indoor_pois",
                 "fields": {
                     "indoor": "String",
+                    "name": "String",
                     "ref": "String",
                     "students_have_access": "Boolean",
                     "is_male_toilet": "Boolean",

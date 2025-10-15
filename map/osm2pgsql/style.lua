@@ -48,6 +48,7 @@ tables.pois =
     {
         {column = "indoor", type = "text", not_null = true},
         {column = "ref", type = "text"},
+        {column = "name", type = "text"},
         {column = "students_have_access", type = "boolean", not_null = true},
         {column = "is_male_toilet", type = "boolean", not_null = true},
         {column = "is_female_toilet", type = "boolean", not_null = true},
@@ -323,6 +324,7 @@ function osm2pgsql.process_way(object)
             tables.pois:insert(
                 {
                   indoor = object.tags.indoor,
+                  name = object.tags.name,
                   ref = object.tags.ref,
                   students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
                   is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
@@ -368,7 +370,6 @@ function osm2pgsql.process_relation(object)
             tables.rooms:insert(
                 {
                   indoor = object.tags.indoor,
-                  ref = object.tags.ref,
                   ref_tum = object.tags["ref:tum"],
                   level_min = level.min,
                   level_max = level.max,
