@@ -71,10 +71,48 @@ services:
       - ./map/data/:/map/data/:ro
       - ./map/osm2pgsql/:/map/osm2pgsql/:ro
     depends_on:
-      #download-data:
-      #  condition: service_completed_successfully
+      download-data:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
+  martin-init-config:
+    image: alpine:latest
+    command:
+      - /bin/sh
+      - /map/martin/setup.sh
+    environment:
+      TZ: Europe/Berlin
+    volumes:
+      - ./map/:/map/
+  martin:
+    image: ghcr.io/maplibre/martin:main
+    restart: unless-stopped
+    command:
+      - --config
+      - /map/config.yaml
+    expose:
+      - "3001"
+    environment:
+      TZ: Europe/Berlin
+      BASE_PATH: /martin/
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      RUST_LOG: info
+    depends_on:
+      db:
+        condition: service_healthy
+      martin-init-config:
+        condition: service_completed_successfully
+      osm2pgsql:
+        condition: service_completed_successfully
+    volumes:
+      - ./map/martin/:/map/:ro
+      - tileserver-src:/data:ro
+    healthcheck:
+      test: wget --spider http://0.0.0.0:3001/health || exit 1
+      retries: 10
+      interval: 1s
+      start_period: 1s
+      start_interval: 500ms
 
 volumes:
   pgadmin_data:
