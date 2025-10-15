@@ -331,7 +331,7 @@ function osm2pgsql.process_way(object)
                   is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
                   is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
                   is_shower = object.tags.indoor == "shower",
-                  area = geom:area(),
+                  area = geom:spherical_area(),
                   level_min = level.min,
                   level_max = level.max,
                   geom = geom:pole_of_inaccessibility({stretch = 3})
