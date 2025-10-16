@@ -1,55 +1,35 @@
 {
   "version": 8,
-  "name": "Indoor style demo",
-  "metadata": {
-    "maputnik:renderer": "mlgljs"
-  },
+  "name": "Empty Style",
+  "metadata": {"maputnik:renderer": "mlgljs"},
   "sources": {
     "raster": {
       "maxzoom": 19,
       "minzoom": 0,
       "scheme": "xyz",
-      "tileSize": 512,
-      "tiles": [
-        "https://tile.openstreetmap.de/{z}/{x}/{y}.png"
-      ],
+      "tileSize": 128,
+      "tiles": ["https://tile.openstreetmap.de/{z}/{x}/{y}.png"],
       "type": "raster"
     },
     "indoor": {
       "type": "vector",
-      "url": "https://nav.tum.de/martin/indoor_rooms,indoor_walls,indoor_doors?level=0.0"
+      "url": "https://nav.tum.de/martin/indoor_rooms,indoor_pois,indoor_walls,indoor_doors?level=-1.0"
     }
   },
-  "sprite": "",
-  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+  "sprite": "https://nav.tum.de/martin/sdf_sprite/maki,navigatum",
+  "glyphs": "https://nav.tum.de/martin/font/{fontstack}/{range}",
   "layers": [
-    {
-      "id": "base",
-      "type": "raster",
-      "source": "raster"
-    },
+    {"id": "base", "type": "raster", "source": "raster"},
     {
       "id": "buildings-background",
       "type": "fill",
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 16.5,
-      "filter": [
-        "any",
-        ["has", "building"],
-        ["has", "building:part"]
-      ],
+      "filter": ["any", ["has", "building"], ["has", "building:part"]],
       "paint": {
         "fill-color": "#FFFFFF",
-        "fill-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16.5,
-          0,
-          18,
-          1
-        ]
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 18, 1]
       }
     },
     {
@@ -58,49 +38,41 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 16,
-      "filter": [
-        "all",
-        ["!=", "indoor", "level"]
-      ],
+      "filter": ["all", ["!=", "indoor", "level"]],
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "match",
           ["get", "indoor"],
           "room",
           "#e0e0e0",
-          "area",
-          "#8dd1fc",
           "corridor",
           "#b9e1ff",
+          "stairs",
+          "#b9e1ff",
+          "elevator",
+          "#b9e1ff",
+          "toilet",
+          "#E6C7E1",
+          "shower",
+          "#FCE2B0",
+          "area",
+          "#8dd1fc",
           "wall",
           "#fff",
           "#cccaca"
         ],
-        "fill-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16.5,
-          0,
-          17,
-          1
-        ],
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 17, 1],
         "fill-antialias": false
-      },
-      "layout": {
-        "visibility": "visible"
       }
     },
     {
       "id": "indoor-elevators-logo",
       "type": "symbol",
       "source": "indoor",
-      "source-layer": "indoor_rooms",
-      "filter": [
-        "==",
-        ["get", "indoor"],
-        "elevator"
-      ],
+      "source-layer": "indoor_pois",
+      "minzoom": 16,
+      "filter": ["==", ["get", "indoor"], "elevator"],
       "layout": {
         "icon-allow-overlap": true,
         "icon-image": "elevator",
@@ -115,17 +87,8 @@
         ]
       },
       "paint": {
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16.5,
-          0,
-          18,
-          1
-        ]
-      },
-      "minzoom": 16
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 18, 1]
+      }
     },
     {
       "id": "indoor-walls",
@@ -134,28 +97,11 @@
       "source-layer": "indoor_walls",
       "minzoom": 16.5,
       "filter": ["all"],
+      "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
         "line-color": "#000000",
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16.5,
-          0,
-          18,
-          1
-        ],
-        "line-width": {
-          "stops": [
-            [16, 0],
-            [17, 0.1],
-            [23, 6]
-          ]
-        }
-      },
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 18, 1],
+        "line-width": {"stops": [[16, 0], [17, 0.1], [23, 6]]}
       }
     },
     {
@@ -166,15 +112,7 @@
       "filter": ["has", "barrier"],
       "paint": {
         "line-color": "#000000",
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          18,
-          1
-        ]
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 18, 1]
       }
     },
     {
@@ -184,62 +122,27 @@
       "source-layer": "indoor_rooms",
       "filter": [
         "all",
-        [
-          "==",
-          ["get", "handrail"],
-          "yes"
-        ],
-        [
-          "!=",
-          ["get", "highway"],
-          "steps"
-        ]
+        ["==", ["get", "handrail"], "yes"],
+        ["!=", ["get", "highway"], "steps"]
       ],
       "paint": {
         "line-color": "#000000",
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          19,
-          1
-        ]
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 19, 1]
       }
     },
     {
       "id": "indoor-text-ref",
       "type": "symbol",
       "source": "indoor",
-      "source-layer": "indoor_rooms",
+      "source-layer": "indoor_pois",
       "minzoom": 16.5,
-      "filter": [
-        "!",
-        [
-          "in",
-          ["get", "amenity"],
-          [
-            "literal",
-            [
-              "toilet",
-              "toilets",
-              "shower",
-              "showers"
-            ]
-          ]
-        ]
-      ],
+      "filter": ["all"],
       "layout": {
-        "text-allow-overlap": false,
+        "text-allow-overlap": {"stops": [[6, false], [10, false]]},
         "text-anchor": "center",
         "text-field": [
           "case",
-          [
-            "all",
-            ["has", "name"],
-            ["has", "name"]
-          ],
+          ["all", ["has", "name"], ["has", "ref"]],
           [
             "format",
             ["get", "name"],
@@ -256,7 +159,6 @@
         "text-font": ["Roboto Regular"],
         "text-ignore-placement": false,
         "text-justify": "auto",
-        "text-padding": 5,
         "text-rotation-alignment": "auto",
         "text-size": [
           "interpolate",
@@ -272,7 +174,9 @@
         "symbol-placement": "point",
         "text-pitch-alignment": "auto",
         "text-overlap": "cooperative",
-        "text-optional": true
+        "text-optional": true,
+        "symbol-sort-key": ["get", "area"],
+        "symbol-avoid-edges": false
       },
       "paint": {
         "text-color": "#072140",
@@ -280,11 +184,15 @@
           "interpolate",
           ["linear"],
           ["zoom"],
-          17.5,
+          17,
           0,
           18,
-          0.5,
+          ["case", [">", ["get", "area"], 4e-9], 0.5, 0],
           19,
+          ["case", [">", ["get", "area"], 3e-9], 1, 0],
+          20,
+          ["case", [">", ["get", "area"], 2e-9], 1, 0],
+          21,
           1
         ]
       }
@@ -297,25 +205,13 @@
       "minzoom": 17,
       "filter": [
         "all",
-        [
-          "==",
-          ["get", "highway"],
-          "steps"
-        ],
+        ["==", ["get", "highway"], "steps"],
         ["!", ["has", "conveying"]]
       ],
       "layout": {"line-join": "round"},
       "paint": {
         "line-color": "rgba(255, 252, 252, 0.8)",
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.25,
-          1
-        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
         "line-width": [
           "interpolate",
           ["exponential", 2],
@@ -335,11 +231,7 @@
       "minzoom": 17,
       "filter": [
         "all",
-        [
-          "==",
-          ["get", "highway"],
-          "steps"
-        ],
+        ["==", ["get", "highway"], "steps"],
         ["!", ["has", "conveying"]]
       ],
       "layout": {"line-join": "round"},
@@ -354,15 +246,7 @@
           24,
           ["*", 1, ["^", 2, 8]]
         ],
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.25,
-          1
-        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
         "line-width": [
           "interpolate",
           ["exponential", 2],
@@ -384,11 +268,7 @@
         "all",
         [
           "all",
-          [
-            "==",
-            ["get", "highway"],
-            "steps"
-          ],
+          ["==", ["get", "highway"], "steps"],
           ["!", ["has", "conveying"]]
         ]
       ],
@@ -406,15 +286,7 @@
           22,
           ["literal", [0.05, 0.2]]
         ],
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.25,
-          1
-        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
         "line-width": [
           "interpolate",
           ["exponential", 2],
@@ -436,29 +308,14 @@
         "all",
         [
           "all",
-          [
-            "==",
-            ["get", "highway"],
-            "steps"
-          ],
+          ["==", ["get", "highway"], "steps"],
           ["!", ["has", "conveying"]]
         ]
       ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
+      "layout": {"line-cap": "round", "line-join": "round"},
       "paint": {
         "line-color": "rgba(22, 93, 177, 0.4)",
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.25,
-          1
-        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
         "line-width": [
           "interpolate",
           ["exponential", 1.8],
@@ -476,11 +333,7 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 18,
-      "filter": [
-        "==",
-        ["get", "highway"],
-        "steps"
-      ],
+      "filter": ["==", ["get", "highway"], "steps"],
       "layout": {
         "icon-allow-overlap": true,
         "icon-ignore-placement": false,
@@ -521,11 +374,7 @@
       "source-layer": "indoor_rooms",
       "filter": [
         "all",
-        [
-          "==",
-          ["get", "highway"],
-          "steps"
-        ],
+        ["==", ["get", "highway"], "steps"],
         ["has", "conveying"]
       ],
       "layout": {"line-join": "round"},
@@ -542,15 +391,7 @@
           19,
           ["literal", [0.3, 0.3]]
         ],
-        "line-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.25,
-          1
-        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
         "line-width": [
           "interpolate",
           ["exponential", 1.5],
@@ -589,33 +430,13 @@
             ]
           ]
         ],
-        [
-          "==",
-          ["get", "trashcan"],
-          "yes"
-        ],
-        [
-          "==",
-          ["get", "copier"],
-          "yes"
-        ],
-        [
-          "==",
-          ["get", "amenity"],
-          "vending_machine"
-        ]
+        ["==", ["get", "trashcan"], "yes"],
+        ["==", ["get", "copier"], "yes"],
+        ["==", ["get", "amenity"], "vending_machine"]
       ],
       "paint": {
         "fill-color": "#000",
-        "fill-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          18,
-          0,
-          19,
-          0.2
-        ],
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 0.2],
         "fill-outline-color": "#000"
       }
     },
@@ -629,16 +450,8 @@
         "all",
         [
           "any",
-          [
-            "==",
-            ["get", "entrance"],
-            "exit"
-          ],
-          [
-            "==",
-            ["get", "entrance"],
-            "emergency"
-          ]
+          ["==", ["get", "entrance"], "exit"],
+          ["==", ["get", "entrance"], "emergency"]
         ]
       ],
       "paint": {
@@ -665,31 +478,13 @@
         "all",
         [
           "any",
-          [
-            "==",
-            ["get", "entrance"],
-            "exit"
-          ],
-          [
-            "==",
-            ["get", "entrance"],
-            "emergency"
-          ]
+          ["==", ["get", "entrance"], "exit"],
+          ["==", ["get", "entrance"], "emergency"]
         ]
       ],
-      "layout": {
-        "icon-image": "exit-alt1"
-      },
+      "layout": {"icon-image": "exit-alt1"},
       "paint": {
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          18,
-          0,
-          18.5,
-          1
-        ]
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 18.5, 1]
       }
     },
     {
@@ -701,28 +496,12 @@
       "filter": [
         "all",
         ["has", "entrance"],
-        [
-          "!=",
-          ["get", "entrance"],
-          "exit"
-        ],
-        [
-          "!=",
-          ["get", "entrance"],
-          "emergency"
-        ]
+        ["!=", ["get", "entrance"], "exit"],
+        ["!=", ["get", "entrance"], "emergency"]
       ],
       "paint": {
         "circle-color": "rgba(255, 255, 255, 1)",
-        "circle-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16,
-          0,
-          16.5,
-          1
-        ],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 16.5, 1],
         "circle-radius": 10
       }
     },
@@ -735,16 +514,8 @@
       "filter": [
         "all",
         ["has", "entrance"],
-        [
-          "!=",
-          ["get", "entrance"],
-          "exit"
-        ],
-        [
-          "!=",
-          ["get", "entrance"],
-          "emergency"
-        ]
+        ["!=", ["get", "entrance"], "exit"],
+        ["!=", ["get", "entrance"], "emergency"]
       ],
       "layout": {
         "icon-allow-overlap": true,
@@ -754,15 +525,7 @@
         "text-font": []
       },
       "paint": {
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          16,
-          0,
-          16.5,
-          1
-        ]
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 16.5, 1]
       }
     },
     {
@@ -774,74 +537,32 @@
       "filter": [
         "in",
         ["get", "amenity"],
-        [
-          "literal",
-          [
-            "toilets",
-            "shower",
-            "showers"
-          ]
-        ]
+        ["literal", ["toilets", "shower", "showers"]]
       ],
       "layout": {
         "icon-allow-overlap": true,
         "icon-anchor": "center",
         "icon-image": [
           "case",
-          [
-            "in",
-            ["get", "amenity"],
-            [
-              "literal",
-              ["shower", "showers"]
-            ]
-          ],
+          ["in", ["get", "amenity"], ["literal", ["shower", "showers"]]],
           ["literal", "noun-shower-51"],
-          [
-            "==",
-            ["get", "wheelchair"],
-            "yes"
-          ],
+          ["==", ["get", "wheelchair"], "yes"],
           ["literal", "wheelchair"],
           [
             "all",
-            [
-              "==",
-              ["get", "female"],
-              "yes"
-            ],
-            [
-              "!=",
-              ["get", "male"],
-              "yes"
-            ]
+            ["==", ["get", "female"], "yes"],
+            ["!=", ["get", "male"], "yes"]
           ],
           ["literal", "toilet_female"],
           [
             "all",
-            [
-              "!=",
-              ["get", "female"],
-              "yes"
-            ],
-            [
-              "==",
-              ["get", "male"],
-              "yes"
-            ]
+            ["!=", ["get", "female"], "yes"],
+            ["==", ["get", "male"], "yes"]
           ],
           ["literal", "toilet_male"],
           ["literal", "toilet"]
         ],
-        "icon-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0.5,
-          20,
-          1
-        ],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 20, 1],
         "text-font": ["Roboto", " "],
         "text-overlap": "never",
         "text-transform": "uppercase",
@@ -875,26 +596,14 @@
         "icon-anchor": "center",
         "icon-image": ["get", "maki"],
         "icon-optional": false,
-        "icon-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0.5,
-          20,
-          1
-        ],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 20, 1],
         "symbol-placement": "point",
         "symbol-spacing": 250,
         "text-allow-overlap": false,
         "text-anchor": "top",
         "text-field": [
           "case",
-          [
-            "all",
-            ["has", "name"],
-            ["has", "name"]
-          ],
+          ["all", ["has", "name"], ["has", "name"]],
           [
             "format",
             ["get", "name"],
@@ -916,15 +625,7 @@
         "text-offset": [0, 1],
         "text-padding": 2,
         "text-rotation-alignment": "viewport",
-        "text-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          11,
-          20,
-          13
-        ]
+        "text-size": ["interpolate", ["linear"], ["zoom"], 17, 11, 20, 13]
       },
       "paint": {
         "icon-opacity": [
