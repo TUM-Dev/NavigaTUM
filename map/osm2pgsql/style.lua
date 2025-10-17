@@ -53,6 +53,7 @@ tables.pois =
         { column = "is_male_toilet",       type = "boolean", not_null = true },
         { column = "is_female_toilet",     type = "boolean", not_null = true },
         { column = "is_unisex_toilet",     type = "boolean", not_null = true },
+        { column = "is_wheelchair_toilet", type = "boolean", not_null = true },
         { column = "is_shower",            type = "boolean", not_null = true },
         { column = "area",                 type = "real",    not_null = true },
         { column = "level_min",            type = "real",    not_null = true },
@@ -243,7 +244,7 @@ local function clean_tags_indoor(tags)
     end
   end
   -- we will never show more than a poi icon here
-  if tags.indoor == "elevator" then
+  if tags.indoor == "elevator" or tags.indoor == "shower" or tags.indoor == "toilet" then
     tags.ref = nil
     tags.name = nil
   end
@@ -334,9 +335,10 @@ function osm2pgsql.process_way(object)
         local geom_point = nil
         if object.tags.indoor == "elevator" then
           -- elevators get an icon -> needs no need to strech
-          geom_point = geom:pole_of_inaccessibility()
+          -- looks slightly better if in the middle
+          geom_point = geom:centroid()
         else
-          geom_point = geom:pole_of_inaccessibility({ stretch = 3 })
+          geom_point = geom:pole_of_inaccessibility({ stretch = 2 })
         end
         tables.pois:insert(
           {
@@ -347,6 +349,7 @@ function osm2pgsql.process_way(object)
             is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
             is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
             is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
             is_shower = object.tags.indoor == "shower",
             area = geom:spherical_area(),
             level_min = level.min,
@@ -403,9 +406,10 @@ function osm2pgsql.process_relation(object)
           local geom_point = nil
           if object.tags.indoor == "elevator" then
             -- elevators get an icon -> needs no need to strech
-            geom_point = geom:pole_of_inaccessibility()
+            -- looks slightly better if in the middle
+            geom_point = geom:centroid()
           else
-            geom_point = geom:pole_of_inaccessibility({ stretch = 3 })
+            geom_point = geom:pole_of_inaccessibility({ stretch = 2 })
           end
           tables.pois:insert(
             {
@@ -415,6 +419,7 @@ function osm2pgsql.process_relation(object)
               is_male_toilet = object.tags.indoor == "toilet" and object.tags.male,
               is_female_toilet = object.tags.indoor == "toilet" and object.tags.female,
               is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex,
+              is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
               is_shower = object.tags.indoor == "shower",
               area = g:area(),
               level_min = level.min,
