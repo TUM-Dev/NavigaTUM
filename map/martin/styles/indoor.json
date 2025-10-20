@@ -1,13 +1,15 @@
 {
   "version": 8,
   "name": "Empty Style",
-  "metadata": {"maputnik:renderer": "mlgljs"},
+  "metadata": {
+    "maputnik:renderer": "mlgljs"
+  },
   "sources": {
     "raster": {
       "maxzoom": 19,
       "minzoom": 0,
       "scheme": "xyz",
-      "tileSize": 128,
+      "tileSize": 256,
       "tiles": ["https://tile.openstreetmap.de/{z}/{x}/{y}.png"],
       "type": "raster"
     },
@@ -19,7 +21,11 @@
   "sprite": "https://nav.tum.de/martin/sdf_sprite/maki,navigatum",
   "glyphs": "https://nav.tum.de/martin/font/{fontstack}/{range}",
   "layers": [
-    {"id": "base", "type": "raster", "source": "raster"},
+    {
+      "id": "base",
+      "type": "raster",
+      "source": "raster"
+    },
     {
       "id": "buildings-background",
       "type": "fill",
@@ -39,7 +45,6 @@
       "source-layer": "indoor_rooms",
       "minzoom": 16,
       "filter": ["all", ["!=", "indoor", "level"]],
-      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": [
           "match",
@@ -64,30 +69,9 @@
         ],
         "fill-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 17, 1],
         "fill-antialias": false
-      }
-    },
-    {
-      "id": "indoor-elevators-logo",
-      "type": "symbol",
-      "source": "indoor",
-      "source-layer": "indoor_pois",
-      "minzoom": 16,
-      "filter": ["==", ["get", "indoor"], "elevator"],
-      "layout": {
-        "icon-allow-overlap": true,
-        "icon-image": "elevator",
-        "icon-size": [
-          "interpolate",
-          ["exponential", 1.8],
-          ["zoom"],
-          17,
-          ["*", 2, ["^", 2, -2]],
-          24,
-          ["*", 2, ["^", 2, 3]]
-        ]
       },
-      "paint": {
-        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 18, 1]
+      "layout": {
+        "visibility": "visible"
       }
     },
     {
@@ -97,11 +81,16 @@
       "source-layer": "indoor_walls",
       "minzoom": 16.5,
       "filter": ["all"],
-      "layout": {"line-join": "round", "line-cap": "butt"},
       "paint": {
         "line-color": "#000000",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 16.5, 0, 18, 1],
-        "line-width": {"stops": [[16, 0], [17, 0.1], [23, 6]]}
+        "line-width": {
+          "stops": [[16, 0], [17, 0.1], [23, 6]]
+        }
+      },
+      "layout": {
+        "line-join": "round",
+        "line-cap": "butt"
       }
     },
     {
@@ -120,38 +109,27 @@
       "type": "line",
       "source": "indoor",
       "source-layer": "indoor_rooms",
-      "filter": [
-        "all",
-        ["==", ["get", "handrail"], "yes"],
-        ["!=", ["get", "highway"], "steps"]
-      ],
+      "filter": ["all", ["==", ["get", "handrail"], "yes"], ["!=", ["get", "highway"], "steps"]],
       "paint": {
         "line-color": "#000000",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 19, 1]
       }
     },
     {
-      "id": "indoor-text-ref",
+      "id": "indoor-pois",
       "type": "symbol",
       "source": "indoor",
-      "source-layer": "indoor_pois",
-      "minzoom": 16.5,
+      "minzoom": 17,
       "filter": ["all"],
       "layout": {
-        "text-allow-overlap": {"stops": [[6, false], [10, false]]},
+        "text-allow-overlap": {
+          "stops": [[6, false], [10, false]]
+        },
         "text-anchor": "center",
         "text-field": [
           "case",
           ["all", ["has", "name"], ["has", "ref"]],
-          [
-            "format",
-            ["get", "name"],
-            {},
-            "\n",
-            {},
-            ["get", "ref"],
-            {"font-scale": 0.8}
-          ],
+          ["format", ["get", "name"], {}, "\n", {}, ["get", "ref"], { "font-scale": 0.8 }],
           ["has", "name"],
           ["get", "name"],
           ["get", "ref"]
@@ -160,15 +138,7 @@
         "text-ignore-placement": false,
         "text-justify": "auto",
         "text-rotation-alignment": "auto",
-        "text-size": [
-          "interpolate",
-          ["exponential", 1.5],
-          ["zoom"],
-          16.5,
-          12,
-          24,
-          18
-        ],
+        "text-size": ["interpolate", ["exponential", 1.5], ["zoom"], 16.5, 8, 24, 18],
         "icon-optional": false,
         "icon-allow-overlap": false,
         "symbol-placement": "point",
@@ -176,7 +146,28 @@
         "text-overlap": "cooperative",
         "text-optional": true,
         "symbol-sort-key": ["get", "area"],
-        "symbol-avoid-edges": false
+        "symbol-avoid-edges": false,
+        "icon-image": [
+          "case",
+          ["==", ["get", "indoor"], "elevator"],
+          "elevator",
+          ["get", "is_disabled_toilet"],
+          "wheelchair",
+          ["get", "is_unisex_toilet"],
+          "toilet",
+          ["get", "is_male_toilet"],
+          "toilet_male",
+          ["get", "is_female_toilet"],
+          "toilet_female",
+          ["get", "is_shower"],
+          "noun-shower-51",
+          ""
+        ],
+        "icon-overlap": "never",
+        "icon-size": {
+          "stops": [[17, 0.5], [22, 6]],
+          "base": 2
+        }
       },
       "paint": {
         "text-color": "#072140",
@@ -186,16 +177,25 @@
           ["zoom"],
           17,
           0,
-          18,
-          ["case", [">", ["get", "area"], 4e-9], 0.5, 0],
-          19,
-          ["case", [">", ["get", "area"], 3e-9], 1, 0],
-          20,
-          ["case", [">", ["get", "area"], 2e-9], 1, 0],
-          21,
+          17.5,
+          ["case", [">", ["get", "area"], 100], 1, 0],
+          18.5,
+          ["case", [">", ["get", "area"], 25], 1, 0],
+          19.5,
+          ["case", [">", ["get", "area"], 5], 1, 0],
+          20.5,
           1
+        ],
+        "icon-color": [
+          "case",
+          ["==", ["get", "indoor"], "elevator"],
+          "#072140",
+          ["==", ["get", "indoor"], "shower"],
+          "#D99208",
+          "#9B468D"
         ]
-      }
+      },
+      "source-layer": "indoor_pois"
     },
     {
       "id": "indoorsteps-white-base",
@@ -203,12 +203,8 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 17,
-      "filter": [
-        "all",
-        ["==", ["get", "highway"], "steps"],
-        ["!", ["has", "conveying"]]
-      ],
-      "layout": {"line-join": "round"},
+      "filter": ["all", ["==", ["get", "highway"], "steps"], ["!", ["has", "conveying"]]],
+      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "rgba(255, 252, 252, 0.8)",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
@@ -229,12 +225,8 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 17,
-      "filter": [
-        "all",
-        ["==", ["get", "highway"], "steps"],
-        ["!", ["has", "conveying"]]
-      ],
-      "layout": {"line-join": "round"},
+      "filter": ["all", ["==", ["get", "highway"], "steps"], ["!", ["has", "conveying"]]],
+      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "rgba(0, 0, 0, 1)",
         "line-gap-width": [
@@ -264,15 +256,8 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 17,
-      "filter": [
-        "all",
-        [
-          "all",
-          ["==", ["get", "highway"], "steps"],
-          ["!", ["has", "conveying"]]
-        ]
-      ],
-      "layout": {"line-join": "round"},
+      "filter": ["all", ["all", ["==", ["get", "highway"], "steps"], ["!", ["has", "conveying"]]]],
+      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "rgba(0, 0, 0, 1)",
         "line-dasharray": [
@@ -304,15 +289,11 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 17,
-      "filter": [
-        "all",
-        [
-          "all",
-          ["==", ["get", "highway"], "steps"],
-          ["!", ["has", "conveying"]]
-        ]
-      ],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "filter": ["all", ["all", ["==", ["get", "highway"], "steps"], ["!", ["has", "conveying"]]]],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
       "paint": {
         "line-color": "rgba(22, 93, 177, 0.4)",
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
@@ -354,17 +335,7 @@
       },
       "paint": {
         "icon-color": "rgba(22, 93, 177, 0.4)",
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.5,
-          0.5,
-          19,
-          1
-        ]
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.5, 0.5, 19, 1]
       }
     },
     {
@@ -372,12 +343,8 @@
       "type": "line",
       "source": "indoor",
       "source-layer": "indoor_rooms",
-      "filter": [
-        "all",
-        ["==", ["get", "highway"], "steps"],
-        ["has", "conveying"]
-      ],
-      "layout": {"line-join": "round"},
+      "filter": ["all", ["==", ["get", "highway"], "steps"], ["has", "conveying"]],
+      "layout": { "line-join": "round" },
       "paint": {
         "line-color": "#FF0000",
         "line-dasharray": [
@@ -392,17 +359,7 @@
           ["literal", [0.3, 0.3]]
         ],
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.25, 1],
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.5],
-          ["zoom"],
-          17,
-          1,
-          18,
-          1.6,
-          19,
-          6
-        ]
+        "line-width": ["interpolate", ["exponential", 1.5], ["zoom"], 17, 1, 18, 1.6, 19, 6]
       }
     },
     {
@@ -418,16 +375,7 @@
           ["get", "room"],
           [
             "literal",
-            [
-              "table",
-              "cupboard",
-              "chair",
-              "kitchen",
-              "sofa",
-              "tv",
-              "shelf",
-              "furniture-item"
-            ]
+            ["table", "cupboard", "chair", "kitchen", "sofa", "tv", "shelf", "furniture-item"]
           ]
         ],
         ["==", ["get", "trashcan"], "yes"],
@@ -448,23 +396,11 @@
       "minzoom": 18,
       "filter": [
         "all",
-        [
-          "any",
-          ["==", ["get", "entrance"], "exit"],
-          ["==", ["get", "entrance"], "emergency"]
-        ]
+        ["any", ["==", ["get", "entrance"], "exit"], ["==", ["get", "entrance"], "emergency"]]
       ],
       "paint": {
         "circle-color": "rgba(255, 255, 255, 1)",
-        "circle-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          18,
-          0,
-          18.5,
-          0.8
-        ],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 18.5, 0.8],
         "circle-radius": 10
       }
     },
@@ -476,13 +412,11 @@
       "minzoom": 18,
       "filter": [
         "all",
-        [
-          "any",
-          ["==", ["get", "entrance"], "exit"],
-          ["==", ["get", "entrance"], "emergency"]
-        ]
+        ["any", ["==", ["get", "entrance"], "exit"], ["==", ["get", "entrance"], "emergency"]]
       ],
-      "layout": {"icon-image": "exit-alt1"},
+      "layout": {
+        "icon-image": "exit-alt1"
+      },
       "paint": {
         "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 18.5, 1]
       }
@@ -534,11 +468,7 @@
       "source": "indoor",
       "source-layer": "indoor_rooms",
       "minzoom": 18,
-      "filter": [
-        "in",
-        ["get", "amenity"],
-        ["literal", ["toilets", "shower", "showers"]]
-      ],
+      "filter": ["in", ["get", "amenity"], ["literal", ["toilets", "shower", "showers"]]],
       "layout": {
         "icon-allow-overlap": true,
         "icon-anchor": "center",
@@ -548,17 +478,9 @@
           ["literal", "noun-shower-51"],
           ["==", ["get", "wheelchair"], "yes"],
           ["literal", "wheelchair"],
-          [
-            "all",
-            ["==", ["get", "female"], "yes"],
-            ["!=", ["get", "male"], "yes"]
-          ],
+          ["all", ["==", ["get", "female"], "yes"], ["!=", ["get", "male"], "yes"]],
           ["literal", "toilet_female"],
-          [
-            "all",
-            ["!=", ["get", "female"], "yes"],
-            ["==", ["get", "male"], "yes"]
-          ],
+          ["all", ["!=", ["get", "female"], "yes"], ["==", ["get", "male"], "yes"]],
           ["literal", "toilet_male"],
           ["literal", "toilet"]
         ],
@@ -570,17 +492,7 @@
         "text-optional": false
       },
       "paint": {
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          18,
-          0,
-          18.5,
-          0.5,
-          19,
-          1
-        ],
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 18.5, 0.5, 19, 1],
         "text-translate-anchor": "map"
       }
     },
@@ -604,15 +516,7 @@
         "text-field": [
           "case",
           ["all", ["has", "name"], ["has", "name"]],
-          [
-            "format",
-            ["get", "name"],
-            {},
-            "\n",
-            {},
-            ["get", "ref"],
-            {"font-scale": 0.8}
-          ],
+          ["format", ["get", "name"], {}, "\n", {}, ["get", "ref"], { "font-scale": 0.8 }],
           ["has", "name"],
           ["get", "name"],
           ["get", "ref"]
@@ -628,31 +532,11 @@
         "text-size": ["interpolate", ["linear"], ["zoom"], 17, 11, 20, 13]
       },
       "paint": {
-        "icon-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          18,
-          0,
-          18.5,
-          0.5,
-          19,
-          1
-        ],
+        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 18.5, 0.5, 19, 1],
         "text-color": "#072140",
         "text-halo-color": "rgb(194, 215, 239, 0.3)",
         "text-halo-width": 1,
-        "text-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          17,
-          0,
-          17.5,
-          0.5,
-          19,
-          1
-        ]
+        "text-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0, 17.5, 0.5, 19, 1]
       }
     }
   ],

@@ -284,7 +284,7 @@ services:
       - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && (PathPrefix(`/martin`) || PathPrefix(`/_/`))"
       - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-stripprefix@docker, navigatum-martin-cache-headers@docker"
       - "traefik.http.middlewares.navigatum-martin-stripprefix.stripprefix.prefixes=/martin"
-      - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age=604800" # 7 days
+      - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age 86400, stale-if-error 86400" # 1 day
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
       - traefik_traefik
