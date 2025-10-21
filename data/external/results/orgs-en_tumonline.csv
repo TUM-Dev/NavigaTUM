@@ -207,7 +207,7 @@ org_id,code,name,path
 15456,TUS4OTS,School Office of the TUM School of Life Sciences,TUM/Schools/Life Sciences/School Office
 15520,TUS4OTC,Campus Office (LS) - School Office,TUM/Schools/Life Sciences/School Office/Campus Office (LS)
 15556,TUWZS9X,Chair of Biological Chemistry (Prof. Skerra),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biological Chemistry (Prof. Skerra)
-15558,TUWZP9A,Chair of Microbiology (Prof. Liebl),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Microbiology (Prof. Liebl)
+15558,TUWZP9A,Chair of Microbiology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Microbiology (N.N.)
 15560,TUWZU7Z,Chair of Developmental Genetics (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Developmental Genetics (N.N.)
 15561,TUWZQ7Y,Chair of Biopolymer Chemistry (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biopolymer Chemistry (N.N.)
 15562,TUWZO9X,Chair of Experimental Genetics (Prof. Hrabé de Angelis),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Experimental Genetics (Prof. Hrabé de Angelis)
@@ -429,12 +429,12 @@ org_id,code,name,path
 21538,TUPHE60,Associate Professorship of Experimental Physics and Astroparticle Physics (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Physics and Astroparticle Physics (N.N.)
 21543,TUPHE57,Chair of Semiconductor Quantum Nanosystems (Prof. Finley),TUM/Schools/Natural Sciences/Departments/Physics/Semiconductor Quantum Nanosystems (Prof. Finley)
 21548,TUPHETN,Chair of Precision Measurements at Extreme Conditions (Prof. Fierlinger),TUM/Schools/Natural Sciences/Departments/Physics/Precision Measurements at Extreme Conditions (Prof. Fierlinger)
-21554,TUPHE53,Associate Professorship of Technical Physics (Prof. Krischer),TUM/Schools/Natural Sciences/Departments/Physics/Technical Physics (Prof. Krischer)
+21554,TUPHE53,Associate Professorship of Chemical physics far from equilibrium (Prof. Krischer),TUM/Schools/Natural Sciences/Departments/Physics/Chemical physics far from equilibrium (Prof. Krischer)
 21569,TUPHE51,Chair of Experimental Physics on the Topology of Correlated Systems (Prof. Pfleiderer),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Physics on the Topology of Correlated Systems (Prof. Pfleiderer)
 21593,TUPHE61,Chair of Nanotechnology and Nanomaterials (Prof. Holleitner),TUM/Schools/Natural Sciences/Departments/Physics/Nanotechnology and Nanomaterials (Prof. Holleitner)
 21602,TUPHT30,Scientific Computing 5100 (NAT) - IT Office (NAT),TUM/Schools/Natural Sciences/School Office/IT Office (NAT)/Scientific Computing 5100 (NAT)
 21604,TUPHT65,Chair of Theoretische Elementarteilchenphysik (Prof. Ibarra),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Elementarteilchenphysik (Prof. Ibarra)
-21615,TUPHT44,Associate Professorship of Theoretische Physik - Rechnergest. Feldtheorie Nukl. u. Hadron. Vielteilchensysteme (Prof. Brambilla),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Physik - Rechnergest. Feldtheorie Nukl. u. Hadron. Vielteilchensysteme (Prof. Brambilla)
+21615,TUPHT44,Chair of Theoretische Teilchen- und Kernphysik (Prof. Brambilla),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Teilchen- und Kernphysik (Prof. Brambilla)
 21879,TUPHZEI,Central institutions of the academic department,TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department
 22127,TUCHDEP,Chemistry Department,TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department
 22510,TUCHTC3,Wacker-Chair of Macromolecular Chemistry (Prof. Adams komm.),TUM/Schools/Natural Sciences/Departments/Chemistry/Macromolecular Chemistry (Prof. Adams komm.)
@@ -2262,3 +2262,4 @@ org_id,code,name,path
 57637,TUS1326,Chair of Political Economy of Climate Change (Prof. Steckel),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Political Economy of Climate Change (Prof. Steckel)"
 57657,TUS1325,Assistant Professorship of Microwave Sensors and Sensor Systems (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Microwave Sensors and Sensor Systems (Prof. Nuß)"
 57658,TUS2ANT,Associate Professorship of Applied Core Technology (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Applied Core Technology (Prof. Reiter)
+57677,TUS3016,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)

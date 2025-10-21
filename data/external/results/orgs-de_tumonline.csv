@@ -207,7 +207,7 @@ org_id,code,name,path
 15456,TUS4OTS,School Office der TUM School of Life Sciences,TUM/Schools/Life Sciences/School Office
 15520,TUS4OTC,Campus Office (Studiensekretariat) (LS) - School Office,TUM/Schools/Life Sciences/School Office/Campus Office (Studiensekretariat) (LS)
 15556,TUWZS9X,Lehrstuhl für Biologische Chemie (Prof. Skerra),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biologische Chemie (Prof. Skerra)
-15558,TUWZP9A,Lehrstuhl für Mikrobiologie (Prof. Liebl),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Mikrobiologie (Prof. Liebl)
+15558,TUWZP9A,Lehrstuhl für Mikrobiologie (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Mikrobiologie (N.N.)
 15560,TUWZU7Z,Lehrstuhl für Entwicklungsgenetik (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Entwicklungsgenetik (N.N.)
 15561,TUWZQ7Y,Lehrstuhl für Chemie der Biopolymere (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Chemie der Biopolymere (N.N.)
 15562,TUWZO9X,Lehrstuhl für Experimentelle Genetik (Prof. Hrabé de Angelis),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Experimentelle Genetik (Prof. Hrabé de Angelis)
@@ -429,12 +429,12 @@ org_id,code,name,path
 21538,TUPHE60,Professur für Experimentalphysik - Astroteilchenphysik (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Astroteilchenphysik (N.N.)
 21543,TUPHE57,Lehrstuhl für Halbleiter-Nanostrukturen und -Quantensyteme (Prof. Finley),TUM/Schools/Natural Sciences/Departments/Physics/Halbleiter-Nanostrukturen und -Quantensyteme (Prof. Finley)
 21548,TUPHETN,Lehrstuhl für Präzisionsmessungen bei extremen Bedingungen (Prof. Fierlinger),TUM/Schools/Natural Sciences/Departments/Physics/Präzisionsmessungen bei extremen Bedingungen (Prof. Fierlinger)
-21554,TUPHE53,Professur für Technische Physik (Prof. Krischer),TUM/Schools/Natural Sciences/Departments/Physics/Technische Physik (Prof. Krischer)
+21554,TUPHE53,Professur für Chemische Physik fern des Gleichgewichts (Prof. Krischer),TUM/Schools/Natural Sciences/Departments/Physics/Chemische Physik fern des Gleichgewichts (Prof. Krischer)
 21569,TUPHE51,Lehrstuhl für Experimentalphysik zur Topologie korrelierter Systeme (Prof. Pfleiderer),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik zur Topologie korrelierter Systeme (Prof. Pfleiderer)
 21593,TUPHE61,Lehrstuhl für Nanotechnologie und -materialien (Prof. Holleitner),TUM/Schools/Natural Sciences/Departments/Physics/Nanotechnologie und -materialien (Prof. Holleitner)
 21602,TUPHT30,Wissenschaftliches Rechnen 5100 (NAT) - IT Office (NAT),TUM/Schools/Natural Sciences/School Office/IT Office (NAT)/Wissenschaftliches Rechnen 5100 (NAT)
 21604,TUPHT65,Lehrstuhl für Theoretische Elementarteilchenphysik (Prof. Ibarra),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Elementarteilchenphysik (Prof. Ibarra)
-21615,TUPHT44,Professur für Theoretische Physik - Rechnergest. Feldtheorie Nukl. u. Hadron. Vielteilchensysteme (Prof. Brambilla),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Physik - Rechnergest. Feldtheorie Nukl. u. Hadron. Vielteilchensysteme (Prof. Brambilla)
+21615,TUPHT44,Lehrstuhl für Theoretische Teilchen- und Kernphysik (Prof. Brambilla),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Teilchen- und Kernphysik (Prof. Brambilla)
 21879,TUPHZEI,Zentrale Einrichtungen des Departments,TUM/Fakultäten/Ehemalige Fakultät für Physik/Zentrale Einrichtungen des Departments
 22127,TUCHDEP,Department Chemie,TUM/Fakultäten/Ehemalige Fakultät für Chemie/Department Chemie
 22510,TUCHTC3,Wacker-Lehrstuhl für Makromolekulare Chemie (Prof. Adams komm.),TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Adams komm.)
@@ -2262,3 +2262,4 @@ org_id,code,name,path
 57637,TUS1326,Lehrstuhl für Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner)"
 57657,TUS1325,Professur für Mikrowellensensoren und Sensorsysteme (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Mikrowellensensoren und Sensorsysteme (Prof. Nuß)"
 57658,TUS2ANT,Professur für Angewandte Kerntechnologie (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Angewandte Kerntechnologie (Prof. Reiter)
+57677,TUS3016,Professur für Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
