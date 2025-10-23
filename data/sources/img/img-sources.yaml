@@ -1002,6 +1002,12 @@
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
+9387.EG.010:
+  0:
+    author: Johann Wittelsbach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 chemie:
   0:
     author: '''Graf-flugplatz'''
