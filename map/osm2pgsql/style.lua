@@ -19,10 +19,12 @@ tables.doors =
         { column = "geom",      type = "point",   not_null = true }
       }
     )
-tables.indoor_ways =
+tables.steps =
     osm2pgsql.define_way_table(
-      "indoor_ways",
+      "steps",
       {
+        { column = "width_cm",  type = "integer",    not_null = true },
+        { column = "conveying", type = "boolean",    not_null = true },
         { column = "level_min", type = "real",       not_null = true },
         { column = "level_max", type = "real",       not_null = true },
         { column = "geom",      type = "linestring", not_null = true }
@@ -272,7 +274,7 @@ function osm2pgsql.process_node(object)
   if clean_tags_indoor(object.tags) then
     return
   end
-  if object.tags.indoor == "door" then
+  if object.tags.indoor == "door" or object.tags.indoor == "steps" then
     -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
     -- we want the width_cm, no width_m
@@ -289,6 +291,7 @@ function osm2pgsql.process_node(object)
       tables.doors:insert(
         {
           width_cm = object.tags.width,
+          entrance = object.tags.entrance,
           level_min = level.min,
           level_max = level.max,
           geom = object:as_point()
@@ -358,12 +361,27 @@ function osm2pgsql.process_way(object)
           }
         )
       end
-    else
-      tables.indoor_ways:insert(
+    else if object.tags.indoor == "steps" then
+      -- we want the width_cm, no width_m
+      -- invalid or unset widths get 86cm
+      if object.tags.width ~= nil then
+        object.tags.width = tonumber(object.tags.width)
+      end
+      if object.tags.width == nil then
+        object.tags.width = 100
+      else
+        object.tags.width = object.tags.width * 100
+      end
+      local geom = object:as_linestring()
+      if object.tags.indoor == "steps" then
+        geom = geom.reverse()
+      end
+	    tables.steps:insert(
         {
           level_min = level.min,
           level_max = level.max,
-          indoor = object.tags.indoor,
+          width_cm = object.tags.width,
+          conveying = object.tags.conveying,
           geom = object:as_linestring()
         }
       )
