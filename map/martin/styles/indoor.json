@@ -17,7 +17,7 @@
     },
     "indoor": {
       "type": "vector",
-      "url": "https://nav.tum.de/martin/indoor_rooms,indoor_pois,indoor_walls,indoor_doors,indoor_stairs?level=0.0"
+      "url": "https://nav.tum.de/martin/indoor_rooms,indoor_pois,indoor_walls,indoor_doors?level=0.0"
     }
   },
   "sprite": "https://nav.tum.de/martin/sdf_sprite/maki,navigatum",
@@ -327,14 +327,19 @@
       "source-layer": "indoor_pois"
     },
     {
-      "id": "stairs-white-base",
+      "id": "indoorsteps-white-base",
       "type": "line",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
+      "source-layer": "indoor_rooms",
       "minzoom": 17,
       "filter": [
-        "!",
-        ["has", "conveying"]
+        "all",
+        [
+          "==",
+          ["get", "highway"],
+          "steps"
+        ],
+        ["!", ["has", "conveying"]]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -360,14 +365,19 @@
       }
     },
     {
-      "id": "stairs-base",
+      "id": "indoorsteps-base",
       "type": "line",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
+      "source-layer": "indoor_rooms",
       "minzoom": 17,
       "filter": [
-        "!",
-        ["has", "conveying"]
+        "all",
+        [
+          "==",
+          ["get", "highway"],
+          "steps"
+        ],
+        ["!", ["has", "conveying"]]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -402,14 +412,22 @@
       }
     },
     {
-      "id": "stairs-black",
+      "id": "indoorsteps-black",
       "type": "line",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
+      "source-layer": "indoor_rooms",
       "minzoom": 17,
       "filter": [
-        "!",
-        ["has", "conveying"]
+        "all",
+        [
+          "all",
+          [
+            "==",
+            ["get", "highway"],
+            "steps"
+          ],
+          ["!", ["has", "conveying"]]
+        ]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -446,14 +464,22 @@
       }
     },
     {
-      "id": "stairs-middle",
+      "id": "indoorsteps-middle",
       "type": "line",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
+      "source-layer": "indoor_rooms",
       "minzoom": 17,
       "filter": [
-        "!",
-        ["has", "conveying"]
+        "all",
+        [
+          "all",
+          [
+            "==",
+            ["get", "highway"],
+            "steps"
+          ],
+          ["!", ["has", "conveying"]]
+        ]
       ],
       "layout": {
         "line-cap": "round",
@@ -482,12 +508,16 @@
       }
     },
     {
-      "id": "stairs-arrow",
+      "id": "indoorsteps-arrow",
       "type": "symbol",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
+      "source-layer": "indoor_rooms",
       "minzoom": 18,
-      "filter": ["all"],
+      "filter": [
+        "==",
+        ["get", "highway"],
+        "steps"
+      ],
       "layout": {
         "icon-allow-overlap": true,
         "icon-ignore-placement": false,
@@ -522,11 +552,19 @@
       }
     },
     {
-      "id": "stairs-conveying",
+      "id": "indoorsteps-conveying",
       "type": "line",
       "source": "indoor",
-      "source-layer": "indoor_stairs",
-      "filter": ["has", "conveying"],
+      "source-layer": "indoor_rooms",
+      "filter": [
+        "all",
+        [
+          "==",
+          ["get", "highway"],
+          "steps"
+        ],
+        ["has", "conveying"]
+      ],
       "layout": {"line-join": "round"},
       "paint": {
         "line-color": "#FF0000",
@@ -625,16 +663,19 @@
       "source-layer": "indoor_rooms",
       "minzoom": 18,
       "filter": [
-        "any",
+        "all",
         [
-          "==",
-          ["get", "entrance"],
-          "exit"
-        ],
-        [
-          "==",
-          ["get", "entrance"],
-          "emergency"
+          "any",
+          [
+            "==",
+            ["get", "entrance"],
+            "exit"
+          ],
+          [
+            "==",
+            ["get", "entrance"],
+            "emergency"
+          ]
         ]
       ],
       "paint": {
@@ -652,7 +693,7 @@
       }
     },
     {
-      "id": "poi-doors",
+      "id": "poi-exterior-exit",
       "type": "symbol",
       "source": "indoor",
       "source-layer": "indoor_rooms",
@@ -857,6 +898,97 @@
           1
         ],
         "text-translate-anchor": "map"
+      }
+    },
+    {
+      "id": "poi-indoor",
+      "type": "symbol",
+      "source": "indoor",
+      "source-layer": "indoor_rooms",
+      "minzoom": 17,
+      "filter": ["boolean", false],
+      "layout": {
+        "icon-allow-overlap": true,
+        "icon-anchor": "center",
+        "icon-image": ["get", "maki"],
+        "icon-optional": false,
+        "icon-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          0.5,
+          20,
+          1
+        ],
+        "symbol-placement": "point",
+        "symbol-spacing": 250,
+        "text-allow-overlap": false,
+        "text-anchor": "top",
+        "text-field": [
+          "case",
+          [
+            "all",
+            ["has", "name"],
+            ["has", "name"]
+          ],
+          [
+            "format",
+            ["get", "name"],
+            {},
+            "\n",
+            {},
+            ["get", "ref"],
+            {"font-scale": 0.8}
+          ],
+          ["has", "name"],
+          ["get", "name"],
+          ["get", "ref"]
+        ],
+        "text-font": ["Roboto Regular"],
+        "text-ignore-placement": false,
+        "text-line-height": 1.2,
+        "text-max-angle": 38,
+        "text-max-width": 8,
+        "text-offset": [0, 1],
+        "text-padding": 2,
+        "text-rotation-alignment": "viewport",
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          11,
+          20,
+          13
+        ]
+      },
+      "paint": {
+        "icon-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          18,
+          0,
+          18.5,
+          0.5,
+          19,
+          1
+        ],
+        "text-color": "#072140",
+        "text-halo-color": "rgb(194, 215, 239, 0.3)",
+        "text-halo-width": 1,
+        "text-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          17,
+          0,
+          17.5,
+          0.5,
+          19,
+          1
+        ]
       }
     }
   ],

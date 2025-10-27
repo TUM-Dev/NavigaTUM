@@ -61,8 +61,7 @@ BEGIN
           geom,
           ST_TileEnvelope(z, x, y),
           4096, 64, true) AS geom,
-      width_cm,
-      entrance
+      width_cm
     FROM doors
     WHERE geom && ST_TileEnvelope(z, x, y) AND
           level_min <= COALESCE((query_params->>'level')::real, 0.0) AND
@@ -83,8 +82,7 @@ DO $do$ BEGIN
             {
                 "id": "indoor_doors",
                 "fields": {
-                    "width_cm": "Number",
-                    "entrance": "String"
+                    "width_cm": "Number"
                 },
                 "maxzoom": 30,
                 "minzoom": 16
