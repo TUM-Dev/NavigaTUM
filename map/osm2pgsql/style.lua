@@ -334,10 +334,10 @@ function osm2pgsql.process_way(object)
           }
         )
       end
-      if object.tags.indoor ~= "corridor" then
+      if object.tags.indoor ~= "stairs" and object.tags.indoor ~= "corridor" then
         local geom_point = nil
         if object.tags.indoor == "elevator" then
-          -- elevators get an icon -> needs no need to strech
+          -- elevators only get an icon -> needs no need to strech
           -- looks slightly better if in the middle
           geom_point = geom:centroid()
         else
@@ -361,30 +361,32 @@ function osm2pgsql.process_way(object)
           }
         )
       end
-    else if object.tags.indoor == "steps" then
-      -- we want the width_cm, no width_m
-      -- invalid or unset widths get 86cm
-      if object.tags.width ~= nil then
-        object.tags.width = tonumber(object.tags.width)
-      end
-      if object.tags.width == nil then
-        object.tags.width = 100
-      else
-        object.tags.width = object.tags.width * 100
-      end
-      local geom = object:as_linestring()
+    else
       if object.tags.indoor == "steps" then
-        geom = geom.reverse()
+        -- we want the width_cm, no width_m
+        -- invalid or unset widths get 86cm
+        if object.tags.width ~= nil then
+          object.tags.width = tonumber(object.tags.width)
+        end
+        if object.tags.width == nil then
+          object.tags.width = 100
+        else
+          object.tags.width = object.tags.width * 100
+        end
+        local geom_line = object:as_linestring()
+        if object.tags.indoor == "steps" then
+          geom_line = geom_line.reverse()
+        end
+  	    tables.steps:insert(
+          {
+            level_min = level.min,
+            level_max = level.max,
+            width_cm = object.tags.width,
+            conveying = object.tags.conveying,
+            geom = geom_line
+          }
+        )
       end
-	    tables.steps:insert(
-        {
-          level_min = level.min,
-          level_max = level.max,
-          width_cm = object.tags.width,
-          conveying = object.tags.conveying,
-          geom = object:as_linestring()
-        }
-      )
     end
   end
 end
