@@ -623,6 +623,7 @@ org_id,code,name,path
 39906,TUPELRZ,Leibniz-Rechenzentrum (LRZ),TUM/Institutions close to the University/Leibniz-Rechenzentrum (LRZ)
 40033,TUPEUTM,Center for Innovation and Business Creation at TUM,TUM/Institutions close to the University/Center for Innovation and Business Creation at TUM
 40494,TUCHAC9,Associate Professorship of Molecular Catalysis (Prof. Kühn),TUM/Schools/Natural Sciences/Departments/Chemistry/Molecular Catalysis (Prof. Kühn)
+40661,TUEDFED,Former TUM School of Education,TUM/Academic department/Former TUM School of Education
 40711,TUMEZN1,Chair of Neuronal Cell Biology (Prof. Misgeld),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Neuronal Cell Biology (Prof. Misgeld)
 40834,TUWZM4D,Center of Stable Isotope Analyses (CeSIA) (BE)	,TUM/Schools/Life Sciences/Center of Stable Isotope Analyses (CeSIA) (BE)	
 40884,TUMAM31,Chair of Arithmetic Algebra (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Arithmetic Algebra (N.N.)"
@@ -2263,3 +2264,4 @@ org_id,code,name,path
 57657,TUS1325,Assistant Professorship of Microwave Sensors and Sensor Systems (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Microwave Sensors and Sensor Systems (Prof. Nuß)"
 57658,TUS2ANT,Associate Professorship of Applied Core Technology (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Applied Core Technology (Prof. Reiter)
 57677,TUS3016,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+57717,TUS2CAS,Assistant Professorship of Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)

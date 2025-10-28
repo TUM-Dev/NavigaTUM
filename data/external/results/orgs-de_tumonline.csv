@@ -623,6 +623,7 @@ org_id,code,name,path
 39906,TUPELRZ,Leibniz-Rechenzentrum (LRZ),TUM/Partnerschaftliche Einrichtungen/Leibniz-Rechenzentrum (LRZ)
 40033,TUPEUTM,UnternehmerTUM GmbH,TUM/Partnerschaftliche Einrichtungen/UnternehmerTUM GmbH
 40494,TUCHAC9,Professur für Molekulare Katalyse (Prof. Kühn),TUM/Schools/Natural Sciences/Departments/Chemistry/Molekulare Katalyse (Prof. Kühn)
+40661,TUEDFED,Ehemalige TUM School of Education,TUM/Fakultäten/Ehemalige TUM School of Education
 40711,TUMEZN1,Lehrstuhl für Zellbiologie des Nervensystems (Prof. Misgeld),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Zellbiologie des Nervensystems (Prof. Misgeld)/Zellbiologie des Nervensystems (Prof. Misgeld)
 40834,TUWZM4D,Center of Stable Isotope Analyses (CeSIA) (BE)	,TUM/Schools/Life Sciences/Center of Stable Isotope Analyses (CeSIA) (BE)	
 40884,TUMAM31,Lehrstuhl für Arithmetische Geometrie (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Arithmetische Geometrie (N.N.)"
@@ -1183,7 +1184,7 @@ org_id,code,name,path
 51220,TUCHPC7,Professur für Functional Nanomaterials (Prof. Lechner),TUM/Schools/Natural Sciences/Departments/Chemistry/Functional Nanomaterials (Prof. Lechner)
 51257,TULREAV,Professur für eAviation (Prof. Daoud komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (Prof. Daoud komm.)
 51258,TUS4000,TUM School of Life Sciences,TUM/Schools/Life Sciences
-51259,TUS4DEA,Dekan/in der TUM School of Life Sciences,TUM/Schools/Life Sciences/Dekan/in
+51259,TUS4DEA,Dekan der TUM School of Life Sciences,TUM/Schools/Life Sciences/Dekan/in
 51260,TUS4VRI,Prodekan/in Forschung und Innovation der TUM School of Life Sciences,TUM/Schools/Life Sciences/Prodekane/Forschung und Innovation
 51261,TUS4VST,Prodekan/in Studium und Lehre der TUM School of Life Sciences,TUM/Schools/Life Sciences/Prodekane/Studium und Lehre
 51262,TUS4VTD,Prodekan/in Talent Management und Diversity der TUM School of Life Sciences,TUM/Schools/Life Sciences/Prodekane/Talent Management und Diversity
@@ -2261,5 +2262,6 @@ org_id,code,name,path
 57617,TUS3015,Professur für Biosystems Chemistry of Natural Products (Prof. Benitez Mateos),TUM/Schools/Natural Sciences/Departments/Bioscience/Biosystems Chemistry of Natural Products (Prof. Benitez Mateos)
 57637,TUS1326,Lehrstuhl für Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner)"
 57657,TUS1325,Professur für Mikrowellensensoren und Sensorsysteme (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Mikrowellensensoren und Sensorsysteme (Prof. Nuß)"
-57658,TUS2ANT,Professur für Angewandte Kerntechnologie (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Angewandte Kerntechnologie (Prof. Reiter)
+57658,TUS2ANT,Professur für Angewandte Kerntechnologien (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Angewandte Kerntechnologien (Prof. Reiter)
 57677,TUS3016,Professur für Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+57717,TUS2CAS,Professur für Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)
