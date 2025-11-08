@@ -1,6 +1,6 @@
 mypy==1.18.2
 pre-commit==4.3.0
-pytest==8.4.2
+pytest==9.0.0
 ruff==0.14.4
 types-Pillow==10.2.0.20240822
 types-PyYAML==6.0.12.20250915
