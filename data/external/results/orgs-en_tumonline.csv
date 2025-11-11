@@ -45,7 +45,7 @@ org_id,code,name,path
 14610,TUMAF06,Associate Professorship of Scientific Computing and Uncertainty Quantification (Prof. Ullmann),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Scientific Computing and Uncertainty Quantification (Prof. Ullmann)"
 14612,TUMAF07,Associate Professorship of Discrete Mathematics (Prof. Weltge),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Discrete Mathematics (Prof. Weltge)"
 14614,TUMAF20,Assistant Professorship of Mathematical Finance (Prof. Knochenhauer),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematical Finance (Prof. Knochenhauer)"
-14617,TUMAF01,Associate Professorship of Applied Mathematical Statistics (Prof. Czado),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Applied Mathematical Statistics (Prof. Czado)"
+14617,TUMAF01,Associate Professorship of Applied Mathematical Statistics (Prof. Czado em.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Applied Mathematical Statistics (Prof. Czado em.)"
 14632,TUCHSDK,Dean of Studies,TUM/Academic department/Former TUM Department of Chemistry/Dean of Studies
 14635,TUCHWA0,Institute for Water Chemistry,TUM/Schools/Natural Sciences/Water Chemistry
 14684,TUCHAC6,Chair of Inorganic Chemistry with Focus on New Materials (Prof. Fässler),TUM/Schools/Natural Sciences/Departments/Chemistry/Inorganic Chemistry with Focus on New Materials (Prof. Fässler)
@@ -283,7 +283,7 @@ org_id,code,name,path
 15747,TUMETU0,Institute of Toxicology and Environmental Hygiene (Prof. Göttlicher),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Toxicology and Environmental Hygiene (Prof. Göttlicher)
 15748,TUMEVI0,Institute of Virology (Prof. Protzer),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)
 15750,TUMEIR0,Institute of Forensic Medicine - LMU,TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Kooperationen mit der LMU/Forensic Medicine - LMU
-15751,TUMEER0,Clinic of Nutritional Medicine (Prof. Hauner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Hauner)
+15751,TUMEER0,Clinic of Nutritional Medicine (Prof. Timper),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Timper)
 15919,TUMECH1,Chair of Surgery (Prof. Friess),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Surgery (Prof. Friess)
 15921,TUMECH3,Chair of Vascular and Endovascular Surgery (Prof. Branzan),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)/Vascular and Endovascular Surgery (Prof. Branzan)
 15923,TUMECH2,Associate Professorship of Immunosuppression and Postoperative Sepsis (Prof. Holzmann),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Immunosuppression and Postoperative Sepsis (Prof. Holzmann)
@@ -313,7 +313,7 @@ org_id,code,name,path
 16029,TUMEPR1,Chair of Preventive Sports Medicine and Sports Cardiology (Prof. Halle) (Prof. Halle),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Preventive Sports Medicine and Sports Cardiology (Prof. Halle)/Preventive Sports Medicine and Sports Cardiology (Prof. Halle) (Prof. Halle)
 16034,TUMERO1,Chair of Radiology (Prof. Makowski),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Radiology (Prof. Makowski)
 16036,TUMERO2,Associate Professorship of Department Interventional Radiology (Prof. Paprottka),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Department Interventional Radiology (Prof. Paprottka)
-16037,TUMERO3,Associate Professorship of Neuroradiology (Prof. Kirschke),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostic and Interventional Neuroradiology (Prof. Kirschke)/Neuroradiology (Prof. Kirschke)
+16037,TUMERO3,Associate Professorship of Neuroradiology (Prof. Kirschke),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neuroradiology (Prof. Kirschke)/Neuroradiology (Prof. Kirschke)
 16041,TUMEHM1,Chair of Human Genetics (Prof. Winkelmann),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Human Genetics  (Prof. Winkelmann)/Human Genetics (Prof. Winkelmann)
 16045,TUMEKC1,Associate Professorship of Laboratory Medicine and Immunoregulation (Prof. Ruland),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Laboratory Medicine (Prof. Ruland)/Laboratory Medicine and Immunoregulation (Prof. Ruland)
 16049,TUMEEO1,Chair of Experimental Oncology and Therapy Research (Prof. Knolle komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Oncology and Therapeutic Research (Knolle komm.)/Experimental Oncology and Therapy Research (Prof. Knolle komm.)
@@ -327,7 +327,7 @@ org_id,code,name,path
 16100,TUMEDH1,Clinic for Heart and Vascular Surgery (DHM) (Prof. Krane),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Surgery (DHM) (Prof. Krane)
 16101,TUMEDH2,Clinic for Paediatric Cardiology (DHM) (Prof. Ewert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Paediatric Cardiology (DHM) (Prof. Ewert)
 16102,TUMEDH0,Clinic for Heart and Vascular Diseases (DHM) (Prof. Schunkert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Diseases (DHM) (Prof. Schunkert)
-16110,TUMEER1,Chair of Nutritional Medicine (Prof. Hauner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Hauner)/Nutritional Medicine (Prof. Hauner)
+16110,TUMEER1,Chair of Nutritional Medicine (Prof. Timper),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Timper)/Nutritional Medicine (Prof. Timper)
 16114,TUMENW1,Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Misgeld komm.)/Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)
 16121,TUSPZ01,Dean's Office Dekanat SG,TUM/Academic department/Sport and Health Sciences/Department Administration/Dean's Office
 16123,TUSPFMG,Faculty management,TUM/Academic department/Sport and Health Sciences/Department Administration/Faculty management
@@ -960,7 +960,7 @@ org_id,code,name,path
 48237,TUZETTM,Translational Cancer Research  (TranslaTUM),TUM/Corporate Research Centers/Translational Cancer Research  (TranslaTUM)
 48238,TUINICT,Informatics 24 - Associate Professorship of Cyber Trust (Prof. Grossklags),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Cyber Trust (Prof. Grossklags)"
 48257,TUARL32,Associate Professorship of Green Technologies in Landscape Architecture (Prof. Ludwig),TUM/Schools/Engineering and Design/Departments/Architecture/Green Technologies in Landscape Architecture (Prof. Ludwig)
-48258,TUINF19,Informatics 28 - Chair of  Professorship of Visual Computing (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Professorship of Visual Computing (Prof. Nießner)"
+48258,TUINF19,Informatics 28 - Chair of  Visual Computing (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing (Prof. Nießner)"
 48277,TUMEVI4,Associate Professorship of Immunopathology of Viral Infection (Prof. Pichlmair),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)/Immunopathology of Viral Infection (Prof. Pichlmair)
 48297,TUZVRBE,Structural development planning (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/Structural development planning (Central department 4)
 48298,TUZV453,Infrastructure Garching (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Garching (Central department 4)/Facility Management Garching (Central department 4)/Infrastructure Garching (Central department 4)
@@ -1899,7 +1899,7 @@ org_id,code,name,path
 54665,TUME2M9,Associate Professorship of Translationale Pankreaskrebsforschung (Prof. Reichert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Translationale Pankreaskrebsforschung (Prof. Reichert)
 54666,TUMEPS3,Assistant Professorship of Humane Organoidtechnologien zur Erforschung psychischer Erkrankungen (Prof. Schäfer),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychiatry and Psychotherapy (Prof. Priller)/Humane Organoidtechnologien zur Erforschung psychischer Erkrankungen (Prof. Schäfer)
 54667,TUMETG0,Chair of Translational Genomics (HMGU) (Prof. Zeggini),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Translational Genomics (HMGU) (Prof. Zeggini)
-54668,TUMERO7,Institute of Diagnostic and Interventional Neuroradiology (Prof. Kirschke),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Diagnostic and Interventional Neuroradiology (Prof. Kirschke)
+54668,TUMERO7,Institute of Neuroradiology (Prof. Kirschke),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neuroradiology (Prof. Kirschke)
 54669,TUMEDHB,Chair of Congenital Cardiac Surgery (DHM) (Prof. Hörer),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Congenital and Pediatric Heart Surgery (DHM) (Prof. Hörer)/Congenital Cardiac Surgery (DHM) (Prof. Hörer)
 54677,TUS2HSP,Associate Professorship of Human Spaceflight Technology (Prof. Detrell),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Human Spaceflight Technology (Prof. Detrell)
 54697,TUS4F3U,Forest Research Unit,TUM/Schools/Life Sciences/TUM Plant Technology Center (PTC)/Forest Research Unit
@@ -2265,3 +2265,6 @@ org_id,code,name,path
 57658,TUS2ANT,Associate Professorship of Applied Core Technology (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Applied Core Technology (Prof. Reiter)
 57677,TUS3016,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
 57717,TUS2CAS,Assistant Professorship of Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)
+57737,TUPRV14,Vice President - TUM Asia,TUM/TUM Board of Management/Vice Presidents/Vice President - TUM Asia
+57757,TUXSC0K,Degree Program B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/Degree Program
+57758,TUXS115,Degree Program M.Sc. AI in Biomedicine,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Data Science/Degree Program"
