@@ -66,6 +66,7 @@ pub struct SearchQueryArgs {
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 1)]
     limit_all: Option<usize>,
+
     /// string to include in front of highlighted sequences.
     ///
     /// If this and `post_highlight` are empty, highlighting is disabled.
@@ -88,6 +89,24 @@ pub struct SearchQueryArgs {
         examples("/u0017", "</em>", "</ais-highlight-00000000>")
     )]
     post_highlight: Option<String>,
+
+    /// Disable cropping of long building names in parsed_id.
+    ///
+    /// When enabled, full building names will be shown instead of truncated
+    /// versions with ellipsis (…).
+    ///
+    /// Default: false (cropping enabled for names > 25 characters)
+    #[serde(default)]
+    disable_cropping: bool,
+
+    /// Disable adding building prefix to parsed_id.
+    ///
+    /// When enabled, returns room codes in Roomfinder format (archname@building_id)
+    /// instead of prefixed format (e.g., "MW 1801").
+    ///
+    /// Default: false (building prefix enabled)
+    #[serde(default)]
+    disable_parsed_id_prefix: bool,
 }
 
 /// Returned search results by this
@@ -211,6 +230,47 @@ impl From<&SearchQueryArgs> for Highlighting {
     }
 }
 
+/// Configuration options for formatting search results
+#[derive(Clone, Eq, PartialEq, Hash)]
+pub struct FormattingConfig {
+    /// Highlighting configuration
+    pub highlighting: Highlighting,
+    /// Disable cropping of long building names in parsed_id.
+    pub disable_cropping: bool,
+    /// Disable adding building prefix to parsed_id.
+    pub disable_parsed_id_prefix: bool,
+}
+
+impl Debug for FormattingConfig {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FormattingConfig")
+            .field("highlighting", &self.highlighting)
+            .field("disable_cropping", &self.disable_cropping)
+            .field("disable_parsed_id_prefix", &self.disable_parsed_id_prefix)
+            .finish()
+    }
+}
+
+impl From<&SearchQueryArgs> for FormattingConfig {
+    fn from(args: &SearchQueryArgs) -> Self {
+        Self {
+            highlighting: Highlighting::from(args),
+            disable_cropping: args.disable_cropping,
+            disable_parsed_id_prefix: args.disable_parsed_id_prefix,
+        }
+    }
+}
+
+impl Default for FormattingConfig {
+    fn default() -> Self {
+        Self {
+            highlighting: Highlighting::default(),
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        }
+    }
+}
+
 /// Search entries
 ///
 /// This endpoint is designed to support search-as-you-type results.
@@ -244,11 +304,12 @@ pub async fn search_handler(
     let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
 
     let limits = Limits::from(&args);
-    let highlighting = Highlighting::from(&args);
+    let formatting_config = FormattingConfig::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
-    debug!(q, ?limits, ?highlighting, "quested search");
-    let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
+    debug!(q, ?limits, ?formatting_config.highlighting, "quested search");
+    let results_sections =
+        cached_geoentry_search(q, limits, search_addresses, formatting_config).await;
     debug!(?results_sections, "searching returned");
 
     if results_sections.len() > 3 {
@@ -276,9 +337,9 @@ pub async fn search_handler(
 #[cached(size = 200)]
 async fn cached_geoentry_search(
     q: String,
-    highlighting: Highlighting,
     limits: Limits,
     search_addresses: bool,
+    formatting_config: FormattingConfig,
 ) -> Vec<ResultsSection> {
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
@@ -290,7 +351,7 @@ async fn cached_geoentry_search(
         };
     };
     let geoentry_search =
-        crate::search_executor::do_geoentry_search(&client, &q, highlighting, limits);
+        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config);
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);
         let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);

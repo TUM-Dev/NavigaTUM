@@ -3,26 +3,28 @@ use unicode_truncate::UnicodeTruncateStr;
 use super::ResultEntry;
 use super::parser::{ParsedQuery, TextToken};
 use crate::external::meilisearch::MSHit;
-use crate::search::Highlighting;
+use crate::routes::search::FormattingConfig;
 
 pub(super) struct RoomVisitor {
     parsed_input: ParsedQuery,
-    highlighting: Highlighting,
+    config: FormattingConfig,
 }
 
-impl From<(ParsedQuery, Highlighting)> for RoomVisitor {
+impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
     #[tracing::instrument]
-    fn from((parsed_input, highlighting): (ParsedQuery, Highlighting)) -> Self {
+    fn from((parsed_input, config): (ParsedQuery, FormattingConfig)) -> Self {
         Self {
             parsed_input,
-            highlighting,
+            config,
         }
     }
 }
 
 impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
-        item.parsed_id = self.parse_room_formats(&item.hit);
+        if !self.config.disable_parsed_id_prefix {
+            item.parsed_id = self.parse_room_formats(&item.hit);
+        }
         item.subtext = Self::generate_subtext(&item.hit);
     }
     // Parse the search against some known room formats and improve the
@@ -52,10 +54,10 @@ impl RoomVisitor {
                 let split_arch_id = unicode_split_at(arch_id, t0.chars().count());
                 Some(format!(
                     "{}{} {}{}{}",
-                    self.highlighting.pre,
+                    self.config.highlighting.pre,
                     t0.to_uppercase(),
                     split_arch_id.0,
-                    self.highlighting.post,
+                    self.config.highlighting.post,
                     split_arch_id.1,
                 ))
             }
@@ -73,14 +75,15 @@ impl RoomVisitor {
                     return None;
                 }
 
-                let (prefix, parsed_arch_id) = Self::split_prefix_from_arch_building_id(hit, text);
+                let (prefix, parsed_arch_id) =
+                    Self::split_prefix_from_arch_building_id(hit, text, &self.config);
                 let parsed_aid = unicode_split_at(&parsed_arch_id, text.chars().count());
                 Some(format!(
                     "{}{}{}{}{}",
                     prefix.unwrap_or_default(),
-                    self.highlighting.pre,
+                    self.config.highlighting.pre,
                     parsed_aid.0,
-                    self.highlighting.post,
+                    self.config.highlighting.post,
                     parsed_aid.1,
                 ))
             }
@@ -95,6 +98,7 @@ impl RoomVisitor {
     fn split_prefix_from_arch_building_id<'a>(
         hit: &MSHit,
         first_token: &str,
+        config: &FormattingConfig,
     ) -> (Option<&'a str>, String) {
         if first_token.contains('@') {
             return (None, hit.arch_name.as_ref().unwrap().to_string());
@@ -119,7 +123,10 @@ impl RoomVisitor {
         // look nice. Since this building name here serves only search a
         // hint, we'll crop it (with more from the end, because there
         // is usually more entropy)
-        if hit.parent_building_names[0].len() > 25 {
+        // e.g. "560-561 Hauptgebäude der Fakultät für Informatik und Mathematik"
+        // becomes "560-561 Hauptgebäude…Mathematik"
+        // only if cropping is not disabled in the config
+        if !config.disable_cropping && hit.parent_building_names[0].len() > 25 {
             let pn = hit.parent_building_names[0].as_str();
             let (first, _) = pn.unicode_truncate(7);
             let (last, _) = pn.unicode_truncate_start(10);

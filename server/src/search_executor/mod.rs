@@ -7,7 +7,7 @@ use tracing::error;
 use crate::external::meilisearch::{GeoEntryQuery, MSHit};
 use crate::external::nominatim::Nominatim;
 use crate::limited::vec::LimitedVec;
-use crate::routes::search::{Highlighting, Limits};
+use crate::routes::search::{FormattingConfig, Highlighting, Limits};
 use crate::search_executor::parser::ParsedQuery;
 
 mod formatter;
@@ -129,8 +129,8 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
 pub async fn do_geoentry_search(
     client: &Client,
     q: &str,
-    highlighting: Highlighting,
     limits: Limits,
+    formatting_config: FormattingConfig,
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q);
 
@@ -144,7 +144,7 @@ pub async fn do_geoentry_search(
         })
         .collect::<Vec<String>>()
         .join(" ");
-    let mut query = GeoEntryQuery::from((client, query, &limits, &highlighting));
+    let mut query = GeoEntryQuery::from((client, query, &limits, &formatting_config));
     for sort in parsed_input.sorting.as_meilisearch_sorting() {
         query.with_sorting(sort);
     }
@@ -163,7 +163,7 @@ pub async fn do_geoentry_search(
         response.results.get(1).unwrap(),
         response.results.get(2).unwrap(),
     );
-    let visitor = formatter::RoomVisitor::from((parsed_input, highlighting));
+    let visitor = formatter::RoomVisitor::from((parsed_input, formatting_config));
     section_rooms
         .entries
         .iter_mut()
@@ -206,8 +206,8 @@ mod test {
             do_geoentry_search(
                 client,
                 &self.query,
-                Highlighting::default(),
                 Limits::default(),
+                FormattingConfig::default(),
             )
             .await
             .0
