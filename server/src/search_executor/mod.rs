@@ -369,10 +369,10 @@ mod test {
 
         if let Some(room_section) = rooms {
             for entry in &room_section.entries {
-                // No parsed_id should be set when disable_parsed_id_prefix=true
+                // Check that parsed_id matches subtext_bold (which is archname@building_id)
                 assert_eq!(
-                    entry.parsed_id, None,
-                    "parsed_id should be None when disable_parsed_id_prefix=true"
+                    entry.parsed_id, entry.subtext_bold,
+                    "parsed_id should be archname@building_id when disable_parsed_id_prefix=true"
                 );
             }
         }
@@ -507,6 +507,18 @@ mod test {
                         !has_prefix,
                         "Entries for query '{}' should NOT contain prefix '{}' when disable_parsed_id_prefix=true",
                         query, expected_prefix
+                    );
+
+                    // Check that the raw Roomfinder format (archname@building_id) is used
+                    let has_raw_archname_format = room_section_no_prefix
+                        .entries
+                        .iter()
+                        .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains('@')));
+
+                    assert!(
+                        has_raw_archname_format,
+                        "Entries for query '{}' should contain the raw Roomfinder format (i.e., '@' symbol) when disable_parsed_id_prefix=true",
+                        query
                     );
                 }
             }

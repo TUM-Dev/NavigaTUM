@@ -24,6 +24,8 @@ impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
         if !self.config.disable_parsed_id_prefix {
             item.parsed_id = self.parse_room_formats(&item.hit);
+        } else {
+            item.parsed_id = item.hit.arch_name.clone();
         }
         item.subtext = Self::generate_subtext(&item.hit);
     }
