@@ -492,4 +492,124 @@ mod tests {
             assert_eq!(res.pre.len(), expected_length);
         }
     }
+
+    #[test]
+    fn test_formatting_config_default() {
+        let input = SearchQueryArgs::default();
+        let config = FormattingConfig::from(&input);
+
+        assert_eq!(config.highlighting.pre, "\u{19}");
+        assert_eq!(config.highlighting.post, "\u{17}");
+        assert!(!config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_both_disabled() {
+        let input = SearchQueryArgs {
+            disable_cropping: true,
+            disable_parsed_id_prefix: true,
+            ..Default::default()
+        };
+        let config = FormattingConfig::from(&input);
+
+        assert!(config.disable_cropping);
+        assert!(config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_with_custom_highlighting() {
+        let input = SearchQueryArgs {
+            pre_highlight: Some("<em>".to_string()),
+            post_highlight: Some("</em>".to_string()),
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+            ..Default::default()
+        };
+        let config = FormattingConfig::from(&input);
+
+        assert_eq!(config.highlighting.pre, "<em>");
+        assert_eq!(config.highlighting.post, "</em>");
+        assert!(config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_hash_trait() {
+        use std::collections::hash_map::DefaultHasher;
+        use std::hash::{Hash, Hasher};
+
+        let config1 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+        };
+
+        let config2 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+        };
+
+        let config3 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        };
+
+        // Same configs should hash the same
+        let mut hasher1 = DefaultHasher::new();
+        config1.hash(&mut hasher1);
+        let hash1 = hasher1.finish();
+
+        let mut hasher2 = DefaultHasher::new();
+        config2.hash(&mut hasher2);
+        let hash2 = hasher2.finish();
+
+        assert_eq!(hash1, hash2);
+
+        // Different configs should (probably) hash differently
+        let mut hasher3 = DefaultHasher::new();
+        config3.hash(&mut hasher3);
+        let hash3 = hasher3.finish();
+
+        assert_ne!(hash1, hash3);
+    }
+
+    #[test]
+    fn test_formatting_config_with_limits() {
+        // Test that FormattingConfig works correctly when combined with Limits
+        let input = SearchQueryArgs {
+            limit_all: Some(20),
+            limit_buildings: Some(10),
+            limit_rooms: Some(15),
+            pre_highlight: Some("<b>".to_string()),
+            post_highlight: Some("</b>".to_string()),
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+            ..Default::default()
+        };
+
+        let config = FormattingConfig::from(&input);
+        let limits = Limits::from(&input);
+
+        // Verify both are created correctly from the same input
+        assert_eq!(config.highlighting.pre, "<b>");
+        assert_eq!(config.highlighting.post, "</b>");
+        assert!(config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+
+        assert_eq!(limits.total_count, 20);
+        assert_eq!(limits.buildings_count, 10);
+        assert_eq!(limits.rooms_count, 15);
+    }
 }
