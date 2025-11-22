@@ -414,6 +414,7 @@ building_key,address_place,address_street,address_zip_code,area_id,name,tumonlin
 9101,Garmisch-Partenkirchen,Bahnhofstraße 37,82467,223,Garmisch-Partenkirchen Bahnhofstr. 37 (A,2330,
 9110,Garmisch-Partenkirchen,Breitenauerstraße 1a,82467,223,GP Geigergebäude,3469,
 9201,Berchtesgaden,Roßfeldstr.,83471,263,TUM FZ Friedrich N. Schwarz Berchtesgade,2450,
+9344,Weßling,Claude-Dornier-Str. 1,82234,29,Lärmschutzhalle 344,3589,
 9376,Taufkirchen,Willy-Messerschmitt-Str. 1,82024,29,Airbus Standort 76.C Taufkirchen/Ottobru,2490,
 9377,Ottobrunn,Lise-Meitner-Str. 9-11,85521,29,Lise-Meitner-Straße (AM),2890,
 9378,Ottobrunn,Caroline-Herschel-Str. 100,85521,29,TUM Panasonic (AM),2889,
@@ -423,3 +424,5 @@ building_key,address_place,address_street,address_zip_code,area_id,name,tumonlin
 9387,Taufkirchen,Willy-Messerschmitt-Straße 5,82024,29,Hörsaalgebäude,3551,
 9389,Taufkirchen,Willy-Messerschmitt-Straße 5,82024,29,Betriebsgebäude,3549,
 9390,Weßling,Claude-Dornier-Str. 1,82234,29,Aviation Flight Test Center/Halle 507 (A,3129,
+9510,Freising,LabCampus 48,85356,29,LabCampus 48 (AM),3609,
+9511,Freising,LabCampus 52,85356,29,LabCampus 52 (AM),3610,
