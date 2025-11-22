@@ -7,7 +7,7 @@ use tracing::error;
 use crate::external::meilisearch::{GeoEntryQuery, MSHit};
 use crate::external::nominatim::Nominatim;
 use crate::limited::vec::LimitedVec;
-use crate::routes::search::{Highlighting, Limits};
+use crate::routes::search::{FormattingConfig, Highlighting, Limits};
 use crate::search_executor::parser::ParsedQuery;
 
 mod formatter;
@@ -129,8 +129,8 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
 pub async fn do_geoentry_search(
     client: &Client,
     q: &str,
-    highlighting: Highlighting,
     limits: Limits,
+    formatting_config: FormattingConfig,
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q);
 
@@ -144,7 +144,7 @@ pub async fn do_geoentry_search(
         })
         .collect::<Vec<String>>()
         .join(" ");
-    let mut query = GeoEntryQuery::from((client, query, &limits, &highlighting));
+    let mut query = GeoEntryQuery::from((client, query, &limits, &formatting_config));
     for sort in parsed_input.sorting.as_meilisearch_sorting() {
         query.with_sorting(sort);
     }
@@ -163,7 +163,7 @@ pub async fn do_geoentry_search(
         response.results.get(1).unwrap(),
         response.results.get(2).unwrap(),
     );
-    let visitor = formatter::RoomVisitor::from((parsed_input, highlighting));
+    let visitor = formatter::RoomVisitor::from((parsed_input, formatting_config));
     section_rooms
         .entries
         .iter_mut()
@@ -206,8 +206,8 @@ mod test {
             do_geoentry_search(
                 client,
                 &self.query,
-                Highlighting::default(),
                 Limits::default(),
+                FormattingConfig::default(),
             )
             .await
             .0
@@ -276,5 +276,328 @@ mod test {
                 insta::assert_yaml_snapshot!(actual, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
             });
         }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_disable_cropping_shows_full_building_names() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+
+        // Search with cropping enabled (default)
+        let config_cropping = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: false, // Cropping enabled
+            disable_parsed_id_prefix: false,
+        };
+
+        let results_cropping = do_geoentry_search(
+            &ms.client,
+            "3002", // Room search that might have long building names
+            Limits::default(),
+            config_cropping,
+        )
+        .await;
+
+        // Search with cropping disabled
+        let config_no_cropping = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: true, // Cropping disabled
+            disable_parsed_id_prefix: false,
+        };
+
+        let results_no_cropping =
+            do_geoentry_search(&ms.client, "3002", Limits::default(), config_no_cropping).await;
+
+        // Find room entries
+        let rooms_with_crop = results_cropping
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+        let rooms_without_crop = results_no_cropping
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+        if let (Some(with_crop), Some(without_crop)) = (rooms_with_crop, rooms_without_crop) {
+            // Check if any parsed_ids contain ellipsis (indicating cropping)
+            let has_ellipsis_with_crop = with_crop
+                .entries
+                .iter()
+                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains("…")));
+
+            let has_ellipsis_without_crop = without_crop
+                .entries
+                .iter()
+                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains("…")));
+
+            // If long building names exist (indicated by ellipsis when cropping is enabled)
+            // then cropping should be disabled when the flag is set
+            if has_ellipsis_with_crop {
+                assert!(
+                    !has_ellipsis_without_crop,
+                    "Building names should NOT be cropped when disable_cropping=true"
+                );
+            }
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_both_flags_work_together() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+
+        // Both features disabled
+        let config = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: true,
+            disable_parsed_id_prefix: true,
+        };
+
+        let results = do_geoentry_search(&ms.client, "1010", Limits::default(), config).await;
+
+        let rooms = results
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+        if let Some(room_section) = rooms {
+            for entry in &room_section.entries {
+                // Check that parsed_id matches subtext_bold (which is archname@building_id)
+                assert_eq!(
+                    entry.parsed_id, entry.subtext_bold,
+                    "parsed_id should be archname@building_id when disable_parsed_id_prefix=true"
+                );
+            }
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_custom_highlighting_with_formatting() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+
+        // Custom HTML highlighting
+        let config = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        };
+
+        let results =
+            do_geoentry_search(&ms.client, "mi560602018", Limits::default(), config).await;
+
+        let rooms = results
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+        if let Some(room_section) = rooms {
+            // Check if custom highlighting appears in parsed_id or name
+            let has_custom_highlighting = room_section.entries.iter().any(|e| {
+                let in_parsed_id = e
+                    .parsed_id
+                    .as_ref()
+                    .map_or(false, |p| p.contains("<em>") || p.contains("</em>"));
+
+                let in_name = e.name.contains("<em>") || e.name.contains("</em>");
+
+                in_parsed_id || in_name
+            });
+
+            // If MI rooms are found, some highlighting should be present
+            if !room_section.entries.is_empty() {
+                assert!(
+                    has_custom_highlighting,
+                    "Custom highlighting markers should appear in results"
+                );
+            }
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_building_formats() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+
+        let config = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        };
+
+        let config_no_prefix = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: false,
+            disable_parsed_id_prefix: true,
+        };
+
+        // Test different building formats
+        let test_cases = vec![
+            ("mw1801", "MW"),       // Maschinenwesen
+            ("mi560602018", "MI"),  // Mathematik/Informatik
+            ("pi510101294", "PH"),  // Physik
+            ("ch5406EG600B", "CH"), // Chemie
+        ];
+
+        for (query, expected_prefix) in test_cases {
+            let results =
+                do_geoentry_search(&ms.client, query, Limits::default(), config.clone()).await;
+
+            let results_no_prefix = do_geoentry_search(
+                &ms.client,
+                query,
+                Limits::default(),
+                config_no_prefix.clone(),
+            )
+            .await;
+
+            let rooms = results
+                .0
+                .iter()
+                .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+            let rooms_no_prefix = results_no_prefix
+                .0
+                .iter()
+                .find(|s| matches!(s.facet, ResultFacet::Rooms));
+
+            if let Some(room_section) = rooms {
+                // If rooms are found for this building, check for the prefix
+                if !room_section.entries.is_empty() {
+                    let has_prefix = room_section.entries.iter().any(|e| {
+                        e.parsed_id
+                            .as_ref()
+                            .map_or(false, |p| p.contains(expected_prefix))
+                    });
+
+                    assert!(
+                        has_prefix,
+                        "Entries for query '{}' should contain prefix '{}'",
+                        query, expected_prefix
+                    );
+                }
+            }
+
+            if let Some(room_section_no_prefix) = rooms_no_prefix {
+                // If rooms are found for this building, check that no prefix is present
+                if !room_section_no_prefix.entries.is_empty() {
+                    let has_prefix = room_section_no_prefix.entries.iter().any(|e| {
+                        e.parsed_id
+                            .as_ref()
+                            .map_or(false, |p| p.contains(expected_prefix))
+                    });
+
+                    assert!(
+                        !has_prefix,
+                        "Entries for query '{}' should NOT contain prefix '{}' when disable_parsed_id_prefix=true",
+                        query, expected_prefix
+                    );
+
+                    // Check that the raw Roomfinder format (archname@building_id) is used
+                    let has_raw_archname_format = room_section_no_prefix
+                        .entries
+                        .iter()
+                        .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains('@')));
+
+                    assert!(
+                        has_raw_archname_format,
+                        "Entries for query '{}' should contain the raw Roomfinder format (i.e., '@' symbol) when disable_parsed_id_prefix=true",
+                        query
+                    );
+                }
+            }
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_cropping_behavior_for_1010() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+
+        let query = "1010";
+
+        // 1. Search with default settings (Cropping Enabled)
+        let config_default = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        };
+
+        let results_cropped =
+            do_geoentry_search(&ms.client, query, Limits::default(), config_default).await;
+
+        // 2. Search with cropping disabled
+        let config_no_crop = FormattingConfig {
+            highlighting: Highlighting::default(),
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+        };
+
+        let results_full =
+            do_geoentry_search(&ms.client, query, Limits::default(), config_no_crop).await;
+
+        // Helper to extract parsed_ids from the Rooms section
+        let get_ids = |res: &LimitedVec<ResultsSection>| -> Vec<String> {
+            res.0
+                .iter()
+                .find(|s| matches!(s.facet, ResultFacet::Rooms))
+                .map(|s| {
+                    s.entries
+                        .iter()
+                        .filter_map(|e| e.parsed_id.clone())
+                        .collect()
+                })
+                .unwrap_or_default()
+        };
+
+        let ids_cropped = get_ids(&results_cropped);
+        let ids_full = get_ids(&results_full);
+
+        // Assertions
+        assert!(
+            !ids_cropped.is_empty(),
+            "Query '1010' should return results"
+        );
+
+        // Verify that the default behavior crops the long building name associated with 1010
+        // (Assuming 1010 belongs to the main building which usually has a long name)
+        let has_ellipsis = ids_cropped.iter().any(|id| id.contains('…'));
+        assert!(
+            has_ellipsis,
+            "Default behavior for '1010' should include cropping (ellipsis)"
+        );
+
+        // Verify that the specific flag disables this cropping
+        let has_ellipsis_full = ids_full.iter().any(|id| id.contains('…'));
+        assert!(
+            !has_ellipsis_full,
+            "disable_cropping=true should return full names without ellipses"
+        );
+
+        // Verify the IDs are actually different (one is shorter than the other)
+        // This confirms the flag actually changed the output
+        assert_ne!(
+            ids_cropped, ids_full,
+            "Results should differ based on cropping flag"
+        );
     }
 }
