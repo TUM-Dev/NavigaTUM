@@ -130,12 +130,6 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
-'0402':
-  0:
-    author: Frank Elsinga
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
 '0501':
   0:
     author: David Bonello
@@ -281,13 +275,6 @@
     license:
       text: CC0 1.0
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-'1552':
-  0:
-    author: Astrid Eckert
-    license:
-      text: Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
-    offsets:
-      header: 400
 '2319':
   0:
     author: Uli Benz
@@ -366,15 +353,6 @@
     offsets:
       header: 100
       thumb: 100
-'2930':
-  0:
-    author: Frank Elsinga
-    license:
-      text: CC0 1.0
-      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
-    offsets:
-      header: -400
-      thumb: 300
 '3501':
   0:
     author: Andreas Heddergott
@@ -576,6 +554,12 @@
     author: Scharger, Albert / TUM
     license:
       text: Free for use in reporting on TUM, with the copyright noted
+5407.01.740A:
+  0:
+    author: Mario Petrov
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '5410':
   0:
     author: Klein&Sänger, Architekten
@@ -660,6 +644,12 @@
     author: Ebener, Marcus  / UnternehmerTUM/TUM
     license:
       text: frei bei Berichterstattung über die TUM unter Nennung des Copyrights/Free for use in reporting on TUM, with the copyright noted
+5501.03.104M:
+  0:
+    author: AM
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 5506.EG.679:
   0:
     author: David Bonello
@@ -716,18 +706,6 @@
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Frei für Berichterstattung über die TUM unter Nennung des Copyrights
-5532.EG.001:
-  0:
-    author: Alexander Pach
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
-5532.EG.002:
-  0:
-    author: Alexander Pach
-    license:
-      text: CC BY 4.0
-      url: https://creativecommons.org/licenses/by/4.0/
 5532.01.108:
   0:
     author: Alexander Pach
@@ -741,6 +719,18 @@
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
 5532.03.302:
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+5532.EG.001:
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+5532.EG.002:
   0:
     author: Alexander Pach
     license:
@@ -916,6 +906,12 @@
       url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
     offsets:
       header: 100
+8120.01.101:
+  0:
+    author: Benjamin Schmitz
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '9001':
   0:
     author: Andreas Heddergott / TUM
@@ -1012,6 +1008,12 @@
     author: Uli Benz
     license:
       text: ©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted.
+9387.EG.010:
+  0:
+    author: Johann Wittelsbach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 chemie:
   0:
     author: '''Graf-flugplatz'''

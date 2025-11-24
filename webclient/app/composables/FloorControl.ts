@@ -128,6 +128,7 @@ export class FloorControl extends Evented implements IControl {
   }
 
   setLevel(level: number | null): void {
+    console.log(`selecting layer ${level} of ${FLOOR_LEVELS.length}`);
     // Update button states
     const buttons = this.floor_list.children;
     for (let i = 0; i < buttons.length; i++) {
@@ -165,7 +166,8 @@ export class FloorControl extends Evented implements IControl {
 
     // Hide all floor layers
     for (const floorLevel of FLOOR_LEVELS) {
-      const layerId = `floor-level-${floorLevel.id}`;
+      const layerId = `indoor-raster-floor-${floorLevel.id}`;
+      console.debug(`Hiding layer ${layerId}`);
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "none");
       }
@@ -173,7 +175,8 @@ export class FloorControl extends Evented implements IControl {
 
     // Show the selected level
     if (level !== null) {
-      const layerId = `floor-level-${level}`;
+      const layerId = `indoor-raster-floor-${level}`;
+      console.debug(`Showing layer ${layerId}`);
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "visible");
       }

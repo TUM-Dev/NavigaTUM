@@ -11,44 +11,63 @@ print("osm2pgsql version: " .. osm2pgsql.version)
 local tables = {}
 tables.doors =
     osm2pgsql.define_node_table(
-    "doors",
-    {
-        {column = "width_cm", type = "integer", not_null = true},
-        {column = "level_min", type = "real", not_null = true},
-        {column = "level_max", type = "real", not_null = true},
-        {column = "geom", type = "point", not_null = true}
-    }
-)
+      "doors",
+      {
+        { column = "width_cm",  type = "integer", not_null = true },
+        { column = "level_min", type = "real",    not_null = true },
+        { column = "level_max", type = "real",    not_null = true },
+        { column = "geom",      type = "point",   not_null = true }
+      }
+    )
 tables.indoor_ways =
     osm2pgsql.define_way_table(
-    "indoor_ways",
-    {
-        {column = "level_min", type = "real", not_null = true},
-        {column = "level_max", type = "real", not_null = true},
-        {column = "geom", type = "linestring", not_null = true}
-    }
-)
+      "indoor_ways",
+      {
+        { column = "level_min", type = "real",       not_null = true },
+        { column = "level_max", type = "real",       not_null = true },
+        { column = "geom",      type = "linestring", not_null = true }
+      }
+    )
 tables.rooms =
     osm2pgsql.define_area_table(
-    "rooms",
-    {
-        {column = "indoor", type = "text", not_null = true},
-        {column = "ref", type = "text"},
-        {column = "ref_tum", type = "text"},
-        {column = "students_have_access", type = "boolean", not_null = true},
-        {column = "level_min", type = "real", not_null = true},
-        {column = "level_max", type = "real", not_null = true},
+      "rooms",
+      {
+        { column = "indoor",               type = "text",     not_null = true },
+        { column = "ref_tum",              type = "text" },
+        { column = "students_have_access", type = "boolean",  not_null = true },
+        { column = "level_min",            type = "real",     not_null = true },
+        { column = "level_max",            type = "real",     not_null = true },
         -- The type of the `geom` column is `geometry`, because we need to store
         -- polygons AND multipolygons
-        {column = "geom", type = "geometry", not_null = true}
-    }
-)
+        { column = "geom",                 type = "geometry", not_null = true }
+      }
+    )
+tables.pois =
+    osm2pgsql.define_area_table(
+      "pois",
+      {
+        { column = "indoor",               type = "text",    not_null = true },
+        { column = "ref",                  type = "text" },
+        { column = "name",                 type = "text" },
+        { column = "students_have_access", type = "boolean", not_null = true },
+        { column = "is_male_toilet",       type = "boolean", not_null = true },
+        { column = "is_female_toilet",     type = "boolean", not_null = true },
+        { column = "is_unisex_toilet",     type = "boolean", not_null = true },
+        { column = "is_wheelchair_toilet", type = "boolean", not_null = true },
+        { column = "is_shower",            type = "boolean", not_null = true },
+        { column = "area",                 type = "real",    not_null = true },
+        { column = "level_min",            type = "real",    not_null = true },
+        { column = "level_max",            type = "real",    not_null = true },
+        -- why can this not be a point???
+        { column = "geom",                 type = "point",   not_null = true }
+      }
+    )
 
 -- Debug output: Show definition of tables
 for name, _ in pairs(tables) do
-    print("\ntable '" .. name .. "':")
-    -- print("  name='" .. dtable:name() .. "'")
-    -- print("  columns=" .. inspect(dtable:columns()))
+  print("\ntable '" .. name .. "'")
+  -- print("  name='" .. dtable:name() .. "'")
+  -- print("  columns=" .. inspect(dtable:columns()))
 end
 
 -- These tag keys are generally regarded as useless for most rendering. Most
@@ -59,119 +78,119 @@ end
 -- If you want some of these keys, perhaps for a debugging layer, just
 -- delete the corresponding lines.
 local delete_keys = {
-    -- "mapper" keys
-    "attribution",
-    "comment",
-    "created_by",
-    "fixme",
-    "note",
-    "note:*",
-    "odbl",
-    "odbl:note",
-    "source",
-    "source:*",
-    "source_ref",
-    -- "import" keys
+  -- "mapper" keys
+  "attribution",
+  "comment",
+  "created_by",
+  "fixme",
+  "note",
+  "note:*",
+  "odbl",
+  "odbl:note",
+  "source",
+  "source:*",
+  "source_ref",
+  -- "import" keys
 
-    -- Corine Land Cover (CLC) (Europe)
-    "CLC:*",
-    -- Geobase (CA)
-    "geobase:*",
-    -- CanVec (CA)
-    "canvec:*",
-    -- osak (DK)
-    "osak:*",
-    -- kms (DK)
-    "kms:*",
-    -- ngbe (ES)
-    -- See also note:es and source:file above
-    "ngbe:*",
-    -- Friuli Venezia Giulia (IT)
-    "it:fvg:*",
-    -- KSJ2 (JA)
-    -- See also note:ja and source_ref above
-    "KSJ2:*",
-    -- Yahoo/ALPS (JA)
-    "yh:*",
-    -- LINZ (NZ)
-    "LINZ2OSM:*",
-    "linz2osm:*",
-    "LINZ:*",
-    "ref:linz:*",
-    -- WroclawGIS (PL)
-    "WroclawGIS:*",
-    -- Naptan (UK)
-    "naptan:*",
-    -- TIGER (US)
-    "tiger:*",
-    -- GNIS (US)
-    "gnis:*",
-    -- National Hydrography Dataset (US)
-    "NHD:*",
-    "nhd:*",
-    -- mvdgis (Montevideo, UY)
-    "mvdgis:*",
-    -- EUROSHA (Various countries)
-    "project:eurosha_2012",
-    -- UrbIS (Brussels, BE)
-    "ref:UrbIS",
-    -- NHN (CA)
-    "accuracy:meters",
-    "sub_sea:type",
-    "waterway:type",
-    -- StatsCan (CA)
-    "statscan:rbuid",
-    -- RUIAN (CZ)
-    "ref:ruian:addr",
-    "ref:ruian",
-    "building:ruian:type",
-    -- DIBAVOD (CZ)
-    "dibavod:id",
-    -- UIR-ADR (CZ)
-    "uir_adr:ADRESA_KOD",
-    -- GST (DK)
-    "gst:feat_id",
-    -- Maa-amet (EE)
-    "maaamet:ETAK",
-    -- FANTOIR (FR)
-    "ref:FR:FANTOIR",
-    -- 3dshapes (NL)
-    "3dshapes:ggmodelk",
-    -- AND (NL)
-    "AND_nosr_r",
-    -- OPPDATERIN (NO)
-    "OPPDATERIN",
-    -- Various imports (PL)
-    "addr:city:simc",
-    "addr:street:sym_ul",
-    "building:usage:pl",
-    "building:use:pl",
-    -- TERYT (PL)
-    "teryt:simc",
-    -- RABA (SK)
-    "raba:id",
-    -- DCGIS (Washington DC, US)
-    "dcgis:gis_id",
-    -- Building Identification Number (New York, US)
-    "nycdoitt:bin",
-    -- Chicago Building Inport (US)
-    "chicago:building_id",
-    -- Louisville, Kentucky/Building Outlines Import (US)
-    "lojic:bgnum",
-    -- MassGIS (Massachusetts, US)
-    "massgis:way_id",
-    -- Los Angeles County building ID (US)
-    "lacounty:*",
-    -- Address import from Bundesamt für Eich- und Vermessungswesen (AT)
-    "at_bev:addr_date",
-    -- misc
-    "import",
-    "import_uuid",
-    "OBJTYPE",
-    "SK53_bulk:load",
-    "mml:class",
-    -- we are not doing 3D
-    "height"
+  -- Corine Land Cover (CLC) (Europe)
+  "CLC:*",
+  -- Geobase (CA)
+  "geobase:*",
+  -- CanVec (CA)
+  "canvec:*",
+  -- osak (DK)
+  "osak:*",
+  -- kms (DK)
+  "kms:*",
+  -- ngbe (ES)
+  -- See also note:es and source:file above
+  "ngbe:*",
+  -- Friuli Venezia Giulia (IT)
+  "it:fvg:*",
+  -- KSJ2 (JA)
+  -- See also note:ja and source_ref above
+  "KSJ2:*",
+  -- Yahoo/ALPS (JA)
+  "yh:*",
+  -- LINZ (NZ)
+  "LINZ2OSM:*",
+  "linz2osm:*",
+  "LINZ:*",
+  "ref:linz:*",
+  -- WroclawGIS (PL)
+  "WroclawGIS:*",
+  -- Naptan (UK)
+  "naptan:*",
+  -- TIGER (US)
+  "tiger:*",
+  -- GNIS (US)
+  "gnis:*",
+  -- National Hydrography Dataset (US)
+  "NHD:*",
+  "nhd:*",
+  -- mvdgis (Montevideo, UY)
+  "mvdgis:*",
+  -- EUROSHA (Various countries)
+  "project:eurosha_2012",
+  -- UrbIS (Brussels, BE)
+  "ref:UrbIS",
+  -- NHN (CA)
+  "accuracy:meters",
+  "sub_sea:type",
+  "waterway:type",
+  -- StatsCan (CA)
+  "statscan:rbuid",
+  -- RUIAN (CZ)
+  "ref:ruian:addr",
+  "ref:ruian",
+  "building:ruian:type",
+  -- DIBAVOD (CZ)
+  "dibavod:id",
+  -- UIR-ADR (CZ)
+  "uir_adr:ADRESA_KOD",
+  -- GST (DK)
+  "gst:feat_id",
+  -- Maa-amet (EE)
+  "maaamet:ETAK",
+  -- FANTOIR (FR)
+  "ref:FR:FANTOIR",
+  -- 3dshapes (NL)
+  "3dshapes:ggmodelk",
+  -- AND (NL)
+  "AND_nosr_r",
+  -- OPPDATERIN (NO)
+  "OPPDATERIN",
+  -- Various imports (PL)
+  "addr:city:simc",
+  "addr:street:sym_ul",
+  "building:usage:pl",
+  "building:use:pl",
+  -- TERYT (PL)
+  "teryt:simc",
+  -- RABA (SK)
+  "raba:id",
+  -- DCGIS (Washington DC, US)
+  "dcgis:gis_id",
+  -- Building Identification Number (New York, US)
+  "nycdoitt:bin",
+  -- Chicago Building Inport (US)
+  "chicago:building_id",
+  -- Louisville, Kentucky/Building Outlines Import (US)
+  "lojic:bgnum",
+  -- MassGIS (Massachusetts, US)
+  "massgis:way_id",
+  -- Los Angeles County building ID (US)
+  "lacounty:*",
+  -- Address import from Bundesamt für Eich- und Vermessungswesen (AT)
+  "at_bev:addr_date",
+  -- misc
+  "import",
+  "import_uuid",
+  "OBJTYPE",
+  "SK53_bulk:load",
+  "mml:class",
+  -- we are not doing 3D
+  "height"
 }
 
 local clean_useless_tags = osm2pgsql.make_clean_tags_func(delete_keys)
@@ -179,153 +198,237 @@ local clean_useless_tags = osm2pgsql.make_clean_tags_func(delete_keys)
 -- Helper function to remove some of the tags we usually are not interested in.
 -- Returns true if there are no tags left.
 local function clean_tags_indoor(tags)
-    if clean_useless_tags(tags) then
-        return true
+  if clean_useless_tags(tags) then
+    return true
+  end
+  -- clean up the indoor tags
+  -- not relevant for us
+  if (tags.indoor == nil and tags.level == nil) or tags.indoor == "no" or tags.indoor == "false" or tags.indoor == "level" then
+    return true
+  end
+  -- clean up levels and layer misconceptions
+  if tags.level == nil then
+    if tags.layer ~= nil then
+      -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
+      tags.level = tags.layer
+    else
+      tags.level = "0"
     end
-    -- clean up the indoor tags
-    if tags.indoor == nil and tags.level == nil then
-        return true
+  end
+  -- infer the indoor tag
+  if tags.indoor == nil then
+    -- need to infer indoor tag
+    if tags.inside ~= nil then
+      tags.indoor = tags.inside
+    elseif tags.room ~= nil then
+      tags.indoor = "room"
+    elseif tags.area ~= nil then
+      tags.indoor = "area"
+    else
+      tags.indoor = "yes"
     end
-    if tags.level == nil then
-        if tags.layer ~= nil then
-            -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
-            tags.level = tags.layer
-        else
-            tags.level = "0"
-        end
+  end
+  tags.inside = nil   -- used to infer indoor, but nothing else
+  -- to simplify our data model, we smudge some room= tags into the indoor= space
+  if tags.indoor == "room" then
+    if tags.room == "toilet" or tags.room == "toilets" or tags.room == "shower" or tags.room == "bathroom" or tags.amenity == "toilet" or tags.amenity == "toilets" then
+      tags.indoor = "toilet"
+    elseif tags.amenity == "shower" or tags.amenity == "showers" or tags.room == "shower" or tags.room == "showers" or tags.indoor == "shower" or tags.indoor == "showers" then
+      tags.indoor = "shower"
+    elseif tags.room == "elevator" then
+      tags.indoor = "elevator"
+    elseif tags.room == "stairs" then
+      tags.indoor = "stairs"
+    elseif tags.room == "auditorium" or tags.room == "lecture_hall" then
+      tags.indoor = "auditorium"
     end
-    if tags.indoor == nil then
-        -- need to infer indoor tag
-        if tags.inside ~= nil then
-            tags.indoor = tags.inside
-        elseif tags.room ~= nil then
-            tags.indoor = "room"
-        elseif tags.area ~= nil then
-            tags.indoor = "area"
-        else
-            tags.indoor = "yes"
-        end
-    end
-    tags.inside = nil -- used to infer indoor, but nothing else
+  end
+  -- we will never show more than a poi icon here
+  if tags.indoor == "elevator" or tags.indoor == "shower" or tags.indoor == "toilet" then
+    tags.ref = nil
+    tags.name = nil
+  end
 
-    -- why are there so many objects with just the layer set, nothing else
-    if tags.indoor == nil and tags.level ~= nil and #(tags) == 1 then
-        return true
-    end
-    -- why do people like mapping clocks so much??
-    -- they are not usefully for us (or likely anybody)
-    if tags.amenity == "clock" then
-        return true
-    end
+  -- why are there so many objects with just the layer set, nothing else
+  if tags.indoor == nil and tags.level ~= nil and #(tags) == 1 then
+    return true
+  end
+  -- why do people like mapping clocks so much??
+  -- they are not usefully for us (or likely anybody)
+  if tags.amenity == "clock" then
+    return true
+  end
 
-    return next(tags) == nil
+  return next(tags) == nil
 end
 
 -- Called for every node in the input. The `object` argument contains all the
 -- attributes of the node like `id`, `version`, etc. as well as all tags as a
 -- Lua table (`object.tags`).
 function osm2pgsql.process_node(object)
-    --  Uncomment next line to look at the object data:
-    --  print(inspect(object))
+  --  Uncomment next line to look at the object data:
+  --  print(inspect(object))
 
-    if clean_tags_indoor(object.tags) then
-        return
+  if clean_tags_indoor(object.tags) then
+    return
+  end
+  if object.tags.indoor == "door" then
+    -- pois should not need layers. Using them is likely a bug
+    object.tags.layer = nil
+    -- we want the width_cm, no width_m
+    -- invalid or unset widths get 86cm
+    if object.tags.width ~= nil then
+      object.tags.width = tonumber(object.tags.width)
     end
-    if object.tags.indoor == "door" then
-      -- pois should not need layers. Using them is likely a bug
-      object.tags.layer = nil
-      -- we want the width_cm, no width_m
-      -- invalid or unset widths get 86cm
-      if object.tags.width ~= nil then
-        object.tags.width = tonumber(object.tags.width)
-      end
-      if object.tags.width == nil then
-        object.tags.width = 86
-      else
-        object.tags.width = object.tags.width * 100
-      end
-      for _, level in ipairs(SantiseLevel(object.tags.level)) do
-          tables.doors:insert(
-              {
-                  width_cm = object.tags.width,
-                  level_min = level.min,
-                  level_max = level.max,
-                  geom = object:as_point()
-              }
-          )
-        end
+    if object.tags.width == nil then
+      object.tags.width = 86
+    else
+      object.tags.width = object.tags.width * 100
     end
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
+      tables.doors:insert(
+        {
+          width_cm = object.tags.width,
+          level_min = level.min,
+          level_max = level.max,
+          geom = object:as_point()
+        }
+      )
+    end
+  end
 end
 
 -- Called for every way in the input. The `object` argument contains the same
 -- information as with nodes and additionally a boolean `is_closed` flag and
 -- the list of node IDs referenced by the way (`object.nodes`).
 function osm2pgsql.process_way(object)
-    --  Uncomment next line to look at the object data:
-    --  print(inspect(object))
-    if object.tags.building ~= nil then
-        object.tags.indoor = nil
-        object.tags.level = nil
-        object.tags.inside = nil
-    elseif clean_tags_indoor(object.tags) then
-        return
-    end
+  --  Uncomment next line to look at the object data:
+  --  print(inspect(object))
+  if object.tags.building ~= nil then
+    object.tags.indoor = nil
+    object.tags.level = nil
+    object.tags.inside = nil
+  elseif clean_tags_indoor(object.tags) then
+    return
+  end
 
-    for _, level in ipairs(SantiseLevel(object.tags.level)) do
-        object.tags.level_min = level.min
-        object.tags.level_max = level.max
-        -- Very simple check to decide whether a way is a polygon or not, in a
-        -- real stylesheet we'd have to also look at the tags...
-        if object.is_closed then
-            tables.rooms:insert(
-                {
-                  indoor = object.tags.indoor,
-                  ref = object.tags.ref,
-                  ref_tum = object.tags["ref:tum"],
-                  students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-                  level_min = level.min,
-                  level_max = level.max,
-                  geom = object:as_polygon()
-                }
-            )
+  for _, level in ipairs(SantiseLevel(object.tags.level)) do
+    object.tags.level_min = level.min
+    object.tags.level_max = level.max
+    -- Very simple check to decide whether a way is a polygon or not, in a
+    -- real stylesheet we'd have to also look at the tags...
+    if object.is_closed then
+      local geom = object:as_polygon()
+      if object.tags.indoor ~= "stairs" then
+        tables.rooms:insert(
+          {
+            indoor = object.tags.indoor,
+            ref_tum = object.tags["ref:tum"],
+            students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+            level_min = level.min,
+            level_max = level.max,
+            geom = geom
+          }
+        )
+      end
+      if object.tags.indoor ~= "corridor" then
+        local geom_point = nil
+        if object.tags.indoor == "elevator" then
+          -- elevators get an icon -> needs no need to strech
+          -- looks slightly better if in the middle
+          geom_point = geom:centroid()
         else
-            tables.indoor_ways:insert(
-                {
-                    level_min = level.min,
-                    level_max = level.max,
-                    indoor = object.tags.indoor,
-                    geom = object:as_linestring()
-                }
-            )
+          geom_point = geom:pole_of_inaccessibility({ stretch = 2 })
         end
+        tables.pois:insert(
+          {
+            indoor = object.tags.indoor,
+            name = object.tags.name,
+            ref = object.tags.ref,
+            students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
+            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
+            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+            is_shower = object.tags.indoor == "shower",
+            area = geom:spherical_area(),
+            level_min = level.min,
+            level_max = level.max,
+            geom = geom_point
+          }
+        )
+      end
+    else
+      tables.indoor_ways:insert(
+        {
+          level_min = level.min,
+          level_max = level.max,
+          indoor = object.tags.indoor,
+          geom = object:as_linestring()
+        }
+      )
     end
+  end
 end
 
 -- Called for every relation in the input. The `object` argument contains the
 -- same information as with nodes and additionally an array of members
 -- (`object.members`).
 function osm2pgsql.process_relation(object)
-    --  Uncomment next line to look at the object data:
-    --  print(inspect(object))
+  --  Uncomment next line to look at the object data:
+  --  print(inspect(object))
 
-    if clean_tags_indoor(object.tags) then
-        return
-    end
+  if clean_tags_indoor(object.tags) then
+    return
+  end
 
-    -- Store multipolygons and boundaries as polygons
-    if object.tags.type == "multipolygon" or
-       object.tags.type == "boundary" then
-        for _, level in ipairs(SantiseLevel(object.tags.level)) do
-            tables.rooms:insert(
-                {
-                  indoor = object.tags.indoor,
-                  ref = object.tags.ref,
-                  ref_tum = object.tags["ref:tum"],
-                  level_min = level.min,
-                  level_max = level.max,
-                  geom = object:as_multipolygon()
-                }
-            )
+  -- Store multipolygons and boundaries as polygons
+  if object.tags.type == "multipolygon" or
+      object.tags.type == "boundary" then
+    local geom = object:as_multipolygon()
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
+      if object.tags.indoor ~= "stairs" then
+        tables.rooms:insert(
+          {
+            indoor = object.tags.indoor,
+            ref_tum = object.tags["ref:tum"],
+            level_min = level.min,
+            level_max = level.max,
+            geom = geom
+          }
+        )
+      end
+      if object.tags.indoor ~= "corridor" then
+        -- The pole_of_inaccessibility() function only works for polygons,
+        -- not multipolygons. So we split up the multipolygons here and
+        -- calculate the pole for each part separately.
+        for g in geom:geometries() do
+          local geom_point = nil
+          if object.tags.indoor == "elevator" then
+            -- elevators get an icon -> needs no need to strech
+            -- looks slightly better if in the middle
+            geom_point = geom:centroid()
+          else
+            geom_point = geom:pole_of_inaccessibility({ stretch = 2 })
+          end
+          tables.pois:insert(
+            {
+              indoor = object.tags.indoor,
+              ref = object.tags.ref,
+              students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+              is_male_toilet = object.tags.indoor == "toilet" and object.tags.male,
+              is_female_toilet = object.tags.indoor == "toilet" and object.tags.female,
+              is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex,
+              is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+              is_shower = object.tags.indoor == "shower",
+              area = g:area(),
+              level_min = level.min,
+              level_max = level.max,
+              geom = geom_point
+            }
+          )
         end
+      end
     end
+  end
 end

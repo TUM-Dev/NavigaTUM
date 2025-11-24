@@ -1,0 +1,83 @@
+services:
+  webclient:
+    restart: unless-stopped
+    build: ./webclient
+    ports:
+      - "3000:3000"
+    environment:
+      TZ: Europe/Berlin
+      NUXT_PUBLIC_CDN_URL: http://data:3002
+      NUXT_PUBLIC_API_URL: http://server:3003
+  # cdn
+  data:
+    restart: unless-stopped
+    build: ./data
+    environment:
+      TZ: Europe/Berlin
+    ports:
+      - "3002:3002"
+  server:
+    restart: unless-stopped
+    build:
+      args:
+        PROFILE: debug
+      context: server
+      dockerfile: Dockerfile
+    command: /bin/navigatum-server
+    ports:
+      - "3003:3003"
+    user: 1000:3000
+    environment:
+      TZ: Europe/Berlin
+      LOG_LEVEL: ${LOG_LEVEL-debug}
+      MIELI_URL: http://meilisearch:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      CDN_URL: http://data:3002/cdn
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_URL: db:5432
+      CONNECTUM_OAUTH_CLIENT_ID: ${CONNECTUM_OAUTH_CLIENT_ID}
+      CONNECTUM_OAUTH_CLIENT_SECRET: ${CONNECTUM_OAUTH_CLIENT_SECRET}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      JWT_KEY: ${JWT_KEY}
+    depends_on:
+      meilisearch:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+  meilisearch:
+    image: getmeili/meilisearch:v1.23.0
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    environment:
+      TZ: Europe/Berlin
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: development
+    healthcheck:
+      test: curl --silent http://localhost:7700/health
+      retries: 5
+      interval: 10s
+      start_period: 10s
+      start_interval: 500ms
+  db:
+    image: postgis/postgis:18-3.6
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    command:
+      - -c
+      - synchronous_commit=off
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+      retries: 5
+      interval: 10s
+      start_period: 20s
+      start_interval: 500ms

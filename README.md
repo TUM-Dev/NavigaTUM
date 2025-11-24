@@ -10,7 +10,7 @@ Feel free to contribute, we are open to new people 😄.
 - [x] 💾 Support for different room code formats as well as generic names
 - [x] 🤖 All functionality is also available via an open and well documented API
 - [x] 🗘 Automatically update the data from upstream datasources
-- [ ] 🗨️ Allow students/staff to easily submit feedback and data patches
+- [x] 🗨️ Allow students/staff to easily submit feedback and data patches
 - [ ] 🏫 Generate maps from CAD data sources
 - [ ] 🚶🏻 Generate turn by turn navigation advice for navigating end to end
 

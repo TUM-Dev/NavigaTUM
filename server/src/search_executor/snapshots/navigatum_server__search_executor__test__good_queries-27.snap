@@ -3,7 +3,6 @@ source: src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'C.3202' should get '5140.01.202' in 1 results"
-snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -38,7 +37,12 @@ snapshot_kind: text
       name: 5140.01.203 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3203@5140
-  n_visible: 6
+    - id: 1910.EG.022B
+      type: room
+      name: 1910.EG.022B (Seminarraum)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: B.0.22@1910
+  n_visible: 7
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
@@ -53,10 +57,6 @@ snapshot_kind: text
     - id: "2940"
       type: building
       name: "Campus \u0019C\u0017, Georg-Brauchle-Ring 56/58"
-      subtext: Gebäudeteil
-    - id: 1555c
-      type: building
-      name: "Bau 555 Gebäudeteil \u0019C\u0017"
       subtext: Gebäudeteil
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

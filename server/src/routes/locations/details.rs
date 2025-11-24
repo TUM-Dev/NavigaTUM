@@ -5,6 +5,7 @@ use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tracing::error;
 
+use crate::db::location::LocationKeyAlias;
 use crate::localisation::{self, LanguageOptions};
 
 #[expect(
@@ -12,14 +13,6 @@ use crate::localisation::{self, LanguageOptions};
     reason = "has to be imported as otherwise utoipa generates incorrect code"
 )]
 use serde_json::json;
-
-#[derive(Debug, Clone)]
-#[allow(dead_code)] // false positive. Clippy can't detect this due to macros
-pub struct LocationKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
 
 #[derive(Deserialize, utoipa::IntoParams)]
 struct DetailsPathParams {
@@ -40,6 +33,7 @@ struct DetailsPathParams {
     params(DetailsPathParams, localisation::LangQueryArgs),
     responses(
         (status = 200, description = "**Details** about the **location**", body= LocationDetailsResponse, content_type="application/json"),
+        (status = 400, description = "**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters", body = String, content_type = "text/plain", example = "Invalid ID"),
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
@@ -52,6 +46,12 @@ pub async fn get_handler(
     let id = params
         .id
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    if params.id.is_empty() || params.id.len() > 255 {
+        return HttpResponse::BadRequest()
+            .content_type("text/plain")
+            .body("Invalid ID");
+    }
+
     let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.pool, &id).await else {
         return HttpResponse::NotFound()
             .content_type("text/plain")
@@ -429,6 +429,7 @@ enum FloorType {
     /// A floor in a that is half a flight of stairs ABOVE the normal level of the ground floor
     ///
     /// In German: "Zwischenebene" / "Mezzanine"
+    #[serde(rename(deserialize = "mezzanine"))]
     SemiUpper,
     /// The normal level of the building
     Ground,
@@ -539,21 +540,11 @@ enum CoordinateSourceResponse {
 
 #[tracing::instrument(skip(pool))]
 async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
-    let result = sqlx::query_as!(
-        LocationKeyAlias,
-        r#"
-        SELECT DISTINCT key, visible_id, type
-        FROM aliases
-        WHERE alias = $1 OR key = $1 "#,
-        query
-    )
-    .fetch_all(pool)
-    .await;
-    match result {
+    match LocationKeyAlias::fetch_all(pool, query).await {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias
-                1 => extract_redirect_exact_match(&d[0].r#type, &d[0].visible_id),
+                1 => d[0].redirect_exact_match(),
                 _ => {
                     let keys = d
                         .clone()
@@ -570,17 +561,6 @@ async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, S
             error!(error = ?e,query,"Error requesting alias");
             None
         }
-    }
-}
-
-fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
-    match type_ {
-        "campus" => format!("/campus/{key}"),
-        "site" | "area" => format!("/site/{key}"),
-        "building" | "joined_building" => format!("/building/{key}"),
-        "room" | "virtual_room" => format!("/room/{key}"),
-        "poi" => format!("/poi/{key}"),
-        _ => format!("/view/{key}"), // can be triggered if we add a type but don't add it here
     }
 }
 

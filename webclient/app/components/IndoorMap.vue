@@ -119,7 +119,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       preserveDrawingBuffer: false,
     },
 
-    style: "https://nav.tum.de/tiles/style/navigatum-basemap.json",
+    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
 
     center: [11.670099, 48.266921],
     zoom: zoom.value,

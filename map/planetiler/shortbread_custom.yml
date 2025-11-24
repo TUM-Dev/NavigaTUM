@@ -19,9 +19,6 @@ sources:
   ocean:
     type: shapefile
     url: https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip
-  admin_points:
-    type: shapefile
-    url: https://shortbread.geofabrik.de/shapefiles/admin-points-4326.zip
   osm:
     type: osm
     url: '${ args.osm_url }'
@@ -227,32 +224,6 @@ layers:
         # TODO: member of a relation with boundary=disputed and (admin_level unset or between 2 and 4)
         # see https://github.com/shortbread-tiles/shortbread-docs/issues/43
       else: false
-
-- id: boundary_labels
-  features:
-  - source: admin_points
-    geometry: point
-    min_zoom:
-      default_value: 5
-      overrides:
-        # WAY_AREA is in ha
-        2: '${ feature.tags.has("ADMIN_LEVEL", "2") && double(feature.tags.WAY_AREA) >= 2e8 }'
-        3: '${ double(feature.tags.WAY_AREA) >= 7e7 }'
-        4: '${ double(feature.tags.WAY_AREA) >= 1e7 }'
-    # TODO sort by WAY_AREA descending
-    attributes:
-    - key: way_area
-      tag_value: WAY_AREA
-      type: double
-    - key: admin_level
-      tag_value: ADMIN_LEVEL
-      type: integer
-    - key: name
-      tag_value: NAME
-    - key: name_en
-      tag_value: NAME_EN
-    - key: name_de
-      tag_value: NAME_DE
 
 - id: place_labels
   features:

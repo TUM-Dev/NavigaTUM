@@ -3,20 +3,9 @@ source: src/search_executor/mod.rs
 description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 expression: actual
 info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
-snapshot_kind: text
 ---
 - facet: rooms
   entries:
-    - id: 5212.01.030
-      type: room
-      name: "5212.01.\u001903\u00170 (Gemeinschaftsraum)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.1.030@5212
-    - id: 5212.02.030
-      type: room
-      name: "5212.02.\u001903\u00170 (Gemeinschaftsraum)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.2.030@5212
     - id: 2910.EG.031
       type: room
       name: "2910.EG.\u001903\u00171 (WC-Herren)"
@@ -59,6 +48,16 @@ snapshot_kind: text
       name: "2910.\u001903\u0017.304 (Büro)"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.304@2910
+    - id: 2910.03.305
+      type: room
+      name: "2910.\u001903\u0017.305 (Büro)"
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.305@2910
+    - id: 2910.03.306
+      type: room
+      name: "2910.\u001903\u0017.306 (Büro)"
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.306@2910
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

@@ -33,7 +33,7 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       subtext_bold: E42@4213
     - id: 4317.03.342
       type: room
-      name: "4317.03.\u0019342\u0017 (Labor)"
+      name: "4317.03.\u0019342\u0017 (Labor (S2,  Bio2))"
       subtext: "weihenstephan, Tierwissenschaften"
       subtext_bold: 3.42@4317
     - id: 0503.EG.342

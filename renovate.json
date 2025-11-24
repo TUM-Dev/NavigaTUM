@@ -47,7 +47,9 @@
         "/base64/",
         "/tracing/",
         "/rustls/",
-        "/tokio/"
+        "/tokio/",
+        "/regex/",
+        "/reqwest/"
       ]
     },
     {
