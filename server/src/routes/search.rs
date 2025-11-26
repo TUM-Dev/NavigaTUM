@@ -66,6 +66,7 @@ pub struct SearchQueryArgs {
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 1)]
     limit_all: Option<usize>,
+
     /// string to include in front of highlighted sequences.
     ///
     /// If this and `post_highlight` are empty, highlighting is disabled.
@@ -88,6 +89,24 @@ pub struct SearchQueryArgs {
         examples("/u0017", "</em>", "</ais-highlight-00000000>")
     )]
     post_highlight: Option<String>,
+
+    /// Disable cropping of long building names in parsed_id.
+    ///
+    /// When enabled, full building names will be shown instead of truncated
+    /// versions with ellipsis (…).
+    ///
+    /// Default: false (cropping enabled for names > 25 characters)
+    #[serde(default)]
+    disable_cropping: bool,
+
+    /// Disable adding building prefix to parsed_id.
+    ///
+    /// When enabled, returns room codes in Roomfinder format (archname@building_id)
+    /// instead of prefixed format (e.g., "MW 1801").
+    ///
+    /// Default: false (building prefix enabled)
+    #[serde(default)]
+    disable_parsed_id_prefix: bool,
 }
 
 /// Returned search results by this
@@ -211,6 +230,47 @@ impl From<&SearchQueryArgs> for Highlighting {
     }
 }
 
+/// Configuration options for formatting search results
+#[derive(Clone, Eq, PartialEq, Hash)]
+pub struct FormattingConfig {
+    /// Highlighting configuration
+    pub highlighting: Highlighting,
+    /// Disable cropping of long building names in parsed_id.
+    pub disable_cropping: bool,
+    /// Disable adding building prefix to parsed_id.
+    pub disable_parsed_id_prefix: bool,
+}
+
+impl Debug for FormattingConfig {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FormattingConfig")
+            .field("highlighting", &self.highlighting)
+            .field("disable_cropping", &self.disable_cropping)
+            .field("disable_parsed_id_prefix", &self.disable_parsed_id_prefix)
+            .finish()
+    }
+}
+
+impl From<&SearchQueryArgs> for FormattingConfig {
+    fn from(args: &SearchQueryArgs) -> Self {
+        Self {
+            highlighting: Highlighting::from(args),
+            disable_cropping: args.disable_cropping,
+            disable_parsed_id_prefix: args.disable_parsed_id_prefix,
+        }
+    }
+}
+
+impl Default for FormattingConfig {
+    fn default() -> Self {
+        Self {
+            highlighting: Highlighting::default(),
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        }
+    }
+}
+
 /// Search entries
 ///
 /// This endpoint is designed to support search-as-you-type results.
@@ -244,11 +304,12 @@ pub async fn search_handler(
     let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
 
     let limits = Limits::from(&args);
-    let highlighting = Highlighting::from(&args);
+    let formatting_config = FormattingConfig::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
-    debug!(q, ?limits, ?highlighting, "quested search");
-    let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
+    debug!(q, ?limits, ?formatting_config.highlighting, "quested search");
+    let results_sections =
+        cached_geoentry_search(q, limits, search_addresses, formatting_config).await;
     debug!(?results_sections, "searching returned");
 
     if results_sections.len() > 3 {
@@ -276,9 +337,9 @@ pub async fn search_handler(
 #[cached(size = 200)]
 async fn cached_geoentry_search(
     q: String,
-    highlighting: Highlighting,
     limits: Limits,
     search_addresses: bool,
+    formatting_config: FormattingConfig,
 ) -> Vec<ResultsSection> {
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
@@ -290,7 +351,7 @@ async fn cached_geoentry_search(
         };
     };
     let geoentry_search =
-        crate::search_executor::do_geoentry_search(&client, &q, highlighting, limits);
+        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config);
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);
         let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);
@@ -430,5 +491,125 @@ mod tests {
             assert_eq!(res.post.len(), expected_length);
             assert_eq!(res.pre.len(), expected_length);
         }
+    }
+
+    #[test]
+    fn test_formatting_config_default() {
+        let input = SearchQueryArgs::default();
+        let config = FormattingConfig::from(&input);
+
+        assert_eq!(config.highlighting.pre, "\u{19}");
+        assert_eq!(config.highlighting.post, "\u{17}");
+        assert!(!config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_both_disabled() {
+        let input = SearchQueryArgs {
+            disable_cropping: true,
+            disable_parsed_id_prefix: true,
+            ..Default::default()
+        };
+        let config = FormattingConfig::from(&input);
+
+        assert!(config.disable_cropping);
+        assert!(config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_with_custom_highlighting() {
+        let input = SearchQueryArgs {
+            pre_highlight: Some("<em>".to_string()),
+            post_highlight: Some("</em>".to_string()),
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+            ..Default::default()
+        };
+        let config = FormattingConfig::from(&input);
+
+        assert_eq!(config.highlighting.pre, "<em>");
+        assert_eq!(config.highlighting.post, "</em>");
+        assert!(config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+    }
+
+    #[test]
+    fn test_formatting_config_hash_trait() {
+        use std::collections::hash_map::DefaultHasher;
+        use std::hash::{Hash, Hasher};
+
+        let config1 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+        };
+
+        let config2 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+        };
+
+        let config3 = FormattingConfig {
+            highlighting: Highlighting {
+                pre: "<em>".to_string(),
+                post: "</em>".to_string(),
+            },
+            disable_cropping: false,
+            disable_parsed_id_prefix: false,
+        };
+
+        // Same configs should hash the same
+        let mut hasher1 = DefaultHasher::new();
+        config1.hash(&mut hasher1);
+        let hash1 = hasher1.finish();
+
+        let mut hasher2 = DefaultHasher::new();
+        config2.hash(&mut hasher2);
+        let hash2 = hasher2.finish();
+
+        assert_eq!(hash1, hash2);
+
+        // Different configs should (probably) hash differently
+        let mut hasher3 = DefaultHasher::new();
+        config3.hash(&mut hasher3);
+        let hash3 = hasher3.finish();
+
+        assert_ne!(hash1, hash3);
+    }
+
+    #[test]
+    fn test_formatting_config_with_limits() {
+        // Test that FormattingConfig works correctly when combined with Limits
+        let input = SearchQueryArgs {
+            limit_all: Some(20),
+            limit_buildings: Some(10),
+            limit_rooms: Some(15),
+            pre_highlight: Some("<b>".to_string()),
+            post_highlight: Some("</b>".to_string()),
+            disable_cropping: true,
+            disable_parsed_id_prefix: false,
+            ..Default::default()
+        };
+
+        let config = FormattingConfig::from(&input);
+        let limits = Limits::from(&input);
+
+        // Verify both are created correctly from the same input
+        assert_eq!(config.highlighting.pre, "<b>");
+        assert_eq!(config.highlighting.post, "</b>");
+        assert!(config.disable_cropping);
+        assert!(!config.disable_parsed_id_prefix);
+
+        assert_eq!(limits.total_count, 20);
+        assert_eq!(limits.buildings_count, 10);
+        assert_eq!(limits.rooms_count, 15);
     }
 }

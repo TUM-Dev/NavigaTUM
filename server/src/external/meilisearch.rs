@@ -5,7 +5,7 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
 use std::fmt::{Debug, Formatter};
 
-use crate::routes::search::{Highlighting, Limits};
+use crate::routes::search::{FormattingConfig, Limits};
 
 #[derive(Deserialize, Default, Clone)]
 #[allow(dead_code)]
@@ -96,20 +96,20 @@ pub struct GeoEntryQuery {
     client: Client,
     query: String,
     limits: Limits,
-    highlighting: Highlighting,
+    formatting_config: FormattingConfig,
     filters: GeoEntryFilters,
     sorting: Vec<String>,
 }
 
-impl From<(&Client, String, &Limits, &Highlighting)> for GeoEntryQuery {
+impl From<(&Client, String, &Limits, &FormattingConfig)> for GeoEntryQuery {
     fn from(
-        (client, query, limits, highlighting): (&Client, String, &Limits, &Highlighting),
+        (client, query, limits, formatting_config): (&Client, String, &Limits, &FormattingConfig),
     ) -> Self {
         Self {
             client: client.clone(),
             query,
             limits: *limits,
-            highlighting: highlighting.clone(),
+            formatting_config: formatting_config.clone(),
             filters: GeoEntryFilters::default(),
             sorting: Vec::new(),
         }
@@ -170,8 +170,8 @@ impl GeoEntryQuery {
     ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
-            .with_highlight_pre_tag(&self.highlighting.pre)
-            .with_highlight_post_tag(&self.highlighting.post)
+            .with_highlight_pre_tag(&self.formatting_config.highlighting.pre)
+            .with_highlight_post_tag(&self.formatting_config.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
             .build()
     }
@@ -222,7 +222,7 @@ impl Debug for GeoEntryQuery {
         let mut base = f.debug_struct("GeoEntryQuery");
         base.field("query", &self.query)
             .field("limits", &self.limits)
-            .field("highlighting", &self.highlighting)
+            .field("highlighting", &self.formatting_config.highlighting)
             .field("filters", &self.filters);
         if !self.sorting.is_empty() {
             base.field("sorting", &self.sorting);
