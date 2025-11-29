@@ -32,7 +32,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
       - run: rustup component add rustfmt
