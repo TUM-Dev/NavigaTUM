@@ -33,7 +33,7 @@ jobs:
     steps:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }} # otherwise commit-backs to the branch don't work
 
