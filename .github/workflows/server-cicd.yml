@@ -19,7 +19,7 @@ jobs:
     steps:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@v2
         with:
@@ -44,7 +44,7 @@ jobs:
     steps:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@v2
         with:
