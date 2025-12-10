@@ -34,7 +34,7 @@ serde_yaml = "0.9.34"
 
 # runtime + webserver
 tokio = { version = "1.43.0", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
-actix-web = { version = "4.10.2", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
+actix-web = { version = "4.12.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
 actix-cors = "0.7.0"
 rustls = "0.23.21"
 
