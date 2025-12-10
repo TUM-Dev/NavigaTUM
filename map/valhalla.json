@@ -22,7 +22,6 @@
       "isochrone",
       "trace_route",
       "trace_attributes",
-      "transit_available",
       "expansion",
       "centroid",
       "status"
@@ -142,9 +141,6 @@
     "tile_extract": "/custom_files/valhalla_tiles.tar",
     "timezone": "/custom_files/timezone_data/timezones.sqlite",
     "traffic_extract": "/custom_files/traffic.tar",
-    "transit_dir": "/custom_files/transit_tiles",
-    "transit_feeds_dir": "/gtfs_feeds",
-    "transit_pbf_limit": 20000,
     "use_lru_mem_cache": false,
     "use_simple_mem_cache": false
   },
@@ -228,9 +224,7 @@
       "max_distance": 250000.0,
       "max_locations": 50,
       "max_matrix_distance": 200000.0,
-      "max_matrix_location_pairs": 2500,
-      "max_transit_walking_distance": 10000,
-      "min_transit_walking_distance": 1
+      "max_matrix_location_pairs": 2500
     },
     "skadi": {
       "max_shape": 750000,
@@ -252,12 +246,6 @@
       "max_gps_accuracy": 100.0,
       "max_search_radius": 100.0,
       "max_shape": 16000
-    },
-    "transit": {
-      "max_distance": 500000.0,
-      "max_locations": 50,
-      "max_matrix_distance": 200000.0,
-      "max_matrix_location_pairs": 2500
     },
     "truck": {
       "max_distance": 5000000.0,
