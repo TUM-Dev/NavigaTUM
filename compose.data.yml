@@ -41,7 +41,6 @@ services:
     working_dir: /map
     volumes:
       - ./map/data/:/map/data/:rw
-      - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
       - ./map/download.sh:/map/download.sh:ro
       - ./map/valhalla.json:/map/valhalla.json:ro
   osm2pgsql:

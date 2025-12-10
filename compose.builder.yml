@@ -36,7 +36,6 @@ services:
     pull_policy: always
     volumes:
       - ./tmp/navigatum/navigation/:/custom_files:rw
-      - ./home/frank/gtfs_feeds:/gtfs_feeds:rw
     environment:
       TZ: Europe/Berlin
       tile_urls: https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf
