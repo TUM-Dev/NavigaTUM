@@ -20,4 +20,4 @@ COPY ./level_overlays/ /map/level_overlays/
 COPY ./styles /map/styles/
 COPY ./config.yaml /map/config.yaml
 
-CMD ["martin", "--config", "/map/config.yaml"]
+CMD ["--config", "/map/config.yaml"]
