@@ -138,7 +138,6 @@ export default defineNuxtConfig({
     },
   },
   colorMode: {
-    classSuffix: "",
     storageKey: "theme",
     preference: "system",
     fallback: "light",
