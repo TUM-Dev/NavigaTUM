@@ -262,21 +262,9 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./map/osm2pgsql/:/map/osm2pgsql/:ro
-  martin-init-config:
-    image: alpine:latest
-    command:
-      - /bin/sh
-      - /map/martin/setup.sh
-    environment:
-      TZ: Europe/Berlin
-    volumes:
-      - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:main
+    image: ghcr.io/tum-dev/navigatum-martin:main
     restart: unless-stopped
-    command:
-      - --config
-      - /map/config.yaml
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
@@ -298,8 +286,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      martin-init-config:
-        condition: service_completed_successfully
       osm2pgsql-init:
         condition: service_started
     volumes:
