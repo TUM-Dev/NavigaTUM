@@ -34,8 +34,8 @@ interface SubTitle {
 const subtitles = computed<SubTitle[]>(() => {
   if (!shownImage.value) return [];
   return [
-    { title: t("license"), ...shownImage.value.license },
     { title: t("author"), ...shownImage.value.author },
+    { title: t("license"), ...shownImage.value.license },
   ];
 });
 </script>
@@ -56,12 +56,10 @@ const subtitles = computed<SubTitle[]>(() => {
               itemprop="contentUrl"
               :alt="t('image_alt')"
               :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${img.name}`"
-              class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
+              class="max-h-2/3 w-full rounded sm:max-h-[20rem]"
             />
-            <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
-            <span v-else class="hidden" itemprop="license"> img.license.text</span>
-            <span v-if="img.license.url" class="hidden" itemprop="author"> {{ img.author.url }}</span>
-            <span v-else class="hidden" itemprop="author"> img.author.text</span>
+            <span class="hidden" itemprop="license">{{ img.license.url ?? img.license.text}}</span>
+            <span class="hidden" itemprop="author">{{ img.author.url ?? img.author.text }}</span>
           </div>
         </Slide>
         <template #addons>
@@ -71,23 +69,12 @@ const subtitles = computed<SubTitle[]>(() => {
       </Carousel>
     </div>
     <div v-if="shownImage" class="pt-5">
-      <div class="grid min-h-20 auto-cols-auto grid-cols-5 gap-5 text-center">
-        <div
-          v-for="(sub, i) in subtitles"
-          :key="i"
-          class="text-balance"
-          :class="{
-            'md:!text-left': i % 3 == 0,
-            'md:!text-center': i % 3 == 1,
-            'md:!text-right': i % 3 == 2,
-            'col-span-5 md:col-span-1': i % 3 != 1,
-            'col-span-5 md:col-span-3': i % 3 === 1,
-          }"
-        >
+      <div class="grid min-h-20 auto-cols-auto grid-cols-2 gap-5 text-center">
+        <div v-for="(sub, i) in subtitles" :key="i" class="text-balance col-span-2 md:col-span-1">
           <h6 class="text-zinc-600 text-sm font-semibold">
             {{ sub.title }}
           </h6>
-          <div class="wrap- text-zinc-600 text-sm" :class="[i % 3 == 1 ? 'text-xs' : '']">
+          <div class="wrap- text-zinc-600 text-sm" :class="[sub.text.length > 100 ? 'text-xs' : '']">
             <Btn v-if="sub.url" variant="link" size="-ps-1 !inline" :to="sub.url">
               {{ sub.text }}
             </Btn>

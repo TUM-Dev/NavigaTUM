@@ -78,8 +78,8 @@ importers:
         specifier: 4.6.3
         version: 4.6.3(vue@3.5.25(typescript@5.9.3))
       vue3-carousel:
-        specifier: 0.16.0
-        version: 0.16.0(vue@3.5.25(typescript@5.9.3))
+        specifier: 0.17.0
+        version: 0.17.0(vue@3.5.25(typescript@5.9.3))
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.8
@@ -5444,8 +5444,8 @@ packages:
     peerDependencies:
       typescript: '>=5.0.0'
 
-  vue3-carousel@0.16.0:
-    resolution: {integrity: sha512-IKRKtvHP8gNDRHSzINXwFbJ/Zy2HS+Gv2lXPnAEop6pxsvB17+fz2WQlNZ6ytilLkM5DOu/jXPoDQi/xy17bjg==}
+  vue3-carousel@0.17.0:
+    resolution: {integrity: sha512-kvb2CRpsEtLGSbiOq/fXfayMJeiwMMjnNSbqWI/Ee7tgfY/ofNanRuhpd7WRVtDdzJY1HvygdLawlBhIyJTM2w==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -11803,7 +11803,7 @@ snapshots:
       '@vue/language-core': 3.1.8(typescript@5.9.3)
       typescript: 5.9.3
 
-  vue3-carousel@0.16.0(vue@3.5.25(typescript@5.9.3)):
+  vue3-carousel@0.17.0(vue@3.5.25(typescript@5.9.3)):
     dependencies:
       vue: 3.5.25(typescript@5.9.3)
 
