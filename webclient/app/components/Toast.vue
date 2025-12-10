@@ -3,12 +3,12 @@ import { mdiClose } from "@mdi/js";
 
 withDefaults(
   defineProps<{
-    id?: string;
+    id: string;
     msg?: string;
     level?: "error" | "warning" | "info" | "default";
     dismissable?: boolean;
   }>(),
-  { level: "default", msg: "", id: undefined, dismissable: false }
+  { level: "default", msg: "", dismissable: false }
 );
 const shown = useCookie<string[]>("shownToasts", {
   default: () => [],

@@ -105,7 +105,7 @@ function sendForm() {
 
 <template>
   <Modal v-if="!successUrl" v-model="feedback.open" :title="t('title')" @close="closeForm">
-    <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" />
+    <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" id="feedback-error-msg" />
 
     <div class="flex flex-col gap-1">
       <slot name="modal" />

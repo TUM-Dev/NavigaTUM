@@ -222,8 +222,9 @@ useSeoMeta({
             v-if="data.type === 'room' && data.maps?.overlays?.default === null"
             level="warning"
             :msg="t('no_floor_overlay')"
+            id="details-no_floor_overlay"
           />
-          <Toast v-if="data.props.comment" :msg="data.props.comment" />
+          <Toast v-if="data.props.comment" :msg="data.props.comment"  id="details-comment" />
         </div>
         <ClientOnly>
           <DetailsInteractiveMap

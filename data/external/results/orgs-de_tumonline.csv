@@ -179,7 +179,7 @@ org_id,code,name,path
 15394,TUEIHFT,Lehrstuhl für Hochfrequenztechnik (Prof. Eibert),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Hochfrequenztechnik (Prof. Eibert)"
 15395,TUEINAN,Lehrstuhl für Nano- und Quantensensorik (Prof. Weig),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Nano- und Quantensensorik (Prof. Weig)"
 15396,TUEIMSV,Lehrstuhl für Methoden der Signalverarbeitung (Prof. Utschick),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Methoden der Signalverarbeitung (Prof. Utschick)"
-15399,TUEIHOT,Professur für Höchstfrequenztechnik (Prof. Biebl),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Höchstfrequenztechnik (Prof. Biebl)"
+15399,TUEIHOT,Professur für Höchstfrequenztechnik (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Höchstfrequenztechnik (N.N.)"
 15403,TUEILSR,Lehrstuhl für Steuerungs- und Regelungstechnik (Prof. Buss),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Steuerungs- und Regelungstechnik (Prof. Buss)"
 15405,TUEIMST,Lehrstuhl für Messsystem- und Sensortechnik (Prof. Chen komm.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (Prof. Chen komm.)"
 15415,TUINDEK,Dekanat IN,TUM/Fakultäten/Ehemalige Fakultät für Informatik/Dekanat IN
@@ -229,7 +229,7 @@ org_id,code,name,path
 15614,TUWZS6U,Core Facility TUM Limnology Unit,TUM/Schools/Life Sciences/TUM Limnology Unit
 15616,TUWZQ3Z,Professur für Waldernährung und Wasserhaushalt (Prof. Göttlein),TUM/Schools/Life Sciences/Departments/Life Science Systems/Waldernährung und Wasserhaushalt (Prof. Göttlein)
 15619,TUWZT8O,Professur für Ökoklimatologie (Prof. Menzel),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ökoklimatologie (Prof. Menzel)
-15622,TUWZA1E,Professur für Geomorphologie und Bodenkunde (Prof. Völkel),TUM/Schools/Life Sciences/Departments/Life Science Systems/Geomorphologie und Bodenkunde (Prof. Völkel)
+15622,TUWZA1E,Professur für Geomorphologie und Bodenkunde (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Geomorphologie und Bodenkunde (N.N.)
 15626,TUWZI4V,Lehrstuhl für Botanik (Prof. Schneitz komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Botanik (Prof. Schneitz komm.)
 15629,TUWZV2O,Lehrstuhl für Grünlandlehre (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Grünlandlehre (N.N.)
 15630,TUWZA6W,Lehrstuhl für Ökologischen Landbau und Pflanzenbausysteme (Prof. Hülsbergen),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ökologischen Landbau und Pflanzenbausysteme (Prof. Hülsbergen)
@@ -932,7 +932,7 @@ org_id,code,name,path
 47877,TUPOL05,Lehrstuhl für International Relations (Prof. Büthe),TUM/Schools/Social Sciences and Technology/Departments/Governance/International Relations (Prof. Büthe)
 47878,TUPOL06,Lehrstuhl für European and Global Governance (Prof. Conceição-Heldt),TUM/Schools/Social Sciences and Technology/Departments/Governance/European and Global Governance (Prof. Conceição-Heldt)
 47897,TUMEMD0,"Lehrstuhl für Medizindidaktik, Medizinische Lehrentwicklung und Bildungsforschung (Prof. Berberat)","TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Medizindidaktik, Medizinische Lehrentwicklung und Bildungsforschung (Prof. Berberat)"
-47917,TUWIB38,Professur für Marketing (Prof. Ungemach),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Prof. Ungemach)"
+47917,TUWIB38,Professur für Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Lehrstuhl für Umwelt- und Klimapolitik (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Umwelt- und Klimapolitik (Prof. Schreurs)
 47957,TUZVSCH,Stabsstelle Diversity & Inclusion,TUM/Zentrale Verwaltung/Diversity & Inclusion
 47997,TUWZC1N,Professur für Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Neuroscience (Prof. Gjorgjieva)
@@ -1306,7 +1306,7 @@ org_id,code,name,path
 51958,TUXS21K,Studiengang Austauschprogramm Maschinenwesen (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/Austauschprogramm Maschinenwesen (auslaufend)
 51959,TUXS21L,Studiengang Austauschprogramm USP Maschinenwesen,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Austauschprogramm USP Maschinenwesen
 51960,TUXS21M,Studiengang Praktikum Maschinenwesen (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/Praktikum Maschinenwesen (auslaufend)
-51961,TUXS21C,Studiengang B.Sc. Ingenieurwissenschaften (UNI Salzburg),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/B.Sc. Ingenieurwissenschaften (UNI Salzburg)
+51961,TUXS21C,Studiengang B.Sc. Ingenieurwissenschaften (UNI Salzburg),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/B.Sc. Ingenieurwissenschaften (UNI Salzburg)
 51962,TUXS21B,Studiengang B.Sc. Maschinenwesen,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/B.Sc. Maschinenwesen
 51963,TUXS21N,Studiengang M.Sc. Energie- und Prozesstechnik (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/M.Sc. Energie- und Prozesstechnik (auslaufend)
 51964,TUXS21S,Studiengang M.Sc. Entwicklung und Konstruktion (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/M.Sc. Entwicklung und Konstruktion (auslaufend)
@@ -1321,8 +1321,8 @@ org_id,code,name,path
 51973,TUXS21D,Studiengang M.Sc. Maschinenwesen,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Maschinenwesen
 51974,TUXS21E,"Studiengang M.Sc. Entwicklung, Produktion und Management im Maschinenbau","TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Entwicklung, Produktion und Management im Maschinenbau"
 51975,TUXS21F,Studiengang M.Sc. Automotive Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Automotive Engineering
-51976,TUXS21G,Studiengang M.Sc. Mechatronik und Robotik,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Mechatronik und Robotik
-51977,TUXS21H,Studiengang M.Sc. Medizintechnik und Assistenzsysteme,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Medizintechnik und Assistenzsysteme
+51976,TUXS21G,Studiengang M.Sc. Mechatronik und Robotik,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/M.Sc. Mechatronik und Robotik
+51977,TUXS21H,Studiengang M.Sc. Medizintechnik und Assistenzsysteme,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend/M.Sc. Medizintechnik und Assistenzsysteme
 51978,TUXS21I,Studiengang M.Sc. Science and Technology of Materials,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Science and Technology of Materials
 51979,TUXS21J,Studiengang M.Sc. Energie- und Prozesstechnik,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/M.Sc. Energie- und Prozesstechnik
 51997,TUXB20E,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studiengänge auslaufend
@@ -1338,9 +1338,9 @@ org_id,code,name,path
 52007,TUXB20A,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/Studiengänge auslaufend
 52008,TUXS20N,Studiengang M.Sc. Energieeffizientes und nachhaltiges Bauen (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/Studiengänge auslaufend/M.Sc. Energieeffizientes und nachhaltiges Bauen (auslaufend)
 52009,TUXS20K,Studiengang M.Sc. (hons) Computational Mechanics (Honoursprogramm),TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/M.Sc. (hons) Computational Mechanics (Honoursprogramm)
-52010,TUXS20M,Studiengang Praktikum Bau- und Umweltingenieurwesen,TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/Praktikum Bau- und Umweltingenieurwesen
+52010,TUXS20M,Studiengang Austauschprogramm Bau- und Umweltingenieurwesen (Praktikum),TUM/Schools/Engineering and Design/Studienorganisation/Civil and Environmental Engineering/Austauschprogramm Bau- und Umweltingenieurwesen (Praktikum)
 52011,TUXS204,Studiengang Praktikum Luft- und Raumfahrt (auslaufend),TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Studiengänge auslaufend/Praktikum Luft- und Raumfahrt (auslaufend)
-52012,TUXS20V,Studiengang Praktikum Geodäsie und Geoinformation,TUM/Schools/Engineering and Design/Studienorganisation/Geodesy/Praktikum Geodäsie und Geoinformation
+52012,TUXS20V,Studiengang Austauschprogramm Geodäsie und Geoinformation (Praktikum),TUM/Schools/Engineering and Design/Studienorganisation/Geodesy/Austauschprogramm Geodäsie und Geoinformation (Praktikum)
 52013,TUXS20W,Studiengang B.Sc. Geowissenschaften,TUM/Schools/Engineering and Design/Studienorganisation/Geo Engineering/B.Sc. Geowissenschaften
 52014,TUXS20X,Studiengang M.Sc. Geomaterialien und Geochemie,TUM/Schools/Engineering and Design/Studienorganisation/Geo Engineering/M.Sc. Geomaterialien und Geochemie
 52015,TUXS20Y,Studiengang M.Sc. Geophysics,TUM/Schools/Engineering and Design/Studienorganisation/Geo Engineering/M.Sc. Geophysics
@@ -1357,15 +1357,15 @@ org_id,code,name,path
 52026,TUXS207,Studiengang M.A. Landschaftsarchitektur,TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/M.A. Landschaftsarchitektur
 52027,TUXS208,Studiengang M.Sc. Urbanistik - Landschaft und Stadt,TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/M.Sc. Urbanistik - Landschaft und Stadt
 52028,TUXS209,Studiengang Austauschprogramm Architecture and Design,TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/Austauschprogramm Architecture and Design
-52029,TUXS20A,Studiengang Praktikum Architecture and Design,TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/Praktikum Architecture and Design
+52029,TUXS20A,Studiengang Austauschprogramm Architecture and Design (Praktikum),TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/Austauschprogramm Architecture and Design (Praktikum)
 52030,TUXB209,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/Studiengänge auslaufend
 52031,TUXS20B,"Studiengang B.Sc. Restaurierung, Kunsttechnologie und Konservierungswissenschaft (auslaufend)","TUM/Schools/Engineering and Design/Studienorganisation/Architecture and Design/Studiengänge auslaufend/B.Sc. Restaurierung, Kunsttechnologie und Konservierungswissenschaft (auslaufend)"
-52032,TUXS219,Studiengang Austauschprogramm Munich School of Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Austauschprogramm Munich School of Engineering
-52033,TUXS21A,Studiengang Praktikum Munich School of Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Praktikum Munich School of Engineering
+52032,TUXS219,Studiengang Austauschprogramm Interdisciplinary Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Austauschprogramm Interdisciplinary Engineering
+52033,TUXS21A,Studiengang Austauschprogramm Interdisciplinary Engineering (Praktikum),TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Austauschprogramm Interdisciplinary Engineering (Praktikum)
 52034,TUXB20D,Studiengangsbündel Studiengänge auslaufend,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Studiengänge auslaufend
 52035,TUXS214,Studiengang B.Sc. Ingenieurwissenschaften (Engineering Science),TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/B.Sc. Ingenieurwissenschaften (Engineering Science)
 52036,TUXS215,Studiengang M.Sc. Industrielle Biotechnologie,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Industrielle Biotechnologie
-52037,TUXS216,Studiengang M.Sc. Ergonomie - Human Factors Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Ergonomie - Human Factors Engineering
+52037,TUXS216,Studiengang M.Sc. Ergonomie - Human Factors Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/Studiengänge auslaufend/M.Sc. Ergonomie - Human Factors Engineering
 52038,TUXS217,Studiengang M.Sc. Materials Science and Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Materials Science and Engineering
 52039,TUXS218,Studiengang M.Sc. Power Engineering,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Power Engineering
 52079,TUS1OTS,"School Office der TUM School of Computation, Information and Technology","TUM/Schools/Computation, Information and Technology/School Office"
@@ -1835,7 +1835,7 @@ org_id,code,name,path
 54299,TUS1002,Informatik,"TUM/Schools/Computation, Information and Technology/Fachschaftsvertretung/Informatik"
 54300,TUS1003,Elektrotechnik und Informationstechnik,"TUM/Schools/Computation, Information and Technology/Fachschaftsvertretung/Elektrotechnik und Informationstechnik"
 54301,TUS1004,Data Science and Artificial Intelligence,"TUM/Schools/Computation, Information and Technology/Fachschaftsvertretung/Data Science and Artificial Intelligence"
-54317,TUS4L3S,Lehrstuhl für Livestock Systems (Prof. Rufino),TUM/Schools/Life Sciences/Departments/Life Science Systems/Livestock Systems (Prof. Rufino)
+54317,TUS4L3S,Lehrstuhl für Livestock Systems (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Livestock Systems (N.N.)
 54318,TUS4I5P,Professur für Infection Pathogenesis (Prof. Ebner),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Infection Pathogenesis (Prof. Ebner)
 54319,TUS1300,Informatik 18 - Professur für Decision Analytics (Prof. Etesami),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Decision Analytics (Prof. Etesami)"
 54320,TUS3003,Lehrstuhl für Quantenalgorithmen und -anwendungen (Prof. Kraus),TUM/Schools/Natural Sciences/Departments/Physics/Quantenalgorithmen und -anwendungen (Prof. Kraus)
@@ -2098,7 +2098,7 @@ org_id,code,name,path
 56037,TUZVGHB,Geschäftsstelle TUM Campus Heilbronn,TUM/Zentrale Verwaltung/Geschäftsstelle TUM Campus Heilbronn
 56057,TUS4F8S,Professur für Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
 56077,TUZEMDI,Munich Design Institute (MDI),TUM/Integrative Research Institutes/Munich Design Institute (MDI)
-56097,TUS6DSF,Professur für Data Science in Finance (Prof. Resin komm.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (Prof. Resin komm.)
+56097,TUS6DSF,Professur für Data Science in Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (N.N.)
 56117,TUS5OR3,Professur für Machine Intelligence in der Orthopädie (Prof. Roth),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Orthopädie und Sportorthopädie (Prof. von Eisenhart-Rothe)/Machine Intelligence in der Orthopädie (Prof. Roth)
 56137,TUGSSMH,Graduate Center of Medicine and Health,TUM/TUM Graduate School/Graduiertenzentren/Graduate Center of Medicine and Health
 56177,TUZEI13,ZIEL-Prof. Schloter (LS),TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Schloter (LS)
@@ -2268,3 +2268,6 @@ org_id,code,name,path
 57737,TUPRV14,Vizepräsident und Kanzler Vizepräsident TUM Asia,TUM/Hochschulpräsidium/Vizepräsidenten und Kanzler/Vizepräsident TUM Asia
 57757,TUXSC0K,Studiengang B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Studienorganisation/Technologie Biogener Rohstoffe/B.Sc. Sustainable Engineering for Materials and Processes
 57758,TUXS115,Studiengang M.Sc. AI in Biomedicine,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Data Science/M.Sc. AI in Biomedicine"
+57777,TUS6MTC,Professur für Marketing and Technology (Prof. Finken),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing and Technology (Prof. Finken)"
+57797,TUS3017,Professur für Physikalisch-organische Chemie der Katalyse (Prof. Mayer),TUM/Schools/Natural Sciences/Departments/Chemistry/Physikalisch-organische Chemie der Katalyse (Prof. Mayer)
+57817,TUXS243,Studiengang Fortführung der Immatrikulation nach erfolgreichem Abschluss,TUM/Schools/Engineering and Design/Studienorganisation/Studienprogramme ED/Fortführung der Immatrikulation nach erfolgreichem Abschluss

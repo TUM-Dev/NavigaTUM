@@ -1,6 +1,6 @@
 cache_size_mb: 1024
 listen_addresses: 0.0.0.0:3001
-base_path: $BASE_PATH
+base_path: ${BASE_PATH:/}
 web_ui: enableforall
 sprites:
   - /map/sprites/maki
@@ -8,7 +8,6 @@ sprites:
 fonts:
   - /map/fonts
 styles:
-  - /map/styles/indoor.json
   - /map/styles/navigatum-basemap.json
 mbtiles:
   paths:
@@ -17,7 +16,7 @@ mbtiles:
     # named source matching source name to a single file
     shortbread: /data/output.mbtiles
 postgres:
-  connection_string: $DATABASE_URL
+  connection_string: ${DATABASE_URL:postgres://postgres:CHANGE_ME@localhost:5432/postgres}
   auto_publish: false
   functions:
       indoor_rooms:

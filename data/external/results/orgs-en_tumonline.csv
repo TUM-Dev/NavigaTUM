@@ -179,7 +179,7 @@ org_id,code,name,path
 15394,TUEIHFT,Chair of High-Frequency Engineering (Prof. Eibert),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/High-Frequency Engineering (Prof. Eibert)"
 15395,TUEINAN,Chair of Nano and Quantum Sensors (Prof. Weig),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Nano and Quantum Sensors (Prof. Weig)"
 15396,TUEIMSV,Chair of Signal Processing (Prof. Utschick),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Signal Processing (Prof. Utschick)"
-15399,TUEIHOT,Associate Professorship of Very High Frequency Technology (Prof. Biebl),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Very High Frequency Technology (Prof. Biebl)"
+15399,TUEIHOT,Associate Professorship of Very High Frequency Technology (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Very High Frequency Technology (N.N.)"
 15403,TUEILSR,Chair of Automatic Control Engineering (Prof. Buss),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Automatic Control Engineering (Prof. Buss)"
 15405,TUEIMST,Chair of Measurement Systems and Sensor Technology (Prof. Chen komm.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Measurement Systems and Sensor Technology (Prof. Chen komm.)"
 15415,TUINDEK,Dean's Office Dekanat IN,TUM/Academic department/Former TUM Department of Informatics/Dean's Office
@@ -229,7 +229,7 @@ org_id,code,name,path
 15614,TUWZS6U,Core Facility TUM Limnology Unit,TUM/Schools/Life Sciences/TUM Limnology Unit
 15616,TUWZQ3Z,Associate Professorship of Forest Nutrition and Water Resources (Prof. Göttlein),TUM/Schools/Life Sciences/Departments/Life Science Systems/Forest Nutrition and Water Resources (Prof. Göttlein)
 15619,TUWZT8O,Associate Professorship of Ecoclimatology (Prof. Menzel),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ecoclimatology (Prof. Menzel)
-15622,TUWZA1E,Associate Professorship of Geomorphology and Soil Science (Prof. Völkel),TUM/Schools/Life Sciences/Departments/Life Science Systems/Geomorphology and Soil Science (Prof. Völkel)
+15622,TUWZA1E,Associate Professorship of Geomorphology and Soil Science (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Geomorphology and Soil Science (N.N.)
 15626,TUWZI4V,Chair of Botany (Prof. Schneitz komm.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Botany (Prof. Schneitz komm.)
 15629,TUWZV2O,Chair of Grassland (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Grassland (N.N.)
 15630,TUWZA6W,Chair of Organic Agriculture and Agronomy (Prof. Hülsbergen),TUM/Schools/Life Sciences/Departments/Life Science Systems/Organic Agriculture and Agronomy (Prof. Hülsbergen)
@@ -932,7 +932,7 @@ org_id,code,name,path
 47877,TUPOL05,Chair of International Relations (Prof. Büthe),TUM/Schools/Social Sciences and Technology/Departments/Governance/International Relations (Prof. Büthe)
 47878,TUPOL06,Chair of European and Global Governance (Prof. Conceição-Heldt),TUM/Schools/Social Sciences and Technology/Departments/Governance/European and Global Governance (Prof. Conceição-Heldt)
 47897,TUMEMD0,Chair of Medical Education (Prof. Berberat),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Medical Education (Prof. Berberat)
-47917,TUWIB38,Assistant Professorship of Marketing (Prof. Ungemach),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Prof. Ungemach)"
+47917,TUWIB38,Assistant Professorship of Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Chair of Environmental and Climate Policy (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Environmental and Climate Policy (Prof. Schreurs)
 47957,TUZVSCH,Staff Unit Diversity & Inclusion,TUM/Central Administration/Diversity & Inclusion
 47997,TUWZC1N,Associate Professorship of Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Neuroscience (Prof. Gjorgjieva)
@@ -1300,13 +1300,13 @@ org_id,code,name,path
 51952,TUXS20O,Degree Program B.Sc. Land Management,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/B.Sc. Land Management
 51953,TUXS20P,Degree Program B.Sc. Geodesy and Geoinformation,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/B.Sc. Geodesy and Geoinformation
 51954,TUXS20Q,Degree Program M.Sc. Earth Oriented Space Science and Technology,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/M.Sc. Earth Oriented Space Science and Technology
-51955,TUXS20R,Degree Program M.Sc.Cartography,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/M.Sc.Cartography
+51955,TUXS20R,Degree Program M.Sc. Cartography,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/M.Sc. Cartography
 51956,TUXS20S,Degree Program M.Sc. Geodesy and Geoinformation,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/M.Sc. Geodesy and Geoinformation
 51957,TUXS20T,Degree Program M.Sc. Land Management and Geospatial Science,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/M.Sc. Land Management and Geospatial Science
 51958,TUXS21K,Degree Program Exchange program Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/Exchange program Mechanical Engineering
 51959,TUXS21L,Degree Program Exchange Program USP Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Exchange Program USP Mechanical Engineering
 51960,TUXS21M,Degree Program Internships Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/Internships Mechanical Engineering
-51961,TUXS21C,Degree Program B.Sc. Engineering Science (UNI Salzburg),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Engineering Science (UNI Salzburg)
+51961,TUXS21C,Degree Program B.Sc. Engineering Science (UNI Salzburg),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/B.Sc. Engineering Science (UNI Salzburg)
 51962,TUXS21B,Degree Program B.Sc. Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Mechanical Engineering
 51963,TUXS21N,Degree Program M.Sc. Energy and Process Engineering (to expire),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/M.Sc. Energy and Process Engineering (to expire)
 51964,TUXS21S,Degree Program M.Sc. Product Development and Engineering (to expire)Design,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/M.Sc. Product Development and Engineering (to expire)Design
@@ -1321,12 +1321,12 @@ org_id,code,name,path
 51973,TUXS21D,Degree Program M.Sc. Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Mechanical Engineering
 51974,TUXS21E,"Degree Program M.Sc. Development, Production and Management in Mechanical Engineering","TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Development, Production and Management in Mechanical Engineering"
 51975,TUXS21F,Degree Program M.Sc. Automotive Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Automotive Engineering
-51976,TUXS21G,Degree Program M.Sc. Mechatronics and Robotics,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Mechatronics and Robotics
-51977,TUXS21H,Degree Program M.Sc. Medical Engineering and Assistance Systems,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Medical Engineering and Assistance Systems
+51976,TUXS21G,Degree Program M.Sc. Mechatronics and Robotics,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/M.Sc. Mechatronics and Robotics
+51977,TUXS21H,Degree Program M.Sc. Medical Engineering and Assistance Systems,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/M.Sc. Medical Engineering and Assistance Systems
 51978,TUXS21I,Degree Program M.Sc. Science and Technology of Materials,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Science and Technology of Materials
 51979,TUXS21J,Degree Program M.Sc. Energy and Process Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Energy and Process Engineering
 51997,TUXB20E,Academic Programs Study program to expire,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire
-51998,TUXS20L,Degree Program Civil- and Environmental Engineering (exchange program),TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Civil- and Environmental Engineering (exchange program)
+51998,TUXS20L,Degree Program Exchange Program Civil and Environmental Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Exchange Program Civil and Environmental Engineering
 51999,TUXS20C,Degree Program B.Sc. Civil Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/B.Sc. Civil Engineering
 52000,TUXS20D,Degree Program B.Sc. Environmental Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/B.Sc. Environmental Engineering
 52001,TUXS20E,Degree Program M.Sc. Civil Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/M.Sc. Civil Engineering
@@ -1338,9 +1338,9 @@ org_id,code,name,path
 52007,TUXB20A,Academic Programs Study program to expire,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Study program to expire
 52008,TUXS20N,Degree Program M.Sc. Energy Efficient a. Sustainable Building (to expire),TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Study program to expire/M.Sc. Energy Efficient a. Sustainable Building (to expire)
 52009,TUXS20K,Degree Program M.Sc. (hons) Computational Mechanics (Honoursprogramm),TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/M.Sc. (hons) Computational Mechanics (Honoursprogramm)
-52010,TUXS20M,Degree Program Internships Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Internships Mechanical Engineering
+52010,TUXS20M,Degree Program Exchange Program Civil and Environmental Engineering (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Exchange Program Civil and Environmental Engineering (Practical Project Students)
 52011,TUXS204,Degree Program Internship Aerospace,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Study Program to expire/Internship Aerospace
-52012,TUXS20V,Degree Program Internship Geodesy,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/Internship Geodesy
+52012,TUXS20V,Degree Program Exchange Program Geodesy and Geoinformation (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/Exchange Program Geodesy and Geoinformation (Practical Project Students)
 52013,TUXS20W,Degree Program B.Sc. Geosciences,TUM/Schools/Engineering and Design/Academic Program Administration/Geo Engineering/B.Sc. Geosciences
 52014,TUXS20X,Degree Program M.Sc. Geomaterials and Geochemistry,TUM/Schools/Engineering and Design/Academic Program Administration/Geo Engineering/M.Sc. Geomaterials and Geochemistry
 52015,TUXS20Y,Degree Program M.Sc. Geophysics,TUM/Schools/Engineering and Design/Academic Program Administration/Geo Engineering/M.Sc. Geophysics
@@ -1357,15 +1357,15 @@ org_id,code,name,path
 52026,TUXS207,Degree Program M.A. Landscape Architecture,TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/M.A. Landscape Architecture
 52027,TUXS208,Degree Program M.Sc. Urbanism - Urban and Landscape Studies and Design,TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/M.Sc. Urbanism - Urban and Landscape Studies and Design
 52028,TUXS209,Degree Program Exchange Program Architecture and Design,TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/Exchange Program Architecture and Design
-52029,TUXS20A,Degree Program Internship Architecture and Design,TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/Internship Architecture and Design
+52029,TUXS20A,Degree Program Exchange Program Architecture and Design (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/Exchange Program Architecture and Design (Practical Project Students)
 52030,TUXB209,Academic Programs Study Program to expire,TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/Study Program to expire
 52031,TUXS20B,"Degree Program B.Sc. Restoration, Art Technology and Preservation Science (to expire)","TUM/Schools/Engineering and Design/Academic Program Administration/Architecture and Design/Study Program to expire/B.Sc. Restoration, Art Technology and Preservation Science (to expire)"
-52032,TUXS219,Degree Program Exchange Program Munich School of Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Exchange Program Munich School of Engineering
-52033,TUXS21A,Degree Program Internship Munich School of Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Internship Munich School of Engineering
+52032,TUXS219,Degree Program Exchange Program Interdisciplinary Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Exchange Program Interdisciplinary Engineering
+52033,TUXS21A,Degree Program Exchange Program Interdisciplinary Engineering (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Exchange Program Interdisciplinary Engineering (Practical Project Students)
 52034,TUXB20D,Academic Programs Study Program to expire,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Study Program to expire
 52035,TUXS214,Degree Program B.Sc. Engineering Science,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/B.Sc. Engineering Science
 52036,TUXS215,Degree Program M.Sc. Industrial Biotechnology,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Industrial Biotechnology
-52037,TUXS216,Degree Program M.Sc. Ergonomics - Human Factors Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Ergonomics - Human Factors Engineering
+52037,TUXS216,Degree Program M.Sc. Ergonomics - Human Factors Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Study Program to expire/M.Sc. Ergonomics - Human Factors Engineering
 52038,TUXS217,Degree Program M.Sc. Materials Science and Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Materials Science and Engineering
 52039,TUXS218,Degree Program M.Sc. Power Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Power Engineering
 52079,TUS1OTS,"School Office of the TUM School of Computation, Information and Technology","TUM/Schools/Computation, Information and Technology/School Office"
@@ -1835,7 +1835,7 @@ org_id,code,name,path
 54299,TUS1002,Informatics,"TUM/Schools/Computation, Information and Technology/Student Council/Informatics"
 54300,TUS1003,Electrical and Computer Engineering,"TUM/Schools/Computation, Information and Technology/Student Council/Electrical and Computer Engineering"
 54301,TUS1004,Data Science and Artificial Intelligence,"TUM/Schools/Computation, Information and Technology/Student Council/Data Science and Artificial Intelligence"
-54317,TUS4L3S,Chair of Livestock Systems (Prof. Rufino),TUM/Schools/Life Sciences/Departments/Life Science Systems/Livestock Systems (Prof. Rufino)
+54317,TUS4L3S,Chair of Livestock Systems (N.N.),TUM/Schools/Life Sciences/Departments/Life Science Systems/Livestock Systems (N.N.)
 54318,TUS4I5P,Assistant Professorship of Infection Pathogenesis (Prof. Ebner),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Infection Pathogenesis (Prof. Ebner)
 54319,TUS1300,Informatics 18 - Assistant Professorship of Decision Analytics (Prof. Etesami),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Decision Analytics (Prof. Etesami)"
 54320,TUS3003,Chair of Quantum Algorithms and Applications (Prof. Kraus),TUM/Schools/Natural Sciences/Departments/Physics/Quantum Algorithms and Applications (Prof. Kraus)
@@ -1848,7 +1848,7 @@ org_id,code,name,path
 54377,TUS2PAB,MPA BAU - Testing Institute for Building Materials,TUM/Schools/Engineering and Design/Departments/Materials Engineering/MPA BAU - Testing Institute for Building Materials
 54397,TUS2TCA,Techcore ASG,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Techcore ASG
 54417,TUS6B51,Chair of Entrepreneurial Education (Prof. Tryba),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Education (Prof. Tryba)
-54437,TUXS232,"Degree Program M.Sc. Mechatronics, Robotics, and Biomechanical Engineering",TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program
+54437,TUXS232,"Degree Program M.Sc. Mechatronics, Robotics and Biomechanical Engineering","TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Mechatronics, Robotics and Biomechanical Engineering"
 54438,TUS4R5I,Associate Professorship of Root-Soil Interaction (Prof. Ahmed),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Root-Soil Interaction (Prof. Ahmed)
 54439,TUS3004,Chair of Applied Quantum Theory (Prof. Rabl),TUM/Schools/Natural Sciences/Departments/Physics/Applied Quantum Theory (Prof. Rabl)
 54457,TUS1302,Informatics 4 - Assistant Professorship of Software Engineering for Data-intensive Applications (Prof. Stocco),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering for Data-intensive Applications (Prof. Stocco)"
@@ -2012,8 +2012,8 @@ org_id,code,name,path
 55270,TUXS51R,Degree Program Medizin,TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Medizin
 55271,TUXS51S,Degree Program Gastpromotion (ME),TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Gastpromotion (ME)
 55277,TUS6SAF,"Assistant Professorship of Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)"
-55278,TUXS233,Degree Program M.Sc. Medizintechnik,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program
-55279,TUXS234,Degree Program B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS)
+55278,TUXS233,Degree Program M.Sc. Medical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/M.Sc. Medical Engineering
+55279,TUXS234,Degree Program B.Sc. Engineering and Materials Science (PLUS),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Engineering and Materials Science (PLUS)
 55297,TUZVZTE,Central Technology (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Central Technology (Central department 4)
 55298,TUZVMUC,Site Munich (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)
 55299,TUZVGAR,Site Garching (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Garching (Central department 4)
@@ -2067,9 +2067,9 @@ org_id,code,name,path
 55779,TUS7SOC,Assistant Professorship of Societal Computing (Prof. Papakyriakopoulos),TUM/Schools/Social Sciences and Technology/Departments/Governance/Societal Computing (Prof. Papakyriakopoulos)
 55797,TUMEIS3,Chair of Health Informatics (Prof. Schuller),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. Rückert)/Health Informatics (Prof. Schuller)
 55818,TUS1313,Chair of Interpretable and Reliable Machine Learning (Prof. Akata-Schulz),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Interpretable and Reliable Machine Learning (Prof. Akata-Schulz)"
-55837,TUXS235,Degree Program M.Sc. Rail and Urban Transport,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program
-55838,TUXS236,Degree Program M.Sc. Logistics Engineering and Management,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program
-55839,TUXS237,Degree Program M.Sc. Human Factors Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Degree Program
+55837,TUXS235,Degree Program M.Sc. Rail and Urban Transport,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/M.Sc. Rail and Urban Transport
+55838,TUXS236,Degree Program M.Sc. Logistics Engineering and Management,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/M.Sc. Logistics Engineering and Management
+55839,TUXS237,Degree Program M.Sc. Human Factors Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Human Factors Engineering
 55857,TUS7HCC,Chair of Human-Centered Computing (Prof. Diesner),TUM/Schools/Social Sciences and Technology/Departments/Governance/Human-Centered Computing (Prof. Diesner)
 55859,TUS7PGT,Assistant Professorship of Public Policy for the Green Transition (Prof. Egli),TUM/Schools/Social Sciences and Technology/Departments/Governance/Public Policy for the Green Transition (Prof. Egli)
 55877,TUPEVL1,BUILT ENVIRONMENT,TUM/Institutions close to the University/TUM Venture Labs/BUILT ENVIRONMENT
@@ -2098,7 +2098,7 @@ org_id,code,name,path
 56037,TUZVGHB,Staff Unit Office TUM Campus Heilbronn,TUM/Central Administration/Office TUM Campus Heilbronn
 56057,TUS4F8S,Associate Professorship of Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
 56077,TUZEMDI,Munich Design Institute (MDI),TUM/Integrative Research Institutes/Munich Design Institute (MDI)
-56097,TUS6DSF,Assistant Professorship of Data Science in Finance (Prof. Resin komm.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (Prof. Resin komm.)
+56097,TUS6DSF,Assistant Professorship of Data Science in Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (N.N.)
 56117,TUS5OR3,Associate Professorship of Machine intelligence in orthopaedics (Prof. Roth),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Machine intelligence in orthopaedics (Prof. Roth)
 56137,TUGSSMH,Graduate Center of Medicine and Health,TUM/TUM Graduate School/Graduate Centers/Graduate Center of Medicine and Health
 56177,TUZEI13,Area ZIEL-Prof. Schloter (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
@@ -2117,10 +2117,10 @@ org_id,code,name,path
 56259,TUS6HNG,School Office Heilbronn (MGT) - School Office,TUM/Schools/Management/School Office/School Office Heilbronn (MGT)
 56277,TUZEI15,Area AG Public Health Nutrition,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Research Groups/Area
 56278,TUZEI16,Area AG Westernization of Diet and the Gut,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Research Groups/Area
-56317,TUXS238,Degree Program Austauschprogramm Aerospace,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Degree Program
-56318,TUXS239,Degree Program Austauschprogramm Aerospace (Praktikum),TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Degree Program
-56319,TUXS240,Degree Program Austauschprogramm Maschinenwesen,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program
-56320,TUXS241,Degree Program Austauschprogramm Maschinenwesen (Praktikum),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program
+56317,TUXS238,Degree Program Exchange Program Aerospace,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Exchange Program Aerospace
+56318,TUXS239,Degree Program Exchange Program Civil and Environmental Engineering (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Exchange Program Civil and Environmental Engineering (Practical Project Students)
+56319,TUXS240,Degree Program Exchange Program Mechanical Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Exchange Program Mechanical Engineering
+56320,TUXS241,Degree Program Exchange Program Mechanical Egineering (Practical Project Students),TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Exchange Program Mechanical Egineering (Practical Project Students)
 56337,TUZEI17,Area ZIEL-externe Mitglieder,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
 56357,TUXOC00,Academic Program Administration TUM Campus Straubing for Biotechnology and Sustainability (TUMCS),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration
 56358,TUXBC00,Academic Programs Bioökonomie,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Bioökonomie
@@ -2245,7 +2245,7 @@ org_id,code,name,path
 57457,TUWIH16,Assistant Professorship of Transportation Analytics (DSS) (Prof. Li),TUM/Schools/Management/Departments/Operations and Technology/Transportation Analytics (DSS) (Prof. Li)
 57458,TUZVRUG,Spatial and geodata inventory (ZA4),TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Spatial and geodata inventory (ZA4)
 57477,TUS5MSZ,Münchener Studienzentrum (MSZ),TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities/Münchener Studienzentrum (MSZ)
-57497,TUXS242,Degree Program MAS Sustainable Real Estate,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program
+57497,TUXS242,Degree Program MAS Sustainable Real Estate,TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/MAS Sustainable Real Estate
 57517,TUPEBAP,BayAP - Bayerisches Hochschul- und Innovationszentrum für Asien Pazifik,TUM/Institutions close to the University/BayAP - Bayerisches Hochschul- und Innovationszentrum für Asien Pazifik
 57537,TUS5WED,Weitere Einheiten DHM,TUM/Schools/Medicine and Health/Weitere Einheiten DHM
 57538,TUS5SVW,Sonstige Verwaltung (DHM),TUM/Schools/Medicine and Health/Weitere Einheiten DHM/Sonstige Verwaltung (DHM)
@@ -2268,3 +2268,6 @@ org_id,code,name,path
 57737,TUPRV14,Vice President - TUM Asia,TUM/TUM Board of Management/Vice Presidents/Vice President - TUM Asia
 57757,TUXSC0K,Degree Program B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/Degree Program
 57758,TUXS115,Degree Program M.Sc. AI in Biomedicine,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Data Science/Degree Program"
+57777,TUS6MTC,Assistant Professorship of Marketing and Technology (Prof. Finken),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing and Technology (Prof. Finken)"
+57797,TUS3017,Assistant Professorship of Physikalisch-organische Chemie der Katalyse (Prof. Mayer),TUM/Schools/Natural Sciences/Departments/Chemistry/Associate Professorship
+57817,TUXS243,Degree Program Application for Continuation of Enrollment after Graduation,TUM/Schools/Engineering and Design/Academic Program Administration/Study programs ED/Application for Continuation of Enrollment after Graduation
