@@ -57,7 +57,7 @@ impl MeiliSearchTestContainer {
     /// Create a meilisearch instance for testing against
     pub async fn new() -> Self {
         let container = meilisearch::Meilisearch::default()
-            .with_tag("v1.23.0")
+            .with_tag("v1.29.0")
             .start()
             .await
             .unwrap();
