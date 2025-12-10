@@ -12,8 +12,8 @@ jobs:
   update-data:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
           version: 10.14.0
           package_json_file: webclient/package.json
@@ -22,7 +22,7 @@ jobs:
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, openapi-format]
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
         with:
           python-version: '3.13'
       - name: Install python dependencies
@@ -42,9 +42,9 @@ jobs:
         run: du -sh data/external/results/*
       - name: Fix linting errors
         continue-on-error: true
-        uses: pre-commit/action@v3.0.1
+        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
         with:
           add-paths: data/external/results
           commit-message: Synced the data with upstream
