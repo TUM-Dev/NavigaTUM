@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:23-alpine3.21 AS base
+FROM node:24-alpine3.23 AS base
 
 RUN apk update --no-progress --quiet && \
     apk add --no-cache --no-progress --quiet curl sqlite sqlite-libs
