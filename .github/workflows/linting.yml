@@ -4,9 +4,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-linting
   cancel-in-progress: true
 on:
-  pull_request:
-    branches: [ main ]
-    types: [ opened, reopened, synchronize ]
   push:
     branches: [ main ]
   workflow_dispatch:
@@ -15,7 +12,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - run: rustup update stable && rustup default stable
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -42,12 +39,10 @@ jobs:
       - name: Install cargo-insta
         run: cargo install cargo-insta --locked
       - name: Update server snapshots
-        if: github.ref == 'refs/heads/main'
         working-directory: server
         run: cargo insta test --accept
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
-        if: github.ref == 'refs/heads/main'
         with:
           commit-message: fixed formatting mistakes have sneaked into prod
           title: "chore(formatting): Fixed formatting mistakes"
