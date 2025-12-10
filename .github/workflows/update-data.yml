@@ -48,7 +48,7 @@ jobs:
         with:
           add-paths: data/external/results
           commit-message: Synced the data with upstream
-          title: "[data-update] Synced the data with upstream datasources"
+          title: "chore(data): Synced the data with upstream datasources"
           body: |
             PR comes from [this Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             - Updated the data with upstream sources
