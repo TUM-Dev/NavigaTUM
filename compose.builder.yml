@@ -44,6 +44,6 @@ services:
       force_rebuild: True
       build_admins: Force
       build_time_zones: Force
-      build_transit: Force
+      build_transit: False
       use_default_speeds_config: True
       serve_tiles: False

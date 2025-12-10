@@ -3,7 +3,5 @@ tile_weights.tsv.gz
 sources/
 tmp/
 data/
-gtfs_feeds/
 martin/fonts/
 martin/sprites/maki
-gtfs_feeds
