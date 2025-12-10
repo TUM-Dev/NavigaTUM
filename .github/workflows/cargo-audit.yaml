@@ -25,7 +25,7 @@ jobs:
       - uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ignore: RUSTSEC-2023-0071,RUSTSEC-2024-0363,RUSTSEC-2024-0379,RUSTSEC-2024-0384,RUSTSEC-2024-0421,RUSTSEC-2025-0004,RUSTSEC-2025-0006
+          ignore: RUSTSEC-2023-0071,RUSTSEC-2024-0363,RUSTSEC-2024-0379,RUSTSEC-2024-0384,RUSTSEC-2024-0421,RUSTSEC-2025-0004,RUSTSEC-2025-0006,RUSTSEC-2025-0134
           # RUSTSEC-2024-0421 = idna accepts Punycode labels that do not produce any non-ASCII when decoded => not used explitably
           # RUSTSEC-2024-0384 = instant (Used via instant v0.1.13 > parking_lot v0.11.2 > sled v0.34.7 > cached v0.54.0) is unmaintained => Since `parking_lot`, `sled` and `cached` are maintained and the open issues in `instant` are wasm-related, I am going to close this
           # RUSTSEC-2024-0379 = unsoundness in fast-float => only used in intialisation logic, fix in polars is in main and is awaiting release
@@ -33,3 +33,4 @@ jobs:
           # RUSTSEC-2023-0071 = Marvin Attack: potential key recovery through timing sidechannels => not used explitably
           # RUSTSEC-2025-0004 = ssl::select_next_proto use after free => not used
           # RUSTSEC-2025-0006 = Hickory DNS failure to verify self-signed RRSIG for DNSKEYs => not used
+          # RUSTSEC-2025-0134 = rustls-pemfile is unmaintained, but only used in development dependencies
