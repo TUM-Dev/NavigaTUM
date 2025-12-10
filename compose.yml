@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.23.0
+    image: getmeili/meilisearch:v1.29.0
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -148,7 +148,7 @@ services:
       start_interval: 500ms
       timeout: 1s
   nominatim:
-    image: mediagis/nominatim:5.1
+    image: mediagis/nominatim:5.2
     restart: unless-stopped
     networks:
       - traefik_traefik

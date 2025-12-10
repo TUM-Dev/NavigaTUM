@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM    rust:1.90-alpine AS compiler
+FROM    rust:1.91-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
@@ -48,7 +48,7 @@ RUN     if [ $PROFILE == "release" ]; then \
 
 
 # RUN
-FROM alpine:3.22 AS production-stage
+FROM alpine:3.23 AS production-stage
 
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
