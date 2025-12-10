@@ -100,8 +100,8 @@ const suggestLocationFix = () => {
               {{ t("suggest_edit") }}
             </button>
           </div>
-          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('msg.no_floor_overlay')" />
-          <Toast v-if="data.props?.comment" :msg="data.props.comment" />
+          <Toast v-if="data.type === 'room' && data.maps?.overlays?.default === null" level="warning" :msg="t('msg.no_floor_overlay')" id="details-section-no_floor_overlay" />
+          <Toast v-if="data.props?.comment" :msg="data.props.comment" id="details-section-comment" />
         </div>
       </div>
     </div>

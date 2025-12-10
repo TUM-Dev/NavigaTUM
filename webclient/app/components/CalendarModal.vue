@@ -25,7 +25,7 @@ const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
   <Modal v-model="modalOpen" :title="t('title')" class="!min-w-[90vw]" @close="calendar = []">
     <NuxtErrorBoundary>
       <template #error="{ error }">
-        <Toast level="error">
+        <Toast level="error" id="calendar-error">
           <p class="text-md font-bold">{{ t("error.header") }}</p>
           <p class="text-sm">
             {{ t("error.reason") }}:<br />
