@@ -61,7 +61,7 @@ importers:
         version: 0.0.22
       nightwind:
         specifier: 1.1.13
-        version: 1.1.13(tailwindcss@3.4.18(yaml@2.8.2))
+        version: 1.1.13(tailwindcss@3.4.19(yaml@2.8.2))
       nuxt:
         specifier: 4.2.2
         version: 4.2.2(@biomejs/biome@2.3.8)(@parcel/watcher@2.5.1)(@vue/compiler-sfc@3.5.25)(better-sqlite3@12.5.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.5.0))(eslint@9.37.0(jiti@2.6.1))(ioredis@5.8.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.0)(typescript@5.9.3)(vite@7.2.7(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
@@ -109,8 +109,8 @@ importers:
         specifier: 8.5.6
         version: 8.5.6
       tailwindcss:
-        specifier: 3.4.18
-        version: 3.4.18(yaml@2.8.2)
+        specifier: 3.4.19
+        version: 3.4.19(yaml@2.8.2)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -4983,8 +4983,8 @@ packages:
     peerDependencies:
       tailwindcss: 1 || 2 || 2.0.1-compat || 3
 
-  tailwindcss@3.4.18:
-    resolution: {integrity: sha512-6A2rnmW5xZMdw11LYjhcI5846rt9pbLSabY5XPxo+XWdxwZaFEn47Go4NzFiHu9sNNmr/kXivP1vStfvMaK1GQ==}
+  tailwindcss@3.4.19:
+    resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -6948,8 +6948,8 @@ snapshots:
       pkg-types: 2.3.0
       postcss: 8.5.6
       postcss-nesting: 13.0.2(postcss@8.5.6)
-      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.18(yaml@2.8.2))
-      tailwindcss: 3.4.18(yaml@2.8.2)
+      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.19(yaml@2.8.2))
+      tailwindcss: 3.4.19(yaml@2.8.2)
       ufo: 1.6.1
       unctx: 2.4.1
     transitivePeerDependencies:
@@ -7549,7 +7549,7 @@ snapshots:
 
   '@types/nightwind@1.0.0(yaml@2.8.2)':
     dependencies:
-      tailwindcss: 3.4.18(yaml@2.8.2)
+      tailwindcss: 3.4.19(yaml@2.8.2)
     transitivePeerDependencies:
       - tsx
       - yaml
@@ -9892,9 +9892,9 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  nightwind@1.1.13(tailwindcss@3.4.18(yaml@2.8.2)):
+  nightwind@1.1.13(tailwindcss@3.4.19(yaml@2.8.2)):
     dependencies:
-      tailwindcss: 3.4.18(yaml@2.8.2)
+      tailwindcss: 3.4.19(yaml@2.8.2)
 
   nitropack@2.12.9(better-sqlite3@12.5.0):
     dependencies:
@@ -11284,7 +11284,7 @@ snapshots:
 
   tagged-tag@1.0.0: {}
 
-  tailwind-config-viewer@2.0.4(tailwindcss@3.4.18(yaml@2.8.2)):
+  tailwind-config-viewer@2.0.4(tailwindcss@3.4.19(yaml@2.8.2)):
     dependencies:
       '@koa/router': 12.0.2
       commander: 6.2.1
@@ -11294,11 +11294,11 @@ snapshots:
       open: 7.4.2
       portfinder: 1.0.38
       replace-in-file: 6.3.5
-      tailwindcss: 3.4.18(yaml@2.8.2)
+      tailwindcss: 3.4.19(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
-  tailwindcss@3.4.18(yaml@2.8.2):
+  tailwindcss@3.4.19(yaml@2.8.2):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
