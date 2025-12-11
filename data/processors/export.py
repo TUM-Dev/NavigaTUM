@@ -118,7 +118,7 @@ def export_for_search(data: dict) -> None:
     _make_sure_is_safe(export)
     with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
         json.dump(export, file)
-    df = pl.read_json(OUTPUT_DIR_PATH / "search_data.json")
+    df = pl.DataFrame(export, infer_schema_length=None)
     df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
@@ -170,7 +170,7 @@ def export_for_status() -> None:
         json.dump(export_json_data, file)
 
     export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
-    df = pl.DataFrame(export_polars_data)
+    df = pl.DataFrame(export_polars_data, infer_schema_length=None)
     df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
 
 
@@ -184,7 +184,9 @@ def export_for_api(data: dict) -> None:
     _make_sure_is_safe(export_data)
     with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
-    df = pl.read_json(OUTPUT_DIR_PATH / "api_data.json")
+    with (OUTPUT_DIR_PATH / "api_data.json").open("r", encoding="utf-8") as file:
+        export_data = json.load(file)
+    df = pl.DataFrame(export_data, infer_schema_length=None)
     df.write_parquet(OUTPUT_DIR_PATH / "api_data.parquet", use_pyarrow=True, compression_level=22)
 
 

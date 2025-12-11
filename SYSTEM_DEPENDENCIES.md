@@ -44,7 +44,7 @@ the latest version.
 #### Python3
 
 The server does have some scripts, which are written in python, and they implicitly depend on a recent version of
-python (>=3.13).
+python (>=3.14).
 If you don't meet this requirement, head over to the [python website](https://www.python.org/downloads/) and download
 the latest version.
 
