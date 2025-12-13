@@ -61,7 +61,7 @@ importers:
         version: 0.0.22
       nightwind:
         specifier: 1.1.13
-        version: 1.1.13(tailwindcss@3.4.19(yaml@2.8.2))
+        version: 1.1.13(tailwindcss@4.1.18)
       nuxt:
         specifier: 4.2.2
         version: 4.2.2(@biomejs/biome@2.3.8)(@parcel/watcher@2.5.1)(@vue/compiler-sfc@3.5.25)(better-sqlite3@12.5.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.5.0))(eslint@9.37.0(jiti@2.6.1))(ioredis@5.8.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.0)(typescript@5.9.3)(vite@7.2.7(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
@@ -109,8 +109,8 @@ importers:
         specifier: 8.5.6
         version: 8.5.6
       tailwindcss:
-        specifier: 3.4.19
-        version: 3.4.19(yaml@2.8.2)
+        specifier: 4.1.18
+        version: 4.1.18
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -4987,6 +4987,9 @@ packages:
     resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  tailwindcss@4.1.18:
+    resolution: {integrity: sha512-4+Z+0yiYyEtUVCScyfHCxOYP06L5Ne+JiHhY2IjR2KWMIWhJOYZKLSGZaP5HkZ8+bY0cxfzwDE5uOmzFXyIwxw==}
 
   tar-fs@2.1.4:
     resolution: {integrity: sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==}
@@ -9892,9 +9895,9 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  nightwind@1.1.13(tailwindcss@3.4.19(yaml@2.8.2)):
+  nightwind@1.1.13(tailwindcss@4.1.18):
     dependencies:
-      tailwindcss: 3.4.19(yaml@2.8.2)
+      tailwindcss: 4.1.18
 
   nitropack@2.12.9(better-sqlite3@12.5.0):
     dependencies:
@@ -11325,6 +11328,8 @@ snapshots:
     transitivePeerDependencies:
       - tsx
       - yaml
+
+  tailwindcss@4.1.18: {}
 
   tar-fs@2.1.4:
     dependencies:
