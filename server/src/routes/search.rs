@@ -127,6 +127,7 @@ pub struct SearchQueryArgs {
     /// - `full`: never crop; always show full building names.
     #[serde(default)]
     #[schema(default = "crop", example = "full")]
+    #[param(inline)]
     cropping: CroppingMode,
 
     /// How to format `parsed_id` for rooms.
@@ -135,6 +136,7 @@ pub struct SearchQueryArgs {
     /// - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
     #[serde(default)]
     #[schema(default = "prefixed", example = "roomfinder")]
+    #[param(inline)]
     parsed_id: ParsedIdMode,
 }
 
