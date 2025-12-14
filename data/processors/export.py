@@ -185,9 +185,9 @@ def export_for_api(data: dict) -> None:
     with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
     with (OUTPUT_DIR_PATH / "api_data.json").open("r", encoding="utf-8") as file:
-        export_data = json.load(file)
-    df = pl.DataFrame(export_data, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "api_data.parquet", use_pyarrow=True, compression_level=22)
+        alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in json.load(file)]
+    df = pl.DataFrame(alias_data, infer_schema_length=None)
+    df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def extract_exported_item(data, entry):
