@@ -12,9 +12,9 @@ info:
     - [x] Support for different room code formats as well as generic names
     - [x] All functionality is also available via an open and well documented API
     - [x] Automatically update the data from upstream datasources
-    - [ ] Allow students/staff to easily submit feedback and data patches
+    - [x] Allow students/staff to easily submit feedback and data patches
+    - [x] Generate turn by turn navigation advice for navigating end to end
     - [ ] Generate maps from CAD data sources
-    - [ ] Generate turn by turn navigation advice for navigating end to end
 
     If you'd like to help out or join us in this adventure, we would love to talk to you.
   termsOfService: https://nav.tum.de/en/about/privacy
@@ -662,6 +662,34 @@ paths:
             type:
               - string
               - "null"
+        - name: cropping
+          in: query
+          description: |-
+            How to handle cropping of long building names in `parsed_id`.
+
+            - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+            - `full`: never crop; always show full building names.
+          required: false
+          schema:
+            type: string
+            description: Controls whether long building names inside `parsed_id` are cropped.
+            enum:
+              - crop
+              - full
+        - name: parsed_id
+          in: query
+          description: |-
+            How to format `parsed_id` for rooms.
+
+            - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+            - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
+          required: false
+          schema:
+            type: string
+            description: Controls how `parsed_id` is built for room results.
+            enum:
+              - prefixed
+              - roomfinder
       responses:
         "200":
           description: Search entries

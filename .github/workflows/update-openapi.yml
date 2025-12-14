@@ -121,6 +121,17 @@ jobs:
             echo "No changes detected in OpenAPI spec or types"
           else
             echo "Changes detected in OpenAPI spec or types"
+
+            # Print a small diff in the logs if it's not too large.
+            # We use the number of lines in the diff output as an upper bound.
+            diff="$(git diff)"
+            diff_lines="$(printf "%s" "$diff" | wc -l | tr -d '[:space:]')"
+            if [ "$diff_lines" -le 250 ]; then
+              echo "Diff (<= 250 lines):"
+              printf "%s\n" "$diff"
+            else
+              echo "Diff is too large to print ($diff_lines lines > 250)."
+            fi
             
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"

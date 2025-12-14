@@ -1,0 +1,72 @@
+---
+source: src/search_executor/mod.rs
+description: "Query: MI5601"
+expression: results_roomfinder.0
+info: parsed_id=roomfinder
+---
+- facet: sites_buildings
+  entries:
+    - id: "5601"
+      type: building
+      name: Magistrale / Foyer (BT01)
+      subtext: Gebäudeteil
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries:
+    - id: 5601.EG.001
+      type: room
+      name: "\u00195601\u0017.EG.001 (Magistrale)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.001@5601
+      parsed_id: 00.01.001@5601
+    - id: 5601.EG.010
+      type: room
+      name: "\u00195601\u0017.EG.010 (Pforte)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.010@5601
+      parsed_id: 00.01.010@5601
+    - id: 5601.U1.011
+      type: room
+      name: "\u00195601\u0017.U1.011 (WC-Damen)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.011@5601"
+      parsed_id: "-1.01.011@5601"
+    - id: 5601.U1.012
+      type: room
+      name: "\u00195601\u0017.U1.012 (WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.012@5601"
+      parsed_id: "-1.01.012@5601"
+    - id: 5601.U1.021
+      type: room
+      name: "\u00195601\u0017.U1.021 (Dozentenbüro)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.021@5601"
+      parsed_id: "-1.01.021@5601"
+    - id: 5601.U1.022
+      type: room
+      name: "\u00195601\u0017.U1.022 (Büro Technik)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.022@5601"
+      parsed_id: "-1.01.022@5601"
+    - id: 5601.U1.031A
+      type: room
+      name: "\u00195601\u0017.U1.031A (WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.031A@5601"
+      parsed_id: "-1.01.031A@5601"
+    - id: 5601.U1.031B
+      type: room
+      name: "\u00195601\u0017.U1.031B (WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.031B@5601"
+      parsed_id: "-1.01.031B@5601"
+    - id: 5601.U1.031C
+      type: room
+      name: "\u00195601\u0017.U1.031C (WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: "-1.01.031C@5601"
+      parsed_id: "-1.01.031C@5601"
+  n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"

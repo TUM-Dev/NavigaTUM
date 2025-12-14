@@ -12,6 +12,32 @@ use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
 
+/// Controls whether long building names inside `parsed_id` are cropped.
+#[derive(
+    Copy, Clone, Eq, PartialEq, Hash, Debug, Deserialize, Serialize, utoipa::ToSchema, Default,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum CroppingMode {
+    /// Crop long names (default, preserves compact UI).
+    #[default]
+    Crop,
+    /// Never crop; always show full names.
+    Full,
+}
+
+/// Controls how `parsed_id` is built for room results.
+#[derive(
+    Copy, Clone, Eq, PartialEq, Hash, Debug, Deserialize, Serialize, utoipa::ToSchema, Default,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum ParsedIdMode {
+    /// Prefer a user-facing prefixed format (default), e.g. `"MW 1801"`.
+    #[default]
+    Prefixed,
+    /// Use raw Roomfinder/arch format, e.g. `"archname@building_id"`.
+    Roomfinder,
+}
+
 #[derive(Deserialize, Debug, Default, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct SearchQueryArgs {
     /// string you want to search for.
@@ -43,29 +69,34 @@ pub struct SearchQueryArgs {
     //    ("AStA" = (summary = "common name synonyms for SV", value = "AStA")),
     //))]
     q: String,
+
     /// Include adresses in the saerch
     ///
     /// Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
     /// Only activate this when you really need it.
     search_addresses: Option<bool>,
+
     /// Maximum number of buildings/sites to return.
     ///
     /// Clamped to `0`..`1000`.
     /// If this is a problem for you, please open an issue.
     #[schema(default = 5, maximum = 1000, minimum = 0)]
     limit_buildings: Option<usize>,
+
     /// Maximum number of rooms to return.
     ///
     /// Clamped to `0`..`1000`.
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 0)]
     limit_rooms: Option<usize>,
+
     /// Maximum number of results to return.
     ///
     /// Clamped to `1`..`1000`.
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 1)]
     limit_all: Option<usize>,
+
     /// string to include in front of highlighted sequences.
     ///
     /// If this and `post_highlight` are empty, highlighting is disabled.
@@ -77,6 +108,7 @@ pub struct SearchQueryArgs {
         examples("/u0019", "<em>", "<ais-highlight-00000000>")
     )]
     pre_highlight: Option<String>,
+
     /// string to include after the highlighted sequences.
     ///
     /// If this and `pre_highlight` are empty, highlighting is disabled.
@@ -88,12 +120,31 @@ pub struct SearchQueryArgs {
         examples("/u0017", "</em>", "</ais-highlight-00000000>")
     )]
     post_highlight: Option<String>,
+
+    /// How to handle cropping of long building names in `parsed_id`.
+    ///
+    /// - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+    /// - `full`: never crop; always show full building names.
+    #[serde(default)]
+    #[schema(default = "crop", example = "full")]
+    #[param(inline)]
+    cropping: CroppingMode,
+
+    /// How to format `parsed_id` for rooms.
+    ///
+    /// - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+    /// - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
+    #[serde(default)]
+    #[schema(default = "prefixed", example = "roomfinder")]
+    #[param(inline)]
+    parsed_id: ParsedIdMode,
 }
 
 /// Returned search results by this
 #[derive(Serialize, utoipa::ToSchema)]
 pub struct SearchResponse {
     sections: Vec<ResultsSection>,
+
     /// Time the search took in the server side, not including network delay
     ///
     /// Maximum as timeout.
@@ -131,6 +182,7 @@ pub struct Limits {
     pub rooms_count: usize,
     pub total_count: usize,
 }
+
 impl Debug for Limits {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Limits")
@@ -175,6 +227,7 @@ pub struct Highlighting {
     pub pre: String,
     pub post: String,
 }
+
 impl Debug for Highlighting {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let pre = &self.pre;
@@ -191,6 +244,7 @@ impl Default for Highlighting {
         }
     }
 }
+
 impl From<&SearchQueryArgs> for Highlighting {
     fn from(args: &SearchQueryArgs) -> Self {
         let (pre, post) = (
@@ -208,6 +262,37 @@ impl From<&SearchQueryArgs> for Highlighting {
             post.unicode_truncate(25).0.to_string(),
         );
         Self { pre, post }
+    }
+}
+
+/// Configuration options for formatting search results
+#[derive(Clone, Default, Eq, PartialEq, Hash)]
+pub struct FormattingConfig {
+    /// Highlighting configuration
+    pub highlighting: Highlighting,
+    /// How `parsed_id` should be cropped.
+    pub cropping: CroppingMode,
+    /// How `parsed_id` should be formatted for rooms.
+    pub parsed_id: ParsedIdMode,
+}
+
+impl Debug for FormattingConfig {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FormattingConfig")
+            .field("highlighting", &self.highlighting)
+            .field("cropping", &self.cropping)
+            .field("parsed_id", &self.parsed_id)
+            .finish()
+    }
+}
+
+impl From<&SearchQueryArgs> for FormattingConfig {
+    fn from(args: &SearchQueryArgs) -> Self {
+        Self {
+            highlighting: Highlighting::from(args),
+            cropping: args.cropping,
+            parsed_id: args.parsed_id,
+        }
     }
 }
 
@@ -244,11 +329,13 @@ pub async fn search_handler(
     let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
 
     let limits = Limits::from(&args);
-    let highlighting = Highlighting::from(&args);
+    let formatting_config = FormattingConfig::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
-    debug!(q, ?limits, ?highlighting, "quested search");
-    let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
+
+    debug!(q, ?limits, ?formatting_config, "quested search");
+    let results_sections =
+        cached_geoentry_search(q, limits, search_addresses, formatting_config).await;
     debug!(?results_sections, "searching returned");
 
     if results_sections.len() > 3 {
@@ -260,10 +347,12 @@ pub async fn search_handler(
             .content_type("text/plain")
             .body("Cannot perform search, please try again later");
     }
+
     let search_results = SearchResponse {
         sections: results_sections,
         time_ms: start_time.elapsed().as_millis() as u32,
     };
+
     HttpResponse::Ok()
         .insert_header(CacheControl(vec![
             CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
@@ -276,9 +365,9 @@ pub async fn search_handler(
 #[cached(size = 200)]
 async fn cached_geoentry_search(
     q: String,
-    highlighting: Highlighting,
     limits: Limits,
     search_addresses: bool,
+    formatting_config: FormattingConfig,
 ) -> Vec<ResultsSection> {
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
@@ -289,8 +378,10 @@ async fn cached_geoentry_search(
             vec![]
         };
     };
+
     let geoentry_search =
-        crate::search_executor::do_geoentry_search(&client, &q, highlighting, limits);
+        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config);
+
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);
         let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);
@@ -307,128 +398,156 @@ mod tests {
 
     use super::*;
 
+    fn chars_len(s: &str) -> usize {
+        s.chars().count()
+    }
+
+    fn assert_limits_invariants(limits: Limits) {
+        assert!(limits.total_count <= 1_000);
+        assert!(limits.rooms_count <= 1_000);
+        assert!(limits.buildings_count <= 1_000);
+
+        assert!(limits.rooms_count <= limits.total_count);
+        assert!(limits.buildings_count <= limits.total_count);
+    }
+
     #[test]
-    fn test_limits_high() {
+    fn limits_default_values_are_sane() {
+        let limits = Limits::default();
+        assert_eq!(limits.total_count, 10);
+        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.buildings_count, 5);
+        assert_limits_invariants(limits);
+    }
+
+    #[test]
+    fn limits_are_clamped_to_global_max() {
         let input = SearchQueryArgs {
             limit_all: Some(usize::MAX),
             limit_rooms: Some(usize::MAX),
             limit_buildings: Some(usize::MAX),
             ..Default::default()
         };
-        let expected = Limits {
-            total_count: 1000,
-            rooms_count: 1000,
-            buildings_count: 1000,
-        };
-        assert_eq!(Limits::from(&input), expected);
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 1_000);
+        assert_eq!(limits.rooms_count, 1_000);
+        assert_eq!(limits.buildings_count, 1_000);
+        assert_limits_invariants(limits);
     }
 
     #[test]
-    fn test_limits_low() {
-        let input = SearchQueryArgs {
-            limit_all: Some(0),
-            limit_rooms: Some(0),
-            limit_buildings: Some(0),
-            ..Default::default()
-        };
-        let expected = Limits {
-            total_count: 0,
-            rooms_count: 0,
-            buildings_count: 0,
-        };
-        assert_eq!(Limits::from(&input), expected);
-    }
-
-    #[test]
-    fn test_limits_default() {
-        let input = SearchQueryArgs {
-            limit_all: None,
-            limit_rooms: None,
-            limit_buildings: None,
-            ..Default::default()
-        };
-
-        let expected = Limits {
-            total_count: 10,
-            rooms_count: 10,
-            buildings_count: 5,
-        };
-        assert_eq!(Limits::from(&input), expected);
-    }
-
-    #[test]
-    fn test_limits_implicit() {
+    fn limits_total_constrains_per_facet_limits() {
         let input = SearchQueryArgs {
             limit_all: Some(10),
             limit_rooms: Some(100),
             limit_buildings: Some(100),
             ..Default::default()
         };
-        let expected = Limits {
-            total_count: 10,
-            rooms_count: 10,
-            buildings_count: 10,
-        };
-        assert_eq!(Limits::from(&input), expected);
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 10);
+        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.buildings_count, 10);
+        assert_limits_invariants(limits);
     }
 
     #[test]
-    fn test_highlighting_default() {
-        let input = SearchQueryArgs::default();
-        let expected = Highlighting {
-            pre: "\u{19}".into(),
-            post: "\u{17}".into(),
+    fn limits_zero_is_allowed_and_keeps_invariants() {
+        let input = SearchQueryArgs {
+            limit_all: Some(0),
+            limit_rooms: Some(0),
+            limit_buildings: Some(0),
+            ..Default::default()
         };
-        assert_eq!(Highlighting::from(&input), expected);
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 0);
+        assert_eq!(limits.rooms_count, 0);
+        assert_eq!(limits.buildings_count, 0);
+        assert_limits_invariants(limits);
     }
+
     #[test]
-    fn test_highlighting_empty() {
+    fn highlighting_default_is_control_codes() {
+        let input = SearchQueryArgs::default();
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "\u{0019}");
+        assert_eq!(res.post, "\u{0017}");
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
+    }
+
+    #[test]
+    fn highlighting_empty_strings_are_preserved() {
         let input = SearchQueryArgs {
             pre_highlight: Some("".into()),
             post_highlight: Some("".into()),
             ..Default::default()
         };
-        let expected = Highlighting {
-            pre: "".into(),
-            post: "".into(),
-        };
-        assert_eq!(Highlighting::from(&input), expected);
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "");
+        assert_eq!(res.post, "");
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
     }
 
     #[test]
-    fn test_highlighting_long() {
+    fn highlighting_truncates_at_25_chars_ascii_boundary() {
         let input = SearchQueryArgs {
-            pre_highlight: Some("a".repeat(100)),
-            post_highlight: Some("z".repeat(100)),
+            pre_highlight: Some("a".repeat(25)),
+            post_highlight: Some("z".repeat(26)),
             ..Default::default()
         };
-        let expected = Highlighting {
-            pre: "a".repeat(25),
-            post: "z".repeat(25),
-        };
-        assert_eq!(Highlighting::from(&input), expected);
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "a".repeat(25));
+        assert_eq!(res.post, "z".repeat(25));
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
     }
+
     #[test]
-    /// Regression test
-    /// unicode characters cannot be split
-    /// => when we use String::len to split at an index this creates invalid points
-    fn test_highlighting_unicode() {
+    fn highlighting_truncates_by_chars_not_bytes_for_unicode() {
+        // Regression test: unicode characters cannot be split
+        // => truncation must not create invalid UTF-8 boundaries
         for i in 0..51 {
-            let mut string_with_unsplittable_uinicode = "a".repeat(i);
-            string_with_unsplittable_uinicode.push_str(&"ß".repeat(100));
+            let mut s = "a".repeat(i);
+            s.push_str(&"ß".repeat(100));
+
             let input = SearchQueryArgs {
-                pre_highlight: Some(string_with_unsplittable_uinicode.clone()),
-                post_highlight: Some(string_with_unsplittable_uinicode.clone()),
+                pre_highlight: Some(s.clone()),
+                post_highlight: Some(s.clone()),
                 ..Default::default()
             };
             let res = Highlighting::from(&input);
-            let expected_length: usize = string_with_unsplittable_uinicode
-                .chars()
-                .take(25)
-                .map(|c| c.len_utf8())
-                .sum();
-            assert_eq!(res.post.len(), expected_length);
-            assert_eq!(res.pre.len(), expected_length);
+
+            let expected = s.chars().take(25).collect::<String>();
+            assert_eq!(res.pre, expected);
+            assert_eq!(res.post, expected);
+            assert!(chars_len(&res.pre) <= 25);
+            assert!(chars_len(&res.post) <= 25);
         }
+    }
+
+    #[test]
+    fn formatting_config_uses_highlighting_conversion_and_propagates_modes() {
+        let input = SearchQueryArgs {
+            pre_highlight: Some("<em>".to_string()),
+            post_highlight: Some("</em>".to_string()),
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Roomfinder,
+            ..Default::default()
+        };
+
+        let config = FormattingConfig::from(&input);
+
+        // Highlighting should be the same conversion as `Highlighting::from`
+        assert_eq!(config.highlighting, Highlighting::from(&input));
+        // Modes should be propagated
+        assert_eq!(config.cropping, CroppingMode::Full);
+        assert_eq!(config.parsed_id, ParsedIdMode::Roomfinder);
     }
 }
