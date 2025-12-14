@@ -3,10 +3,19 @@ source: src/search_executor/mod.rs
 description: "'5604.02.033' is a valid result before the two lab course rooms"
 expression: actual
 info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' is a valid result before the two lab course rooms"
-snapshot_kind: text
 ---
 - facet: rooms
   entries:
+    - id: 4124.EG.320
+      type: room
+      name: "4124.EG.320 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
+      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext_bold: E/3.20@4124
+    - id: 4124.EG.321
+      type: room
+      name: "4124.EG.321 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
+      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext_bold: E/3.21@4124
     - id: 0104.U1.404
       type: room
       name: "0104.U1.404 (\u0019Mi\u0017krostr. Bauele.-\u0019Labor\u0017)"
@@ -47,16 +56,6 @@ snapshot_kind: text
       name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum (Gesperrt))"
       subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
       subtext_bold: "-1301@0103"
-    - id: 4124.EG.320
-      type: room
-      name: "4124.EG.320 (L1 \u0019Mi\u0017kroorganismen)"
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: E/3.20@4124
-    - id: 4124.EG.321
-      type: room
-      name: "4124.EG.321 (L1 \u0019Mi\u0017kroorganismen)"
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: E/3.21@4124
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

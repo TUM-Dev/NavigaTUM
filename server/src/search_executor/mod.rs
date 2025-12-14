@@ -7,7 +7,7 @@ use tracing::error;
 use crate::external::meilisearch::{GeoEntryQuery, MSHit};
 use crate::external::nominatim::Nominatim;
 use crate::limited::vec::LimitedVec;
-use crate::routes::search::{FormattingConfig, Highlighting, Limits};
+use crate::routes::search::{FormattingConfig, Limits};
 use crate::search_executor::parser::ParsedQuery;
 
 mod formatter;
@@ -180,6 +180,7 @@ mod test {
     use std::fmt::{Display, Formatter};
 
     use super::*;
+    use crate::routes::search::{CroppingMode, Highlighting, ParsedIdMode};
     use crate::setup::tests::MeiliSearchTestContainer;
 
     #[derive(serde::Deserialize)]
