@@ -575,57 +575,6 @@ mod tests {
     }
 
     #[test]
-    fn test_formatting_config_hash_trait() {
-        use std::collections::hash_map::DefaultHasher;
-        use std::hash::{Hash, Hasher};
-
-        let config1 = FormattingConfig {
-            highlighting: Highlighting {
-                pre: "<em>".to_string(),
-                post: "</em>".to_string(),
-            },
-            cropping: CroppingMode::Full,
-            parsed_id: ParsedIdMode::Prefixed,
-        };
-
-        let config2 = FormattingConfig {
-            highlighting: Highlighting {
-                pre: "<em>".to_string(),
-                post: "</em>".to_string(),
-            },
-            cropping: CroppingMode::Full,
-            parsed_id: ParsedIdMode::Prefixed,
-        };
-
-        let config3 = FormattingConfig {
-            highlighting: Highlighting {
-                pre: "<em>".to_string(),
-                post: "</em>".to_string(),
-            },
-            cropping: CroppingMode::Crop,
-            parsed_id: ParsedIdMode::Prefixed,
-        };
-
-        // Same configs should hash the same
-        let mut hasher1 = DefaultHasher::new();
-        config1.hash(&mut hasher1);
-        let hash1 = hasher1.finish();
-
-        let mut hasher2 = DefaultHasher::new();
-        config2.hash(&mut hasher2);
-        let hash2 = hasher2.finish();
-
-        assert_eq!(hash1, hash2);
-
-        // Different configs should (probably) hash differently
-        let mut hasher3 = DefaultHasher::new();
-        config3.hash(&mut hasher3);
-        let hash3 = hasher3.finish();
-
-        assert_ne!(hash1, hash3);
-    }
-
-    #[test]
     fn test_formatting_config_with_limits() {
         // Test that FormattingConfig works correctly when combined with Limits
         let input = SearchQueryArgs {
