@@ -11,8 +11,8 @@ Feel free to contribute, we are open to new people 😄.
 - [x] 🤖 All functionality is also available via an open and well documented API
 - [x] 🗘 Automatically update the data from upstream datasources
 - [x] 🗨️ Allow students/staff to easily submit feedback and data patches
+- [x] 🚶🏻 Generate turn by turn navigation advice for navigating end to end
 - [ ] 🏫 Generate maps from CAD data sources
-- [ ] 🚶🏻 Generate turn by turn navigation advice for navigating end to end
 
 If you'd like to help out or join us in this adventure, we would love to talk to you.
 

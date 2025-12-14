@@ -14,6 +14,7 @@ impl Default for MotisWrapper {
 }
 
 impl MotisWrapper {
+    #[expect(clippy::too_many_arguments)]
     pub async fn route(
         &self,
         from: &str,
