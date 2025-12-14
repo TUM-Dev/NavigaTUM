@@ -6,7 +6,7 @@ license = "MIT or Apache-2.0"
 description = "API-wrapper around the motis api used for routing"
 
 [dependencies]
-bytes = "1.9"
+bytes = "1.11.0"
 chrono = { version = "0.4", default-features=false, features = ["serde"] }
 futures-core = "0.3"
 progenitor-client = "0.11.2"
