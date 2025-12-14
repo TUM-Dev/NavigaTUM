@@ -280,7 +280,7 @@ mod test {
 
     #[tokio::test]
     #[tracing_test::traced_test]
-    async fn test_disable_cropping_shows_full_building_names() {
+    async fn test_cropping_full_shows_full_building_names() {
         let ms = MeiliSearchTestContainer::new().await;
         crate::setup::meilisearch::load_data(&ms.client)
             .await
@@ -289,8 +289,8 @@ mod test {
         // Search with cropping enabled (default)
         let config_cropping = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: false, // Cropping enabled
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_cropping = do_geoentry_search(
@@ -304,8 +304,8 @@ mod test {
         // Search with cropping disabled
         let config_no_cropping = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: true, // Cropping disabled
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_no_cropping =
@@ -339,7 +339,7 @@ mod test {
             if has_ellipsis_with_crop {
                 assert!(
                     !has_ellipsis_without_crop,
-                    "Building names should NOT be cropped when disable_cropping=true"
+                    "Building names should NOT be cropped when cropping=full"
                 );
             }
         }
@@ -356,8 +356,8 @@ mod test {
         // Both features disabled
         let config = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: true,
-            disable_parsed_id_prefix: true,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Roomfinder,
         };
 
         let results = do_geoentry_search(&ms.client, "1010", Limits::default(), config).await;
@@ -372,7 +372,7 @@ mod test {
                 // Check that parsed_id matches subtext_bold (which is archname@building_id)
                 assert_eq!(
                     entry.parsed_id, entry.subtext_bold,
-                    "parsed_id should be archname@building_id when disable_parsed_id_prefix=true"
+                    "parsed_id should be archname@building_id when parsed_id=roomfinder"
                 );
             }
         }
@@ -392,8 +392,8 @@ mod test {
                 pre: "<em>".to_string(),
                 post: "</em>".to_string(),
             },
-            disable_cropping: false,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results =
@@ -437,14 +437,14 @@ mod test {
 
         let config = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: false,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let config_no_prefix = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: false,
-            disable_parsed_id_prefix: true,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Roomfinder,
         };
 
         // Test different building formats
@@ -505,7 +505,7 @@ mod test {
 
                     assert!(
                         !has_prefix,
-                        "Entries for query '{}' should NOT contain prefix '{}' when disable_parsed_id_prefix=true",
+                        "Entries for query '{}' should NOT contain prefix '{}' when parsed_id=roomfinder",
                         query, expected_prefix
                     );
 
@@ -517,7 +517,7 @@ mod test {
 
                     assert!(
                         has_raw_archname_format,
-                        "Entries for query '{}' should contain the raw Roomfinder format (i.e., '@' symbol) when disable_parsed_id_prefix=true",
+                        "Entries for query '{}' should contain the raw Roomfinder format (i.e., '@' symbol) when parsed_id=roomfinder",
                         query
                     );
                 }
@@ -538,8 +538,8 @@ mod test {
         // 1. Search with default settings (Cropping Enabled)
         let config_default = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: false,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_cropped =
@@ -548,8 +548,8 @@ mod test {
         // 2. Search with cropping disabled
         let config_no_crop = FormattingConfig {
             highlighting: Highlighting::default(),
-            disable_cropping: true,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_full =
@@ -590,7 +590,7 @@ mod test {
         let has_ellipsis_full = ids_full.iter().any(|id| id.contains('…'));
         assert!(
             !has_ellipsis_full,
-            "disable_cropping=true should return full names without ellipses"
+            "cropping=full should return full names without ellipses"
         );
 
         // Verify the IDs are actually different (one is shorter than the other)

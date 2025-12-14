@@ -12,6 +12,32 @@ use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
 
+/// Controls whether long building names inside `parsed_id` are cropped.
+#[derive(
+    Copy, Clone, Eq, PartialEq, Hash, Debug, Deserialize, Serialize, utoipa::ToSchema, Default,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum CroppingMode {
+    /// Crop long names (default, preserves compact UI).
+    #[default]
+    Crop,
+    /// Never crop; always show full names.
+    Full,
+}
+
+/// Controls how `parsed_id` is built for room results.
+#[derive(
+    Copy, Clone, Eq, PartialEq, Hash, Debug, Deserialize, Serialize, utoipa::ToSchema, Default,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum ParsedIdMode {
+    /// Prefer a user-facing prefixed format (default), e.g. `"MW 1801"`.
+    #[default]
+    Prefixed,
+    /// Use raw Roomfinder/arch format, e.g. `"archname@building_id"`.
+    Roomfinder,
+}
+
 #[derive(Deserialize, Debug, Default, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct SearchQueryArgs {
     /// string you want to search for.
@@ -43,23 +69,27 @@ pub struct SearchQueryArgs {
     //    ("AStA" = (summary = "common name synonyms for SV", value = "AStA")),
     //))]
     q: String,
+
     /// Include adresses in the saerch
     ///
     /// Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
     /// Only activate this when you really need it.
     search_addresses: Option<bool>,
+
     /// Maximum number of buildings/sites to return.
     ///
     /// Clamped to `0`..`1000`.
     /// If this is a problem for you, please open an issue.
     #[schema(default = 5, maximum = 1000, minimum = 0)]
     limit_buildings: Option<usize>,
+
     /// Maximum number of rooms to return.
     ///
     /// Clamped to `0`..`1000`.
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 0)]
     limit_rooms: Option<usize>,
+
     /// Maximum number of results to return.
     ///
     /// Clamped to `1`..`1000`.
@@ -78,6 +108,7 @@ pub struct SearchQueryArgs {
         examples("/u0019", "<em>", "<ais-highlight-00000000>")
     )]
     pre_highlight: Option<String>,
+
     /// string to include after the highlighted sequences.
     ///
     /// If this and `pre_highlight` are empty, highlighting is disabled.
@@ -90,29 +121,28 @@ pub struct SearchQueryArgs {
     )]
     post_highlight: Option<String>,
 
-    /// Disable cropping of long building names in parsed_id.
+    /// How to handle cropping of long building names in `parsed_id`.
     ///
-    /// When enabled, full building names will be shown instead of truncated
-    /// versions with ellipsis (…).
-    ///
-    /// Default: false (cropping enabled for names > 25 characters)
+    /// - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+    /// - `full`: never crop; always show full building names.
     #[serde(default)]
-    disable_cropping: bool,
+    #[schema(default = "crop", example = "full")]
+    cropping: CroppingMode,
 
-    /// Disable adding building prefix to parsed_id.
+    /// How to format `parsed_id` for rooms.
     ///
-    /// When enabled, returns room codes in Roomfinder format (archname@building_id)
-    /// instead of prefixed format (e.g., "MW 1801").
-    ///
-    /// Default: false (building prefix enabled)
+    /// - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+    /// - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
     #[serde(default)]
-    disable_parsed_id_prefix: bool,
+    #[schema(default = "prefixed", example = "roomfinder")]
+    parsed_id: ParsedIdMode,
 }
 
 /// Returned search results by this
 #[derive(Serialize, utoipa::ToSchema)]
 pub struct SearchResponse {
     sections: Vec<ResultsSection>,
+
     /// Time the search took in the server side, not including network delay
     ///
     /// Maximum as timeout.
@@ -150,6 +180,7 @@ pub struct Limits {
     pub rooms_count: usize,
     pub total_count: usize,
 }
+
 impl Debug for Limits {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Limits")
@@ -194,6 +225,7 @@ pub struct Highlighting {
     pub pre: String,
     pub post: String,
 }
+
 impl Debug for Highlighting {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let pre = &self.pre;
@@ -210,6 +242,7 @@ impl Default for Highlighting {
         }
     }
 }
+
 impl From<&SearchQueryArgs> for Highlighting {
     fn from(args: &SearchQueryArgs) -> Self {
         let (pre, post) = (
@@ -235,18 +268,18 @@ impl From<&SearchQueryArgs> for Highlighting {
 pub struct FormattingConfig {
     /// Highlighting configuration
     pub highlighting: Highlighting,
-    /// Disable cropping of long building names in parsed_id.
-    pub disable_cropping: bool,
-    /// Disable adding building prefix to parsed_id.
-    pub disable_parsed_id_prefix: bool,
+    /// How `parsed_id` should be cropped.
+    pub cropping: CroppingMode,
+    /// How `parsed_id` should be formatted for rooms.
+    pub parsed_id: ParsedIdMode,
 }
 
 impl Debug for FormattingConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("FormattingConfig")
             .field("highlighting", &self.highlighting)
-            .field("disable_cropping", &self.disable_cropping)
-            .field("disable_parsed_id_prefix", &self.disable_parsed_id_prefix)
+            .field("cropping", &self.cropping)
+            .field("parsed_id", &self.parsed_id)
             .finish()
     }
 }
@@ -255,8 +288,8 @@ impl From<&SearchQueryArgs> for FormattingConfig {
     fn from(args: &SearchQueryArgs) -> Self {
         Self {
             highlighting: Highlighting::from(args),
-            disable_cropping: args.disable_cropping,
-            disable_parsed_id_prefix: args.disable_parsed_id_prefix,
+            cropping: args.cropping,
+            parsed_id: args.parsed_id,
         }
     }
 }
@@ -265,8 +298,8 @@ impl Default for FormattingConfig {
     fn default() -> Self {
         Self {
             highlighting: Highlighting::default(),
-            disable_cropping: false,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::default(),
+            parsed_id: ParsedIdMode::default(),
         }
     }
 }
@@ -307,7 +340,8 @@ pub async fn search_handler(
     let formatting_config = FormattingConfig::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
-    debug!(q, ?limits, ?formatting_config.highlighting, "quested search");
+
+    debug!(q, ?limits, ?formatting_config, "quested search");
     let results_sections =
         cached_geoentry_search(q, limits, search_addresses, formatting_config).await;
     debug!(?results_sections, "searching returned");
@@ -321,10 +355,12 @@ pub async fn search_handler(
             .content_type("text/plain")
             .body("Cannot perform search, please try again later");
     }
+
     let search_results = SearchResponse {
         sections: results_sections,
         time_ms: start_time.elapsed().as_millis() as u32,
     };
+
     HttpResponse::Ok()
         .insert_header(CacheControl(vec![
             CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
@@ -350,8 +386,10 @@ async fn cached_geoentry_search(
             vec![]
         };
     };
+
     let geoentry_search =
         crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config);
+
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);
         let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);
@@ -442,6 +480,7 @@ mod tests {
         };
         assert_eq!(Highlighting::from(&input), expected);
     }
+
     #[test]
     fn test_highlighting_empty() {
         let input = SearchQueryArgs {
@@ -469,6 +508,7 @@ mod tests {
         };
         assert_eq!(Highlighting::from(&input), expected);
     }
+
     #[test]
     /// Regression test
     /// unicode characters cannot be split
@@ -500,21 +540,21 @@ mod tests {
 
         assert_eq!(config.highlighting.pre, "\u{19}");
         assert_eq!(config.highlighting.post, "\u{17}");
-        assert!(!config.disable_cropping);
-        assert!(!config.disable_parsed_id_prefix);
+        assert_eq!(config.cropping, CroppingMode::Crop);
+        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
     }
 
     #[test]
-    fn test_formatting_config_both_disabled() {
+    fn test_formatting_config_explicit_modes() {
         let input = SearchQueryArgs {
-            disable_cropping: true,
-            disable_parsed_id_prefix: true,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Roomfinder,
             ..Default::default()
         };
         let config = FormattingConfig::from(&input);
 
-        assert!(config.disable_cropping);
-        assert!(config.disable_parsed_id_prefix);
+        assert_eq!(config.cropping, CroppingMode::Full);
+        assert_eq!(config.parsed_id, ParsedIdMode::Roomfinder);
     }
 
     #[test]
@@ -522,16 +562,16 @@ mod tests {
         let input = SearchQueryArgs {
             pre_highlight: Some("<em>".to_string()),
             post_highlight: Some("</em>".to_string()),
-            disable_cropping: true,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
             ..Default::default()
         };
         let config = FormattingConfig::from(&input);
 
         assert_eq!(config.highlighting.pre, "<em>");
         assert_eq!(config.highlighting.post, "</em>");
-        assert!(config.disable_cropping);
-        assert!(!config.disable_parsed_id_prefix);
+        assert_eq!(config.cropping, CroppingMode::Full);
+        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
     }
 
     #[test]
@@ -544,8 +584,8 @@ mod tests {
                 pre: "<em>".to_string(),
                 post: "</em>".to_string(),
             },
-            disable_cropping: true,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let config2 = FormattingConfig {
@@ -553,8 +593,8 @@ mod tests {
                 pre: "<em>".to_string(),
                 post: "</em>".to_string(),
             },
-            disable_cropping: true,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         let config3 = FormattingConfig {
@@ -562,8 +602,8 @@ mod tests {
                 pre: "<em>".to_string(),
                 post: "</em>".to_string(),
             },
-            disable_cropping: false,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Crop,
+            parsed_id: ParsedIdMode::Prefixed,
         };
 
         // Same configs should hash the same
@@ -594,8 +634,8 @@ mod tests {
             limit_rooms: Some(15),
             pre_highlight: Some("<b>".to_string()),
             post_highlight: Some("</b>".to_string()),
-            disable_cropping: true,
-            disable_parsed_id_prefix: false,
+            cropping: CroppingMode::Full,
+            parsed_id: ParsedIdMode::Prefixed,
             ..Default::default()
         };
 
@@ -605,8 +645,8 @@ mod tests {
         // Verify both are created correctly from the same input
         assert_eq!(config.highlighting.pre, "<b>");
         assert_eq!(config.highlighting.post, "</b>");
-        assert!(config.disable_cropping);
-        assert!(!config.disable_parsed_id_prefix);
+        assert_eq!(config.cropping, CroppingMode::Full);
+        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
 
         assert_eq!(limits.total_count, 20);
         assert_eq!(limits.buildings_count, 10);

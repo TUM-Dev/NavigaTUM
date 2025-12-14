@@ -3,7 +3,7 @@ use unicode_truncate::UnicodeTruncateStr;
 use super::ResultEntry;
 use super::parser::{ParsedQuery, TextToken};
 use crate::external::meilisearch::MSHit;
-use crate::routes::search::FormattingConfig;
+use crate::routes::search::{CroppingMode, FormattingConfig, ParsedIdMode};
 
 pub(super) struct RoomVisitor {
     parsed_input: ParsedQuery,
@@ -22,10 +22,13 @@ impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
 
 impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
-        if !self.config.disable_parsed_id_prefix {
-            item.parsed_id = self.parse_room_formats(&item.hit);
-        } else {
-            item.parsed_id = item.hit.arch_name.clone();
+        match self.config.parsed_id {
+            ParsedIdMode::Prefixed => {
+                item.parsed_id = self.parse_room_formats(&item.hit);
+            }
+            ParsedIdMode::Roomfinder => {
+                item.parsed_id = item.hit.arch_name.clone();
+            }
         }
         item.subtext = Self::generate_subtext(&item.hit);
     }
@@ -127,8 +130,8 @@ impl RoomVisitor {
         // is usually more entropy)
         // e.g. "560-561 Hauptgebäude der Fakultät für Informatik und Mathematik"
         // becomes "560-561 Hauptgebäude…Mathematik"
-        // only if cropping is not disabled in the config
-        if !config.disable_cropping && hit.parent_building_names[0].len() > 25 {
+        // crop only when explicitly configured (default is Crop)
+        if config.cropping == CroppingMode::Crop && hit.parent_building_names[0].len() > 25 {
             let pn = hit.parent_building_names[0].as_str();
             let (first, _) = pn.unicode_truncate(7);
             let (last, _) = pn.unicode_truncate_start(10);
