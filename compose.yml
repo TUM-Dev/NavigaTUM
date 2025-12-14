@@ -69,7 +69,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.23.0
+    image: getmeili/meilisearch:v1.29.0
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -116,7 +116,6 @@ services:
     working_dir: /map
     volumes:
       - ./map/data/:/map/data/:rw
-      - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
       - ./map/download.sh:/map/download.sh:ro
       - ./map/valhalla.json:/map/valhalla.json:ro
   valhalla:
@@ -149,7 +148,7 @@ services:
       start_interval: 500ms
       timeout: 1s
   nominatim:
-    image: mediagis/nominatim:5.1
+    image: mediagis/nominatim:5.2
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -262,21 +261,9 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./map/osm2pgsql/:/map/osm2pgsql/:ro
-  martin-init-config:
-    image: alpine:latest
-    command:
-      - /bin/sh
-      - /map/martin/setup.sh
-    environment:
-      TZ: Europe/Berlin
-    volumes:
-      - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:main
+    image: ghcr.io/tum-dev/navigatum-martin:main
     restart: unless-stopped
-    command:
-      - --config
-      - /map/config.yaml
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
@@ -298,8 +285,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      martin-init-config:
-        condition: service_completed_successfully
       osm2pgsql-init:
         condition: service_started
     volumes:

@@ -128,7 +128,7 @@ export class FloorControl extends Evented implements IControl {
   }
 
   setLevel(level: number | null): void {
-    console.log(`selecting layer ${level} of ${FLOOR_LEVELS.length}`);
+    console.log(`selecting layer ${level} of ${FLOOR_LEVELS.map((l) => l.id)}`);
     // Update button states
     const buttons = this.floor_list.children;
     for (let i = 0; i < buttons.length; i++) {
@@ -167,7 +167,6 @@ export class FloorControl extends Evented implements IControl {
     // Hide all floor layers
     for (const floorLevel of FLOOR_LEVELS) {
       const layerId = `indoor-raster-floor-${floorLevel.id}`;
-      console.debug(`Hiding layer ${layerId}`);
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "none");
       }
@@ -176,9 +175,24 @@ export class FloorControl extends Evented implements IControl {
     // Show the selected level
     if (level !== null) {
       const layerId = `indoor-raster-floor-${level}`;
-      console.debug(`Showing layer ${layerId}`);
+      console.debug(`Showing raster layer ${layerId}`);
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(layerId, "visibility", "visible");
+      }
+
+      // Update the indoor source URL with the selected level
+      const indoorSource = this.map.getSource("indoor");
+      if (indoorSource?.type === "vector") {
+        // @ts-expect-error - url property exists on vector tile sources
+        const currentUrl = indoorSource.url;
+        if (currentUrl) {
+          // Extract base URL before the level parameter
+          const baseUrl = currentUrl.split("?")[0];
+          const newUrl = `${baseUrl}?level=${level}.0`;
+          console.debug("Updating 'indoor' source URL", newUrl);
+          // @ts-expect-error - setUrl is available on vector tile sources
+          indoorSource.setUrl(newUrl);
+        }
       }
     }
   }

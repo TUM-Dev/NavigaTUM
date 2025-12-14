@@ -1,0 +1,25 @@
+name: Martin CI/CD
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-data
+  cancel-in-progress: true
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, reopened, synchronize ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  martin-build:
+    uses: ./.github/workflows/_docker-build.yml
+    with:
+      image_suffix: martin
+      context: ./map/martin
+      dockerfile: Dockerfile
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+      attestations: write

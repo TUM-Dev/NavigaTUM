@@ -67,7 +67,7 @@ async function updateLocale(value: "de" | "en") {
                       'focus:outline-none focus:ring-2 transition-all',
                       selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode.value = 'system'"
+                    @click="colorMode.preference = 'system'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMonitor" :size="16" />
@@ -83,7 +83,7 @@ async function updateLocale(value: "de" | "en") {
                       'focus:outline-none focus:ring-2 transition-all',
                       selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode.value = 'light'"
+                    @click="colorMode.preference = 'light'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
@@ -99,7 +99,7 @@ async function updateLocale(value: "de" | "en") {
                       'focus:outline-none focus:ring-2 transition-all',
                       selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
                     ]"
-                    @click="colorMode.value = 'dark'"
+                    @click="colorMode.preference = 'dark'"
                   >
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMoonWaningCrescent" :size="16" />

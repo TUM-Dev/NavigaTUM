@@ -4,9 +4,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-linting
   cancel-in-progress: true
 on:
-  pull_request:
-    branches: [ main ]
-    types: [ opened, reopened, synchronize ]
   push:
     branches: [ main ]
   workflow_dispatch:
@@ -15,11 +12,11 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - run: rustup update stable && rustup default stable
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
           version: 10.14.0
           package_json_file: webclient/package.json
@@ -30,7 +27,7 @@ jobs:
       - run: pnpm run type-refresh
         working-directory: webclient
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
         with:
           python-version: '3.13'
       - name: Install python dependencies
@@ -38,16 +35,14 @@ jobs:
       - run: rustup component add rustfmt
       - name: Run pre-commit
         continue-on-error: ${{ github.ref == 'refs/heads/main' }}
-        uses: pre-commit/action@v3.0.1
+        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
       - name: Install cargo-insta
         run: cargo install cargo-insta --locked
       - name: Update server snapshots
-        if: github.ref == 'refs/heads/main'
         working-directory: server
         run: cargo insta test --accept
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        if: github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
         with:
           commit-message: fixed formatting mistakes have sneaked into prod
           title: "chore(formatting): Fixed formatting mistakes"
