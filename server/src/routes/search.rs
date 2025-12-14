@@ -264,7 +264,7 @@ impl From<&SearchQueryArgs> for Highlighting {
 }
 
 /// Configuration options for formatting search results
-#[derive(Clone, Eq, PartialEq, Hash)]
+#[derive(Clone, Default, Eq, PartialEq, Hash)]
 pub struct FormattingConfig {
     /// Highlighting configuration
     pub highlighting: Highlighting,
@@ -290,16 +290,6 @@ impl From<&SearchQueryArgs> for FormattingConfig {
             highlighting: Highlighting::from(args),
             cropping: args.cropping,
             parsed_id: args.parsed_id,
-        }
-    }
-}
-
-impl Default for FormattingConfig {
-    fn default() -> Self {
-        Self {
-            highlighting: Highlighting::default(),
-            cropping: CroppingMode::default(),
-            parsed_id: ParsedIdMode::default(),
         }
     }
 }
