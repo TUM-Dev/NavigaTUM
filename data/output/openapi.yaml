@@ -886,7 +886,7 @@ components:
           format: date-time
           description: The first allowed time the calendar would like to display
           examples:
-            - "2039-01-19T03:14:0701:00"
+            - "2039-01-19T03:14:07+01:00"
             - 2042-01-07T00:00:00 UTC
     BuildingsOverviewItemResponse:
       type: object
@@ -955,7 +955,7 @@ components:
           format: date-time
           description: last time the calendar was scraped for this room
           examples:
-            - "2039-01-19T03:14:0701:00"
+            - "2039-01-19T03:14:07+01:00"
             - 2042-01-07T00:00:00 UTC
         name:
           type: string
@@ -1861,7 +1861,7 @@ components:
               The footpath duration is derived from the default footpath
               duration using the query parameters `transferTimeFactor` and
               `additionalTransferTime` as follows:
-              `leg.duration = defaultDuration * transferTimeFactor
+              `leg.duration = defaultDuration * transferTimeFactor +
              additionalTransferTime.`  In case the defaultDuration is
              needed, it can be calculated by  `defaultDuration =
              (leg.duration - additionalTransferTime) / transferTimeFactor`.
