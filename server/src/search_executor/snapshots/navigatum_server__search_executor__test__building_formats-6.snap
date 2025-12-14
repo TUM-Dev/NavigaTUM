@@ -1,0 +1,72 @@
+---
+source: src/search_executor/mod.rs
+description: "Query: PH5101"
+expression: results_roomfinder.0
+info: parsed_id=roomfinder
+---
+- facet: sites_buildings
+  entries:
+    - id: "5101"
+      type: building
+      name: "\u0019Physik\u0017 I"
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries:
+    - id: 5101.EG.502
+      type: room
+      name: "\u00195101\u0017.EG.502 (\u0019Physik\u0017 Hörsaal 2)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2502@5101
+      parsed_id: 2502@5101
+    - id: 5101.EG.503
+      type: room
+      name: "\u00195101\u0017.EG.503 (\u0019Physik\u0017 Hörsaal 3)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2503@5101
+      parsed_id: 2503@5101
+    - id: 5101.EG.501
+      type: room
+      name: "\u00195101\u0017.EG.501 (Rudolf-Mößbauer-Hörsaal)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2501@5101
+      parsed_id: 2501@5101
+    - id: 5101.01.111
+      type: room
+      name: "\u00195101\u0017.01.111 (Studentenarbeitsraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 3111@5101
+      parsed_id: 3111@5101
+    - id: 5101.01.123
+      type: room
+      name: "\u00195101\u0017.01.123 (Studentenarbeitsraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 3123@5101
+      parsed_id: 3123@5101
+    - id: 5101.01.344
+      type: room
+      name: "\u00195101\u0017.01.344 (Seminarraum Theorie)"
+      subtext: "garching, Physik I"
+      subtext_bold: 3344@5101
+      parsed_id: 3344@5101
+    - id: 5101.02.236
+      type: room
+      name: "\u00195101\u0017.02.236 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4236@5101
+      parsed_id: 4236@5101
+    - id: 5101.02.237
+      type: room
+      name: "\u00195101\u0017.02.237 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4237@5101
+      parsed_id: 4237@5101
+    - id: 5101.02.238
+      type: room
+      name: "\u00195101\u0017.02.238 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4238@5101
+      parsed_id: 4238@5101
+  n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"

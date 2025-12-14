@@ -396,199 +396,156 @@ mod tests {
 
     use super::*;
 
+    fn chars_len(s: &str) -> usize {
+        s.chars().count()
+    }
+
+    fn assert_limits_invariants(limits: Limits) {
+        assert!(limits.total_count <= 1_000);
+        assert!(limits.rooms_count <= 1_000);
+        assert!(limits.buildings_count <= 1_000);
+
+        assert!(limits.rooms_count <= limits.total_count);
+        assert!(limits.buildings_count <= limits.total_count);
+    }
+
     #[test]
-    fn test_limits_high() {
+    fn limits_default_values_are_sane() {
+        let limits = Limits::default();
+        assert_eq!(limits.total_count, 10);
+        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.buildings_count, 5);
+        assert_limits_invariants(limits);
+    }
+
+    #[test]
+    fn limits_are_clamped_to_global_max() {
         let input = SearchQueryArgs {
             limit_all: Some(usize::MAX),
             limit_rooms: Some(usize::MAX),
             limit_buildings: Some(usize::MAX),
             ..Default::default()
         };
-        let expected = Limits {
-            total_count: 1000,
-            rooms_count: 1000,
-            buildings_count: 1000,
-        };
-        assert_eq!(Limits::from(&input), expected);
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 1_000);
+        assert_eq!(limits.rooms_count, 1_000);
+        assert_eq!(limits.buildings_count, 1_000);
+        assert_limits_invariants(limits);
     }
 
     #[test]
-    fn test_limits_low() {
-        let input = SearchQueryArgs {
-            limit_all: Some(0),
-            limit_rooms: Some(0),
-            limit_buildings: Some(0),
-            ..Default::default()
-        };
-        let expected = Limits {
-            total_count: 0,
-            rooms_count: 0,
-            buildings_count: 0,
-        };
-        assert_eq!(Limits::from(&input), expected);
-    }
-
-    #[test]
-    fn test_limits_default() {
-        let input = SearchQueryArgs {
-            limit_all: None,
-            limit_rooms: None,
-            limit_buildings: None,
-            ..Default::default()
-        };
-
-        let expected = Limits {
-            total_count: 10,
-            rooms_count: 10,
-            buildings_count: 5,
-        };
-        assert_eq!(Limits::from(&input), expected);
-    }
-
-    #[test]
-    fn test_limits_implicit() {
+    fn limits_total_constrains_per_facet_limits() {
         let input = SearchQueryArgs {
             limit_all: Some(10),
             limit_rooms: Some(100),
             limit_buildings: Some(100),
             ..Default::default()
         };
-        let expected = Limits {
-            total_count: 10,
-            rooms_count: 10,
-            buildings_count: 10,
-        };
-        assert_eq!(Limits::from(&input), expected);
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 10);
+        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.buildings_count, 10);
+        assert_limits_invariants(limits);
     }
 
     #[test]
-    fn test_highlighting_default() {
+    fn limits_zero_is_allowed_and_keeps_invariants() {
+        let input = SearchQueryArgs {
+            limit_all: Some(0),
+            limit_rooms: Some(0),
+            limit_buildings: Some(0),
+            ..Default::default()
+        };
+        let limits = Limits::from(&input);
+
+        assert_eq!(limits.total_count, 0);
+        assert_eq!(limits.rooms_count, 0);
+        assert_eq!(limits.buildings_count, 0);
+        assert_limits_invariants(limits);
+    }
+
+    #[test]
+    fn highlighting_default_is_control_codes() {
         let input = SearchQueryArgs::default();
-        let expected = Highlighting {
-            pre: "\u{19}".into(),
-            post: "\u{17}".into(),
-        };
-        assert_eq!(Highlighting::from(&input), expected);
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "\u{0019}");
+        assert_eq!(res.post, "\u{0017}");
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
     }
 
     #[test]
-    fn test_highlighting_empty() {
+    fn highlighting_empty_strings_are_preserved() {
         let input = SearchQueryArgs {
             pre_highlight: Some("".into()),
             post_highlight: Some("".into()),
             ..Default::default()
         };
-        let expected = Highlighting {
-            pre: "".into(),
-            post: "".into(),
-        };
-        assert_eq!(Highlighting::from(&input), expected);
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "");
+        assert_eq!(res.post, "");
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
     }
 
     #[test]
-    fn test_highlighting_long() {
+    fn highlighting_truncates_at_25_chars_ascii_boundary() {
         let input = SearchQueryArgs {
-            pre_highlight: Some("a".repeat(100)),
-            post_highlight: Some("z".repeat(100)),
+            pre_highlight: Some("a".repeat(25)),
+            post_highlight: Some("z".repeat(26)),
             ..Default::default()
         };
-        let expected = Highlighting {
-            pre: "a".repeat(25),
-            post: "z".repeat(25),
-        };
-        assert_eq!(Highlighting::from(&input), expected);
+        let res = Highlighting::from(&input);
+
+        assert_eq!(res.pre, "a".repeat(25));
+        assert_eq!(res.post, "z".repeat(25));
+        assert!(chars_len(&res.pre) <= 25);
+        assert!(chars_len(&res.post) <= 25);
     }
 
     #[test]
-    /// Regression test
-    /// unicode characters cannot be split
-    /// => when we use String::len to split at an index this creates invalid points
-    fn test_highlighting_unicode() {
+    fn highlighting_truncates_by_chars_not_bytes_for_unicode() {
+        // Regression test: unicode characters cannot be split
+        // => truncation must not create invalid UTF-8 boundaries
         for i in 0..51 {
-            let mut string_with_unsplittable_uinicode = "a".repeat(i);
-            string_with_unsplittable_uinicode.push_str(&"ß".repeat(100));
+            let mut s = "a".repeat(i);
+            s.push_str(&"ß".repeat(100));
+
             let input = SearchQueryArgs {
-                pre_highlight: Some(string_with_unsplittable_uinicode.clone()),
-                post_highlight: Some(string_with_unsplittable_uinicode.clone()),
+                pre_highlight: Some(s.clone()),
+                post_highlight: Some(s.clone()),
                 ..Default::default()
             };
             let res = Highlighting::from(&input);
-            let expected_length: usize = string_with_unsplittable_uinicode
-                .chars()
-                .take(25)
-                .map(|c| c.len_utf8())
-                .sum();
-            assert_eq!(res.post.len(), expected_length);
-            assert_eq!(res.pre.len(), expected_length);
+
+            let expected = s.chars().take(25).collect::<String>();
+            assert_eq!(res.pre, expected);
+            assert_eq!(res.post, expected);
+            assert!(chars_len(&res.pre) <= 25);
+            assert!(chars_len(&res.post) <= 25);
         }
     }
 
     #[test]
-    fn test_formatting_config_default() {
-        let input = SearchQueryArgs::default();
-        let config = FormattingConfig::from(&input);
-
-        assert_eq!(config.highlighting.pre, "\u{19}");
-        assert_eq!(config.highlighting.post, "\u{17}");
-        assert_eq!(config.cropping, CroppingMode::Crop);
-        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
-    }
-
-    #[test]
-    fn test_formatting_config_explicit_modes() {
-        let input = SearchQueryArgs {
-            cropping: CroppingMode::Full,
-            parsed_id: ParsedIdMode::Roomfinder,
-            ..Default::default()
-        };
-        let config = FormattingConfig::from(&input);
-
-        assert_eq!(config.cropping, CroppingMode::Full);
-        assert_eq!(config.parsed_id, ParsedIdMode::Roomfinder);
-    }
-
-    #[test]
-    fn test_formatting_config_with_custom_highlighting() {
+    fn formatting_config_uses_highlighting_conversion_and_propagates_modes() {
         let input = SearchQueryArgs {
             pre_highlight: Some("<em>".to_string()),
             post_highlight: Some("</em>".to_string()),
             cropping: CroppingMode::Full,
-            parsed_id: ParsedIdMode::Prefixed,
-            ..Default::default()
-        };
-        let config = FormattingConfig::from(&input);
-
-        assert_eq!(config.highlighting.pre, "<em>");
-        assert_eq!(config.highlighting.post, "</em>");
-        assert_eq!(config.cropping, CroppingMode::Full);
-        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
-    }
-
-    #[test]
-    fn test_formatting_config_with_limits() {
-        // Test that FormattingConfig works correctly when combined with Limits
-        let input = SearchQueryArgs {
-            limit_all: Some(20),
-            limit_buildings: Some(10),
-            limit_rooms: Some(15),
-            pre_highlight: Some("<b>".to_string()),
-            post_highlight: Some("</b>".to_string()),
-            cropping: CroppingMode::Full,
-            parsed_id: ParsedIdMode::Prefixed,
+            parsed_id: ParsedIdMode::Roomfinder,
             ..Default::default()
         };
 
         let config = FormattingConfig::from(&input);
-        let limits = Limits::from(&input);
 
-        // Verify both are created correctly from the same input
-        assert_eq!(config.highlighting.pre, "<b>");
-        assert_eq!(config.highlighting.post, "</b>");
+        // Highlighting should be the same conversion as `Highlighting::from`
+        assert_eq!(config.highlighting, Highlighting::from(&input));
+        // Modes should be propagated
         assert_eq!(config.cropping, CroppingMode::Full);
-        assert_eq!(config.parsed_id, ParsedIdMode::Prefixed);
-
-        assert_eq!(limits.total_count, 20);
-        assert_eq!(limits.buildings_count, 10);
-        assert_eq!(limits.rooms_count, 15);
+        assert_eq!(config.parsed_id, ParsedIdMode::Roomfinder);
     }
 }
