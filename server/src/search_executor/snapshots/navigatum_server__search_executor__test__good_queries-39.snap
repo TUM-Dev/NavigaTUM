@@ -13,7 +13,7 @@ info: "'H.3' should get '2910.EG.003' in 1 results # H.003 is the correct room, 
       subtext_bold: H.003@2910
     - id: 4124.U1.001A
       type: room
-      name: 4124.U1.001A (Praktikum (Hinterer Raumteil))
+      name: "4124.U1.001A (Praktikum (Hinterer Raumteil) S1,  Bio 1)"
       subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
       subtext_bold: P/1.01 H@4124
     - id: 2910.03.301

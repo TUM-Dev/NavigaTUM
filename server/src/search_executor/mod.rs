@@ -238,13 +238,21 @@ mod test {
             .unwrap();
         for query in TestQuery::load_good() {
             let actual = query.search(&ms.client).await;
+
+            // Fail fast: a "good" query must return something; empty results usually mean a broken index/search.
+            assert!(
+                !actual.is_empty(),
+                "{query}\n\
+                Expected at least one results section, but got none"
+            );
+
             assert!(
                 query.actual_matches_among(&actual),
                 "{query}\n\
                 Since it can't, please move it to .bad list"
             );
 
-            // redacting estimatedTotalHits is because this can change quite easily and without a good reason
+            // Redact `estimatedTotalHits` to reduce snapshot churn.
             insta::with_settings!({
                 info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
@@ -263,13 +271,15 @@ mod test {
             .unwrap();
         for query in TestQuery::load_bad() {
             let actual = query.search(&ms.client).await;
+
+            // "Bad" queries may return results, but must not surface the `target` in the first `among` results.
             assert!(
                 !query.actual_matches_among(&actual),
                 "{query}\n\
                 Since it can, please move it to .good list"
             );
 
-            // redacting estimatedTotalHits is because this can change quite easily and without a good reason
+            // Redact `estimatedTotalHits` to reduce snapshot churn.
             insta::with_settings!({
                 info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
@@ -287,22 +297,20 @@ mod test {
             .await
             .unwrap();
 
-        // Search with cropping enabled (default)
+        // Verify `CroppingMode` changes output; fail fast on missing Rooms/entries and snapshot both variants.
+        let query = "N-1406";
+
+        // Search with cropping enabled.
         let config_cropping = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Crop,
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results_cropping = do_geoentry_search(
-            &ms.client,
-            "3002", // Room search that might have long building names
-            Limits::default(),
-            config_cropping,
-        )
-        .await;
+        let results_cropping =
+            do_geoentry_search(&ms.client, query, Limits::default(), config_cropping).await;
 
-        // Search with cropping disabled
+        // Search with cropping disabled.
         let config_no_cropping = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Full,
@@ -310,40 +318,71 @@ mod test {
         };
 
         let results_no_cropping =
-            do_geoentry_search(&ms.client, "3002", Limits::default(), config_no_cropping).await;
+            do_geoentry_search(&ms.client, query, Limits::default(), config_no_cropping).await;
 
-        // Find room entries
+        // Extract Rooms; fail fast to avoid silent no-ops.
         let rooms_with_crop = results_cropping
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for cropping=CROP test query");
 
         let rooms_without_crop = results_no_cropping
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for cropping=FULL test query");
 
-        if let (Some(with_crop), Some(without_crop)) = (rooms_with_crop, rooms_without_crop) {
-            // Check if any parsed_ids contain ellipsis (indicating cropping)
-            let has_ellipsis_with_crop = with_crop
-                .entries
-                .iter()
-                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains("…")));
+        assert!(
+            !rooms_with_crop.entries.is_empty(),
+            "Expected at least one room entry for cropping=CROP test query"
+        );
+        assert!(
+            !rooms_without_crop.entries.is_empty(),
+            "Expected at least one room entry for cropping=FULL test query"
+        );
 
-            let has_ellipsis_without_crop = without_crop
-                .entries
-                .iter()
-                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains("…")));
+        // Compare deterministically by sorting by `id` so ranking changes don't flap.
+        let mut ids_cropped: Vec<(String, Option<String>)> = rooms_with_crop
+            .entries
+            .iter()
+            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .collect();
+        ids_cropped.sort_by(|a, b| a.0.cmp(&b.0));
 
-            // If long building names exist (indicated by ellipsis when cropping is enabled)
-            // then cropping should be disabled when the flag is set
-            if has_ellipsis_with_crop {
+        let mut ids_full: Vec<(String, Option<String>)> = rooms_without_crop
+            .entries
+            .iter()
+            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .collect();
+        ids_full.sort_by(|a, b| a.0.cmp(&b.0));
+
+        // For the same `id`, `cropping=FULL` must not produce a shorter `parsed_id` than `cropping=CROP`.
+        for ((id_c, pid_c), (id_f, pid_f)) in ids_cropped.iter().zip(ids_full.iter()) {
+            assert_eq!(id_c, id_f, "Expected comparable entries when sorting by id");
+            if let (Some(c), Some(f)) = (pid_c.as_ref(), pid_f.as_ref()) {
                 assert!(
-                    !has_ellipsis_without_crop,
-                    "Building names should NOT be cropped when cropping=full"
+                    f.chars().count() >= c.chars().count(),
+                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={}",
+                    id_c
                 );
             }
         }
+
+        // Snapshot both outputs; redact `estimatedTotalHits`.
+        insta::with_settings!({
+            info => &"cropping=crop",
+            description => format!("Query: {query}"),
+        }, {
+            insta::assert_yaml_snapshot!(results_cropping.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+
+        insta::with_settings!({
+            info => &"cropping=full",
+            description => format!("Query: {query}"),
+        }, {
+            insta::assert_yaml_snapshot!(results_no_cropping.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
     }
 
     #[tokio::test]
@@ -354,29 +393,46 @@ mod test {
             .await
             .unwrap();
 
-        // Both features disabled
+        // Validate `ParsedIdMode::Roomfinder`: `parsed_id` should look like an arch id (contains '@'); snapshot output.
         let config = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Full,
             parsed_id: ParsedIdMode::Roomfinder,
         };
 
-        let results = do_geoentry_search(&ms.client, "1010", Limits::default(), config).await;
+        // Use a canonical query from the good list to avoid accidental no-op.
+        let results = do_geoentry_search(&ms.client, "N-1406", Limits::default(), config).await;
 
-        let rooms = results
+        let room_section = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for Roomfinder mode test");
 
-        if let Some(room_section) = rooms {
-            for entry in &room_section.entries {
-                // Check that parsed_id matches subtext_bold (which is archname@building_id)
-                assert_eq!(
-                    entry.parsed_id, entry.subtext_bold,
-                    "parsed_id should be archname@building_id when parsed_id=roomfinder"
-                );
-            }
+        assert!(
+            !room_section.entries.is_empty(),
+            "Expected at least one room entry for Roomfinder mode test"
+        );
+
+        for entry in &room_section.entries {
+            let pid = entry
+                .parsed_id
+                .as_ref()
+                .expect("Expected parsed_id to be present in Roomfinder mode");
+
+            assert!(
+                pid.contains('@'),
+                "Expected Roomfinder parsed_id to contain '@' (arch_id@building_id), got: {}",
+                pid
+            );
         }
+
+        insta::with_settings!({
+            info => &"parsed_id=roomfinder,cropping=full",
+            description => "Query: N-1406",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
     }
 
     #[tokio::test]
@@ -387,7 +443,9 @@ mod test {
             .await
             .unwrap();
 
-        // Custom HTML highlighting
+        // Validate custom highlighting end-to-end; "MW1801" is a canonical query that tends to trigger highlighting.
+        let query = "MW1801";
+
         let config = FormattingConfig {
             highlighting: Highlighting {
                 pre: "<em>".to_string(),
@@ -397,35 +455,42 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results =
-            do_geoentry_search(&ms.client, "mi560602018", Limits::default(), config).await;
+        let results = do_geoentry_search(&ms.client, query, Limits::default(), config).await;
 
-        let rooms = results
+        let room_section = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms));
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for highlighting test");
 
-        if let Some(room_section) = rooms {
-            // Check if custom highlighting appears in parsed_id or name
-            let has_custom_highlighting = room_section.entries.iter().any(|e| {
-                let in_parsed_id = e
-                    .parsed_id
-                    .as_ref()
-                    .map_or(false, |p| p.contains("<em>") || p.contains("</em>"));
+        assert!(
+            !room_section.entries.is_empty(),
+            "Expected at least one room entry for highlighting test"
+        );
 
-                let in_name = e.name.contains("<em>") || e.name.contains("</em>");
+        let has_custom_highlighting = room_section.entries.iter().any(|e| {
+            let in_parsed_id = e
+                .parsed_id
+                .as_ref()
+                .map_or(false, |p| p.contains("<em>") || p.contains("</em>"));
 
-                in_parsed_id || in_name
-            });
+            let in_name = e.name.contains("<em>") || e.name.contains("</em>");
 
-            // If MI rooms are found, some highlighting should be present
-            if !room_section.entries.is_empty() {
-                assert!(
-                    has_custom_highlighting,
-                    "Custom highlighting markers should appear in results"
-                );
-            }
-        }
+            in_parsed_id || in_name
+        });
+
+        assert!(
+            has_custom_highlighting,
+            "Expected custom highlighting markers to appear in results for query '{}'",
+            query
+        );
+
+        insta::with_settings!({
+            info => &"highlighting=<em>",
+            description => format!("Query: {query}"),
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
     }
 
     #[tokio::test]
@@ -436,93 +501,114 @@ mod test {
             .await
             .unwrap();
 
-        let config = FormattingConfig {
+        let config_prefixed = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Crop,
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let config_no_prefix = FormattingConfig {
+        let config_roomfinder = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Crop,
             parsed_id: ParsedIdMode::Roomfinder,
         };
 
-        // Test different building formats
+        // Canonical queries that exercise prefix selection; use `starts_with` to avoid substring false positives.
         let test_cases = vec![
-            ("mw1801", "MW"),       // Maschinenwesen
-            ("mi560602018", "MI"),  // Mathematik/Informatik
-            ("pi510101294", "PH"),  // Physik
-            ("ch5406EG600B", "CH"), // Chemie
+            ("MW1801", "MW "),     // Maschinenwesen (splitting necessary)
+            ("MI HS 3", "MI "),    // Mathematik/Informatik
+            ("342 Physik", "PH "), // Physik
         ];
 
         for (query, expected_prefix) in test_cases {
-            let results =
-                do_geoentry_search(&ms.client, query, Limits::default(), config.clone()).await;
-
-            let results_no_prefix = do_geoentry_search(
+            let results_prefixed = do_geoentry_search(
                 &ms.client,
                 query,
                 Limits::default(),
-                config_no_prefix.clone(),
+                config_prefixed.clone(),
             )
             .await;
 
-            let rooms = results
+            let results_roomfinder = do_geoentry_search(
+                &ms.client,
+                query,
+                Limits::default(),
+                config_roomfinder.clone(),
+            )
+            .await;
+
+            let rooms_prefixed = results_prefixed
                 .0
                 .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Rooms));
+                .find(|s| matches!(s.facet, ResultFacet::Rooms))
+                .expect("Expected a Rooms section for prefixed mode");
 
-            let rooms_no_prefix = results_no_prefix
+            assert!(
+                !rooms_prefixed.entries.is_empty(),
+                "Expected at least one room entry for prefixed mode query '{}'",
+                query
+            );
+
+            let has_expected_prefix = rooms_prefixed.entries.iter().any(|e| {
+                e.parsed_id
+                    .as_ref()
+                    .map_or(false, |p| p.starts_with(expected_prefix))
+            });
+
+            assert!(
+                has_expected_prefix,
+                "Expected at least one parsed_id to start with '{}' for query '{}'",
+                expected_prefix, query
+            );
+
+            let rooms_roomfinder = results_roomfinder
                 .0
                 .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Rooms));
+                .find(|s| matches!(s.facet, ResultFacet::Rooms))
+                .expect("Expected a Rooms section for roomfinder mode");
 
-            if let Some(room_section) = rooms {
-                // If rooms are found for this building, check for the prefix
-                if !room_section.entries.is_empty() {
-                    let has_prefix = room_section.entries.iter().any(|e| {
-                        e.parsed_id
-                            .as_ref()
-                            .map_or(false, |p| p.contains(expected_prefix))
-                    });
+            assert!(
+                !rooms_roomfinder.entries.is_empty(),
+                "Expected at least one room entry for roomfinder mode query '{}'",
+                query
+            );
 
-                    assert!(
-                        has_prefix,
-                        "Entries for query '{}' should contain prefix '{}'",
-                        query, expected_prefix
-                    );
-                }
-            }
+            let has_any_prefix = rooms_roomfinder.entries.iter().any(|e| {
+                e.parsed_id
+                    .as_ref()
+                    .map_or(false, |p| p.starts_with(expected_prefix))
+            });
 
-            if let Some(room_section_no_prefix) = rooms_no_prefix {
-                // If rooms are found for this building, check that no prefix is present
-                if !room_section_no_prefix.entries.is_empty() {
-                    let has_prefix = room_section_no_prefix.entries.iter().any(|e| {
-                        e.parsed_id
-                            .as_ref()
-                            .map_or(false, |p| p.contains(expected_prefix))
-                    });
+            assert!(
+                !has_any_prefix,
+                "Expected no parsed_id to start with '{}' when parsed_id=roomfinder for query '{}'",
+                expected_prefix, query
+            );
 
-                    assert!(
-                        !has_prefix,
-                        "Entries for query '{}' should NOT contain prefix '{}' when parsed_id=roomfinder",
-                        query, expected_prefix
-                    );
+            let has_raw_archname_format = rooms_roomfinder
+                .entries
+                .iter()
+                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains('@')));
 
-                    // Check that the raw Roomfinder format (archname@building_id) is used
-                    let has_raw_archname_format = room_section_no_prefix
-                        .entries
-                        .iter()
-                        .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains('@')));
+            assert!(
+                has_raw_archname_format,
+                "Expected at least one Roomfinder parsed_id to contain '@' for query '{}'",
+                query
+            );
 
-                    assert!(
-                        has_raw_archname_format,
-                        "Entries for query '{}' should contain the raw Roomfinder format (i.e., '@' symbol) when parsed_id=roomfinder",
-                        query
-                    );
-                }
-            }
+            insta::with_settings!({
+                info => &"parsed_id=prefixed",
+                description => format!("Query: {query}"),
+            }, {
+                insta::assert_yaml_snapshot!(results_prefixed.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+            });
+
+            insta::with_settings!({
+                info => &"parsed_id=roomfinder",
+                description => format!("Query: {query}"),
+            }, {
+                insta::assert_yaml_snapshot!(results_roomfinder.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+            });
         }
     }
 
@@ -534,71 +620,91 @@ mod test {
             .await
             .unwrap();
 
-        let query = "1010";
+        // Verify `CroppingMode` changes output; compare `parsed_id` lengths by sorted `id` (Full must not be shorter).
+        let query = "1010 znn";
 
-        // 1. Search with default settings (Cropping Enabled)
-        let config_default = FormattingConfig {
+        // 1. Search with cropping enabled
+        let config_cropped = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Crop,
             parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_cropped =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_default).await;
+            do_geoentry_search(&ms.client, query, Limits::default(), config_cropped).await;
 
         // 2. Search with cropping disabled
-        let config_no_crop = FormattingConfig {
+        let config_full = FormattingConfig {
             highlighting: Highlighting::default(),
             cropping: CroppingMode::Full,
             parsed_id: ParsedIdMode::Prefixed,
         };
 
         let results_full =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_no_crop).await;
+            do_geoentry_search(&ms.client, query, Limits::default(), config_full).await;
 
-        // Helper to extract parsed_ids from the Rooms section
-        let get_ids = |res: &LimitedVec<ResultsSection>| -> Vec<String> {
-            res.0
-                .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Rooms))
-                .map(|s| {
-                    s.entries
-                        .iter()
-                        .filter_map(|e| e.parsed_id.clone())
-                        .collect()
-                })
-                .unwrap_or_default()
-        };
+        let rooms_cropped = results_cropped
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for cropping=CROP");
 
-        let ids_cropped = get_ids(&results_cropped);
-        let ids_full = get_ids(&results_full);
+        let rooms_full = results_full
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .expect("Expected a Rooms section for cropping=FULL");
 
-        // Assertions
         assert!(
-            !ids_cropped.is_empty(),
-            "Query '1010' should return results"
+            !rooms_cropped.entries.is_empty(),
+            "Expected at least one room entry for cropping=CROP query '{}'",
+            query
         );
-
-        // Verify that the default behavior crops the long building name associated with 1010
-        // (Assuming 1010 belongs to the main building which usually has a long name)
-        let has_ellipsis = ids_cropped.iter().any(|id| id.contains('…'));
         assert!(
-            has_ellipsis,
-            "Default behavior for '1010' should include cropping (ellipsis)"
+            !rooms_full.entries.is_empty(),
+            "Expected at least one room entry for cropping=FULL query '{}'",
+            query
         );
 
-        // Verify that the specific flag disables this cropping
-        let has_ellipsis_full = ids_full.iter().any(|id| id.contains('…'));
-        assert!(
-            !has_ellipsis_full,
-            "cropping=full should return full names without ellipses"
-        );
+        // Deterministic comparison: sort by id and compare overlapping entries.
+        let mut cropped: Vec<(String, Option<String>)> = rooms_cropped
+            .entries
+            .iter()
+            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .collect();
+        cropped.sort_by(|a, b| a.0.cmp(&b.0));
 
-        // Verify the IDs are actually different (one is shorter than the other)
-        // This confirms the flag actually changed the output
-        assert_ne!(
-            ids_cropped, ids_full,
-            "Results should differ based on cropping flag"
-        );
+        let mut full: Vec<(String, Option<String>)> = rooms_full
+            .entries
+            .iter()
+            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .collect();
+        full.sort_by(|a, b| a.0.cmp(&b.0));
+
+        // Assert FULL is never shorter than CROP for the same `id`.
+        for ((id_c, pid_c), (id_f, pid_f)) in cropped.iter().zip(full.iter()) {
+            assert_eq!(id_c, id_f, "Expected comparable entries when sorting by id");
+            if let (Some(c), Some(f)) = (pid_c.as_ref(), pid_f.as_ref()) {
+                assert!(
+                    f.chars().count() >= c.chars().count(),
+                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={}",
+                    id_c
+                );
+            }
+        }
+
+        insta::with_settings!({
+            info => &"cropping=crop",
+            description => format!("Query: {query}"),
+        }, {
+            insta::assert_yaml_snapshot!(results_cropped.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+
+        insta::with_settings!({
+            info => &"cropping=full",
+            description => format!("Query: {query}"),
+        }, {
+            insta::assert_yaml_snapshot!(results_full.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
     }
 }
