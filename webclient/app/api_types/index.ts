@@ -2138,6 +2138,20 @@ export type operations = {
          * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
         post_highlight?: string | null;
+        /**
+         * @description How to handle cropping of long building names in `parsed_id`.
+         *
+         * - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+         * - `full`: never crop; always show full building names.
+         */
+        cropping?: "crop" | "full";
+        /**
+         * @description How to format `parsed_id` for rooms.
+         *
+         * - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+         * - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
+         */
+        parsed_id?: "prefixed" | "roomfinder";
       };
     };
     responses: {

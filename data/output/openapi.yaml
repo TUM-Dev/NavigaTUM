@@ -662,6 +662,34 @@ paths:
             type:
               - string
               - "null"
+        - name: cropping
+          in: query
+          description: |-
+            How to handle cropping of long building names in `parsed_id`.
+
+            - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+            - `full`: never crop; always show full building names.
+          required: false
+          schema:
+            type: string
+            description: Controls whether long building names inside `parsed_id` are cropped.
+            enum:
+              - crop
+              - full
+        - name: parsed_id
+          in: query
+          description: |-
+            How to format `parsed_id` for rooms.
+
+            - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+            - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
+          required: false
+          schema:
+            type: string
+            description: Controls how `parsed_id` is built for room results.
+            enum:
+              - prefixed
+              - roomfinder
       responses:
         "200":
           description: Search entries
@@ -836,7 +864,7 @@ components:
           format: date-time
           description: The last allowed time the calendar would like to display
           examples:
-            - "2039-01-19T03:14:07+01:00"
+            - "2039-01-19T03:14:0701:00"
             - 2042-01-07T00:00:00 UTC
         ids:
           type: array
@@ -858,7 +886,7 @@ components:
           format: date-time
           description: The first allowed time the calendar would like to display
           examples:
-            - "2039-01-19T03:14:07+01:00"
+            - "2039-01-19T03:14:0701:00"
             - 2042-01-07T00:00:00 UTC
     BuildingsOverviewItemResponse:
       type: object
@@ -927,7 +955,7 @@ components:
           format: date-time
           description: last time the calendar was scraped for this room
           examples:
-            - "2039-01-19T03:14:07+01:00"
+            - "2039-01-19T03:14:0701:00"
             - 2042-01-07T00:00:00 UTC
         name:
           type: string
@@ -1833,7 +1861,7 @@ components:
               The footpath duration is derived from the default footpath
               duration using the query parameters `transferTimeFactor` and
               `additionalTransferTime` as follows:
-              `leg.duration = defaultDuration * transferTimeFactor +
+              `leg.duration = defaultDuration * transferTimeFactor
              additionalTransferTime.`  In case the defaultDuration is
              needed, it can be calculated by  `defaultDuration =
              (leg.duration - additionalTransferTime) / transferTimeFactor`.
