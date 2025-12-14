@@ -56,9 +56,9 @@ NavigaTUM is a tool developed by students for students, to help you get around a
 - [x] Support for different room code formats as well as generic names
 - [x] All functionality is also available via an open and well documented API
 - [x] Automatically update the data from upstream datasources
-- [ ] Allow students/staff to easily submit feedback and data patches
+- [x] Allow students/staff to easily submit feedback and data patches
+- [x] Generate turn by turn navigation advice for navigating end to end
 - [ ] Generate maps from CAD data sources
-- [ ] Generate turn by turn navigation advice for navigating end to end
 
 If you'd like to help out or join us in this adventure, we would love to talk to you."#;
     openapi.info = InfoBuilder::new()
