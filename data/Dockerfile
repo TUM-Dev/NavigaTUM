@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm AS build-stage
+FROM python:3.14-bookworm AS build-stage
 WORKDIR /app
 
 ARG GIT_COMMIT_SHA
@@ -23,7 +23,7 @@ RUN python3 compile.py \
     && test -f "./output/search_data.json" \
     && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
-    && test -f "./output/api_data.parquet"
+    && test -f "./output/alias_data.parquet"
 RUN cp -r sources/img/* output \
     && cp -r output/maps/site_plans output/maps/roomfinder \
     && cp -r output/maps/overlays output/maps/overlay

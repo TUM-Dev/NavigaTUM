@@ -38,7 +38,7 @@ impl Alias {
 #[tracing::instrument]
 pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = reqwest::get(format!("{cdn_url}/api_data.parquet"))
+    let body = reqwest::get(format!("{cdn_url}/alias_data.parquet"))
         .await?
         .error_for_status()?
         .bytes()
