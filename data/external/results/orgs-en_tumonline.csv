@@ -62,7 +62,7 @@ org_id,code,name,path
 14734,TUCHTC2,Chair of Chemical Technology II (N.N.),TUM/Schools/Natural Sciences/Departments/Chemistry/Chemical Technology II (N.N.)
 14807,TUWIB04,Chair of Management Accounting (Prof. Blaschke komm.),TUM/Schools/Management/Departments/Finance and Accounting/Management Accounting (Prof. Blaschke komm.)
 14808,TUWIB06,Chair of Financial Management and Capital Markets (Prof. Kaserer),TUM/Schools/Management/Departments/Finance and Accounting/Financial Management and Capital Markets (Prof. Kaserer)
-14810,TUWIB05,Chair of Marketing (Prof. Bergner komm.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Prof. Bergner komm.)"
+14810,TUWIB05,Chair of Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 14811,TUWIB01,Chair of Technology and Innovation Management  (founded by Dr. Theo Schoeller) (Prof. Henkel),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Technology and Innovation Management  (founded by Dr. Theo Schoeller) (Prof. Henkel)
 14812,TUWIB09,Chair of Operations Management (Prof. Kolisch),TUM/Schools/Management/Departments/Operations and Technology/Operations Management (Prof. Kolisch)
 14813,TUWIB10,"Chair of Business Administration - Corporate Management, Logistics und Manufacturing (N.N.)","TUM/Schools/Management/Departments/Operations and Technology/Business Administration - Corporate Management, Logistics und Manufacturing (N.N.)"
@@ -334,7 +334,7 @@ org_id,code,name,path
 16124,TUSPFVW,Department Administration Former TUM Department of Sport and Health Sciences,TUM/Academic department/Sport and Health Sciences/Department Administration
 16128,TUSPZ05,Central Branch Applied Sports Science,TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Central Branch Applied Sports Science
 16129,TUSPL04,Working Area Media and Communication (Dr. Schaffrath),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Working Area Media and Communication (Dr. Schaffrath)
-16130,TUSPL02,Chair of Preventive pediatric (Prof. Oberhoffer-Fritz),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Preventive pediatric (Prof. Oberhoffer-Fritz)
+16130,TUSPL02,Chair of Preventive pediatric (Prof. Oberhoffer),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Preventive pediatric (Prof. Oberhoffer)
 16131,TUSPL06,Assistant Professorship of Educational Science in Sport and Health (Prof. Demetriou),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Educational Science in Sport and Health (Prof. Demetriou)
 16132,TUSPL05,Working Area Sport Psychology (Dr. Ehrlenspiel),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Working Area Sport Psychology (Dr. Ehrlenspiel)
 16133,TUSPL01,Associate Professorship of Biomechanics in sports (Prof. Paternoster komm.),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Biomechanics in sports (Prof. Paternoster komm.)
@@ -935,7 +935,7 @@ org_id,code,name,path
 47917,TUWIB38,Assistant Professorship of Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Chair of Environmental and Climate Policy (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Environmental and Climate Policy (Prof. Schreurs)
 47957,TUZVSCH,Staff Unit Diversity & Inclusion,TUM/Central Administration/Diversity & Inclusion
-47997,TUWZC1N,Associate Professorship of Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Neuroscience (Prof. Gjorgjieva)
+47997,TUWZC1N,Associate Professorship of Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva)
 48017,TUVBOMP,Ombudsperson,TUM/TUM Board of Management/TUM Compliance Office/Ombudsperson
 48037,TUINF18,Informatics 26 - Chair of Professorship of  Data Analytics and Machine Learning (Prof. Günnemann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics and Machine Learning (Prof. Günnemann)"
 48038,TUEIESI,Associate Professorship of Embedded Systems and Internet of Things (Prof. Steinhorst),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Embedded Systems and Internet of Things (Prof. Steinhorst)"
@@ -1416,7 +1416,7 @@ org_id,code,name,path
 52220,TUXS60H,Degree Program Gastpromotion,TUM/Schools/Management/Academic Program Administration/Doctoral Programs  MGT/Gastpromotion
 52221,TUXS60I,Degree Program EMBA,TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/EMBA
 52222,TUXS60J,Degree Program EMBA Innovation and Business Creation,TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/EMBA Innovation and Business Creation
-52223,TUXS60K,Degree Program EMBA Business & IT,TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/Degree Program
+52223,TUXS60K,Degree Program EMBA Business & IT,TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/EMBA Business & IT
 52224,TUXS60L,Degree Program M.Sc. Management and Innovation (München),TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/M.Sc. Management and Innovation (München)
 52225,TUXS60M,Degree Program M.Sc. Management and Innovation (Heilbronn),TUM/Schools/Management/Academic Program Administration/Executive & Professional Education/M.Sc. Management and Innovation (Heilbronn)
 52257,TUS4P7T,TUM Plant Technology Center (PTC),TUM/Schools/Life Sciences/TUM Plant Technology Center (PTC)
@@ -1735,7 +1735,7 @@ org_id,code,name,path
 53682,TUXS10Y,Degree Program Informatik,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Informatik"
 53683,TUXS10Z,Degree Program Mathematik,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Mathematik"
 53684,TUXS110,Degree Program Promotionen,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Promotionen"
-53697,TUXB70Q,Academic Programs Master Vocational Education and Innovation,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Academic Programs
+53697,TUXB70Q,Academic Programs Master Vocational Education and Innovation,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master Vocational Education and Innovation
 53737,TUS6B49,Assistant Professorship of Entrepreneurial Finance (Prof. Kaserer komm.),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Kaserer komm.)
 53777,TUS7HTL,Chair of Human-Centered Technologies for Learning (Prof. Kasneci),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Human-Centered Technologies for Learning (Prof. Kasneci)
 53797,TUINI35,Informatics 35 - Chair of Perception for Intelligent Systems (Prof. Lilienthal),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Perception for Intelligent Systems (Prof. Lilienthal)"
@@ -1887,7 +1887,7 @@ org_id,code,name,path
 54617,TUMEDH9,Associate Professorship of Early Clinical Trials in Cardiology (DHM) (Prof. Joner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Early Clinical Trials in Cardiology (DHM) (Prof. Joner)
 54618,TUMEDH8,Associate Professorship of Cardiovascular Inflammation (DHM) (Prof. Sager),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Cardiovascular Inflammation (DHM) (Prof. Sager)
 54619,TUMEDH7,Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)
-54637,TUXS60P,Degree Program B.Sc. Management and Technology,TUM/Schools/Management/Academic Program Administration/School of Management Location Munich/Degree Program
+54637,TUXS60P,Degree Program B.Sc. Management and Technology,TUM/Schools/Management/Academic Program Administration/School of Management Location Munich/B.Sc. Management and Technology
 54657,TUMEDHA,Chair of Pediatric Cardiology and Cogenital Heart Defects (DHM) (Prof. Ewert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Paediatric Cardiology (DHM) (Prof. Ewert)/Pediatric Cardiology and Cogenital Heart Defects (DHM) (Prof. Ewert)
 54658,TUME2M7,Associate Professorship of Clinical Toxicology (Prof. Eyer),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung für Klinische Toxikologie (Prof. Eyer)/Clinical Toxicology (Prof. Eyer)
 54659,TUMESO0,Chair of Applied Stem Cell and Organoidsystems (Prof. Hebrok),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Applied Stem Cell and Organoidsystems (Prof. Hebrok)
@@ -2052,10 +2052,10 @@ org_id,code,name,path
 55497,TUS1311,Assistant Profesorship of Cryptography (Prof. Panny),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Cryptography (Prof. Panny)"
 55517,TUS7SFZ,Schülerforschungszentrum Oberland,TUM/Schools/Social Sciences and Technology/Schülerforschungszentrum Oberland
 55518,TUZEBAC,Bavarian AM Cluster,"TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Bavarian AM Cluster"
-55537,TUXS60R,Degree Program B.Sc. Management and Data Science,TUM/Schools/Management/Academic Program Administration/School of Management Location Heilbronn/Degree Program
-55538,TUXS415,"Degree Program M.Sc. AgriFood Economics, Policy and Regulation",TUM/Schools/Life Sciences/Academic Program Administration/Agricultural and Horticultural Sciences/Agricultural Sciences/Degree Program
-55557,TUXS729,Degree Program M.Sc. AI in Society,"TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Academic Programs/Degree Program"
-55558,TUXS416,Degree Program M.Sc. Sustainable Food (GIST TUM Asia),TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Sustainable Food/Degree Program
+55537,TUXS60R,Degree Program B.Sc. Management and Data Science,TUM/Schools/Management/Academic Program Administration/School of Management Location Heilbronn/B.Sc. Management and Data Science
+55538,TUXS415,"Degree Program M.Sc. AgriFood Economics, Policy and Regulation","TUM/Schools/Life Sciences/Academic Program Administration/Agricultural and Horticultural Sciences/Agricultural Sciences/M.Sc. AgriFood Economics, Policy and Regulation"
+55557,TUXS729,Degree Program M.Sc. AI in Society,"TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/AI in Society/M.Sc. AI in Society"
+55558,TUXS416,Degree Program M.Sc. Sustainable Food (GIST TUM Asia),TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Sustainable Food/M.Sc. Sustainable Food (GIST TUM Asia)
 55577,TUS4C1B,Clinical Microbiome (Prof. Gerner),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Clinical Microbiome (Prof. Gerner)
 55597,TUS1312,Associate Professorship of Representation Theory (Prof. Kus),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Representation Theory (Prof. Kus)"
 55637,TUS4D5B,Assistant Professorship of Data Science in Systems Biology (Prof. List),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Data Science in Systems Biology (Prof. List)
@@ -2089,12 +2089,12 @@ org_id,code,name,path
 55891,TUZELSM,ScienceManagement@TUM,TUM/TUM Institute for Life Long Learning/People Development/ScienceManagement@TUM
 55897,TUS4C8B,Assistant Professorship of Computational Plant Biology (Prof. Kamal),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Plant Biology (Prof. Kamal)
 55898,TUS4E0M,Assistant Professorship of Earth Observation for Ecosystem Management (Prof. Senf),TUM/Schools/Life Sciences/Departments/Life Science Systems/Earth Observation for Ecosystem Management (Prof. Senf)
-55918,TUXB70R,Academic Programs AI in Society,"TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Academic Programs"
+55918,TUXB70R,Academic Programs AI in Society,"TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/AI in Society"
 55937,TUS1314,Informatics Heilbronn 11 - Chair of Software Engineering & AI (Prof. Chen),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
 55938,TUS1315,Informatics 39 -  Associate Professorship of Learning AI for Dextrous Robots (Prof. Bäuml),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Learning AI for Dextrous Robots (Prof. Bäuml)"
-55957,TUXS113,Degree Program M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Heilbronn/Degree Program"
+55957,TUXS113,Degree Program M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Heilbronn/M.Sc. Information Engineering"
 55997,TUS1316,Assistant Professorship of Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
-56017,TUXS72A,Degree Program M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master of Education Teaching at Vocational Schools/Degree Program
+56017,TUXS72A,Degree Program M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master of Education Teaching at Vocational Schools/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik
 56037,TUZVGHB,Staff Unit Office TUM Campus Heilbronn,TUM/Central Administration/Office TUM Campus Heilbronn
 56057,TUS4F8S,Associate Professorship of Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
 56077,TUZEMDI,Munich Design Institute (MDI),TUM/Integrative Research Institutes/Munich Design Institute (MDI)
@@ -2154,13 +2154,13 @@ org_id,code,name,path
 56386,TUXSC0I,Degree Program Bioökonomie,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg/Bioökonomie
 56399,TUS4F7E,Chair of Complex Soft Matter (Prof. Guldin),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Complex Soft Matter (Prof. Guldin)
 56417,TUCSP17,Associate Professorship of Optimization and Sustainable Decision Making (Prof. Thielen),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Optimization and Sustainable Decision Making (Prof. Thielen)
-56437,TUXB70S,Academic Programs Data & Society,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Academic Programs
-56438,TUXS72B,Degree Program M.Sc. Data & Society,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Academic Programs/Degree Program
+56437,TUXB70S,Academic Programs Data & Society,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Data & Society
+56438,TUXS72B,Degree Program M.Sc. Data & Society,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Data & Society/M.Sc. Data & Society
 56457,TUS5KC3,Assistant Professorship of Systems Immune Oncology (Prof. Frede),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Laboratory Medicine (Prof. Ruland)/Systems Immune Oncology (Prof. Frede)
 56458,TUS3010,Assistant Professorship of Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn),TUM/Schools/Natural Sciences/Departments/Physics/Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)
 56477,TUCSP18,Assistant Professorship of Particle and fiber technology for bio-based materials (Prof. Fang),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Particle and fiber technology for bio-based materials (Prof. Fang)
 56497,TUS7PHS,Chair of Philosophy and History of Science (Prof. Leonelli),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Philosophy and History of Science (Prof. Leonelli)"
-56517,TUXS114,Degree Program M.Sc. Microelectronics and Chip Design,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Elektrotechnik und Informationstechnik/Degree Program"
+56517,TUXS114,Degree Program M.Sc. Microelectronics and Chip Design,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Elektrotechnik und Informationstechnik/M.Sc. Microelectronics and Chip Design"
 56518,TUPEX06,Professuren Emeriti Card,TUM/Institutions close to the University/Additional people/Professuren Emeriti Card
 56537,TUS4Z6P,Assistant Professorship of Plant Cell Biology (Prof. Gronnier),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Plant Cell Biology (Prof. Gronnier)
 56538,TUS4T9P,Associate Professorship of Tree Growth and Wood Physiology (Prof. Peters),TUM/Schools/Life Sciences/Departments/Life Science Systems/Tree Growth and Wood Physiology (Prof. Peters)
@@ -2194,7 +2194,7 @@ org_id,code,name,path
 56823,TUCSBIT,HSWT-Assistant Professorship of Bioinformatics (Prof. Grimm),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/HSWT - Professorships/Bioinformatics (Prof. Grimm)
 56824,TUCSGTH,HSWT-Assistant Professorship of Geothermal Energy,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/HSWT - Professorships/Geothermal Energy
 56837,TUPECLC,EIT Food CLC Central GmbH,TUM/Institutions close to the University/EIT Food CLC Central GmbH
-56857,TUXSC0J,Degree Program M.Sc. Sustainable Energy and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/Degree Program
+56857,TUXSC0J,Degree Program M.Sc. Sustainable Energy and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/M.Sc. Sustainable Energy and Processes
 56858,TUS7SCC,Assistant Professorship of Science and Crisis Communication (Prof. Walter),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Crisis Communication (Prof. Walter)"
 56877,TUPRB05,Delegate officer for Image and Presidential Events,TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Image and Presidential Events
 56878,TUPRB06,Delegate officer for TUM Senior Excellence Faculty,TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for TUM Senior Excellence Faculty
@@ -2266,8 +2266,11 @@ org_id,code,name,path
 57677,TUS3016,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
 57717,TUS2CAS,Assistant Professorship of Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)
 57737,TUPRV14,Vice President - TUM Asia,TUM/TUM Board of Management/Vice Presidents/Vice President - TUM Asia
-57757,TUXSC0K,Degree Program B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/Degree Program
-57758,TUXS115,Degree Program M.Sc. AI in Biomedicine,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Data Science/Degree Program"
+57757,TUXSC0K,Degree Program B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/B.Sc. Sustainable Engineering for Materials and Processes
+57758,TUXS115,Degree Program M.Sc. AI in Biomedicine,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Data Science/M.Sc. AI in Biomedicine"
 57777,TUS6MTC,Assistant Professorship of Marketing and Technology (Prof. Finken),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing and Technology (Prof. Finken)"
 57797,TUS3017,Assistant Professorship of Physikalisch-organische Chemie der Katalyse (Prof. Mayer),TUM/Schools/Natural Sciences/Departments/Chemistry/Associate Professorship
 57817,TUXS243,Degree Program Application for Continuation of Enrollment after Graduation,TUM/Schools/Engineering and Design/Academic Program Administration/Study programs ED/Application for Continuation of Enrollment after Graduation
+57837,TUXS244,Degree Program Ergänzungsstudium Aerospace Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Ergänzungsstudium Aerospace Engineering
+57857,TUXS245,Degree Program B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/B.Sc. Geodesy and Earth Observation
+57877,TUS1327,Assistant Professorship of Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Associate Professorship"
