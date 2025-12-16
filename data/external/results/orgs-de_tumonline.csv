@@ -62,7 +62,7 @@ org_id,code,name,path
 14734,TUCHTC2,Lehrstuhl für Technische Chemie II (N.N.),TUM/Schools/Natural Sciences/Departments/Chemistry/Technische Chemie II (N.N.)
 14807,TUWIB04,Lehrstuhl für Controlling (Prof. Blaschke komm.),TUM/Schools/Management/Departments/Finance and Accounting/Controlling (Prof. Blaschke komm.)
 14808,TUWIB06,Lehrstuhl für Finanzmanagement und Kapitalmärkte (Prof. Kaserer),TUM/Schools/Management/Departments/Finance and Accounting/Finanzmanagement und Kapitalmärkte (Prof. Kaserer)
-14810,TUWIB05,Lehrstuhl für Marketing (Prof. Bergner komm.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (Prof. Bergner komm.)"
+14810,TUWIB05,Lehrstuhl für Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 14811,TUWIB01,Dr. Theo Schöller-Stiftungslehrstuhl für Technologie- und Innovationsmanagement (Prof. Henkel),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Technologie- und Innovationsmanagement (Prof. Henkel)
 14812,TUWIB09,Lehrstuhl für Operations Management (Prof. Kolisch),TUM/Schools/Management/Departments/Operations and Technology/Operations Management (Prof. Kolisch)
 14813,TUWIB10,"Lehrstuhl für Betriebswirtschaftslehre - Unternehmensführung, Logistik und Produktion (N.N.)","TUM/Schools/Management/Departments/Operations and Technology/Betriebswirtschaftslehre - Unternehmensführung, Logistik und Produktion (N.N.)"
@@ -334,7 +334,7 @@ org_id,code,name,path
 16124,TUSPFVW,Fakultätsverwaltung Ehemalige Fakultät für Sport- und Gesundheitswissenschaften,TUM/Fakultäten/Ehemalige Fakultät für Sport- und Gesundheitswissenschaften/Fakultätsverwaltung
 16128,TUSPZ05,Betriebseinheit Angewandte Sportwissenschaft,TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Betriebseinheit Angewandte Sportwissenschaft
 16129,TUSPL04,Arbeitsbereich Medien und Kommunikation (Dr. Schaffrath),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Arbeitsbereich Medien und Kommunikation (Dr. Schaffrath)
-16130,TUSPL02,Lehrstuhl für Präventive Pädiatrie (Prof. Oberhoffer-Fritz),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Präventive Pädiatrie (Prof. Oberhoffer-Fritz)
+16130,TUSPL02,Lehrstuhl für Präventive Pädiatrie (Prof. Oberhoffer),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Präventive Pädiatrie (Prof. Oberhoffer)
 16131,TUSPL06,Professur für Sport- und Gesundheitspädagogik (N.N.),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Sport- und Gesundheitspädagogik (N.N.)
 16132,TUSPL05,Arbeitsbereich Sportpsychologie (Dr. Ehrlenspiel),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Arbeitsbereich Sportpsychologie (Dr. Ehrlenspiel)
 16133,TUSPL01,Professur für Biomechanik im Sport (Prof. Paternoster komm.),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Biomechanik im Sport (Prof. Paternoster komm.)
@@ -935,7 +935,7 @@ org_id,code,name,path
 47917,TUWIB38,Professur für Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Lehrstuhl für Umwelt- und Klimapolitik (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Umwelt- und Klimapolitik (Prof. Schreurs)
 47957,TUZVSCH,Stabsstelle Diversity & Inclusion,TUM/Zentrale Verwaltung/Diversity & Inclusion
-47997,TUWZC1N,Professur für Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Neuroscience (Prof. Gjorgjieva)
+47997,TUWZC1N,Professur für Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva)
 48017,TUVBOMP,Ombudspersonen,TUM/Hochschulpräsidium/TUM Compliance Office/Ombudspersonen
 48037,TUINF18,Informatik 26 - Lehrstuhl für Data Analytics and Machine Learning (Prof. Günnemann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics and Machine Learning (Prof. Günnemann)"
 48038,TUEIESI,Professur für Embedded Systems and Internet of Things (Prof. Steinhorst),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Embedded Systems and Internet of Things (Prof. Steinhorst)"
@@ -1825,7 +1825,7 @@ org_id,code,name,path
 54185,TUS1210,Academic Programs Office (CIT) Academic and Student Affairs (CIT),"TUM/Schools/Computation, Information and Technology/School Office/Academic and Student Affairs (CIT)/Academic Programs Office (CIT)"
 54186,TUS1220,Graduate Center (CIT) Academic and Student Affairs (CIT),"TUM/Schools/Computation, Information and Technology/School Office/Academic and Student Affairs (CIT)/Graduate Center (CIT)"
 54217,TUZEDMG,Zentrum für Digitale Medizin und Gesundheit (ZDMG),TUM/Integrative Research Institutes/Munich Data Science Institute (MDSI)/Zentrum für Digitale Medizin und Gesundheit (ZDMG)
-54237,TUS2HYP,Hyperloop (zu besetzende Professur),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Hyperloop (zu besetzende Professur)
+54237,TUS2HYP,Hyperloop,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Hyperloop
 54238,TUCSP16,Professur für Synthetische Biologie (Prof. Niederholtmeyer),TUM/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrstühle und Professuren/Synthetische Biologie (Prof. Niederholtmeyer)
 54239,TUS2DAT,Lehrstuhl für Design and Transdisciplinarity (Prof. Diefenthaler),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Design and Transdisciplinarity (Prof. Diefenthaler)
 54240,TUZECCA,TUM Center for Culture and Arts,TUM/TUM Institute for Life Long Learning/TUM Center for Culture and Arts
@@ -2271,3 +2271,6 @@ org_id,code,name,path
 57777,TUS6MTC,Professur für Marketing and Technology (Prof. Finken),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing and Technology (Prof. Finken)"
 57797,TUS3017,Professur für Physikalisch-organische Chemie der Katalyse (Prof. Mayer),TUM/Schools/Natural Sciences/Departments/Chemistry/Physikalisch-organische Chemie der Katalyse (Prof. Mayer)
 57817,TUXS243,Studiengang Fortführung der Immatrikulation nach erfolgreichem Abschluss,TUM/Schools/Engineering and Design/Studienorganisation/Studienprogramme ED/Fortführung der Immatrikulation nach erfolgreichem Abschluss
+57837,TUXS244,Studiengang Ergänzungsstudium Luft- und Raumfahrt,TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Ergänzungsstudium Luft- und Raumfahrt
+57857,TUXS245,Studiengang B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Studienorganisation/Geodesy/B.Sc. Geodesy and Earth Observation
+57877,TUS1327,Professur für Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Human-Centered Digital Design"
