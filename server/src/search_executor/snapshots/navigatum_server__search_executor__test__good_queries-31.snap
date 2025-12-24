@@ -37,11 +37,6 @@ snapshot_kind: text
       name: "5123.U1.\u0019019\u0017 (Abwasseraufbereitung/-beseitigung)"
       subtext: "garching, LMU Physik Werkstattgebäude"
       subtext_bold: 019@5123
-    - id: 9387.EG.019
-      type: room
-      name: "9387.EG.\u0019019\u0017 (OTN Hörsaal 9)"
-      subtext: "taufkirchen-ottobr., Hörsaalgebäude (Willy-Messerschmitt-Str. 5)"
-      subtext_bold: 00.9387.019@9387
     - id: 8111.EG.019
       type: room
       name: "8111.EG.\u0019019\u0017 (Praktikumsraum)"
@@ -57,6 +52,11 @@ snapshot_kind: text
       name: "1713.U2.\u0019019\u0017 (Intensiv)"
       subtext: "mri, Nigerstr. 3, Student Office (Bau 713)"
       subtext_bold: 713.02.19@1713
+    - id: 4220.01.019
+      type: room
+      name: "4220.01.\u0019019\u0017 (Gruppenarbeitsraum)"
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 19@4220
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

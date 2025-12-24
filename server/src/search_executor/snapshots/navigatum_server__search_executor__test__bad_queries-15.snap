@@ -3,6 +3,7 @@ source: src/search_executor/mod.rs
 description: "'5604.02.033' is a valid result before the two lab course rooms"
 expression: actual
 info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' is a valid result before the two lab course rooms"
+snapshot_kind: text
 ---
 - facet: rooms
   entries:
@@ -31,11 +32,6 @@ info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' i
       name: "5501.01.108 (\u0019Mi\u0017krotechniklabor)"
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 1108@5501
-    - id: 4224.01.136
-      type: room
-      name: "4224.01.136 (\u0019Mi\u0017kroskopie)"
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 1.36@4224
     - id: 4224.01.156
       type: room
       name: "4224.01.156 (\u0019Mi\u0017kroskopierraum S1-Genlabor)"
@@ -56,6 +52,11 @@ info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' i
       name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum (Gesperrt))"
       subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
       subtext_bold: "-1301@0103"
+    - id: 4217.01.131
+      type: room
+      name: "4217.01.131 (Gaschromatographie \u0019mi\u0017t Massenspektrometrie)"
+      subtext: "weihenstephan, Pflanzenproduktion 1"
+      subtext_bold: 131@4217
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
