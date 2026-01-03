@@ -43,6 +43,13 @@ export default defineConfig({
         // API tests don't need a browser context
       },
     },
+    {
+      name: "ui-tests-chromium",
+      testMatch: /.*\.ui\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
