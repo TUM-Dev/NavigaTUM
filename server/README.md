@@ -51,6 +51,32 @@ The server should now be available on `localhost:8080` if you have configured th
 > `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile
 > the `search` or `preview` functions, it makes quite a difference).
 
+### Static Data Files
+
+The server can load setup data files from the local filesystem or download them from the CDN. This provides:
+- Faster startup times in production (files are baked into the Docker image)
+- Using local files during development, if available
+- Fallback to downloading files during development when local files aren't available
+
+#### File Locations
+
+The server looks for data files in the following locations (in order):
+1. `/app/data/output/` (Docker production - files baked into image)
+2. `data/output/` (relative to current working directory)
+3. `../data/output/` (one level up - useful when running from `server/` directory)
+4. `../../data/output/` (two levels up)
+
+If files are not found locally, they will be downloaded from the CDN specified by the `CDN_URL` environment variable.
+
+#### Required Files
+
+The following files are loaded during server setup:
+- `alias_data.parquet` - Alias mappings for locations (baked into Docker image)
+- `api_data.json` - Main location data for the API (baked into Docker image)
+- `status_data.parquet` - Status information for locations (baked into Docker image)
+- `search_data.json` - Search index data for MeiliSearch (baked into Docker image)
+- `public_transport.parquet` - Public transportation station data (baked into Docker image)
+
 ### Environment Variables
 
 | variable                          | module                           |                                         | usage/description                                                                                      |

@@ -1,3 +1,4 @@
+use crate::setup::file_loader;
 use polars::prelude::*;
 use serde::Deserialize;
 use std::io::Write;
@@ -50,11 +51,12 @@ impl DBStation {
 
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    // Download the parquet file
-    let url = "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results/public_transport.parquet";
-    let response = reqwest::get(url).await?.error_for_status()?;
-
-    let parquet_data = response.bytes().await?;
+    // Load from disk (baked into Docker image) or download from GitHub as fallback
+    let parquet_data = file_loader::load_file_or_download(
+        "public_transport.parquet",
+        "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results",
+    )
+    .await?;
 
     // Write to temporary file
     let mut file = tempfile()?;

@@ -1,6 +1,9 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
+# Extract data files from the data image
+FROM    ghcr.io/tum-dev/navigatum-data:main AS data-source
+
 FROM    rust:1.92-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
@@ -50,6 +53,11 @@ RUN     if [ $PROFILE == "release" ]; then \
 # RUN
 FROM alpine:3.23 AS production-stage
 
+# Copy data files from the data image
+# Includes: search_data.json, api_data.json, status_data.parquet, alias_data.parquet, public_transport.parquet
+COPY    --from=data-source /cdn/*.json /app/data/output/
+COPY    --from=data-source /cdn/*.parquet /app/data/output/
+
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # possible values "release"|"debug"
@@ -66,7 +74,7 @@ COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \
      && mkdir -p /home/navigatum \
-     && chown -R navigatum:navigatum /home/navigatum
+     && chown -R navigatum:navigatum /home/navigatum /app
 WORKDIR /home/navigatum
 USER    navigatum
 
