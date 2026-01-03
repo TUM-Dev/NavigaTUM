@@ -15,9 +15,13 @@ This automatically starts Docker containers, runs tests, and generates a report.
 ## Commands
 
 ```bash
-pnpm test           # Run all tests (auto-starts containers)
-pnpm test:ui        # Interactive mode with UI
-pnpm test:report    # View last test report
+pnpm test              # Run all tests (API + UI, auto-starts containers)
+pnpm test:api          # Run API tests only
+pnpm test:ui           # Run UI tests in Chromium
+pnpm test:ui:chromium  # Run UI tests in Chromium (alias)
+pnpm test:ui:headed    # Run UI tests with browser visible
+pnpm test:interactive  # Interactive mode with UI
+pnpm test:report       # View last test report
 ```
 
 ## Test Against Running Containers
@@ -30,25 +34,4 @@ SKIP_WEBSERVER=true pnpm test
 
 ```bash
 SKIP_WEBSERVER=true BASE_URL=https://nav.tum.de pnpm test
-```
-
-## What's Tested
-
-- `/cdn` static file serving (images, maps, sitemaps)
-- Data files (JSON, Parquet)
-- Caching headers (ETag, Last-Modified)
-- CORS configuration
-- Error handling
-
-## Writing Tests
-
-Add `*.api.spec.ts` files in `specs/`:
-
-```typescript
-import { expect, test } from "@playwright/test";
-
-test("should work", async ({ request }) => {
-  const response = await request.get("/api/endpoint");
-  expect(response.status()).toBe(200);
-});
 ```

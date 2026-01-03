@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  e2e-tests:
+  api-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -60,9 +60,7 @@ jobs:
 
       - name: Install Playwright dependencies
         working-directory: tests/e2e
-        run: |
-          pnpm install
-          pnpm exec playwright install --with-deps chromium
+        run: pnpm install
 
       - name: Create .env file for docker-compose
         run: |
@@ -80,9 +78,109 @@ jobs:
           echo "Waiting for services to be healthy..."
           timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
 
-      - name: Run E2E tests
+      - name: Run API tests
         working-directory: tests/e2e
-        run: SKIP_WEBSERVER=true pnpm test:ci
+        run: SKIP_WEBSERVER=true pnpm test:api
+        env:
+          BASE_URL: http://localhost:3003
+
+      - name: Upload test results (JUnit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: tests/e2e/test-results/junit.xml
+          retention-days: 30
+
+      - name: Show Docker logs on failure
+        if: failure()
+        run: |
+          echo "=== Server logs ==="
+          docker compose -f compose.local.yml logs server
+          echo "=== MeiliSearch logs ==="
+          docker compose -f compose.local.yml logs meilisearch
+          echo "=== Database logs ==="
+          docker compose -f compose.local.yml logs db
+
+      - name: Cleanup
+        if: always()
+        run: docker compose -f compose.local.yml down -v
+
+  ui-tests-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium]
+        subsystem: [main, search, navigation, details, calendar-about]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build data image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./data
+          tags: ghcr.io/tum-dev/navigatum-data:test
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build server image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          tags: ghcr.io/tum-dev/navigatum-server:test
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            PROFILE=debug
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: tests/e2e/pnpm-lock.yaml
+
+      - name: Install Playwright dependencies
+        working-directory: tests/e2e
+        run: |
+          pnpm install
+          pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Create .env file for docker-compose
+        run: |
+          cat > .env << EOF
+          POSTGRES_PASSWORD=test_password
+          POSTGRES_USER=postgres
+          POSTGRES_DB=navigatum_test
+          MEILI_MASTER_KEY=test_master_key
+          LOG_LEVEL=info
+          EOF
+
+      - name: Start Docker services
+        run: |
+          docker compose -f compose.local.yml up -d
+          echo "Waiting for services to be healthy..."
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
+
+      - name: Run UI tests (${{ matrix.subsystem }})
+        working-directory: tests/e2e
+        run: SKIP_WEBSERVER=true pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
         env:
           BASE_URL: http://localhost:3003
 
@@ -90,7 +188,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: ui-playwright-report-${{ matrix.browser }}-${{ matrix.subsystem }}
           path: tests/e2e/playwright-report/
           retention-days: 30
 
@@ -98,7 +196,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: ui-test-results-${{ matrix.browser }}-${{ matrix.subsystem }}
           path: tests/e2e/test-results/junit.xml
           retention-days: 30
 
