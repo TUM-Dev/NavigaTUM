@@ -11,6 +11,16 @@ if (route.path === "/en/about/datenschutz") navigateTo("/en/about/privacy");
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection("content").path(route.path).first();
 });
+
+// Extract title from the markdown frontmatter
+const pageTitle = computed(() => {
+  return page.value?.title ? `${page.value.title} - NavigaTUM` : "NavigaTUM";
+});
+
+useSeoMeta({
+  title: pageTitle,
+  ogTitle: pageTitle,
+});
 </script>
 
 <template>
