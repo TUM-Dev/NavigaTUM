@@ -27,6 +27,10 @@ test.describe("Search Page - Results Display", () => {
   test("should display search results as clickable links", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "domcontentloaded" });
 
+    // Wait for search results to load
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(500);
+
     const resultLinks = page.locator('a[href*="/view/"]');
     const count = await resultLinks.count();
     expect(count).toBeGreaterThan(0);
@@ -64,7 +68,16 @@ test.describe("Search Bar - Interactive Search", () => {
   test("should perform search from homepage search bar", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    const searchInput = page.locator('input[type="search"]').first();
+    // Wait for page to fully load
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(500);
+
+    // Search input might be type="text" or type="search"
+    const searchInput = page
+      .locator(
+        'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
+      )
+      .first();
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 
