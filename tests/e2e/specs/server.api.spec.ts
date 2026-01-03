@@ -225,12 +225,11 @@ test.describe("API Endpoints - Feedback Token", () => {
   });
 });
 
-test.describe
-  .skip("API Endpoints - Routing", () => {
-    // Routing service may not be available on all environments
-    test("should calculate pedestrian route between coordinates", async ({ request }) => {
+test.describe("API Endpoints - Routing", () => {
+    // Routing is fairly expensive, so we skip this test by default
+    test.skip("should calculate pedestrian route between coordinates", async ({ request }) => {
       const response = await request.get(
-        "/api/maps/route?from=48.137154,11.576124&to=48.262318,11.668187&route_costing=pedestrian"
+        "https://nav.tum.de/api/maps/route?lang=de&from=chemie-nebengebaeude&to=48.265795,11.669106&route_costing=public_transit"
       );
 
       expect(response.status()).toBe(200);
@@ -240,8 +239,9 @@ test.describe
       expect(data).toHaveProperty("router");
     });
 
-    test("should calculate route between location IDs", async ({ request }) => {
-      const response = await request.get("/api/maps/route?from=mi&to=mw&route_costing=pedestrian");
+    // Routing is fairly expensive, so we skip this test by default
+    test.skip("should calculate route between location IDs", async ({ request }) => {
+      const response = await request.get("/api/maps/route?from=mi&to=chemie&route_costing=public_transit");
 
       expect(response.status()).toBe(200);
       expect(response.headers()["content-type"]).toContain("application/json");
