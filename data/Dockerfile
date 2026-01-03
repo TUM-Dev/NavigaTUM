@@ -18,26 +18,23 @@ COPY translations.yaml translations.yaml
 COPY output output
 
 RUN python3 compile.py \
-    && test -f "./output/status_data.json" \
-    && test -f "./output/status_data.parquet" \
-    && test -f "./output/search_data.json" \
-    && test -f "./output/search_data.parquet" \
-    && test -f "./output/api_data.json" \
-    && test -f "./output/alias_data.parquet"
-RUN cp -r sources/img/* output \
-    && cp -r output/maps/site_plans output/maps/roomfinder \
-    && cp -r output/maps/overlays output/maps/overlay \
-    && cp external/results/public_transport.parquet output/
-# last renaming is to remain backwards compatible
+  && test -f "./output/status_data.json" \
+  && test -f "./output/status_data.parquet" \
+  && test -f "./output/search_data.json" \
+  && test -f "./output/search_data.parquet" \
+  && test -f "./output/api_data.json" \
+  && test -f "./output/alias_data.parquet"
 
-# compress data (only using gzip, because brotli on ngnix is a royal pain)
+RUN cp -r sources/img/* output \
+  && cp -r output/maps/site_plans output/maps/roomfinder \
+  && cp -r output/maps/overlays output/maps/overlay \
+  && cp external/results/public_transport.parquet output/
+
+# Compress data (only using gzip, because brotli is complex)
 RUN gzip --force --keep --recursive output/
 
-FROM nginx:1.29 AS production-stage
-RUN mkdir /cdn
-COPY --from=build-stage /app/output /cdn
-COPY nginx.conf /etc/nginx/nginx.conf
+# Create final output directory structure for extraction
+RUN mkdir -p /cdn && cp -r output/* /cdn/
 
-EXPOSE 3002
-HEALTHCHECK CMD curl --fail http://localhost:3002/cdn/health || exit 1
-CMD ["nginx", "-g", "daemon off;"]
+# This image is meant to be used as a data source in multi-stage builds
+# No runtime server is needed - the server image will copy files from /cdn
