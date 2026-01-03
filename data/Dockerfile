@@ -24,7 +24,8 @@ RUN python3 compile.py \
     && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
     && test -f "./output/alias_data.parquet"
-RUN cp -r sources/img/* output \
+RUN cp external/results/public_transport.parquet output/public_transport.parquet \
+    && cp sources/img/* output \
     && cp -r output/maps/site_plans output/maps/roomfinder \
     && cp -r output/maps/overlays output/maps/overlay
 # last renaming is to remain backwards compatible
