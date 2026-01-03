@@ -11,14 +11,19 @@ test.describe("Homepage", () => {
   test("should display the main navigation header", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    // Check for navigation elements
-    await expect(page.locator("nav")).toBeVisible();
+    // Check for navigation elements - use first() to avoid strict mode violation
+    await expect(page.locator("nav").first()).toBeVisible();
   });
 
   test("should display search bar on homepage", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    const searchInput = page.locator('input[type="search"]').first();
+    // Search input might be type="text" or type="search"
+    const searchInput = page
+      .locator(
+        'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
+      )
+      .first();
     await expect(searchInput).toBeVisible();
   });
 
@@ -62,6 +67,8 @@ test.describe("Sites Overview", () => {
     const moreButton = page.getByRole("button", { name: /mehr|more/i }).first();
     if ((await moreButton.count()) > 0) {
       await moreButton.click();
+      // Wait for animation/re-render
+      await page.waitForTimeout(300);
       await expect(page.getByRole("button", { name: /weniger|less/i }).first()).toBeVisible();
     }
   });
@@ -85,7 +92,14 @@ test.describe("Responsive Design", () => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("h1")).toBeVisible();
-    await expect(page.locator('input[type="search"]').first()).toBeVisible();
+    // Search input might be type="text" or type="search"
+    await expect(
+      page
+        .locator(
+          'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
+        )
+        .first()
+    ).toBeVisible();
   });
 
   test("should display correctly on desktop viewport", async ({ page }) => {

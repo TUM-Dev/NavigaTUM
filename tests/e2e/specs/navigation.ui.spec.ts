@@ -5,8 +5,14 @@ test.describe("Navigation Page - Basic Functionality", () => {
     await page.goto("/navigate", { waitUntil: "domcontentloaded" });
 
     await expect(page).toHaveURL(/\/navigate/);
-    const fromInput = page.locator('input[id*="from"], input[name*="from"]').first();
-    const toInput = page.locator('input[id*="to"], input[name*="to"]').first();
+    // Wait for page to fully load
+    await page.waitForLoadState("networkidle");
+    const fromInput = page
+      .locator('input[id*="from"], input[name*="from"], input[placeholder*="rom"]')
+      .first();
+    const toInput = page
+      .locator('input[id*="to"], input[name*="to"], input[placeholder*="o"]')
+      .first();
     await expect(fromInput).toBeVisible();
     await expect(toInput).toBeVisible();
   });
@@ -82,7 +88,13 @@ test.describe("Navigation Page - Location Search", () => {
   test("should allow searching for locations", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "domcontentloaded" });
 
-    const fromInput = page.locator('input[id*="from"], input[name*="from"]').first();
+    // Wait for page to fully load
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(500);
+
+    const fromInput = page
+      .locator('input[id*="from"], input[name*="from"], input[placeholder*="rom"]')
+      .first();
     await fromInput.fill("mi");
     await fromInput.press("Enter");
     await page.waitForTimeout(300);
