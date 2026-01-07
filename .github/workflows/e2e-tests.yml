@@ -21,6 +21,16 @@ jobs:
       contents: read
 
     steps:
+      - uses: BRAINSia/free-disk-space@f9f59b0ef974ff4b873aa243ce5278ab644eedc6 # v2.1.2
+        with:
+          tool-cache: false
+          mandb:   true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with: { persist-credentials: false }
@@ -128,6 +138,16 @@ jobs:
         subsystem: [main, search, navigation, details, calendar-about]
 
     steps:
+      - uses: BRAINSia/free-disk-space@f9f59b0ef974ff4b873aa243ce5278ab644eedc6 # v2.1.2
+        with:
+          tool-cache: false
+          mandb:   true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with: { persist-credentials: false }
