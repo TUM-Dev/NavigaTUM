@@ -31,6 +31,14 @@ const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
+// Check if we need to redirect before showing error - use 301 for canonical URLs
+if (data.value?.redirect_url) {
+  const redirectPath = localePath(data.value.redirect_url as string);
+  if (route.path !== redirectPath) {
+    await navigateTo({ path: redirectPath, query: route.query }, { redirectCode: 301 });
+  }
+}
+
 // Use showError() to trigger error.vue rendering with proper 404 status
 if (error.value) {
   showError({
@@ -79,13 +87,6 @@ watchEffect(async () => {
   }
 });
 
-watch([data, route], async () => {
-  if (!data.value) return;
-  const redirectPath = localePath(data.value.redirect_url as string);
-  if (route.path !== redirectPath) {
-    await navigateTo({ path: redirectPath, query: route.query, replace: true });
-  }
-});
 watch([data], () => {
   if (!data.value) return;
   // --- Additional data ---
