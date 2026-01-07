@@ -26,20 +26,20 @@ jobs:
       - name: Setup | Pull Docker images
         run: docker compose pull
       - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build
+        run: docker compose -f compose.local.yml build server data
 
-      - name: Setup | Set up Node.js
+      - name: Setup | Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
-      - name: Setup | Set up pnpm
+      - name: Setup | pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
           version: 10.14.0
 
-      - name: Install Playwright dependencies
+      - name: Setup | Playwright dependencies
         working-directory: tests
         run: pnpm install
 
@@ -53,16 +53,47 @@ jobs:
           LOG_LEVEL=info
           EOF
 
-      - name: Start Docker services
+      - name: Wait for server to become ready
         run: |
+          set -euo pipefail
+      
+          echo "::group::Starting services…"
           docker compose -f compose.local.yml up -d
-          echo "Waiting for services to be healthy..."
-          timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
+      
+          echo "Current container status:"
+          docker compose -f compose.local.yml ps
+      
+          echo "Waiting for API to become healthy (max 120s)…"
+      
+          if ! timeout 120 bash -c '
+            until curl -fs http://localhost:3003/api/status >/dev/null; do
+              echo "Still waiting for API…"
+              sleep 2
+            done
+          '; then
+            echo "::endgroup::"
+            echo "::error::Timed out waiting for API to become healthy"
+            
+            echo "::group::Container status:"
+            docker compose -f compose.local.yml ps
+            echo "::endgroup::"
+        
+            echo "::group::Recent container logs:"
+            docker compose -f compose.local.yml logs --tail=100
+            echo "::endgroup::"
+        
+            exit 1
+          fi
+      
+          echo "::group::API is responding"
+          curl -v -f http://localhost:3003/api/status
+          echo "::endgroup::"
 
       - name: Run API tests
         working-directory: tests
-        run: SKIP_WEBSERVER=true pnpm test:api
+        run: pnpm test:api
         env:
+          SKIP_WEBSERVER: true
           BASE_URL: http://localhost:3003
 
       - name: Upload test results (JUnit)
@@ -137,12 +168,13 @@ jobs:
           docker compose -f compose.local.yml up -d
           echo "Waiting for services to be healthy..."
           timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3000/; do sleep 2; done'
 
       - name: Run UI tests (${{ matrix.subsystem }})
         working-directory: tests
         run: pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
         env:
-          BASE_URL: http://localhost:3003
+          BASE_URL: http://localhost:3000
           SKIP_WEBSERVER: true
 
       - name: Upload test results
