@@ -4,20 +4,17 @@ test.describe("Details Page - Basic Functionality", () => {
   test("should load location details page with name", async ({ page }) => {
     await page.goto("/view/mi", { waitUntil: "domcontentloaded" });
 
-    await expect(page).toHaveURL(/\/view\/mi/);
+    await expect(page).toHaveURL("building/mi");
     const heading = page.locator("h1, h2").first();
     await expect(heading).toBeVisible();
+    await expect(heading).toContainText("MI");
   });
 
-  test.skip("should redirect to 404 for non-existent location", async ({ page }) => {
-    await page.goto("/view/nonexistent_location_12345", { waitUntil: "domcontentloaded" });
-
-    // Wait for potential redirect
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
-
-    const url = page.url();
-    expect(url.includes("404") || url.includes("not-found")).toBeTruthy();
+  test("should return an 404 for non-existent location", async ({ page }) => {
+    await page.goto("/building/nonexistent_location_12345", { waitUntil: "domcontentloaded" });
+    // no weird redirect
+    expect(page.url()).toContain("building/nonexistent_location_12345");
+    expect(page.getByRole("heading", { name: "Die angeforderte Seite wurde" })).toBeVisible();
   });
 });
 
@@ -65,14 +62,14 @@ test.describe("Details Page - Navigation Actions", () => {
   test("should have navigation button and navigate", async ({ page }) => {
     await page.goto("/view/mi", { waitUntil: "domcontentloaded" });
 
-    const navButton = page.locator('a[href*="/navigate"]').first();
-    if ((await navButton.count()) > 0) {
-      // Scroll element into view before clicking
-      await navButton.scrollIntoViewIfNeeded();
-      await navButton.click({ force: true });
-      await expect(page).toHaveURL(/\/navigate/);
-      expect(page.url()).toMatch(/to=|from=/);
-    }
+    const navButton = page.getByRole("link", { name: "BETA Navigation starten" }).first();
+    expect(navButton).toBeVisible();
+    expect(await navButton.count()).toBe(1);
+    // Scroll element into view before clicking
+    await navButton.scrollIntoViewIfNeeded();
+    await navButton.click({ force: true });
+    await expect(page).toHaveURL(/\/navigate/);
+    expect(page.url()).toMatch(/to=|from=/);
   });
 });
 
