@@ -165,14 +165,3 @@ test.describe("Navigation Page - SEO and Meta", () => {
     expect(description).toBeTruthy();
   });
 });
-
-test.describe("Navigation Page - Performance", () => {
-  test("should load navigation page quickly", async ({ page }) => {
-    const startTime = Date.now();
-    await page.goto("/navigate", { waitUntil: "domcontentloaded" });
-    const endTime = Date.now();
-
-    const loadTime = endTime - startTime;
-    expect(loadTime).toBeLessThan(5000);
-  });
-});

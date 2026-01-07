@@ -23,20 +23,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Build Docker images
+      - name: Setup | Pull Docker images
+        run: docker compose pull
+      - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-        with:
-          version: 10.14.0
-
-      - name: Set up Node.js
+      - name: Setup | Set up Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
+      - name: Setup | Set up pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
 
       - name: Install Playwright dependencies
         working-directory: tests
@@ -96,29 +97,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with: { persist-credentials: false }
 
-      - name: Build Docker images
+      - name: Setup | Pull Docker images
+        run: docker compose pull
+      - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-        with:
-          version: 10.14.0
-
-      - name: Set up Node.js
+      - name: Setup | Set up Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
+      - name: Setup | Set up pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
 
-      - name: Install Playwright dependencies
+      - name: Setup | Install Playwright dependencies
         working-directory: tests
-        run: |
-          pnpm install
-          pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: pnpm install
+      - name: Install Browser
+        working-directory: tests
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Create .env file for docker-compose
+      - name: Setup | Create .env file for docker-compose
         run: |
           cat > .env << EOF
           POSTGRES_PASSWORD=test_password
@@ -128,7 +132,7 @@ jobs:
           LOG_LEVEL=info
           EOF
 
-      - name: Start Docker services
+      - name: Setup | Start Docker services
         run: |
           docker compose -f compose.local.yml up -d
           echo "Waiting for services to be healthy..."
