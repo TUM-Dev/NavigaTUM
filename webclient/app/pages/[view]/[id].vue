@@ -23,29 +23,29 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
-const { data, error } = useFetch<LocationDetailsResponse, string>(url, {
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
+const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,
   retryDelay: 1000,
 });
 
+// Use showError() to trigger error.vue rendering with proper 404 status
+if (error.value) {
+  showError({
+    statusCode: 404,
+    statusMessage: "Location not found",
+  });
+}
+
 const editProposal = useEditProposal();
 
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!data.value) return;
@@ -78,16 +78,7 @@ watchEffect(async () => {
     await navigateTo({ path: localePath("/"), replace: true });
   }
 });
-watchEffect(async () => {
-  if (error.value) {
-    await navigateTo({
-      path: "/404",
-      query: { ...route.query, path: route.path },
-      hash: route.hash,
-      replace: true,
-    });
-  }
-});
+
 watch([data, route], async () => {
   if (!data.value) return;
   const redirectPath = localePath(data.value.redirect_url as string);
@@ -224,7 +215,7 @@ useSeoMeta({
             :msg="t('no_floor_overlay')"
             id="details-no_floor_overlay"
           />
-          <Toast v-if="data.props.comment" :msg="data.props.comment"  id="details-comment" />
+          <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment" />
         </div>
         <ClientOnly>
           <DetailsInteractiveMap
