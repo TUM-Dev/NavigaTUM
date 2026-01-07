@@ -23,38 +23,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
-
-      - name: Build data image
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          context: ./data
-          tags: ghcr.io/tum-dev/navigatum-data:test
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build server image
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          context: ./server
-          tags: ghcr.io/tum-dev/navigatum-server:test
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: |
-            PROFILE=debug
+      - name: Build Docker images
+        run: docker compose -f compose.local.yml build
 
       - name: Set up pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
-          version: 10
+          version: 10.14.0
 
       - name: Set up Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/e2e/pnpm-lock.yaml
 
@@ -92,19 +72,15 @@ jobs:
           path: tests/e2e/test-results/junit.xml
           retention-days: 30
 
-      - name: Show Docker logs on failure
+      - name: Server logs on failure
         if: failure()
-        run: |
-          echo "=== Server logs ==="
-          docker compose -f compose.local.yml logs server
-          echo "=== MeiliSearch logs ==="
-          docker compose -f compose.local.yml logs meilisearch
-          echo "=== Database logs ==="
-          docker compose -f compose.local.yml logs db
-
-      - name: Cleanup
-        if: always()
-        run: docker compose -f compose.local.yml down -v
+        run: docker compose -f compose.local.yml logs server
+      - name: MeiliSearch logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs meilisearch
+      - name: Database logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs db
 
   ui-tests-desktop:
     runs-on: ubuntu-latest
@@ -121,38 +97,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
-
-      - name: Build data image
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          context: ./data
-          tags: ghcr.io/tum-dev/navigatum-data:test
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build server image
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
-        with:
-          context: ./server
-          tags: ghcr.io/tum-dev/navigatum-server:test
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: |
-            PROFILE=debug
+      - name: Build Docker images
+        run: docker compose -f compose.local.yml build
 
       - name: Set up pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
-          version: 10
+          version: 10.14.0
 
       - name: Set up Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/e2e/pnpm-lock.yaml
 
@@ -180,9 +136,10 @@ jobs:
 
       - name: Run UI tests (${{ matrix.subsystem }})
         working-directory: tests/e2e
-        run: SKIP_WEBSERVER=true pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
+        run: pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
         env:
           BASE_URL: http://localhost:3003
+          SKIP_WEBSERVER: true
 
       - name: Upload test results
         if: always()
@@ -200,16 +157,12 @@ jobs:
           path: tests/e2e/test-results/junit.xml
           retention-days: 30
 
-      - name: Show Docker logs on failure
+      - name: Server logs on failure
         if: failure()
-        run: |
-          echo "=== Server logs ==="
-          docker compose -f compose.local.yml logs server
-          echo "=== MeiliSearch logs ==="
-          docker compose -f compose.local.yml logs meilisearch
-          echo "=== Database logs ==="
-          docker compose -f compose.local.yml logs db
-
-      - name: Cleanup
-        if: always()
-        run: docker compose -f compose.local.yml down -v
+        run: docker compose -f compose.local.yml logs server
+      - name: MeiliSearch logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs meilisearch
+      - name: Database logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs db
