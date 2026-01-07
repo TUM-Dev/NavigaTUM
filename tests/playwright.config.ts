@@ -39,7 +39,6 @@ export default defineConfig({
       name: "api-tests",
       testMatch: /.*\.api\.spec\.ts/,
       use: {
-        ...devices["Desktop Chrome"],
         // API tests don't need a browser context
       },
     },
