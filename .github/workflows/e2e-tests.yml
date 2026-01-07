@@ -62,7 +62,7 @@ jobs:
           POSTGRES_USER=postgres
           POSTGRES_DB=navigatum_test
           MEILI_MASTER_KEY=test_master_key
-          LOG_LEVEL=info
+          LOG_LEVEL=debug
           EOF
 
       - name: Wait for server to become ready
@@ -182,7 +182,7 @@ jobs:
           POSTGRES_USER=postgres
           POSTGRES_DB=navigatum_test
           MEILI_MASTER_KEY=test_master_key
-          LOG_LEVEL=info
+          LOG_LEVEL=debug
           EOF
 
       - name: Setup | Start Docker services
