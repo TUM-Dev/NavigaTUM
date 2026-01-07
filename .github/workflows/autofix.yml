@@ -34,8 +34,7 @@ jobs:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          ref: ${{ github.head_ref }} # otherwise commit-backs to the branch don't work
+        with: {persist-credentials: false}
 
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2.8.2
@@ -114,6 +113,6 @@ jobs:
         working-directory: webclient
         
       - run: git pull --rebase
-      - uses: autofix-ci/action
+      - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
-          commit-message: "Update OpenAPI spec and types"
+          commit-message: "chore: Update OpenAPI spec and types"
