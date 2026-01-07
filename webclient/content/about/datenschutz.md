@@ -1,3 +1,7 @@
+---
+title: Datenschutzerklärung
+---
+
 # Datenschutzerklärung
 
 ## A. Allgemeine Informationen

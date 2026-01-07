@@ -1,3 +1,7 @@
+---
+title: Impressum
+---
+
 # Impressum
 
 ## Herausgeber
