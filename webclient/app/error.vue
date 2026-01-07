@@ -11,7 +11,7 @@ const route = useRoute();
 const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });
 
-const currentPath = computed(() => error?.url || route.fullPath);
+const currentPath = computed(() => props.error?.url || route.fullPath);
 
 useSeoMeta({
   robots: "noindex, nofollow",
