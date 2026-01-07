@@ -242,7 +242,6 @@ test.describe("About Pages - SEO", () => {
 
     // Wait for page to fully load and title to be set
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
 
     const title = await page.title();
     expect(title.length).toBeGreaterThan(0);

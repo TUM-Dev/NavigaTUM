@@ -63,7 +63,6 @@ test.describe("Sites Overview", () => {
     if ((await moreButton.count()) > 0) {
       await moreButton.click();
       // Wait for animation/re-render
-      await page.waitForTimeout(300);
       await expect(page.getByRole("button", { name: /weniger|less/i }).first()).toBeVisible();
     }
   });

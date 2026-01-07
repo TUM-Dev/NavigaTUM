@@ -23,7 +23,6 @@ test.describe("Navigation Page - Basic Functionality", () => {
 test.describe("Navigation Page - Route Calculation", () => {
   test("should calculate route between two locations", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1000);
     await expect(page.locator("body")).toBeVisible();
   });
 
@@ -31,7 +30,6 @@ test.describe("Navigation Page - Route Calculation", () => {
     await page.goto("/navigate?from=invalid_location_123&to=invalid_location_456", {
       waitUntil: "domcontentloaded",
     });
-    await page.waitForTimeout(1000);
     await expect(page.locator("body")).toBeVisible();
   });
 });
@@ -49,7 +47,6 @@ test.describe("Navigation Page - Transportation Modes", () => {
 test.describe("Navigation Page - Map Display", () => {
   test("should display interactive map with route", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1000);
 
     const mapCanvas = page.locator("canvas").first();
     if ((await mapCanvas.count()) > 0) {
@@ -61,7 +58,6 @@ test.describe("Navigation Page - Map Display", () => {
 test.describe("Navigation Page - Turn-by-Turn Directions", () => {
   test("should display step-by-step directions with distances", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1000);
 
     const instructions = page.locator('[role="list"], ol, ul').first();
     if ((await instructions.count()) > 0) {
@@ -75,7 +71,6 @@ test.describe("Navigation Page - Public Transit", () => {
     await page.goto("/navigate?from=mi&to=garching&mode=public_transit", {
       waitUntil: "domcontentloaded",
     });
-    await page.waitForTimeout(1500);
     await expect(page.locator("body")).toBeVisible();
   });
 });
@@ -86,12 +81,10 @@ test.describe("Navigation Page - Location Search", () => {
 
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
 
     const fromInput = page.getByPlaceholder("Von").first();
     await fromInput.fill("mi");
     await fromInput.press("Enter");
-    await page.waitForTimeout(300);
 
     const url = page.url();
     expect(url.includes("from=") || url.includes("mi")).toBeTruthy();
@@ -143,7 +136,6 @@ test.describe("Navigation Page - Responsive Design", () => {
 test.describe("Navigation Page - Error Handling", () => {
   test("should handle invalid location IDs gracefully", async ({ page }) => {
     await page.goto("/navigate?from=invalid123&to=invalid456", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1000);
     await expect(page.locator("body")).toBeVisible();
   });
 });

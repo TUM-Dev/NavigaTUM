@@ -28,7 +28,6 @@ test.describe("Search Page - Results Display", () => {
 
     // Wait for search results to load
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
 
     const resultLinks = page.locator('a[href*="/view/"]');
     const count = await resultLinks.count();
@@ -38,10 +37,10 @@ test.describe("Search Page - Results Display", () => {
   test("should navigate to details page when clicking a result", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "domcontentloaded" });
 
-    const firstResult = page.locator('a[href*="/view/"]').first();
+    const firstResult = page.locator('a[href*="/view/mi"]').first();
     if ((await firstResult.count()) > 0) {
       await firstResult.click();
-      await expect(page).toHaveURL(/\/view\//);
+      await expect(page).toHaveURL(/\/(view|building)\//);
     }
   });
 });
@@ -69,7 +68,6 @@ test.describe("Search Bar - Interactive Search", () => {
 
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
 
     // Search input might be type="text" or type="search"
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();

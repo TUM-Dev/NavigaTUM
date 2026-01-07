@@ -21,7 +21,6 @@ test.describe("Details Page - Basic Functionality", () => {
 test.describe("Details Page - Interactive Map", () => {
   test("should display interactive map with controls", async ({ page }) => {
     await page.goto("/view/mi", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(500);
 
     const mapCanvas = page.locator('canvas, [class*="maplibre"]').first();
     if ((await mapCanvas.count()) > 0) {
