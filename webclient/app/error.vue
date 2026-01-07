@@ -76,7 +76,7 @@ de:
 en:
   description: This could be because we made a mistake.
   got_here: "I have found the error by:\r\n1. ..."
-  header: The requested website could not to be found.
+  header: The requested website could not be found.
   img_alt: illustration of a female and male person sitting on large '404'-letters in front of the tum main building
   go_home: Go home
   call_to_action: Give Feedback
