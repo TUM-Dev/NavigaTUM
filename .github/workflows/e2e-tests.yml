@@ -36,10 +36,10 @@ jobs:
         with:
           node-version: 24
           cache: 'pnpm'
-          cache-dependency-path: tests/e2e/pnpm-lock.yaml
+          cache-dependency-path: tests/pnpm-lock.yaml
 
       - name: Install Playwright dependencies
-        working-directory: tests/e2e
+        working-directory: tests
         run: pnpm install
 
       - name: Create .env file for docker-compose
@@ -59,7 +59,7 @@ jobs:
           timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
 
       - name: Run API tests
-        working-directory: tests/e2e
+        working-directory: tests
         run: SKIP_WEBSERVER=true pnpm test:api
         env:
           BASE_URL: http://localhost:3003
@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: api-test-results
-          path: tests/e2e/test-results/junit.xml
+          path: tests/test-results/junit.xml
           retention-days: 30
 
       - name: Server logs on failure
@@ -110,10 +110,10 @@ jobs:
         with:
           node-version: 24
           cache: 'pnpm'
-          cache-dependency-path: tests/e2e/pnpm-lock.yaml
+          cache-dependency-path: tests/pnpm-lock.yaml
 
       - name: Install Playwright dependencies
-        working-directory: tests/e2e
+        working-directory: tests
         run: |
           pnpm install
           pnpm exec playwright install --with-deps ${{ matrix.browser }}
@@ -135,7 +135,7 @@ jobs:
           timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
 
       - name: Run UI tests (${{ matrix.subsystem }})
-        working-directory: tests/e2e
+        working-directory: tests
         run: pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
         env:
           BASE_URL: http://localhost:3003
@@ -146,7 +146,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ui-playwright-report-${{ matrix.browser }}-${{ matrix.subsystem }}
-          path: tests/e2e/playwright-report/
+          path: tests/playwright-report/
           retention-days: 30
 
       - name: Upload test results (JUnit)
@@ -154,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ui-test-results-${{ matrix.browser }}-${{ matrix.subsystem }}
-          path: tests/e2e/test-results/junit.xml
+          path: tests/test-results/junit.xml
           retention-days: 30
 
       - name: Server logs on failure
