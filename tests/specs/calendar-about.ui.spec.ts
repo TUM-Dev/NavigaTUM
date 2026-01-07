@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Calendar Page - Basic Functionality", () => {
   test("should load calendar page and display events", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
     await expect(page).toHaveURL(/\/calendar\/5602\.EG\.001/);
 
@@ -17,14 +17,14 @@ test.describe("Calendar Page - Basic Functionality", () => {
   });
 
   test("should handle calendar for non-existent room", async ({ page }) => {
-    await page.goto("/calendar/nonexistent_room_12345", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/nonexistent_room_12345", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
   });
 });
 
 test.describe("Calendar Page - Events Display", () => {
   test("should display calendar events with times", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
     // Look for event elements
     const events = page.locator('[class*="event"], [class*="booking"], [role="listitem"]');
@@ -40,14 +40,14 @@ test.describe("Calendar Page - Events Display", () => {
   });
 
   test("should show empty state when no events", async ({ page }) => {
-    await page.goto("/calendar/mi", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/mi", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
   });
 });
 
 test.describe("Calendar Page - Date Navigation", () => {
   test("should display date controls", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
     // Look for date navigation controls
     const dateNav = page.locator(
@@ -67,7 +67,7 @@ test.describe("Calendar Page - Date Navigation", () => {
 
 test.describe("Calendar Page - Actions", () => {
   test("should have back to room details link", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
     const backLink = page.locator('a[href*="/view/5602"]').first();
     if ((await backLink.count()) > 0) {
@@ -79,33 +79,33 @@ test.describe("Calendar Page - Actions", () => {
 test.describe("Calendar Page - Responsive Design", () => {
   test("should display correctly on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
   });
 
   test("should display correctly on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
   });
 });
 
 test.describe("About Pages - Basic Functionality", () => {
   test("should load about us pages in both languages", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/about\/ueber-uns/);
 
-    await page.goto("/en/about/about-us", { waitUntil: "domcontentloaded" });
+    await page.goto("/en/about/about-us", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/en\/about\/about-us/);
   });
 
   test("should redirect old about paths correctly", async ({ page }) => {
-    await page.goto("/about/about-us", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/about-us", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/about\/ueber-uns/);
   });
 
   test("should display page content", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const content = page.locator("#contentwrapper, main, article").first();
     await expect(content).toBeVisible();
@@ -114,15 +114,15 @@ test.describe("About Pages - Basic Functionality", () => {
 
 test.describe("About Pages - Imprint/Impressum", () => {
   test("should load imprint pages in both languages", async ({ page }) => {
-    await page.goto("/about/impressum", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/impressum", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/about\/impressum/);
 
-    await page.goto("/en/about/imprint", { waitUntil: "domcontentloaded" });
+    await page.goto("/en/about/imprint", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/en\/about\/imprint/);
   });
 
   test("should display imprint content with contact", async ({ page }) => {
-    await page.goto("/about/impressum", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/impressum", { waitUntil: "networkidle" });
 
     const heading = page.locator("h1, h2").first();
     await expect(heading).toBeVisible();
@@ -137,15 +137,15 @@ test.describe("About Pages - Imprint/Impressum", () => {
 
 test.describe("About Pages - Privacy/Datenschutz", () => {
   test("should load privacy pages in both languages", async ({ page }) => {
-    await page.goto("/about/datenschutz", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/datenschutz", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/about\/datenschutz/);
 
-    await page.goto("/en/about/privacy", { waitUntil: "domcontentloaded" });
+    await page.goto("/en/about/privacy", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/en\/about\/privacy/);
   });
 
   test("should display privacy policy content", async ({ page }) => {
-    await page.goto("/about/datenschutz", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/datenschutz", { waitUntil: "networkidle" });
 
     const heading = page.locator("h1, h2").first();
     await expect(heading).toBeVisible();
@@ -160,7 +160,7 @@ test.describe("About Pages - Privacy/Datenschutz", () => {
 
 test.describe("About Pages - Content Rendering", () => {
   test("should render content properly", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const h1 = await page.locator("h1").count();
     expect(h1).toBeGreaterThan(0);
@@ -170,7 +170,7 @@ test.describe("About Pages - Content Rendering", () => {
   });
 
   test("should style content appropriately", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const contentWrapper = page.locator("#contentwrapper").first();
     if ((await contentWrapper.count()) > 0) {
@@ -181,7 +181,7 @@ test.describe("About Pages - Content Rendering", () => {
 
 test.describe("About Pages - Navigation", () => {
   test("should navigate between about pages", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const impressumLink = page.locator('a[href*="/about/impressum"]').first();
     if ((await impressumLink.count()) > 0) {
@@ -191,7 +191,7 @@ test.describe("About Pages - Navigation", () => {
   });
 
   test("should maintain language when navigating", async ({ page }) => {
-    await page.goto("/en/about/about-us", { waitUntil: "domcontentloaded" });
+    await page.goto("/en/about/about-us", { waitUntil: "networkidle" });
 
     const imprintLink = page.locator('a[href*="/en/about/imprint"]').first();
     if ((await imprintLink.count()) > 0) {
@@ -203,14 +203,14 @@ test.describe("About Pages - Navigation", () => {
 
 test.describe("About Pages - Accessibility", () => {
   test("should have proper heading hierarchy", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const h1Count = await page.locator("h1").count();
     expect(h1Count).toBeGreaterThanOrEqual(1);
   });
 
   test("should be keyboard navigable", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     await page.keyboard.press("Tab");
     const focusedElement = await page.evaluateHandle(() => document.activeElement);
@@ -221,7 +221,7 @@ test.describe("About Pages - Accessibility", () => {
 test.describe("About Pages - Responsive Design", () => {
   test("should display correctly on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const content = page.locator("h1, h2, p").first();
     await expect(content).toBeVisible();
@@ -229,7 +229,7 @@ test.describe("About Pages - Responsive Design", () => {
 
   test("should display correctly on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     const content = page.locator("h1, h2, p").first();
     await expect(content).toBeVisible();
@@ -238,7 +238,7 @@ test.describe("About Pages - Responsive Design", () => {
 
 test.describe("About Pages - SEO", () => {
   test("should have proper page title", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "domcontentloaded" });
+    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
     // Wait for page to fully load and title to be set
     await page.waitForLoadState("networkidle");
