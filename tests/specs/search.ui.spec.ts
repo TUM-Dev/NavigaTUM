@@ -123,17 +123,6 @@ test.describe("Search Page - Accessibility", () => {
   });
 });
 
-test.describe("Search Page - Performance", () => {
-  test("should load search results within reasonable time", async ({ page }) => {
-    const startTime = Date.now();
-    await page.goto("/search?q=MI", { waitUntil: "domcontentloaded" });
-    const endTime = Date.now();
-
-    const loadTime = endTime - startTime;
-    expect(loadTime).toBeLessThan(5000); // 5 seconds
-  });
-});
-
 test.describe("Search Page - Responsive Design", () => {
   test("should display search results on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });

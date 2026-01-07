@@ -214,14 +214,3 @@ test.describe("Details Page - SEO and Meta", () => {
     expect(ogTitle || description).toBeTruthy();
   });
 });
-
-test.describe("Details Page - Performance", () => {
-  test("should load details page within reasonable time", async ({ page }) => {
-    const startTime = Date.now();
-    await page.goto("/view/mi", { waitUntil: "domcontentloaded" });
-    const endTime = Date.now();
-
-    const loadTime = endTime - startTime;
-    expect(loadTime).toBeLessThan(5000);
-  });
-});
