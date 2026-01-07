@@ -50,10 +50,11 @@ impl DBStation {
 
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    // Download the parquet file
-    let url = "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results/public_transport.parquet";
-    let response = reqwest::get(url).await?.error_for_status()?;
+    // Download the parquet file from CDN
+    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let url = format!("{cdn_url}/public_transport.parquet");
 
+    let response = reqwest::get(&url).await?.error_for_status()?;
     let parquet_data = response.bytes().await?;
 
     // Write to temporary file
