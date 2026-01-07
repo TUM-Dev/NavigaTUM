@@ -56,7 +56,7 @@ export default defineConfig({
   webServer: process.env.SKIP_WEBSERVER
     ? undefined
     : {
-        command: "docker compose -f ../../compose.local.yml up",
+        command: "docker compose -f ../compose.local.yml up",
         url: "http://localhost:3003/api/status",
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000, // 2 minutes to start all containers

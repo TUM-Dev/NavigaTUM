@@ -15,9 +15,9 @@
     "test:interactive": "playwright test --ui",
     "test:report": "playwright show-report",
     "test:ci": "playwright test --reporter=html,junit",
-    "docker:up": "docker compose -f ../../compose.local.yml up -d",
-    "docker:down": "docker compose -f ../../compose.local.yml down",
-    "docker:logs": "docker compose -f ../../compose.local.yml logs -f"
+    "docker:up": "docker compose -f ../compose.local.yml up -d",
+    "docker:down": "docker compose -f ../compose.local.yml down",
+    "docker:logs": "docker compose -f ../compose.local.yml logs -f"
   },
   "keywords": [
     "e2e",
