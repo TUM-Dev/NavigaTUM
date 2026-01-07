@@ -77,8 +77,9 @@ jobs:
       
           echo "Waiting for API to become healthy (max 120s)…"
       
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
           if ! timeout 120 bash -c '
-            until curl -fs http://localhost:3003/api/status >/dev/null; do
+            until curl -fs http://localhost:3003/api/locations/mi >/dev/null; do
               echo "Still waiting for API…"
               sleep 2
             done
@@ -189,7 +190,8 @@ jobs:
         run: |
           docker compose -f compose.local.yml up -d
           echo "Waiting for services to be healthy..."
-          timeout 120 bash -c 'until curl -f http://localhost:3003/api/status; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/locations/mi; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
           timeout 120 bash -c 'until curl -f http://localhost:3000/; do sleep 2; done'
 
       - name: Run UI tests (${{ matrix.subsystem }})
