@@ -12,6 +12,11 @@ const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });
 
 const currentPath = computed(() => error?.url || route.fullPath);
+
+useSeoMeta({
+  robots: "noindex, nofollow",
+  title: is404.value ? "404 - Page Not Found" : `${props.error?.statusCode || "Error"} - NavigaTUM`,
+});
 </script>
 
 <template>

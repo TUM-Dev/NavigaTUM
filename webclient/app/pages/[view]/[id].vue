@@ -113,6 +113,10 @@ const description = computed(() => {
   return description;
 });
 const title = computed(() => data.value?.name || `${route.params.id} - Navigatum`);
+const canonicalUrl = computed(() => {
+  if (!data.value?.redirect_url) return `https://nav.tum.de${route.fullPath}`;
+  return `https://nav.tum.de${data.value.redirect_url}`;
+});
 useSeoMeta({
   title: title,
   ogTitle: title,
@@ -120,6 +124,14 @@ useSeoMeta({
   ogDescription: description,
   ogImage: `https://nav.tum.de/api/locations/${route.params.id}/preview`,
   twitterCard: "summary_large_image",
+});
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: canonicalUrl,
+    },
+  ],
 });
 </script>
 
