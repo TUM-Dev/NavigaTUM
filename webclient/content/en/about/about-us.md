@@ -1,3 +1,7 @@
+---
+title: About NavigaTUM
+---
+
 # About NavigaTUM
 
 NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de).

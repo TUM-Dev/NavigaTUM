@@ -178,7 +178,7 @@ de:
     others: Sonstige
 en:
   less: less
-  less_aria: show more buildings
+  less_aria: show less buildings
   more: more
   more_aria: show more buildings
   overview_map: Overview Map

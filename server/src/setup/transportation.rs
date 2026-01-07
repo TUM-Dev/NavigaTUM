@@ -51,7 +51,9 @@ impl DBStation {
 
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    // Load from disk (baked into Docker image) or download from GitHub as fallback
+    // Load from disk (baked into Docker image) or download from our data backend as fallback
+    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let url = format!("{cdn_url}/public_transport.parquet");
     let parquet_data = file_loader::load_file_or_download(
         "public_transport.parquet",
         "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results",
