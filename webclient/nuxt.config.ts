@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-07-21",
+  compatibilityDate: "2026-01-01",
   runtimeConfig: {
     public: {
       apiURL: "https://nav.tum.de",
@@ -26,7 +26,7 @@ export default defineNuxtConfig({
           rel: "search",
           title: "searchTitle",
           type: "application/opensearchdescription+xml",
-          href: "/opensearchdescription.xml",
+          href: "/.well-known/opensearchdescription.xml",
         },
         {
           rel: "apple-touch-icon",
@@ -153,8 +153,6 @@ export default defineNuxtConfig({
     "/": { prerender: true },
     "/about/**": { prerender: true },
     "/en/about/**": { prerender: true },
-    "/en/api": { prerender: true },
-    "/api": { prerender: true },
     "/view/**": { swr: 3600 },
     "/campus/**": { swr: 3600 },
     "/site/**": { swr: 3600 },
@@ -167,8 +165,8 @@ export default defineNuxtConfig({
     "/en/building/**": { swr: 3600 },
     "/en/room/**": { swr: 3600 },
     "/en/poi/**": { swr: 3600 },
-    "/next": { ssr: false },
-    "/en/next": { ssr: false },
+    "/navigate": { swr: 3600 },
+    "/en/navigate": { swr: 3600 },
   },
   typescript: {
     typeCheck: false, // we already typecheck in CI => no need to
