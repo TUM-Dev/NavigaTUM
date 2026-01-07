@@ -73,11 +73,7 @@ test.describe("Search Bar - Interactive Search", () => {
     await page.waitForTimeout(500);
 
     // Search input might be type="text" or type="search"
-    const searchInput = page
-      .locator(
-        'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
-      )
-      .first();
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 

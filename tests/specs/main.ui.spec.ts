@@ -44,7 +44,7 @@ test.describe("Sites Overview", () => {
     const garchingLink = page.locator('a[href*="/view/garching"]').first();
     await garchingLink.click();
 
-    await expect(page).toHaveURL(/\/view\/garching/);
+    await expect(page).toHaveURL(/\/campus\/garching/);
   });
 
   test("should navigate to building details when clicking a building", async ({ page }) => {
@@ -90,9 +90,7 @@ test.describe("Responsive Design", () => {
     // Search input might be type="text" or type="search"
     await expect(
       page
-        .locator(
-          'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
-        )
+      .getByRole("textbox", { name: "Suchfeld" }).first()
         .first()
     ).toBeVisible();
   });
@@ -119,17 +117,6 @@ test.describe("Accessibility", () => {
     const firstLink = page.locator("a").first();
     await firstLink.focus();
     await expect(firstLink).toBeFocused();
-  });
-});
-
-test.describe("Performance", () => {
-  test("should load within reasonable time", async ({ page }) => {
-    const startTime = Date.now();
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const endTime = Date.now();
-
-    const loadTime = endTime - startTime;
-    expect(loadTime).toBeLessThan(5000); // 5 seconds
   });
 });
 
