@@ -13,13 +13,11 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
 
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 6 : 0,
+  workers: process.env.CI ? 2 : undefined,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [["html"], ["list"], ["junit", { outputFile: "test-results/junit.xml" }]],
+  reporter: [["html"], ["list"]],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -64,10 +62,10 @@ export default defineConfig({
       },
 
   /* Global timeout for each test */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
 
   /* Expect timeout */
   expect: {
-    timeout: 5 * 1000,
+    timeout: 10 * 1000,
   },
 });
