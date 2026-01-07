@@ -59,7 +59,7 @@ jobs:
         with:
           provenance: mode=max
           sbom: true
-          context: ${{ inputs.context }}
+          context: ${{ inputs.context }} # zizmor: ignore[template-injection]
           push: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
           file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
           tags: ${{ steps.meta.outputs.tags }}
