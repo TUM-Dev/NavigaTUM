@@ -229,7 +229,7 @@ test.describe("API Endpoints - Routing", () => {
     // Routing is fairly expensive, so we skip this test by default
     test.skip("should calculate pedestrian route between coordinates", async ({ request }) => {
       const response = await request.get(
-        "https://nav.tum.de/api/maps/route?lang=de&from=chemie-nebengebaeude&to=48.265795,11.669106&route_costing=public_transit"
+        "/api/maps/route?lang=de&from=chemie-nebengebaeude&to=48.265795,11.669106&route_costing=public_transit"
       );
 
       expect(response.status()).toBe(200);
