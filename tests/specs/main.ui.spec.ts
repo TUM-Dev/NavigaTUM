@@ -18,12 +18,7 @@ test.describe("Homepage", () => {
   test("should display search bar on homepage", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    // Search input might be type="text" or type="search"
-    const searchInput = page
-      .locator(
-        'input[type="search"], input[type="text"][placeholder*="earch"], input[placeholder*="uche"]'
-      )
-      .first();
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
     await expect(searchInput).toBeVisible();
   });
 
