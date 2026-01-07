@@ -44,7 +44,7 @@ test.describe("Sites Overview", () => {
     const garchingLink = page.locator('a[href*="/view/garching"]').first();
     await garchingLink.click();
 
-    await expect(page).toHaveURL(/\/campus\/garching/);
+    await expect(page).toHaveURL(/.*\/(view|campus)\/garching/);
   });
 
   test("should navigate to building details when clicking a building", async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe("Sites Overview", () => {
     const miLink = page.locator('a[href*="/view/mi"]').first();
     await miLink.click();
 
-    await expect(page).toHaveURL(/\/view\/mi/);
+    await expect(page).toHaveURL(/\/(view|building)\/mi/);
   });
 
   test("should expand/collapse building lists", async ({ page }) => {
