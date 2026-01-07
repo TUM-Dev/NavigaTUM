@@ -26,7 +26,7 @@ export default defineNuxtConfig({
           rel: "search",
           title: "searchTitle",
           type: "application/opensearchdescription+xml",
-          href: "/opensearchdescription.xml",
+          href: "/.well-known/opensearchdescription.xml",
         },
         {
           rel: "apple-touch-icon",
