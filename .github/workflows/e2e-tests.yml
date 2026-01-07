@@ -40,16 +40,16 @@ jobs:
       - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build server data
 
+      - name: Setup | pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
       - name: Setup | Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
-      - name: Setup | pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-        with:
-          version: 10.14.0
 
       - name: Setup | Playwright dependencies
         working-directory: tests
@@ -157,16 +157,16 @@ jobs:
       - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build
 
+      - name: Setup | Set up pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
       - name: Setup | Set up Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 24
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
-      - name: Setup | Set up pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-        with:
-          version: 10.14.0
 
       - name: Setup | Install Playwright dependencies
         working-directory: tests
