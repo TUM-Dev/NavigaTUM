@@ -288,6 +288,8 @@
         4323:KFZ Werkstatt:
         4324:Garage / Werkdienstwohnungen:
         4325:Wertstoffhof:
+        4330:Zentrum für Infektionsprävention (ZIP):zip
+        4331:ZIP-Nebengebäude:
       :Landesanstalt für Landwirtschaft (LfL):wzw-lfl
         4353:Laborgebäude 1:
         4355:Technologie VI:
@@ -387,7 +389,7 @@
       5128:Am Coulombwall 3A:
       5130:Telefonzentrale:
       5131:FRM-Poststelle:
-      5132:Boltzmannstr. 12:
+      5132:Center for Organoid Systems and Tissue Engineering:cos
       5140:Physik I Container:
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
