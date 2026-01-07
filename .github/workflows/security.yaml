@@ -1,0 +1,81 @@
+
+name: Security audit
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  zizmor:
+      runs-on: ubuntu-latest
+      permissions:
+        security-events: write
+        contents: read
+        actions: read
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+          with: { persist-credentials: false }
+        - name: Run zizmor
+          uses: zizmorcore/zizmor-action@e639db99335bc9038abc0e066dfcd72e23d26fb4 # v0.3.0
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      checks: write
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with: { persist-credentials: false }
+      - uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ignore: RUSTSEC-2023-0071,RUSTSEC-2024-0363,RUSTSEC-2024-0379,RUSTSEC-2024-0384,RUSTSEC-2024-0421,RUSTSEC-2025-0004,RUSTSEC-2025-0006,RUSTSEC-2025-0134
+          # RUSTSEC-2024-0421 = idna accepts Punycode labels that do not produce any non-ASCII when decoded => not used explitably
+          # RUSTSEC-2024-0384 = instant (Used via instant v0.1.13 > parking_lot v0.11.2 > sled v0.34.7 > cached v0.54.0) is unmaintained => Since `parking_lot`, `sled` and `cached` are maintained and the open issues in `instant` are wasm-related, I am going to close this
+          # RUSTSEC-2024-0379 = unsoundness in fast-float => only used in intialisation logic, fix in polars is in main and is awaiting release
+          # RUSTSEC-2024-0363 = Binary Protocol Misinterpretation caused by Truncating or Overflowing Casts => caught by maximum request sizes
+          # RUSTSEC-2023-0071 = Marvin Attack: potential key recovery through timing sidechannels => not used explitably
+          # RUSTSEC-2025-0004 = ssl::select_next_proto use after free => not used
+          # RUSTSEC-2025-0006 = Hickory DNS failure to verify self-signed RRSIG for DNSKEYs => not used
+          # RUSTSEC-2025-0134 = rustls-pemfile is unmaintained, but only used in development dependencies
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+        - language: javascript-typescript
+        - language: rust
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with: { persist-credentials: false }
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: none
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
+      with:
+        category: "/language:${{matrix.language}}"
