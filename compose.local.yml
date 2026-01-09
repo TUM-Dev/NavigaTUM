@@ -8,6 +8,8 @@ services:
       TZ: Europe/Berlin
       NUXT_PUBLIC_CDN_URL: http://data:3002
       NUXT_PUBLIC_API_URL: http://server:3003
+      # calendar takes for ever and needs permissions
+      NUXT_PUBLIC_CALENDAR_URL: https://nav.tum.de
   # cdn
   data:
     restart: unless-stopped

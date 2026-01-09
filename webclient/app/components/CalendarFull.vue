@@ -72,7 +72,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
     end_before: arg.endStr,
     ids: props.showing,
   };
-  const url = `${runtimeConfig.public.apiURL}/api/calendar`;
+  const url = `${runtimeConfig.public.calendarURL}/api/calendar`;
   const data = await $fetch<CalendarResponse>(url, {
     method: "POST",
     body: body,
