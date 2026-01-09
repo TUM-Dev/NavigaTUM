@@ -1,76 +1,78 @@
 [workspace]
 resolver = "3"
-members = [
-    "motis-openapi-progenitor",
-    "server",
-]
+members = ["motis-openapi-progenitor", "server"]
 
 [workspace.package]
 edition = "2024"
 repository = "https://github.com/TUM-Dev/navigatum"
 
 [workspace.dependencies]
-serde = { version = "1.0", features = ["derive"] }
-tokio = { version = "1.43", default-features = false }
-motis-openapi-progenitor = { version = "0.3.0", path = "motis-openapi-progenitor" }
-navigatum-server = { version = "1.0.0", path = "server" }
-bytes = "1.11.0"
-chrono = { version = "0.4", default-features=false, features = ["serde"] }
-futures-core = "0.3"
-progenitor-client = "0.11.2"
-serde_urlencoded = "0.7"
-actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json", "fmt"] }
-tracing = "0.1.41"
-tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
-tracing-actix-web = "0.7.15"
-anyhow = { version = "1.0.95", features = ["backtrace"] }
-serde_with = { version = "3.12.0", default-features = false, features = [] }
-serde_json = { version = "1.0.136", features = ["raw_value"] }
-serde_yaml = "0.9.34"
-actix-web = { version = "4.12.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
+ab_glyph = { version = "0.2.29", default-features = false }
 actix-cors = "0.7.0"
-rustls = "0.23.21"
+actix-governor = { version = "0.10.0", features = ["logger"] }
+actix-middleware-etag = "0.4.6"
+actix-web = { version = "4.12.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
+actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
+anyhow = { version = "1.0.95", features = ["backtrace"] }
+base64 = "0.22.1"
+bytes = "1.11.0"
 cached = { version = "0.56.0", features = ["default", "async", "disk_store"] }
+chroma-forge = "1.0.0"
+chrono = { version = "0.4", default-features = false, features = ["serde"] }
+fast_qr = { version = "0.13.1", features = ["image"] }
 futures = "0.3.31"
-unicode-truncate = "2.0.0"
-sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
-meilisearch-sdk = {version="0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
-logos = "0.16.0"
-regex = "1.11.1"
-oauth2 = { version = "5.0.0", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+futures-core = "0.3"
+geo = { version = "0.32.0", features = ["use-serde"], default-features = false }
+geo-types = { version = "0.7.18", default-features = false }
+geozero = { version = "0.15.1", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
 image = { version = "0.25.9", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.26.0"
-ab_glyph = { version = "0.2.29", default-features = false }
-fast_qr = { version = "0.13.1", features = ["image"] }
-rand = "0.9.0"
-octocrab = { version = "0.49", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs"] }
-jsonwebtoken = { version = "10.2.0", default-features = false, features = ["aws_lc_rs"] }
-actix-governor = { version = "0.10.0", features = ["logger"] }
-tempfile = "3.12.0"
-base64 = "0.22.1"
-polars = { version = "0.52.0", features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
-geo = { version = "0.32.0", features = ["use-serde"], default-features = false }
-geozero = { version = "0.15.1", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
-geo-types = { version = "0.7.18", default-features = false }
-actix-middleware-etag = "0.4.6"
-valhalla-client = { version = "0.5.0", default-features = false }
-chroma-forge = "1.0.0"
-utoipa-actix-web = "0.1.2"
-utoipa = { version = "5.3.1", features = ["yaml", "chrono", "actix_extras", "url"] }
-utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
-url = "2.5.4"
-itertools = "0.14.0"
 insta = "1.44.3"
+itertools = "0.14.0"
+jsonwebtoken = { version = "10.2.0", default-features = false, features = ["aws_lc_rs"] }
+logos = "0.16.0"
+meilisearch-sdk = { version = "0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"] }
+motis-openapi-progenitor = { version = "0.3.0", path = "motis-openapi-progenitor" }
+navigatum-server = { version = "1.0.0", path = "server" }
+oauth2 = { version = "5.0.0", default-features = false, features = ["rustls-tls", "reqwest"] }
+octocrab = { version = "0.49", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs"] }
+polars = { version = "0.52.0", features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
 pretty_assertions = "1.4.1"
+progenitor-client = "0.11.2"
+rand = "0.9.0"
+regex = "1.11.1"
+reqwest = { version = "0.12", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+rustls = "0.23.21"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0.136", features = ["raw_value"] }
+serde_urlencoded = "0.7"
+serde_with = { version = "3.12.0", default-features = false, features = [] }
+serde_yaml = "0.9.34"
+sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
+tempfile = "3.12.0"
 testcontainers = { version = "0.26.0", features = ["watchdog"] }
 testcontainers-modules = { version = "0.14.0", features = ["meilisearch", "postgres"] }
+tokio = { version = "1.43", default-features = false }
+tracing = "0.1.41"
+tracing-actix-web = "0.7.15"
+tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json", "fmt"] }
 tracing-test = "0.2.5"
+unicode-truncate = "2.0.0"
+url = "2.5.4"
+utoipa = { version = "5.3.1", features = ["yaml", "chrono", "actix_extras", "url"] }
+utoipa-actix-web = "0.1.2"
+utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
+valhalla-client = { version = "0.5.0", default-features = false }
 
 [profile.release]
 strip = false
 lto = false
+
+[profile.dev.package]
+# https://insta.rs/docs/quickstart/
+insta.opt-level = 3
+similar.opt-level = 3
 
 # Enable max optimizations for some dependencies, but not for our code
 # nessesary to get acceptable performance out of the image processing code
@@ -86,8 +88,3 @@ opt-level = 3
 # https://github.com/launchbadge/sqlx?tab=readme-ov-file#compile-time-verification
 [profile.dev.package.sqlx-macros]
 opt-level = 3
-
-# https://insta.rs/docs/quickstart/
-[profile.dev.package]
-insta.opt-level = 3
-similar.opt-level = 3
