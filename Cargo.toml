@@ -12,7 +12,7 @@ repository = "https://github.com/TUM-Dev/navigatum"
 [workspace.dependencies]
 serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1.43", default-features = false }
-motis-openapi-progenitor = { version = "0.3.0", path = "motis" }
+motis-openapi-progenitor = { version = "0.3.0", path = "motis-openapi-progenitor" }
 navigatum-server = { version = "1.0.0", path = "server" }
 bytes = "1.11.0"
 chrono = { version = "0.4", default-features=false, features = ["serde"] }
