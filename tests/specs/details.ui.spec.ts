@@ -144,9 +144,7 @@ test.describe("Details Page - Building Overview", () => {
     await page.goto("/view/5602", { waitUntil: "networkidle" });
 
     const floors = page.getByText(/OG|EG|UG|Erdgeschoss|Floor|Stockwerk/i).first();
-    if ((await floors.count()) > 0) {
-      await expect(floors).toBeVisible();
-    }
+    await expect(floors).not.toBeVisible();
   });
 });
 
