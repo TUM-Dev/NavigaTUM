@@ -1,0 +1,15 @@
+[package]
+name = "motis-openapi-progenitor"
+version = "0.3.0"
+edition = "2024"
+license = "MIT or Apache-2.0"
+description = "API-wrapper around the motis api used for routing"
+
+[dependencies]
+bytes.workspace = true
+chrono = { workspace = true, default-features=false, features = ["serde"] }
+futures-core.workspace = true
+progenitor-client.workspace = true
+serde_urlencoded.workspace = true
+reqwest = { workspace = true, default-features=false, features = ["json", "stream"] }
+serde = { workspace = true, features = ["derive"] }
