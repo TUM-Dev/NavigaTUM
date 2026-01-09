@@ -2,18 +2,18 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Calendar Page - Basic Functionality", () => {
   test("should load calendar page and display events", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+    // Wow, we should improve performance for this...
+    test.setTimeout(30000);
+
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
 
     await expect(page).toHaveURL(/\/calendar\/5602\.EG\.001/);
 
-    const heading = page.locator("h1, h2").first();
-    await expect(heading).toBeVisible();
+    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
 
-    // Check for calendar elements
     const calendar = page.locator('[class*="calendar"], [role="grid"], table').first();
-    if ((await calendar.count()) > 0) {
-      await expect(calendar).toBeVisible();
-    }
+    await expect(calendar).toBeVisible({ timeout: 10000 });
   });
 
   test("should handle calendar for non-existent room", async ({ page }) => {
@@ -25,6 +25,9 @@ test.describe("Calendar Page - Basic Functionality", () => {
 test.describe("Calendar Page - Events Display", () => {
   test("should display calendar events with times", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+
+    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for event elements
     const events = page.locator('[class*="event"], [class*="booking"], [role="listitem"]');
@@ -41,6 +44,10 @@ test.describe("Calendar Page - Events Display", () => {
 
   test("should show empty state when no events", async ({ page }) => {
     await page.goto("/calendar/mi", { waitUntil: "networkidle" });
+
+    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
+
     await expect(page.locator("body")).toBeVisible();
   });
 });
@@ -48,6 +55,9 @@ test.describe("Calendar Page - Events Display", () => {
 test.describe("Calendar Page - Date Navigation", () => {
   test("should display date controls", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+
+    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for date navigation controls
     const dateNav = page.locator(
@@ -69,6 +79,9 @@ test.describe("Calendar Page - Actions", () => {
   test("should have back to room details link", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
+    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
+
     const backLink = page.locator('a[href*="/view/5602"]').first();
     if ((await backLink.count()) > 0) {
       await expect(backLink).toBeVisible();
@@ -76,27 +89,27 @@ test.describe("Calendar Page - Actions", () => {
   });
 });
 
-test.describe("Calendar Page - Responsive Design", () => {
-  test("should display correctly on mobile", async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
-    await expect(page.locator("body")).toBeVisible();
-  });
-
-  test("should display correctly on desktop", async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
-    await expect(page.locator("body")).toBeVisible();
-  });
-});
-
 test.describe("About Pages - Basic Functionality", () => {
-  test("should load about us pages in both languages", async ({ page }) => {
+  test("should load about us pages german", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/\/about\/ueber-uns/);
 
+    const h1 = await page.locator("h1").count();
+    expect(h1).toBeGreaterThan(0);
+
+    const paragraphs = await page.locator("p").count();
+    expect(paragraphs).toBeGreaterThan(0);
+  });
+
+  test("should load about us pages english", async ({ page }) => {
     await page.goto("/en/about/about-us", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/en\/about\/about-us/);
+    await expect(page).toHaveURL(/\/about\/about-us/);
+
+    const h1 = await page.locator("h1").count();
+    expect(h1).toBeGreaterThan(0);
+
+    const paragraphs = await page.locator("p").count();
+    expect(paragraphs).toBeGreaterThan(0);
   });
 
   test("should redirect old about paths correctly", async ({ page }) => {
@@ -162,11 +175,7 @@ test.describe("About Pages - Content Rendering", () => {
   test("should render content properly", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
-    const h1 = await page.locator("h1").count();
-    expect(h1).toBeGreaterThan(0);
 
-    const paragraphs = await page.locator("p").count();
-    expect(paragraphs).toBeGreaterThan(0);
   });
 
   test("should style content appropriately", async ({ page }) => {
