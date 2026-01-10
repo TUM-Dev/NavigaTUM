@@ -29,9 +29,9 @@ COPY    Cargo.* ./
 COPY    server/Cargo.* ./server/
 COPY    motis-openapi-progenitor/Cargo.* ./motis-openapi-progenitor/
 RUN     mkdir -p ./server/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > .server/src/main.rs \
+     && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
      && mkdir -p ./motis-openapi-progenitor/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > .motis-openapi-progenitor/src/main.rs \
+     && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
      && if [ $PROFILE == "release" ]; then \
           cargo build --release; \
         else \
