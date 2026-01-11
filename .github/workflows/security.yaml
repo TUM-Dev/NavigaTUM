@@ -45,7 +45,6 @@ jobs:
           # RUSTSEC-2025-0004 = ssl::select_next_proto use after free => not used
           # RUSTSEC-2025-0006 = Hickory DNS failure to verify self-signed RRSIG for DNSKEYs => not used
           # RUSTSEC-2025-0134 = rustls-pemfile is unmaintained, but only used in development dependencies
-          working-directory: server
   codeql:
     name: CodeQL (${{ matrix.language }})
     runs-on: ubuntu-latest
