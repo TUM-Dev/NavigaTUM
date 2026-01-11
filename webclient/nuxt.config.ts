@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-01-01",
   runtimeConfig: {
     public: {
+      calendarURL: "https://nav.tum.de",
       apiURL: "https://nav.tum.de",
       cdnURL: "https://nav.tum.de",
       feedbackURL: "https://nav.tum.de",

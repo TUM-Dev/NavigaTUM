@@ -1,0 +1,226 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: BRAINSia/free-disk-space@f9f59b0ef974ff4b873aa243ce5278ab644eedc6 # v2.1.2
+        with:
+          tool-cache: false
+          mandb:   true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with: { persist-credentials: false }
+
+      - name: Setup | Pull Docker images
+        run: docker compose pull
+      - name: Setup | Build Docker images
+        run: docker compose -f compose.local.yml build server data
+
+      - name: Setup | pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
+      - name: Setup | Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          cache-dependency-path: tests/pnpm-lock.yaml
+
+      - name: Setup | Playwright dependencies
+        working-directory: tests
+        run: pnpm install
+
+      - name: Create .env file for docker-compose
+        run: |
+          cat > .env << EOF
+          POSTGRES_PASSWORD=test_password
+          POSTGRES_USER=postgres
+          POSTGRES_DB=navigatum_test
+          MEILI_MASTER_KEY=test_master_key
+          LOG_LEVEL=debug
+          EOF
+
+      - name: Wait for server to become ready
+        run: |
+          set -euo pipefail
+      
+          echo "::group::Starting services…"
+          docker compose -f compose.local.yml up -d
+      
+          echo "Current container status:"
+          docker compose -f compose.local.yml ps
+      
+          echo "Waiting for API to become healthy (max 120s)…"
+      
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
+          if ! timeout 120 bash -c '
+            until curl -fs http://localhost:3003/api/locations/mi >/dev/null; do
+              echo "Still waiting for API…"
+              sleep 2
+            done
+          '; then
+            echo "::endgroup::"
+            echo "::error::Timed out waiting for API to become healthy"
+            
+            echo "::group::Container status:"
+            docker compose -f compose.local.yml ps
+            echo "::endgroup::"
+        
+            echo "::group::Recent container logs:"
+            docker compose -f compose.local.yml logs --tail=100
+            echo "::endgroup::"
+        
+            exit 1
+          fi
+      
+          echo "::group::API is responding"
+          curl -v -f http://localhost:3003/api/status
+          echo "::endgroup::"
+
+      - name: Run API tests
+        working-directory: tests
+        run: pnpm test:api
+        env:
+          SKIP_WEBSERVER: true
+          BASE_URL: http://localhost:3003
+
+      - name: Upload test results (JUnit)
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: api-test-results
+          path: tests/test-results/junit.xml
+          retention-days: 30
+
+      - name: Server logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs server
+      - name: MeiliSearch logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs meilisearch
+      - name: Database logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs db
+
+  ui-tests-desktop:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium]
+        subsystem: [main, search, navigation, details, calendar-about]
+
+    steps:
+      - uses: BRAINSia/free-disk-space@f9f59b0ef974ff4b873aa243ce5278ab644eedc6 # v2.1.2
+        with:
+          tool-cache: false
+          mandb:   true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with: { persist-credentials: false }
+
+      - name: Setup | Pull Docker images
+        run: docker compose pull
+      - name: Setup | Build Docker images
+        run: docker compose -f compose.local.yml build
+
+      - name: Setup | Set up pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        with:
+          version: 10.14.0
+      - name: Setup | Set up Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          cache-dependency-path: tests/pnpm-lock.yaml
+
+      - name: Setup | Install Playwright dependencies
+        working-directory: tests
+        run: pnpm install
+      - name: Install Browser
+        working-directory: tests
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Setup | Create .env file for docker-compose
+        run: |
+          cat > .env << EOF
+          POSTGRES_PASSWORD=test_password
+          POSTGRES_USER=postgres
+          POSTGRES_DB=navigatum_test
+          MEILI_MASTER_KEY=test_master_key
+          LOG_LEVEL=debug
+          EOF
+
+      - name: Setup | Start Docker services
+        run: |
+          docker compose -f compose.local.yml up -d
+          echo "Waiting for services to be healthy..."
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/locations/mi; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3000/; do sleep 2; done'
+
+      - name: Run UI tests (${{ matrix.subsystem }})
+        working-directory: tests
+        run: pnpm test specs/${{ matrix.subsystem }}.ui.spec.ts --project=ui-tests-${{ matrix.browser }}
+        env:
+          BASE_URL: http://localhost:3000
+          SKIP_WEBSERVER: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ui-playwright-report-${{ matrix.browser }}-${{ matrix.subsystem }}
+          path: tests/playwright-report/
+          retention-days: 30
+
+      - name: Upload test results (JUnit)
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ui-test-results-${{ matrix.browser }}-${{ matrix.subsystem }}
+          path: tests/test-results/junit.xml
+          retention-days: 30
+
+      - name: Server logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs server
+      - name: MeiliSearch logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs meilisearch
+      - name: Database logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs db
