@@ -12,6 +12,24 @@ on:
 permissions: {}
 
 jobs:
+  update-server-snapshots:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with: {persist-credentials: false}
+      - name: Install cargo-insta
+        uses: taiki-e/install-action@3522286d40783523f9c7880e33f785905b4c20d0 # v2.66.1
+        with:
+          tool: cargo-insta
+      - name: Update server snapshots
+        run: cargo insta test --accept
+
+      - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
+        with:
+          commit-message: "chore: Update server snapshots"
   update-openapi:
     runs-on: ubuntu-latest
     permissions:
@@ -33,7 +51,7 @@ jobs:
     steps:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
 
       - name: Setup | Rust-Cache
@@ -101,17 +119,17 @@ jobs:
         run: |
           echo "Fetching OpenAPI spec from server..."
           curl -f http://localhost:3003/api/openapi.json -o openapi.json
-          
+
           echo "Converting JSON to YAML..."
           yq -Poy openapi.json > data/output/openapi.yaml
-          
+
           echo "Cleaning up temporary file..."
           rm openapi.json
 
       - name: Update | Refresh types
         run: pnpm run type-refresh
         working-directory: webclient
-        
+
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
           commit-message: "chore: Update OpenAPI spec and types"
