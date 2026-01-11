@@ -80,7 +80,7 @@ geozero = { version = "0.15.1", features = ["with-postgis-sqlx", "with-geo"], de
 geo-types = { version = "0.7.18", default-features = false }
 actix-middleware-etag = "0.4.6"
 valhalla-client = { version = "0.5.0", default-features = false }
-motis-openapi-progenitor = "0.3.0"
+motis-openapi-progenitor = "0.4.0"
 chroma-forge = "1.0.0"
 
 # docs
