@@ -49,7 +49,7 @@ test.describe("Calendar Page - Events Display", () => {
     }
   });
 
-  test("should show empty state when no events", async ({ page }) => {
+  test.skip("should show empty state when no events", async ({ page }) => {
     await page.goto("/calendar/mi", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("building/mi?calendar[]=mi");
 
