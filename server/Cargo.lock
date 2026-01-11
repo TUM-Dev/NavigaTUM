@@ -3513,9 +3513,9 @@ dependencies = [
 
 [[package]]
 name = "motis-openapi-progenitor"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "655721926fff25ed7e878ca492642befc72ea33f6f76d73744b136451139a331"
+checksum = "1dbabd8afe8f7407f4cccd5c6e6a7894579f90b3a95db125ec9c98eb1dced256"
 dependencies = [
  "bytes",
  "chrono",
