@@ -98,7 +98,7 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
 
 <i18n lang="yaml">
 de:
-  title: Kalendar
+  title: Kalender
   close: Schließen
   error:
     header: Beim Versuch, den Kalender anzuzeigen, ist ein Fehler aufgetreten

@@ -97,7 +97,7 @@ async function addLocation() {
 
 <i18n lang="yaml">
 de:
-  add_location: Zusätzliche Location zum Kalendar hinzufügen
+  add_location: Zusätzliche Location zum Kalender hinzufügen
   view_in_tumonline: in TUMonline ansehen
   prompt:
     initial: |-

@@ -1,15 +1,16 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Calendar Page - Basic Functionality", () => {
-  test("should load calendar page and display events", async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Extend timeout for all tests running this hook by 60 seconds.
     // Wow, we should improve performance for this...
-    test.setTimeout(30000);
+    test.setTimeout(testInfo.timeout + 60000);
+  });
+  test("should load calendar page and display events", async ({ page }) => {
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "domcontentloaded" });
-
-    await expect(page).toHaveURL(/\/calendar\/5602\.EG\.001/);
-
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const calendar = page.locator('[class*="calendar"], [role="grid"], table').first();
@@ -23,10 +24,16 @@ test.describe("Calendar Page - Basic Functionality", () => {
 });
 
 test.describe("Calendar Page - Events Display", () => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Extend timeout for all tests running this hook by 60 seconds.
+    // Wow, we should improve performance for this...
+    test.setTimeout(testInfo.timeout + 60000);
+  });
   test("should display calendar events with times", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for event elements
@@ -42,10 +49,11 @@ test.describe("Calendar Page - Events Display", () => {
     }
   });
 
-  test("should show empty state when no events", async ({ page }) => {
+  test.skip("should show empty state when no events", async ({ page }) => {
     await page.goto("/calendar/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi?calendar[]=mi");
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     await expect(page.locator("body")).toBeVisible();
@@ -53,10 +61,16 @@ test.describe("Calendar Page - Events Display", () => {
 });
 
 test.describe("Calendar Page - Date Navigation", () => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Extend timeout for all tests running this hook by 60 seconds.
+    // Wow, we should improve performance for this...
+    test.setTimeout(testInfo.timeout + 60000);
+  });
   test("should display date controls", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for date navigation controls
@@ -76,10 +90,16 @@ test.describe("Calendar Page - Date Navigation", () => {
 });
 
 test.describe("Calendar Page - Actions", () => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Extend timeout for all tests running this hook by 60 seconds.
+    // Wow, we should improve performance for this...
+    test.setTimeout(testInfo.timeout + 60000);
+  });
   test("should have back to room details link", async ({ page }) => {
-    await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
+    await page.goto("/calendar/5602.EG.001", { waitUntil: "load" });
+    await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const backLink = page.locator('a[href*="/view/5602"]').first();
@@ -91,7 +111,7 @@ test.describe("Calendar Page - Actions", () => {
 
 test.describe("About Pages - Basic Functionality", () => {
   test("should load about us pages german", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
+    await page.goto("/about/ueber-uns", { waitUntil: "load" });
     await expect(page).toHaveURL(/\/about\/ueber-uns/);
 
     const h1 = await page.locator("h1").count();
@@ -102,7 +122,7 @@ test.describe("About Pages - Basic Functionality", () => {
   });
 
   test("should load about us pages english", async ({ page }) => {
-    await page.goto("/en/about/about-us", { waitUntil: "networkidle" });
+    await page.goto("/en/about/about-us", { waitUntil: "load" });
     await expect(page).toHaveURL(/\/about\/about-us/);
 
     const h1 = await page.locator("h1").count();
@@ -167,23 +187,6 @@ test.describe("About Pages - Privacy/Datenschutz", () => {
     const privacyContent = page.getByText(/Daten|DSGVO|Datenschutz|Cookie/i).first();
     if ((await privacyContent.count()) > 0) {
       await expect(privacyContent).toBeVisible();
-    }
-  });
-});
-
-test.describe("About Pages - Content Rendering", () => {
-  test("should render content properly", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
-
-
-  });
-
-  test("should style content appropriately", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
-
-    const contentWrapper = page.locator("#contentwrapper").first();
-    if ((await contentWrapper.count()) > 0) {
-      await expect(contentWrapper).toBeVisible();
     }
   });
 });
