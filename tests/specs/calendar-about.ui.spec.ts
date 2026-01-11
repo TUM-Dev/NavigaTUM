@@ -9,7 +9,7 @@ test.describe("Calendar Page - Basic Functionality", () => {
 
     await expect(page).toHaveURL(/\/calendar\/5602\.EG\.001/);
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const calendar = page.locator('[class*="calendar"], [role="grid"], table').first();
@@ -26,7 +26,7 @@ test.describe("Calendar Page - Events Display", () => {
   test("should display calendar events with times", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for event elements
@@ -45,7 +45,7 @@ test.describe("Calendar Page - Events Display", () => {
   test("should show empty state when no events", async ({ page }) => {
     await page.goto("/calendar/mi", { waitUntil: "networkidle" });
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     await expect(page.locator("body")).toBeVisible();
@@ -56,7 +56,7 @@ test.describe("Calendar Page - Date Navigation", () => {
   test("should display date controls", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for date navigation controls
@@ -79,7 +79,7 @@ test.describe("Calendar Page - Actions", () => {
   test("should have back to room details link", async ({ page }) => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
 
-    const heading = page.getByRole('heading', { name: 'Kalendar' }).first();
+    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const backLink = page.locator('a[href*="/view/5602"]').first();
