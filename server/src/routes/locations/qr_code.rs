@@ -48,7 +48,6 @@ fn generate_qr_code(url: &str) -> anyhow::Result<LimitedVec<u8>> {
     responses(
         (status = 200, description = "**QR code image**", content_type="image/png"),
         (status = 400, description = "**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters", body = String, content_type = "text/plain", example = "Invalid ID"),
-        (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
         (status = 500, description = "**Internal server error**", body = String, content_type = "text/plain"),
     )
 )]

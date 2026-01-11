@@ -385,13 +385,6 @@ paths:
               schema:
                 type: string
               example: Invalid ID
-        "404":
-          description: '**Not found.** Make sure that requested item exists'
-          content:
-            text/plain:
-              schema:
-                type: string
-              example: Not found
         "500":
           description: '**Internal server error**'
           content:

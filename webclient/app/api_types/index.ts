@@ -1976,12 +1976,6 @@ export type operations = {
           readonly "text/plain": string;
         };
       };
-      /** @description **Not found.** Make sure that requested item exists */
-      404: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
       /** @description **Internal server error** */
       500: {
         content: {

@@ -112,7 +112,6 @@ jobs:
         run: pnpm run type-refresh
         working-directory: webclient
         
-      - run: git pull --rebase
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
           commit-message: "chore: Update OpenAPI spec and types"
