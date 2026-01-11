@@ -54,7 +54,7 @@ RUN     if [ $PROFILE == "release" ]; then \
 FROM alpine:3.23 AS production-stage
 
 # Copy all static files from the data image (images, maps, sitemaps, data files)
-COPY    --from=data-source /cdn /app/cdn
+COPY    --from=data-source /cdn /cdn
 
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
@@ -72,9 +72,7 @@ COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \
   && mkdir -p /home/navigatum \
-  && mkdir -p /app/data/output \
-  && ln -s /app/cdn/*.json /app/data/output/ \
-  && ln -s /app/cdn/*.parquet /app/data/output/ \
+  && chown navigatum:navigatum /cdn/ \
   && chown -R navigatum:navigatum /home/navigatum /app
 WORKDIR /home/navigatum
 USER    navigatum
