@@ -171,23 +171,6 @@ test.describe("About Pages - Privacy/Datenschutz", () => {
   });
 });
 
-test.describe("About Pages - Content Rendering", () => {
-  test("should render content properly", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
-
-
-  });
-
-  test("should style content appropriately", async ({ page }) => {
-    await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
-
-    const contentWrapper = page.locator("#contentwrapper").first();
-    if ((await contentWrapper.count()) > 0) {
-      await expect(contentWrapper).toBeVisible();
-    }
-  });
-});
-
 test.describe("About Pages - Navigation", () => {
   test("should navigate between about pages", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });

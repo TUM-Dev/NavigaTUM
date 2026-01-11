@@ -90,7 +90,6 @@ test.describe("Responsive Design", () => {
     await expect(
       page
       .getByRole("textbox", { name: "Suchfeld" }).first()
-        .first()
     ).toBeVisible();
   });
 
