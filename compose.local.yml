@@ -25,8 +25,8 @@ services:
     build:
       args:
         PROFILE: debug
-      context: server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     command: /bin/navigatum-server
     ports:
       - "3003:3003"
