@@ -1,9 +1,11 @@
 [package]
 name = "motis-openapi-progenitor"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2024"
 license = "MIT or Apache-2.0"
 description = "API-wrapper around the motis api used for routing"
+documentation = "https://docs.rs/motis-openapi-progenitor"
+repository = "https://github.com/tum-dev/navigatum"
 
 [dependencies]
 bytes.workspace = true
