@@ -27,11 +27,13 @@ rm openapi.yaml
 
 To use it, you can use the `Client` as following
 
-```
-let res = motis_openapi_progenitor::Client::new("https://api.transitous.org").plan()
-    .from_place("de-DELFI_000010073203") // landshut süd trains station
-    .to_place("48.1371079,11.5753822,0") // munich coordinate at level 0
-    .detailed_transfers(false)
-    .send().await.unwrap();
-println!("{res:?}");
+```rust
+async fn foo() {
+    let res = motis_openapi_progenitor::Client::new("https://api.transitous.org").plan()
+        .from_place("de-DELFI_000010073203") // landshut süd trains station
+        .to_place("48.1371079,11.5753822,0") // munich coordinate at level 0
+        .detailed_transfers(false)
+        .send().await.unwrap();
+    println!("{res:?}");
+}
 ```

@@ -29,11 +29,9 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - run: cargo test --no-run --locked
-        working-directory: server
         env:
           CARGO_INCREMENTAL: 0
       - run: cargo test -- --nocapture --quiet
-        working-directory: server
         env:
           CARGO_INCREMENTAL: 0
   linting:
@@ -50,7 +48,6 @@ jobs:
             server
       - run: rustup component add clippy
       - run: cargo clippy
-        working-directory: server
         env:
           CARGO_INCREMENTAL: 0
   server-build:
@@ -60,8 +57,8 @@ jobs:
       - linting
     with:
       image_suffix: server
-      context: ./server
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: server/Dockerfile
     permissions:
       id-token: write
       contents: read
