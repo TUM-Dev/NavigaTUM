@@ -26,6 +26,10 @@ jobs:
           tool: cargo-insta
       - name: Update server snapshots
         run: cargo insta test --accept
+
+      - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
+        with:
+          commit-message: "chore: Update server snapshots"
   update-openapi:
     runs-on: ubuntu-latest
     permissions:
@@ -115,17 +119,17 @@ jobs:
         run: |
           echo "Fetching OpenAPI spec from server..."
           curl -f http://localhost:3003/api/openapi.json -o openapi.json
-          
+
           echo "Converting JSON to YAML..."
           yq -Poy openapi.json > data/output/openapi.yaml
-          
+
           echo "Cleaning up temporary file..."
           rm openapi.json
 
       - name: Update | Refresh types
         run: pnpm run type-refresh
         working-directory: webclient
-        
+
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
           commit-message: "chore: Update OpenAPI spec and types"
