@@ -3513,6 +3513,21 @@ dependencies = [
 
 [[package]]
 name = "motis-openapi-progenitor"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "655721926fff25ed7e878ca492642befc72ea33f6f76d73744b136451139a331"
+dependencies = [
+ "bytes",
+ "chrono",
+ "futures-core",
+ "progenitor-client",
+ "reqwest",
+ "serde",
+ "serde_urlencoded",
+]
+
+[[package]]
+name = "motis-openapi-progenitor"
 version = "0.4.0"
 dependencies = [
  "bytes",
@@ -3615,7 +3630,7 @@ dependencies = [
  "jsonwebtoken",
  "logos",
  "meilisearch-sdk",
- "motis-openapi-progenitor",
+ "motis-openapi-progenitor 0.3.0",
  "oauth2",
  "octocrab",
  "polars",

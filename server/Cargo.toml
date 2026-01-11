@@ -77,7 +77,7 @@ geozero = { workspace=true, features = ["with-postgis-sqlx", "with-geo"], defaul
 geo-types = { workspace=true, default-features = false }
 actix-middleware-etag.workspace=true
 valhalla-client = { workspace=true, default-features = false }
-motis-openapi-progenitor.workspace=true
+motis-openapi-progenitor = "0.3.0"
 chroma-forge.workspace=true
 
 # docs
