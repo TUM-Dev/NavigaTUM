@@ -238,7 +238,17 @@ async fn main() -> anyhow::Result<()> {
                         .wrap(actix_governor::Governor::new(&feedback_ratelimit))
                         .service(feedback::tokens::get_token),
                 )
-                .service(openapi_doc),
+                .service(openapi_doc)
+                .map(|app| {
+                    // Add static file serving outside utoipa to avoid trait bound requirements
+                    app.service(
+                        actix_files::Files::new("/cdn", "/app/cdn")
+                            .show_files_listing()
+                            .use_last_modified(true)
+                            .use_etag(true)
+                            .prefer_utf8(true),
+                    )
+                }),
         )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?

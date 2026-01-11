@@ -1,4 +1,5 @@
 use crate::limited::vec::LimitedVec;
+use crate::setup::file_loader;
 use polars::prelude::*;
 use std::io::Write;
 use tempfile::tempfile;
@@ -38,11 +39,7 @@ impl Alias {
 #[tracing::instrument]
 pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = reqwest::get(format!("{cdn_url}/alias_data.parquet"))
-        .await?
-        .error_for_status()?
-        .bytes()
-        .await?;
+    let body = file_loader::load_file_or_download("alias_data.parquet", &cdn_url).await?;
     let mut aliase = Vec::<Alias>::new();
     let mut file = tempfile()?;
     file.write_all(&body)?;

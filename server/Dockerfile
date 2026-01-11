@@ -1,6 +1,9 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
+# Extract data files from the data image
+FROM    ghcr.io/tum-dev/navigatum-data:main AS data-source
+
 FROM    rust:1.92-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
@@ -27,13 +30,13 @@ ENV     PROFILE=${PROFILE}
 # (probably cached) first run of the image build => only dependencies
 COPY    Cargo.* ./
 RUN     mkdir -p ./src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs \
-     && if [ $PROFILE == "release" ]; then \
-          cargo build --release; \
-        else \
-          cargo build; \
-        fi \
-     && rm -fr target/${PROFILE}/deps/navigatum*
+  && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs \
+  && if [ $PROFILE == "release" ]; then \
+  cargo build --release; \
+  else \
+  cargo build; \
+  fi \
+  && rm -fr target/${PROFILE}/deps/navigatum*
 
 # second run of the image build (including our code)
 COPY    .sqlx .sqlx
@@ -41,14 +44,17 @@ COPY    .sqlx .sqlx
 COPY    src src
 COPY    migrations migrations
 RUN     if [ $PROFILE == "release" ]; then \
-          cargo build --release; \
-        else \
-          cargo build; \
-        fi
+  cargo build --release; \
+  else \
+  cargo build; \
+  fi
 
 
 # RUN
 FROM alpine:3.23 AS production-stage
+
+# Copy all static files from the data image (images, maps, sitemaps, data files)
+COPY    --from=data-source /cdn /app/cdn
 
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
@@ -58,15 +64,18 @@ ENV     PROFILE=${PROFILE}
 ENV     RUST_BACKTRACE=1
 
 RUN     apk update --quiet \
-     && apk add --quiet --no-cache libgcc tini curl libpq-dev git
+  && apk add --quiet --no-cache libgcc tini curl libpq-dev git
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \
-     && mkdir -p /home/navigatum \
-     && chown -R navigatum:navigatum /home/navigatum
+  && mkdir -p /home/navigatum \
+  && mkdir -p /app/data/output \
+  && ln -s /app/cdn/*.json /app/data/output/ \
+  && ln -s /app/cdn/*.parquet /app/data/output/ \
+  && chown -R navigatum:navigatum /home/navigatum /app
 WORKDIR /home/navigatum
 USER    navigatum
 

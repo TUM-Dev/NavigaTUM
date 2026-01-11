@@ -1,4 +1,5 @@
 use crate::limited::vec::LimitedVec;
+use crate::setup::file_loader;
 use polars::prelude::ParquetReader;
 use polars::prelude::*;
 use serde_json::Value;
@@ -129,14 +130,15 @@ pub async fn download_updates(
     keys_which_need_updating: &LimitedVec<String>,
 ) -> anyhow::Result<LimitedVec<DelocalisedValues>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
-        .await?
-        .json::<Vec<HashMap<String, Value>>>()
-        .await?
-        .into_iter()
-        .map(DelocalisedValues::from)
-        .filter(|d| keys_which_need_updating.0.contains(&d.key))
-        .collect::<LimitedVec<DelocalisedValues>>();
+    let tasks = file_loader::load_json_or_download::<Vec<HashMap<String, Value>>>(
+        "api_data.json",
+        &cdn_url,
+    )
+    .await?
+    .into_iter()
+    .map(DelocalisedValues::from)
+    .filter(|d| keys_which_need_updating.0.contains(&d.key))
+    .collect::<LimitedVec<DelocalisedValues>>();
     Ok(tasks)
 }
 #[tracing::instrument(skip(tx))]
@@ -152,11 +154,7 @@ pub(super) async fn load_all_to_db(
 #[tracing::instrument]
 pub async fn download_status() -> anyhow::Result<(LimitedVec<String>, LimitedVec<i64>)> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = reqwest::get(format!("{cdn_url}/status_data.parquet"))
-        .await?
-        .error_for_status()?
-        .bytes()
-        .await?;
+    let body = file_loader::load_file_or_download("status_data.parquet", &cdn_url).await?;
     let mut file = tempfile()?;
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file).finish().unwrap();

@@ -1,3 +1,4 @@
+use crate::setup::file_loader;
 use polars::prelude::*;
 use serde::Deserialize;
 use std::io::Write;

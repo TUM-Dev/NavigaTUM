@@ -18,22 +18,6 @@ services:
       NUXT_PUBLIC_CDN_URL: https://nav.tum.de
       NUXT_PUBLIC_API_URL: https://nav.tum.de
       NUXT_PUBLIC_CALENDAR_URL: https://nav.tum.de
-  # cdn
-  data:
-    image: ghcr.io/tum-dev/navigatum-data:main
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-data.entrypoints=webs"
-      - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
-      - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
-    networks:
-      - traefik_traefik
-    environment:
-      TZ: Europe/Berlin
-    expose:
-      - "3002"
   server:
     image: ghcr.io/tum-dev/navigatum-server:main
     restart: unless-stopped
@@ -41,7 +25,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-server.entrypoints=webs"
       - "traefik.http.routers.navigatum-server.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && (PathPrefix(`/api`) || PathPrefix(`/cdn`))"
       - "traefik.http.services.navigatum-server.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
@@ -54,7 +38,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
-      CDN_URL: http://data:3002/cdn
+      CDN_URL: http://server:3003/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}

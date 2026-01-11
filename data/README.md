@@ -8,6 +8,8 @@ This folder contains:
 
 The code to retrieve external data as well as externally retrieved data is located under `external`.
 
+**Note:** The data Docker image is used as a build-only artifact. The compiled data files are copied into the server image during its build process. The data container does not run as a service in production.
+
 > [!WARNING]
 > A lot of this code is more a work-in-progress than finished.
 > Especially features such as POIs, custom maps or other data types such as events are drafted but not yet fully implemented.
@@ -89,10 +91,11 @@ Deployment related there are also these files:
 
 ```bash
 data
-├── Dockerfile       # Main dockerfile, in the deployment this is sometimes called the cdn
-├── ngnix.conf       # nginx configuration file used by above Dockerfile
-└── requirements.txt # python dependency's
+├── Dockerfile       # Dockerfile for compiling data (used as source in server multi-stage build)
+└── requirements.txt # Python dependencies
 ```
+
+The compiled data is automatically included in the server Docker image during build and served at `/cdn`.
 
 ### How the data looks like
 
