@@ -29,7 +29,6 @@ RUN cp external/results/public_transport.parquet output/public_transport.parquet
     && cp -r output/maps/site_plans output/maps/roomfinder \
     && cp -r output/maps/overlays output/maps/overlay
 # last renaming is to remain backwards compatible
-# Compress data (only using gzip, because brotli is complex)
 RUN gzip --force --keep --recursive output/
 
 # Create final output directory structure for extraction
