@@ -22,16 +22,16 @@ COPY data/translations.yaml translations.yaml
 COPY data/output output
 
 RUN python3 compile.py \
-    && test -f "./output/status_data.json" \
-    && test -f "./output/status_data.parquet" \
-    && test -f "./output/search_data.json" \
-    && test -f "./output/search_data.parquet" \
-    && test -f "./output/api_data.json" \
-    && test -f "./output/alias_data.parquet"
+       && test -f "./output/status_data.json" \
+       && test -f "./output/status_data.parquet" \
+       && test -f "./output/search_data.json" \
+       && test -f "./output/search_data.parquet" \
+       && test -f "./output/api_data.json" \
+       && test -f "./output/alias_data.parquet"
 RUN cp external/results/public_transport.parquet output/public_transport.parquet \
-    && cp -r sources/img/* output \
-    && cp -r output/maps/site_plans output/maps/roomfinder \
-    && cp -r output/maps/overlays output/maps/overlay
+       && cp -r sources/img/* output \
+       && cp -r output/maps/site_plans output/maps/roomfinder \
+       && cp -r output/maps/overlays output/maps/overlay
 
 FROM    rust:1.92-alpine AS compiler
 
@@ -61,15 +61,11 @@ COPY    Cargo.* ./
 COPY    server/Cargo.* ./server/
 COPY    motis-openapi-progenitor/Cargo.* ./motis-openapi-progenitor/
 RUN     mkdir -p ./server/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
-     && mkdir -p ./motis-openapi-progenitor/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
-     && if [ $PROFILE == "release" ]; then \
-          cargo build --release; \
-        else \
-          cargo build; \
-        fi \
-     && rm -fr target/${PROFILE}/deps/navigatum*
+        && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
+        && mkdir -p ./motis-openapi-progenitor/src/ \
+        && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
+        && if [ $PROFILE == "release" ]; then cargo build --release; else cargo build; fi \
+        && rm -fr target/${PROFILE}/deps/navigatum*
 
 # second run of the image build (including our code)
 COPY    server/.sqlx server/.sqlx
@@ -97,16 +93,16 @@ ENV     PROFILE=${PROFILE}
 ENV     RUST_BACKTRACE=1
 
 RUN     apk update --quiet \
-  && apk add --quiet --no-cache libgcc tini curl libpq-dev git
+     && apk add --quiet --no-cache libgcc tini curl libpq-dev git
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \
-  && mkdir -p /home/navigatum \
-  && chown -R navigatum:navigatum /cdn/ \
-  && chown -R navigatum:navigatum /home/navigatum /app
+     && mkdir -p /home/navigatum \
+     && chown -R navigatum:navigatum /cdn/ \
+     && chown -R navigatum:navigatum /home/navigatum
 WORKDIR /home/navigatum
 USER    navigatum
 
