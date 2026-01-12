@@ -9,17 +9,17 @@ ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
 # install requirements
-COPY requirements.txt .
+COPY data/requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # collect data
-COPY sources/ sources/
-COPY external/ external/
-COPY processors/ processors/
-COPY *.py ./
-COPY translations.yaml translations.yaml
+COPY data/sources/ sources/
+COPY data/external/ external/
+COPY data/processors/ processors/
+COPY data/*.py ./
+COPY data/translations.yaml translations.yaml
 
-COPY output output
+COPY data/output output
 
 RUN python3 compile.py \
     && test -f "./output/status_data.json" \
