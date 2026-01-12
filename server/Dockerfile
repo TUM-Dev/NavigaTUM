@@ -29,20 +29,24 @@ ENV     PROFILE=${PROFILE}
 
 # (probably cached) first run of the image build => only dependencies
 COPY    Cargo.* ./
-RUN     mkdir -p ./src/ \
-  && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs \
-  && if [ $PROFILE == "release" ]; then \
-  cargo build --release; \
-  else \
-  cargo build; \
-  fi \
-  && rm -fr target/${PROFILE}/deps/navigatum*
+COPY    server/Cargo.* ./server/
+COPY    motis-openapi-progenitor/Cargo.* ./motis-openapi-progenitor/
+RUN     mkdir -p ./server/src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
+     && mkdir -p ./motis-openapi-progenitor/src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
+     && if [ $PROFILE == "release" ]; then \
+          cargo build --release; \
+        else \
+          cargo build; \
+        fi \
+     && rm -fr target/${PROFILE}/deps/navigatum*
 
 # second run of the image build (including our code)
-COPY    .sqlx .sqlx
+COPY    server/.sqlx server/.sqlx
 
-COPY    src src
-COPY    migrations migrations
+COPY    server/src server/src
+COPY    server/migrations server/migrations
 RUN     if [ $PROFILE == "release" ]; then \
   cargo build --release; \
   else \

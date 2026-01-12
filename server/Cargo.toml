@@ -1,15 +1,13 @@
 [package]
 name = "navigatum-server"
-version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
-edition = "2024"
+edition.workspace=true
 description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
 repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 default-run = "navigatum-server"
-rust-version = "1.90.0"
 
 [[bin]]
 name = "navigatum-server"
@@ -17,62 +15,62 @@ path = "src/main.rs"
 
 [dependencies]
 # logging/obeservability
-actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json", "fmt"] }
-tracing = "0.1.41"
-tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
-tracing-actix-web = "0.7.15"
+actix-web-prom = { workspace=true, default-features = false, features = [] }
+tracing-subscriber = { workspace=true, features = ["env-filter", "json", "fmt"] }
+tracing.workspace=true
+tracing-log = { workspace=true, features = ["std", "log-tracer", "interest-cache"] }
+tracing-actix-web.workspace=true
 
 # errors
-anyhow = { version = "1.0.95", features = ["backtrace"] }
+anyhow = { workspace=true, features = ["backtrace"] }
 
 #serialisation
-serde = { version = "1.0.217", features = ["derive"] }
-serde_with = { version = "3.12.0", default-features = false, features = [] }
-serde_json = { version = "1.0.136", features = ["raw_value"] }
-serde_yaml = "0.9.34"
+serde = { workspace=true, features = ["derive"] }
+serde_with = { workspace=true, default-features = false, features = [] }
+serde_json = { workspace=true, features = ["raw_value"] }
+serde_yaml.workspace=true
 
 # runtime + webserver
-tokio = { version = "1.43.0", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
-actix-web = { version = "4.12.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
-actix-files = "0.6.9"
-actix-cors = "0.7.0"
-rustls = "0.23.21"
+tokio = { workspace=true, default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
+actix-web = { workspace=true, default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
+actix-cors.workspace=true
+rustls.workspace=true
+actix-files.workspace=true
 
-cached = { version = "0.56.0", features = ["default", "async", "disk_store"] }
-futures = "0.3.31"
-unicode-truncate = "2.0.0"
+cached = { workspace=true, features = ["default", "async", "disk_store"] }
+futures.workspace=true
+unicode-truncate.workspace=true
 
 # database
-sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
-chrono = { version = "0.4.39", default-features = false, features = ["serde"] }
+sqlx = { workspace=true, features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
+chrono = { workspace=true, default-features = false, features = ["serde"] }
 
 # search
 meilisearch-sdk = {version="0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
-logos = "0.16.0"
-regex = "1.11.1"
+logos.workspace=true
+regex.workspace=true
 
 # web access
-oauth2 = { version = "5.0.0", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+oauth2 = { workspace=true, default-features = false, features = ["rustls-tls", "reqwest"] }
+reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
 
 # image production
-image = { version = "0.25.9", default-features = false, features = ["jpeg", "png", "webp"] }
-imageproc = "0.26.0"
-ab_glyph = { version = "0.2.29", default-features = false }
-fast_qr = { version = "0.13.1", features = ["image"] }
+image = { workspace=true, default-features = false, features = ["jpeg", "png", "webp"] }
+imageproc.workspace=true
+ab_glyph = { workspace=true, default-features = false }
+fast_qr = { workspace=true, features = ["image"] }
 
-rand = "0.9.0"
-octocrab = { version = "0.49", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs"] }
+rand.workspace=true
+octocrab = { workspace=true, default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs"] }
 
 # auth/security
-jsonwebtoken = { version = "10.2.0", default-features = false, features = ["aws_lc_rs"] }
-actix-governor = { version = "0.10.0", features = ["logger"] }
+jsonwebtoken = { workspace=true, default-features = false, features = ["aws_lc_rs"] }
+actix-governor = { workspace=true, features = ["logger"] }
 
 # proposing feedback
-tempfile = "3.12.0"
-base64 = "0.22.1"
-polars = { version = "0.52.0", features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
+tempfile.workspace=true
+base64.workspace=true
+polars = { workspace=true, features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
 
 # geodata
 geo = { version = "0.32.0", features = ["use-serde"], default-features = false }
@@ -84,40 +82,15 @@ motis-openapi-progenitor = "0.4.0"
 chroma-forge = "1.0.0"
 
 # docs
-utoipa-actix-web = "0.1.2"
-utoipa = { version = "5.3.1", features = ["yaml", "chrono", "actix_extras", "url"] }
-utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
-url = "2.5.4"
-itertools = "0.14.0"
+utoipa-actix-web.workspace=true
+utoipa = { workspace=true, features = ["yaml", "chrono", "actix_extras", "url"] }
+utoipa-redoc = { workspace=true, features = ["actix-web"] }
+url.workspace=true
+itertools.workspace=true
 
 [dev-dependencies]
-insta = { version = "1.44.3", features = ["json", "redactions", "yaml"] }
-pretty_assertions = "1.4.1"
-testcontainers = { version = "0.26.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.14.0", features = ["meilisearch", "postgres"] }
-tracing-test = "0.2.5"
-
-
-[profile.release]
-strip = false
-lto = false
-
-# Enable max optimizations for some dependencies, but not for our code
-# nessesary to get acceptable performance out of the image processing code
-[profile.dev.package.image]
-opt-level = 3
-
-[profile.dev.package.imageproc]
-opt-level = 3
-
-[profile.dev.package.ab_glyph]
-opt-level = 3
-
-# https://github.com/launchbadge/sqlx?tab=readme-ov-file#compile-time-verification
-[profile.dev.package.sqlx-macros]
-opt-level = 3
-
-# https://insta.rs/docs/quickstart/
-[profile.dev.package]
-insta.opt-level = 3
-similar.opt-level = 3
+insta = { workspace=true, features = ["json", "redactions", "yaml"] }
+pretty_assertions.workspace=true
+testcontainers = { workspace=true, features = ["watchdog"] }
+testcontainers-modules = { workspace=true, features = ["meilisearch", "postgres"] }
+tracing-test.workspace=true

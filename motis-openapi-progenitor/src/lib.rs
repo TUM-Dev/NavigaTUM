@@ -1,8 +1,8 @@
 #![forbid(unsafe_code)]
 #![doc = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/README.md"))]
-use progenitor_client::{encode_path, ClientHooks, OperationInfo, RequestBuilderExt};
 #[allow(unused_imports)]
 pub use progenitor_client::{ByteStream, ClientInfo, Error, ResponseValue};
+use progenitor_client::{ClientHooks, OperationInfo, RequestBuilderExt, encode_path};
 /// Types used as operation parameters and responses.
 #[allow(clippy::all)]
 pub mod types {
@@ -5554,8 +5554,8 @@ pub mod types {
             pub fn effective_fare_leg_products<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::vec::Vec<::std::vec::Vec<::std::vec::Vec<super::FareProduct>>>,
-                >,
+                        ::std::vec::Vec<::std::vec::Vec<::std::vec::Vec<super::FareProduct>>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.effective_fare_leg_products = value.try_into().map_err(|e| {
@@ -6128,8 +6128,8 @@ pub mod types {
             pub fn looped_calendar_since<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.looped_calendar_since = value.try_into().map_err(|e| {
@@ -6761,8 +6761,8 @@ pub mod types {
             pub fn arrival<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.arrival = value
@@ -6783,8 +6783,8 @@ pub mod types {
             pub fn departure<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.departure = value
@@ -6825,8 +6825,8 @@ pub mod types {
             pub fn flex_end_pickup_drop_off_window<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.flex_end_pickup_drop_off_window = value.try_into().map_err(|e| {
@@ -6850,8 +6850,8 @@ pub mod types {
             pub fn flex_start_pickup_drop_off_window<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.flex_start_pickup_drop_off_window = value.try_into().map_err(|e| {
@@ -6915,8 +6915,8 @@ pub mod types {
             pub fn scheduled_arrival<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.scheduled_arrival = value.try_into().map_err(|e| {
@@ -6930,8 +6930,8 @@ pub mod types {
             pub fn scheduled_departure<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.scheduled_departure = value.try_into().map_err(|e| {
@@ -7162,8 +7162,8 @@ pub mod types {
             pub fn request_parameters<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::collections::HashMap<::std::string::String, ::std::string::String>,
-                >,
+                        ::std::collections::HashMap<::std::string::String, ::std::string::String>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.request_parameters = value.try_into().map_err(|e| {
@@ -8400,8 +8400,8 @@ pub mod types {
             pub fn end<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.end = value
@@ -8412,8 +8412,8 @@ pub mod types {
             pub fn start<T>(mut self, value: T) -> Self
             where
                 T: ::std::convert::TryInto<
-                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
-                >,
+                        ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                    >,
                 T::Error: ::std::fmt::Display,
             {
                 self.start = value
@@ -10033,8 +10033,8 @@ pub mod builder {
     use super::types;
     #[allow(unused_imports)]
     use super::{
-        encode_path, ByteStream, ClientHooks, ClientInfo, Error, OperationInfo, RequestBuilderExt,
-        ResponseValue,
+        ByteStream, ClientHooks, ClientInfo, Error, OperationInfo, RequestBuilderExt,
+        ResponseValue, encode_path,
     };
     ///Builder for [`Client::plan`]
     ///
