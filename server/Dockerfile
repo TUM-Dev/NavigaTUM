@@ -2,7 +2,36 @@
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
 # Extract data files from the data image
-FROM    ghcr.io/tum-dev/navigatum-data:main AS data-source
+FROM python:3.14-bookworm AS data-stage
+WORKDIR /app
+
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
+# install requirements
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+# collect data
+COPY sources/ sources/
+COPY external/ external/
+COPY processors/ processors/
+COPY *.py ./
+COPY translations.yaml translations.yaml
+
+COPY output output
+
+RUN python3 compile.py \
+    && test -f "./output/status_data.json" \
+    && test -f "./output/status_data.parquet" \
+    && test -f "./output/search_data.json" \
+    && test -f "./output/search_data.parquet" \
+    && test -f "./output/api_data.json" \
+    && test -f "./output/alias_data.parquet"
+RUN cp external/results/public_transport.parquet output/public_transport.parquet \
+    && cp -r sources/img/* output \
+    && cp -r output/maps/site_plans output/maps/roomfinder \
+    && cp -r output/maps/overlays output/maps/overlay
 
 FROM    rust:1.92-alpine AS compiler
 
@@ -58,7 +87,7 @@ RUN     if [ $PROFILE == "release" ]; then \
 FROM alpine:3.23 AS production-stage
 
 # Copy all static files from the data image (images, maps, sitemaps, data files)
-COPY    --from=data-source /cdn /cdn
+COPY    --from=data-stage /app/output/ /cdn
 
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}

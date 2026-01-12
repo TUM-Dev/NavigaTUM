@@ -41,16 +41,3 @@ jobs:
   #      run: pip install -r data/requirements.txt -r requirements-dev.txt
   #    - name: Run mypy
   #      run: mypy --strict data
-  data-build:
-    needs:
-      - data-test
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: data
-      context: ./data
-      dockerfile: Dockerfile
-    permissions:
-      id-token: write
-      contents: read
-      packages: write
-      attestations: write
