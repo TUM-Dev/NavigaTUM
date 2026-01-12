@@ -8,7 +8,10 @@ This folder contains:
 
 The code to retrieve external data as well as externally retrieved data is located under `external`.
 
-**Note:** The data Docker image is used as a build-only artifact. The compiled data files are copied into the server image during its build process. The data container does not run as a service in production.
+> [!NOTE]
+> The data Docker image is used as a build-only artifact.
+> The compiled data files are copied into the server image during its build process.
+> The data container does not run as a service in production.
 
 > [!WARNING]
 > A lot of this code is more a work-in-progress than finished.
