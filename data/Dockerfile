@@ -30,8 +30,7 @@ RUN cp external/results/public_transport.parquet output/public_transport.parquet
     && cp -r output/maps/overlays output/maps/overlay
 # last renaming is to remain backwards compatible
 
-# Create final output directory structure for extraction
-RUN mkdir -p /cdn && mv -r output/* /cdn/
-
+FROM scratch
+COPY --from=build-stage output /cdn/
 # This image is meant to be used as a data source in multi-stage builds
 # No runtime server is needed - the server image will copy files from /cdn
