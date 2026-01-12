@@ -22,16 +22,16 @@ COPY data/translations.yaml translations.yaml
 COPY data/output output
 
 RUN python3 compile.py \
-       && test -f "./output/status_data.json" \
-       && test -f "./output/status_data.parquet" \
-       && test -f "./output/search_data.json" \
-       && test -f "./output/search_data.parquet" \
-       && test -f "./output/api_data.json" \
-       && test -f "./output/alias_data.parquet"
+    && test -f "./output/status_data.json" \
+    && test -f "./output/status_data.parquet" \
+    && test -f "./output/search_data.json" \
+    && test -f "./output/search_data.parquet" \
+    && test -f "./output/api_data.json" \
+    && test -f "./output/alias_data.parquet"
 RUN cp external/results/public_transport.parquet output/public_transport.parquet \
-       && cp -r sources/img/* output \
-       && cp -r output/maps/site_plans output/maps/roomfinder \
-       && cp -r output/maps/overlays output/maps/overlay
+    && cp -r sources/img/* output \
+    && cp -r output/maps/site_plans output/maps/roomfinder \
+    && cp -r output/maps/overlays output/maps/overlay
 
 FROM    rust:1.92-alpine AS compiler
 
