@@ -31,6 +31,6 @@ RUN cp external/results/public_transport.parquet output/public_transport.parquet
 # last renaming is to remain backwards compatible
 
 FROM scratch
-COPY --from=build-stage output /cdn/
+COPY --from=build-stage /app/output /cdn/
 # This image is meant to be used as a data source in multi-stage builds
 # No runtime server is needed - the server image will copy files from /cdn
