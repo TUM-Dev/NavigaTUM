@@ -423,7 +423,6 @@ org_id,code,name,path
 20824,TUMAF05,Associate Professorship of Mathematics in Life Sciences (Prof. Kuttler),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematics in Life Sciences (Prof. Kuttler)"
 20825,TUMAF15,Associate Professorship of Numerics for Partial Differential Equations (Prof. Lasser),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Numerics for Partial Differential Equations (Prof. Lasser)"
 21453,TUPHE27,Chair of Cellular Biophysics (Prof. Bausch),TUM/Schools/Natural Sciences/Departments/Bioscience/Cellular Biophysics (Prof. Bausch)
-21511,TUPHENA,Associate Professorship of Experimentalphysik - Nukleare Astrophysik (N.N.),TUM/Academic department/Former TUM Department of Physics/Physics Department/Experimentalphysik - Nukleare Astrophysik (N.N.)
 21512,TUPHE62,Chair of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)
 21527,TUPHE59,Associate Professorship of Experimentalphysik - Weiche Materie (Prof. Papadakis),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Weiche Materie (Prof. Papadakis)
 21538,TUPHE60,Associate Professorship of Experimental Physics and Astroparticle Physics (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Physics and Astroparticle Physics (N.N.)
@@ -753,7 +752,6 @@ org_id,code,name,path
 44503,TUWZFFO,Forest Science and Resource Management,TUM/Schools/Life Sciences/Student Council/Forest Science and Resource Management
 44504,TUWIFSV,Student Council,TUM/Academic department/Former TUM Department of Management/Student Council
 44544,TUWIB21,Chair of Research and Science Management (Prof. Peus),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Research and Science Management (Prof. Peus)"
-44565,TUZEFWB,Research Center for Industrial Biotechnology,TUM/Other Scientific Institutions/Research Center for Industrial Biotechnology
 44566,TULRRFA,Chair of Space Mobility and Propulsion (Prof. Manfletti),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Space Mobility and Propulsion (Prof. Manfletti)
 44584,TUMWMHR,Associate Professorship of Mechanics and High Performance Computing (Prof. Gee),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Mechanics and High Performance Computing (Prof. Gee)
 44624,TUWZB6A,Associate Professorship of Biotechnology of Horticultural Crops (Prof. Poppenberger),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnology of Horticultural Crops (Prof. Poppenberger)
@@ -826,7 +824,6 @@ org_id,code,name,path
 45811,TUSPL15,Chair of Sociology of Diversity (N.N.),TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Sociology of Diversity (N.N.)
 45831,TUZEBD1,Data Protection Representative TUM Institute for Advanced Study (IAS),TUM/TUM Institute for Advanced Study (IAS)/Data Protection Representative
 45832,TUZEBD2,"Data Protection Representative Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)","TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Data Protection Representative"
-45834,TUZEBD4,Data Protection Representative Research Center for Industrial Biotechnology,TUM/Other Scientific Institutions/Research Center for Industrial Biotechnology/Data Protection Representative
 45835,TUZEBD5,Data Protection Representative Radiochemistry Munich (RCM),TUM/Other Scientific Institutions/Radiochemistry Munich (RCM)/Data Protection Representative
 45836,TUZEBD6,Data Protection Representative Research Neutron Source FRM II,TUM/Corporate Research Centers/Research Neutron Source FRM II/Data Protection Representative
 45837,TUZEBD7,Data Protection Representative World Agricultural Systems Center - Hans Eisenmann-Forum,TUM/Corporate Research Centers/World Agricultural Systems Center - Hans Eisenmann-Forum/Data Protection Representative
@@ -2274,3 +2271,6 @@ org_id,code,name,path
 57837,TUXS244,Degree Program Ergänzungsstudium Aerospace Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Ergänzungsstudium Aerospace Engineering
 57857,TUXS245,Degree Program B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/B.Sc. Geodesy and Earth Observation
 57877,TUS1327,Assistant Professorship of Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Associate Professorship"
+57897,TUS4M2A,Associate Professorship of Metabolic Cell Architecture (Prof. Krahmer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Metabolic Cell Architecture (Prof. Krahmer)
+57898,TUS4O5B,Assistant Professorship of Organoid Systems and Biointerfaces (Prof. Mora-Boza),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Organoid Systems and Biointerfaces (Prof. Mora-Boza)
+57899,TUS1328,Assistant Professorship of Statistics and Data Science (Prof. Düker),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Statistics and Data Science (Prof. Düker)"
