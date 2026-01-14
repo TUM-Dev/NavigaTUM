@@ -9,6 +9,7 @@ repository = "https://github.com/TUM-Dev/navigatum"
 [workspace.dependencies]
 ab_glyph = { version = "0.2.29", default-features = false }
 actix-cors = "0.7.0"
+actix-files = "0.6"
 actix-governor = { version = "0.10.0", features = ["logger"] }
 actix-middleware-etag = "0.4.6"
 actix-web = { version = "4.12.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }

@@ -51,6 +51,37 @@ The server should now be available on `localhost:8080` if you have configured th
 > `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile
 > the `search` or `preview` functions, it makes quite a difference).
 
+### Static Files and CDN
+
+The server now serves all static files (images, maps, sitemaps, data files) directly at the `/cdn` endpoint, eliminating the need for a separate nginx CDN container.
+
+#### Static Data Files
+
+The server can load setup data files from the local filesystem or download them from the CDN. This provides:
+- Faster startup times in production (all files are baked into the Docker image)
+- Self-contained deployment (no separate CDN container needed)
+- Using local files during development, if available
+- Fallback to downloading files during development when local files aren't available
+
+#### File Locations
+
+The server looks for data files in the following locations (in order):
+1. `/cdn/` (Docker production)
+2. `data/output/` (relative to current working directory)
+3. `../data/output/` (one level up - useful when running from `server/` directory)
+4. `../../data/output/` (two levels up)
+
+If files are not found locally, they will be downloaded from the source specified by the `CDN_URL` environment variable (or GitHub for some files).
+
+#### Required Files
+
+The following files are loaded during server setup:
+- `alias_data.parquet` - Alias mappings for locations (baked into Docker image)
+- `api_data.json` - Main location data for the API (baked into Docker image)
+- `status_data.parquet` - Status information for locations (baked into Docker image)
+- `search_data.json` - Search index data for MeiliSearch (baked into Docker image)
+- `public_transport.parquet` - Public transportation station data (baked into Docker image)
+
 ### Environment Variables
 
 | variable                          | module                           |                                         | usage/description                                                                                      |
@@ -61,7 +92,7 @@ The server should now be available on `localhost:8080` if you have configured th
 | `GITHUB_TOKEN`                    | [`feedback`](./feeedback/mod.rs) |                                         | A GitHub token with `write` access to `repo`.<br/>This is used to create issues/PRs on the repository. |
 | `JWT_KEY`                         | [`feedback`](./feeedback/mod.rs) |                                         | A key used to sign JWTs.<br/>This is used to authenticate that feedback tokens were given out by us.   |
 | `MIELI_{URL,MASTER_KEY}`          | [`search`](./search/mod.rs)      |                                         | Allows searching via meiliserch                                                                        |
-| `CDN_URL`                         | [`setup`](./setup/mod.rs)        | required <br/> can be skipped via flags | Source of truth of the data                                                                            |
+| `CDN_URL`                         | [`setup`](./setup/mod.rs)        | optional (fallback only)                | Fallback URL for downloading data files if not found locally (usually not needed in production)        |
 
 ### Adding Migrations
 

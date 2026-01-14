@@ -1,4 +1,5 @@
 pub mod database;
+mod file_loader;
 
 pub mod meilisearch;
 #[cfg(test)]

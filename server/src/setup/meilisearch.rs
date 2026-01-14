@@ -7,6 +7,8 @@ use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
 use tracing::{debug, error, info};
 
+use crate::setup::file_loader;
+
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(60));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(250));
 
@@ -108,11 +110,8 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
 pub async fn load_data(client: &Client) -> anyhow::Result<()> {
     let entries = client.index("entries");
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
-        .await?
-        .error_for_status()?
-        .json::<Vec<Value>>()
-        .await?;
+    let documents =
+        file_loader::load_json_or_download::<Vec<Value>>("search_data.json", &cdn_url).await?;
     let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?

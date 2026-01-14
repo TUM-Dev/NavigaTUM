@@ -1,3 +1,4 @@
+use crate::setup::file_loader;
 use polars::prelude::*;
 use serde::Deserialize;
 use std::io::Write;
@@ -52,14 +53,11 @@ impl DBStation {
 pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     // Download the parquet file from CDN
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let url = format!("{cdn_url}/public_transport.parquet");
-
-    let response = reqwest::get(&url).await?.error_for_status()?;
-    let parquet_data = response.bytes().await?;
+    let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
 
     // Write to temporary file
     let mut file = tempfile()?;
-    file.write_all(&parquet_data)?;
+    file.write_all(&body)?;
 
     // Read parquet file using ParquetReader
     let df = ParquetReader::new(&mut file).finish()?;

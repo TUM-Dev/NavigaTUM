@@ -321,7 +321,7 @@ enum PoweredTwoWheeledRestrictionRequest {
         (status = 404, description = "**Not found.** The requested location does not exist", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
-#[get("/api/maps/route")]
+#[get("/api/maps/route", wrap = "actix_middleware_etag::Etag::default()")]
 pub async fn route_handler(
     args: web::Query<RoutingRequest>,
     data: web::Data<crate::AppData>,

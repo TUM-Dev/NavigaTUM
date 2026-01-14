@@ -36,7 +36,7 @@ jobs:
       - name: Setup | Pull Docker images
         run: docker compose pull
       - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build server data
+        run: docker compose -f compose.local.yml build server
 
       - name: Setup | pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
