@@ -54,8 +54,8 @@ importers:
         specifier: 12.6.0
         version: 12.6.0
       maplibre-gl:
-        specifier: 5.15.0
-        version: 5.15.0
+        specifier: 5.16.0
+        version: 5.16.0
       maplibre-gl-indoor:
         specifier: 0.0.22
         version: 0.0.22
@@ -3793,8 +3793,8 @@ packages:
   maplibre-gl-indoor@0.0.22:
     resolution: {integrity: sha512-b+uSYqk1kiLBvyBXNhI4MzEWq1qcuGcdoT9aRZvU6+zNqAsK2JIngePZh98hn/7HaRSB2ijb+OabU1OvbSJ3uQ==}
 
-  maplibre-gl@5.15.0:
-    resolution: {integrity: sha512-pPeu/t4yPDX/+Uf9ibLUdmaKbNMlGxMAX+tBednYukol2qNk2TZXAlhdohWxjVvTO3is8crrUYv3Ok02oAaKzA==}
+  maplibre-gl@5.16.0:
+    resolution: {integrity: sha512-/VDY89nr4jgLJyzmhy325cG6VUI02WkZ/UfVuDbG/piXzo6ODnM+omDFIwWY8tsEsBG26DNDmNMn3Y2ikHsBiA==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   markdown-table@3.0.4:
@@ -9738,9 +9738,9 @@ snapshots:
       '@turf/bbox': 7.2.0
       '@turf/destination': 7.2.0
       '@turf/distance': 7.2.0
-      maplibre-gl: 5.15.0
+      maplibre-gl: 5.16.0
 
-  maplibre-gl@5.15.0:
+  maplibre-gl@5.16.0:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
