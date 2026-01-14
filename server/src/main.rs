@@ -241,12 +241,15 @@ async fn main() -> anyhow::Result<()> {
                 .service(openapi_doc)
                 .map(|app| {
                     // Add static file serving outside utoipa to avoid trait bound requirements
+                    // Note: use_last_modified and use_etag is disabled to prevent actix_files from generating
+                    // ETags with invalid format (containing colons). The ETag middleware above
+                    // will generate RFC-compliant ETags for all responses including static files.
+                    // (this would be a runtime panic)
                     app.service(
                         actix_files::Files::new("/cdn", "/cdn")
                             .show_files_listing()
                             .redirect_to_slash_directory()
                             .with_permanent_redirect()
-                            .use_last_modified(true)
                             .prefer_utf8(true),
                     )
                 }),
