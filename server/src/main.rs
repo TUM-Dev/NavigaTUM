@@ -244,6 +244,8 @@ async fn main() -> anyhow::Result<()> {
                     app.service(
                         actix_files::Files::new("/cdn", "/cdn")
                             .show_files_listing()
+                            .redirect_to_slash_directory()
+                            .with_permanent_redirect()
                             .use_last_modified(true)
                             .prefer_utf8(true),
                     )
