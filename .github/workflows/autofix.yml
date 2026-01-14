@@ -43,7 +43,7 @@ jobs:
         with:
           tool: cargo-sort
       - name: Sort Cargo.toml
-        run: cargo cargo sort
+        run: cargo sort
 
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
