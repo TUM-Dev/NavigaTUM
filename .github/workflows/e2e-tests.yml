@@ -1,5 +1,9 @@
 name: E2E Tests
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-server
+  cancel-in-progress: true
+
 on:
   pull_request:
     branches: [main]

@@ -1,5 +1,8 @@
-
 name: Security audit
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-server
+  cancel-in-progress: true
 
 on:
   schedule:
@@ -8,8 +11,7 @@ on:
     branches: ["main"]
   pull_request:
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   zizmor:
