@@ -242,7 +242,7 @@ async fn main() -> anyhow::Result<()> {
                 .map(|app| {
                     // Add static file serving outside utoipa to avoid trait bound requirements
                     app.service(
-                        actix_files::Files::new("/cdn", "/app/cdn")
+                        actix_files::Files::new("/cdn", "/cdn")
                             .show_files_listing()
                             .use_last_modified(true)
                             .use_etag(true)

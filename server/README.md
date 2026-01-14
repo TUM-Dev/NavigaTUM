@@ -66,7 +66,7 @@ The server can load setup data files from the local filesystem or download them 
 #### File Locations
 
 The server looks for data files in the following locations (in order):
-1. `/cdn/` (Docker production - symlinked to `/app/cdn/`)
+1. `/cdn/` (Docker production)
 2. `data/output/` (relative to current working directory)
 3. `../data/output/` (one level up - useful when running from `server/` directory)
 4. `../../data/output/` (two levels up)
