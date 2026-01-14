@@ -21,7 +21,7 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
-      - name: Install cargo-insta
+      - name: Install cargo-shear
         uses: taiki-e/install-action@90558ad1e179036f31467972b00dec6cb80701fa # v2.66.3
         with:
           tool: cargo-shear
