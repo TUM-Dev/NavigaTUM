@@ -423,7 +423,6 @@ org_id,code,name,path
 20824,TUMAF05,Professur für Mathematik in den Lebenswissenschaften (Prof. Kuttler),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematik in den Lebenswissenschaften (Prof. Kuttler)"
 20825,TUMAF15,Professur für Numerik Partieller Differentialgleichungen (Prof. Lasser),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Numerik Partieller Differentialgleichungen (Prof. Lasser)"
 21453,TUPHE27,Lehrstuhl für Heinz Nixdorf Stiftungslehrstuhl für Zellbiophysik (Prof. Bausch),TUM/Schools/Natural Sciences/Departments/Bioscience/Heinz Nixdorf Stiftungslehrstuhl für Zellbiophysik (Prof. Bausch)
-21511,TUPHENA,Professur für Experimentalphysik - Nukleare Astrophysik (N.N.),TUM/Fakultäten/Ehemalige Fakultät für Physik/Physik-Department/Experimentalphysik - Nukleare Astrophysik (N.N.)
 21512,TUPHE62,Lehrstuhl für Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)
 21527,TUPHE59,Professur für Experimentalphysik - Weiche Materie (Prof. Papadakis),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Weiche Materie (Prof. Papadakis)
 21538,TUPHE60,Professur für Experimentalphysik - Astroteilchenphysik (N.N.),TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Astroteilchenphysik (N.N.)
@@ -753,7 +752,6 @@ org_id,code,name,path
 44503,TUWZFFO,Forstwissenschaft und Ressourcenmanagement,TUM/Schools/Life Sciences/Fachschaftsvertretung/Forstwissenschaft und Ressourcenmanagement
 44504,TUWIFSV,Fachschaftsvertretung,TUM/Fakultäten/Ehemalige Fakultät für Wirtschaftswissenschaften/Fachschaftsvertretung
 44544,TUWIB21,Lehrstuhl für Forschungs- und Wissenschaftsmanagement (Prof. Peus),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Forschungs- und Wissenschaftsmanagement (Prof. Peus)"
-44565,TUZEFWB,Forschungszentrum für Weiße Biotechnologie (i.Gr.),TUM/Weitere wissenschaftliche Einrichtungen/Forschungszentrum für Weiße Biotechnologie (i.Gr.)
 44566,TULRRFA,Lehrstuhl für Raumfahrtmobilität und -antriebe (Prof. Manfletti),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrtmobilität und -antriebe (Prof. Manfletti)
 44584,TUMWMHR,Professur für Mechanik auf Höchstleistungsrechnern (Prof. Gee),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Mechanik auf Höchstleistungsrechnern (Prof. Gee)
 44624,TUWZB6A,Professur für Biotechnologie Gartenbaulicher Kulturen (Prof. Poppenberger),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biotechnologie Gartenbaulicher Kulturen (Prof. Poppenberger)
@@ -826,7 +824,6 @@ org_id,code,name,path
 45811,TUSPL15,Lehrstuhl für Diversitätssoziologie (N.N.),TUM/Fakultäten/Ehemalige Fakultät für Sport- und Gesundheitswissenschaften/Lehrstühle und Professuren/Diversitätssoziologie (N.N.)
 45831,TUZEBD1,Datenschutzbevollmächtigte/r TUM Institute for Advanced Study (IAS),TUM/TUM Institute for Advanced Study (IAS)/Datenschutzbevollmächtigte/r
 45832,TUZEBD2,"Datenschutzbevollmächtigte/r Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)","TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Datenschutzbevollmächtigte/r"
-45834,TUZEBD4,Datenschutzbevollmächtigte/r Forschungszentrum für Weiße Biotechnologie (i.Gr.),TUM/Weitere wissenschaftliche Einrichtungen/Forschungszentrum für Weiße Biotechnologie (i.Gr.)/Datenschutzbevollmächtigte/r
 45835,TUZEBD5,Datenschutzbevollmächtigte/r Radiochemie München (RCM),TUM/Weitere wissenschaftliche Einrichtungen/Radiochemie München (RCM)/Datenschutzbevollmächtigte/r
 45836,TUZEBD6,Datenschutzbevollmächtigte/r Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II),TUM/Wissenschaftliche Zentralinstitute/Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)/Datenschutzbevollmächtigte/r
 45837,TUZEBD7,Datenschutzbevollmächtigte/r World Agricultural Systems Center - Hans Eisenmann-Forum,TUM/Wissenschaftliche Zentralinstitute/World Agricultural Systems Center - Hans Eisenmann-Forum/Datenschutzbevollmächtigte/r
@@ -2274,3 +2271,6 @@ org_id,code,name,path
 57837,TUXS244,Studiengang Ergänzungsstudium Luft- und Raumfahrt,TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Ergänzungsstudium Luft- und Raumfahrt
 57857,TUXS245,Studiengang B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Studienorganisation/Geodesy/B.Sc. Geodesy and Earth Observation
 57877,TUS1327,Professur für Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Human-Centered Digital Design"
+57897,TUS4M2A,Professur für Metabolic Cell Architecture (Prof. Krahmer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Metabolic Cell Architecture (Prof. Krahmer)
+57898,TUS4O5B,Professur für Organoid Systems and Biointerfaces (Prof. Mora-Boza),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Organoid Systems and Biointerfaces (Prof. Mora-Boza)
+57899,TUS1328,Professur für Statistik und Data Science (Prof. Düker),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Statistik und Data Science (Prof. Düker)"
