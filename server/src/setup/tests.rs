@@ -1,5 +1,5 @@
 use meilisearch_sdk::client::Client;
-use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
+use testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
 use tracing::{error, info};
 
