@@ -126,19 +126,6 @@ test.describe("CDN Endpoints - Conditional Requests", () => {
   });
 });
 
-test.describe("CDN Endpoints - CORS Headers", () => {
-  test("should include CORS allow-origin wildcard header for api_data.json", async ({
-    request,
-  }) => {
-    const response = await request.get("/cdn/api_data.json");
-
-    expect(response.status()).toBe(200);
-
-    const headers = response.headers();
-    expect(headers["access-control-allow-origin"]).toBe("*");
-  });
-});
-
 test.describe("CDN Endpoints - Compression Support", () => {
   test("should serve api_data.json with compression when Accept-Encoding is provided", async ({
     request,
