@@ -159,7 +159,10 @@ struct MapsPathParams {
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
-#[get("/api/locations/{id}/preview", wrap = "actix_middleware_etag::Etag::default()")]
+#[get(
+    "/api/locations/{id}/preview",
+    wrap = "actix_middleware_etag::Etag::default()"
+)]
 pub async fn maps_handler(
     params: web::Path<MapsPathParams>,
     args: web::Query<QueryArgs>,

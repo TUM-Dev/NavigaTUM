@@ -51,7 +51,10 @@ fn generate_qr_code(url: &str) -> anyhow::Result<LimitedVec<u8>> {
         (status = 500, description = "**Internal server error**", body = String, content_type = "text/plain"),
     )
 )]
-#[get("/api/locations/{id}/qr-code", wrap = "actix_middleware_etag::Etag::default()")]
+#[get(
+    "/api/locations/{id}/qr-code",
+    wrap = "actix_middleware_etag::Etag::default()"
+)]
 pub async fn qr_code_handler(
     params: web::Path<QrCodePathParams>,
     data: web::Data<crate::AppData>,

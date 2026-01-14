@@ -22,7 +22,10 @@ struct NearbyPathParams {
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
-#[get("/api/locations/{id}/nearby", wrap = "actix_middleware_etag::Etag::default()")]
+#[get(
+    "/api/locations/{id}/nearby",
+    wrap = "actix_middleware_etag::Etag::default()"
+)]
 pub async fn nearby_handler(
     params: web::Path<NearbyPathParams>,
     data: web::Data<crate::AppData>,
