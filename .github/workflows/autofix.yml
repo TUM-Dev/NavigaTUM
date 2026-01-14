@@ -38,7 +38,7 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
-      - name: Install cargo-insta
+      - name: Install cargo-sort
         uses: taiki-e/install-action@90558ad1e179036f31467972b00dec6cb80701fa # v2.66.3
         with:
           tool: cargo-sort
@@ -155,7 +155,7 @@ jobs:
   # This final step is needed to mark the whole workflow as successful
   # Don't change its name - it is used by the merge protection rules
   done:
-    name: Finished
+    name: Finished autofix
     runs-on: ubuntu-latest
     needs: [ update-server-snapshots, sort-cargo-toml, update-openapi ]
     if: always()
