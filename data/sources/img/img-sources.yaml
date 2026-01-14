@@ -508,6 +508,12 @@
     author: 'Foto: Thorsten Naeser / Max-Planck-Institut für Quantenoptik'
     license:
       text: frei für Berichterstattung über TUM, LMU, MPQ und CALA
+'5132':
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 '5301':
   0:
     author: Buck, Markus
