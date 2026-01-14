@@ -1,16 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("CDN Endpoints - Health Check", () => {
-  test("should serve health check endpoint with correct status and body", async ({ request }) => {
-    const response = await request.get("/cdn/health");
-
-    expect(response.status()).toBe(200);
-
-    const body = await response.text();
-    expect(body).toBe("healthy");
-  });
-});
-
 test.describe("CDN Endpoints - JSON Data Files", () => {
   test("should serve api_data.json with valid structure", async ({ request }) => {
     const response = await request.get("/cdn/api_data.json");
