@@ -26,6 +26,7 @@ jobs:
         with:
           tool: cargo-shear
       
+      - run: rustup default nightly && rustup update
       - run: cargo shear --expand
   tests:
     runs-on: ubuntu-latest
