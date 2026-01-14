@@ -8,10 +8,7 @@ documentation = "https://docs.rs/motis-openapi-progenitor"
 repository = "https://github.com/tum-dev/navigatum"
 
 [dependencies]
-bytes.workspace = true
 chrono = { workspace = true, default-features=false, features = ["serde"] }
-futures-core.workspace = true
 progenitor-client.workspace = true
-serde_urlencoded.workspace = true
 reqwest = { workspace = true, default-features=false, features = ["json", "stream"] }
 serde = { workspace = true, features = ["derive"] }
