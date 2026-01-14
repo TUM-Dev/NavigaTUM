@@ -15,16 +15,11 @@ actix-web = { version = "4.12.1", default-features = false, features = ["compres
 actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
 anyhow = { version = "1.0.95", features = ["backtrace"] }
 base64 = "0.22.1"
-bytes = "1.11.0"
 cached = { version = "0.56.0", features = ["default", "async", "disk_store"] }
 chroma-forge = "1.0.0"
 chrono = { version = "0.4", default-features = false, features = ["serde"] }
 fast_qr = { version = "0.13.1", features = ["image"] }
 futures = "0.3.31"
-futures-core = "0.3"
-geo = { version = "0.32.0", features = ["use-serde"], default-features = false }
-geo-types = { version = "0.7.18", default-features = false }
-geozero = { version = "0.15.1", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
 image = { version = "0.25.9", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.26.0"
 insta = "1.44.3"
@@ -45,7 +40,6 @@ reqwest = { version = "0.12", default-features = false, features = ["gzip", "hic
 rustls = "0.23.21"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0.136", features = ["raw_value"] }
-serde_urlencoded = "0.7"
 serde_with = { version = "3.12.0", default-features = false, features = [] }
 serde_yaml = "0.9.34"
 sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
