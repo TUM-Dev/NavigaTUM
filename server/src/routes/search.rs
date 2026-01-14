@@ -315,7 +315,7 @@ impl From<&SearchQueryArgs> for FormattingConfig {
         (status = 414, description = "**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..", body = String, content_type = "text/plain"),
     )
 )]
-#[get("/api/search")]
+#[get("/api/search", wrap = "actix_middleware_etag::Etag::default()")]
 pub async fn search_handler(
     data: web::Data<AppData>,
     web::Query(args): web::Query<SearchQueryArgs>,

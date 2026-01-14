@@ -3,7 +3,6 @@ use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
-use actix_middleware_etag::Etag;
 use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
@@ -72,7 +71,7 @@ impl From<PgPool> for AppData {
         (status = 503, description = "API is **NOT healthy**", body = String, content_type = "text/plain", example="unhealthy\nsource_code: https://github.com/TUM-Dev/navigatum/tree/{hash}"),
     )
 )]
-#[get("/api/status")]
+#[get("/api/status", wrap = "actix_middleware_etag::Etag::default()")]
 async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     let github_link = match option_env!("GIT_COMMIT_SHA") {
         Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
@@ -99,7 +98,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         (status = 200, description = "The openapi definition", content_type="application/json")
     )
 )]
-#[get("/api/openapi.json")]
+#[get("/api/openapi.json", wrap = "actix_middleware_etag::Etag::default()")]
 async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>) -> impl Responder {
     HttpResponse::Ok().json(openapi)
 }
@@ -214,7 +213,6 @@ async fn main() -> anyhow::Result<()> {
 
         docs::add_openapi_docs(
             App::new()
-                .wrap(Etag::default())
                 .wrap(prometheus.clone())
                 .wrap(cors)
                 .wrap(TracingLogger::default())

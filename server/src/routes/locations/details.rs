@@ -37,7 +37,7 @@ struct DetailsPathParams {
         (status = 404, description = "**Not found.** Make sure that requested item exists", body = String, content_type = "text/plain", example = "Not found"),
     )
 )]
-#[get("/api/locations/{id}")]
+#[get("/api/locations/{id}", wrap = "actix_middleware_etag::Etag::default()")]
 pub async fn get_handler(
     params: web::Path<DetailsPathParams>,
     web::Query(args): web::Query<localisation::LangQueryArgs>,
