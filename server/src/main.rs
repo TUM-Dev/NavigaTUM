@@ -245,7 +245,6 @@ async fn main() -> anyhow::Result<()> {
                         actix_files::Files::new("/cdn", "/cdn")
                             .show_files_listing()
                             .use_last_modified(true)
-                            .use_etag(true)
                             .prefer_utf8(true),
                     )
                 }),
