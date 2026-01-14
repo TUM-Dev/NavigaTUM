@@ -155,7 +155,7 @@ jobs:
   # This final step is needed to mark the whole workflow as successful
   # Don't change its name - it is used by the merge protection rules
   done:
-    name: Finished
+    name: Finished autofix
     runs-on: ubuntu-latest
     needs: [ update-server-snapshots, sort-cargo-toml, update-openapi ]
     if: always()
