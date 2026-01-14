@@ -73,13 +73,10 @@ base64.workspace=true
 polars = { workspace=true, features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
 
 # geodata
-geo = { version = "0.32.0", features = ["use-serde"], default-features = false }
-geozero = { version = "0.15.1", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
-geo-types = { version = "0.7.18", default-features = false }
-actix-middleware-etag = "0.4.6"
-valhalla-client = { version = "0.5.0", default-features = false }
+actix-middleware-etag.workspace=true
+valhalla-client = { workspace=true, default-features = false }
 motis-openapi-progenitor = "0.4.0"
-chroma-forge = "1.0.0"
+chroma-forge.workspace=true
 
 # docs
 utoipa-actix-web.workspace=true
