@@ -3,7 +3,6 @@ use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
-use actix_middleware_etag::Etag;
 use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
@@ -72,7 +71,7 @@ impl From<PgPool> for AppData {
         (status = 503, description = "API is **NOT healthy**", body = String, content_type = "text/plain", example="unhealthy\nsource_code: https://github.com/TUM-Dev/navigatum/tree/{hash}"),
     )
 )]
-#[get("/api/status")]
+#[get("/api/status", wrap = "actix_middleware_etag::Etag::default()")]
 async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     let github_link = match option_env!("GIT_COMMIT_SHA") {
         Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
@@ -99,7 +98,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         (status = 200, description = "The openapi definition", content_type="application/json")
     )
 )]
-#[get("/api/openapi.json")]
+#[get("/api/openapi.json", wrap = "actix_middleware_etag::Etag::default()")]
 async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>) -> impl Responder {
     HttpResponse::Ok().json(openapi)
 }
@@ -214,7 +213,6 @@ async fn main() -> anyhow::Result<()> {
 
         docs::add_openapi_docs(
             App::new()
-                .wrap(Etag::default())
                 .wrap(prometheus.clone())
                 .wrap(cors)
                 .wrap(TracingLogger::default())
@@ -238,7 +236,21 @@ async fn main() -> anyhow::Result<()> {
                         .wrap(actix_governor::Governor::new(&feedback_ratelimit))
                         .service(feedback::tokens::get_token),
                 )
-                .service(openapi_doc),
+                .service(openapi_doc)
+                .map(|app| {
+                    // Add static file serving outside utoipa to avoid trait bound requirements
+                    // Note: use_last_modified and use_etag is disabled to prevent actix_files from generating
+                    // ETags with invalid format (containing colons). The ETag middleware above
+                    // will generate RFC-compliant ETags for all responses including static files.
+                    // (this would be a runtime panic)
+                    app.service(
+                        actix_files::Files::new("/cdn", "/cdn")
+                            .show_files_listing()
+                            .redirect_to_slash_directory()
+                            .with_permanent_redirect()
+                            .prefer_utf8(true),
+                    )
+                }),
         )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?

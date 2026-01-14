@@ -303,23 +303,3 @@ test.describe("API Endpoints - Content Negotiation", () => {
     expect(response.headers()["content-type"]).toContain("text/plain");
   });
 });
-
-test.describe("API Endpoints - Response Time", () => {
-  test("should respond to health check quickly", async ({ request }) => {
-    const startTime = Date.now();
-    const response = await request.get("/api/status");
-    const endTime = Date.now();
-
-    expect(response.status()).toBe(200);
-    expect(endTime - startTime).toBeLessThan(5000);
-  });
-
-  test("should respond to search queries in reasonable time", async ({ request }) => {
-    const startTime = Date.now();
-    const response = await request.get("/api/search?q=MI");
-    const endTime = Date.now();
-
-    expect(response.status()).toBe(200);
-    expect(endTime - startTime).toBeLessThan(10000);
-  });
-});

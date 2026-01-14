@@ -25,7 +25,7 @@ info:
   license:
     name: GPL v3
     url: https://www.gnu.org/licenses/
-  version: 1.0.0
+  version: 0.0.0
   x-logo:
     altText: null
     backgroundColor: null
