@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
-import { useRouteQuery } from "@vueuse/router";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
