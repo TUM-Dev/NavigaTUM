@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
-import { useClipboard } from "@vueuse/core";
+import { useClipboard, useSwipe } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
 
@@ -136,6 +136,18 @@ const isMobileExpanded = ref(false);
 const toggleMobileExpand = () => {
   isMobileExpanded.value = !isMobileExpanded.value;
 };
+
+const swipeTarget = ref<HTMLElement | null>(null);
+const { direction, isSwiping } = useSwipe(swipeTarget, {
+  threshold: 20,
+  onSwipeEnd: () => {
+    if (direction.value === "up") {
+      isMobileExpanded.value = true;
+    } else if (direction.value === "down") {
+      isMobileExpanded.value = false;
+    }
+  },
+});
 </script>
 
 <template>
@@ -156,25 +168,20 @@ const toggleMobileExpand = () => {
         class="bg-zinc-50 z-20 flex flex-col border-zinc-200 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
         :class="isMobileExpanded ? 'max-md:top-16' : 'max-md:max-h-[50vh]'"
       >
-        <!-- Mobile Handle / Toggle -->
-        <button
-          type="button"
-          class="md:hidden flex justify-center pt-2 pb-2 cursor-pointer shrink-0 bg-zinc-50"
-          @click="toggleMobileExpand"
-          :class="isMobileExpanded ? '' : 'rounded-t-3xl'"
-        >
-          <div class="w-12 h-1.5 bg-zinc-300 rounded-full"></div>
-        </button>
+        <!-- Mobile Drag Handle and Image -->
+        <div ref="swipeTarget" class="shrink-0">
+          <!-- Handle -->
+          <div class="flex justify-center md:hidden pt-2 pb-2 cursor-grab" :class="isMobileExpanded ? 'rounded-none' : 'rounded-t-3xl'" @click="toggleMobileExpand">
+            <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
+          </div>
 
-        <!-- Scrollable Content -->
-        <div class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
-          <!-- Image Section -->
+          <!-- Image -->
           <div v-if="data?.imgs?.length && data.imgs[0]" class="relative shrink-0">
             <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
               <NuxtImg
                 :alt="t('image_alt')"
                 :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-                class="bg-zinc-100 block md:h-64 w-full object-cover"
+                class="bg-zinc-100 block md:h-40 lg:h-52 w-full object-cover"
                 :class="isMobileExpanded ? 'h-32' : 'h-20'"
                 preload
                 placeholder
@@ -184,9 +191,9 @@ const toggleMobileExpand = () => {
             </button>
           </div>
           <div
-            v-else-if="!data?.imgs?.length"
-            class="bg-zinc-100 shrink-0 group hover:border-zinc-400 hover:bg-zinc-200 border-2 rounded-2xl border-dashed border-zinc-300 md:m-2 md:mb-0"
-            :class="isMobileExpanded ? 'px-2' : 'mt-1'"
+            v-else
+            class="bg-zinc-100 group hover:border-zinc-400 hover:bg-zinc-200 border-2 rounded-2xl border-dashed border-zinc-300 mx-2"
+            :class="isMobileExpanded ? '' : 'mt-1'"
           >
             <button
               type="button"
@@ -198,7 +205,10 @@ const toggleMobileExpand = () => {
               <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
             </button>
           </div>
+        </div>
 
+        <!-- Scrollable Content -->
+        <div class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
           <!-- Content Padding -->
           <div class="px-5 pb-8 pt-4 bg-zinc-50">
             <!-- Breadcrumbs -->
@@ -213,7 +223,7 @@ const toggleMobileExpand = () => {
             />
 
             <!-- Title & Actions -->
-            <div class="group flex py-1 rounde transition-colors flex-row items-center gap-2">
+            <div class="group flex py-1 rounded transition-colors flex-row items-center gap-2">
               <h1 class="text-zinc-800 text-2xl font-bold leading-tight">{{ data.name }}</h1>
               <button
                 v-if="clipboardIsSupported"
