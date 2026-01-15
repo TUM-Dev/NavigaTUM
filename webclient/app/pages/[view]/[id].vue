@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
-import { useRouteQuery } from "@vueuse/router";
 import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
@@ -19,7 +18,6 @@ type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
-const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
@@ -81,13 +79,6 @@ const suggestImage = () => {
   editProposal.value.open = true;
   editProposal.value.imageUpload.open = true;
 };
-
-const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
-  mode: "replace",
-  route,
-  router,
-  transform: (val) => (val === "plans" ? "plans" : "interactive"),
-});
 
 watchEffect(async () => {
   if (route.params.id === "root") {
