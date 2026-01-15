@@ -244,7 +244,9 @@ useHead({
         <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
       </div>
     </ClientOnly>
-    <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
+    <section class="px-5">
+      <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
+    </section>
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />

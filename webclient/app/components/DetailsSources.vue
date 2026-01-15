@@ -15,9 +15,9 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <section class="px-5">
+  <div>
     <h2 class="text-md text-zinc-800 font-semibold">{{ t("title") }}</h2>
-    <div class="text-zinc-600 text-sm">
+    <div class="text-zinc-500 text-xs">
       <p>
         {{ t("base.title") }}:
         <span v-for="(e, i) in sources.base" :key="e.name">
@@ -52,7 +52,7 @@ const { t } = useI18n({ useScope: "local" });
         </span>
       </p>
     </div>
-  </section>
+  </div>
 </template>
 
 <i18n lang="yaml">
