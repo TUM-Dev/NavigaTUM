@@ -82,13 +82,6 @@ const suggestImage = () => {
   editProposal.value.imageUpload.open = true;
 };
 
-const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
-  mode: "replace",
-  route,
-  router,
-  transform: (val) => (val === "plans" ? "plans" : "interactive"),
-});
-
 watchEffect(async () => {
   if (route.params.id === "root") {
     await navigateTo({ path: localePath("/"), replace: true });
