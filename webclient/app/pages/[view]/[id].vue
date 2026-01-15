@@ -240,7 +240,7 @@ useHead({
       <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
     </div>
     <ClientOnly>
-      <div class="p-4 md:bg-white md:border-zinc-300 md:dark:bg-zinc-100 md:mx-5 md:rounded md:border">
+      <div class="p-4 md:bg-white md:border-zinc-300 md:dark:bg-zinc-100 md:mx-5 md:rounded md:border" v-if="data.sections?.rooms_overview">
         <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
       </div>
     </ClientOnly>
