@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
       - name: Install cargo-insta
-        uses: taiki-e/install-action@90558ad1e179036f31467972b00dec6cb80701fa # v2.66.3
+        uses: taiki-e/install-action@0f9abeadd7b421a211fafd01ed6005a20d796e1e # v2.66.4
         with:
           tool: cargo-insta
       - name: Update server snapshots
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
       - name: Install cargo-sort
-        uses: taiki-e/install-action@90558ad1e179036f31467972b00dec6cb80701fa # v2.66.3
+        uses: taiki-e/install-action@0f9abeadd7b421a211fafd01ed6005a20d796e1e # v2.66.4
         with:
           tool: cargo-sort
       - name: Sort Cargo.toml
@@ -89,7 +89,7 @@ jobs:
           version: latest
 
       - name: Setup | Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           cache: 'pnpm'
           cache-dependency-path: webclient/pnpm-lock.yaml
