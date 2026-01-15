@@ -230,28 +230,21 @@ useHead({
           <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment" />
         </div>
         <ClientOnly>
-          <DetailsInteractiveMap
-            :id="data.id"
-            :coords="data.coords"
-            :type="data.type"
-            :maps="data.maps"
-            :floors="data.props.floors"
-          />
+          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :floors="data.props.floors" />
         </ClientOnly>
       </div>
-
       <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
     </div>
 
-    <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
+    <div class="px-5">
+      <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
+    </div>
     <ClientOnly>
-      <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+      <div class="p-4 md:bg-white md:border-zinc-300 md:dark:bg-zinc-100 md:mx-5 md:rounded md:border">
+        <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+      </div>
     </ClientOnly>
-    <DetailsSources
-      :coords="data.coords"
-      :sources="data.sources"
-      :image="data.imgs?.length ? data.imgs[0] : undefined"
-    />
+    <DetailsSources :coords="data.coords" :sources="data.sources" :image="data.imgs?.length ? data.imgs[0] : undefined" />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
