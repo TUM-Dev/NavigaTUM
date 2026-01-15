@@ -18,7 +18,6 @@ type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
-const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
