@@ -58,6 +58,14 @@ const navigation = computed(() => [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
+        <p class="text-zinc-600 text-center text-xs">
+          {{ t("madewithlove") }}
+          <Btn to="https://tum.dev" variant="link" size="sm" class="!text-xs">
+            {{ t("tum_dev") }}
+          </Btn>
+        </p>
+      </div>
+      <div class="mt-10 flex justify-center space-x-10 text-center">
         <Btn to="https://tum.de" variant="rounded-xl pt-2 pb-4 px-4 focusable" size="sm">
           <p class="text-zinc-600 text-center text-xs">
             {{ t("official_roomfinder") }}<br />
@@ -99,6 +107,8 @@ de:
     text: Source Code
   theme: Theme
   tum_logo_alt: The Logo of the Technical University Munich
+  madewithlove: Made with ❤️ by OpenSource @
+  tum_dev: TUM.Dev
 en:
   about:
     link: /en/about/about-us
