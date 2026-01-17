@@ -96,6 +96,7 @@ function initMap(containerId: string): MapLibreMap {
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
     validateStyle: false,
+    maplibreLogo: true,
   });
 
   // Each source / style change causes the map to get
@@ -186,13 +187,19 @@ onMounted(() => {
 <template>
   <div
     id="interactive-legacy-map-container"
-    class="mb-2.5 aspect-4/3 print:!hidden"
+    class="mb-2.5 aspect-4/3 print:!hidden relative"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div v-if="webglSupport" id="interactive-legacy-map" class="absolute !h-full !w-full" />
+    <Spinner v-if="webglSupport && !initialLoaded" class="h-12 w-12 text-blue-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
+    <div
+      v-if="webglSupport"
+      id="interactive-legacy-map"
+      class="absolute !h-full !w-full transition-opacity duration-300"
+      :class="{ 'opacity-0': !initialLoaded }"
+    />
     <LazyMapGLNotSupported v-else />
   </div>
 </template>
