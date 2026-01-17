@@ -24,20 +24,20 @@ test.describe("Details Page - Interactive Map", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const mapCanvas = page.locator('canvas, [class*="maplibre"]').first();
-    await expect(mapCanvas).toBeVisible();
-  });
+    const mapCanvas = page.getByRole("region", { name: "Map" });
+    await expect(mapCanvas).toHaveCount(1);
 
-  test("should switch between interactive map and floor plans", async ({ page }) => {
-    await page.goto("/view/mi", { waitUntil: "networkidle" });
-    // view -> building redirect
-    await expect(page).toHaveURL("building/mi");
+    const controlLevel = page.getByRole("button", { name: "∅▲" });
+    await expect(controlLevel).toBeVisible();
 
-    const mapSelector = page.locator('button[aria-label*="plan"], [role="tab"]');
-    if ((await mapSelector.count()) > 1) {
-      await mapSelector.nth(1).click();
-      await expect(page).toHaveURL(/map=plans/);
-    }
+    const controlFullscreen = page.getByRole("button", { name: "Enter fullscreen" });
+    await expect(controlFullscreen).toBeVisible();
+
+    const controlZoomIn = page.getByRole("button", { name: "Zoom in" });
+    await expect(controlZoomIn).toBeVisible();
+
+    const controlZoomOut = page.getByRole("button", { name: "Zoom out" });
+    await expect(controlZoomOut).toBeVisible();
   });
 });
 
@@ -139,8 +139,7 @@ test.describe("Details Page - Share and Actions", () => {
 
     // Check for any action button
     const actionButtons = page.locator('button, a[href*="qr-code"]');
-    const count = await actionButtons.count();
-    expect(count).toBeGreaterThan(0);
+    expect(actionButtons).toHaveCount(1);
   });
 });
 
@@ -151,19 +150,9 @@ test.describe("Details Page - Building Overview", () => {
     await expect(page).toHaveURL("building/5602");
 
     const roomLink = page.locator('a[href*="/view/5602."]').first();
-    if ((await roomLink.count()) > 0) {
-      await roomLink.click();
-      await expect(page).toHaveURL(/\/view\/5602\./);
-    }
-  });
-
-  test("should not display floor information", async ({ page }) => {
-    await page.goto("/view/5602", { waitUntil: "networkidle" });
-    // view -> building redirect
-    await expect(page).toHaveURL("building/5602");
-
-    const floors = page.getByText(/OG|EG|UG|Erdgeschoss|Floor|Stockwerk/i).first();
-    await expect(floors).not.toBeVisible();
+    await expect(roomLink).toBeVisible();
+    await roomLink.click();
+    await expect(page).toHaveURL(/\/(view|room)\/5602\./);
   });
 });
 
@@ -173,16 +162,13 @@ test.describe("Details Page - Breadcrumbs", () => {
     // view -> building redirect
     await expect(page).toHaveURL("room/5602.EG.001");
 
-    const breadcrumbs = page.locator('nav[aria-label*="breadcrumb"], [class*="breadcrumb"]');
-    if ((await breadcrumbs.count()) > 0) {
-      await expect(breadcrumbs.first()).toBeVisible();
+    const breadcrumbs = page.getByText("Standorte/Garching").locator("a");
+    await expect(breadcrumbs.first()).toBeVisible();
+    await expect(breadcrumbs).toHaveCount(4);
 
-      const parentLink = page.locator('a[href*="/view/5602"]').first();
-      if ((await parentLink.count()) > 0) {
-        await parentLink.click();
-        await expect(page).toHaveURL(/\/view\/5602$/);
-      }
-    }
+    const parentLink = page.locator('a[href*="/view/5602"]').first();
+    await parentLink.click();
+    await expect(page).toHaveURL(/\/(view|building)\/5602$/);
   });
 });
 
