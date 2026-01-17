@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useFeedback } from "~/composables/feedback";
+import { mdiHeart } from "@mdi/js";
 
 const props = defineProps<{ class?: string }>();
 const feedback = useFeedback();
@@ -58,6 +59,17 @@ const navigation = computed(() => [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
+        <p class="text-zinc-600 text-center text-xs">
+          <Btn to="https://tum.dev" variant="link" size="md" class="!text-sm font-bold">
+            <I18nT keypath="madewithlove">
+              <template #heart>
+                <MdiIcon :path="mdiHeart" :size="24" class="text-red-500 dark:text-red-300" />
+              </template>
+            </I18nT>
+          </Btn>
+        </p>
+      </div>
+      <div class="mt-10 flex justify-center space-x-10 text-center">
         <Btn to="https://tum.de" variant="rounded-xl pt-2 pb-4 px-4 focusable" size="sm">
           <p class="text-zinc-600 text-center text-xs">
             {{ t("official_roomfinder") }}<br />
@@ -99,6 +111,7 @@ de:
     text: Source Code
   theme: Theme
   tum_logo_alt: The Logo of the Technical University Munich
+  madewithlove: Made with {heart} by OpenSource {'@'} TUM e.V.
 en:
   about:
     link: /en/about/about-us
@@ -121,4 +134,5 @@ en:
     text: Source Code
   theme: Theme
   tum_logo_alt: Das Logo der Technischen Universität München
+  madewithlove: Made with {heart} by OpenSource {'@'} TUM e.V.
 </i18n>
