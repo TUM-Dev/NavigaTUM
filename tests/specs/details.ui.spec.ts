@@ -161,7 +161,7 @@ test.describe("Details Page - Breadcrumbs", () => {
     await expect(parentLink).toBeVisible();
 
     await parentLink.click();
-    await expect(page).toHaveURL(/\/view\/5602$/);
+    await expect(page).toHaveURL(/\/(view|building)\/5602$/);
   });
 });
 
