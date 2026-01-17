@@ -13,6 +13,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  validate-style:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install @maplibre/maplibre-gl-style-spec --global
+      - name: Run style validation
+        run: gl-style-validate map/martin/styles/navigatum-basemap.json
+
   martin-build:
     uses: ./.github/workflows/_docker-build.yml
     with:
@@ -30,7 +42,7 @@ jobs:
   done:
     name: Finished martin CI
     runs-on: ubuntu-latest
-    needs: [ build, lint ]
+    needs: [ build, lint, validate-style ]
     if: always()
     permissions: {}
     steps:
