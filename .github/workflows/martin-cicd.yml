@@ -13,13 +13,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  validate-planetiler-custommap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install dependencies
+        run: wget https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
+        working-directory: map/planetiler
+      - name: Validate custom map
+        run: java -Xmx1g -jar planetiler.jar verify shortbread_custom.spec.yml
+        working-directory: map/planetiler
+
   validate-style:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install dependencies
         run: npm install @maplibre/maplibre-gl-style-spec --global
       - name: Run style validation
@@ -42,7 +56,7 @@ jobs:
   done:
     name: Finished martin CI
     runs-on: ubuntu-latest
-    needs: [ build, lint, validate-style ]
+    needs: [ build, lint, validate-style, validate-planetiler-custommap ]
     if: always()
     permissions: {}
     steps:
