@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
@@ -111,51 +105,7 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    // (Browser) Fullscreen is enabled only on mobile, on desktop the map
-    // is maximized instead. This is determined once to select the correct
-    // container to maximize, and then remains unchanged even if the browser
-    // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    const fullscreenContainer = isMobile
-      ? document.getElementById("interactive-legacy-map")
-      : document.getElementById("interactive-legacy-map-container");
-    const fullscreenCtl = new FullscreenControl({
-      container: fullscreenContainer as HTMLElement,
-    });
-    // "Backup" the maplibregl default fullscreen handler
-    const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
-    fullscreenCtl._onClickFullscreen = () => {
-      if (isMobile) defaultOnClickFullscreen();
-      else {
-        if (fullscreenCtl._container.classList.contains("maximize")) {
-          fullscreenCtl._container.classList.remove("maximize");
-          document.body.classList.remove("overflow-y-hidden");
-          fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
-        } else {
-          fullscreenCtl._container.classList.add("maximize");
-          fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
-          document.body.classList.add("overflow-y-hidden");
-          window.scrollTo({ top: 0, behavior: "auto" });
-        }
-
-        fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._map.resize();
-      }
-    };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
-    }
+    const fullscreenCtl = new FullscreenControl();
     map.addControl(fullscreenCtl, "top-right");
 
     // controls
@@ -213,9 +163,7 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(
-          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
-        );
+        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
