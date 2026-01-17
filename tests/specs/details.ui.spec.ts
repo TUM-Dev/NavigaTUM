@@ -139,7 +139,7 @@ test.describe("Details Page - Building Overview", () => {
   });
 });
 
-test.describe("Details Page - Breadcrumbs", () => {
+test.describe("Details Page – Breadcrumbs", () => {
   test("displays breadcrumbs and allows navigation to parent", async ({ page }) => {
     await page.goto("/view/5602.EG.001");
 
