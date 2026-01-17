@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useSwipe } from "@vueuse/core";
 import type { components } from "~/api_types";
-import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
 import { useEditProposal } from "~/composables/editProposal";
+import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
 
 definePageMeta({
   validate(route) {
@@ -22,9 +22,7 @@ const searchBarFocused = ref(false);
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -48,9 +46,7 @@ if (error.value) {
 }
 
 const editProposal = useEditProposal();
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 watchEffect(async () => {
@@ -189,7 +185,6 @@ const { isSwiping } = useSwipe(sheetContainer, {
           :class="{
             'cursor-grab': !isSwiping,
             'cursor-grabbing': isSwiping,
-            'rounded-t-3xl': mobileSheetState !== 'up',
           }"
         >
           <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
