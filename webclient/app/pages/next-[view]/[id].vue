@@ -323,7 +323,16 @@ const { isSwiping } = useSwipe(sheetContainer, {
       </div>
 
       <!-- Map Layer (Right/Background) -->
-      <div v-if="data" class="relative z-0 md:flex-1 w-full h-full full-screen-map-wrapper">
+      <div
+        v-if="data"
+        class="absolute z-0 md:relative md:flex-1 w-full full-screen-map-wrapper"
+        :class="{
+          'max-md:bottom-[80px]': mobileSheetState === 'down',
+          'max-md:bottom-[50vh]': mobileSheetState === 'middle',
+          'max-md:bottom-0': mobileSheetState === 'up',
+          'max-md:top-[65px]': true,
+        }"
+      >
         <ClientOnly>
           <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :floors="data.props.floors" class="h-full w-full" />
         </ClientOnly>
