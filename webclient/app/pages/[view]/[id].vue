@@ -244,37 +244,9 @@ const { isSwiping } = useSwipe(sheetContainer, {
 
 <i18n lang="yaml">
 de:
-  image_alt: Header-Bild, zeigt das Gebäude
   details_for: Details für
-  map:
-    interactive: Interaktive Karte
-    plans: Lagepläne
-  header:
-    calendar: Kalender öffnen
-    copy_link: Link kopieren
-    favorites: Zu Favoriten hinzufügen
-  add_image: Bild hinzufügen
-  add_first_image: Erstes Bild hinzufügen
-  suggest_edit: Ich weiß wo es liegt
   Loading data...: Lädt Daten...
-  msg:
-    inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
-    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
 en:
-  image_alt: Header image, showing the building
   details_for: Details for
-  map:
-    interactive: Interactive Map
-    plans: Site Plans
-  header:
-    calendar: Open calendar
-    copy_link: Copy link
-    favorites: Add to favorites
-  add_image: Add image
-  add_first_image: Add first image
-  suggest_edit: I know where it is
   Loading data...: Loading data...
-  msg:
-    inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
-    no_floor_overlay: There is unfortunately no indoor map for the displayed room.
 </i18n>

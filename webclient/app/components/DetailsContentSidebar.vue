@@ -183,3 +183,26 @@ const suggestLocationFix = () => {
     </div>
   </div>
 </template>
+
+<i18n lang="yaml">
+de:
+  image_alt: Header-Bild, zeigt das Gebäude
+  header:
+    calendar: Kalender öffnen
+    copy_link: Link kopieren
+  add_first_image: Erstes Bild hinzufügen
+  suggest_edit: Ich weiß wo es liegt
+  msg:
+    inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
+    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+en:
+  image_alt: Header image, showing the building
+  header:
+    calendar: Open calendar
+    copy_link: Copy link
+  add_first_image: Add first image
+  suggest_edit: I know where it is
+  msg:
+    inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
+    no_floor_overlay: There is unfortunately no indoor map for the displayed room.
+</i18n>
