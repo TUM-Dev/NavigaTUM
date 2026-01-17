@@ -32,7 +32,7 @@ jobs:
         run: wget https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
         working-directory: map/planetiler
       - name: Validate custom map
-        run: java -Xmx1g -jar planetiler.jar verify shortbread_custom.spec.yml
+        run: java -Xmx1g -jar planetiler.jar verify shortbread_custom.yml
         working-directory: map/planetiler
 
   validate-style:
