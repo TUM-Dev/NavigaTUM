@@ -22,7 +22,9 @@ const searchBarFocused = ref(false);
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
+const url = computed(
+  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
+);
 const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -38,11 +40,17 @@ if (error.value) {
 }
 
 const editProposal = useEditProposal();
-const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
+const shownImage = ref<ImageInfoResponse | undefined>(
+  data.value?.imgs?.length ? data.value.imgs[0] : undefined
+);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const {
+  copy,
+  copied,
+  isSupported: clipboardIsSupported,
+} = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!data.value) return;
@@ -164,7 +172,6 @@ const { isSwiping } = useSwipe(sheetContainer, {
     }
   },
 });
-
 </script>
 
 <template>

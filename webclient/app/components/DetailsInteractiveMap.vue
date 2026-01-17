@@ -102,6 +102,7 @@ function initMap(containerId: string): MapLibreMap {
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
+    validateStyle: false,
   });
 
   // Each source / style change causes the map to get
@@ -112,7 +113,12 @@ function initMap(containerId: string): MapLibreMap {
     initialLoaded.value = true;
 
     // controls
-    map.addControl(new NavigationControl({}), "top-left");
+    map.addControl(
+      new NavigationControl({
+        showCompass: false,
+      }),
+      "top-right"
+    );
 
     // (Browser) Fullscreen is enabled only on mobile, on desktop the map
     // is maximized instead. This is determined once to select the correct
@@ -159,7 +165,7 @@ function initMap(containerId: string): MapLibreMap {
       });
       fullscreenObserver.observe(fullscreenCtl._container);
     }
-    map.addControl(fullscreenCtl);
+    map.addControl(fullscreenCtl, "top-right");
 
     const location = new GeolocateControl({
       positionOptions: {
@@ -167,7 +173,7 @@ function initMap(containerId: string): MapLibreMap {
       },
       trackUserLocation: true,
     });
-    map.addControl(location);
+    map.addControl(location, "top-right");
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
@@ -179,7 +185,7 @@ function initMap(containerId: string): MapLibreMap {
     }
   });
 
-  map.addControl(floorControl.value, "bottom-left");
+  map.addControl(floorControl.value, "top-left");
 
   // Listen for floor level changes and adjust zoom if needed
   floorControl.value.on("level-changed", (event: { level: number | null }) => {
