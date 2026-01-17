@@ -200,7 +200,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
         ref="sheetContainer"
         class="bg-zinc-50 z-20 flex flex-col border-zinc-200 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
         :class="{
-          'max-md:top-16': mobileSheetState === 'up',
+          'max-md:top-[65px]': mobileSheetState === 'up',
           'max-md:max-h-[50vh]': mobileSheetState === 'middle',
           'max-md:max-h-20': mobileSheetState === 'down',
         }"
