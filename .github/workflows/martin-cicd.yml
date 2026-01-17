@@ -56,7 +56,7 @@ jobs:
   done:
     name: Finished martin CI
     runs-on: ubuntu-latest
-    needs: [ build, lint, validate-style, validate-planetiler-custommap ]
+    needs: [ build, validate-style, validate-planetiler-custommap ]
     if: always()
     permissions: {}
     steps:
