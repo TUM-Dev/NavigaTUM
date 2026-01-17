@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { FullscreenControl, GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+} from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
@@ -116,7 +122,7 @@ function initMap(containerId: string): MapLibreMap {
       controls.push(
         new NavigationControl({
           showCompass: false,
-        }),
+        })
       );
     }
 
@@ -126,7 +132,7 @@ function initMap(containerId: string): MapLibreMap {
           enableHighAccuracy: true,
         },
         trackUserLocation: true,
-      }),
+      })
     );
     map.addControl(new CombinedControlGroup(controls), "top-right");
 
@@ -173,7 +179,9 @@ onMounted(() => {
         loadInteractiveMap();
         window.scrollTo({ top: 0, behavior: "auto" });
       } else {
-        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
+        console.info(
+          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
+        );
         setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }

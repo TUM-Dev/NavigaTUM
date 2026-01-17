@@ -35,6 +35,7 @@ export class CombinedControlGroup extends Evented implements IControl {
     if (this.map) {
       for (const ctrl of this.controls) ctrl.onRemove?.(this.map);
     }
+    for (const ctr of this.containers) ctr.remove();
     if (this._container) this._container.remove();
   }
 }

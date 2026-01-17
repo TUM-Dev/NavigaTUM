@@ -157,6 +157,8 @@ const toggleMobileExpand = () => {
   if (mobileSheetState.value === "middle") {
     mobileSheetState.value = "up";
   } else if (mobileSheetState.value === "up") {
+    mobileSheetState.value = "down";
+  } else {
     mobileSheetState.value = "middle";
   }
 };
@@ -207,9 +209,13 @@ const { isSwiping } = useSwipe(sheetContainer, {
       >
         <!-- Mobile Handle / Toggle -->
         <div
-          class="md:hidden flex justify-center pt-2 pb-2 cursor-grab shrink-0 bg-zinc-50"
+          class="md:hidden flex justify-center pt-2 pb-2 shrink-0 bg-zinc-50"
           @click="toggleMobileExpand"
-          :class="mobileSheetState !== 'up' ? 'rounded-t-3xl' : ''"
+          :class="{
+            'cursor-grab': !isSwiping,
+            'cursor-grabbing': isSwiping,
+            'rounded-t-3xl': mobileSheetState !== 'up',
+          }"
         >
           <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
         </div>
