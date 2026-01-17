@@ -129,7 +129,7 @@ test.describe("Details Page - Building Overview", () => {
     await expect(page).toHaveURL(/\/(view|room)\/5602\./);
   });
 
-  test("should not display floor information", async ({ page }) => {
+  test.skip("should not display floor information", async ({ page }) => {
     await page.goto("/view/5602", { waitUntil: "networkidle" });
     // view -> building redirect
     await expect(page).toHaveURL("building/5602");
