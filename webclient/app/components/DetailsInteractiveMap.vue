@@ -250,6 +250,10 @@ onMounted(() => {
   }
 }
 
+.maplibregl-ctrl-group {
+  border-radius: 2px !important;
+}
+
 .maplibregl-ctrl-group.floor-ctrl {
   max-width: 100%;
   display: block;
