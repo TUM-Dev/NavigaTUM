@@ -101,7 +101,7 @@ function initMap(containerId: string): MapLibreMap {
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
-    validateStyle: import.meta.env.PROD,
+    validateStyle: import.meta.env.DEV,
     maplibreLogo: true,
   });
 
