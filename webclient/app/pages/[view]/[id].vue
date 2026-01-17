@@ -190,7 +190,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
     </AppNavHeader>
 
     <!-- Main Container: Desktop = Row, Mobile = Stack (Map + Overlay) -->
-    <!-- Added pt-[60px] to account for fixed header -->
+    <!-- Added pt-[65px] to account for fixed header -->
     <div class="relative flex-1 flex flex-col md:flex-row overflow-hidden pt-[65px]">
       <!-- Content Card / Sidebar
            Desktop: Static Sidebar (Left)
