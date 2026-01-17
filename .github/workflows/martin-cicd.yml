@@ -12,6 +12,8 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   validate-planetiler-custommap:
     runs-on: ubuntu-latest
