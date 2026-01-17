@@ -113,7 +113,7 @@ test.describe("Details Page - Share and Actions", () => {
 
     // Check for any action button
     const actionButtons = page.getByRole("img", { name: "QR-Code für diese Seite" });
-    await expect(actionButtons).toHaveCount(1);
+    expect(actionButtons).toHaveCount(1);
   });
 });
 
