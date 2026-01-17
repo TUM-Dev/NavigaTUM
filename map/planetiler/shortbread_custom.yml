@@ -225,6 +225,28 @@ layers:
         # see https://github.com/shortbread-tiles/shortbread-docs/issues/43
       else: false
 
+- id: boundary_labels
+  features:
+  - source: osm
+    geometry: polygon_point_on_surface
+    min_zoom:
+      default_value: 5
+      overrides:
+        2: '${ feature.tags["admin_level"] == "2" && feature.area("km2") >= 2e6 }'
+        3: '${ feature.area("km2") >= 7e5 }'
+        4: '${ feature.area("km2") >= 1e5 }'
+    include_when:
+      __all__:
+      - boundary: administrative
+      - admin_level: [ 2, 4 ]
+    # TODO sort by way_area descending
+    attributes:
+    - key: admin_level
+      type: integer
+    - *name
+    - key: way_area # area in hectare (Mercator Projection)
+      value: "${ feature.area('ha') }"
+
 - id: place_labels
   features:
   - source: osm
