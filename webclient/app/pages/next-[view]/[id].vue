@@ -137,17 +137,31 @@ const toggleMobileExpand = () => {
   isMobileExpanded.value = !isMobileExpanded.value;
 };
 
-const swipeTarget = ref<HTMLElement | null>(null);
-const { direction, isSwiping } = useSwipe(swipeTarget, {
+const swipeHandle = ref<HTMLElement | null>(null);
+const swipeImage = ref<HTMLElement | null>(null);
+
+const { isSwiping: isHandleSwiping } = useSwipe(swipeHandle, {
   threshold: 20,
-  onSwipeEnd: () => {
-    if (direction.value === "up") {
+  onSwipeEnd: (e, direction) => {
+    if (direction === "up") {
       isMobileExpanded.value = true;
-    } else if (direction.value === "down") {
+    } else if (direction === "down") {
       isMobileExpanded.value = false;
     }
   },
 });
+
+const { isSwiping: isImageSwiping } = useSwipe(swipeImage, {
+  threshold: 20,
+  onSwipeEnd: (e, direction) => {
+    if (direction === "up") {
+      isMobileExpanded.value = true;
+    }
+  },
+});
+
+const isSwiping = computed(() => isHandleSwiping.value || isImageSwiping.value);
+
 </script>
 
 <template>
@@ -168,47 +182,51 @@ const { direction, isSwiping } = useSwipe(swipeTarget, {
         class="bg-zinc-50 z-20 flex flex-col border-zinc-200 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
         :class="isMobileExpanded ? 'max-md:top-16' : 'max-md:max-h-[50vh]'"
       >
-        <!-- Mobile Drag Handle and Image -->
-        <div ref="swipeTarget" class="shrink-0">
-          <!-- Handle -->
-          <div class="flex justify-center md:hidden pt-2 pb-2 cursor-grab" :class="isMobileExpanded ? 'rounded-none' : 'rounded-t-3xl'" @click="toggleMobileExpand">
-            <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
-          </div>
-
-          <!-- Image -->
-          <div v-if="data?.imgs?.length && data.imgs[0]" class="relative shrink-0">
-            <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
-              <NuxtImg
-                :alt="t('image_alt')"
-                :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-                class="bg-zinc-100 block md:h-40 lg:h-52 w-full object-cover"
-                :class="isMobileExpanded ? 'h-32' : 'h-20'"
-                preload
-                placeholder
-                sizes="500px sm:600px"
-                densities="x1 x2"
-              />
-            </button>
-          </div>
-          <div
-            v-else
-            class="bg-zinc-100 group hover:border-zinc-400 hover:bg-zinc-200 border-2 rounded-2xl border-dashed border-zinc-300 mx-2"
-            :class="isMobileExpanded ? '' : 'mt-1'"
-          >
-            <button
-              type="button"
-              class="w-full flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
-              :class="isMobileExpanded ? 'h-32' : 'h-20'"
-              @click="suggestImage"
-            >
-              <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
-              <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
-            </button>
-          </div>
+        <!-- Mobile Handle / Toggle -->
+        <div
+          ref="swipeHandle"
+          class="md:hidden flex justify-center pt-2 pb-2 cursor-grab shrink-0 bg-zinc-50"
+          @click="toggleMobileExpand"
+          :class="isMobileExpanded ? '' : 'rounded-t-3xl'"
+        >
+          <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
         </div>
 
         <!-- Scrollable Content -->
         <div class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
+          <div ref="swipeImage" class="shrink-0">
+            <!-- Image Section -->
+            <div v-if="data?.imgs?.length && data.imgs[0]" class="relative shrink-0">
+              <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
+                <NuxtImg
+                  :alt="t('image_alt')"
+                  :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
+                  class="bg-zinc-100 block md:h-64 w-full object-cover"
+                  :class="isMobileExpanded ? 'h-32' : 'h-20'"
+                  preload
+                  placeholder
+                  sizes="500px sm:600px"
+                  densities="x1 x2"
+                />
+              </button>
+            </div>
+            <div
+              v-else-if="!data?.imgs?.length"
+              class="bg-zinc-100 shrink-0 group hover:border-zinc-400 hover:bg-zinc-200 border-2 rounded-2xl border-dashed border-zinc-300 md:m-2 md:mb-0"
+              :class="isMobileExpanded ? 'px-2' : 'mt-1'"
+            >
+              <button
+                type="button"
+                class="w-full flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
+                :class="isMobileExpanded ? 'h-32' : 'h-20'"
+                @click="suggestImage"
+              >
+                <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
+                <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Content Padding -->
           <div class="px-5 pb-8 pt-4 bg-zinc-50">
             <!-- Breadcrumbs -->
