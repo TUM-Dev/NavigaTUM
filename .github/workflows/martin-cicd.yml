@@ -22,7 +22,10 @@ jobs:
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with: {persist-credentials: false}
+        with: 
+          persist-credentials: false
+          sparse-checkout: |
+            map
       - name: Setup | Install Java
         uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
@@ -42,7 +45,10 @@ jobs:
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with: {persist-credentials: false}
+        with: 
+          persist-credentials: false
+          sparse-checkout: |
+            map
       - name: Setup | Install dependencies
         run: npm install @maplibre/maplibre-gl-style-spec --global
       - name: Run style validation
