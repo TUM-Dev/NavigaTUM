@@ -43,7 +43,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.32.1
+    image: getmeili/meilisearch:v1.32.2
     restart: unless-stopped
     ports:
       - "7700:7700"
