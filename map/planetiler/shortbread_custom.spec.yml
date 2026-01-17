@@ -290,7 +290,7 @@ examples:
   - layer: streets
     geometry: line
     min_zoom: 8
-    min_size: 0.05
+    min_size: 0.0
     tags:
       bridge: false
       kind: primary
@@ -331,7 +331,7 @@ examples:
     geometry: line
     min_zoom: 8
     allow_extra_tags: false
-    min_size: 0.05
+    min_size: 0.0
     tags:
       bridge: false
       kind: primary
@@ -360,7 +360,7 @@ examples:
     geometry: line
     min_zoom: 8
     allow_extra_tags: false
-    min_size: 0.05
+    min_size: 0.0
     tags:
       bridge: false
       kind: rail
@@ -917,7 +917,6 @@ examples:
     tags:
       admin_level: 2
       name: Name
-      name_de: Name (de)
       # verified with a naive "projection" and sizes from https://www.thoughtco.com/degree-of-latitude-and-longitude-distance-4070616
       # 1° lat ~ 110.567km at the equator
       # 1° lon ~ 111.321km at the equator
