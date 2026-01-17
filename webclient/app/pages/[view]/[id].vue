@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useSwipe } from "@vueuse/core";
 import type { components } from "~/api_types";
-import { useEditProposal } from "~/composables/editProposal";
 import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
+import { useEditProposal } from "~/composables/editProposal";
 
 definePageMeta({
   validate(route) {
@@ -120,16 +120,28 @@ const toggleMobileExpand = () => {
   }
 };
 
+const expandSheet = () => {
+  if (mobileSheetState.value === "down") {
+    mobileSheetState.value = "middle";
+  } else if (mobileSheetState.value === "middle") {
+    mobileSheetState.value = "up";
+  }
+};
+
+const collapseSheet = () => {
+  if (mobileSheetState.value === "up") {
+    mobileSheetState.value = "middle";
+  } else if (mobileSheetState.value === "middle") {
+    mobileSheetState.value = "down";
+  }
+};
+
 const { isSwiping } = useSwipe(sheetContainer, {
   threshold: 30,
   onSwipeEnd: (_e, direction) => {
     const scroll = scrollContainer.value?.scrollTop;
     if (direction === "up") {
-      if (mobileSheetState.value === "down") {
-        mobileSheetState.value = "middle";
-      } else if (mobileSheetState.value === "middle") {
-        mobileSheetState.value = "up";
-      }
+      expandSheet();
     } else if (direction === "down") {
       if (mobileSheetState.value === "up") {
         mobileSheetState.value = "middle";
@@ -165,9 +177,15 @@ const { isSwiping } = useSwipe(sheetContainer, {
         }"
       >
         <!-- Mobile Handle / Toggle -->
-        <div
-          class="md:hidden flex justify-center pt-2 pb-2 shrink-0 bg-zinc-50"
+        <button
+          type="button"
+          class="md:hidden flex w-full justify-center pt-2 pb-2 shrink-0 bg-zinc-50"
+          :aria-expanded="mobileSheetState === 'up' ? true : mobileSheetState === 'middle' ? true : false"
+          aria-controls="sheet-content"
+          :aria-label="t('Toggle details sheet')"
           @click="toggleMobileExpand"
+          @keydown.arrow-up.prevent="expandSheet"
+          @keydown.arrow-down.prevent="collapseSheet"
           :class="{
             'cursor-grab': !isSwiping,
             'cursor-grabbing': isSwiping,
@@ -175,16 +193,11 @@ const { isSwiping } = useSwipe(sheetContainer, {
           }"
         >
           <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
-        </div>
+        </button>
 
         <!-- Scrollable Content -->
-        <div ref="scrollContainer" class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
-          <DetailsContentSidebar
-            v-if="data"
-            :data="data"
-            :mobile-sheet-state="mobileSheetState"
-            @open-slideshow="slideshowOpen = true"
-          />
+        <div id="sheet-content" ref="scrollContainer" class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
+          <DetailsContentSidebar v-if="data" :data="data" :mobile-sheet-state="mobileSheetState" @open-slideshow="slideshowOpen = true" />
         </div>
       </div>
 
@@ -246,7 +259,9 @@ const { isSwiping } = useSwipe(sheetContainer, {
 de:
   details_for: Details für
   Loading data...: Lädt Daten...
+  Toggle details sheet: Detailansicht umschalten
 en:
   details_for: Details for
   Loading data...: Loading data...
+  Toggle details sheet: Toggle details sheet
 </i18n>
