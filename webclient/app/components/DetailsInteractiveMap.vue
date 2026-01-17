@@ -20,7 +20,6 @@ const props = defineProps<{
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
-const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
   if (props.type === "room") return 18;
