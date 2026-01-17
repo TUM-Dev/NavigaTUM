@@ -51,7 +51,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
 <template>
   <div
     v-if="props.rooms?.usages"
-    class="flex flex-col gap-3 p-4 md:bg-white md:border-zinc-300 md:dark:bg-zinc-100 md:mx-5 md:rounded md:border print:!hidden"
+    class="flex flex-col gap-3 print:!hidden"
   >
     <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
     <div class="flex flex-col gap-2">

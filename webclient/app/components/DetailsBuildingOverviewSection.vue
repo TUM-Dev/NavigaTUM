@@ -21,10 +21,10 @@ const runtimeConfig = useRuntimeConfig();
 </script>
 
 <template>
-  <section v-if="props.buildings" class="px-5 print:!hidden">
+  <section v-if="props.buildings" class="print:!hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <MdiIcon :path="mdiArrowRight" :size="16" /></NuxtLinkLocale> -->
-    <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <div class="text-zinc-600 grid grid-cols-1 gap-3 lg:grid-cols-2">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <NuxtLinkLocale
           v-if="i < props.buildings.n_visible || buildingsExpanded"

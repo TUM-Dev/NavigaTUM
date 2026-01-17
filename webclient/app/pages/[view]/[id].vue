@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
-import { useClipboard } from "@vueuse/core";
-import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
+import { useSwipe } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
+import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
 
 definePageMeta({
   validate(route) {
     return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
   },
-  layout: "details",
+  layout: false,
 });
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -19,11 +18,11 @@ const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
 
+const searchBarFocused = ref(false);
+
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`
-);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
@@ -39,7 +38,6 @@ if (data.value?.redirect_url) {
   }
 }
 
-// Use showError() to trigger error.vue rendering with proper 404 status
 if (error.value) {
   showError({
     statusCode: 404,
@@ -48,37 +46,8 @@ if (error.value) {
 }
 
 const editProposal = useEditProposal();
-
-const shownImage = ref<ImageInfoResponse | undefined>(
-  data.value?.imgs?.length ? data.value.imgs[0] : undefined
-);
+const shownImage = ref<ImageInfoResponse | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
-
-const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const {
-  copy,
-  copied,
-  isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
-
-const suggestImage = () => {
-  if (!data.value) return;
-
-  editProposal.value.selected = {
-    id: data.value.id,
-    name: data.value.name,
-  };
-  if (!editProposal.value.data.additional_context) {
-    editProposal.value.data.additional_context = `I would like to suggest a new image for ${data.value.name} (${data.value.id}).`;
-  }
-  editProposal.value.locationPicker = {
-    lat: data.value.coords.lat,
-    lon: data.value.coords.lon,
-    open: false,
-  };
-  editProposal.value.open = true;
-  editProposal.value.imageUpload.open = true;
-};
 
 watchEffect(async () => {
   if (route.params.id === "root") {
@@ -88,9 +57,7 @@ watchEffect(async () => {
 
 watch([data], () => {
   if (!data.value) return;
-  // --- Additional data ---
   slideshowOpen.value = false;
-  // --- Images ---
   shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
 });
 
@@ -132,164 +99,164 @@ useHead({
     },
   ],
 });
+
+// Mobile bottom sheet logic
+type SheetState = "up" | "middle" | "down";
+const mobileSheetState = ref<SheetState>("middle");
+const sheetContainer = ref<HTMLElement | null>(null);
+const scrollContainer = ref<HTMLElement | null>(null);
+
+const toggleMobileExpand = () => {
+  if (mobileSheetState.value === "middle") {
+    mobileSheetState.value = "up";
+  } else if (mobileSheetState.value === "up") {
+    mobileSheetState.value = "down";
+  } else {
+    mobileSheetState.value = "middle";
+  }
+};
+
+const expandSheet = () => {
+  if (mobileSheetState.value === "down") {
+    mobileSheetState.value = "middle";
+  } else if (mobileSheetState.value === "middle") {
+    mobileSheetState.value = "up";
+  }
+};
+
+const collapseSheet = () => {
+  if (mobileSheetState.value === "up") {
+    mobileSheetState.value = "middle";
+  } else if (mobileSheetState.value === "middle") {
+    mobileSheetState.value = "down";
+  }
+};
+
+const { isSwiping } = useSwipe(sheetContainer, {
+  threshold: 30,
+  onSwipeEnd: (_e, direction) => {
+    const scroll = scrollContainer.value?.scrollTop;
+    if (direction === "up") {
+      expandSheet();
+    } else if (direction === "down") {
+      if (mobileSheetState.value === "up") {
+        mobileSheetState.value = "middle";
+      } else if (mobileSheetState.value === "middle" && scroll === 0) {
+        mobileSheetState.value = "down";
+      }
+    }
+  },
+});
 </script>
 
 <template>
-  <div v-if="data" class="flex flex-col gap-5">
-    <!-- Header image (on mobile) -->
-    <div v-if="data.imgs?.length && data.imgs[0]" class="relative block lg:hidden print:!hidden">
-      <button type="button" class="focusable block w-full" @click="slideshowOpen = true">
-        <NuxtImg
-          width="256"
-          height="105"
-          :alt="t('image_alt')"
-          :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-          sizes="1024px sm:256px md:512px"
-          densities="x1 x2"
-          class="block w-full"
-          preload
-          :placeholder="[256, 105]"
-        />
-      </button>
-    </div>
-    <!-- No header image placeholder (on mobile) -->
-    <div
-      v-else-if="!data.imgs?.length"
-      class="relative group hover:bg-zinc-200 hover:border-zinc-400 m-1 mt-2 block lg:hidden print:!hidden bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-lg"
-    >
-      <button
-        type="button"
-        class="w-full h-20 flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
-        @click="suggestImage"
+  <div class="h-screen flex flex-col overflow-hidden bg-zinc-50">
+    <!-- Re-use AppNavHeader -->
+    <AppNavHeader>
+      <AppSearchBar v-model:search-bar-focused="searchBarFocused" />
+    </AppNavHeader>
+
+    <!-- Main Container: Desktop = Row, Mobile = Stack (Map + Overlay) -->
+    <!-- Added pt-[65px] to account for fixed header -->
+    <div class="relative flex-1 flex flex-col md:flex-row overflow-hidden pt-[65px]">
+      <!-- Content Card / Sidebar
+           Desktop: Static Sidebar (Left)
+           Mobile: Bottom Sheet (Overlay)
+      -->
+      <div
+        ref="sheetContainer"
+        class="bg-zinc-50 z-20 flex flex-col border-zinc-200 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
+        :class="{
+          'max-md:top-[65px]': mobileSheetState === 'up',
+          'max-md:max-h-[50vh]': mobileSheetState === 'middle',
+          'max-md:max-h-20': mobileSheetState === 'down',
+        }"
       >
-        <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
-        <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
-      </button>
-    </div>
-
-    <!-- Entry header / title -->
-    <div class="px-5">
-      <BreadcrumbList
-        :items="
-          data.parent_names.map((n, i) => ({
-            name: n,
-            to: i > 0 ? '/view/' + data?.parents[i] : '/',
-          }))
-        "
-        class="pb-3 pt-6"
-      />
-      <div class="group flex flex-row gap-2">
+        <!-- Mobile Handle / Toggle -->
         <button
-          v-if="clipboardIsSupported"
-          :title="t('header.copy_link')"
           type="button"
-          tabindex="1"
-          class="-ms-8 hidden px-1 text-transparent transition-colors focus:text-zinc-800 group-hover:text-zinc-800 lg:block"
-          @click="copy(`https://nav.tum.de${route.fullPath}`)"
+          class="md:hidden flex w-full justify-center pt-2 pb-2 shrink-0 bg-zinc-50"
+          :aria-expanded="mobileSheetState === 'up' ? true : mobileSheetState === 'middle' ? true : false"
+          aria-controls="sheet-content"
+          :aria-label="t('Toggle details sheet')"
+          @click="toggleMobileExpand"
+          @keydown.arrow-up.prevent="expandSheet"
+          @keydown.arrow-down.prevent="collapseSheet"
+          :class="{
+            'cursor-grab': !isSwiping,
+            'cursor-grabbing': isSwiping,
+          }"
         >
-          <MdiIcon :path="mdiClipboardCheck" :size="24" v-if="copied" class="h-4 w-4" />
-          <MdiIcon :path="mdiLink" :size="24" v-else class="h-4 w-4" />
+          <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
         </button>
-        <h1 class="text-zinc-700 text-xl font-bold">{{ data.name }}</h1>
-      </div>
-      <div>
-        <div class="flex grow place-items-center justify-between">
-          <span class="text-zinc-500 mt-0.5 text-sm">{{ data.type_common_name }}</span>
-          <div class="flex flex-row place-items-center gap-3">
-            <button
-              v-if="data.props?.calendar_url"
-              type="button"
-              class="focusable rounded-sm"
-              :title="t('header.calendar')"
-              @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
-            >
-              <MdiIcon :path="mdiCalendarMonth" :size="28" class="text-blue-600 mt-0.5 hover:text-blue-900" />
-            </button>
-            <ShareButton :coords="data.coords" :name="data.name" :id="data.id" />
-            <DetailsFeedbackButton />
-            <!-- <button class="btn btn-link btn-action btn-sm"
-                  :title="t('header.favorites')">
-            <BookmarkIcon class="w-4 h-4" v-if="bookmarked" />
-            <BookmarkSquareIcon class="w-4 h-4" v-else />
-          </button> -->
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- First info section (map + infocard) -->
-    <div class="grid grid-cols-1 gap-5 px-5 lg:grid-cols-3">
-      <div class="col-span-1 lg:col-span-2">
-        <div class="mb-3 grid gap-2 lg:hidden">
-          <Toast
-            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('no_floor_overlay')"
-            id="details-no_floor_overlay"
-          />
-          <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment" />
+        <!-- Scrollable Content -->
+        <div id="sheet-content" ref="scrollContainer" class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
+          <DetailsContentSidebar v-if="data" :data="data" :mobile-sheet-state="mobileSheetState" @open-slideshow="slideshowOpen = true" />
         </div>
+      </div>
+
+      <!-- Map Layer (Right/Background) -->
+      <div
+        v-if="data"
+        class="absolute z-0 md:relative md:flex-1 w-full full-screen-map-wrapper"
+        :class="{
+          'max-md:bottom-[80px]': mobileSheetState === 'down',
+          'max-md:bottom-[50vh]': mobileSheetState === 'middle',
+          'max-md:bottom-0': mobileSheetState === 'up',
+          'max-md:top-[65px]': true,
+        }"
+      >
         <ClientOnly>
-          <DetailsInteractiveMap
-            :id="data.id"
-            :coords="data.coords"
-            :type="data.type"
-            :maps="data.maps"
-            :floors="data.props.floors"
-          />
+          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :floors="data.props.floors" class="h-full w-full" />
         </ClientOnly>
       </div>
 
-      <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
+      <!-- Loading State -->
+      <div v-else class="absolute inset-0 z-10 flex items-center justify-center bg-zinc-50/80 backdrop-blur-sm">
+        <div class="flex flex-col items-center gap-5">
+          <Spinner class="h-8 w-8" />
+          {{ t("Loading data...") }}
+        </div>
+      </div>
     </div>
+  </div>
 
-    <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
-    <ClientOnly>
-      <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
-    </ClientOnly>
-    <DetailsSources
-      :coords="data.coords"
-      :sources="data.sources"
-      :image="data.imgs?.length ? data.imgs[0] : undefined"
-    />
-  </div>
-  <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
-    <Spinner class="h-8 w-8" />
-    {{ t("Loading data...") }}
-  </div>
+  <!-- Modals -->
   <ClientOnly>
     <LazyCalendarModal v-if="calendar.length" />
     <LazyEditProposalModal v-if="editProposal.open" />
+    <LazyDetailsImageSlideshowModal
+      v-if="slideshowOpen && !!data?.imgs"
+      v-model:shown_image="shownImage"
+      v-model:slideshow_open="slideshowOpen"
+      :imgs="data.imgs"
+    />
   </ClientOnly>
 </template>
 
+<style scoped>
+/* Force MapLibre to fill height and remove padding hack from the component */
+.full-screen-map-wrapper :deep(#interactive-legacy-map-container) {
+  margin-bottom: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  aspect-ratio: auto !important;
+}
+
+.full-screen-map-wrapper :deep(#interactive-legacy-map-container > div) {
+  padding-bottom: 0 !important;
+  height: 100% !important;
+}
+</style>
+
 <i18n lang="yaml">
 de:
-  image_alt: Header-Bild, zeigt das Gebäude
   details_for: Details für
-  map:
-    interactive: Interaktive Karte
-    plans: Lagepläne
-  no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
-  header:
-    calendar: Kalender öffnen
-    copy_link: Link kopieren
-    favorites: Zu Favoriten hinzufügen
-  add_image: Bild hinzufügen
-  add_first_image: Erstes Bild hinzufügen
   Loading data...: Lädt Daten...
+  Toggle details sheet: Detailansicht umschalten
 en:
-  image_alt: Header image, showing the building
   details_for: Details for
-  map:
-    interactive: Interactive Map
-    plans: Site Plans
-  no_floor_overlay: There is unfortunately no indoor map for the displayed room.
-  header:
-    calendar: Open calendar
-    copy_link: Copy link
-    favorites: Add to favorites
-  add_image: Add image
-  add_first_image: Add first image
   Loading data...: Loading data...
+  Toggle details sheet: Toggle details sheet
 </i18n>

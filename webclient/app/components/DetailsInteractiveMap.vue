@@ -20,7 +20,6 @@ const props = defineProps<{
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
-const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
   if (props.type === "room") return 18;
@@ -102,6 +101,8 @@ function initMap(containerId: string): MapLibreMap {
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
+    validateStyle: import.meta.env.DEV,
+    maplibreLogo: true,
   });
 
   // Each source / style change causes the map to get
@@ -111,63 +112,29 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    // controls
-    map.addControl(new NavigationControl({}), "top-left");
-
-    // (Browser) Fullscreen is enabled only on mobile, on desktop the map
-    // is maximized instead. This is determined once to select the correct
-    // container to maximize, and then remains unchanged even if the browser
-    // is resized (not relevant for users but for developers).
     const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    const fullscreenContainer = isMobile
-      ? document.getElementById("interactive-legacy-map")
-      : document.getElementById("interactive-legacy-map-container");
-    const fullscreenCtl = new FullscreenControl({
-      container: fullscreenContainer as HTMLElement,
-    });
-    // "Backup" the maplibregl default fullscreen handler
-    const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
-    fullscreenCtl._onClickFullscreen = () => {
-      if (isMobile) defaultOnClickFullscreen();
-      else {
-        if (fullscreenCtl._container.classList.contains("maximize")) {
-          fullscreenCtl._container.classList.remove("maximize");
-          document.body.classList.remove("overflow-y-hidden");
-          fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
-        } else {
-          fullscreenCtl._container.classList.add("maximize");
-          fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
-          document.body.classList.add("overflow-y-hidden");
-          window.scrollTo({ top: 0, behavior: "auto" });
-        }
+    const fullscreenCtl = new FullscreenControl();
+    map.addControl(fullscreenCtl, "top-right");
 
-        fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._map.resize();
-      }
-    };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
+    // controls
+    const controls = [];
+    if (!isMobile) {
+      controls.push(
+        new NavigationControl({
+          showCompass: false,
+        })
+      );
     }
-    map.addControl(fullscreenCtl);
 
-    const location = new GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    });
-    map.addControl(location);
+    controls.push(
+      new GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+      })
+    );
+    map.addControl(new CombinedControlGroup(controls), "top-right");
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
@@ -179,7 +146,7 @@ function initMap(containerId: string): MapLibreMap {
     }
   });
 
-  map.addControl(floorControl.value, "bottom-left");
+  map.addControl(floorControl.value, "top-left");
 
   // Listen for floor level changes and adjust zoom if needed
   floorControl.value.on("level-changed", (event: { level: number | null }) => {
@@ -228,13 +195,19 @@ onMounted(() => {
 <template>
   <div
     id="interactive-legacy-map-container"
-    class="mb-2.5 aspect-4/3 print:!hidden"
+    class="mb-2.5 aspect-4/3 print:!hidden relative"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
       'bg-red-300 text-red-950': !webglSupport,
     }"
   >
-    <div v-if="webglSupport" id="interactive-legacy-map" class="absolute !h-full !w-full" />
+    <Spinner v-if="webglSupport && !initialLoaded" class="h-12 w-12 text-blue-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
+    <div
+      v-if="webglSupport"
+      id="interactive-legacy-map"
+      class="absolute !h-full !w-full transition-opacity duration-300"
+      :class="{ 'opacity-0': !initialLoaded }"
+    />
     <LazyMapGLNotSupported v-else />
   </div>
 </template>
@@ -290,6 +263,10 @@ onMounted(() => {
     top: -20px;
     left: -12px;
   }
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 2px !important;
 }
 
 .maplibregl-ctrl-group.floor-ctrl {
