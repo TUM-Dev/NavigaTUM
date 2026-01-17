@@ -111,14 +111,6 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    // controls
-    map.addControl(
-      new NavigationControl({
-        showCompass: false,
-      }),
-      "top-right"
-    );
-
     // (Browser) Fullscreen is enabled only on mobile, on desktop the map
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
@@ -166,13 +158,17 @@ function initMap(containerId: string): MapLibreMap {
     }
     map.addControl(fullscreenCtl, "top-right");
 
-    const location = new GeolocateControl({
+    // controls
+    const navigationControl = new NavigationControl({
+      showCompass: false,
+    });
+    const locationControl = new GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
       },
       trackUserLocation: true,
     });
-    map.addControl(location, "top-right");
+    map.addControl(new CombinedControlGroup([navigationControl, locationControl]), "top-right");
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
