@@ -165,7 +165,7 @@ const toggleMobileExpand = () => {
 
 const { isSwiping } = useSwipe(sheetContainer, {
   threshold: 30,
-  onSwipeEnd: (e, direction) => {
+  onSwipeEnd: (_e, direction) => {
     const scroll = scrollContainer.value?.scrollTop;
     if (direction === "up") {
       if (mobileSheetState.value === "down") {
