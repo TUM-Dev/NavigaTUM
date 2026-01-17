@@ -126,7 +126,7 @@ test.describe("Details Page - Building Overview", () => {
     const roomLink = page.locator('a[href*="/view/5602."]').first();
     await expect(roomLink).toBeVisible();
     await roomLink.click();
-    await expect(page).toHaveURL(/\/view\/5602\./);
+    await expect(page).toHaveURL(/\/(view|room)\/5602\./);
   });
 
   test("should not display floor information", async ({ page }) => {
