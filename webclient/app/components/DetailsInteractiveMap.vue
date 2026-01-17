@@ -105,20 +105,29 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
+    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenCtl = new FullscreenControl();
     map.addControl(fullscreenCtl, "top-right");
 
     // controls
-    const navigationControl = new NavigationControl({
-      showCompass: false,
-    });
-    const locationControl = new GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    });
-    map.addControl(new CombinedControlGroup([navigationControl, locationControl]), "top-right");
+    const controls = [];
+    if (!isMobile) {
+      controls.push(
+        new NavigationControl({
+          showCompass: false,
+        }),
+      );
+    }
+
+    controls.push(
+      new GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+      }),
+    );
+    map.addControl(new CombinedControlGroup(controls), "top-right");
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
