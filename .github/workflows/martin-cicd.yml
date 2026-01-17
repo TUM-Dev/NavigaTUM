@@ -43,7 +43,7 @@ jobs:
       - name: Run style validation
         run: gl-style-validate map/martin/styles/navigatum-basemap.json
 
-  martin-build:
+  build:
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: martin
