@@ -58,7 +58,7 @@ test.describe("Navigation Page - Map Display", () => {
 });
 
 test.describe("Navigation Page - Turn-by-Turn Directions", () => {
-  test("should display step-by-turn directions with distances", async ({ page }) => {
+  test("should display turn-by-turn directions with distances", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
     const quickSummaryMinutes = page.getByText("Minuten");
