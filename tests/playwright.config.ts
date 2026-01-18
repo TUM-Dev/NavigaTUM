@@ -29,6 +29,9 @@ export default defineConfig({
 
     /* Screenshot on failure */
     screenshot: "only-on-failure",
+
+    /* Global styles to hide dynamic elements in screenshots */
+    styleTag: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
   },
 
   /* Configure projects for different test types */

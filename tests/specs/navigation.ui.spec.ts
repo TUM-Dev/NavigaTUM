@@ -25,10 +25,6 @@ test.describe("Navigation Page - Route Calculation", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
 
-    // Hide map canvas for stable screenshot
-    await page.addStyleTag({
-      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
-    });
     await expect(page).toHaveScreenshot();
   });
 
@@ -57,10 +53,6 @@ test.describe("Navigation Page - Map Display", () => {
     const mapCanvas = page.locator("canvas").first();
     await expect(mapCanvas).toBeVisible();
 
-    // Hide map canvas for stable screenshot
-    await page.addStyleTag({
-      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
-    });
     await expect(page).toHaveScreenshot();
   });
 });
@@ -75,10 +67,6 @@ test.describe("Navigation Page - Turn-by-Turn Directions", () => {
     const turnInstruction = page.getByText("Richtung Osten laufen");
     await expect(turnInstruction).toBeVisible();
 
-    // Hide map canvas for stable screenshot
-    await page.addStyleTag({
-      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
-    });
     await expect(page).toHaveScreenshot();
   });
 });
@@ -103,8 +91,10 @@ test.describe("Navigation Page - Location Search", () => {
     await fromInput.fill("mi");
     await fromInput.press("Enter");
 
-    const url = page.url();
-    expect(url.includes("from=") || url.includes("mi")).toBeTruthy();
+    await expect(page).toHaveURL((url) => {
+      const params = url.searchParams;
+      return params.get("from") === "mi";
+    });
   });
 
   test("should support coordinate-based routing", async ({ page }) => {

@@ -14,8 +14,10 @@ test.describe("Details Page - Basic Functionality", () => {
   test("should return an 404 for non-existent location", async ({ page }) => {
     await page.goto("/building/nonexistent_location_12345", { waitUntil: "networkidle" });
     // no weird redirect
-    expect(page.url()).toContain("building/nonexistent_location_12345");
-    expect(page.getByRole("heading", { name: "Die angeforderte Seite wurde" })).toBeVisible();
+
+    await expect(page).toHaveURL("building/nonexistent_location_12345");
+    const heading404 = page.getByRole("heading", { name: "Die angeforderte Seite wurde" });
+    await expect(heading404).toBeVisible();
   });
 });
 
@@ -41,10 +43,6 @@ test.describe("Details Page - Interactive Map", () => {
     await expect(zoomOutButton).toBeVisible();
     await expect(zoomOutButton).toHaveCount(1);
 
-    // Hide map canvas for stable screenshot
-    await page.addStyleTag({
-      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
-    });
     await expect(page).toHaveScreenshot();
   });
 });
