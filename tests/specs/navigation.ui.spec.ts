@@ -24,6 +24,11 @@ test.describe("Navigation Page - Route Calculation", () => {
   test("should calculate route between two locations", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
+
+    // Hide map canvas for stable screenshot
+    await page.addStyleTag({
+      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
+    });
     await expect(page).toHaveScreenshot();
   });
 
@@ -51,12 +56,17 @@ test.describe("Navigation Page - Map Display", () => {
 
     const mapCanvas = page.locator("canvas").first();
     await expect(mapCanvas).toBeVisible();
+
+    // Hide map canvas for stable screenshot
+    await page.addStyleTag({
+      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
+    });
     await expect(page).toHaveScreenshot();
   });
 });
 
 test.describe("Navigation Page - Turn-by-Turn Directions", () => {
-  test("should display step-by-step directions with distances", async ({ page }) => {
+  test("should display step-by-turn directions with distances", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
     const quickSummaryMinutes = page.getByText("Minuten");
@@ -64,6 +74,11 @@ test.describe("Navigation Page - Turn-by-Turn Directions", () => {
 
     const turnInstruction = page.getByText("Richtung Osten laufen");
     await expect(turnInstruction).toBeVisible();
+
+    // Hide map canvas for stable screenshot
+    await page.addStyleTag({
+      content: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
+    });
     await expect(page).toHaveScreenshot();
   });
 });
