@@ -75,8 +75,10 @@ test.describe("Details Page - Navigation Actions", () => {
     // Scroll element into view before clicking
     await navButton.scrollIntoViewIfNeeded();
     await navButton.click({ force: true });
-    await expect(page).toHaveURL("/navigate");
-    expect(page.url()).toMatch(/to=|from=/);
+    await expect(page).toHaveURL((url) => url.pathname === "/navigate");
+    await expect(page).toHaveURL((url) => url.searchParams.get("coming_from") === "mi");
+    await expect(page).toHaveURL((url) => url.searchParams.get("to") === "mi");
+    await expect(page).toHaveURL((url) => !!url.searchParams.get("q_to"));
   });
 });
 

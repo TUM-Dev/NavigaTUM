@@ -75,7 +75,7 @@ test.describe("Search Bar - Interactive Search", () => {
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 
-    await expect(page).toHaveURL("/search?q=MI");
+    await expect(page).toHaveURL("/en/search?q=MI");
   });
 });
 

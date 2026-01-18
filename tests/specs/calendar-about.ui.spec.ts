@@ -111,7 +111,7 @@ test.describe("About Pages - Basic Functionality", () => {
 
   test("should load about us pages english", async ({ page }) => {
     await page.goto("/en/about/about-us", { waitUntil: "load" });
-    await expect(page).toHaveURL("/about/about-us");
+    await expect(page).toHaveURL("/en/about/about-us");
 
     const h1 = await page.locator("h1").count();
     expect(h1).toBeGreaterThan(0);
