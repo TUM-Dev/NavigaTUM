@@ -57,8 +57,11 @@ test.describe("Navigation Page - Turn-by-Turn Directions", () => {
   test("should display step-by-step directions with distances", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
-    const instructions = page.locator('[role="list"], ol, ul').first();
-    await expect(instructions).toBeVisible();
+    const quickSummaryMinutes = page.getByText("Minuten");
+    await expect(quickSummaryMinutes).toBeVisible();
+
+    const turnInstruction = page.getByText("Richtung Osten laufen");
+    await expect(turnInstruction).toBeVisible();
   });
 });
 

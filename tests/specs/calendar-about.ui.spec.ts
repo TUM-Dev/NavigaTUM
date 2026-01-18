@@ -136,7 +136,7 @@ test.describe("About Pages - Basic Functionality", () => {
 test.describe("About Pages - Imprint/Impressum", () => {
   test("should load imprint pages in both languages", async ({ page }) => {
     await page.goto("/about/impressum", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL("/about/imprint");
+    await expect(page).toHaveURL("/about/impressum");
 
     await page.goto("/en/about/imprint", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("/en/about/imprint");
