@@ -24,8 +24,21 @@ test.describe("Details Page - Interactive Map", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const mapCanvas = page.locator('canvas, [class*="maplibre"]').first();
+    const mapCanvas = page.getByRole("region", { name: "Map" });
+    await expect(mapCanvas).toHaveCount(1);
     await expect(mapCanvas).toBeVisible();
+
+    const fullScreenButton = page.getByRole("button", { name: "Enter fullscreen" });
+    await expect(fullScreenButton).toBeVisible();
+    await expect(fullScreenButton).toHaveCount(1);
+
+    const zoomInButton = page.getByRole("button", { name: "Zoom in" });
+    await expect(zoomInButton).toBeVisible();
+    await expect(zoomInButton).toHaveCount(1);
+
+    const zoomOutButton = page.getByRole("button", { name: "Zoom out" });
+    await expect(zoomOutButton).toBeVisible();
+    await expect(zoomOutButton).toHaveCount(1);
   });
 });
 
@@ -40,7 +53,7 @@ test.describe("Details Page - Images", () => {
 
     // Test clicking image opens slideshow
     await images.first().click();
-    const modal = page.getByRole('heading', { name: 'Bilder-Showcase' });
+    const modal = page.getByRole("heading", { name: "Bilder-Showcase" });
     await expect(modal.first()).toBeVisible();
   });
 });

@@ -38,10 +38,9 @@ test.describe("Search Page - Results Display", () => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     const firstResult = page.locator('a[href*="/view/mi"]').first();
-    if ((await firstResult.count()) > 0) {
-      await firstResult.click();
-      await expect(page).toHaveURL(/\/(view|building)\//);
-    }
+    await expect(firstResult).toBeVisible();
+    await firstResult.click();
+    await expect(page).toHaveURL(/\/(view|building)\/mi/);
   });
 });
 

@@ -49,9 +49,7 @@ test.describe("Navigation Page - Map Display", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
     const mapCanvas = page.locator("canvas").first();
-    if ((await mapCanvas.count()) > 0) {
-      await expect(mapCanvas).toBeVisible();
-    }
+    await expect(mapCanvas).toBeVisible();
   });
 });
 
@@ -60,9 +58,7 @@ test.describe("Navigation Page - Turn-by-Turn Directions", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
     const instructions = page.locator('[role="list"], ol, ul').first();
-    if ((await instructions.count()) > 0) {
-      await expect(instructions).toBeVisible();
-    }
+    await expect(instructions).toBeVisible();
   });
 });
 
@@ -103,9 +99,7 @@ test.describe("Navigation Page - Back Navigation", () => {
     await page.goto("/navigate?from=mi&to=mw&coming_from=mi", { waitUntil: "networkidle" });
 
     const backButton = page.locator('a[href*="/view/mi"]').first();
-    if ((await backButton.count()) > 0) {
-      await expect(backButton).toBeVisible();
-    }
+    await expect(backButton).toBeVisible();
   });
 });
 

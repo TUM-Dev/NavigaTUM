@@ -59,12 +59,20 @@ test.describe("Sites Overview", () => {
   test("should expand/collapse building lists", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const moreButton = page.getByRole("button", { name: /mehr|more/i }).first();
-    if ((await moreButton.count()) > 0) {
-      await moreButton.click();
-      // Wait for animation/re-render
-      await expect(page.getByRole("button", { name: /weniger|less/i }).first()).toBeVisible();
-    }
+    const moreButton = page.getByRole("button", { name: /mehr|more/i });
+    const lessButton = page.getByRole("button", { name: /weniger|less/i });
+    await expect(moreButton).toHaveCount(4);
+    await expect(moreButton.first()).toBeVisible();
+    await expect(lessButton).not.toBeVisible();
+    await moreButton.first().click();
+    // Wait for animation/re-render
+    await expect(moreButton).toHaveCount(3);
+    await expect(lessButton).toBeVisible();
+    await expect(lessButton).toHaveCount(1);
+    await lessButton.first().click();
+    // Wait for animation/re-render
+    await expect(lessButton).not.toBeVisible();
+    await expect(moreButton).toHaveCount(4);
   });
 });
 
@@ -72,11 +80,25 @@ test.describe("Language Switching", () => {
   test("should switch between German and English", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const languageSwitcher = page.locator('a[href*="/en"]').first();
-    if ((await languageSwitcher.count()) > 0) {
-      await languageSwitcher.click();
-      expect(page.url()).toContain("/en");
-    }
+    const settingsButton = page.getByRole("button", { name: "Open preferences menu" });
+    await expect(settingsButton).toBeVisible();
+    await settingsButton.first().click();
+
+    const languageSwitcherGerman = page.getByRole("tab", { name: "Deutsch" });
+    await expect(languageSwitcherGerman).toBeVisible();
+    await languageSwitcherGerman.first().click();
+    await expect(page).toHaveURL("/");
+
+    const prefDe = page.getByRole("heading", { name: "Präferenzen" });
+    await expect(prefDe).toBeVisible();
+
+    const languageSwitcherEnglish = page.getByRole("tab", { name: "English" });
+    await expect(languageSwitcherEnglish).toBeVisible();
+    await languageSwitcherEnglish.first().click();
+    await expect(page).toHaveURL("/en");
+
+    const prefEn = page.getByRole("heading", { name: "Preferences" });
+    await expect(prefEn).toBeVisible();
   });
 });
 
@@ -87,10 +109,7 @@ test.describe("Responsive Design", () => {
 
     await expect(page.locator("h1")).toBeVisible();
     // Search input might be type="text" or type="search"
-    await expect(
-      page
-      .getByRole("textbox", { name: "Suchfeld" }).first()
-    ).toBeVisible();
+    await expect(page.getByRole("textbox", { name: "Suchfeld" }).first()).toBeVisible();
   });
 
   test("should display correctly on desktop viewport", async ({ page }) => {

@@ -48,12 +48,10 @@ test.describe("API Endpoints - Search", () => {
 
     const data = await response.json();
     expect(data.sections).toBeDefined();
-    if (data.sections.length > 0) {
-      const section = data.sections[0];
-      expect(section).toHaveProperty("facet");
-      expect(section).toHaveProperty("entries");
-      expect(Array.isArray(section.entries)).toBe(true);
-    }
+    const section = data.sections[0];
+    expect(section).toHaveProperty("facet");
+    expect(section).toHaveProperty("entries");
+    expect(Array.isArray(section.entries)).toBe(true);
   });
 
   test("should handle search with highlighting", async ({ request }) => {
@@ -226,35 +224,37 @@ test.describe("API Endpoints - Feedback Token", () => {
 });
 
 test.describe("API Endpoints - Routing", () => {
-    // Routing is fairly expensive, so we skip this test by default
-    test.skip("should calculate pedestrian route between coordinates", async ({ request }) => {
-      const response = await request.get(
-        "/api/maps/route?lang=de&from=chemie-nebengebaeude&to=48.265795,11.669106&route_costing=public_transit"
-      );
+  // Routing is fairly expensive, so we skip this test by default
+  test.skip("should calculate pedestrian route between coordinates", async ({ request }) => {
+    const response = await request.get(
+      "/api/maps/route?lang=de&from=chemie-nebengebaeude&to=48.265795,11.669106&route_costing=public_transit"
+    );
 
-      expect(response.status()).toBe(200);
-      expect(response.headers()["content-type"]).toContain("application/json");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("application/json");
 
-      const data = await response.json();
-      expect(data).toHaveProperty("router");
-    });
-
-    // Routing is fairly expensive, so we skip this test by default
-    test.skip("should calculate route between location IDs", async ({ request }) => {
-      const response = await request.get("/api/maps/route?from=mi&to=chemie&route_costing=public_transit");
-
-      expect(response.status()).toBe(200);
-      expect(response.headers()["content-type"]).toContain("application/json");
-    });
-
-    test("should return 404 for invalid location IDs", async ({ request }) => {
-      const response = await request.get(
-        "/api/maps/route?from=invalid_id_123&to=invalid_id_456&route_costing=pedestrian"
-      );
-
-      expect(response.status()).toBe(404);
-    });
+    const data = await response.json();
+    expect(data).toHaveProperty("router");
   });
+
+  // Routing is fairly expensive, so we skip this test by default
+  test.skip("should calculate route between location IDs", async ({ request }) => {
+    const response = await request.get(
+      "/api/maps/route?from=mi&to=chemie&route_costing=public_transit"
+    );
+
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("application/json");
+  });
+
+  test("should return 404 for invalid location IDs", async ({ request }) => {
+    const response = await request.get(
+      "/api/maps/route?from=invalid_id_123&to=invalid_id_456&route_costing=pedestrian"
+    );
+
+    expect(response.status()).toBe(404);
+  });
+});
 
 test.describe("API Endpoints - Response Format", () => {
   test("should return JSON for search endpoint", async ({ request }) => {

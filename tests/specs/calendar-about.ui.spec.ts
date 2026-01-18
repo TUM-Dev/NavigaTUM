@@ -10,7 +10,7 @@ test.describe("Calendar Page - Basic Functionality", () => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
+    const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const calendar = page.locator('[class*="calendar"], [role="grid"], table').first();
@@ -33,27 +33,23 @@ test.describe("Calendar Page - Events Display", () => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
+    const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for event elements
     const events = page.locator('[class*="event"], [class*="booking"], [role="listitem"]');
-    if ((await events.count()) > 0) {
-      await expect(events.first()).toBeVisible();
-    }
+    await expect(events.first()).toBeVisible();
 
     // Look for time information
     const times = page.getByText(/\d{1,2}:\d{2}/);
-    if ((await times.count()) > 0) {
-      await expect(times.first()).toBeVisible();
-    }
+    await expect(times.first()).toBeVisible();
   });
 
   test.skip("should show empty state when no events", async ({ page }) => {
     await page.goto("/calendar/mi", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("building/mi?calendar[]=mi");
 
-    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
+    const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     await expect(page.locator("body")).toBeVisible();
@@ -70,22 +66,16 @@ test.describe("Calendar Page - Date Navigation", () => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
+    const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     // Look for date navigation controls
-    const dateNav = page.locator(
-      'button[aria-label*="next"], button[aria-label*="previous"], button[aria-label*="nächste"]'
-    );
-    if ((await dateNav.count()) > 0) {
-      await expect(dateNav.first()).toBeVisible();
-    }
+    const dateNav = page.getByRole("button", { name: "Nächste Woche" });
+    await expect(dateNav.first()).toBeVisible();
 
     // Look for date display
     const dateDisplay = page.locator('[class*="date"], [class*="day"], time').first();
-    if ((await dateDisplay.count()) > 0) {
-      await expect(dateDisplay).toBeVisible();
-    }
+    await expect(dateDisplay).toBeVisible();
   });
 });
 
@@ -99,13 +89,11 @@ test.describe("Calendar Page - Actions", () => {
     await page.goto("/calendar/5602.EG.001", { waitUntil: "load" });
     await expect(page).toHaveURL("room/5602.EG.001?calendar[]=5602.EG.001");
 
-    const heading = page.getByRole('heading', { name: 'Kalender' }).first();
+    const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
     const backLink = page.locator('a[href*="/view/5602"]').first();
-    if ((await backLink.count()) > 0) {
-      await expect(backLink).toBeVisible();
-    }
+    await expect(backLink).toBeVisible();
   });
 });
 
@@ -148,10 +136,10 @@ test.describe("About Pages - Basic Functionality", () => {
 test.describe("About Pages - Imprint/Impressum", () => {
   test("should load imprint pages in both languages", async ({ page }) => {
     await page.goto("/about/impressum", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/about\/impressum/);
+    await expect(page).toHaveURL("/about/imprint");
 
     await page.goto("/en/about/imprint", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/en\/about\/imprint/);
+    await expect(page).toHaveURL("/en/about/imprint");
   });
 
   test("should display imprint content with contact", async ({ page }) => {
@@ -162,9 +150,7 @@ test.describe("About Pages - Imprint/Impressum", () => {
 
     // Look for email or address
     const contact = page.getByText(/@|mail|TUM|München|Munich/i).first();
-    if ((await contact.count()) > 0) {
-      await expect(contact).toBeVisible();
-    }
+    await expect(contact).toBeVisible();
   });
 });
 
@@ -185,9 +171,7 @@ test.describe("About Pages - Privacy/Datenschutz", () => {
 
     // Look for privacy-related terms
     const privacyContent = page.getByText(/Daten|DSGVO|Datenschutz|Cookie/i).first();
-    if ((await privacyContent.count()) > 0) {
-      await expect(privacyContent).toBeVisible();
-    }
+    await expect(privacyContent).toBeVisible();
   });
 });
 
@@ -195,21 +179,19 @@ test.describe("About Pages - Navigation", () => {
   test("should navigate between about pages", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
-    const impressumLink = page.locator('a[href*="/about/impressum"]').first();
-    if ((await impressumLink.count()) > 0) {
-      await impressumLink.click();
-      await expect(page).toHaveURL(/\/about\/impressum/);
-    }
+    const impressumLink = page.locator('a[href*="/about/impressum"]');
+    await expect(impressumLink).toBeVisible();
+    await impressumLink.first().click();
+    await expect(page).toHaveURL(/\/about\/impressum/);
   });
 
   test("should maintain language when navigating", async ({ page }) => {
     await page.goto("/en/about/about-us", { waitUntil: "networkidle" });
 
-    const imprintLink = page.locator('a[href*="/en/about/imprint"]').first();
-    if ((await imprintLink.count()) > 0) {
-      await imprintLink.click();
-      await expect(page).toHaveURL(/\/en\/about\/imprint/);
-    }
+    const imprintLink = page.locator('a[href*="/en/about/imprint"]');
+    await expect(imprintLink).toBeVisible();
+    await imprintLink.first().click();
+    await expect(page).toHaveURL("/en/about/imprint");
   });
 });
 
