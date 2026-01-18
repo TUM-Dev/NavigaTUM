@@ -84,17 +84,13 @@ test.describe("Navigation Page - Location Search", () => {
   test("should allow searching for locations", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    // Wait for page to fully load
-    await page.waitForLoadState("networkidle");
-
     const fromInput = page.getByPlaceholder("Von").first();
-    await fromInput.fill("Fakultät Mathematik informatik");
-    await fromInput.press("Enter");
+    await fromInput.fill("Mathematik Informatik");
+    const searchButton = page.getByText("Fakultät Mathematik");
+    await expect(searchButton).toBeVisible();
+    await searchButton.click();
 
-    await expect(page).toHaveURL((url) => {
-      const params = url.searchParams;
-      return params.get("from") === "mi";
-    });
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
   });
 
   test("should support coordinate-based routing", async ({ page }) => {
