@@ -32,6 +32,7 @@ test.describe("Search Page - Results Display", () => {
     const resultLinks = page.locator('a[href*="/view/"]');
     const count = await resultLinks.count();
     expect(count).toBeGreaterThan(0);
+    await expect(page).toHaveScreenshot();
   });
 
   test("should navigate to details page when clicking a result", async ({ page }) => {
@@ -53,6 +54,7 @@ test.describe("Search Page - Empty and Error States", () => {
   test("should handle search with no results", async ({ page }) => {
     await page.goto("/search?q=xyznonexistentbuilding12345", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
+    await expect(page).toHaveScreenshot();
   });
 
   test("should handle special characters in search", async ({ page }) => {

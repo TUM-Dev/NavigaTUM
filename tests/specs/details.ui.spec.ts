@@ -8,6 +8,7 @@ test.describe("Details Page - Basic Functionality", () => {
     const heading = page.locator("h1, h2").first();
     await expect(heading).toBeVisible();
     await expect(heading).toContainText("MI");
+    await expect(page).toHaveScreenshot();
   });
 
   test("should return an 404 for non-existent location", async ({ page }) => {
@@ -39,6 +40,7 @@ test.describe("Details Page - Interactive Map", () => {
     const zoomOutButton = page.getByRole("button", { name: "Zoom out" });
     await expect(zoomOutButton).toBeVisible();
     await expect(zoomOutButton).toHaveCount(1);
+    await expect(page).toHaveScreenshot();
   });
 });
 
@@ -55,6 +57,7 @@ test.describe("Details Page - Images", () => {
     await images.first().click();
     const modal = page.getByRole("heading", { name: "Bilder-Showcase" });
     await expect(modal.first()).toBeVisible();
+    await expect(page).toHaveScreenshot();
   });
 });
 
@@ -85,6 +88,7 @@ test.describe("Details Page - Property Information", () => {
 
     const address = page.getByText("Boltzmannstr. 3, 85748");
     await expect(address).toBeVisible();
+    await expect(page).toHaveScreenshot();
   });
 });
 
@@ -138,6 +142,7 @@ test.describe("Details Page - Building Overview", () => {
 
     const roomLink = page.locator('a[href*="/view/5602."]').first();
     await expect(roomLink).toBeVisible();
+    await expect(page).toHaveScreenshot();
     await roomLink.click();
     await expect(page).toHaveURL(/\/(view|room)\/5602\./);
   });

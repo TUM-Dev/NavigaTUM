@@ -15,13 +15,14 @@ This automatically starts Docker containers, runs tests, and generates a report.
 ## Commands
 
 ```bash
-pnpm test              # Run all tests (API + UI, auto-starts containers)
-pnpm test:api          # Run API tests only
-pnpm test:ui           # Run UI tests in Chromium
-pnpm test:ui:chromium  # Run UI tests in Chromium (alias)
-pnpm test:ui:headed    # Run UI tests with browser visible
-pnpm test:interactive  # Interactive mode with UI
-pnpm test:report       # View last test report
+pnpm test                  # Run all tests (API + UI, auto-starts containers)
+pnpm test:api              # Run API tests only
+pnpm test:ui               # Run UI tests in Chromium
+pnpm test:ui:chromium      # Run UI tests in Chromium (alias)
+pnpm test:ui:headed        # Run UI tests with browser visible
+pnpm test:interactive      # Interactive mode with UI
+pnpm test:report           # View last test report
+pnpm update-screenshots    # Update all screenshot baselines
 ```
 
 ## Test Against Running Containers

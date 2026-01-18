@@ -15,6 +15,7 @@ test.describe("Calendar Page - Basic Functionality", () => {
 
     const calendar = page.locator('[class*="calendar"], [role="grid"], table').first();
     await expect(calendar).toBeVisible({ timeout: 10000 });
+    await expect(page).toHaveScreenshot();
   });
 
   test("should handle calendar for non-existent room", async ({ page }) => {
@@ -43,6 +44,7 @@ test.describe("Calendar Page - Events Display", () => {
     // Look for time information
     const times = page.getByText(/\d{1,2}:\d{2}/);
     await expect(times.first()).toBeVisible();
+    await expect(page).toHaveScreenshot();
   });
 
   test.skip("should show empty state when no events", async ({ page }) => {
@@ -118,6 +120,7 @@ test.describe("About Pages - Basic Functionality", () => {
 
     const paragraphs = await page.locator("p").count();
     expect(paragraphs).toBeGreaterThan(0);
+    await expect(page).toHaveScreenshot();
   });
 
   test("should redirect old about paths correctly", async ({ page }) => {
@@ -151,6 +154,7 @@ test.describe("About Pages - Imprint/Impressum", () => {
     // Look for email or address
     const contact = page.getByText(/@|mail|TUM|München|Munich/i).first();
     await expect(contact).toBeVisible();
+    await expect(page).toHaveScreenshot();
   });
 });
 
