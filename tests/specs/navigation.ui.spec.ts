@@ -88,7 +88,7 @@ test.describe("Navigation Page - Location Search", () => {
     await page.waitForLoadState("networkidle");
 
     const fromInput = page.getByPlaceholder("Von").first();
-    await fromInput.fill("mi");
+    await fromInput.fill("Fakultät Mathematik informatik");
     await fromInput.press("Enter");
 
     await expect(page).toHaveURL((url) => {
