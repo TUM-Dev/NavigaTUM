@@ -4,7 +4,7 @@ test.describe("Navigation Page - Basic Functionality", () => {
   test("should load navigation page with inputs", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    await expect(page).toHaveURL(/\/navigate/);
+    await expect(page).toHaveURL("/navigate");
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
     const fromInput = page.getByPlaceholder("Von").first();

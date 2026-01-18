@@ -100,7 +100,7 @@ test.describe("Calendar Page - Actions", () => {
 test.describe("About Pages - Basic Functionality", () => {
   test("should load about us pages german", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "load" });
-    await expect(page).toHaveURL(/\/about\/ueber-uns/);
+    await expect(page).toHaveURL("/about/ueber-uns");
 
     const h1 = await page.locator("h1").count();
     expect(h1).toBeGreaterThan(0);
@@ -111,7 +111,7 @@ test.describe("About Pages - Basic Functionality", () => {
 
   test("should load about us pages english", async ({ page }) => {
     await page.goto("/en/about/about-us", { waitUntil: "load" });
-    await expect(page).toHaveURL(/\/about\/about-us/);
+    await expect(page).toHaveURL("/about/about-us");
 
     const h1 = await page.locator("h1").count();
     expect(h1).toBeGreaterThan(0);
@@ -123,7 +123,7 @@ test.describe("About Pages - Basic Functionality", () => {
 
   test("should redirect old about paths correctly", async ({ page }) => {
     await page.goto("/about/about-us", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/about\/ueber-uns/);
+    await expect(page).toHaveURL("/about/ueber-uns");
   });
 
   test("should display page content", async ({ page }) => {
@@ -159,10 +159,10 @@ test.describe("About Pages - Imprint/Impressum", () => {
 test.describe("About Pages - Privacy/Datenschutz", () => {
   test("should load privacy pages in both languages", async ({ page }) => {
     await page.goto("/about/datenschutz", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/about\/datenschutz/);
+    await expect(page).toHaveURL("/about/datenschutz");
 
     await page.goto("/en/about/privacy", { waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/en\/about\/privacy/);
+    await expect(page).toHaveURL("/en/about/privacy");
   });
 
   test("should display privacy policy content", async ({ page }) => {
@@ -184,7 +184,7 @@ test.describe("About Pages - Navigation", () => {
     const impressumLink = page.locator('a[href*="/about/impressum"]');
     await expect(impressumLink).toBeVisible();
     await impressumLink.first().click();
-    await expect(page).toHaveURL(/\/about\/impressum/);
+    await expect(page).toHaveURL("/about/impressum");
   });
 
   test("should maintain language when navigating", async ({ page }) => {

@@ -75,7 +75,7 @@ test.describe("Details Page - Navigation Actions", () => {
     // Scroll element into view before clicking
     await navButton.scrollIntoViewIfNeeded();
     await navButton.click({ force: true });
-    await expect(page).toHaveURL(/\/navigate/);
+    await expect(page).toHaveURL("/navigate");
     expect(page.url()).toMatch(/to=|from=/);
   });
 });
@@ -164,7 +164,7 @@ test.describe("Details Page - Breadcrumbs", () => {
     await page.goto("/view/5602.EG.001");
 
     // Redirect: view -> room
-    await expect(page).toHaveURL(/\/room\/5602\.EG\.001$/);
+    await expect(page).toHaveURL("/room/5602.EG.001");
 
     const breadcrumbs = page.locator('nav[aria-label*="breadcrumb"], ol[typeof="BreadcrumbList"]');
 

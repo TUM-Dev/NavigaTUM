@@ -4,7 +4,7 @@ test.describe("Search Page - Basic Functionality", () => {
   test("should navigate to search page with query parameter", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/search?q=MI");
     await expect(page).toHaveTitle(/MI/);
   });
 
@@ -75,7 +75,7 @@ test.describe("Search Bar - Interactive Search", () => {
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/search?q=MI");
   });
 });
 
@@ -101,7 +101,7 @@ test.describe("Search Page - URL Handling", () => {
     await page.goBack();
     await page.waitForLoadState("networkidle");
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/search?q=MI");
   });
 
   test("should update document title with search query", async ({ page }) => {
