@@ -29,9 +29,15 @@ export default defineConfig({
 
     /* Screenshot on failure */
     screenshot: "only-on-failure",
+  },
 
-    /* Global styles to hide dynamic elements in screenshots */
-    styleTag: 'canvas, [role="region"][aria-label="Map"] { visibility: hidden !important; }',
+  /* Expect configuration */
+  expect: {
+    timeout: 10 * 1000,
+
+    toHaveScreenshot: {
+      stylePath: "./screenshot.css",
+    },
   },
 
   /* Configure projects for different test types */
@@ -66,9 +72,4 @@ export default defineConfig({
 
   /* Global timeout for each test */
   timeout: 60 * 1000,
-
-  /* Expect timeout */
-  expect: {
-    timeout: 10 * 1000,
-  },
 });
