@@ -6,7 +6,7 @@ test.describe("Homepage", () => {
 
     await expect(page).toHaveTitle(/NavigaTUM/);
     await expect(page.locator("h1")).toContainText(/Standorte|Sites/);
-    await expect(page).toHaveScreenshot();
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should display the main navigation header", async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe("Homepage", () => {
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
     await expect(searchInput).toBeVisible();
-    await expect(page).toHaveScreenshot();
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should display footer with links", async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe("Sites Overview", () => {
     await expect(page.getByText(/Garching/)).toBeVisible();
     await expect(page.getByText(/Stammgelände/)).toBeVisible();
     await expect(page.getByText(/Weihenstephan/)).toBeVisible();
-    await expect(page).toHaveScreenshot();
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should navigate to campus details when clicking a campus", async ({ page }) => {

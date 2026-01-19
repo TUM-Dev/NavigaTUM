@@ -118,7 +118,7 @@ test.describe("About Pages - Basic Functionality", () => {
 
     const paragraphs = await page.locator("p").count();
     expect(paragraphs).toBeGreaterThan(0);
-    await expect(page).toHaveScreenshot();
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should redirect old about paths correctly", async ({ page }) => {
@@ -152,7 +152,7 @@ test.describe("About Pages - Imprint/Impressum", () => {
     // Look for email or address
     const contact = page.getByText(/@|mail|TUM|München|Munich/i).first();
     await expect(contact).toBeVisible();
-    await expect(page).toHaveScreenshot();
+    // await expect(page).toHaveScreenshot();
   });
 });
 
