@@ -4,7 +4,7 @@ test.describe("Search Page - Basic Functionality", () => {
   test("should navigate to search page with query parameter", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/search?q=MI");
     await expect(page).toHaveTitle(/MI/);
   });
 
@@ -32,16 +32,16 @@ test.describe("Search Page - Results Display", () => {
     const resultLinks = page.locator('a[href*="/view/"]');
     const count = await resultLinks.count();
     expect(count).toBeGreaterThan(0);
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should navigate to details page when clicking a result", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     const firstResult = page.locator('a[href*="/view/mi"]').first();
-    if ((await firstResult.count()) > 0) {
-      await firstResult.click();
-      await expect(page).toHaveURL(/\/(view|building)\//);
-    }
+    await expect(firstResult).toBeVisible();
+    await firstResult.click();
+    await expect(page).toHaveURL(/\/(view|building)\/mi/);
   });
 });
 
@@ -54,6 +54,7 @@ test.describe("Search Page - Empty and Error States", () => {
   test("should handle search with no results", async ({ page }) => {
     await page.goto("/search?q=xyznonexistentbuilding12345", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should handle special characters in search", async ({ page }) => {
@@ -74,7 +75,7 @@ test.describe("Search Bar - Interactive Search", () => {
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/en/search?q=MI");
   });
 });
 
@@ -100,7 +101,7 @@ test.describe("Search Page - URL Handling", () => {
     await page.goBack();
     await page.waitForLoadState("networkidle");
 
-    await expect(page).toHaveURL(/\/search\?q=MI/);
+    await expect(page).toHaveURL("/search?q=MI");
   });
 
   test("should update document title with search query", async ({ page }) => {
