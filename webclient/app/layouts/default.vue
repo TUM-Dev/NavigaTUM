@@ -24,9 +24,9 @@ useHead({
     class="mx-auto mt-16 min-h-[calc(100vh-360px)] max-w-4xl pb-10 transition-opacity"
     :class="{ 'opacity-70': searchBarFocused }"
   >
-    <div class="mx-5">
+    <main class="mx-5">
       <slot />
-    </div>
+    </main>
   </div>
 
   <AppFooter :class="searchBarFocused ? 'opacity-70' : ''" />
