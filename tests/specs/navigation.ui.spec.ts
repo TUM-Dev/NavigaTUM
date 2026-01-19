@@ -4,7 +4,7 @@ test.describe("Navigation Page - Basic Functionality", () => {
   test("should load navigation page with inputs", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    await expect(page).toHaveURL(/\/navigate/);
+    await expect(page).toHaveURL("/navigate");
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
     const fromInput = page.getByPlaceholder("Von").first();
@@ -24,6 +24,8 @@ test.describe("Navigation Page - Route Calculation", () => {
   test("should calculate route between two locations", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
     await expect(page.locator("body")).toBeVisible();
+
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should handle route calculation errors gracefully", async ({ page }) => {
@@ -49,20 +51,23 @@ test.describe("Navigation Page - Map Display", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
     const mapCanvas = page.locator("canvas").first();
-    if ((await mapCanvas.count()) > 0) {
-      await expect(mapCanvas).toBeVisible();
-    }
+    await expect(mapCanvas).toBeVisible();
+
+    // await expect(page).toHaveScreenshot();
   });
 });
 
 test.describe("Navigation Page - Turn-by-Turn Directions", () => {
-  test("should display step-by-step directions with distances", async ({ page }) => {
+  test("should display turn-by-turn directions with distances", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
 
-    const instructions = page.locator('[role="list"], ol, ul').first();
-    if ((await instructions.count()) > 0) {
-      await expect(instructions).toBeVisible();
-    }
+    const quickSummaryMinutes = page.getByText("Minuten");
+    await expect(quickSummaryMinutes).toBeVisible();
+
+    const turnInstruction = page.getByText("Richtung Osten laufen");
+    await expect(turnInstruction).toBeVisible();
+
+    // await expect(page).toHaveScreenshot();
   });
 });
 
@@ -79,15 +84,13 @@ test.describe("Navigation Page - Location Search", () => {
   test("should allow searching for locations", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    // Wait for page to fully load
-    await page.waitForLoadState("networkidle");
-
     const fromInput = page.getByPlaceholder("Von").first();
-    await fromInput.fill("mi");
-    await fromInput.press("Enter");
+    await fromInput.fill("Mathematik Informatik");
+    const searchButton = page.getByText("Fakultät Mathematik");
+    await expect(searchButton).toBeVisible();
+    await searchButton.click();
 
-    const url = page.url();
-    expect(url.includes("from=") || url.includes("mi")).toBeTruthy();
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
   });
 
   test("should support coordinate-based routing", async ({ page }) => {
@@ -103,9 +106,7 @@ test.describe("Navigation Page - Back Navigation", () => {
     await page.goto("/navigate?from=mi&to=mw&coming_from=mi", { waitUntil: "networkidle" });
 
     const backButton = page.locator('a[href*="/view/mi"]').first();
-    if ((await backButton.count()) > 0) {
-      await expect(backButton).toBeVisible();
-    }
+    await expect(backButton).toBeVisible();
   });
 });
 

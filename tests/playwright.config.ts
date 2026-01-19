@@ -31,6 +31,15 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
 
+  /* Expect configuration */
+  expect: {
+    timeout: 10 * 1000,
+
+    toHaveScreenshot: {
+      stylePath: "./screenshot.css",
+    },
+  },
+
   /* Configure projects for different test types */
   projects: [
     {
@@ -63,9 +72,4 @@ export default defineConfig({
 
   /* Global timeout for each test */
   timeout: 60 * 1000,
-
-  /* Expect timeout */
-  expect: {
-    timeout: 10 * 1000,
-  },
 });
