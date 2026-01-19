@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useFeedback } from "~/composables/feedback";
 import { mdiHeart } from "@mdi/js";
+import { useFeedback } from "~/composables/feedback";
 
 const props = defineProps<{ class?: string }>();
 const feedback = useFeedback();
