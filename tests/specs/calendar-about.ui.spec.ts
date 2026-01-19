@@ -102,22 +102,22 @@ test.describe("About Pages - Basic Functionality", () => {
     await page.goto("/about/ueber-uns", { waitUntil: "load" });
     await expect(page).toHaveURL("/about/ueber-uns");
 
-    const h1 = await page.locator("h1").count();
-    expect(h1).toBeGreaterThan(0);
+    const h1 = page.locator("h1");
+    await expect(h1.first()).toBeVisible();
 
-    const paragraphs = await page.locator("p").count();
-    expect(paragraphs).toBeGreaterThan(0);
+    const paragraphs = page.locator("p");
+    await expect(paragraphs.first()).toBeVisible();
   });
 
   test("should load about us pages english", async ({ page }) => {
     await page.goto("/en/about/about-us", { waitUntil: "load" });
     await expect(page).toHaveURL("/en/about/about-us");
 
-    const h1 = await page.locator("h1").count();
-    expect(h1).toBeGreaterThan(0);
+    const h1 = page.locator("h1");
+    await expect(h1.first()).toBeVisible();
 
-    const paragraphs = await page.locator("p").count();
-    expect(paragraphs).toBeGreaterThan(0);
+    const paragraphs = page.locator("p");
+    await expect(paragraphs.first()).toBeVisible();
     // await expect(page).toHaveScreenshot();
   });
 
@@ -201,8 +201,11 @@ test.describe("About Pages - Accessibility", () => {
   test("should have proper heading hierarchy", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
-    const h1Count = await page.locator("h1").count();
-    expect(h1Count).toBeGreaterThanOrEqual(1);
+    const h1 = page.locator("h1");
+    await expect(h1).toBeVisible();
+
+    const paragraphs = page.locator("p");
+    await expect(paragraphs.first()).toBeVisible();
   });
 
   test("should be keyboard navigable", async ({ page }) => {
