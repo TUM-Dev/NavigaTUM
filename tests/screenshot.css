@@ -1,0 +1,5 @@
+/* Hide dynamic map elements that change between test runs */
+canvas,
+[role="region"][aria-label="Map"] {
+  visibility: hidden !important;
+}

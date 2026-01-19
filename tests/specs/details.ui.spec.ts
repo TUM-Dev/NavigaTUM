@@ -8,13 +8,16 @@ test.describe("Details Page - Basic Functionality", () => {
     const heading = page.locator("h1, h2").first();
     await expect(heading).toBeVisible();
     await expect(heading).toContainText("MI");
+    // await expect(page).toHaveScreenshot();
   });
 
   test("should return an 404 for non-existent location", async ({ page }) => {
     await page.goto("/building/nonexistent_location_12345", { waitUntil: "networkidle" });
     // no weird redirect
-    expect(page.url()).toContain("building/nonexistent_location_12345");
-    expect(page.getByRole("heading", { name: "Die angeforderte Seite wurde" })).toBeVisible();
+
+    await expect(page).toHaveURL("building/nonexistent_location_12345");
+    const heading404 = page.getByRole("heading", { name: "Die angeforderte Seite wurde" });
+    await expect(heading404).toBeVisible();
   });
 });
 
@@ -24,8 +27,23 @@ test.describe("Details Page - Interactive Map", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const mapCanvas = page.locator('canvas, [class*="maplibre"]').first();
+    const mapCanvas = page.getByRole("region", { name: "Map" });
+    await expect(mapCanvas).toHaveCount(1);
     await expect(mapCanvas).toBeVisible();
+
+    const fullScreenButton = page.getByRole("button", { name: "Enter fullscreen" });
+    await expect(fullScreenButton).toBeVisible();
+    await expect(fullScreenButton).toHaveCount(1);
+
+    const zoomInButton = page.getByRole("button", { name: "Zoom in" });
+    await expect(zoomInButton).toBeVisible();
+    await expect(zoomInButton).toHaveCount(1);
+
+    const zoomOutButton = page.getByRole("button", { name: "Zoom out" });
+    await expect(zoomOutButton).toBeVisible();
+    await expect(zoomOutButton).toHaveCount(1);
+
+    // await expect(page).toHaveScreenshot();
   });
 });
 
@@ -40,7 +58,7 @@ test.describe("Details Page - Images", () => {
 
     // Test clicking image opens slideshow
     await images.first().click();
-    const modal = page.getByRole('heading', { name: 'Bilder-Showcase' });
+    const modal = page.getByRole("heading", { name: "Bilder-Showcase" });
     await expect(modal.first()).toBeVisible();
   });
 });
@@ -57,8 +75,10 @@ test.describe("Details Page - Navigation Actions", () => {
     // Scroll element into view before clicking
     await navButton.scrollIntoViewIfNeeded();
     await navButton.click({ force: true });
-    await expect(page).toHaveURL(/\/navigate/);
-    expect(page.url()).toMatch(/to=|from=/);
+    await expect(page).toHaveURL((url) => url.pathname === "/navigate");
+    await expect(page).toHaveURL((url) => url.searchParams.get("coming_from") === "mi");
+    await expect(page).toHaveURL((url) => url.searchParams.get("to") === "mi");
+    await expect(page).toHaveURL((url) => !!url.searchParams.get("q_to"));
   });
 });
 
@@ -72,6 +92,7 @@ test.describe("Details Page - Property Information", () => {
 
     const address = page.getByText("Boltzmannstr. 3, 85748");
     await expect(address).toBeVisible();
+    // await expect(page).toHaveScreenshot();
   });
 });
 
@@ -125,6 +146,7 @@ test.describe("Details Page - Building Overview", () => {
 
     const roomLink = page.locator('a[href*="/view/5602."]').first();
     await expect(roomLink).toBeVisible();
+    // await expect(page).toHaveScreenshot();
     await roomLink.click();
     await expect(page).toHaveURL(/\/(view|room)\/5602\./);
   });
@@ -144,7 +166,7 @@ test.describe("Details Page - Breadcrumbs", () => {
     await page.goto("/view/5602.EG.001");
 
     // Redirect: view -> room
-    await expect(page).toHaveURL(/\/room\/5602\.EG\.001$/);
+    await expect(page).toHaveURL("/room/5602.EG.001");
 
     const breadcrumbs = page.locator('nav[aria-label*="breadcrumb"], ol[typeof="BreadcrumbList"]');
 
