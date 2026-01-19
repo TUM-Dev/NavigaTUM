@@ -201,7 +201,7 @@ test.describe("About Pages - Accessibility", () => {
   test("should have proper heading hierarchy", async ({ page }) => {
     await page.goto("/about/ueber-uns", { waitUntil: "networkidle" });
 
-    const h1 = page.locator("h1");
+    const h1 = page.locator("h1").first();
     await expect(h1).toBeVisible();
 
     const paragraphs = page.locator("p");
