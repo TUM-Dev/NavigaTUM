@@ -8,7 +8,7 @@ definePageMeta({
   validate(route) {
     return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
   },
-  layout: false,
+  layout: "fullscreen",
 });
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -17,8 +17,6 @@ type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
-
-const searchBarFocused = ref(false);
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
@@ -155,11 +153,6 @@ const { isSwiping } = useSwipe(sheetContainer, {
 
 <template>
   <div class="h-screen flex flex-col overflow-hidden bg-zinc-50">
-    <!-- Re-use AppNavHeader -->
-    <AppNavHeader>
-      <AppSearchBar v-model:search-bar-focused="searchBarFocused" />
-    </AppNavHeader>
-
     <!-- Main Container: Desktop = Row, Mobile = Stack (Map + Overlay) -->
     <!-- Added pt-[65px] to account for fixed header -->
     <div class="relative flex-1 flex flex-col md:flex-row overflow-hidden pt-[65px]">
@@ -196,7 +189,12 @@ const { isSwiping } = useSwipe(sheetContainer, {
 
         <!-- Scrollable Content -->
         <div id="sheet-content" ref="scrollContainer" class="overflow-y-auto flex-1 p-0 scrollbar-thin flex flex-col">
-          <DetailsContentSidebar v-if="data" :data="data" :mobile-sheet-state="mobileSheetState" @open-slideshow="slideshowOpen = true" />
+          <DetailsContentSidebar
+            v-if="data"
+            :data="data"
+            :mobile-sheet-state="mobileSheetState"
+            @open-slideshow="slideshowOpen = true"
+          />
         </div>
       </div>
 
@@ -212,7 +210,14 @@ const { isSwiping } = useSwipe(sheetContainer, {
         }"
       >
         <ClientOnly>
-          <DetailsInteractiveMap :id="data.id" :coords="data.coords" :type="data.type" :maps="data.maps" :floors="data.props.floors" class="h-full w-full" />
+          <DetailsInteractiveMap
+            :id="data.id"
+            :coords="data.coords"
+            :type="data.type"
+            :maps="data.maps"
+            :floors="data.props.floors"
+            class="h-full w-full"
+          />
         </ClientOnly>
       </div>
 

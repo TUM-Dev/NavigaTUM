@@ -116,10 +116,12 @@ export default defineNuxtConfig({
       {
         code: "en",
         language: "en-US",
+        iso: "en-US",
       },
       {
         code: "de",
         language: "de-DE",
+        iso: "de-DE",
       },
     ],
     defaultLocale: "de",

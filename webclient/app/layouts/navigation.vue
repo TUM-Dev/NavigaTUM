@@ -17,9 +17,9 @@ useHead({
   <AppNavHeader />
 
   <!-- Page content container -->
-  <div class="mx-auto mt-[60px] min-h-[calc(100vh-150px)] transition-opacity">
+  <main class="mx-auto mt-[60px] min-h-[calc(100vh-150px)] transition-opacity">
     <slot />
-  </div>
+  </main>
 
   <AppFooter />
   <ClientOnly>
