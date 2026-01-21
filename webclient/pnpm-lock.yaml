@@ -97,8 +97,8 @@ importers:
         specifier: 7946.0.16
         version: 7946.0.16
       '@types/nightwind':
-        specifier: 1.0.0
-        version: 1.0.0(yaml@2.8.2)
+        specifier: 1.0.1
+        version: 1.0.1(yaml@2.8.2)
       '@vue/tsconfig':
         specifier: 0.8.1
         version: 0.8.1(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
@@ -2136,8 +2136,8 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/nightwind@1.0.0':
-    resolution: {integrity: sha512-+ps5oWemzNNJ8KvprdXomxVKwDggmxJAH/Id5FCT+PGOdETKl8sLl279gUdZtiVHLY9W8rvtkmQ6VlsYMfZSkg==}
+  '@types/nightwind@1.0.1':
+    resolution: {integrity: sha512-w2M1pIyU8hGNhODJJelp7r4+hLSJjMSwUDnRIBPWTZUKW8II11Ws4mS2yCYQn3uZG661KcPibq2s/pauMz1pTg==}
 
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
@@ -5291,6 +5291,7 @@ packages:
   tar@7.5.3:
     resolution: {integrity: sha512-ENg5JUHUm2rDD7IvKNFGzyElLXNjachNLp6RaGf4+JOgxXHkqA+gq81ZAMCUmtMtqBsoU62lcp6S27g1LCYGGQ==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   terser@5.44.0:
     resolution: {integrity: sha512-nIVck8DK+GM/0Frwd+nIhZ84pR/BX7rmXMfYwyg+Sri5oGVE99/E3KvXqpC2xHFxyqXyGHTKBSioxxplrO4I4w==}
@@ -7922,7 +7923,7 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
-  '@types/nightwind@1.0.0(yaml@2.8.2)':
+  '@types/nightwind@1.0.1(yaml@2.8.2)':
     dependencies:
       tailwindcss: 3.4.19(yaml@2.8.2)
     transitivePeerDependencies:
