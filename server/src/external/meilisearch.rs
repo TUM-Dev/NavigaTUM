@@ -108,7 +108,7 @@ impl From<(&Client, String, &Limits, &FormattingConfig)> for GeoEntryQuery {
         Self {
             client: client.clone(),
             query,
-            limits: *limits,
+            limits: limits.clone(),
             formatting_config: formatting_config.clone(),
             filters: GeoEntryFilters::default(),
             sorting: Vec::new(),

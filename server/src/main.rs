@@ -6,6 +6,7 @@ use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
 use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
+use moka::future::Cache;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::{PgPool, Pool, Postgres};
@@ -38,6 +39,8 @@ pub struct AppData {
     meilisearch_initialised: Arc<RwLock<()>>,
     valhalla: external::valhalla::ValhallaWrapper,
     motis: external::motis::MotisWrapper,
+    /// moka cache for search results (size ~= 0.1Mi per entry)
+    search_cache: Cache<search::SearchCacheKey, Vec<search_executor::ResultsSection>>,
 }
 
 impl AppData {
@@ -57,6 +60,7 @@ impl From<PgPool> for AppData {
             meilisearch_initialised: Arc::new(Default::default()),
             valhalla: external::valhalla::ValhallaWrapper::default(),
             motis: external::motis::MotisWrapper::default(),
+            search_cache: Cache::builder().max_capacity(200).build(),
         }
     }
 }
