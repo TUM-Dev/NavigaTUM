@@ -341,7 +341,7 @@ pub async fn search_handler(
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
 
-    debug!(q, ?limits, ?formatting_config, "quested search");
+    debug!(q, ?limits, ?formatting_config, "requested search");
 
     let cache_key = SearchCacheKey {
         q: q.clone(),
