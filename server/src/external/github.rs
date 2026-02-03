@@ -235,6 +235,45 @@ impl GitHub {
 
         Ok(commits.items.len())
     }
+
+    /// Get PR description (body)
+    #[tracing::instrument]
+    pub async fn get_pr_description(
+        self,
+        pr_number: u64,
+    ) -> anyhow::Result<String> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let pr = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .get(pr_number)
+            .await?;
+
+        Ok(pr.body.unwrap_or_default())
+    }
+
+    /// Update PR description (body)
+    #[tracing::instrument(skip(description))]
+    pub async fn update_pr_description(
+        self,
+        pr_number: u64,
+        description: String,
+    ) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .body(&description)
+            .send()
+            .await?;
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]

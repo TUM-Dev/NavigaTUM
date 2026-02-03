@@ -24,10 +24,11 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
     }
 }
 
-/// Update batch PR metadata (title with edit count, labels)
+/// Update batch PR metadata (title with edit count, labels, and description)
 pub async fn update_batch_pr_metadata(
     pr_number: u64,
     edit_request: &super::proposed_edits::EditRequest,
+    new_edit_description: &str,
 ) -> anyhow::Result<()> {
     let github = GitHub::default();
     
@@ -63,6 +64,23 @@ pub async fn update_batch_pr_metadata(
     match github.update_pr_title(pr_number, title).await {
         Ok(_) => info!("Updated title for batch PR #{}", pr_number),
         Err(e) => error!("Failed to update title for batch PR #{}: {:?}", pr_number, e),
+    }
+    
+    // Append to PR description
+    let github = GitHub::default();
+    let current_description = github.get_pr_description(pr_number).await.unwrap_or_default();
+    
+    // Append the new edit's description
+    let updated_description = if current_description.is_empty() {
+        format!("## Batched Coordinate Edits\n\n### Edit #{}\n{}", edit_count, new_edit_description)
+    } else {
+        format!("{}\n\n---\n\n### Edit #{}\n{}", current_description, edit_count, new_edit_description)
+    };
+    
+    let github = GitHub::default();
+    match github.update_pr_description(pr_number, updated_description).await {
+        Ok(_) => info!("Updated description for batch PR #{}", pr_number),
+        Err(e) => error!("Failed to update description for batch PR #{}: {:?}", pr_number, e),
     }
     
     Ok(())

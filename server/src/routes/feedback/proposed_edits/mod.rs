@@ -199,8 +199,8 @@ pub async fn propose_edits(
     {
         Ok(description) => {
             if let Some(pr_number) = pr_number_opt {
-                // Update metadata for batch PR
-                if let Err(e) = super::batch_processor::update_batch_pr_metadata(pr_number, &req_data).await {
+                // Update metadata for batch PR (including appending description)
+                if let Err(e) = super::batch_processor::update_batch_pr_metadata(pr_number, &req_data, &description).await {
                     error!("Failed to update batch PR metadata: {:?}", e);
                 }
                 
