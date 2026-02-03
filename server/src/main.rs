@@ -15,14 +15,55 @@ use tracing::{debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
 mod docs;
+mod limited;
+mod localisation;
+mod search_executor;
 mod setup;
 use utoipa_actix_web::{AppExt, scope};
-pub use navigatum_server::*;
+mod db;
+pub mod external;
+pub mod overlays;
+pub mod refresh;
+pub mod routes;
 use routes::*;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024 * 10; // 10 MB
 
 const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
+
+#[derive(Clone, Debug)]
+pub struct AppData {
+    /// shared [sqlx::PgPool] to connect to postgis
+    pool: PgPool,
+    /// necessary, as otherwise we could return empty results during initialisation
+    meilisearch_initialised: Arc<RwLock<()>>,
+    valhalla: external::valhalla::ValhallaWrapper,
+    motis: external::motis::MotisWrapper,
+    /// moka cache for search results (size ~= 0.1Mi per entry)
+    search_cache: Cache<search::SearchCacheKey, Vec<search_executor::ResultsSection>>,
+}
+
+impl AppData {
+    async fn new() -> Self {
+        let pool = PgPoolOptions::new()
+            .min_connections(2)
+            .connect(&connection_string())
+            .await
+            .expect("make sure that postgis is running in the background");
+        AppData::from(pool)
+    }
+}
+impl From<PgPool> for AppData {
+    fn from(pool: PgPool) -> Self {
+        AppData {
+            pool,
+            meilisearch_initialised: Arc::new(Default::default()),
+            valhalla: external::valhalla::ValhallaWrapper::default(),
+            motis: external::motis::MotisWrapper::default(),
+            search_cache: Cache::builder().max_capacity(200).build(),
+        }
+    }
+}
 
 /// API healthcheck
 ///
@@ -66,6 +107,13 @@ async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>) -> impl Respo
     HttpResponse::Ok().json(openapi)
 }
 
+fn connection_string() -> String {
+    let username = std::env::var("POSTGRES_USER").unwrap_or_else(|_| "postgres".to_string());
+    let password = std::env::var("POSTGRES_PASSWORD").unwrap_or_else(|_| "CHANGE_ME".to_string());
+    let url = std::env::var("POSTGRES_URL").unwrap_or_else(|_| "localhost".to_string());
+    let db = std::env::var("POSTGRES_DB").unwrap_or_else(|_| username.clone());
+    format!("postgres://{username}:{password}@{url}/{db}")
+}
 
 pub fn setup_logging() {
     use tracing_subscriber::filter::EnvFilter;
@@ -98,9 +146,9 @@ pub fn setup_logging() {
 
 #[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started))]
 async fn run_maintenance_work(
-    pool: sqlx::PgPool,
-    meilisearch_initialised: std::sync::Arc<tokio::sync::RwLock<()>>,
-    initialisation_started: std::sync::Arc<Barrier>,
+    pool: Pool<Postgres>,
+    meilisearch_initialised: Arc<RwLock<()>>,
+    initialisation_started: Arc<Barrier>,
 ) {
     if std::env::var("SKIP_MS_SETUP") != Ok("true".to_string()) {
         let _ = debug_span!("updating meilisearch data").enter();

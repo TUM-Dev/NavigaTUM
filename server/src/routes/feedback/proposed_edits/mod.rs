@@ -3,8 +3,8 @@ use std::path::Path;
 
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
-use serde::{Deserialize, Serialize};
-use tracing::error;
+use serde::Deserialize;
+use tracing::{error, info};
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
@@ -17,53 +17,46 @@ use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
+use crate::external::github::GitHub;
 
 mod coordinate;
 mod description;
 mod image;
 mod tmp_repo;
 
-#[derive(Debug, Serialize, utoipa::ToSchema)]
-pub struct QueuedEditResponse {
-    /// Status of the edit submission
-    status: String,
-    /// Message describing the edit status
-    message: String,
-}
-
-#[derive(Debug, Deserialize, Clone, utoipa::ToSchema, Serialize)]
-pub struct Edit {
-    pub coordinate: Option<Coordinate>,
-    pub image: Option<Image>,
+#[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
+struct Edit {
+    coordinate: Option<Coordinate>,
+    image: Option<Image>,
 }
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
 }
 
-#[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema, Serialize)]
+#[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
 pub struct EditRequest {
     /// The JWT token, that can be used to generate feedback
     #[schema(
         example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4"
     )]
-    pub token: String,
+    token: String,
     /// The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
-    pub edits: LimitedHashMap<String, Edit>,
+    edits: LimitedHashMap<String, Edit>,
     /// Additional context for the edit.
     ///
-    /// Will be displayed in the description field of the PR
+    /// Will be displayed in the discription field of the PR
     #[schema(example = "I have a picture of the room, please add it to the roomfinder")]
-    pub additional_context: String,
+    additional_context: String,
     /// Whether the user has checked the privacy-checkbox.
     ///
     /// We are posting the feedback publicly on GitHub (not a EU-Company).
     /// **You MUST also include such a checkmark.**
-    pub privacy_checked: bool,
+    privacy_checked: bool,
 }
 
 impl EditRequest {
     #[tracing::instrument]
-    pub async fn apply_changes_and_generate_description(
+    async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
     ) -> anyhow::Result<String> {
@@ -102,7 +95,10 @@ impl EditRequest {
         }
         labels
     }
-    pub fn extract_subject(&self) -> String {
+    pub(super) fn extract_labels_for_batch(&self) -> Vec<String> {
+        self.extract_labels()
+    }
+    fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
@@ -133,19 +129,9 @@ impl EditRequest {
 ///
 /// ***Do not abuse this endpoint.***
 ///
-/// This posts the actual feedback to GitHub. All coordinate edits are automatically batched
-/// into a single open PR. Each edit is added as a commit to the batch PR.
-/// 
+/// This posts the actual feedback to GitHub and returns the github link.
 /// This API will create pull-requests instead of issues => only a subset of feedback is allowed.
 /// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
-///
-/// # Automatic Batching
-///
-/// All edits are automatically added to an open "batch-in-progress" PR:
-/// - Each edit is immediately visible as a commit in the PR
-/// - The PR description and title are updated with the edit count
-/// - Better transparency: all edits are visible immediately in GitHub
-/// - Reduced PR overhead: multiple edits in one PR instead of many individual PRs
 ///
 /// # Note:
 ///
@@ -153,7 +139,7 @@ impl EditRequest {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description= "The edit has been **successfully added to the batch PR**. Returns JSON with the PR URL.", body= String, content_type="application/json"),
+        (status = 201, description= "The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body= Url, content_type="text/plain", example="https://github.com/TUM-Dev/navigatum/issues/9"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
         (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
 
@@ -194,22 +180,54 @@ pub async fn propose_edits(
             .body("Too many edits provided");
     };
 
-    // Always batch edits - add to the open batch PR
-    match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
-        Ok(pr_url) => {
-            let response = QueuedEditResponse {
-                status: "added_to_batch".to_string(),
-                message: format!("Your edit has been added to the batch PR: {}", pr_url),
-            };
-            HttpResponse::Created()
-                .content_type("application/json")
-                .json(response)
+    let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
+    
+    // Try to find an open batch PR and use it
+    let batch_pr = super::batch_processor::find_open_batch_pr().await.ok().flatten();
+    
+    let (branch_to_use, pr_number_opt) = match batch_pr {
+        Some((pr_number, batch_branch)) => {
+            info!("Adding edit to existing batch PR #{}", pr_number);
+            (batch_branch, Some(pr_number))
         }
-        Err(e) => {
-            error!("Failed to add edit to batch PR: {:?}", e);
+        None => (branch_name, None),
+    };
+    
+    match req_data
+        .apply_changes_and_generate_description(&branch_to_use)
+        .await
+    {
+        Ok(description) => {
+            if let Some(pr_number) = pr_number_opt {
+                // Update metadata for batch PR
+                if let Err(e) = super::batch_processor::update_batch_pr_metadata(pr_number, &req_data).await {
+                    error!("Failed to update batch PR metadata: {:?}", e);
+                }
+                
+                let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{}", pr_number);
+                HttpResponse::Created()
+                    .content_type("text/plain")
+                    .body(pr_url)
+            } else {
+                // Create new individual PR
+                GitHub::default()
+                    .open_pr(
+                        branch_to_use,
+                        &format!(
+                            "chore(data): {subject}",
+                            subject = req_data.extract_subject()
+                        ),
+                        &description,
+                        req_data.extract_labels(),
+                    )
+                    .await
+            }
+        }
+        Err(error) => {
+            error!(?error, "could not apply changes");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to add edit to batch, please try again later")
+                .body("Could apply changes, please try again later")
         }
     }
 }
