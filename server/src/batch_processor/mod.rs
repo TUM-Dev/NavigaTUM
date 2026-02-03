@@ -1,20 +1,11 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
-use sqlx::PgPool;
-use std::collections::HashMap;
+use chrono::Utc;
+use octocrab::Octocrab;
 use tracing::{error, info};
 
-use crate::external::github::GitHub;
-use crate::routes::feedback::proposed_edits::{EditRequest, AppliableEdit};
-use crate::limited::hash_map::LimitedHashMap;
+use crate::routes::feedback::proposed_edits::EditRequest;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct PendingEdit {
-    pub id: i32,
-    pub edit_data: serde_json::Value,
-    pub token_id: String,
-    pub submitted_at: DateTime<Utc>,
-}
+const BATCH_LABEL: &str = "batch-in-progress";
+const BATCH_BRANCH_PREFIX: &str = "usergenerated/batch-";
 
 #[derive(Debug, Clone)]
 pub struct BatchConfig {
@@ -46,379 +37,207 @@ impl BatchConfig {
     }
 }
 
-/// Fetch pending edits from the database
-#[tracing::instrument(skip(pool))]
-pub async fn fetch_pending_edits(pool: &PgPool) -> anyhow::Result<Vec<PendingEdit>> {
-    let edits = sqlx::query_as!(
-        PendingEdit,
-        r#"
-        SELECT id, edit_data, token_id, submitted_at
-        FROM pending_edit_batches
-        WHERE status = 'pending'
-        ORDER BY submitted_at ASC
-        "#
-    )
-    .fetch_all(pool)
-    .await?;
-    
-    Ok(edits)
-}
-
-/// Group edits into batches based on time window and max size
+/// Find the current open batch PR (if any)
 #[tracing::instrument]
-pub fn group_edits_into_batches(
-    edits: Vec<PendingEdit>,
-    config: &BatchConfig,
-) -> Vec<Vec<PendingEdit>> {
-    if edits.is_empty() {
-        return vec![];
-    }
-    
-    let mut batches = Vec::new();
-    let mut current_batch = Vec::new();
-    let mut batch_start_time = edits[0].submitted_at;
-    
-    for edit in edits {
-        let time_diff = edit.submitted_at - batch_start_time;
-        let hours_diff = time_diff.num_hours();
-        
-        // Start a new batch if:
-        // 1. Time window exceeded
-        // 2. Max edits reached
-        if hours_diff >= config.window_hours || current_batch.len() >= config.max_edits {
-            if !current_batch.is_empty() {
-                batches.push(current_batch);
-                current_batch = Vec::new();
-            }
-            batch_start_time = edit.submitted_at;
-        }
-        
-        current_batch.push(edit);
-    }
-    
-    // Add the last batch if it's not empty
-    if !current_batch.is_empty() {
-        batches.push(current_batch);
-    }
-    
-    batches
-}
-
-/// Aggregate multiple EditRequest objects into one
-#[tracing::instrument(skip(edits))]
-fn aggregate_edit_requests(edits: &[PendingEdit]) -> anyhow::Result<EditRequest> {
-    if edits.is_empty() {
-        anyhow::bail!("Cannot aggregate empty edit list");
-    }
-    
-    let mut aggregated_edits = HashMap::new();
-    let mut additional_contexts = Vec::new();
-    
-    // Use the first token as the representative token
-    let token = edits[0].token_id.clone();
-    
-    for edit in edits {
-        let edit_req: EditRequest = serde_json::from_value(edit.edit_data.clone())?;
-        
-        // Merge edits
-        for (key, value) in edit_req.edits.0.into_iter() {
-            aggregated_edits.insert(key, value);
-        }
-        
-        // Collect additional contexts
-        if !edit_req.additional_context.is_empty() {
-            additional_contexts.push(format!(
-                "Edit #{}: {}",
-                edit.id,
-                edit_req.additional_context
-            ));
-        }
-    }
-    
-    let aggregated_context = if additional_contexts.is_empty() {
-        "Batched coordinate edits".to_string()
-    } else {
-        additional_contexts.join("\n")
+pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
+    let Some(personal_token) = crate::external::github::GitHub::github_token() else {
+        anyhow::bail!("Failed to get GitHub token");
     };
     
-    Ok(EditRequest {
-        token,
-        edits: LimitedHashMap(aggregated_edits),
-        additional_context: aggregated_context,
-        privacy_checked: true,
-    })
-}
-
-/// Generate PR description for a batch
-#[tracing::instrument(skip(edits))]
-fn generate_batch_description(edits: &[PendingEdit]) -> String {
-    let count = edits.len();
-    let start_time = edits.first().map(|e| e.submitted_at.to_rfc3339()).unwrap_or_default();
-    let end_time = edits.last().map(|e| e.submitted_at.to_rfc3339()).unwrap_or_default();
+    let octocrab = Octocrab::builder()
+        .personal_token(personal_token)
+        .build()?;
     
-    let mut description = format!(
-        "## Batched Edit Submission\n\n\
-         This PR contains {} coordinate edits submitted between {} and {}.\n\n\
-         ### Edits included:\n",
-        count, start_time, end_time
-    );
+    // Search for open PRs with the batch-in-progress label
+    let pulls = octocrab
+        .pulls("TUM-Dev", "NavigaTUM")
+        .list()
+        .state(octocrab::params::State::Open)
+        .per_page(100)
+        .send()
+        .await?;
     
-    for edit in edits {
-        if let Ok(edit_req) = serde_json::from_value::<EditRequest>(edit.edit_data.clone()) {
-            let subject = edit_req.extract_subject();
-            description.push_str(&format!(
-                "- Edit #{}: {} ({})\n",
-                edit.id,
-                subject,
-                edit.submitted_at.format("%Y-%m-%d %H:%M:%S")
-            ));
+    // Find a PR with the batch label
+    for pr in pulls.items {
+        if pr.labels.iter().any(|l| l.name == BATCH_LABEL) {
+            info!("Found open batch PR: #{} ({})", pr.number, pr.head.ref_field);
+            return Ok(Some((pr.number, pr.head.ref_field)));
         }
     }
     
-    description.push_str("\n### Additional context:\n");
-    
-    for edit in edits {
-        if let Ok(edit_req) = serde_json::from_value::<EditRequest>(edit.edit_data.clone()) {
-            if !edit_req.additional_context.is_empty() {
-                description.push_str(&format!(
-                    "**Edit #{}**: {}\n",
-                    edit.id,
-                    edit_req.additional_context
-                ));
-            }
-        }
-    }
-    
-    description
+    info!("No open batch PR found");
+    Ok(None)
 }
 
-/// Extract labels from a batch of edits
-#[tracing::instrument(skip(edits))]
-fn extract_batch_labels(edits: &[PendingEdit]) -> Vec<String> {
-    let mut labels = vec!["webform".to_string(), "batch".to_string()];
-    let mut has_coordinate = false;
-    let mut has_image = false;
-    
-    for edit in edits {
-        if let Ok(edit_req) = serde_json::from_value::<EditRequest>(edit.edit_data.clone()) {
-            if edit_req.edits.0.iter().any(|(_, e)| e.coordinate.is_some()) {
-                has_coordinate = true;
-            }
-            if edit_req.edits.0.iter().any(|(_, e)| e.image.is_some()) {
-                has_image = true;
-            }
-        }
+/// Create a new batch PR or return the existing one
+#[tracing::instrument]
+pub async fn get_or_create_batch_pr() -> anyhow::Result<(u64, String)> {
+    // Check if there's already an open batch PR
+    if let Some((pr_number, branch)) = find_open_batch_pr().await? {
+        return Ok((pr_number, branch));
     }
     
-    if has_coordinate {
-        labels.push("coordinate".to_string());
-    }
-    if has_image {
-        labels.push("image".to_string());
-    }
+    // Create a new batch PR
+    let branch_name = format!("{}{}", BATCH_BRANCH_PREFIX, Utc::now().format("%Y%m%d-%H%M%S"));
     
-    labels
+    // Create an initial empty commit to start the PR
+    let Some(personal_token) = crate::external::github::GitHub::github_token() else {
+        anyhow::bail!("Failed to get GitHub token");
+    };
+    
+    let octocrab = Octocrab::builder()
+        .personal_token(personal_token)
+        .build()?;
+    
+    // Create the PR with initial description
+    let pr = octocrab
+        .pulls("TUM-Dev", "NavigaTUM")
+        .create(
+            "chore(data): batch coordinate edits (in progress)",
+            &branch_name,
+            "main",
+        )
+        .body(&format!(
+            "## Batched Edit Submission (In Progress)\n\n\
+             This PR collects coordinate edits submitted over time.\n\
+             New edits will be added as commits to this PR.\n\n\
+             Started at: {}\n\n\
+             ### Edits included:\n\
+             *(Edits will appear as they are submitted)*",
+            Utc::now().to_rfc3339()
+        ))
+        .maintainer_can_modify(true)
+        .send()
+        .await?;
+    
+    let pr_number = pr.number;
+    
+    // Add the batch-in-progress label
+    octocrab
+        .issues("TUM-Dev", "NavigaTUM")
+        .update(pr_number)
+        .labels(&[
+            BATCH_LABEL.to_string(),
+            "webform".to_string(),
+        ])
+        .assignees(&["CommanderStorm".to_string()])
+        .send()
+        .await?;
+    
+    info!("Created new batch PR: #{} ({})", pr_number, branch_name);
+    Ok((pr_number, branch_name))
 }
 
-/// Process a batch of edits and create a PR
-#[tracing::instrument(skip(pool, edits))]
-pub async fn process_batch(pool: &PgPool, edits: Vec<PendingEdit>) -> anyhow::Result<String> {
-    if edits.is_empty() {
-        anyhow::bail!("Cannot process empty batch");
-    }
+/// Add an edit to the current batch PR
+#[tracing::instrument(skip(edit_request))]
+pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<String> {
+    let (pr_number, branch_name) = get_or_create_batch_pr().await?;
     
-    info!("Processing batch of {} edits", edits.len());
+    info!("Adding edit to batch PR #{}", pr_number);
     
-    // Mark edits as processing
-    let edit_ids: Vec<i32> = edits.iter().map(|e| e.id).collect();
-    sqlx::query!(
-        "UPDATE pending_edit_batches SET status = 'processing' WHERE id = ANY($1)",
-        &edit_ids
-    )
-    .execute(pool)
-    .await?;
-    
-    // Aggregate edit requests
-    let aggregated_request = aggregate_edit_requests(&edits)?;
-    
-    // Generate branch name
-    let branch_name = format!("usergenerated/batch-{}", Utc::now().format("%Y%m%d-%H%M%S"));
-    
-    // Apply changes and generate description
-    match aggregated_request
+    // Apply the changes and push to the branch
+    match edit_request
         .apply_changes_and_generate_description(&branch_name)
         .await
     {
-        Ok(auto_description) => {
-            // Generate PR title
-            let title = format!("chore(data): batch coordinate edits ({} edits)", edits.len());
+        Ok(description) => {
+            info!("Successfully added edit to batch PR #{}", pr_number);
             
-            // Generate PR description
-            let batch_description = generate_batch_description(&edits);
-            let full_description = format!("{}\n\n---\n\n{}", batch_description, auto_description);
+            // Update PR labels based on the edit type
+            let mut labels = vec![BATCH_LABEL.to_string(), "webform".to_string()];
+            if edit_request.edits.0.iter().any(|(_, e)| e.coordinate.is_some()) {
+                labels.push("coordinate".to_string());
+            }
+            if edit_request.edits.0.iter().any(|(_, e)| e.image.is_some()) {
+                labels.push("image".to_string());
+            }
             
-            // Extract labels
-            let labels = extract_batch_labels(&edits);
+            let Some(personal_token) = crate::external::github::GitHub::github_token() else {
+                anyhow::bail!("Failed to get GitHub token");
+            };
             
-            // Create PR
-            let response = GitHub::default()
-                .open_pr(branch_name, &title, &full_description, labels)
+            let octocrab = Octocrab::builder()
+                .personal_token(personal_token)
+                .build()?;
+            
+            // Update labels
+            let _ = octocrab
+                .issues("TUM-Dev", "NavigaTUM")
+                .update(pr_number)
+                .labels(&labels)
+                .send()
                 .await;
             
-            if response.status().is_success() {
-                let pr_url = response.body().to_owned();
-                let pr_url_str = String::from_utf8(pr_url.to_vec())
-                    .unwrap_or_else(|_| "unknown".to_string());
-                
-                // Mark edits as completed
-                sqlx::query!(
-                    "UPDATE pending_edit_batches SET status = 'completed', processed_at = NOW(), batch_pr_url = $1 WHERE id = ANY($2)",
-                    &pr_url_str,
-                    &edit_ids
-                )
-                .execute(pool)
+            // Get the PR URL
+            let pr = octocrab
+                .pulls("TUM-Dev", "NavigaTUM")
+                .get(pr_number)
                 .await?;
-                
-                info!("Successfully created PR: {}", pr_url_str);
-                Ok(pr_url_str)
-            } else {
-                // Mark edits as failed
-                sqlx::query!(
-                    "UPDATE pending_edit_batches SET status = 'failed', processed_at = NOW() WHERE id = ANY($1)",
-                    &edit_ids
-                )
-                .execute(pool)
-                .await?;
-                
-                anyhow::bail!("Failed to create PR: {:?}", response.status());
-            }
+            
+            Ok(pr.html_url.map(|u| u.to_string()).unwrap_or_else(|| format!("https://github.com/TUM-Dev/NavigaTUM/pull/{}", pr_number)))
         }
-        Err(err) => {
-            error!("Failed to apply changes: {:?}", err);
-            
-            // Mark edits as failed
-            sqlx::query!(
-                "UPDATE pending_edit_batches SET status = 'failed', processed_at = NOW() WHERE id = ANY($1)",
-                &edit_ids
-            )
-            .execute(pool)
-            .await?;
-            
-            anyhow::bail!("Failed to apply changes: {:?}", err);
+        Err(e) => {
+            error!("Failed to apply changes: {:?}", e);
+            anyhow::bail!("Failed to apply changes: {:?}", e)
         }
     }
 }
 
-/// Main entry point for batch processing
-#[tracing::instrument(skip(pool))]
-pub async fn process_all_batches(pool: &PgPool) -> anyhow::Result<Vec<String>> {
-    let config = BatchConfig::default();
+/// Finalize the current batch PR (remove the in-progress label)
+#[tracing::instrument]
+pub async fn finalize_batch_pr() -> anyhow::Result<()> {
+    let Some((pr_number, _)) = find_open_batch_pr().await? else {
+        info!("No open batch PR to finalize");
+        return Ok(());
+    };
     
-    info!("Fetching pending edits");
-    let pending_edits = fetch_pending_edits(pool).await?;
+    info!("Finalizing batch PR #{}", pr_number);
     
-    if pending_edits.is_empty() {
-        info!("No pending edits to process");
-        return Ok(vec![]);
+    let Some(personal_token) = crate::external::github::GitHub::github_token() else {
+        anyhow::bail!("Failed to get GitHub token");
+    };
+    
+    let octocrab = Octocrab::builder()
+        .personal_token(personal_token)
+        .build()?;
+    
+    // Get current PR to read its labels and edit count
+    let pr = octocrab
+        .pulls("TUM-Dev", "NavigaTUM")
+        .get(pr_number)
+        .await?;
+    
+    // Count commits as a proxy for edit count
+    let commits = octocrab
+        .pulls("TUM-Dev", "NavigaTUM")
+        .pr_commits(pr_number)
+        .per_page(100)
+        .send()
+        .await?;
+    
+    let edit_count = commits.items.len();
+    
+    // Remove the batch-in-progress label and update title
+    let mut labels: Vec<String> = pr
+        .labels
+        .iter()
+        .filter(|l| l.name != BATCH_LABEL)
+        .map(|l| l.name.clone())
+        .collect();
+    
+    // Ensure webform label is present
+    if !labels.contains(&"webform".to_string()) {
+        labels.push("webform".to_string());
     }
     
-    info!("Found {} pending edits", pending_edits.len());
+    octocrab
+        .issues("TUM-Dev", "NavigaTUM")
+        .update(pr_number)
+        .title(&format!("chore(data): batch coordinate edits ({} edits)", edit_count))
+        .labels(&labels)
+        .send()
+        .await?;
     
-    let batches = group_edits_into_batches(pending_edits, &config);
-    info!("Grouped into {} batches", batches.len());
-    
-    let mut pr_urls = Vec::new();
-    
-    for (i, batch) in batches.into_iter().enumerate() {
-        info!("Processing batch {} with {} edits", i + 1, batch.len());
-        match process_batch(pool, batch).await {
-            Ok(pr_url) => pr_urls.push(pr_url),
-            Err(e) => error!("Failed to process batch {}: {:?}", i + 1, e),
-        }
-    }
-    
-    Ok(pr_urls)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use chrono::Duration;
-
-    #[test]
-    fn test_group_edits_respects_time_window() {
-        let config = BatchConfig {
-            window_hours: 6,
-            max_edits: 50,
-        };
-
-        let base_time = Utc::now();
-        let edits = vec![
-            PendingEdit {
-                id: 1,
-                edit_data: serde_json::json!({}),
-                token_id: "token1".to_string(),
-                submitted_at: base_time,
-            },
-            PendingEdit {
-                id: 2,
-                edit_data: serde_json::json!({}),
-                token_id: "token2".to_string(),
-                submitted_at: base_time + Duration::hours(3),
-            },
-            PendingEdit {
-                id: 3,
-                edit_data: serde_json::json!({}),
-                token_id: "token3".to_string(),
-                submitted_at: base_time + Duration::hours(7), // Should start new batch
-            },
-        ];
-
-        let batches = group_edits_into_batches(edits, &config);
-        assert_eq!(batches.len(), 2);
-        assert_eq!(batches[0].len(), 2);
-        assert_eq!(batches[1].len(), 1);
-    }
-
-    #[test]
-    fn test_group_edits_respects_max_size() {
-        let config = BatchConfig {
-            window_hours: 24,
-            max_edits: 2,
-        };
-
-        let base_time = Utc::now();
-        let edits = vec![
-            PendingEdit {
-                id: 1,
-                edit_data: serde_json::json!({}),
-                token_id: "token1".to_string(),
-                submitted_at: base_time,
-            },
-            PendingEdit {
-                id: 2,
-                edit_data: serde_json::json!({}),
-                token_id: "token2".to_string(),
-                submitted_at: base_time + Duration::hours(1),
-            },
-            PendingEdit {
-                id: 3,
-                edit_data: serde_json::json!({}),
-                token_id: "token3".to_string(),
-                submitted_at: base_time + Duration::hours(2), // Should start new batch
-            },
-        ];
-
-        let batches = group_edits_into_batches(edits, &config);
-        assert_eq!(batches.len(), 2);
-        assert_eq!(batches[0].len(), 2);
-        assert_eq!(batches[1].len(), 1);
-    }
-
-    #[test]
-    fn test_empty_edits_returns_empty_batches() {
-        let config = BatchConfig::default();
-        let batches = group_edits_into_batches(vec![], &config);
-        assert_eq!(batches.len(), 0);
-    }
+    info!("Finalized batch PR #{} with {} edits", pr_number, edit_count);
+    Ok(())
 }

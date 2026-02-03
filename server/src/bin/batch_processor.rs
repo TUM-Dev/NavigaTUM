@@ -1,13 +1,4 @@
-use sqlx::postgres::PgPoolOptions;
 use tracing::info;
-
-fn connection_string() -> String {
-    let username = std::env::var("POSTGRES_USER").unwrap_or_else(|_| "postgres".to_string());
-    let password = std::env::var("POSTGRES_PASSWORD").unwrap_or_else(|_| "CHANGE_ME".to_string());
-    let url = std::env::var("POSTGRES_URL").unwrap_or_else(|_| "localhost".to_string());
-    let db = std::env::var("POSTGRES_DB").unwrap_or_else(|_| username.clone());
-    format!("postgres://{username}:{password}@{url}/{db}")
-}
 
 fn setup_logging() {
     use tracing_subscriber::filter::EnvFilter;
@@ -38,29 +29,17 @@ async fn main() -> anyhow::Result<()> {
     
     info!("Starting batch processor");
     
-    let pool = PgPoolOptions::new()
-        .min_connections(1)
-        .max_connections(5)
-        .connect(&connection_string())
-        .await
-        .expect("Failed to connect to database");
-    
-    info!("Connected to database");
-    
-    match navigatum_server::batch_processor::process_all_batches(&pool).await {
-        Ok(pr_urls) => {
-            info!("Successfully processed batches. Created {} PRs", pr_urls.len());
-            for (i, url) in pr_urls.iter().enumerate() {
-                info!("PR {}: {}", i + 1, url);
-            }
+    // Finalize the current batch PR (remove in-progress label)
+    match navigatum_server::batch_processor::finalize_batch_pr().await {
+        Ok(()) => {
+            info!("Successfully finalized batch PR");
         }
         Err(e) => {
-            eprintln!("Error processing batches: {:?}", e);
+            eprintln!("Error finalizing batch PR: {:?}", e);
             std::process::exit(1);
         }
     }
     
-    pool.close().await;
     info!("Batch processor completed");
     
     Ok(())

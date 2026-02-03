@@ -137,15 +137,22 @@ impl EditRequest {
 ///
 /// ***Do not abuse this endpoint.***
 ///
-/// This posts the actual feedback to GitHub and returns the github link or queues it for batch processing.
+/// This posts the actual feedback to GitHub. When batching is enabled (default), edits are added as commits
+/// to an open batch PR. When batching is disabled, each edit creates a separate PR immediately.
+/// 
 /// This API will create pull-requests instead of issues => only a subset of feedback is allowed.
 /// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
 ///
-/// # Batching
+/// # Batching (PR-Based)
 ///
-/// When batching is enabled (default), edits are queued and processed periodically.
-/// The response will contain a tracking ID and status "queued".
-/// When batching is disabled (BATCH_ENABLED=false), edits are processed immediately as before.
+/// When batching is enabled (default):
+/// - Edits are added as commits to an open "batch-in-progress" PR
+/// - Each edit is immediately visible in the PR
+/// - The response contains the PR URL where your edit was added
+/// - A GitHub Actions workflow finalizes the batch every 6 hours and starts a new one
+///
+/// When batching is disabled (BATCH_ENABLED=false):
+/// - Edits are processed immediately as before (one PR per edit)
 ///
 /// # Note:
 ///
@@ -153,7 +160,7 @@ impl EditRequest {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description= "The edit request feedback has been **successfully posted to GitHub** or **queued for batch processing**. In batch mode, returns JSON with tracking_id. In immediate mode, returns the PR URL as text.", body= String, content_type="application/json"),
+        (status = 201, description= "The edit request has been **successfully added to GitHub**. In batch mode (default), returns JSON with PR URL. In immediate mode, returns the PR URL as text.", body= String, content_type="application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
         (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
 
@@ -169,7 +176,6 @@ impl EditRequest {
 )]
 #[post("/api/feedback/propose_edits")]
 pub async fn propose_edits(
-    app_data: Data<crate::AppData>,
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<EditRequest>,
 ) -> HttpResponse {
@@ -197,45 +203,24 @@ pub async fn propose_edits(
 
     // Check if batching is enabled
     if BatchConfig::is_batch_enabled() {
-        // Queue the edit for batch processing
-        let edit_data = match serde_json::to_value(&*req_data) {
-            Ok(data) => data,
-            Err(e) => {
-                error!("Failed to serialize edit request: {:?}", e);
-                return HttpResponse::InternalServerError()
-                    .content_type("text/plain")
-                    .body("Failed to queue edit, please try again later");
-            }
-        };
-        
-        match sqlx::query!(
-            r#"
-            INSERT INTO pending_edit_batches (edit_data, token_id, status)
-            VALUES ($1, $2, 'pending')
-            RETURNING id
-            "#,
-            edit_data,
-            req_data.token
-        )
-        .fetch_one(&app_data.pool)
-        .await
-        {
-            Ok(record) => {
+        // Add edit to batch PR
+        match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
+            Ok(pr_url) => {
                 recorded_tokens.mark_as_used(&req_data.token).await;
                 let response = QueuedEditResponse {
-                    tracking_id: record.id,
-                    status: "queued".to_string(),
-                    message: "Your edit has been queued and will be processed in the next batch".to_string(),
+                    tracking_id: 0, // Not used in PR-based batching
+                    status: "added_to_batch".to_string(),
+                    message: format!("Your edit has been added to the batch PR: {}", pr_url),
                 };
                 HttpResponse::Created()
                     .content_type("application/json")
                     .json(response)
             }
             Err(e) => {
-                error!("Failed to insert edit into database: {:?}", e);
+                error!("Failed to add edit to batch PR: {:?}", e);
                 HttpResponse::InternalServerError()
                     .content_type("text/plain")
-                    .body("Failed to queue edit, please try again later")
+                    .body("Failed to add edit to batch, please try again later")
             }
         }
     } else {
