@@ -1,10 +1,10 @@
 use std::path::{Path, PathBuf};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use super::AppliableEdit;
 
-#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
+#[derive(Deserialize, Serialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
 pub struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]

@@ -21,6 +21,7 @@ mod search_executor;
 mod setup;
 use utoipa_actix_web::{AppExt, scope};
 mod db;
+pub mod batch_processor;
 pub mod external;
 pub mod overlays;
 pub mod refresh;

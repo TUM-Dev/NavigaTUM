@@ -3,7 +3,7 @@ use std::path::Path;
 
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use tracing::error;
 #[expect(
     unused_imports,
@@ -18,13 +18,24 @@ use super::proposed_edits::image::Image;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
+use crate::batch_processor::BatchConfig;
 
 mod coordinate;
 mod description;
 mod image;
 mod tmp_repo;
 
-#[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
+#[derive(Debug, Serialize, utoipa::ToSchema)]
+pub struct QueuedEditResponse {
+    /// The tracking ID for the queued edit
+    tracking_id: i32,
+    /// Status of the edit submission
+    status: String,
+    /// Message describing the edit status
+    message: String,
+}
+
+#[derive(Debug, Deserialize, Clone, utoipa::ToSchema, Serialize)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
@@ -33,7 +44,7 @@ pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
 }
 
-#[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
+#[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema, Serialize)]
 pub struct EditRequest {
     /// The JWT token, that can be used to generate feedback
     #[schema(
@@ -95,7 +106,7 @@ impl EditRequest {
         }
         labels
     }
-    fn extract_subject(&self) -> String {
+    pub fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
@@ -126,9 +137,15 @@ impl EditRequest {
 ///
 /// ***Do not abuse this endpoint.***
 ///
-/// This posts the actual feedback to GitHub and returns the github link.
+/// This posts the actual feedback to GitHub and returns the github link or queues it for batch processing.
 /// This API will create pull-requests instead of issues => only a subset of feedback is allowed.
 /// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+///
+/// # Batching
+///
+/// When batching is enabled (default), edits are queued and processed periodically.
+/// The response will contain a tracking ID and status "queued".
+/// When batching is disabled (BATCH_ENABLED=false), edits are processed immediately as before.
 ///
 /// # Note:
 ///
@@ -136,7 +153,7 @@ impl EditRequest {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description= "The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body= Url, content_type="text/plain", example="https://github.com/TUM-Dev/navigatum/issues/9"),
+        (status = 201, description= "The edit request feedback has been **successfully posted to GitHub** or **queued for batch processing**. In batch mode, returns JSON with tracking_id. In immediate mode, returns the PR URL as text.", body= String, content_type="application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
         (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
 
@@ -152,6 +169,7 @@ impl EditRequest {
 )]
 #[post("/api/feedback/propose_edits")]
 pub async fn propose_edits(
+    app_data: Data<crate::AppData>,
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<EditRequest>,
 ) -> HttpResponse {
@@ -177,29 +195,75 @@ pub async fn propose_edits(
             .body("Too many edits provided");
     };
 
-    let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
-    match req_data
-        .apply_changes_and_generate_description(&branch_name)
+    // Check if batching is enabled
+    if BatchConfig::is_batch_enabled() {
+        // Queue the edit for batch processing
+        let edit_data = match serde_json::to_value(&*req_data) {
+            Ok(data) => data,
+            Err(e) => {
+                error!("Failed to serialize edit request: {:?}", e);
+                return HttpResponse::InternalServerError()
+                    .content_type("text/plain")
+                    .body("Failed to queue edit, please try again later");
+            }
+        };
+        
+        match sqlx::query!(
+            r#"
+            INSERT INTO pending_edit_batches (edit_data, token_id, status)
+            VALUES ($1, $2, 'pending')
+            RETURNING id
+            "#,
+            edit_data,
+            req_data.token
+        )
+        .fetch_one(&app_data.pool)
         .await
-    {
-        Ok(description) => {
-            GitHub::default()
-                .open_pr(
-                    branch_name,
-                    &format!(
-                        "chore(data): {subject}",
-                        subject = req_data.extract_subject()
-                    ),
-                    &description,
-                    req_data.extract_labels(),
-                )
-                .await
+        {
+            Ok(record) => {
+                recorded_tokens.mark_as_used(&req_data.token).await;
+                let response = QueuedEditResponse {
+                    tracking_id: record.id,
+                    status: "queued".to_string(),
+                    message: "Your edit has been queued and will be processed in the next batch".to_string(),
+                };
+                HttpResponse::Created()
+                    .content_type("application/json")
+                    .json(response)
+            }
+            Err(e) => {
+                error!("Failed to insert edit into database: {:?}", e);
+                HttpResponse::InternalServerError()
+                    .content_type("text/plain")
+                    .body("Failed to queue edit, please try again later")
+            }
         }
-        Err(error) => {
-            error!(?error, "could not apply changes");
-            HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Could apply changes, please try again later")
+    } else {
+        // Original immediate processing behavior
+        let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
+        match req_data
+            .apply_changes_and_generate_description(&branch_name)
+            .await
+        {
+            Ok(description) => {
+                GitHub::default()
+                    .open_pr(
+                        branch_name,
+                        &format!(
+                            "chore(data): {subject}",
+                            subject = req_data.extract_subject()
+                        ),
+                        &description,
+                        req_data.extract_labels(),
+                    )
+                    .await
+            }
+            Err(error) => {
+                error!(?error, "could not apply changes");
+                HttpResponse::InternalServerError()
+                    .content_type("text/plain")
+                    .body("Could apply changes, please try again later")
+            }
         }
     }
 }
