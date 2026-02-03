@@ -18,7 +18,7 @@ use super::AppliableEdit;
 /// - The key is not empty
 /// - The key does not contain path traversal sequences (`..`)
 /// - The key does not contain path separators (`/` or `\`)
-/// - The key contains only safe characters
+/// - The key does not start with a dot (to prevent hidden files)
 /// 
 /// # Arguments
 /// * `key` - The key to sanitize
@@ -114,9 +114,9 @@ impl Image {
         
         let search_prefix = format!("{safe_key}_");
         let next_free_slot = std::fs::read_dir(image_dir)
-            .unwrap()
+            .map_err(|e| anyhow::anyhow!("Failed to read image directory: {}", e))?
             .filter_map(Result::ok)
-            .map(|e| e.file_name().to_str().unwrap().to_string())
+            .filter_map(|e| e.file_name().to_str().map(String::from))
             .filter(|filename| filename.starts_with(&search_prefix))
             .count();
         Ok(image_dir.join(format!("{safe_key}_{next_free_slot}.webp")))
@@ -278,6 +278,8 @@ mod tests {
         // Keys starting with a dot should be rejected
         assert!(sanitize_key(".hidden").is_err());
         assert!(sanitize_key(".").is_err());
+        assert!(sanitize_key(".secret").is_err());
+        // But keys with ".." will be caught by the path traversal check
         assert!(sanitize_key("..secret").is_err());
     }
 
