@@ -5,12 +5,20 @@ use crate::AppData;
 use crate::search_executor::{ResultFacet, ResultsSection};
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{HttpResponse, get, web};
-use cached::proc_macro::cached;
 use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
 use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
+
+/// Cache key for search results
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+pub struct SearchCacheKey {
+    pub q: String,
+    pub limits: Limits,
+    pub search_addresses: bool,
+    pub formatting_config: FormattingConfig,
+}
 
 /// Controls whether long building names inside `parsed_id` are cropped.
 #[derive(
@@ -175,8 +183,8 @@ impl Debug for SearchResponse {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Hash)]
 /// Limit per facet
+#[derive(Clone, Eq, PartialEq, Hash)]
 pub struct Limits {
     pub buildings_count: usize,
     pub rooms_count: usize,
@@ -333,9 +341,22 @@ pub async fn search_handler(
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
 
-    debug!(q, ?limits, ?formatting_config, "quested search");
-    let results_sections =
-        cached_geoentry_search(q, limits, search_addresses, formatting_config).await;
+    debug!(q, ?limits, ?formatting_config, "requested search");
+
+    let cache_key = SearchCacheKey {
+        q: q.clone(),
+        limits: limits.clone(),
+        search_addresses,
+        formatting_config: formatting_config.clone(),
+    };
+
+    let results_sections = data
+        .search_cache
+        .get_with(cache_key, async move {
+            do_geoentry_search(q, limits, search_addresses, formatting_config).await
+        })
+        .await;
+
     debug!(?results_sections, "searching returned");
 
     if results_sections.len() > 3 {
@@ -361,9 +382,7 @@ pub async fn search_handler(
         .json(search_results)
 }
 
-// size=1 ~= 0.1Mi
-#[cached(size = 200)]
-async fn cached_geoentry_search(
+async fn do_geoentry_search(
     q: String,
     limits: Limits,
     search_addresses: bool,
