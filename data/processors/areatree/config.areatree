@@ -238,7 +238,6 @@
     42:Gebiet 4200 Mitte:wzw-mitte
       -4202:Trafostation V:
       4205:Lagerhalle Verwaltungsstelle:
-      4210:Agrarsystemtechnik:
       4211:Landesanstalt für Landwirtschaft (LfL) Bürogebäude 14:
       4212:Chemie Bioanalytik Peptidbiochemie:
       4213:Lebensmitteltechnikum:
@@ -346,6 +345,7 @@
       4916:Arb.Gba. 3, SCHP:
       4920:Kapelle:
     423,450,451:Versuchsstation Dürnast:duernast
+      4210:Agrarsystemtechnik:
       4230:Dürnast Versuchsstation Tierst.:
       4231:Dürnast I:
       4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
