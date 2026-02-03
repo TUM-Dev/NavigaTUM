@@ -142,6 +142,99 @@ impl GitHub {
             }
         }
     }
+
+    /// Find an open PR with a specific label
+    #[tracing::instrument]
+    pub async fn find_pr_with_label(
+        self,
+        label: &str,
+    ) -> anyhow::Result<Option<(u64, String)>> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let pulls = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .list()
+            .state(octocrab::params::State::Open)
+            .per_page(100)
+            .send()
+            .await?;
+
+        for pr in pulls.items {
+            if let Some(labels) = &pr.labels {
+                for pr_label in labels {
+                    if pr_label.name == label {
+                        return Ok(Some((pr.number, pr.head.ref_field)));
+                    }
+                }
+            }
+        }
+
+        Ok(None)
+    }
+
+    /// Update PR labels
+    #[tracing::instrument]
+    pub async fn update_pr_labels(
+        self,
+        pr_number: u64,
+        labels: Vec<String>,
+    ) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .labels(&labels)
+            .send()
+            .await?;
+
+        Ok(())
+    }
+
+    /// Update PR title
+    #[tracing::instrument]
+    pub async fn update_pr_title(
+        self,
+        pr_number: u64,
+        title: String,
+    ) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .title(&title)
+            .send()
+            .await?;
+
+        Ok(())
+    }
+
+    /// Get the number of commits in a PR
+    #[tracing::instrument]
+    pub async fn get_pr_commit_count(
+        self,
+        pr_number: u64,
+    ) -> anyhow::Result<usize> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let commits = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .pr_commits(pr_number)
+            .per_page(100)
+            .send()
+            .await?;
+
+        Ok(commits.items.len())
+    }
 }
 
 #[cfg(test)]
