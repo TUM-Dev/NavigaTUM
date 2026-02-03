@@ -24,7 +24,7 @@ image = { version = "0.25.9", default-features = false, features = ["jpeg", "png
 imageproc = "0.26.0"
 insta = "1.44.3"
 itertools = "0.14.0"
-jsonwebtoken = { version = "10.2.0", default-features = false, features = ["aws_lc_rs"] }
+jsonwebtoken = { version = "10.3.0", default-features = false, features = ["aws_lc_rs"] }
 logos = "0.16.0"
 meilisearch-sdk = { version = "0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"] }
 moka = { version = "0.12", features = ["future"] }
