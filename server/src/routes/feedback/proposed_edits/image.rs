@@ -12,6 +12,40 @@ use tracing::error;
 
 use super::AppliableEdit;
 
+/// Sanitizes a key to prevent path traversal attacks.
+/// 
+/// This function ensures that:
+/// - The key is not empty
+/// - The key does not contain path traversal sequences (`..`)
+/// - The key does not contain path separators (`/` or `\`)
+/// - The key contains only safe characters
+/// 
+/// # Arguments
+/// * `key` - The key to sanitize
+/// 
+/// # Returns
+/// * `Ok(&str)` - The validated key if it's safe
+/// * `Err(anyhow::Error)` - An error if the key contains dangerous sequences
+fn sanitize_key(key: &str) -> anyhow::Result<&str> {
+    if key.is_empty() {
+        anyhow::bail!("Invalid key: key cannot be empty");
+    }
+    if key.contains("..") {
+        anyhow::bail!("Invalid key: contains path traversal sequence (..)");
+    }
+    if key.contains('/') {
+        anyhow::bail!("Invalid key: contains path separator (/)");
+    }
+    if key.contains('\\') {
+        anyhow::bail!("Invalid key: contains path separator (\\)");
+    }
+    // Additional safety check: ensure the key doesn't start with a dot
+    if key.starts_with('.') {
+        anyhow::bail!("Invalid key: cannot start with a dot");
+    }
+    Ok(key)
+}
+
 #[serde_with::skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct ImageMetadata {
@@ -61,25 +95,31 @@ impl Image {
         }
     }
     fn save_metadata(&self, key: &str, image_dir: &Path) -> anyhow::Result<()> {
+        // Sanitize the key to prevent path traversal attacks
+        let safe_key = sanitize_key(key)?;
+        
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
             serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, ImageMetadata>>>(file)?;
         // add the desired change
-        self.apply_metadata_to(key, &mut image_sources);
+        self.apply_metadata_to(safe_key, &mut image_sources);
         // save to disk
         let file = File::create(image_dir.join("img-sources.yaml"))?;
         serde_yaml::to_writer(file, &image_sources)?;
         Ok(())
     }
-    fn image_should_be_saved_at(key: &str, image_dir: &Path) -> PathBuf {
-        let search_prefix = format!("{key}_");
+    fn image_should_be_saved_at(key: &str, image_dir: &Path) -> anyhow::Result<PathBuf> {
+        // Sanitize the key to prevent path traversal attacks
+        let safe_key = sanitize_key(key)?;
+        
+        let search_prefix = format!("{safe_key}_");
         let next_free_slot = std::fs::read_dir(image_dir)
             .unwrap()
             .filter_map(Result::ok)
             .map(|e| e.file_name().to_str().unwrap().to_string())
             .filter(|filename| filename.starts_with(&search_prefix))
             .count();
-        image_dir.join(format!("{key}_{next_free_slot}.webp"))
+        Ok(image_dir.join(format!("{safe_key}_{next_free_slot}.webp")))
     }
     fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
@@ -104,7 +144,13 @@ impl Image {
 impl AppliableEdit for Image {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String {
         let image_dir = base_dir.join("data").join("sources").join("img");
-        let target = Self::image_should_be_saved_at(key, &image_dir.join("lg"));
+        let target = match Self::image_should_be_saved_at(key, &image_dir.join("lg")) {
+            Ok(path) => path,
+            Err(e) => {
+                error!(?self, error = ?e, "Invalid key for image");
+                return format!("Error: Invalid key - {e}");
+            }
+        };
 
         let content_result = self.save_content(&target);
         let metadata_result = self.save_metadata(key, &image_dir);
@@ -194,5 +240,94 @@ mod tests {
                 BTreeMap::from([(0, image.metadata.clone()), (1, image.metadata.clone())])
             )])
         );
+    }
+
+    #[test]
+    fn test_sanitize_key_valid_keys() {
+        // Valid keys should pass
+        assert!(sanitize_key("mi").is_ok());
+        assert!(sanitize_key("room_01").is_ok());
+        assert!(sanitize_key("building-123").is_ok());
+        assert!(sanitize_key("test_key_123").is_ok());
+    }
+
+    #[test]
+    fn test_sanitize_key_path_traversal() {
+        // Path traversal attempts should be rejected
+        assert!(sanitize_key("..").is_err());
+        assert!(sanitize_key("../").is_err());
+        assert!(sanitize_key("../../").is_err());
+        assert!(sanitize_key("../../../cdn/lg/mi").is_err());
+        assert!(sanitize_key("test/../other").is_err());
+        assert!(sanitize_key("test/..").is_err());
+    }
+
+    #[test]
+    fn test_sanitize_key_path_separators() {
+        // Path separators should be rejected
+        assert!(sanitize_key("/").is_err());
+        assert!(sanitize_key("\\").is_err());
+        assert!(sanitize_key("test/path").is_err());
+        assert!(sanitize_key("test\\path").is_err());
+        assert!(sanitize_key("/absolute/path").is_err());
+        assert!(sanitize_key("C:\\windows\\path").is_err());
+    }
+
+    #[test]
+    fn test_sanitize_key_leading_dot() {
+        // Keys starting with a dot should be rejected
+        assert!(sanitize_key(".hidden").is_err());
+        assert!(sanitize_key(".").is_err());
+        assert!(sanitize_key("..secret").is_err());
+    }
+
+    #[test]
+    fn test_sanitize_key_empty() {
+        // Empty keys should be rejected
+        assert!(sanitize_key("").is_err());
+    }
+
+    #[test]
+    fn test_image_should_be_saved_at_with_valid_key() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let result = Image::image_should_be_saved_at("test_room", temp_dir.path());
+        assert!(result.is_ok());
+        let path = result.unwrap();
+        assert_eq!(path.file_name().unwrap(), "test_room_0.webp");
+    }
+
+    #[test]
+    fn test_image_should_be_saved_at_with_traversal_attempt() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        // Path traversal attempts should fail
+        let result = Image::image_should_be_saved_at("../../cdn/lg/mi", temp_dir.path());
+        assert!(result.is_err());
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("path traversal"));
+    }
+
+    #[test]
+    fn test_image_should_be_saved_at_with_absolute_path() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        // Absolute paths should fail
+        let result = Image::image_should_be_saved_at("/etc/passwd", temp_dir.path());
+        assert!(result.is_err());
+        assert!(result.unwrap_err().to_string().contains("path separator"));
+    }
+
+    #[test]
+    fn test_image_path_stays_within_directory() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let result = Image::image_should_be_saved_at("valid_key", temp_dir.path());
+        assert!(result.is_ok());
+        let path = result.unwrap();
+        
+        // Verify the path starts with the temp_dir
+        assert!(path.starts_with(temp_dir.path()));
+        
+        // Verify the path doesn't escape the directory
+        assert!(!path.to_str().unwrap().contains(".."));
     }
 }
