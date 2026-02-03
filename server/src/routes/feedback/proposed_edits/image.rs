@@ -35,7 +35,7 @@ pub struct Offsets {
     header: Option<i32>,
     thumb: Option<i32>,
 }
-#[derive(Debug, Deserialize, Serialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
+#[derive(Deserialize, Serialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Image {
     /// The image encoded as base64
     #[schema(content_encoding = "base64")]

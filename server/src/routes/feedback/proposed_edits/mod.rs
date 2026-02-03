@@ -36,9 +36,9 @@ pub struct QueuedEditResponse {
 }
 
 #[derive(Debug, Deserialize, Clone, utoipa::ToSchema, Serialize)]
-struct Edit {
-    coordinate: Option<Coordinate>,
-    image: Option<Image>,
+pub struct Edit {
+    pub coordinate: Option<Coordinate>,
+    pub image: Option<Image>,
 }
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
@@ -50,24 +50,24 @@ pub struct EditRequest {
     #[schema(
         example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4"
     )]
-    token: String,
+    pub token: String,
     /// The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
-    edits: LimitedHashMap<String, Edit>,
+    pub edits: LimitedHashMap<String, Edit>,
     /// Additional context for the edit.
     ///
     /// Will be displayed in the discription field of the PR
     #[schema(example = "I have a picture of the room, please add it to the roomfinder")]
-    additional_context: String,
+    pub additional_context: String,
     /// Whether the user has checked the privacy-checkbox.
     ///
     /// We are posting the feedback publicly on GitHub (not a EU-Company).
     /// **You MUST also include such a checkmark.**
-    privacy_checked: bool,
+    pub privacy_checked: bool,
 }
 
 impl EditRequest {
     #[tracing::instrument]
-    async fn apply_changes_and_generate_description(
+    pub async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
     ) -> anyhow::Result<String> {
@@ -206,7 +206,6 @@ pub async fn propose_edits(
         // Add edit to batch PR
         match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
             Ok(pr_url) => {
-                recorded_tokens.mark_as_used(&req_data.token).await;
                 let response = QueuedEditResponse {
                     tracking_id: 0, // Not used in PR-based batching
                     status: "added_to_batch".to_string(),

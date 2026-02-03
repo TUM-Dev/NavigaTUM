@@ -59,9 +59,12 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
     
     // Find a PR with the batch label
     for pr in pulls.items {
-        if pr.labels.iter().any(|l| l.name == BATCH_LABEL) {
-            info!("Found open batch PR: #{} ({})", pr.number, pr.head.ref_field);
-            return Ok(Some((pr.number, pr.head.ref_field)));
+        // Check if any label matches BATCH_LABEL
+        for label in &pr.labels {
+            if label.name == BATCH_LABEL {
+                info!("Found open batch PR: #{} ({})", pr.number, pr.head.ref_field);
+                return Ok(Some((pr.number, pr.head.ref_field)));
+            }
         }
     }
     
