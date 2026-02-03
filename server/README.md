@@ -93,9 +93,6 @@ The following files are loaded during server setup:
 | `JWT_KEY`                         | [`feedback`](./feeedback/mod.rs) |                                         | A key used to sign JWTs.<br/>This is used to authenticate that feedback tokens were given out by us.   |
 | `MIELI_{URL,MASTER_KEY}`          | [`search`](./search/mod.rs)      |                                         | Allows searching via meiliserch                                                                        |
 | `CDN_URL`                         | [`setup`](./setup/mod.rs)        | optional (fallback only)                | Fallback URL for downloading data files if not found locally (usually not needed in production)        |
-| `BATCH_ENABLED`                   | [`batch_processor`](./src/batch_processor/mod.rs) | optional (default: `true`)  | Enable/disable batching for coordinate edits. When `false`, edits are processed immediately. When `true`, edits are added as commits to an open batch PR. |
-| `BATCH_WINDOW_HOURS`              | [`batch_processor`](./src/batch_processor/mod.rs) | optional (default: `6`)     | Hours between batch PR finalizations. The GitHub Actions workflow runs every 6 hours to finalize the current batch PR. |
-| `BATCH_MAX_EDITS`                 | [`batch_processor`](./src/batch_processor/mod.rs) | optional (default: `50`)    | Reserved for future use. Currently not enforced as edits are added continuously to the batch PR.       |
 
 ### Adding Migrations
 

@@ -17,8 +17,6 @@ use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
-use crate::external::github::GitHub;
-use crate::batch_processor::BatchConfig;
 
 mod coordinate;
 mod description;
@@ -137,22 +135,19 @@ impl EditRequest {
 ///
 /// ***Do not abuse this endpoint.***
 ///
-/// This posts the actual feedback to GitHub. When batching is enabled (default), edits are added as commits
-/// to an open batch PR. When batching is disabled, each edit creates a separate PR immediately.
+/// This posts the actual feedback to GitHub. All coordinate edits are automatically batched
+/// into a single open PR. Each edit is added as a commit to the batch PR.
 /// 
 /// This API will create pull-requests instead of issues => only a subset of feedback is allowed.
 /// For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
 ///
-/// # Batching (PR-Based)
+/// # Automatic Batching
 ///
-/// When batching is enabled (default):
-/// - Edits are added as commits to an open "batch-in-progress" PR
-/// - Each edit is immediately visible in the PR
-/// - The response contains the PR URL where your edit was added
-/// - A GitHub Actions workflow finalizes the batch every 6 hours and starts a new one
-///
-/// When batching is disabled (BATCH_ENABLED=false):
-/// - Edits are processed immediately as before (one PR per edit)
+/// All edits are automatically added to an open "batch-in-progress" PR:
+/// - Each edit is immediately visible as a commit in the PR
+/// - The PR description and title are updated with the edit count
+/// - Better transparency: all edits are visible immediately in GitHub
+/// - Reduced PR overhead: multiple edits in one PR instead of many individual PRs
 ///
 /// # Note:
 ///
@@ -160,7 +155,7 @@ impl EditRequest {
 #[utoipa::path(
     tags=["feedback"],
     responses(
-        (status = 201, description= "The edit request has been **successfully added to GitHub**. In batch mode (default), returns JSON with PR URL. In immediate mode, returns the PR URL as text.", body= String, content_type="application/json"),
+        (status = 201, description= "The edit has been **successfully added to the batch PR**. Returns JSON with the PR URL.", body= String, content_type="application/json"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
         (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
 
@@ -201,53 +196,23 @@ pub async fn propose_edits(
             .body("Too many edits provided");
     };
 
-    // Check if batching is enabled
-    if BatchConfig::is_batch_enabled() {
-        // Add edit to batch PR
-        match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
-            Ok(pr_url) => {
-                let response = QueuedEditResponse {
-                    tracking_id: 0, // Not used in PR-based batching
-                    status: "added_to_batch".to_string(),
-                    message: format!("Your edit has been added to the batch PR: {}", pr_url),
-                };
-                HttpResponse::Created()
-                    .content_type("application/json")
-                    .json(response)
-            }
-            Err(e) => {
-                error!("Failed to add edit to batch PR: {:?}", e);
-                HttpResponse::InternalServerError()
-                    .content_type("text/plain")
-                    .body("Failed to add edit to batch, please try again later")
-            }
+    // Always batch edits - add to the open batch PR
+    match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
+        Ok(pr_url) => {
+            let response = QueuedEditResponse {
+                tracking_id: 0, // Not used
+                status: "added_to_batch".to_string(),
+                message: format!("Your edit has been added to the batch PR: {}", pr_url),
+            };
+            HttpResponse::Created()
+                .content_type("application/json")
+                .json(response)
         }
-    } else {
-        // Original immediate processing behavior
-        let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
-        match req_data
-            .apply_changes_and_generate_description(&branch_name)
-            .await
-        {
-            Ok(description) => {
-                GitHub::default()
-                    .open_pr(
-                        branch_name,
-                        &format!(
-                            "chore(data): {subject}",
-                            subject = req_data.extract_subject()
-                        ),
-                        &description,
-                        req_data.extract_labels(),
-                    )
-                    .await
-            }
-            Err(error) => {
-                error!(?error, "could not apply changes");
-                HttpResponse::InternalServerError()
-                    .content_type("text/plain")
-                    .body("Could apply changes, please try again later")
-            }
+        Err(e) => {
+            error!("Failed to add edit to batch PR: {:?}", e);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to add edit to batch, please try again later")
         }
     }
 }

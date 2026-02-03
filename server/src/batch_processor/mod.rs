@@ -7,36 +7,6 @@ use crate::routes::feedback::proposed_edits::EditRequest;
 const BATCH_LABEL: &str = "batch-in-progress";
 const BATCH_BRANCH_PREFIX: &str = "usergenerated/batch-";
 
-#[derive(Debug, Clone)]
-pub struct BatchConfig {
-    pub window_hours: i64,
-    pub max_edits: usize,
-}
-
-impl Default for BatchConfig {
-    fn default() -> Self {
-        Self {
-            window_hours: std::env::var("BATCH_WINDOW_HOURS")
-                .ok()
-                .and_then(|v| v.parse().ok())
-                .unwrap_or(6),
-            max_edits: std::env::var("BATCH_MAX_EDITS")
-                .ok()
-                .and_then(|v| v.parse().ok())
-                .unwrap_or(50),
-        }
-    }
-}
-
-impl BatchConfig {
-    pub fn is_batch_enabled() -> bool {
-        std::env::var("BATCH_ENABLED")
-            .ok()
-            .and_then(|v| v.parse().ok())
-            .unwrap_or(true)
-    }
-}
-
 /// Find the current open batch PR (if any)
 #[tracing::instrument]
 pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
@@ -60,10 +30,12 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
     // Find a PR with the batch label
     for pr in pulls.items {
         // Check if any label matches BATCH_LABEL
-        for label in &pr.labels {
-            if label.name == BATCH_LABEL {
-                info!("Found open batch PR: #{} ({})", pr.number, pr.head.ref_field);
-                return Ok(Some((pr.number, pr.head.ref_field)));
+        if let Some(labels) = &pr.labels {
+            for label in labels {
+                if label.name == BATCH_LABEL {
+                    info!("Found open batch PR: #{} ({})", pr.number, pr.head.ref_field);
+                    return Ok(Some((pr.number, pr.head.ref_field)));
+                }
             }
         }
     }
@@ -83,7 +55,6 @@ pub async fn get_or_create_batch_pr() -> anyhow::Result<(u64, String)> {
     // Create a new batch PR
     let branch_name = format!("{}{}", BATCH_BRANCH_PREFIX, Utc::now().format("%Y%m%d-%H%M%S"));
     
-    // Create an initial empty commit to start the PR
     let Some(personal_token) = crate::external::github::GitHub::github_token() else {
         anyhow::bail!("Failed to get GitHub token");
     };
@@ -96,17 +67,17 @@ pub async fn get_or_create_batch_pr() -> anyhow::Result<(u64, String)> {
     let pr = octocrab
         .pulls("TUM-Dev", "NavigaTUM")
         .create(
-            "chore(data): batch coordinate edits (in progress)",
+            "chore(data): batch coordinate edits",
             &branch_name,
             "main",
         )
         .body(&format!(
-            "## Batched Edit Submission (In Progress)\n\n\
+            "## Batched Edit Submission\n\n\
              This PR collects coordinate edits submitted over time.\n\
-             New edits will be added as commits to this PR.\n\n\
+             New edits are added as commits to this PR.\n\n\
              Started at: {}\n\n\
              ### Edits included:\n\
-             *(Edits will appear as they are submitted)*",
+             *(Edits will appear below as they are submitted)*\n\n",
             Utc::now().to_rfc3339()
         ))
         .maintainer_can_modify(true)
@@ -131,7 +102,7 @@ pub async fn get_or_create_batch_pr() -> anyhow::Result<(u64, String)> {
     Ok((pr_number, branch_name))
 }
 
-/// Add an edit to the current batch PR
+/// Add an edit to the current batch PR and update its description
 #[tracing::instrument(skip(edit_request))]
 pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<String> {
     let (pr_number, branch_name) = get_or_create_batch_pr().await?;
@@ -143,7 +114,7 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
         .apply_changes_and_generate_description(&branch_name)
         .await
     {
-        Ok(description) => {
+        Ok(_description) => {
             info!("Successfully added edit to batch PR #{}", pr_number);
             
             // Update PR labels based on the edit type
@@ -171,6 +142,24 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
                 .send()
                 .await;
             
+            // Get commits to count edits
+            let commits = octocrab
+                .pulls("TUM-Dev", "NavigaTUM")
+                .pr_commits(pr_number)
+                .per_page(100)
+                .send()
+                .await?;
+            
+            let edit_count = commits.items.len();
+            
+            // Update PR title with edit count
+            let _ = octocrab
+                .issues("TUM-Dev", "NavigaTUM")
+                .update(pr_number)
+                .title(&format!("chore(data): batch coordinate edits ({} edits)", edit_count))
+                .send()
+                .await;
+            
             // Get the PR URL
             let pr = octocrab
                 .pulls("TUM-Dev", "NavigaTUM")
@@ -184,63 +173,4 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
             anyhow::bail!("Failed to apply changes: {:?}", e)
         }
     }
-}
-
-/// Finalize the current batch PR (remove the in-progress label)
-#[tracing::instrument]
-pub async fn finalize_batch_pr() -> anyhow::Result<()> {
-    let Some((pr_number, _)) = find_open_batch_pr().await? else {
-        info!("No open batch PR to finalize");
-        return Ok(());
-    };
-    
-    info!("Finalizing batch PR #{}", pr_number);
-    
-    let Some(personal_token) = crate::external::github::GitHub::github_token() else {
-        anyhow::bail!("Failed to get GitHub token");
-    };
-    
-    let octocrab = Octocrab::builder()
-        .personal_token(personal_token)
-        .build()?;
-    
-    // Get current PR to read its labels and edit count
-    let pr = octocrab
-        .pulls("TUM-Dev", "NavigaTUM")
-        .get(pr_number)
-        .await?;
-    
-    // Count commits as a proxy for edit count
-    let commits = octocrab
-        .pulls("TUM-Dev", "NavigaTUM")
-        .pr_commits(pr_number)
-        .per_page(100)
-        .send()
-        .await?;
-    
-    let edit_count = commits.items.len();
-    
-    // Remove the batch-in-progress label and update title
-    let mut labels: Vec<String> = pr
-        .labels
-        .iter()
-        .filter(|l| l.name != BATCH_LABEL)
-        .map(|l| l.name.clone())
-        .collect();
-    
-    // Ensure webform label is present
-    if !labels.contains(&"webform".to_string()) {
-        labels.push("webform".to_string());
-    }
-    
-    octocrab
-        .issues("TUM-Dev", "NavigaTUM")
-        .update(pr_number)
-        .title(&format!("chore(data): batch coordinate edits ({} edits)", edit_count))
-        .labels(&labels)
-        .send()
-        .await?;
-    
-    info!("Finalized batch PR #{} with {} edits", pr_number, edit_count);
-    Ok(())
 }

@@ -13,10 +13,6 @@ default-run = "navigatum-server"
 name = "navigatum-server"
 path = "src/main.rs"
 
-[[bin]]
-name = "batch_processor"
-path = "src/bin/batch_processor.rs"
-
 [dependencies]
 # logging/obeservability
 actix-web-prom = { workspace=true, default-features = false, features = [] }
