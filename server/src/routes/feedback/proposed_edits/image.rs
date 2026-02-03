@@ -90,7 +90,7 @@ impl Image {
     fn save_metadata(&self, key: &str, image_dir: &Path) -> anyhow::Result<()> {
         // Sanitize the key to prevent path traversal attacks
         let safe_key = sanitize_key(key)?;
-        
+
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
             serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, ImageMetadata>>>(file)?;
@@ -104,7 +104,7 @@ impl Image {
     fn image_should_be_saved_at(key: &str, image_dir: &Path) -> anyhow::Result<PathBuf> {
         // Sanitize the key to prevent path traversal attacks
         let safe_key = sanitize_key(key)?;
-        
+
         let search_prefix = format!("{safe_key}_");
         let next_free_slot = std::fs::read_dir(image_dir)
             .map_err(|e| anyhow::anyhow!("Failed to read image directory: {}", e))?
@@ -281,10 +281,7 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let result = Image::image_should_be_saved_at("../../cdn/lg/mi", temp_dir.path());
         assert!(result.is_err());
-        assert!(result
-            .unwrap_err()
-            .to_string()
-            .contains("path traversal"));
+        assert!(result.unwrap_err().to_string().contains("path traversal"));
     }
 
     #[test]
@@ -301,7 +298,7 @@ mod tests {
         let result = Image::image_should_be_saved_at("valid_key", temp_dir.path());
         assert!(result.is_ok());
         let path = result.unwrap();
-        
+
         assert!(path.starts_with(temp_dir.path()));
         assert!(!path.to_str().unwrap().contains(".."));
     }
