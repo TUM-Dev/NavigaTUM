@@ -25,8 +25,6 @@ mod tmp_repo;
 
 #[derive(Debug, Serialize, utoipa::ToSchema)]
 pub struct QueuedEditResponse {
-    /// The tracking ID for the queued edit
-    tracking_id: i32,
     /// Status of the edit submission
     status: String,
     /// Message describing the edit status
@@ -53,7 +51,7 @@ pub struct EditRequest {
     pub edits: LimitedHashMap<String, Edit>,
     /// Additional context for the edit.
     ///
-    /// Will be displayed in the discription field of the PR
+    /// Will be displayed in the description field of the PR
     #[schema(example = "I have a picture of the room, please add it to the roomfinder")]
     pub additional_context: String,
     /// Whether the user has checked the privacy-checkbox.
@@ -200,7 +198,6 @@ pub async fn propose_edits(
     match crate::batch_processor::add_edit_to_batch_pr(&req_data).await {
         Ok(pr_url) => {
             let response = QueuedEditResponse {
-                tracking_id: 0, // Not used
                 status: "added_to_batch".to_string(),
                 message: format!("Your edit has been added to the batch PR: {}", pr_url),
             };

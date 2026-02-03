@@ -135,12 +135,16 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
                 .build()?;
             
             // Update labels
-            let _ = octocrab
+            match octocrab
                 .issues("TUM-Dev", "NavigaTUM")
                 .update(pr_number)
                 .labels(&labels)
                 .send()
-                .await;
+                .await
+            {
+                Ok(_) => info!("Updated labels for PR #{}", pr_number),
+                Err(e) => error!("Failed to update labels for PR #{}: {:?}", pr_number, e),
+            }
             
             // Get commits to count edits
             let commits = octocrab
@@ -153,12 +157,19 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
             let edit_count = commits.items.len();
             
             // Update PR title with edit count
-            let _ = octocrab
+            match octocrab
                 .issues("TUM-Dev", "NavigaTUM")
                 .update(pr_number)
-                .title(&format!("chore(data): batch coordinate edits ({} edits)", edit_count))
+                .title(&format!(
+                    "chore(data): batch coordinate edits ({} edits)",
+                    edit_count
+                ))
                 .send()
-                .await;
+                .await
+            {
+                Ok(_) => info!("Updated title for PR #{}", pr_number),
+                Err(e) => error!("Failed to update title for PR #{}: {:?}", pr_number, e),
+            }
             
             // Get the PR URL
             let pr = octocrab
@@ -166,7 +177,14 @@ pub async fn add_edit_to_batch_pr(edit_request: &EditRequest) -> anyhow::Result<
                 .get(pr_number)
                 .await?;
             
-            Ok(pr.html_url.map(|u| u.to_string()).unwrap_or_else(|| format!("https://github.com/TUM-Dev/NavigaTUM/pull/{}", pr_number)))
+            let pr_url = pr
+                .html_url
+                .map(|u| u.to_string())
+                .unwrap_or_else(|| {
+                    format!("https://github.com/TUM-Dev/NavigaTUM/pull/{}", pr_number)
+                });
+            
+            Ok(pr_url)
         }
         Err(e) => {
             error!("Failed to apply changes: {:?}", e);
