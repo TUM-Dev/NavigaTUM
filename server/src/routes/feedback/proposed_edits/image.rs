@@ -13,19 +13,12 @@ use tracing::error;
 use super::AppliableEdit;
 
 /// Sanitizes a key to prevent path traversal attacks.
-/// 
-/// This function ensures that:
-/// - The key is not empty
-/// - The key does not contain path traversal sequences (`..`)
-/// - The key does not contain path separators (`/` or `\`)
-/// - The key does not start with a dot (to prevent hidden files)
-/// 
-/// # Arguments
-/// * `key` - The key to sanitize
-/// 
-/// # Returns
-/// * `Ok(&str)` - The validated key if it's safe
-/// * `Err(anyhow::Error)` - An error if the key contains dangerous sequences
+///
+/// Rejects keys that:
+/// - Are empty
+/// - Contain `..` (path traversal)
+/// - Contain `/` or `\` (path separators)
+/// - Start with `.` (hidden files)
 fn sanitize_key(key: &str) -> anyhow::Result<&str> {
     if key.is_empty() {
         anyhow::bail!("Invalid key: key cannot be empty");
@@ -191,6 +184,7 @@ mod tests {
     use std::fs;
 
     use pretty_assertions::assert_eq;
+    use rstest::rstest;
 
     use super::*;
 
@@ -242,51 +236,35 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_sanitize_key_valid_keys() {
-        // Valid keys should pass
-        assert!(sanitize_key("mi").is_ok());
-        assert!(sanitize_key("room_01").is_ok());
-        assert!(sanitize_key("building-123").is_ok());
-        assert!(sanitize_key("test_key_123").is_ok());
+    #[rstest]
+    #[case("mi")]
+    #[case("room_01")]
+    #[case("building-123")]
+    #[case("test_key_123")]
+    fn test_sanitize_key_valid(#[case] key: &str) {
+        assert!(sanitize_key(key).is_ok());
     }
 
-    #[test]
-    fn test_sanitize_key_path_traversal() {
-        // Path traversal attempts should be rejected
-        assert!(sanitize_key("..").is_err());
-        assert!(sanitize_key("../").is_err());
-        assert!(sanitize_key("../../").is_err());
-        assert!(sanitize_key("../../../cdn/lg/mi").is_err());
-        assert!(sanitize_key("test/../other").is_err());
-        assert!(sanitize_key("test/..").is_err());
-    }
-
-    #[test]
-    fn test_sanitize_key_path_separators() {
-        // Path separators should be rejected
-        assert!(sanitize_key("/").is_err());
-        assert!(sanitize_key("\\").is_err());
-        assert!(sanitize_key("test/path").is_err());
-        assert!(sanitize_key("test\\path").is_err());
-        assert!(sanitize_key("/absolute/path").is_err());
-        assert!(sanitize_key("C:\\windows\\path").is_err());
-    }
-
-    #[test]
-    fn test_sanitize_key_leading_dot() {
-        // Keys starting with a dot should be rejected
-        assert!(sanitize_key(".hidden").is_err());
-        assert!(sanitize_key(".").is_err());
-        assert!(sanitize_key(".secret").is_err());
-        // But keys with ".." will be caught by the path traversal check
-        assert!(sanitize_key("..secret").is_err());
-    }
-
-    #[test]
-    fn test_sanitize_key_empty() {
-        // Empty keys should be rejected
-        assert!(sanitize_key("").is_err());
+    #[rstest]
+    #[case("")]
+    #[case("..")]
+    #[case("../")]
+    #[case("../../")]
+    #[case("../../../cdn/lg/mi")]
+    #[case("test/../other")]
+    #[case("test/..")]
+    #[case("/")]
+    #[case("\\")]
+    #[case("test/path")]
+    #[case("test\\path")]
+    #[case("/absolute/path")]
+    #[case("C:\\windows\\path")]
+    #[case(".hidden")]
+    #[case(".")]
+    #[case(".secret")]
+    #[case("..secret")]
+    fn test_sanitize_key_invalid(#[case] key: &str) {
+        assert!(sanitize_key(key).is_err());
     }
 
     #[test]
@@ -301,7 +279,6 @@ mod tests {
     #[test]
     fn test_image_should_be_saved_at_with_traversal_attempt() {
         let temp_dir = tempfile::tempdir().unwrap();
-        // Path traversal attempts should fail
         let result = Image::image_should_be_saved_at("../../cdn/lg/mi", temp_dir.path());
         assert!(result.is_err());
         assert!(result
@@ -313,7 +290,6 @@ mod tests {
     #[test]
     fn test_image_should_be_saved_at_with_absolute_path() {
         let temp_dir = tempfile::tempdir().unwrap();
-        // Absolute paths should fail
         let result = Image::image_should_be_saved_at("/etc/passwd", temp_dir.path());
         assert!(result.is_err());
         assert!(result.unwrap_err().to_string().contains("path separator"));
@@ -326,10 +302,7 @@ mod tests {
         assert!(result.is_ok());
         let path = result.unwrap();
         
-        // Verify the path starts with the temp_dir
         assert!(path.starts_with(temp_dir.path()));
-        
-        // Verify the path doesn't escape the directory
         assert!(!path.to_str().unwrap().contains(".."));
     }
 }
