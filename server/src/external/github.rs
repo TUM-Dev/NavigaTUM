@@ -145,10 +145,7 @@ impl GitHub {
 
     /// Find an open PR with a specific label
     #[tracing::instrument]
-    pub async fn find_pr_with_label(
-        self,
-        label: &str,
-    ) -> anyhow::Result<Option<(u64, String)>> {
+    pub async fn find_pr_with_label(self, label: &str) -> anyhow::Result<Option<(u64, String)>> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };
@@ -176,11 +173,7 @@ impl GitHub {
 
     /// Update PR labels
     #[tracing::instrument]
-    pub async fn update_pr_labels(
-        self,
-        pr_number: u64,
-        labels: Vec<String>,
-    ) -> anyhow::Result<()> {
+    pub async fn update_pr_labels(self, pr_number: u64, labels: Vec<String>) -> anyhow::Result<()> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };
@@ -197,11 +190,7 @@ impl GitHub {
 
     /// Update PR title
     #[tracing::instrument]
-    pub async fn update_pr_title(
-        self,
-        pr_number: u64,
-        title: String,
-    ) -> anyhow::Result<()> {
+    pub async fn update_pr_title(self, pr_number: u64, title: String) -> anyhow::Result<()> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };
@@ -218,10 +207,7 @@ impl GitHub {
 
     /// Get the number of commits in a PR
     #[tracing::instrument]
-    pub async fn get_pr_commit_count(
-        self,
-        pr_number: u64,
-    ) -> anyhow::Result<usize> {
+    pub async fn get_pr_commit_count(self, pr_number: u64) -> anyhow::Result<usize> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };
@@ -238,10 +224,7 @@ impl GitHub {
 
     /// Get PR description (body)
     #[tracing::instrument]
-    pub async fn get_pr_description(
-        self,
-        pr_number: u64,
-    ) -> anyhow::Result<String> {
+    pub async fn get_pr_description(self, pr_number: u64) -> anyhow::Result<String> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };

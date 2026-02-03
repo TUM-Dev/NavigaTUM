@@ -7,7 +7,7 @@ const BATCH_LABEL: &str = "batch-in-progress";
 /// Find the current open batch PR (if any)
 pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
     let github = GitHub::default();
-    
+
     match github.find_pr_with_label(BATCH_LABEL).await {
         Ok(Some((pr_number, branch))) => {
             info!("Found open batch PR: #{} ({})", pr_number, branch);
@@ -31,10 +31,10 @@ pub async fn update_batch_pr_metadata(
     new_edit_description: &str,
 ) -> anyhow::Result<()> {
     let github = GitHub::default();
-    
+
     // Update labels based on edit type
     let mut labels = vec![BATCH_LABEL.to_string(), "webform".to_string()];
-    
+
     // Check edit types using the extract_labels method
     let edit_labels = edit_request.extract_labels_for_batch();
     for label in edit_labels {
@@ -42,12 +42,15 @@ pub async fn update_batch_pr_metadata(
             labels.push(label);
         }
     }
-    
+
     match github.update_pr_labels(pr_number, labels).await {
         Ok(_) => info!("Updated labels for batch PR #{}", pr_number),
-        Err(e) => error!("Failed to update labels for batch PR #{}: {:?}", pr_number, e),
+        Err(e) => error!(
+            "Failed to update labels for batch PR #{}: {:?}",
+            pr_number, e
+        ),
     }
-    
+
     // Get commits to count edits
     let github = GitHub::default();
     let edit_count = match github.get_pr_commit_count(pr_number).await {
@@ -57,31 +60,49 @@ pub async fn update_batch_pr_metadata(
             return Err(e);
         }
     };
-    
+
     // Update PR title with edit count
     let github = GitHub::default();
     let title = format!("chore(data): batch coordinate edits ({} edits)", edit_count);
     match github.update_pr_title(pr_number, title).await {
         Ok(_) => info!("Updated title for batch PR #{}", pr_number),
-        Err(e) => error!("Failed to update title for batch PR #{}: {:?}", pr_number, e),
+        Err(e) => error!(
+            "Failed to update title for batch PR #{}: {:?}",
+            pr_number, e
+        ),
     }
-    
+
     // Append to PR description
     let github = GitHub::default();
-    let current_description = github.get_pr_description(pr_number).await.unwrap_or_default();
-    
+    let current_description = github
+        .get_pr_description(pr_number)
+        .await
+        .unwrap_or_default();
+
     // Append the new edit's description
     let updated_description = if current_description.is_empty() {
-        format!("## Batched Coordinate Edits\n\n### Edit #{}\n{}", edit_count, new_edit_description)
+        format!(
+            "## Batched Coordinate Edits\n\n### Edit #{}\n{}",
+            edit_count, new_edit_description
+        )
     } else {
-        format!("{}\n\n---\n\n### Edit #{}\n{}", current_description, edit_count, new_edit_description)
+        format!(
+            "{}\n\n---\n\n### Edit #{}\n{}",
+            current_description, edit_count, new_edit_description
+        )
     };
-    
+
     let github = GitHub::default();
-    match github.update_pr_description(pr_number, updated_description).await {
+    match github
+        .update_pr_description(pr_number, updated_description)
+        .await
+    {
         Ok(_) => info!("Updated description for batch PR #{}", pr_number),
-        Err(e) => error!("Failed to update description for batch PR #{}: {:?}", pr_number, e),
+        Err(e) => error!(
+            "Failed to update description for batch PR #{}: {:?}",
+            pr_number, e
+        ),
     }
-    
+
     Ok(())
 }

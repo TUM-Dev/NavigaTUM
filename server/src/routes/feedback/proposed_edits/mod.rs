@@ -181,10 +181,13 @@ pub async fn propose_edits(
     };
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
-    
+
     // Try to find an open batch PR and use it
-    let batch_pr = super::batch_processor::find_open_batch_pr().await.ok().flatten();
-    
+    let batch_pr = super::batch_processor::find_open_batch_pr()
+        .await
+        .ok()
+        .flatten();
+
     let (branch_to_use, pr_number_opt) = match batch_pr {
         Some((pr_number, batch_branch)) => {
             info!("Adding edit to existing batch PR #{}", pr_number);
@@ -192,7 +195,7 @@ pub async fn propose_edits(
         }
         None => (branch_name, None),
     };
-    
+
     match req_data
         .apply_changes_and_generate_description(&branch_to_use)
         .await
@@ -200,10 +203,16 @@ pub async fn propose_edits(
         Ok(description) => {
             if let Some(pr_number) = pr_number_opt {
                 // Update metadata for batch PR (including appending description)
-                if let Err(e) = super::batch_processor::update_batch_pr_metadata(pr_number, &req_data, &description).await {
+                if let Err(e) = super::batch_processor::update_batch_pr_metadata(
+                    pr_number,
+                    &req_data,
+                    &description,
+                )
+                .await
+                {
                     error!("Failed to update batch PR metadata: {:?}", e);
                 }
-                
+
                 let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{}", pr_number);
                 HttpResponse::Created()
                     .content_type("text/plain")
