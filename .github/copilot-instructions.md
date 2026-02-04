@@ -8,7 +8,7 @@ LLMs represent a tremendous breakthrough in software engineering. We welcome LLM
 
 * **Aim for excellence.** For the NavigaTUM project, LLMs should be used not as a speed multiplier but a quality multiplier. Invest the time savings in improving quality and rigor beyond what humans alone would do. Write tests that cover more edge cases. Refactor code to make it easier to understand. Tackle the TODOs. Do all the tedious things. Aim for your code to have zero bugs.
 * **Spend time reviewing LLM output.** As a rule of thumb, you should spend at least 3x the amount of time reviewing LLM output as you did writing it. Think about every line and every design decision. Find ways to break code.
-* **Your code is your responsibility.** Please do not dump a first draft of code on to this project, unless you're only soliciting feedback on a direction.
+* **Your code is your responsibility.** Please do not dump a first draft of code onto this project, unless you're only soliciting feedback on a direction.
 
 If your LLM-assisted PR shows signs of not being written with thoughtfulness and care, such as missing cases that human review would have easily caught, NavigaTUM's maintainers may decline the PR outright.
 
