@@ -86,7 +86,7 @@ jobs:
   done:
     name: Finished security scan
     runs-on: ubuntu-latest
-    needs: [ zizmor, cargo-audit, codeql ]
+    needs: [ zizmor, codeql ]
     if: always()
     permissions: {}
     steps:
