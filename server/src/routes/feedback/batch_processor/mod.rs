@@ -86,8 +86,7 @@ pub async fn update_batch_pr_metadata(
         )
     } else {
         format!(
-            "{}\n\n---\n\n### Edit #{}\n{}",
-            current_description, edit_count, new_edit_description
+            "{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}"
         )
     };
 
