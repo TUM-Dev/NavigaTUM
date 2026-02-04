@@ -85,9 +85,7 @@ pub async fn update_batch_pr_metadata(
             edit_count, new_edit_description
         )
     } else {
-        format!(
-            "{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}"
-        )
+        format!("{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}")
     };
 
     let github = GitHub::default();
