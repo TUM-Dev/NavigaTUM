@@ -199,7 +199,7 @@ impl GitHub {
 
     /// Update PR title
     #[tracing::instrument]
-    pub async fn update_pr_title(self, pr_number: u64, title: String) -> anyhow::Result<()> {
+    pub async fn update_pr_title(self, pr_number: u64, title: &str) -> anyhow::Result<()> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
         };
@@ -207,7 +207,7 @@ impl GitHub {
         octocrab
             .issues("TUM-Dev", "NavigaTUM")
             .update(pr_number)
-            .title(&title)
+            .title(title)
             .send()
             .await?;
 
@@ -261,7 +261,7 @@ impl GitHub {
     pub async fn update_pr_description(
         self,
         pr_number: u64,
-        description: String,
+        description: &str,
     ) -> anyhow::Result<()> {
         let Some(octocrab) = self.octocrab else {
             anyhow::bail!("GitHub client not initialized");
@@ -270,7 +270,7 @@ impl GitHub {
         octocrab
             .issues("TUM-Dev", "NavigaTUM")
             .update(pr_number)
-            .body(&description)
+            .body(description)
             .send()
             .await?;
 

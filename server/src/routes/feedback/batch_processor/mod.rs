@@ -62,7 +62,7 @@ pub async fn update_batch_pr_metadata(
     // Update PR title with edit count
     let github = GitHub::default();
     let title = format!("chore(data): batch coordinate edits ({edit_count} edits)");
-    match github.update_pr_title(pr_number, title).await {
+    match github.update_pr_title(pr_number, &title).await {
         Ok(_) => info!(%pr_number, "Updated title for batch PR"),
         Err(e) => error!(error=?e, %pr_number, "Failed to update title for batch PR"),
     }
@@ -83,7 +83,7 @@ pub async fn update_batch_pr_metadata(
 
     let github = GitHub::default();
     match github
-        .update_pr_description(pr_number, updated_description)
+        .update_pr_description(pr_number, &updated_description)
         .await
     {
         Ok(_) => info!(%pr_number, "Updated description for batch PR"),
