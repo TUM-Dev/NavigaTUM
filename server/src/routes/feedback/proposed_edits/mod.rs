@@ -188,7 +188,7 @@ pub async fn propose_edits(
 
     let (branch_to_use, pr_number_opt) = match batch_pr {
         Some((pr_number, batch_branch)) => {
-            info!("Adding edit to existing batch PR #{}", pr_number);
+            info!(%pr_number, "Adding edit to existing batch PR");
             (batch_branch, Some(pr_number))
         }
         None => (branch_name, None),

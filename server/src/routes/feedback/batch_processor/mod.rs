@@ -45,8 +45,7 @@ pub async fn update_batch_pr_metadata(
     match github.update_pr_labels(pr_number, labels).await {
         Ok(_) => info!("Updated labels for batch PR #{}", pr_number),
         Err(e) => error!(
-            "Failed to update labels for batch PR #{}: {:?}",
-            pr_number, e
+            error=?e, %pr_number, "Failed to update labels for batch PR"
         ),
     }
 
@@ -55,20 +54,17 @@ pub async fn update_batch_pr_metadata(
     let edit_count = match github.get_pr_commit_count(pr_number).await {
         Ok(count) => count,
         Err(e) => {
-            error!("Failed to get commit count for PR #{}: {:?}", pr_number, e);
+            error!(error=?e, %pr_number, "Failed to get commit count for PR");
             return Err(e);
         }
     };
 
     // Update PR title with edit count
     let github = GitHub::default();
-    let title = format!("chore(data): batch coordinate edits ({} edits)", edit_count);
+    let title = format!("chore(data): batch coordinate edits ({edit_count} edits)");
     match github.update_pr_title(pr_number, title).await {
-        Ok(_) => info!("Updated title for batch PR #{}", pr_number),
-        Err(e) => error!(
-            "Failed to update title for batch PR #{}: {:?}",
-            pr_number, e
-        ),
+        Ok(_) => info!(%pr_number, "Updated title for batch PR"),
+        Err(e) => error!(error=?e, %pr_number, "Failed to update title for batch PR"),
     }
 
     // Append to PR description
@@ -80,10 +76,7 @@ pub async fn update_batch_pr_metadata(
 
     // Append the new edit's description
     let updated_description = if current_description.is_empty() {
-        format!(
-            "## Batched Coordinate Edits\n\n### Edit #{}\n{}",
-            edit_count, new_edit_description
-        )
+        format!(            "## Batched Coordinate Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
     } else {
         format!("{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}")
     };
@@ -97,7 +90,9 @@ pub async fn update_batch_pr_metadata(
         Err(e) => error!(
             "Failed to update description for batch PR #{}: {:?}",
             pr_number, e
-        ),
+        Ok(_) => info!(%pr_number, "Updated description for batch PR"),
+        Err(e) => error!(error=?e, %pr_number, 
+            "Failed to update description for batch PR"),
     }
 
     Ok(())
