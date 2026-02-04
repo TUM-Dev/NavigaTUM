@@ -10,7 +10,7 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
 
     match github.find_pr_with_label(BATCH_LABEL).await {
         Ok(Some((pr_number, branch))) => {
-            info!(error=e?, %pr_number, "Found open batch PR");
+            info!(error=?e, %pr_number, "Found open batch PR");
             Ok(Some((pr_number, branch)))
         }
         Ok(None) => {
