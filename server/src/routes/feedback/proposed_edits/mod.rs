@@ -208,7 +208,7 @@ pub async fn propose_edits(
                 )
                 .await
                 {
-                    error!(error = e?, "Failed to update batch PR metadata");
+                    error!(error = ?e, "Failed to update batch PR metadata");
                 }
 
                 let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{pr_number}");
