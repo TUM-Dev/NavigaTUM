@@ -23,12 +23,6 @@
       "automerge": false
     },
     {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "groupName": "devDependencies"
-    },
-    {
       "groupName": "testing",
       "automerge": true,
       "matchPackageNames": [
@@ -71,6 +65,13 @@
       ]
     },
     {
+      "groupName": "temporary-debump1",
+      "automerge": true,
+      "matchPackageNames": [
+        "/@nuxt/content/"
+      ]
+    },
+    {
       "groupName": "temporary-debump3",
       "automerge": true,
       "matchPackageNames": [
@@ -95,6 +96,12 @@
       "matchPackageNames": [
         "/pnpm/"
       ]
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "groupName": "devDependencies"
     }
   ]
 }

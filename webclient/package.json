@@ -27,19 +27,19 @@
 		"@vueuse/core": "14.1.0",
 		"@vueuse/nuxt": "14.1.0",
 		"@vueuse/router": "14.1.0",
-		"better-sqlite3": "12.6.0",
-		"maplibre-gl": "5.16.0",
+		"better-sqlite3": "12.6.2",
+		"maplibre-gl": "5.17.0",
 		"maplibre-gl-indoor": "0.0.22",
 		"nightwind": "1.1.13",
 		"nuxt": "4.2.2",
 		"sharp": "0.34.5",
 		"ts-essentials": "^10.1.1",
-		"vue": "3.5.26",
+		"vue": "3.5.27",
 		"vue-router": "4.6.4",
 		"vue3-carousel": "0.17.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.11",
+		"@biomejs/biome": "2.3.13",
 		"@nuxtjs/i18n": "10.2.1",
 		"@nuxtjs/tailwindcss": "6.14.0",
 		"@types/geojson": "7946.0.16",
@@ -50,7 +50,7 @@
 		"postcss": "8.5.6",
 		"tailwindcss": "3.4.19",
 		"typescript": "5.9.3",
-		"vue-tsc": "3.2.2"
+		"vue-tsc": "3.2.4"
 	},
 	"type": "module",
 	"packageManager": "pnpm@10.14.0",
