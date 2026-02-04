@@ -160,7 +160,7 @@ mod tests {
     fn test_label_deduplication() {
         let mut labels = vec![BATCH_LABEL.to_string(), "webform".to_string()];
         let edit_labels = vec!["webform".to_string(), "coordinate".to_string()];
-        
+
         for label in edit_labels {
             if label != "webform" && !labels.contains(&label) {
                 labels.push(label);

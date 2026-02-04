@@ -95,7 +95,7 @@ impl EditRequest {
         }
         labels
     }
-    
+
     fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
@@ -219,12 +219,15 @@ pub async fn propose_edits(
                 // Create new batch PR with batch-in-progress label
                 let mut labels = req_data.extract_labels();
                 labels.push("batch-in-progress".to_string());
-                
+
                 GitHub::default()
                     .open_pr(
                         branch_to_use,
                         "chore(data): batch coordinate edits (1 edit)",
-                        &format!("## Batched Coordinate Edits\n\n### Edit #1\n{}", description),
+                        &format!(
+                            "## Batched Coordinate Edits\n\n### Edit #1\n{}",
+                            description
+                        ),
                         labels,
                     )
                     .await
