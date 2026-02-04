@@ -2,7 +2,8 @@
 
 ## Project Overview
 
-NavigaTUM is a navigation and room finding tool for Technical University of Munich (TUM), developed by students for students. The project helps users find rooms, buildings, and navigate the TUM campus with an interactive map interface.
+NavigaTUM is a navigation and room finding tool for Technical University of Munich (TUM), developed by students for students.
+The project helps users find rooms, buildings, and navigate the TUM campus with an interactive map interface.
 
 ## Architecture
 
@@ -28,7 +29,7 @@ The project consists of three main components:
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS with nightwind for dark mode
 - **Map**: MapLibre GL
-- **Package Manager**: pnpm (version 10.14.0)
+- **Package Manager**: pnpm
 - **Linting/Formatting**: Biome
 
 ### Data Processing
@@ -49,12 +50,10 @@ The project consists of three main components:
 - Run manually: `pre-commit run --all-files`
 
 #### Language-Specific Commands:
-- **Rust**: `cargo fmt --all --manifest-path server/Cargo.toml`
-- **TypeScript/Vue**: `npm run --prefix webclient format` and `npm run --prefix webclient lint`
-- **Python**: Automatically handled by ruff via pre-commit
+- Formatting is automatically handled by ruff via pre-commit.
 
 ### Testing
-- **Server**: `cargo test --manifest-path server/Cargo.toml`
+- **Server**: `cargo test`
 - **Webclient**: Type checking with `npm run --prefix webclient type-check`
 - **E2E tests**: Defined in `.github/workflows/e2e-tests.yml`
 
@@ -76,22 +75,22 @@ The project consists of three main components:
 
 ### TypeScript/Vue
 - Use TypeScript strict mode
-- Prefer Composition API over Options API
+- Use Composition API
 - Use auto-imports where configured
 - Follow Vue 3 best practices
 - Use Tailwind utility classes
-- Ensure dark mode compatibility using nightwind
+- Dark mode is automatically provided via nightwind
 
 ### Python
 - Use type annotations
 - Follow PEP 8 (enforced by ruff)
 - Use pydantic for data validation
-- Prefer polars for data processing over pandas
+- Use polars for data processing
 
 ## Important Files and Directories
 
 ### Configuration Files
-- `openapi.yaml` - API specification (source of truth)
+- `openapi.yaml` - API specification (source of truth, kept in sync by CI from the server)
 - `compose.yml`, `compose.local.yml` - Docker orchestration
 - `Cargo.toml` (root) - Rust workspace configuration
 - `pyproject.toml` - Python project configuration
@@ -123,7 +122,6 @@ The project consists of three main components:
 
 ### Updating Dependencies
 - Renovate bot handles automatic dependency updates
-- Security updates are prioritized
 
 ## Testing Guidelines
 
@@ -144,13 +142,11 @@ The project consists of three main components:
 ## Performance Considerations
 
 - **Rust compilation**: First builds are slow; incremental builds are faster
-- **Image processing**: Optimized dependencies in dev profile for acceptable performance
 - **Local development**: Geodata services are intentionally skipped for faster startup
 
 ## Deployment
 
-- Deployment documentation is in `DEPLOYMENT.md`
-- CI/CD workflows are in `.github/workflows/`
+- CI/CD workflows are in `.github/workflows/` that push docker images. Prod auto-updates.
 - Security scanning is configured in `.github/workflows/security.yaml`
 - Automatic data updates via `.github/workflows/update-data.yml`
 
