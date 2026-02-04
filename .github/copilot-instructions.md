@@ -26,7 +26,7 @@ NavigaTUM is a navigation and room finding tool for Technical University of Muni
 
 ## Architecture
 
-The project consists of three main components:
+Main components:
 
 1. **Data processing** (`/data`) - Python-based data acquisition and processing
 2. **Server/API** (`/server`) - Rust-based backend with REST API
