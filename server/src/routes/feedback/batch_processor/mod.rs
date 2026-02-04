@@ -10,7 +10,7 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
 
     match github.find_pr_with_label(BATCH_LABEL).await {
         Ok(Some((pr_number, branch))) => {
-            info!("Found open batch PR: #{} ({})", pr_number, branch);
+            info!(error=e?, %pr_number, "Found open batch PR");
             Ok(Some((pr_number, branch)))
         }
         Ok(None) => {
@@ -18,7 +18,7 @@ pub async fn find_open_batch_pr() -> anyhow::Result<Option<(u64, String)>> {
             Ok(None)
         }
         Err(e) => {
-            error!("Error finding batch PR: {:?}", e);
+            error!(error=?e, "Error finding batch PR");
             Err(e)
         }
     }
@@ -76,7 +76,7 @@ pub async fn update_batch_pr_metadata(
 
     // Append the new edit's description
     let updated_description = if current_description.is_empty() {
-        format!(            "## Batched Coordinate Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
+        format!("## Batched Coordinate Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
     } else {
         format!("{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}")
     };
@@ -86,10 +86,6 @@ pub async fn update_batch_pr_metadata(
         .update_pr_description(pr_number, updated_description)
         .await
     {
-        Ok(_) => info!("Updated description for batch PR #{}", pr_number),
-        Err(e) => error!(
-            "Failed to update description for batch PR #{}: {:?}",
-            pr_number, e
         Ok(_) => info!(%pr_number, "Updated description for batch PR"),
         Err(e) => error!(error=?e, %pr_number, 
             "Failed to update description for batch PR"),
