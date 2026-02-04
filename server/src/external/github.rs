@@ -150,7 +150,8 @@ impl GitHub {
             anyhow::bail!("GitHub client not initialized");
         };
 
-        let pulls = octocrab
+        // Search through all pages of open PRs to find one with the label
+        let mut page = octocrab
             .pulls("TUM-Dev", "NavigaTUM")
             .list()
             .state(octocrab::params::State::Open)
@@ -158,13 +159,21 @@ impl GitHub {
             .send()
             .await?;
 
-        for pr in pulls.items {
-            if let Some(labels) = &pr.labels {
-                for pr_label in labels {
-                    if pr_label.name == label {
-                        return Ok(Some((pr.number, pr.head.ref_field)));
+        loop {
+            for pr in &page.items {
+                if let Some(labels) = &pr.labels {
+                    for pr_label in labels {
+                        if pr_label.name == label {
+                            return Ok(Some((pr.number, pr.head.ref_field.clone())));
+                        }
                     }
                 }
+            }
+
+            // Check if there's a next page
+            match octocrab.get_page(&page.next).await? {
+                Some(next_page) => page = next_page,
+                None => break,
             }
         }
 
@@ -212,14 +221,24 @@ impl GitHub {
             anyhow::bail!("GitHub client not initialized");
         };
 
-        let commits = octocrab
+        // Fetch the first page of commits (up to 100 per page)
+        let mut page = octocrab
             .pulls("TUM-Dev", "NavigaTUM")
             .pr_commits(pr_number)
             .per_page(100)
             .send()
             .await?;
 
-        Ok(commits.items.len())
+        // Count commits from the first page
+        let mut total_commits = page.items.len();
+
+        // Follow pagination links to count commits from all subsequent pages
+        while let Some(next_page) = octocrab.get_page(&page.next).await? {
+            total_commits += next_page.items.len();
+            page = next_page;
+        }
+
+        Ok(total_commits)
     }
 
     /// Get PR description (body)

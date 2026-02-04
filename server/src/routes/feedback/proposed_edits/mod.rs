@@ -79,7 +79,7 @@ impl EditRequest {
             .collect()
     }
 
-    fn extract_labels(&self) -> Vec<String> {
+    pub(super) fn extract_labels(&self) -> Vec<String> {
         let mut labels = vec!["webform".to_string()];
 
         if self
@@ -95,9 +95,7 @@ impl EditRequest {
         }
         labels
     }
-    pub(super) fn extract_labels_for_batch(&self) -> Vec<String> {
-        self.extract_labels()
-    }
+    
     fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
@@ -218,16 +216,16 @@ pub async fn propose_edits(
                     .content_type("text/plain")
                     .body(pr_url)
             } else {
-                // Create new individual PR
+                // Create new batch PR with batch-in-progress label
+                let mut labels = req_data.extract_labels();
+                labels.push("batch-in-progress".to_string());
+                
                 GitHub::default()
                     .open_pr(
                         branch_to_use,
-                        &format!(
-                            "chore(data): {subject}",
-                            subject = req_data.extract_subject()
-                        ),
-                        &description,
-                        req_data.extract_labels(),
+                        "chore(data): batch coordinate edits (1 edit)",
+                        &format!("## Batched Coordinate Edits\n\n### Edit #1\n{}", description),
+                        labels,
                     )
                     .await
             }
