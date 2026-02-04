@@ -108,12 +108,12 @@ The project consists of three main components:
 
 #### Language-specific commands:
 - **Rust**: `cargo fmt --all --manifest-path server/Cargo.toml`
-- **TypeScript/Vue**: `npm run --prefix webclient format` and `npm run --prefix webclient lint`
+- **TypeScript/Vue**: `pnpm --dir webclient format` and `pnpm --dir webclient lint`
 - **Python**: Automatically handled by ruff via pre-commit
 
 ### Testing
 - **Server**: `cargo test --manifest-path server/Cargo.toml`
-- **Webclient**: Type checking with `npm run --prefix webclient type-check`
+- **Webclient**: Type checking with `pnpm --dir webclient type-check`
 - **E2E tests**: Defined in `.github/workflows/e2e-tests.yml`
 
 ## Code style
