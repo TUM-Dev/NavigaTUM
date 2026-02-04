@@ -175,7 +175,7 @@ The project consists of three main components:
 ### Adding dependencies
 - **Rust**: Add to workspace dependencies in root `Cargo.toml` when possible.
 - **Node.js**: Use `pnpm add` in webclient directory.
-- **Python**: Add to `data/requirements.txt` or `server/test/requirements.txt`.
+- **Python**: Add to `data/requirements.txt` or `requirements-dev.txt`.
 
 ### Updating dependencies
 - Renovate bot handles automatic dependency updates.
