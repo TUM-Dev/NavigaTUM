@@ -167,7 +167,7 @@ The project consists of three main components:
 - The API is documented in OpenAPI 3.0 format.
 - Interactive documentation available at `/api` endpoint.
 - All endpoints should be documented with utoipa macros.
-- Type regeneration: `npm run --prefix webclient type-refresh`
+- Type regeneration: from the `webclient` directory run `pnpm type-refresh`
 - API is still evolving - breaking changes are possible.
 
 ## Dependencies
