@@ -18,10 +18,8 @@ org_id,code,name,path
 14195,TUSPFSP,Former TUM Department of Sport and Health Sciences,TUM/Academic department/Sport and Health Sciences
 14209,TUPHDKN,Dean Former TUM Department of Physics,TUM/Academic department/Former TUM Department of Physics/Dean
 14210,TUPHPDK,Vice Dean Prodekan Former TUM Department of Physics,TUM/Academic department/Former TUM Department of Physics/Vice Dean
-14211,TUPHSDK,Dean of Studies,TUM/Academic department/Former TUM Department of Physics/Dean of Studies
 14212,TUPHZ51,Dean's Office Dekanat PH,TUM/Academic department/Former TUM Department of Physics/Department Administration/Dean's Office
 14213,TUPHZ50,Department Administration Former TUM Department of Physics,TUM/Academic department/Former TUM Department of Physics/Department Administration
-14214,TUPHZEL,Electronics,TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Electronics
 14215,TUPHZWS,Central Repair Shop,TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Central Repair Shop
 14217,TUPHDEP,Physics Department,TUM/Academic department/Former TUM Department of Physics/Physics Department
 14228,TUPHE11,Chair of Laser and X-ray Physics (Prof. Kienberger),TUM/Schools/Natural Sciences/Departments/Physics/Laser and X-ray Physics (Prof. Kienberger)
@@ -67,7 +65,7 @@ org_id,code,name,path
 14812,TUWIB09,Chair of Operations Management (Prof. Kolisch),TUM/Schools/Management/Departments/Operations and Technology/Operations Management (Prof. Kolisch)
 14813,TUWIB10,"Chair of Business Administration - Corporate Management, Logistics und Manufacturing (N.N.)","TUM/Schools/Management/Departments/Operations and Technology/Business Administration - Corporate Management, Logistics und Manufacturing (N.N.)"
 14814,TUWIB11,Chair of Forest Economics (N.N.),TUM/Schools/Management/Departments/Economics and Policy/Forest Economics (N.N.)
-14815,TUWZP3R,Chair of Agricultural Production and Resource Economics (Prof. Sauer),TUM/Schools/Management/Departments/Economics and Policy/Agricultural Production and Resource Economics (Prof. Sauer)
+14815,TUWZP3R,"Chair of Agricultural Production and Resource Economics (Prof. Sauer, Joint Appointment of TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Agricultural Production and Resource Economics (Prof. Sauer, Joint Appointment of TUM School of Management and TUM School of Life Sciences)"
 14816,TUWIB08,Chair of Marketing and Consumer Research (Prof. Roosen),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing and Consumer Research (Prof. Roosen)"
 14817,TUWIB14,Associate Professorship of Corporate Sustainability - Brewery and Food Industry Management (Prof. Belz),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Corporate Sustainability - Brewery and Food Industry Management (Prof. Belz)
 14823,TUWIR01,Chair of Corporate and Intellectual Property Law (Prof. Ann),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Corporate and Intellectual Property Law (Prof. Ann)
@@ -593,7 +591,7 @@ org_id,code,name,path
 37989,TUZV44R,"Cleaning, Maintenance of outside facilities, Invitations to bid (Central department 4)","TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Cleaning, Maintenance of outside facilities, Invitations to bid (Central department 4)"
 37990,TUZV44S,Key management (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Key management (Central department 4)
 37992,TUZV44U,Caretaking service (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Caretaking service (Central department 4)
-38003,TUZV44V,Maintenance Service at TUM CiO (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Maintenance Service at TUM CiO (Central department 4)
+38003,TUZV44V,Maintenance Service at TUM CiO (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Maintenance Service at TUM CiO (Central department 4)
 38004,TUZV44W,"Electrical engineering, Metalworking shop (Central department 4)","TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Construction Management Munich (Central department 4)/TUM Campus at the Olympic Park (Central department 4)/Electrical engineering, Metalworking shop (Central department 4)"
 38010,TUZV45A,Lecture hall management (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Public Procurement Law and Floor-Space Management (Central department 4)/Floor-space management (Central department 4)/Lecture hall management (Central department 4)
 38011,TUZV45B,External Rental and Renting incl. TUM CiO (Central department 4),TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning (Central department 4)/Public Procurement Law and Floor-Space Management (Central department 4)/Floor-space management (Central department 4)/External Rental and Renting incl. TUM CiO (Central department 4)
@@ -679,7 +677,7 @@ org_id,code,name,path
 43429,TULRHST,Chair of Rotorcraft and Vertical Flight (Prof. Yavrucuk),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Rotorcraft and Vertical Flight (Prof. Yavrucuk)
 43448,TUINF17,Informatics 18 - Associate Professorship of Algorithmic Game Theory (Prof. Brandt),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmic Game Theory (Prof. Brandt)"
 43449,TUWIB18,Chair of Entrepreneurship (Prof. Patzelt),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship (Prof. Patzelt)
-43476,TUBVZWP,Chair of Non-destructive Testing (Prof. Große),TUM/Schools/Engineering and Design/Departments/Materials Engineering/Non-destructive Testing (Prof. Große)
+43476,TUBVZWP,"Chair of Non-destructive Testing (Prof. Große, Joint Appointment of TUM School of Engineering & Design and TUM School of Engineering & Design)","TUM/Schools/Engineering and Design/Departments/Materials Engineering/Non-destructive Testing (Prof. Große, Joint Appointment of TUM School of Engineering & Design and TUM School of Engineering & Design)"
 43497,TUMWPFB,Student Office,TUM/Academic department/Former TUM Department of Mechanical Engineering/Central Services/Student Office
 43583,TUCHPC4,Chair of Technical Electrochemistry (Prof. Gasteiger),TUM/Schools/Natural Sciences/Departments/Chemistry/Technical Electrochemistry (Prof. Gasteiger)
 43589,TUZEMSE,"Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)","TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)"
@@ -721,7 +719,7 @@ org_id,code,name,path
 44106,TUWIB19,Chair of Production and Supply Chain Management (Prof. Grunow),TUM/Schools/Management/Departments/Operations and Technology/Production and Supply Chain Management (Prof. Grunow)
 44107,TUWZH1A,Day nursery Weihenstephan,TUM/Schools/Life Sciences/Day nursery Weihenstephan
 44146,TUZEITZ,IT Service Center (ITSZ),TUM/Central Service Institutions/IT Service Center (ITSZ)
-44149,TUWZB5T,Chair of Economics of Horticulture and Landscaping (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Economics of Horticulture and Landscaping (N.N.)"
+44149,TUWZB5T,"Chair of Economics of Horticulture and Landscaping (N.N.,Joint Appointment of TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Economics of Horticulture and Landscaping (N.N.,Joint Appointment of TUM School of Management and TUM School of Life Sciences)"
 44150,TUZEITM,IT-Management,TUM/Central Service Institutions/IT Service Center (ITSZ)/IT-Management
 44151,TUZEITH,IT-Support,TUM/Central Service Institutions/IT Service Center (ITSZ)/IT-Support
 44187,TUSPL11,Chair of Human movement science (Prof. Hermsdörfer),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Human movement science (Prof. Hermsdörfer)
@@ -846,7 +844,7 @@ org_id,code,name,path
 46135,TUZEIAK,ZIEL Akademie,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/ZIEL Akademie
 46155,TUPEMLZ,Heinz Maier-Leibnitz Zentrum,TUM/Institutions close to the University/Heinz Maier-Leibnitz Zentrum
 46175,TUBVDTL,Dieter-Thoma-Labor,TUM/Schools/Engineering and Design/Dieter-Thoma-Labor
-46195,TUWZC5B,Associate Professorship of Governance in International Agribusiness (Prof. Menapace),TUM/Schools/Management/Departments/Economics and Policy/Governance in International Agribusiness (Prof. Menapace)
+46195,TUWZC5B,"Associate Professorship of Governance in International Agribusiness (Prof. Menapace, Joint Appointment of TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Governance in International Agribusiness (Prof. Menapace, Joint Appointment of TUM School of Management and TUM School of Life Sciences)"
 46196,TUWIV04,Chair of Economics of Aging (N.N.),TUM/Schools/Management/Departments/Economics and Policy/Economics of Aging (N.N.)
 46215,TUPHTTC,Associate Professorship of Theoretical Particle Physics at Colliders (Prof. Weiler),TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Particle Physics at Colliders (Prof. Weiler)
 46255,TUZEBST,Site Straubing,TUM/Central Service Institutions/University Libraries/Site Straubing
@@ -879,13 +877,13 @@ org_id,code,name,path
 46938,TUCHOCF,Associate Professorship of Cellular Protein Biochemistry (Prof. Feige),TUM/Schools/Natural Sciences/Departments/Bioscience/Cellular Protein Biochemistry (Prof. Feige)
 46977,TUEICPH,Associate Professorship of Computational Photonics (Prof. Jirauschek),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Computational Photonics (Prof. Jirauschek)"
 46997,TUZVGGB,Risk prevention,"TUM/Functional Units/Health, Safety, Radiation Protection (HR6)/Risk prevention"
-47038,TUWZW1T,Associate Professorship of Science and Technology Policy  (Prof. Müller),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Technology Policy  (Prof. Müller)"
+47038,TUWZW1T,"Associate Professorship of Science and Technology Policy  (Prof. Müller, Joint Appointment of TUM School of Social Sciences & Technology and TUM School of Management)","TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Technology Policy  (Prof. Müller, Joint Appointment of TUM School of Social Sciences & Technology and TUM School of Management)"
 47077,TUWZB7A,Associate Professorship of Land Surface - Atmosphere Interactions (Prof. Rammig),TUM/Schools/Life Sciences/Departments/Life Science Systems/Land Surface - Atmosphere Interactions (Prof. Rammig)
 47079,TUZESSC,TUM Science & Study Center Raitenhaslach,TUM/TUM Board of Management/Office of the President/TUM Science & Study Center Raitenhaslach
 47080,TUEINEL,Associate Professorship of Neuroelectronics (Prof. Wolfrum),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Neuroelectronics (Prof. Wolfrum)"
 47097,TUPHENE,Associate Professorship of Fundamental Particle Physics at Low Energies (Prof. Märkisch),TUM/Schools/Natural Sciences/Departments/Physics/Fundamental Particle Physics at Low Energies (Prof. Märkisch)
 47098,TUPHEMF,Associate Professorship of Molecular Engineering at Functional Interfaces (Prof. Auwärter),TUM/Schools/Natural Sciences/Departments/Physics/Molecular Engineering at Functional Interfaces (Prof. Auwärter)
-47117,TUWIB32,Associate Professorship of Innovation Research (Prof. Pfotenhauer),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Innovation Research (Prof. Pfotenhauer)"
+47117,TUWIB32,"Associate Professorship of Innovation Research (Prof. Pfotenhauer, Joint Appointment der TUM School of Social Sciences & Technology and TUM School of Management)","TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Innovation Research (Prof. Pfotenhauer, Joint Appointment der TUM School of Social Sciences & Technology and TUM School of Management)"
 47118,TUWZB9M,Bayerisches Zentrum für Biomolekulare Massenspektrometrie (BayBioMS),TUM/Schools/Life Sciences/Bayerisches Zentrum für Biomolekulare Massenspektrometrie (BayBioMS)
 47157,TUWIB33,Chair of Entrepreneurial Finance (Prof. Braun),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Braun)
 47158,TUMEZN2,Chair of Molecular Neurobiology (Prof. Simons),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Molecular Neurobiology (Prof. Simons)
@@ -932,7 +930,7 @@ org_id,code,name,path
 47917,TUWIB38,Assistant Professorship of Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Chair of Environmental and Climate Policy (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Environmental and Climate Policy (Prof. Schreurs)
 47957,TUZVSCH,Staff Unit Diversity & Inclusion,TUM/Central Administration/Diversity & Inclusion
-47997,TUWZC1N,Associate Professorship of Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva)
+47997,TUWZC1N,"Associate Professorship of Computational Neuroscience (Prof. Gjorgjieva, Joint Appointment der TUM School of Medicine & Health und TUM School of Life Sciences))","TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva, Joint Appointment der TUM School of Medicine & Health und TUM School of Life Sciences))"
 48017,TUVBOMP,Ombudsperson,TUM/TUM Board of Management/TUM Compliance Office/Ombudsperson
 48037,TUINF18,Informatics 26 - Chair of Professorship of  Data Analytics and Machine Learning (Prof. Günnemann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics and Machine Learning (Prof. Günnemann)"
 48038,TUEIESI,Associate Professorship of Embedded Systems and Internet of Things (Prof. Steinhorst),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Embedded Systems and Internet of Things (Prof. Steinhorst)"
@@ -1092,7 +1090,7 @@ org_id,code,name,path
 49657,TUEILSE,Chair of Circuit Design (Prof. Brederlow),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Circuit Design (Prof. Brederlow)"
 49717,TUINF21,Informatics 1 - Assistant Professorship of Digital Health (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Digital Health (N.N.)"
 49757,TUZEICF,Core Facility Gnotobiology,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Core Facility Gnotobiology
-49777,TUWZA2A,Associate Professorship of Agrimechatronics (Prof. Oksanen),TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Agrimechatronics (Prof. Oksanen)
+49777,TUWZA2A,"Associate Professorship of Agrimechatronics (Prof. Oksanen, Joint Appointment der TUM School of Engineering & Design und 	 TUM School of Life Sciences)","TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Agrimechatronics (Prof. Oksanen, Joint Appointment der TUM School of Engineering & Design und 	 TUM School of Life Sciences)"
 49797,TUPHTFE,Associate Professorship of Theory of Functional Energy Materials (Prof. Egger),TUM/Schools/Natural Sciences/Departments/Physics/Theory of Functional Energy Materials (Prof. Egger)
 49817,TUZET19,Imaging and Biomarkers in Oncology (AG Kossatz),TUM/Corporate Research Centers/Translational Cancer Research  (TranslaTUM)/Imaging and Biomarkers in Oncology (AG Kossatz)
 49837,TUARL36,Associate Professorship of Digital Fabrication (Prof. Dörfler),TUM/Schools/Engineering and Design/Departments/Architecture/Digital Fabrication (Prof. Dörfler)
@@ -1133,7 +1131,7 @@ org_id,code,name,path
 50241,TUWZG3B,Chair of Ecosystem Dynamics and Forest Management in Mountainous Regions (Prof. Seidl),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ecosystem Dynamics and Forest Management in Mountainous Regions (Prof. Seidl)
 50242,TUWZN5B,Chair of Nutritional Systems Biology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Nutritional Systems Biology (N.N.)
 50257,TUEDS31,Associate Professorship of Economics Education (Prof. Förster),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Economics Education (Prof. Förster)
-50277,TUPHTQM,Associate Professorship of Theorie der Quantenmaterie und Nanophysik (Prof. Knolle),TUM/Schools/Natural Sciences/Departments/Physics/Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)
+50277,TUPHTQM,Chair of Theorie der Quantenmaterie und Nanophysik (Prof. Knolle),TUM/Schools/Natural Sciences/Departments/Physics/Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)
 50278,TUBVGTT,Associate Professorship of  Geothermal Technologies (Prof. Drews),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Geothermal Technologies (Prof. Drews)
 50301,TUPHTBN,Associate Professorship of Theory of Biological Networks (Prof. Alim),TUM/Schools/Natural Sciences/Departments/Bioscience/Theory of Biological Networks (Prof. Alim)
 50317,TUMEZN3,Associate Professorship of Neurons and Metabolism (MPI) (Prof. Harbauer),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Neurons and Metabolism (MPI) (Prof. Harbauer)
@@ -1204,7 +1202,7 @@ org_id,code,name,path
 51359,TUINF26,Informatics 16 - Assistant Professorship of Healthcare and Rehabilitation Robotics (Prof. Piazza),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Healthcare and Rehabilitation Robotics (Prof. Piazza)"
 51378,TUS2RGE,Gender Equality Officer of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Representatives/Gender Equality Officer
 51379,TUS2RDP,Data Protection Representative of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Representatives/Data Protection Representative
-51398,TUSPL10,Assistant Professorship of Public Health and Prevention (Prof. Laxy),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Public Health and Prevention (Prof. Laxy)
+51398,TUSPL10,Associate Professorship of Public Health and Prevention (Prof. Laxy),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Public Health and Prevention (Prof. Laxy)
 51417,TUMEPA5,Assistant Professorship of Computational Pathology (Prof. Schüffler),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Computational Pathology (Prof. Schüffler)
 51418,TUCSP14,Assistant Professorship of Sustainable Economic Policy (Prof. Pondorfer),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Sustainable Economic Policy (Prof. Pondorfer)
 51419,TUINF27,Informatics 19 - Assistant Professorship of Legal Tech (Prof. Grabmair),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Legal Tech (Prof. Grabmair)"
@@ -1826,7 +1824,7 @@ org_id,code,name,path
 54238,TUCSP16,Assistant Professorship of Synthetic Biology (Prof. Niederholtmeyer),TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Synthetic Biology (Prof. Niederholtmeyer)
 54239,TUS2DAT,Chair of Design and Transdisciplinarity (Prof. Diefenthaler),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Design and Transdisciplinarity (Prof. Diefenthaler)
 54240,TUZECCA,TUM Center for Culture and Arts,TUM/TUM Institute for Life Long Learning/TUM Center for Culture and Arts
-54257,TUZECOS,TUM Center for Organoid Systems and Tissue Engineering (TUM COS),TUM/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/TUM Center for Organoid Systems and Tissue Engineering (TUM COS)
+54257,TUZECOS,TUM Center for Organoid Systems (TUM COS),TUM/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/TUM Center for Organoid Systems (TUM COS)
 54297,TUXS230,Degree Program M.Sc. Risk and Safety,TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/M.Sc. Risk and Safety
 54298,TUS1001,Mathematics,"TUM/Schools/Computation, Information and Technology/Student Council/Mathematics"
 54299,TUS1002,Informatics,"TUM/Schools/Computation, Information and Technology/Student Council/Informatics"
@@ -2251,16 +2249,17 @@ org_id,code,name,path
 57560,TUCHTRM,Exzellenzcluster TransforM: Munich Center for Transformative Technologies and Social Change,TUM/Research projects/Exzellenzcluster TransforM: Munich Center for Transformative Technologies and Social Change
 57562,TUCHBID,Exzellenzcluster BioSysteM: Biosystem-Design Munich,TUM/Research projects/Exzellenzcluster BioSysteM: Biosystem-Design Munich
 57563,TUS7AGP,Associate Professorship of Algorithmic Governance and Public Policy (Prof. Gritsenko),TUM/Schools/Social Sciences and Technology/Departments/Governance/Algorithmic Governance and Public Policy (Prof. Gritsenko)
-57577,TUS6DFB,Assistant Professorship of Management of Digital Food Businesses (Prof. Buisman),TUM/Schools/Management/Departments/Operations and Technology/Management of Digital Food Businesses (Prof. Buisman)
+57577,TUS6DFB,"Assistant Professorship of Management of Digital Food Businesses (Prof. Buisman, Joint Appointment of TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Operations and Technology/Management of Digital Food Businesses (Prof. Buisman, Joint Appointment of TUM School of Management and TUM School of Life Sciences)"
 57597,TUS7ECC,Associate Professorship of Political Economy of Climate Change (Prof. Steckel),TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Economy of Climate Change (Prof. Steckel)
 57598,TUS5CF0,Schoolzentrale Core Facilities,TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities
 57599,TUS5NUM,Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ),TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities/Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ)
 57600,TUS5CF1,Sonstige schoolzentrale Core Facilities,TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities/Sonstige schoolzentrale Core Facilities
 57617,TUS3015,Assistant Professorship of Biosystems Chemistry of Natural Products (Prof. Benitez Mateos),TUM/Schools/Natural Sciences/Departments/Bioscience/Biosystems Chemistry of Natural Products (Prof. Benitez Mateos)
-57637,TUS1326,Chair of Political Economy of Climate Change (Prof. Steckel),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Political Economy of Climate Change (Prof. Steckel)"
+57637,TUS1326,Chair of Verification and Synthesis of Reactive Systems (Prof. Finkbeiner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Verification and Synthesis of Reactive Systems (Prof. Finkbeiner)"
 57657,TUS1325,Assistant Professorship of Microwave Sensors and Sensor Systems (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Microwave Sensors and Sensor Systems (Prof. Nuß)"
 57658,TUS2ANT,Associate Professorship of Applied Nuclear Technologies (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Applied Nuclear Technologies (Prof. Reiter)
 57677,TUS3016,Assistant Professorship of Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+57697,TUS4A2L,Assistant Professorship of Authenticity of Food (Prof. Müller-Maatsch),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Authenticity of Food (Prof. Müller-Maatsch)
 57717,TUS2CAS,Assistant Professorship of Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)
 57737,TUPRV14,Vice President - TUM Asia,TUM/TUM Board of Management/Vice Presidents/Vice President - TUM Asia
 57757,TUXSC0K,Degree Program B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/B.Sc. Sustainable Engineering for Materials and Processes
@@ -2270,7 +2269,11 @@ org_id,code,name,path
 57817,TUXS243,Degree Program Application for Continuation of Enrollment after Graduation,TUM/Schools/Engineering and Design/Academic Program Administration/Study programs ED/Application for Continuation of Enrollment after Graduation
 57837,TUXS244,Degree Program Ergänzungsstudium Aerospace Engineering,TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Ergänzungsstudium Aerospace Engineering
 57857,TUXS245,Degree Program B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Academic Program Administration/Geodesy/B.Sc. Geodesy and Earth Observation
-57877,TUS1327,Assistant Professorship of Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Associate Professorship"
+57877,TUS1327,Assistant Professorship of Human-Centered Digital Design (Prof. Spors),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Human-Centered Digital Design (Prof. Spors)"
 57897,TUS4M2A,Associate Professorship of Metabolic Cell Architecture (Prof. Krahmer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Metabolic Cell Architecture (Prof. Krahmer)
 57898,TUS4O5B,Assistant Professorship of Organoid Systems and Biointerfaces (Prof. Mora-Boza),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Organoid Systems and Biointerfaces (Prof. Mora-Boza)
 57899,TUS1328,Assistant Professorship of Statistics and Data Science (Prof. Düker),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Statistics and Data Science (Prof. Düker)"
+57917,TUS1329,Assistant Professorship of Resilient Operating Systems (Prof. Achermann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Resilient Operating Systems (Prof. Achermann)"
+57937,TUS1330,Assistant Professorship of Nano-electronic Circuits and Systems (Prof. Covi),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Nano-electronic Circuits and Systems (Prof. Covi)"
+57957,TUXS116,Degree Program M.Sc. AI in Biomedicine (Honours programm),"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Data Science/M.Sc. AI in Biomedicine (Honours programm)"
+57977,TUS6EVE,"Assistant Professorship of Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)"
