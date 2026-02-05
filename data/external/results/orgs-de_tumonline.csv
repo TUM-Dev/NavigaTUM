@@ -18,10 +18,8 @@ org_id,code,name,path
 14195,TUSPFSP,Ehemalige Fakultät für Sport- und Gesundheitswissenschaften,TUM/Fakultäten/Ehemalige Fakultät für Sport- und Gesundheitswissenschaften
 14209,TUPHDKN,Dekan/in Ehemalige Fakultät für Physik,TUM/Fakultäten/Ehemalige Fakultät für Physik/Dekan/in
 14210,TUPHPDK,Prodekan Ehemalige Fakultät für Physik,TUM/Fakultäten/Ehemalige Fakultät für Physik/Prodekan
-14211,TUPHSDK,Studiendekan,TUM/Fakultäten/Ehemalige Fakultät für Physik/Studiendekan
 14212,TUPHZ51,Dekanat PH,TUM/Fakultäten/Ehemalige Fakultät für Physik/Fakultätsverwaltung/Dekanat PH
 14213,TUPHZ50,Fakultätsverwaltung Ehemalige Fakultät für Physik,TUM/Fakultäten/Ehemalige Fakultät für Physik/Fakultätsverwaltung
-14214,TUPHZEL,Elektronik,TUM/Fakultäten/Ehemalige Fakultät für Physik/Zentrale Einrichtungen des Departments/Elektronik
 14215,TUPHZWS,Zentralwerkstatt,TUM/Fakultäten/Ehemalige Fakultät für Physik/Zentrale Einrichtungen des Departments/Zentralwerkstatt
 14217,TUPHDEP,Physik-Department,TUM/Fakultäten/Ehemalige Fakultät für Physik/Physik-Department
 14228,TUPHE11,Lehrstuhl für Laser- und Röntgenphysik (Prof. Kienberger),TUM/Schools/Natural Sciences/Departments/Physics/Laser- und Röntgenphysik (Prof. Kienberger)
@@ -67,7 +65,7 @@ org_id,code,name,path
 14812,TUWIB09,Lehrstuhl für Operations Management (Prof. Kolisch),TUM/Schools/Management/Departments/Operations and Technology/Operations Management (Prof. Kolisch)
 14813,TUWIB10,"Lehrstuhl für Betriebswirtschaftslehre - Unternehmensführung, Logistik und Produktion (N.N.)","TUM/Schools/Management/Departments/Operations and Technology/Betriebswirtschaftslehre - Unternehmensführung, Logistik und Produktion (N.N.)"
 14814,TUWIB11,Lehrstuhl für Forstliche Wirtschaftslehre (N.N.),TUM/Schools/Management/Departments/Economics and Policy/Forstliche Wirtschaftslehre (N.N.)
-14815,TUWZP3R,Lehrstuhl für Produktions- und Ressourcenökonomie landwirtschaftlicher Betriebe (Prof. Sauer),TUM/Schools/Management/Departments/Economics and Policy/Produktions- und Ressourcenökonomie landwirtschaftlicher Betriebe (Prof. Sauer)
+14815,TUWZP3R,"Lehrstuhl für Produktions- und Ressourcenökonomie landwirtschaftlicher Betriebe (Prof. Sauer, Joint Appointment der TUM School of Management und TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Produktions- und Ressourcenökonomie landwirtschaftlicher Betriebe (Prof. Sauer, Joint Appointment der TUM School of Management und TUM School of Life Sciences)"
 14816,TUWIB08,Lehrstuhl für Marketing und Konsumforschung (Prof. Roosen),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing und Konsumforschung (Prof. Roosen)"
 14817,TUWIB14,Professur für Unternehmerische Nachhaltigkeit - Brau- und Lebensmittelindustrie (Prof. Belz),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Unternehmerische Nachhaltigkeit - Brau- und Lebensmittelindustrie (Prof. Belz)
 14823,TUWIR01,Lehrstuhl für Wirtschaftsrecht und Geistiges Eigentum (Prof. Ann),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Wirtschaftsrecht und Geistiges Eigentum (Prof. Ann)
@@ -593,7 +591,7 @@ org_id,code,name,path
 37989,TUZV44R,"Reinigung, Pflege der Außenanlagen, Ausschreibungen (ZA 4)","TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Gebäudemanagement München (ZA 4)/Infrastruktur München (ZA 4)/Reinigung, Pflege der Außenanlagen, Ausschreibungen (ZA 4)"
 37990,TUZV44S,Schlüsselverwaltung (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Gebäudemanagement München (ZA 4)/Infrastruktur München (ZA 4)/Schlüsselverwaltung (ZA 4)
 37992,TUZV44U,Hausmeisterdienste (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Gebäudemanagement München (ZA 4)/Infrastruktur München (ZA 4)/Hausmeisterdienste (ZA 4)
-38003,TUZV44V,Hausmeisterdienste am TUM CiO (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Gebäudemanagement München (ZA 4)/Infrastruktur München (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)
+38003,TUZV44V,Hausmeisterdienste am TUM CiO (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Baumanagement München (ZA 4)/Campus im Olympiapark (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)
 38004,TUZV44W,Werkstatt Elektrotechnik am TUM CiO (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Baumanagement München (ZA 4)/Campus im Olympiapark (ZA 4)/Werkstatt Elektrotechnik am TUM CiO (ZA 4)
 38010,TUZV45A,Hörsaalvergabe (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Flächenmanagement (ZA 4)/Flächen- und Raummanagement (ZA 4)/Hörsaalvergabe (ZA 4)
 38011,TUZV45B,"Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (ZA 4)","TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Flächenmanagement (ZA 4)/Flächen- und Raummanagement (ZA 4)/Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (ZA 4)"
@@ -679,7 +677,7 @@ org_id,code,name,path
 43429,TULRHST,Lehrstuhl für Hubschraubertechnologie (Prof. Yavrucuk),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Hubschraubertechnologie (Prof. Yavrucuk)
 43448,TUINF17,Informatik 18 - Professur für Algorithmische Spieltheorie (Prof. Brandt),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmische Spieltheorie (Prof. Brandt)"
 43449,TUWIB18,Lehrstuhl für Entrepreneurship (Prof. Patzelt),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship (Prof. Patzelt)
-43476,TUBVZWP,Lehrstuhl für Zerstörungsfreie Prüfung (Prof. Große),TUM/Schools/Engineering and Design/Departments/Materials Engineering/Zerstörungsfreie Prüfung (Prof. Große)
+43476,TUBVZWP,"Lehrstuhl für Zerstörungsfreie Prüfung  (Prof. Große, Joint Appointment der TUM School of Engineering & Design und TUM School of Engineering & Design)","TUM/Schools/Engineering and Design/Departments/Materials Engineering/Zerstörungsfreie Prüfung  (Prof. Große, Joint Appointment der TUM School of Engineering & Design und TUM School of Engineering & Design)"
 43497,TUMWPFB,Student Office,TUM/Fakultäten/Ehemalige Fakultät für Maschinenwesen/Zentrale Dienste/Student Office
 43583,TUCHPC4,Lehrstuhl für Technische Elektrochemie (Prof. Gasteiger),TUM/Schools/Natural Sciences/Departments/Chemistry/Technische Elektrochemie (Prof. Gasteiger)
 43589,TUZEMSE,"Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)","TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)"
@@ -721,7 +719,7 @@ org_id,code,name,path
 44106,TUWIB19,Lehrstuhl für Produktion und Supply Chain Management (Prof. Grunow),TUM/Schools/Management/Departments/Operations and Technology/Produktion und Supply Chain Management (Prof. Grunow)
 44107,TUWZH1A,Kinderhort Weihenstephan,TUM/Schools/Life Sciences/Kinderhort Weihenstephan
 44146,TUZEITZ,IT-Servicezentrum (ITSZ),TUM/Zentrale Serviceeinrichtungen/IT-Servicezentrum (ITSZ)
-44149,TUWZB5T,Lehrstuhl für Ökonomik des Gartenbaus und Landschaftsbaus (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Ökonomik des Gartenbaus und Landschaftsbaus (N.N.)"
+44149,TUWZB5T,"Lehrstuhl für Ökonomik des Gartenbaus und Landschaftsbaus (N.N., Joint Appointment der TUM School of Management und TUM School of Life Sciences)","TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Ökonomik des Gartenbaus und Landschaftsbaus (N.N., Joint Appointment der TUM School of Management und TUM School of Life Sciences)"
 44150,TUZEITM,IT-Management,TUM/Zentrale Serviceeinrichtungen/IT-Servicezentrum (ITSZ)/IT-Management
 44151,TUZEITH,IT-Support,TUM/Zentrale Serviceeinrichtungen/IT-Servicezentrum (ITSZ)/IT-Support
 44187,TUSPL11,Lehrstuhl für Bewegungswissenschaft (Prof. Hermsdörfer),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Bewegungswissenschaft (Prof. Hermsdörfer)
@@ -846,7 +844,7 @@ org_id,code,name,path
 46135,TUZEIAK,ZIEL Akademie,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL Akademie
 46155,TUPEMLZ,Heinz Maier-Leibnitz Zentrum,TUM/Partnerschaftliche Einrichtungen/Heinz Maier-Leibnitz Zentrum
 46175,TUBVDTL,Dieter-Thoma-Labor,TUM/Schools/Engineering and Design/Dieter-Thoma-Labor
-46195,TUWZC5B,Professur für Governance im internationalen Agribusiness (Prof. Menapace),TUM/Schools/Management/Departments/Economics and Policy/Governance im internationalen Agribusiness (Prof. Menapace)
+46195,TUWZC5B,"Professur für Governance im internationalen Agribusiness (Prof. Menapace, Joint Appointment der TUM School of Management und TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Governance im internationalen Agribusiness (Prof. Menapace, Joint Appointment der TUM School of Management und TUM School of Life Sciences)"
 46196,TUWIV04,Lehrstuhl für Economics of Aging (N.N.),TUM/Schools/Management/Departments/Economics and Policy/Economics of Aging (N.N.)
 46215,TUPHTTC,Professur für Theoretische Teilchenphysik an Collidern (Prof. Weiler),TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Teilchenphysik an Collidern (Prof. Weiler)
 46255,TUZEBST,Standort Straubing,TUM/Zentrale Serviceeinrichtungen/Universitätsbibliothek/Standort Straubing
@@ -879,13 +877,13 @@ org_id,code,name,path
 46938,TUCHOCF,Professur für Zelluläre Proteinbiochemie (Prof. Feige),TUM/Schools/Natural Sciences/Departments/Bioscience/Zelluläre Proteinbiochemie (Prof. Feige)
 46977,TUEICPH,Professur für Computational Photonics (Prof. Jirauschek),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Computational Photonics (Prof. Jirauschek)"
 46997,TUZVGGB,Gefahrgut,"TUM/Hochschulreferate/Gesundheit, Sicherheit, Strahlenschutz/Gefahrgut"
-47038,TUWZW1T,Professur für Wissenschafts- und Technologiepolitik (Prof. Müller),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Wissenschafts- und Technologiepolitik (Prof. Müller)"
+47038,TUWZW1T,"Professur für Wissenschafts- und Technologiepolitik (Prof. Müller, Joint Appointment der TUM School of Social Sciences & Technology und TUM School of Management)","TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Wissenschafts- und Technologiepolitik (Prof. Müller, Joint Appointment der TUM School of Social Sciences & Technology und TUM School of Management)"
 47077,TUWZB7A,Professur für Land Surface - Atmosphere Interactions (Prof. Rammig),TUM/Schools/Life Sciences/Departments/Life Science Systems/Land Surface - Atmosphere Interactions (Prof. Rammig)
 47079,TUZESSC,TUM Akademiezentrum Raitenhaslach,TUM/Hochschulpräsidium/Präsidialbüro/TUM Akademiezentrum Raitenhaslach
 47080,TUEINEL,Professur für Neuroelektronik (Prof. Wolfrum),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Neuroelektronik (Prof. Wolfrum)"
 47097,TUPHENE,Elementarteilchenphysik bei niedrigen Energien (Prof. Märkisch),TUM/Schools/Natural Sciences/Departments/Physics/Elementarteilchenphysik bei niedrigen Energien (Prof. Märkisch)
 47098,TUPHEMF,Professur für Molekulare Nanowissenschaft an Grenzflächen (Prof. Auwärter),TUM/Schools/Natural Sciences/Departments/Physics/Molekulare Nanowissenschaft an Grenzflächen (Prof. Auwärter)
-47117,TUWIB32,Professur für Innovationsforschung (Prof. Pfotenhauer),"TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Innovationsforschung (Prof. Pfotenhauer)"
+47117,TUWIB32,"Professur für Innovationsforschung (Prof. Pfotenhauer, Joint Appointment der TUM School of Social Sciences & Technology and TUM School of Management)","TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Innovationsforschung (Prof. Pfotenhauer, Joint Appointment der TUM School of Social Sciences & Technology and TUM School of Management)"
 47118,TUWZB9M,Bayerisches Zentrum für Biomolekulare Massenspektrometrie (BayBioMS),TUM/Schools/Life Sciences/Bayerisches Zentrum für Biomolekulare Massenspektrometrie (BayBioMS)
 47157,TUWIB33,Lehrstuhl für Entrepreneurial Finance (Prof. Braun),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Braun)
 47158,TUMEZN2,Lehrstuhl für Molekulare Neurobiologie (Prof. Simons),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Zellbiologie des Nervensystems (Prof. Misgeld)/Molekulare Neurobiologie (Prof. Simons)
@@ -932,7 +930,7 @@ org_id,code,name,path
 47917,TUWIB38,Professur für Marketing (N.N.),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Marketing (N.N.)"
 47937,TUPOL07,Lehrstuhl für Umwelt- und Klimapolitik (Prof. Schreurs),TUM/Schools/Social Sciences and Technology/Departments/Governance/Umwelt- und Klimapolitik (Prof. Schreurs)
 47957,TUZVSCH,Stabsstelle Diversity & Inclusion,TUM/Zentrale Verwaltung/Diversity & Inclusion
-47997,TUWZC1N,Professur für Computational Neuroscience (Prof. Gjorgjieva),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva)
+47997,TUWZC1N,"Professur für Computational Neuroscience (Prof. Gjorgjieva, Joint Appointment der TUM School of Medicine & Health und TUM School of Life Sciences)","TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Computational Neuroscience (Prof. Gjorgjieva, Joint Appointment der TUM School of Medicine & Health und TUM School of Life Sciences)"
 48017,TUVBOMP,Ombudspersonen,TUM/Hochschulpräsidium/TUM Compliance Office/Ombudspersonen
 48037,TUINF18,Informatik 26 - Lehrstuhl für Data Analytics and Machine Learning (Prof. Günnemann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics and Machine Learning (Prof. Günnemann)"
 48038,TUEIESI,Professur für Embedded Systems and Internet of Things (Prof. Steinhorst),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Embedded Systems and Internet of Things (Prof. Steinhorst)"
@@ -1092,7 +1090,7 @@ org_id,code,name,path
 49657,TUEILSE,Lehrstuhl für Schaltungsentwurf (Prof. Brederlow),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Schaltungsentwurf (Prof. Brederlow)"
 49717,TUINF21,Informatik 1 - Professur für Digital Health (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Digital Health (N.N.)"
 49757,TUZEICF,Core Facility Gnotobiologie,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Core Facility Gnotobiologie
-49777,TUWZA2A,Professur für Agrarmechatronik (Prof. Oksanen),TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Agrarmechatronik (Prof. Oksanen)
+49777,TUWZA2A,"Professur für Agrarmechatronik (Prof. Oksanen, Joint Appointment der TUM School of Engineering & Design und 	 TUM School of Life Sciences)","TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Agrarmechatronik (Prof. Oksanen, Joint Appointment der TUM School of Engineering & Design und 	 TUM School of Life Sciences)"
 49797,TUPHTFE,Professur für Theory of Functional Energy Materials (Prof. Egger),TUM/Schools/Natural Sciences/Departments/Physics/Theory of Functional Energy Materials (Prof. Egger)
 49817,TUZET19,Imaging and Biomarkers in Oncology (AG Kossatz),TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)/Imaging and Biomarkers in Oncology (AG Kossatz)
 49837,TUARL36,Professur für Digital Fabrication (Prof. Dörfler),TUM/Schools/Engineering and Design/Departments/Architecture/Digital Fabrication (Prof. Dörfler)
@@ -1133,7 +1131,7 @@ org_id,code,name,path
 50241,TUWZG3B,Lehrstuhl für Ökosystemdynamik und Waldmanagement in Gebirgslandschaften (Prof. Seidl),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ökosystemdynamik und Waldmanagement in Gebirgslandschaften (Prof. Seidl)
 50242,TUWZN5B,Lehrstuhl für Nutritional Systems Biology (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Nutritional Systems Biology (N.N.)
 50257,TUEDS31,Professur für Wirtschaftspädagogik (Prof. Förster),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Wirtschaftspädagogik (Prof. Förster)
-50277,TUPHTQM,Professur für Theorie der Quantenmaterie und Nanophysik (Prof. Knolle),TUM/Schools/Natural Sciences/Departments/Physics/Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)
+50277,TUPHTQM,Lehrstuhl für Theorie der Quantenmaterie und Nanophysik (Prof. Knolle),TUM/Schools/Natural Sciences/Departments/Physics/Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)
 50278,TUBVGTT,Professur für Geothermal Technologies (Prof. Drews),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Geothermal Technologies (Prof. Drews)
 50301,TUPHTBN,Professur für Theorie biologischer Netzwerke (Prof. Alim),TUM/Schools/Natural Sciences/Departments/Bioscience/Theorie biologischer Netzwerke (Prof. Alim)
 50317,TUMEZN3,Professur für Neurons and Metabolism (MPI) (Prof. Harbauer),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Zellbiologie des Nervensystems (Prof. Misgeld)/Neurons and Metabolism (MPI) (Prof. Harbauer)
@@ -1826,7 +1824,7 @@ org_id,code,name,path
 54238,TUCSP16,Professur für Synthetische Biologie (Prof. Niederholtmeyer),TUM/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrstühle und Professuren/Synthetische Biologie (Prof. Niederholtmeyer)
 54239,TUS2DAT,Lehrstuhl für Design and Transdisciplinarity (Prof. Diefenthaler),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Design and Transdisciplinarity (Prof. Diefenthaler)
 54240,TUZECCA,TUM Center for Culture and Arts,TUM/TUM Institute for Life Long Learning/TUM Center for Culture and Arts
-54257,TUZECOS,TUM Center for Organoid Systems and Tissue Engineering (TUM COS),TUM/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/TUM Center for Organoid Systems and Tissue Engineering (TUM COS)
+54257,TUZECOS,TUM Center for Organoid Systems (TUM COS),TUM/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/TUM Center for Organoid Systems (TUM COS)
 54297,TUXS230,Studiengang M.Sc. Risk and Safety,TUM/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Risk and Safety
 54298,TUS1001,Mathematik,"TUM/Schools/Computation, Information and Technology/Fachschaftsvertretung/Mathematik"
 54299,TUS1002,Informatik,"TUM/Schools/Computation, Information and Technology/Fachschaftsvertretung/Informatik"
@@ -2251,7 +2249,7 @@ org_id,code,name,path
 57560,TUCHTRM,Exzellenzcluster TransforM: Münchner Zentrum für Transformative Technologien und gesellschaftlichen Wandel,TUM/Forschungscluster/Exzellenzcluster TransforM: Münchner Zentrum für Transformative Technologien und gesellschaftlichen Wandel
 57562,TUCHBID,Exzellenzcluster BioSysteM: Biosystem-Design München,TUM/Forschungscluster/Exzellenzcluster BioSysteM: Biosystem-Design München
 57563,TUS7AGP,Professur für Algorithmic Governance and Public Policy (Prof. Gritsenko),TUM/Schools/Social Sciences and Technology/Departments/Governance/Algorithmic Governance and Public Policy (Prof. Gritsenko)
-57577,TUS6DFB,Professur für Management of Digital Food Businesses (Prof. Buisman),TUM/Schools/Management/Departments/Operations and Technology/Management of Digital Food Businesses (Prof. Buisman)
+57577,TUS6DFB,"Professur für Management of Digital Food Businesses (Prof. Buisman, Joint Appointment der TUM School of Management und TUM School of Life Sciences)","TUM/Schools/Management/Departments/Operations and Technology/Management of Digital Food Businesses (Prof. Buisman, Joint Appointment der TUM School of Management und TUM School of Life Sciences)"
 57597,TUS7ECC,Professur für Political Economy of Climate Change (Prof. Steckel),TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Economy of Climate Change (Prof. Steckel)
 57598,TUS5CF0,Schoolzentrale Core Facilities,TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities
 57599,TUS5NUM,Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ),TUM/Schools/Medicine and Health/Schoolzentrale Core Facilities/Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ)
@@ -2261,6 +2259,7 @@ org_id,code,name,path
 57657,TUS1325,Professur für Mikrowellensensoren und Sensorsysteme (Prof. Nuß),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Mikrowellensensoren und Sensorsysteme (Prof. Nuß)"
 57658,TUS2ANT,Professur für Angewandte Kerntechnologien (Prof. Reiter),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Angewandte Kerntechnologien (Prof. Reiter)
 57677,TUS3016,Professur für Experimental Dark Matter and Neutrinos (Prof. Schäffner),TUM/Schools/Natural Sciences/Departments/Physics/Experimental Dark Matter and Neutrinos (Prof. Schäffner)
+57697,TUS4A2L,Professur für Authentizität von Lebensmitteln (Prof. Müller-Maatsch),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Authentizität von Lebensmitteln (Prof. Müller-Maatsch)
 57717,TUS2CAS,Professur für Conservation of Architectural Surfaces (Prof. Angelin),TUM/Schools/Engineering and Design/Departments/Architecture/Conservation of Architectural Surfaces (Prof. Angelin)
 57737,TUPRV14,Vizepräsident und Kanzler Vizepräsident TUM Asia,TUM/Hochschulpräsidium/Vizepräsidenten und Kanzler/Vizepräsident TUM Asia
 57757,TUXSC0K,Studiengang B.Sc. Sustainable Engineering for Materials and Processes,TUM/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Studienorganisation/Technologie Biogener Rohstoffe/B.Sc. Sustainable Engineering for Materials and Processes
@@ -2270,7 +2269,11 @@ org_id,code,name,path
 57817,TUXS243,Studiengang Fortführung der Immatrikulation nach erfolgreichem Abschluss,TUM/Schools/Engineering and Design/Studienorganisation/Studienprogramme ED/Fortführung der Immatrikulation nach erfolgreichem Abschluss
 57837,TUXS244,Studiengang Ergänzungsstudium Luft- und Raumfahrt,TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Ergänzungsstudium Luft- und Raumfahrt
 57857,TUXS245,Studiengang B.Sc. Geodesy and Earth Observation,TUM/Schools/Engineering and Design/Studienorganisation/Geodesy/B.Sc. Geodesy and Earth Observation
-57877,TUS1327,Professur für Human-Centered Digital Design,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Human-Centered Digital Design"
+57877,TUS1327,Professur für Human-Centered Digital Design (Prof. Spors),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Human-Centered Digital Design (Prof. Spors)"
 57897,TUS4M2A,Professur für Metabolic Cell Architecture (Prof. Krahmer),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Metabolic Cell Architecture (Prof. Krahmer)
 57898,TUS4O5B,Professur für Organoid Systems and Biointerfaces (Prof. Mora-Boza),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Organoid Systems and Biointerfaces (Prof. Mora-Boza)
 57899,TUS1328,Professur für Statistik und Data Science (Prof. Düker),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Statistik und Data Science (Prof. Düker)"
+57917,TUS1329,Professur für Widerstandsfähige Rechensysteme (Prof. Achermann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Widerstandsfähige Rechensysteme (Prof. Achermann)"
+57937,TUS1330,Professur für Nanoelectronic Circuits and Systems (Prof. Covi),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Nanoelectronic Circuits and Systems (Prof. Covi)"
+57957,TUXS116,Studiengang M.Sc. AI in Biomedicine (Honoursprogramm),"TUM/Schools/Computation, Information and Technology/Studienorganisation/Data Science/M.Sc. AI in Biomedicine (Honoursprogramm)"
+57977,TUS6EVE,"Professur für Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)"
