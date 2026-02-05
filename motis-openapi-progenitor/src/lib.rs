@@ -9172,16 +9172,16 @@ impl Client {
     /// - `BIKE`
     ///
     /// - `fastest_direct_factor`: Optional. Experimental. Default is `1.0`.
-    ///Factor with which the duration of the fastest direct non-public-transit
-    /// connection is multiplied. Values > 1.0 allow transit connections
-    /// that are slower than the fastest direct non-public-transit connection to
-    /// be found.
+    ///   Factor with which the duration of the fastest direct non-public-transit
+    ///   connection is multiplied. Values > 1.0 allow transit connections
+    ///   that are slower than the fastest direct non-public-transit connection to
+    ///   be found.
     ///
     /// - `fastest_slow_direct_factor`: Optional.
-    ///Factor with which the duration of the fastest slowDirect connection is
-    /// multiplied. Values > 1.0 allow connections that are slower than the
-    /// fastest direct transit connection to be found. Values < 1.0 will
-    /// return all slowDirect connections.
+    ///   Factor with which the duration of the fastest slowDirect connection is
+    ///   multiplied. Values > 1.0 allow connections that are slower than the
+    ///   fastest direct transit connection to be found. Values < 1.0 will
+    ///   return all slowDirect connections.
     ///
     /// - `from_place`: \`latitude,longitude[,level]\` tuple with
     /// - latitude and longitude in degrees
@@ -9223,19 +9223,19 @@ impl Client {
     ///Controls if a journey section with stay-seated transfers is returned:
     /// - `joinInterlinedLegs=false`: as several legs (full information about
     ///   all trip numbers, headsigns, etc.).
-    ///  Legs that do not require a transfer (stay-seated transfer) are marked
-    /// with `interlineWithPreviousLeg=true`.
+    ///   Legs that do not require a transfer (stay-seated transfer) are marked
+    ///   with `interlineWithPreviousLeg=true`.
     /// - `joinInterlinedLegs=true` (default behavior): as only one joined leg
     ///   containing all stops
     ///
     /// - `language`: language tags as used in OpenStreetMap / GTFS
-    ///(usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
+    ///   (usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
     ///
     /// - `luggage`: Optional. Experimental. Number of luggage pieces; base
     ///   unit: airline cabin luggage (e.g. for ODM or price calculation)
     ///
     /// - `max_direct_time`: Optional. Default is 30min which is `1800`.
-    ///Maximum time in seconds for direct connections.
+    ///   Maximum time in seconds for direct connections.
     ///
     /// - `max_matching_distance`: Optional. Default is 25 meters.
     ///
@@ -9243,18 +9243,18 @@ impl Client {
     /// street network.
     ///
     /// - `max_post_transit_time`: Optional. Default is 15min which is `900`.
-    ///Maximum time in seconds for the last street leg.
+    ///   Maximum time in seconds for the last street leg.
     ///
     /// - `max_pre_transit_time`: Optional. Default is 15min which is `900`.
-    ///Maximum time in seconds for the first street leg.
+    ///   Maximum time in seconds for the first street leg.
     ///
     /// - `max_transfers`: The maximum number of allowed transfers (i.e.
     ///   interchanges between transit legs,
-    ///pre- and postTransit do not count as transfers).
-    ///`maxTransfers=0` searches for direct transit connections without any
-    /// transfers. If you want to search only for non-transit connections
-    /// (`FOOT`, `CAR`, etc.), send an empty `transitModes` parameter
-    /// instead.
+    ///   pre- and postTransit do not count as transfers).
+    ///   `maxTransfers=0` searches for direct transit connections without any
+    ///   transfers. If you want to search only for non-transit connections
+    ///   (`FOOT`, `CAR`, etc.), send an empty `transitModes` parameter
+    ///   instead.
     ///
     ///If not provided, the routing uses the server-side default value
     ///which is hardcoded and very high to cover all use cases.
@@ -9268,8 +9268,8 @@ impl Client {
     ///i.e. `maxTransfers=0` only returns non-transit connections.
     ///
     /// - `max_travel_time`: The maximum travel time in minutes.
-    ///If not provided, the routing to uses the value
-    ///hardcoded in the server which is usually quite high.
+    ///   If not provided, the routing to uses the value
+    ///   hardcoded in the server which is usually quite high.
     ///
     ///*Warning*: Use with care. Setting this too low can lead to
     ///optimal (e.g. the least transfers) journeys not being found.
@@ -9281,13 +9281,13 @@ impl Client {
     ///Minimum transfer time for each transfer in minutes.
     ///
     /// - `num_itineraries`: The minimum number of itineraries to compute.
-    ///This is only relevant if `timetableView=true`.
-    ///The default value is 5.
+    ///   This is only relevant if `timetableView=true`.
+    ///   The default value is 5.
     ///
     /// - `page_cursor`: Use the cursor to go to the next "page" of itineraries.
-    ///Copy the cursor from the last response and keep the original request as
-    /// is. This will enable you to search for itineraries in the next or
-    /// previous time-window.
+    ///   Copy the cursor from the last response and keep the original request as
+    ///   is. This will enable you to search for itineraries in the next or
+    ///   previous time-window.
     ///
     /// - `passengers`: Optional. Experimental. Number of passengers (e.g. for
     ///   ODM or price calculation)
@@ -9442,9 +9442,9 @@ impl Client {
     ///
     /// - `transit_modes`: Optional. Default is `TRANSIT` which allows all
     ///   transit modes (no restriction).
-    ///Allowed modes for the transit part. If empty, no transit connections
-    /// will be computed. For example, this can be used to allow only
-    /// `METRO,SUBWAY,TRAM`.
+    ///   Allowed modes for the transit part. If empty, no transit connections
+    ///   will be computed. For example, this can be used to allow only
+    ///   `METRO,SUBWAY,TRAM`.
     ///
     /// - `use_routed_transfers`: Optional. Default is `false`.
     ///
@@ -9452,8 +9452,8 @@ impl Client {
     ///
     /// - `via`: List of via stops to visit (only stop IDs, no coordinates
     ///   allowed for now).
-    ///Also see the optional parameter `viaMinimumStay` to set a set a minimum
-    /// stay duration for each via stop.
+    ///   Also see the optional parameter `viaMinimumStay` to set a set a minimum
+    ///   stay duration for each via stop.
     ///
     /// - `via_minimum_stay`: Optional. If not set, the default is `0,0` - no
     ///   stay required.
@@ -9539,7 +9539,7 @@ impl Client {
     ///
     ///Arguments:
     /// - `arrive_by`: true = many to one
-    ///false = one to many
+    ///   false = one to many
     ///
     /// - `elevation_costs`: Optional. Default is `NONE`.
     ///
@@ -9599,7 +9599,7 @@ impl Client {
     ///Additional transfer time reserved for each transfer in minutes.
     ///
     /// - `arrive_by`: true = all to one,
-    ///false = one to all
+    ///   false = one to all
     ///
     /// - `elevation_costs`: Optional. Default is `NONE`.
     ///
@@ -9641,11 +9641,11 @@ impl Client {
     ///
     /// - `max_transfers`: The maximum number of allowed transfers (i.e.
     ///   interchanges between transit legs,
-    ///pre- and postTransit do not count as transfers).
-    ///`maxTransfers=0` searches for direct transit connections without any
-    /// transfers. If you want to search only for non-transit connections
-    /// (`FOOT`, `CAR`, etc.), send an empty `transitModes` parameter
-    /// instead.
+    ///   pre- and postTransit do not count as transfers).
+    ///   `maxTransfers=0` searches for direct transit connections without any
+    ///   transfers. If you want to search only for non-transit connections
+    ///   (`FOOT`, `CAR`, etc.), send an empty `transitModes` parameter
+    ///   instead.
     ///
     ///If not provided, the routing uses the server-side default value
     ///which is hardcoded and very high to cover all use cases.
@@ -9718,9 +9718,9 @@ impl Client {
     ///
     /// - `transit_modes`: Optional. Default is `TRANSIT` which allows all
     ///   transit modes (no restriction).
-    ///Allowed modes for the transit part. If empty, no transit connections
-    /// will be computed. For example, this can be used to allow only
-    /// `METRO,SUBWAY,TRAM`.
+    ///   Allowed modes for the transit part. If empty, no transit connections
+    ///   will be computed. For example, this can be used to allow only
+    ///   `METRO,SUBWAY,TRAM`.
     ///
     /// - `use_routed_transfers`: Optional. Default is `false`.
     ///
@@ -9784,7 +9784,7 @@ impl Client {
     ///
     ///Arguments:
     /// - `language`: language tags as used in OpenStreetMap
-    ///(usually ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
+    ///   (usually ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
     ///
     /// - `place`: Optional. Used for biasing results towards the coordinate.
     ///
@@ -9824,13 +9824,13 @@ impl Client {
     ///Controls if a trip with stay-seated transfers is returned:
     /// - `joinInterlinedLegs=false`: as several legs (full information about
     ///   all trip numbers, headsigns, etc.).
-    ///  Legs that do not require a transfer (stay-seated transfer) are marked
-    /// with `interlineWithPreviousLeg=true`.
+    ///   Legs that do not require a transfer (stay-seated transfer) are marked
+    ///   with `interlineWithPreviousLeg=true`.
     /// - `joinInterlinedLegs=true` (default behavior): as only one joined leg
     ///   containing all stops
     ///
     /// - `language`: language tags as used in OpenStreetMap / GTFS
-    ///(usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
+    ///   (usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
     ///
     /// - `trip_id`: trip identifier (e.g. from an itinerary leg or stop event)
     /// - `with_scheduled_skipped_stops`: Optional. Include intermediate stops
@@ -9885,7 +9885,7 @@ impl Client {
     /// arrivals.
     ///
     /// - `language`: language tags as used in OpenStreetMap / GTFS
-    ///(usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
+    ///   (usually BCP-47 / ISO 639-1, or ISO 639-2 if there's no ISO 639-1)
     ///
     /// - `mode`: Optional. Default is all transit modes.
     ///
@@ -9893,9 +9893,9 @@ impl Client {
     ///
     /// - `n`: the number of events
     /// - `page_cursor`: Use the cursor to go to the next "page" of stop times.
-    ///Copy the cursor from the last response and keep the original request as
-    /// is. This will enable you to search for stop times in the next or
-    /// previous time-window.
+    ///   Copy the cursor from the last response and keep the original request as
+    ///   is. This will enable you to search for stop times in the next or
+    ///   previous time-window.
     ///
     /// - `radius`: Optional. Radius in meters.
     ///
