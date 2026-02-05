@@ -40,7 +40,7 @@ de:
   disclaimer: "Beta-Phase: Noch nicht implementiert ist {route_planning} und {barrier_free_routing}."
   disclaimer_route_planning: indoor
   disclaimer_barrier_free_routing: barrierefreies Routing
-  disclaimer_cta: Wir würden wir uns trotzdem über dein Feedback freuen 😊
+  disclaimer_cta: Wir würden uns trotzdem über dein Feedback freuen 😊
   open-feedback-form: Öffnet das Feedback-Formular
   found_issues: "Ich habe diese Probleme gefunden:"
   got_here_and_found_issues: "Ich habe die Navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
