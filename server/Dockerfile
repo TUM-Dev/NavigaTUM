@@ -33,7 +33,7 @@ RUN cp external/results/public_transport.parquet output/public_transport.parquet
     && cp -r output/maps/site_plans output/maps/roomfinder \
     && cp -r output/maps/overlays output/maps/overlay
 
-FROM    rust:1.92-alpine AS compiler
+FROM    rust:1.93-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment

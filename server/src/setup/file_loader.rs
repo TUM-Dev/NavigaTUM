@@ -7,8 +7,8 @@ use tracing::{debug, info};
 /// the ability to download them in development environments.
 ///
 /// # Arguments
-/// * `filename` - The name of the file to load (e.g., "api_data.json")
-/// * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
+///   * `filename` - The name of the file to load (e.g., "api_data.json")
+///   * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
 ///
 /// # Returns
 /// The file contents as bytes
@@ -31,7 +31,7 @@ pub async fn load_file_or_download(filename: &str, cdn_url: &str) -> anyhow::Res
 /// 2. `../data/output/{filename}` - one level up (useful when running from server/ directory)
 ///
 /// # Arguments
-/// * `filename` - The name of the file to load
+///   * `filename` - The name of the file to load
 ///
 /// # Returns
 /// The file contents as bytes if found, None otherwise
@@ -62,8 +62,8 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
 /// Downloads a file from the CDN via HTTP.
 ///
 /// # Arguments
-/// * `filename` - The name of the file to download
-/// * `cdn_url` - The base CDN URL
+///   * `filename` - The name of the file to download
+///   * `cdn_url` - The base CDN URL
 ///
 /// # Returns
 /// The downloaded file contents as bytes
@@ -82,8 +82,8 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
 /// Loads a JSON file from disk or downloads it, then parses it.
 ///
 /// # Arguments
-/// * `filename` - The name of the JSON file to load
-/// * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
+///   * `filename` - The name of the JSON file to load
+///   * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
 ///
 /// # Returns
 /// The parsed JSON value

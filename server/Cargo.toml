@@ -37,7 +37,7 @@ actix-cors.workspace=true
 rustls.workspace=true
 actix-files.workspace=true
 
-cached = { workspace=true, features = ["default", "async", "disk_store"] }
+moka = { workspace=true, features = ["future"] }
 futures.workspace=true
 unicode-truncate.workspace=true
 
@@ -88,6 +88,7 @@ itertools.workspace=true
 [dev-dependencies]
 insta = { workspace=true, features = ["json", "redactions", "yaml"] }
 pretty_assertions.workspace=true
+rstest.workspace=true
 testcontainers = { workspace=true, features = ["watchdog"] }
 testcontainers-modules = { workspace=true, features = ["meilisearch", "postgres"] }
 tracing-test.workspace=true
