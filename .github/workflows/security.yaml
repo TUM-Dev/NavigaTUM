@@ -25,7 +25,7 @@ jobs:
           uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
           with: { persist-credentials: false }
         - name: Run zizmor
-          uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+          uses: zizmorcore/zizmor-action@0dce2577a4760a2749d8cfb7a84b7d5585ebcb7d # v0.5.0
   cargo-audit:
     runs-on: ubuntu-latest
     permissions:
@@ -72,12 +72,12 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with: { persist-credentials: false }
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@19b2f06db2b6f5108140aeb04014ef02b648f789 # v4.31.11
+      uses: github/codeql-action/init@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2 # v4.32.2
       with:
         languages: ${{ matrix.language }}
         build-mode: none
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@19b2f06db2b6f5108140aeb04014ef02b648f789 # v4.31.11
+      uses: github/codeql-action/analyze@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2 # v4.32.2
       with:
         category: "/language:${{matrix.language}}"
 
