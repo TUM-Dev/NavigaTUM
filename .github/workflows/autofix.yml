@@ -29,6 +29,7 @@ jobs:
           tool: cargo-insta
       - name: Update server snapshots
         run: cargo insta test --accept
+        continue-on-error: true
 
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
