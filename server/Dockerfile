@@ -101,7 +101,8 @@ COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \
      && mkdir -p /home/navigatum \
-     && chown -R navigatum:navigatum /cdn/ \
+     && chown -R root:root /cdn/ \
+     && chmod -R 555 /cdn/ \
      && chown -R navigatum:navigatum /home/navigatum
 WORKDIR /home/navigatum
 USER    navigatum
