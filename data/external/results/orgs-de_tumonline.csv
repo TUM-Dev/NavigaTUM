@@ -2088,7 +2088,7 @@ org_id,code,name,path
 55937,TUS1314,Informatik Heilbronn 11 - Lehrstuhl für Software Engineering & AI (Prof. Chen),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
 55938,TUS1315,Informatik 39 - Professur für Learning AI for Dextrous Robots (Prof. Bäuml),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Learning AI for Dextrous Robots (Prof. Bäuml)"
 55957,TUXS113,Studiengang M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Heilbronn/M.Sc. Information Engineering"
-55997,TUS1316,Professur für Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
+55997,TUS1316,Lehrstuhl für Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
 56017,TUXS72A,Studiengang M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Studienorganisation/Berufliche Bildung/Master of Education Berufliche Bildung/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik
 56037,TUZVGHB,Geschäftsstelle TUM Campus Heilbronn,TUM/Zentrale Verwaltung/Geschäftsstelle TUM Campus Heilbronn
 56057,TUS4F8S,Professur für Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
@@ -2277,3 +2277,6 @@ org_id,code,name,path
 57937,TUS1330,Professur für Nanoelectronic Circuits and Systems (Prof. Covi),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Nanoelectronic Circuits and Systems (Prof. Covi)"
 57957,TUXS116,Studiengang M.Sc. AI in Biomedicine (Honoursprogramm),"TUM/Schools/Computation, Information and Technology/Studienorganisation/Data Science/M.Sc. AI in Biomedicine (Honoursprogramm)"
 57977,TUS6EVE,"Professur für Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)"
+57997,TUS5ST5,Professur für Experimental Radiation Physics (Prof. Bartzsch),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für RadioOnkologie und Strahlentherapie (Prof. Combs)/Experimental Radiation Physics (Prof. Bartzsch)
+57998,TUS5NM4,Lehrstuhl für Theranostik und Nuklearmedizin (Prof. Eiber),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Nuklearmedizin (Prof. Weber)/Theranostik und Nuklearmedizin (Prof. Eiber)
+58017,TUS1331,Lehrstuhl für Grundlagen der Programmierung (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Grundlagen der Programmierung (Prof. Zuleger)"
