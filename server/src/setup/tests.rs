@@ -74,7 +74,7 @@ impl MeiliSearchTestContainer {
             client,
         }
     }
-    
+
     pub async fn load_data_retrying(&self) {
         for i in 0..60 {
             let res = crate::setup::meilisearch::load_data(&self.client).await;
