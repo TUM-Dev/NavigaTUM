@@ -77,6 +77,13 @@ test.describe("Search Bar - Interactive Search", () => {
 
     await expect(page).toHaveURL("/en/search?q=MI");
   });
+
+  test("should not autofocus search bar on search results page", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await expect(searchInput).not.toBeFocused();
+  });
 });
 
 test.describe("Search Page - Filtering and Pagination", () => {

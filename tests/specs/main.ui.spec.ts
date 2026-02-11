@@ -24,6 +24,13 @@ test.describe("Homepage", () => {
     // await expect(page).toHaveScreenshot();
   });
 
+  test("should autofocus search bar on homepage", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await expect(searchInput).toBeFocused();
+  });
+
   test("should display footer with links", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
