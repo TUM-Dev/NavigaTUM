@@ -42,8 +42,6 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
         PathBuf::from("data/output").join(filename),
         PathBuf::from("../data/output").join(filename),
         PathBuf::from("../../data/output").join(filename),
-        PathBuf::from("test-fixtures").join(filename),
-        PathBuf::from("server/test-fixtures").join(filename),
     ];
 
     for path in search_paths {
