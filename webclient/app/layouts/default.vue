@@ -5,6 +5,8 @@ const searchBarFocused = ref(false);
 const feedback = useFeedback();
 const route = useRoute();
 
+const IGNORED_KEYS = ['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace'];
+
 function handleKeyDown(event: KeyboardEvent) {
   const isIndexPage = route.path === "/" || route.path === "/en";
   
@@ -13,14 +15,13 @@ function handleKeyDown(event: KeyboardEvent) {
     return;
   }
   
-  // Ignore special keys (Ctrl, Alt, Meta, Shift, Escape, Tab, etc.)
-  if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+  // Ignore special keys (Ctrl, Alt, Meta - but allow Shift for uppercase/symbols)
+  if (event.ctrlKey || event.altKey || event.metaKey) {
     return;
   }
   
   // Ignore non-printable keys
-  const ignoredKeys = ['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace'];
-  if (ignoredKeys.includes(event.key)) {
+  if (IGNORED_KEYS.includes(event.key)) {
     return;
   }
   
