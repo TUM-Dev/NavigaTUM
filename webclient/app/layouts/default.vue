@@ -3,6 +3,9 @@ import { useFeedback } from "~/composables/feedback";
 
 const searchBarFocused = ref(false);
 const feedback = useFeedback();
+const route = useRoute();
+
+const isIndexPage = computed(() => route.path === "/" || route.path === "/en");
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
@@ -16,7 +19,7 @@ useHead({
 
 <template>
   <AppNavHeader>
-    <AppSearchBar v-model:search-bar-focused="searchBarFocused" />
+    <AppSearchBar v-model:search-bar-focused="searchBarFocused" :autofocus="isIndexPage" />
   </AppNavHeader>
 
   <!-- Page content container -->
