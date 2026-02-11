@@ -33,18 +33,21 @@ impl PostgresTestContainer {
         }
     }
     pub async fn load_data_retrying(&self) {
-        for i in 0..20 {
+        // Retry up to 10 times with 2-second delays.
+        // Since download operations already have their own retry logic,
+        // we don't need as many outer retries to avoid excessive wait times.
+        for i in 0..10 {
             let res = crate::setup::database::load_data(&self.pool).await;
             if let Err(e) = res {
-                error!(error = ?e, "failed to load db. Retrying for 20s");
-                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+                error!(error = ?e, try_num = i, "failed to load db. Retrying up to 10 times");
+                tokio::time::sleep(std::time::Duration::from_secs(2)).await;
             } else {
                 info!("successfully initalised the db in try {i}");
                 return;
             }
         }
 
-        panic!("could not initialise db after 20s")
+        panic!("could not initialise db after 10 retries")
     }
 }
 
@@ -74,6 +77,24 @@ impl MeiliSearchTestContainer {
             client,
         }
     }
+
+    pub async fn load_data_retrying(&self) {
+        // Retry up to 10 times with 2-second delays.
+        // Since download_file already has 5 retries with exponential backoff,
+        // we don't need as many outer retries to avoid excessive wait times.
+        for i in 0..10 {
+            let res = crate::setup::meilisearch::load_data(&self.client).await;
+            if let Err(e) = res {
+                error!(error = ?e, try_num = i, "failed to load meilisearch data. Retrying up to 10 times");
+                tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+            } else {
+                info!("successfully loaded meilisearch data in try {i}");
+                return;
+            }
+        }
+
+        panic!("could not load meilisearch data after 10 retries")
+    }
 }
 
 #[tokio::test]
@@ -87,7 +108,5 @@ async fn test_db_setup() {
 #[tracing_test::traced_test]
 async fn test_meilisearch_setup() {
     let ms = MeiliSearchTestContainer::new().await;
-    crate::setup::meilisearch::load_data(&ms.client)
-        .await
-        .unwrap();
+    ms.load_data_retrying().await;
 }
