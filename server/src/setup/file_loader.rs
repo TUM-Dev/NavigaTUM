@@ -28,8 +28,10 @@ pub async fn load_file_or_download(filename: &str, cdn_url: &str) -> anyhow::Res
 /// Attempts to load a file from the local filesystem.
 ///
 /// Looks in the following locations (in order):
-/// 1. `./data/output/{filename}` - relative to current working directory
-/// 2. `../data/output/{filename}` - one level up (useful when running from server/ directory)
+/// 1. `/cdn/{filename}` - production CDN mount point
+/// 2. `data/output/{filename}` - relative to current working directory
+/// 3. `../data/output/{filename}` - one level up (useful when running from server/ directory)
+/// 4. `../../data/output/{filename}` - two levels up (useful when running tests)
 ///
 /// # Arguments
 ///   * `filename` - The name of the file to load
@@ -63,6 +65,7 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
 /// Downloads a file from the CDN via HTTP with retry logic.
 ///
 /// Implements exponential backoff with up to 5 retries to handle transient network issues.
+/// Each request has a 30-second timeout to prevent indefinite hangs.
 ///
 /// # Arguments
 ///   * `filename` - The name of the file to download
@@ -75,11 +78,16 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
     let max_retries = 5;
     let mut retry_delay = Duration::from_secs(1);
     let mut last_error = None;
+    
+    // Create a client with a timeout to prevent indefinite hangs
+    let client = reqwest::Client::builder()
+        .timeout(Duration::from_secs(30))
+        .build()?;
 
     for attempt in 0..=max_retries {
         debug!(url, attempt, "Downloading file");
 
-        match reqwest::get(&url).await {
+        match client.get(&url).send().await {
             Ok(response) => match response.error_for_status() {
                 Ok(resp) => match resp.bytes().await {
                     Ok(bytes) => {
@@ -87,45 +95,51 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
                         return Ok(bytes.to_vec());
                     }
                     Err(e) => {
-                        last_error = Some(anyhow::Error::from(e));
                         if attempt < max_retries {
                             warn!(
                                 url,
                                 attempt,
-                                error = ?last_error,
+                                error = ?e,
                                 retry_delay_secs = retry_delay.as_secs(),
                                 "Failed to read response bytes, retrying"
                             );
+                        }
+                        last_error = Some(anyhow::Error::from(e));
+                        if attempt < max_retries {
                             tokio::time::sleep(retry_delay).await;
                             retry_delay *= 2;
                         }
                     }
                 },
                 Err(e) => {
-                    last_error = Some(anyhow::Error::from(e));
                     if attempt < max_retries {
                         warn!(
                             url,
                             attempt,
-                            error = ?last_error,
+                            error = ?e,
                             retry_delay_secs = retry_delay.as_secs(),
                             "HTTP error, retrying"
                         );
+                    }
+                    last_error = Some(anyhow::Error::from(e));
+                    if attempt < max_retries {
                         tokio::time::sleep(retry_delay).await;
                         retry_delay *= 2;
                     }
                 }
             },
             Err(e) => {
-                last_error = Some(anyhow::Error::from(e));
                 if attempt < max_retries {
                     warn!(
                         url,
                         attempt,
-                        error = ?last_error,
+                        error = ?e,
                         retry_delay_secs = retry_delay.as_secs(),
                         "Request failed, retrying"
                     );
+                }
+                last_error = Some(anyhow::Error::from(e));
+                if attempt < max_retries {
                     tokio::time::sleep(retry_delay).await;
                     retry_delay *= 2;
                 }
