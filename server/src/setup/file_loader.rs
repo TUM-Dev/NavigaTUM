@@ -39,6 +39,8 @@ pub async fn load_file_or_download(filename: &str, cdn_url: &str) -> anyhow::Res
 async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
     let search_paths = vec![
         PathBuf::from("/cdn/").join(filename),
+        PathBuf::from("test-fixtures").join(filename),
+        PathBuf::from("server/test-fixtures").join(filename),
         PathBuf::from("data/output").join(filename),
         PathBuf::from("../data/output").join(filename),
         PathBuf::from("../../data/output").join(filename),
