@@ -33,10 +33,10 @@ impl PostgresTestContainer {
         }
     }
     pub async fn load_data_retrying(&self) {
-        for i in 0..20 {
+        for i in 0..60 {
             let res = crate::setup::database::load_data(&self.pool).await;
             if let Err(e) = res {
-                error!(error = ?e, "failed to load db. Retrying for 20s");
+                error!(error = ?e, try_num = i, "failed to load db. Retrying for 60s");
                 tokio::time::sleep(std::time::Duration::from_secs(1)).await;
             } else {
                 info!("successfully initalised the db in try {i}");
@@ -44,7 +44,7 @@ impl PostgresTestContainer {
             }
         }
 
-        panic!("could not initialise db after 20s")
+        panic!("could not initialise db after 60s")
     }
 }
 
@@ -74,6 +74,21 @@ impl MeiliSearchTestContainer {
             client,
         }
     }
+    
+    pub async fn load_data_retrying(&self) {
+        for i in 0..60 {
+            let res = crate::setup::meilisearch::load_data(&self.client).await;
+            if let Err(e) = res {
+                error!(error = ?e, try_num = i, "failed to load meilisearch data. Retrying for 60s");
+                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+            } else {
+                info!("successfully loaded meilisearch data in try {i}");
+                return;
+            }
+        }
+
+        panic!("could not load meilisearch data after 60s")
+    }
 }
 
 #[tokio::test]
@@ -87,7 +102,5 @@ async fn test_db_setup() {
 #[tracing_test::traced_test]
 async fn test_meilisearch_setup() {
     let ms = MeiliSearchTestContainer::new().await;
-    crate::setup::meilisearch::load_data(&ms.client)
-        .await
-        .unwrap();
+    ms.load_data_retrying().await;
 }

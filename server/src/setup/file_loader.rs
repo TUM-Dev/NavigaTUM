@@ -1,5 +1,6 @@
 use std::path::PathBuf;
-use tracing::{debug, info};
+use std::time::Duration;
+use tracing::{debug, info, warn};
 
 /// Attempts to load a file from the local filesystem first, falling back to downloading it via HTTP.
 ///
@@ -59,7 +60,9 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
     None
 }
 
-/// Downloads a file from the CDN via HTTP.
+/// Downloads a file from the CDN via HTTP with retry logic.
+///
+/// Implements exponential backoff with up to 5 retries to handle transient network issues.
 ///
 /// # Arguments
 ///   * `filename` - The name of the file to download
@@ -69,14 +72,70 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
 /// The downloaded file contents as bytes
 async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>> {
     let url = format!("{cdn_url}/{filename}");
-    debug!(url, "Downloading file");
+    let max_retries = 5;
+    let mut retry_delay = Duration::from_secs(1);
 
-    let response = reqwest::get(&url).await?.error_for_status()?;
+    for attempt in 0..=max_retries {
+        debug!(url, attempt, "Downloading file");
 
-    let bytes = response.bytes().await?;
-    debug!(url, size = bytes.len(), "Downloaded file");
+        match reqwest::get(&url).await {
+            Ok(response) => match response.error_for_status() {
+                Ok(resp) => match resp.bytes().await {
+                    Ok(bytes) => {
+                        debug!(url, size = bytes.len(), "Downloaded file");
+                        return Ok(bytes.to_vec());
+                    }
+                    Err(e) => {
+                        if attempt < max_retries {
+                            warn!(
+                                url,
+                                attempt,
+                                error = ?e,
+                                retry_delay_secs = retry_delay.as_secs(),
+                                "Failed to read response bytes, retrying"
+                            );
+                            tokio::time::sleep(retry_delay).await;
+                            retry_delay *= 2;
+                        } else {
+                            return Err(e.into());
+                        }
+                    }
+                },
+                Err(e) => {
+                    if attempt < max_retries {
+                        warn!(
+                            url,
+                            attempt,
+                            error = ?e,
+                            retry_delay_secs = retry_delay.as_secs(),
+                            "HTTP error, retrying"
+                        );
+                        tokio::time::sleep(retry_delay).await;
+                        retry_delay *= 2;
+                    } else {
+                        return Err(e.into());
+                    }
+                }
+            },
+            Err(e) => {
+                if attempt < max_retries {
+                    warn!(
+                        url,
+                        attempt,
+                        error = ?e,
+                        retry_delay_secs = retry_delay.as_secs(),
+                        "Request failed, retrying"
+                    );
+                    tokio::time::sleep(retry_delay).await;
+                    retry_delay *= 2;
+                } else {
+                    return Err(e.into());
+                }
+            }
+        }
+    }
 
-    Ok(bytes.to_vec())
+    unreachable!("Loop should have returned or errored")
 }
 
 /// Loads a JSON file from disk or downloads it, then parses it.
