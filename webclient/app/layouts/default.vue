@@ -39,7 +39,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener("keydown", handleKeyDown);
-  searchElement.value = null;
 });
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
