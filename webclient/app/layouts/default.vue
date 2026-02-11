@@ -5,7 +5,10 @@ const searchBarFocused = ref(false);
 const feedback = useFeedback();
 const route = useRoute();
 
-const isIndexPage = computed(() => route.path === "/" || route.path === "/en");
+const shouldAutofocus = computed(() => {
+  const isIndexPage = route.path === "/" || route.path === "/en";
+  return isIndexPage && !searchBarFocused.value && !feedback.value.open;
+});
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
@@ -19,7 +22,7 @@ useHead({
 
 <template>
   <AppNavHeader>
-    <AppSearchBar v-model:search-bar-focused="searchBarFocused" :autofocus="isIndexPage" />
+    <AppSearchBar v-model:search-bar-focused="searchBarFocused" :autofocus="shouldAutofocus" />
   </AppNavHeader>
 
   <!-- Page content container -->

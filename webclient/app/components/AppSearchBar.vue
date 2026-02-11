@@ -21,7 +21,7 @@ const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
 
 onMounted(() => {
-  if (props.autofocus) {
+  if (props.autofocus && !searchBarFocused.value) {
     document.getElementById("search")?.focus();
   }
 });
