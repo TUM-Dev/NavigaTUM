@@ -79,7 +79,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
     let mut retry_delay = Duration::from_secs(1);
     let mut last_error = None;
     
-    // Create a client with a timeout to prevent indefinite hangs
+    // Timeout to prevent maybe long hangs
     let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(30))
         .build()?;
