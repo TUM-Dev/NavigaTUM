@@ -5,7 +5,9 @@ const searchBarFocused = ref(false);
 const feedback = useFeedback();
 const route = useRoute();
 
-const IGNORED_KEYS = ['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace'];
+const IGNORED_KEYS = new Set(['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace']);
+
+let searchElement: HTMLElement | null = null;
 
 function handleKeyDown(event: KeyboardEvent) {
   const isIndexPage = route.path === "/" || route.path === "/en";
@@ -21,22 +23,24 @@ function handleKeyDown(event: KeyboardEvent) {
   }
   
   // Ignore non-printable keys
-  if (IGNORED_KEYS.includes(event.key)) {
+  if (IGNORED_KEYS.has(event.key)) {
     return;
   }
   
   // Focus the search bar when user starts typing
-  if (event.key.length === 1) {
-    document.getElementById("search")?.focus();
+  if (event.key.length === 1 && searchElement) {
+    searchElement.focus();
   }
 }
 
 onMounted(() => {
+  searchElement = document.getElementById("search");
   document.addEventListener("keydown", handleKeyDown);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keydown", handleKeyDown);
+  searchElement = null;
 });
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
