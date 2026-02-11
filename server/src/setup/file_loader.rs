@@ -78,7 +78,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
     let max_retries = 5;
     let mut retry_delay = Duration::from_secs(1);
     let mut last_error = None;
-    
+
     // Timeout to prevent maybe long hangs
     let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(30))
@@ -147,7 +147,8 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
         }
     }
 
-    Err(last_error.unwrap_or_else(|| anyhow::anyhow!("Download failed after {} retries", max_retries)))
+    Err(last_error
+        .unwrap_or_else(|| anyhow::anyhow!("Download failed after {} retries", max_retries)))
 }
 
 /// Loads a JSON file from disk or downloads it, then parses it.
