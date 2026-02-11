@@ -5,10 +5,6 @@ import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const props = defineProps<{
-  autofocus?: boolean;
-}>();
-
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
   required: true,
 });
@@ -19,12 +15,6 @@ const keep_focus = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
-
-onMounted(() => {
-  if (props.autofocus && !searchBarFocused.value) {
-    document.getElementById("search")?.focus();
-  }
-});
 
 const visibleElements = computed<string[]>(() => {
   if (!data.value) return [] as string[];

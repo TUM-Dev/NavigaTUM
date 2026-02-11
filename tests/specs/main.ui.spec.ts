@@ -24,10 +24,18 @@ test.describe("Homepage", () => {
     // await expect(page).toHaveScreenshot();
   });
 
-  test("should autofocus search bar on homepage", async ({ page }) => {
+  test("should focus search bar when typing on homepage", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    
+    // Initially, search bar should not be focused
+    await expect(searchInput).not.toBeFocused();
+    
+    // Simulate typing a character
+    await page.keyboard.press("a");
+    
+    // Now search bar should be focused
     await expect(searchInput).toBeFocused();
   });
 

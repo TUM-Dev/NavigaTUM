@@ -78,10 +78,18 @@ test.describe("Search Bar - Interactive Search", () => {
     await expect(page).toHaveURL("/en/search?q=MI");
   });
 
-  test("should not autofocus search bar on search results page", async ({ page }) => {
+  test("should not focus search bar when typing on search results page", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    
+    // Initially not focused
+    await expect(searchInput).not.toBeFocused();
+    
+    // Type a character - should NOT focus search bar on non-index page
+    await page.keyboard.press("a");
+    
+    // Should still not be focused
     await expect(searchInput).not.toBeFocused();
   });
 });

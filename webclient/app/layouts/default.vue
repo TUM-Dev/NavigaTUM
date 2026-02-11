@@ -5,9 +5,37 @@ const searchBarFocused = ref(false);
 const feedback = useFeedback();
 const route = useRoute();
 
-const shouldAutofocus = computed(() => {
+function handleKeyDown(event: KeyboardEvent) {
   const isIndexPage = route.path === "/" || route.path === "/en";
-  return isIndexPage && !searchBarFocused.value && !feedback.value.open;
+  
+  // Only handle on index page, when feedback is closed and search bar is not focused
+  if (!isIndexPage || feedback.value.open || searchBarFocused.value) {
+    return;
+  }
+  
+  // Ignore special keys (Ctrl, Alt, Meta, Shift, Escape, Tab, etc.)
+  if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+    return;
+  }
+  
+  // Ignore non-printable keys
+  const ignoredKeys = ['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace'];
+  if (ignoredKeys.includes(event.key)) {
+    return;
+  }
+  
+  // Focus the search bar when user starts typing
+  if (event.key.length === 1) {
+    document.getElementById("search")?.focus();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("keydown", handleKeyDown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleKeyDown);
 });
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
@@ -22,7 +50,7 @@ useHead({
 
 <template>
   <AppNavHeader>
-    <AppSearchBar v-model:search-bar-focused="searchBarFocused" :autofocus="shouldAutofocus" />
+    <AppSearchBar v-model:search-bar-focused="searchBarFocused" />
   </AppNavHeader>
 
   <!-- Page content container -->
