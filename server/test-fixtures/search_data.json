@@ -30,7 +30,7 @@
     "rank": 100
   },
   {
-    "ms_id": "5601.EG.001",
+    "ms_id": "5601-EG-001",
     "room_code": "5601.EG.001",
     "name": "Magistrale",
     "arch_name": "00.01.001@5601",
@@ -45,7 +45,7 @@
     "rank": 50
   },
   {
-    "ms_id": "5601.EG.010",
+    "ms_id": "5601-EG-010",
     "room_code": "5601.EG.010",
     "name": "Pforte",
     "arch_name": "00.01.010@5601",
