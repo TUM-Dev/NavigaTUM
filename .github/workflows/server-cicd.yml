@@ -64,7 +64,7 @@ jobs:
           workspaces: |
             server
       - run: rustup component add clippy
-      - run: cargo clippy
+      - run: cargo clippy -- -D warnings
         env:
           CARGO_INCREMENTAL: 0
   build:
