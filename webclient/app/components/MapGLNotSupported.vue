@@ -11,7 +11,7 @@ const { t } = useI18n({ useScope: "local" });
       <a
         href="https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL"
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         class="text-inherit font-bold hover:underline"
       >
         {{ t("no_webgl.webgl_required") }}
