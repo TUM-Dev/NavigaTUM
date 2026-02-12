@@ -12,6 +12,7 @@ const { t } = useI18n({ useScope: "local" });
         href="https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Learn more about WebGL requirements"
         class="text-inherit font-bold hover:underline"
       >
         {{ t("no_webgl.webgl_required") }}
