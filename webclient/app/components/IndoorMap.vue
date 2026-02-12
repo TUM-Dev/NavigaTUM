@@ -563,7 +563,6 @@ defineExpose({
     class="!h-full min-h-96 print:!hidden"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
-      'bg-red-300 text-red-950': !webglSupport,
     }"
   >
     <div v-if="webglSupport" id="interactive-indoor-map" class="relative !h-full min-h-96 !w-full" />
