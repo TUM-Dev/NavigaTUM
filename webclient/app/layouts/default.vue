@@ -3,6 +3,43 @@ import { useFeedback } from "~/composables/feedback";
 
 const searchBarFocused = ref(false);
 const feedback = useFeedback();
+const route = useRoute();
+const searchElement = ref<HTMLElement | null>(null);
+
+const IGNORED_KEYS = new Set(['Escape', 'Tab', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Delete', 'Backspace']);
+
+function handleKeyDown(event: KeyboardEvent) {
+  const isIndexPage = route.path === "/" || route.path === "/en";
+  
+  // Only handle on index page, when feedback is closed and search bar is not focused
+  if (!isIndexPage || feedback.value.open || searchBarFocused.value) {
+    return;
+  }
+  
+  // Ignore special keys (Ctrl, Alt, Meta - but allow Shift for uppercase/symbols)
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return;
+  }
+  
+  // Ignore non-printable keys
+  if (IGNORED_KEYS.has(event.key)) {
+    return;
+  }
+  
+  // Focus the search bar when user starts typing
+  if (event.key.length === 1 && searchElement.value) {
+    searchElement.value.focus();
+  }
+}
+
+onMounted(() => {
+  searchElement.value = document.getElementById("search");
+  document.addEventListener("keydown", handleKeyDown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleKeyDown);
+});
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({

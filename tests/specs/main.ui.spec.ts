@@ -24,6 +24,47 @@ test.describe("Homepage", () => {
     // await expect(page).toHaveScreenshot();
   });
 
+  test("should focus search bar when typing on homepage", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    
+    // Initially, search bar should not be focused
+    await expect(searchInput).not.toBeFocused();
+    
+    // Simulate typing a lowercase character
+    await page.keyboard.press("a");
+    
+    // Now search bar should be focused
+    await expect(searchInput).toBeFocused();
+  });
+
+  test("should focus search bar when typing uppercase letters", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    
+    await expect(searchInput).not.toBeFocused();
+    
+    // Type Shift+A (uppercase A)
+    await page.keyboard.press("A");
+    
+    await expect(searchInput).toBeFocused();
+  });
+
+  test("should not focus search bar when pressing Tab key", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    
+    await expect(searchInput).not.toBeFocused();
+    
+    // Press Tab - should not focus search bar
+    await page.keyboard.press("Tab");
+    
+    await expect(searchInput).not.toBeFocused();
+  });
+
   test("should display footer with links", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
