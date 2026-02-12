@@ -220,10 +220,14 @@ pub async fn propose_edits(
                 let mut labels = req_data.extract_labels();
                 labels.push(super::batch_processor::BATCH_LABEL.to_string());
 
+                // Use extract_subject for first PR to provide helpful context
+                let subject = req_data.extract_subject();
+                let title = format!("chore(data): {subject}");
+
                 GitHub::default()
                     .open_pr(
                         branch_to_use,
-                        "chore(data): batch coordinate edits (1 edit)",
+                        &title,
                         &format!("## Batched Coordinate Edits\n\n### Edit #1\n{description}"),
                         labels,
                     )
