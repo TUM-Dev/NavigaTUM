@@ -2,7 +2,7 @@ backoff==2.2.1
 beautifulsoup4==4.14.3
 defusedxml==0.7.1
 lxml==6.0.2
-Pillow==12.1.0
+Pillow==12.1.1
 polars==1.38.0
 pyarrow==22.0.0
 pydantic==2.12.5
