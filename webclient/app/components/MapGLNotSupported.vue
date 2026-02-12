@@ -15,8 +15,7 @@ const { t } = useI18n({ useScope: "local" });
         :aria-label="t('no_webgl.link_aria_label')"
         class="text-inherit font-bold hover:underline"
       >
-        {{ t("no_webgl.webgl_required") }}
-        <br />
+        <span class="block">{{ t("no_webgl.webgl_required") }}</span>
         <small class="text-sm">{{ t("no_webgl.read_more") }}</small>
       </a>
     </p>
