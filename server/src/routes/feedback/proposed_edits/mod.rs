@@ -218,7 +218,7 @@ pub async fn propose_edits(
             } else {
                 // Create new batch PR with batch-in-progress label
                 let mut labels = req_data.extract_labels();
-                labels.push(BATCH_LABEL.to_string());
+                labels.push(super::batch_processor::BATCH_LABEL.to_string());
 
                 GitHub::default()
                     .open_pr(
