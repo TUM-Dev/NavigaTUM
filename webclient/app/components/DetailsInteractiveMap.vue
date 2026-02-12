@@ -198,7 +198,6 @@ onMounted(() => {
     class="mb-2.5 aspect-4/3 print:!hidden relative"
     :class="{
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
-      'bg-red-300 text-red-950': !webglSupport,
     }"
   >
     <Spinner v-if="webglSupport && !initialLoaded" class="h-12 w-12 text-blue-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
