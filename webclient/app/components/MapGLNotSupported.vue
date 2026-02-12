@@ -12,7 +12,7 @@ const { t } = useI18n({ useScope: "local" });
         href="https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Learn more about WebGL requirements"
+        :aria-label="t('no_webgl.link_aria_label')"
         class="text-inherit font-bold hover:underline"
       >
         {{ t("no_webgl.webgl_required") }}
@@ -29,9 +29,11 @@ de:
     detailed_message: Es tut uns leid, aber es scheint, dass Ihr Browser WebGL nicht unterstützt, eine Technologie zum Rendern von 3D-Grafiken im Web.
     webgl_required: WebGL ist erforderlich, um diese Karte anzuzeigen.
     read_more: Mehr erfahren
+    link_aria_label: Erfahren Sie mehr über WebGL-Anforderungen
 en:
   no_webgl:
     detailed_message: We are sorry, but it seems that your browser does not support WebGL, a technology for rendering 3D graphics on the web.
     webgl_required: WebGL is required to display this map.
     read_more: Read more
+    link_aria_label: Learn more about WebGL requirements
 </i18n>
