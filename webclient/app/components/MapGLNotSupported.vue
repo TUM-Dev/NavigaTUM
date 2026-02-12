@@ -12,10 +12,10 @@ const { t } = useI18n({ useScope: "local" });
         href="https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-inherit font-bold hover:underline inline-flex flex-col items-center"
+        class="text-inherit font-bold hover:underline"
       >
-        <span>{{ t("no_webgl.webgl_required") }}</span>
-        <small class="text-sm">{{ t("no_webgl.read_more") }}</small>
+        {{ t("no_webgl.webgl_required") }}
+        <small class="block text-sm">{{ t("no_webgl.read_more") }}</small>
       </a>
     </p>
   </div>
