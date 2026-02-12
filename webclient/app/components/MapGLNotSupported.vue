@@ -15,7 +15,7 @@ const { t } = useI18n({ useScope: "local" });
         class="text-inherit font-bold hover:underline"
       >
         {{ t("no_webgl.webgl_required") }}
-        <small class="block text-sm">{{ t("no_webgl.read_more") }}</small>
+        <span class="block text-sm">{{ t("no_webgl.read_more") }}</span>
       </a>
     </p>
   </div>
