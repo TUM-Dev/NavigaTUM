@@ -186,7 +186,6 @@ defineExpose({
         class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
         :class="{
           'dark:bg-black bg-white': webglSupport,
-          'bg-red-300 text-red-950': !webglSupport,
         }"
       >
         <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
