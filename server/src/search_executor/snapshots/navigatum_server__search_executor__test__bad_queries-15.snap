@@ -42,11 +42,6 @@ snapshot_kind: text
       name: "4317.01.121 (\u0019Mi\u0017kroskopierraum)"
       subtext: "weihenstephan, Tierwissenschaften"
       subtext_bold: 1.21@4317
-    - id: 4404.EG.003
-      type: room
-      name: "4404.EG.003 (\u0019Mi\u0017kroskopie)"
-      subtext: "limnologische-station-iffeldorf, Seminargebäude"
-      subtext_bold: 003@4404
     - id: 0103.U1.301
       type: room
       name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum (Gesperrt))"
@@ -57,6 +52,11 @@ snapshot_kind: text
       name: "4217.01.131 (Gaschromatographie \u0019mi\u0017t Massenspektrometrie)"
       subtext: "weihenstephan, Pflanzenproduktion 1"
       subtext_bold: 131@4217
+    - id: 4218.01.122
+      type: room
+      name: "4218.01.122 (Messraum \u0019Mi\u0017kroskopie, Imaging Unit CALM(gem.Nu)"
+      subtext: "weihenstephan, Biologikum Weihenstephan"
+      subtext_bold: 122@4218
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings

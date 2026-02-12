@@ -233,9 +233,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_good_queries() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
         for query in TestQuery::load_good() {
             let actual = query.search(&ms.client).await;
 
@@ -266,9 +264,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_bad_queries() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
         for query in TestQuery::load_bad() {
             let actual = query.search(&ms.client).await;
 
@@ -293,9 +289,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_cropping_full_shows_full_building_names() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
 
         // Verify `CroppingMode` changes output; fail fast on missing Rooms/entries and snapshot both variants.
         let query = "N-1406";
@@ -389,9 +383,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_both_flags_work_together() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
 
         // Validate `ParsedIdMode::Roomfinder`: `parsed_id` should look like an arch id (contains '@'); snapshot output.
         let config = FormattingConfig {
@@ -439,9 +431,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_custom_highlighting_with_formatting() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
 
         // Validate custom highlighting end-to-end; "MW1801" is a canonical query that tends to trigger highlighting.
         let query = "MW1801";
@@ -497,9 +487,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_building_formats() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
 
         let config_prefixed = FormattingConfig {
             highlighting: Highlighting::default(),
@@ -617,9 +605,7 @@ mod test {
     #[tracing_test::traced_test]
     async fn test_cropping_behavior_for_1010() {
         let ms = MeiliSearchTestContainer::new().await;
-        crate::setup::meilisearch::load_data(&ms.client)
-            .await
-            .unwrap();
+        ms.load_data_retrying().await;
 
         // Verify `CroppingMode` changes output; compare `parsed_id` lengths by sorted `id` (Full must not be shorter).
         let query = "1010 znn";
