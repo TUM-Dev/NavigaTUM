@@ -3,7 +3,7 @@ beautifulsoup4==4.14.3
 defusedxml==0.7.1
 lxml==6.0.2
 Pillow==12.1.1
-polars==1.38.0
+polars==1.38.1
 pyarrow==23.0.0
 pydantic==2.12.5
 pyyaml==6.0.3
