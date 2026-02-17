@@ -84,7 +84,7 @@ jobs:
   done:
     name: Finished server CI
     runs-on: ubuntu-latest
-    needs: [ shear, tests, linting, build ]
+    needs: [ tests, linting, build ]
     if: always()
     permissions: {}
     steps:
