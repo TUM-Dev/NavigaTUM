@@ -764,7 +764,6 @@ org_id,code,name,path
 44884,TUMARBG,Rechnerbetriebsgruppe Mathematik und Informatik (RBG),TUM/Fakultäten/Ehemalige Fakultät für Mathematik/Zentrale Einrichtungen Zentrum Mathematik/Rechnerbetriebsgruppe Mathematik und Informatik (RBG)
 44904,TUEDS22,Lehrstuhl für Methoden der Empirischen Bildungsforschung (Prof. Ünlü),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Methoden der Empirischen Bildungsforschung (Prof. Ünlü)
 44925,TUBVMAF,Lehrstuhl für Hangbewegungen (Prof. Krautblatter),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Hangbewegungen (Prof. Krautblatter)
-44926,TUEIEVW,Professur für Elektromagnetische Verträglichkeit und Wellenausbreitung (N.N.),TUM/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Lehrstühle und Professuren/Elektromagnetische Verträglichkeit und Wellenausbreitung (N.N.)
 44927,TUSPL13,Professur für Sport- und Gesundheitsdidaktik (Prof. Mess),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Sport- und Gesundheitsdidaktik (Prof. Mess)
 44928,TUMAF23,Professur für Theorie komplexer Quantensysteme (Prof. König),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Theorie komplexer Quantensysteme (Prof. König)"
 44945,TUPRVP7,"Vizepräsident Controlling & Resilienzmanagement, Stellvertretender Kanzler","TUM/Hochschulpräsidium/Vizepräsidenten und Kanzler/Vizepräsident Controlling & Resilienzmanagement, Stellvertretender Kanzler"
@@ -890,7 +889,7 @@ org_id,code,name,path
 47237,TUEIESM,Professur für Umweltsensorik und Modellierung (Prof. Chen),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Umweltsensorik und Modellierung (Prof. Chen)"
 47238,TUWIB34,Lehrstuhl für Operations Research (Prof. Schulz),TUM/Schools/Management/Departments/Operations and Technology/Operations Research (Prof. Schulz)
 47239,TUWIB35,Lehrstuhl für Strategic and International Management (Prof. Hutzschenreuter),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Strategic and International Management (Prof. Hutzschenreuter)"
-47277,TUBVMOB,Professur für Verkehrsverhalten (Prof. Bogenberger komm.),TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Prof. Bogenberger komm.)
+47277,TUBVMOB,Professur für Verkehrsverhalten (Prof. Zhang komm.),TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Prof. Zhang komm.)
 47278,TUPHTCQ,Professur für Kollektive Quantendynamik (Prof. Knap),TUM/Schools/Natural Sciences/Departments/Physics/Kollektive Quantendynamik (Prof. Knap)
 47297,TULRSIG,Lehrstuhl für Data Science in Earth Observation (Prof. Zhu),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Data Science in Earth Observation (Prof. Zhu)
 47317,TUWIB36,Professur für Energiemärkte (Prof. Schwenen),TUM/Schools/Management/Departments/Economics and Policy/Energiemärkte (Prof. Schwenen)
@@ -955,7 +954,7 @@ org_id,code,name,path
 48237,TUZETTM,Zentralinstitut für translationale Krebsforschung (TranslaTUM),TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)
 48238,TUINICT,Informatik 24 - Professur für Cyber Trust (Prof. Grossklags),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Cyber Trust (Prof. Grossklags)"
 48257,TUARL32,Professur für Green Technologies in Landscape Architecture (Prof. Ludwig),TUM/Schools/Engineering and Design/Departments/Architecture/Green Technologies in Landscape Architecture (Prof. Ludwig)
-48258,TUINF19,Informatik 28 - Lehrstuhl für Visual Computing (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing (Prof. Nießner)"
+48258,TUINF19,Informatik 28 - Lehrstuhl für Visual Computing and Artificial Intelligence (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing and Artificial Intelligence (Prof. Nießner)"
 48277,TUMEVI4,Professur für Immunpathologie von Virus-Infektionen (Prof. Pichlmair),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Virologie (Prof. Protzer)/Immunpathologie von Virus-Infektionen (Prof. Pichlmair)
 48297,TUZVRBE,Bauliche Entwicklungsplanung (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Baumanagement München (ZA 4)/Bauliche Entwicklungsplanung (ZA 4)
 48298,TUZV453,Infrastruktur Garching (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Gebäudemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)
@@ -987,7 +986,6 @@ org_id,code,name,path
 48377,TUPHEQT,Professur für Quantum Technologies (Prof. Poot),TUM/Schools/Natural Sciences/Departments/Physics/Quantum Technologies (Prof. Poot)
 48397,TUWZP7G,Professur für Pflanzengenetik (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzengenetik (N.N.)
 48417,TUZV454,Abfallentsorgung/Umwelt (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Abfallentsorgung/Umwelt (ZA 4)
-48437,TUEIHCR,Professur für Human-centered Assistive Robotics (Prof. Cheng komm.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Human-centered Assistive Robotics (Prof. Cheng komm.)"
 48481,TUPEFVW,Verwaltung,TUM/Hochschule für Politik München/Verwaltung
 48497,TUCHPC6,Professur für Dynamische Spektroskopien (Prof. Hauer),TUM/Schools/Natural Sciences/Departments/Chemistry/Dynamische Spektroskopien (Prof. Hauer)
 48537,TUZET00,Geschäftsstelle TranslaTUM,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)/Geschäftsstelle TranslaTUM
@@ -2280,3 +2278,7 @@ org_id,code,name,path
 57997,TUS5ST5,Professur für Experimental Radiation Physics (Prof. Bartzsch),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für RadioOnkologie und Strahlentherapie (Prof. Combs)/Experimental Radiation Physics (Prof. Bartzsch)
 57998,TUS5NM4,Lehrstuhl für Theranostik und Nuklearmedizin (Prof. Eiber),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Nuklearmedizin (Prof. Weber)/Theranostik und Nuklearmedizin (Prof. Eiber)
 58017,TUS1331,Lehrstuhl für Grundlagen der Programmierung (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Grundlagen der Programmierung (Prof. Zuleger)"
+58018,TUS2SCC,Professur für Raumfahrzeugkontrolle (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrzeugkontrolle (Prof. Kochdumper)
+58019,TUS2BPI,Professur für Bioprozessintensivierung (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprozessintensivierung (Prof. Duvigneau)
+58021,TUS4F8T,Professur für Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
+58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
