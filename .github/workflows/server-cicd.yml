@@ -27,8 +27,8 @@ jobs:
         with:
           tool: cargo-shear
       
-      - run: rustup default stable && rustup update
-      - run: cargo shear
+      - run: rustup default nightly-2026-01-15 && rustup update
+      - run: cargo shear --expand
   tests:
     runs-on: ubuntu-latest
     permissions:
