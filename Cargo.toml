@@ -45,8 +45,8 @@ serde_with = { version = "3.12.0", default-features = false, features = [] }
 serde_yaml = "0.9.34"
 sqlx = { version = "0.8.3", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 tempfile = "3.12.0"
-testcontainers = { version = "0.26.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.14.0", features = ["meilisearch", "postgres"] }
+testcontainers = { version = "0.27.0", features = ["watchdog"] }
+testcontainers-modules = { version = "0.15.0", features = ["meilisearch", "postgres"] }
 tokio = { version = "1.43", default-features = false }
 tracing = "0.1.41"
 tracing-actix-web = "0.7.15"
