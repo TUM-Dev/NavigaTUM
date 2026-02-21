@@ -21,7 +21,7 @@
 		"@googlemaps/polyline-codec": "1.0.28",
 		"@headlessui/vue": "1.7.23",
 		"@mdi/js": "^7.4.47",
-		"@nuxt/content": "3.10.0",
+		"@nuxt/content": "3.11.2",
 		"@nuxt/image": "2.0.0",
 		"@nuxtjs/color-mode": "4.0.0",
 		"@vueuse/core": "14.1.0",
