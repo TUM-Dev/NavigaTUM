@@ -46,6 +46,7 @@ if (error.value) {
 }
 
 const editProposal = useEditProposal();
+const feedback = useFeedback();
 const shownImage = ref<ImageInfoResponse | undefined>(
   data.value?.imgs?.length ? data.value.imgs[0] : undefined
 );
@@ -235,6 +236,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
   <ClientOnly>
     <LazyCalendarModal v-if="calendar.length" />
     <LazyEditProposalModal v-if="editProposal.open" />
+    <LazyFeedbackModal v-if="feedback.open" />
     <LazyDetailsImageSlideshowModal
       v-if="slideshowOpen && !!data?.imgs"
       v-model:shown_image="shownImage"
