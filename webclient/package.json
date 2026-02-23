@@ -24,9 +24,9 @@
 		"@nuxt/content": "3.10.0",
 		"@nuxt/image": "2.0.0",
 		"@nuxtjs/color-mode": "4.0.0",
-		"@vueuse/core": "14.1.0",
-		"@vueuse/nuxt": "14.1.0",
-		"@vueuse/router": "14.1.0",
+		"@vueuse/core": "14.2.1",
+		"@vueuse/nuxt": "14.2.1",
+		"@vueuse/router": "14.2.1",
 		"better-sqlite3": "12.6.2",
 		"maplibre-gl": "5.18.0",
 		"maplibre-gl-indoor": "0.0.22",
@@ -35,7 +35,7 @@
 		"sharp": "0.34.5",
 		"ts-essentials": "^10.1.1",
 		"vue": "3.5.27",
-		"vue-router": "4.6.4",
+		"vue-router": "5.0.3",
 		"vue3-carousel": "0.17.0"
 	},
 	"devDependencies": {
@@ -72,7 +72,8 @@
 			]
 		},
     "overrides": {
-      "vite": "^8.0.0-beta.8"
+      "vite": "^8.0.0-beta.8",
+      "vue-router": "5.0.3"
   }
 	}
 }
