@@ -785,7 +785,7 @@ org_id,code,name,path
 45130,TUEILFE,Chairs and Professorships,TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Chairs and Professorships
 45150,TUWIB25,Associate Professorship of Entrepreneurial Behavior (Prof. Breugst),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Behavior (Prof. Breugst)
 45151,TUINI22,Informatics 4 - Chair of Software & Systems Engineering (Prof. Pretschner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software & Systems Engineering (Prof. Pretschner)"
-45170,TUWIB26,Associate Professorship of Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
+45170,TUWIB26,Chair of Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
 45190,TUWIB27,Associate Professorship of International Entrepreneurship (Prof. Milanov),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/International Entrepreneurship (Prof. Milanov)
 45230,TUPHE28,Chair of Plasmarand- und Divertorphysik (Prof. Stroth),TUM/Schools/Natural Sciences/Departments/Physics/Plasmarand- und Divertorphysik (Prof. Stroth)
 45250,TUPEINT,TUM International GmbH,TUM/Institutions close to the University/Other Institution
@@ -2282,3 +2282,4 @@ org_id,code,name,path
 58019,TUS2BPI,Assistant Professorship of  Bioprocess Intensification (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprocess Intensification (Prof. Duvigneau)
 58021,TUS4F8T,Assistant Professorship of Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Other Institution TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
+58097,TUWIH17,Associate Professorship of Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)

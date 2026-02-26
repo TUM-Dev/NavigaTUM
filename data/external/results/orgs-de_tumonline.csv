@@ -785,7 +785,7 @@ org_id,code,name,path
 45130,TUEILFE,Lehrstühle und Professuren,TUM/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Lehrstühle und Professuren
 45150,TUWIB25,Professur für Entrepreneurial Behavior (Prof. Breugst),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Behavior (Prof. Breugst)
 45151,TUINI22,Informatik 4 - Lehrstuhl für Software & Systems Engineering (Prof. Pretschner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software & Systems Engineering (Prof. Pretschner)"
-45170,TUWIB26,Professur für Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
+45170,TUWIB26,Lehrstuhl für Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
 45190,TUWIB27,Professur für International Entrepreneurship (Prof. Milanov),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/International Entrepreneurship (Prof. Milanov)
 45230,TUPHE28,Lehrstuhl für Plasmarand- und Divertorphysik (Prof. Stroth),TUM/Schools/Natural Sciences/Departments/Physics/Plasmarand- und Divertorphysik (Prof. Stroth)
 45250,TUPEINT,TUM International GmbH,TUM/Partnerschaftliche Einrichtungen/TUM International GmbH
@@ -2282,3 +2282,4 @@ org_id,code,name,path
 58019,TUS2BPI,Professur für Bioprozessintensivierung (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprozessintensivierung (Prof. Duvigneau)
 58021,TUS4F8T,Professur für Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
+58097,TUWIH17,Professur für Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
