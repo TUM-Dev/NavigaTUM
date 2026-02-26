@@ -76,7 +76,14 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
         });
     }
 
-    let df_expanded = df.explode(["aliases"])?;
+    // Null and empty-list aliases are filtered out below, so we don't need to keep them.
+    let df_expanded = df.explode(
+        ["aliases"],
+        ExplodeOptions {
+            empty_as_null: false,
+            keep_nulls: false,
+        },
+    )?;
     let mask = df_expanded.column("aliases")?.is_not_null();
     let df_expanded = df_expanded.filter(&mask)?;
     let id_col = df_expanded.column("id")?.str()?;
