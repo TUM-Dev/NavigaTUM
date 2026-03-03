@@ -851,7 +851,7 @@ org_id,code,name,path
 46257,TUCHTH5,Professur für Theoretische Chemie (Prof. Bokarev),TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretische Chemie (Prof. Bokarev)
 46275,TUEIENS,Lehrstuhl für Erneuerbare und Nachhaltige Energiesysteme (Prof. Hamacher),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Erneuerbare und Nachhaltige Energiesysteme (Prof. Hamacher)
 46295,TUWIR03,Professur für Corporate Governance and Capital Markets Law (Prof. Maume),TUM/Schools/Management/Departments/Finance and Accounting/Corporate Governance and Capital Markets Law (Prof. Maume)
-46318,TUMAF28,Professur für Optimierung und Datenanalyse (Prof. Krahmer),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimierung und Datenanalyse (Prof. Krahmer)"
+46318,TUMAF28,Professur für Optimierung und Datenanalyse (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimierung und Datenanalyse (N.N.)"
 46356,TUINF08,Informatik 15 - Professur für Physik-basierte Simulation (Prof. Thuerey),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physik-basierte Simulation (Prof. Thuerey)"
 46357,TUINL14,Informatik 14 - Lehrstuhl für Algorithmen und Komplexität (Prof. Albers),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmen und Komplexität (Prof. Albers)"
 46415,TUEISNE,Professur für Simulation von Nanosystemen für Energiewandlungen (Prof. Gagliardi),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Simulation von Nanosystemen für Energiewandlungen (Prof. Gagliardi)"
@@ -2283,3 +2283,5 @@ org_id,code,name,path
 58021,TUS4F8T,Professur für Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
 58097,TUWIH17,Professur für Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
+58117,TUS3018,Lehrstuhl für Makromolekulare Chemie (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Thomas)
+58137,TUPH019,Lehrstuhl für Plasmadynamik (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamik (Prof. Happel)

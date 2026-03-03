@@ -851,7 +851,7 @@ org_id,code,name,path
 46257,TUCHTH5,Assistant Professorship of Theoretical Chemistry (Prof. Bokarev),TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretical Chemistry (Prof. Bokarev)
 46275,TUEIENS,Chair of Renewable and Sustainable Energy Systems (Prof. Hamacher),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Renewable and Sustainable Energy Systems (Prof. Hamacher)
 46295,TUWIR03,Associate Professorship of Corporate Governance and Capital Markets Law (Prof. Maume),TUM/Schools/Management/Departments/Finance and Accounting/Corporate Governance and Capital Markets Law (Prof. Maume)
-46318,TUMAF28,Associate Professorship of Optimization and Data Analysis (Prof. Krahmer),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimization and Data Analysis (Prof. Krahmer)"
+46318,TUMAF28,Associate Professorship of Optimization and Data Analysis (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimization and Data Analysis (N.N.)"
 46356,TUINF08,Informatics 15 - Associate Professorship of Physics-based Simulation (Prof. Thuerey),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-based Simulation (Prof. Thuerey)"
 46357,TUINL14,Informatics 14 - Chair of Algorithms and Complexity (Prof. Albers),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithms and Complexity (Prof. Albers)"
 46415,TUEISNE,Associate Professorship of Simulation of Nanosystems for Energy Conversion (Prof. Gagliardi),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Simulation of Nanosystems for Energy Conversion (Prof. Gagliardi)"
@@ -2283,3 +2283,5 @@ org_id,code,name,path
 58021,TUS4F8T,Assistant Professorship of Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Other Institution TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
 58097,TUWIH17,Associate Professorship of Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
+58117,TUS3018,Chair of Macromolecular Chemistry (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Macromolecular Chemistry (Prof. Thomas)
+58137,TUPH019,Chair of Plasmadynamic (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamic (Prof. Happel)
