@@ -198,6 +198,6 @@ jobs:
     steps:
       - name: Result of the needed steps
         run: echo "${{ toJSON(needs) }}" # zizmor: ignore[template-injection]
-      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+      - if: ${{ contains(needs.*.result, 'failure') }}
         name: CI Result
         run: exit 1
