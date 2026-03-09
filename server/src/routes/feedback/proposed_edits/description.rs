@@ -40,6 +40,30 @@ impl Description {
             }
         }
     }
+
+    pub fn apply_set_as_blocks<T: AppliableEdit>(
+        &mut self,
+        category_name: &'static str,
+        set: HashMap<String, T>,
+        base_dir: &Path,
+        branch: &str,
+    ) {
+        if !set.is_empty() {
+            let edits = if set.len() == 1 { "edit" } else { "edits" };
+            if self.title.is_empty() {
+                self.title = format!("{amount} {category_name} {edits}", amount = set.len());
+            } else {
+                self.title += &format!(" and {amount} {category_name} {edits}", amount = set.len());
+            }
+
+            self.body += &format!("\nThe following {category_name} edits were made:\n");
+
+            for (key, value) in set {
+                let result = value.apply(&key, base_dir, branch);
+                self.body += &format!("- [`{key}`](https://nav.tum.de/view/{key}):\n{result}\n");
+            }
+        }
+    }
 }
 
 #[cfg(test)]
@@ -93,5 +117,36 @@ mod tests {
             description.body,
             "\nThe following category edits were made:\n| entry | edit |\n| ---   | ---  |\n| [`key`](https://nav.tum.de/view/key) | applied_value |\n"
         );
+    }
+
+    #[test]
+    fn test_apply_set_as_blocks_empty() {
+        let mut description = Description::default();
+        let set: HashMap<String, TestEdit> = HashMap::default();
+        description.apply_set_as_blocks("coordinate", set, Path::new(""), "none");
+        assert_eq!(description.title, "");
+        assert_eq!(description.body, "");
+    }
+
+    #[test]
+    fn test_apply_set_as_blocks() {
+        let mut description = Description::default();
+        let set = HashMap::from([("key".to_string(), TestEdit)]);
+        description.apply_set_as_blocks("coordinate", set, Path::new(""), "none");
+        assert_eq!(description.title, "1 coordinate edit");
+        assert_eq!(
+            description.body,
+            "\nThe following coordinate edits were made:\n- [`key`](https://nav.tum.de/view/key):\napplied_value\n"
+        );
+    }
+
+    #[test]
+    fn test_apply_set_as_blocks_does_not_use_table() {
+        let mut description = Description::default();
+        let set = HashMap::from([("key".to_string(), TestEdit)]);
+        description.apply_set_as_blocks("coordinate", set, Path::new(""), "none");
+        // Block output must not contain table syntax.
+        assert!(!description.body.contains("| entry |"));
+        assert!(!description.body.contains("| ---"));
     }
 }
