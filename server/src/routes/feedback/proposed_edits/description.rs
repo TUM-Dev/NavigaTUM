@@ -60,7 +60,13 @@ impl Description {
 
             for (key, value) in set {
                 let result = value.apply(&key, base_dir, branch);
-                self.body += &format!("- [`{key}`](https://nav.tum.de/view/{key}):\n{result}\n");
+                let indented_result = result
+                    .lines()
+                    .map(|line| format!("    {line}"))
+                    .collect::<Vec<_>>()
+                    .join("\n");
+                self.body +=
+                    &format!("- [`{key}`](https://nav.tum.de/view/{key}):\n\n{indented_result}\n");
             }
         }
     }
