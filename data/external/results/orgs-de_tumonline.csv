@@ -764,7 +764,6 @@ org_id,code,name,path
 44884,TUMARBG,Rechnerbetriebsgruppe Mathematik und Informatik (RBG),TUM/Fakultäten/Ehemalige Fakultät für Mathematik/Zentrale Einrichtungen Zentrum Mathematik/Rechnerbetriebsgruppe Mathematik und Informatik (RBG)
 44904,TUEDS22,Lehrstuhl für Methoden der Empirischen Bildungsforschung (Prof. Ünlü),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Methoden der Empirischen Bildungsforschung (Prof. Ünlü)
 44925,TUBVMAF,Lehrstuhl für Hangbewegungen (Prof. Krautblatter),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Hangbewegungen (Prof. Krautblatter)
-44926,TUEIEVW,Professur für Elektromagnetische Verträglichkeit und Wellenausbreitung (N.N.),TUM/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Lehrstühle und Professuren/Elektromagnetische Verträglichkeit und Wellenausbreitung (N.N.)
 44927,TUSPL13,Professur für Sport- und Gesundheitsdidaktik (Prof. Mess),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Sport- und Gesundheitsdidaktik (Prof. Mess)
 44928,TUMAF23,Professur für Theorie komplexer Quantensysteme (Prof. König),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Theorie komplexer Quantensysteme (Prof. König)"
 44945,TUPRVP7,"Vizepräsident Controlling & Resilienzmanagement, Stellvertretender Kanzler","TUM/Hochschulpräsidium/Vizepräsidenten und Kanzler/Vizepräsident Controlling & Resilienzmanagement, Stellvertretender Kanzler"
@@ -786,7 +785,7 @@ org_id,code,name,path
 45130,TUEILFE,Lehrstühle und Professuren,TUM/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Lehrstühle und Professuren
 45150,TUWIB25,Professur für Entrepreneurial Behavior (Prof. Breugst),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Behavior (Prof. Breugst)
 45151,TUINI22,Informatik 4 - Lehrstuhl für Software & Systems Engineering (Prof. Pretschner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software & Systems Engineering (Prof. Pretschner)"
-45170,TUWIB26,Professur für Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
+45170,TUWIB26,Lehrstuhl für Innovation and Organization Design (Prof. Alexy),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation and Organization Design (Prof. Alexy)
 45190,TUWIB27,Professur für International Entrepreneurship (Prof. Milanov),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/International Entrepreneurship (Prof. Milanov)
 45230,TUPHE28,Lehrstuhl für Plasmarand- und Divertorphysik (Prof. Stroth),TUM/Schools/Natural Sciences/Departments/Physics/Plasmarand- und Divertorphysik (Prof. Stroth)
 45250,TUPEINT,TUM International GmbH,TUM/Partnerschaftliche Einrichtungen/TUM International GmbH
@@ -852,7 +851,7 @@ org_id,code,name,path
 46257,TUCHTH5,Professur für Theoretische Chemie (Prof. Bokarev),TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretische Chemie (Prof. Bokarev)
 46275,TUEIENS,Lehrstuhl für Erneuerbare und Nachhaltige Energiesysteme (Prof. Hamacher),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Erneuerbare und Nachhaltige Energiesysteme (Prof. Hamacher)
 46295,TUWIR03,Professur für Corporate Governance and Capital Markets Law (Prof. Maume),TUM/Schools/Management/Departments/Finance and Accounting/Corporate Governance and Capital Markets Law (Prof. Maume)
-46318,TUMAF28,Professur für Optimierung und Datenanalyse (Prof. Krahmer),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimierung und Datenanalyse (Prof. Krahmer)"
+46318,TUMAF28,Professur für Optimierung und Datenanalyse (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Optimierung und Datenanalyse (N.N.)"
 46356,TUINF08,Informatik 15 - Professur für Physik-basierte Simulation (Prof. Thuerey),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physik-basierte Simulation (Prof. Thuerey)"
 46357,TUINL14,Informatik 14 - Lehrstuhl für Algorithmen und Komplexität (Prof. Albers),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmen und Komplexität (Prof. Albers)"
 46415,TUEISNE,Professur für Simulation von Nanosystemen für Energiewandlungen (Prof. Gagliardi),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Simulation von Nanosystemen für Energiewandlungen (Prof. Gagliardi)"
@@ -890,7 +889,7 @@ org_id,code,name,path
 47237,TUEIESM,Professur für Umweltsensorik und Modellierung (Prof. Chen),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Umweltsensorik und Modellierung (Prof. Chen)"
 47238,TUWIB34,Lehrstuhl für Operations Research (Prof. Schulz),TUM/Schools/Management/Departments/Operations and Technology/Operations Research (Prof. Schulz)
 47239,TUWIB35,Lehrstuhl für Strategic and International Management (Prof. Hutzschenreuter),"TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Strategic and International Management (Prof. Hutzschenreuter)"
-47277,TUBVMOB,Professur für Verkehrsverhalten (Prof. Bogenberger komm.),TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Prof. Bogenberger komm.)
+47277,TUBVMOB,Professur für Verkehrsverhalten (Prof. Zhang komm.),TUM/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Verkehrsverhalten (Prof. Zhang komm.)
 47278,TUPHTCQ,Professur für Kollektive Quantendynamik (Prof. Knap),TUM/Schools/Natural Sciences/Departments/Physics/Kollektive Quantendynamik (Prof. Knap)
 47297,TULRSIG,Lehrstuhl für Data Science in Earth Observation (Prof. Zhu),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Data Science in Earth Observation (Prof. Zhu)
 47317,TUWIB36,Professur für Energiemärkte (Prof. Schwenen),TUM/Schools/Management/Departments/Economics and Policy/Energiemärkte (Prof. Schwenen)
@@ -955,7 +954,7 @@ org_id,code,name,path
 48237,TUZETTM,Zentralinstitut für translationale Krebsforschung (TranslaTUM),TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)
 48238,TUINICT,Informatik 24 - Professur für Cyber Trust (Prof. Grossklags),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Cyber Trust (Prof. Grossklags)"
 48257,TUARL32,Professur für Green Technologies in Landscape Architecture (Prof. Ludwig),TUM/Schools/Engineering and Design/Departments/Architecture/Green Technologies in Landscape Architecture (Prof. Ludwig)
-48258,TUINF19,Informatik 28 - Lehrstuhl für Visual Computing (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing (Prof. Nießner)"
+48258,TUINF19,Informatik 28 - Lehrstuhl für Visual Computing and Artificial Intelligence (Prof. Nießner),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing and Artificial Intelligence (Prof. Nießner)"
 48277,TUMEVI4,Professur für Immunpathologie von Virus-Infektionen (Prof. Pichlmair),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Virologie (Prof. Protzer)/Immunpathologie von Virus-Infektionen (Prof. Pichlmair)
 48297,TUZVRBE,Bauliche Entwicklungsplanung (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort München (ZA 4)/Baumanagement München (ZA 4)/Bauliche Entwicklungsplanung (ZA 4)
 48298,TUZV453,Infrastruktur Garching (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Gebäudemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)
@@ -987,7 +986,6 @@ org_id,code,name,path
 48377,TUPHEQT,Professur für Quantum Technologies (Prof. Poot),TUM/Schools/Natural Sciences/Departments/Physics/Quantum Technologies (Prof. Poot)
 48397,TUWZP7G,Professur für Pflanzengenetik (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzengenetik (N.N.)
 48417,TUZV454,Abfallentsorgung/Umwelt (ZA 4),TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Abfallentsorgung/Umwelt (ZA 4)
-48437,TUEIHCR,Professur für Human-centered Assistive Robotics (Prof. Cheng komm.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Human-centered Assistive Robotics (Prof. Cheng komm.)"
 48481,TUPEFVW,Verwaltung,TUM/Hochschule für Politik München/Verwaltung
 48497,TUCHPC6,Professur für Dynamische Spektroskopien (Prof. Hauer),TUM/Schools/Natural Sciences/Departments/Chemistry/Dynamische Spektroskopien (Prof. Hauer)
 48537,TUZET00,Geschäftsstelle TranslaTUM,TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)/Geschäftsstelle TranslaTUM
@@ -2088,7 +2086,7 @@ org_id,code,name,path
 55937,TUS1314,Informatik Heilbronn 11 - Lehrstuhl für Software Engineering & AI (Prof. Chen),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
 55938,TUS1315,Informatik 39 - Professur für Learning AI for Dextrous Robots (Prof. Bäuml),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Learning AI for Dextrous Robots (Prof. Bäuml)"
 55957,TUXS113,Studiengang M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Heilbronn/M.Sc. Information Engineering"
-55997,TUS1316,Professur für Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
+55997,TUS1316,Lehrstuhl für Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
 56017,TUXS72A,Studiengang M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Studienorganisation/Berufliche Bildung/Master of Education Berufliche Bildung/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik
 56037,TUZVGHB,Geschäftsstelle TUM Campus Heilbronn,TUM/Zentrale Verwaltung/Geschäftsstelle TUM Campus Heilbronn
 56057,TUS4F8S,Professur für Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
@@ -2277,3 +2275,13 @@ org_id,code,name,path
 57937,TUS1330,Professur für Nanoelectronic Circuits and Systems (Prof. Covi),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Nanoelectronic Circuits and Systems (Prof. Covi)"
 57957,TUXS116,Studiengang M.Sc. AI in Biomedicine (Honoursprogramm),"TUM/Schools/Computation, Information and Technology/Studienorganisation/Data Science/M.Sc. AI in Biomedicine (Honoursprogramm)"
 57977,TUS6EVE,"Professur für Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)","TUM/Schools/Management/Departments/Economics and Policy/Environmental Economics (Prof. Tonke, Joint Appointment der TUM School of Management and TUM School of Life Sciences)"
+57997,TUS5ST5,Professur für Experimental Radiation Physics (Prof. Bartzsch),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für RadioOnkologie und Strahlentherapie (Prof. Combs)/Experimental Radiation Physics (Prof. Bartzsch)
+57998,TUS5NM4,Lehrstuhl für Theranostik und Nuklearmedizin (Prof. Eiber),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Nuklearmedizin (Prof. Weber)/Theranostik und Nuklearmedizin (Prof. Eiber)
+58017,TUS1331,Lehrstuhl für Grundlagen der Programmierung (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Grundlagen der Programmierung (Prof. Zuleger)"
+58018,TUS2SCC,Professur für Raumfahrzeugkontrolle (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrzeugkontrolle (Prof. Kochdumper)
+58019,TUS2BPI,Professur für Bioprozessintensivierung (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprozessintensivierung (Prof. Duvigneau)
+58021,TUS4F8T,Professur für Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
+58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
+58097,TUWIH17,Professur für Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
+58117,TUS3018,Lehrstuhl für Makromolekulare Chemie (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Thomas)
+58137,TUPH019,Lehrstuhl für Plasmadynamik (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamik (Prof. Happel)
