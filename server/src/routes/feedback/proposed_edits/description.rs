@@ -140,9 +140,11 @@ mod tests {
         let set = HashMap::from([("key".to_string(), TestEdit)]);
         description.apply_set_as_blocks("coordinate", set, Path::new(""), "none");
         assert_eq!(description.title, "1 coordinate edit");
+        // A blank line after the list-item colon and 4-space indentation ensure the fenced block
+        // is rendered as content of the list item in GitHub-flavored Markdown.
         assert_eq!(
             description.body,
-            "\nThe following coordinate edits were made:\n- [`key`](https://nav.tum.de/view/key):\napplied_value\n"
+            "\nThe following coordinate edits were made:\n- [`key`](https://nav.tum.de/view/key):\n\n    applied_value\n"
         );
     }
 
