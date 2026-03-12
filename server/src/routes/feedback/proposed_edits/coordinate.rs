@@ -68,11 +68,22 @@ impl AppliableEdit for Coordinate {
         // Replace original file with temp file
         std::fs::rename(&temp_file, &csv_file).unwrap();
 
-        format!(
-            "https://nav.tum.de/api/preview_edit/{key}?to_lat={lat}&to_lon={lon}",
-            lat = self.lat,
-            lon = self.lon
-        )
+        let geojson = serde_json::json!({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                // GeoJSON uses [longitude, latitude] ordering per RFC 7946
+                "coordinates": [self.lon, self.lat]
+            },
+            "properties": {
+                "kind": "coordinate-change",
+                "id": key,
+                "to_lat": self.lat,
+                "to_lon": self.lon
+            }
+        });
+        let pretty = serde_json::to_string_pretty(&geojson).unwrap_or_else(|_| geojson.to_string());
+        format!("```geojson\n{pretty}\n```")
     }
 }
 
@@ -232,5 +243,44 @@ mod tests {
         coord.apply("0", dir.path(), "branch");
         let expected = "id,lat,lon\n0,0,0\n";
         assert_eq!(fs::read_to_string(&csv_file).unwrap(), expected);
+    }
+
+    #[test]
+    fn test_apply_returns_geojson_block() {
+        let coord = Coordinate {
+            lat: 48.262,
+            lon: 11.668,
+        };
+        let (dir, _csv_file) = setup();
+        let result = coord.apply("mi", dir.path(), "branch");
+
+        // The result must start and end with the geojson fenced block markers.
+        assert!(
+            result.starts_with("```geojson\n"),
+            "expected fenced geojson block, got: {result}"
+        );
+        assert!(
+            result.ends_with("\n```"),
+            "expected closing fence, got: {result}"
+        );
+
+        // Strip the fences and parse as JSON.
+        let json_str = result
+            .strip_prefix("```geojson\n")
+            .unwrap()
+            .strip_suffix("\n```")
+            .unwrap();
+        let value: serde_json::Value = serde_json::from_str(json_str)
+            .expect("apply() must return valid JSON inside the fenced block");
+
+        assert_eq!(value["type"], "Feature");
+        assert_eq!(value["geometry"]["type"], "Point");
+        // GeoJSON coordinate order is [longitude, latitude].
+        assert_eq!(value["geometry"]["coordinates"][0], 11.668);
+        assert_eq!(value["geometry"]["coordinates"][1], 48.262);
+        assert_eq!(value["properties"]["kind"], "coordinate-change");
+        assert_eq!(value["properties"]["id"], "mi");
+        assert_eq!(value["properties"]["to_lat"], 48.262);
+        assert_eq!(value["properties"]["to_lon"], 11.668);
     }
 }

@@ -54,7 +54,12 @@ impl TempRepo {
         description.add_context(&edits.additional_context);
 
         let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
-        description.appply_set("coordinate", coordinate_edits, self.dir.path(), branch_name);
+        description.apply_set_as_blocks(
+            "coordinate",
+            coordinate_edits,
+            self.dir.path(),
+            branch_name,
+        );
         let image_edits = edits.edits_for(|edit| edit.image);
         description.appply_set("image", image_edits, self.dir.path(), branch_name);
 
