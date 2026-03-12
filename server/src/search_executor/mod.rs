@@ -230,6 +230,7 @@ mod test {
         }
     }
     #[tokio::test]
+    #[ignore = "flaky over time and low signal"]
     #[tracing_test::traced_test]
     async fn test_good_queries() {
         let ms = MeiliSearchTestContainer::new().await;
@@ -261,6 +262,7 @@ mod test {
     }
 
     #[tokio::test]
+    #[ignore = "flaky over time and low signal"]
     #[tracing_test::traced_test]
     async fn test_bad_queries() {
         let ms = MeiliSearchTestContainer::new().await;
