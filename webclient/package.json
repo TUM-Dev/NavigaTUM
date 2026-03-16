@@ -28,7 +28,7 @@
 		"@vueuse/nuxt": "14.2.1",
 		"@vueuse/router": "14.2.1",
 		"better-sqlite3": "12.6.2",
-		"maplibre-gl": "5.20.0",
+		"maplibre-gl": "5.20.1",
 		"maplibre-gl-indoor": "0.0.22",
 		"nightwind": "1.1.13",
 		"nuxt": "4.2.2",
