@@ -15,14 +15,14 @@ impl TempRepo {
     ///
     /// Use this when no batch PR exists yet and a fresh branch needs to be pushed for the first
     /// time.
-    #[tracing::instrument]
+    #[tracing::instrument(skip(url))]
     pub async fn clone_and_checkout_new_branch(
         url: &str,
         branch_name: &str,
     ) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
-        info!(url, target_dir= ?dir, "Cloning repository (new branch)");
+        info!(target_dir = ?dir, "Cloning repository (new branch)");
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("clone")
@@ -60,14 +60,14 @@ impl TempRepo {
     /// Use this when adding an edit to an existing batch PR.  Cloning `main` and branching from
     /// it would create a diverging history and cause the subsequent push to be rejected as
     /// non-fast-forward.
-    #[tracing::instrument]
+    #[tracing::instrument(skip(url))]
     pub async fn clone_and_checkout_existing_branch(
         url: &str,
         branch_name: &str,
     ) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
-        info!(url, target_dir= ?dir, branch_name, "Cloning repository (existing branch)");
+        info!(target_dir = ?dir, branch_name, "Cloning repository (existing branch)");
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("clone")
