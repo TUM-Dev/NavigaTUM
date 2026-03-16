@@ -65,7 +65,11 @@ impl EditRequest {
             anyhow::bail!("Failed to get GitHub token");
         };
         let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
-        let repo = TempRepo::clone_and_checkout(&url, branch_name, branch_is_new).await?;
+        let repo = if branch_is_new {
+            TempRepo::clone_and_checkout_new_branch(&url, branch_name).await?
+        } else {
+            TempRepo::clone_and_checkout_existing_branch(&url, branch_name).await?
+        };
         let desc = repo.apply_and_gen_description(self, branch_name);
         repo.commit(&desc.title).await?;
         repo.push().await?;
