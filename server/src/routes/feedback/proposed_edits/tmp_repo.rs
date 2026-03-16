@@ -11,40 +11,75 @@ pub struct TempRepo {
     branch_name: String,
 }
 impl TempRepo {
+    /// Clone the repository and check out `branch_name`.
+    ///
+    /// When `branch_is_new` is `true`, the repository is cloned from `main` and a new local
+    /// branch is created from it.  When `branch_is_new` is `false`, the branch already exists on
+    /// the remote (e.g., as part of an in-progress batch PR), so the repository is cloned
+    /// directly with `--branch` to check out that existing branch.  Cloning from `main` in the
+    /// latter case would cause a diverging history and a rejected push.
     #[tracing::instrument]
-    pub async fn clone_and_checkout(url: &str, branch_name: &str) -> anyhow::Result<Self> {
+    pub async fn clone_and_checkout(
+        url: &str,
+        branch_name: &str,
+        branch_is_new: bool,
+    ) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
-        info!(url, target_dir= ?dir,"Cloning repository");
-        let out = Command::new("git")
-            .current_dir(&dir)
-            .arg("clone")
-            .arg("--depth=1")
-            .arg(url)
-            .arg(dir.path())
-            .output()
-            .await?;
-        debug!(output=?out,"git clone output");
-        if out.status.code() != Some(0) {
-            anyhow::bail!("git status failed with output: {out:?}");
-        }
+        if branch_is_new {
+            info!(url, target_dir= ?dir, "Cloning repository (new branch)");
+            let out = Command::new("git")
+                .current_dir(&dir)
+                .arg("clone")
+                .arg("--depth=1")
+                .arg(url)
+                .arg(dir.path())
+                .output()
+                .await?;
+            debug!(output=?out,"git clone output");
+            if out.status.code() != Some(0) {
+                anyhow::bail!("git clone (new branch) failed with output: {out:?}");
+            }
 
-        // checkout + create branch
-        let out = Command::new("git")
-            .current_dir(&dir)
-            .arg("checkout")
-            .arg("-b")
-            .arg(branch_name)
-            .arg("main")
-            .output()
-            .await?;
-        debug!(output=?out,"git checkout output");
-        match out.status.code() {
-            Some(0) => Ok(Self {
-                dir,
-                branch_name: branch_name.to_string(),
-            }),
-            _ => anyhow::bail!("git commit failed with output: {out:?}"),
+            // Create a new local branch from main.
+            let out = Command::new("git")
+                .current_dir(&dir)
+                .arg("checkout")
+                .arg("-b")
+                .arg(branch_name)
+                .arg("main")
+                .output()
+                .await?;
+            debug!(output=?out,"git checkout output");
+            match out.status.code() {
+                Some(0) => Ok(Self {
+                    dir,
+                    branch_name: branch_name.to_string(),
+                }),
+                _ => anyhow::bail!("git checkout failed with output: {out:?}"),
+            }
+        } else {
+            // The branch already exists on the remote; clone it directly so that the local
+            // history matches and the subsequent push is a fast-forward.
+            info!(url, target_dir= ?dir, branch_name, "Cloning repository (existing branch)");
+            let out = Command::new("git")
+                .current_dir(&dir)
+                .arg("clone")
+                .arg("--depth=1")
+                .arg("--branch")
+                .arg(branch_name)
+                .arg(url)
+                .arg(dir.path())
+                .output()
+                .await?;
+            debug!(output=?out,"git clone output");
+            match out.status.code() {
+                Some(0) => Ok(Self {
+                    dir,
+                    branch_name: branch_name.to_string(),
+                }),
+                _ => anyhow::bail!("git clone (existing branch) failed with output: {out:?}"),
+            }
         }
     }
 
@@ -153,7 +188,7 @@ mod tests {
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
     #[tokio::test]
     async fn test_new() {
-        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
+        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist", true)
             .await
             .unwrap();
         assert!(temp_repo.dir.path().exists());
@@ -163,7 +198,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_checkout_and_commit() {
-        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
+        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist", true)
             .await
             .unwrap();
         // test the branch was created
