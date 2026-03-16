@@ -16,7 +16,10 @@ impl TempRepo {
     /// Use this when no batch PR exists yet and a fresh branch needs to be pushed for the first
     /// time.
     #[tracing::instrument]
-    pub async fn clone_and_checkout_new_branch(url: &str, branch_name: &str) -> anyhow::Result<Self> {
+    pub async fn clone_and_checkout_new_branch(
+        url: &str,
+        branch_name: &str,
+    ) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
         info!(url, target_dir= ?dir, "Cloning repository (new branch)");
