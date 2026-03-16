@@ -4,7 +4,7 @@ use std::path::Path;
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
 use serde::Deserialize;
-use tracing::error;
+use tracing::{error, info};
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
@@ -79,7 +79,7 @@ impl EditRequest {
             .collect()
     }
 
-    fn extract_labels(&self) -> Vec<String> {
+    pub(super) fn extract_labels(&self) -> Vec<String> {
         let mut labels = vec!["webform".to_string()];
 
         if self
@@ -95,6 +95,7 @@ impl EditRequest {
         }
         labels
     }
+
     fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
@@ -178,22 +179,60 @@ pub async fn propose_edits(
     };
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
+
+    // Try to find an open batch PR and use it
+    let batch_pr = super::batch_processor::find_open_batch_pr()
+        .await
+        .ok()
+        .flatten();
+
+    let (branch_to_use, pr_number_opt) = match batch_pr {
+        Some((pr_number, batch_branch)) => {
+            info!(%pr_number, "Adding edit to existing batch PR");
+            (batch_branch, Some(pr_number))
+        }
+        None => (branch_name, None),
+    };
+
     match req_data
-        .apply_changes_and_generate_description(&branch_name)
+        .apply_changes_and_generate_description(&branch_to_use)
         .await
     {
         Ok(description) => {
-            GitHub::default()
-                .open_pr(
-                    branch_name,
-                    &format!(
-                        "chore(data): {subject}",
-                        subject = req_data.extract_subject()
-                    ),
+            if let Some(pr_number) = pr_number_opt {
+                // Update metadata for batch PR (including appending description)
+                if let Err(e) = super::batch_processor::update_batch_pr_metadata(
+                    pr_number,
+                    &req_data,
                     &description,
-                    req_data.extract_labels(),
                 )
                 .await
+                {
+                    error!(error = ?e, "Failed to update batch PR metadata");
+                }
+
+                let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{pr_number}");
+                HttpResponse::Created()
+                    .content_type("text/plain")
+                    .body(pr_url)
+            } else {
+                // Create new batch PR with batch-in-progress label
+                let mut labels = req_data.extract_labels();
+                labels.push(super::batch_processor::BATCH_LABEL.to_string());
+
+                // Use extract_subject for first PR to provide helpful context
+                let subject = req_data.extract_subject();
+                let title = format!("chore(data): {subject}");
+
+                GitHub::default()
+                    .open_pr(
+                        branch_to_use,
+                        &title,
+                        &format!("## Batched Coordinate Edits\n\n### Edit #1\n{description}"),
+                        labels,
+                    )
+                    .await
+            }
         }
         Err(error) => {
             error!(?error, "could not apply changes");

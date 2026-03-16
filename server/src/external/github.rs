@@ -142,6 +142,140 @@ impl GitHub {
             }
         }
     }
+
+    /// Find an open PR with a specific label
+    #[tracing::instrument]
+    pub async fn find_pr_with_label(self, label: &str) -> anyhow::Result<Option<(u64, String)>> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        // Search through all pages of open PRs to find one with the label
+        let mut page = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .list()
+            .state(octocrab::params::State::Open)
+            .per_page(100)
+            .send()
+            .await?;
+
+        loop {
+            for pr in &page.items {
+                if let Some(labels) = &pr.labels {
+                    for pr_label in labels {
+                        if pr_label.name == label {
+                            return Ok(Some((pr.number, pr.head.ref_field.clone())));
+                        }
+                    }
+                }
+            }
+
+            // Check if there's a next page
+            match octocrab.get_page(&page.next).await? {
+                Some(next_page) => page = next_page,
+                None => break,
+            }
+        }
+
+        Ok(None)
+    }
+
+    /// Update PR labels
+    #[tracing::instrument]
+    pub async fn update_pr_labels(self, pr_number: u64, labels: Vec<String>) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .labels(&labels)
+            .send()
+            .await?;
+
+        Ok(())
+    }
+
+    /// Update PR title
+    #[tracing::instrument]
+    pub async fn update_pr_title(self, pr_number: u64, title: &str) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .title(title)
+            .send()
+            .await?;
+
+        Ok(())
+    }
+
+    /// Get the number of commits in a PR
+    #[tracing::instrument]
+    pub async fn get_pr_commit_count(self, pr_number: u64) -> anyhow::Result<usize> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        // Fetch the first page of commits (up to 100 per page)
+        let mut page = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .pr_commits(pr_number)
+            .per_page(100)
+            .send()
+            .await?;
+
+        // Count commits from the first page
+        let mut total_commits = page.items.len();
+
+        // Follow pagination links to count commits from all subsequent pages
+        while let Some(next_page) = octocrab.get_page(&page.next).await? {
+            total_commits += next_page.items.len();
+            page = next_page;
+        }
+
+        Ok(total_commits)
+    }
+
+    /// Get PR description (body)
+    #[tracing::instrument]
+    pub async fn get_pr_description(self, pr_number: u64) -> anyhow::Result<String> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let pr = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .get(pr_number)
+            .await?;
+
+        Ok(pr.body.unwrap_or_default())
+    }
+
+    /// Update PR description (body)
+    #[tracing::instrument(skip(description))]
+    pub async fn update_pr_description(
+        self,
+        pr_number: u64,
+        description: &str,
+    ) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        octocrab
+            .issues("TUM-Dev", "NavigaTUM")
+            .update(pr_number)
+            .body(description)
+            .send()
+            .await?;
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]
