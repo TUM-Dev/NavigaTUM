@@ -1036,7 +1036,7 @@ org_id,code,name,path
 49047,TUZEIOK,Niederländisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Niederländisch
 49048,TUZEIOL,Norwegisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Norwegisch
 49049,TUZEIOM,Portugiesisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Portugiesisch
-49050,TUZEION,Russisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Russisch
+49050,TUZEION,Russisch (wird derzeit nicht angeboten),TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Russisch (wird derzeit nicht angeboten)
 49051,TUZEIOO,Schwedisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Schwedisch
 49052,TUZEIOP,Spanisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Spanisch
 49053,TUZEIOQ,Türkisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Türkisch
@@ -1154,7 +1154,7 @@ org_id,code,name,path
 50738,TUCHACG,Lehrstuhl für Bauchemie (Prof. Gädt),TUM/Schools/Natural Sciences/Departments/Chemistry/Bauchemie (Prof. Gädt)
 50777,TUPRV10,Vizepräsident Compliance,TUM/Hochschulpräsidium/Vizepräsidenten und Kanzler/Vizepräsident Compliance
 50818,TUPRSCO,TUM Compliance Office,TUM/Hochschulpräsidium/TUM Compliance Office
-50857,TUWIB41,Lehrstuhl für Digital Finance (Prof. Weigert),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (Prof. Weigert)
+50857,TUWIB41,Lehrstuhl für Digital Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (N.N.)
 50877,TUWIH12,Professur für Entrepreneurship and Family Enterprises (Prof. Bird) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship and Family Enterprises (Prof. Bird) (TUM Campus Heilbronn)
 50878,TUWIH13,Professur für Business Analytics (Prof. Xie) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Operations and Technology/Business Analytics (Prof. Xie) (TUM Campus Heilbronn)
 50897,TULRSFM,Professur für Sustainable Future Mobility (Prof. Jocher),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Sustainable Future Mobility (Prof. Jocher)
@@ -1532,7 +1532,7 @@ org_id,code,name,path
 52437,TUS2VST,Prodekan Studium und Lehre der TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Prodekane/Studium und Lehre
 52438,TUS2VTD,Prodekan Talent Management und Diversity der TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Prodekane/Talent Management und Diversity
 52439,TUS2VIO,Prodekan Informationsmanagement der TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Prodekane/Informationsmanagement
-52457,TUZEIOT,Katalanisch,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Katalanisch
+52457,TUZEIOT,Katalanisch (wird derzeit nicht angeboten),TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Katalanisch (wird derzeit nicht angeboten)
 52477,TUS2DEA,Dekan der TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Dekan/in
 52497,TUS7DP1,Department Educational Sciences,TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences
 52498,TUS7DP2,Department Governance,TUM/Schools/Social Sciences and Technology/Departments/Governance
@@ -1547,7 +1547,7 @@ org_id,code,name,path
 52617,TUSPL20,Professur für Health Literacy (Prof. Okan),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Health Literacy (Prof. Okan)
 52618,TUSPL21,Professur für Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan)
 52637,TUS2ESM,Professur für Earth System Modelling (Prof. Boers),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Earth System Modelling (Prof. Boers)
-52657,TUZEIOU,Gebärdensprache,TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Gebärdensprache
+52657,TUZEIOU,Gebärdensprache (wird derzeit nicht angeboten),TUM/Zentrale Serviceeinrichtungen/TUM Sprachenzentrum/Gebärdensprache (wird derzeit nicht angeboten)
 52677,TUS7DDP,Professur für Didaktik der Physik (Prof. Vorholzer),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Didaktik der Physik (Prof. Vorholzer)
 52697,TUEINEN,Professur für Neuroengineering Materials (Prof. Kozielski),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Neuroengineering Materials (Prof. Kozielski)"
 52717,TUCHACH,Professur für Analytische Chemie (Prof. Strittmatter),TUM/Schools/Natural Sciences/Departments/Bioscience/Analytische Chemie (Prof. Strittmatter)
@@ -2284,4 +2284,5 @@ org_id,code,name,path
 58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
 58097,TUWIH17,Professur für Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
 58117,TUS3018,Lehrstuhl für Makromolekulare Chemie (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Thomas)
-58137,TUPH019,Lehrstuhl für Plasmadynamik (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamik (Prof. Happel)
+58157,TUS2SDA,Security and Defence Alliance,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Security and Defence Alliance
+58178,TUS3019,Lehrstuhl für Plasmadynamik (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamik (Prof. Happel)
