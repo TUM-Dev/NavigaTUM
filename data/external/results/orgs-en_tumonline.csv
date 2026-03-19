@@ -1036,7 +1036,7 @@ org_id,code,name,path
 49047,TUZEIOK,Dutch,TUM/Central Service Institutions/TUM Language Center/Dutch
 49048,TUZEIOL,Norwegian,TUM/Central Service Institutions/TUM Language Center/Norwegian
 49049,TUZEIOM,Portuguese,TUM/Central Service Institutions/TUM Language Center/Portuguese
-49050,TUZEION,Russian,TUM/Central Service Institutions/TUM Language Center/Russian
+49050,TUZEION,Russian (is currently not offered),TUM/Central Service Institutions/TUM Language Center/Russian (is currently not offered)
 49051,TUZEIOO,Swedish,TUM/Central Service Institutions/TUM Language Center/Swedish
 49052,TUZEIOP,Spanish,TUM/Central Service Institutions/TUM Language Center/Spanish
 49053,TUZEIOQ,Turkish,TUM/Central Service Institutions/TUM Language Center/Turkish
@@ -1154,7 +1154,7 @@ org_id,code,name,path
 50738,TUCHACG,Chair of Construction Chemistry (Prof. Gädt),TUM/Schools/Natural Sciences/Departments/Chemistry/Construction Chemistry (Prof. Gädt)
 50777,TUPRV10,Vice President - Compliance,TUM/TUM Board of Management/Vice Presidents/Vice President - Compliance
 50818,TUPRSCO,TUM Compliance Office,TUM/TUM Board of Management/TUM Compliance Office
-50857,TUWIB41,Chair of Digital Finance (Prof. Weigert),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (Prof. Weigert)
+50857,TUWIB41,Chair of Digital Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (N.N.)
 50877,TUWIH12,Associate Professorship of Entrepreneurship and Family Enterprises (Prof. Bird) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurship and Family Enterprises (Prof. Bird) (TUM Campus Heilbronn)
 50878,TUWIH13,Associate Professorship of Business Analytics (Prof. Xie) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Operations and Technology/Business Analytics (Prof. Xie) (TUM Campus Heilbronn)
 50897,TULRSFM,Assistant Professorship of Sustainable Future Mobility (Prof. Jocher),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Sustainable Future Mobility (Prof. Jocher)
@@ -1532,7 +1532,7 @@ org_id,code,name,path
 52437,TUS2VST,Vice Dean Academic and Student Affairs of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Vice Dean/Academic and Student Affairs
 52438,TUS2VTD,Vice Dean Talent Management und Diversity of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Vice Dean/Talent Management und Diversity
 52439,TUS2VIO,Vice Dean Information Officer of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Vice Dean/Information Officer
-52457,TUZEIOT,Catalan,TUM/Central Service Institutions/TUM Language Center/Catalan
+52457,TUZEIOT,Catalan (is currently not offered),TUM/Central Service Institutions/TUM Language Center/Catalan (is currently not offered)
 52477,TUS2DEA,Dean of the TUM School of Engineering and Design,TUM/Schools/Engineering and Design/Dean
 52497,TUS7DP1,Department of Educational Sciences,TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences
 52498,TUS7DP2,Department of Governance,TUM/Schools/Social Sciences and Technology/Departments/Governance
@@ -1547,7 +1547,7 @@ org_id,code,name,path
 52617,TUSPL20,Assistant Professorship of Health Literacy (Prof. Okan),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Health Literacy (Prof. Okan)
 52618,TUSPL21,Assistant Professorship of Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan),TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan)
 52637,TUS2ESM,Associate Professorship of Earth System Modelling (Prof. Boers),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Earth System Modelling (Prof. Boers)
-52657,TUZEIOU,Sign Language,TUM/Central Service Institutions/TUM Language Center/Sign Language
+52657,TUZEIOU,Sign Language (is currently not offered),TUM/Central Service Institutions/TUM Language Center/Sign Language (is currently not offered)
 52677,TUS7DDP,Assistant Professorship of Physics Education (Prof. Vorholzer),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Physics Education (Prof. Vorholzer)
 52697,TUEINEN,Assistant Professorship of Neuroengineering Materials (Prof. Kozielski),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Neuroengineering Materials (Prof. Kozielski)"
 52717,TUCHACH,Assistant Professorship of Analytical Chemistry (Prof. Strittmatter),TUM/Schools/Natural Sciences/Departments/Bioscience/Analytical Chemistry (Prof. Strittmatter)
@@ -2284,4 +2284,5 @@ org_id,code,name,path
 58037,TUS7CTE,Other Institution TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
 58097,TUWIH17,Associate Professorship of Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
 58117,TUS3018,Chair of Macromolecular Chemistry (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Macromolecular Chemistry (Prof. Thomas)
-58137,TUPH019,Chair of Plasmadynamic (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamic (Prof. Happel)
+58157,TUS2SDA,Security and Defence Alliance,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Security and Defence Alliance
+58178,TUS3019,Chair of Plasmadynamic (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamic (Prof. Happel)
