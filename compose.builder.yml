@@ -29,7 +29,7 @@ services:
       - --output=/data/output.mbtiles
       - --force=true
   valhalla-build:
-    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    image: ghcr.io/valhalla/valhalla-scripted:latest
     mem_limit: 50G
     memswap_limit: 50G
     cpu_shares: 512 # we don't want to gobble up all the CPU
