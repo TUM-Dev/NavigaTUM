@@ -11,6 +11,9 @@ pub struct TempRepo {
     branch_name: String,
 }
 impl TempRepo {
+    /// Clone the repository and create a new local branch from `main`.
+    ///
+    /// Use this when creating a new PR branch that does not yet exist on the remote.
     #[tracing::instrument]
     pub async fn clone_and_checkout(url: &str, branch_name: &str) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
@@ -45,6 +48,37 @@ impl TempRepo {
                 branch_name: branch_name.to_string(),
             }),
             _ => anyhow::bail!("git commit failed with output: {out:?}"),
+        }
+    }
+
+    /// Clone an existing remote branch so that edits can be added to it.
+    ///
+    /// Use this when a batch PR branch already exists on the remote and the new
+    /// commit should be appended to it.  Cloning the branch directly (rather
+    /// than cloning `main` and creating a new local branch) ensures that the
+    /// local history matches the remote, which is required for a non-forced push.
+    #[tracing::instrument]
+    pub async fn clone_and_checkout_existing(url: &str, branch_name: &str) -> anyhow::Result<Self> {
+        let dir = tempfile::tempdir()?;
+
+        info!(url, target_dir=?dir, "Cloning existing branch");
+        let out = Command::new("git")
+            .current_dir(&dir)
+            .arg("clone")
+            .arg("--depth=1")
+            .arg("--branch")
+            .arg(branch_name)
+            .arg(url)
+            .arg(dir.path())
+            .output()
+            .await?;
+        debug!(output=?out, "git clone output");
+        match out.status.code() {
+            Some(0) => Ok(Self {
+                dir,
+                branch_name: branch_name.to_string(),
+            }),
+            _ => anyhow::bail!("git clone failed with output: {out:?}"),
         }
     }
 
@@ -127,7 +161,8 @@ impl TempRepo {
         if out.status.code() != Some(0) {
             anyhow::bail!("git status failed with output: {out:?}");
         }
-        let out = Command::new("git")
+
+        let push_out = Command::new("git")
             .current_dir(&self.dir)
             .arg("push")
             .arg("--set-upstream")
@@ -136,11 +171,48 @@ impl TempRepo {
             .output()
             .await
             .context("Failed to push to upstream")?;
-        debug!(output=?out,"git push output");
-        match out.status.code() {
-            Some(0) => Ok(()),
-            _ => anyhow::bail!("git push failed with output: {out:?}"),
+        debug!(output=?push_out, "git push output");
+        if push_out.status.code() == Some(0) {
+            return Ok(());
         }
+
+        // If the remote has commits we don't have locally (another request pushed
+        // to the same batch PR branch while we were working), rebase our commit on
+        // top of the remote and retry once.
+        let stderr = String::from_utf8_lossy(&push_out.stderr);
+        if stderr.contains("fetch first") || stderr.contains("[rejected]") {
+            info!("Push rejected due to remote changes, rebasing and retrying");
+            let rebase_out = Command::new("git")
+                .current_dir(&self.dir)
+                .arg("pull")
+                .arg("--rebase")
+                .arg("origin")
+                .arg(&self.branch_name)
+                .output()
+                .await
+                .context("Failed to rebase on remote changes")?;
+            debug!(output=?rebase_out, "git pull --rebase output");
+            if rebase_out.status.code() != Some(0) {
+                anyhow::bail!("git rebase failed with output: {rebase_out:?}");
+            }
+
+            let retry_out = Command::new("git")
+                .current_dir(&self.dir)
+                .arg("push")
+                .arg("--set-upstream")
+                .arg("origin")
+                .arg(&self.branch_name)
+                .output()
+                .await
+                .context("Failed to push to upstream after rebase")?;
+            debug!(output=?retry_out, "git push retry output");
+            match retry_out.status.code() {
+                Some(0) => return Ok(()),
+                _ => anyhow::bail!("git push failed after rebase with output: {retry_out:?}"),
+            }
+        }
+
+        anyhow::bail!("git push failed with output: {push_out:?}")
     }
 }
 

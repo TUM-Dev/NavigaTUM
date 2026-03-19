@@ -59,12 +59,17 @@ impl EditRequest {
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
+        branch_already_exists: bool,
     ) -> anyhow::Result<String> {
         let Some(pat) = crate::external::github::GitHub::github_token() else {
             anyhow::bail!("Failed to get GitHub token");
         };
         let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
-        let repo = TempRepo::clone_and_checkout(&url, branch_name).await?;
+        let repo = if branch_already_exists {
+            TempRepo::clone_and_checkout_existing(&url, branch_name).await?
+        } else {
+            TempRepo::clone_and_checkout(&url, branch_name).await?
+        };
         let desc = repo.apply_and_gen_description(self, branch_name);
         repo.commit(&desc.title).await?;
         repo.push().await?;
@@ -195,7 +200,7 @@ pub async fn propose_edits(
     };
 
     match req_data
-        .apply_changes_and_generate_description(&branch_to_use)
+        .apply_changes_and_generate_description(&branch_to_use, pr_number_opt.is_some())
         .await
     {
         Ok(description) => {
