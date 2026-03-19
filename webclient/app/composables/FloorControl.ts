@@ -25,6 +25,8 @@ export class FloorControl extends Evented implements IControl {
   private map: MapLibreMap | undefined;
   /* Optional restriction of available floors */
   private availableFloors: Set<number> = new Set();
+  /* Whether the user has explicitly collapsed the widget via the toggle button */
+  private _userCollapsed = false;
 
   constructor() {
     super();
@@ -38,7 +40,10 @@ export class FloorControl extends Evented implements IControl {
     const verticalOpenClose = document.createElement("button");
     verticalOpenClose.classList.add("vertical-oc");
     verticalOpenClose.innerHTML = `<span id="vertical-oc-text">∅</span><span class="arrow">▲</span>`;
-    verticalOpenClose.addEventListener("click", () => this.container.classList.toggle("closed"));
+    verticalOpenClose.addEventListener("click", () => {
+      this.container.classList.toggle("closed");
+      this._userCollapsed = this.container.classList.contains("closed");
+    });
 
     // horizontal (primarily on mobile)
     const horizontalOpenClose = document.createElement("button");
@@ -46,6 +51,7 @@ export class FloorControl extends Evented implements IControl {
     horizontalOpenClose.innerHTML = `<span id="horizontal-oc-text">∅</span><span class="arrow">❯</span>`;
     horizontalOpenClose.addEventListener("click", () => {
       this.container.classList.toggle("closed");
+      this._userCollapsed = this.container.classList.contains("closed");
     });
 
     this.floor_list = document.createElement("div");
@@ -83,6 +89,7 @@ export class FloorControl extends Evented implements IControl {
 
   setAvailableFloors(floorIds: number[]): void {
     this.availableFloors = new Set(floorIds);
+    this._userCollapsed = false;
 
     this._renderFloorButtons();
   }
@@ -105,7 +112,9 @@ export class FloorControl extends Evented implements IControl {
       btn.addEventListener("click", () => {
         if (!isAvailable) return;
         this.setLevel(level.id);
-        if (!this.container.classList.contains("reduced")) {
+        // Only collapse on selection in horizontal mode; on larger devices keep it open
+        // for quick floor switching.
+        if (this.container.classList.contains("horizontal")) {
           this.container.classList.add("closed");
         }
       });
@@ -118,7 +127,9 @@ export class FloorControl extends Evented implements IControl {
     hideBtn.classList.add("active"); // Start with all floors hidden
     hideBtn.addEventListener("click", () => {
       this.setLevel(null);
-      if (!this.container.classList.contains("reduced")) {
+      // Only collapse on selection in horizontal mode; on larger devices keep it open
+      // for quick floor switching.
+      if (this.container.classList.contains("horizontal")) {
         this.container.classList.add("closed");
       }
     });
@@ -218,13 +229,19 @@ export class FloorControl extends Evented implements IControl {
       this.container.classList.add("reduced");
     } else {
       this.container.classList.remove("reduced");
-      this.container.classList.add("closed");
 
       // 25px = 10px reserved for top/bottom margin + 5px between control groups
       // 29px = additional height from the open/collapse button
       if (availableHeight - (requiredHeight + 29) > 25) {
+        // Enough vertical space: auto-expand on larger devices unless the user has
+        // explicitly collapsed the widget via the toggle button.
         this.container.classList.remove("horizontal");
+        if (!this._userCollapsed) {
+          this.container.classList.remove("closed");
+        }
       } else {
+        // Not enough vertical space: use horizontal (compact) layout, start collapsed.
+        this.container.classList.add("closed");
         this.container.classList.add("horizontal");
       }
     }

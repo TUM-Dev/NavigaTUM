@@ -30,9 +30,6 @@ const localMetadata = ref<ImageMetadata>({
   license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
 });
 
-// Computed property for selected file
-const selectedFile = computed(() => props.selectedFile);
-
 // Drag and drop state
 const isDragOver = ref(false);
 const fileInput = ref<HTMLInputElement>();
@@ -143,7 +140,7 @@ function processFile(file: File) {
             'border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 cursor-pointer relative overflow-hidden',
             isDragOver
               ? 'border-blue-500 bg-blue-50 scale-105 shadow-lg'
-              : selectedFile
+              : props.selectedFile
                 ? 'border-blue-400 bg-blue-50 hover:border-blue-500 hover:bg-blue-100'
                 : 'border-zinc-300 bg-gradient-to-br from-zinc-50 to-zinc-100 hover:border-blue-400 hover:bg-gradient-to-br hover:from-blue-50 hover:to-zinc-100 hover:shadow-md',
           ]"
@@ -154,7 +151,7 @@ function processFile(file: File) {
         >
           <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
 
-          <div v-if="!selectedFile" class="space-y-3">
+          <div v-if="!props.selectedFile" class="space-y-3">
             <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
               <MdiIcon :path="mdiImage" :size="64" class="mx-auto text-zinc-400" />
             </div>
@@ -172,7 +169,7 @@ function processFile(file: File) {
               <MdiIcon :path="mdiFileCheck" :size="64" class="mx-auto text-blue-500" />
             </div>
             <div class="text-zinc-700">
-              <p class="text-lg font-medium text-blue-700">{{ selectedFile.fileName }}</p>
+              <p class="text-lg font-medium text-blue-700">{{ props.selectedFile.fileName }}</p>
               <p class="text-sm text-blue-600 mb-3">{{ t("file_selected_successfully") }}</p>
               <button
                 @click.stop="removeSelectedFile"
@@ -218,7 +215,7 @@ function processFile(file: File) {
       <Btn variant="secondary" @click="emit('cancel')">
         {{ t("cancel") }}
       </Btn>
-      <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !selectedFile">
+      <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !props.selectedFile">
         {{ t("confirm") }}
       </Btn>
     </div>

@@ -11,11 +11,18 @@ pub struct TempRepo {
     branch_name: String,
 }
 impl TempRepo {
-    #[tracing::instrument]
-    pub async fn clone_and_checkout(url: &str, branch_name: &str) -> anyhow::Result<Self> {
+    /// Clone the repository from `main` and create `branch_name` as a new local branch.
+    ///
+    /// Use this when no batch PR exists yet and a fresh branch needs to be pushed for the first
+    /// time.
+    #[tracing::instrument(skip(url))]
+    pub async fn clone_and_checkout_new_branch(
+        url: &str,
+        branch_name: &str,
+    ) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
-        info!(url, target_dir= ?dir,"Cloning repository");
+        info!(target_dir = ?dir, "Cloning repository (new branch)");
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("clone")
@@ -26,10 +33,10 @@ impl TempRepo {
             .await?;
         debug!(output=?out,"git clone output");
         if out.status.code() != Some(0) {
-            anyhow::bail!("git status failed with output: {out:?}");
+            anyhow::bail!("git clone failed with output: {out:?}");
         }
 
-        // checkout + create branch
+        // Create a new local branch from main.
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("checkout")
@@ -44,7 +51,40 @@ impl TempRepo {
                 dir,
                 branch_name: branch_name.to_string(),
             }),
-            _ => anyhow::bail!("git commit failed with output: {out:?}"),
+            _ => anyhow::bail!("git checkout failed with output: {out:?}"),
+        }
+    }
+
+    /// Clone the repository by checking out an already-existing remote branch `branch_name`.
+    ///
+    /// Use this when adding an edit to an existing batch PR.  Cloning `main` and branching from
+    /// it would create a diverging history and cause the subsequent push to be rejected as
+    /// non-fast-forward.
+    #[tracing::instrument(skip(url))]
+    pub async fn clone_and_checkout_existing_branch(
+        url: &str,
+        branch_name: &str,
+    ) -> anyhow::Result<Self> {
+        let dir = tempfile::tempdir()?;
+
+        info!(target_dir = ?dir, branch_name, "Cloning repository (existing branch)");
+        let out = Command::new("git")
+            .current_dir(&dir)
+            .arg("clone")
+            .arg("--depth=1")
+            .arg("--branch")
+            .arg(branch_name)
+            .arg(url)
+            .arg(dir.path())
+            .output()
+            .await?;
+        debug!(output=?out,"git clone output");
+        match out.status.code() {
+            Some(0) => Ok(Self {
+                dir,
+                branch_name: branch_name.to_string(),
+            }),
+            _ => anyhow::bail!("git clone failed with output: {out:?}"),
         }
     }
 
@@ -54,7 +94,12 @@ impl TempRepo {
         description.add_context(&edits.additional_context);
 
         let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
-        description.appply_set("coordinate", coordinate_edits, self.dir.path(), branch_name);
+        description.apply_set_as_blocks(
+            "coordinate",
+            coordinate_edits,
+            self.dir.path(),
+            branch_name,
+        );
         let image_edits = edits.edits_for(|edit| edit.image);
         description.appply_set("image", image_edits, self.dir.path(), branch_name);
 
@@ -148,7 +193,7 @@ mod tests {
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
     #[tokio::test]
     async fn test_new() {
-        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
+        let temp_repo = TempRepo::clone_and_checkout_new_branch(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
         assert!(temp_repo.dir.path().exists());
@@ -158,7 +203,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_checkout_and_commit() {
-        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
+        let temp_repo = TempRepo::clone_and_checkout_new_branch(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
         // test the branch was created

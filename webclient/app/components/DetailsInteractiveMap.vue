@@ -200,7 +200,9 @@ onMounted(() => {
       'dark:bg-black bg-white border-zinc-300 border': webglSupport,
     }"
   >
-    <Spinner v-if="webglSupport && !initialLoaded" class="h-12 w-12 text-blue-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
+    <div v-if="webglSupport && !initialLoaded" class="absolute inset-0 z-10 flex items-center justify-center">
+      <Spinner class="h-12 w-12 text-blue-500" />
+    </div>
     <div
       v-if="webglSupport"
       id="interactive-legacy-map"
