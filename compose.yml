@@ -105,7 +105,7 @@ services:
       - ./map/download.sh:/map/download.sh:ro
       - ./map/valhalla.json:/map/valhalla.json:ro
   valhalla:
-    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    image: ghcr.io/valhalla/valhalla-scripted:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
