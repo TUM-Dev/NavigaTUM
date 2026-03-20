@@ -146,9 +146,8 @@ impl GitHub {
     /// Find an open PR with a specific label
     #[tracing::instrument]
     pub async fn find_pr_with_label(self, label: &str) -> anyhow::Result<Option<(u64, String)>> {
-        let Some(octocrab) = self.octocrab else {
-            anyhow::bail!("GitHub client not initialized");
-        };
+        // Listing PRs on a public repo does not require auth
+        let octocrab = Octocrab::default();
 
         // Search through all pages of open PRs to find one with the label
         let mut page = octocrab
