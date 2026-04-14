@@ -102,7 +102,7 @@ org_id,code,name,path
 15099,TULRLEW,Chair of Land Management (Prof. de Vries),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Land Management (Prof. de Vries)
 15100,TULRGIS,Chair of Geoinformatics (Prof.Kolbe),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Geoinformatics (Prof.Kolbe)
 15101,TULRAPG,Chair of Astronomical and Physical Geodesy (Prof. Pail),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astronomical and Physical Geodesy (Prof. Pail)
-15102,TULRSGD,Associate Professorship of Satellite Geodesy (Prof. Hugentobler),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellite Geodesy (Prof. Hugentobler)
+15102,TULRSGD,Associate Professorship of Satellite Geodesy (Prof. Pail komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellite Geodesy (Prof. Pail komm.)
 15103,TULRLFK,Chair of Cartography and Visual Analytics (Prof. Meng),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Cartography and Visual Analytics (Prof. Meng)
 15104,TULRLMF,Chair of Remote Sensing Technology (Prof. Busam komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Remote Sensing Technology (Prof. Busam komm.)
 15105,TULRFPF,Associate Professorship of Photogrammetry and Remote Sensing (Prof. Busam),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetry and Remote Sensing (Prof. Busam)
@@ -1726,7 +1726,7 @@ org_id,code,name,path
 53683,TUXS10Z,Degree Program Mathematik,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Mathematik"
 53684,TUXS110,Degree Program Promotionen,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Promotionen"
 53697,TUXB70Q,Academic Programs Master Vocational Education and Innovation,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master Vocational Education and Innovation
-53737,TUS6B49,Assistant Professorship of Entrepreneurial Finance (Prof. Kaserer komm.),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Kaserer komm.)
+53737,TUS6B49,Chair of Digital Finance (Prof. Weigert),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (Prof. Weigert)
 53777,TUS7HTL,Chair of Human-Centered Technologies for Learning (Prof. Kasneci),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Human-Centered Technologies for Learning (Prof. Kasneci)
 53797,TUINI35,Informatics 35 - Chair of Perception for Intelligent Systems (Prof. Lilienthal),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Perception for Intelligent Systems (Prof. Lilienthal)"
 53817,TUINH05,Informatics Heilbronn 5 - Assistant Professorship of  Data Engineering (Prof. Acosta Deibe),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Engineering (Prof. Acosta Deibe)"

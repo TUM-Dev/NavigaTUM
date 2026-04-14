@@ -43,7 +43,7 @@ org_id,code,name,path
 14610,TUMAF06,Professur für Wissenschaftliches Rechnen und Unsicherheitsquantifizierung (Prof. Ullmann),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Wissenschaftliches Rechnen und Unsicherheitsquantifizierung (Prof. Ullmann)"
 14612,TUMAF07,Professur für Diskrete Mathematik (Prof. Weltge),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Diskrete Mathematik (Prof. Weltge)"
 14614,TUMAF20,Professur für Finanzmathematik (Prof. Knochenhauer),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Finanzmathematik (Prof. Knochenhauer)"
-14617,TUMAF01,Professur für Angewandte Mathematische Statistik (Prof. Czado em.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Angewandte Mathematische Statistik (Prof. Czado em.)"
+14617,TUMAF01,Professur für Angewandte Mathematische Statistik (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Angewandte Mathematische Statistik (N.N.)"
 14632,TUCHSDK,Studiendekan,TUM/Fakultäten/Ehemalige Fakultät für Chemie/Studiendekan
 14635,TUCHWA0,Institut für Wasserchemie und Chemische Balneologie,TUM/Schools/Natural Sciences/Wasserchemie und Chemische Balneologie
 14684,TUCHAC6,Lehrstuhl für Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. Fässler),TUM/Schools/Natural Sciences/Departments/Chemistry/Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. Fässler)
@@ -102,7 +102,7 @@ org_id,code,name,path
 15099,TULRLEW,Lehrstuhl für Bodenordnung und Landentwicklung (Prof. de Vries),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Bodenordnung und Landentwicklung (Prof. de Vries)
 15100,TULRGIS,Lehrstuhl für Geoinformatik (Prof.Kolbe),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Geoinformatik (Prof.Kolbe)
 15101,TULRAPG,Lehrstuhl für Astronomische und Physikalische Geodäsie (Prof. Pail),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astronomische und Physikalische Geodäsie (Prof. Pail)
-15102,TULRSGD,Professur für Satellitengeodäsie (Prof. Hugentobler),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellitengeodäsie (Prof. Hugentobler)
+15102,TULRSGD,Professur für Satellitengeodäsie (Prof. Pail komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellitengeodäsie (Prof. Pail komm.)
 15103,TULRLFK,Lehrstuhl für Kartographie und Visuelle Analytik (Prof. Meng),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Kartographie und Visuelle Analytik (Prof. Meng)
 15104,TULRLMF,Lehrstuhl für Methodik der Fernerkundung (Prof. Busam komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Methodik der Fernerkundung (Prof. Busam komm.)
 15105,TULRFPF,Professur für Photogrammetrie und Fernerkundung (Prof. Busam),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetrie und Fernerkundung (Prof. Busam)
@@ -179,18 +179,18 @@ org_id,code,name,path
 15396,TUEIMSV,Lehrstuhl für Methoden der Signalverarbeitung (Prof. Utschick),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Methoden der Signalverarbeitung (Prof. Utschick)"
 15399,TUEIHOT,Professur für Höchstfrequenztechnik (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Höchstfrequenztechnik (N.N.)"
 15403,TUEILSR,Lehrstuhl für Steuerungs- und Regelungstechnik (Prof. Buss),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Steuerungs- und Regelungstechnik (Prof. Buss)"
-15405,TUEIMST,Lehrstuhl für Messsystem- und Sensortechnik (Prof. Chen komm.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (Prof. Chen komm.)"
+15405,TUEIMST,Lehrstuhl für Messsystem- und Sensortechnik (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (N.N.)"
 15415,TUINDEK,Dekanat IN,TUM/Fakultäten/Ehemalige Fakultät für Informatik/Dekanat IN
 15417,TUINSBS,Servicebüro Studium Informatik (SB-S-IN),TUM/Fakultäten/Ehemalige Fakultät für Informatik/Zentrale Einrichtungen des Instituts für Informatik/Servicebüro Studium Informatik (SB-S-IN)
 15422,TUINI00,Institut für Informatik,TUM/Fakultäten/Ehemalige Fakultät für Informatik/Institut für Informatik
 15426,TUINI01,Informatik 1 - Lehrstuhl für Distributed Systems and Operating Systems (Prof. Bhatotia),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Distributed Systems and Operating Systems (Prof. Bhatotia)"
 15427,TUINI02,Informatik 2 - Lehrstuhl für Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl)"
-15428,TUINI03,Informatik 3 - Lehrstuhl für Datenbanksysteme (Kemper em.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Datenbanksysteme (Kemper em.)"
+15428,TUINI03,Informatik 3 - Lehrstuhl für Datenbanksysteme (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Datenbanksysteme (N.N.)"
 15430,TUINI05,Informatik 5 - Lehrstuhl für Scientific Computing (Prof. Bungartz),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Scientific Computing (Prof. Bungartz)"
 15431,TUINI06,"Informatik 6 - Lehrstuhl für Robotik, Künstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)","TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Robotik, Künstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)"
 15432,TUINI07,Informatik 7 - Lehrstuhl für Theoretische Informatik (Prof. Esparza),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretische Informatik (Prof. Esparza)"
 15433,TUINI08,Informatik 8 - Lehrstuhl für Netzarchitekturen und Netzdienste (Prof. Carle),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Netzarchitekturen und Netzdienste (Prof. Carle)"
-15434,TUINI09,Informatik 9 - Lehrstuhl für Computer Vision and Artificial Intelligence (Prof. Cremers),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computer Vision and Artificial Intelligence (Prof. Cremers)"
+15434,TUINI09,Informatik 9 - Lehrstuhl für Computer Vision and Artificial Intelligence (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computer Vision and Artificial Intelligence (N.N.)"
 15435,TUINI10,Informatik 10 - Lehrstuhl für Rechnerarchitektur & Parallele Systeme (Prof. Schulz),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Rechnerarchitektur & Parallele Systeme (Prof. Schulz)"
 15436,TUINI11,Informatik 11 - Lehrstuhl für Angewandte Informatik / Kooperative Systeme (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Angewandte Informatik / Kooperative Systeme (N.N.)"
 15437,TUINI12,Informatik 12 - Lehrstuhl für Bioinformatik (Prof. Rost),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Bioinformatik (Prof. Rost)"
@@ -450,10 +450,10 @@ org_id,code,name,path
 24472,TUEIITR,Lehrstuhl für Informationstechnische Regelung (Prof. Hirche),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informationstechnische Regelung (Prof. Hirche)"
 24633,TUINF01,Informatik 13 - Professur für Vernetzte Rechensysteme - (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Vernetzte Rechensysteme - (N.N.)"
 24642,TUINF02,Informatik 11 - Professur für Programmierung und Anwendung verteilter Systeme - (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Programmierung und Anwendung verteilter Systeme - (N.N.)"
-24648,TUINF03,Informatik 7 - Professur für Formale Methoden der Softwarezuverlässigkeit (Prof. Ayikudi Ramachandrakumar komm.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Formale Methoden der Softwarezuverlässigkeit (Prof. Ayikudi Ramachandrakumar komm.)"
+24648,TUINF03,Informatik 7 - Professur für Formale Methoden der Softwarezuverlässigkeit (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Formale Methoden der Softwarezuverlässigkeit (N.N.)"
 24654,TUINF04,Informatik 10 - Professur für Architektur paralleler und verteilter Systeme - (Prof. Gerndt),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Architektur paralleler und verteilter Systeme - (Prof. Gerndt)"
 24659,TUEDS10,Professur für Didaktik der Informatik (Prof. Michaeli),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Didaktik der Informatik (Prof. Michaeli)
-24661,TUINF12,Informatik 16 - Professur für Erweiterte Realität (Prof. Plecher komm.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Erweiterte Realität (Prof. Plecher komm.)"
+24661,TUINF12,Informatik 16 - Professur für Erweiterte Realität (N.N.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Erweiterte Realität (N.N.)"
 24668,TUINF05,Informatik 25 - Lehrstuhl für Data Science and Engineering (Prof. Neumann),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Science and Engineering (Prof. Neumann)"
 24669,TUINF07,Informatik 29 - Lehrstuhl für Computational Molecular Medicine (Prof. Gagneur),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Molecular Medicine (Prof. Gagneur)"
 24670,TUINI21,Informatik 21 - Lehrstuhl für Logik und Verifikation (Prof. Bruse komm.),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Logik und Verifikation (Prof. Bruse komm.)"
@@ -1726,7 +1726,7 @@ org_id,code,name,path
 53683,TUXS10Z,Studiengang Mathematik,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Archiv/Mathematik"
 53684,TUXS110,Studiengang Promotionen,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Archiv/Promotionen"
 53697,TUXB70Q,Studiengangsbündel Master Vocational Education and Innovation,TUM/Schools/Social Sciences and Technology/Studienorganisation/Berufliche Bildung/Master Vocational Education and Innovation
-53737,TUS6B49,Professur für Entrepreneurial Finance (Prof. Kaserer komm.),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Kaserer komm.)
+53737,TUS6B49,Lehrstuhl für Digital Finance (Prof. Weigert),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (Prof. Weigert)
 53777,TUS7HTL,Lehrstuhl für Human-Centered Technologies for Learning (Prof. Kasneci),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Human-Centered Technologies for Learning (Prof. Kasneci)
 53797,TUINI35,Informatik 35 - Lehrstuhl für Perception for Intelligent Systems (Prof. Lilienthal),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Perception for Intelligent Systems (Prof. Lilienthal)"
 53817,TUINH05,Informatik Heilbronn 5 - Professur für Data Engineering (Prof. Acosta Deibe),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Engineering (Prof. Acosta Deibe)"
@@ -2273,7 +2273,7 @@ org_id,code,name,path
 58017,TUS1331,Lehrstuhl für Grundlagen der Programmierung (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Grundlagen der Programmierung (Prof. Zuleger)"
 58018,TUS2SCC,Professur für Raumfahrzeugkontrolle (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrzeugkontrolle (Prof. Kochdumper)
 58019,TUS2BPI,Professur für Bioprozessintensivierung (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprozessintensivierung (Prof. Duvigneau)
-58020,TUS2CFD,Professur für Numerische Fluiddynamik (Prof. Makrand),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Numerische Fluiddynamik (Prof. Makrand)
+58020,TUS2CFD,Professur für Numerische Fluiddynamik (Prof. Khanwale),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Numerische Fluiddynamik (Prof. Khanwale)
 58021,TUS4F8T,Professur für Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Weitere Einrichtung TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
 58077,TUS2EFD,Professur für Experimentelle Fluiddynamik (Prof. Brunner),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Experimentelle Fluiddynamik (Prof. Brunner)
