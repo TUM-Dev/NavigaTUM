@@ -2,12 +2,12 @@ backoff==2.2.1
 beautifulsoup4==4.14.3
 defusedxml==0.7.1
 lxml==6.0.2
-Pillow==12.1.1
+Pillow==12.2.0
 polars==1.39.3
 pyarrow==23.0.0
 pydantic==2.12.5
 pyyaml==6.0.3
-requests==2.32.5
+requests==2.33.0
 requests-oauthlib==2.0.0
 ruamel.yaml==0.19.1
 tqdm==4.67.1

@@ -57,34 +57,32 @@ pub(super) fn merge_search_results(
 
             let hit = hit.result.clone();
             match hit.r#type.as_str() {
-                "campus" | "site" | "area" | "building" | "joined_building" => {
-                    if section_buildings.entries.len() < limits.buildings_count {
-                        section_buildings.entries.push(super::ResultEntry {
-                            hit: hit.clone(),
-                            id: hit.room_code.to_string(),
-                            r#type: hit.r#type,
-                            name: formatted_name,
-                            subtext: hit.type_common_name,
-                            subtext_bold: None,
-                            parsed_id: None,
-                        });
-                    }
+                "campus" | "site" | "area" | "building" | "joined_building"
+                    if section_buildings.entries.len() < limits.buildings_count =>
+                {
+                    section_buildings.entries.push(super::ResultEntry {
+                        hit: hit.clone(),
+                        id: hit.room_code.to_string(),
+                        r#type: hit.r#type,
+                        name: formatted_name,
+                        subtext: hit.type_common_name,
+                        subtext_bold: None,
+                        parsed_id: None,
+                    });
                 }
-                "room" | "virtual_room" => {
-                    if section_rooms.entries.len() < limits.rooms_count {
-                        section_rooms.entries.push(super::ResultEntry {
-                            hit: hit.clone(),
-                            id: hit.room_code.to_string(),
-                            r#type: hit.r#type,
-                            name: formatted_name,
-                            subtext_bold: Some(hit.arch_name.unwrap_or_default()),
-                            ..super::ResultEntry::default()
-                        });
+                "room" | "virtual_room" if section_rooms.entries.len() < limits.rooms_count => {
+                    section_rooms.entries.push(super::ResultEntry {
+                        hit: hit.clone(),
+                        id: hit.room_code.to_string(),
+                        r#type: hit.r#type,
+                        name: formatted_name,
+                        subtext_bold: Some(hit.arch_name.unwrap_or_default()),
+                        ..super::ResultEntry::default()
+                    });
 
-                        // The first room in the results 'freezes' the number of visible buildings
-                        if section_buildings.n_visible == 0 && section_rooms.entries.len() == 1 {
-                            section_buildings.n_visible = section_buildings.entries.len();
-                        }
+                    // The first room in the results 'freezes' the number of visible buildings
+                    if section_buildings.n_visible == 0 && section_rooms.entries.len() == 1 {
+                        section_buildings.n_visible = section_buildings.entries.len();
                     }
                 }
                 _ => {}

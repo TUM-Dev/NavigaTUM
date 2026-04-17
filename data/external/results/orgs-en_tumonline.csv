@@ -102,7 +102,7 @@ org_id,code,name,path
 15099,TULRLEW,Chair of Land Management (Prof. de Vries),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Land Management (Prof. de Vries)
 15100,TULRGIS,Chair of Geoinformatics (Prof.Kolbe),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Geoinformatics (Prof.Kolbe)
 15101,TULRAPG,Chair of Astronomical and Physical Geodesy (Prof. Pail),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astronomical and Physical Geodesy (Prof. Pail)
-15102,TULRSGD,Associate Professorship of Satellite Geodesy (Prof. Hugentobler),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellite Geodesy (Prof. Hugentobler)
+15102,TULRSGD,Associate Professorship of Satellite Geodesy (Prof. Pail komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Satellite Geodesy (Prof. Pail komm.)
 15103,TULRLFK,Chair of Cartography and Visual Analytics (Prof. Meng),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Cartography and Visual Analytics (Prof. Meng)
 15104,TULRLMF,Chair of Remote Sensing Technology (Prof. Busam komm.),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Remote Sensing Technology (Prof. Busam komm.)
 15105,TULRFPF,Associate Professorship of Photogrammetry and Remote Sensing (Prof. Busam),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetry and Remote Sensing (Prof. Busam)
@@ -244,7 +244,7 @@ org_id,code,name,path
 15668,TUWZV9T,Chair of Animal Physiology and Immunology (Prof. Zehn),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Physiology and Immunology (Prof. Zehn)
 15671,TUWZU5Y,Chair of Zoology (Prof. Luksch),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Zoology (Prof. Luksch)
 15674,TUWZA8Q,Chair of Animal Nutrition (N.N.),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Nutrition (N.N.)
-15681,TUWZA2G,Research Center Weihenstephan for Brewing and Food Quality,TUM/Other Scientific Institutions/Research Center Weihenstephan for Brewing and Food Quality
+15681,TUWZA2G,Research Center Weihenstephan for Brewing and Food Quality,TUM/Central Scientific Institutions/Research Center Weihenstephan for Brewing and Food Quality
 15682,TUWZA2H,Experimental and Teaching Brewery (BE),TUM/Schools/Life Sciences/Experimental and Teaching Brewery (BE)
 15689,TUWZA2M,Research Facility Experimental Station for Vegetable Production and Livestock Breeding (Roggenstein/Thalhausen),TUM/Schools/Life Sciences/TUM Plant Technology Center (PTC)/Field Crops Unit/Experimental Station for Vegetable Production and Livestock Breeding (Roggenstein/Thalhausen)
 15701,TUMEZD0,Dean's Office Dekanat ME,TUM/Academic department/Medicine/Department Administration/Dean's Office
@@ -284,7 +284,6 @@ org_id,code,name,path
 15751,TUMEER0,Clinic of Nutritional Medicine (Prof. Timper),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Timper)
 15919,TUMECH1,Chair of Surgery (Prof. Friess),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Surgery (Prof. Friess)
 15921,TUMECH3,Chair of Vascular and Endovascular Surgery (Prof. Branzan),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)/Vascular and Endovascular Surgery (Prof. Branzan)
-15923,TUMECH2,Associate Professorship of Immunosuppression and Postoperative Sepsis (Prof. Holzmann),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Immunosuppression and Postoperative Sepsis (Prof. Holzmann)
 15928,TUMEAN1,Chair of Anesthesiology (Prof. Schneider),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Anesthesiology and Intensive Care (Prof. Schneider)/Anesthesiology (Prof. Schneider)
 15934,TUME1M1,Chair of Internal Medicine I - Cardiology (DHM) (Prof. Schunkert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine I - Cardiology (DHM) (Prof. Schunkert)
 15939,TUME2M1,Chair of Internal Medicine II (Prof. Schmid),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Internal Medicine II (Prof. Schmid)
@@ -319,7 +318,7 @@ org_id,code,name,path
 16057,TUMEPA1,Chair of Pathology (Prof. Mogler komm.),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Pathology (Prof. Mogler komm.)
 16065,TUMEPT1,Chair of Pharmacology and Toxicology (Prof. Engelhardt),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Pharmacology and Toxicology (Prof. Engelhardt)/Pharmacology and Toxicology (Prof. Engelhardt)
 16070,TUMEIS1,Chair of Medical Informatics (Prof. Boeker),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. Rückert)/Medical Informatics (Prof. Boeker)
-16080,TUMEGE1,Associate Professorship of Ethics in Medicine and Health Technologies (Prof. Buyx),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)/Ethics in Medicine and Health Technologies (Prof. Buyx)
+16080,TUMEGE1,Chair of Ethics in Medicine and Health Technologies (Prof. Buyx),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)/Ethics in Medicine and Health Technologies (Prof. Buyx)
 16091,TUMETU1,Chair of Toxicology and Environmental Hygiene (HMGU) (Prof. Göttlicher),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Toxicology and Environmental Hygiene (Prof. Göttlicher)/Toxicology and Environmental Hygiene (HMGU) (Prof. Göttlicher)
 16095,TUMEVI1,Chair of Virology (HMGU) (Prof. Protzer),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)/Virology (HMGU) (Prof. Protzer)
 16100,TUMEDH1,Clinic for Heart and Vascular Surgery (DHM) (Prof. Krane),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Surgery (DHM) (Prof. Krane)
@@ -517,7 +516,7 @@ org_id,code,name,path
 26746,TUZEBMI,Central Service Institutions     Teilbibliothek Mathematik / Informatik,TUM/Central Service Institutions/University Libraries/Site Garching/Central Service Institutions
 26827,TUZEIVE,ZIEL Administration Office,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/ZIEL Administration Office
 26848,TUZEIA0,Other Institution ZIEL-Mitglieder,TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution
-26864,TUZEIA1,Food Safety,TUM/Other Scientific Institutions/Research Center Weihenstephan for Brewing and Food Quality/Food Safety
+26864,TUZEIA1,Food Safety,TUM/Central Scientific Institutions/Research Center Weihenstephan for Brewing and Food Quality/Food Safety
 26866,TUZEIA3,Area ZIEL-Prof. Haller (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
 26867,TUZEIA4,Area ZIEL-Prof. Hauner (MH),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
 26871,TUZEIA8,Area ZIEL-Prof. Klingenspor (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
@@ -532,7 +531,6 @@ org_id,code,name,path
 27785,TUMEDH5,Associate Professorship of Cardiovascular Biology (DHM) (Prof. Görlach),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Paediatric Cardiology (DHM) (Prof. Ewert)/Cardiovascular Biology (DHM) (Prof. Görlach)
 27799,TUMEER2,Associate Professorship of Paediatric Nutritional Medicine (Prof. Witt),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrstühle und Professuren Preclinical Medicine/Paediatric Nutritional Medicine (Prof. Witt)
 27805,TUME3M2,Associate Professorship of Experimental Hematology (Prof. Schmidt-Supprian),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Hematology (Prof. Schmidt-Supprian)/Experimental Hematology (Prof. Schmidt-Supprian)
-27831,TUMENL2,Associate Professorship of Neurology focusing on Neurological Pain Theory and Pain Research (Prof. Tölle),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Neurology focusing on Neurological Pain Theory and Pain Research (Prof. Tölle)
 27844,TUMEST2,Associate Professorship of Experimental Radiation Oncology / Radiation Biology (Prof. Multhoff),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/Experimental Radiation Oncology / Radiation Biology (Prof. Multhoff)
 28310,TUMEOR2,"Associate Professorship of Paediatric Neuroorthopaedics, Main Research: Cerebral Palsy  (Prof. Lampe)","TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Paediatric Neuroorthopaedics, Main Research: Cerebral Palsy  (Prof. Lampe)"
 28978,TUWZA1S,Student apprentice Weihenstephan (LS) - School Office,TUM/Schools/Life Sciences/School Office/Student apprentice Weihenstephan (LS)
@@ -728,7 +726,7 @@ org_id,code,name,path
 44264,TUINZE1,Central institutions of the academic department,TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department
 44266,TUINRBG,System Administration Group Informatics (RBG-IN),TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/System Administration Group Informatics (RBG-IN)
 44284,TUCHTC4,Werner Siemens-Chair of Synthetic Biotechnology (WSSB) (Prof. Brück),TUM/Schools/Natural Sciences/Departments/Chemistry/Werner Siemens-Chair of Synthetic Biotechnology (WSSB) (Prof. Brück)
-44304,TUZERCM,Radiochemistry Munich (RCM),TUM/Other Scientific Institutions/Radiochemistry Munich (RCM)
+44304,TUZERCM,Radiochemistry Munich (RCM),TUM/Central Scientific Institutions/Radiochemistry Munich (RCM)
 44344,TUZV44F,"Removals, Labelling (Central department 4)","TUM/Central Administration/Real Estate Management (Central department 4)/Site Munich (Central department 4)/Facility Management Munich (Central department 4)/Infrastructure Munich (Central department 4)/Removals, Labelling (Central department 4)"
 44364,TUCHRC3,Associate Professorship of Pharmaceutical Radiochemistry (Prof. Tredwell),TUM/Schools/Natural Sciences/Departments/Chemistry/Pharmaceutical Radiochemistry (Prof. Tredwell)
 44384,TUBVCMS,Chair of Computing in Civil and Building Engineering (Prof. Borrmann),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computing in Civil and Building Engineering (Prof. Borrmann)
@@ -768,7 +766,6 @@ org_id,code,name,path
 44928,TUMAF23,Associate Professorship of Theory of Complex Quantum Systems (Prof. König),"TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Theory of Complex Quantum Systems (Prof. König)"
 44945,TUPRVP7,"Vice President - Controlling & Resilience Management, Deputy Senior Executive Vice President","TUM/TUM Board of Management/Vice Presidents/Vice President - Controlling & Resilience Management, Deputy Senior Executive Vice President"
 44965,TUMEDF1,Chair of Diabetes Research/beta-cell biology (HMGU) (Prof. Lickert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Diabetes Research/beta-cell biology (HMGU) (Prof. Lickert)
-44966,TUMEDF2,Chair of Metabolic Diseases (HMGU) (Prof. Tschöp),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Metabolic Diseases (HMGU) (Prof. Tschöp)
 45007,TUPRVP5,Executive Vice President - Talent Management & Diversity,TUM/TUM Board of Management/Vice Presidents/Executive Vice President - Talent Management & Diversity
 45008,TUZVHSL,TUM CST - Communications,TUM/Central Service Institutions/TUM Center for Study and Teaching/TUM CST - Communications
 45009,TUZVHRE,TUM CST - Legal Affairs,TUM/Central Service Institutions/TUM Center for Study and Teaching/TUM CST - Legal Affairs
@@ -821,7 +818,7 @@ org_id,code,name,path
 45811,TUSPL15,Chair of Sociology of Diversity (N.N.),TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Sociology of Diversity (N.N.)
 45831,TUZEBD1,Data Protection Representative TUM Institute for Advanced Study (IAS),TUM/TUM Institute for Advanced Study (IAS)/Data Protection Representative
 45832,TUZEBD2,"Data Protection Representative Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)","TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Data Protection Representative"
-45835,TUZEBD5,Data Protection Representative Radiochemistry Munich (RCM),TUM/Other Scientific Institutions/Radiochemistry Munich (RCM)/Data Protection Representative
+45835,TUZEBD5,Data Protection Representative Radiochemistry Munich (RCM),TUM/Central Scientific Institutions/Radiochemistry Munich (RCM)/Data Protection Representative
 45836,TUZEBD6,Data Protection Representative Research Neutron Source FRM II,TUM/Corporate Research Centers/Research Neutron Source FRM II/Data Protection Representative
 45837,TUZEBD7,Data Protection Representative World Agricultural Systems Center - Hans Eisenmann-Forum,TUM/Corporate Research Centers/World Agricultural Systems Center - Hans Eisenmann-Forum/Data Protection Representative
 45838,TUZEBD8,Data Protection Representative Munich Institute of Biomedical Engineering (MIBE),TUM/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/Data Protection Representative
@@ -1186,9 +1183,9 @@ org_id,code,name,path
 51265,TUS4DP2,Department of Life Science Engineering,TUM/Schools/Life Sciences/Departments/Life Science Engineering
 51266,TUS4DP3,Department of Life Science Systems,TUM/Schools/Life Sciences/Departments/Life Science Systems
 51267,TUS2000,TUM School of Engineering and Design,TUM/Schools/Engineering and Design
-51279,TUZETCF,Technology Core Facilities,TUM/Technology Core Facilities
-51280,TUZEEMF,TUM Electron Microscopy Facility (EMF),TUM/Technology Core Facilities/TUM Electron Microscopy Facility (EMF)
-51281,TUZEMTC,TUM Mößbauer Technology Center (MTC),TUM/Technology Core Facilities/TUM Mößbauer Technology Center (MTC)
+51279,TUZETCF,Central Operational Units,TUM/Central Operational Units
+51280,TUZEEMF,TUM Electron Microscopy Facility (EMF),TUM/Central Operational Units/TUM Electron Microscopy Facility (EMF)
+51281,TUZEMTC,TUM Mößbauer Technology Center (MTC),TUM/Central Operational Units/TUM Mößbauer Technology Center (MTC)
 51297,TUS4STC,Student Council,TUM/Schools/Life Sciences/Student Council
 51298,TUS4RGE,Gender Equality Officer of the TUM School of Life Sciences,TUM/Schools/Life Sciences/Representatives/Gender Equality Officer
 51299,TUS4RDP,Data Protection Representative of the TUM School of Life Sciences,TUM/Schools/Life Sciences/Representatives/Data Protection Representative
@@ -1675,7 +1672,7 @@ org_id,code,name,path
 53517,TUINI33,Informatics 33 - Chair of Engineering Resilient Cognitive Systems (Prof. Trapp),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Engineering Resilient Cognitive Systems (Prof. Trapp)"
 53537,TUGSSED,Graduate Center of Engineering and Design,TUM/TUM Graduate School/Graduate Centers/Graduate Center of Engineering and Design
 53557,TUS4F9L,Associate Professorship of Functional Materials for Food Packaging (Prof. Schrettl),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Materials for Food Packaging (Prof. Schrettl)
-53577,TUZEWWE,Other Scientific Institutions,TUM/Other Scientific Institutions
+53577,TUZEWWE,Central Scientific Institutions,TUM/Central Scientific Institutions
 53597,TUS1DP1,Department of Mathematics,"TUM/Schools/Computation, Information and Technology/Departments/Mathematics"
 53598,TUS1DP2,Department of Computer Science,"TUM/Schools/Computation, Information and Technology/Departments/Computer Science"
 53599,TUS1DP3,Department of Computer Engineering,"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering"
@@ -1729,7 +1726,7 @@ org_id,code,name,path
 53683,TUXS10Z,Degree Program Mathematik,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Mathematik"
 53684,TUXS110,Degree Program Promotionen,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Archiv/Promotionen"
 53697,TUXB70Q,Academic Programs Master Vocational Education and Innovation,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master Vocational Education and Innovation
-53737,TUS6B49,Assistant Professorship of Entrepreneurial Finance (Prof. Kaserer komm.),TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Kaserer komm.)
+53737,TUS6B49,Chair of Digital Finance (Prof. Weigert),TUM/Schools/Management/Departments/Finance and Accounting/Digital Finance (Prof. Weigert)
 53777,TUS7HTL,Chair of Human-Centered Technologies for Learning (Prof. Kasneci),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Human-Centered Technologies for Learning (Prof. Kasneci)
 53797,TUINI35,Informatics 35 - Chair of Perception for Intelligent Systems (Prof. Lilienthal),"TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Perception for Intelligent Systems (Prof. Lilienthal)"
 53817,TUINH05,Informatics Heilbronn 5 - Assistant Professorship of  Data Engineering (Prof. Acosta Deibe),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Engineering (Prof. Acosta Deibe)"
@@ -1837,7 +1834,6 @@ org_id,code,name,path
 54323,TUS7LEA,Assistant Professorship of Learning Analytics (Prof. Poquet),TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Learning Analytics (Prof. Poquet)
 54324,TUMEGE2,Assistant Professorship of Ethics of AI and Neuroscience (Prof. Ienca),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)/Ethics of AI and Neuroscience (Prof. Ienca)
 54337,TUXS231,Degree Program Abgelaufene Promotionsprogramme ehemaliger Fakultäten,TUM/Schools/Engineering and Design/Academic Program Administration/Doctoral Programs  ED/Abgelaufene Promotionsprogramme ehemaliger Fakultäten
-54357,TUMEMA2,Associate Professorship of Functional Allergology (HMGU) (Prof. Eyerich),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Allergology (Prof. Schmidt-Weber)/Functional Allergology (HMGU) (Prof. Eyerich)
 54377,TUS2PAB,MPA BAU - Testing Institute for Building Materials,TUM/Schools/Engineering and Design/Departments/Materials Engineering/MPA BAU - Testing Institute for Building Materials
 54397,TUS2TCA,Techcore ASG,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Techcore ASG
 54417,TUS6B51,Chair of Entrepreneurial Education (Prof. Tryba),TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Entrepreneurial Education (Prof. Tryba)
@@ -1861,9 +1857,8 @@ org_id,code,name,path
 54565,TUME1M3,Assistant Professorship of Gene Editing (Prof. Grünewald),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Gene Editing (Prof. Grünewald)
 54566,TUME1M4,Associate Professorship of Cardiovascular Translation in Large Animal Models (Prof. Klymiuk),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)
 54567,TUME2M2,Associate Professorship of Tumormetabolism (Prof. Algül),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Tumormetabolism (Prof. Algül)
-54568,TUME3M3,Associate Professorship of Translational Immunotherapy (Prof. Krackhardt),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Translational Immunotherapy (Prof. Krackhardt)
-54569,TUMENN0,Clinic and Polyclinic for Neonatology (Prof. Peters komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)
-54570,TUMENN1,Assistant Professorship of Neonatology (Prof. Peters komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)/Neonatology (Prof. Peters komm.)
+54569,TUMENN0,Clinic and Polyclinic for Neonatology (Prof. Hauer komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Hauer komm.)
+54570,TUMENN1,Assistant Professorship of Neonatology (Prof. Hauer komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Hauer komm.)/Neonatology (Prof. Hauer komm.)
 54571,TUMENC2,Associate Professorship of Translational Neurotechnology (Prof. Jacob),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurosurgery (Prof. Meyer)/Translational Neurotechnology (Prof. Jacob)
 54572,TUMENM3,Associate Professorship of Biomedical Magnetic Resonance (Prof. Schilling),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Biomedical Magnetic Resonance (Prof. Schilling)
 54573,TUMENM2,Assistant Professorship of Imaging and Biomarkers in Oncology (Prof. Kossatz),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Imaging and Biomarkers in Oncology (Prof. Kossatz)
@@ -1871,10 +1866,9 @@ org_id,code,name,path
 54577,TUS2FEA,Assistant Professorship of Remote Sensing Applications (Prof. Anders),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Remote Sensing Applications (Prof. Anders)
 54597,TUMEKI5,Associate Professorship of Pediatric Infectiology and Immunobiology (Prof. Behrends),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Pediatric Infectiology and Immunobiology (Prof. Behrends)
 54598,TUMECH7,Associate Professorship of Paediatrics (Prof. Hosie),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Paediatrics (Prof. Hosie)
-54599,TUMERO6,Associate Professorship of Experimental Magnetic Resonance Imaging (Prof. Karampinos),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Experimental Magnetic Resonance Imaging (Prof. Karampinos)
 54600,TUME1M5,Associate Professorship of Molekulare Kardiologie (Prof. Laugwitz),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Molekulare Kardiologie (Prof. Laugwitz)
 54601,TUME1M6,Associate Professorship of Regenerative Medicine in Cardiovascular Disease (Prof. Moretti),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Regenerative Medicine in Cardiovascular Disease (Prof. Moretti)
-54602,TUMENL5,Associate Professorship of Human Pain Research (Prof. Ploner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Human Pain Research (Prof. Ploner)
+54602,TUMENL5,Chair of Human Pain Research (Prof. Ploner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Human Pain Research (Prof. Ploner)
 54603,TUMEHN3,Assistant Professorship of Experimental Audiology (Prof. Wimmer),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Otolaryngology (Prof. Wollenberg)/Experimental Audiology (Prof. Wimmer)
 54604,TUPEWAR,Wissenschaftliche Arbeitsgemeinschaft für Raketentechnik und Raumfahrt (WARR),TUM/Institutions close to the University/Student initiatives/Wissenschaftliche Arbeitsgemeinschaft für Raketentechnik und Raumfahrt (WARR)
 54617,TUMEDH9,Associate Professorship of Early Clinical Trials in Cardiology (DHM) (Prof. Joner),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Early Clinical Trials in Cardiology (DHM) (Prof. Joner)
@@ -1886,7 +1880,6 @@ org_id,code,name,path
 54659,TUMESO0,Chair of Applied Stem Cell and Organoidsystems (Prof. Hebrok),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Applied Stem Cell and Organoidsystems (Prof. Hebrok)
 54660,TUME2M8,Abteilung für Nephrologie (Prof. Renders komm.),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung für Nephrologie (Prof. Renders komm.)
 54661,TUMEMS0,Chair of Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)
-54662,TUME3M4,Associate Professorship of Personalized Oncology (Prof. Illert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Personalized Oncology (Prof. Illert)
 54663,TUMEDHC,Chair of Herzchirurgie (DHM) (Prof. Krane),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Heart and Vascular Surgery (DHM) (Prof. Krane)/Herzchirurgie (DHM) (Prof. Krane)
 54664,TUMEND0,Associate Professorship of Neurobiology of Diabetes (HMGU) (Prof. Pfluger),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrstühle und Professuren Clinical Medicine/Neurobiology of Diabetes (HMGU) (Prof. Pfluger)
 54665,TUME2M9,Associate Professorship of Translationale Pankreaskrebsforschung (Prof. Reichert),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Translationale Pankreaskrebsforschung (Prof. Reichert)
@@ -2230,7 +2223,7 @@ org_id,code,name,path
 57357,TUS4M9P,Chair of Mikrobielle Physiologie (Prof. Pester),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Mikrobielle Physiologie (Prof. Pester)
 57377,TUS3014,Assistant Professorship of AI-Guided Protein Design (Prof. Schlichthärle),TUM/Schools/Natural Sciences/Departments/Bioscience/AI-Guided Protein Design (Prof. Schlichthärle)
 57397,TUS1324,Chair of N-Dimensional User Experience (Prof. Pirker),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/N-Dimensional User Experience (Prof. Pirker)"
-57418,TUZEARC,TUM Animal Research Center (GARC),TUM/Technology Core Facilities/TUM Animal Research Center (GARC)
+57418,TUZEARC,TUM Campus Garching Animal Research Center (GARC),TUM/Central Operational Units/TUM Campus Garching Animal Research Center (GARC)
 57437,TUZEI19,ZIEL-Prof. Weisz (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
 57438,TUZEI21,Area ZIEL-Prof. Bartelt (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
 57439,TUZEI20,Area ZIEL-Prof. Stecher-Letsch (LS),TUM/Corporate Research Centers/ZIEL - Institute für Food & Health/Other Institution/Area
@@ -2280,9 +2273,13 @@ org_id,code,name,path
 58017,TUS1331,Chair of Fundamentals of Programming (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Fundamentals of Programming (Prof. Zuleger)"
 58018,TUS2SCC,Assistant Professorship of Spacecraft Control (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Spacecraft Control (Prof. Kochdumper)
 58019,TUS2BPI,Assistant Professorship of  Bioprocess Intensification (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprocess Intensification (Prof. Duvigneau)
+58020,TUS2CFD,Assistant Professorship of Computational Fluid Dynamics (Prof. Makrand),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Computational Fluid Dynamics (Prof. Makrand)
 58021,TUS4F8T,Assistant Professorship of Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
 58037,TUS7CTE,Other Institution TUM Center for Teacher Education (CETE),TUM/Schools/Social Sciences and Technology/TUM Center for Teacher Education (CETE)
+58077,TUS2EFD,Assistant Professorship of Experimental Fluid Dynamics (Prof. Brunner),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Experimental Fluid Dynamics (Prof. Brunner)
 58097,TUWIH17,Associate Professorship of Empirical Economics and Data Science (Prof. Hünermund),TUM/Schools/Management/Departments/Economics and Policy/Empirical Economics and Data Science (Prof. Hünermund)
 58117,TUS3018,Chair of Macromolecular Chemistry (Prof. Thomas),TUM/Schools/Natural Sciences/Departments/Chemistry/Macromolecular Chemistry (Prof. Thomas)
 58157,TUS2SDA,Security and Defence Alliance,TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Security and Defence Alliance
 58178,TUS3019,Chair of Plasmadynamic (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamic (Prof. Happel)
+58197,TUXS72C,Degree Program Interdisciplinary Programs (TUM-PREP),TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/Practical Project Students/Interdisciplinary Programs (TUM-PREP)
+58198,TUXS72D,Degree Program Interdisciplinary Programs - Exchange program,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/nicht studienbeitragspflichtig/Interdisciplinary Programs - Exchange program
