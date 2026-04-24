@@ -36,10 +36,13 @@ const suggestImage = () => {
   if (!editProposal.value.data.additional_context) {
     editProposal.value.data.additional_context = `I would like to suggest a new image for ${props.data.name} (${props.data.id}).`;
   }
+  const floorIds = props.data.props.floors?.map((f) => f.id) ?? [];
   editProposal.value.locationPicker = {
     lat: props.data.coords.lat,
     lon: props.data.coords.lon,
     open: false,
+    floors: floorIds,
+    floor: floorIds[0] ?? null,
   };
   editProposal.value.open = true;
   editProposal.value.imageUpload.open = true;
@@ -52,10 +55,13 @@ const suggestEdit = () => {
     id: props.data.id,
     name: props.data.name,
   };
+  const floorIds = props.data.props.floors?.map((f) => f.id) ?? [];
   editProposal.value.locationPicker = {
     lat: props.data.coords.lat,
     lon: props.data.coords.lon,
     open: false,
+    floors: floorIds,
+    floor: floorIds[0] ?? null,
   };
   editProposal.value.open = true;
 };
@@ -69,10 +75,13 @@ const suggestLocationFix = () => {
     id: props.data.id,
     name: props.data.name,
   };
+  const floorIds = props.data.props.floors?.map((f) => f.id) ?? [];
   editProposal.value.locationPicker = {
     lat: props.data.coords.lat,
     lon: props.data.coords.lon,
     open: true,
+    floors: floorIds,
+    floor: floorIds[0] ?? null,
   };
   editProposal.value.open = true;
 };
