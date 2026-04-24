@@ -2081,15 +2081,30 @@ export type operations = {
         /**
          * @description string you want to search for.
          *
-         * The amounts returned can be controlled using the `limit\*` paramerters.
-         *
-         * The following query-filters are supported:
-         * - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-         * - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-         * - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-         * - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+         * The amounts returned can be controlled using the `limit_*` parameters.
+         * Use `in`, `usage`, `type`, and `near` query parameters for filtering.
          */
         q: string;
+        /**
+         * @description Filter by parent (building, campus, etc.).
+         *
+         * Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
+         */
+        in?: readonly string[];
+        /**
+         * @description Filter by usage type (e.g. `wc`, `büro`).
+         *
+         * Can be repeated for multiple values.
+         */
+        usage?: readonly string[];
+        /**
+         * @description Filter by entry type (e.g. `room`, `building`).
+         *
+         * Can be repeated for multiple values.
+         */
+        type?: readonly string[];
+        /** @description Sort results by distance to a coordinate (`lat,lon`). */
+        near?: string | null;
         /**
          * @description Include adresses in the saerch
          *
