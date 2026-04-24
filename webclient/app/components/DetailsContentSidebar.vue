@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPlus } from "@mdi/js";
+import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
@@ -43,6 +43,21 @@ const suggestImage = () => {
   };
   editProposal.value.open = true;
   editProposal.value.imageUpload.open = true;
+};
+
+const suggestEdit = () => {
+  if (!props.data) return;
+
+  editProposal.value.selected = {
+    id: props.data.id,
+    name: props.data.name,
+  };
+  editProposal.value.locationPicker = {
+    lat: props.data.coords.lat,
+    lon: props.data.coords.lon,
+    open: false,
+  };
+  editProposal.value.open = true;
 };
 
 const suggestLocationFix = () => {
@@ -138,6 +153,14 @@ const suggestLocationFix = () => {
         >
           <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 hover:text-blue-900" />
         </button>
+        <button
+          type="button"
+          class="focusable rounded-sm"
+          :title="t('header.suggest_edit')"
+          @click="suggestEdit"
+        >
+          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 hover:text-blue-900" />
+        </button>
         <ShareButton :coords="data.coords" :name="data.name" :id="data.id" />
         <DetailsFeedbackButton />
       </div>
@@ -190,6 +213,7 @@ de:
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
+    suggest_edit: Änderung vorschlagen
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
   msg:
@@ -200,6 +224,7 @@ en:
   header:
     calendar: Open calendar
     copy_link: Copy link
+    suggest_edit: Suggest edit
   add_first_image: Add first image
   suggest_edit: I know where it is
   msg:

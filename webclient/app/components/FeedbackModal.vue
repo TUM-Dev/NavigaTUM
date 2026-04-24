@@ -1,14 +1,34 @@
 <script setup lang="ts">
 import { useFeedback } from "~/composables/feedback";
+import { useEditProposal } from "~/composables/editProposal";
 
 const { t } = useI18n({ useScope: "local" });
 const deleteIssueRequested = ref(false);
 const feedback = useFeedback();
+const editProposal = useEditProposal();
+const route = useRoute();
+
+function switchToEditProposal() {
+  feedback.value.open = false;
+  editProposal.value.selected = {
+    id: route.params.id as string,
+    name: null,
+  };
+  editProposal.value.open = true;
+}
 </script>
 
 <template>
   <TokenBasedFeedbackModal :data="feedback.data">
     <template #modal>
+      <div v-if="feedback.data.category === 'entry'" class="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-4">
+        <p class="text-blue-900 font-semibold mb-1">{{ t("edit_hint.title") }}</p>
+        <p class="text-blue-800 text-sm mb-3">{{ t("edit_hint.text") }}</p>
+        <Btn variant="primary" size="md" @click="switchToEditProposal">
+          {{ t("edit_hint.propose_edits") }}
+        </Btn>
+      </div>
+
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
@@ -72,6 +92,10 @@ de:
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
     navigation: (Beta) Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
+  edit_hint:
+    title: Möchtest du einen Eintrag korrigieren?
+    text: "Bitte nutze stattdessen unser Bearbeitungsformular, um Daten wie Namen, Koordinaten oder Adressen direkt zu korrigieren. So können wir deine Änderungen schneller umsetzen."
+    propose_edits: Änderungen vorschlagen
   message: Nachricht
   subject: Betreff
   success:
@@ -96,6 +120,10 @@ en:
     other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
     navigation: (Beta) Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
+  edit_hint:
+    title: Want to correct an entry?
+    text: "Please use our edit form instead to directly correct data like names, coordinates, or addresses. This helps us process your changes much faster."
+    propose_edits: Propose edits
   message: Message
   subject: Subject
   success:
