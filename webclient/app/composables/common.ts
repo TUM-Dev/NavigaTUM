@@ -7,3 +7,9 @@ export function firstOrDefault(
   if (Array.isArray(value)) return value[0] ?? defaultValue;
   return value ?? defaultValue;
 }
+
+export function allValues(value: LocationQueryValue | LocationQueryValue[]): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.filter((v): v is string => v !== null);
+  return [value];
+}
