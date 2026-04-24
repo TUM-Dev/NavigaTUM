@@ -13,6 +13,8 @@ interface LocationPickerProps {
   initialLat: number;
   initialLon: number;
   zoom?: number;
+  floors?: number[];
+  initialFloor?: number | null;
 }
 
 interface LocationPickerEmits {
@@ -92,6 +94,14 @@ function initMap() {
 
     // Add floor control
     mapInstance.addControl(floorControl.value, "bottom-left");
+
+    // Initialize floor state if provided
+    if (props.floors && props.floors.length > 0) {
+      floorControl.value.setAvailableFloors(props.floors);
+      if (props.initialFloor != null) {
+        floorControl.value.setLevel(props.initialFloor);
+      }
+    }
 
     // Create draggable marker
     const draggableMarker = new Marker({

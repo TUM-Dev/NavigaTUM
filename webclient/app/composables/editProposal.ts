@@ -13,6 +13,8 @@ type EditProposalState = {
     open: boolean;
     lat: number;
     lon: number;
+    floors: number[];
+    floor: number | null;
   };
   imageUpload: {
     open: boolean;
@@ -39,6 +41,8 @@ export const useEditProposal = () =>
       open: false,
       lat: 0,
       lon: 0,
+      floors: [],
+      floor: null,
     },
     imageUpload: {
       open: false,
