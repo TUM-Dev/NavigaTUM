@@ -317,7 +317,14 @@ fn slugify(input: &str) -> String {
     let slug = input
         .chars()
         .map(|c| {
-            if c.is_alphanumeric() || c == '-' || c == '.' || c == 'ä' || c == 'ö' || c == 'ü' || c == 'ß' {
+            if c.is_alphanumeric()
+                || c == '-'
+                || c == '.'
+                || c == 'ä'
+                || c == 'ö'
+                || c == 'ü'
+                || c == 'ß'
+            {
                 c.to_lowercase().next().unwrap()
             } else {
                 '-'
@@ -328,7 +335,11 @@ fn slugify(input: &str) -> String {
     slug.trim_matches('-').to_string()
 }
 
-fn build_meilisearch_filter(filter_in: &[String], usage: &[String], filter_type: &[String]) -> String {
+fn build_meilisearch_filter(
+    filter_in: &[String],
+    usage: &[String],
+    filter_type: &[String],
+) -> String {
     let mut filters = vec![];
     if !filter_in.is_empty() {
         let parents: Vec<String> = filter_in.iter().map(|s| slugify(s)).collect();
@@ -417,7 +428,15 @@ pub async fn search_handler(
     let results_sections = data
         .search_cache
         .get_with(cache_key, async move {
-            do_geoentry_search(q, limits, search_addresses, formatting_config, ms_filter, ms_sorting).await
+            do_geoentry_search(
+                q,
+                limits,
+                search_addresses,
+                formatting_config,
+                ms_filter,
+                ms_sorting,
+            )
+            .await
         })
         .await;
 
@@ -464,8 +483,14 @@ async fn do_geoentry_search(
         };
     };
 
-    let geoentry_search =
-        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config, filter, sorting);
+    let geoentry_search = crate::search_executor::do_geoentry_search(
+        &client,
+        &q,
+        limits,
+        formatting_config,
+        filter,
+        sorting,
+    );
 
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);

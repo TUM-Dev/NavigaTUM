@@ -307,8 +307,15 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results_cropping =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_cropping, String::new(), vec![]).await;
+        let results_cropping = do_geoentry_search(
+            &ms.client,
+            query,
+            Limits::default(),
+            config_cropping,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         // Search with cropping disabled.
         let config_no_cropping = FormattingConfig {
@@ -317,8 +324,15 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results_no_cropping =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_no_cropping, String::new(), vec![]).await;
+        let results_no_cropping = do_geoentry_search(
+            &ms.client,
+            query,
+            Limits::default(),
+            config_no_cropping,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         // Extract Rooms; fail fast to avoid silent no-ops.
         let rooms_with_crop = results_cropping
@@ -399,7 +413,15 @@ mod test {
         };
 
         // Use a canonical query from the good list to avoid accidental no-op.
-        let results = do_geoentry_search(&ms.client, "N-1406", Limits::default(), config, String::new(), vec![]).await;
+        let results = do_geoentry_search(
+            &ms.client,
+            "N-1406",
+            Limits::default(),
+            config,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         let room_section = results
             .0
@@ -451,7 +473,15 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results = do_geoentry_search(&ms.client, query, Limits::default(), config, String::new(), vec![]).await;
+        let results = do_geoentry_search(
+            &ms.client,
+            query,
+            Limits::default(),
+            config,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         let room_section = results
             .0
@@ -627,8 +657,15 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results_cropped =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_cropped, String::new(), vec![]).await;
+        let results_cropped = do_geoentry_search(
+            &ms.client,
+            query,
+            Limits::default(),
+            config_cropped,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         // 2. Search with cropping disabled
         let config_full = FormattingConfig {
@@ -637,8 +674,15 @@ mod test {
             parsed_id: ParsedIdMode::Prefixed,
         };
 
-        let results_full =
-            do_geoentry_search(&ms.client, query, Limits::default(), config_full, String::new(), vec![]).await;
+        let results_full = do_geoentry_search(
+            &ms.client,
+            query,
+            Limits::default(),
+            config_full,
+            String::new(),
+            vec![],
+        )
+        .await;
 
         let rooms_cropped = results_cropped
             .0
