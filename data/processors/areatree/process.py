@@ -2,16 +2,19 @@ import logging
 from pathlib import Path
 from collections.abc import Iterator
 
+import polars as pl
+
 from processors.areatree import models
+from processors.df_utils import to_json_or_none
 
 AREATREE_FILE = Path(__file__).parent / "config.areatree"
 
 
-def read_areatree() -> dict[str, models.AreatreeBuidling]:
+def read_areatree() -> pl.DataFrame:
     """Read the areatree file and the basic data, gained from the areatree"""
     parent_stack: list[str] = []
     last_element: str = ""
-    data = {}
+    rows = []
     for line in _areatree_lines():
         indent = len(line) - len(line.lstrip(" "))
         if indent % 2 != 0:
@@ -22,9 +25,31 @@ def read_areatree() -> dict[str, models.AreatreeBuidling]:
             parent_stack = parent_stack[: indent // 2]
 
         building_data = _parse_areatree_line(line, parent_stack[:])
-        data[building_data["id"]] = building_data
+        row = {
+            "id": building_data["id"],
+            "type": building_data["type"],
+            "name": building_data["name"],
+            "name_de": building_data["name"],
+            "name_en": building_data["name"],
+            "parents": building_data["parents"],
+        }
+        if "b_prefix" in building_data:
+            bp = building_data["b_prefix"]
+            if isinstance(bp, list):
+                row["b_prefix_list"] = bp
+            else:
+                row["b_prefix"] = bp
+        if "visible_id" in building_data:
+            row["visible_id"] = building_data["visible_id"]
+        if "short_name" in building_data:
+            row["short_name"] = building_data["short_name"]
+            row["short_name_de"] = building_data["short_name"]
+            row["short_name_en"] = building_data["short_name"]
+        if "data_quality" in building_data:
+            row["data_quality_json"] = to_json_or_none(building_data["data_quality"])  # type: ignore[assignment]
+        rows.append(row)
         last_element = building_data["id"]
-    return data
+    return pl.DataFrame(rows, infer_schema_length=None)
 
 
 def _areatree_lines() -> Iterator[str]:

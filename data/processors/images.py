@@ -6,8 +6,9 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, NamedTuple, TypeVar
+from typing import Any, NamedTuple
 
+import polars as pl
 import pydantic
 import yaml
 from PIL import Image
@@ -28,22 +29,16 @@ class ImageOffset(PydanticConfiguration):
     thumb: int = 0
 
 
-# here until typing.Self can be used in all expected python versions of developers
-# pylint: disable-next=c-extension-no-member
-# pylint: disable-next=invalid-name
-TImageSource = TypeVar("TImageSource", bound="ImageSource")
-
-
 class ImageSource(PydanticConfiguration):
     author: str
     license: UrlStr
     offsets: ImageOffset = Field(default_factory=ImageOffset)
 
     @classmethod
-    def load_all(cls: TImageSource) -> dict[str, list[TImageSource]]:
+    def load_all(cls) -> dict[str, list["ImageSource"]]:
         """Load the image sources from the img-sources.yaml file"""
         with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
-            raw: dict[str, dict[int, dict]] = yaml.safe_load(file.read())
+            raw: dict[str, dict[int, dict[str, Any]]] = yaml.safe_load(file.read())
             image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
         for key in image_sources:
             if not isinstance(key, str):
@@ -62,10 +57,12 @@ DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 TARGET_IMAGE_QUALITY = 80
 
 
-def add_img(data: dict[str, dict[str, Any]]) -> None:
-    """Automatically add processed images to the 'img' property."""
+def add_img(df: pl.DataFrame) -> pl.DataFrame:
+    """Automatically add processed images to the 'imgs_json' column."""
     with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
         img_sources = yaml.safe_load(file.read())
+
+    existing_ids = set(df["id"].to_list())
 
     # Check that all images have source information (to make sure it was not forgotten)
     for image_path in IMAGE_SOURCE_PATH.iterdir():
@@ -74,9 +71,10 @@ def add_img(data: dict[str, dict[str, Any]]) -> None:
         if _id not in img_sources or _index not in img_sources[_id]:
             logging.warning(f"No source information for image '{image_path}', it will not be used")
 
-    # filter the images, that should exist, by the ones that actually do
+    # Build imgs data per id
+    imgs_rows = []
     for _id, _source_data in img_sources.items():
-        if _id not in data:
+        if _id not in existing_ids:
             logging.warning(f"There are images for '{_id}', but it was not found in the provided data, ignoring")
             continue
 
@@ -92,7 +90,16 @@ def add_img(data: dict[str, dict[str, Any]]) -> None:
                     break
                 img_data.append(source_info)
 
-        data[_id]["imgs"] = img_data
+        imgs_rows.append({"id": _id, "imgs_json_new": json.dumps(img_data)})
+
+    if imgs_rows:
+        imgs_df = pl.DataFrame(imgs_rows)
+        df = df.join(imgs_df, on="id", how="left")
+        df = df.with_columns(
+            pl.coalesce(pl.col("imgs_json_new"), pl.col("imgs_json")).alias("imgs_json"),
+        ).drop("imgs_json_new")
+
+    return df
 
 
 def parse_image_filename(image_name: str) -> tuple[str, int]:
@@ -180,11 +187,11 @@ class Resizer:
         if width < height:
             # image is vertical
             scaling = max_size / height
-            image = self.img.resize((int(width * scaling), max_size), Image.Resampling.LANCZOS)  # type: ignore
+            image = self.img.resize((int(width * scaling), max_size), Image.Resampling.LANCZOS)
         else:
             # image is horizontal
             scaling = max_size / width
-            image = self.img.resize((max_size, int(height * scaling)), Image.Resampling.LANCZOS)  # type: ignore
+            image = self.img.resize((max_size, int(height * scaling)), Image.Resampling.LANCZOS)
         image.save(target, lossless=False, quality=TARGET_IMAGE_QUALITY)
 
 

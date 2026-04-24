@@ -14,7 +14,7 @@ class Patch(TypedDict):
     arch_name: NotRequired[str]
 
 
-def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch]):
+def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch]) -> None:
     """
     Apply patches to objects.
 
@@ -24,7 +24,7 @@ def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch
         patches: list of patches to apply
 
     """
-    patches = [
+    compiled_patches: list[tuple[re.Pattern[str], dict[str, object]]] = [
         (
             re.compile(p["if_room_code"]),
             {k: v for k, v in p.items() if k != "if_room_code"},
@@ -33,9 +33,9 @@ def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch
     ]
 
     to_delete = []
-    applied_patches = set()
+    applied_patches: set[re.Pattern[str]] = set()
     for room_code, room in objects.items():
-        for patch_check, patch in patches:
+        for patch_check, patch in compiled_patches:
             if patch_check.match(room_code) is not None:
                 applied_patches.add(patch_check)
                 if patch.get("__delete"):
@@ -48,7 +48,7 @@ def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch
     for room_code in to_delete:
         objects.pop(room_code)
 
-    for patch_check, _ in patches:
+    for patch_check, _ in compiled_patches:
         if patch_check not in applied_patches:
             logging.warning(
                 f"The patch for roomcode: r'{patch_check.pattern}' was never applied. Make sure it is still required.",
