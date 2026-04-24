@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import { useFeedback } from "~/composables/feedback";
+import { useEditProposal } from "~/composables/editProposal";
 
 const { t } = useI18n({ useScope: "local" });
 const deleteIssueRequested = ref(false);
 const feedback = useFeedback();
+const editProposal = useEditProposal();
+const route = useRoute();
+
+function switchToEditProposal() {
+  feedback.value.open = false;
+  editProposal.value.selected = {
+    id: route.params.id as string,
+    name: null,
+  };
+  editProposal.value.open = true;
+}
 </script>
 
 <template>
@@ -45,6 +57,15 @@ const feedback = useFeedback();
           rows="6"
         />
         <p class="text-zinc-500 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
+        <p v-if="feedback.data.category === 'entry'" class="text-zinc-500 text-xs mt-1">
+          <I18nT keypath="edit_hint.text">
+            <template #propose_edits>
+              <button type="button" class="text-blue-600 hover:underline font-semibold" @click="switchToEditProposal">
+                {{ t("edit_hint.propose_edits") }}
+              </button>
+            </template>
+          </I18nT>
+        </p>
       </div>
 
       <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
@@ -72,6 +93,9 @@ de:
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
     navigation: (Beta) Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
+  edit_hint:
+    text: "Du kannst auch direkt {propose_edits}, um Daten wie Namen, Koordinaten oder Adressen zu korrigieren."
+    propose_edits: Änderungen vorschlagen
   message: Nachricht
   subject: Betreff
   success:
@@ -96,6 +120,9 @@ en:
     other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
     navigation: (Beta) Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
+  edit_hint:
+    text: "You can also {propose_edits} directly to correct data like names, coordinates, or addresses."
+    propose_edits: propose edits
   message: Message
   subject: Subject
   success:
