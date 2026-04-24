@@ -66,10 +66,9 @@ jobs:
         with:
           version: 10.14.0
           package_json_file: tests/package.json
-
-      - name: Install | Dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: tests
+          run_install: |
+            - cwd: tests
+              args: [--frozen-lockfile]
 
       - name: Update | Screenshots
         run: pnpm run update-screenshots
@@ -118,10 +117,9 @@ jobs:
         with:
           version: 10.14.0
           package_json_file: webclient/package.json
-
-      - name: Install | Dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: webclient
+          run_install: |
+            - cwd: webclient
+              args: [--frozen-lockfile]
 
       - name: Build | Compile server
         working-directory: server
