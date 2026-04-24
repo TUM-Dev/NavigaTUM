@@ -175,6 +175,8 @@ function getEditTypeDisplay(roomId: string): string {
           v-model:open="editProposal.locationPicker.open"
           :initial-lat="editProposal.locationPicker.lat"
           :initial-lon="editProposal.locationPicker.lon"
+          :floors="editProposal.locationPicker.floors"
+          :initial-floor="editProposal.locationPicker.floor"
           @coordinates-changed="
             (lat: number, lon: number) => {
               editProposal.locationPicker.lat = lat;

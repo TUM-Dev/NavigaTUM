@@ -1120,7 +1120,7 @@ org_id,code,name,path
 50217,TUWIB40,Associate Professorship of Resource Economics (Prof. Ikonnikova),TUM/Schools/Management/Departments/Economics and Policy/Resource Economics (Prof. Ikonnikova)
 50218,TUWIH09,Associate Professorship of Finance (Prof. Müller) (TUM Campus Heilbronn),TUM/Schools/Management/Departments/Finance and Accounting/Finance (Prof. Müller) (TUM Campus Heilbronn)
 50237,TUCHACE,Chair of Medicinal and Bioinorganic Chemistry (Prof. Casini),TUM/Schools/Natural Sciences/Departments/Chemistry/Medicinal and Bioinorganic Chemistry (Prof. Casini)
-50238,TUINF22,Informatics 5 - Professorship of Quantum Computing (Prof. Mendl),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Quantum Computing (Prof. Mendl)"
+50238,TUINF22,Informatics 5 - Associate Professorship of Quantum Computing (Prof. Mendl),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Quantum Computing (Prof. Mendl)"
 50239,TUINF23,Informatics 7 - Associate Professorship of Theoretical Foundations of Artificial Intelligence (Prof. Ghoshdastidar),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretical Foundations of Artificial Intelligence (Prof. Ghoshdastidar)"
 50240,TUWZA2B,Associate Professorship of Metabolic Programming (Prof. Uhlenhaut),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Metabolic Programming (Prof. Uhlenhaut)
 50241,TUWZG3B,Chair of Ecosystem Dynamics and Forest Management in Mountainous Regions (Prof. Seidl),TUM/Schools/Life Sciences/Departments/Life Science Systems/Ecosystem Dynamics and Forest Management in Mountainous Regions (Prof. Seidl)
@@ -1147,7 +1147,7 @@ org_id,code,name,path
 50657,TULRBGD,Associate Professorship of Big Geospatial Data Management (Prof. Werner),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Big Geospatial Data Management (Prof. Werner)
 50697,TUCHACF,Chair of Solid-State Electrolyte Chemistry (Prof. Rupp),TUM/Schools/Natural Sciences/Departments/Chemistry/Solid-State Electrolyte Chemistry (Prof. Rupp)
 50717,TUWZC2P,Associate Professorship of Crop Physiology (Prof. Bienert),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Crop Physiology (Prof. Bienert)
-50737,TUWZW2A,Assistant Professorship of Forest and Agroforest Systems (Prof. Annighöfer),TUM/Schools/Life Sciences/Departments/Life Science Systems/Forest and Agroforest Systems (Prof. Annighöfer)
+50737,TUWZW2A,Associate Professorship of Forest and Agroforest Systems (Prof. Annighöfer),TUM/Schools/Life Sciences/Departments/Life Science Systems/Forest and Agroforest Systems (Prof. Annighöfer)
 50738,TUCHACG,Chair of Construction Chemistry (Prof. Gädt),TUM/Schools/Natural Sciences/Departments/Chemistry/Construction Chemistry (Prof. Gädt)
 50777,TUPRV10,Vice President - Compliance,TUM/TUM Board of Management/Vice Presidents/Vice President - Compliance
 50818,TUPRSCO,TUM Compliance Office,TUM/TUM Board of Management/TUM Compliance Office
@@ -2283,3 +2283,4 @@ org_id,code,name,path
 58178,TUS3019,Chair of Plasmadynamic (Prof. Happel),TUM/Schools/Natural Sciences/Departments/Physics/Plasmadynamic (Prof. Happel)
 58197,TUXS72C,Degree Program Interdisciplinary Programs (TUM-PREP),TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/Practical Project Students/Interdisciplinary Programs (TUM-PREP)
 58198,TUXS72D,Degree Program Interdisciplinary Programs - Exchange program,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/nicht studienbeitragspflichtig/Interdisciplinary Programs - Exchange program
+58237,TUS2DSM,Assistant Professorship of Digital Structures with Mineral Materials (Prof. Bos),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Digital Structures with Mineral Materials (Prof. Bos)
