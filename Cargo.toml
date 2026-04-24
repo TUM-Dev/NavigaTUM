@@ -21,7 +21,7 @@ chrono = { version = "0.4", default-features = false, features = ["serde"] }
 fast_qr = { version = "0.13.1", features = ["image"] }
 futures = "0.3.32"
 image = { version = "0.25.9", default-features = false, features = ["jpeg", "png", "webp"] }
-imageproc = "0.26.0"
+imageproc = "0.26.1"
 insta = "1.46.3"
 itertools = "0.14.0"
 jsonwebtoken = { version = "10.3.0", default-features = false, features = ["aws_lc_rs"] }
