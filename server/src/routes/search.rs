@@ -18,6 +18,10 @@ pub struct SearchCacheKey {
     pub limits: Limits,
     pub search_addresses: bool,
     pub formatting_config: FormattingConfig,
+    pub filter_in: Vec<String>,
+    pub filter_usage: Vec<String>,
+    pub filter_type: Vec<String>,
+    pub near: Option<String>,
 }
 
 /// Controls whether long building names inside `parsed_id` are cropped.
@@ -50,33 +54,38 @@ pub enum ParsedIdMode {
 pub struct SearchQueryArgs {
     /// string you want to search for.
     ///
-    /// The amounts returned can be controlled using the `limit\*` paramerters.
-    ///
-    /// The following query-filters are supported:
-    /// - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-    /// - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-    /// - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-    /// - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+    /// The amounts returned can be controlled using the `limit_*` parameters.
+    /// Use `in`, `usage`, `type`, and `near` query parameters for filtering.
     #[schema(
         min_length = 1,
-        examples(
-            "mi hs1",
-            "sfarching",
-            "5606.EG.036",
-            "interims",
-            "AStA",
-            "WC @garching"
-        )
+        examples("mi hs1", "sfarching", "5606.EG.036", "interims", "AStA")
     )]
-    // TODO ideally, this would be documented as below, but this does for some reaon not work.
-    //    examples(
-    //    ("mi hs1" = (summary = "\'misspelled\' (according to tumonline) lecture-hall", value = "mi hs1")),
-    //    ("sfarching" = (summary = "misspelled campus garching", value = "sfarching")),
-    //    ("5606.EG.036" = (summary = "regular room (fsmpic)", value = "5606.EG.036")),
-    //    ("interims" = (summary = "\'interims\' Lecture halls", value = "interims")),
-    //    ("AStA" = (summary = "common name synonyms for SV", value = "AStA")),
-    //))]
     q: String,
+
+    /// Filter by parent (building, campus, etc.).
+    ///
+    /// Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
+    #[serde(rename = "in", default)]
+    #[schema(example = json!(["garching"]))]
+    filter_in: Vec<String>,
+
+    /// Filter by usage type (e.g. `wc`, `büro`).
+    ///
+    /// Can be repeated for multiple values.
+    #[serde(default)]
+    #[schema(example = json!(["wc"]))]
+    usage: Vec<String>,
+
+    /// Filter by entry type (e.g. `room`, `building`).
+    ///
+    /// Can be repeated for multiple values.
+    #[serde(rename = "type", default)]
+    #[schema(example = json!(["room"]))]
+    filter_type: Vec<String>,
+
+    /// Sort results by distance to a coordinate (`lat,lon`).
+    #[schema(example = "48.123,11.456")]
+    near: Option<String>,
 
     /// Include adresses in the saerch
     ///
@@ -304,6 +313,50 @@ impl From<&SearchQueryArgs> for FormattingConfig {
     }
 }
 
+fn slugify(input: &str) -> String {
+    let slug = input
+        .chars()
+        .map(|c| {
+            if c.is_alphanumeric() || c == '-' || c == '.' || c == 'ä' || c == 'ö' || c == 'ü' || c == 'ß' {
+                c.to_lowercase().next().unwrap()
+            } else {
+                '-'
+            }
+        })
+        .collect::<String>()
+        .replace("--", "-");
+    slug.trim_matches('-').to_string()
+}
+
+fn build_meilisearch_filter(filter_in: &[String], usage: &[String], filter_type: &[String]) -> String {
+    let mut filters = vec![];
+    if !filter_in.is_empty() {
+        let parents: Vec<String> = filter_in.iter().map(|s| slugify(s)).collect();
+        let parents_debug: Vec<&str> = parents.iter().map(String::as_str).collect();
+        filters.push(format!(
+            "((parent_keywords IN {parents_debug:?}) OR (parent_building_names IN {parents_debug:?}) OR (campus IN {parents_debug:?}))"
+        ));
+    }
+    if !filter_type.is_empty() {
+        let types: Vec<String> = filter_type.iter().map(|s| slugify(s)).collect();
+        let types_debug: Vec<&str> = types.iter().map(String::as_str).collect();
+        filters.push(format!("(type IN {types_debug:?})"));
+    }
+    if !usage.is_empty() {
+        let usages: Vec<String> = usage.iter().map(|s| slugify(s)).collect();
+        let usages_debug: Vec<&str> = usages.iter().map(String::as_str).collect();
+        filters.push(format!("(usage IN {usages_debug:?})"));
+    }
+    filters.join(" AND ")
+}
+
+fn build_meilisearch_sorting(near: &Option<String>) -> Vec<String> {
+    match near {
+        Some(loc) => vec![format!("_geoPoint({loc}):asc")],
+        None => vec![],
+    }
+}
+
 /// Search entries
 ///
 /// This endpoint is designed to support search-as-you-type results.
@@ -340,6 +393,10 @@ pub async fn search_handler(
     let formatting_config = FormattingConfig::from(&args);
     let q = args.q;
     let search_addresses = args.search_addresses.unwrap_or(false);
+    let filter_in = args.filter_in;
+    let filter_usage = args.usage;
+    let filter_type = args.filter_type;
+    let near = args.near;
 
     debug!(q, ?limits, ?formatting_config, "requested search");
 
@@ -348,12 +405,19 @@ pub async fn search_handler(
         limits: limits.clone(),
         search_addresses,
         formatting_config: formatting_config.clone(),
+        filter_in: filter_in.clone(),
+        filter_usage: filter_usage.clone(),
+        filter_type: filter_type.clone(),
+        near: near.clone(),
     };
+
+    let ms_filter = build_meilisearch_filter(&filter_in, &filter_usage, &filter_type);
+    let ms_sorting = build_meilisearch_sorting(&near);
 
     let results_sections = data
         .search_cache
         .get_with(cache_key, async move {
-            do_geoentry_search(q, limits, search_addresses, formatting_config).await
+            do_geoentry_search(q, limits, search_addresses, formatting_config, ms_filter, ms_sorting).await
         })
         .await;
 
@@ -387,6 +451,8 @@ async fn do_geoentry_search(
     limits: Limits,
     search_addresses: bool,
     formatting_config: FormattingConfig,
+    filter: String,
+    sorting: Vec<String>,
 ) -> Vec<ResultsSection> {
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
@@ -399,7 +465,7 @@ async fn do_geoentry_search(
     };
 
     let geoentry_search =
-        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config);
+        crate::search_executor::do_geoentry_search(&client, &q, limits, formatting_config, filter, sorting);
 
     if search_addresses {
         let address_search = crate::search_executor::address_search(&q);
@@ -568,5 +634,66 @@ mod tests {
         // Modes should be propagated
         assert_eq!(config.cropping, CroppingMode::Full);
         assert_eq!(config.parsed_id, ParsedIdMode::Roomfinder);
+    }
+
+    #[test]
+    fn filter_empty_params_produce_no_filter() {
+        let filter = build_meilisearch_filter(&[], &[], &[]);
+        assert_eq!(filter, "");
+    }
+
+    #[test]
+    fn filter_parent_only() {
+        let filter = build_meilisearch_filter(&["garching".to_string()], &[], &[]);
+        assert!(filter.contains("parent_keywords"));
+        assert!(filter.contains("parent_building_names"));
+        assert!(filter.contains("campus"));
+        assert!(filter.contains("garching"));
+    }
+
+    #[test]
+    fn filter_usage_only() {
+        let filter = build_meilisearch_filter(&[], &["wc".to_string()], &[]);
+        assert!(filter.contains("usage"));
+        assert!(filter.contains("wc"));
+    }
+
+    #[test]
+    fn filter_type_only() {
+        let filter = build_meilisearch_filter(&[], &[], &["room".to_string()]);
+        assert!(filter.contains("type"));
+        assert!(filter.contains("room"));
+    }
+
+    #[test]
+    fn filter_combined() {
+        let filter = build_meilisearch_filter(
+            &["garching".to_string()],
+            &["wc".to_string()],
+            &["room".to_string()],
+        );
+        assert!(filter.contains("AND"));
+        assert!(filter.contains("garching"));
+        assert!(filter.contains("wc"));
+        assert!(filter.contains("room"));
+    }
+
+    #[test]
+    fn filter_slugifies_values() {
+        let filter = build_meilisearch_filter(&["Garching".to_string()], &[], &[]);
+        assert!(filter.contains("garching"));
+        assert!(!filter.contains("Garching"));
+    }
+
+    #[test]
+    fn sorting_empty_near() {
+        let sorting = build_meilisearch_sorting(&None);
+        assert!(sorting.is_empty());
+    }
+
+    #[test]
+    fn sorting_with_near() {
+        let sorting = build_meilisearch_sorting(&Some("48.123,11.456".to_string()));
+        assert_eq!(sorting, vec!["_geoPoint(48.123,11.456):asc"]);
     }
 }
