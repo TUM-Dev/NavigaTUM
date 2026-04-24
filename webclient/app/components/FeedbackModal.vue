@@ -21,6 +21,14 @@ function switchToEditProposal() {
 <template>
   <TokenBasedFeedbackModal :data="feedback.data">
     <template #modal>
+      <div v-if="feedback.data.category === 'entry'" class="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-4">
+        <p class="text-blue-900 font-semibold mb-1">{{ t("edit_hint.title") }}</p>
+        <p class="text-blue-800 text-sm mb-3">{{ t("edit_hint.text") }}</p>
+        <Btn variant="primary" size="md" @click="switchToEditProposal">
+          {{ t("edit_hint.propose_edits") }}
+        </Btn>
+      </div>
+
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
@@ -57,15 +65,6 @@ function switchToEditProposal() {
           rows="6"
         />
         <p class="text-zinc-500 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
-        <p v-if="feedback.data.category === 'entry'" class="text-zinc-500 text-xs mt-1">
-          <I18nT keypath="edit_hint.text">
-            <template #propose_edits>
-              <button type="button" class="text-blue-600 hover:underline font-semibold" @click="switchToEditProposal">
-                {{ t("edit_hint.propose_edits") }}
-              </button>
-            </template>
-          </I18nT>
-        </p>
       </div>
 
       <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
@@ -94,7 +93,8 @@ de:
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
     navigation: (Beta) Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
   edit_hint:
-    text: "Du kannst auch direkt {propose_edits}, um Daten wie Namen, Koordinaten oder Adressen zu korrigieren."
+    title: Möchtest du einen Eintrag korrigieren?
+    text: "Bitte nutze stattdessen unser Bearbeitungsformular, um Daten wie Namen, Koordinaten oder Adressen direkt zu korrigieren. So können wir deine Änderungen schneller umsetzen."
     propose_edits: Änderungen vorschlagen
   message: Nachricht
   subject: Betreff
@@ -121,8 +121,9 @@ en:
     search: Feedback about the search. What was your search query? What did you expect to see?
     navigation: (Beta) Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
   edit_hint:
-    text: "You can also {propose_edits} directly to correct data like names, coordinates, or addresses."
-    propose_edits: propose edits
+    title: Want to correct an entry?
+    text: "Please use our edit form instead to directly correct data like names, coordinates, or addresses. This helps us process your changes much faster."
+    propose_edits: Propose edits
   message: Message
   subject: Subject
   success:
