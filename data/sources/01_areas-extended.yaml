@@ -359,6 +359,10 @@ heilbronn:
   coords:
     lat: 48.1797454
     lon: 11.5464106
+2535:
+  coords:
+    lat: 48.136579
+    lon: 11.602407
 2803:
   coords:
     lat: 48.1314
@@ -784,6 +788,34 @@ mi:
           id: 00.05.011
         - name: Bode Raum
           subtext: ''
+3123:
+  coords:
+    lat: 47.555956
+    lon: 11.291274
+3124:
+  coords:
+    lat: 47.555956
+    lon: 11.291274
+4186:
+  coords:
+    lat: 48.393568763282815
+    lon: 11.733481655358464
+4330:
+  coords:
+    lat: 48.108354
+    lon: 11.529317
+4331:
+  coords:
+    lat: 48.108354
+    lon: 11.529317
+4514:
+  coords:
+    lat: 48.404824
+    lon: 11.694702
+5212:
+  coords:
+    lat: 48.264855036851365
+    lon: 11.674017005901092
 5622:
   coords:
     lat: 48.2635
@@ -802,6 +834,10 @@ mi:
   coords:
     lat: 48.26420983175217
     lon: 11.661077742475014
+6106:
+  coords:
+    lat: 48.26038874622769
+    lon: 11.658267595222773
 galileo:
   coords:
     lat: 48.26541
@@ -940,6 +976,14 @@ taufkirchen-ottobrunn:
   coords:
     lat: 48.05453
     lon: 11.65308
+9110:
+  coords:
+    lat: 47.487317
+    lon: 11.061414
+9344:
+  coords:
+    lat: 48.344112
+    lon: 11.746225
 9377:
   coords:
     lat: 48.05453
@@ -982,3 +1026,11 @@ taufkirchen-ottobrunn:
     lon: 11.29609
   osm:
   - way/1123333684
+9510:
+  coords:
+    lat: 48.354030
+    lon: 11.754175
+9511:
+  coords:
+    lat: 48.354100
+    lon: 11.752962
