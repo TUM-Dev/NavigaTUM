@@ -1,5 +1,6 @@
 backoff==2.2.1
 beautifulsoup4==4.14.3
+dataframely==2.9.1
 defusedxml==0.7.1
 lxml==6.1.0
 Pillow==12.2.0
@@ -11,4 +12,6 @@ requests==2.33.0
 requests-oauthlib==2.0.0
 ruamel.yaml==0.19.1
 tqdm==4.67.1
+types-PyYAML==6.0.12.20260408
+types-requests==2.33.0.20260408
 utm==0.8.1

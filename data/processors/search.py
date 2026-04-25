@@ -1,3 +1,5 @@
+import polars as pl
+
 RANKING_FACTOR_BY_TYPE = {
     "root": 0,  # Not searchable
     "site": 1100,
@@ -32,50 +34,57 @@ RANKING_FACTOR_BY_DIN_USAGE = {  # DIN-Desc in brackets
 }
 
 
-def add_ranking_base(data: dict) -> None:
+def add_ranking_base(lf: pl.LazyFrame) -> pl.LazyFrame:
     """
-    Add the base ranking attributes by type and usage
+    Add the base ranking attributes by type and usage.
 
-    This operates on the data dict directly without creating a copy.
+    Returns a LazyFrame with ranking_rank_type, ranking_rank_usage,
+    and ranking_rank_boost columns added.
     """
-    for _data in data.values():
-        ranking_factors = _data.setdefault("ranking_factors", {})
+    lf = lf.with_columns(
+        [
+            pl.col("type")
+            .replace_strict(RANKING_FACTOR_BY_TYPE, default=100)
+            .cast(pl.Int64)
+            .alias("ranking_rank_type"),
+            pl.when(pl.col("type") == "room")
+            .then(pl.col("usage_din_277").replace_strict(RANKING_FACTOR_BY_DIN_USAGE, default=10).cast(pl.Int64))
+            .otherwise(pl.lit(100))
+            .alias("ranking_rank_usage"),
+        ]
+    )
 
-        ranking_factors["rank_type"] = RANKING_FACTOR_BY_TYPE.get(_data["type"], 100)
+    # Type-specific boosts
+    lf = lf.with_columns(
+        pl.when((pl.col("type") == "room") & pl.col("props_stats_n_seats").is_not_null())
+        .then((pl.col("props_stats_n_seats") // 10).clip(0, 99))
+        .when(pl.col("type").is_in(["building", "joined_building"]) & pl.col("props_stats_n_rooms_reg").is_not_null())
+        .then((pl.col("props_stats_n_rooms_reg") // 20).clip(0, 99))
+        .when(pl.col("type").is_in(["campus", "area", "site"]) & pl.col("props_stats_n_buildings").is_not_null())
+        .then(pl.col("props_stats_n_buildings").clip(0, 99))
+        .otherwise(pl.lit(None))
+        .cast(pl.Int64)
+        .alias("ranking_rank_boost"),
+    )
 
-        din_usage: str = _data.get("usage", {}).get("din_277", "")
-        ranking_factors["rank_usage"] = (
-            RANKING_FACTOR_BY_DIN_USAGE.get(din_usage, 10) if _data["type"] == "room" else 100
-        )
-        # Type-specific boosts
-        if stats := _data.get("props", {}).get("stats", None):
-            rank_boost = None
-            if _data["type"] == "room" and "n_seats" in stats:
-                rank_boost = stats["n_seats"] // 10
-            elif _data["type"] in {"building", "joined_building"} and "n_rooms_reg" in stats:
-                rank_boost = stats["n_rooms_reg"] // 20
-            elif _data["type"] in {"campus", "area", "site"} and "n_buildings" in stats:
-                rank_boost = stats["n_buildings"]
-
-            if rank_boost is not None:
-                ranking_factors["rank_boost"] = min(rank_boost, 99)
+    return lf
 
 
-def add_ranking_combined(data: dict) -> None:
+def add_ranking_combined(lf: pl.LazyFrame) -> pl.LazyFrame:
     """
     Add the combined ranking factor.
 
-    This operates on the data dict directly without creating a copy.
+    Returns a LazyFrame with a ranking_rank_combined column added.
     """
-    for _data in data.values():
-        if "ranking_factors" in _data:
-            factors = _data["ranking_factors"]
-            type_usage_ranking = factors["rank_type"] * factors["rank_usage"]
-            factors["rank_combined"] = (
-                type_usage_ranking // 100 + factors.get("rank_boost", 0) + factors.get("rank_custom", 0)
-            )
-
-        else:
-            _data["ranking_factors"] = {
-                "rank_combined": 10,  # low rank
-            }
+    lf = lf.with_columns(
+        pl.when(pl.col("ranking_rank_type").is_not_null())
+        .then(
+            (pl.col("ranking_rank_type") * pl.col("ranking_rank_usage")) // 100
+            + pl.col("ranking_rank_boost").fill_null(0)
+            + pl.col("ranking_rank_custom").fill_null(0)
+        )
+        .otherwise(pl.lit(10))
+        .cast(pl.Int64)
+        .alias("ranking_rank_combined"),
+    )
+    return lf

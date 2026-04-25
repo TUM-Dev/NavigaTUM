@@ -1,876 +1,984 @@
-# Achtung: führende Nullen (z.B. "0305: ...") werden im Oktettsystem gelesen,
-# deswegen müssen in dem Fall Quotes verwendet werden
-
 root:
-    sites_overview:
-        -   name: "Garching Forschungszentrum"
-            id: "garching"
-            n_visible: 4
-            children:
-                - { name: "Mathematik / Informatik", id: "mi" }
-                - { name: "Maschinenwesen", id: "mw" }
-                - { name: "Physik", id: "physik" }
-                - { name: "Chemie", id: "chemie" }
-                - { name: "Interimshörsäle", id: "garching-interims" }
-                - { name: "StudiTUM Garching", id: "5532" }
-        -   name: "Stammgelände"
-            id: "stammgelaende"
-            n_visible: 3
-            children:
-                - { name: "Zentralgelände", id: "zentralgelaende" }
-                - { name: "Nordgelände", id: "nordgelaende" }
-                - { name: "Südgelände", id: "suedgelaende" }
-                - { name: "Südwestgelände", id: "suedwestgelaende" }
-                - { name: "StudiTUM Innenstadt", id: "0201" }
-                - { name: "RiWa 1 (HfP, Governance)", id: "2910" }
-        -   name: "Weihenstephan (Freising)"
-            id: "wzw"
-            n_visible: 3
-            children:
-                - { name: "Gebiet 4100 Berg", id: "wzw-berg" }
-                - { name: "Gebiet 4200 Mitte", id: "wzw-mitte" }
-                - { name: "Gebiet 4300 Nord", id: "wzw-nord" }
-                - { name: "Dürnast (Versuchsstation)", id: "duernast" }
-                - { name: "Roggenstein (Versuchsstation)", id: "roggenstein" }
-                - { name: "Thalhausen (Versuchsstation)", id: "thalhausen" }
-                - { name: "Veitshof (Stallungen)", id: "veitshof" }
-                - { name: "Viehhausen (Versuchsstation)", id: "viehhausen" }
-        -   name: { de: "Sonstige", en: "Others" }
-            id: null
-            n_visible: 5
-            children:
-                - { name: "MRI Klinikum rechts der Isar", id: "mri" }
-                - { name: "Campus im Olympiapark", id: "olympiapark" }
-                - { name: "Campus Straubing", id: "cs" }
-                - { name: "Garching Hochbrück", id: "garching-hochbrueck" }
-                - { name: "Taufkirchen / Ottobrunn", id: "taufkirchen-ottobrunn" }
-
-# ========= Stammgelände =========
+  sites_overview:
+  - name: Garching Forschungszentrum
+    id: garching
+    n_visible: 4
+    children:
+    - name: Mathematik / Informatik
+      id: mi
+    - name: Maschinenwesen
+      id: mw
+    - name: Physik
+      id: physik
+    - name: Chemie
+      id: chemie
+    - name: Interimshörsäle
+      id: garching-interims
+    - name: StudiTUM Garching
+      id: '5532'
+  - name: Stammgelände
+    id: stammgelaende
+    n_visible: 3
+    children:
+    - name: Zentralgelände
+      id: zentralgelaende
+    - name: Nordgelände
+      id: nordgelaende
+    - name: Südgelände
+      id: suedgelaende
+    - name: Südwestgelände
+      id: suedwestgelaende
+    - name: StudiTUM Innenstadt
+      id: '0201'
+    - name: RiWa 1 (HfP, Governance)
+      id: '2910'
+  - name: Weihenstephan (Freising)
+    id: wzw
+    n_visible: 3
+    children:
+    - name: Gebiet 4100 Berg
+      id: wzw-berg
+    - name: Gebiet 4200 Mitte
+      id: wzw-mitte
+    - name: Gebiet 4300 Nord
+      id: wzw-nord
+    - name: Dürnast (Versuchsstation)
+      id: duernast
+    - name: Roggenstein (Versuchsstation)
+      id: roggenstein
+    - name: Thalhausen (Versuchsstation)
+      id: thalhausen
+    - name: Veitshof (Stallungen)
+      id: veitshof
+    - name: Viehhausen (Versuchsstation)
+      id: viehhausen
+  - name:
+      de: Sonstige
+      en: Others
+    id: null
+    n_visible: 5
+    children:
+    - name: MRI Klinikum rechts der Isar
+      id: mri
+    - name: Campus im Olympiapark
+      id: olympiapark
+    - name: Campus Straubing
+      id: cs
+    - name: Garching Hochbrück
+      id: garching-hochbrueck
+    - name: Taufkirchen / Ottobrunn
+      id: taufkirchen-ottobrunn
 stammgelaende:
-    coords: { lat: 48.14903, lon: 11.56735 }
-    osm: [ "way/144291476" ]
-    props:
-        address:
-            street: "Arcisstraße 21"
-            plz_place: "80333 München"
-            source: "navigatum"
-
-# --- Nordgelände ---
+  coords:
+    lat: 48.14903
+    lon: 11.56735
+  osm:
+  - way/144291476
+  props:
+    address:
+      street: Arcisstraße 21
+      plz_place: 80333 München
+      source: navigatum
 nordgelaende:
-    coords: { lat: 48.15074, lon: 11.56837 }
-
-"0101": # N1
-    osm: [ "way/58216509" ]
-"0102": # N2
-    osm: [ "way/22744232" ]
-"0103": # N3
-    osm: [ "way/22744230", "way/22744231" ]
-"0104": # N4
-    osm: [ "way/22744229" ]
-"0105": # N5
-    osm: [ "way/22744228" ]
-"0106": # N6
-    osm: [ "way/22744227" ]
-# There is no N7 in the data
-"0108": # N8
-    osm: [ "way/43035346" ]
-"0109": # N9
-    coords: { lat: 48.1508, lon: 11.56773 }
-    osm: [ "way/694786638" ]
-
-# --- Südgelände ---
+  coords:
+    lat: 48.15074
+    lon: 11.56837
+'0101':
+  osm:
+  - way/58216509
+'0102':
+  osm:
+  - way/22744232
+'0103':
+  osm:
+  - way/22744230
+  - way/22744231
+'0104':
+  osm:
+  - way/22744229
+'0105':
+  osm:
+  - way/22744228
+'0106':
+  osm:
+  - way/22744227
+0108:
+  osm:
+  - way/43035346
+0109:
+  coords:
+    lat: 48.1508
+    lon: 11.56773
+  osm:
+  - way/694786638
 suedgelaende:
-    coords: { lat: 48.14755, lon: 11.56685 }
-
-"0201": # StudiTUM Innenstadt (S1)
-    osm: [ "way/96113963" ]
-    props:
-        links:
-            -   text:
-                    de: "Lernraumbelegung"
-                    en: "Learning rooms usage"
-                url: "https://www.devapp.it.tum.de/iris/app/"
-            -   text:
-                    de: "Über das StudiTUM"
-                    en: "About the StudiTUM"
-                url:
-                    de: "https://www.sv.tum.de/sv/studitum/"
-                    en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
-"0202": # Gabelsbergerstr. 39 (S2)
-    osm: [ "way/54293421" ]
-"0203": # Gabelsbergerstr. 45 (S3)
-    osm: [ "way/96113980" ]
-"0204": # Gabelsbergerstr. 49 (S4)
-    osm: [ "way/96114051" ]
-"0205": # Arcisstr. 19 (S5)
-    osm: [ "way/96114071" ]
-"0206": # Mensa Arcisstr. 17 (S6)
-    osm: [ "way/19183732" ]
-    props:
-        links:
-            -   text:
-                    de: "Speiseplan"
-                    en: "Current menu"
-                url:
-                    de: "https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr"
-                    en: "https://tum-dev.github.io/eat-api/#!/en/mensa-arcisstr"
-2920: # Gabelsbergerstr. 47
-    osm: [ "way/96114068" ]
-
-# --- Süd-Ost Gelände ---
+  coords:
+    lat: 48.14755
+    lon: 11.56685
+'0201':
+  osm:
+  - way/96113963
+'0202':
+  osm:
+  - way/54293421
+'0203':
+  osm:
+  - way/96113980
+'0204':
+  osm:
+  - way/96114051
+'0205':
+  osm:
+  - way/96114071
+'0206':
+  osm:
+  - way/19183732
+2920:
+  osm:
+  - way/96114068
 suedostgelaende:
-    # There is just one building, so coordinates maybe make not much sense
-    coords: { lat: 48.1461, lon: 11.56955 }
-
-"0305":
-    osm: [ "way/132268387" ]
-
-# --- Süd-West-Gelände ---
+  coords:
+    lat: 48.1461
+    lon: 11.56955
+'0305':
+  osm:
+  - way/132268387
 suedwestgelaende:
-    # Very distributed, coordinates only very approximate, not so helpful maybe
-    coords: { lat: 48.14795, lon: 11.56352 }
-
-"0401": # Richard-Wagner-Str. 18 (SW1)
-    osm: [ "way/96113983" ]
-"0403": # Richard-Wagner-Str. 14 (SW3), Kindergarten
-    osm: [ "way/96114001" ]
-2903: # Haus Soller Augustenstr. 44-46:
-    osm: [ "way/98344591", "way/98344582" ] # 44 and 46
-2910: # Richard-Wagner-Str. 1 / Haus B + Haus H, TUM School of Governance / Hochschule für Politik München:
-    # enclosing building!
-    osm: [ "way/98344577", "node/2251331001" ]
-2911: # Richard-Wagner-Str. 3 / Haus C, TUM Sprachenzentrum:
-    # enclosing building!
-    osm: [ "way/98344577", "node/2251331013" ]
-2912: # Brienner Forum Haus E (AM)
-    coords: { lat: 48.147442028851096, lon: 11.56247824286002 }
-2913: # Brienner Forum Haus F (AM)
-    coords: { lat: 48.14754242718771, lon: 11.562143438647952 }
-
-# --- Zentralgelände ---
+  coords:
+    lat: 48.14795
+    lon: 11.56352
+'0401':
+  osm:
+  - way/96113983
+'0403':
+  osm:
+  - way/96114001
+2903:
+  osm:
+  - way/98344591
+  - way/98344582
+2910:
+  osm:
+  - way/98344577
+  - node/2251331001
+2911:
+  osm:
+  - way/98344577
+  - node/2251331013
+2912:
+  coords:
+    lat: 48.147442028851096
+    lon: 11.56247824286002
+2913:
+  coords:
+    lat: 48.14754242718771
+    lon: 11.562143438647952
 zentralgelaende:
-    coords: { lat: 48.14904, lon: 11.56753 }
-    # The following ways ways are not part of any building at the moment, but belong to the site
-    osm: [ "way/284264274", "way/31095012" ]
-
-"0501": # Hauptgebäude (Z1)
-    osm: [ "way/10053349" ]
-"0502": # Zentralgebäude 2 (Z2)
-    osm: [ "way/50300147" ]
-"0503": # Thierschbau (Z3)
-    osm: [ "way/61408163" ]
-"0504": # Landwirtschaftsbau (Z4)
-    osm: [ "way/50299720" ]
-"0505": # Wirtschaftswissenschaften (Z5)
-    osm: [ "way/50299584" ]
-"0506": # Theresianum (Z6)
-    osm: [ "way/61408162" ]
-"0507": # Zentralgebäude 7 (Z7)
-    osm: [ "way/31095009", "way/42918168" ] # Last building is somewhere inside, not certain
-"0508": # Heizkraftwerk, Dieter-Thoma-Labor (Z8)
-    osm: [ "way/31095013", "way/264566973" ] # Last is Dieter-Thoma-Labor
-"0509": # Wienandsbau, E-Technik / Audimax (Z9)
-    osm: [ "way/31095011", "way/50299848" ] # Last is Audimax
-    generators:
-        floors:
-            floor_patches:
-                "01": { use_as: "Z1" }
-                "02": { use_as: "01" }
-                "03": { use_as: "02" }
-                "04": { use_as: "03" }
-                "05": { use_as: "04" }
-"0510": # Verwaltungsbau (Z10)
-    osm: [ "relation/6758375" ] # smaller part: "way/31095179"
-    coords: { lat: 48.14884, lon: 11.56790 }
-"0511": # Elektro/Werkstatt/Lösungsmittel (Z11)
-    osm: [ "way/42918170" ]
-#"0512":  # Garagen (Z12)
-# not on OSM
-
-"0597":
-    osm: [ "node/390320112" ] # osm is only an artwork
-    coords: { lat: 48.1489079, lon: 11.5673019 }
-
-# Missing coords:
-#mri
-#biederstein
-#heilbronn
-#kapuzinerhoelzl
-#olympiapark
-#294
-#holzforschung
-#pasing
-#grosshadern
-#innenstadt-sonstige
-#cs
-#obernach
-#starnberg
-#wzw-nord
-#wzw-berg-alte-akademie
-#wzw-berg-weihenstephaner-steig
-#wzw-berg-hohenbachernstr
-#wzw-ziel
-#aquatische-systembiologie
-#veitshof
-#wzw-mitte
-#duernast
-#wzw-lbs
-#wzw-lagerhalle
-#wzw-gm
-#wzw-lfl
-#staudensichtungsgarten
-#44
-#viehhausen
-#thalhausen
-#roggenstein
-
-# ========= MRI =========
-# If no coordinates are given, they are probably already in the roomfinder
-1501: # Bau 501
-    osm: [ "way/19901815" ]
-
+  coords:
+    lat: 48.14904
+    lon: 11.56753
+  osm:
+  - way/284264274
+  - way/31095012
+'0501':
+  osm:
+  - way/10053349
+'0502':
+  osm:
+  - way/50300147
+'0503':
+  osm:
+  - way/61408163
+'0504':
+  osm:
+  - way/50299720
+'0505':
+  osm:
+  - way/50299584
+'0506':
+  osm:
+  - way/61408162
+'0507':
+  osm:
+  - way/31095009
+  - way/42918168
+0508:
+  osm:
+  - way/31095013
+  - way/264566973
+0509:
+  osm:
+  - way/31095011
+  - way/50299848
+  generators:
+    floors:
+      floor_patches:
+        '01':
+          use_as: Z1
+        '02':
+          use_as: '01'
+        '03':
+          use_as: '02'
+        '04':
+          use_as: '03'
+        '05':
+          use_as: '04'
+'0510':
+  osm:
+  - relation/6758375
+  coords:
+    lat: 48.14884
+    lon: 11.5679
+'0511':
+  osm:
+  - way/42918170
+0597:
+  osm:
+  - node/390320112
+  coords:
+    lat: 48.1489079
+    lon: 11.5673019
+1501:
+  osm:
+  - way/19901815
 1503:
-    coords: { lat: 48.13797, lon: 11.59973 }
-    osm: [ "way/117156865" ]
-
-2522: # TranslaTUM, for some reason not "1522"
-    coords: { lat: 48.13629, lon: 11.60198 }
-    osm: [ "way/710577603" ]
-    external_data:
-        website: "https://www.translatum.tum.de/en/translatum/contact/"
-
-
+  coords:
+    lat: 48.13797
+    lon: 11.59973
+  osm:
+  - way/117156865
+2522:
+  coords:
+    lat: 48.13629
+    lon: 11.60198
+  osm:
+  - way/710577603
+  external_data:
+    website: https://www.translatum.tum.de/en/translatum/contact/
 1533:
-    coords: { lat: 48.13632, lon: 11.60249 }
-    osm: [ "node/1385343446", "way/117158563" ] # 1st is "addr:housenumber", 2nd: containg building
-
-
+  coords:
+    lat: 48.13632
+    lon: 11.60249
+  osm:
+  - node/1385343446
+  - way/117158563
 1536:
-    osm: [ "way/76179067" ]
-
+  osm:
+  - way/76179067
 1538:
-    osm: [ "way/76179061" ]
-
+  osm:
+  - way/76179061
 1548:
-    coords: { lat: 48.13688, lon: 11.60357 }
-    osm: [ "way/75376266" ]
-    external_data:
-        website: "https://innatelab.virologie.med.tum.de/contact"
-
-1551: # Coordinate is wrong in the roomfinder
-    coords: { lat: 48.13609, lon: 11.59980 }
-    osm: [ "way/23684068", "way/75376269", "way/75376172" ]
-
+  coords:
+    lat: 48.13688
+    lon: 11.60357
+  osm:
+  - way/75376266
+  external_data:
+    website: https://innatelab.virologie.med.tum.de/contact
+1551:
+  coords:
+    lat: 48.13609
+    lon: 11.5998
+  osm:
+  - way/23684068
+  - way/75376269
+  - way/75376172
 1559:
-    coords: { lat: 48.13814, lon: 11.60203 }
-    osm: [ "way/75376268" ]
-    external_data:
-        website: "https://www.mri.tum.de/virologie"
-
+  coords:
+    lat: 48.13814
+    lon: 11.60203
+  osm:
+  - way/75376268
+  external_data:
+    website: https://www.mri.tum.de/virologie
 1713:
-    osm: [ "way/75376200" ]
-
+  osm:
+  - way/75376200
 1724:
-    coords: { lat: 48.14030, lon: 11.60119 }
-    osm: [ "way/117602301" ]
-
+  coords:
+    lat: 48.1403
+    lon: 11.60119
+  osm:
+  - way/117602301
 1740:
-    coords: { lat: 48.13890, lon: 11.60234 }
-    osm: [ "way/120904782" ]
-
-# ========= Campus Heilbronn =========
+  coords:
+    lat: 48.1389
+    lon: 11.60234
+  osm:
+  - way/120904782
 heilbronn:
-    coords: { lat: 49.14810, lon: 9.21646 }
-    props:
-        links:
-            -   text:
-                    de: "Über den Campus Heilbronn"
-                    en: "About the Campus Heilbronn"
-                url: "https://www.mgt.tum.de/campuses/heilbronn/explore-the-campus"
-
-
+  coords:
+    lat: 49.1481
+    lon: 9.21646
 1901:
-    coords: { lat: 49.14669, lon: 9.21754 }
-    osm: [ "way/130362423" ]
-
+  coords:
+    lat: 49.14669
+    lon: 9.21754
+  osm:
+  - way/130362423
 1902:
-    coords: { lat: 49.14852, lon: 9.21514 }
-    osm: [ "way/443802898" ]
-
+  coords:
+    lat: 49.14852
+    lon: 9.21514
+  osm:
+  - way/443802898
 1910:
-    coords: { lat: 49.15203640405564, lon: 9.215772773105478 }
+  coords:
+    lat: 49.15203640405564
+    lon: 9.215772773105478
 1912:
-    coords: { lat: 49.14991790304142, lon: 9.214257130268168 }
-
+  coords:
+    lat: 49.14991790304142
+    lon: 9.214257130268168
 1915:
-    coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
-
-# coordinates for 2364-2369 absolutely unknown. unclear where they are => address is taken as the coordinate
-"2364":
-    coords: { lat: 48.1797454, lon: 11.5464106 }
-"2365":
-    coords: { lat: 48.1797454, lon: 11.5464106 }
-"2366": # Connollystr. 32
-    coords: { lat: 48.17933209493668, lon: 11.544660448432824 }
-"2367":
-    coords: { lat: 48.1797454, lon: 11.5464106 }
-"2368":
-    coords: { lat: 48.1797454, lon: 11.5464106 }
-"2369":
-    coords: { lat: 48.1797454, lon: 11.5464106 }
-
+  coords:
+    lat: 49.153491683965264
+    lon: 9.215594950464627
+'2364':
+  coords:
+    lat: 48.1797454
+    lon: 11.5464106
+'2365':
+  coords:
+    lat: 48.1797454
+    lon: 11.5464106
+'2366':
+  coords:
+    lat: 48.17933209493668
+    lon: 11.544660448432824
+'2367':
+  coords:
+    lat: 48.1797454
+    lon: 11.5464106
+'2368':
+  coords:
+    lat: 48.1797454
+    lon: 11.5464106
+'2369':
+  coords:
+    lat: 48.1797454
+    lon: 11.5464106
 2803:
-    coords: { lat: 48.13140, lon: 11.58564 }
-    osm: [ "way/30046693" ]
-
+  coords:
+    lat: 48.1314
+    lon: 11.58564
+  osm:
+  - way/30046693
 2808:
-    coords: { lat: 48.02197, lon: 12.55369 }
-
+  coords:
+    lat: 48.02197
+    lon: 12.55369
 2944:
-    coords: { lat: 48.15666, lon: 11.55183 }
-    osm: [ "node/8822946149" ]
-
+  coords:
+    lat: 48.15666
+    lon: 11.55183
+  osm:
+  - node/8822946149
 3401:
-    coords: { lat: 48.14111, lon: 11.58044 }
-    osm: [ "node/4921250903" ]
-
-"3508": #Albrechtgasse 28
-    coords: { lat: 48.883558713826815, lon: 12.572355144897983 }
-"3509": # Albrechtgasse 34
-    coords: { lat: 48.884398346486286, lon: 12.572125157107354 }
-"3510": # Fürstenstraße 11
-    coords: { lat: 48.88449009185628, lon: 12.572506952526691 }
-
-# ========= Straubing =========
+  coords:
+    lat: 48.14111
+    lon: 11.58044
+  osm:
+  - node/4921250903
+'3508':
+  coords:
+    lat: 48.883558713826815
+    lon: 12.572355144897983
+'3509':
+  coords:
+    lat: 48.884398346486286
+    lon: 12.572125157107354
+'3510':
+  coords:
+    lat: 48.88449009185628
+    lon: 12.572506952526691
 cs:
-    coords: { lat: 48.884541355672695, lon: 12.58400509316536 }
-    props:
-        links:
-            -   text:
-                    de: "Über den Campus Straubing"
-                    en: "About the Campus Straubing"
-                url:
-                    de: "https://www.cs.tum.de/campus-straubing/"
-                    en: "https://www.cs.tum.de/campus-straubing/campus/?lang=en"
-
+  coords:
+    lat: 48.884541355672695
+    lon: 12.58400509316536
 3505:
-    coords: { lat: 48.88657, lon: 12.58209 }
-    osm: [ "way/35877603" ]
-
-# ========= Freising / WZW =========
+  coords:
+    lat: 48.88657
+    lon: 12.58209
+  osm:
+  - way/35877603
 wzw:
-    coords: { lat: 48.39774, lon: 11.72280 }
-    props:
-        links:
-            -   text:
-                    de: "Über den Campus Weihenstephan"
-                    en: "About the Campus Weihenstephan"
-                url:
-                    de: "https://www.wzw.tum.de/index.php?id=33"
-                    en: "https://www.wzw.tum.de/index.php?id=33&L=1"
-    generators:
-        buildings_overview:
-            n_visible: 6
-            list_start: [ "wzw-berg", "wzw-mitte", "wzw-nord" ]
-
+  coords:
+    lat: 48.39774
+    lon: 11.7228
+  generators:
+    buildings_overview:
+      n_visible: 6
+      list_start:
+      - wzw-berg
+      - wzw-mitte
+      - wzw-nord
 wzw-berg:
-    coords: { lat: 48.39558, lon: 11.72773 }
-
-4113: # StudiTUM Weihenstephan
-    props:
-        links:
-            -   text:
-                    de: "Lernraumbelegung"
-                    en: "Learning rooms usage"
-                url: "https://www.devapp.it.tum.de/iris/app/"
-            -   text:
-                    de: "Über das StudiTUM"
-                    en: "About the StudiTUM"
-                url:
-                    de: "https://www.sv.tum.de/sv/studitum/"
-                    en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
-
+  coords:
+    lat: 48.39558
+    lon: 11.72773
+4113: {}
 4155:
-    coords: { lat: 48.39547, lon: 11.72988 }
-
+  coords:
+    lat: 48.39547
+    lon: 11.72988
 wzw-mitte:
-    coords: { lat: 48.39953, lon: 11.72019 }
-
-#wzw-nord:
-#coords: {lat: 48.39953, lon: 11.72019}   Where exactly is best?
-
+  coords:
+    lat: 48.39953
+    lon: 11.72019
 staudensichtungsgarten:
-    coords: { lat: 48.40107, lon: 11.72743 }
-    osm: [ "way/35334722" ] # ("leisure: garden", not a building)
-
-4216: # Mensa Weihenstephan
-    props:
-        links:
-            -   text:
-                    de: "Speiseplan"
-                    en: "Current menu"
-                url:
-                    de: "https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan"
-                    en: "https://tum-dev.github.io/eat-api/#!/en/mensa-weihenstephan"
-
-4222: # Servicezentrum
-    osm: [ "way/919146348" ]
-    coords: { lat: 48.39832, lon: 11.72429 }
-
-duernast:
-    props:
-        links:
-            -   text: "Gewächshaus-Laborzentrum"
-                url:
-                    de: "https://www.ghl.wzw.tum.de/"
-                    en: "https://www.ghl.wzw.tum.de/en.html"
-            -   text:
-                    de: "Agrarsystemtechnik"
-                    en: "Agricultural Systems Engineering"
-                url:
-                    de: "https://www.tec.wzw.tum.de/index.php?id=6"
-                    en: "https://www.tec.wzw.tum.de/index.php?id=6&L=1"
-            -   text:
-                    de: "Ökologischer Landbau"
-                    en: "Organic Agriculture (DE)"
-                url: "https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/"
-
-thalhausen:
-    props:
-        links:
-            -   text:
-                    de: "Ökologischer Langbau"
-                    en: "Organic Agriculture (DE)"
-                url: "https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/"
-
-roggenstein:
-    props:
-        links:
-            -   text:
-                    de: "Offizielle Webseite"
-                    en: "Official website (DE)"
-                url: "https://www.roggenstein.wzw.tum.de/versuchsstation-roggenstein/"
-
-viehhausen:
-    props:
-        links:
-            -   text:
-                    de: "Offizielle Webseite"
-                    en: "Official website (DE)"
-                url: "https://www.viehhausen.wzw.tum.de/viehhausen/"
-
+  coords:
+    lat: 48.40107
+    lon: 11.72743
+  osm:
+  - way/35334722
+4216: {}
+4222:
+  osm:
+  - way/919146348
+  coords:
+    lat: 48.39832
+    lon: 11.72429
+duernast: {}
+thalhausen: {}
+roggenstein: {}
+viehhausen: {}
 veitshof:
-    coords: { lat: 48.39593, lon: 11.73544 }
-    props:
-        links:
-            -   text:
-                    de: "Grünlandlehre"
-                    en: "Grünlandlehre (DE)"
-                url: "https://www.gruenland.wzw.tum.de/veitshof.html"
-
-4304:
-    props:
-        links:
-            -   text:
-                    de: "Ökologischer Landbau"
-                    en: "Organic Agriculture (DE)"
-                url: "https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/"
-
-# uncertain, but trafo stations anyway
+  coords:
+    lat: 48.39593
+    lon: 11.73544
+4304: {}
 4202:
-    coords: { lat: 48.40289, lon: 11.72364 }
+  coords:
+    lat: 48.40289
+    lon: 11.72364
 4281:
-    coords: { lat: 48.39904, lon: 11.72854 }
+  coords:
+    lat: 48.39904
+    lon: 11.72854
 4319:
-    coords: { lat: 48.40242, lon: 11.72368 }
-
-# Grünschwaige; All buildings have the same coords atm
-4801: { coords: { lat: 48.38307, lon: 11.83503 } }
-4802: { coords: { lat: 48.38307, lon: 11.83503 } }
-4803: { coords: { lat: 48.38307, lon: 11.83503 } }
-4804: { coords: { lat: 48.38307, lon: 11.83503 } }
-4805: { coords: { lat: 48.38307, lon: 11.83503 } }
-4806: { coords: { lat: 48.38307, lon: 11.83503 } }
-4807: { coords: { lat: 48.38307, lon: 11.83503 } }
-4808: { coords: { lat: 48.38307, lon: 11.83503 } }
-4809: { coords: { lat: 48.38307, lon: 11.83503 } }
-4810: { coords: { lat: 48.38307, lon: 11.83503 } }
-4811: { coords: { lat: 48.38307, lon: 11.83503 } }
-4812: { coords: { lat: 48.38307, lon: 11.83503 } }
-4813: { coords: { lat: 48.38307, lon: 11.83503 } }
-4814: { coords: { lat: 48.38307, lon: 11.83503 } }
-4815: { coords: { lat: 48.38307, lon: 11.83503 } }
-
-# ========= Campus Garching =========
+  coords:
+    lat: 48.40242
+    lon: 11.72368
+4801:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4802:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4803:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4804:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4805:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4806:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4807:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4808:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4809:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4810:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4811:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4812:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4813:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4814:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
+4815:
+  coords:
+    lat: 48.38307
+    lon: 11.83503
 garching:
-    coords: { lat: 48.26538, lon: 11.67152 }
-    osm: [ "way/296754880", "node/3232218361" ] # first node is area with all others as children
-    generators:
-        buildings_overview:
-            n_visible: 6
-            list_start: [ "mi", "mw", "physik", "chemie", "garching-interims", "5532" ]
-    props:
-        links:
-            -   text:
-                    de: "Über den Campus Garching"
-                    en: "About the Campus Garching (DE)"
-                url: "https://www.forschung-garching.tum.de/"
-            -   text: "Campus Tour (YouTube)"
-                url: "https://www.youtube.com/playlist?list=PLPFs4xTkIH1sPp48qQ0Podcfp_WMG9wpB"
-    image_comments:
-        1: "Orthographische Luftbildaufnahme des Campus Garching"
-5109: { coords: { lat: 48.268577248990766, lon: 11.673859666057135 } }
-5123: { coords: { lat: 48.268944587721684, lon: 11.674007663134363 } }
-
-# --- Physik ---
+  coords:
+    lat: 48.26538
+    lon: 11.67152
+  osm:
+  - way/296754880
+  - node/3232218361
+  generators:
+    buildings_overview:
+      n_visible: 6
+      list_start:
+      - mi
+      - mw
+      - physik
+      - chemie
+      - garching-interims
+      - '5532'
+  image_comments:
+    1: Orthographische Luftbildaufnahme des Campus Garching
+5109:
+  coords:
+    lat: 48.268577248990766
+    lon: 11.673859666057135
+5123:
+  coords:
+    lat: 48.268944587721684
+    lon: 11.674007663134363
 physik:
-    coords: { lat: 48.26725, lon: 11.67590 }
-
+  coords:
+    lat: 48.26725
+    lon: 11.6759
 physik-main:
-    coords: { lat: 48.26752, lon: 11.67514 }
-    osm: [ "relation/51109" ]
-
+  coords:
+    lat: 48.26752
+    lon: 11.67514
+  osm:
+  - relation/51109
 5101:
-    osm: [ "relation/3277929", "node/1240863070" ] # last one is bib
-
+  osm:
+  - relation/3277929
+  - node/1240863070
 5107:
-    generators:
-        floors:
-            floor_patches:
-                "U2":
-                    id: -1
-                    use_as: "U1"
-                    name: { de: "= -1 zur Physik I", en: "= -1 rel. to. Physik I" }
-                "U1":
-                    id: 0
-                    use_as: "EG"
-                    name: { de: "Eingang, -1 zur Brücke", en: "Entrance, -1 to the bridge" }
-                "EG":
-                    id: 1
-                    use_as: "01"
-                    name: { de: "Obere Ebene, Zugang über Brücke", en: "Upper floor, access over bridge" }
-
-5117: # Paula-Hahn-Weinheimerstr. 1
-    coords: { lat: 48.26771330477636, lon: 11.676628724658922 }
-
-5126: # CALA
-    coords: { lat: 48.26929, lon: 11.67459 }
-    osm: [ "way/308082257" ]
-
-5128: # Am Coulombwall 3A
-    coords: { lat: 48.26905148008035, lon: 11.677593682921696 }
-
+  generators:
+    floors:
+      floor_patches:
+        U2:
+          id: -1
+          use_as: U1
+          name:
+            de: = -1 zur Physik I
+            en: = -1 rel. to. Physik I
+        U1:
+          id: 0
+          use_as: EG
+          name:
+            de: Eingang, -1 zur Brücke
+            en: Entrance, -1 to the bridge
+        EG:
+          id: 1
+          use_as: '01'
+          name:
+            de: Obere Ebene, Zugang über Brücke
+            en: Upper floor, access over bridge
+5117:
+  coords:
+    lat: 48.26771330477636
+    lon: 11.676628724658922
+5126:
+  coords:
+    lat: 48.26929
+    lon: 11.67459
+  osm:
+  - way/308082257
+5128:
+  coords:
+    lat: 48.26905148008035
+    lon: 11.677593682921696
 mll:
-    coords: { lat: 48.26839, lon: 11.67818 }
-
+  coords:
+    lat: 48.26839
+    lon: 11.67818
 frm-2:
-    coords: { lat: 48.26574, lon: 11.67569 }
-
+  coords:
+    lat: 48.26574
+    lon: 11.67569
 5131:
-    coords: { lat: 48.26729, lon: 11.67379 }
-
-5132: # Boltzmannstr. 12
-    coords: { lat: 48.267710644466064, lon: 11.673301148052238 }
-
+  coords:
+    lat: 48.26729
+    lon: 11.67379
+5132:
+  coords:
+    lat: 48.267710644466064
+    lon: 11.673301148052238
 5142:
-    coords: { lat: 48.26772, lon: 11.67775 }
-    osm: [ "way/683348599" ]
-
+  coords:
+    lat: 48.26772
+    lon: 11.67775
+  osm:
+  - way/683348599
 5143:
-    coords: { lat: 48.26809, lon: 11.67781 } # not sure about exact coords
-    osm: [ "way/683348597" ]
-
-5160: # UCN-Testanlage Container
-    coords: { lat: 48.26826, lon: 11.67866 }
-    osm: [ "way/159713511" ]
-
+  coords:
+    lat: 48.26809
+    lon: 11.67781
+  osm:
+  - way/683348597
+5160:
+  coords:
+    lat: 48.26826
+    lon: 11.67866
+  osm:
+  - way/159713511
 5204:
-    coords: { lat: 48.26480782182901, lon: 11.672907360363183 }
-
+  coords:
+    lat: 48.26480782182901
+    lon: 11.672907360363183
 5257:
-    coords: { lat: 48.26616, lon: 11.67343 }
-    osm: [ "way/774866202" ]
-
+  coords:
+    lat: 48.26616
+    lon: 11.67343
+  osm:
+  - way/774866202
 5305:
-    coords: { lat: 48.26700052343523, lon: 11.671869485689989 }
-
-5304: # Mensa Garching
-    coords: { lat: 48.26799, lon: 11.67216 }
-    props:
-        links:
-            -   text:
-                    de: "Speiseplan"
-                    en: "Current menu"
-                url:
-                    de: "https://tum-dev.github.io/eat-api/#!/de/mensa-garching"
-                    en: "https://tum-dev.github.io/eat-api/#!/en/mensa-garching"
-            -   text:
-                    de: "Wie lang ist die Schlange?"
-                    en: "How long is the queue?"
-                url: "https://mensa.liste.party/"
-
+  coords:
+    lat: 48.26700052343523
+    lon: 11.671869485689989
+5304:
+  coords:
+    lat: 48.26799
+    lon: 11.67216
 chemie:
-    coords: { lat: 48.26880, lon: 11.66979 }
-    props:
-        address:
-            street: "Lichtenbergstraße 4"
-            plz_place: "85748 Garching bei München"
-            source: "navigatum"
-    generators:
-        floors:
-            floor_patches:
-                "Z1": { use_as: "U1" }
-                "EG": { use_as: "U1", id: -1, name: { de: "Ebene 1", en: "Floor nb. 1" } }
-                "01": { use_as: "EG", id: 0, name: { de: "Ebene 2", en: "Floor nb. 2" } }
-                "02": { use_as: "01", id: 1, name: { de: "Ebene 3", en: "Floor nb. 3" } }
-                "03": { use_as: "02", id: 2, name: { de: "Ebene 4", en: "Floor nb. 4" } }
-                "04": { use_as: "03", id: 3, name: { de: "Ebene 5", en: "Floor nb. 5" } }
-                "05": { use_as: "04", id: 4, name: { de: "Ebene 6", en: "Floor nb. 6" } }
-
+  coords:
+    lat: 48.2688
+    lon: 11.66979
+  props:
+    address:
+      street: Lichtenbergstraße 4
+      plz_place: 85748 Garching bei München
+      source: navigatum
+  generators:
+    floors:
+      floor_patches:
+        Z1:
+          use_as: U1
+        EG:
+          use_as: U1
+          id: -1
+          name:
+            de: Ebene 1
+            en: Floor nb. 1
+        '01':
+          use_as: EG
+          id: 0
+          name:
+            de: Ebene 2
+            en: Floor nb. 2
+        '02':
+          use_as: '01'
+          id: 1
+          name:
+            de: Ebene 3
+            en: Floor nb. 3
+        '03':
+          use_as: '02'
+          id: 2
+          name:
+            de: Ebene 4
+            en: Floor nb. 4
+        '04':
+          use_as: '03'
+          id: 3
+          name:
+            de: Ebene 5
+            en: Floor nb. 5
+        '05':
+          use_as: '04'
+          id: 4
+          name:
+            de: Ebene 6
+            en: Floor nb. 6
 5410:
-    coords: { lat: 48.26914, lon: 11.67174 }
-    osm: [ "relation/2342270" ]
-
+  coords:
+    lat: 48.26914
+    lon: 11.67174
+  osm:
+  - relation/2342270
 5413:
-    osm: [ "way/369099966" ]
-
+  osm:
+  - way/369099966
 5415:
-    coords: { lat: 48.26965, lon: 11.67242 }
-    osm: [ "way/683348602" ]
-
-# --- Maschinenwesen ---
+  coords:
+    lat: 48.26965
+    lon: 11.67242
+  osm:
+  - way/683348602
 mw:
-    coords: { lat: 48.26562, lon: 11.66921 }
-    osm: [
-        "way/179243746", # Main "zig zag" building
-        "way/179243761", # South building
-        "way/503719307",
-        "way/503719306", # North building (two parts)
-        "way/539911567",
-        "way/539911566",
-    ] # Windtunnel (connecting building and tunnel itself)
+  coords:
+    lat: 48.26562
+    lon: 11.66921
+  osm:
+  - way/179243746
+  - way/179243761
+  - way/503719307
+  - way/503719306
+  - way/539911567
+  - way/539911566
 5512:
-    coords: { lat: 48.26562, lon: 11.66921 } # cordinate of parent building. No idea what this is...
-
+  coords:
+    lat: 48.26562
+    lon: 11.66921
 5519:
-    coords: { lat: 48.26427, lon: 11.66876 }
-    osm: [ "way/386179757" ]
-
+  coords:
+    lat: 48.26427
+    lon: 11.66876
+  osm:
+  - way/386179757
 5531:
-    # Overwrite wrong data in Roomfinder
-    coords: { lat: 48.26707, lon: 11.66630 }
-
-5532: # StudiTUM Garching
-    osm: [ "way/476929995" ]
-    props:
-        links:
-            -   text:
-                    de: "Lernraumbelegung"
-                    en: "Learning rooms usage"
-                url: "https://www.devapp.it.tum.de/iris/app/"
-            -   text:
-                    de: "Über das StudiTUM"
-                    en: "About the StudiTUM"
-                url:
-                    de: "https://www.sv.tum.de/sv/studitum/"
-                    en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
-
+  coords:
+    lat: 48.26707
+    lon: 11.6663
+5532:
+  osm:
+  - way/476929995
 mi:
-    coords: { lat: 48.26252, lon: 11.66808 }
-    props:
-        links:
-            -   text:
-                    de: "Lernraumbelegung"
-                    en: "Learning rooms usage"
-                url: "https://www.devapp.it.tum.de/iris/app/"
-    generate_rooms_overview:
-        sources:
-            -   text: "wiki.in.tum.de"
-                url: "https://wiki.in.tum.de/Informatik/Benutzerwiki/RechnerHallen"
-                date: "2021-08-01"
-        sections:
-            -   type: "lecture-halls"
-                children:
-                    - { name: "HS 1 (Friedrich L. Bauer Hörsaal)", id: "5602.EG.001" }
-                    - { name: "HS 2", id: "5604.EG.011" }
-                    - { name: "HS 3", id: "5606.EG.011" }
-            -   type: "list"
-                name: "Hervorgehobene Räume"
-                children:
-                    - { name: "Fachschaftsbüro MPI", id: "5606.EG.036" }
-                    - { name: "Teilbibliothek Mathematik & Informatik", id: "5603" }
-            -   type: "categorical"
-                name: "Nach Nutzung"
-                categories:
-                    -   name: "Rechnerhallen"
-                        children:
-                            -   name: "Große Rechnerhalle"
-                                subtext: "89 Arbeitsplätze"
-                                id: "00.05.011"
-                            -   name: "Kleine Rechnerhalle"
-                                subtext: "26 Arbeitsplätze"
-                                id: "00.07.023"
-                            -   name: "Mathematik Raum"
-                                subtext: "89 Arbeitsplätze"
-                                id: "00.05.011"
-                            -   name: "Bode Raum"
-                                subtext: ""
-
-5622: # Sportanlage / Dusche
-    coords: { lat: 48.26350, lon: 11.66821 }
-
-5901: # EI (current status)
-    coords: { lat: 48.26566, lon: 11.66256 }
-    osm: [ "relation/11039458" ]
-5932: # Siemens Science Center Garching
-    coords: { lat: 48.2649959152611, lon: 11.661165675863238 }
-5933: # SAP Labs Munich (AM)
-    coords: { lat: 48.26420983175217, lon: 11.661077742475014 }
-
-# --- Galileo ---
+  coords:
+    lat: 48.26252
+    lon: 11.66808
+  generate_rooms_overview:
+    sources:
+    - text: wiki.in.tum.de
+      url: https://wiki.in.tum.de/Informatik/Benutzerwiki/RechnerHallen
+      date: '2021-08-01'
+    sections:
+    - type: lecture-halls
+      children:
+      - name: HS 1 (Friedrich L. Bauer Hörsaal)
+        id: 5602.EG.001
+      - name: HS 2
+        id: 5604.EG.011
+      - name: HS 3
+        id: 5606.EG.011
+    - type: list
+      name: Hervorgehobene Räume
+      children:
+      - name: Fachschaftsbüro MPI
+        id: 5606.EG.036
+      - name: Teilbibliothek Mathematik & Informatik
+        id: '5603'
+    - type: categorical
+      name: Nach Nutzung
+      categories:
+      - name: Rechnerhallen
+        children:
+        - name: Große Rechnerhalle
+          subtext: 89 Arbeitsplätze
+          id: 00.05.011
+        - name: Kleine Rechnerhalle
+          subtext: 26 Arbeitsplätze
+          id: 00.07.023
+        - name: Mathematik Raum
+          subtext: 89 Arbeitsplätze
+          id: 00.05.011
+        - name: Bode Raum
+          subtext: ''
+5622:
+  coords:
+    lat: 48.2635
+    lon: 11.66821
+5901:
+  coords:
+    lat: 48.26566
+    lon: 11.66256
+  osm:
+  - relation/11039458
+5932:
+  coords:
+    lat: 48.2649959152611
+    lon: 11.661165675863238
+5933:
+  coords:
+    lat: 48.26420983175217
+    lon: 11.661077742475014
 galileo:
-    coords: { lat: 48.26541, lon: 11.67226 }
-    # this way is part of "relation/11730947", but this relation contains other nodes
-    # not belonging the the physical building
-    osm: [ "way/579584071" ]
-
-# Coordinates are only approximate
-8120: # Conference Center
-    coords: { lat: 48.26539, lon: 11.67211 }
-8121: # Courtyard Hotel
-    coords: { lat: 48.26471, lon: 11.67214 }
-8122: # W. v. Dyck-Str. 6
-    coords: { lat: 48.26565, lon: 11.67256 }
-8123: # W. v. Dyck-Str. 4
-    coords: { lat: 48.26621, lon: 11.67234 }
-8124: # W. v. Dyck-Str. 14
-    coords: { lat: 48.26462, lon: 11.67223 }
-
-# --- Interims ---
-#garching-interims:
-# no specific coordinates
-5416: # Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude
-    osm: [ "way/618517674" ]
-5417: # Interims IV, Interim Gebäude NAT / OCS
-    osm: [ "way/1351252291" ]
-    coords: { lat: 48.267878, lon: 11.668366 }
-5539: # Interimshörsäle III, Interims-Tentomax MW
-    osm: [ "way/618517675" ]
-    coords: { lat: 48.26638702163251, lon: 11.671288967701608 }
-5620: # Interims-Audimax I
-    osm: [ "way/1191888066" ]
-
-# --- External buildings in Garching (South-West) ---
+  coords:
+    lat: 48.26541
+    lon: 11.67226
+  osm:
+  - way/579584071
+8120:
+  coords:
+    lat: 48.26539
+    lon: 11.67211
+8121:
+  coords:
+    lat: 48.26471
+    lon: 11.67214
+8122:
+  coords:
+    lat: 48.26565
+    lon: 11.67256
+8123:
+  coords:
+    lat: 48.26621
+    lon: 11.67234
+8124:
+  coords:
+    lat: 48.26462
+    lon: 11.67223
+5416:
+  osm:
+  - way/618517674
+5417:
+  osm:
+  - way/1351252291
+  coords:
+    lat: 48.267878
+    lon: 11.668366
+5539:
+  osm:
+  - way/618517675
+  coords:
+    lat: 48.26638702163251
+    lon: 11.671288967701608
+5620:
+  osm:
+  - way/1191888066
 garching-sued-west:
-    coords: { lat: 48.26089, lon: 11.65891 }
-    osm: [ "way/242534847" ]
-
+  coords:
+    lat: 48.26089
+    lon: 11.65891
+  osm:
+  - way/242534847
 garching-gebaeudemanagement:
-    coords: { lat: 48.26066, lon: 11.65817 }
-6101: # Heizkraftwerk
-    osm: [ "way/24013692" ]
-6102: # Betriebsgebäude
-    osm: [ "way/179243742" ]
-6103: # Hochspannungsgebäude
-    osm: [ "way/24013693" ]
-6107: # Garagenbau
-    osm: [ "way/179243727", "way/179243753" ] # large, small building
-
+  coords:
+    lat: 48.26066
+    lon: 11.65817
+6101:
+  osm:
+  - way/24013692
+6102:
+  osm:
+  - way/179243742
+6103:
+  osm:
+  - way/24013693
+6107:
+  osm:
+  - way/179243727
+  - way/179243753
 6202:
-    coords: { lat: 48.26075, lon: 11.65944 }
-    props:
-        address:
-            street: "Römerhofweg 67"
-            plz_place: "85748 Garching bei München"
-            source: "navigatum"
-        links:
-            -   text:
-                    de: "Webseite"
-                    en: "Website (DE)"
-                url: "https://www.hr6.tum.de/feuerwehr/startseite/"
-            -   text:
-                    de: "Notruf: 089 289 112"
-                    en: "Emergency Call: 089 289 112"
-                url: "tel:+4989289112"
-    osm: [ "way/24013702", "way/179243750", "way/179243737" ]
-
-7894: # Newton
-    coords: { lat: 48.26996878943009, lon: 11.665900783489633 }
-    osm: [ "relation/5365461" ]
-
-# Really not sure about the coordinates of 7895 and 7896.
-# They are based on https://www.openstreetmap.org/changeset/110926968,
-# but 7896 was later removed (https://www.openstreetmap.org/way/172215381)
-7895: # Pascal Halle
-    coords: { lat: 48.27012, lon: 11.66655 }
-    osm: [ "way/172215384" ]
-
-7896: # Freisinger Landstraße 50
-    coords: { lat: 48.26981, lon: 11.66673 }
-    osm: [ "way/172215381" ]
-
+  coords:
+    lat: 48.26075
+    lon: 11.65944
+  props:
+    address:
+      street: Römerhofweg 67
+      plz_place: 85748 Garching bei München
+      source: navigatum
+  osm:
+  - way/24013702
+  - way/179243750
+  - way/179243737
+7894:
+  coords:
+    lat: 48.26996878943009
+    lon: 11.665900783489633
+  osm:
+  - relation/5365461
+7895:
+  coords:
+    lat: 48.27012
+    lon: 11.66655
+  osm:
+  - way/172215384
+7896:
+  coords:
+    lat: 48.26981
+    lon: 11.66673
+  osm:
+  - way/172215381
 garching-hochbrueck:
-    coords: { lat: 48.2511, lon: 11.63528 }
-8101: # Parkring 11-13:
-    osm: [
-        "way/51419314",
-        "way/112442472", # ways are buildings (11 and 13)
-        "node/2245272890",
-        "node/2245272887",
-        "node/2245272889",
-    ] # nodes are institue location markers
-8102: # Parkring 35-39:
-    osm: [
-        "way/109228346", # way is building (35-39)
-        "node/8411678354", # 37
-        "node/2245285383", # 37
-        "node/2245285382", # 37
-        "node/5763636116", # 37
-        "node/2245285384", # 35
-        "node/2245285385", # 35 (quantum)
-    ]
+  coords:
+    lat: 48.2511
+    lon: 11.63528
+8101:
+  osm:
+  - way/51419314
+  - way/112442472
+  - node/2245272890
+  - node/2245272887
+  - node/2245272889
+8102:
+  osm:
+  - way/109228346
+  - node/8411678354
+  - node/2245285383
+  - node/2245285382
+  - node/5763636116
+  - node/2245285384
+  - node/2245285385
 8104:
-    coords: { lat: 48.25224, lon: 11.60479 }
-    osm: [ "way/96236727" ]
-8111: # Schleißheimerstr. 90a:
-    osm: [ "way/185254463", "node/4177892778" ]
-
-# ========= Others =========
-9101: # Garmisch-Partenkirchen
-    coords: { lat: 47.49358, lon: 11.09618 }
-    osm: [ "way/156823137" ]
-
-# ========= Taufkirchen / Ottobrunn =========
-# cf. way/979575285
+  coords:
+    lat: 48.25224
+    lon: 11.60479
+  osm:
+  - way/96236727
+8111:
+  osm:
+  - way/185254463
+  - node/4177892778
+9101:
+  coords:
+    lat: 47.49358
+    lon: 11.09618
+  osm:
+  - way/156823137
 taufkirchen-ottobrunn:
-    coords: { lat: 48.05453, lon: 11.65308 }
-
+  coords:
+    lat: 48.05453
+    lon: 11.65308
 9377:
-    coords: { lat: 48.05453, lon: 11.65308 }
-
+  coords:
+    lat: 48.05453
+    lon: 11.65308
 9378:
-    coords: { lat: 48.05236862253642, lon: 11.654884006956397 }
-    osm: [ "way/30081572" ]
-
+  coords:
+    lat: 48.05236862253642
+    lon: 11.654884006956397
+  osm:
+  - way/30081572
 9379:
-    coords: { lat: 48.05466, lon: 11.65392 }
-
-# Hyperloop-Halle Ottobrunn:
-# TUMonline counts it as separate building but it has the
-# same addess as 9378. The Hyperloop test-track is at
-# 48.05398/11.65527
+  coords:
+    lat: 48.05466
+    lon: 11.65392
 9380:
-    coords: { lat: 48.05229, lon: 11.65547 }
-
-9386: # Willy-Messerschmitt-Straße 11
-    coords: { lat: 48.049434, lon: 11.653804 }
-    osm: [ "way/1138498034" ]
-9387: # Hörsaalgebäude - Willy-Messerschmitt-Straße 5, Taufkirchen
-    coords: { lat: 48.048269, lon: 11.657245 }
-    osm: [ "way/1123333684" ]
+  coords:
+    lat: 48.05229
+    lon: 11.65547
+9386:
+  coords:
+    lat: 48.049434
+    lon: 11.653804
+  osm:
+  - way/1138498034
+9387:
+  coords:
+    lat: 48.048269
+    lon: 11.657245
+  osm:
+  - way/1123333684
 9389:
-    coords: { lat: 48.053020, lon: 11.655507 }
-    osm: [ "node/30081552" ]
+  coords:
+    lat: 48.05302
+    lon: 11.655507
+  osm:
+  - node/30081552
 9390:
-    coords: { lat: 48.08765, lon: 11.29609 }
-    osm: [ "way/1123333684" ]
+  coords:
+    lat: 48.08765
+    lon: 11.29609
+  osm:
+  - way/1123333684

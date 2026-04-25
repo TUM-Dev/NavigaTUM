@@ -1,6 +1,7 @@
 import logging
 import tempfile
 from pathlib import Path
+from typing import Any
 
 import pytest
 from processors import areatree
@@ -29,7 +30,7 @@ def test_extract_names_without_short_name() -> None:
     assert _extract_names(names) == expected_output
 
 
-def test_extract_names_with_long_short_name(caplog) -> None:
+def test_extract_names_with_long_short_name(caplog: Any) -> None:
     """If the short name is longer than 20 chars, a warning is raised"""
     names = ["Mechanical Engineering", "ThisIsAVeryLongNameForAShortName"]
     expected_output = {"name": "Mechanical Engineering", "short_name": "ThisIsAVeryLongNameForAShortName"}

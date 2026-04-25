@@ -3,7 +3,7 @@ import logging
 import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Literal, TypedDict
+from typing import Any, Literal, TypedDict
 
 import backoff
 import requests
@@ -38,7 +38,7 @@ def generate_sitemap() -> None:
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
     with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
-        new_data: list = json.load(file)
+        new_data: list[Any] = json.load(file)
 
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
@@ -52,14 +52,14 @@ def generate_sitemap() -> None:
 
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
-    for name, sitemap in sitemaps.items():
-        _write_sitemap_xml(OUTPUT_DIR_PATH / f"sitemap-data-{name}.xml", sitemap)
+    for name in ("room", "other"):
+        _write_sitemap_xml(OUTPUT_DIR_PATH / f"sitemap-data-{name}.xml", sitemaps[name])
 
     _write_sitemapindex_xml(OUTPUT_DIR_PATH / "sitemap.xml", sitemaps)
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
-def _download_old_data() -> list:
+def _download_old_data() -> list[Any]:
     """Download the currently online data from the server"""
     req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
     if req.status_code != 200:
@@ -68,10 +68,10 @@ def _download_old_data() -> list:
     old_data = req.json()
     if isinstance(old_data, dict):
         old_data = list(old_data.values())
-    return old_data
+    return old_data  # type: ignore[no-any-return]
 
 
-def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
+def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
     """
     Extract sitemap data.
 
@@ -193,11 +193,11 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
     """Write the sitemapindex XML"""
     sitemapindex = ET.Element("sitemapindex")
     sitemapindex.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
-    for name, sitemap in sitemaps.items():
+    for name in ("room", "other"):
         sitemap_el = ET.SubElement(sitemapindex, "sitemap")
         loc = ET.SubElement(sitemap_el, "loc")
         loc.text = f"https://nav.tum.de/cdn/sitemap-data-{name}.xml"
-        if lastmod_dates := {site["lastmod"] for site in sitemap if "lastmod" in site}:
+        if lastmod_dates := {site["lastmod"] for site in sitemaps[name] if "lastmod" in site}:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
             lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
