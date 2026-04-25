@@ -30,7 +30,7 @@ class Building(PydanticConfiguration):
         """Load all nat.Building's"""
         df = pl.read_csv(
             RESULTS_PATH / "buildings_roomfinder.csv",
-            dtypes={
+            schema_overrides={
                 "b_id": pl.String,
                 "b_alias": pl.String,
                 "b_area": pl.String,
@@ -99,7 +99,7 @@ class Map(PydanticConfiguration):
         """Load all nat.Map's"""
         df = pl.read_csv(
             RESULTS_PATH / "maps_roomfinder.csv",
-            dtypes={
+            schema_overrides={
                 "id": pl.String,
                 "desc": pl.String,
                 "scale": pl.String,
@@ -163,7 +163,7 @@ class Room(PydanticConfiguration):
         """Load all nat.Room's"""
         df = pl.read_csv(
             RESULTS_PATH / "rooms_roomfinder.csv",
-            dtypes={
+            schema_overrides={
                 "r_alias": pl.String,
                 "r_id": pl.String,
                 "r_level": pl.String,
