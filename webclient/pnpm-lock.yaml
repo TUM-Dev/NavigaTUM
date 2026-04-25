@@ -58,8 +58,8 @@ importers:
         specifier: 12.6.2
         version: 12.6.2
       maplibre-gl:
-        specifier: 5.23.0
-        version: 5.23.0
+        specifier: 5.24.0
+        version: 5.24.0
       maplibre-gl-indoor:
         specifier: 0.0.22
         version: 0.0.22
@@ -1035,8 +1035,8 @@ packages:
   '@mapbox/point-geometry@1.1.0':
     resolution: {integrity: sha512-YGcBz1cg4ATXDCM/71L9xveh4dynfGmcLDqufR+nQQy3fKwsAZsWd/x4621/6uJaeB9mwOHE6hPeDgXz9uViUQ==}
 
-  '@mapbox/tiny-sdf@2.0.7':
-    resolution: {integrity: sha512-25gQLQMcpivjOSA40g3gO6qgiFPDpWRoMfd+G/GoppPIeP6JDaMMkMrEJnMZhKyyS6iKwVt5YKu02vCUyJM3Ug==}
+  '@mapbox/tiny-sdf@2.1.0':
+    resolution: {integrity: sha512-uFJhNh36BR4OCuWIEiWaEix9CA2WzT6CAIcqVjWYpnx8+QDtS+oC4QehRrx5cX4mgWs37MmKnwUejeHxVymzNg==}
 
   '@mapbox/unitbezier@0.0.1':
     resolution: {integrity: sha512-nMkuDXFv60aBr9soUG5q+GvZYL+2KZHVvsqFCzqnkGEf46U2fvmytHaEVc1/YZbiLn8X+eR3QzX1+dwDO1lxlw==}
@@ -4038,8 +4038,8 @@ packages:
   maplibre-gl-indoor@0.0.22:
     resolution: {integrity: sha512-b+uSYqk1kiLBvyBXNhI4MzEWq1qcuGcdoT9aRZvU6+zNqAsK2JIngePZh98hn/7HaRSB2ijb+OabU1OvbSJ3uQ==}
 
-  maplibre-gl@5.23.0:
-    resolution: {integrity: sha512-aou8YBNFS8uVtDWFWt0W/6oorfl18wt+oIA8fnXk1kivjkbtXi9gGrQvflTpwrR3hG13aWdIdbYWeN0NFMV7ag==}
+  maplibre-gl@5.24.0:
+    resolution: {integrity: sha512-ALyFxgtd5R+65UqZ/++lOqwWcC0SNho9c27fYSyLmG7AfnAul2o46F05aDJGPbFU57wos9dgcIySHs0Xe6ia3A==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   markdown-table@3.0.4:
@@ -6753,7 +6753,7 @@ snapshots:
 
   '@mapbox/point-geometry@1.1.0': {}
 
-  '@mapbox/tiny-sdf@2.0.7': {}
+  '@mapbox/tiny-sdf@2.1.0': {}
 
   '@mapbox/unitbezier@0.0.1': {}
 
@@ -10168,13 +10168,13 @@ snapshots:
       '@turf/bbox': 7.2.0
       '@turf/destination': 7.2.0
       '@turf/distance': 7.2.0
-      maplibre-gl: 5.23.0
+      maplibre-gl: 5.24.0
 
-  maplibre-gl@5.23.0:
+  maplibre-gl@5.24.0:
     dependencies:
       '@mapbox/jsonlint-lines-primitives': 2.0.2
       '@mapbox/point-geometry': 1.1.0
-      '@mapbox/tiny-sdf': 2.0.7
+      '@mapbox/tiny-sdf': 2.1.0
       '@mapbox/unitbezier': 0.0.1
       '@mapbox/vector-tile': 2.0.4
       '@mapbox/whoots-js': 3.1.0
