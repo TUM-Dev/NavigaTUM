@@ -1,6 +1,5 @@
 FROM ghcr.io/maplibre/martin:latest
 
-USER root
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes unzip && \
     rm -rf /var/lib/apt/lists/*
