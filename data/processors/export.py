@@ -231,13 +231,17 @@ def export_known_usages(df: pl.DataFrame) -> None:
     data_dir = Path(__file__).parent.parent
     translations = yaml.safe_load((data_dir / "translations.yaml").read_text(encoding="utf-8"))
 
-    usages_df = pl.read_csv(
-        data_dir / "external" / "results" / "usages_tumonline.csv",
-        schema_overrides={"din277_id": pl.String, "name": pl.String},
-    ).select(
-        pl.col("name").alias("name_de"),
-        pl.col("din277_id").alias("din_277"),
-    ).unique()
+    usages_df = (
+        pl.read_csv(
+            data_dir / "external" / "results" / "usages_tumonline.csv",
+            schema_overrides={"din277_id": pl.String, "name": pl.String},
+        )
+        .select(
+            pl.col("name").alias("name_de"),
+            pl.col("din277_id").alias("din_277"),
+        )
+        .unique()
+    )
 
     counts_df = (
         df.filter(pl.col("usage_name_de").is_not_null() & pl.col("usage_din_277").is_not_null())
@@ -246,8 +250,7 @@ def export_known_usages(df: pl.DataFrame) -> None:
     )
 
     result_df = (
-        usages_df
-        .join(
+        usages_df.join(
             counts_df,
             left_on=["name_de", "din_277"],
             right_on=["usage_name_de", "usage_din_277"],
