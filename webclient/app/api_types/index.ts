@@ -2081,57 +2081,72 @@ export type operations = {
         /**
          * @description string you want to search for.
          *
-         * The amounts returned can be controlled using the `limit\*` paramerters.
-         *
-         * The following query-filters are supported:
-         * - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-         * - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-         * - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-         * - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+         * The amounts returned can be controlled using the `limit_*` parameters.
+         * Use `in`, `usage`, `type`, and `near` query parameters for filtering.
          */
         q: string;
+        /**
+         * @description Filter by parent (building, campus, etc.).
+         *
+         * Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
+         */
+        in?: readonly string[];
+        /**
+         * @description Filter by usage type (e.g. `wc`, `büro`).
+         *
+         * Can be repeated for multiple values.
+         */
+        usage?: readonly string[];
+        /**
+         * @description Filter by entry type (e.g. `room`, `building`).
+         *
+         * Can be repeated for multiple values.
+         */
+        type?: readonly string[];
+        /** @description Sort results by distance to a coordinate (`lat,lon`). */
+        near?: string;
         /**
          * @description Include adresses in the saerch
          *
          * Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
          * Only activate this when you really need it.
          */
-        search_addresses?: boolean | null;
+        search_addresses?: boolean;
         /**
          * @description Maximum number of buildings/sites to return.
          *
          * Clamped to `0`..`1000`.
          * If this is a problem for you, please open an issue.
          */
-        limit_buildings?: number | null;
+        limit_buildings?: number;
         /**
          * @description Maximum number of rooms to return.
          *
          * Clamped to `0`..`1000`.
          * If this is an problem for you, please open an issue.
          */
-        limit_rooms?: number | null;
+        limit_rooms?: number;
         /**
          * @description Maximum number of results to return.
          *
          * Clamped to `1`..`1000`.
          * If this is an problem for you, please open an issue.
          */
-        limit_all?: number | null;
+        limit_all?: number;
         /**
          * @description string to include in front of highlighted sequences.
          *
          * If this and `post_highlight` are empty, highlighting is disabled.
          * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        pre_highlight?: string | null;
+        pre_highlight?: string;
         /**
          * @description string to include after the highlighted sequences.
          *
          * If this and `pre_highlight` are empty, highlighting is disabled.
          * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        post_highlight?: string | null;
+        post_highlight?: string;
         /**
          * @description How to handle cropping of long building names in `parsed_id`.
          *

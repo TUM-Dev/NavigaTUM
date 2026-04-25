@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useFeedback } from "~/composables/feedback";
 import { useEditProposal } from "~/composables/editProposal";
+import { useFeedback } from "~/composables/feedback";
 
 const { t } = useI18n({ useScope: "local" });
 const deleteIssueRequested = ref(false);

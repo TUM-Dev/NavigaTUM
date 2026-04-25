@@ -68,6 +68,66 @@ test.describe("API Endpoints - Search", () => {
 
     expect(response.status()).toBe(200);
   });
+
+  test("should filter search by type", async ({ request }) => {
+    const response = await request.get("/api/search?q=MI&type=room");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
+
+  test("should filter search by parent with in parameter", async ({ request }) => {
+    const response = await request.get("/api/search?q=hs&in=garching");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
+
+  test("should filter search by usage", async ({ request }) => {
+    const response = await request.get("/api/search?q=raum&usage=wc");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
+
+  test("should sort search by near coordinate", async ({ request }) => {
+    const response = await request.get("/api/search?q=mensa&near=48.2625,11.6681");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
+
+  test("should support multiple filter values", async ({ request }) => {
+    const response = await request.get("/api/search?q=hs&in=garching&in=5304");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
+
+  test("should support combining multiple filter types", async ({ request }) => {
+    const response = await request.get("/api/search?q=raum&type=room&in=garching");
+
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    expect(data).toHaveProperty("sections");
+    expect(Array.isArray(data.sections)).toBe(true);
+  });
 });
 
 test.describe("API Endpoints - Location Details", () => {
