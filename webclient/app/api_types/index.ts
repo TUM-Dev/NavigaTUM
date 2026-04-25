@@ -2104,49 +2104,49 @@ export type operations = {
          */
         type?: readonly string[];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
-        near?: string | null;
+        near?: string;
         /**
          * @description Include adresses in the saerch
          *
          * Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
          * Only activate this when you really need it.
          */
-        search_addresses?: boolean | null;
+        search_addresses?: boolean;
         /**
          * @description Maximum number of buildings/sites to return.
          *
          * Clamped to `0`..`1000`.
          * If this is a problem for you, please open an issue.
          */
-        limit_buildings?: number | null;
+        limit_buildings?: number;
         /**
          * @description Maximum number of rooms to return.
          *
          * Clamped to `0`..`1000`.
          * If this is an problem for you, please open an issue.
          */
-        limit_rooms?: number | null;
+        limit_rooms?: number;
         /**
          * @description Maximum number of results to return.
          *
          * Clamped to `1`..`1000`.
          * If this is an problem for you, please open an issue.
          */
-        limit_all?: number | null;
+        limit_all?: number;
         /**
          * @description string to include in front of highlighted sequences.
          *
          * If this and `post_highlight` are empty, highlighting is disabled.
          * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        pre_highlight?: string | null;
+        pre_highlight?: string;
         /**
          * @description string to include after the highlighted sequences.
          *
          * If this and `pre_highlight` are empty, highlighting is disabled.
          * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        post_highlight?: string | null;
+        post_highlight?: string;
         /**
          * @description How to handle cropping of long building names in `parsed_id`.
          *
