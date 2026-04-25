@@ -15,6 +15,7 @@ use crate::limited::hash_map::LimitedHashMap;
 
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
+use super::proposed_edits::property::PropertyEdit;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
@@ -22,12 +23,14 @@ use crate::external::github::GitHub;
 mod coordinate;
 mod description;
 mod image;
+pub(crate) mod property;
 mod tmp_repo;
 
 #[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
+    properties: Option<Vec<PropertyEdit>>,
 }
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
@@ -98,6 +101,14 @@ impl EditRequest {
         if self.edits.0.iter().any(|(_, edit)| edit.image.is_some()) {
             labels.push("image".to_string());
         }
+        if self
+            .edits
+            .0
+            .iter()
+            .any(|(_, edit)| edit.properties.as_ref().is_some_and(|p| !p.is_empty()))
+        {
+            labels.push("property".to_string());
+        }
         labels
     }
 
@@ -105,25 +116,44 @@ impl EditRequest {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
-        match (coordinate_edits.len(), image_edits.len()) {
-            (0, 0) => "no edits".to_string(),
-            (1..=5, 0) => format!(
+        let property_count: usize = self
+            .edits
+            .0
+            .values()
+            .filter_map(|e| e.properties.as_ref())
+            .map(|p| p.len())
+            .sum();
+
+        let mut parts = Vec::new();
+        match coordinate_edits.len() {
+            0 => {}
+            1..=5 => parts.push(format!(
                 "coordinate edit for `{}`",
                 coordinate_edits.keys().sorted().join("`, `")
-            ),
-            (0, 1) => format!("add image for `{}`", image_edits.keys().next().unwrap()),
-            (0, 2..=5) => format!(
+            )),
+            cs => parts.push(format!("edited {cs} coordinates")),
+        }
+        match image_edits.len() {
+            0 => {}
+            1 => parts.push(format!(
+                "add image for `{}`",
+                image_edits.keys().next().unwrap()
+            )),
+            2..=5 => parts.push(format!(
                 "add images for `{}`",
                 image_edits.keys().sorted().join("`, `")
-            ),
-            (0, is) => format!("add {is} images"),
-            (cs, 0) => format!("Edited {cs} coordinates"),
-            (1..=3, 1..=3) => format!(
-                "edited images for `{}` and coordinates for `{}`",
-                image_edits.keys().join("`, `"),
-                coordinate_edits.keys().join("`, `")
-            ),
-            (cs, is) => format!("edited {is} images and {cs} coordinates"),
+            )),
+            is => parts.push(format!("add {is} images")),
+        }
+        if property_count > 0 {
+            let edits = if property_count == 1 { "edit" } else { "edits" };
+            parts.push(format!("{property_count} property {edits}"));
+        }
+
+        if parts.is_empty() {
+            "no edits".to_string()
+        } else {
+            parts.join(" and ")
         }
     }
 }
@@ -234,7 +264,7 @@ pub async fn propose_edits(
                     .open_pr(
                         branch_to_use,
                         &title,
-                        &format!("## Batched Coordinate Edits\n\n### Edit #1\n{description}"),
+                        &format!("## Batched Edits\n\n### Edit #1\n{description}"),
                         labels,
                     )
                     .await

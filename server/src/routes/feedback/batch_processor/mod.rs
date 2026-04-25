@@ -61,7 +61,7 @@ pub async fn update_batch_pr_metadata(
 
     // Update PR title with edit count
     let github = GitHub::default();
-    let title = format!("chore(data): batch coordinate edits ({edit_count} edits)");
+    let title = format!("chore(data): batch edits ({edit_count} edits)");
     match github.update_pr_title(pr_number, &title).await {
         Ok(_) => info!(%pr_number, "Updated title for batch PR"),
         Err(e) => error!(error=?e, %pr_number, "Failed to update title for batch PR"),
@@ -76,7 +76,7 @@ pub async fn update_batch_pr_metadata(
 
     // Append the new edit's description
     let updated_description = if current_description.is_empty() {
-        format!("## Batched Coordinate Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
+        format!("## Batched Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
     } else {
         format!("{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}")
     };
