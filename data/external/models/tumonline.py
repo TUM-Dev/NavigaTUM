@@ -37,7 +37,7 @@ class Room(PydanticConfiguration):
         """Load all tumonline.Room's"""
         df = pl.read_csv(
             RESULTS_PATH / "rooms_tumonline.csv",
-            dtypes={
+            schema_overrides={
                 "room_key": pl.String,
                 "address_place": pl.String,
                 "address_street": pl.String,
@@ -94,7 +94,7 @@ class Building(PydanticConfiguration):
         """Load all tumonline.Building's"""
         df = pl.read_csv(
             RESULTS_PATH / "buildings_tumonline.csv",
-            dtypes={
+            schema_overrides={
                 "building_key": pl.String,
                 "address_place": pl.String,
                 "address_street": pl.String,
@@ -131,7 +131,7 @@ class Organisation(PydanticConfiguration):
         """Load all tumonline.Organisation's for a specific language"""
         df = pl.read_csv(
             RESULTS_PATH / f"orgs-{lang}_tumonline.csv",
-            dtypes={
+            schema_overrides={
                 "code": pl.String,
                 "name": pl.String,
                 "path": pl.String,
@@ -154,7 +154,7 @@ class Usage(PydanticConfiguration):
         """Load all tumonline.Usage's"""
         df = pl.read_csv(
             RESULTS_PATH / "usages_tumonline.csv",
-            dtypes={
+            schema_overrides={
                 "din277_id": pl.String,
                 "din277_name": pl.String,
                 "name": pl.String,

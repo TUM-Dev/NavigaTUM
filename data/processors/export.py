@@ -5,6 +5,7 @@ from typing import Any
 import polars as pl
 
 from external.models.common import PydanticConfiguration
+from processors.df_utils import unflatten_row
 from utils import TranslatableStr
 from utils import TranslatableStr as _
 
@@ -13,10 +14,12 @@ OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
 
 
-def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
+def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
+    if isinstance(value, dict):
+        value = value.get("de", value.get("en", ""))
     if isinstance(value, TranslatableStr):
         value = unlocalise(value)
 
@@ -50,7 +53,16 @@ def normalise_id(_id: str) -> str | None:
     return ".".join(parts)
 
 
-def export_for_search(data: dict) -> None:
+def reconstruct_data(df: pl.DataFrame) -> dict[str, Any]:
+    """Reconstruct nested data dict from flat DataFrame (shared by search and API export)."""
+    data = {}
+    for row in df.to_dicts():
+        entry = unflatten_row(row)
+        data[entry["id"]] = entry
+    return data
+
+
+def export_for_search(data: dict[str, Any]) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
@@ -88,7 +100,7 @@ def export_for_search(data: dict) -> None:
                 "room_code_normalised": normalise_id(_id),
                 "name": entry["name"],
                 "arch_name": entry.get("arch_name"),
-                "arch_name_normalised": normalise_id(entry.get("arch_name")),
+                "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
                 "type": entry["type"],
                 "type_common_name": entry["type_common_name"],
                 "facet": {
@@ -100,7 +112,7 @@ def export_for_search(data: dict) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
-                "operator_name": entry["props"].get("operator", {}).get("name", None),
+                "operator_name": entry.get("props", {}).get("operator", {}).get("name", None),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
@@ -118,11 +130,11 @@ def export_for_search(data: dict) -> None:
     _make_sure_is_safe(export)
     with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
         json.dump(export, file)
-    df = pl.DataFrame(export, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
+    search_df = pl.DataFrame(export, infer_schema_length=None)
+    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
-def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
+def extract_parent_building_names(data: dict[str, Any], parents: list[str], building_parents_index: int) -> list[str]:
     """Extract the parents building names from the data"""
     # For rooms, the (joined_)building parents are extra to put more emphasis on them.
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
@@ -130,7 +142,7 @@ def extract_parent_building_names(data: dict, parents: list[str], building_paren
     return short_names + long_names
 
 
-def _make_sure_is_safe(obj: object):
+def _make_sure_is_safe(obj: object) -> None:
     """
     Check if any of the specified names in removed_names are present
 
@@ -174,10 +186,10 @@ def export_for_status() -> None:
     df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
 
 
-def export_for_api(data: dict) -> None:
+def export_for_api(data: dict[str, Any]) -> None:
     """Add some more information about parents to the data and export for the /locations/:id api"""
     export_data = []
-    for _id, entry in data.items():
+    for entry in data.values():
         entry.setdefault("maps", {})["default"] = "interactive"
         export_data.append(extract_exported_item(data, entry))
 

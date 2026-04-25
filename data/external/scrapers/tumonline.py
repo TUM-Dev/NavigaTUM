@@ -16,7 +16,7 @@ TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
 
 
-def _generate_oauth_headers() -> dict[typing.Literal["Authorization"], str]:
+def _generate_oauth_headers() -> dict[str, str]:
     """
     Generate the OAuth token and packs it into a header form for easier consumption.
 
@@ -48,7 +48,7 @@ def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
     logging.info("Downloading the buildings of tumonline")
 
-    def _sanitise_building_value(val: dict) -> dict:
+    def _sanitise_building_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
         val["tumonline_id"] = val.pop("nr")
         val["address"] = {
             "place": val.pop("address_place"),
@@ -87,7 +87,7 @@ def scrape_rooms() -> None:
     """Retrieve the rooms as in TUMonline"""
     logging.info("Downloading the rooms of tumonline")
 
-    def _sanitise_room_value(val: dict) -> dict:
+    def _sanitise_room_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
         val["tumonline_id"] = val.pop("nr")  # tumonline id for this room, not really relevant in our context
         val.pop("room_code")
         val["address"] = {

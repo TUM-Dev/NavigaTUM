@@ -17,7 +17,7 @@ with TRANSLATION_BUFFER_PATH.open(encoding="utf-8") as yaml_file:
 DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 
 
-class TranslatableStr(dict):
+class TranslatableStr(dict[str, str]):
     """
     Wrapper for translations.
 
@@ -47,17 +47,17 @@ class TranslatableStr(dict):
                     yaml.dump(TRANSLATION_BUFFER, file)
         super().__init__(en=en_message, de=message)
 
-    def __hash__(self) -> int:
+    def __hash__(self) -> int:  # type: ignore[override]
         """Return a hash as if this was a string."""
         return hash(self["de"])
 
     def __le__(self, other: "TranslatableStr") -> bool:
         """Compare one String to another, sorting by the german string."""
-        return self["de"] <= other["de"]
+        return str(self["de"]) <= str(other["de"])
 
     def __lt__(self, other: "TranslatableStr") -> bool:
         """Compare one String to another, sorting by the german string."""
-        return self["de"] < other["de"]
+        return str(self["de"]) < str(other["de"])
 
     def __add__(self, other: Union[str, "TranslatableStr"]) -> "TranslatableStr":
         """Concatenate two TranslatableStr or a TranslatableStr with a string ."""
