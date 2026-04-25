@@ -3,7 +3,10 @@ import re
 from pathlib import Path
 from typing import Any
 import polars as pl
+import csv
+import yaml
 
+from external.models import tumonline
 from external.models.common import PydanticConfiguration
 from processors.df_utils import unflatten_row
 from utils import TranslatableStr
@@ -221,6 +224,46 @@ def extract_exported_item(data, entry):
             del result["props"][k]
     result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
     return result
+
+
+def export_known_usages(df: pl.DataFrame) -> None:
+    """Export the known room usages (categories) for the frontend feedback dropdown."""
+    data_dir = Path(__file__).parent.parent
+    translations = yaml.safe_load((data_dir / "translations.yaml").read_text(encoding="utf-8"))
+
+    usages_df = pl.read_csv(
+        data_dir / "external" / "results" / "usages_tumonline.csv",
+        schema_overrides={"din277_id": pl.String, "name": pl.String},
+    ).select(
+        pl.col("name").alias("name_de"),
+        pl.col("din277_id").alias("din_277"),
+    ).unique()
+
+    counts_df = (
+        df.filter(pl.col("usage_name_de").is_not_null() & pl.col("usage_din_277").is_not_null())
+        .group_by("usage_name_de", "usage_din_277")
+        .len()
+    )
+
+    result_df = (
+        usages_df
+        .join(
+            counts_df,
+            left_on=["name_de", "din_277"],
+            right_on=["usage_name_de", "usage_din_277"],
+            how="left",
+        )
+        .with_columns(
+            pl.col("name_de").replace_strict(translations, default=pl.col("name_de")).alias("name_en"),
+            pl.col("len").fill_null(0).alias("occurrences"),
+        )
+        .select("name_de", "name_en", "din_277", "occurrences")
+        .sort("occurrences", descending=True)
+    )
+
+    with (OUTPUT_DIR_PATH / "known_usages.json").open("w", encoding="utf-8") as f:
+        json.dump(result_df.to_dicts(), f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
