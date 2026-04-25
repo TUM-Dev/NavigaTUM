@@ -145,7 +145,7 @@ def main() -> None:
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.
-    comment_ids = set()
+    comment_ids: set[str] = set()
     if merge.COMMENTS_CSV.exists():
         import csv as csv_mod
 

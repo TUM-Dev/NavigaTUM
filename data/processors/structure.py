@@ -232,14 +232,14 @@ def infer_type_common_name(lf: pl.LazyFrame) -> pl.LazyFrame:
     gebaeudeteil = _("Gebäudeteil")
 
     lf = lf.with_columns(
-        # type_common_name_de
+        # column: type_common_name_de
         pl.when((pl.col("type") == "building") & (pl.col("_parent_type") == "joined_building"))
         .then(pl.lit(gebaeudeteil["de"]))
         .when(pl.col("type").is_in(["room", "virtual_room", "poi"]) & pl.col("usage_name_de").is_not_null())
         .then(pl.col("usage_name_de"))
         .otherwise(pl.col("type").replace_strict(de_map, default=None))
         .alias("type_common_name_de"),
-        # type_common_name_en
+        # column: type_common_name_en
         pl.when((pl.col("type") == "building") & (pl.col("_parent_type") == "joined_building"))
         .then(pl.lit(gebaeudeteil["en"]))
         .when(pl.col("type").is_in(["room", "virtual_room", "poi"]) & pl.col("usage_name_en").is_not_null())
@@ -248,7 +248,7 @@ def infer_type_common_name(lf: pl.LazyFrame) -> pl.LazyFrame:
         .alias("type_common_name_en"),
     )
 
-    # type_common_name uses the de value as default
+    # column type_common_name uses the de value as default
     lf = lf.with_columns(
         pl.col("type_common_name_de").alias("type_common_name"),
     )

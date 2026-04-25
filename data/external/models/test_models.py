@@ -31,7 +31,7 @@ def test_tumonline_building():
 
 
 @pytest.mark.parametrize("lang", ["de", "en"])
-def test_tumonline_org(lang: Literal["de", "en"]):
+def test_tumonline_org(lang: Literal["de", "en"]) -> None:
     """Load all orgs from the tumonline.Organisation"""
     tumonline.Organisation.load_all_for(lang)
 
