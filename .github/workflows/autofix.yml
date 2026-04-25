@@ -74,6 +74,9 @@ jobs:
         run: pnpm run update-screenshots
         working-directory: tests
 
+      - name: Restore | Discard lockfile side-effects from pnpm
+        run: git checkout -- tests/pnpm-lock.yaml
+
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
           commit-message: "chore: update screenshots"
@@ -170,6 +173,9 @@ jobs:
       - name: Update | Refresh types
         run: pnpm run type-refresh
         working-directory: webclient
+
+      - name: Restore | Discard lockfile side-effects from pnpm
+        run: git checkout -- webclient/pnpm-lock.yaml
 
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2
         with:
