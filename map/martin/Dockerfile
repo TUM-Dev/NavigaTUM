@@ -1,5 +1,10 @@
 FROM ghcr.io/maplibre/martin:latest
 
+USER root
+RUN apt-get update && \
+    apt-get install --no-install-recommends --yes unzip && \
+    rm -rf /var/lib/apt/lists/*
+
 # -- fonts --
 RUN  wget --quiet -O /tmp/roboto-android.zip https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-android.zip && \
     unzip -q /tmp/roboto-android.zip -d "$(dirname "$0")/fonts/" && \
