@@ -92,7 +92,9 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
     return result
 
 
-# pylint: disable=too-many-locals
+_BUILDING_TYPES = pl.Series(["building", "joined_building"])
+
+
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     """
     Merge the rooms in TUMonline with the existing data.
@@ -106,29 +108,28 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     usages_lookup = tumonline.Usage.load_all()
     org_id_to_code = {key: org.code for key, org in orgs_de.items()}
 
-    # Build lookup of existing IDs and building parents from df
-    existing_ids = set(df["id"].to_list())
-    # Build a dict of building_id -> parents list for quick lookup
-    building_rows = df.filter(pl.col("type").is_in(["building", "joined_building"])).select("id", "parents")
-    building_parents_lookup: dict[str, list[str]] = {}
-    for brow in building_rows.iter_rows(named=True):
-        building_parents_lookup[brow["id"]] = brow["parents"] if brow["parents"] is not None else []
+    building_parents = {
+        brow["id"]: (brow["parents"] or [])
+        for brow in df.filter(pl.col("type").is_in(_BUILDING_TYPES))
+        .select("id", "parents")
+        .iter_rows(named=True)
+    }
 
-    new_room_rows: list[dict[str, Any]] = []
-    update_room_rows: list[dict[str, Any]] = []
+    candidate_rows: list[dict[str, Any]] = []
     missing_buildings: dict[str, int] = {}
 
     for room_code, room in rooms.items():
-        # Extract building id
         b_id = room_code.split(".")[0]
-        if b_id not in building_parents_lookup:
-            missing_buildings.setdefault(b_id, 0)
-            missing_buildings[b_id] += 1
+        if b_id not in building_parents:
+            missing_buildings[b_id] = missing_buildings.get(b_id, 0) + 1
             continue
 
-        parents = building_parents_lookup[b_id] + [b_id]
+        if room.usage_id not in usages_lookup:
+            logging.error(f"Unknown usage for room '{room_code}': Id '{room.usage_id}'")
+            continue
+        tumonline_usage = usages_lookup[room.usage_id]
+        usage_name = _(tumonline_usage.name)
 
-        # Build operator_name
         operator_name = None
         if room.main_operator_id in orgs_de:
             operator_name = _(
@@ -148,28 +149,17 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             "calendar": room.calendar_resource_nr,
             "usage": room.usage_id,
         }
-
-        # Usage
-        if room.usage_id in usages_lookup:
-            tumonline_usage = usages_lookup[room.usage_id]
-            usage_name = _(tumonline_usage.name)
-        else:
-            logging.error(f"Unknown usage for room '{room_code}': Id '{room.usage_id}'")
-            continue
-
-        # Build source info
         source_entry = {
             "name": "TUMonline",
             "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr={room.tumonline_id}",
         }
-
-        row: dict[str, Any] = {
+        candidate_rows.append({
             "id": room_code,
             "type": "room",
             "name": f"{room_code} ({room.alt_name})",
             "name_de": f"{room_code} ({room.alt_name})",
             "name_en": f"{room_code} ({room.alt_name})",
-            "parents": parents,
+            "parents": building_parents[b_id] + [b_id],
             "tumonline_data_json": to_json_or_none(tumonline_data),
             "props_ids_roomcode": room_code,
             "props_ids_arch_name": room.arch_name if room.arch_name else None,
@@ -184,101 +174,61 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             "usage_din_277_desc": tumonline_usage.din277_name,
             "sources_base_json": to_json_or_none([source_entry]),
             "sources_patched": True if room.patched else None,
-        }
-
-        if room_code in existing_ids:
-            update_room_rows.append(row)
-        else:
-            new_room_rows.append(row)
-
-    # Handle truly new rooms: concat
-    if new_room_rows:
-        new_rooms_df = pl.DataFrame(new_room_rows, infer_schema_length=None)
-        # Ensure bool columns are correctly typed (may be inferred as Null if first rows are None)
-        if "sources_patched" in new_rooms_df.columns and new_rooms_df.schema["sources_patched"] == pl.Null:
-            new_rooms_df = new_rooms_df.with_columns(pl.col("sources_patched").cast(pl.Boolean))
-        df = pl.concat([df, new_rooms_df], how="diagonal_relaxed")
-
-    # Handle updates: existing rows should NOT be overwritten (overwrite=False semantics)
-    # For each update row, only fill in columns that are currently null in the existing row
-    if update_room_rows:
-        updates_df = pl.DataFrame(update_room_rows)
-        # Suffix all columns except 'id' for the join
-        update_cols = [c for c in updates_df.columns if c != "id"]
-
-        # Ensure all update columns exist in df before joining
-        df = ensure_columns(df, {col: updates_df.schema.get(col, pl.Utf8()) for col in update_cols})
-
-        df = df.join(
-            updates_df,
-            on="id",
-            how="left",
-            suffix="_update",
-        )
-
-        # For each column, coalesce: existing value wins (overwrite=False)
-        coalesce_exprs = []
-        for col in update_cols:
-            update_col = f"{col}_update"
-            if update_col in df.columns:
-                coalesce_exprs.append(pl.coalesce(pl.col(col), pl.col(update_col)).alias(col))
-        if coalesce_exprs:
-            df = df.with_columns(coalesce_exprs)
-
-        # Batch-append TUMonline source to existing sources_base_json for updated rows
-        source_updates = []
-        for urow in update_room_rows:
-            source_updates.append(
-                {
-                    "id": urow["id"],
-                    "sources_new_json": urow["sources_base_json"],
-                    "patched_flag": urow.get("sources_patched") or False,
-                }
-            )
-        if source_updates:
-            src_df = pl.DataFrame(
-                source_updates, schema={"id": pl.Utf8, "sources_new_json": pl.Utf8, "patched_flag": pl.Boolean}
-            )
-            df = df.join(src_df, on="id", how="left")
-            df = ensure_column(df, "sources_patched", pl.Boolean())
-            df = df.with_columns(
-                # Append new source to existing sources_base_json
-                pl.when(pl.col("sources_new_json").is_not_null() & pl.col("sources_base_json").is_not_null())
-                .then(
-                    pl.col("sources_base_json").str.strip_suffix("]")
-                    + ","
-                    + pl.col("sources_new_json").str.strip_prefix("[")
-                )
-                .when(pl.col("sources_new_json").is_not_null())
-                .then(pl.col("sources_new_json"))
-                .otherwise(pl.col("sources_base_json"))
-                .alias("sources_base_json"),
-                # Set patched flag
-                pl.when(pl.col("patched_flag") == True)  # noqa: E712
-                .then(pl.lit(True))
-                .otherwise(pl.col("sources_patched"))
-                .alias("sources_patched"),
-            )
-            df = df.drop(["sources_new_json", "patched_flag"])
-
-        # Drop the _update columns
-        drop_cols = [c for c in df.columns if c.endswith("_update")]
-        if drop_cols:
-            df = df.drop(drop_cols)
-
-    # Validate: all entries must have parents
-    parentless = df.filter(pl.col("parents").is_null())
-    if parentless.height > 0:
-        for row in parentless.iter_rows(named=True):
-            logging.critical(f"No parents exist for {row['id']}")
-        logging.critical("This is probably the case, because roompatches were renamed upstream")
-        raise RuntimeError("Invariant not preserved")
+        })
 
     if missing_buildings:
         logging.warning(
             f"Ignored {sum(missing_buildings.values())} rooms for the following buildings, "
             f"which were not found: {sorted(missing_buildings.keys())}",
         )
+
+    if candidate_rows:
+        rooms_df = pl.DataFrame(candidate_rows, infer_schema_length=None)
+        if rooms_df.schema.get("sources_patched") == pl.Null:
+            rooms_df = rooms_df.with_columns(pl.col("sources_patched").cast(pl.Boolean))
+
+        existing_ids = df.select("id")
+        new_rooms = rooms_df.join(existing_ids, on="id", how="anti")
+        update_rooms = rooms_df.join(existing_ids, on="id", how="semi")
+
+        if new_rooms.height > 0:
+            df = pl.concat([df, new_rooms], how="diagonal_relaxed")
+
+        if update_rooms.height > 0:
+            update_cols = [c for c in update_rooms.columns if c != "id"]
+            df = ensure_columns(df, {c: update_rooms.schema.get(c, pl.Utf8()) for c in update_cols})
+            df = df.join(update_rooms, on="id", how="left", suffix="_update")
+
+            # Existing value wins (setdefault semantics)
+            df = df.with_columns([
+                pl.coalesce(pl.col(c), pl.col(f"{c}_update")).alias(c)
+                for c in update_cols
+                if f"{c}_update" in df.columns
+            ])
+
+            # Append TUMonline source string and OR in the patched flag
+            df = ensure_column(df, "sources_patched", pl.Boolean())
+            new_src = pl.col("sources_base_json_update")
+            df = df.with_columns(
+                pl.when(new_src.is_not_null() & pl.col("sources_base_json").is_not_null())
+                .then(pl.col("sources_base_json").str.strip_suffix("]") + "," + new_src.str.strip_prefix("["))
+                .when(new_src.is_not_null())
+                .then(new_src)
+                .otherwise(pl.col("sources_base_json"))
+                .alias("sources_base_json"),
+                pl.when(pl.col("sources_patched_update") == True)  # noqa: E712
+                .then(pl.lit(True))
+                .otherwise(pl.col("sources_patched"))
+                .alias("sources_patched"),
+            )
+            df = df.drop([c for c in df.columns if c.endswith("_update")])
+
+    parentless = df.filter(pl.col("parents").is_null())
+    if parentless.height > 0:
+        for row in parentless.iter_rows(named=True):
+            logging.critical(f"No parents exist for {row['id']}")
+        logging.critical("This is probably the case, because roompatches were renamed upstream")
+        raise RuntimeError("Invariant not preserved")
 
     return df
 
