@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from external.models import tumonline
 from processors import areatree
 from processors.areatree.process import (
     _areatree_lines,
@@ -170,3 +171,25 @@ def test_invalid_line_extra_parts() -> None:
     """Extra parts are not allowed"""
     with pytest.raises(RuntimeError):
         _split_line("1:Building A:123,456:extra_part")
+
+
+def test_all_tumonline_buildings_in_areatree() -> None:
+    """Every TUMonline building must have a matching entry in the areatree"""
+    df = areatree.process.read_areatree()
+
+    known_b_prefixes: set[str] = set()
+    for row in df.iter_rows(named=True):
+        if row.get("b_prefix") is not None:
+            known_b_prefixes.add(row["b_prefix"])
+        if row.get("b_prefix_list") is not None:
+            known_b_prefixes.update(row["b_prefix_list"])
+
+    missing = sorted(
+        (b_id, building.name)
+        for b_id, building in tumonline.Building.load_all().items()
+        if b_id not in known_b_prefixes
+    )
+
+    assert not missing, "TUMonline buildings missing from areatree:\n" + "\n".join(
+        f"  {b_id}: {name}" for b_id, name in missing
+    )
