@@ -1,5 +1,5 @@
 processors/__pycache__
-venv
+.venv
 output
 /sources/img/thumb/
 /sources/img/header/
