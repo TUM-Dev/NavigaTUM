@@ -175,7 +175,7 @@ Main components:
 ### Adding dependencies
 - **Rust**: Add to workspace dependencies in root `Cargo.toml` when possible.
 - **Node.js**: Use `pnpm add` in webclient directory.
-- **Python**: Add to `data/requirements.txt` or `requirements-dev.txt`.
+- **Python**: Use `uv add <pkg>` (runtime) or `uv add --group dev <pkg>` (dev tooling). This updates `pyproject.toml` and `uv.lock` together.
 
 ### Updating dependencies
 - Renovate bot handles automatic dependency updates.
@@ -243,7 +243,7 @@ pnpm format
 
 # Data processing
 cd data
-python compile.py
+uv run python compile.py
 ```
 
 ## Notes for AI assistants

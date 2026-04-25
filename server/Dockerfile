@@ -2,15 +2,19 @@
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
 # Extract data files from the data image
-FROM python:3.14-bookworm AS data-stage
+FROM ghcr.io/astral-sh/uv:python3.14-bookworm AS data-stage
 WORKDIR /app
 
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+ENV UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_PROJECT_ENVIRONMENT=/usr/local
 
-# install requirements
-COPY data/requirements.txt .
-RUN pip3 install -r requirements.txt
+# install runtime dependencies (no dev group, no project install)
+COPY pyproject.toml uv.lock .python-version ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-install-project
 
 # collect data
 COPY data/sources/ sources/
