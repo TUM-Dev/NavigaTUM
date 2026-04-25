@@ -230,6 +230,7 @@ def main() -> None:
     export.export_for_search(data)
     export.export_for_api(data)
     export.export_for_status()
+    export.export_known_usages(df)
     sitemap.generate_sitemap()
 
     resizer.join(timeout=60 * 4)
