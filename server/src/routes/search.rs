@@ -54,6 +54,7 @@ pub enum ParsedIdMode {
 }
 
 #[derive(Deserialize, Debug, Default, utoipa::IntoParams, utoipa::ToSchema)]
+#[into_params(parameter_in = Query)]
 pub struct SearchQueryArgs {
     /// string you want to search for.
     ///
