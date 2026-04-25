@@ -97,54 +97,6 @@ function makeShared(values: {
   return { hasActiveFilters, buildQueryObject, appendToParams };
 }
 
-function createMutations(
-  read: {
-    list: (kind: ListKind) => readonly string[];
-    near: () => string;
-  },
-  write: (updates: Partial<Record<FilterKind, string[] | string | undefined>>) => void,
-): Pick<SearchFilters, "removeFilter" | "clearAll" | "toggleFilterValue" | "addInFilter" | "setNear"> {
-  function removeFilter(kind: FilterKind, value?: string) {
-    if (kind === "near") {
-      write({ near: undefined });
-      return;
-    }
-    if (!value) return;
-    const current = [...read.list(kind)];
-    const idx = current.indexOf(value);
-    if (idx !== -1) current.splice(idx, 1);
-    write({ [kind]: current.length ? current : undefined });
-  }
-
-  function clearAll() {
-    write({ in: undefined, usage: undefined, type: undefined, near: undefined });
-  }
-
-  function toggleFilterValue(kind: "type" | "usage", value: string) {
-    const current = [...read.list(kind)];
-    const idx = current.indexOf(value);
-    if (idx !== -1) current.splice(idx, 1);
-    else current.push(value);
-    write({ [kind]: current.length ? current : undefined });
-  }
-
-  function addInFilter(value: string) {
-    if (read.list("in").includes(value)) return;
-    write({ in: [...read.list("in"), value] });
-  }
-
-  function setNear(enabled: boolean) {
-    if (!enabled) {
-      if (read.near()) write({ near: undefined });
-      return;
-    }
-    if (read.near()) return;
-    activateNearFilter((coords) => write({ near: coords }));
-  }
-
-  return { removeFilter, clearAll, toggleFilterValue, addInFilter, setNear };
-}
-
 export function useSearchFilters(): SearchFilters {
   const route = useRoute();
   const router = useRouter();
@@ -170,18 +122,62 @@ export function useSearchFilters(): SearchFilters {
     router.replace({ query: current });
   }
 
-  function readList(kind: ListKind): readonly string[] {
-    if (kind === "in") return inFilter.value;
-    if (kind === "usage") return usageFilter.value;
-    return typeFilter.value;
+  function listFor(kind: ListKind): string[] {
+    if (kind === "in") return [...inFilter.value];
+    if (kind === "usage") return [...usageFilter.value];
+    return [...typeFilter.value];
   }
 
-  const mutations = createMutations(
-    { list: readList, near: () => nearFilter.value },
-    (updates) => replaceQuery(updates as Record<string, string | string[] | undefined>),
-  );
+  function removeFilter(kind: FilterKind, value?: string) {
+    if (kind === "near") {
+      replaceQuery({ near: undefined });
+      return;
+    }
+    if (!value) return;
+    const current = listFor(kind);
+    const idx = current.indexOf(value);
+    if (idx !== -1) current.splice(idx, 1);
+    replaceQuery({ [kind]: current.length ? current : undefined });
+  }
 
-  return { inFilter, usageFilter, typeFilter, nearFilter, ...shared, ...mutations };
+  function clearAll() {
+    replaceQuery({ in: undefined, usage: undefined, type: undefined, near: undefined });
+  }
+
+  function toggleFilterValue(kind: "type" | "usage", value: string) {
+    const current = listFor(kind);
+    const idx = current.indexOf(value);
+    if (idx !== -1) current.splice(idx, 1);
+    else current.push(value);
+    replaceQuery({ [kind]: current.length ? current : undefined });
+  }
+
+  function addInFilter(value: string) {
+    if (inFilter.value.includes(value)) return;
+    replaceQuery({ in: [...inFilter.value, value] });
+  }
+
+  function setNear(enabled: boolean) {
+    if (!enabled) {
+      if (nearFilter.value) replaceQuery({ near: undefined });
+      return;
+    }
+    if (nearFilter.value) return;
+    activateNearFilter((coords) => replaceQuery({ near: coords }));
+  }
+
+  return {
+    inFilter,
+    usageFilter,
+    typeFilter,
+    nearFilter,
+    ...shared,
+    removeFilter,
+    clearAll,
+    toggleFilterValue,
+    addInFilter,
+    setNear,
+  };
 }
 
 export function useStagedSearchFilters(): SearchFilters {
@@ -210,15 +206,66 @@ export function useStagedSearchFilters(): SearchFilters {
     return typeFilter;
   }
 
-  const mutations = createMutations(
-    { list: (kind) => listRef(kind).value, near: () => nearFilter.value },
-    (updates) => {
-      if ("in" in updates) inFilter.value = (updates.in as string[]) ?? [];
-      if ("usage" in updates) usageFilter.value = (updates.usage as string[]) ?? [];
-      if ("type" in updates) typeFilter.value = (updates.type as string[]) ?? [];
-      if ("near" in updates) nearFilter.value = (updates.near as string) ?? "";
-    },
-  );
+  function removeFilter(kind: FilterKind, value?: string) {
+    if (kind === "near") {
+      nearFilter.value = "";
+      return;
+    }
+    if (!value) return;
+    const list = listRef(kind);
+    const idx = list.value.indexOf(value);
+    if (idx !== -1) {
+      const next = [...list.value];
+      next.splice(idx, 1);
+      list.value = next;
+    }
+  }
 
-  return { inFilter, usageFilter, typeFilter, nearFilter, ...shared, ...mutations };
+  function clearAll() {
+    inFilter.value = [];
+    usageFilter.value = [];
+    typeFilter.value = [];
+    nearFilter.value = "";
+  }
+
+  function toggleFilterValue(kind: "type" | "usage", value: string) {
+    const list = listRef(kind);
+    const idx = list.value.indexOf(value);
+    if (idx !== -1) {
+      const next = [...list.value];
+      next.splice(idx, 1);
+      list.value = next;
+    } else {
+      list.value = [...list.value, value];
+    }
+  }
+
+  function addInFilter(value: string) {
+    if (inFilter.value.includes(value)) return;
+    inFilter.value = [...inFilter.value, value];
+  }
+
+  function setNear(enabled: boolean) {
+    if (!enabled) {
+      nearFilter.value = "";
+      return;
+    }
+    if (nearFilter.value) return;
+    activateNearFilter((coords) => {
+      nearFilter.value = coords;
+    });
+  }
+
+  return {
+    inFilter,
+    usageFilter,
+    typeFilter,
+    nearFilter,
+    ...shared,
+    removeFilter,
+    clearAll,
+    toggleFilterValue,
+    addInFilter,
+    setNear,
+  };
 }
