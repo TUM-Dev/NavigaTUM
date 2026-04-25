@@ -28,6 +28,7 @@ anyhow = { workspace=true, features = ["backtrace"] }
 serde = { workspace=true, features = ["derive"] }
 serde_with = { workspace=true, default-features = false, features = [] }
 serde_json = { workspace=true, features = ["raw_value"] }
+serde_html_form.workspace=true
 serde_yaml.workspace=true
 
 # runtime + webserver

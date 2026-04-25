@@ -2081,7 +2081,7 @@ org_id,code,name,path
 55957,TUXS113,Studiengang M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Studienorganisation/Heilbronn/M.Sc. Information Engineering"
 55997,TUS1316,Lehrstuhl für Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
 56017,TUXS72A,Studiengang M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Studienorganisation/Berufliche Bildung/Master of Education Berufliche Bildung/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik
-56037,TUZVGHB,Geschäftsstelle TUM Campus Heilbronn,TUM/Zentrale Verwaltung/Geschäftsstelle TUM Campus Heilbronn
+56037,TUZVGHB,Geschäftsstelle TUM Campus Heilbronn,TUM/Hochschulpräsidium/Geschäftsstelle TUM Campus Heilbronn
 56057,TUS4F8S,Professur für Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
 56077,TUZEMDI,Munich Design Institute (MDI),TUM/Integrative Research Institutes/Munich Design Institute (MDI)
 56097,TUS6DSF,Professur für Data Science in Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (N.N.)
@@ -2284,3 +2284,4 @@ org_id,code,name,path
 58197,TUXS72C,Studiengang Interdisciplinary Programs (TUM-PREP),TUM/Schools/Social Sciences and Technology/Studienorganisation/Austauschprogramme/Practical Project Students/Interdisciplinary Programs (TUM-PREP)
 58198,TUXS72D,Studiengang Interdisciplinary Programs - Austausch,TUM/Schools/Social Sciences and Technology/Studienorganisation/Austauschprogramme/nicht studienbeitragspflichtig/Interdisciplinary Programs - Austausch
 58237,TUS2DSM,Professur für Digitale Tragwerke aus mineralischen Werkstoffen (Prof. Bos),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Digitale Tragwerke aus mineralischen Werkstoffen (Prof. Bos)
+58257,TUS5PT2,Professur für RNA-Pharmakologie und Genregulation (Prof. Andergassen),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Pharmakologie und Toxikologie (Prof. Engelhardt)/RNA-Pharmakologie und Genregulation (Prof. Andergassen)

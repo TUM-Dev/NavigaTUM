@@ -40,6 +40,7 @@ reqwest = { version = "0.12", default-features = false, features = ["gzip", "hic
 rstest = "0.26.1"
 rustls = "0.23.36"
 serde = { version = "1.0", features = ["derive"] }
+serde_html_form = "0.4.0"
 serde_json = { version = "1.0.149", features = ["raw_value"] }
 serde_with = { version = "3.16.1", default-features = false, features = [] }
 serde_yaml = "0.9.34"
