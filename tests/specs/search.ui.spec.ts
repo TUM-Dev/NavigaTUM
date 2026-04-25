@@ -159,3 +159,265 @@ test.describe("Search Page - SEO", () => {
     expect(description).toBeTruthy();
   });
 });
+
+const TYPE_CHIP = /^Typ/;
+const USAGE_CHIP = /^Nutzung/;
+const LOCATION_CHIP = /^Standort/;
+
+test.describe("Search Filters - URL to chip state", () => {
+  const badgeCases = [
+    { name: "single type bucket", query: "type=building", chip: TYPE_CHIP, badge: "(1)" },
+    {
+      name: "multiple type buckets",
+      query: "type=building&type=room",
+      chip: TYPE_CHIP,
+      badge: "(2)",
+    },
+    { name: "usage filter", query: "usage=hoersaal", chip: USAGE_CHIP, badge: "(1)" },
+    { name: "location (in) filter", query: "in=mi", chip: LOCATION_CHIP, badge: "(1)" },
+  ] as const;
+
+  for (const { name, query, chip, badge } of badgeCases) {
+    test(`${name} from URL shows count badge on chip`, async ({ page }) => {
+      await page.goto(`/search?q=MI&${query}`, { waitUntil: "networkidle" });
+
+      const chipButton = page.getByRole("button", { name: chip }).first();
+      await expect(chipButton).toBeVisible();
+      await expect(chipButton).toContainText(badge);
+    });
+  }
+
+  test("no filter params means no count badges", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await expect(page.getByRole("button", { name: TYPE_CHIP }).first()).not.toContainText("(");
+    await expect(page.getByRole("button", { name: USAGE_CHIP }).first()).not.toContainText("(");
+    await expect(page.getByRole("button", { name: LOCATION_CHIP }).first()).not.toContainText("(");
+  });
+});
+
+test.describe("Search Filters - Type popover", () => {
+  test("clicking type chip opens popover with all four buckets", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+
+    await expect(page.getByText("Raum", { exact: true })).toBeVisible();
+    await expect(page.getByText("Gebäude", { exact: true })).toBeVisible();
+    await expect(page.getByText(/Gelände/)).toBeVisible();
+    await expect(page.getByText(/POI/)).toBeVisible();
+  });
+
+  test("toggling a type bucket updates the URL", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+    await page.getByText("Gebäude", { exact: true }).click();
+
+    await expect(page).toHaveURL(/type=building/);
+  });
+
+  test("toggling the same bucket twice removes it from URL", async ({ page }) => {
+    await page.goto("/search?q=MI&type=building", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+    await page.getByText("Gebäude", { exact: true }).click();
+
+    await expect(page).not.toHaveURL(/type=building/);
+  });
+});
+
+test.describe("Search Filters - Usage panel", () => {
+  test("usage panel close button hides the panel and reveals the search input", async ({
+    page,
+  }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: USAGE_CHIP }).first().click();
+    const panelTitle = page.getByText("Nach Nutzung filtern");
+    await expect(panelTitle).toBeVisible();
+    await expect(page.getByPlaceholder("Nutzungsart suchen...")).toBeVisible();
+
+    await page.getByRole("button", { name: "Schließen" }).first().click();
+    await expect(panelTitle).not.toBeVisible();
+  });
+
+  test("usage chip toggles the panel and flips aria-expanded", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    const chip = page.getByRole("button", { name: USAGE_CHIP }).first();
+    const panelTitle = page.getByText("Nach Nutzung filtern");
+
+    await expect(chip).toHaveAttribute("aria-expanded", "false");
+    await chip.click();
+    await expect(chip).toHaveAttribute("aria-expanded", "true");
+    await expect(panelTitle).toBeVisible();
+
+    await chip.click();
+    await expect(chip).toHaveAttribute("aria-expanded", "false");
+    await expect(panelTitle).not.toBeVisible();
+  });
+});
+
+test.describe("Search Filters - Location panel", () => {
+  test("clicking location chip opens the inline panel with hint and search input", async ({
+    page,
+  }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: LOCATION_CHIP }).first().click();
+
+    await expect(page.getByText("Standort einschränken")).toBeVisible();
+    await expect(page.getByPlaceholder("Gebäude oder Standort suchen...")).toBeVisible();
+    await expect(page.getByText(/Beginne zu tippen/)).toBeVisible();
+  });
+
+  test("typing in location panel triggers a suggestion fetch", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: LOCATION_CHIP }).first().click();
+    const input = page.getByPlaceholder("Gebäude oder Standort suchen...");
+    await input.fill("garching");
+
+    // Wait for either suggestions or a "no results" message — both prove the
+    // fetch ran (loading, then settled).
+    const suggestions = page.locator("#location-filter-panel ul li");
+    const noResults = page.locator("#location-filter-panel").getByText("Keine Ergebnisse");
+    await expect(suggestions.first().or(noResults)).toBeVisible({ timeout: 8000 });
+  });
+
+  test("active in-filter renders a removable pill in the panel", async ({ page }) => {
+    await page.goto("/search?q=MI&in=mi", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: LOCATION_CHIP }).first().click();
+
+    const removeBtn = page.getByRole("button", { name: /Standort mi entfernen/ });
+    await expect(removeBtn).toBeVisible();
+    await removeBtn.click();
+    await expect(page).not.toHaveURL(/in=mi/);
+  });
+});
+
+test.describe("Search Filters - Clear all", () => {
+  test("clear-all button is hidden when no filters are active", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await expect(page.getByRole("button", { name: "Leeren" })).not.toBeVisible();
+  });
+
+  test("clear-all button removes every filter param from URL", async ({ page }) => {
+    await page.goto("/search?q=MI&type=building&usage=hoersaal&in=mi", {
+      waitUntil: "networkidle",
+    });
+
+    const clearButton = page.getByRole("button", { name: "Leeren" }).first();
+    await expect(clearButton).toBeVisible();
+    await clearButton.click();
+
+    await expect(page).not.toHaveURL(/type=/);
+    await expect(page).not.toHaveURL(/usage=/);
+    await expect(page).not.toHaveURL(/[?&]in=/);
+    await expect(page).toHaveURL(/q=MI/);
+  });
+});
+
+test.describe("Search Filters - Sort control", () => {
+  test("sort button is visible on search page", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    const sortButton = page.getByRole("button", { name: /Sortieren: Relevanz/ }).first();
+    await expect(sortButton).toBeVisible();
+  });
+
+  test("clicking sort button reveals relevance + distance options", async ({ page }) => {
+    await page.goto("/search?q=MI", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: /Sortieren: Relevanz/ }).first().click();
+
+    await expect(page.getByRole("button", { name: "Relevanz" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Entfernung" })).toBeVisible();
+  });
+
+  test("URL near= param drives the sort label to distance", async ({ page }) => {
+    await page.goto("/search?q=MI&near=48.262,11.668", { waitUntil: "networkidle" });
+
+    const sortButton = page.getByRole("button", { name: /Sortieren: Entfernung/ }).first();
+    await expect(sortButton).toBeVisible();
+  });
+
+  test("disabling distance sort drops the near param from URL", async ({ page }) => {
+    await page.goto("/search?q=MI&near=48.262,11.668", { waitUntil: "networkidle" });
+
+    await page.getByRole("button", { name: /Sortieren: Entfernung/ }).first().click();
+    await page.getByRole("button", { name: "Relevanz" }).click();
+
+    await expect(page).not.toHaveURL(/near=/);
+  });
+});
+
+test.describe("Search Filters - Autocomplete dropdown integration", () => {
+  test("filter chips render inside the autocomplete dropdown on homepage", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("MI");
+
+    await expect(page.getByRole("button", { name: TYPE_CHIP }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: USAGE_CHIP }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: LOCATION_CHIP }).first()).toBeVisible();
+  });
+
+  test("opening a filter popover keeps the autocomplete dropdown open", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("MI");
+
+    const buildingsHeader = page.getByText("Gebäude / Standorte").first();
+    await expect(buildingsHeader).toBeVisible();
+
+    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+    await page.getByText("Gebäude", { exact: true }).click();
+
+    await expect(buildingsHeader).toBeVisible();
+  });
+
+  test("staged filter selections survive the form submission into URL", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("MI");
+    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+    await page.getByText("Gebäude", { exact: true }).click();
+
+    await searchInput.press("Enter");
+
+    await expect(page).toHaveURL(/q=MI/);
+    await expect(page).toHaveURL(/type=building/);
+  });
+});
+
+test.describe("Search Filters - API parameter expansion", () => {
+  const expansionCases = [
+    { bucket: "building", expanded: "joined_building" },
+    { bucket: "room", expanded: "virtual_room" },
+  ] as const;
+
+  for (const { bucket, expanded } of expansionCases) {
+    test(`type=${bucket} in URL expands to ${bucket}+${expanded} on the API call`, async ({
+      page,
+    }) => {
+      const apiCalls: string[] = [];
+      page.on("request", (req) => {
+        const url = req.url();
+        if (url.includes("/api/search")) apiCalls.push(url);
+      });
+
+      await page.goto(`/search?q=MI&type=${bucket}`, { waitUntil: "networkidle" });
+
+      const call = apiCalls.find((u) => u.includes(`type=${bucket}`));
+      expect(call).toBeTruthy();
+      expect(call).toContain(`type=${expanded}`);
+    });
+  }
+});

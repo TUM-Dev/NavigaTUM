@@ -34,38 +34,38 @@ const knownUsages = useKnownUsages();
 // --- Location panel state ----------------------------------------------------
 const locationOpen = ref(false);
 const locationSearch = ref("");
-const locationSuggestions = ref<LocationSuggestion[]>([]);
-const locationLoading = ref(false);
 const locationInput = useTemplateRef<HTMLInputElement>("locationInput");
-let fetchAbort: AbortController | null = null;
 
-watch(locationSearch, async (q) => {
-  fetchAbort?.abort();
-  if (q.length < 2) {
-    locationSuggestions.value = [];
-    locationLoading.value = false;
-    return;
-  }
-  const abort = new AbortController();
-  fetchAbort = abort;
-  locationLoading.value = true;
-  const params = new URLSearchParams();
-  params.append("q", q);
-  params.append("limit_all", "8");
-  params.append("limit_buildings", "8");
-  params.append("limit_rooms", "0");
-  try {
-    const data = await $fetch<SearchResponse>(`${runtimeConfig.public.apiURL}/api/search?${params.toString()}`, {
-      signal: abort.signal,
-    });
-    const section = data.sections.find((s) => s.facet === "sites_buildings");
-    locationSuggestions.value =
-      section?.entries.map((e) => ({id: e.id, name: e.name, subtext: e.subtext})) ?? [];
-    locationLoading.value = false;
-  } catch {
-    // Request aborted or failed
-  }
+const { data: locationData, status: locationStatus, refresh: refreshLocation } = useFetch<SearchResponse>(
+  () => {
+    const params = new URLSearchParams();
+    params.append("q", locationSearch.value);
+    params.append("limit_all", "8");
+    params.append("limit_buildings", "8");
+    params.append("limit_rooms", "0");
+    params.append("pre_highlight", "<b class='text-blue'>");
+    params.append("post_highlight", "</b>");
+    return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+  },
+  {
+    dedupe: "cancel",
+    lazy: true,
+    immediate: false,
+    watch: false,
+  },
+);
+
+watch(locationSearch, (q) => {
+  if (q.length >= 2) refreshLocation();
 });
+
+const locationSuggestions = computed<LocationSuggestion[]>(() => {
+  if (locationSearch.value.length < 2) return [];
+  const section = locationData.value?.sections.find((s) => s.facet === "sites_buildings");
+  return section?.entries.map((e) => ({id: e.id, name: e.name, subtext: e.subtext})) ?? [];
+});
+
+const locationLoading = computed(() => locationSearch.value.length >= 2 && locationStatus.value === "pending");
 
 function toggleLocationPanel() {
   locationOpen.value = !locationOpen.value;
@@ -100,7 +100,6 @@ function toggleUsagePanel() {
   usageOpen.value = !usageOpen.value;
   if (usageOpen.value) {
     closeLocation();
-    knownUsages.load();
     nextTick(() => usageInput.value?.focus());
   } else {
     usageSearch.value = "";
