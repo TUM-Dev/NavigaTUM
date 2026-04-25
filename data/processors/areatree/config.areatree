@@ -74,6 +74,7 @@
     1713:Nigerstr. 3, Student Office (Bau 713):
     1724:Prinzregentenstr. 68 (Bau 724):
     1740:Neherstr. 1:
+    2535:StudiTUM am TUM-Klinikum|StudiTUM:2535,studitum-mri
   16:Am Biederstein (MRI Außenstelle):biederstein[site]
     1601:Altbau 1, Vorklinik. Inst. (Bau 601):
     1602:Altbau 2+3, Anatomisches Institut (Bau 602):
@@ -182,6 +183,8 @@
     3120:Tiefbrunnen:
     3121:Modellausstellung:
     3122:Folienhalle:
+    3123:Flüssiggastank:
+    3124:Unterirdischer Wasserbehälter:
   3201:Eichenau Lindenweg:
   340:Residenz München (Nutzung):residenz[joined_building]
     3401:Akademiegebäude in der Residenz:
@@ -229,6 +232,7 @@
         4180:Verwaltungsgebäude:
         4181:Maschinenhalle:
         4183:Wohnung / Garage:
+        4186:Gärfuttersilo:
         4187:Dungsilo:
         4188:Fahrsilo:
         4189:Strohlagerhalle:
@@ -273,6 +277,8 @@
         4308:Humanbiologie Zoologie:
         4317:Tierwissenschaften:
         4318:HEZ Hans-Eisenmann-Zentrum für Agrarwissenschaften:
+        4330:Zentrum für Infektionsprävention|ZIP:
+        4331:Zentrum für Infektionsprävention Nebengebäude:
       4309:Institutsgebäude Ökonomik des Gartenbaus und Landschaftsbaus:
       4310:Werkstatt und Garagen Zierpflanzenbau:
       4311:Institut Zierplanzenbau:
@@ -363,6 +369,7 @@
       4510:Getreidekasten STG.WST.:
       4512:Gerätehalle West:
       4513:Gerätehalle Ost:
+      -4514:Trafostation XXVIII:
   5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
@@ -395,12 +402,13 @@
     52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ)|FRM II:frm-2[area]
       5202:Flachbau 2+3 (Zyklotron):
       5203:Bürogebäude (GRS-Altbau):
-      5204:Umformtechnik und Gießereiwesen (utg) (MW25):
+      5204:Umformtechnik und Gießereiwesen (MW25)|UTG:5204,utg
+      5212:RCM-Hauptbau:5212,rcm
       5219:Instituts und Verwaltungsgebäude, Personalbetreuung, Immobilien, Zahlstelle:
-      5251:RCM-Abwassergebäude:
-      5252:RCM-Gasversorgung:
-      5257:Werkstatt u. Bürogebäude FRM II (UYW):
-    5301:Institute for Advanced Study (IAS):
+      -5251:RCM-Abwassergebäude:
+      -5252:RCM-Gasversorgung:
+      5257:Werkstatt u. Bürogebäude FRM II (UYW):5257,uyw
+    5301:Institute for Advanced Study (IAS):5301,ias
     5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
     5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
@@ -475,6 +483,7 @@
       6101:Heizkraftwerk:
       6102:Betriebsgebäude:
       6103:Hochspannungsgebäude:
+      -6106:Trafostation Betriebsgebäude:
       6107:Garagenbau:
     6202:Feuerwehrwache Garching:6202,feuerwehrwache-garching
   7:Garching Forschungszentrum (außerhalb):garching-extra
@@ -488,8 +497,14 @@
     8104:Carl-Zeiss-Straße 8:
     8111:Schleißheimerstr. 90a:
   9001:TUM Science & Study Center Raitenhaslach:9001,raitenhaslach
-  9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
+  91:Garmisch-Partenkirchen:garmisch-partenkirchen[site]
+    9101:Bahnhofstraße 37|A:
+    9110:Geigergebäude|GP:
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
+  :München Flughafen|MUC:muc[site]
+    9344:Lärmschutzhalle 344:
+    9510:LabCampus 48 (AM):
+    9511:LabCampus 52 (AM):
   93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobr.:taufkirchen-ottobrunn[campus]
     9377:Lise-Meitner-Straße 9:
     9378:TUM Panasonic (Caroline-Herschel-Straße 100):
