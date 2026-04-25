@@ -33,20 +33,22 @@ To get started with docker, you can follow the [official tutorial](https://docs.
 
 ### Data Processing
 
-#### Python3
+#### uv (Python)
 
-The data processing scripts are written in python, and they implicitly depend on a recent version of python (~3.12).
-If you don't meet this requirement, head over to the [python website](https://www.python.org/downloads/) and download
-the latest version.
+The data processing scripts are written in Python. We manage the interpreter and
+dependencies with [uv](https://docs.astral.sh/uv/).
+
+Install uv via your package manager or:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+uv will fetch the right Python version itself when you run `uv sync`, so a
+manual Python install is not required. The pinned interpreter is in
+`.python-version` and the lockfile is `uv.lock`.
 
 ### Server
-
-#### Python3
-
-The server does have some scripts, which are written in python, and they implicitly depend on a recent version of
-python (>=3.14).
-If you don't meet this requirement, head over to the [python website](https://www.python.org/downloads/) and download
-the latest version.
 
 #### Rust
 
