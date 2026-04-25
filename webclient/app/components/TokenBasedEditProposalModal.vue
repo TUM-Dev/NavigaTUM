@@ -9,6 +9,10 @@ const props = defineProps<{
   data: Pick<EditRequest, "edits" | "additional_context">;
 }>();
 
+const emit = defineEmits<{
+  beforeSubmit: [];
+}>();
+
 const runtimeConfig = useRuntimeConfig();
 const { t } = useI18n({ useScope: "local" });
 const loading = ref(false);
@@ -115,6 +119,9 @@ function sendForm() {
     error.value.message = t("error.please_accept_privacy_statement");
     return;
   }
+
+  // Inject property edits before validation
+  emit("beforeSubmit");
 
   // validate the foreign form - require either context or edits
   const hasContext = editProposal.value.data.additional_context.length >= 10;

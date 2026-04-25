@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
-import { useEditProposal } from "~/composables/editProposal";
+import { useEditProposal, emptyPropertyFields, emptyRoomEdit } from "~/composables/editProposal";
+import type { components } from "~/api_types";
+
+type PropertyEdit = components["schemas"]["PropertyEdit"];
 
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
@@ -11,17 +14,126 @@ const osmEditUrl = computed(() => {
   return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
 });
 
+// Known usages for category dropdown — cached across modal opens
+const runtimeConfig = useRuntimeConfig();
+const { data: knownUsages } = useAsyncData("known_usages", () =>
+  $fetch<{ name_de: string; name_en: string; din_277: string }[]>(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
+  { default: () => [] },
+);
+
+const categoryOptions = computed(() =>
+  knownUsages.value.map((u) => ({
+    label: `${u.name_de} / ${u.name_en}`,
+    value: `${u.name_de}|${u.name_en}|${u.din_277}`,
+    ...u,
+  })),
+);
+
+const selectedCategory = computed({
+  get() {
+    const de = editProposal.value.propertyFields.categoryDe;
+    const en = editProposal.value.propertyFields.categoryEn;
+    const din = editProposal.value.propertyFields.categoryDin277;
+    if (!de && !en) return "";
+    return `${de}|${en}|${din}`;
+  },
+  set(val: string) {
+    if (!val) {
+      editProposal.value.propertyFields.categoryDe = "";
+      editProposal.value.propertyFields.categoryEn = "";
+      editProposal.value.propertyFields.categoryDin277 = "";
+      editProposal.value.propertyFields.categoryDin277Desc = "";
+      return;
+    }
+    const parts = val.split("|");
+    editProposal.value.propertyFields.categoryDe = parts[0] ?? "";
+    editProposal.value.propertyFields.categoryEn = parts[1] ?? "";
+    editProposal.value.propertyFields.categoryDin277 = parts[2] ?? "";
+    editProposal.value.propertyFields.categoryDin277Desc = "";
+  },
+});
+
+// Build property edits from changed fields
+function buildPropertyEdits(): PropertyEdit[] {
+  const fields = editProposal.value.propertyFields;
+  const original = editProposal.value.originalPropertyFields;
+  const edits: PropertyEdit[] = [];
+
+  // Name changed?
+  if (fields.name !== original.name || fields.shortName !== original.shortName) {
+    if (fields.name || fields.shortName) {
+      edits.push({
+        type: "Name",
+        name: fields.name || null,
+        short_name: fields.shortName || null,
+      });
+    }
+  }
+
+  // Category changed?
+  if (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) {
+    if (fields.categoryDe) {
+      edits.push({
+        type: "Usage",
+        name_de: fields.categoryDe,
+        name_en: fields.categoryEn || fields.categoryDe,
+        din_277: fields.categoryDin277 || null,
+        din_277_desc: fields.categoryDin277Desc || null,
+      });
+    }
+  }
+
+  // Link added?
+  if (fields.linkUrl) {
+    if (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) {
+      if (fields.linkTextDe || fields.linkTextEn) {
+        edits.push({
+          type: "Link",
+          text_de: fields.linkTextDe || fields.linkTextEn,
+          text_en: fields.linkTextEn || fields.linkTextDe,
+          url: fields.linkUrl,
+        });
+      }
+    }
+  }
+
+  return edits;
+}
+
+// Inject property edits into the edit data before submission
+function injectPropertyEdits() {
+  const roomId = editProposal.value.selected?.id;
+  if (!roomId) return;
+
+  const propertyEdits = buildPropertyEdits();
+  if (propertyEdits.length === 0) return;
+
+  if (!editProposal.value.data.edits[roomId]) {
+    editProposal.value.data.edits[roomId] = emptyRoomEdit();
+  }
+  editProposal.value.data.edits[roomId].properties = propertyEdits;
+}
+
+// Watch for submission — inject property edits when the modal data changes
+watch(
+  () => editProposal.value.open,
+  (isOpen) => {
+    if (!isOpen) {
+      // Reset property fields when modal closes
+      editProposal.value.propertyFields = emptyPropertyFields();
+      editProposal.value.originalPropertyFields = emptyPropertyFields();
+    }
+  },
+);
+
 // Methods
 function addImageEditForRoom(
   roomId: string,
   base64: string,
-  metadata: typeof editProposal.value.imageUpload.metadata
+  metadata: typeof editProposal.value.imageUpload.metadata,
 ) {
   if (!editProposal.value.data.edits[roomId]) {
-    editProposal.value.data.edits[roomId] = {
-      coordinate: null,
-      image: null,
-    };
+    editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
 
   // Clean up metadata - remove empty URLs
@@ -46,10 +158,7 @@ function startLocationEdit() {
 
   // Initialize edit for room if it doesn't exist
   if (!editProposal.value.data.edits[roomId]) {
-    editProposal.value.data.edits[roomId] = {
-      coordinate: null,
-      image: null,
-    };
+    editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
   editProposal.value.locationPicker.open = true;
 }
@@ -61,6 +170,7 @@ function onLocationSelected() {
       editProposal.value.data.edits[roomId] = {
         coordinate: null,
         image: null,
+        properties: null,
       };
     }
 
@@ -110,13 +220,15 @@ function getEditTypeDisplay(roomId: string): string {
   const types = [];
   if (edit.coordinate) types.push(t("coordinate"));
   if (edit.image) types.push(t("image"));
+  if (edit.properties?.length) types.push(t("property"));
 
   return types.length > 0 ? types.join(", ") : t("room_edits");
 }
+
 </script>
 
 <template>
-  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data">
+  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data" @before-submit="injectPropertyEdits">
     <template #modal>
       <!-- Additional Context -->
       <div class="flex flex-col">
@@ -128,14 +240,90 @@ function getEditTypeDisplay(roomId: string): string {
           v-model="editProposal.data.additional_context"
           class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 resize-y rounded border px-2 py-1"
           :placeholder="t('additional_context_placeholder')"
-          rows="6"
+          rows="3"
         />
         <p class="text-zinc-500 text-xs">{{ t("additional_context_help") }}</p>
       </div>
 
-      <!-- Add New Edit Actions -->
+      <!-- Properties Section -->
       <div class="pt-4">
-        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("suggest_changes") }}</label>
+        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("properties") }}</label>
+
+        <div class="space-y-3">
+          <!-- Name -->
+          <div>
+            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
+            <input
+              id="edit-name"
+              v-model="editProposal.propertyFields.name"
+              type="text"
+              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+            />
+          </div>
+
+          <!-- Short Name -->
+          <div>
+            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
+            <input
+              id="edit-short-name"
+              v-model="editProposal.propertyFields.shortName"
+              type="text"
+              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+            />
+          </div>
+
+          <!-- Category -->
+          <div>
+            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
+            <select
+              id="edit-category"
+              v-model="selectedCategory"
+              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+            >
+              <option value="">—</option>
+              <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
+                {{ opt.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Add a Link -->
+          <div class="border-t border-zinc-200 pt-3">
+            <label class="text-zinc-500 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-zinc-400 text-xs w-8">URL</span>
+                <input
+                  v-model="editProposal.propertyFields.linkUrl"
+                  type="url"
+                  placeholder="https://"
+                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                />
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-zinc-400 text-xs w-8">DE</span>
+                <input
+                  v-model="editProposal.propertyFields.linkTextDe"
+                  type="text"
+                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                />
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-zinc-400 text-xs w-8">EN</span>
+                <input
+                  v-model="editProposal.propertyFields.linkTextEn"
+                  type="text"
+                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other Changes Section -->
+      <div class="pt-4">
+        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
 
         <div class="space-y-2">
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
@@ -225,8 +413,13 @@ de:
   additional_context: Zusätzlicher Kontext
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
   additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
+  properties: Eigenschaften
+  field_name: Name
+  field_short_name: Kurzname
+  field_category: Kategorie
+  field_add_link: Link hinzufügen
+  other_changes: Weitere Änderungen
   current_edits: Aktuelle Änderungen
-  suggest_changes: Was möchtest du ändern?
   suggest_image_title: Neues Bild vorschlagen
   suggest_image_desc: Ein Foto vom Raum, Gebäude oder Standort hinzufügen
   room_position_wrong_title: Raum ist falsch positioniert
@@ -238,6 +431,7 @@ de:
   image_attached: Bild angehängt
   coordinate: Koordinaten
   image: Bild
+  property: Eigenschaft
   remove: Entfernen
   success_thank_you: Vielen Dank für deinen Verbesserungsvorschlag! Wir werden ihn schnellstmöglich bearbeiten.
   success_response_at: Du findest unsere Antwort auf {this_pr}
@@ -246,8 +440,13 @@ en:
   additional_context: Additional Context
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
   additional_context_help: Describe any issues or improvement suggestions here.
+  properties: Properties
+  field_name: Name
+  field_short_name: Short name
+  field_category: Category
+  field_add_link: Add a link
+  other_changes: Other changes
   current_edits: Current Edits
-  suggest_changes: What would you like to change?
   suggest_image_title: Suggest a new image
   suggest_image_desc: Add a photo of the room, building, or location
   room_position_wrong_title: Room is positioned incorrectly
@@ -259,6 +458,7 @@ en:
   image_attached: Image attached
   coordinate: Coordinate
   image: Image
+  property: Property
   remove: Remove
   success_thank_you: Thank you for your edit proposal! We will process it as soon as possible.
   success_response_at: You can see our response at {this_pr}
