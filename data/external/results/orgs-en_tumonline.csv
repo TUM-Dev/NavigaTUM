@@ -2081,7 +2081,7 @@ org_id,code,name,path
 55957,TUXS113,Degree Program M.Sc. Information Engineering,"TUM/Schools/Computation, Information and Technology/Academic Program Administration/Heilbronn/M.Sc. Information Engineering"
 55997,TUS1316,Assistant Professorship of Physics-enhanced Machine Learning (Prof. Dietrich),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
 56017,TUXS72A,Degree Program M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Master of Education Teaching at Vocational Schools/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik
-56037,TUZVGHB,Staff Unit Office TUM Campus Heilbronn,TUM/Central Administration/Office TUM Campus Heilbronn
+56037,TUZVGHB,Staff Unit Office TUM Campus Heilbronn,TUM/TUM Board of Management/Office TUM Campus Heilbronn
 56057,TUS4F8S,Associate Professorship of Food Biopolymer Systems (Prof. Scherf),TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)
 56077,TUZEMDI,Munich Design Institute (MDI),TUM/Integrative Research Institutes/Munich Design Institute (MDI)
 56097,TUS6DSF,Assistant Professorship of Data Science in Finance (N.N.),TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (N.N.)
@@ -2271,7 +2271,7 @@ org_id,code,name,path
 57997,TUS5ST5,Associate Professorship of Experimental Radiation Physics (Prof. Bartzsch),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/Experimental Radiation Physics (Prof. Bartzsch)
 57998,TUS5NM4,Chair of Theranostics and nuclear medicine (Prof. Eiber),TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Theranostics and nuclear medicine (Prof. Eiber)
 58017,TUS1331,Chair of Fundamentals of Programming (Prof. Zuleger),"TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Fundamentals of Programming (Prof. Zuleger)"
-58018,TUS2SCC,Assistant Professorship of Spacecraft Control (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Spacecraft Control (Prof. Kochdumper)
+58018,TUS2SCC,Chair of Spacecraft Control (Prof. Kochdumper),TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Spacecraft Control (Prof. Kochdumper)
 58019,TUS2BPI,Assistant Professorship of  Bioprocess Intensification (Prof. Duvigneau),TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Bioprocess Intensification (Prof. Duvigneau)
 58020,TUS2CFD,Assistant Professorship of Computational Fluid Dynamics (Prof. Makrand),TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Computational Fluid Dynamics (Prof. Makrand)
 58021,TUS4F8T,Assistant Professorship of Functional Beverage Technology (Prof. Breselge),TUM/Schools/Life Sciences/Departments/Life Science Engineering/Functional Beverage Technology (Prof. Breselge)
@@ -2284,3 +2284,4 @@ org_id,code,name,path
 58197,TUXS72C,Degree Program Interdisciplinary Programs (TUM-PREP),TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/Practical Project Students/Interdisciplinary Programs (TUM-PREP)
 58198,TUXS72D,Degree Program Interdisciplinary Programs - Exchange program,TUM/Schools/Social Sciences and Technology/Academic Program Administration/Exchange programs/nicht studienbeitragspflichtig/Interdisciplinary Programs - Exchange program
 58237,TUS2DSM,Assistant Professorship of Digital Structures with Mineral Materials (Prof. Bos),TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Digital Structures with Mineral Materials (Prof. Bos)
+58257,TUS5PT2,Assistant Professorship of RNA Pharmacology and Gene Regulation (Prof. Andergassen),TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Pharmacology and Toxicology (Prof. Engelhardt)/RNA Pharmacology and Gene Regulation (Prof. Andergassen)
