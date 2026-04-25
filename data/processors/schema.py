@@ -116,5 +116,6 @@ class LocationSchema(dy.Schema):
 
     @dy.rule()
     def type_is_valid(cls) -> pl.Expr:
+        """Validate that the type column only contains the allowed entry kinds."""
         valid_types = ["root", "site", "campus", "area", "joined_building", "building", "room", "virtual_room", "poi"]
         return pl.col("type").is_in(valid_types)
