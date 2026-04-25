@@ -16,35 +16,25 @@ OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
 
+_REMOVED_NAMES_RE = re.compile(r"bestelmeyer|gustav niemann|prandtl|messerschmidt")
+_ALLOWED_VARIATION = "prandtl str"
+
+
+def _de(value: Any) -> Any:
+    """Pick the German variant from a TranslatableStr-shaped dict; pass-through otherwise."""
+    if isinstance(value, dict) and value.keys() <= {"de", "en"}:
+        return value.get("de", value.get("en", {}))
+    return value
+
 
 def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
-    if isinstance(value, dict):
-        value = value.get("de", value.get("en", ""))
-    if isinstance(value, TranslatableStr):
-        value = unlocalise(value)
-
+    value = _de(value)
     if not isinstance(value, str):
         raise ValueError(f"Expected str, got {type(value)}")
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
-
-
-def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
-    """Recursively unlocalise a dictionary"""
-    if isinstance(value, bool | float | int | str) or value is None:
-        return value
-    if isinstance(value, list):
-        return [unlocalise(v) for v in value]
-    if isinstance(value, dict):
-        # We consider each dict that has only the keys "de" and/or "en" as translated string
-        if set(value.keys()) | {"de", "en"} == {"de", "en"}:
-            # Since we only unlocalise dicts with either en and/or de or {}, the default to {} is fine
-            return value.get("de", value.get("en", {}))
-
-        return {k: unlocalise(v) for k, v in value.items()}
-    raise ValueError(f"Unhandled type {type(value)}")
 
 
 def normalise_id(_id: str) -> str | None:
@@ -92,8 +82,9 @@ def export_for_search(data: dict[str, Any]) -> None:
         geo = {}
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
-        parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
+        parent_building_names = [_de(n) for n in extract_parent_building_names(data, entry["parents"], building_parents_index)]
         address = entry.get("tumonline_data", {}).get("address", {})
+        street = address.get("street", None) if isinstance(address, dict) else address.street
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -101,11 +92,11 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "ms_id": _id.replace(".", "-"),
                 "room_code": _id,
                 "room_code_normalised": normalise_id(_id),
-                "name": entry["name"],
+                "name": _de(entry["name"]),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
                 "type": entry["type"],
-                "type_common_name": entry["type_common_name"],
+                "type_common_name": _de(entry["type_common_name"]),
                 "facet": {
                     "site": "site",
                     "campus": "site",
@@ -115,20 +106,17 @@ def export_for_search(data: dict[str, Any]) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
-                "operator_name": entry.get("props", {}).get("operator", {}).get("name", None),
+                "operator_name": _de(entry.get("props", {}).get("operator", {}).get("name", None)),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
-                "address": address.get("street", None) if isinstance(address, dict) else address.street,
+                "address": _de(street),
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,
             },
         )
-
-    # the data contains translations, currently we don't allow these in the search api
-    export = unlocalise(export)
 
     _make_sure_is_safe(export)
     with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
@@ -147,33 +135,39 @@ def extract_parent_building_names(data: dict[str, Any], parents: list[str], buil
 
 def _make_sure_is_safe(obj: object) -> None:
     """
-    Check if any of the specified names in removed_names are present
+    Check that no NS-context names slipped into the export.
 
     :param obj: obj to be checked
-    :raises RuntimeError: If any of the specified names (removed_names) are found in the content of the file.
+    :raises RuntimeError: if a forbidden name is found in any string value.
     """
-    removed_names = ["bestelmeyer", "gustav niemann", "prandtl", "messerschmidt"]
-    allowed_variation = "prandtl str"
-    if isinstance(obj, str):
-        content = obj.lower().replace("  ", " ").replace("-", " ")
-        for name in removed_names:
-            if name in content and allowed_variation not in content:
+    stack: list[Any] = [obj]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str):
+            # Cheap pre-filter: skip strings that can't possibly contain any forbidden name.
+            if "e" not in item and "a" not in item:
+                continue
+            content = item.lower()
+            if "  " in content:
+                content = content.replace("  ", " ")
+            if "-" in content:
+                content = content.replace("-", " ")
+            match = _REMOVED_NAMES_RE.search(content)
+            if match and _ALLOWED_VARIATION not in content:
                 raise RuntimeError(
-                    f"{name} was purposely renamed due to NS context. Please make sure it is not included"
+                    f"{match.group()} was purposely renamed due to NS context. Please make sure it is not included",
                 )
-    elif isinstance(obj, dict):
-        for key, val in obj.items():
-            _make_sure_is_safe(key)
-            _make_sure_is_safe(val)
-    elif isinstance(obj, list) or isinstance(obj, tuple):
-        for entry in obj:
-            _make_sure_is_safe(entry)
-    elif isinstance(obj, PydanticConfiguration):
-        return _make_sure_is_safe(obj.model_dump())
-    elif isinstance(obj, bool) or isinstance(obj, int) or isinstance(obj, float) or obj is None:
-        pass
-    else:
-        raise ValueError(f"unhandled type: {type(obj)}")
+        elif item is None or isinstance(item, (bool, int, float)):
+            continue
+        elif isinstance(item, dict):
+            stack.extend(item.values())
+            stack.extend(item.keys())
+        elif isinstance(item, (list, tuple)):
+            stack.extend(item)
+        elif isinstance(item, PydanticConfiguration):
+            stack.append(item.model_dump())
+        else:
+            raise ValueError(f"unhandled type: {type(item)}")
 
 
 def export_for_status() -> None:
