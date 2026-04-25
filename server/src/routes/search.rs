@@ -3,10 +3,13 @@ use std::time::Instant;
 
 use crate::AppData;
 use crate::search_executor::{ResultFacet, ResultsSection};
+use actix_web::dev::Payload;
+use actix_web::error::ErrorBadRequest;
 use actix_web::http::header::{CacheControl, CacheDirective};
-use actix_web::{HttpResponse, get, web};
+use actix_web::{FromRequest, HttpRequest, HttpResponse, get, web};
 use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
+use std::future::{Ready, ready};
 use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
@@ -155,6 +158,20 @@ pub struct SearchQueryArgs {
     #[schema(default = "prefixed", example = "roomfinder")]
     #[param(inline)]
     parsed_id: ParsedIdMode,
+}
+
+// `web::Query` uses `serde_urlencoded`, which cannot deserialise repeated keys
+// (e.g. `?in=garching&in=5304`) into `Vec<String>`. `serde_html_form` does.
+impl FromRequest for SearchQueryArgs {
+    type Error = actix_web::Error;
+    type Future = Ready<Result<Self, Self::Error>>;
+
+    fn from_request(req: &HttpRequest, _payload: &mut Payload) -> Self::Future {
+        ready(
+            serde_html_form::from_str::<Self>(req.query_string())
+                .map_err(|e| ErrorBadRequest(format!("Query deserialize error: {e}"))),
+        )
+    }
 }
 
 /// Returned search results by this
@@ -388,10 +405,7 @@ fn build_meilisearch_sorting(near: &Option<String>) -> Vec<String> {
     )
 )]
 #[get("/api/search", wrap = "actix_middleware_etag::Etag::default()")]
-pub async fn search_handler(
-    data: web::Data<AppData>,
-    web::Query(args): web::Query<SearchQueryArgs>,
-) -> HttpResponse {
+pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> HttpResponse {
     if args.q.len() > 1000 {
         return HttpResponse::BadRequest()
             .content_type("text/plain")
@@ -720,5 +734,25 @@ mod tests {
     fn sorting_with_near() {
         let sorting = build_meilisearch_sorting(&Some("48.123,11.456".to_string()));
         assert_eq!(sorting, vec!["_geoPoint(48.123,11.456):asc"]);
+    }
+
+    #[test]
+    fn query_parses_repeated_filter_keys() {
+        let args: SearchQueryArgs =
+            serde_html_form::from_str("q=raum&type=room&in=garching&in=5304&usage=wc").unwrap();
+        assert_eq!(args.q, "raum");
+        assert_eq!(args.filter_type, vec!["room"]);
+        assert_eq!(args.filter_in, vec!["garching", "5304"]);
+        assert_eq!(args.usage, vec!["wc"]);
+    }
+
+    #[test]
+    fn query_parses_without_filters() {
+        let args: SearchQueryArgs = serde_html_form::from_str("q=mensa").unwrap();
+        assert_eq!(args.q, "mensa");
+        assert!(args.filter_in.is_empty());
+        assert!(args.filter_type.is_empty());
+        assert!(args.usage.is_empty());
+        assert!(args.near.is_none());
     }
 }

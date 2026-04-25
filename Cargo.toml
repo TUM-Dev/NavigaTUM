@@ -42,6 +42,7 @@ rustls = "0.23.36"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0.149", features = ["raw_value"] }
 serde_with = { version = "3.16.1", default-features = false, features = [] }
+serde_html_form = "0.4.0"
 serde_yaml = "0.9.34"
 sqlx = { version = "0.8.6", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 tempfile = "3.25.0"
