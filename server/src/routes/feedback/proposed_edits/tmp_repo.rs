@@ -2,6 +2,7 @@ use anyhow::Context;
 use tokio::process::Command;
 use tracing::{debug, info};
 
+use super::AppliableEdit;
 use super::EditRequest;
 use super::description::Description;
 
@@ -102,6 +103,38 @@ impl TempRepo {
         );
         let image_edits = edits.edits_for(|edit| edit.image);
         description.appply_set("image", image_edits, self.dir.path(), branch_name);
+
+        // Apply property edits — each entry can have multiple property edits
+        let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits
+            .edits
+            .0
+            .iter()
+            .filter_map(|(k, edit)| {
+                edit.properties
+                    .as_deref()
+                    .filter(|p| !p.is_empty())
+                    .map(|p| (k.as_str(), p))
+            })
+            .collect();
+        if !property_edits.is_empty() {
+            let total: usize = property_edits.iter().map(|(_, v)| v.len()).sum();
+            let edits_word = if total == 1 { "edit" } else { "edits" };
+            if description.title.is_empty() {
+                description.title = format!("{total} property {edits_word}");
+            } else {
+                description.title += &format!(" and {total} property {edits_word}");
+            }
+            description.body += "\nThe following property edits were made:\n";
+            description.body += "| entry | edit |\n";
+            description.body += "| ---   | ---  |\n";
+            for (key, props) in &property_edits {
+                for prop in *props {
+                    let result = prop.apply(key, self.dir.path(), branch_name);
+                    description.body +=
+                        &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
+                }
+            }
+        }
 
         let first_line = description.body.lines().next();
         info!(description_first_line=?first_line, title=description.title, "generated description");
