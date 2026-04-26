@@ -59,7 +59,7 @@ function activateNearFilter(setter: (coords: string) => void) {
       },
       () => {
         // Geolocation denied or unavailable — do nothing
-      },
+      }
     );
   }
 }
@@ -75,7 +75,7 @@ function makeShared(values: {
       values.inFilter.value.length > 0 ||
       values.usageFilter.value.length > 0 ||
       values.typeFilter.value.length > 0 ||
-      values.nearFilter.value !== "",
+      values.nearFilter.value !== ""
   );
 
   function buildQueryObject(): Record<string, string | string[]> {
@@ -195,7 +195,7 @@ export function useStagedSearchFilters(): SearchFilters {
       usageFilter.value = allValues(q.usage ?? []);
       typeFilter.value = allValues(q.type ?? []);
       nearFilter.value = firstOrDefault(q.near, "");
-    },
+    }
   );
 
   const shared = makeShared({ inFilter, usageFilter, typeFilter, nearFilter });
