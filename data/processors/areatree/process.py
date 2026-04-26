@@ -1,12 +1,14 @@
 import logging
 import re
-from pathlib import Path
 from collections.abc import Iterator
+from pathlib import Path
 
 import polars as pl
 
 from processors.areatree import models
 from processors.df_utils import to_json_or_none
+
+_logger = logging.getLogger(__name__)
 
 AREATREE_FILE = Path(__file__).parent / "config.areatree"
 
@@ -209,7 +211,7 @@ def _extract_names(names: list[str]) -> models.Names:
     building_data: models.Names = {"name": names[0]}
     if len(names) == 2:
         if len(names[1]) > 20:
-            logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
+            _logger.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
 
         building_data["short_name"] = names[1]
     elif len(names) > 2:

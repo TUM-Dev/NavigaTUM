@@ -1,17 +1,19 @@
-import orjson
 import logging
 import re
 import string
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
 import yaml
-
 from external.loaders.tumonline import load_buildings, load_orgs, load_rooms, load_usages
+from utils import TranslatableStr as _
+
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
 from processors.patch import apply_roomcode_patch
-from utils import TranslatableStr as _
+
+_logger = logging.getLogger(__name__)
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
 OPERATOR_STRIP_CHARS = "[ ]"
@@ -85,12 +87,12 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
         # Check for duplicates in the DataFrame
         matches = df.filter(pl.col("b_prefix") == b_id)
         if matches.height > 1:
-            logging.warning(f"building id '{b_id}' ('{b_name}') more than once in base data")
+            _logger.warning(f"building id '{b_id}' ('{b_name}') more than once in base data")
             error = True
             continue
         if matches.height == 0:
             # Currently, not an error, because the areatree is built by hand.
-            logging.warning(f"building id '{b_id}' ('{b_name}') not found in base data, ignoring")
+            _logger.warning(f"building id '{b_id}' ('{b_name}') not found in base data, ignoring")
             continue
 
         match_row = matches.row(0, named=True)
@@ -133,10 +135,7 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
             pl.coalesce(pl.col("props_ids_b_id"), pl.col("props_ids_b_id_new")).alias("props_ids_b_id"),
         ]
     )
-    result = result.drop(["tumonline_data_json_new", "props_ids_b_id_new"])
-
-    return result
-
+    return result.drop(["tumonline_data_json_new", "props_ids_b_id_new"])
 
 def _alphanum_lower(s: str) -> str:
     """Reduce a name to comparable form: expand abbrevs, then keep lowercase alphanumerics only."""
@@ -144,7 +143,6 @@ def _alphanum_lower(s: str) -> str:
     for pattern, replacement in _ABBREV_EXPANSIONS:
         s = pattern.sub(replacement, s)
     return re.sub(r"[^a-z0-9äöüß]+", "", s)
-
 
 def _strip_noise(name: str, *, drop_location_prefix: bool) -> str:
     """Apply all known noise-stripping patterns to a name (works for either side)."""
@@ -156,7 +154,6 @@ def _strip_noise(name: str, *, drop_location_prefix: bool) -> str:
     n = _AREATREE_TRAILING_SHORT_RE.sub("", n)
     n = _AREATREE_LEADING_GEBAEUDETEIL_RE.sub("", n)
     return n.strip()
-
 
 def _building_names_equivalent(
     areatree_name: str,
@@ -206,9 +203,7 @@ def _building_names_equivalent(
                 return True
     return False
 
-
-_BUILDING_TYPES = pl.Series(["building", "joined_building"])
-
+_BUILDING_TYPES = ["building", "joined_building"]
 
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     """
@@ -246,7 +241,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             continue
 
         if room["usage_id"] not in usages_lookup:
-            logging.error(f"Unknown usage for room '{room_code}': Id '{room['usage_id']}'")
+            _logger.error(f"Unknown usage for room '{room_code}': Id '{room['usage_id']}'")
             continue
         tumonline_usage = usages_lookup[room["usage_id"]]
         usage_name = _(tumonline_usage["name"])
@@ -300,7 +295,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
         )
 
     if missing_buildings:
-        logging.warning(
+        _logger.warning(
             f"Ignored {sum(missing_buildings.values())} rooms for the following buildings, "
             f"which were not found: {sorted(missing_buildings.keys())}",
         )
@@ -342,7 +337,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
                 .otherwise(pl.col("sources_base_json"))
                 .alias("sources_base_json"),
                 pl.when(pl.col("sources_patched_update") == True)  # noqa: E712
-                .then(pl.lit(True))
+                .then(pl.lit(True))  # noqa: FBT003
                 .otherwise(pl.col("sources_patched"))
                 .alias("sources_patched"),
             )
@@ -351,8 +346,8 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     parentless = df.filter(pl.col("parents").is_null())
     if parentless.height > 0:
         for row in parentless.iter_rows(named=True):
-            logging.critical(f"No parents exist for {row['id']}")
-        logging.critical("This is probably the case, because roompatches were renamed upstream")
+            _logger.critical(f"No parents exist for {row['id']}")
+        _logger.critical("This is probably the case, because roompatches were renamed upstream")
         raise RuntimeError("Invariant not preserved")
 
     return df
@@ -376,7 +371,7 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     invalid_rooms: list[str] = []
     for room_code, room in rooms.items():
         if not room["arch_name"] or not room["alt_name"]:
-            logging.warning(
+            _logger.warning(
                 f"ignoring {room_code} as it has arch_name={room['arch_name']!r}, alt_name={room['alt_name']!r}"
             )
             invalid_rooms.append(room_code)
@@ -384,12 +379,12 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
         # Validate the room_code
         roomcode_split = room_code.split(".")
         if len(roomcode_split) != 3:
-            logging.warning(f"Invalid roomcode: Not three '.'-separated parts: {room_code}")
+            _logger.warning(f"Invalid roomcode: Not three '.'-separated parts: {room_code}")
             invalid_rooms.append(room_code)
             continue
         roomcode_parts: tuple[str, str, str] = (roomcode_split[0], roomcode_split[1], roomcode_split[2])
         if len(set(room_code) - ALLOWED_ROOMCODE_CHARS) > 0:
-            logging.warning(
+            _logger.warning(
                 f"Invalid character(s) in roomcode '{room_code}': {set(room_code) - ALLOWED_ROOMCODE_CHARS}",
             )
             invalid_rooms.append(room_code)
@@ -400,12 +395,12 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
         # Validate the arch_name.
         arch_name_split = room["arch_name"].split("@")
         if len(arch_name_split) != 2:
-            logging.warning(f"Invalid arch_name: No '@' in '{room['arch_name']}' (room {room_code})")
+            _logger.warning(f"Invalid arch_name: No '@' in '{room['arch_name']}' (room {room_code})")
             invalid_rooms.append(room_code)
             continue
         arch_name_parts: tuple[str, str] = (arch_name_split[0], arch_name_split[1])
         if len(arch_name_parts[1]) != 4 or not arch_name_parts[1].isdigit():
-            logging.warning(
+            _logger.warning(
                 f"Invalid building specification in arch_name: Not four digits: "
                 f"'{arch_name_parts[1]}' in '{room['arch_name']}' (room {room_code})",
             )
@@ -414,7 +409,7 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
         _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, rooms)
 
     if invalid_rooms:
-        logging.warning(f"Ignored {len(invalid_rooms)} TUMonline rooms because they are invalid.")
+        _logger.warning(f"Ignored {len(invalid_rooms)} TUMonline rooms because they are invalid.")
         for room_code in invalid_rooms:
             rooms.pop(room_code)
 
@@ -451,7 +446,7 @@ def _infer_arch_name(
             pass
         else:
             # TODO: This code section might need to be continued
-            # logging.debug(f"{r["arch_name"]=}, {roomcode_parts[2]=}")
+            # _logger.debug(f"{r["arch_name"]=}, {roomcode_parts[2]=}")
             pass
 
     # Check for duplicate uses of arch names
@@ -510,13 +505,11 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
         room["arch_name"] = "@".join(arch_name_parts)
         room["alt_name"] = ", ".join(alt_parts[1:])
         room["patched"] = True
-    # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG")
-    elif alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", ""):
-        room["alt_name"] = ", ".join(alt_parts[1:])
-        room["patched"] = True
-    # The second most common mismatch is if the roomname in the alt_name is prepended with the abbrev of the building
-    # Example: "MW 1050"
-    elif any(alt_parts[0].startswith(s) for s in ["PH ", "MW ", "WSI ", "CH ", "MI "]):
+    # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG"),
+    # or the roomname in the alt_name is prepended with the abbrev of the building (e.g. "MW 1050").
+    elif (alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", "")) or any(
+        alt_parts[0].startswith(s) for s in ["PH ", "MW ", "WSI ", "CH ", "MI "]
+    ):
         room["alt_name"] = ", ".join(alt_parts[1:])
         room["patched"] = True
     # If the roomname has a comma, the comparison by parts fails
@@ -530,7 +523,7 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
         room["alt_name"] = ", ".join(alt_parts[2:])
         room["patched"] = True
     else:
-        logging.debug(
+        _logger.debug(
             f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room_code=}",
         )
     if room["alt_name"] is not None:

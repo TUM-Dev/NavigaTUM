@@ -5,6 +5,7 @@ from typing import Any
 
 import pytest
 from external.loaders.tumonline import load_buildings
+
 from processors import areatree
 from processors.areatree.process import (
     _areatree_lines,
