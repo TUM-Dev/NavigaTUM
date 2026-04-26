@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::path::Path;
+use std::sync::Arc;
 
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
@@ -16,7 +17,6 @@ use crate::limited::hash_map::LimitedHashMap;
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
 use super::proposed_edits::property::PropertyEdit;
-use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
@@ -24,6 +24,7 @@ mod coordinate;
 mod description;
 mod image;
 pub(crate) mod property;
+pub(crate) mod repo_pool;
 mod tmp_repo;
 
 #[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
@@ -58,24 +59,19 @@ pub struct EditRequest {
 }
 
 impl EditRequest {
-    #[tracing::instrument]
+    #[tracing::instrument(skip(repo_pool))]
     async fn apply_changes_and_generate_description(
         &self,
+        repo_pool: &repo_pool::RepoPool,
         branch_name: &str,
         branch_is_new: bool,
     ) -> anyhow::Result<String> {
-        let Some(pat) = GitHub::github_token() else {
-            anyhow::bail!("Failed to get GitHub token");
-        };
-        let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
-        let repo = if branch_is_new {
-            TempRepo::clone_and_checkout_new_branch(&url, branch_name).await?
-        } else {
-            TempRepo::clone_and_checkout_existing_branch(&url, branch_name).await?
-        };
-        let desc = repo.apply_and_gen_description(self, branch_name);
-        repo.commit(&desc.title).await?;
-        repo.push().await?;
+        let worktree = repo_pool
+            .create_worktree(branch_name, branch_is_new)
+            .await?;
+        let desc = worktree.apply_and_gen_description(self, branch_name);
+        worktree.commit(&desc.title).await?;
+        worktree.push().await?;
         Ok(desc.body)
     }
     fn edits_for<T: AppliableEdit>(&self, extractor: fn(Edit) -> Option<T>) -> HashMap<String, T> {
@@ -192,6 +188,7 @@ impl EditRequest {
 #[post("/api/feedback/propose_edits")]
 pub async fn propose_edits(
     recorded_tokens: Data<RecordedTokens>,
+    repo_pool: Data<Arc<repo_pool::RepoPool>>,
     req_data: Json<EditRequest>,
 ) -> HttpResponse {
     // auth
@@ -218,6 +215,10 @@ pub async fn propose_edits(
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
 
+    // Serialize the full fetch→edit→push→PR-update cycle to avoid
+    // non-fast-forward push failures on the shared batch branch.
+    let _branch_guard = repo_pool.branch_mutex.lock().await;
+
     // Try to find an open batch PR and use it
     let batch_pr = super::batch_processor::find_open_batch_pr()
         .await
@@ -234,7 +235,7 @@ pub async fn propose_edits(
     let branch_is_new = pr_number_opt.is_none();
 
     match req_data
-        .apply_changes_and_generate_description(&branch_to_use, branch_is_new)
+        .apply_changes_and_generate_description(&repo_pool, &branch_to_use, branch_is_new)
         .await
     {
         Ok(description) => {
