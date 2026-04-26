@@ -23,6 +23,23 @@ test.describe("Details Page - Basic Functionality", () => {
 
 test.describe("Details Page - Interactive Map", () => {
   test("should display interactive map with controls", async ({ page }) => {
+    // The interactive map fetches its style from the production Martin
+    // tileserver. When that endpoint is unavailable (intermittent 404s),
+    // MapLibre never fires `load`, so the navigation/fullscreen controls
+    // are never added and the test fails for an upstream reason. Stub the
+    // style with a minimal valid maplibre style so the controls render
+    // regardless of the upstream tileserver state.
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+
     await page.goto("/view/mi", { waitUntil: "networkidle" });
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
