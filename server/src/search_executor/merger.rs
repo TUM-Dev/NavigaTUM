@@ -70,7 +70,9 @@ pub(super) fn merge_search_results(
                         parsed_id: None,
                     });
                 }
-                "room" | "virtual_room" if section_rooms.entries.len() < limits.rooms_count => {
+                "room" | "virtual_room" | "poi"
+                    if section_rooms.entries.len() < limits.rooms_count =>
+                {
                     section_rooms.entries.push(super::ResultEntry {
                         hit: hit.clone(),
                         id: hit.room_code.to_string(),
