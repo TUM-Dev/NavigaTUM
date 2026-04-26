@@ -210,7 +210,6 @@ def _building_names_equivalent(
 _BUILDING_TYPES = ["building", "joined_building"]
 
 
-
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     """
     Merge the rooms in TUMonline with the existing data.
