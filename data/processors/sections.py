@@ -1,4 +1,4 @@
-import json
+import orjson
 import logging
 import typing
 from typing import Any
@@ -127,12 +127,12 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         rooms = row["rooms"]
         if not rooms:
             continue
-        generators = json.loads(row["generators_json"]) if row["generators_json"] else {}
+        generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
         floor_details = _get_floor_details({"generators": generators}, rooms)
-        floor_updates[row["parent_id"]] = json.dumps(floor_details)
+        floor_updates[row["parent_id"]] = orjson.dumps(floor_details).decode()
         lookup = {f["tumonline"]: f for f in floor_details}
         for room in rooms:
-            floor_updates[room["id"]] = json.dumps([lookup[room["floor"]]])
+            floor_updates[room["id"]] = orjson.dumps([lookup[room["floor"]]]).decode()
 
     if not floor_updates:
         return df
@@ -306,7 +306,7 @@ def _compute_props_json(row: dict[str, Any]) -> str:
                     "text": next(iter(computed_prop.values())),
                 },
             )
-    return json.dumps(reformatted_computed)
+    return orjson.dumps(reformatted_computed).decode()
 
 
 def compute_props(df: pl.DataFrame) -> pl.DataFrame:
@@ -334,7 +334,7 @@ def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
 
     # floors
     if row.get("props_floors_json"):
-        props["floors"] = json.loads(row["props_floors_json"])
+        props["floors"] = orjson.loads(row["props_floors_json"])
 
     # address
     if row.get("props_address_street") or row.get("props_address_plz_place"):
@@ -358,11 +358,11 @@ def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
 
     # generic
     if row.get("props_generic_json"):
-        props["generic"] = json.loads(row["props_generic_json"])
+        props["generic"] = orjson.loads(row["props_generic_json"])
 
     # links
     if row.get("props_links_json"):
-        props["links"] = json.loads(row["props_links_json"])
+        props["links"] = orjson.loads(row["props_links_json"])
 
     return props
 
@@ -441,7 +441,7 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
     def _localize_links_json(links_json: str | None) -> str | None:
         if links_json is None:
             return None
-        links = json.loads(links_json)
+        links = orjson.loads(links_json)
         if not links:
             return links_json
         for link in links:
@@ -449,7 +449,7 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
                 link["text"] = {"de": link["text"], "en": link["text"]}
             if isinstance(link["url"], str):
                 link["url"] = {"de": link["url"], "en": link["url"]}
-        return json.dumps(links)
+        return orjson.dumps(links).decode()
 
     df = df.with_columns(
         pl.col("props_links_json").map_elements(_localize_links_json, return_dtype=pl.Utf8).alias("props_links_json"),
@@ -475,7 +475,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
 
     def _build_overview(row: dict[str, Any]) -> str:
         _id = row["id"]
-        generators = json.loads(row["generators_json"]) if row["generators_json"] else {}
+        generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
         options = generators.get("buildings_overview", {"n_visible": 6, "list_start": []})
 
         buildings = [
@@ -509,7 +509,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
                     f"Cannot generate buildings_overview subtext for type '{child['type']}', "
                     f"for: '{_id}', child id: '{child_id}'",
                 )
-            imgs = json.loads(child["imgs_json"]) if child.get("imgs_json") else []
+            imgs = orjson.loads(child["imgs_json"]) if child.get("imgs_json") else []
             b_overview["entries"].append({
                 "id": child_id,
                 "name": child.get("short_name") or child["name"],
@@ -517,7 +517,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
                 "thumb": imgs[0]["name"] if imgs else None,
             })
 
-        return json.dumps(b_overview)
+        return orjson.dumps(b_overview).decode()
 
     updates = (
         df.filter(
@@ -580,7 +580,7 @@ def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
                 for u_name, u_rooms in sorted(rooms_by_usage.items(), key=lambda e: e[0])
             ],
         }
-        return json.dumps(r_overview)
+        return orjson.dumps(r_overview).decode()
 
     updates = (
         df.filter(

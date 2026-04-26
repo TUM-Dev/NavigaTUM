@@ -1,7 +1,7 @@
-import json
 import re
 from pathlib import Path
 from typing import Any
+import orjson
 import polars as pl
 import csv
 import yaml
@@ -11,6 +11,12 @@ from external.models.common import PydanticConfiguration
 from processors.df_utils import unflatten_row
 from utils import TranslatableStr
 from utils import TranslatableStr as _
+
+
+def _orjson_default(o: Any) -> Any:
+    if isinstance(o, PydanticConfiguration):
+        return o.model_dump()
+    raise TypeError(f"Object of type {type(o)} is not JSON serializable")
 
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 OUTPUT_DIR_PATH.mkdir(exist_ok=True)
@@ -119,8 +125,7 @@ def export_for_search(data: dict[str, Any]) -> None:
         )
 
     _make_sure_is_safe(export)
-    with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
-        json.dump(export, file)
+    (OUTPUT_DIR_PATH / "search_data.json").write_bytes(orjson.dumps(export))
     search_df = pl.DataFrame(export, infer_schema_length=None)
     search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
@@ -172,11 +177,9 @@ def _make_sure_is_safe(obj: object) -> None:
 
 def export_for_status() -> None:
     """Generate hashes for the contents of data"""
-    with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
-        export_data = json.load(file)
+    export_data = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
     export_json_data = [(d["id"], d["hash"]) for d in export_data]
-    with (OUTPUT_DIR_PATH / "status_data.json").open("w", encoding="utf-8") as file:
-        json.dump(export_json_data, file)
+    (OUTPUT_DIR_PATH / "status_data.json").write_bytes(orjson.dumps(export_json_data))
 
     export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
     df = pl.DataFrame(export_polars_data, infer_schema_length=None)
@@ -191,10 +194,9 @@ def export_for_api(data: dict[str, Any]) -> None:
         export_data.append(extract_exported_item(data, entry))
 
     _make_sure_is_safe(export_data)
-    with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
-        json.dump(export_data, file, cls=EnhancedJSONEncoder)
-    with (OUTPUT_DIR_PATH / "api_data.json").open("r", encoding="utf-8") as file:
-        alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in json.load(file)]
+    api_data_bytes = orjson.dumps(export_data, default=_orjson_default)
+    (OUTPUT_DIR_PATH / "api_data.json").write_bytes(api_data_bytes)
+    alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in orjson.loads(api_data_bytes)]
     df = pl.DataFrame(alias_data, infer_schema_length=None)
     df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=22)
 
@@ -216,7 +218,7 @@ def extract_exported_item(data, entry):
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
-    result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
+    result["hash"] = hash(orjson.dumps(result, option=orjson.OPT_SORT_KEYS, default=_orjson_default))
     return result
 
 
@@ -258,14 +260,8 @@ def export_known_usages(df: pl.DataFrame) -> None:
         .sort("occurrences", descending=True)
     )
 
-    with (OUTPUT_DIR_PATH / "known_usages.json").open("w", encoding="utf-8") as f:
-        json.dump(result_df.to_dicts(), f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    (OUTPUT_DIR_PATH / "known_usages.json").write_bytes(
+        orjson.dumps(result_df.to_dicts(), option=orjson.OPT_INDENT_2) + b"\n"
+    )
 
 
-class EnhancedJSONEncoder(json.JSONEncoder):
-    def default(self, o: Any) -> Any:
-        """Enhanced JSONEncoder that can handle dataclasses"""
-        if isinstance(o, PydanticConfiguration):
-            return o.model_dump()
-        return super().default(o)

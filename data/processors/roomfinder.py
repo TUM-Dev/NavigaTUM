@@ -1,4 +1,4 @@
-import json
+import orjson
 import logging
 import re
 from pathlib import Path
@@ -57,7 +57,7 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
         rf_rows.append(
             {
                 "b_prefix_match": building.b_id,
-                "roomfinder_data_json_new": json.dumps(
+                "roomfinder_data_json_new": orjson.dumps(
                     {
                         "b_id": building.b_id,
                         "b_name": building.b_name,
@@ -65,13 +65,13 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
                         "b_area": building.b_area,
                         "b_room_count": building.b_room_count,
                     }
-                ),
-                "sources_rf_json": json.dumps(
+                ).decode(),
+                "sources_rf_json": orjson.dumps(
                     {
                         "name": "Roomfinder",
                         "url": f"https://portal.mytum.de/displayRoomMap?@{building.b_id}",
                     }
-                ),
+                ).decode(),
                 "coords_lat_rf": building.lat,
                 "coords_lon_rf": building.lon,
                 "props_ids_b_id_rf": building.b_id,
@@ -129,19 +129,19 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def _rf_source_json(r_id: str) -> str:
-    return json.dumps({
+    return orjson.dumps({
         "name": "Roomfinder",
         "url": f"https://portal.mytum.de/displayRoomMap?roomid={r_id}&disable_decoration=yes",
-    })
+    }).decode()
 
 
 def _rf_data_json(room: "roomfinder.Room") -> str:
-    return json.dumps({
+    return orjson.dumps({
         "r_alias": room.r_alias,
         "r_number": room.r_number,
         "r_id": room.r_id,
         "r_level": room.r_level,
-    })
+    }).decode()
 
 
 def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
@@ -195,15 +195,15 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
                 "name_de": name,
                 "name_en": name,
                 "parents": parents,
-                "data_quality_json": json.dumps({"not_in_tumonline": True}),
+                "data_quality_json": orjson.dumps({"not_in_tumonline": True}).decode(),
                 "roomfinder_data_json": _rf_data_json(room),
                 "coords_lat": room.lat,
                 "coords_lon": room.lon,
                 "coords_source": "roomfinder",
-                "sources_base_json": json.dumps([{
+                "sources_base_json": orjson.dumps([{
                     "name": "Roomfinder",
                     "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
-                }]),
+                }]).decode(),
             })
             id_lookup[r_id] = {"id": r_id, "parents": parents, "name": name}
             continue

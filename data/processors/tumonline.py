@@ -1,4 +1,4 @@
-import json
+import orjson
 import logging
 import string
 from pathlib import Path
@@ -57,10 +57,9 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
         buildings_rows.append(
             {
                 "b_prefix_match": b_id,
-                "tumonline_data_json_new": json.dumps(
+                "tumonline_data_json_new": orjson.dumps(
                     {"name": b_name, "filter_id": building.filter_id, "area_id": building.area_id},
-                    ensure_ascii=False,
-                ),
+                ).decode(),
                 "props_ids_b_id_new": b_id,
             }
         )

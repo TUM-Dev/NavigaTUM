@@ -1,5 +1,3 @@
-import json
-
 import polars as pl
 from external.models.common import PydanticConfiguration, RESULTS_PATH
 

@@ -9,6 +9,7 @@ dependencies = [
   "dataframely==2.9.1",
   "defusedxml==0.7.1",
   "lxml==6.1.0",
+  "orjson==3.11.8",
   "Pillow==12.2.0",
   "polars==1.40.1",
   "pyarrow==24.0.0",

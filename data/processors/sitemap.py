@@ -1,4 +1,4 @@
-import json
+import orjson
 import logging
 import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
 from datetime import datetime, timezone
@@ -37,8 +37,7 @@ def generate_sitemap() -> None:
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
-    with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
-        new_data: list[Any] = json.load(file)
+    new_data: list[Any] = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
 
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
@@ -65,7 +64,7 @@ def _download_old_data() -> list[Any]:
     if req.status_code != 200:
         logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
         return []
-    old_data = req.json()
+    old_data = orjson.loads(req.content)
     if isinstance(old_data, dict):
         old_data = list(old_data.values())
     return old_data  # type: ignore[no-any-return]

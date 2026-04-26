@@ -1,4 +1,4 @@
-import json
+import orjson
 import typing
 
 import polars as pl
@@ -54,7 +54,7 @@ class Building(PydanticConfiguration):
                 )
 
             # Reconstruct maps from JSON string
-            maps_data = json.loads(row["maps_json"]) if row["maps_json"] else []
+            maps_data = orjson.loads(row["maps_json"]) if row["maps_json"] else []
             maps = [
                 RfMap(scale=str(m[0]), map_id=str(m[1]), name=str(m[2]), width=int(m[3]), height=int(m[4]))
                 for m in maps_data
@@ -191,14 +191,14 @@ class Room(PydanticConfiguration):
                 )
 
             # Reconstruct maps from JSON string
-            maps_data = json.loads(row["maps_json"]) if row["maps_json"] else []
+            maps_data = orjson.loads(row["maps_json"]) if row["maps_json"] else []
             maps = [
                 RfMap(scale=str(m[0]), map_id=str(m[1]), name=str(m[2]), width=int(m[3]), height=int(m[4]))
                 for m in maps_data
             ]
 
             # Reconstruct metas from JSON string
-            metas_data = json.loads(row["metas_json"]) if row["metas_json"] else []
+            metas_data = orjson.loads(row["metas_json"]) if row["metas_json"] else []
             metas = [
                 RoomMetadata(
                     m_desc=str(m["m_desc"]) if m["m_desc"] else "",
