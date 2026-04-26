@@ -276,6 +276,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
               }}
             </span>
           </li>
+          </template>
         </ul>
       </template>
     </div>
