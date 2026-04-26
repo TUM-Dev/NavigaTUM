@@ -8,7 +8,8 @@ from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema,
 
 
 def _strip_whitespace(df: pl.DataFrame, schema: type[dy.Schema]) -> pl.DataFrame:
-    """Strip leading/trailing whitespace on every String column.
+    """
+    Strip leading/trailing whitespace on every String column.
 
     Mimics the Pydantic `str_strip_whitespace=True` config the old loaders relied on.
     Some upstream sources (notably TUMonline org names) embed stray tabs/spaces.

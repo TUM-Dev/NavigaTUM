@@ -249,7 +249,9 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     invalid_rooms: list[str] = []
     for room_code, room in rooms.items():
         if not room["arch_name"] or not room["alt_name"]:
-            logging.warning(f"ignoring {room_code} as it has arch_name={room['arch_name']!r}, alt_name={room['alt_name']!r}")
+            logging.warning(
+                f"ignoring {room_code} as it has arch_name={room['arch_name']!r}, alt_name={room['alt_name']!r}"
+            )
             invalid_rooms.append(room_code)
             continue
         # Validate the room_code
