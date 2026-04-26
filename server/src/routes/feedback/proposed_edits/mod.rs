@@ -66,7 +66,9 @@ impl EditRequest {
         branch_name: &str,
         branch_is_new: bool,
     ) -> anyhow::Result<String> {
-        let worktree = repo_pool.create_worktree(branch_name, branch_is_new).await?;
+        let worktree = repo_pool
+            .create_worktree(branch_name, branch_is_new)
+            .await?;
         let desc = worktree.apply_and_gen_description(self, branch_name);
         worktree.commit(&desc.title).await?;
         worktree.push().await?;

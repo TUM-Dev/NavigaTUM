@@ -127,8 +127,8 @@ impl RepoPool {
     }
 
     fn authenticated_url() -> anyhow::Result<String> {
-        let pat = crate::external::github::GitHub::github_token()
-            .context("GITHUB_TOKEN must be set")?;
+        let pat =
+            crate::external::github::GitHub::github_token().context("GITHUB_TOKEN must be set")?;
         Ok(format!("https://{pat}@github.com/TUM-Dev/NavigaTUM"))
     }
 
