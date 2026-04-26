@@ -37,7 +37,7 @@ impl<T> LimitedVec<T> {
 
 impl<T> From<Vec<T>> for LimitedVec<T> {
     fn from(value: Vec<T>) -> Self {
-        LimitedVec(value)
+        Self(value)
     }
 }
 
@@ -67,7 +67,7 @@ impl<T> FromIterator<T> for LimitedVec<T> {
             c.push(i);
         }
 
-        LimitedVec(c)
+        Self(c)
     }
 }
 

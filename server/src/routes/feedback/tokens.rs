@@ -1,6 +1,8 @@
+use std::env;
 use std::fmt;
 
 use actix_web::{HttpResponse, post};
+use jsonwebtoken::errors::ErrorKind;
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -22,7 +24,7 @@ pub struct TokenRecord {
 }
 
 fn able_to_process_feedback() -> bool {
-    std::env::var("GITHUB_TOKEN").is_ok() && std::env::var("JWT_KEY").is_ok()
+    env::var("GITHUB_TOKEN").is_ok() && env::var("JWT_KEY").is_ok()
 }
 
 // Additionally, there is a short delay until a token can be used.
@@ -33,7 +35,7 @@ const TOKEN_MAX_AGE: i64 = 3600 * 12; // 12h
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Claims {
-    /// Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
+    /// Required (`validate_exp` defaults to true in validation). Expiration time (as UTC timestamp)
     exp: i64,
     /// Optional. Issued at (as UTC timestamp)
     iat: i64,
@@ -66,7 +68,8 @@ impl RecordedTokens {
             );
         }
 
-        let secret = std::env::var("JWT_KEY").unwrap(); // we checked the ability to process feedback
+        let secret = env::var("JWT_KEY")
+            .expect("JWT_KEY presence guaranteed by able_to_process_feedback() above");
         let x = DecodingKey::from_secret(secret.as_bytes());
         let jwt_token = decode::<Claims>(token, &x, &Validation::default());
         let kid = match jwt_token {
@@ -75,10 +78,8 @@ impl RecordedTokens {
                 error!(kind=?e.kind(),"Failed to decode token");
                 return Some(HttpResponse::Forbidden().content_type("text/plain").body(
                     match e.kind() {
-                        jsonwebtoken::errors::ErrorKind::ImmatureSignature => {
-                            "Token is not yet valid."
-                        }
-                        jsonwebtoken::errors::ErrorKind::ExpiredSignature => "Token expired",
+                        ErrorKind::ImmatureSignature => "Token is not yet valid.",
+                        ErrorKind::ExpiredSignature => "Token expired",
                         _ => "Invalid token",
                     },
                 ));
@@ -156,7 +157,8 @@ pub async fn get_token() -> HttpResponse {
             .body("Feedback is currently not configured on this server.");
     }
 
-    let secret = std::env::var("JWT_KEY").unwrap(); // we checked the ability to process feedback
+    let secret = env::var("JWT_KEY")
+        .expect("JWT_KEY presence guaranteed by able_to_process_feedback() above");
     let token = encode(
         &Header::default(),
         &Claims::default(),

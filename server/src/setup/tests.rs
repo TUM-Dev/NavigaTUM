@@ -1,6 +1,12 @@
+// This module exposes test fixtures (testcontainer setup) consumed only from
+// `#[cfg(test)]` blocks in other modules. Production-code lints (panic, unwrap,
+// absolute_paths) are intentionally relaxed for the same reasons they're
+// relaxed inside per-file `mod tests` blocks.
+#![allow(clippy::unwrap_used, clippy::panic, clippy::absolute_paths)]
+
 use meilisearch_sdk::client::Client;
-use testcontainers::{ContainerAsync, ImageExt};
-use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
+use testcontainers::{ContainerAsync, ImageExt as _};
+use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner as _};
 use tracing::{error, info};
 
 pub struct PostgresTestContainer {
