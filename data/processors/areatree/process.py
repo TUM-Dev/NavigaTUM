@@ -263,7 +263,7 @@ def _warn_if_embedded_short_name(
         # Case 1: TUMonline operator/location marker — just noise.
         if short.upper() in _TUMONLINE_NOISE_MARKERS:
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
-            logging.warning(
+            _logger.warning(
                 f"'{entry_id}': name '{name}' contains TUMonline noise marker '({short})'. "
                 f"Drop it — line should be '{fixed}'"
             )
@@ -272,7 +272,7 @@ def _warn_if_embedded_short_name(
         # Case 2: parenthetical duplicates the existing visible_id.
         if visible_norm and short_norm == visible_norm:
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
-            logging.warning(
+            _logger.warning(
                 f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
                 f"Drop the trailing '({short})' — line should be '{fixed}'"
             )
@@ -282,7 +282,7 @@ def _warn_if_embedded_short_name(
         if not visible_id and _CODE_LIKE_RE.match(short):
             new_visible = short_norm
             fixed = _format_line(building_ids, long_name, entry_id, new_visible)
-            logging.warning(
+            _logger.warning(
                 f"'{entry_id}': name '{name}' embeds the code '({short})'. "
                 f"Promote it to a visible_id — line should be '{fixed}'"
             )
@@ -310,7 +310,7 @@ def _warn_if_embedded_short_name(
         # Case 2 (leading): duplicates visible_id.
         if visible_norm and short_norm == visible_norm:
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
-            logging.warning(
+            _logger.warning(
                 f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
                 f"Drop the leading '{short}' — line should be '{fixed}'"
             )
@@ -319,7 +319,7 @@ def _warn_if_embedded_short_name(
         # Case 4 (leading): acronym short_name.
         fixed_name = f"{long_name}|{short}"
         fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
-        logging.warning(
+        _logger.warning(
             f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
             f"Use the '|'-syntax — line should be '{fixed}'"
         )
