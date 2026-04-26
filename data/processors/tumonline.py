@@ -197,7 +197,7 @@ def _building_names_equivalent(
             return True
         # 40-char truncation: accept either direction — the areatree name might be the full
         # canonical form (TUM is its truncated prefix) or the areatree name might match the
-        # truncated prefix itself (allowing 1–2 partial trailing chars).
+        # truncated prefix itself (allowing 1-2 partial trailing chars).
         if len(tumonline_name) == _TUMONLINE_NAME_DB_LIMIT:
             if a_norm and t_norm.startswith(a_norm):
                 return True
