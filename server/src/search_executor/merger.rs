@@ -53,7 +53,7 @@ pub(super) fn merge_search_results(
                     parsed_id: None,
                 });
             }
-            "room" | "virtual_room" if section_rooms.entries.len() < limits.rooms_count => {
+            "room" | "virtual_room" | "poi" if section_rooms.entries.len() < limits.rooms_count => {
                 let result = hit.result.clone();
                 let name = extract_formatted_name(hit).unwrap_or_else(|| result.name.clone());
                 section_rooms.entries.push(super::ResultEntry {

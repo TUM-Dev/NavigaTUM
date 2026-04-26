@@ -115,6 +115,7 @@ def export_for_search(data: dict[str, Any]) -> None:
                     "building": "building",
                     "room": "room",
                     "virtual_room": "room",
+                    "poi": "room",
                 }.get(entry["type"]),
                 "operator_name": _de(entry.get("props", {}).get("operator", {}).get("name", None)),
                 "parent_building_names": parent_building_names,

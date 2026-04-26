@@ -35,7 +35,8 @@ const detailsUrl = computed(() => {
   // Prefer the canonical URL the API gives us (e.g. /building/mi); fall back to
   // type/id when no redirect_url is set. data.value.type can be a non-routable
   // value like "joined_building", so we never construct from it directly.
-  const path = (data.value.redirect_url as string | undefined) || `/${data.value.type}/${data.value.id}`;
+  const path =
+    (data.value.redirect_url as string | undefined) || `/${data.value.type}/${data.value.id}`;
   return `https://nav.tum.de${localePath(path)}`;
 });
 
