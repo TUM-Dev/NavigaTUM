@@ -1,4 +1,4 @@
-import json
+import orjson
 from typing import Any
 
 import polars as pl
@@ -38,7 +38,7 @@ def to_json_or_none(value: Any) -> str | None:
     """Serialize a value to JSON string, or return None if value is None."""
     if value is None:
         return None
-    return json.dumps(value, ensure_ascii=False)
+    return orjson.dumps(value).decode()
 
 
 def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
@@ -295,13 +295,13 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if row.get("props_tumonline_room_nr") is not None:
         props["tumonline_room_nr"] = row["props_tumonline_room_nr"]
     if row.get("props_floors_json"):
-        props["floors"] = json.loads(row["props_floors_json"])
+        props["floors"] = orjson.loads(row["props_floors_json"])
     if row.get("props_computed_json"):
-        props["computed"] = json.loads(row["props_computed_json"])
+        props["computed"] = orjson.loads(row["props_computed_json"])
     if row.get("props_links_json"):
-        props["links"] = json.loads(row["props_links_json"])
+        props["links"] = orjson.loads(row["props_links_json"])
     if row.get("props_generic_json"):
-        props["generic"] = json.loads(row["props_generic_json"])
+        props["generic"] = orjson.loads(row["props_generic_json"])
     if row.get("props_comment_de"):
         props["comment"] = {"en": row.get("props_comment_en", ""), "de": row["props_comment_de"]}
 
@@ -331,17 +331,17 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
 
     # External data
     if row.get("tumonline_data_json"):
-        result["tumonline_data"] = json.loads(row["tumonline_data_json"])
+        result["tumonline_data"] = orjson.loads(row["tumonline_data_json"])
     if row.get("roomfinder_data_json"):
-        result["roomfinder_data"] = json.loads(row["roomfinder_data_json"])
+        result["roomfinder_data"] = orjson.loads(row["roomfinder_data_json"])
 
     # Late-stage
     if row.get("arch_name"):
         result["arch_name"] = row["arch_name"]
     if row.get("aliases_json"):
-        result["aliases"] = json.loads(row["aliases_json"])
+        result["aliases"] = orjson.loads(row["aliases_json"])
     if row.get("imgs_json") is not None:
-        result["imgs"] = json.loads(row["imgs_json"])
+        result["imgs"] = orjson.loads(row["imgs_json"])
     if row.get("type_common_name") or row.get("type_common_name_de"):
         tcn_de = row.get("type_common_name_de") or row.get("type_common_name")
         tcn_en = row.get("type_common_name_en") or tcn_de
@@ -355,23 +355,23 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
 
     # Sections
     if row.get("sections_buildings_overview_json"):
-        result.setdefault("sections", {})["buildings_overview"] = json.loads(row["sections_buildings_overview_json"])
+        result.setdefault("sections", {})["buildings_overview"] = orjson.loads(row["sections_buildings_overview_json"])
     if row.get("sections_rooms_overview_json"):
-        result.setdefault("sections", {})["rooms_overview"] = json.loads(row["sections_rooms_overview_json"])
+        result.setdefault("sections", {})["rooms_overview"] = orjson.loads(row["sections_rooms_overview_json"])
 
     # Metadata
     sources: dict[str, Any] = {}
     if row.get("sources_base_json"):
-        sources["base"] = json.loads(row["sources_base_json"])
+        sources["base"] = orjson.loads(row["sources_base_json"])
     if row.get("sources_patched"):
         sources["patched"] = row["sources_patched"]
     if sources:
         result["sources"] = sources
 
     if row.get("data_quality_json"):
-        result["data_quality"] = json.loads(row["data_quality_json"])
+        result["data_quality"] = orjson.loads(row["data_quality_json"])
     if row.get("generators_json"):
-        result["generators"] = json.loads(row["generators_json"])
+        result["generators"] = orjson.loads(row["generators_json"])
 
     # Structural (not exported to API, but available)
     if row.get("children"):
@@ -385,14 +385,14 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
 
     # Description
     if row.get("description_json"):
-        result["description"] = json.loads(row["description_json"])
+        result["description"] = orjson.loads(row["description_json"])
 
     # External data
     if row.get("external_data_json"):
-        result["external_data"] = json.loads(row["external_data_json"])
+        result["external_data"] = orjson.loads(row["external_data_json"])
 
     # Custom rooms overview
     if row.get("generate_rooms_overview_json"):
-        result["generate_rooms_overview"] = json.loads(row["generate_rooms_overview_json"])
+        result["generate_rooms_overview"] = orjson.loads(row["generate_rooms_overview_json"])
 
     return result
