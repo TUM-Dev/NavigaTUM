@@ -1,13 +1,12 @@
 use crate::limited::vec::LimitedVec;
 use crate::setup::file_loader;
-use polars::prelude::ParquetReader;
-use polars::prelude::*;
+use bytes::Bytes;
+use parquet::file::reader::{FileReader, SerializedFileReader};
+use parquet::record::Field;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::fmt;
 use std::hash::{Hash, Hasher};
-use std::io::Write;
-use tempfile::tempfile;
 
 #[derive(Clone)]
 pub(super) struct DelocalisedValues {
@@ -155,15 +154,18 @@ pub(super) async fn load_all_to_db(
 pub async fn download_status() -> anyhow::Result<(LimitedVec<String>, LimitedVec<i64>)> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("status_data.parquet", &cdn_url).await?;
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-    let df = ParquetReader::new(&mut file).finish().unwrap();
-    let id_col = Vec::from(df.column("id")?.str()?);
-    let id_col = id_col
-        .into_iter()
-        .filter_map(|s| s.map(String::from))
-        .collect();
-    let hash_col = Vec::from(df.column("hash")?.i64()?);
-    let hash_col = hash_col.into_iter().flatten().collect();
+    let reader = SerializedFileReader::new(Bytes::from(body))?;
+    let mut id_col: Vec<String> = Vec::new();
+    let mut hash_col: Vec<i64> = Vec::new();
+    for row in reader.get_row_iter(None)? {
+        let row = row?;
+        for (col_name, field) in row.get_column_iter() {
+            match (col_name.as_str(), field) {
+                ("id", Field::Str(v)) => id_col.push(v.clone()),
+                ("hash", Field::Long(v)) => hash_col.push(*v),
+                _ => {}
+            }
+        }
+    }
     Ok((LimitedVec(id_col), LimitedVec(hash_col)))
 }
