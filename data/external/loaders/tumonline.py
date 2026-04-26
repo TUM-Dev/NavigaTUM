@@ -8,5 +8,5 @@ def load_usages() -> pl.DataFrame:
     """Load the TUMonline usage catalogue. Dtypes are enforced by `UsagesSchema`."""
     return pl.read_csv(
         RESULTS_PATH / "usages_tumonline.csv",
-        schema_overrides=UsagesSchema.to_polars_schema(),
+        schema=UsagesSchema.to_polars_schema(),
     )

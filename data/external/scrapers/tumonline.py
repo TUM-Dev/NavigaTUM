@@ -156,8 +156,8 @@ def scrape_usages() -> None:
 
     payload = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
 
-    df = pl.DataFrame(payload, infer_schema_length=None).rename({"id": "usage_id"}).select(UsagesSchema.column_names())
-    df = UsagesSchema.cast(df).sort("usage_id")
+    rows = [{"usage_id": u["id"], **{c: u[c] for c in UsagesSchema.column_names() if c != "usage_id"}} for u in payload]
+    df = pl.DataFrame(rows, schema=UsagesSchema.to_polars_schema()).sort("usage_id")
     df.write_csv(CACHE_PATH / "usages_tumonline.csv")
 
 
