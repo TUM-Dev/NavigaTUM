@@ -535,6 +535,7 @@ export type components = {
       [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
+        readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
       };
     };
     readonly LocationDetailsResponse: {
@@ -1140,6 +1141,31 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly PropertyEdit: OneOf<
+      [
+        {
+          readonly name?: string | null;
+          readonly short_name?: string | null;
+          /** @enum {string} */
+          readonly type: "Name";
+        },
+        {
+          readonly din_277?: string | null;
+          readonly din_277_desc?: string | null;
+          readonly name_de: string;
+          readonly name_en: string;
+          /** @enum {string} */
+          readonly type: "Usage";
+        },
+        {
+          readonly text_de: string;
+          readonly text_en: string;
+          /** @enum {string} */
+          readonly type: "Link";
+          readonly url: string;
+        },
+      ]
+    >;
     /** @description Data for the info-card table */
     readonly PropsResponse: {
       /** @description Link to the calendar of the room */
