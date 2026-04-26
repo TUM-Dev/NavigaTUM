@@ -389,8 +389,8 @@
         5121:Atlashalle:
       5123:Physik Werkstattgebäude LMU:5123
       5124:WSI Container:
-      5125:LEX (LMU):5125
-      5126:CALA (LMU):5126
+      5125:Laboratory for Extreme Photonics (LMU)|LEX:5125,lex
+      5126:Centre for Advanced Laser Applications (LMU)|CALA:5126,cala
       5128:Zentrum für Quantum Engineering:
       5130:Telefonzentrale:
       5131:FRM-Poststelle (Container):
@@ -425,8 +425,8 @@
       -5410:Katalysezentrum:5410,crc
       5413:Bayerisches NMR-Zentrum:
     5414:Zentrum für Energie u. Information (ZEI):
-    -5415:CPA Center for Functional Protein Assemblies:5415,cpa
-    5433:Entrepreneurship Centrum (ECM):5433,ecm
+    -5415:Center for Functional Protein Assemblies|CPA:5415,cpa
+    5433:Entrepreneurship Centrum|ECM:5433,ecm
     :Maschinenwesen (MW):mw[joined_building]
       5501:Gebäudeteil 1, Institut für Mechatronik:
       5502:Institut für Werkstoffe und Verarbeitung:5502
@@ -452,16 +452,16 @@
       5601:Magistrale / Foyer (BT01):
       5602:Hörsaal 1 (BT02):
       5603:Bibliothek (BT03):
-      5604:Gebäudeteil 04|Finger 04:5604,bt04
-      5605:Gebäudeteil 05|Finger 05:5605,bt05
-      5606:Gebäudeteil 06|Finger 06:5606,bt06
-      5607:Gebäudeteil 07|Finger 07:5607,bt07
-      5608:Gebäudeteil 08|Finger 08:5608,bt08
-      5609:Gebäudeteil 09|Finger 09:5609,bt09
-      5610:Gebäudeteil 10|Finger 10:5610,bt10
-      5611:Gebäudeteil 11|Finger 11:5611,bt11
-      5612:Gebäudeteil 12|Finger 12:5612,bt12
-      5613:Gebäudeteil 13|Finger 13:5613,bt13
+      5604:Gebäudeteil 04|Finger 04:5604,mi04
+      5605:Gebäudeteil 05|Finger 05:5605,mi05
+      5606:Gebäudeteil 06|Finger 06:5606,mi06
+      5607:Gebäudeteil 07|Finger 07:5607,mi07
+      5608:Gebäudeteil 08|Finger 08:5608,mi08
+      5609:Gebäudeteil 09|Finger 09:5609,mi09
+      5610:Gebäudeteil 10|Finger 10:5610,mi10
+      5611:Gebäudeteil 11|Finger 11:5611,mi11
+      5612:Gebäudeteil 12|Finger 12:5612,mi12
+      5613:Gebäudeteil 13|Finger 13:5613,mi13
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering:5701
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching
