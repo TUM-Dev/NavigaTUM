@@ -296,6 +296,10 @@ de:
     addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
+  error:
+    header: Bei der Suche ist ein Fehler aufgetreten
+    reason: Der Grund für diesen Fehler ist
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktiere uns bitte über das Feedback-Formular.
   gps:
     use_current_location: Aktuellen Standort verwenden (GPS)
     my_location: Mein Standort
@@ -323,6 +327,10 @@ en:
     addresses: Addresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
+  error:
+    header: Something went wrong while searching
+    reason: Reason for this error is
+    call_to_action: If this issue persists, please contact us via the feedback form.
   gps:
     use_current_location: Use current location (GPS)
     my_location: My location

@@ -47,7 +47,7 @@ sqlx = { workspace=true, features = ['chrono', 'json', 'macros', 'migrate', 'pos
 chrono = { workspace=true, default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = {version="0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
+meilisearch-sdk = {version="0.33.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
 logos.workspace=true
 regex.workspace=true
 

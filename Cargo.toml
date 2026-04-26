@@ -26,7 +26,7 @@ insta = "1.46.3"
 itertools = "0.14.0"
 jsonwebtoken = { version = "10.3.0", default-features = false, features = ["aws_lc_rs"] }
 logos = "0.16.1"
-meilisearch-sdk = { version = "0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"] }
+meilisearch-sdk = { version = "0.33.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"] }
 moka = { version = "0.12", features = ["future"] }
 motis-openapi-progenitor = { version = "0.4.0", path = "motis-openapi-progenitor" }
 oauth2 = { version = "5.0.0", default-features = false }
