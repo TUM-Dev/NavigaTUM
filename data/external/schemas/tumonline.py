@@ -32,8 +32,9 @@ class BuildingsSchema(dy.Schema):
     """Schema for the TUMonline building catalogue (`buildings_tumonline.csv`)."""
 
     building_key = dy.String(primary_key=True, nullable=False)
-    address_place = dy.String(nullable=False)
-    address_street = dy.String(nullable=False)
+    # Categorical (not Enum): TUMonline syncs twice a month and may introduce new addresses.
+    address_place = dy.Categorical(nullable=False)
+    address_street = dy.Categorical(nullable=False)
     address_zip_code = dy.Int64(nullable=False)
     area_id = dy.Int64(nullable=False)
     name = dy.String(nullable=False)
@@ -53,14 +54,15 @@ class RoomsSchema(dy.Schema):
     """Schema for the TUMonline room catalogue (`rooms_tumonline.csv`)."""
 
     room_key = dy.String(primary_key=True, nullable=False)
-    address_place = dy.String(nullable=False)
-    address_street = dy.String(nullable=False)
+    # Categorical (not Enum): TUMonline syncs twice a month and may add new addresses/floor labels.
+    address_place = dy.Categorical(nullable=False)
+    address_street = dy.Categorical(nullable=False)
     address_zip_code = dy.Int64(nullable=False)
     seats_sitting = dy.Int64(nullable=True)
     seats_wheelchair = dy.Int64(nullable=True)
     seats_standing = dy.Int64(nullable=True)
-    floor_type = dy.String(nullable=False)
-    floor_level = dy.String(nullable=False)
+    floor_type = dy.Categorical(nullable=False)
+    floor_level = dy.Categorical(nullable=False)
     tumonline_id = dy.Int64(nullable=False)
     area_id = dy.Int64(nullable=False)
     building_id = dy.Int64(nullable=False)

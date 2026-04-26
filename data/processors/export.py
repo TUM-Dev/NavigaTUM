@@ -1,9 +1,11 @@
+import csv
 import re
 from pathlib import Path
 from typing import Any
+
 import orjson
 import polars as pl
-import csv
+import xxhash
 import yaml
 
 from external.models.common import PydanticConfiguration
@@ -198,7 +200,13 @@ def extract_exported_item(data, entry):
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
-    result["hash"] = hash(orjson.dumps(result, option=orjson.OPT_SORT_KEYS, default=_orjson_default))
+    # Stable, deterministic content hash. Python's built-in `hash()` is salted by PYTHONHASHSEED
+    # and varies across processes, which makes it useless as a cache/etag fingerprint. xxhash is
+    # a fast non-cryptographic hash; xxh64 returns a 64-bit value we coerce into a signed int64
+    # (same value range as the prior `hash()`, drop-in for the parquet/JSON consumers).
+    serialised = orjson.dumps(result, option=orjson.OPT_SORT_KEYS, default=_orjson_default)
+    digest = xxhash.xxh64(serialised).intdigest()
+    result["hash"] = digest - (1 << 64) if digest >= (1 << 63) else digest
     return result
 
 
