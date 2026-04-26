@@ -1,11 +1,16 @@
+use std::env;
+use std::io::Write as _;
+
 use crate::limited::vec::LimitedVec;
 use crate::setup::file_loader;
 use polars::prelude::*;
-use std::io::Write;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{Postgres, Transaction};
 use tempfile::tempfile;
 use tracing::error;
 
 #[derive(Debug, Clone)]
+#[allow(clippy::struct_field_names)]
 pub(super) struct Alias {
     alias: String,
     /// the key is the id of the entry
@@ -18,8 +23,8 @@ pub(super) struct Alias {
 impl Alias {
     async fn store(
         self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
@@ -38,7 +43,7 @@ impl Alias {
 }
 #[tracing::instrument]
 pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("alias_data.parquet", &cdn_url).await?;
     let mut aliase = Vec::<Alias>::new();
     let mut file = tempfile()?;
@@ -55,8 +60,12 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let type_col = df.column("type")?.str()?;
     let visible_id_col = df.column("visible_id")?.str()?;
     for index in 0..id_col.len() {
-        let id = id_col.get(index).unwrap();
-        let r#type = type_col.get(index).unwrap();
+        let id = id_col
+            .get(index)
+            .expect("index < id_col.len() — guaranteed by loop bound");
+        let r#type = type_col
+            .get(index)
+            .expect("type_col matches id_col length");
         let visible_id = visible_id_col.get(index);
         let visible_id = match visible_id {
             Some(v) => v.to_string(),
@@ -91,9 +100,15 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let visible_id_col = df_expanded.column("visible_id")?.str()?;
     let aliases_col = df_expanded.column("aliases")?.str()?;
     for index in 0..id_col.len() {
-        let alias = aliases_col.get(index).unwrap();
-        let id = id_col.get(index).unwrap();
-        let r#type = type_col.get(index).unwrap();
+        let alias = aliases_col
+            .get(index)
+            .expect("aliases_col matches id_col length after explode+filter");
+        let id = id_col
+            .get(index)
+            .expect("index < id_col.len() — guaranteed by loop bound");
+        let r#type = type_col
+            .get(index)
+            .expect("type_col matches id_col length");
         let visible_id = visible_id_col.get(index);
         let visible_id = match visible_id {
             Some(v) => v.to_string(),
@@ -111,7 +126,7 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
 #[tracing::instrument(skip(tx))]
 pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
 ) -> anyhow::Result<()> {
     let mut total_errors_cnt = 0_usize;
     for task in aliases {
@@ -124,7 +139,7 @@ pub async fn load_all_to_db(
                     visible_id = task.visible_id,
                     error = ?e,
                     "Could not store alias (sample {total_errors_cnt}/3)",
-                )
+                );
             }
         }
     }

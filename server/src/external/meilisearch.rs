@@ -3,7 +3,7 @@ use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{self, Debug, Formatter};
 
 use crate::routes::search::{FormattingConfig, Limits};
 
@@ -23,8 +23,10 @@ pub struct MSHit {
     usage: Option<String>,
     rank: i32,
 }
+// Debug intentionally shows only the human-meaningful fields for log readability.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for MSHit {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("MSHit")
             .field("room_code", &self.room_code)
             .field("name", &self.name)
@@ -41,14 +43,14 @@ struct GeoEntryFilters {
 impl Default for GeoEntryFilters {
     fn default() -> Self {
         Self {
-            default: "".to_string(),
+            default: String::new(),
             rooms: "facet = \"room\"".to_string(),
             buildings: "facet = \"building\"".to_string(),
         }
     }
 }
 impl Debug for GeoEntryFilters {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("GeoEntryFilters");
         if !self.default.is_empty() {
             base.field("default", &self.default);
@@ -70,21 +72,21 @@ impl From<&String> for GeoEntryFilters {
 }
 
 impl GeoEntryFilters {
-    pub fn with_filter(&mut self, ms_filter: impl ToString) -> Self {
+    pub fn with_filter(&mut self, ms_filter: &impl ToString) -> Self {
         let ms_filter = ms_filter.to_string();
         // --
         if self.default.is_empty() && !ms_filter.is_empty() {
-            self.default.push_str(" AND ")
+            self.default.push_str(" AND ");
         }
         self.default.push_str(&ms_filter);
         // --
         if self.buildings.is_empty() && !ms_filter.is_empty() {
-            self.buildings.push_str(" AND ")
+            self.buildings.push_str(" AND ");
         }
         self.buildings.push_str(&ms_filter);
         // --
         if self.rooms.is_empty() && !ms_filter.is_empty() {
-            self.rooms.push_str(" AND ")
+            self.rooms.push_str(" AND ");
         }
         self.rooms.push_str(&ms_filter);
         self.clone()
@@ -118,14 +120,12 @@ impl From<(&Client, String, &Limits, &FormattingConfig)> for GeoEntryQuery {
 
 impl GeoEntryQuery {
     // add sorting constraints
-    pub fn with_sorting(&mut self, sortation: impl ToString) -> Self {
+    pub fn with_sorting(&mut self, sortation: &impl ToString) {
         self.sorting.push(sortation.to_string());
-        self.clone()
     }
     // add filtering constraints
-    pub fn with_filtering(&mut self, ms_filter: impl ToString) -> Self {
+    pub fn with_filtering(&mut self, ms_filter: &impl ToString) {
         self.filters.with_filter(ms_filter);
-        self.clone()
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let entries = self.client.index("entries");
@@ -217,8 +217,10 @@ impl GeoEntryQuery {
     }
 }
 
+// Debug intentionally elides the meilisearch client; only request shape matters in logs.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for GeoEntryQuery {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("GeoEntryQuery");
         base.field("query", &self.query)
             .field("limits", &self.limits)

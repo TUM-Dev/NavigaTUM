@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::Write as _;
 use std::path::Path;
 
 use super::AppliableEdit;
@@ -12,7 +13,8 @@ pub struct Description {
 impl Description {
     pub fn add_context(&mut self, additional_context: &str) {
         if !additional_context.is_empty() {
-            self.body += &format!("## Additional context:\n> {additional_context}\n");
+            writeln!(self.body, "## Additional context:\n> {additional_context}")
+                .expect("writing to a String is infallible");
         }
     }
     pub fn appply_set<T: AppliableEdit>(
@@ -24,19 +26,26 @@ impl Description {
     ) {
         if !set.is_empty() {
             let edits = if set.len() == 1 { "edit" } else { "edits" };
+            let amount = set.len();
             if self.title.is_empty() {
-                self.title = format!("{amount} {category_name} {edits}", amount = set.len());
+                self.title = format!("{amount} {category_name} {edits}");
             } else {
-                self.title += &format!(" and {amount} {category_name} {edits}", amount = set.len());
+                write!(self.title, " and {amount} {category_name} {edits}")
+                    .expect("writing to a String is infallible");
             }
 
-            self.body += &format!("\nThe following {category_name} edits were made:\n");
+            writeln!(self.body, "\nThe following {category_name} edits were made:")
+                .expect("writing to a String is infallible");
 
             self.body += "| entry | edit |\n";
             self.body += "| ---   | ---  |\n";
             for (key, value) in set {
                 let result = value.apply(&key, base_dir, branch);
-                self.body += &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
+                writeln!(
+                    self.body,
+                    "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
+                )
+                .expect("writing to a String is infallible");
             }
         }
     }
@@ -50,13 +59,16 @@ impl Description {
     ) {
         if !set.is_empty() {
             let edits = if set.len() == 1 { "edit" } else { "edits" };
+            let amount = set.len();
             if self.title.is_empty() {
-                self.title = format!("{amount} {category_name} {edits}", amount = set.len());
+                self.title = format!("{amount} {category_name} {edits}");
             } else {
-                self.title += &format!(" and {amount} {category_name} {edits}", amount = set.len());
+                write!(self.title, " and {amount} {category_name} {edits}")
+                    .expect("writing to a String is infallible");
             }
 
-            self.body += &format!("\nThe following {category_name} edits were made:\n");
+            writeln!(self.body, "\nThe following {category_name} edits were made:")
+                .expect("writing to a String is infallible");
 
             for (key, value) in set {
                 let result = value.apply(&key, base_dir, branch);
@@ -65,14 +77,23 @@ impl Description {
                     .map(|line| format!("    {line}"))
                     .collect::<Vec<_>>()
                     .join("\n");
-                self.body +=
-                    &format!("- [`{key}`](https://nav.tum.de/view/{key}):\n\n{indented_result}\n");
+                writeln!(
+                    self.body,
+                    "- [`{key}`](https://nav.tum.de/view/{key}):\n\n{indented_result}"
+                )
+                .expect("writing to a String is infallible");
             }
         }
     }
 }
 
 #[cfg(test)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::panic_in_result_fn,
+    clippy::zero_sized_map_values
+)]
 mod tests {
     use std::collections::HashMap;
     use std::path::Path;

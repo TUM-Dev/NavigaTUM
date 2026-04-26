@@ -1,12 +1,15 @@
+use std::collections::HashMap;
+use std::env;
+use std::fmt;
+use std::hash::{Hash, Hasher};
+use std::io::Write as _;
+
 use crate::limited::vec::LimitedVec;
 use crate::setup::file_loader;
 use polars::prelude::ParquetReader;
 use polars::prelude::*;
 use serde_json::Value;
-use std::collections::HashMap;
-use std::fmt;
-use std::hash::{Hash, Hasher};
-use std::io::Write;
+use sqlx::{Postgres, Transaction};
 use tempfile::tempfile;
 
 #[derive(Clone)]
@@ -16,6 +19,8 @@ pub(super) struct DelocalisedValues {
     de: Value,
     en: Value,
 }
+// Debug intentionally elides the de/en JSON payloads for log readability.
+#[allow(clippy::missing_fields_in_debug)]
 impl fmt::Debug for DelocalisedValues {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("DelocalisedValues")
@@ -94,7 +99,7 @@ impl DelocalisedValues {
     }
     async fn store(
         self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+        tx: &mut Transaction<'_, Postgres>,
     ) -> Result<(), sqlx::Error> {
         sqlx::query!(
             r#"
@@ -129,7 +134,7 @@ impl DelocalisedValues {
 pub async fn download_updates(
     keys_which_need_updating: &LimitedVec<String>,
 ) -> anyhow::Result<LimitedVec<DelocalisedValues>> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = file_loader::load_json_or_download::<Vec<HashMap<String, Value>>>(
         "api_data.json",
         &cdn_url,
@@ -144,20 +149,20 @@ pub async fn download_updates(
 #[tracing::instrument(skip(tx))]
 pub(super) async fn load_all_to_db(
     tasks: LimitedVec<DelocalisedValues>,
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
 ) -> anyhow::Result<()> {
-    for task in tasks.into_iter() {
+    for task in tasks {
         task.store(tx).await?;
     }
     Ok(())
 }
 #[tracing::instrument]
 pub async fn download_status() -> anyhow::Result<(LimitedVec<String>, LimitedVec<i64>)> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("status_data.parquet", &cdn_url).await?;
     let mut file = tempfile()?;
     file.write_all(&body)?;
-    let df = ParquetReader::new(&mut file).finish().unwrap();
+    let df = ParquetReader::new(&mut file).finish()?;
     let id_col = Vec::from(df.column("id")?.str()?);
     let id_col = id_col
         .into_iter()

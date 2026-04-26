@@ -40,7 +40,7 @@ pub(super) fn merge_search_results(
             // Prevent duplicates from being added to the results
             if observed_ids.contains(&hit.result.room_code) {
                 continue;
-            };
+            }
             observed_ids.push(hit.result.room_code.clone());
 
             // Total limit reached (does only count visible results)
@@ -62,7 +62,7 @@ pub(super) fn merge_search_results(
                 {
                     section_buildings.entries.push(super::ResultEntry {
                         hit: hit.clone(),
-                        id: hit.room_code.to_string(),
+                        id: hit.room_code.clone(),
                         r#type: hit.r#type,
                         name: formatted_name,
                         subtext: hit.type_common_name,
@@ -73,7 +73,7 @@ pub(super) fn merge_search_results(
                 "room" | "virtual_room" if section_rooms.entries.len() < limits.rooms_count => {
                     section_rooms.entries.push(super::ResultEntry {
                         hit: hit.clone(),
-                        id: hit.room_code.to_string(),
+                        id: hit.room_code.clone(),
                         r#type: hit.r#type,
                         name: formatted_name,
                         subtext_bold: Some(hit.arch_name.unwrap_or_default()),
@@ -86,7 +86,7 @@ pub(super) fn merge_search_results(
                     }
                 }
                 _ => {}
-            };
+            }
         }
     }
     section_rooms.n_visible = section_rooms.entries.len();

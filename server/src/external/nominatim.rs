@@ -1,3 +1,5 @@
+use std::env;
+
 use crate::limited::vec::LimitedVec;
 use serde::Deserialize;
 
@@ -17,6 +19,7 @@ pub struct NominatimAddressResponse {
 }
 
 impl NominatimAddressResponse {
+    #[must_use] 
     pub fn serialise(&self) -> String {
         let mut result = Vec::<String>::new();
         if let Some(state) = self.state.clone() {
@@ -58,7 +61,7 @@ pub struct Nominatim {
 impl Nominatim {
     #[tracing::instrument]
     pub async fn address_search(q: &str) -> anyhow::Result<LimitedVec<Self>> {
-        let url = std::env::var("NOMINATIM_URL")
+        let url = env::var("NOMINATIM_URL")
             .unwrap_or_else(|_| "https://nav.tum.de/nominatim".to_string());
         let url = format!("{url}/search?q={q}&addressdetails=1");
         let Ok(nominatim_results) = reqwest::get(&url).await else {

@@ -1,11 +1,13 @@
 use std::cmp::max;
 use std::collections::BTreeMap;
-use std::fmt::Debug;
-use std::fs::File;
+use std::fmt::{self, Debug};
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use base64::Engine;
+use base64::Engine as _;
 use base64::prelude::BASE64_STANDARD;
+use image::imageops::{self, FilterType};
+use image::{ImageFormat, load_from_memory};
 use serde::Deserialize;
 use serde::Serialize;
 use tracing::error;
@@ -79,7 +81,11 @@ impl Image {
         let metadata = self.metadata.clone();
         match image_sources.get_mut(key) {
             Some(t) => {
-                let new_key = t.keys().max().unwrap() + 1;
+                let new_key = t
+                    .keys()
+                    .max()
+                    .expect("entry in image_sources always has at least one image")
+                    + 1;
                 t.insert(new_key, metadata);
             }
             None => {
@@ -106,8 +112,8 @@ impl Image {
         let safe_key = sanitize_key(key)?;
 
         let search_prefix = format!("{safe_key}_");
-        let next_free_slot = std::fs::read_dir(image_dir)
-            .map_err(|e| anyhow::anyhow!("Failed to read image directory: {}", e))?
+        let next_free_slot = fs::read_dir(image_dir)
+            .map_err(|e| anyhow::anyhow!("Failed to read image directory: {e}"))?
             .filter_map(Result::ok)
             .filter_map(|e| e.file_name().to_str().map(String::from))
             .filter(|filename| filename.starts_with(&search_prefix))
@@ -116,21 +122,27 @@ impl Image {
     }
     fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
-        let image = image::load_from_memory(&bytes)?;
+        let image = load_from_memory(&bytes)?;
 
         // we scale down too large images to a max of 4k
         if image.width() > 3840 || image.height() > 3840 {
+            // image dimensions in u32 fit f32 precision (max 4k well under 2^23)
+            #[allow(clippy::cast_precision_loss)]
             let crop_factor = 3840.0 / max(image.width(), image.height()) as f32;
+            #[allow(clippy::cast_precision_loss)]
             let new_width = crop_factor * image.width() as f32;
+            #[allow(clippy::cast_precision_loss)]
             let new_height = crop_factor * image.height() as f32;
-            image::imageops::resize(
+            // resized dimensions are always positive and bounded above by 3840
+            #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+            imageops::resize(
                 &image,
                 new_width as u32,
                 new_height as u32,
-                image::imageops::FilterType::Lanczos3,
+                FilterType::Lanczos3,
             );
         }
-        image.save_with_format(target, image::ImageFormat::WebP)?;
+        image.save_with_format(target, ImageFormat::WebP)?;
         Ok(())
     }
 }
@@ -171,7 +183,7 @@ impl AppliableEdit for Image {
 }
 
 impl Debug for Image {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("Image")
             .field("content", &format!("{}KB", self.content.len() / 1024))
             .field("metadata", &self.metadata)
@@ -180,6 +192,7 @@ impl Debug for Image {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use std::fs;
 

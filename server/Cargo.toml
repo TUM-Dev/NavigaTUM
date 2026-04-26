@@ -93,3 +93,6 @@ rstest.workspace=true
 testcontainers = { workspace=true, features = ["watchdog"] }
 testcontainers-modules = { workspace=true, features = ["meilisearch", "postgres"] }
 tracing-test.workspace=true
+
+[lints]
+workspace = true

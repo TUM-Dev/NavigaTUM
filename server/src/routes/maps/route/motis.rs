@@ -1,5 +1,8 @@
+use std::collections::HashMap;
+
+use chrono::{DateTime, Utc};
 use chroma_forge::Color;
-use motis_openapi_progenitor::types::*;
+use motis_openapi_progenitor::types::{PlanResponse, Itinerary, Leg, Mode, Rental, RentalFormFactor, StepInstruction, Direction, Place, VertexType, Alert, AlertCause, AlertEffect, AlertSeverityLevel};
 use serde::Serialize;
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -7,7 +10,7 @@ pub struct MotisRoutingResponse {
     #[cfg(debug_assertions)]
     #[schema(ignore)]
     ///debug statistics
-    pub debug_output: std::collections::HashMap<String, i64>,
+    pub debug_output: HashMap<String, i64>,
     ///Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
     ///
     /// The starting time (`arriveBy=false`) / arrival time
@@ -34,7 +37,7 @@ pub struct MotisRoutingResponse {
 }
 impl From<PlanResponse> for MotisRoutingResponse {
     fn from(value: PlanResponse) -> Self {
-        MotisRoutingResponse {
+        Self {
             #[cfg(debug_assertions)]
             debug_output: value.debug_output,
             direct: value
@@ -58,18 +61,18 @@ pub struct ItineraryResponse {
     ///journey duration in seconds
     pub duration: i64,
     ///journey arrival time
-    pub end_time: chrono::DateTime<chrono::offset::Utc>,
+    pub end_time: DateTime<Utc>,
     ///Journey legs
     pub legs: Vec<MotisLegResponse>,
     ///journey departure time
-    pub start_time: chrono::DateTime<chrono::offset::Utc>,
+    pub start_time: DateTime<Utc>,
     ///The number of transfers this trip has.
     pub transfer_count: i64,
 }
 
 impl From<Itinerary> for ItineraryResponse {
     fn from(value: Itinerary) -> Self {
-        ItineraryResponse {
+        Self {
             duration: value.duration,
             end_time: value.end_time,
             legs: value.legs.into_iter().map(MotisLegResponse::from).collect(),
@@ -111,7 +114,7 @@ pub struct MotisLegResponse {
     ///  provided in the query.
     pub duration: i64,
     ///leg arrival time
-    pub end_time: chrono::DateTime<chrono::offset::Utc>,
+    pub end_time: DateTime<Utc>,
     pub from: PlaceResponse,
     pub to: PlaceResponse,
 
@@ -173,13 +176,13 @@ pub struct MotisLegResponse {
     pub route_type: Option<i64>,
 
     ///scheduled leg arrival time
-    pub scheduled_end_time: chrono::DateTime<chrono::offset::Utc>,
+    pub scheduled_end_time: DateTime<Utc>,
     ///scheduled leg departure time
-    pub scheduled_start_time: chrono::DateTime<chrono::offset::Utc>,
+    pub scheduled_start_time: DateTime<Utc>,
     ///Filename and line number where this trip is from
     pub source: Option<String>,
     ///leg departure time
-    pub start_time: chrono::DateTime<chrono::offset::Utc>,
+    pub start_time: DateTime<Utc>,
 
     /// Identifies a trip
     pub trip_id: Option<String>,
@@ -190,7 +193,7 @@ impl From<Leg> for MotisLegResponse {
         assert_eq!(value.leg_geometry.precision, 6);
         let (color, accent_color) = infer_route_color(&value);
 
-        MotisLegResponse {
+        Self {
             agency_id: value.agency_id,
             agency_name: value.agency_name,
             agency_url: value.agency_url,
@@ -257,6 +260,8 @@ fn infer_route_color(value: &Leg) -> (String, String) {
 }
 
 fn infer_mvv_display_name(headsign: &str) -> Option<Color> {
+    // intentionally not collapsed: each line gets its own arm even when colors repeat
+    #[allow(clippy::match_same_arms)]
     match headsign {
         // ubahn colors from https://en.wikipedia.org/wiki/Module:Adjacent_stations/Munich_U-Bahn
         "U1" => Some(Color::from_hex("#52822f")),
@@ -287,18 +292,18 @@ fn infer_color_from_route_type(route_type: Option<i64>) -> Color {
         // -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
         // -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
         // -> Straßenbahn München
-        Some(0) | Some(5) => Color::from_hex("#d31f20"),
+        Some(0 | 5) => Color::from_hex("#d31f20"),
         // -  1: Subway, Metro. Any underground rail system within a metropolitan area.
         // -> U-Bahn München
         Some(1) => Color::from_hex("#0065b0"),
         // -  2: Rail. Used for intercity or long-distance travel.
         // - 12: Monorail. Railway in which the track consists of a single rail or a beam.
         // -> DB
-        Some(2) | Some(12) => Color::from_hex("#EC0016"),
+        Some(2 | 12) => Color::from_hex("#EC0016"),
         // -  3: Bus. Used for short- and long-distance bus routes.
         // - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
         // -> bus münchen
-        Some(3) | Some(11) => Color::from_hex("#005567"),
+        Some(3 | 11) => Color::from_hex("#005567"),
         // -  4: Ferry. Used for short- and long-distance boat service.
         // -> https://de.m.wikipedia.org/wiki/Datei:Bayerische_Seenschifffahrt_logo.svg
         Some(4) => Color::from_hex("#006aa3"),
@@ -362,38 +367,38 @@ pub enum ModeResponse {
 impl From<Mode> for ModeResponse {
     fn from(mode: Mode) -> Self {
         match mode {
-            Mode::Walk => ModeResponse::Walk,
-            Mode::Bike => ModeResponse::Bike,
-            Mode::Rental => ModeResponse::Rental,
-            Mode::Car => ModeResponse::Car,
-            Mode::CarParking => ModeResponse::CarParking,
-            Mode::Odm => ModeResponse::Odm,
-            Mode::Flex => ModeResponse::Flex,
-            Mode::Transit => ModeResponse::Transit,
-            Mode::Tram => ModeResponse::Tram,
-            Mode::Subway => ModeResponse::Subway,
-            Mode::Ferry => ModeResponse::Ferry,
-            Mode::Airplane => ModeResponse::Airplane,
-            Mode::Metro => ModeResponse::Metro,
-            Mode::Bus => ModeResponse::Bus,
-            Mode::Coach => ModeResponse::Coach,
-            Mode::Rail => ModeResponse::Rail,
-            Mode::HighspeedRail => ModeResponse::HighspeedRail,
-            Mode::LongDistance => ModeResponse::LongDistance,
-            Mode::NightRail => ModeResponse::NightRail,
-            Mode::RegionalFastRail => ModeResponse::RegionalFastRail,
-            Mode::RegionalRail => ModeResponse::RegionalRail,
-            Mode::CableCar => ModeResponse::CableCar,
-            Mode::Funicular => ModeResponse::Funicular,
-            Mode::ArealLift => ModeResponse::ArealLift,
-            Mode::Other => ModeResponse::Other,
-            Mode::CarDropoff => ModeResponse::CarDropoff,
+            Mode::Walk => Self::Walk,
+            Mode::Bike => Self::Bike,
+            Mode::Rental => Self::Rental,
+            Mode::Car => Self::Car,
+            Mode::CarParking => Self::CarParking,
+            Mode::Odm => Self::Odm,
+            Mode::Flex => Self::Flex,
+            Mode::Transit => Self::Transit,
+            Mode::Tram => Self::Tram,
+            Mode::Subway => Self::Subway,
+            Mode::Ferry => Self::Ferry,
+            Mode::Airplane => Self::Airplane,
+            Mode::Metro => Self::Metro,
+            Mode::Bus => Self::Bus,
+            Mode::Coach => Self::Coach,
+            Mode::Rail => Self::Rail,
+            Mode::HighspeedRail => Self::HighspeedRail,
+            Mode::LongDistance => Self::LongDistance,
+            Mode::NightRail => Self::NightRail,
+            Mode::RegionalFastRail => Self::RegionalFastRail,
+            Mode::RegionalRail => Self::RegionalRail,
+            Mode::CableCar => Self::CableCar,
+            Mode::Funicular => Self::Funicular,
+            Mode::ArealLift => Self::ArealLift,
+            Mode::Other => Self::Other,
+            Mode::CarDropoff => Self::CarDropoff,
         }
     }
 }
 
 pub mod rental {
-    use super::*;
+    use super::{Serialize, Rental, RentalFormFactor};
     #[derive(Serialize, Debug, utoipa::ToSchema)]
     #[serde_with::skip_serializing_none]
     pub struct RentalResponse {
@@ -432,7 +437,7 @@ pub mod rental {
 
     impl From<Rental> for RentalResponse {
         fn from(value: Rental) -> Self {
-            RentalResponse {
+            Self {
                 form_factor: value.form_factor.map(RentalFormFactorResponse::from),
                 from_station_name: value.from_station_name,
                 rental_uri_android: value.rental_uri_android,
@@ -460,13 +465,13 @@ pub mod rental {
     impl From<RentalFormFactor> for RentalFormFactorResponse {
         fn from(value: RentalFormFactor) -> Self {
             match value {
-                RentalFormFactor::Bicycle => RentalFormFactorResponse::Bicycle,
-                RentalFormFactor::CargoBicycle => RentalFormFactorResponse::CargoBicycle,
-                RentalFormFactor::Car => RentalFormFactorResponse::Car,
-                RentalFormFactor::Moped => RentalFormFactorResponse::Moped,
-                RentalFormFactor::ScooterStanding => RentalFormFactorResponse::ScooterStanding,
-                RentalFormFactor::ScooterSeated => RentalFormFactorResponse::ScooterSeated,
-                RentalFormFactor::Other => RentalFormFactorResponse::Other,
+                RentalFormFactor::Bicycle => Self::Bicycle,
+                RentalFormFactor::CargoBicycle => Self::CargoBicycle,
+                RentalFormFactor::Car => Self::Car,
+                RentalFormFactor::Moped => Self::Moped,
+                RentalFormFactor::ScooterStanding => Self::ScooterStanding,
+                RentalFormFactor::ScooterSeated => Self::ScooterSeated,
+                RentalFormFactor::Other => Self::Other,
             }
         }
     }
@@ -509,7 +514,7 @@ pub struct StepInstructionResponse {
 }
 impl From<StepInstruction> for StepInstructionResponse {
     fn from(value: StepInstruction) -> Self {
-        StepInstructionResponse {
+        Self {
             access_restriction: value.access_restriction,
             area: value.area,
             distance: value.distance,
@@ -549,20 +554,20 @@ pub enum DirectionResponse {
 impl From<Direction> for DirectionResponse {
     fn from(direction: Direction) -> Self {
         match direction {
-            Direction::Depart => DirectionResponse::Depart,
-            Direction::HardLeft => DirectionResponse::HardLeft,
-            Direction::Left => DirectionResponse::Left,
-            Direction::SlightlyLeft => DirectionResponse::SlightlyLeft,
-            Direction::Continue => DirectionResponse::Continue,
-            Direction::SlightlyRight => DirectionResponse::SlightlyRight,
-            Direction::Right => DirectionResponse::Right,
-            Direction::HardRight => DirectionResponse::HardRight,
-            Direction::CircleClockwise => DirectionResponse::CircleClockwise,
-            Direction::CircleCounterclockwise => DirectionResponse::CircleCounterclockwise,
-            Direction::Stairs => DirectionResponse::Stairs,
-            Direction::Elevator => DirectionResponse::Elevator,
-            Direction::UturnLeft => DirectionResponse::UturnLeft,
-            Direction::UturnRight => DirectionResponse::UturnRight,
+            Direction::Depart => Self::Depart,
+            Direction::HardLeft => Self::HardLeft,
+            Direction::Left => Self::Left,
+            Direction::SlightlyLeft => Self::SlightlyLeft,
+            Direction::Continue => Self::Continue,
+            Direction::SlightlyRight => Self::SlightlyRight,
+            Direction::Right => Self::Right,
+            Direction::HardRight => Self::HardRight,
+            Direction::CircleClockwise => Self::CircleClockwise,
+            Direction::CircleCounterclockwise => Self::CircleCounterclockwise,
+            Direction::Stairs => Self::Stairs,
+            Direction::Elevator => Self::Elevator,
+            Direction::UturnLeft => Self::UturnLeft,
+            Direction::UturnRight => Self::UturnRight,
         }
     }
 }
@@ -574,21 +579,21 @@ pub struct PlaceResponse {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub alerts: Vec<AlertResponse>,
     ///arrival time
-    pub arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
+    pub arrival: Option<DateTime<Utc>>,
     ///scheduled arrival time
-    pub scheduled_arrival: Option<chrono::DateTime<chrono::offset::Utc>>,
+    pub scheduled_arrival: Option<DateTime<Utc>>,
     ///scheduled departure time
-    pub scheduled_departure: Option<chrono::DateTime<chrono::offset::Utc>>,
+    pub scheduled_departure: Option<DateTime<Utc>>,
     ///Whether this stop is cancelled due to the realtime situation
     pub cancelled: Option<bool>,
     ///departure time
-    pub departure: Option<chrono::DateTime<chrono::offset::Utc>>,
+    pub departure: Option<DateTime<Utc>>,
 
     pub lat: f64,
     pub level: f64,
     pub lon: f64,
 
-    ///name of the transit stop / PoI / address
+    ///name of the transit stop / `PoI` / address
     pub name: String,
     ///description of the location that provides more detailed information
     pub description: Option<String>,
@@ -607,7 +612,7 @@ pub struct PlaceResponse {
 
 impl From<Place> for PlaceResponse {
     fn from(value: Place) -> Self {
-        PlaceResponse {
+        Self {
             alerts: value.alerts.into_iter().map(AlertResponse::from).collect(),
             arrival: value.arrival,
             cancelled: value.cancelled,
@@ -631,7 +636,7 @@ impl From<Place> for PlaceResponse {
                 "57" => "7".to_string(),
                 "58" => "8".to_string(),
                 "59" => "9".to_string(),
-                _ => s.to_string(),
+                _ => s.clone(),
             }),
             stop_id: value.stop_id,
             track: value.track.map(|s| match s.as_str() {
@@ -645,7 +650,7 @@ impl From<Place> for PlaceResponse {
                 "57" => "7".to_string(),
                 "58" => "8".to_string(),
                 "59" => "9".to_string(),
-                _ => s.to_string(),
+                _ => s.clone(),
             }),
             vertex_type: value.vertex_type.map(VertexTypeResponse::from),
         }
@@ -665,9 +670,9 @@ pub enum VertexTypeResponse {
 impl From<VertexType> for VertexTypeResponse {
     fn from(value: VertexType) -> Self {
         match value {
-            VertexType::Normal => VertexTypeResponse::Normal,
-            VertexType::Bikeshare => VertexTypeResponse::Bikeshare,
-            VertexType::Transit => VertexTypeResponse::Transit,
+            VertexType::Normal => Self::Normal,
+            VertexType::Bikeshare => Self::Bikeshare,
+            VertexType::Transit => Self::Transit,
         }
     }
 }
@@ -708,7 +713,7 @@ pub struct AlertResponse {
 }
 impl From<Alert> for AlertResponse {
     fn from(value: Alert) -> Self {
-        AlertResponse {
+        Self {
             cause: value.cause.map(AlertCauseResponse::from),
             cause_detail: value.cause_detail,
             description_text: value.description_text,
@@ -743,18 +748,18 @@ pub enum AlertCauseResponse {
 impl From<AlertCause> for AlertCauseResponse {
     fn from(value: AlertCause) -> Self {
         match value {
-            AlertCause::UnknownCause => AlertCauseResponse::UnknownCause,
-            AlertCause::OtherCause => AlertCauseResponse::OtherCause,
-            AlertCause::TechnicalProblem => AlertCauseResponse::TechnicalProblem,
-            AlertCause::Strike => AlertCauseResponse::Strike,
-            AlertCause::Demonstration => AlertCauseResponse::Demonstration,
-            AlertCause::Accident => AlertCauseResponse::Accident,
-            AlertCause::Holiday => AlertCauseResponse::Holiday,
-            AlertCause::Weather => AlertCauseResponse::Weather,
-            AlertCause::Maintenance => AlertCauseResponse::Maintenance,
-            AlertCause::Construction => AlertCauseResponse::Construction,
-            AlertCause::PoliceActivity => AlertCauseResponse::PoliceActivity,
-            AlertCause::MedicalEmergency => AlertCauseResponse::MedicalEmergency,
+            AlertCause::UnknownCause => Self::UnknownCause,
+            AlertCause::OtherCause => Self::OtherCause,
+            AlertCause::TechnicalProblem => Self::TechnicalProblem,
+            AlertCause::Strike => Self::Strike,
+            AlertCause::Demonstration => Self::Demonstration,
+            AlertCause::Accident => Self::Accident,
+            AlertCause::Holiday => Self::Holiday,
+            AlertCause::Weather => Self::Weather,
+            AlertCause::Maintenance => Self::Maintenance,
+            AlertCause::Construction => Self::Construction,
+            AlertCause::PoliceActivity => Self::PoliceActivity,
+            AlertCause::MedicalEmergency => Self::MedicalEmergency,
         }
     }
 }
@@ -777,17 +782,17 @@ pub enum AlertEffectResponse {
 impl From<AlertEffect> for AlertEffectResponse {
     fn from(value: AlertEffect) -> Self {
         match value {
-            AlertEffect::NoService => AlertEffectResponse::NoService,
-            AlertEffect::ReducedService => AlertEffectResponse::ReducedService,
-            AlertEffect::SignificantDelays => AlertEffectResponse::SignificantDelays,
-            AlertEffect::Detour => AlertEffectResponse::Detour,
-            AlertEffect::AdditionalService => AlertEffectResponse::AdditionalService,
-            AlertEffect::ModifiedService => AlertEffectResponse::ModifiedService,
-            AlertEffect::OtherEffect => AlertEffectResponse::OtherEffect,
-            AlertEffect::UnknownEffect => AlertEffectResponse::UnknownEffect,
-            AlertEffect::StopMoved => AlertEffectResponse::StopMoved,
-            AlertEffect::NoEffect => AlertEffectResponse::NoEffect,
-            AlertEffect::AccessibilityIssue => AlertEffectResponse::AccessibilityIssue,
+            AlertEffect::NoService => Self::NoService,
+            AlertEffect::ReducedService => Self::ReducedService,
+            AlertEffect::SignificantDelays => Self::SignificantDelays,
+            AlertEffect::Detour => Self::Detour,
+            AlertEffect::AdditionalService => Self::AdditionalService,
+            AlertEffect::ModifiedService => Self::ModifiedService,
+            AlertEffect::OtherEffect => Self::OtherEffect,
+            AlertEffect::UnknownEffect => Self::UnknownEffect,
+            AlertEffect::StopMoved => Self::StopMoved,
+            AlertEffect::NoEffect => Self::NoEffect,
+            AlertEffect::AccessibilityIssue => Self::AccessibilityIssue,
         }
     }
 }
@@ -804,10 +809,10 @@ pub enum AlertSeverityLevelResponse {
 impl From<AlertSeverityLevel> for AlertSeverityLevelResponse {
     fn from(value: AlertSeverityLevel) -> Self {
         match value {
-            AlertSeverityLevel::Info => AlertSeverityLevelResponse::Info,
-            AlertSeverityLevel::Warning => AlertSeverityLevelResponse::Warning,
-            AlertSeverityLevel::Severe => AlertSeverityLevelResponse::Severe,
-            AlertSeverityLevel::UnknownSeverity => AlertSeverityLevelResponse::Unknown,
+            AlertSeverityLevel::Info => Self::Info,
+            AlertSeverityLevel::Warning => Self::Warning,
+            AlertSeverityLevel::Severe => Self::Severe,
+            AlertSeverityLevel::UnknownSeverity => Self::Unknown,
         }
     }
 }

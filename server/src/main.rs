@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::env;
 use std::sync::Arc;
 
 use actix_cors::Cors;
@@ -7,25 +8,28 @@ use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware, web};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
 use moka::future::Cache;
+use rustls::crypto::aws_lc_rs;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::{PgPool, Pool, Postgres};
 use tokio::sync::{Barrier, RwLock};
-use tracing::{debug_span, error, info};
+use tokio::task::JoinSet;
+use tracing::{debug_span, error, info, subscriber};
 use tracing_actix_web::TracingLogger;
+use utoipa::openapi::OpenApi;
 
 mod docs;
 mod limited;
 mod localisation;
 mod search_executor;
 mod setup;
-use utoipa_actix_web::{AppExt, scope};
+use utoipa_actix_web::{AppExt as _, scope};
 mod db;
 pub mod external;
 pub mod overlays;
 pub mod refresh;
 pub mod routes;
-use routes::*;
+use routes::{search, feedback, calendar, maps, locations};
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024 * 10; // 10 MB
 
@@ -33,7 +37,7 @@ const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
-    /// shared [sqlx::PgPool] to connect to postgis
+    /// shared [`sqlx::PgPool`] to connect to postgis
     pool: PgPool,
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
@@ -50,14 +54,14 @@ impl AppData {
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
-        AppData::from(pool)
+        Self::from(pool)
     }
 }
 impl From<PgPool> for AppData {
     fn from(pool: PgPool) -> Self {
-        AppData {
+        Self {
             pool,
-            meilisearch_initialised: Arc::new(Default::default()),
+            meilisearch_initialised: Arc::new(RwLock::default()),
             valhalla: external::valhalla::ValhallaWrapper::default(),
             motis: external::motis::MotisWrapper::default(),
             search_cache: Cache::builder().max_capacity(200).build(),
@@ -103,15 +107,15 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     )
 )]
 #[get("/api/openapi.json", wrap = "actix_middleware_etag::Etag::default()")]
-async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>) -> impl Responder {
+async fn openapi_doc(openapi: web::Data<OpenApi>) -> impl Responder {
     HttpResponse::Ok().json(openapi)
 }
 
 fn connection_string() -> String {
-    let username = std::env::var("POSTGRES_USER").unwrap_or_else(|_| "postgres".to_string());
-    let password = std::env::var("POSTGRES_PASSWORD").unwrap_or_else(|_| "CHANGE_ME".to_string());
-    let url = std::env::var("POSTGRES_URL").unwrap_or_else(|_| "localhost".to_string());
-    let db = std::env::var("POSTGRES_DB").unwrap_or_else(|_| username.clone());
+    let username = env::var("POSTGRES_USER").unwrap_or_else(|_| "postgres".to_string());
+    let password = env::var("POSTGRES_PASSWORD").unwrap_or_else(|_| "CHANGE_ME".to_string());
+    let url = env::var("POSTGRES_URL").unwrap_or_else(|_| "localhost".to_string());
+    let db = env::var("POSTGRES_DB").unwrap_or_else(|_| username.clone());
     format!("postgres://{username}:{password}@{url}/{db}")
 }
 
@@ -124,7 +128,7 @@ pub fn setup_logging() {
     } else {
         "info"
     };
-    let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| default_level.to_string());
+    let log_level = env::var("LOG_LEVEL").unwrap_or_else(|_| default_level.to_string());
     // these overrides exist to filter away stuff I don't think we should ever care about
     let filter = format!(
         "{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info"
@@ -141,7 +145,8 @@ pub fn setup_logging() {
         .with(filter)
         .with(cfg!(not(any(debug_assertions, test))).then(|| Layer::default().json()))
         .with(cfg!(any(debug_assertions, test)).then(|| Layer::default().pretty()));
-    tracing::subscriber::set_global_default(registry).unwrap();
+    subscriber::set_global_default(registry)
+        .expect("the tracing subscriber to be set as the global default");
 }
 
 #[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started))]
@@ -150,28 +155,39 @@ async fn run_maintenance_work(
     meilisearch_initialised: Arc<RwLock<()>>,
     initialisation_started: Arc<Barrier>,
 ) {
-    if std::env::var("SKIP_MS_SETUP") != Ok("true".to_string()) {
+    if env::var("SKIP_MS_SETUP") == Ok("true".to_string()) {
+        info!("skipping the database setup as SKIP_MS_SETUP=true");
+        initialisation_started.wait().await;
+    } else {
         let _ = debug_span!("updating meilisearch data").enter();
         let _ = meilisearch_initialised.write().await;
         initialisation_started.wait().await;
         let ms_url =
-            std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
-        setup::meilisearch::setup(&client).await.unwrap();
-        setup::meilisearch::load_data(&client).await.unwrap();
-    } else {
-        info!("skipping the database setup as SKIP_MS_SETUP=true");
-        initialisation_started.wait().await;
+            env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+        let client = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok())
+            .expect("a valid meilisearch client");
+        setup::meilisearch::setup(&client)
+            .await
+            .expect("meilisearch setup to succeed");
+        setup::meilisearch::load_data(&client)
+            .await
+            .expect("meilisearch initial data load to succeed");
     }
-    if std::env::var("SKIP_DB_SETUP") != Ok("true".to_string()) {
-        let _ = debug_span!("updating postgis data").enter();
-        setup::database::setup(&pool).await.unwrap();
-        setup::database::load_data(&pool).await.unwrap();
-        setup::transportation::setup(&pool).await.unwrap();
-    } else {
+    if env::var("SKIP_DB_SETUP") == Ok("true".to_string()) {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
+    } else {
+        let _ = debug_span!("updating postgis data").enter();
+        setup::database::setup(&pool)
+            .await
+            .expect("postgis schema setup to succeed");
+        setup::database::load_data(&pool)
+            .await
+            .expect("postgis initial data load to succeed");
+        setup::transportation::setup(&pool)
+            .await
+            .expect("transportation table setup to succeed");
     }
-    let mut set = tokio::task::JoinSet::new();
+    let mut set = JoinSet::new();
     let cal_pool = pool.clone();
     set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
     set.join_all().await;
@@ -180,7 +196,7 @@ async fn run_maintenance_work(
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     setup_logging();
-    rustls::crypto::aws_lc_rs::default_provider()
+    aws_lc_rs::default_provider()
         .install_default()
         .expect("no provider was set as default beforehand");
 
@@ -257,7 +273,7 @@ async fn main() -> anyhow::Result<()> {
                 }),
         )
     })
-    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
+    .bind(env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
     .await?;
     maintenance_thread.abort();

@@ -1,5 +1,5 @@
 use std::collections::BTreeMap;
-use std::fs::File;
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
@@ -32,6 +32,10 @@ struct LinkEntry {
     url: String,
 }
 
+// TODO: AppliableEdit::apply returns String and cannot propagate I/O errors;
+// the existing helpers panic on filesystem failure. Refactor to Result before
+// removing the allow.
+#[allow(clippy::unwrap_used, clippy::panic)]
 impl PropertyEdit {
     fn names_csv_path(base_dir: &Path) -> PathBuf {
         base_dir.join("data").join("sources").join("names.csv")
@@ -47,13 +51,13 @@ impl PropertyEdit {
         header: &str,
         make_line: impl FnOnce() -> String,
     ) {
-        use std::io::{BufRead, BufReader, BufWriter, Write};
+        use std::io::{BufRead as _, BufReader, BufWriter, Write as _};
 
         let csv_file = csv_path_fn(base_dir);
         let temp_file = csv_file.with_extension("tmp");
 
         {
-            let output = std::fs::File::create(&temp_file).unwrap();
+            let output = File::create(&temp_file).unwrap();
             let mut writer = BufWriter::new(output);
             writeln!(writer, "{header}").unwrap();
 
@@ -61,7 +65,7 @@ impl PropertyEdit {
             let new_line = make_line();
 
             {
-                let input = std::fs::File::open(&csv_file).unwrap();
+                let input = File::open(&csv_file).unwrap();
                 for line in BufReader::new(input)
                     .lines()
                     .skip(1)
@@ -85,7 +89,7 @@ impl PropertyEdit {
             }
         }
 
-        std::fs::rename(&temp_file, &csv_file).unwrap();
+        fs::rename(&temp_file, &csv_file).unwrap();
     }
 }
 
@@ -97,10 +101,11 @@ fn csv_escape(s: &str) -> String {
     }
 }
 
+#[allow(clippy::unwrap_used, clippy::panic)]
 impl AppliableEdit for PropertyEdit {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
         match self {
-            PropertyEdit::Name { name, short_name } => {
+            Self::Name { name, short_name } => {
                 let name_val = name.as_deref().unwrap_or("");
                 let short_val = short_name.as_deref().unwrap_or("");
                 Self::apply_csv_edit(
@@ -119,7 +124,7 @@ impl AppliableEdit for PropertyEdit {
                 );
                 format!("name: `{name_val}`, short_name: `{short_val}`")
             }
-            PropertyEdit::Usage {
+            Self::Usage {
                 name_de,
                 name_en,
                 din_277,
@@ -145,7 +150,7 @@ impl AppliableEdit for PropertyEdit {
                 );
                 format!("usage: `{name_de}` / `{name_en}` (DIN 277: `{din}`)")
             }
-            PropertyEdit::Link {
+            Self::Link {
                 text_de,
                 text_en,
                 url,
@@ -179,6 +184,7 @@ impl AppliableEdit for PropertyEdit {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use std::fs;
 

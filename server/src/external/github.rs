@@ -1,7 +1,15 @@
+use std::env;
+use std::sync::LazyLock;
+
 use actix_web::HttpResponse;
+use octocrab::params::State;
 use octocrab::Octocrab;
 use regex::Regex;
 use tracing::error;
+
+static FEEDBACK_NEWLINE_RE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"[ \t]*\n").expect("static regex must compile at startup")
+});
 
 #[derive(Debug)]
 pub struct GitHub {
@@ -129,12 +137,11 @@ impl GitHub {
             .take(len)
             .collect::<String>();
 
-        let re = Regex::new(r"[ \t]*\n").unwrap();
-        re.replace_all(&s_clean, "  \n").to_string()
+        FEEDBACK_NEWLINE_RE.replace_all(&s_clean, "  \n").to_string()
     }
 
     pub fn github_token() -> Option<String> {
-        match std::env::var("GITHUB_TOKEN") {
+        match env::var("GITHUB_TOKEN") {
             Ok(token) => Some(token.trim().to_string()),
             Err(e) => {
                 error!(error = ?e, "GITHUB_TOKEN has to be set for feedback");
@@ -153,7 +160,7 @@ impl GitHub {
         let mut page = octocrab
             .pulls("TUM-Dev", "NavigaTUM")
             .list()
-            .state(octocrab::params::State::Open)
+            .state(State::Open)
             .per_page(100)
             .send()
             .await?;

@@ -1,7 +1,11 @@
+use std::env;
+use std::io::Write as _;
+
 use crate::setup::file_loader;
 use polars::prelude::*;
 use serde::Deserialize;
-use std::io::Write;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{PgPool, Postgres, Transaction};
 use tempfile::tempfile;
 
 #[derive(Deserialize, Default, Debug)]
@@ -33,8 +37,8 @@ impl DBStation {
     }
     async fn store(
         &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "INSERT INTO transportation_stations(parent,id,name,coordinate)\
             VALUES ($1,$2,$3,POINT($4,$5))",
@@ -50,9 +54,9 @@ impl DBStation {
 }
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
+pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     // Download the parquet file from CDN
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
 
     // Write to temporary file
@@ -73,10 +77,10 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     let mut stations = Vec::new();
     for i in 0..df.height() {
         let dhid = dhid_col.get(i).unwrap_or("").to_string();
-        let parent = parent_col.get(i).map(|s| s.to_string());
+        let parent = parent_col.get(i).map(ToString::to_string);
         let name = name_col.get(i).unwrap_or("").to_string();
-        let lat = lat_col.get(i).unwrap_or(0.0) as f64;
-        let lon = lon_col.get(i).unwrap_or(0.0) as f64;
+        let lat = f64::from(lat_col.get(i).unwrap_or(0.0));
+        let lon = f64::from(lon_col.get(i).unwrap_or(0.0));
 
         let station = Station {
             dhid,
@@ -102,8 +106,8 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
 }
 
 async fn clean(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+    tx: &mut Transaction<'_, Postgres>,
+) -> Result<PgQueryResult, sqlx::Error> {
     sqlx::query!("DELETE FROM transportation_stations WHERE 1=1")
         .execute(&mut **tx)
         .await
