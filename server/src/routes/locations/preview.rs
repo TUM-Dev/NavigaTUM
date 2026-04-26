@@ -1,4 +1,4 @@
-use std::fmt::{Display, Formatter};
+use std::fmt::{self, Display, Formatter};
 use std::io::Cursor;
 
 use crate::db::location::{Location, LocationKeyAlias};
@@ -8,11 +8,12 @@ use crate::overlays::map::OverlayMapTask;
 use crate::overlays::text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
 use actix_web::{HttpResponse, get, web};
-use image::{ImageBuffer, Rgba};
+use image::{ImageBuffer, Rgba, imageops};
 use serde::Deserialize;
 use sqlx::PgPool;
 use tracing::{error, warn};
-use unicode_truncate::UnicodeTruncateStr;
+use unicode_truncate::UnicodeTruncateStr as _;
+use utoipa::ToSchema;
 
 #[tracing::instrument]
 async fn construct_image_from_data(
@@ -40,18 +41,20 @@ async fn construct_image_from_data(
 /// add the location pin image to the center
 #[tracing::instrument(skip(img),level = tracing::Level::DEBUG, )]
 fn draw_pin(img: &mut ImageBuffer<Rgba<u8>, Vec<u8>>) {
-    let pin = image::load_from_memory(include_bytes!("static/pin.png")).unwrap();
-    image::imageops::overlay(
+    let pin = image::load_from_memory(include_bytes!("static/pin.png"))
+        .expect("static pin.png must decode at compile time");
+    imageops::overlay(
         img,
         &pin,
-        (img.width() as i64) / 2 - i64::from(pin.width()) / 2,
-        ((img.height() as i64) - 125) / 2 - i64::from(pin.height()),
+        i64::from(img.width()) / 2 - i64::from(pin.width()) / 2,
+        (i64::from(img.height()) - 125) / 2 - i64::from(pin.height()),
     );
 }
 
 fn wrap_image_in_response(img: &image::RgbaImage) -> LimitedVec<u8> {
     let mut w = Cursor::new(Vec::new());
-    img.write_to(&mut w, image::ImageFormat::Png).unwrap();
+    img.write_to(&mut w, image::ImageFormat::Png)
+        .expect("writing PNG to an in-memory cursor is infallible");
     LimitedVec(w.into_inner())
 }
 const WHITE_PIXEL: Rgba<u8> = Rgba([255, 255, 255, 255]);
@@ -65,12 +68,13 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
         }
     }
     // add our logo so the bottom
-    let logo = image::load_from_memory(include_bytes!("static/logo.png")).unwrap();
-    image::imageops::overlay(
+    let logo = image::load_from_memory(include_bytes!("static/logo.png"))
+        .expect("static logo.png must decode at compile time");
+    imageops::overlay(
         img,
         &logo,
         15,
-        img.height() as i64 - (125 / 2) - (i64::from(logo.height()) / 2) + 9,
+        i64::from(img.height()) - (125 / 2) - (i64::from(logo.height()) / 2) + 9,
     );
     let name = if data.name.chars().count() >= 45 {
         format!("{}...", data.name.unicode_truncate(45).0)
@@ -89,10 +93,12 @@ fn load_default_image() -> LimitedVec<u8> {
     warn!(
         "Loading default preview image, as map rendering failed. Check the connection to the tileserver"
     );
-    let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
+    let img = image::load_from_memory(include_bytes!("static/logo-card.png"))
+        .expect("static logo-card.png must decode at compile time");
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
-    img.write_to(&mut w, image::ImageFormat::Png).unwrap();
+    img.write_to(&mut w, image::ImageFormat::Png)
+        .expect("writing PNG to an in-memory cursor is infallible");
     LimitedVec(w.into_inner())
 }
 
@@ -114,7 +120,7 @@ async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs)
     }
 }
 
-#[derive(Deserialize, Default, Debug, Copy, Clone, utoipa::ToSchema)]
+#[derive(Deserialize, Default, Debug, Copy, Clone, ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum PreviewFormat {
     #[default]
@@ -122,10 +128,10 @@ enum PreviewFormat {
     Square,
 }
 impl Display for PreviewFormat {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            PreviewFormat::OpenGraph => f.write_str("open_graph"),
-            PreviewFormat::Square => f.write_str("square"),
+            Self::OpenGraph => f.write_str("open_graph"),
+            Self::Square => f.write_str("square"),
         }
     }
 }
@@ -149,7 +155,7 @@ struct MapsPathParams {
 ///
 /// This returns a 1200x630px preview for the location (room/building/..).
 ///
-/// This is usefully for implementing custom OpenGraph images for detail previews.
+/// This is usefully for implementing custom `OpenGraph` images for detail previews.
 #[utoipa::path(
     tags=["locations"],
     params(MapsPathParams, QueryArgs),

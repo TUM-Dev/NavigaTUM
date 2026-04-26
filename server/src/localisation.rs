@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::fmt::{Display, Formatter};
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Deserialize, Serialize, Copy, Clone, Debug, Eq, PartialEq, Default, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
@@ -10,10 +10,10 @@ pub enum LanguageOptions {
 }
 
 impl Display for LanguageOptions {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            LanguageOptions::En => f.write_str("en"),
-            LanguageOptions::De => f.write_str("de"),
+            Self::En => f.write_str("en"),
+            Self::De => f.write_str("de"),
         }
     }
 }

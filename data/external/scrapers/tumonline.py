@@ -7,10 +7,12 @@ import polars as pl
 import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
+from utils import setup_logging
 
 from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 from external.scraping_utils import CACHE_PATH
-from utils import setup_logging
+
+_logger = logging.getLogger(__name__)
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
@@ -46,7 +48,7 @@ OAUTH_HEADERS = _generate_oauth_headers()
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
-    logging.info("Downloading the buildings of tumonline")
+    _logger.info("Downloading the buildings of tumonline")
 
     payload = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
     rows = [
@@ -69,7 +71,7 @@ def scrape_buildings() -> None:
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_rooms() -> None:
     """Retrieve the rooms as in TUMonline"""
-    logging.info("Downloading the rooms of tumonline")
+    _logger.info("Downloading the rooms of tumonline")
 
     payload = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
     rows = [
@@ -107,7 +109,7 @@ def _clean_spaces(_string: str) -> str:
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_usages() -> None:
     """Retrieve all usage types available in TUMonline."""
-    logging.info("Downloading the usage types of tumonline")
+    _logger.info("Downloading the usage types of tumonline")
 
     payload = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
 
@@ -123,7 +125,7 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
 
     :params lang: 'en' or 'de'
     """
-    logging.info("Scraping the orgs of tumonline")
+    _logger.info("Scraping the orgs of tumonline")
 
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:

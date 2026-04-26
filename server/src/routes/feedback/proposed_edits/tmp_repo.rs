@@ -1,8 +1,10 @@
-use anyhow::Context;
+use std::fmt::Write as _;
+
+use anyhow::Context as _;
 use tokio::process::Command;
 use tracing::{debug, info};
 
-use super::AppliableEdit;
+use super::AppliableEdit as _;
 use super::EditRequest;
 use super::description::Description;
 
@@ -122,7 +124,8 @@ impl TempRepo {
             if description.title.is_empty() {
                 description.title = format!("{total} property {edits_word}");
             } else {
-                description.title += &format!(" and {total} property {edits_word}");
+                write!(description.title, " and {total} property {edits_word}")
+                    .expect("writing to a String is infallible");
             }
             description.body += "\nThe following property edits were made:\n";
             description.body += "| entry | edit |\n";
@@ -130,8 +133,11 @@ impl TempRepo {
             for (key, props) in &property_edits {
                 for prop in *props {
                     let result = prop.apply(key, self.dir.path(), branch_name);
-                    description.body +=
-                        &format!("| [`{key}`](https://nav.tum.de/view/{key}) | {result} |\n");
+                    writeln!(
+                        description.body,
+                        "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
+                    )
+                    .expect("writing to a String is infallible");
                 }
             }
         }
@@ -218,6 +224,7 @@ impl TempRepo {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use std::fs;
 

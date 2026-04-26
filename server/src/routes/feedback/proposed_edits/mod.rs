@@ -64,7 +64,7 @@ impl EditRequest {
         branch_name: &str,
         branch_is_new: bool,
     ) -> anyhow::Result<String> {
-        let Some(pat) = crate::external::github::GitHub::github_token() else {
+        let Some(pat) = GitHub::github_token() else {
             anyhow::bail!("Failed to get GitHub token");
         };
         let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
@@ -113,7 +113,7 @@ impl EditRequest {
     }
 
     fn extract_subject(&self) -> String {
-        use itertools::Itertools;
+        use itertools::Itertools as _;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
         let property_count: usize = self
@@ -121,7 +121,7 @@ impl EditRequest {
             .0
             .values()
             .filter_map(|e| e.properties.as_ref())
-            .map(|p| p.len())
+            .map(Vec::len)
             .sum();
 
         let mut parts = Vec::new();
@@ -137,7 +137,10 @@ impl EditRequest {
             0 => {}
             1 => parts.push(format!(
                 "add image for `{}`",
-                image_edits.keys().next().unwrap()
+                image_edits
+                    .keys()
+                    .next()
+                    .expect("len()==1 guarantees a first key")
             )),
             2..=5 => parts.push(format!(
                 "add images for `{}`",
@@ -174,12 +177,12 @@ impl EditRequest {
     responses(
         (status = 201, description= "The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body= Url, content_type="text/plain", example="https://github.com/TUM-Dev/navigatum/issues/9"),
         (status = 400, description= "**Bad Request.** Not all fields in the body are present as defined above"),
-        (status = 403, description= r#"**Forbidden.** Causes are (delivered via the body):
+        (status = 403, description= r"**Forbidden.** Causes are (delivered via the body):
 
 - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
 - `Token not old enough, please wait`: Tokens are only valid after 10s.
 - `Token expired`: Tokens are only valid for 12h.
-- `Token already used`: Tokens are non reusable/refreshable single-use items."#),
+- `Token already used`: Tokens are non reusable/refreshable single-use items."),
         (status = 422, description= "**Unprocessable Entity.** Subject or body missing or too short."),
         (status = 451, description= "**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true"),
         (status = 500, description= "**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later."),
@@ -201,17 +204,17 @@ pub async fn propose_edits(
         return HttpResponse::UnavailableForLegalReasons()
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
-    };
+    }
     if req_data.edits.0.is_empty() {
         return HttpResponse::UnprocessableEntity()
             .content_type("text/plain")
             .body("Not enough edits provided");
-    };
+    }
     if req_data.edits.0.len() > 500 {
         return HttpResponse::InsufficientStorage()
             .content_type("text/plain")
             .body("Too many edits provided");
-    };
+    }
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
 

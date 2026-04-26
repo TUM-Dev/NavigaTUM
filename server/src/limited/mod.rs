@@ -10,10 +10,10 @@ enum OrMore<T> {
 }
 
 impl<T: fmt::Debug> fmt::Debug for OrMore<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), fmt::Error> {
         match self {
-            OrMore::Value(t) => fmt::Debug::fmt(t, f),
-            OrMore::More => write!(f, "..."),
+            Self::Value(t) => fmt::Debug::fmt(t, f),
+            Self::More => write!(f, "..."),
         }
     }
 }

@@ -30,11 +30,9 @@ def add_aliases(lf: pl.LazyFrame) -> pl.LazyFrame:
     )
 
     # aliases_json: JSON array string with arch_name if present, else empty array
-    lf = lf.with_columns(
+    return lf.with_columns(
         pl.when(pl.col("arch_name").is_not_null())
         .then(pl.lit('["') + pl.col("arch_name") + pl.lit('"]'))
         .otherwise(pl.lit("[]"))
         .alias("aliases_json"),
     )
-
-    return lf
