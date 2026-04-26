@@ -36,11 +36,6 @@ def test_tumonline_org(lang: Literal["de", "en"]) -> None:
     tumonline.Organisation.load_all_for(lang)
 
 
-def test_tumonline_usage():
-    """Load all usages from the tumonline.Usage"""
-    tumonline.Usage.load_all()
-
-
 def test_public_transport():
     """Load all stations from the public_transport.Station"""
     public_transport.Station.load_all()

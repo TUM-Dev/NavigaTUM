@@ -18,6 +18,7 @@ def _orjson_default(o: Any) -> Any:
         return o.model_dump()
     raise TypeError(f"Object of type {type(o)} is not JSON serializable")
 
+
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
@@ -88,7 +89,9 @@ def export_for_search(data: dict[str, Any]) -> None:
         geo = {}
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
-        parent_building_names = [_de(n) for n in extract_parent_building_names(data, entry["parents"], building_parents_index)]
+        parent_building_names = [
+            _de(n) for n in extract_parent_building_names(data, entry["parents"], building_parents_index)
+        ]
         address = entry.get("tumonline_data", {}).get("address", {})
         street = address.get("street", None) if isinstance(address, dict) else address.street
         export.append(
@@ -241,5 +244,3 @@ def export_known_usages(df: pl.DataFrame) -> None:
     (OUTPUT_DIR_PATH / "known_usages.json").write_bytes(
         orjson.dumps(result_df.to_dicts(), option=orjson.OPT_INDENT_2) + b"\n"
     )
-
-

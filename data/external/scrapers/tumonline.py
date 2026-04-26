@@ -8,6 +8,7 @@ import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
+from external.schemas.tumonline import UsagesSchema
 from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
 
@@ -153,23 +154,10 @@ def scrape_usages() -> None:
     """Retrieve all usage types available in TUMonline."""
     logging.info("Downloading the usage types of tumonline")
 
-    usages = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
-    usages = {u.pop("id"): u for u in usages}
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
 
-    # Convert to CSV format
-    rows = []
-    for usage_id, usage_data in usages.items():
-        row = {
-            "usage_id": int(usage_id),
-            "din277_id": str(usage_data.get("din277_id", "")),
-            "din277_name": str(usage_data.get("din277_name", "")),
-            "name": str(usage_data.get("name", "")),
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by usage_id for consistency
-    df = df.sort("usage_id")
+    df = pl.DataFrame(payload, infer_schema_length=None).rename({"id": "usage_id"}).select(UsagesSchema.column_names())
+    df = UsagesSchema.cast(df).sort("usage_id")
     df.write_csv(CACHE_PATH / "usages_tumonline.csv")
 
 

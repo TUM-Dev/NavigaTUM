@@ -42,7 +42,8 @@ def generate_sitemap(
     old_sitemaps: "SimplifiedSitemaps",
     web_sitemap: dict[str, datetime],
 ) -> None:
-    """Generate a sitemap that diffs changes since to the currently online data.
+    """
+    Generate a sitemap that diffs changes since to the currently online data.
 
     All network IO is done by callers and passed in (so it can run concurrently with the
     main pipeline). See ``compile.main``.

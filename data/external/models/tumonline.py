@@ -140,26 +140,3 @@ class Organisation(PydanticConfiguration):
             org = cls(code=str(row["code"]), name=str(row["name"]), path=str(row["path"]))
             organizations[int(row["org_id"])] = org
         return organizations
-
-
-class Usage(PydanticConfiguration):
-    din277_id: str
-    din277_name: str
-    name: str
-
-    @classmethod
-    def load_all(cls) -> dict[int, "Usage"]:
-        """Load all tumonline.Usage's"""
-        df = pl.read_csv(
-            RESULTS_PATH / "usages_tumonline.csv",
-            schema_overrides={
-                "din277_id": pl.String,
-                "din277_name": pl.String,
-                "name": pl.String,
-            },
-        )
-        usages = {}
-        for row in df.iter_rows(named=True):
-            usage = cls(din277_id=str(row["din277_id"]), din277_name=str(row["din277_name"]), name=str(row["name"]))
-            usages[int(row["usage_id"])] = usage
-        return usages

@@ -232,7 +232,6 @@ def add_usages(df: pl.DataFrame) -> pl.DataFrame:
 
 def add_links(df: pl.DataFrame) -> pl.DataFrame:
     """Merge links from links.yaml (id -> list of {text, url}) into props_links_json."""
-
     if not LINKS_YAML.exists():
         raise FileNotFoundError(f"Required source file not found: {LINKS_YAML}")
     with LINKS_YAML.open(encoding="utf-8") as f:

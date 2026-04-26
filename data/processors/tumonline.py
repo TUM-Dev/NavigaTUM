@@ -7,6 +7,7 @@ from typing import Any
 import polars as pl
 import yaml
 
+from external.loaders.tumonline import load_usages
 from external.models import tumonline
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
 from processors.patch import apply_roomcode_patch
@@ -104,14 +105,12 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
 
     orgs_de = tumonline.Organisation.load_all_for("de")
     orgs_en = tumonline.Organisation.load_all_for("en")
-    usages_lookup = tumonline.Usage.load_all()
+    usages_lookup = {row["usage_id"]: row for row in load_usages().iter_rows(named=True)}
     org_id_to_code = {key: org.code for key, org in orgs_de.items()}
 
     building_parents = {
         brow["id"]: (brow["parents"] or [])
-        for brow in df.filter(pl.col("type").is_in(_BUILDING_TYPES))
-        .select("id", "parents")
-        .iter_rows(named=True)
+        for brow in df.filter(pl.col("type").is_in(_BUILDING_TYPES)).select("id", "parents").iter_rows(named=True)
     }
 
     candidate_rows: list[dict[str, Any]] = []
@@ -127,7 +126,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             logging.error(f"Unknown usage for room '{room_code}': Id '{room.usage_id}'")
             continue
         tumonline_usage = usages_lookup[room.usage_id]
-        usage_name = _(tumonline_usage.name)
+        usage_name = _(tumonline_usage["name"])
 
         operator_name = None
         if room.main_operator_id in orgs_de:
@@ -152,28 +151,30 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             "name": "TUMonline",
             "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr={room.tumonline_id}",
         }
-        candidate_rows.append({
-            "id": room_code,
-            "type": "room",
-            "name": f"{room_code} ({room.alt_name})",
-            "name_de": f"{room_code} ({room.alt_name})",
-            "name_en": f"{room_code} ({room.alt_name})",
-            "parents": building_parents[b_id] + [b_id],
-            "tumonline_data_json": to_json_or_none(tumonline_data),
-            "props_ids_roomcode": room_code,
-            "props_ids_arch_name": room.arch_name if room.arch_name else None,
-            "props_address_street": room.address.street,
-            "props_address_plz_place": f"{room.address.zip_code} {room.address.place}",
-            "props_address_source": "tumonline",
-            "props_stats_n_seats_sitting": room.seats.sitting,
-            "props_stats_n_seats_standing": room.seats.standing,
-            "props_stats_n_seats_wheelchair": room.seats.wheelchair,
-            **translatable_to_columns("usage_name", usage_name),
-            "usage_din_277": tumonline_usage.din277_id,
-            "usage_din_277_desc": tumonline_usage.din277_name,
-            "sources_base_json": to_json_or_none([source_entry]),
-            "sources_patched": True if room.patched else None,
-        })
+        candidate_rows.append(
+            {
+                "id": room_code,
+                "type": "room",
+                "name": f"{room_code} ({room.alt_name})",
+                "name_de": f"{room_code} ({room.alt_name})",
+                "name_en": f"{room_code} ({room.alt_name})",
+                "parents": building_parents[b_id] + [b_id],
+                "tumonline_data_json": to_json_or_none(tumonline_data),
+                "props_ids_roomcode": room_code,
+                "props_ids_arch_name": room.arch_name if room.arch_name else None,
+                "props_address_street": room.address.street,
+                "props_address_plz_place": f"{room.address.zip_code} {room.address.place}",
+                "props_address_source": "tumonline",
+                "props_stats_n_seats_sitting": room.seats.sitting,
+                "props_stats_n_seats_standing": room.seats.standing,
+                "props_stats_n_seats_wheelchair": room.seats.wheelchair,
+                **translatable_to_columns("usage_name", usage_name),
+                "usage_din_277": tumonline_usage["din277_id"],
+                "usage_din_277_desc": tumonline_usage["din277_name"],
+                "sources_base_json": to_json_or_none([source_entry]),
+                "sources_patched": True if room.patched else None,
+            }
+        )
 
     if missing_buildings:
         logging.warning(
@@ -199,11 +200,13 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             df = df.join(update_rooms, on="id", how="left", suffix="_update")
 
             # Existing value wins (setdefault semantics)
-            df = df.with_columns([
-                pl.coalesce(pl.col(c), pl.col(f"{c}_update")).alias(c)
-                for c in update_cols
-                if f"{c}_update" in df.columns
-            ])
+            df = df.with_columns(
+                [
+                    pl.coalesce(pl.col(c), pl.col(f"{c}_update")).alias(c)
+                    for c in update_cols
+                    if f"{c}_update" in df.columns
+                ]
+            )
 
             # Append TUMonline source string and OR in the patched flag
             df = ensure_column(df, "sources_patched", pl.Boolean())

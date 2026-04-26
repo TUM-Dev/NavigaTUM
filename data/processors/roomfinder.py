@@ -129,19 +129,23 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def _rf_source_json(r_id: str) -> str:
-    return orjson.dumps({
-        "name": "Roomfinder",
-        "url": f"https://portal.mytum.de/displayRoomMap?roomid={r_id}&disable_decoration=yes",
-    }).decode()
+    return orjson.dumps(
+        {
+            "name": "Roomfinder",
+            "url": f"https://portal.mytum.de/displayRoomMap?roomid={r_id}&disable_decoration=yes",
+        }
+    ).decode()
 
 
 def _rf_data_json(room: "roomfinder.Room") -> str:
-    return orjson.dumps({
-        "r_alias": room.r_alias,
-        "r_number": room.r_number,
-        "r_id": room.r_id,
-        "r_level": room.r_level,
-    }).decode()
+    return orjson.dumps(
+        {
+            "r_alias": room.r_alias,
+            "r_number": room.r_number,
+            "r_id": room.r_id,
+            "r_level": room.r_level,
+        }
+    ).decode()
 
 
 def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
@@ -188,23 +192,29 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
                 continue
             parents = parent_row["parents"] + [room.b_id]
             name = r_id if len(room.r_alias) == 0 else f"{r_id} ({room.r_alias})"
-            new_rows.append({
-                "id": r_id,
-                "type": "room",
-                "name": name,
-                "name_de": name,
-                "name_en": name,
-                "parents": parents,
-                "data_quality_json": orjson.dumps({"not_in_tumonline": True}).decode(),
-                "roomfinder_data_json": _rf_data_json(room),
-                "coords_lat": room.lat,
-                "coords_lon": room.lon,
-                "coords_source": "roomfinder",
-                "sources_base_json": orjson.dumps([{
-                    "name": "Roomfinder",
-                    "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
-                }]).decode(),
-            })
+            new_rows.append(
+                {
+                    "id": r_id,
+                    "type": "room",
+                    "name": name,
+                    "name_de": name,
+                    "name_en": name,
+                    "parents": parents,
+                    "data_quality_json": orjson.dumps({"not_in_tumonline": True}).decode(),
+                    "roomfinder_data_json": _rf_data_json(room),
+                    "coords_lat": room.lat,
+                    "coords_lon": room.lon,
+                    "coords_source": "roomfinder",
+                    "sources_base_json": orjson.dumps(
+                        [
+                            {
+                                "name": "Roomfinder",
+                                "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
+                            }
+                        ]
+                    ).decode(),
+                }
+            )
             id_lookup[r_id] = {"id": r_id, "parents": parents, "name": name}
             continue
 
@@ -243,8 +253,9 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
         # roomfinder_data_json: overwrite when present
         if "roomfinder_data_json_upd" in df.columns:
             df = df.with_columns(
-                pl.coalesce(pl.col("roomfinder_data_json_upd"), pl.col("roomfinder_data_json"))
-                .alias("roomfinder_data_json"),
+                pl.coalesce(pl.col("roomfinder_data_json_upd"), pl.col("roomfinder_data_json")).alias(
+                    "roomfinder_data_json"
+                ),
             ).drop("roomfinder_data_json_upd")
 
         # Coords: setdefault, and tag coords_source when we actually used roomfinder

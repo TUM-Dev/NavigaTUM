@@ -80,7 +80,9 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
     This takes into account special floor numbering systems of buildings.
     """
     parents = df.filter(pl.col("type").is_in(_FLOOR_PROP_PARENT_TYPES)).select(
-        "id", "generators_json", "children_flat",
+        "id",
+        "generators_json",
+        "children_flat",
     )
 
     no_children = parents.filter(
@@ -467,9 +469,14 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
     lookup = {
         row["id"]: row
         for row in df.select(
-            "id", "type", "name", "short_name",
-            "props_stats_n_rooms", "props_stats_n_buildings",
-            "imgs_json", "children_flat",
+            "id",
+            "type",
+            "name",
+            "short_name",
+            "props_stats_n_rooms",
+            "props_stats_n_buildings",
+            "imgs_json",
+            "children_flat",
         ).iter_rows(named=True)
     }
 
@@ -502,7 +509,8 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
                 subtext = _("{n_buildings} Gebäude, {n_rooms} Räume").format(n_buildings=n_buildings, n_rooms=n_rooms)
             elif child["type"] == "site":
                 subtext = _("{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)").format(
-                    n_buildings=n_buildings, n_rooms=n_rooms,
+                    n_buildings=n_buildings,
+                    n_rooms=n_rooms,
                 )
             else:
                 raise RuntimeError(
@@ -510,27 +518,26 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
                     f"for: '{_id}', child id: '{child_id}'",
                 )
             imgs = orjson.loads(child["imgs_json"]) if child.get("imgs_json") else []
-            b_overview["entries"].append({
-                "id": child_id,
-                "name": child.get("short_name") or child["name"],
-                "subtext": subtext,
-                "thumb": imgs[0]["name"] if imgs else None,
-            })
+            b_overview["entries"].append(
+                {
+                    "id": child_id,
+                    "name": child.get("short_name") or child["name"],
+                    "subtext": subtext,
+                    "thumb": imgs[0]["name"] if imgs else None,
+                }
+            )
 
         return orjson.dumps(b_overview).decode()
 
-    updates = (
-        df.filter(
-            pl.col("type").is_in(_BUILDINGS_OVERVIEW_PARENT_TYPES)
-            & pl.col("children_flat").is_not_null()
-            & (pl.col("children_flat").list.len() > 0),
-        )
-        .select(
-            "id",
-            pl.struct("id", "generators_json", "children")
-            .map_elements(_build_overview, return_dtype=pl.Utf8)
-            .alias("sections_buildings_overview_json_new"),
-        )
+    updates = df.filter(
+        pl.col("type").is_in(_BUILDINGS_OVERVIEW_PARENT_TYPES)
+        & pl.col("children_flat").is_not_null()
+        & (pl.col("children_flat").list.len() > 0),
+    ).select(
+        "id",
+        pl.struct("id", "generators_json", "children")
+        .map_elements(_build_overview, return_dtype=pl.Utf8)
+        .alias("sections_buildings_overview_json_new"),
     )
     return (
         df.join(updates, on="id", how="left")
@@ -544,9 +551,16 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-_ROOMS_OVERVIEW_PARENT_TYPES = pl.Series([
-    "area", "site", "campus", "building", "joined_building", "virtual_room",
-])
+_ROOMS_OVERVIEW_PARENT_TYPES = pl.Series(
+    [
+        "area",
+        "site",
+        "campus",
+        "building",
+        "joined_building",
+        "virtual_room",
+    ]
+)
 
 
 def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
@@ -582,18 +596,15 @@ def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
         }
         return orjson.dumps(r_overview).decode()
 
-    updates = (
-        df.filter(
-            pl.col("type").is_in(_ROOMS_OVERVIEW_PARENT_TYPES)
-            & pl.col("children_flat").is_not_null()
-            & (pl.col("children_flat").list.len() > 0),
-        )
-        .select(
-            "id",
-            pl.struct("children_flat")
-            .map_elements(_build_overview, return_dtype=pl.Utf8)
-            .alias("sections_rooms_overview_json_new"),
-        )
+    updates = df.filter(
+        pl.col("type").is_in(_ROOMS_OVERVIEW_PARENT_TYPES)
+        & pl.col("children_flat").is_not_null()
+        & (pl.col("children_flat").list.len() > 0),
+    ).select(
+        "id",
+        pl.struct("children_flat")
+        .map_elements(_build_overview, return_dtype=pl.Utf8)
+        .alias("sections_rooms_overview_json_new"),
     )
     return (
         df.join(updates, on="id", how="left")
