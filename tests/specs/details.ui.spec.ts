@@ -129,12 +129,15 @@ test.describe("Details Page - Share and Actions", () => {
     const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
     await shareButton.click();
 
+    // tabbed share dialog: Open in panel
+    await page.getByRole("tab", { name: /Öffnen in/i }).click();
     const googleMapsLink = page.getByRole("link", { name: "Google Maps" });
     await expect(googleMapsLink).toHaveCount(1);
 
-    // Check for any action button
-    const actionButtons = page.getByRole("img", { name: "QR-Code für diese Seite" });
-    expect(actionButtons).toHaveCount(1);
+    // tabbed share dialog: QR-Code panel
+    await page.getByRole("tab", { name: /QR-Code/i }).click();
+    const qrImage = page.getByRole("img", { name: "QR-Code für diese Seite" });
+    await expect(qrImage).toHaveCount(1);
   });
 
   test("share modal exposes a copyable iframe embed snippet", async ({ page }) => {
@@ -144,8 +147,10 @@ test.describe("Details Page - Share and Actions", () => {
     const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
     await shareButton.click();
 
-    const embedHeading = page.getByRole("heading", { name: "Einbetten" });
-    await expect(embedHeading).toBeVisible();
+    // share dialog uses tabs — switch to the Embed tab
+    const embedTab = page.getByRole("tab", { name: /Einbetten/i });
+    await expect(embedTab).toBeVisible();
+    await embedTab.click();
 
     const snippet = page.locator("textarea[readonly]");
     await expect(snippet).toHaveCount(1);
