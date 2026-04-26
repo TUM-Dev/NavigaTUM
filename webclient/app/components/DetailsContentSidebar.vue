@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus } from "@mdi/js";
-import { useClipboard } from "@vueuse/core";
-import type { components } from "~/api_types";
-import { useEditProposal } from "~/composables/editProposal";
+import {mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus} from "@mdi/js";
+import {useClipboard} from "@vueuse/core";
+import type {components} from "~/api_types";
+import {useEditProposal, emptyPropertyFields} from "~/composables/editProposal";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 defineEmits(["openSlideshow"]);
 
-const { t } = useI18n({ useScope: "local" });
+const {t} = useI18n({useScope: "local"});
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
@@ -24,7 +24,7 @@ const {
   copy,
   copied,
   isSupported: clipboardIsSupported,
-} = useClipboard({ source: clipboardSource });
+} = useClipboard({source: clipboardSource});
 
 const suggestImage = () => {
   if (!props.data) return;
@@ -63,6 +63,12 @@ const suggestEdit = () => {
     floors: floorIds,
     floor: floorIds[0] ?? null,
   };
+
+  // Pre-fill property fields with current values
+  const fields = emptyPropertyFields();
+  editProposal.value.propertyFields = {...fields, name: props.data.name};
+  editProposal.value.originalPropertyFields = {...fields, name: props.data.name};
+
   editProposal.value.open = true;
 };
 
@@ -115,7 +121,7 @@ const suggestLocationFix = () => {
         :class="mobileSheetState === 'up' ? 'h-32' : 'h-20'"
         @click="suggestImage"
       >
-        <MdiIcon :path="mdiPlus" :size="32" class="mb-2" />
+        <MdiIcon :path="mdiPlus" :size="32" class="mb-2"/>
         <span class="text-sm font-medium">{{ t("add_first_image") }}</span>
       </button>
     </div>
@@ -144,8 +150,8 @@ const suggestLocationFix = () => {
         class="hidden group-hover:block text-zinc-800"
         @click="copy(`https://nav.tum.de${route.fullPath}`)"
       >
-        <MdiIcon :path="mdiClipboardCheck" :size="20" v-if="copied" />
-        <MdiIcon :path="mdiLink" :size="20" v-else />
+        <MdiIcon :path="mdiClipboardCheck" :size="20" v-if="copied"/>
+        <MdiIcon :path="mdiLink" :size="20" v-else/>
       </button>
     </div>
 
@@ -160,7 +166,7 @@ const suggestLocationFix = () => {
           :title="t('header.calendar')"
           @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
         >
-          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 hover:text-blue-900" />
+          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 hover:text-blue-900"/>
         </button>
         <button
           type="button"
@@ -168,10 +174,10 @@ const suggestLocationFix = () => {
           :title="t('header.suggest_edit')"
           @click="suggestEdit"
         >
-          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 hover:text-blue-900" />
+          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 hover:text-blue-900"/>
         </button>
-        <ShareButton :coords="data.coords" :name="data.name" :id="data.id" />
-        <DetailsFeedbackButton />
+        <ShareButton :coords="data.coords" :name="data.name" :id="data.id"/>
+        <DetailsFeedbackButton/>
       </div>
     </div>
 
@@ -182,7 +188,8 @@ const suggestLocationFix = () => {
         class="text-orange-900 bg-orange-50 border border-orange-200 rounded p-3 text-sm flex flex-col gap-2"
       >
         <span>{{ t("msg.inaccurate_only_building") }}</span>
-        <button type="button" class="text-orange-700 hover:text-orange-900 text-xs font-bold uppercase self-start" @click="suggestLocationFix">
+        <button type="button" class="text-orange-700 hover:text-orange-900 text-xs font-bold uppercase self-start"
+                @click="suggestLocationFix">
           {{ t("suggest_edit") }}
         </button>
       </div>
@@ -192,19 +199,20 @@ const suggestLocationFix = () => {
         :msg="t('msg.no_floor_overlay')"
         id="details-no_floor_overlay"
       />
-      <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment" />
+      <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment"/>
     </div>
 
     <!-- Property Table -->
     <div class="mb-8">
-      <DetailsPropertyTable :id="data.id" :props="data.props" :name="data.name" :navigation-enabled="data.coords.accuracy !== 'building'" />
+      <DetailsPropertyTable :id="data.id" :props="data.props" :name="data.name"
+                            :navigation-enabled="data.coords.accuracy !== 'building'"/>
     </div>
 
     <!-- Extra Sections -->
     <div class="flex flex-col gap-6">
-      <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
+      <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview"/>
       <ClientOnly>
-        <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+        <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview"/>
       </ClientOnly>
       <DetailsSources
         :coords="data.coords"
