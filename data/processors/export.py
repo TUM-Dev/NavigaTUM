@@ -1,4 +1,3 @@
-import csv
 import re
 from pathlib import Path
 from typing import Any
@@ -7,11 +6,11 @@ import orjson
 import polars as pl
 import xxhash
 import yaml
-
 from external.models.common import PydanticConfiguration
-from processors.df_utils import unflatten_row
 from utils import TranslatableStr
 from utils import TranslatableStr as _
+
+from processors.df_utils import unflatten_row
 
 
 def _orjson_default(o: Any) -> Any:
@@ -186,7 +185,7 @@ def export_for_api(data: dict[str, Any]) -> None:
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
-    parent_names = [data[p]["name"] if not p == "root" else _("Standorte", "Sites") for p in entry["parents"]]
+    parent_names = [data[p]["name"] if p != "root" else _("Standorte", "Sites") for p in entry["parents"]]
     result = {
         "parent_names": parent_names,
         **entry,
@@ -198,7 +197,7 @@ def extract_exported_item(data, entry):
         result.pop(key, None)
     if "props" in result:
         prop_keys_to_keep = {"computed", "floors", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
-        to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
+        to_delete = [e for e in result["props"] if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
     # Stable, deterministic content hash. Python's built-in `hash()` is salted by PYTHONHASHSEED
