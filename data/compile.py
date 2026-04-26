@@ -1,5 +1,8 @@
 import logging
+from concurrent.futures import Future, ThreadPoolExecutor
+from datetime import datetime
 from multiprocessing import Process
+from typing import Any
 
 import polars as pl
 
@@ -18,6 +21,7 @@ from processors import (
     structure,
     tumonline,
 )
+from processors.sitemap import SimplifiedSitemaps
 from processors.df_utils import ensure_columns
 from utils import DEV_MODE, setup_logging
 
@@ -96,6 +100,32 @@ def main() -> None:
     resizer = Process(target=images.resize_and_crop)
     resizer.start()
 
+    # Kick off sitemap network IO in worker threads so it overlaps with the main pipeline.
+    # The threads release the GIL during socket reads, so the merge/lazy work runs unimpeded.
+    # try/finally guarantees the executor is shut down even on early failure.
+    sitemap_io = ThreadPoolExecutor(max_workers=3, thread_name_prefix="sitemap-io")
+    try:
+        fut_old_data = sitemap_io.submit(sitemap.fetch_old_data)
+        fut_old_sitemaps = sitemap_io.submit(sitemap.fetch_online_sitemaps)
+        fut_web_sitemap = sitemap_io.submit(sitemap.download_online_sitemap, sitemap.WEB_SITEMAP_URL)
+
+        _run_pipeline(
+            resizer=resizer,
+            fut_old_data=fut_old_data,
+            fut_old_sitemaps=fut_old_sitemaps,
+            fut_web_sitemap=fut_web_sitemap,
+        )
+    finally:
+        sitemap_io.shutdown(wait=True)
+
+
+def _run_pipeline(
+    *,
+    resizer: Process,
+    fut_old_data: Future[list[Any]],
+    fut_old_sitemaps: Future[SimplifiedSitemaps],
+    fut_web_sitemap: Future[dict[str, datetime]],
+) -> None:
     # --- Read base data ---
     logging.info("-- 00 areatree")
     df = areatree.read_areatree()
@@ -231,7 +261,11 @@ def main() -> None:
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
-    sitemap.generate_sitemap()
+    sitemap.generate_sitemap(
+        old_data=fut_old_data.result(),
+        old_sitemaps=fut_old_sitemaps.result(),
+        web_sitemap=fut_web_sitemap.result(),
+    )
 
     resizer.join(timeout=60 * 4)
     if resizer.exitcode != 0:

@@ -1,5 +1,5 @@
 import hashlib
-import json
+import orjson
 import logging
 import os
 import shutil
@@ -90,7 +90,7 @@ def add_img(df: pl.DataFrame) -> pl.DataFrame:
                     break
                 img_data.append(source_info)
 
-        imgs_rows.append({"id": _id, "imgs_json_new": json.dumps(img_data)})
+        imgs_rows.append({"id": _id, "imgs_json_new": orjson.dumps(img_data).decode()})
 
     if imgs_rows:
         imgs_df = pl.DataFrame(imgs_rows)
@@ -228,8 +228,7 @@ def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
     logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT_FILE_PATH.is_file():
-        with HASH_LUT_FILE_PATH.open(encoding="utf-8") as file:
-            return json.load(file)  # type: ignore
+        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore
     return {}
 
 
@@ -240,8 +239,7 @@ def _save_hash_lut(img_sources: dict[str, list[ImageSource]]) -> None:
         _id, _index = parse_image_filename(img_path.name)
         offsets = _extract_offsets(_id, _index, img_path, img_sources)
         hashes_lut[img_path.name] = _gen_file_hash(img_path, offsets)
-    with HASH_LUT_FILE_PATH.open("w+", encoding="utf-8") as file:
-        json.dump(hashes_lut, file, sort_keys=True, indent=2)
+    HASH_LUT_FILE_PATH.write_bytes(orjson.dumps(hashes_lut, option=orjson.OPT_INDENT_2 | orjson.OPT_SORT_KEYS))
 
 
 def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
@@ -249,7 +247,7 @@ def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
     with img_path.open("rb") as file:
         # pylint: disable-next=unexpected-keyword-arg
         file_hash = hashlib.sha256(file.read(), usedforsecurity=False).hexdigest()
-        json_offsets = json.dumps({"thumb": offsets.thumb, "header": offsets.header}, sort_keys=True).encode("utf-8")
+        json_offsets = orjson.dumps({"thumb": offsets.thumb, "header": offsets.header}, option=orjson.OPT_SORT_KEYS)
         # pylint: disable-next=unexpected-keyword-arg
         offset_hash = hashlib.sha256(json_offsets, usedforsecurity=False).hexdigest()
         return f"{file_hash}_{offset_hash}"
