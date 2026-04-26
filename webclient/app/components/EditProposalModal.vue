@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useEditProposal, emptyPropertyFields, emptyRoomEdit } from "~/composables/editProposal";
 import type { components } from "~/api_types";
+import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
@@ -17,9 +17,13 @@ const osmEditUrl = computed(() => {
 
 // Known usages for category dropdown — cached across modal opens
 const runtimeConfig = useRuntimeConfig();
-const { data: knownUsages } = useAsyncData("known_usages", () =>
-  $fetch<{ name_de: string; name_en: string; din_277: string }[]>(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
-  { default: () => [] },
+const { data: knownUsages } = useAsyncData(
+  "known_usages",
+  () =>
+    $fetch<{ name_de: string; name_en: string; din_277: string }[]>(
+      `${runtimeConfig.public.cdnURL}/cdn/known_usages.json`
+    ),
+  { default: () => [] }
 );
 
 const categoryOptions = computed(() =>
@@ -27,7 +31,7 @@ const categoryOptions = computed(() =>
     label: `${u.name_de} / ${u.name_en}`,
     value: `${u.name_de}|${u.name_en}|${u.din_277}`,
     ...u,
-  })),
+  }))
 );
 
 const selectedCategory = computed({
@@ -124,14 +128,14 @@ watch(
       editProposal.value.propertyFields = emptyPropertyFields();
       editProposal.value.originalPropertyFields = emptyPropertyFields();
     }
-  },
+  }
 );
 
 // Methods
 function addImageEditForRoom(
   roomId: string,
   base64: string,
-  metadata: typeof editProposal.value.imageUpload.metadata,
+  metadata: typeof editProposal.value.imageUpload.metadata
 ) {
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
@@ -217,7 +221,6 @@ function getEditTypeDisplay(roomId: string): string {
 
   return types.length > 0 ? types.join(", ") : t("room_edits");
 }
-
 </script>
 
 <template>
