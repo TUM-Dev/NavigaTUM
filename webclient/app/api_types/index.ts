@@ -1147,7 +1147,7 @@ export type components = {
           readonly name?: string | null;
           readonly short_name?: string | null;
           /** @enum {string} */
-          readonly type: "Name";
+          readonly type: "name";
         },
         {
           readonly din_277?: string | null;
@@ -1155,13 +1155,13 @@ export type components = {
           readonly name_de: string;
           readonly name_en: string;
           /** @enum {string} */
-          readonly type: "Usage";
+          readonly type: "usage";
         },
         {
           readonly text_de: string;
           readonly text_en: string;
           /** @enum {string} */
-          readonly type: "Link";
+          readonly type: "link";
           readonly url: string;
         },
       ]

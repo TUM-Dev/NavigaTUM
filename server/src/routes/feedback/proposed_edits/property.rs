@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use super::AppliableEdit;
 
 #[derive(Deserialize, Debug, Clone, utoipa::ToSchema)]
-#[serde(tag = "type")]
+#[serde(tag = "type", rename_all = "lowercase")]
 pub enum PropertyEdit {
     Name {
         name: Option<String>,

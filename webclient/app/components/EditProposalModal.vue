@@ -68,7 +68,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.name !== original.name || fields.shortName !== original.shortName) {
     if (fields.name || fields.shortName) {
       edits.push({
-        type: "Name",
+        type: "name",
         name: fields.name || null,
         short_name: fields.shortName || null,
       });
@@ -79,7 +79,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) {
     if (fields.categoryDe) {
       edits.push({
-        type: "Usage",
+        type: "usage",
         name_de: fields.categoryDe,
         name_en: fields.categoryEn || fields.categoryDe,
         din_277: fields.categoryDin277 || null,
@@ -93,7 +93,7 @@ function buildPropertyEdits(): PropertyEdit[] {
     if (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) {
       if (fields.linkTextDe || fields.linkTextEn) {
         edits.push({
-          type: "Link",
+          type: "link",
           text_de: fields.linkTextDe || fields.linkTextEn,
           text_en: fields.linkTextEn || fields.linkTextDe,
           url: fields.linkUrl,

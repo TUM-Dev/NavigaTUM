@@ -2355,7 +2355,7 @@ components:
             type:
               type: string
               enum:
-                - Name
+                - name
         - type: object
           required:
             - name_de
@@ -2377,7 +2377,7 @@ components:
             type:
               type: string
               enum:
-                - Usage
+                - usage
         - type: object
           required:
             - text_de
@@ -2392,7 +2392,7 @@ components:
             type:
               type: string
               enum:
-                - Link
+                - link
             url:
               type: string
     PropsResponse:
