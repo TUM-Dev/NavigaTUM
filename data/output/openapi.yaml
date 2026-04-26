@@ -315,7 +315,7 @@ paths:
       description: |-
         This returns a 1200x630px preview for the location (room/building/..).
 
-        This is usefully for implementing custom OpenGraph images for detail previews.
+        This is usefully for implementing custom `OpenGraph` images for detail previews.
       operationId: maps_handler
       parameters:
         - name: id
@@ -513,7 +513,7 @@ paths:
           in: query
           description: |-
             Time for the route (ISO 8601 format)
-            Used with arrive_by to determine if this is departure or arrival time
+            Used with `arrive_by` to determine if this is departure or arrival time
           required: false
           schema:
             type:
@@ -1159,7 +1159,7 @@ components:
         id:
           type: integer
           format: int32
-          description: ID of the calendar entry used in TUMonline internally
+          description: ID of the calendar entry used in `TUMonline` internally
           examples:
             - 6424
         room_code:
@@ -1306,7 +1306,7 @@ components:
             - Z1
         tumonline:
           type: string
-          description: How TUMonline names the floor
+          description: How `TUMonline` names the floor
           examples:
             - U1
             - EG
@@ -1351,7 +1351,7 @@ components:
           type: string
           description: |-
             The name of the image file.
-            consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+            consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
           examples:
             - mi_0.webp
     ImageMetadata:
@@ -2099,7 +2099,7 @@ components:
           description: |-
             The full name of the operator (localized). Null for organisations that
              are no longer active (e.g. id=38698), but where the operator has not been
-            updated in TUMonline.
+            updated in `TUMonline`.
           examples:
             - TUM School of Social Sciences and Technology
         url:
@@ -2148,7 +2148,7 @@ components:
             Floor of the Map.
 
             Should be used for display to the user in selectors.
-            Matches the floor part of the TUMonline roomcode.
+            Matches the floor part of the `TUMonline` roomcode.
           example: EG
         id:
           type: integer
@@ -2229,7 +2229,7 @@ components:
           format: double
         name:
           type: string
-          description: name of the transit stop / PoI / address
+          description: name of the transit stop / `PoI` / address
         scheduled_arrival:
           type:
             - string
@@ -2355,7 +2355,7 @@ components:
             type:
               type: string
               enum:
-                - Name
+                - name
         - type: object
           required:
             - name_de
@@ -2377,7 +2377,7 @@ components:
             type:
               type: string
               enum:
-                - Usage
+                - usage
         - type: object
           required:
             - text_de
@@ -2392,7 +2392,7 @@ components:
             type:
               type: string
               enum:
-                - Link
+                - link
             url:
               type: string
     PropsResponse:

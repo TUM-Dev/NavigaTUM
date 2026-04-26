@@ -1,12 +1,12 @@
-import orjson
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
+from utils import TranslatableStr as _
 
 from processors import merge
 from processors.df_utils import translatable_to_columns
-from utils import TranslatableStr as _
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -19,7 +19,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
 
     existing_ids = set(df["id"].to_list())
     # Build parent lookup: id -> parents list
-    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list()))
+    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list(), strict=True))
 
     new_rows: list[dict[str, Any]] = []
     for _id, poi in poi_data.items():

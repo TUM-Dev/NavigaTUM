@@ -1,11 +1,16 @@
+use std::env;
+
 use crate::limited::vec::LimitedVec;
 use crate::setup::file_loader;
 use bytes::Bytes;
-use parquet::file::reader::{FileReader, SerializedFileReader};
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
 use parquet::record::Field;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{Postgres, Transaction};
 use tracing::error;
 
 #[derive(Debug, Clone)]
+#[allow(clippy::struct_field_names)]
 pub(super) struct Alias {
     alias: String,
     /// the key is the id of the entry
@@ -16,10 +21,7 @@ pub(super) struct Alias {
 }
 
 impl Alias {
-    async fn store(
-        self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+    async fn store(self, tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
@@ -38,7 +40,7 @@ impl Alias {
 }
 #[tracing::instrument]
 pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("alias_data.parquet", &cdn_url).await?;
     let mut aliase = Vec::<Alias>::new();
     let reader = SerializedFileReader::new(Bytes::from(body))?;
@@ -50,8 +52,8 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
         let mut nested_aliases: Vec<String> = Vec::new();
         for (col_name, field) in row.get_column_iter() {
             match (col_name.as_str(), field) {
-                ("id", Field::Str(v)) => id = v.clone(),
-                ("type", Field::Str(v)) => r#type = v.clone(),
+                ("id", Field::Str(v)) => id.clone_from(v),
+                ("type", Field::Str(v)) => r#type.clone_from(v),
                 ("visible_id", Field::Str(v)) => visible_id_opt = Some(v.clone()),
                 ("aliases", Field::ListInternal(list)) => {
                     for el in list.elements() {
@@ -90,7 +92,7 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
 #[tracing::instrument(skip(tx))]
 pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    tx: &mut Transaction<'_, Postgres>,
 ) -> anyhow::Result<()> {
     let mut total_errors_cnt = 0_usize;
     for task in aliases {
@@ -103,7 +105,7 @@ pub async fn load_all_to_db(
                     visible_id = task.visible_id,
                     error = ?e,
                     "Could not store alias (sample {total_errors_cnt}/3)",
-                )
+                );
             }
         }
     }

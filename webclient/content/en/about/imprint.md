@@ -1,5 +1,6 @@
 ---
 title: Imprint
+description: Legal notice for NavigaTUM, including publisher information, the responsible party, and contact details required under German law.
 ---
 
 # Imprint

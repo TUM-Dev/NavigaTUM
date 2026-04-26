@@ -1,8 +1,12 @@
+use std::env;
+
 use crate::setup::file_loader;
 use bytes::Bytes;
-use parquet::file::reader::{FileReader, SerializedFileReader};
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
 use parquet::record::Field;
 use serde::Deserialize;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{PgPool, Postgres, Transaction};
 
 #[derive(Deserialize, Default, Debug)]
 struct Station {
@@ -33,8 +37,8 @@ impl DBStation {
     }
     async fn store(
         &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "INSERT INTO transportation_stations(parent,id,name,coordinate)\
             VALUES ($1,$2,$3,POINT($4,$5))",
@@ -50,8 +54,8 @@ impl DBStation {
 }
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
 
     let reader = SerializedFileReader::new(Bytes::from(body))?;
@@ -61,9 +65,9 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
         let mut station = Station::default();
         for (col_name, field) in row.get_column_iter() {
             match (col_name.as_str(), field) {
-                ("dhid", Field::Str(v)) => station.dhid = v.clone(),
+                ("dhid", Field::Str(v)) => station.dhid.clone_from(v),
                 ("parent", Field::Str(v)) => station.parent = Some(v.clone()),
-                ("name", Field::Str(v)) => station.name = v.clone(),
+                ("name", Field::Str(v)) => station.name.clone_from(v),
                 ("lat", Field::Float(v)) => station.lat = f64::from(*v),
                 ("lat", Field::Double(v)) => station.lat = *v,
                 ("lon", Field::Float(v)) => station.lon = f64::from(*v),
@@ -86,9 +90,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn clean(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+async fn clean(tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
     sqlx::query!("DELETE FROM transportation_stations WHERE 1=1")
         .execute(&mut **tx)
         .await

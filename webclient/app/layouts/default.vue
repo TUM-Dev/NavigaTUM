@@ -63,9 +63,17 @@ useHead({
   link: [...(i18nHead.value.link || [])],
   meta: [...(i18nHead.value.meta || [])],
 });
+
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-30 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+  >
+    {{ t("skip_to_content") }}
+  </a>
   <AppNavHeader>
     <AppSearchBar v-model:search-bar-focused="searchBarFocused" />
   </AppNavHeader>
@@ -75,7 +83,7 @@ useHead({
     class="mx-auto mt-16 min-h-[calc(100vh-360px)] max-w-4xl pb-10 transition-opacity"
     :class="{ 'opacity-70': searchBarFocused }"
   >
-    <main class="mx-5">
+    <main id="main-content" class="mx-5" tabindex="-1">
       <slot />
     </main>
   </div>
@@ -85,3 +93,10 @@ useHead({
     <LazyFeedbackModal v-if="feedback.open" />
   </ClientOnly>
 </template>
+
+<i18n lang="yaml">
+de:
+  skip_to_content: Zum Hauptinhalt springen
+en:
+  skip_to_content: Skip to main content
+</i18n>
