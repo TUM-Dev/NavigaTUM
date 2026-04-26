@@ -52,8 +52,9 @@ logos.workspace=true
 regex.workspace=true
 
 # web access
-oauth2 = { workspace=true, default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+oauth2 = { workspace=true, default-features = false }
+oauth2-reqwest.workspace=true
+reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls"] }
 
 # image production
 image = { workspace=true, default-features = false, features = ["jpeg", "png", "webp"] }
