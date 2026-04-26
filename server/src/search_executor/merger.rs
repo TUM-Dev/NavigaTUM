@@ -13,6 +13,9 @@ pub(super) struct MergedSections {
     pub(super) buildings: super::ResultsSection,
     pub(super) rooms: super::ResultsSection,
     pub(super) pois: super::ResultsSection,
+    /// Facets in the order their first hit appeared in the ranked Meilisearch
+    /// results. Facets that never received a hit are not included.
+    pub(super) facet_order: Vec<ResultFacet>,
 }
 
 #[tracing::instrument(skip(hits, facet_distribution))]
@@ -27,12 +30,12 @@ pub(super) fn merge_search_results(
     let mut buildings = empty_section(ResultFacet::Buildings, totals.buildings);
     let mut rooms = empty_section(ResultFacet::Rooms, totals.rooms);
     let mut pois = empty_section(ResultFacet::Pois, totals.pois);
+    let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(4);
 
-    // Visible counts of higher-priority facets are frozen the moment a
-    // lower-priority facet's first hit appears in the ranking. This preserves
-    // the original two-section behavior (a lower-ranked room would not
-    // retroactively expand the default visible buildings count) and
-    // generalizes it to four facets: sites > buildings > rooms > pois.
+    // The visible count of any facet that already has hits is frozen the
+    // moment a *new* facet's first hit appears in the ranking. This preserves
+    // the original two-section behavior (later, lower-ranked hits don't
+    // retroactively expand the default visible count of an earlier section).
     for hit in hits {
         let cap = active_count(&sites)
             + active_count(&buildings)
@@ -42,27 +45,36 @@ pub(super) fn merge_search_results(
             break;
         }
 
-        match hit.result.facet.as_deref() {
-            Some(SITE_FACET) if sites.entries.len() < limits.sites_count => {
-                sites.entries.push(make_building_like_entry(hit));
-            }
+        let facet = match hit.result.facet.as_deref() {
+            Some(SITE_FACET) if sites.entries.len() < limits.sites_count => ResultFacet::Sites,
             Some(BUILDING_FACET) if buildings.entries.len() < limits.buildings_count => {
-                freeze_if_first(&mut sites);
-                buildings.entries.push(make_building_like_entry(hit));
+                ResultFacet::Buildings
             }
-            Some(ROOM_FACET) if rooms.entries.len() < limits.rooms_count => {
-                freeze_if_first(&mut sites);
-                freeze_if_first(&mut buildings);
-                rooms.entries.push(make_room_like_entry(hit));
-            }
-            Some(POI_FACET) if pois.entries.len() < limits.pois_count => {
-                freeze_if_first(&mut sites);
-                freeze_if_first(&mut buildings);
-                freeze_if_first(&mut rooms);
-                pois.entries.push(make_room_like_entry(hit));
-            }
-            _ => {}
+            Some(ROOM_FACET) if rooms.entries.len() < limits.rooms_count => ResultFacet::Rooms,
+            Some(POI_FACET) if pois.entries.len() < limits.pois_count => ResultFacet::Pois,
+            _ => continue,
         };
+
+        if !facet_order.contains(&facet) {
+            for prior in &facet_order {
+                match prior {
+                    ResultFacet::Sites => freeze_if_first(&mut sites),
+                    ResultFacet::Buildings => freeze_if_first(&mut buildings),
+                    ResultFacet::Rooms => freeze_if_first(&mut rooms),
+                    ResultFacet::Pois => freeze_if_first(&mut pois),
+                    ResultFacet::Addresses => {}
+                }
+            }
+            facet_order.push(facet);
+        }
+
+        match facet {
+            ResultFacet::Sites => sites.entries.push(make_building_like_entry(hit)),
+            ResultFacet::Buildings => buildings.entries.push(make_building_like_entry(hit)),
+            ResultFacet::Rooms => rooms.entries.push(make_room_like_entry(hit)),
+            ResultFacet::Pois => pois.entries.push(make_room_like_entry(hit)),
+            ResultFacet::Addresses => {}
+        }
     }
 
     // Sections that never got their visible count frozen show all collected
@@ -77,6 +89,7 @@ pub(super) fn merge_search_results(
         buildings,
         rooms,
         pois,
+        facet_order,
     }
 }
 

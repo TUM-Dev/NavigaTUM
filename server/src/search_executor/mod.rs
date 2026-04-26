@@ -168,6 +168,7 @@ pub async fn do_geoentry_search(
         buildings: section_buildings,
         rooms: mut section_rooms,
         pois: section_pois,
+        facet_order,
     } = merger::merge_search_results(
         &limits,
         &response.hits,
@@ -179,18 +180,35 @@ pub async fn do_geoentry_search(
         .iter_mut()
         .for_each(|r| visitor.visit(r));
 
-    // Order: non-empty facets first, in priority order (sites > buildings >
-    // rooms > pois). Empty sections still trail at the end so the caller can
-    // observe `estimated_total_hits` if it cares (mirrors the previous
-    // two-section behavior where the empty section was kept in the response).
-    let sections = [
-        section_sites,
-        section_buildings,
-        section_rooms,
-        section_pois,
-    ];
-    let (non_empty, empty): (Vec<_>, Vec<_>) = sections.into_iter().partition(|s| s.n_visible != 0);
-    LimitedVec(non_empty.into_iter().chain(empty).collect())
+    // Order: non-empty facets first, in the order they first appeared in the
+    // ranked Meilisearch hits (so a facet whose top hit is more relevant
+    // ranks above one whose top hit is weaker). Empty sections trail at the
+    // end so the caller can still observe `estimated_total_hits`.
+    let mut sites_opt = Some(section_sites);
+    let mut buildings_opt = Some(section_buildings);
+    let mut rooms_opt = Some(section_rooms);
+    let mut pois_opt = Some(section_pois);
+
+    let mut sections: Vec<ResultsSection> = Vec::with_capacity(4);
+    for facet in &facet_order {
+        let taken = match facet {
+            ResultFacet::Sites => sites_opt.take(),
+            ResultFacet::Buildings => buildings_opt.take(),
+            ResultFacet::Rooms => rooms_opt.take(),
+            ResultFacet::Pois => pois_opt.take(),
+            ResultFacet::Addresses => None,
+        };
+        if let Some(s) = taken {
+            sections.push(s);
+        }
+    }
+    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt]
+        .into_iter()
+        .flatten()
+    {
+        sections.push(trailing);
+    }
+    LimitedVec(sections)
 }
 
 #[cfg(test)]
