@@ -130,7 +130,7 @@ def export_for_search(data: dict[str, Any]) -> None:
     _make_sure_is_safe(search_bytes)
     (OUTPUT_DIR_PATH / "search_data.json").write_bytes(search_bytes)
     search_df = pl.DataFrame(export, infer_schema_length=None)
-    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
+    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def extract_parent_building_names(data: dict[str, Any], parents: list[str], building_parents_index: int) -> list[str]:
@@ -163,7 +163,7 @@ def export_for_status() -> None:
 
     export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
     df = pl.DataFrame(export_polars_data, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
+    df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def export_for_api(data: dict[str, Any]) -> None:
@@ -178,7 +178,7 @@ def export_for_api(data: dict[str, Any]) -> None:
     (OUTPUT_DIR_PATH / "api_data.json").write_bytes(api_data_bytes)
     alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in orjson.loads(api_data_bytes)]
     df = pl.DataFrame(alias_data, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=22)
+    df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def extract_exported_item(data, entry):
