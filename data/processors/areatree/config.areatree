@@ -394,7 +394,7 @@
       5128:Zentrum für Quantum Engineering:
       5130:Telefonzentrale:
       5131:FRM-Poststelle (Container):
-      5132:Center for Organoid Systems (COS):
+      5132:Center for Organoid Systems|COS:5132,cos
       5140:Physik I Container:
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
@@ -408,7 +408,7 @@
       -5251:RCM-Abwassergebäude:
       -5252:RCM-Gasversorgungsstation:
       5257:Werkstatt u. Bürogebäude FRM II (UYW):5257,uyw
-    5301:IAS, Institut für Advanced Study:5301,ias
+    5301:Institut für Advanced Study|IAS:5301,ias
     5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
     5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
