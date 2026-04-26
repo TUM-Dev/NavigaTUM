@@ -40,7 +40,7 @@ impl fmt::Debug for OverlayText {
 }
 
 impl OverlayText {
-    #[must_use] 
+    #[must_use]
     pub fn with(text: &str, font: &'static FontArc) -> Self {
         Self {
             x: 0,
@@ -50,7 +50,7 @@ impl OverlayText {
         }
     }
     /// x and y are in pixels from bottom right corner
-    #[must_use] 
+    #[must_use]
     pub fn at(self, x: i32, y: i32) -> Self {
         Self { x, y, ..self }
     }

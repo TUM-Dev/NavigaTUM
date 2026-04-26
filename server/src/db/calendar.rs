@@ -132,10 +132,7 @@ impl Event {
         Ok(())
     }
     #[tracing::instrument(skip(tx))]
-    async fn delete(
-        tx: &mut Transaction<'_, Postgres>,
-        id: &str,
-    ) -> Result<(), sqlx::Error> {
+    async fn delete(tx: &mut Transaction<'_, Postgres>, id: &str) -> Result<(), sqlx::Error> {
         loop {
             // deliberately somewhat low to not have too long blocking segments
             let res = sqlx::query!(

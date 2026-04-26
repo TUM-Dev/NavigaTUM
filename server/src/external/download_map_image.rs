@@ -65,7 +65,7 @@ impl MapImageDownloadTask {
         }
         (offset_value % possible_tiles) as u32
     }
-    #[must_use] 
+    #[must_use]
     pub fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
             location: TileLocation {
@@ -77,7 +77,7 @@ impl MapImageDownloadTask {
         }
     }
 
-    #[must_use] 
+    #[must_use]
     pub fn with_index(self, x_index: u32, y_index: u32) -> Self {
         Self {
             index: (x_index, y_index),

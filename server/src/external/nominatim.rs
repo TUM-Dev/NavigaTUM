@@ -19,7 +19,7 @@ pub struct NominatimAddressResponse {
 }
 
 impl NominatimAddressResponse {
-    #[must_use] 
+    #[must_use]
     pub fn serialise(&self) -> String {
         let mut result = Vec::<String>::new();
         if let Some(state) = self.state.clone() {

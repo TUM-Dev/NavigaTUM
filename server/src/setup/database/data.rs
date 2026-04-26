@@ -97,10 +97,7 @@ impl DelocalisedValues {
             a => a,
         }
     }
-    async fn store(
-        self,
-        tx: &mut Transaction<'_, Postgres>,
-    ) -> Result<(), sqlx::Error> {
+    async fn store(self, tx: &mut Transaction<'_, Postgres>) -> Result<(), sqlx::Error> {
         sqlx::query!(
             r#"
             INSERT INTO de(key,data,hash)

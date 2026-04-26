@@ -105,9 +105,7 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn clean(
-    tx: &mut Transaction<'_, Postgres>,
-) -> Result<PgQueryResult, sqlx::Error> {
+async fn clean(tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
     sqlx::query!("DELETE FROM transportation_stations WHERE 1=1")
         .execute(&mut **tx)
         .await

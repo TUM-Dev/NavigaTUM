@@ -249,12 +249,8 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 impl From<PedestrianTypeRequest> for PedestrianProfile {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => {
-                Self::Foot
-            }
-            PedestrianTypeRequest::Wheelchair => {
-                Self::Wheelchair
-            }
+            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => Self::Foot,
+            PedestrianTypeRequest::Wheelchair => Self::Wheelchair,
         }
     }
 }

@@ -29,7 +29,7 @@ pub mod external;
 pub mod overlays;
 pub mod refresh;
 pub mod routes;
-use routes::{search, feedback, calendar, maps, locations};
+use routes::{calendar, feedback, locations, maps, search};
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024 * 10; // 10 MB
 
@@ -162,8 +162,7 @@ async fn run_maintenance_work(
         let _ = debug_span!("updating meilisearch data").enter();
         let _ = meilisearch_initialised.write().await;
         initialisation_started.wait().await;
-        let ms_url =
-            env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+        let ms_url = env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
         let client = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok())
             .expect("a valid meilisearch client");
         setup::meilisearch::setup(&client)

@@ -1,8 +1,11 @@
 use std::collections::HashMap;
 
-use chrono::{DateTime, Utc};
 use chroma_forge::Color;
-use motis_openapi_progenitor::types::{PlanResponse, Itinerary, Leg, Mode, Rental, RentalFormFactor, StepInstruction, Direction, Place, VertexType, Alert, AlertCause, AlertEffect, AlertSeverityLevel};
+use chrono::{DateTime, Utc};
+use motis_openapi_progenitor::types::{
+    Alert, AlertCause, AlertEffect, AlertSeverityLevel, Direction, Itinerary, Leg, Mode, Place,
+    PlanResponse, Rental, RentalFormFactor, StepInstruction, VertexType,
+};
 use serde::Serialize;
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -398,7 +401,7 @@ impl From<Mode> for ModeResponse {
 }
 
 pub mod rental {
-    use super::{Serialize, Rental, RentalFormFactor};
+    use super::{Rental, RentalFormFactor, Serialize};
     #[derive(Serialize, Debug, utoipa::ToSchema)]
     #[serde_with::skip_serializing_none]
     pub struct RentalResponse {

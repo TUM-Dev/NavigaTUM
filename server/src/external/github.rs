@@ -2,14 +2,13 @@ use std::env;
 use std::sync::LazyLock;
 
 use actix_web::HttpResponse;
-use octocrab::params::State;
 use octocrab::Octocrab;
+use octocrab::params::State;
 use regex::Regex;
 use tracing::error;
 
-static FEEDBACK_NEWLINE_RE: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"[ \t]*\n").expect("static regex must compile at startup")
-});
+static FEEDBACK_NEWLINE_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"[ \t]*\n").expect("static regex must compile at startup"));
 
 #[derive(Debug)]
 pub struct GitHub {
@@ -137,7 +136,9 @@ impl GitHub {
             .take(len)
             .collect::<String>();
 
-        FEEDBACK_NEWLINE_RE.replace_all(&s_clean, "  \n").to_string()
+        FEEDBACK_NEWLINE_RE
+            .replace_all(&s_clean, "  \n")
+            .to_string()
     }
 
     pub fn github_token() -> Option<String> {

@@ -21,10 +21,7 @@ pub(super) struct Alias {
 }
 
 impl Alias {
-    async fn store(
-        self,
-        tx: &mut Transaction<'_, Postgres>,
-    ) -> Result<PgQueryResult, sqlx::Error> {
+    async fn store(self, tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
@@ -63,9 +60,7 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
         let id = id_col
             .get(index)
             .expect("index < id_col.len() — guaranteed by loop bound");
-        let r#type = type_col
-            .get(index)
-            .expect("type_col matches id_col length");
+        let r#type = type_col.get(index).expect("type_col matches id_col length");
         let visible_id = visible_id_col.get(index);
         let visible_id = match visible_id {
             Some(v) => v.to_string(),
@@ -106,9 +101,7 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
         let id = id_col
             .get(index)
             .expect("index < id_col.len() — guaranteed by loop bound");
-        let r#type = type_col
-            .get(index)
-            .expect("type_col matches id_col length");
+        let r#type = type_col.get(index).expect("type_col matches id_col length");
         let visible_id = visible_id_col.get(index);
         let visible_id = match visible_id {
             Some(v) => v.to_string(),

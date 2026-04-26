@@ -34,8 +34,11 @@ impl Description {
                     .expect("writing to a String is infallible");
             }
 
-            writeln!(self.body, "\nThe following {category_name} edits were made:")
-                .expect("writing to a String is infallible");
+            writeln!(
+                self.body,
+                "\nThe following {category_name} edits were made:"
+            )
+            .expect("writing to a String is infallible");
 
             self.body += "| entry | edit |\n";
             self.body += "| ---   | ---  |\n";
@@ -67,8 +70,11 @@ impl Description {
                     .expect("writing to a String is infallible");
             }
 
-            writeln!(self.body, "\nThe following {category_name} edits were made:")
-                .expect("writing to a String is infallible");
+            writeln!(
+                self.body,
+                "\nThe following {category_name} edits were made:"
+            )
+            .expect("writing to a String is infallible");
 
             for (key, value) in set {
                 let result = value.apply(&key, base_dir, branch);
