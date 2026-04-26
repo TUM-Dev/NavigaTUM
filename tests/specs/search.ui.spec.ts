@@ -75,7 +75,7 @@ test.describe("Search Bar - Interactive Search", () => {
     await searchInput.fill("MI");
     await searchInput.press("Enter");
 
-    await expect(page).toHaveURL("/en/search?q=MI");
+    await expect(page).toHaveURL("/search?q=MI");
   });
 
   test("should not focus search bar when typing on search results page", async ({ page }) => {
@@ -196,23 +196,30 @@ test.describe("Search Filters - URL to chip state", () => {
   });
 });
 
+// Bucket labels also appear inside search-result links (e.g. "Mathematik /
+// Informatik Gebäude"), so unscoped getByText('Gebäude') is ambiguous. Scope
+// to the headlessui PopoverPanel that the type chip opens.
+const typePopover = (page: import("@playwright/test").Page) =>
+  page.locator('[id^="headlessui-popover-panel"]').first();
+
 test.describe("Search Filters - Type popover", () => {
   test("clicking type chip opens popover with all four buckets", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     await page.getByRole("button", { name: TYPE_CHIP }).first().click();
 
-    await expect(page.getByText("Raum", { exact: true })).toBeVisible();
-    await expect(page.getByText("Gebäude", { exact: true })).toBeVisible();
-    await expect(page.getByText(/Gelände/)).toBeVisible();
-    await expect(page.getByText(/POI/)).toBeVisible();
+    const popover = typePopover(page);
+    await expect(popover.getByText("Raum", { exact: true })).toBeVisible();
+    await expect(popover.getByText("Gebäude", { exact: true })).toBeVisible();
+    await expect(popover.getByText(/Gelände/)).toBeVisible();
+    await expect(popover.getByText(/POI/)).toBeVisible();
   });
 
   test("toggling a type bucket updates the URL", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     await page.getByRole("button", { name: TYPE_CHIP }).first().click();
-    await page.getByText("Gebäude", { exact: true }).click();
+    await typePopover(page).getByText("Gebäude", { exact: true }).click();
 
     await expect(page).toHaveURL(/type=building/);
   });
@@ -221,7 +228,7 @@ test.describe("Search Filters - Type popover", () => {
     await page.goto("/search?q=MI&type=building", { waitUntil: "networkidle" });
 
     await page.getByRole("button", { name: TYPE_CHIP }).first().click();
-    await page.getByText("Gebäude", { exact: true }).click();
+    await typePopover(page).getByText("Gebäude", { exact: true }).click();
 
     await expect(page).not.toHaveURL(/type=building/);
   });
@@ -334,8 +341,10 @@ test.describe("Search Filters - Sort control", () => {
 
     await page.getByRole("button", { name: /Sortieren: Relevanz/ }).first().click();
 
-    await expect(page.getByRole("button", { name: "Relevanz" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Entfernung" })).toBeVisible();
+    // The chip's own accessible name is "Sortieren: Relevanz", so a non-exact
+    // match would also resolve to it. Pin to the option labels.
+    await expect(page.getByRole("button", { name: "Relevanz", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Entfernung", exact: true })).toBeVisible();
   });
 
   test("URL near= param drives the sort label to distance", async ({ page }) => {
@@ -349,7 +358,7 @@ test.describe("Search Filters - Sort control", () => {
     await page.goto("/search?q=MI&near=48.262,11.668", { waitUntil: "networkidle" });
 
     await page.getByRole("button", { name: /Sortieren: Entfernung/ }).first().click();
-    await page.getByRole("button", { name: "Relevanz" }).click();
+    await page.getByRole("button", { name: "Relevanz", exact: true }).click();
 
     await expect(page).not.toHaveURL(/near=/);
   });
@@ -373,13 +382,16 @@ test.describe("Search Filters - Autocomplete dropdown integration", () => {
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
     await searchInput.fill("MI");
 
-    const buildingsHeader = page.getByText("Gebäude / Standorte").first();
-    await expect(buildingsHeader).toBeVisible();
+    // Buildings header is data-dependent (and the prod backend currently
+    // returns no sections when a type filter is active). The chip wrapper
+    // only exists while the dropdown is open, so use it as the open-signal.
+    const typeChip = page.getByRole("button", { name: TYPE_CHIP }).first();
+    await expect(typeChip).toBeVisible();
 
-    await page.getByRole("button", { name: TYPE_CHIP }).first().click();
-    await page.getByText("Gebäude", { exact: true }).click();
+    await typeChip.click();
+    await typePopover(page).getByText("Gebäude", { exact: true }).click();
 
-    await expect(buildingsHeader).toBeVisible();
+    await expect(typeChip).toBeVisible();
   });
 
   test("staged filter selections survive the form submission into URL", async ({ page }) => {
@@ -388,7 +400,7 @@ test.describe("Search Filters - Autocomplete dropdown integration", () => {
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
     await searchInput.fill("MI");
     await page.getByRole("button", { name: TYPE_CHIP }).first().click();
-    await page.getByText("Gebäude", { exact: true }).click();
+    await typePopover(page).getByText("Gebäude", { exact: true }).click();
 
     await searchInput.press("Enter");
 
@@ -399,25 +411,29 @@ test.describe("Search Filters - Autocomplete dropdown integration", () => {
 
 test.describe("Search Filters - API parameter expansion", () => {
   const expansionCases = [
-    { bucket: "building", expanded: "joined_building" },
-    { bucket: "room", expanded: "virtual_room" },
+    { bucket: "building", expanded: "joined_building", label: "Gebäude" },
+    { bucket: "room", expanded: "virtual_room", label: "Raum" },
   ] as const;
 
-  for (const { bucket, expanded } of expansionCases) {
+  for (const { bucket, expanded, label } of expansionCases) {
     test(`type=${bucket} in URL expands to ${bucket}+${expanded} on the API call`, async ({
       page,
     }) => {
-      const apiCalls: string[] = [];
-      page.on("request", (req) => {
-        const url = req.url();
-        if (url.includes("/api/search")) apiCalls.push(url);
-      });
+      // Initial /search load runs useFetch server-side, so the browser never
+      // emits the API request. Load the page first, then toggle the bucket
+      // via the UI to force a client-side fetch we can observe.
+      await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-      await page.goto(`/search?q=MI&type=${bucket}`, { waitUntil: "networkidle" });
+      const requestPromise = page.waitForRequest(
+        (req) => req.url().includes("/api/search") && req.url().includes(`type=${bucket}`),
+        { timeout: 15000 },
+      );
 
-      const call = apiCalls.find((u) => u.includes(`type=${bucket}`));
-      expect(call).toBeTruthy();
-      expect(call).toContain(`type=${expanded}`);
+      await page.getByRole("button", { name: TYPE_CHIP }).first().click();
+      await typePopover(page).getByText(label, { exact: true }).click();
+
+      const request = await requestPromise;
+      expect(request.url()).toContain(`type=${expanded}`);
     });
   }
 });

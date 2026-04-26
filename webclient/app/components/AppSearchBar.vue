@@ -194,7 +194,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
     >
       <div
         class="flex flex-wrap items-center gap-2"
-        @mousedown="interacting_with_panel = true"
+        @mousedown.capture="interacting_with_panel = true"
       >
         <SearchFilterChips :filters="filters" />
         <div class="ms-auto">
