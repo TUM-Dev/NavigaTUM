@@ -6,7 +6,8 @@ from typing import Any
 
 import polars as pl
 import yaml
-from external.models import roomfinder
+from external.loaders.roomfinder import load_buildings as load_rf_buildings
+from external.loaders.roomfinder import load_rooms as load_rf_rooms
 from processors.df_utils import ensure_column
 
 BASE_PATH = Path(__file__).parent.parent
@@ -26,55 +27,53 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
     rf_rows = []
     seen_b_ids: dict[str, int] = {}
 
-    for building in roomfinder.Building.load_all():
+    for building in load_rf_buildings().iter_rows(named=True):
         # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
         # They might be integrated customly somewhere else, but here we ignore these.
-        if building.b_id == "0000":
+        if building["b_id"] == "0000":
             continue
 
-        for wrong, correct in patches["replacements"].items():
-            if building.b_id == wrong:
-                building.b_id = correct
+        b_id = patches["replacements"].get(building["b_id"], building["b_id"])
 
         # Check for duplicate b_prefix matches in the input DataFrame
-        matches = df.filter(pl.col("b_prefix") == building.b_id)
+        matches = df.filter(pl.col("b_prefix") == b_id)
         if len(matches) == 0:
             # The Roomfinder appears to be no longer maintained, so sometimes there are still
             # buildings in it that no longer exist. Previously this was an error, but for this
             # reason now it is a warning.
-            logging.warning(f"building '{building.b_id}' not found in base data. It may be missing in the areatree.")
+            logging.warning(f"building '{b_id}' not found in base data. It may be missing in the areatree.")
             continue
         if len(matches) > 1:
-            logging.error(f"building id '{building.b_id}' more than once in base data")
+            logging.error(f"building id '{b_id}' more than once in base data")
             error = True
             continue
 
-        if building.b_id in seen_b_ids:
+        if b_id in seen_b_ids:
             # Already processed this b_id (due to replacement mapping)
             continue
-        seen_b_ids[building.b_id] = 1
+        seen_b_ids[b_id] = 1
 
         rf_rows.append(
             {
-                "b_prefix_match": building.b_id,
+                "b_prefix_match": b_id,
                 "roomfinder_data_json_new": orjson.dumps(
                     {
-                        "b_id": building.b_id,
-                        "b_name": building.b_name,
-                        "b_alias": building.b_alias,
-                        "b_area": building.b_area,
-                        "b_room_count": building.b_room_count,
+                        "b_id": b_id,
+                        "b_name": building["b_name"],
+                        "b_alias": building["b_alias"],
+                        "b_area": building["b_area"],
+                        "b_room_count": building["b_room_count"],
                     }
                 ).decode(),
                 "sources_rf_json": orjson.dumps(
                     {
                         "name": "Roomfinder",
-                        "url": f"https://portal.mytum.de/displayRoomMap?@{building.b_id}",
+                        "url": f"https://portal.mytum.de/displayRoomMap?@{b_id}",
                     }
                 ).decode(),
-                "coords_lat_rf": building.lat,
-                "coords_lon_rf": building.lon,
-                "props_ids_b_id_rf": building.b_id,
+                "coords_lat_rf": building["lat"],
+                "coords_lon_rf": building["lon"],
+                "props_ids_b_id_rf": b_id,
             }
         )
 
@@ -137,13 +136,13 @@ def _rf_source_json(r_id: str) -> str:
     ).decode()
 
 
-def _rf_data_json(room: "roomfinder.Room") -> str:
+def _rf_data_json(room: dict[str, Any]) -> str:
     return orjson.dumps(
         {
-            "r_alias": room.r_alias,
-            "r_number": room.r_number,
-            "r_id": room.r_id,
-            "r_level": room.r_level,
+            "r_alias": room["r_alias"],
+            "r_number": room["r_number"],
+            "r_id": room["r_id"],
+            "r_level": room["r_level"],
         }
     ).decode()
 
@@ -176,7 +175,7 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
     updates: dict[str, dict[str, Any]] = {}
     new_rows: list[dict[str, Any]] = []
 
-    for room in roomfinder.Room.load_all():
+    for room in load_rf_rooms().iter_rows(named=True):
         try:
             r_id = _find_room_id(room, id_lookup, arch_name_lookup, patches)
             if r_id is None:
@@ -185,13 +184,13 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
             if not exc.known_issue:
                 logging.warning(exc.message)
                 continue
-            r_id = patches["known_issues"]["not_in_tumonline"][room.r_id]
-            parent_row = id_lookup.get(room.b_id)
+            r_id = patches["known_issues"]["not_in_tumonline"][room["r_id"]]
+            parent_row = id_lookup.get(room["b_id"])
             if parent_row is None:
-                logging.warning(f"Parent building '{room.b_id}' not found for room '{room.r_id}'")
+                logging.warning(f"Parent building '{room['b_id']}' not found for room '{room['r_id']}'")
                 continue
-            parents = parent_row["parents"] + [room.b_id]
-            name = r_id if len(room.r_alias) == 0 else f"{r_id} ({room.r_alias})"
+            parents = parent_row["parents"] + [room["b_id"]]
+            name = r_id if len(room["r_alias"]) == 0 else f"{r_id} ({room['r_alias']})"
             new_rows.append(
                 {
                     "id": r_id,
@@ -202,14 +201,14 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
                     "parents": parents,
                     "data_quality_json": orjson.dumps({"not_in_tumonline": True}).decode(),
                     "roomfinder_data_json": _rf_data_json(room),
-                    "coords_lat": room.lat,
-                    "coords_lon": room.lon,
+                    "coords_lat": room["lat"],
+                    "coords_lon": room["lon"],
                     "coords_source": "roomfinder",
                     "sources_base_json": orjson.dumps(
                         [
                             {
                                 "name": "Roomfinder",
-                                "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
+                                "url": f"https://portal.mytum.de/displayRoomMap?roomid={room['r_id']}&disable_decoration=yes",
                             }
                         ]
                     ).decode(),
@@ -221,8 +220,8 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
         upd = updates.setdefault(r_id, {})
 
         current_name = id_lookup.get(r_id, {}).get("name", "")
-        if current_name and "(" not in current_name and len(room.r_alias) > 0:
-            new_name = f"{current_name} ({room.r_alias})"
+        if current_name and "(" not in current_name and len(room["r_alias"]) > 0:
+            new_name = f"{current_name} ({room['r_alias']})"
             upd["name"] = new_name
             upd["name_de"] = new_name
             upd["name_en"] = new_name
@@ -230,11 +229,11 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
         # First-roomfinder-wins for data + coords
         if "roomfinder_data_json" not in upd:
             upd["roomfinder_data_json"] = _rf_data_json(room)
-            upd["coords_lat_rf"] = room.lat
-            upd["coords_lon_rf"] = room.lon
+            upd["coords_lat_rf"] = room["lat"]
+            upd["coords_lon_rf"] = room["lon"]
 
         # Sources are appended for every matching roomfinder room
-        src = _rf_source_json(room.r_id)
+        src = _rf_source_json(room["r_id"])
         upd["sources_rf_json"] = src if "sources_rf_json" not in upd else f"{upd['sources_rf_json']},{src}"
 
     if updates:
@@ -290,33 +289,33 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def _find_room_id(
-    room: roomfinder.Room, id_lookup: dict[str, Any], arch_name_lookup: dict[str, str], patches: dict[str, Any]
+    room: dict[str, Any], id_lookup: dict[str, Any], arch_name_lookup: dict[str, str], patches: dict[str, Any]
 ) -> str | None:
-    if room.r_id in patches["ignore"]:
+    if room["r_id"] in patches["ignore"]:
         return None
 
-    if room.r_id in patches["known_issues"]["mapping"]:
-        return str(patches["known_issues"]["mapping"][room.r_id])
+    if room["r_id"] in patches["known_issues"]["mapping"]:
+        return str(patches["known_issues"]["mapping"][room["r_id"]])
 
-    if room.r_id in patches["known_issues"]["not_in_tumonline"]:
+    if room["r_id"] in patches["known_issues"]["not_in_tumonline"]:
         raise RoomNotFoundException(known_issue=True)
 
     # Verify first, that the building is included in the data.
     # Buildings not in the data are ignored.
-    if room.b_id not in id_lookup:
+    if room["b_id"] not in id_lookup:
         return None
 
-    search_strings = [room.r_id.lower()]
+    search_strings = [room["r_id"].lower()]
     for replacement in patches["replacements"]:
-        alt_str = re.sub(replacement["search"], replacement["replace"], room.r_id)
-        if alt_str != room.r_id:
+        alt_str = re.sub(replacement["search"], replacement["replace"], room["r_id"])
+        if alt_str != room["r_id"]:
             search_strings.append(alt_str.lower())
 
     for search in search_strings:
         if search_result := arch_name_lookup.get(search):
             return search_result
 
-    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room.r_id}")
+    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room['r_id']}")
 
 
 class RoomNotFoundException(Exception):

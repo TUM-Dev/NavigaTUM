@@ -1,19 +1,4 @@
-from external.models import public_transport, roomfinder
-
-
-def test_roomfinder_map():
-    """Load all maps from the roomfinder.Map"""
-    roomfinder.Map.load_all()
-
-
-def test_roomfinder_room():
-    """Load all rooms from the roomfinder.Room"""
-    roomfinder.Room.load_all()
-
-
-def test_roomfinder_building():
-    """Load all buildings from the roomfinder.Building"""
-    roomfinder.Building.load_all()
+from external.models import public_transport
 
 
 def test_public_transport():
