@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nSELECT expected.key AS \"key!\"\nFROM (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)\nLEFT JOIN de ON de.key = expected.key\nWHERE de.key IS NULL OR de.hash != expected.hash\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "key!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "TextArray",
+        "Int8Array"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "276d6e7a6dc07680e5a4a3241c1e60006f1ddb5d2b1beb00841b23a1a72deb4c"
+}
