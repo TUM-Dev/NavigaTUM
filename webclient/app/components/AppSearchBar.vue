@@ -302,6 +302,10 @@ de:
     hint: Versuche es mit anderen Suchbegriffen.
     hint_filtered: Keine Treffer mit den aktiven Filtern.
     clear_filters: Filter entfernen
+  error:
+    header: Bei der Suche ist ein Fehler aufgetreten
+    reason: Der Grund für diesen Fehler ist
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktiere uns bitte über das Feedback-Formular.
 en:
   input:
     placeholder: Search
@@ -319,4 +323,8 @@ en:
     hint: Try different keywords.
     hint_filtered: No matches with the active filters.
     clear_filters: Clear filters
+  error:
+    header: Something went wrong while searching
+    reason: Reason for this error is
+    call_to_action: If this issue persists, please contact us via the feedback form.
 </i18n>
