@@ -137,12 +137,14 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
     )
     return result.drop(["tumonline_data_json_new", "props_ids_b_id_new"])
 
+
 def _alphanum_lower(s: str) -> str:
     """Reduce a name to comparable form: expand abbrevs, then keep lowercase alphanumerics only."""
     s = s.lower()
     for pattern, replacement in _ABBREV_EXPANSIONS:
         s = pattern.sub(replacement, s)
     return re.sub(r"[^a-z0-9äöüß]+", "", s)
+
 
 def _strip_noise(name: str, *, drop_location_prefix: bool) -> str:
     """Apply all known noise-stripping patterns to a name (works for either side)."""
@@ -154,6 +156,7 @@ def _strip_noise(name: str, *, drop_location_prefix: bool) -> str:
     n = _AREATREE_TRAILING_SHORT_RE.sub("", n)
     n = _AREATREE_LEADING_GEBAEUDETEIL_RE.sub("", n)
     return n.strip()
+
 
 def _building_names_equivalent(
     areatree_name: str,
@@ -203,7 +206,9 @@ def _building_names_equivalent(
                 return True
     return False
 
+
 _BUILDING_TYPES = ["building", "joined_building"]
+
 
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     """
