@@ -183,9 +183,13 @@ pub async fn do_geoentry_search(
     // rooms > pois). Empty sections still trail at the end so the caller can
     // observe `estimated_total_hits` if it cares (mirrors the previous
     // two-section behavior where the empty section was kept in the response).
-    let sections = [section_sites, section_buildings, section_rooms, section_pois];
-    let (non_empty, empty): (Vec<_>, Vec<_>) =
-        sections.into_iter().partition(|s| s.n_visible != 0);
+    let sections = [
+        section_sites,
+        section_buildings,
+        section_rooms,
+        section_pois,
+    ];
+    let (non_empty, empty): (Vec<_>, Vec<_>) = sections.into_iter().partition(|s| s.n_visible != 0);
     LimitedVec(non_empty.into_iter().chain(empty).collect())
 }
 

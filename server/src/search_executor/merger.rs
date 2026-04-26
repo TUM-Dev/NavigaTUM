@@ -34,7 +34,10 @@ pub(super) fn merge_search_results(
     // retroactively expand the default visible buildings count) and
     // generalizes it to four facets: sites > buildings > rooms > pois.
     for hit in hits {
-        let cap = active_count(&sites) + active_count(&buildings) + active_count(&rooms) + active_count(&pois);
+        let cap = active_count(&sites)
+            + active_count(&buildings)
+            + active_count(&rooms)
+            + active_count(&pois);
         if cap >= limits.total_count {
             break;
         }
