@@ -25,30 +25,29 @@ function slugify(value: string): string {
 }
 
 export function useKnownUsages() {
-  const {locale} = useI18n();
+  const { locale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
 
-  const {data, pending, error, refresh} = useFetch<KnownUsage[]>(
+  const { data, pending, error, refresh } = useFetch<KnownUsage[]>(
     `${runtimeConfig.public.cdnURL}/cdn/known_usages.json`,
     {
       key: "known-usages",
       server: true,
       lazy: true,
-      default: () => []
+      default: () => [],
     }
   );
 
   const options = computed<UsageOption[]>(() => {
     const isDe = locale.value === "de";
 
-    return (data.value ?? [])
-      .map((u) => ({
-        slug: slugify(u.name_de),
-        label: isDe ? u.name_de : u.name_en,
-        altLabel: isDe ? u.name_en : u.name_de,
-        din: u.din_277,
-        occurrences: u.occurrences,
-      }));
+    return (data.value ?? []).map((u) => ({
+      slug: slugify(u.name_de),
+      label: isDe ? u.name_de : u.name_en,
+      altLabel: isDe ? u.name_en : u.name_de,
+      din: u.din_277,
+      occurrences: u.occurrences,
+    }));
   });
 
   function labelFor(slug: string): string {

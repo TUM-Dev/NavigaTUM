@@ -1,4 +1,4 @@
-import json
+import orjson
 import logging
 import typing
 from typing import Any
@@ -70,56 +70,85 @@ def extract_tumonline_props(lf: pl.LazyFrame) -> pl.LazyFrame:
     return lf
 
 
+_FLOOR_PROP_PARENT_TYPES = pl.Series(["building", "joined_building", "site", "campus"])
+
+
 def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
     """
     Create a human and machine-readable floor information prop.
 
     This takes into account special floor numbering systems of buildings.
     """
-    data_dicts = {
-        row["id"]: row
-        for row in df.select("id", "type", "children_flat", "props_ids_roomcode", "generators_json").to_dicts()
-    }
+    parents = df.filter(pl.col("type").is_in(_FLOOR_PROP_PARENT_TYPES)).select(
+        "id",
+        "generators_json",
+        "children_flat",
+    )
 
-    floor_updates: dict[str, str] = {}  # id -> props_floors_json
+    no_children = parents.filter(
+        pl.col("children_flat").is_null() | (pl.col("children_flat").list.len() == 0),
+    )
+    for parent_id in no_children["id"].to_list():
+        logging.warning(f"Entry {parent_id} has no children")
 
-    for _id, entry in data_dicts.items():
-        if entry["type"] not in {"building", "joined_building", "site", "campus"}:
+    parents = parents.filter(
+        pl.col("children_flat").is_not_null() & (pl.col("children_flat").list.len() > 0),
+    )
+    if parents.height == 0:
+        return df
+
+    children = df.select(
+        pl.col("id").alias("child_id"),
+        pl.col("type").alias("child_type"),
+        pl.col("props_ids_roomcode").alias("child_roomcode"),
+        pl.col("generators_json").alias("child_generators_json"),
+    )
+    rooms_by_parent = (
+        parents.select(pl.col("id").alias("parent_id"), pl.col("children_flat"))
+        .explode("children_flat")
+        .rename({"children_flat": "child_id"})
+        .join(children, on="child_id", how="left")
+        .filter((pl.col("child_type") == "room") & pl.col("child_roomcode").is_not_null())
+        .with_columns(
+            pl.coalesce(
+                pl.col("child_generators_json").str.json_path_match("$.floors.floor_patch"),
+                pl.col("child_roomcode").str.split(".").list.get(1, null_on_oob=True),
+            ).alias("floor"),
+        )
+        .group_by("parent_id", maintain_order=True)
+        .agg(pl.struct(pl.col("child_id").alias("id"), "floor").alias("rooms"))
+        .join(
+            parents.select(pl.col("id").alias("parent_id"), "generators_json"),
+            on="parent_id",
+            how="left",
+        )
+    )
+
+    floor_updates: dict[str, str] = {}
+    for row in rooms_by_parent.iter_rows(named=True):
+        rooms = row["rooms"]
+        if not rooms:
             continue
-        if not entry.get("children_flat"):
-            logging.warning(f"Entry {_id} has no children")
-            continue
-
-        room_data = []
-        for child_id in entry["children_flat"]:
-            child = data_dicts.get(child_id, {})
-            if child.get("type") == "room" and child.get("props_ids_roomcode"):
-                generators = json.loads(child.get("generators_json") or "{}") if child.get("generators_json") else {}
-                roomcode = child["props_ids_roomcode"]
-                floor = generators.get("floors", {}).get("floor_patch", roomcode.split(".")[1])
-                room_data.append({"id": child_id, "floor": floor})
-
-        if not room_data:
-            continue
-
-        generators = json.loads(entry.get("generators_json") or "{}") if entry.get("generators_json") else {}
-        mock_entry = {"generators": generators}
-        floor_details = _get_floor_details(mock_entry, room_data)
-
-        floor_updates[_id] = json.dumps(floor_details)
-
+        generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
+        floor_details = _get_floor_details({"generators": generators}, rooms)
+        floor_updates[row["parent_id"]] = orjson.dumps(floor_details).decode()
         lookup = {f["tumonline"]: f for f in floor_details}
-        for room in room_data:
-            floor_updates[room["id"]] = json.dumps([lookup[room["floor"]]])
+        for room in rooms:
+            floor_updates[room["id"]] = orjson.dumps([lookup[room["floor"]]]).decode()
 
-    if floor_updates:
-        updates_df = pl.DataFrame([{"id": k, "props_floors_json_new": v} for k, v in floor_updates.items()])
-        df = df.join(updates_df, on="id", how="left")
-        df = df.with_columns(
+    if not floor_updates:
+        return df
+
+    updates_df = pl.DataFrame(
+        [{"id": k, "props_floors_json_new": v} for k, v in floor_updates.items()],
+    )
+    return (
+        df.join(updates_df, on="id", how="left")
+        .with_columns(
             pl.coalesce(pl.col("props_floors_json_new"), pl.col("props_floors_json")).alias("props_floors_json"),
-        ).drop("props_floors_json_new")
-
-    return df
+        )
+        .drop("props_floors_json_new")
+    )
 
 
 def _build_sorted_floor_list(room_data):
@@ -240,45 +269,54 @@ class TranslatedComputedProp(typing.TypedDict):
     text: TranslatableStr
 
 
+_COMPUTE_PROPS_INPUT_COLS = (
+    "id",
+    "props_ids_b_id",
+    "props_ids_roomcode",
+    "props_ids_arch_name",
+    "props_floors_json",
+    "props_address_street",
+    "props_address_plz_place",
+    "props_stats_n_buildings",
+    "props_stats_n_rooms",
+    "props_stats_n_rooms_reg",
+    "props_stats_n_seats",
+    "props_generic_json",
+    "props_links_json",
+    "b_prefix",
+    "b_prefix_list",
+)
+
+
+def _compute_props_json(row: dict[str, Any]) -> str:
+    props = _reconstruct_props(row)
+    computed = _gen_computed_props(row["id"], row, props) if props else []
+
+    reformatted_computed: list[RawComputedProp | TranslatedComputedProp] = []
+    for computed_prop in computed:
+        if "name" in computed_prop:
+            reformatted_computed.append(
+                {  # type: ignore[arg-type,misc]
+                    "name": computed_prop["name"],
+                    "text": computed_prop["text"],
+                },
+            )
+        else:
+            reformatted_computed.append(
+                {  # type: ignore[arg-type,misc]
+                    "name": next(iter(computed_prop.keys())),
+                    "text": next(iter(computed_prop.values())),
+                },
+            )
+    return orjson.dumps(reformatted_computed).decode()
+
+
 def compute_props(df: pl.DataFrame) -> pl.DataFrame:
     """Create the "computed" value in "props" as props_computed_json column."""
-    data_dicts = df.to_dicts()
-    computed_updates: dict[str, str] = {}  # id -> props_computed_json
-
-    for row in data_dicts:
-        _id = row["id"]
-        # Reconstruct a props dict from the flat columns
-        props = _reconstruct_props(row)
-        computed = _gen_computed_props(_id, row, props) if props else []
-
-        # Reformat if required (just to have less verbosity in the code above)
-        reformatted_computed: list[RawComputedProp | TranslatedComputedProp] = []
-        for computed_prop in computed:
-            if "name" in computed_prop:
-                reformatted_computed.append(
-                    {  # type: ignore[arg-type,misc]
-                        "name": computed_prop["name"],
-                        "text": computed_prop["text"],
-                    }
-                )
-            else:
-                reformatted_computed.append(
-                    {  # type: ignore[arg-type,misc]
-                        "name": next(iter(computed_prop.keys())),
-                        "text": next(iter(computed_prop.values())),
-                    }
-                )
-
-        computed_updates[_id] = json.dumps(reformatted_computed)
-
-    if computed_updates:
-        updates_df = pl.DataFrame([{"id": k, "props_computed_json_new": v} for k, v in computed_updates.items()])
-        df = df.join(updates_df, on="id", how="left")
-        df = df.with_columns(
-            pl.coalesce(pl.col("props_computed_json_new"), pl.col("props_computed_json")).alias("props_computed_json"),
-        ).drop("props_computed_json_new")
-
-    return df
+    cols = [c for c in _COMPUTE_PROPS_INPUT_COLS if c in df.columns]
+    return df.with_columns(
+        pl.struct(cols).map_elements(_compute_props_json, return_dtype=pl.Utf8).alias("props_computed_json"),
+    )
 
 
 def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
@@ -298,7 +336,7 @@ def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
 
     # floors
     if row.get("props_floors_json"):
-        props["floors"] = json.loads(row["props_floors_json"])
+        props["floors"] = orjson.loads(row["props_floors_json"])
 
     # address
     if row.get("props_address_street") or row.get("props_address_plz_place"):
@@ -322,11 +360,11 @@ def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
 
     # generic
     if row.get("props_generic_json"):
-        props["generic"] = json.loads(row["props_generic_json"])
+        props["generic"] = orjson.loads(row["props_generic_json"])
 
     # links
     if row.get("props_links_json"):
-        props["links"] = json.loads(row["props_links_json"])
+        props["links"] = orjson.loads(row["props_links_json"])
 
     return props
 
@@ -405,7 +443,7 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
     def _localize_links_json(links_json: str | None) -> str | None:
         if links_json is None:
             return None
-        links = json.loads(links_json)
+        links = orjson.loads(links_json)
         if not links:
             return links_json
         for link in links:
@@ -413,7 +451,7 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
                 link["text"] = {"de": link["text"], "en": link["text"]}
             if isinstance(link["url"], str):
                 link["url"] = {"de": link["url"], "en": link["url"]}
-        return json.dumps(links)
+        return orjson.dumps(links).decode()
 
     df = df.with_columns(
         pl.col("props_links_json").map_elements(_localize_links_json, return_dtype=pl.Utf8).alias("props_links_json"),
@@ -421,59 +459,52 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
+_BUILDINGS_OVERVIEW_PARENT_TYPES = pl.Series(["area", "site", "campus"])
+_BUILDINGS_OVERVIEW_CHILD_TYPES = {"area", "site", "campus", "building", "joined_building"}
+
+
 def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
     """Generate the "buildings_overview" section."""
-    # Build lookup dict from DataFrame for child access
-    data_dicts = {row["id"]: row for row in df.to_dicts()}
+    # list_start may reference arbitrary ids, so a global lookup is needed.
+    lookup = {
+        row["id"]: row
+        for row in df.select(
+            "id",
+            "type",
+            "name",
+            "short_name",
+            "props_stats_n_rooms",
+            "props_stats_n_buildings",
+            "imgs_json",
+            "children_flat",
+        ).iter_rows(named=True)
+    }
 
-    overview_updates: dict[str, str] = {}  # id -> sections_buildings_overview_json
-
-    for _id, entry in data_dicts.items():
-        if entry["type"] not in {"area", "site", "campus"} or not entry.get("children_flat"):
-            continue
-
-        generators = json.loads(entry.get("generators_json") or "{}") if entry.get("generators_json") else {}
+    def _build_overview(row: dict[str, Any]) -> str:
+        _id = row["id"]
+        generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
         options = generators.get("buildings_overview", {"n_visible": 6, "list_start": []})
 
-        # Collect buildings to display for this entry.
-        children = entry.get("children") or []
-        if isinstance(children, str):
-            children = json.loads(children)
-
-        buildings = []
-        for child_id in children:
-            child = data_dicts.get(child_id)
-            if child and child["type"] in {"area", "site", "campus", "building", "joined_building"}:
-                buildings.append(child)
-
-        # Entries are sorted alphabetically in second order to be predictable
-        buildings = sorted(
-            buildings,
+        buildings = [
+            lookup[c]
+            for c in (row["children"] or [])
+            if c in lookup and lookup[c]["type"] in _BUILDINGS_OVERVIEW_CHILD_TYPES
+        ]
+        buildings.sort(
             key=lambda e: (len(e.get("children_flat") or []), e["name"]),
             reverse=True,
         )
 
-        # The "list_start" can overwrite how the list of buildings starts
         merged_ids = options["list_start"] + [b["id"] for b in buildings if b["id"] not in options["list_start"]]
-
-        b_overview: dict[str, Any] = {
-            "n_visible": options["n_visible"],
-            "entries": [],
-        }
+        b_overview: dict[str, Any] = {"n_visible": options["n_visible"], "entries": []}
         for child_id in merged_ids:
-            child = data_dicts.get(child_id)
+            child = lookup.get(child_id)
             if child is None:
                 raise RuntimeError(f"Unknown id '{child_id}' when generating buildings_overview for '{_id}'")
-
-            # Reconstruct stats from flat columns
             n_rooms = child.get("props_stats_n_rooms") or 0
             n_buildings = child.get("props_stats_n_buildings") or 0
-
             if child["type"] in {"building", "joined_building"}:
-                if n_rooms == 0:
-                    subtext = _("Keine Räume bekannt")
-                else:
-                    subtext = _("{n_rooms} Räume").format(n_rooms=n_rooms)
+                subtext = _("Keine Räume bekannt") if n_rooms == 0 else _("{n_rooms} Räume").format(n_rooms=n_rooms)
             elif child["type"] == "area":
                 subtext = _("{n_buildings} Gebäude, {n_rooms} Räume").format(n_buildings=n_buildings, n_rooms=n_rooms)
             elif child["type"] == "site":
@@ -486,72 +517,72 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
                     f"Cannot generate buildings_overview subtext for type '{child['type']}', "
                     f"for: '{_id}', child id: '{child_id}'",
                 )
-
-            # Get first image thumb name
-            imgs = json.loads(child.get("imgs_json") or "[]") if child.get("imgs_json") else []
-            thumb = imgs[0]["name"] if imgs else None
-
+            imgs = orjson.loads(child["imgs_json"]) if child.get("imgs_json") else []
             b_overview["entries"].append(
                 {
                     "id": child_id,
                     "name": child.get("short_name") or child["name"],
                     "subtext": subtext,
-                    "thumb": thumb,
-                },
+                    "thumb": imgs[0]["name"] if imgs else None,
+                }
             )
 
-        overview_updates[_id] = json.dumps(b_overview)
+        return orjson.dumps(b_overview).decode()
 
-    if overview_updates:
-        updates_df = pl.DataFrame(
-            [{"id": k, "sections_buildings_overview_json_new": v} for k, v in overview_updates.items()]
-        )
-        df = df.join(updates_df, on="id", how="left")
-        df = df.with_columns(
+    updates = df.filter(
+        pl.col("type").is_in(_BUILDINGS_OVERVIEW_PARENT_TYPES)
+        & pl.col("children_flat").is_not_null()
+        & (pl.col("children_flat").list.len() > 0),
+    ).select(
+        "id",
+        pl.struct("id", "generators_json", "children")
+        .map_elements(_build_overview, return_dtype=pl.Utf8)
+        .alias("sections_buildings_overview_json_new"),
+    )
+    return (
+        df.join(updates, on="id", how="left")
+        .with_columns(
             pl.coalesce(
                 pl.col("sections_buildings_overview_json_new"),
                 pl.col("sections_buildings_overview_json"),
             ).alias("sections_buildings_overview_json"),
-        ).drop("sections_buildings_overview_json_new")
+        )
+        .drop("sections_buildings_overview_json_new")
+    )
 
-    return df
+
+_ROOMS_OVERVIEW_PARENT_TYPES = pl.Series(
+    [
+        "area",
+        "site",
+        "campus",
+        "building",
+        "joined_building",
+        "virtual_room",
+    ]
+)
 
 
 def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
     """Generate the "rooms_overview" section."""
-    data_dicts = {row["id"]: row for row in df.to_dicts()}
+    rooms_lookup = {
+        row["id"]: row
+        for row in df.filter(pl.col("type") == "room")
+        .select("id", "name", "usage_name_de", "usage_name_en")
+        .iter_rows(named=True)
+    }
 
-    overview_updates: dict[str, str] = {}  # id -> sections_rooms_overview_json
-
-    for _id, entry in data_dicts.items():
-        if entry["type"] not in {
-            "area",
-            "site",
-            "campus",
-            "building",
-            "joined_building",
-            "virtual_room",
-        } or not entry.get("children_flat"):
-            continue
-
-        rooms: dict[TranslatableStr, list[dict[str, str]]] = {}
-        for child_id in entry["children_flat"]:
-            child = data_dicts.get(child_id)
-            if child is None or child["type"] != "room":
+    def _build_overview(row: dict[str, Any]) -> str:
+        rooms_by_usage: dict[TranslatableStr, list[dict[str, str]]] = {}
+        for child_id in row["children_flat"] or []:
+            child = rooms_lookup.get(child_id)
+            if child is None:
                 continue
-
-            # Reconstruct usage from flat columns
-            if child.get("usage_name_de"):
-                usage_name = TranslatableStr(child["usage_name_de"], child.get("usage_name_en"))
+            if child["usage_name_de"]:
+                usage_name = TranslatableStr(child["usage_name_de"], child["usage_name_en"])
             else:
                 usage_name = _("Unbekannt")
-
-            rooms.setdefault(usage_name, []).append(
-                {
-                    "id": child_id,
-                    "name": child["name"],
-                },
-            )
+            rooms_by_usage.setdefault(usage_name, []).append({"id": child_id, "name": child["name"]})
 
         r_overview = {
             "usages": [
@@ -560,22 +591,28 @@ def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
                     "count": len(u_rooms),
                     "children": sorted(u_rooms, key=lambda r: r["name"]),
                 }
-                for u_name, u_rooms in sorted(rooms.items(), key=lambda e: e[0])
+                for u_name, u_rooms in sorted(rooms_by_usage.items(), key=lambda e: e[0])
             ],
         }
+        return orjson.dumps(r_overview).decode()
 
-        overview_updates[_id] = json.dumps(r_overview)
-
-    if overview_updates:
-        updates_df = pl.DataFrame(
-            [{"id": k, "sections_rooms_overview_json_new": v} for k, v in overview_updates.items()]
-        )
-        df = df.join(updates_df, on="id", how="left")
-        df = df.with_columns(
+    updates = df.filter(
+        pl.col("type").is_in(_ROOMS_OVERVIEW_PARENT_TYPES)
+        & pl.col("children_flat").is_not_null()
+        & (pl.col("children_flat").list.len() > 0),
+    ).select(
+        "id",
+        pl.struct("children_flat")
+        .map_elements(_build_overview, return_dtype=pl.Utf8)
+        .alias("sections_rooms_overview_json_new"),
+    )
+    return (
+        df.join(updates, on="id", how="left")
+        .with_columns(
             pl.coalesce(
                 pl.col("sections_rooms_overview_json_new"),
                 pl.col("sections_rooms_overview_json"),
             ).alias("sections_rooms_overview_json"),
-        ).drop("sections_rooms_overview_json_new")
-
-    return df
+        )
+        .drop("sections_rooms_overview_json_new")
+    )

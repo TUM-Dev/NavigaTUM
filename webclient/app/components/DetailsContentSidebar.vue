@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus} from "@mdi/js";
-import {useClipboard} from "@vueuse/core";
-import type {components} from "~/api_types";
-import {useEditProposal, emptyPropertyFields} from "~/composables/editProposal";
+import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus } from "@mdi/js";
+import { useClipboard } from "@vueuse/core";
+import type { components } from "~/api_types";
+import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 defineEmits(["openSlideshow"]);
 
-const {t} = useI18n({useScope: "local"});
+const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
@@ -24,7 +24,7 @@ const {
   copy,
   copied,
   isSupported: clipboardIsSupported,
-} = useClipboard({source: clipboardSource});
+} = useClipboard({ source: clipboardSource });
 
 const suggestImage = () => {
   if (!props.data) return;
@@ -66,8 +66,8 @@ const suggestEdit = () => {
 
   // Pre-fill property fields with current values
   const fields = emptyPropertyFields();
-  editProposal.value.propertyFields = {...fields, name: props.data.name};
-  editProposal.value.originalPropertyFields = {...fields, name: props.data.name};
+  editProposal.value.propertyFields = { ...fields, name: props.data.name };
+  editProposal.value.originalPropertyFields = { ...fields, name: props.data.name };
 
   editProposal.value.open = true;
 };

@@ -12,14 +12,19 @@ const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection("content").path(route.path).first();
 });
 
-// Extract title from the markdown frontmatter
+// Extract title and description from the markdown frontmatter
 const pageTitle = computed(() => {
   return page.value?.title ? `${page.value.title} - NavigaTUM` : "NavigaTUM";
 });
+const pageDescription = computed(() => page.value?.description ?? undefined);
 
 useSeoMeta({
   title: pageTitle,
   ogTitle: pageTitle,
+  description: pageDescription,
+  ogDescription: pageDescription,
+  ogType: "website",
+  twitterCard: "summary_large_image",
 });
 </script>
 

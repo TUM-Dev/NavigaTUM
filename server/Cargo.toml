@@ -47,13 +47,14 @@ sqlx = { workspace=true, features = ['chrono', 'json', 'macros', 'migrate', 'pos
 chrono = { workspace=true, default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = {version="0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
+meilisearch-sdk = {version="0.33.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
 logos.workspace=true
 regex.workspace=true
 
 # web access
-oauth2 = { workspace=true, default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+oauth2 = { workspace=true, default-features = false }
+oauth2-reqwest.workspace=true
+reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls"] }
 
 # image production
 image = { workspace=true, default-features = false, features = ["jpeg", "png", "webp"] }

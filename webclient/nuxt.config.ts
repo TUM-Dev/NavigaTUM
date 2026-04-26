@@ -170,6 +170,20 @@ export default defineNuxtConfig({
     "/en/poi/**": { swr: 3600 },
     "/navigate": { swr: 3600 },
     "/en/navigate": { swr: 3600 },
+    "/embed/**": {
+      swr: 3600,
+      headers: {
+        "X-Frame-Options": "",
+        "Content-Security-Policy": "frame-ancestors *",
+      },
+    },
+    "/en/embed/**": {
+      swr: 3600,
+      headers: {
+        "X-Frame-Options": "",
+        "Content-Security-Policy": "frame-ancestors *",
+      },
+    },
   },
   typescript: {
     typeCheck: false, // we already typecheck in CI => no need to

@@ -1,5 +1,6 @@
 ---
 title: Datenschutzerklärung
+description: Datenschutzerklärung von NavigaTUM. Welche Daten werden erhoben, wie werden sie verarbeitet und welche Rechte haben Nutzende nach der DSGVO.
 ---
 
 # Datenschutzerklärung

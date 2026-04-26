@@ -1414,6 +1414,12 @@ components:
             oneOf:
               - type: "null"
               - $ref: '#/components/schemas/Image'
+          properties:
+            type:
+              - array
+              - "null"
+            items:
+              $ref: '#/components/schemas/PropertyEdit'
       propertyNames:
         type: string
     LocationDetailsResponse:
@@ -2332,6 +2338,63 @@ components:
           type:
             - string
             - "null"
+    PropertyEdit:
+      oneOf:
+        - type: object
+          required:
+            - type
+          properties:
+            name:
+              type:
+                - string
+                - "null"
+            short_name:
+              type:
+                - string
+                - "null"
+            type:
+              type: string
+              enum:
+                - name
+        - type: object
+          required:
+            - name_de
+            - name_en
+            - type
+          properties:
+            din_277:
+              type:
+                - string
+                - "null"
+            din_277_desc:
+              type:
+                - string
+                - "null"
+            name_de:
+              type: string
+            name_en:
+              type: string
+            type:
+              type: string
+              enum:
+                - usage
+        - type: object
+          required:
+            - text_de
+            - text_en
+            - url
+            - type
+          properties:
+            text_de:
+              type: string
+            text_en:
+              type: string
+            type:
+              type: string
+              enum:
+                - link
+            url:
+              type: string
     PropsResponse:
       type: object
       description: Data for the info-card table
