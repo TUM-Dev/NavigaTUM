@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useEditProposal, emptyPropertyFields, emptyRoomEdit } from "~/composables/editProposal";
 import type { components } from "~/api_types";
+import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
@@ -17,9 +17,13 @@ const osmEditUrl = computed(() => {
 
 // Known usages for category dropdown — cached across modal opens
 const runtimeConfig = useRuntimeConfig();
-const { data: knownUsages } = useAsyncData("known_usages", () =>
-  $fetch<{ name_de: string; name_en: string; din_277: string }[]>(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
-  { default: () => [] },
+const { data: knownUsages } = useAsyncData(
+  "known_usages",
+  () =>
+    $fetch<{ name_de: string; name_en: string; din_277: string }[]>(
+      `${runtimeConfig.public.cdnURL}/cdn/known_usages.json`
+    ),
+  { default: () => [] }
 );
 
 const categoryOptions = computed(() =>
@@ -27,7 +31,7 @@ const categoryOptions = computed(() =>
     label: `${u.name_de} / ${u.name_en}`,
     value: `${u.name_de}|${u.name_en}|${u.din_277}`,
     ...u,
-  })),
+  }))
 );
 
 const selectedCategory = computed({
@@ -64,7 +68,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.name !== original.name || fields.shortName !== original.shortName) {
     if (fields.name || fields.shortName) {
       edits.push({
-        type: "Name",
+        type: "name",
         name: fields.name || null,
         short_name: fields.shortName || null,
       });
@@ -75,7 +79,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) {
     if (fields.categoryDe) {
       edits.push({
-        type: "Usage",
+        type: "usage",
         name_de: fields.categoryDe,
         name_en: fields.categoryEn || fields.categoryDe,
         din_277: fields.categoryDin277 || null,
@@ -89,7 +93,7 @@ function buildPropertyEdits(): PropertyEdit[] {
     if (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) {
       if (fields.linkTextDe || fields.linkTextEn) {
         edits.push({
-          type: "Link",
+          type: "link",
           text_de: fields.linkTextDe || fields.linkTextEn,
           text_en: fields.linkTextEn || fields.linkTextDe,
           url: fields.linkUrl,
@@ -124,14 +128,14 @@ watch(
       editProposal.value.propertyFields = emptyPropertyFields();
       editProposal.value.originalPropertyFields = emptyPropertyFields();
     }
-  },
+  }
 );
 
 // Methods
 function addImageEditForRoom(
   roomId: string,
   base64: string,
-  metadata: typeof editProposal.value.imageUpload.metadata,
+  metadata: typeof editProposal.value.imageUpload.metadata
 ) {
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
@@ -217,7 +221,6 @@ function getEditTypeDisplay(roomId: string): string {
 
   return types.length > 0 ? types.join(", ") : t("room_edits");
 }
-
 </script>
 
 <template>
