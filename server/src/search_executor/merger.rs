@@ -80,9 +80,7 @@ pub(super) fn merge_search_results(
     (section_buildings, section_rooms)
 }
 
-fn facet_totals(
-    distribution: Option<&HashMap<String, HashMap<String, usize>>>,
-) -> (usize, usize) {
+fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) -> (usize, usize) {
     let Some(facet) = distribution.and_then(|d| d.get(FACET_FIELD)) else {
         return (0, 0);
     };
