@@ -730,18 +730,14 @@ mod tests {
     fn filter_preserves_underscores_in_type_values() {
         // Regression: previously `_` was rewritten to `-`, so `virtual_room` became
         // `virtual-room` and never matched any document in the index.
-        let filter = build_meilisearch_filter(
-            &[],
-            &[],
-            &["room".to_string(), "virtual_room".to_string()],
-        );
+        let filter =
+            build_meilisearch_filter(&[], &[], &["room".to_string(), "virtual_room".to_string()]);
         assert_eq!(filter, r#"(type IN ["room", "virtual_room"])"#);
     }
 
     #[test]
     fn filter_preserves_underscores_in_parent_values() {
-        let filter =
-            build_meilisearch_filter(&[], &[], &["joined_building".to_string()]);
+        let filter = build_meilisearch_filter(&[], &[], &["joined_building".to_string()]);
         assert!(filter.contains("joined_building"));
         assert!(!filter.contains("joined-building"));
     }
