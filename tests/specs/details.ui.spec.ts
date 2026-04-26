@@ -129,12 +129,11 @@ test.describe("Details Page - Share and Actions", () => {
     const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
     await shareButton.click();
 
-    // tabbed share dialog: Open in panel
-    await page.getByRole("tab", { name: /Öffnen in/i }).click();
+    // Share tab is the default selected tab and now also lists external "Open in" links
     const googleMapsLink = page.getByRole("link", { name: "Google Maps" });
     await expect(googleMapsLink).toHaveCount(1);
 
-    // tabbed share dialog: QR-Code panel
+    // QR code lives behind its own tab
     await page.getByRole("tab", { name: /QR-Code/i }).click();
     const qrImage = page.getByRole("img", { name: "QR-Code für diese Seite" });
     await expect(qrImage).toHaveCount(1);

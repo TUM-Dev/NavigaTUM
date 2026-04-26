@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import {
-  mdiClipboard,
-  mdiClipboardCheck,
-  mdiCodeTags,
-  mdiOpenInNew,
-  mdiQrcode,
-  mdiShare,
-} from "@mdi/js";
+import { mdiClipboard, mdiClipboardCheck, mdiCodeTags, mdiQrcode, mdiShare } from "@mdi/js";
 import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
@@ -53,7 +46,6 @@ const {
 
 const tabs = [
   { key: "share", label: () => t("share"), icon: mdiShare },
-  { key: "open_in", label: () => t("open_in"), icon: mdiOpenInNew },
   { key: "qr_code", label: () => t("qr_code"), icon: mdiQrcode },
   { key: "embed", label: () => t("embed"), icon: mdiCodeTags },
 ] as const;
@@ -90,36 +82,39 @@ const tabs = [
           </Tab>
         </TabList>
         <TabPanels>
-          <TabPanel class="flex flex-col gap-2 focus:outline-none">
-            <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
-              <MdiIcon :path="mdiShare" v-if="copied" :size="24" class="my-auto h-4 w-4" />
-              {{ t("share_link") }}
-            </Btn>
-            <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
-              <MdiIcon
-                :path="copied ? mdiClipboardCheck : mdiClipboard"
-                :size="24"
-                class="my-auto h-4 w-4"
-              />
-              {{ copied ? t("copied") : t("copy_link") }}
-            </Btn>
-          </TabPanel>
-          <TabPanel class="flex flex-col gap-2 focus:outline-none">
-            <Btn
-              variant="link"
-              :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-            >
-              Google Maps
-            </Btn>
-            <Btn
-              variant="link"
-              :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-            >
-              OpenStreetMap
-            </Btn>
-            <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
-              {{ t("other_app") }}
-            </Btn>
+          <TabPanel class="flex flex-col gap-4 focus:outline-none">
+            <div class="flex flex-col gap-2">
+              <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
+                <MdiIcon :path="mdiShare" v-if="copied" :size="24" class="my-auto h-4 w-4" />
+                {{ t("share_link") }}
+              </Btn>
+              <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
+                <MdiIcon
+                  :path="copied ? mdiClipboardCheck : mdiClipboard"
+                  :size="24"
+                  class="my-auto h-4 w-4"
+                />
+                {{ copied ? t("copied") : t("copy_link") }}
+              </Btn>
+            </div>
+            <div class="flex flex-col gap-1">
+              <h3 class="text-sm font-semibold text-zinc-600">{{ t("open_in") }}</h3>
+              <Btn
+                variant="link"
+                :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
+              >
+                Google Maps
+              </Btn>
+              <Btn
+                variant="link"
+                :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
+              >
+                OpenStreetMap
+              </Btn>
+              <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
+                {{ t("other_app") }}
+              </Btn>
+            </div>
           </TabPanel>
           <TabPanel class="focus:outline-none">
             <div class="flex justify-center">
