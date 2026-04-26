@@ -31,30 +31,49 @@ class SimplifiedSitemaps(TypedDict):
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 
 
-def generate_sitemap() -> None:
-    """Generate a sitemap that diffs changes since to the currently online data"""
-    # Load exported data. This function is intentionally not using the data object
-    # directly, but re-parsing the output file instead, because the export not
-    # export all fields. This way we're also guaranteed to have the same types
-    # (and not e.g. numpy floats).
-    new_data: list[Any] = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
+ROOM_SITEMAP_URL = "https://nav.tum.de/cdn/sitemap-data-room.xml"
+OTHER_SITEMAP_URL = "https://nav.tum.de/cdn/sitemap-data-other.xml"
+WEB_SITEMAP_URL = "https://nav.tum.de/sitemap-webclient.xml"
 
-    # Look whether there are currently online sitemaps for the provided
-    # sitemaps name. In case there aren't, we assume this sitemap is new,
-    # and all entries will be marked as changed
-    old_sitemaps = _download_online_sitemaps()
-    try:
-        old_data = _download_old_data()
-    except requests.exceptions.RequestException as error:
-        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
-        old_data = []
+
+def generate_sitemap(
+    *,
+    old_data: list[Any],
+    old_sitemaps: "SimplifiedSitemaps",
+    web_sitemap: dict[str, datetime],
+) -> None:
+    """Generate a sitemap that diffs changes since to the currently online data.
+
+    All network IO is done by callers and passed in (so it can run concurrently with the
+    main pipeline). See ``compile.main``.
+    """
+    # Re-parsing the output file instead of using the in-memory data, because the export
+    # doesn't include all fields and this guarantees the same types (no numpy floats).
+    new_data: list[Any] = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
 
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
     for name in ("room", "other"):
         _write_sitemap_xml(OUTPUT_DIR_PATH / f"sitemap-data-{name}.xml", sitemaps[name])
 
-    _write_sitemapindex_xml(OUTPUT_DIR_PATH / "sitemap.xml", sitemaps)
+    _write_sitemapindex_xml(OUTPUT_DIR_PATH / "sitemap.xml", sitemaps, web_sitemap)
+
+
+def fetch_old_data() -> list[Any]:
+    """Download the previously-published api_data.json. Safe to call from a worker thread."""
+    try:
+        return _download_old_data()
+    except requests.exceptions.RequestException as error:
+        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+        return []
+
+
+def fetch_online_sitemaps() -> "SimplifiedSitemaps":
+    """Download both room and other sitemaps. Safe to call from a worker thread."""
+    return {
+        "room": download_online_sitemap(ROOM_SITEMAP_URL),
+        "other": download_online_sitemap(OTHER_SITEMAP_URL),
+    }
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
@@ -140,15 +159,7 @@ def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps
     return sitemaps
 
 
-def _download_online_sitemaps() -> SimplifiedSitemaps:
-    """Download online sitemaps by their names"""
-    return {
-        "room": _download_online_sitemap("https://nav.tum.de/cdn/sitemap-data-room.xml"),
-        "other": _download_online_sitemap("https://nav.tum.de/cdn/sitemap-data-other.xml"),
-    }
-
-
-def _download_online_sitemap(url: str) -> dict[str, datetime]:
+def download_online_sitemap(url: str) -> dict[str, datetime]:
     """Download a single online sitemap and return a dict of URL -> lastmod time"""
     try:
         req = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
@@ -188,7 +199,7 @@ def _write_sitemap_xml(fname: Path, sitemap: list[SitemapEntry]) -> None:
     root.write(fname, encoding="utf-8", xml_declaration=True)
 
 
-def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
+def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps, web_sitemap: dict[str, datetime]) -> None:
     """Write the sitemapindex XML"""
     sitemapindex = ET.Element("sitemapindex")
     sitemapindex.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -204,10 +215,8 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
     # webclient sitemap here as well.
     sitemap_el = ET.SubElement(sitemapindex, "sitemap")
     loc = ET.SubElement(sitemap_el, "loc")
-    web_sitemap_url = "https://nav.tum.de/sitemap-webclient.xml"
-    loc.text = web_sitemap_url
-    sitemap = _download_online_sitemap(web_sitemap_url)
-    if lastmod_dates := set(sitemap.values()):
+    loc.text = WEB_SITEMAP_URL
+    if lastmod_dates := set(web_sitemap.values()):
         lastmod = ET.SubElement(sitemap_el, "lastmod")
         lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
