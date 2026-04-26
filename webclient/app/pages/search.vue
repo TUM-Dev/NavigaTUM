@@ -2,6 +2,7 @@
 import type { components } from "~/api_types";
 import SearchSectionList from "~/components/SearchSectionList.vue";
 import { firstOrDefault } from "~/composables/common";
+import { useSearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -9,6 +10,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const feedback = useFeedback();
+const filters = useSearchFilters();
 
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
 const query_limit_buildings = computed<number>(() =>
@@ -27,6 +29,7 @@ const apiUrl = computed(() => {
   params.append("lang", locale.value);
   params.append("pre_highlight", "<b class='text-blue'>");
   params.append("post_highlight", "</b>");
+  filters.appendToParams(params);
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
@@ -94,6 +97,12 @@ useSeoMeta({
         {{ t("feedback.give") }}
       </button>
     </small>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <SearchFilterChips :filters="filters" />
+      <div class="ms-auto">
+        <SearchSortControl :filters="filters" />
+      </div>
+    </div>
     <ClientOnly>
       <SearchSectionList
         :data="data"
