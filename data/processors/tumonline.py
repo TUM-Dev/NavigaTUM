@@ -7,7 +7,7 @@ from typing import Any
 import polars as pl
 import yaml
 
-from external.loaders.tumonline import load_orgs, load_usages
+from external.loaders.tumonline import load_buildings, load_orgs, load_usages
 from external.models import tumonline
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
 from processors.patch import apply_roomcode_patch
@@ -29,20 +29,9 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
     """
     error = False
     buildings_rows: list[dict[str, Any]] = []
-    for b_id, building in tumonline.Building.load_all().items():
-        # Normalize the building name (sometimes has more than one space)
-        b_name = " ".join(building.name.split()).strip()
-
-        # Extract the building id
-        try:
-            if int(b_id) <= 0 or int(b_id) > 9999:
-                logging.error(f"Invalid building id '{b_id}' for building '{b_name}', expected it to be in 1..9999")
-                error = True
-                continue
-        except ValueError:
-            error = True
-            logging.error(f"Failed to parse building name as '1234 [...]' with a number in 1..9999 for: '{b_name}'")
-            continue
+    for building in load_buildings().iter_rows(named=True):
+        b_id = building["building_key"]
+        b_name = " ".join(building["name"].split()).strip()
 
         # Check for duplicates in the DataFrame
         matches = df.filter(pl.col("b_prefix") == b_id)
@@ -59,7 +48,7 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
             {
                 "b_prefix_match": b_id,
                 "tumonline_data_json_new": orjson.dumps(
-                    {"name": b_name, "filter_id": building.filter_id, "area_id": building.area_id},
+                    {"name": b_name, "filter_id": building["filter_id"], "area_id": building["area_id"]},
                 ).decode(),
                 "props_ids_b_id_new": b_id,
             }

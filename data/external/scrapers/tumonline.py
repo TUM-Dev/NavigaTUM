@@ -8,7 +8,7 @@ import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
-from external.schemas.tumonline import OrgsSchema, UsagesSchema
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, UsagesSchema
 from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
 
@@ -48,37 +48,21 @@ def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
     logging.info("Downloading the buildings of tumonline")
 
-    def _sanitise_building_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
-        val["tumonline_id"] = val.pop("nr")
-        val["address"] = {
-            "place": val.pop("address_place"),
-            "street": val.pop("address_street"),
-            "zip_code": val.pop("address_zip_code"),
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
+    rows = [
+        {
+            "building_key": f"{b['building_id']:04d}",
+            "address_place": b["address_place"],
+            "address_street": b["address_street"],
+            "address_zip_code": b["address_zip_code"],
+            "area_id": b["area_id"],
+            "name": b["name"],
+            "tumonline_id": b["nr"],
+            "filter_id": b.get("filter_id"),
         }
-        return val
-
-    buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
-    buildings = {f"{r.pop('building_id'):04d}": _sanitise_building_value(r) for r in buildings}
-
-    # Convert to CSV format
-    rows = []
-    for building_key, building_data in buildings.items():
-        address = building_data.get("address", {})
-        row = {
-            "building_key": str(building_key),
-            "address_place": str(address.get("place", "")),
-            "address_street": str(address.get("street", "")),
-            "address_zip_code": int(address.get("zip_code", 0)),
-            "area_id": int(building_data.get("area_id", 0)),
-            "name": str(building_data.get("name", "")),
-            "tumonline_id": int(building_data.get("tumonline_id", 0)),
-            "filter_id": building_data.get("filter_id") if building_data.get("filter_id") is not None else None,
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by building_key for consistency
-    df = df.sort("building_key")
+        for b in payload
+    ]
+    df = pl.DataFrame(rows, schema=BuildingsSchema.to_polars_schema()).sort("building_key")
     df.write_csv(CACHE_PATH / "buildings_tumonline.csv")
 
 

@@ -80,42 +80,5 @@ class Room(PydanticConfiguration):
         return rooms
 
 
-class Building(PydanticConfiguration):
-    address: Address
-    area_id: int
-    name: str
-    tumonline_id: int
-    filter_id: int | None = None
-
-    @classmethod
-    def load_all(cls) -> dict[str, "Building"]:
-        """Load all tumonline.Building's"""
-        df = pl.read_csv(
-            RESULTS_PATH / "buildings_tumonline.csv",
-            schema_overrides={
-                "building_key": pl.String,
-                "address_place": pl.String,
-                "address_street": pl.String,
-                "name": pl.String,
-            },
-        )
-        buildings = {}
-        for row in df.iter_rows(named=True):
-            # Reconstruct address from flattened columns
-            address = Address(
-                place=str(row["address_place"]),
-                street=str(row["address_street"]),
-                zip_code=int(row["address_zip_code"]),
-            )
-
-            building = cls(
-                address=address,
-                area_id=int(row["area_id"]),
-                name=str(row["name"]),
-                tumonline_id=int(row["tumonline_id"]),
-                filter_id=row["filter_id"] if row["filter_id"] is not None else None,
-            )
-            buildings[str(row["building_key"])] = building
-        return buildings
 
 

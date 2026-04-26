@@ -4,8 +4,8 @@ import dataframely as dy
 import polars as pl
 import pytest
 
-from external.loaders.tumonline import load_orgs, load_usages
-from external.schemas.tumonline import OrgsSchema, UsagesSchema
+from external.loaders.tumonline import load_buildings, load_orgs, load_usages
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, UsagesSchema
 
 
 def test_committed_usages_csv_satisfies_schema() -> None:
@@ -52,3 +52,32 @@ def test_orgs_schema_rejects_missing_column() -> None:
     incomplete = pl.DataFrame({"org_id": [1]})
     with pytest.raises(dy.exc.SchemaError):
         OrgsSchema.validate(incomplete)
+
+
+def test_committed_buildings_csv_satisfies_schema() -> None:
+    """The cached `buildings_tumonline.csv` must satisfy `BuildingsSchema` (drift gate)."""
+    BuildingsSchema.validate(load_buildings())
+
+
+def test_buildings_schema_rejects_non_four_digit_key() -> None:
+    invalid = pl.DataFrame(
+        {
+            "building_key": ["12"],
+            "address_place": ["X"],
+            "address_street": ["X"],
+            "address_zip_code": [80333],
+            "area_id": [1],
+            "name": ["X"],
+            "tumonline_id": [1],
+            "filter_id": [None],
+        },
+        schema=BuildingsSchema.to_polars_schema(),
+    )
+    with pytest.raises(dy.exc.ValidationError):
+        BuildingsSchema.validate(invalid)
+
+
+def test_buildings_schema_rejects_missing_column() -> None:
+    incomplete = pl.DataFrame({"building_key": ["0101"]})
+    with pytest.raises(dy.exc.SchemaError):
+        BuildingsSchema.validate(incomplete)

@@ -21,11 +21,6 @@ def test_tumonline_room():
     tumonline.Room.load_all()
 
 
-def test_tumonline_building():
-    """Load all buildings from the tumonline.Building"""
-    tumonline.Building.load_all()
-
-
 def test_public_transport():
     """Load all stations from the public_transport.Station"""
     public_transport.Station.load_all()
