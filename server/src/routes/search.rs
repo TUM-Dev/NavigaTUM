@@ -1,8 +1,9 @@
-use std::fmt::{Debug, Formatter};
+use std::env;
+use std::fmt::{self, Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
-use crate::search_executor::{ResultFacet, ResultsSection};
+use crate::search_executor::{self, ResultFacet, ResultsSection};
 use actix_web::dev::Payload;
 use actix_web::error::ErrorBadRequest;
 use actix_web::http::header::{CacheControl, CacheDirective};
@@ -12,7 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::future::{Ready, ready};
 use tokio::join;
 use tracing::{debug, error};
-use unicode_truncate::UnicodeTruncateStr;
+use unicode_truncate::UnicodeTruncateStr as _;
 
 /// Cache key for search results
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -190,10 +191,10 @@ pub struct SearchResponse {
 }
 
 impl Debug for SearchResponse {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("SearchResponse");
         base.field("time_ms", &self.time_ms);
-        for section in self.sections.iter() {
+        for section in &self.sections {
             match section.facet {
                 ResultFacet::SitesBuildings => {
                     base.field("sites_buildings", section);
@@ -202,7 +203,7 @@ impl Debug for SearchResponse {
                     base.field("rooms", section);
                 }
                 ResultFacet::Addresses => {
-                    base.field("sites_buildings", section);
+                    base.field("addresses", section);
                 }
             }
         }
@@ -219,7 +220,7 @@ pub struct Limits {
 }
 
 impl Debug for Limits {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("Limits")
             .field("building", &self.buildings_count)
             .field("rooms", &self.rooms_count)
@@ -264,7 +265,7 @@ pub struct Highlighting {
 }
 
 impl Debug for Highlighting {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let pre = &self.pre;
         let post = &self.post;
         write!(f, "{pre}..{post}")
@@ -312,7 +313,7 @@ pub struct FormattingConfig {
 }
 
 impl Debug for FormattingConfig {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("FormattingConfig")
             .field("highlighting", &self.highlighting)
             .field("cropping", &self.cropping)
@@ -344,7 +345,7 @@ fn slugify(input: &str) -> String {
                 || c == 'ü'
                 || c == 'ß'
             {
-                c.to_lowercase().next().unwrap()
+                c.to_lowercase().next().unwrap_or(c)
             } else {
                 '-'
             }
@@ -380,7 +381,7 @@ fn build_meilisearch_filter(
     filters.join(" AND ")
 }
 
-fn build_meilisearch_sorting(near: &Option<String>) -> Vec<String> {
+fn build_meilisearch_sorting(near: Option<&String>) -> Vec<String> {
     match near {
         Some(loc) => vec![format!("_geoPoint({loc}):asc")],
         None => vec![],
@@ -439,7 +440,7 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
     };
 
     let ms_filter = build_meilisearch_filter(&filter_in, &filter_usage, &filter_type);
-    let ms_sorting = build_meilisearch_sorting(&near);
+    let ms_sorting = build_meilisearch_sorting(near.as_ref());
 
     let results_sections = data
         .search_cache
@@ -470,6 +471,8 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
 
     let search_results = SearchResponse {
         sections: results_sections,
+        // truncation acceptable: search latency above ~50 days isn't a useful number to report
+        #[allow(clippy::cast_possible_truncation)]
         time_ms: start_time.elapsed().as_millis() as u32,
     };
 
@@ -489,17 +492,17 @@ async fn do_geoentry_search(
     filter: String,
     sorting: Vec<String>,
 ) -> Vec<ResultsSection> {
-    let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-    let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
+    let ms_url = env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+    let Ok(client) = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok()) else {
         error!("Failed to create a meilisearch client");
         return if search_addresses {
-            crate::search_executor::address_search(&q).await.0
+            search_executor::address_search(&q).await.0
         } else {
             vec![]
         };
     };
 
-    let geoentry_search = crate::search_executor::do_geoentry_search(
+    let geoentry_search = search_executor::do_geoentry_search(
         &client,
         &q,
         limits,
@@ -509,7 +512,7 @@ async fn do_geoentry_search(
     );
 
     if search_addresses {
-        let address_search = crate::search_executor::address_search(&q);
+        let address_search = search_executor::address_search(&q);
         let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);
         geoentry_search.0.extend(address_search.0);
         geoentry_search.0
@@ -519,6 +522,7 @@ async fn do_geoentry_search(
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use pretty_assertions::assert_eq;
 
@@ -528,7 +532,7 @@ mod tests {
         s.chars().count()
     }
 
-    fn assert_limits_invariants(limits: Limits) {
+    fn assert_limits_invariants(limits: &Limits) {
         assert!(limits.total_count <= 1_000);
         assert!(limits.rooms_count <= 1_000);
         assert!(limits.buildings_count <= 1_000);
@@ -543,7 +547,7 @@ mod tests {
         assert_eq!(limits.total_count, 10);
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.buildings_count, 5);
-        assert_limits_invariants(limits);
+        assert_limits_invariants(&limits);
     }
 
     #[test]
@@ -559,7 +563,7 @@ mod tests {
         assert_eq!(limits.total_count, 1_000);
         assert_eq!(limits.rooms_count, 1_000);
         assert_eq!(limits.buildings_count, 1_000);
-        assert_limits_invariants(limits);
+        assert_limits_invariants(&limits);
     }
 
     #[test]
@@ -575,7 +579,7 @@ mod tests {
         assert_eq!(limits.total_count, 10);
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.buildings_count, 10);
-        assert_limits_invariants(limits);
+        assert_limits_invariants(&limits);
     }
 
     #[test]
@@ -591,7 +595,7 @@ mod tests {
         assert_eq!(limits.total_count, 0);
         assert_eq!(limits.rooms_count, 0);
         assert_eq!(limits.buildings_count, 0);
-        assert_limits_invariants(limits);
+        assert_limits_invariants(&limits);
     }
 
     #[test]
@@ -608,8 +612,8 @@ mod tests {
     #[test]
     fn highlighting_empty_strings_are_preserved() {
         let input = SearchQueryArgs {
-            pre_highlight: Some("".into()),
-            post_highlight: Some("".into()),
+            pre_highlight: Some(String::new()),
+            post_highlight: Some(String::new()),
             ..Default::default()
         };
         let res = Highlighting::from(&input);
@@ -734,13 +738,14 @@ mod tests {
 
     #[test]
     fn sorting_empty_near() {
-        let sorting = build_meilisearch_sorting(&None);
+        let sorting = build_meilisearch_sorting(None);
         assert!(sorting.is_empty());
     }
 
     #[test]
     fn sorting_with_near() {
-        let sorting = build_meilisearch_sorting(&Some("48.123,11.456".to_string()));
+        let near = "48.123,11.456".to_string();
+        let sorting = build_meilisearch_sorting(Some(&near));
         assert_eq!(sorting, vec!["_geoPoint(48.123,11.456):asc"]);
     }
 

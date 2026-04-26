@@ -73,7 +73,7 @@ pub(super) fn merge_search_results(
                 }
             }
             _ => {}
-        };
+        }
     }
     section_rooms.n_visible = section_rooms.entries.len();
 

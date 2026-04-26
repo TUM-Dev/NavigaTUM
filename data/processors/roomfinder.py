@@ -1,14 +1,17 @@
-import orjson
 import logging
 import re
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
 import yaml
 from external.loaders.roomfinder import load_buildings as load_rf_buildings
 from external.loaders.roomfinder import load_rooms as load_rf_rooms
+
 from processors.df_utils import ensure_column
+
+_logger = logging.getLogger(__name__)
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -41,10 +44,10 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
             # The Roomfinder appears to be no longer maintained, so sometimes there are still
             # buildings in it that no longer exist. Previously this was an error, but for this
             # reason now it is a warning.
-            logging.warning(f"building '{b_id}' not found in base data. It may be missing in the areatree.")
+            _logger.warning(f"building '{b_id}' not found in base data. It may be missing in the areatree.")
             continue
         if len(matches) > 1:
-            logging.error(f"building id '{b_id}' more than once in base data")
+            _logger.error(f"building id '{b_id}' more than once in base data")
             error = True
             continue
 
@@ -121,10 +124,9 @@ def merge_roomfinder_buildings(df: pl.DataFrame) -> pl.DataFrame:
         .alias("sources_base_json"),
     )
 
-    result = result.drop(
+    return result.drop(
         ["roomfinder_data_json_new", "sources_rf_json", "coords_lat_rf", "coords_lon_rf", "props_ids_b_id_rf"]
     )
-    return result
 
 
 def _rf_source_json(r_id: str) -> str:
@@ -180,14 +182,14 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
             r_id = _find_room_id(room, id_lookup, arch_name_lookup, patches)
             if r_id is None:
                 continue
-        except RoomNotFoundException as exc:
+        except RoomNotFoundError as exc:
             if not exc.known_issue:
-                logging.warning(exc.message)
+                _logger.warning(exc.message)
                 continue
             r_id = patches["known_issues"]["not_in_tumonline"][room["r_id"]]
             parent_row = id_lookup.get(room["b_id"])
             if parent_row is None:
-                logging.warning(f"Parent building '{room['b_id']}' not found for room '{room['r_id']}'")
+                _logger.warning(f"Parent building '{room['b_id']}' not found for room '{room['r_id']}'")
                 continue
             parents = parent_row["parents"] + [room["b_id"]]
             name = r_id if len(room["r_alias"]) == 0 else f"{r_id} ({room['r_alias']})"
@@ -298,7 +300,7 @@ def _find_room_id(
         return str(patches["known_issues"]["mapping"][room["r_id"]])
 
     if room["r_id"] in patches["known_issues"]["not_in_tumonline"]:
-        raise RoomNotFoundException(known_issue=True)
+        raise RoomNotFoundError(known_issue=True)
 
     # Verify first, that the building is included in the data.
     # Buildings not in the data are ignored.
@@ -315,10 +317,12 @@ def _find_room_id(
         if search_result := arch_name_lookup.get(search):
             return search_result
 
-    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room['r_id']}")
+    raise RoomNotFoundError(
+        known_issue=False, message=f"Could not find roomfinder room in TUMonline data: {room['r_id']}"
+    )
 
 
-class RoomNotFoundException(Exception):
+class RoomNotFoundError(Exception):
     def __init__(self, known_issue, message=None):
         self.known_issue = known_issue
         self.message = message

@@ -1,5 +1,4 @@
 import dataframely as dy
-import polars as pl
 
 # Value sets for the Roomfinder Enums. The Roomfinder dataset is frozen upstream so these lists
 # act both as documentation and as a strict drift gate at load time.

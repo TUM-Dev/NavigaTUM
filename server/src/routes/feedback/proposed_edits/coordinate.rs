@@ -22,9 +22,13 @@ impl Coordinate {
             .join("coordinates.csv")
     }
 }
+// TODO: AppliableEdit::apply returns String and cannot propagate I/O errors;
+// the existing implementation panics on filesystem failure. Refactor to Result
+// before removing the allow.
+#[allow(clippy::unwrap_used, clippy::panic, clippy::absolute_paths)]
 impl AppliableEdit for Coordinate {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
-        use std::io::{BufRead, BufReader, BufWriter, Write};
+        use std::io::{BufRead as _, BufReader, BufWriter, Write as _};
 
         let csv_file = Self::get_coordinates_csv_path(base_dir);
         let temp_file = csv_file.with_extension("tmp");
@@ -88,6 +92,7 @@ impl AppliableEdit for Coordinate {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use std::fs;
 

@@ -20,67 +20,67 @@
 :Standorte:root[root]
   0:Stammgelände:stammgelaende[campus]
     01:Nordgelände:nordgelaende
-      0101:Hörsäle (U-Trakt):0101,n1
-      0102:Hochvolthaus (N2):0102,n2
-      0103:El.Masch./Geräte:0103,n3
-      0104:Elektrophysik:0104,n4
-      0105:Elektrotechnik:0105,n5
-      0106:Materialprüfamt (N6):0106,n6
-      0108:Verfügungsgebäude:0108,n8
-      0109:Reflexionsarmer Raum (N9):0109,n9
+      0101:Hörsäle (U-Trakt)|N1:0101,n1
+      0102:Hochvolthaus|N2:0102,n2
+      0103:El.Masch./Geräte|N3:0103,n3
+      0104:Elektrophysik|N4:0104,n4
+      0105:Elektrotechnik|N5:0105,n5
+      0106:Materialprüfamt|N6:0106,n6
+      0108:Verfügungsgebäude|N8:0108,n8
+      0109:Reflexionsarmer Raum|N9:0109,n9
     02:Südgelände:suedgelaende
-      0201:Gabelsbergerstr. 43, StudiTUM:0201,s1
-      0202:Gabelsbergerstr. 39 (S2):0202,s2
-      0203:Gabelsbergerstr. 45 (S3):0203,s3
-      0204:Gabelsbergerstr. 49 (S4):0204,s4
-      0205:Arcisstr. 19 (S5):0205,s5
+      0201:Gabelsbergerstr. 43, StudiTUM|S1:0201,s1
+      0202:Gabelsbergerstr. 39|S2:0202,s2
+      0203:Gabelsbergerstr. 45|S3:0203,s3
+      0204:Gabelsbergerstr. 49|S4:0204,s4
+      0205:Arcisstr. 19|S5:0205,s5
       0206:Mensa Arcisstraße 17|Mensa:0206,s6
       2920:Gabelsbergerstr. 47:
     03:Südostgelände:suedostgelaende
-      0305:Barer Straße 21:0305,suedost1
+      0305:Barer Straße 21|SO5:0305,so5
     04,2903,291:Südwestgelände:suedwestgelaende
-      0401:Richard-Wagner-Str. 18 (SW1):0401,sw1
-      0403:Friedrich Schiedel-Kindergarten:0403,sw3
+      0401:Richard-Wagner-Str. 18|SW1):0401,sw1
+      0403:Friedrich Schiedel-Kindergarten|SW3:0403,sw3
       2903:Haus Soller Augustenstr. 44-46:
       2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
-      2911:Richard-Wagner-Str. 3 / Haus C, Sprachenzentrum / Alumni & Career:2911,riwa3
+      2911:Richard-Wagner-Str. 3 / Haus C, Sprachenzentrum / Alumni & Career|RiWa 3:2911,riwa3
       2912:Brienner Forum Haus E (AM):
       2913:Brienner Forum Haus F (AM):
     05:Zentralgelände:zentralgelaende
       0501:Institutsbau:0501,z1
-      0502:Zentralgebäude 2 (Z2):
-      0503:Thierschbau (Z3):
-      0504:Landwirtschaftsbau (Z4):
-      0505:Wirtschaftswissenschaften (Z5):
-      0506:Theresianum (Z6):
-      0507:Zentralgebäude 7 (Z7):
+      0502:Zentralgebäude 2|Z2:0502,z2
+      0503:Thierschbau|Z3:0503,z3
+      0504:Landwirtschaftsbau|Z4:0504,z4
+      0505:Wirtschaftswissenschaften|Z5:0505,z5
+      0506:Theresianum|Z6:0506,z6
+      0507:Zentralgebäude 7|Z7:0507,z7
       0508:Wärmekraftwerk/Hydr.-Inst.|Heizkraftwerk:0508,z8
       0509:Neubau Innenhof|Wienandsbau:0509,z9
-      0510:Verwaltungsbau (Z10):
-      0511:Elektro/Werkstatt/Lösungsmittel (Z11):
-      0512:Garagen (Z12):
+      0510:Verwaltungsbau|Z10:0510,z10
+      0511:Elektro/Werkstatt/Lösungsmittel|Z11:0511,z11
+      0512:Garagen|Z12:0512,z12
       0597:Vorplatz Audi-Max:
-  15,17:Klinikum rechts der Isar (MRI)|MRI:mri[site]
-    1501:Chirurgische Klinik (Bau 501):
-    1503:Augen, HNO, I.Med., III.Med. (Bau 503):
-    1514:Interdisziplinäres Forschungsgebäude (Bau 514):
-    2522:Center for Translational Cancer Research|TranslaTUM:2522,bau-522
-    1533:Trogerstr. 8, Pers.Rar-Sch.beh. (Bau 533):
-    1536:Trogerstr. 14, Seminargebäude Geschichte (Bau 536):
-    1538:Trogerstr. 18, Pathologie (Bau 538):
-    1548:Schneckenburgerstr. 8, GSF-Container ("Schneckenbunker"), Virologie (Bau 548):
-    1551:A1-Hörsäle, Mensa (Bau 551):
-    1559:Trogerstr. 30, Mikrobiologie/Virologie (Bau 559):
-    1713:Nigerstr. 3, Student Office (Bau 713):
+  15,17:Klinikum rechts der Isar|MRI:mri[site]
+    1501:Chirurgische Klinik|Bau 501:
+    1503:Augen, HNO, I.Med., III.Med.|Bau 503:
+    1514:Interdisziplinäres Forschungsgebäude|Bau 514:
+    2522:Center for Translational Cancer Research|TranslaTUM:2522,translatum
+    1533:Trogerstr. 8, Pers.Rar-Sch.beh.|Bau 533:
+    1536:Trogerstr. 14, Seminargebäude Geschichte|Bau 536:
+    1538:Trogerstr. 18, Pathologie|Bau 538:
+    1548:Schneckenburgerstr. 8, GSF-Container ("Schneckenbunker"), Virologie|Bau 548:
+    1551:A1-Hörsäle, Mensa|Bau 551:
+    1559:Trogerstr. 30, Mikrobiologie/Virologie|Bau 559:
+    1713:Nigerstr. 3, Student Office|Bau 713:
     1724:Prinzregentenstr. 68 MRI:
     1740:Neherstr. 1 ForTe:
     2535:StudiTUM am TUM-Klinikum|StudiTUM:2535,studitum-mri
   16:Am Biederstein (MRI Außenstelle):biederstein[site]
-    1601:Altbau 1, Vorklinik. Inst. (Bau 601):
-    1602:Altbau 2+3, Anatomisches Institut (Bau 602):
-    1603:Altbau 2+3, Biologisches Institut (Bau 603):
-    1607:Altbau 7, Institut für Pharmakologie und Toxikologie (Bau 607):
-    -1608:Altbau 8, Institut für Medizinische Mikr (Bau 608):
+    1601:Altbau 1, Vorklinik. Inst.|Bau 601:
+    1602:Altbau 2+3, Anatomisches Institut|Bau 602:
+    1603:Altbau 2+3, Biologisches Institut|Bau 603:
+    1607:Altbau 7, Institut für Pharmakologie und Toxikologie|Bau 607:
+    -1608:Altbau 8, Institut für Medizinische Mikr|Bau 608:
   19:Campus Heilbronn:heilbronn[campus]
     1901:Bildungscampus D, Gebäude 2, Vorlesungssäle:
     1902:Bildungscampus L, Gebäude 9, TUM Tower:
@@ -95,15 +95,15 @@
     2107:Institutsgebäude:
     2108:Bunker:
     2109:Tankstelle:
-  23:Campus im Olympiapark (SZ):olympiapark[campus]
+  23:Campus im Olympiapark|SZ):olympiapark[campus]
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
     2315:Präventionszentrum:
-    2317:Kletterturm (KLT):
+    2317:Kletterturm|KLT:
     2318:Boulderturm:
-    2319:Kletter- und Boulderanlage Outdoor (KBA):
-    2320:Fitnessanlage Outdoor (FIA):
+    2319:Kletter- und Boulderanlage Outdoor|KBA:
+    2320:Fitnessanlage Outdoor|FIA:
     2321:Rasenspielplätze/Teil-Umbauten:
     2330:CiO/SG Seminarräume:
     2331:CiO/SG Hallen West, Cafeteria:
@@ -136,9 +136,10 @@
     2607:Fahrzeughalle (BL. F):
   :TUM Gebäude in Großhadern:grosshadern
     2801:Marchioninistr. 17 (NR), Großhadern:
-  2803:Forum der Zukunft (Deutsches Museum):
-  2804:Deutsches Museum Bibliotheksgebäude:
-  2805:Dachau, Karl-Benz-Str.:
+  :Deutsches Museum:deutsches-museum
+    2803:Forum der Zukunft (Deutsches Museum):
+    2804:Deutsches Museum Bibliotheksgebäude:
+  2805:Dachau, Karl-Benz-Straße:
   2806:Werkstattgebäude National Museum (Nutzung):
   2807:Pinakothek der Moderne (Nutzung):
   2808:Forschungszentrum für Bauchemie (Dr. Albert-Frank-Str. 32):
@@ -220,7 +221,7 @@
         4124:Molekulare Biowissenschaften (ZIEL II):
         4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
       4128:Trafostation I, Am Löwentor:
-      4130:Trafostation IV (Sprachlabor):
+      4130:Trafostation IV|Sprachlabor):
       :Aquatische Systembiologie:aquatische-systembiologie
         4129:Aquatische Systembiologie, Mühlenweg 22:
         4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
@@ -284,7 +285,7 @@
       4311:Institut Zierplanzenbau:
       4314:Trafostation VII:
       4315,4316:Lagerhalle:wzw-lagerhalle
-        4315:Lagerhalle (Straßenseite):
+        4315:Lagerhalle|Straßenseite):
         4316:Lagerhalle (Feldseite):
       -4319:Trafostation VI:
       4320:Energiezentrale Heizhaus:
@@ -389,12 +390,12 @@
         5121:Atlashalle:
       5123:Physik Werkstattgebäude LMU:5123
       5124:WSI Container:
-      5125:LEX (LMU):5125
-      5126:CALA (LMU):5126
+      5125:Laboratory for Extreme Photonics (LMU)|LEX:5125,lex
+      5126:Centre for Advanced Laser Applications (LMU)|CALA:5126,cala
       5128:Zentrum für Quantum Engineering:
       5130:Telefonzentrale:
       5131:FRM-Poststelle (Container):
-      5132:Center for Organoid Systems (COS):
+      5132:Center for Organoid Systems|COS:5132,cos
       5140:Physik I Container:
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
@@ -408,7 +409,7 @@
       -5251:RCM-Abwassergebäude:
       -5252:RCM-Gasversorgungsstation:
       5257:Werkstatt u. Bürogebäude FRM II (UYW):5257,uyw
-    5301:IAS, Institut für Advanced Study:5301,ias
+    5301:Institut für Advanced Study|IAS:5301,ias
     5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
     5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
@@ -425,8 +426,8 @@
       -5410:Katalysezentrum:5410,crc
       5413:Bayerisches NMR-Zentrum:
     5414:Zentrum für Energie u. Information (ZEI):
-    -5415:CPA Center for Functional Protein Assemblies:5415,cpa
-    5433:Entrepreneurship Centrum (ECM):5433,ecm
+    -5415:Center for Functional Protein Assemblies|CPA:5415,cpa
+    5433:Entrepreneurship Centrum|ECM:5433,ecm
     :Maschinenwesen (MW):mw[joined_building]
       5501:Gebäudeteil 1, Institut für Mechatronik:
       5502:Institut für Werkstoffe und Verarbeitung:5502
@@ -452,20 +453,20 @@
       5601:Magistrale / Foyer (BT01):
       5602:Hörsaal 1 (BT02):
       5603:Bibliothek (BT03):
-      5604:Gebäudeteil 04|Finger 04:5604,bt04
-      5605:Gebäudeteil 05|Finger 05:5605,bt05
-      5606:Gebäudeteil 06|Finger 06:5606,bt06
-      5607:Gebäudeteil 07|Finger 07:5607,bt07
-      5608:Gebäudeteil 08|Finger 08:5608,bt08
-      5609:Gebäudeteil 09|Finger 09:5609,bt09
-      5610:Gebäudeteil 10|Finger 10:5610,bt10
-      5611:Gebäudeteil 11|Finger 11:5611,bt11
-      5612:Gebäudeteil 12|Finger 12:5612,bt12
-      5613:Gebäudeteil 13|Finger 13:5613,bt13
+      5604:Gebäudeteil 04|Finger 04:5604,mi04
+      5605:Gebäudeteil 05|Finger 05:5605,mi05
+      5606:Gebäudeteil 06|Finger 06:5606,mi06
+      5607:Gebäudeteil 07|Finger 07:5607,mi07
+      5608:Gebäudeteil 08|Finger 08:5608,mi08
+      5609:Gebäudeteil 09|Finger 09:5609,mi09
+      5610:Gebäudeteil 10|Finger 10:5610,mi10
+      5611:Gebäudeteil 11|Finger 11:5611,mi11
+      5612:Gebäudeteil 12|Finger 12:5612,mi12
+      5613:Gebäudeteil 13|Finger 13:5613,mi13
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering:5701
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching
-    5932:Siemens Technology Center (STC):5932,siemens-garching
+    5932:Siemens Technology Center|STC):5932,siemens-garching
     5933:SAP Labs Munich (AM):5933,sap-garching
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
@@ -478,7 +479,7 @@
       5417:Interims COS / Interims NAT|Interims IV:5417,interims-iv
       5539:Interims-Tentomax MW|Interims III:5539,interims-iii
       5620:Interims-Audimax:5620
-  6:Garching Forschungszentrum (süd-west):garching-sued-west[site]
+  6:Garching Forschungszentrum|Süd-west):garching-sued-west[site]
     61:Gebäudemanagement / Technischer Betrieb:garching-gebaeudemanagement
       6101:Heizwerk:
       6102:Betriebsgebäude:

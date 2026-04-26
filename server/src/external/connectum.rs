@@ -1,24 +1,29 @@
-const KEEP_ALIVE: Duration = Duration::from_secs(30);
-use chrono::{DateTime, Utc};
-use oauth2::basic::{BasicClient, BasicTokenResponse};
-use oauth2::url::Url;
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
-use reqwest::redirect;
-use serde::Deserialize;
-use std::fmt::{Debug, Formatter};
+use std::env;
+use std::fmt::{self, Debug, Formatter};
 use std::sync::Arc;
 use std::sync::RwLock;
 use std::time::{Duration, Instant};
+
+use chrono::{DateTime, Utc};
+use oauth2::basic::{BasicClient, BasicTokenResponse};
+use oauth2::url::Url;
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse as _, TokenUrl};
+use reqwest::redirect;
+use serde::Deserialize;
 use tokio::time::sleep;
 use tracing::error;
+
+const KEEP_ALIVE: Duration = Duration::from_secs(30);
 
 #[derive(Clone)]
 pub struct APIRequestor {
     client: reqwest::Client,
     oauth_token: OauthAccessToken,
 }
+// Debug intentionally elides the http client; only token state matters in logs.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for APIRequestor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("APIRequestor");
         if !self.oauth_token.should_refresh_token() {
             base.field("token", &self.oauth_token);
@@ -84,7 +89,10 @@ impl OauthAccessToken {
             //expires_in ^= how long until it expires. Pretty misleading
             token.expires_in().is_none_or(|expires_in| {
                 (expires_in < start.elapsed())
-                    || (expires_in - start.elapsed() < Duration::from_secs(30))
+                    || (expires_in
+                        .checked_sub(start.elapsed())
+                        .expect("checked above: expires_in >= start.elapsed()")
+                        < Duration::from_secs(30))
             })
         })
     }
@@ -110,7 +118,7 @@ impl OauthAccessToken {
 
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     async fn fetch_new_oauth_token() -> anyhow::Result<(Instant, BasicTokenResponse)> {
-        let client_id = std::env::var("CONNECTUM_OAUTH_CLIENT_ID")
+        let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
           .map_err(|e| anyhow::anyhow!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint: {e:?}"))?
           .trim()
           .to_string();
@@ -119,7 +127,7 @@ impl OauthAccessToken {
                 "environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint"
             )
         }
-        let client_secret = std::env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
+        let client_secret = env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
           .map_err(|e| anyhow::anyhow!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint: {e:?}"))?
           .trim()
           .to_string();
@@ -154,17 +162,19 @@ impl OauthAccessToken {
     }
 
     async fn get_possibly_refreshed_token(&self) -> String {
-        let mut token = self.try_refresh_token().await;
-        while let Err(e) = token {
-            error!(error = ?e, "retrying to get oauth token");
-            sleep(Duration::from_secs(10)).await;
-            token = self.try_refresh_token().await;
+        loop {
+            match self.try_refresh_token().await {
+                Ok(token) => return token,
+                Err(e) => {
+                    error!(error = ?e, "retrying to get oauth token");
+                    sleep(Duration::from_secs(10)).await;
+                }
+            }
         }
-        token.unwrap()
     }
 }
 impl Debug for OauthAccessToken {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let token = self.0.read().expect("not poisoned");
         let start_elapsed = token.as_ref().map(|(start, _)| start.elapsed());
         let mut base = f.debug_struct("Token");

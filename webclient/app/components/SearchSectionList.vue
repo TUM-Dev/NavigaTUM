@@ -15,9 +15,7 @@ const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
 const filters = useSearchFilters();
 
-const hasNoResults = computed(() =>
-  props.data.sections.every((s) => s.estimatedTotalHits === 0)
-);
+const hasNoResults = computed(() => props.data.sections.every((s) => s.estimatedTotalHits === 0));
 
 function viewMoreQuery(facet: string) {
   return {

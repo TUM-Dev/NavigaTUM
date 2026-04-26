@@ -1,7 +1,17 @@
+// Tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded
+// by the 512×512 tile size and the small POSSIBLE_INDEX_RANGE.
+#![allow(
+    clippy::cast_possible_truncation,
+    clippy::cast_sign_loss,
+    clippy::cast_possible_wrap
+)]
+
+use std::f64::consts::PI;
 use std::fmt;
 use std::ops::Range;
 
-use futures::{StreamExt, stream::FuturesUnordered};
+use futures::{StreamExt as _, stream::FuturesUnordered};
+use image::imageops;
 use tracing::warn;
 
 use crate::external::download_map_image::MapImageDownloadTask;
@@ -77,9 +87,9 @@ impl OverlayMapTask {
         while let Some(res) = work_queue.next().await {
             match res {
                 Some(((x_index, y_index), tile_img)) => {
-                    let x = x_index as i64 * 512 - (x_img_coords as i64);
-                    let y = y_index as i64 * 512 - (y_img_coords as i64);
-                    image::imageops::overlay(img, &tile_img, x, y);
+                    let x = i64::from(x_index) * 512 - i64::from(x_img_coords);
+                    let y = i64::from(y_index) * 512 - i64::from(y_img_coords);
+                    imageops::overlay(img, &tile_img, x, y);
                 }
                 None => {
                     return false;
@@ -92,9 +102,9 @@ impl OverlayMapTask {
 
 fn lat_lon_z_to_xyz(lat_deg: f64, lon_deg: f64, zoom: u32) -> (f64, f64, u32) {
     let lat_rad = lat_deg.to_radians();
-    let n = 2_u32.pow(zoom) as f64;
+    let n = f64::from(2_u32.pow(zoom));
     let xtile = (lon_deg + 180.0) / 360.0 * n;
-    let ytile = (1.0 - lat_rad.tan().asinh() / std::f64::consts::PI) / 2.0 * n;
+    let ytile = (1.0 - lat_rad.tan().asinh() / PI) / 2.0 * n;
     (xtile, ytile, zoom)
 }
 
@@ -124,6 +134,12 @@ fn is_on_image(
 }
 
 #[cfg(test)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::panic_in_result_fn,
+    clippy::float_cmp
+)]
 mod tests {
     use pretty_assertions::assert_eq;
 
@@ -139,9 +155,9 @@ mod tests {
     #[test]
     fn test_lat_lon_no_zoom_mut() {
         for x in -5..5 {
-            let x = x as f64;
+            let x = f64::from(x);
             for y in -5..5 {
-                let y = y as f64;
+                let y = f64::from(y);
                 for z in 0..20 {
                     let (_, _, zg) = lat_lon_z_to_xyz(x + y / 100.0, y, z);
                     assert_eq!(z, zg);

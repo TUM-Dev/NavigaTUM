@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{self, Debug, Formatter};
 
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
@@ -39,8 +39,10 @@ pub struct MSHit {
     usage: Option<String>,
     rank: i32,
 }
+// Debug intentionally shows only the human-meaningful fields for log readability.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for MSHit {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("MSHit")
             .field("room_code", &self.room_code)
             .field("name", &self.name)
@@ -75,12 +77,11 @@ impl From<(&Client, String, &Limits, &FormattingConfig)> for GeoEntryQuery {
 
 impl GeoEntryQuery {
     // add sorting constraints
-    pub fn with_sorting(&mut self, sortation: impl ToString) -> Self {
+    pub fn with_sorting(&mut self, sortation: &impl ToString) {
         self.sorting.push(sortation.to_string());
-        self.clone()
     }
     // add filtering constraints
-    pub fn with_filtering(&mut self, ms_filter: impl ToString) -> Self {
+    pub fn with_filtering(&mut self, ms_filter: &impl ToString) {
         let extra = ms_filter.to_string();
         if !extra.is_empty() {
             if !self.user_filter.is_empty() {
@@ -88,7 +89,6 @@ impl GeoEntryQuery {
             }
             self.user_filter.push_str(&extra);
         }
-        self.clone()
     }
 
     pub async fn execute(self) -> Result<FederatedMultiSearchResponse<MSHit>, Error> {
@@ -151,8 +151,10 @@ fn compose_filter(facet_filter: &str, user_filter: &str) -> String {
     }
 }
 
+// Debug intentionally elides the meilisearch client; only request shape matters in logs.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for GeoEntryQuery {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("GeoEntryQuery");
         base.field("query", &self.query)
             .field("limits", &self.limits)
