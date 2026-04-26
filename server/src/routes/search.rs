@@ -3,6 +3,7 @@ use std::fmt::{self, Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
+use crate::external::meilisearch::{BUILDING_FACET, POI_FACET, ROOM_FACET, SITE_FACET};
 use crate::search_executor::{self, ResultFacet, ResultsSection};
 use actix_web::dev::Payload;
 use actix_web::error::ErrorBadRequest;
@@ -244,6 +245,7 @@ pub struct Limits {
 
 impl Limits {
     /// Sum of per-facet caps. Used to size the federation budget upstream.
+    #[must_use]
     pub fn per_facet_total(&self) -> usize {
         self.sites_count
             .saturating_add(self.buildings_count)
@@ -424,10 +426,7 @@ fn build_meilisearch_filter(
             .filter(|s| {
                 matches!(
                     s.as_str(),
-                    crate::external::meilisearch::SITE_FACET
-                        | crate::external::meilisearch::BUILDING_FACET
-                        | crate::external::meilisearch::ROOM_FACET
-                        | crate::external::meilisearch::POI_FACET
+                    SITE_FACET | BUILDING_FACET | ROOM_FACET | POI_FACET
                 )
             })
             .collect();
