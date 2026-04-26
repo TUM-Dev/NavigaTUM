@@ -1,8 +1,10 @@
 import logging
 import tempfile
 from pathlib import Path
+from typing import Any
 
 import pytest
+from external.models import tumonline
 from processors import areatree
 from processors.areatree.process import (
     _areatree_lines,
@@ -29,7 +31,7 @@ def test_extract_names_without_short_name() -> None:
     assert _extract_names(names) == expected_output
 
 
-def test_extract_names_with_long_short_name(caplog) -> None:
+def test_extract_names_with_long_short_name(caplog: Any) -> None:
     """If the short name is longer than 20 chars, a warning is raised"""
     names = ["Mechanical Engineering", "ThisIsAVeryLongNameForAShortName"]
     expected_output = {"name": "Mechanical Engineering", "short_name": "ThisIsAVeryLongNameForAShortName"}
@@ -114,44 +116,46 @@ def test_id_not_inferable() -> None:
         _extract_id_and_type("123,visible_id,extra_id", None)
 
 
-def test_empty_file() -> None:
+@pytest.fixture
+def areatree_tempfile() -> Any:
+    """Bind AREATREE_FILE to a writable temp file; restore the original on teardown."""
+    original = areatree.process.AREATREE_FILE
+    with tempfile.NamedTemporaryFile(mode="w+") as file:
+        areatree.process.AREATREE_FILE = Path(file.name)
+        yield file
+    areatree.process.AREATREE_FILE = original
+
+
+def test_empty_file(areatree_tempfile: Any) -> None:
     """Empty file returns empty list"""
-    with tempfile.NamedTemporaryFile() as file:
-        areatree.process.AREATREE_FILE = Path(file.name)
-        assert not list(_areatree_lines())
+    assert not list(_areatree_lines())
 
 
-def test_comment_lines() -> None:
+def test_comment_lines(areatree_tempfile: Any) -> None:
     """Comment lines are removed"""
-    with tempfile.NamedTemporaryFile(mode="w+") as file:
-        areatree.process.AREATREE_FILE = Path(file.name)
-        file.write("line1\n")
-        file.write("\n")  # Empty line
-        file.write("# Comment line\n")
-        file.write("line2\n")
-        file.flush()
-        assert list(_areatree_lines()) == ["line1", "line2"]
+    areatree_tempfile.write("line1\n")
+    areatree_tempfile.write("\n")  # Empty line
+    areatree_tempfile.write("# Comment line\n")
+    areatree_tempfile.write("line2\n")
+    areatree_tempfile.flush()
+    assert list(_areatree_lines()) == ["line1", "line2"]
 
 
-def test_inline_comments() -> None:
+def test_inline_comments(areatree_tempfile: Any) -> None:
     """Inline comments are removed"""
-    with tempfile.NamedTemporaryFile(mode="w+") as file:
-        areatree.process.AREATREE_FILE = Path(file.name)
-        file.write("line1#comment1\n")
-        file.write("line2#comment2 # comment 3\n")
-        file.flush()
-        assert list(_areatree_lines()) == ["line1", "line2"]
+    areatree_tempfile.write("line1#comment1\n")
+    areatree_tempfile.write("line2#comment2 # comment 3\n")
+    areatree_tempfile.flush()
+    assert list(_areatree_lines()) == ["line1", "line2"]
 
 
-def test_file_preserves_indentation() -> None:
+def test_file_preserves_indentation(areatree_tempfile: Any) -> None:
     """Indentation is preserved"""
-    with tempfile.NamedTemporaryFile(mode="w+") as file:
-        areatree.process.AREATREE_FILE = Path(file.name)
-        file.write("  line1  \n")
-        file.write(" line2\n")
-        file.write("line3")
-        file.flush()
-        assert list(_areatree_lines()) == ["  line1", " line2", "line3"]
+    areatree_tempfile.write("  line1  \n")
+    areatree_tempfile.write(" line2\n")
+    areatree_tempfile.write("line3")
+    areatree_tempfile.flush()
+    assert list(_areatree_lines()) == ["  line1", " line2", "line3"]
 
 
 def test_valid_line() -> None:
@@ -169,3 +173,25 @@ def test_invalid_line_extra_parts() -> None:
     """Extra parts are not allowed"""
     with pytest.raises(RuntimeError):
         _split_line("1:Building A:123,456:extra_part")
+
+
+def test_all_tumonline_buildings_in_areatree() -> None:
+    """Every TUMonline building must have a matching entry in the areatree"""
+    df = areatree.process.read_areatree()
+
+    known_b_prefixes: set[str] = set()
+    for row in df.iter_rows(named=True):
+        if row.get("b_prefix") is not None:
+            known_b_prefixes.add(row["b_prefix"])
+        if row.get("b_prefix_list") is not None:
+            known_b_prefixes.update(row["b_prefix_list"])
+
+    missing = sorted(
+        (b_id, building.name)
+        for b_id, building in tumonline.Building.load_all().items()
+        if b_id not in known_b_prefixes
+    )
+
+    assert not missing, "TUMonline buildings missing from areatree:\n" + "\n".join(
+        f"  {b_id}: {name}" for b_id, name in missing
+    )

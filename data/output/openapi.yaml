@@ -570,14 +570,48 @@ paths:
           description: |-
             string you want to search for.
 
-            The amounts returned can be controlled using the `limit\*` paramerters.
-
-            The following query-filters are supported:
-            - `in:<parent>`/`@<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
-            - `usage:<type>`/`nutzung:<usage>`/`=<usage>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
-            - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
-            - `near:<lat>,<lon>`: prioritise sorting the entries by distance to a coordinate
+            The amounts returned can be controlled using the `limit_*` parameters.
+            Use `in`, `usage`, `type`, and `near` query parameters for filtering.
           required: true
+          schema:
+            type: string
+        - name: in
+          in: query
+          description: |-
+            Filter by parent (building, campus, etc.).
+
+            Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: usage
+          in: query
+          description: |-
+            Filter by usage type (e.g. `wc`, `büro`).
+
+            Can be repeated for multiple values.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: type
+          in: query
+          description: |-
+            Filter by entry type (e.g. `room`, `building`).
+
+            Can be repeated for multiple values.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: near
+          in: query
+          description: Sort results by distance to a coordinate (`lat,lon`).
+          required: false
           schema:
             type: string
         - name: search_addresses
@@ -589,9 +623,7 @@ paths:
             Only activate this when you really need it.
           required: false
           schema:
-            type:
-              - boolean
-              - "null"
+            type: boolean
         - name: limit_buildings
           in: query
           description: |-
@@ -601,9 +633,7 @@ paths:
             If this is a problem for you, please open an issue.
           required: false
           schema:
-            type:
-              - integer
-              - "null"
+            type: integer
             minimum: 0
         - name: limit_rooms
           in: query
@@ -614,9 +644,7 @@ paths:
             If this is an problem for you, please open an issue.
           required: false
           schema:
-            type:
-              - integer
-              - "null"
+            type: integer
             minimum: 0
         - name: limit_all
           in: query
@@ -627,9 +655,7 @@ paths:
             If this is an problem for you, please open an issue.
           required: false
           schema:
-            type:
-              - integer
-              - "null"
+            type: integer
             minimum: 0
         - name: pre_highlight
           in: query
@@ -640,9 +666,7 @@ paths:
             For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
           required: false
           schema:
-            type:
-              - string
-              - "null"
+            type: string
         - name: post_highlight
           in: query
           description: |-
@@ -652,9 +676,7 @@ paths:
             For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
           required: false
           schema:
-            type:
-              - string
-              - "null"
+            type: string
         - name: cropping
           in: query
           description: |-

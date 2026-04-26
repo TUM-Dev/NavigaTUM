@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with: {persist-credentials: false}
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
           version: 10.14.0
           package_json_file: webclient/package.json
@@ -27,17 +27,17 @@ jobs:
             - cwd: webclient
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, openapi-format]
-      - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      - name: Set up uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
-          python-version: '3.14'
+          enable-cache: true
       - name: Install python dependencies
-        run: pip install -r data/requirements.txt -r requirements-dev.txt
+        run: uv sync --frozen
       - run: rm *tumonline.csv
         working-directory: data/external/results/
       - name: Download tumonline data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
-        run: PYTHONPATH=$PYTHONPATH:.. python3 scrapers/tumonline.py
+        run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/tumonline.py
         env:
           CONNECTUM_OAUTH_CLIENT_ID: "${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}"
           CONNECTUM_OAUTH_CLIENT_SECRET: "${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}"
@@ -50,7 +50,7 @@ jobs:
         continue-on-error: true
         uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           add-paths: data/external/results
           commit-message: Synced the data with upstream

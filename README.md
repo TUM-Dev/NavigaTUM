@@ -112,13 +112,11 @@ Further details on our backend can be found in the [server documentation](server
 
 We have multiple programming languages in this repository, and we use different tools to format them.
 
-since we use [pre-commit](https://pre-commit.com/) to format our code, you can install it in an virtual environment
-with:
+since we use [pre-commit](https://pre-commit.com/) to format our code, you can install it via [uv](https://docs.astral.sh/uv/):
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r data/requirements.txt -r server/test/requirements.txt -r requirements-dev.txt # for mypy the server and data requirements are needed
+uv sync
+source .venv/bin/activate
 ```
 
 To format all files, run the following command:

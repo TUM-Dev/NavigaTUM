@@ -4,7 +4,7 @@ use std::path::Path;
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
 use serde::Deserialize;
-use tracing::error;
+use tracing::{error, info};
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
@@ -15,6 +15,7 @@ use crate::limited::hash_map::LimitedHashMap;
 
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
+use super::proposed_edits::property::PropertyEdit;
 use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
@@ -22,12 +23,14 @@ use crate::external::github::GitHub;
 mod coordinate;
 mod description;
 mod image;
+pub(crate) mod property;
 mod tmp_repo;
 
 #[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
+    properties: Option<Vec<PropertyEdit>>,
 }
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
@@ -59,12 +62,17 @@ impl EditRequest {
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
+        branch_is_new: bool,
     ) -> anyhow::Result<String> {
         let Some(pat) = crate::external::github::GitHub::github_token() else {
             anyhow::bail!("Failed to get GitHub token");
         };
         let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
-        let repo = TempRepo::clone_and_checkout(&url, branch_name).await?;
+        let repo = if branch_is_new {
+            TempRepo::clone_and_checkout_new_branch(&url, branch_name).await?
+        } else {
+            TempRepo::clone_and_checkout_existing_branch(&url, branch_name).await?
+        };
         let desc = repo.apply_and_gen_description(self, branch_name);
         repo.commit(&desc.title).await?;
         repo.push().await?;
@@ -79,7 +87,7 @@ impl EditRequest {
             .collect()
     }
 
-    fn extract_labels(&self) -> Vec<String> {
+    pub(super) fn extract_labels(&self) -> Vec<String> {
         let mut labels = vec!["webform".to_string()];
 
         if self
@@ -93,31 +101,59 @@ impl EditRequest {
         if self.edits.0.iter().any(|(_, edit)| edit.image.is_some()) {
             labels.push("image".to_string());
         }
+        if self
+            .edits
+            .0
+            .iter()
+            .any(|(_, edit)| edit.properties.as_ref().is_some_and(|p| !p.is_empty()))
+        {
+            labels.push("property".to_string());
+        }
         labels
     }
+
     fn extract_subject(&self) -> String {
         use itertools::Itertools;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
-        match (coordinate_edits.len(), image_edits.len()) {
-            (0, 0) => "no edits".to_string(),
-            (1..=5, 0) => format!(
+        let property_count: usize = self
+            .edits
+            .0
+            .values()
+            .filter_map(|e| e.properties.as_ref())
+            .map(|p| p.len())
+            .sum();
+
+        let mut parts = Vec::new();
+        match coordinate_edits.len() {
+            0 => {}
+            1..=5 => parts.push(format!(
                 "coordinate edit for `{}`",
                 coordinate_edits.keys().sorted().join("`, `")
-            ),
-            (0, 1) => format!("add image for `{}`", image_edits.keys().next().unwrap()),
-            (0, 2..=5) => format!(
+            )),
+            cs => parts.push(format!("edited {cs} coordinates")),
+        }
+        match image_edits.len() {
+            0 => {}
+            1 => parts.push(format!(
+                "add image for `{}`",
+                image_edits.keys().next().unwrap()
+            )),
+            2..=5 => parts.push(format!(
                 "add images for `{}`",
                 image_edits.keys().sorted().join("`, `")
-            ),
-            (0, is) => format!("add {is} images"),
-            (cs, 0) => format!("Edited {cs} coordinates"),
-            (1..=3, 1..=3) => format!(
-                "edited images for `{}` and coordinates for `{}`",
-                image_edits.keys().join("`, `"),
-                coordinate_edits.keys().join("`, `")
-            ),
-            (cs, is) => format!("edited {is} images and {cs} coordinates"),
+            )),
+            is => parts.push(format!("add {is} images")),
+        }
+        if property_count > 0 {
+            let edits = if property_count == 1 { "edit" } else { "edits" };
+            parts.push(format!("{property_count} property {edits}"));
+        }
+
+        if parts.is_empty() {
+            "no edits".to_string()
+        } else {
+            parts.join(" and ")
         }
     }
 }
@@ -178,22 +214,61 @@ pub async fn propose_edits(
     };
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
+
+    // Try to find an open batch PR and use it
+    let batch_pr = super::batch_processor::find_open_batch_pr()
+        .await
+        .ok()
+        .flatten();
+
+    let (branch_to_use, pr_number_opt) = match batch_pr {
+        Some((pr_number, batch_branch)) => {
+            info!(%pr_number, "Adding edit to existing batch PR");
+            (batch_branch, Some(pr_number))
+        }
+        None => (branch_name, None),
+    };
+    let branch_is_new = pr_number_opt.is_none();
+
     match req_data
-        .apply_changes_and_generate_description(&branch_name)
+        .apply_changes_and_generate_description(&branch_to_use, branch_is_new)
         .await
     {
         Ok(description) => {
-            GitHub::default()
-                .open_pr(
-                    branch_name,
-                    &format!(
-                        "chore(data): {subject}",
-                        subject = req_data.extract_subject()
-                    ),
+            if let Some(pr_number) = pr_number_opt {
+                // Update metadata for batch PR (including appending description)
+                if let Err(e) = super::batch_processor::update_batch_pr_metadata(
+                    pr_number,
+                    &req_data,
                     &description,
-                    req_data.extract_labels(),
                 )
                 .await
+                {
+                    error!(error = ?e, "Failed to update batch PR metadata");
+                }
+
+                let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{pr_number}");
+                HttpResponse::Created()
+                    .content_type("text/plain")
+                    .body(pr_url)
+            } else {
+                // Create new batch PR with batch-in-progress label
+                let mut labels = req_data.extract_labels();
+                labels.push(super::batch_processor::BATCH_LABEL.to_string());
+
+                // Use extract_subject for first PR to provide helpful context
+                let subject = req_data.extract_subject();
+                let title = format!("chore(data): {subject}");
+
+                GitHub::default()
+                    .open_pr(
+                        branch_to_use,
+                        &title,
+                        &format!("## Batched Edits\n\n### Edit #1\n{description}"),
+                        labels,
+                    )
+                    .await
+            }
         }
         Err(error) => {
             error!(?error, "could not apply changes");

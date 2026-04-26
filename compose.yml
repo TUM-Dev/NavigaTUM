@@ -55,7 +55,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.34.0
+    image: getmeili/meilisearch:v1.42.1
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -105,7 +105,7 @@ services:
       - ./map/download.sh:/map/download.sh:ro
       - ./map/valhalla.json:/map/valhalla.json:ro
   valhalla:
-    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    image: ghcr.io/valhalla/valhalla-scripted:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -134,7 +134,7 @@ services:
       start_interval: 500ms
       timeout: 1s
   nominatim:
-    image: mediagis/nominatim:5.2
+    image: mediagis/nominatim:5.3
     restart: unless-stopped
     networks:
       - traefik_traefik

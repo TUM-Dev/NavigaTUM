@@ -25,7 +25,7 @@ jobs:
           uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
           with: { persist-credentials: false }
         - name: Run zizmor
-          uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+          uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
   cargo-audit:
     runs-on: ubuntu-latest
     permissions:
@@ -38,14 +38,20 @@ jobs:
       - uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ignore: RUSTSEC-2023-0071,RUSTSEC-2024-0363,RUSTSEC-2024-0379,RUSTSEC-2024-0384,RUSTSEC-2024-0421,RUSTSEC-2025-0004,RUSTSEC-2025-0006,RUSTSEC-2025-0134
-          # RUSTSEC-2024-0421 = idna accepts Punycode labels that do not produce any non-ASCII when decoded => not used explitably
-          # RUSTSEC-2024-0379 = unsoundness in fast-float => only used in intialisation logic, fix in polars is in main and is awaiting release
-          # RUSTSEC-2024-0363 = Binary Protocol Misinterpretation caused by Truncating or Overflowing Casts => caught by maximum request sizes
-          # RUSTSEC-2023-0071 = Marvin Attack: potential key recovery through timing sidechannels => not used explitably
-          # RUSTSEC-2025-0004 = ssl::select_next_proto use after free => not used
-          # RUSTSEC-2025-0006 = Hickory DNS failure to verify self-signed RRSIG for DNSKEYs => not used
-          # RUSTSEC-2025-0134 = rustls-pemfile is unmaintained, but only used in development dependencies
+          ignore: RUSTSEC-2023-0071,RUSTSEC-2026-0045,RUSTSEC-2026-0046,RUSTSEC-2026-0047,RUSTSEC-2026-0044,RUSTSEC-2026-0048,RUSTSEC-2026-0049,RUSTSEC-2026-0098,RUSTSEC-2026-0099,RUSTSEC-2026-0104,RUSTSEC-2024-0436,RUSTSEC-2025-0141,RUSTSEC-2026-0097
+          # RUSTSEC-2023-0071 = Marvin Attack: potential key recovery through timing sidechannels => not used explicitly
+          # RUSTSEC-2026-0045 = Timing side-channel in AES-CCM tag verification in AWS-LC => transitive through aws-lc-sys and awaiting upstream dependency updates
+          # RUSTSEC-2026-0046 = PKCS7_verify certificate chain validation bypass in AWS-LC => transitive through aws-lc-sys and awaiting upstream dependency updates
+          # RUSTSEC-2026-0047 = PKCS7_verify signature validation bypass in AWS-LC => transitive through aws-lc-sys and awaiting upstream dependency updates
+          # RUSTSEC-2026-0044 = AWS-LC X.509 name constraints bypass via wildcard/Unicode CN => transitive through aws-lc-sys and awaiting upstream dependency updates
+          # RUSTSEC-2026-0048 = CRL distribution point scope check logic error in AWS-LC => transitive through aws-lc-sys and awaiting upstream dependency updates
+          # RUSTSEC-2026-0049 = rustls-webpki CRL distribution point matching bug => transitive through rustls-webpki and awaiting upstream dependency updates
+          # RUSTSEC-2026-0098 = rustls-webpki URI name constraints were incorrectly accepted => transitive through rustls-webpki and awaiting upstream dependency updates
+          # RUSTSEC-2026-0099 = rustls-webpki wildcard DNS name constraints were incorrectly accepted => transitive through rustls-webpki and awaiting upstream dependency updates
+          # RUSTSEC-2026-0104 = Reachable panic in certificate revocation list parsing in rand => transitive through testcontainers/bollard and awaiting upstream dependency updates
+          # RUSTSEC-2026-0097 = Rand is unsound with a custom logger using rand::rng() => transitive through testcontainers/bollard and awaiting upstream dependency updates
+          # RUSTSEC-2024-0436 = paste is unmaintained => transitive through imageproc/nalgebra/simba and rav1e, awaiting upstream updates
+          # RUSTSEC-2025-0141 = bincode is unmaintained => transitive through polars, awaiting upstream updates
   codeql:
     name: CodeQL (${{ matrix.language }})
     runs-on: ubuntu-latest
@@ -72,12 +78,12 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with: { persist-credentials: false }
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@19b2f06db2b6f5108140aeb04014ef02b648f789 # v4.31.11
+      uses: github/codeql-action/init@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
       with:
         languages: ${{ matrix.language }}
         build-mode: none
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@19b2f06db2b6f5108140aeb04014ef02b648f789 # v4.31.11
+      uses: github/codeql-action/analyze@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
       with:
         category: "/language:${{matrix.language}}"
 

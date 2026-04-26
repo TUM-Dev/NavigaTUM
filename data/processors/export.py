@@ -3,8 +3,12 @@ import re
 from pathlib import Path
 from typing import Any
 import polars as pl
+import csv
+import yaml
 
+from external.models import tumonline
 from external.models.common import PydanticConfiguration
+from processors.df_utils import unflatten_row
 from utils import TranslatableStr
 from utils import TranslatableStr as _
 
@@ -13,10 +17,12 @@ OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
 
 
-def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
+def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
+    if isinstance(value, dict):
+        value = value.get("de", value.get("en", ""))
     if isinstance(value, TranslatableStr):
         value = unlocalise(value)
 
@@ -50,7 +56,16 @@ def normalise_id(_id: str) -> str | None:
     return ".".join(parts)
 
 
-def export_for_search(data: dict) -> None:
+def reconstruct_data(df: pl.DataFrame) -> dict[str, Any]:
+    """Reconstruct nested data dict from flat DataFrame (shared by search and API export)."""
+    data = {}
+    for row in df.to_dicts():
+        entry = unflatten_row(row)
+        data[entry["id"]] = entry
+    return data
+
+
+def export_for_search(data: dict[str, Any]) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
@@ -88,7 +103,7 @@ def export_for_search(data: dict) -> None:
                 "room_code_normalised": normalise_id(_id),
                 "name": entry["name"],
                 "arch_name": entry.get("arch_name"),
-                "arch_name_normalised": normalise_id(entry.get("arch_name")),
+                "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
                 "type": entry["type"],
                 "type_common_name": entry["type_common_name"],
                 "facet": {
@@ -100,7 +115,7 @@ def export_for_search(data: dict) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
-                "operator_name": entry["props"].get("operator", {}).get("name", None),
+                "operator_name": entry.get("props", {}).get("operator", {}).get("name", None),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
@@ -118,11 +133,11 @@ def export_for_search(data: dict) -> None:
     _make_sure_is_safe(export)
     with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
         json.dump(export, file)
-    df = pl.DataFrame(export, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
+    search_df = pl.DataFrame(export, infer_schema_length=None)
+    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
-def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
+def extract_parent_building_names(data: dict[str, Any], parents: list[str], building_parents_index: int) -> list[str]:
     """Extract the parents building names from the data"""
     # For rooms, the (joined_)building parents are extra to put more emphasis on them.
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
@@ -130,7 +145,7 @@ def extract_parent_building_names(data: dict, parents: list[str], building_paren
     return short_names + long_names
 
 
-def _make_sure_is_safe(obj: object):
+def _make_sure_is_safe(obj: object) -> None:
     """
     Check if any of the specified names in removed_names are present
 
@@ -174,10 +189,10 @@ def export_for_status() -> None:
     df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
 
 
-def export_for_api(data: dict) -> None:
+def export_for_api(data: dict[str, Any]) -> None:
     """Add some more information about parents to the data and export for the /locations/:id api"""
     export_data = []
-    for _id, entry in data.items():
+    for entry in data.values():
         entry.setdefault("maps", {})["default"] = "interactive"
         export_data.append(extract_exported_item(data, entry))
 
@@ -209,6 +224,49 @@ def extract_exported_item(data, entry):
             del result["props"][k]
     result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
     return result
+
+
+def export_known_usages(df: pl.DataFrame) -> None:
+    """Export the known room usages (categories) for the frontend feedback dropdown."""
+    data_dir = Path(__file__).parent.parent
+    translations = yaml.safe_load((data_dir / "translations.yaml").read_text(encoding="utf-8"))
+
+    usages_df = (
+        pl.read_csv(
+            data_dir / "external" / "results" / "usages_tumonline.csv",
+            schema_overrides={"din277_id": pl.String, "name": pl.String},
+        )
+        .select(
+            pl.col("name").alias("name_de"),
+            pl.col("din277_id").alias("din_277"),
+        )
+        .unique()
+    )
+
+    counts_df = (
+        df.filter(pl.col("usage_name_de").is_not_null() & pl.col("usage_din_277").is_not_null())
+        .group_by("usage_name_de", "usage_din_277")
+        .len()
+    )
+
+    result_df = (
+        usages_df.join(
+            counts_df,
+            left_on=["name_de", "din_277"],
+            right_on=["usage_name_de", "usage_din_277"],
+            how="left",
+        )
+        .with_columns(
+            pl.col("name_de").replace_strict(translations, default=pl.col("name_de")).alias("name_en"),
+            pl.col("len").fill_null(0).alias("occurrences"),
+        )
+        .select("name_de", "name_en", "din_277", "occurrences")
+        .sort("occurrences", descending=True)
+    )
+
+    with (OUTPUT_DIR_PATH / "known_usages.json").open("w", encoding="utf-8") as f:
+        json.dump(result_df.to_dicts(), f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):

@@ -92,7 +92,7 @@ effect(() => {
 });
 
 const title = computed(() => {
-  if (!!selected_from.value && !!selected_to.value)
+  if (selected_from.value && selected_to.value)
     return t("navigate_from_to", {
       from: selected_from.value,
       to: selected_to.value,

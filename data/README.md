@@ -32,16 +32,17 @@ our project.
 
 ### Dependencies
 
-Since data needs some python dependencies, you will need to install them first.
-We recommend doing this in a virtual environment.
+We use [uv](https://docs.astral.sh/uv/) to manage Python and Python dependencies.
 
 From the root of the project, run:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r data/requirements.txt -r requirements-dev.txt
+uv sync
+source .venv/bin/activate
 ```
+
+`uv sync` reads `pyproject.toml` + `uv.lock` and provisions an isolated `.venv/`
+(creating one and downloading the right Python version automatically if needed).
 
 ## Getting external data
 
@@ -59,18 +60,18 @@ You can scrape with:
 ```bash
 cd external
 export PYTHONPATH=$PYTHONPATH:..
-python3 nat.py
-python3 public_transport.py
-python3 roomfinder.py
+uv run python nat.py
+uv run python public_transport.py
+uv run python roomfinder.py
 export CONNECTUM_OAUTH_CLIENT_ID=GIVEN_OUT_AS_NEEDED
 export CONNECTUM_OAUTH_CLIENT_SECRET=GIVEN_OUT_AS_NEEDED
-python3 tumonline.py
+uv run python tumonline.py
 ```
 
 ### Compiling the data
 
 ```bash
-python3 compile.py
+uv run python compile.py
 ```
 
 The exported datasets will be stored in `output/`
@@ -94,9 +95,10 @@ Deployment related there are also these files:
 
 ```bash
 data
-├── Dockerfile       # Dockerfile for compiling data (used as source in server multi-stage build)
-└── requirements.txt # Python dependencies
+└── Dockerfile  # Dockerfile for compiling data (used as source in server multi-stage build)
 ```
+
+Python dependencies are declared in the root `pyproject.toml` and locked in `uv.lock`.
 
 The compiled data is automatically included in the server Docker image during build and served at `/cdn`.
 
