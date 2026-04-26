@@ -539,17 +539,17 @@ export type components = {
       };
     };
     readonly PropertyEdit: {
-      readonly type: "Name";
+      readonly type: "name";
       readonly name?: null | string;
       readonly short_name?: null | string;
     } | {
-      readonly type: "Usage";
+      readonly type: "usage";
       readonly name_de: string;
       readonly name_en: string;
       readonly din_277?: null | string;
       readonly din_277_desc?: null | string;
     } | {
-      readonly type: "Link";
+      readonly type: "link";
       readonly text_de: string;
       readonly text_en: string;
       readonly url: string;
