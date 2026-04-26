@@ -120,7 +120,7 @@ watch(
   () => editProposal.value.open,
   (isOpen) => {
     if (!isOpen) {
-      // Reset property fields when modal closes
+      propertiesModalOpen.value = false;
       editProposal.value.propertyFields = emptyPropertyFields();
       editProposal.value.originalPropertyFields = emptyPropertyFields();
     }
@@ -154,7 +154,6 @@ function startLocationEdit() {
     return;
   }
 
-  // Initialize edit for room if it doesn't exist
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
@@ -222,7 +221,7 @@ function getEditTypeDisplay(roomId: string): string {
 </script>
 
 <template>
-  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data" @before-submit="injectPropertyEdits">
+  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data">
     <template #modal>
       <!-- Additional Context -->
       <div class="flex flex-col">
