@@ -4,6 +4,7 @@ from zipfile import ZipFile
 import polars as pl
 import datetime as dt
 
+from external.schemas.public_transport import StationsSchema
 from external.scraping_utils import _download_file, CACHE_PATH
 from utils import setup_logging
 
@@ -126,8 +127,8 @@ def _load_stations() -> pl.DataFrame:
 def scrape_stations() -> None:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
     logging.info("Scraping the bus and train stations of the MVV")
-    df = _load_stations()
-    df.write_parquet(CACHE_PATH / "public_transport.parquet", use_pyarrow=True, compression_level=22)
+    df = StationsSchema.cast(_load_stations())
+    StationsSchema.write_parquet(df, CACHE_PATH / "public_transport.parquet")
 
 
 if __name__ == "__main__":
