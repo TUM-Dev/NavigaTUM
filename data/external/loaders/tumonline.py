@@ -1,4 +1,5 @@
 import typing
+from pathlib import Path
 
 import dataframely as dy
 import polars as pl
@@ -7,7 +8,7 @@ from external.models.common import RESULTS_PATH
 from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 
 
-def _read_csv_typed(path, schema: type[dy.Schema]) -> pl.DataFrame:
+def _read_csv_typed(path: Path, schema: type[dy.Schema]) -> pl.DataFrame:
     """
     Read a CSV against a dataframely schema, with whitespace stripping.
 

@@ -1,6 +1,8 @@
 import logging
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Future, ThreadPoolExecutor
+from datetime import datetime
 from multiprocessing import Process
+from typing import Any
 
 import polars as pl
 
@@ -19,6 +21,7 @@ from processors import (
     structure,
     tumonline,
 )
+from processors.sitemap import SimplifiedSitemaps
 from processors.df_utils import ensure_columns
 from utils import DEV_MODE, setup_logging
 
@@ -119,9 +122,9 @@ def main() -> None:
 def _run_pipeline(
     *,
     resizer: Process,
-    fut_old_data,
-    fut_old_sitemaps,
-    fut_web_sitemap,
+    fut_old_data: Future[list[Any]],
+    fut_old_sitemaps: Future[SimplifiedSitemaps],
+    fut_web_sitemap: Future[dict[str, datetime]],
 ) -> None:
     # --- Read base data ---
     logging.info("-- 00 areatree")

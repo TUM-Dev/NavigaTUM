@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import dataframely as dy
 import polars as pl
 
@@ -5,14 +7,14 @@ from external.models.common import RESULTS_PATH
 from external.schemas.roomfinder import BuildingsSchema, MapsSchema, RoomsSchema
 
 
-def _read_csv_typed(path, schema: type[dy.Schema]) -> pl.DataFrame:
-    """
+def _read_csv_typed(path: Path, schema: type[dy.Schema]) -> pl.DataFrame:
+    r"""
     Read a CSV against a dataframely schema, with whitespace stripping.
 
     Narrowed dtypes (`pl.Enum`, `pl.Categorical`) are read as `pl.String` first so we can
     `str.strip_chars()` before casting to the final dtype. This both mimics the old Pydantic
     `str_strip_whitespace=True` behaviour and avoids polluting Categorical dictionaries — and
-    avoids Enum cast errors on stray whitespace (e.g. `"Nationalpark Berchtesgaden\\n"`).
+    avoids Enum cast errors on stray whitespace (e.g. `"Nationalpark Berchtesgaden\n"`).
     """
     full = schema.to_polars_schema()
     narrowed = {k: v for k, v in full.items() if isinstance(v, (pl.Enum, pl.Categorical))}

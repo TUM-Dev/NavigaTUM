@@ -14,6 +14,7 @@ def test_committed_usages_csv_satisfies_schema() -> None:
 
 
 def test_usages_schema_rejects_non_positive_id() -> None:
+    """`UsagesSchema` must reject rows with a non-positive `usage_id`."""
     invalid = pl.DataFrame(
         {
             "usage_id": [0],
@@ -28,6 +29,7 @@ def test_usages_schema_rejects_non_positive_id() -> None:
 
 
 def test_usages_schema_rejects_missing_column() -> None:
+    """`UsagesSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"usage_id": [1]})
     with pytest.raises(dy.exc.SchemaError):
         UsagesSchema.validate(incomplete)
@@ -40,6 +42,7 @@ def test_committed_orgs_csv_satisfies_schema(lang: typing.Literal["de", "en"]) -
 
 
 def test_orgs_schema_rejects_non_positive_id() -> None:
+    """`OrgsSchema` must reject rows with a non-positive `org_id`."""
     invalid = pl.DataFrame(
         {"org_id": [0], "code": ["X"], "name": ["X"], "path": ["X"]},
         schema=OrgsSchema.to_polars_schema(),
@@ -49,6 +52,7 @@ def test_orgs_schema_rejects_non_positive_id() -> None:
 
 
 def test_orgs_schema_rejects_missing_column() -> None:
+    """`OrgsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"org_id": [1]})
     with pytest.raises(dy.exc.SchemaError):
         OrgsSchema.validate(incomplete)
@@ -60,6 +64,7 @@ def test_committed_buildings_csv_satisfies_schema() -> None:
 
 
 def test_buildings_schema_rejects_non_four_digit_key() -> None:
+    """`BuildingsSchema` must reject rows whose `building_key` isn't four digits."""
     invalid = pl.DataFrame(
         {
             "building_key": ["12"],
@@ -78,6 +83,7 @@ def test_buildings_schema_rejects_non_four_digit_key() -> None:
 
 
 def test_buildings_schema_rejects_missing_column() -> None:
+    """`BuildingsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"building_key": ["0101"]})
     with pytest.raises(dy.exc.SchemaError):
         BuildingsSchema.validate(incomplete)
@@ -89,6 +95,7 @@ def test_committed_rooms_csv_satisfies_schema() -> None:
 
 
 def test_rooms_schema_rejects_non_positive_tumonline_id() -> None:
+    """`RoomsSchema` must reject rows with a non-positive `tumonline_id`."""
     invalid = pl.DataFrame(
         {
             "room_key": ["0101.01.101"],
@@ -117,6 +124,7 @@ def test_rooms_schema_rejects_non_positive_tumonline_id() -> None:
 
 
 def test_rooms_schema_rejects_missing_column() -> None:
+    """`RoomsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"room_key": ["0101.01.101"]})
     with pytest.raises(dy.exc.SchemaError):
         RoomsSchema.validate(incomplete)

@@ -12,6 +12,7 @@ def test_committed_stations_parquet_satisfies_schema() -> None:
 
 
 def test_stations_schema_rejects_missing_column() -> None:
+    """`StationsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"dhid": ["X"]})
     with pytest.raises(dy.exc.SchemaError):
         StationsSchema.validate(incomplete)

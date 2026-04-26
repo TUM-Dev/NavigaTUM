@@ -22,18 +22,21 @@ def test_committed_maps_csv_satisfies_schema() -> None:
 
 
 def test_buildings_schema_rejects_missing_column() -> None:
+    """`BuildingsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"b_id": ["0101"]})
     with pytest.raises(dy.exc.SchemaError):
         BuildingsSchema.validate(incomplete)
 
 
 def test_rooms_schema_rejects_missing_column() -> None:
+    """`RoomsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"r_id": ["X"]})
     with pytest.raises(dy.exc.SchemaError):
         RoomsSchema.validate(incomplete)
 
 
 def test_maps_schema_rejects_missing_column() -> None:
+    """`MapsSchema` must reject a frame missing required columns."""
     incomplete = pl.DataFrame({"id": ["X"]})
     with pytest.raises(dy.exc.SchemaError):
         MapsSchema.validate(incomplete)

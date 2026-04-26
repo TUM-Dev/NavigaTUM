@@ -12,6 +12,7 @@ class UsagesSchema(dy.Schema):
 
     @dy.rule()
     def usage_id_positive(cls) -> pl.Expr:
+        """`usage_id` must be a positive integer."""
         return pl.col("usage_id") > 0
 
 
@@ -25,6 +26,7 @@ class OrgsSchema(dy.Schema):
 
     @dy.rule()
     def org_id_positive(cls) -> pl.Expr:
+        """`org_id` must be a positive integer."""
         return pl.col("org_id") > 0
 
 
@@ -43,10 +45,12 @@ class BuildingsSchema(dy.Schema):
 
     @dy.rule()
     def building_key_is_four_digits(cls) -> pl.Expr:
+        """`building_key` must be exactly four digits."""
         return pl.col("building_key").str.contains(r"^\d{4}$")
 
     @dy.rule()
     def tumonline_id_positive(cls) -> pl.Expr:
+        """`tumonline_id` must be a positive integer."""
         return pl.col("tumonline_id") > 0
 
 
@@ -75,4 +79,5 @@ class RoomsSchema(dy.Schema):
 
     @dy.rule()
     def tumonline_id_positive(cls) -> pl.Expr:
+        """`tumonline_id` must be a positive integer."""
         return pl.col("tumonline_id") > 0
