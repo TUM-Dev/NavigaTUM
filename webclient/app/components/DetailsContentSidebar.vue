@@ -67,7 +67,7 @@ const suggestEdit = () => {
   // Pre-fill property fields with current values
   const fields = emptyPropertyFields();
   editProposal.value.propertyFields = {...fields, name: props.data.name};
-  editProposal.value.originalPropertyFields = editProposal.value.propertyFields;
+  editProposal.value.originalPropertyFields = {...fields, name: props.data.name};
 
   editProposal.value.open = true;
 };

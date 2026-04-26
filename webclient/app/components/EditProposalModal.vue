@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ImageMetadataModal from "~/components/ImageMetadataModal.vue";
 import { useEditProposal, emptyPropertyFields, emptyRoomEdit } from "~/composables/editProposal";
 import type { components } from "~/api_types";
 
@@ -7,6 +6,8 @@ type PropertyEdit = components["schemas"]["PropertyEdit"];
 
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
+
+const propertiesModalOpen = ref(false);
 
 const osmEditUrl = computed(() => {
   const lat = editProposal.value.locationPicker.lat;
@@ -136,17 +137,14 @@ function addImageEditForRoom(
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
 
-  // Clean up metadata - remove empty URLs
   if (!metadata.license.url) {
     metadata.license.url = null;
   }
 
-  if (editProposal.value.data.edits[roomId]) {
-    editProposal.value.data.edits[roomId].image = {
-      content: base64,
-      metadata: metadata,
-    };
-  }
+  editProposal.value.data.edits[roomId].image = {
+    content: base64,
+    metadata: metadata,
+  };
 }
 
 function startLocationEdit() {
@@ -164,21 +162,17 @@ function startLocationEdit() {
 }
 
 function onLocationSelected() {
-  const roomId = editProposal.value.selected.id;
-  if (roomId && editProposal.value.data.edits) {
-    if (!editProposal.value.data.edits[roomId]) {
-      editProposal.value.data.edits[roomId] = {
-        coordinate: null,
-        image: null,
-        properties: null,
-      };
-    }
+  const roomId = editProposal.value.selected?.id;
+  if (!roomId) return;
 
-    editProposal.value.data.edits[roomId].coordinate = {
-      lat: editProposal.value.locationPicker.lat,
-      lon: editProposal.value.locationPicker.lon,
-    };
+  if (!editProposal.value.data.edits[roomId]) {
+    editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
+
+  editProposal.value.data.edits[roomId].coordinate = {
+    lat: editProposal.value.locationPicker.lat,
+    lon: editProposal.value.locationPicker.lon,
+  };
   editProposal.value.locationPicker.open = false;
 }
 
@@ -245,82 +239,6 @@ function getEditTypeDisplay(roomId: string): string {
         <p class="text-zinc-500 text-xs">{{ t("additional_context_help") }}</p>
       </div>
 
-      <!-- Properties Section -->
-      <div class="pt-4">
-        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("properties") }}</label>
-
-        <div class="space-y-3">
-          <!-- Name -->
-          <div>
-            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
-            <input
-              id="edit-name"
-              v-model="editProposal.propertyFields.name"
-              type="text"
-              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
-            />
-          </div>
-
-          <!-- Short Name -->
-          <div>
-            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
-            <input
-              id="edit-short-name"
-              v-model="editProposal.propertyFields.shortName"
-              type="text"
-              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
-            />
-          </div>
-
-          <!-- Category -->
-          <div>
-            <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
-            <select
-              id="edit-category"
-              v-model="selectedCategory"
-              class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
-            >
-              <option value="">—</option>
-              <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Add a Link -->
-          <div class="border-t border-zinc-200 pt-3">
-            <label class="text-zinc-500 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
-            <div class="space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="text-zinc-400 text-xs w-8">URL</span>
-                <input
-                  v-model="editProposal.propertyFields.linkUrl"
-                  type="url"
-                  placeholder="https://"
-                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
-                />
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-zinc-400 text-xs w-8">DE</span>
-                <input
-                  v-model="editProposal.propertyFields.linkTextDe"
-                  type="text"
-                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
-                />
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-zinc-400 text-xs w-8">EN</span>
-                <input
-                  v-model="editProposal.propertyFields.linkTextEn"
-                  type="text"
-                  class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Other Changes Section -->
       <div class="pt-4">
         <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
@@ -344,6 +262,13 @@ function getEditTypeDisplay(roomId: string): string {
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
               <span class="text-xs text-zinc-200 font-normal">{{ t("map_missing_roads_desc") }}</span>
+            </div>
+          </Btn>
+
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (propertiesModalOpen = true)">
+            <div class="flex flex-col items-start">
+              <span class="font-medium">{{ t("properties_title") }}</span>
+              <span class="text-xs text-zinc-200 font-normal">{{ t("properties_desc") }}</span>
             </div>
           </Btn>
         </div>
@@ -374,6 +299,85 @@ function getEditTypeDisplay(roomId: string): string {
           @confirm="onLocationSelected"
           @cancel="() => (editProposal.locationPicker.open = false)"
         />
+
+        <!-- Properties Modal -->
+        <Modal v-model="propertiesModalOpen" :title="t('properties')">
+          <div class="space-y-3">
+            <!-- Name -->
+            <div>
+              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
+              <input
+                id="edit-name"
+                v-model="editProposal.propertyFields.name"
+                type="text"
+                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+              />
+              <p class="text-zinc-500 text-xs mt-1">{{ t("field_name_help") }}</p>
+            </div>
+
+            <!-- Short Name -->
+            <div>
+              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
+              <input
+                id="edit-short-name"
+                v-model="editProposal.propertyFields.shortName"
+                type="text"
+                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+              />
+              <p class="text-zinc-500 text-xs mt-1">{{ t("field_short_name_help") }}</p>
+            </div>
+
+            <!-- Category -->
+            <div>
+              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
+              <select
+                id="edit-category"
+                v-model="selectedCategory"
+                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+              >
+                <option value="">—</option>
+                <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Add a Link -->
+            <div class="border-t border-zinc-200 pt-3">
+              <label class="text-zinc-500 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-zinc-400 text-xs w-8">URL</span>
+                  <input
+                    v-model="editProposal.propertyFields.linkUrl"
+                    type="url"
+                    placeholder="https://"
+                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                  />
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-zinc-400 text-xs w-8">DE</span>
+                  <input
+                    v-model="editProposal.propertyFields.linkTextDe"
+                    type="text"
+                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                  />
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-zinc-400 text-xs w-8">EN</span>
+                  <input
+                    v-model="editProposal.propertyFields.linkTextEn"
+                    type="text"
+                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end pt-4">
+            <Btn variant="primary" size="md" @click="injectPropertyEdits(); propertiesModalOpen = false">{{ t("save") }}</Btn>
+          </div>
+        </Modal>
       </div>
 
       <!-- Current Edits -->
@@ -385,7 +389,7 @@ function getEditTypeDisplay(roomId: string): string {
               <div class="flex-grow">
                 <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>
                 <div class="text-xs text-zinc-600 mt-1">
-                  <p>{{ t("edit_type", [getEditTypeDisplay(String(roomId))]) }}</p>
+                  <p>{{ getEditTypeDisplay(String(roomId)) }}</p>
                 </div>
               </div>
               <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
@@ -413,25 +417,28 @@ de:
   additional_context: Zusätzlicher Kontext
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
   additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
+  other_changes: Weitere Änderungen
   properties: Eigenschaften
+  properties_title: Eigenschaften bearbeiten
+  properties_desc: Name, Kategorie oder Links dieses Raums ändern
   field_name: Name
+  field_name_help: Der vollständige Name, wie er auf der Detailseite angezeigt wird (z.B. „Hörsaal 1 Friedrich L. Bauer")
   field_short_name: Kurzname
+  field_short_name_help: Der Kurzname wird in Suchergebnissen angezeigt (z.B. „Hörsaal 1" oder „5602.EG.001")
   field_category: Kategorie
   field_add_link: Link hinzufügen
-  other_changes: Weitere Änderungen
   current_edits: Aktuelle Änderungen
-  suggest_image_title: Neues Bild vorschlagen
+  suggest_image_title: Bild hinzufügen
   suggest_image_desc: Ein Foto vom Raum, Gebäude oder Standort hinzufügen
   room_position_wrong_title: Raum ist falsch positioniert
   room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
   map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
   map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
-  edit_type: Änderungstyp {0}
   room_edits: Raum-Änderungen
-  image_attached: Bild angehängt
   coordinate: Koordinaten
   image: Bild
   property: Eigenschaft
+  save: Speichern
   remove: Entfernen
   success_thank_you: Vielen Dank für deinen Verbesserungsvorschlag! Wir werden ihn schnellstmöglich bearbeiten.
   success_response_at: Du findest unsere Antwort auf {this_pr}
@@ -440,25 +447,28 @@ en:
   additional_context: Additional Context
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
   additional_context_help: Describe any issues or improvement suggestions here.
+  other_changes: Other changes
   properties: Properties
+  properties_title: Edit properties
+  properties_desc: Change the name, category, or links of this room
   field_name: Name
+  field_name_help: The full name shown on the detail page (e.g. "Lecture Hall 1 Friedrich L. Bauer")
   field_short_name: Short name
+  field_short_name_help: The short name is shown in search results (e.g. "Lecture Hall 1" or "5602.EG.001")
   field_category: Category
   field_add_link: Add a link
-  other_changes: Other changes
   current_edits: Current Edits
-  suggest_image_title: Suggest a new image
+  suggest_image_title: Add image
   suggest_image_desc: Add a photo of the room, building, or location
   room_position_wrong_title: Room is positioned incorrectly
   room_position_wrong_desc: Correct this room's position in Navigatum
   map_missing_roads_title: Other details (paths, vegetation) missing from map
   map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
-  edit_type: Edit Type {0}
   room_edits: Room Edits
-  image_attached: Image attached
   coordinate: Coordinate
   image: Image
   property: Property
+  save: Save
   remove: Remove
   success_thank_you: Thank you for your edit proposal! We will process it as soon as possible.
   success_response_at: You can see our response at {this_pr}
