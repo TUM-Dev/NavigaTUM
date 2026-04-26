@@ -28,9 +28,7 @@ _TUMONLINE_NAME_DB_LIMIT = 40
 _TUMONLINE_LEADING_CODE_RE = re.compile(r"^\((?:[A-Z]{1,3}\d{0,2}[A-Za-z]?|Südost\s*\d+)\)\s+")
 # TUMonline operator/location markers — allowed anywhere in the name, not just trailing
 # (e.g. "Neherstr.1 (AM) ForTe", "Prinzregentenstr. 68 (AM) MRI", "Heßstr. 134 (UMBAU)").
-_TUMONLINE_TRAILING_NOISE_RE = re.compile(
-    r"\s*\((?:AM|NR|SZ|GP|GM|LfL|HSWT|UMBAU|VSG\.\w+|VST\.\w+)\)\s*"
-)
+_TUMONLINE_TRAILING_NOISE_RE = re.compile(r"\s*\((?:AM|NR|SZ|GP|GM|LfL|HSWT|UMBAU|VSG\.\w+|VST\.\w+)\)\s*")
 # Trailing operator-suffix tokens TUMonline appends to building names.
 _TUMONLINE_TRAILING_OPERATOR_RE = re.compile(r"\s+(?:LMU|PH|MRI|ForTe)\s*$", re.IGNORECASE)
 # Location/operator prefixes TUMonline prepends that the areatree drops because the parent
@@ -165,7 +163,8 @@ def _building_names_equivalent(
     tumonline_name: str,
     areatree_short_name: str | None = None,
 ) -> bool:
-    """Decide whether the two names refer to the same building modulo known noise.
+    """
+    Decide whether the two names refer to the same building modulo known noise.
 
     Suppresses warnings caused by:
     - TUMonline's leading building-code prefix (e.g. ``(N1) U-Trakt``).
@@ -209,7 +208,6 @@ def _building_names_equivalent(
 
 
 _BUILDING_TYPES = pl.Series(["building", "joined_building"])
-
 
 
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:

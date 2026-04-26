@@ -235,7 +235,8 @@ def _warn_if_embedded_short_name(
     entry_id: str,
     visible_id: str | None,
 ) -> None:
-    """Flag names that bake a short-name into the long name.
+    """
+    Flag names that bake a short-name into the long name.
 
     Four cases are distinguished:
 
@@ -301,7 +302,7 @@ def _warn_if_embedded_short_name(
         if short in _INSTITUTIONAL_BRANDS:
             return
 
-        long_name = name[len(short):].lstrip(" ,;-")
+        long_name = name[len(short) :].lstrip(" ,;-")
         short_norm = _normalize_id(short)
 
         # Case 2 (leading): duplicates visible_id.
