@@ -99,7 +99,7 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
         areatree_name = match_row.get("name")
         areatree_short_name = match_row.get("short_name")
         if areatree_name and not _building_names_equivalent(areatree_name, b_name, areatree_short_name):
-            logging.warning(
+            _logger.warning(
                 f"building id '{b_id}': name in areatree ('{areatree_name}') differs from TUMonline ('{b_name}')"
             )
 
