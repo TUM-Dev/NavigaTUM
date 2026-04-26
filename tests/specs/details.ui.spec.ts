@@ -136,6 +136,72 @@ test.describe("Details Page - Share and Actions", () => {
     const actionButtons = page.getByRole("img", { name: "QR-Code für diese Seite" });
     expect(actionButtons).toHaveCount(1);
   });
+
+  test("share modal exposes a copyable iframe embed snippet", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
+    await shareButton.click();
+
+    const embedHeading = page.getByRole("heading", { name: "Einbetten" });
+    await expect(embedHeading).toBeVisible();
+
+    const snippet = page.locator("textarea[readonly]");
+    await expect(snippet).toHaveCount(1);
+    const value = await snippet.inputValue();
+    expect(value).toContain('src="https://nav.tum.de/embed/mi"');
+    expect(value).toContain("<iframe");
+    expect(value).toContain('allow="fullscreen; geolocation"');
+
+    const copyButton = page.getByRole("button", { name: /Einbettungs-Code kopieren/i });
+    await expect(copyButton).toBeVisible();
+  });
+});
+
+test.describe("Embed Page - Basic Rendering", () => {
+  test("should render minimal embed view with map and CTA", async ({ page }) => {
+    await page.goto("/embed/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("/embed/mi");
+
+    const mapCanvas = page.getByRole("region", { name: "Map" });
+    await expect(mapCanvas).toHaveCount(1);
+    await expect(mapCanvas).toBeVisible();
+
+    const detailsLink = page.getByRole("link", { name: /In NavigaTUM ansehen/i });
+    await expect(detailsLink).toBeVisible();
+    await expect(detailsLink).toHaveAttribute("target", "_blank");
+    await expect(detailsLink).toHaveAttribute("href", "https://nav.tum.de/building/mi");
+
+    // The embed layout strips the main app nav header
+    await expect(page.locator("header")).toHaveCount(0);
+  });
+
+  test("should set noindex robots meta", async ({ page }) => {
+    await page.goto("/embed/mi", { waitUntil: "networkidle" });
+    const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+    expect(robots).toMatch(/noindex/i);
+  });
+
+  test("should 404 on non-existent location", async ({ page }) => {
+    await page.goto("/embed/nonexistent_location_12345", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("/embed/nonexistent_location_12345");
+    const heading404 = page.getByRole("heading", { name: "Die angeforderte Seite wurde" });
+    await expect(heading404).toBeVisible();
+  });
+
+  test("should not be blocked by X-Frame-Options for iframe usage", async ({ page }) => {
+    const response = await page.goto("/embed/mi", { waitUntil: "domcontentloaded" });
+    expect(response).not.toBeNull();
+    const xfo = response?.headers()["x-frame-options"];
+    // route-rule clears X-Frame-Options so embed can be iframed by third parties
+    expect(xfo === undefined || xfo === "").toBeTruthy();
+
+    const csp = response?.headers()["content-security-policy"];
+    if (csp) {
+      expect(csp).toMatch(/frame-ancestors\s+\*/);
+    }
+  });
 });
 
 test.describe("Details Page - Building Overview", () => {
