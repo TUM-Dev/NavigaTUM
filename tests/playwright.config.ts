@@ -24,6 +24,11 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.BASE_URL || "http://localhost:3003",
 
+    /* German is the default Nuxt locale; visiting `/` with an English browser
+       trips detectBrowserLanguage's `redirectOn: "root"` and bounces to `/en`.
+       Pin the browser locale so tests get the German UI they assert on. */
+    locale: "de-DE",
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
 
