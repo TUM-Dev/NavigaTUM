@@ -2,6 +2,17 @@ import type { DeepWritable } from "ts-essentials";
 import type { components } from "~/api_types";
 
 type EditRequest = components["schemas"]["EditRequest"];
+type PropertyFields = {
+  name: string;
+  shortName: string;
+  categoryDe: string;
+  categoryEn: string;
+  categoryDin277: string;
+  categoryDin277Desc: string;
+  linkUrl: string;
+  linkTextDe: string;
+  linkTextEn: string;
+};
 type EditProposalState = {
   open: boolean;
   selected: {
@@ -24,7 +35,23 @@ type EditProposalState = {
     } | null;
     metadata: DeepWritable<components["schemas"]["ImageMetadata"]>;
   };
+  propertyFields: PropertyFields;
+  originalPropertyFields: PropertyFields;
 };
+
+function emptyPropertyFields(): PropertyFields {
+  return {
+    name: "",
+    shortName: "",
+    categoryDe: "",
+    categoryEn: "",
+    categoryDin277: "",
+    categoryDin277Desc: "",
+    linkUrl: "",
+    linkTextDe: "",
+    linkTextEn: "",
+  };
+}
 
 export const useEditProposal = () =>
   useState<EditProposalState>("editProposal", () => ({
@@ -52,4 +79,13 @@ export const useEditProposal = () =>
         license: { text: "", url: "" },
       },
     },
+    propertyFields: emptyPropertyFields(),
+    originalPropertyFields: emptyPropertyFields(),
   }));
+
+function emptyRoomEdit() {
+  return { coordinate: null, image: null, properties: null };
+}
+
+export { emptyPropertyFields, emptyRoomEdit };
+export type { PropertyFields };

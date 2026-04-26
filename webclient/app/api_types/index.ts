@@ -535,7 +535,24 @@ export type components = {
       [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
+        readonly properties?: null | readonly components["schemas"]["PropertyEdit"][];
       };
+    };
+    readonly PropertyEdit: {
+      readonly type: "Name";
+      readonly name?: null | string;
+      readonly short_name?: null | string;
+    } | {
+      readonly type: "Usage";
+      readonly name_de: string;
+      readonly name_en: string;
+      readonly din_277?: null | string;
+      readonly din_277_desc?: null | string;
+    } | {
+      readonly type: "Link";
+      readonly text_de: string;
+      readonly text_en: string;
+      readonly url: string;
     };
     readonly LocationDetailsResponse: {
       /**

@@ -1,16 +1,27 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
+import { useSearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-defineProps<{
+const props = defineProps<{
   data: SearchResponse;
   queryLimitBuildings: number;
   queryLimitRooms: number;
 }>();
 const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
+const filters = useSearchFilters();
+
+function viewMoreQuery(facet: string) {
+  return {
+    q: route.query.q,
+    limit_buildings: facet === "rooms" ? props.queryLimitBuildings : props.queryLimitBuildings + 20,
+    limit_rooms: facet === "rooms" ? props.queryLimitRooms + 50 : props.queryLimitRooms,
+    ...filters.buildQueryObject(),
+  };
+}
 </script>
 
 <template>
@@ -23,11 +34,7 @@ const route = useRoute();
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
         {{ t("approx_results", s.estimatedTotalHits) }}
         <NuxtLinkLocale
-          :to="
-            s.facet === 'rooms'
-              ? `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings}&limit_rooms=${queryLimitRooms + 50}`
-              : `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings + 20}&limit_rooms=${queryLimitRooms}`
-          "
+          :to="{ path: '/search', query: viewMoreQuery(s.facet) }"
           class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
           >{{ t("view_more") }}
         </NuxtLinkLocale>

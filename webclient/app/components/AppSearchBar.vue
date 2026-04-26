@@ -2,6 +2,7 @@
 import { mdiMagnify } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
+import { useStagedSearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -11,7 +12,10 @@ const searchBarFocused = defineModel<boolean>("searchBarFocused", {
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
 const route = useRoute();
+const router = useRouter();
+const filters = useStagedSearchFilters();
 const keep_focus = ref(false);
+const interacting_with_panel = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<number | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
@@ -39,6 +43,12 @@ function searchFocus(): void {
 }
 
 function searchBlur(): void {
+  if (interacting_with_panel.value) {
+    // Mouse interaction inside the dropdown panel (filters, sort, popovers, inputs):
+    // keep the dropdown open but let focus stay on whatever the user clicked.
+    interacting_with_panel.value = false;
+    return;
+  }
   if (keep_focus.value) {
     setTimeout(() => {
       // This is relevant if the call is delayed and focused has
@@ -54,7 +64,11 @@ function searchBlur(): void {
 async function searchGo(cleanQuery: boolean): Promise<void> {
   if (query.value.length === 0) return;
 
-  await navigateTo(localePath(`/search?q=${query.value}`));
+  const target = router.resolve({
+    path: localePath("/search"),
+    query: { q: query.value, ...filters.buildQueryObject() },
+  });
+  await navigateTo(target.fullPath);
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
@@ -123,10 +137,12 @@ const url = computed(() => {
   params.append("lang", locale.value);
   params.append("pre_highlight", "<b class='text-blue'>");
   params.append("post_highlight", "</b>");
+  filters.appendToParams(params);
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
-const { data, error } = await useFetch<SearchResponse>(url, {
+const { data, error } = useFetch<SearchResponse>(url, {
+  lazy: true,
   dedupe: "cancel",
   credentials: "omit",
   retry: 120,
@@ -173,14 +189,18 @@ const { data, error } = await useFetch<SearchResponse>(url, {
   <!-- Autocomplete -->
   <ClientOnly>
     <div
-      v-if="searchBarFocused && data && query.length !== 0"
-      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 mt-16 flex max-h-[calc(100vh-80px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30 md:-ms-2 md:me-3"
+      v-if="searchBarFocused && query.length !== 0"
+      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute inset-x-0 top-3 mt-16 flex max-h-[calc(100vh-80px)] flex-col gap-4 overflow-auto border p-3.5 shadow-zinc-700/30 md:inset-x-auto md:-ms-2 md:me-3 md:max-w-xl md:rounded-sm"
     >
-      <!--
-    <li class="search-comment filter">
-      Suche einschränken auf:
-      <NuxtLinkLocale class="bt btn-link btn-sm">Räume</NuxtLinkLocale>
-    </li> -->
+      <div
+        class="flex flex-wrap items-center gap-2"
+        @mousedown.capture="interacting_with_panel = true"
+      >
+        <SearchFilterChips :filters="filters" />
+        <div class="ms-auto">
+          <SearchSortControl :filters="filters" />
+        </div>
+      </div>
       <Toast v-if="error" id="search-error" level="error">
         <p class="text-md font-bold">{{ t("error.header") }}</p>
         <p class="text-sm">
@@ -193,66 +213,41 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         </p>
         <p class="text-sm">{{ t("error.call_to_action") }}</p>
       </Toast>
-      <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
-        <div class="flex items-center">
-          <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-          <div class="border-zinc-800 flex-grow border-t" />
-        </div>
-
-        <template v-for="(e, i) in s.entries" :key="e.id">
-          <SearchResultItemLink
-            v-if="i < s.n_visible"
-            :highlighted="e.id === visibleElements[highlighted ?? -1]"
-            :item="e"
-            @click="searchBarFocused = false"
-            @mousedown="keep_focus = true"
-            @mouseover="highlighted = undefined"
-          />
-        </template>
-        <li class="-mt-2">
-          <Btn
-            v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
-            variant="linkButton"
-            size="sm"
-            @mousedown="keep_focus = true"
-            @click="sites_buildings_expanded = true"
-          >
-            {{ t("show_hidden", s.entries.length - s.n_visible) }}
-          </Btn>
-          <span class="text-zinc-400 text-sm">
-            {{
-              s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
-            }}
-          </span>
-        </li>
-
-        <!--
-      <li class="search-comment actions">
-        <Btn size="sm"><MdiIcon :path="mdiChevronRight" :size="16" /> in Gebäude Suchen</Btn>
-        <Btn size="sm"><MdiIcon :path="mdiMapMarker" :size="16" /> Hörsäle</Btn>
-        <Btn size="sm"><MdiIcon :path="mdiMapMarker" :size="16" /> Seminarräume</Btn>
-      </li>
-
-      <li class="divider" data-content="Veranstaltungen" />
-      <li class="menu-item">
-        <NuxtLinkLocale :to="/event/">
-          <div class="tile">
-            <div class="tile-icon">
-              <MdiIcon :path="mdiClock" :size="16" />
-            </div>
-            <div class="tile-content">
-              <span class="tile-title">
-                Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
-              </span>
-              <small class="tile-subtitle text-zinc"> Übung mit 4 Gruppen </small>
-            </div>
+      <template v-if="data">
+        <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
+          <div class="flex items-center">
+            <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+            <div class="border-zinc-800 flex-grow border-t" />
           </div>
-        </NuxtLinkLocale>
-        <div class="menu-badge" style="display: none">
-          <label class="label label-primary">frei</label>
-        </div>
-      </li> -->
-      </ul>
+
+          <template v-for="(e, i) in s.entries" :key="e.id">
+            <SearchResultItemLink
+              v-if="i < s.n_visible"
+              :highlighted="e.id === visibleElements[highlighted ?? -1]"
+              :item="e"
+              @click="searchBarFocused = false"
+              @mousedown="keep_focus = true"
+              @mouseover="highlighted = undefined"
+            />
+          </template>
+          <li class="-mt-2">
+            <Btn
+              v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
+              variant="linkButton"
+              size="sm"
+              @mousedown="keep_focus = true"
+              @click="sites_buildings_expanded = true"
+            >
+              {{ t("show_hidden", s.entries.length - s.n_visible) }}
+            </Btn>
+            <span class="text-zinc-400 text-sm">
+              {{
+                s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
+              }}
+            </span>
+          </li>
+        </ul>
+      </template>
     </div>
   </ClientOnly>
 </template>
