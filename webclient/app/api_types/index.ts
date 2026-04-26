@@ -1282,7 +1282,7 @@ export type components = {
       readonly type: string;
     };
     /** @enum {string} */
-    readonly ResultFacet: "sites_buildings" | "rooms" | "addresses";
+    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "addresses";
     readonly ResultsSection: {
       readonly entries: readonly components["schemas"]["ResultEntry"][];
       /**
@@ -2124,9 +2124,10 @@ export type operations = {
          */
         usage?: readonly string[];
         /**
-         * @description Filter by entry type (e.g. `room`, `building`).
+         * @description Filter by facet (one of `site`, `building`, `room`, `poi`).
          *
-         * Can be repeated for multiple values.
+         * Can be repeated for multiple values. Values outside this set are
+         * silently dropped.
          */
         type?: readonly string[];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
@@ -2139,7 +2140,14 @@ export type operations = {
          */
         search_addresses?: boolean;
         /**
-         * @description Maximum number of buildings/sites to return.
+         * @description Maximum number of sites (campus / site / area) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_sites?: number;
+        /**
+         * @description Maximum number of buildings to return.
          *
          * Clamped to `0`..`1000`.
          * If this is a problem for you, please open an issue.
@@ -2152,6 +2160,13 @@ export type operations = {
          * If this is an problem for you, please open an issue.
          */
         limit_rooms?: number;
+        /**
+         * @description Maximum number of POIs (points of interest) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_pois?: number;
         /**
          * @description Maximum number of results to return.
          *

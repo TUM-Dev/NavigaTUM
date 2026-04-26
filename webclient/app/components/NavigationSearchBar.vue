@@ -61,19 +61,19 @@ const selected = useRouteQuery<string>(props.queryId, "", {
   router,
 });
 const highlighted = ref<number>(0);
-const sites_buildings_expanded = ref<boolean>(false);
+// Per-facet expand state (sites/buildings/rooms can freeze with
+// `n_visible < entries.length`).
+const expandedFacets = ref<Set<string>>(new Set());
 
 const visibleElements = computed<string[]>(() => {
   if (!data.value) return [];
 
   const visible: string[] = [];
   for (const section of data.value.sections) {
-    if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value
-        ? Number.POSITIVE_INFINITY
-        : section.n_visible;
-      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
-    } else visible.push(...section.entries.map((e) => e.id));
+    const cap = expandedFacets.value.has(section.facet)
+      ? Number.POSITIVE_INFINITY
+      : section.n_visible;
+    visible.push(...section.entries.slice(0, cap).map((e) => e.id));
   }
   return visible;
 });
@@ -252,7 +252,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 
         <template v-for="(e, i) in s.entries" :key="e.id">
           <SearchResultItem
-            v-if="i < s.n_visible"
+            v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"
             @click="select(e.id)"
@@ -261,10 +261,10 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         </template>
         <li class="-mt-2">
           <Btn
-            v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
+            v-if="!expandedFacets.has(s.facet) && s.n_visible < s.entries.length"
             variant="linkButton"
             size="sm"
-            @click="sites_buildings_expanded = true"
+            @click="expandedFacets = new Set([...expandedFacets, s.facet])"
           >
             {{ t("show_hidden", s.entries.length - s.n_visible) }}
           </Btn>
@@ -289,8 +289,10 @@ de:
     action: Go
   show_hidden: +{count} ausgeblendet
   sections:
-    sites_buildings: Gebäude / Standorte
+    sites: Standorte
+    buildings: Gebäude
     rooms: Räume
+    pois: POIs
     addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
@@ -314,9 +316,11 @@ en:
     action: Go
   show_hidden: +{count} hidden
   sections:
-    sites_buildings: Buildings / Sites
+    sites: Sites
+    buildings: Buildings
     rooms: Rooms
-    addresses: Adresses
+    pois: POIs
+    addresses: Addresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
   gps:

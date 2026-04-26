@@ -7,18 +7,29 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 
 const props = defineProps<{
   data: SearchResponse;
+  queryLimitSites: number;
   queryLimitBuildings: number;
   queryLimitRooms: number;
+  queryLimitPois: number;
 }>();
 const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
 const filters = useSearchFilters();
 
+const SITE_BUMP = 20;
+const BUILDING_BUMP = 20;
+const ROOM_BUMP = 50;
+const POI_BUMP = 20;
+
 function viewMoreQuery(facet: string) {
+  // Bump only the facet whose "view more" was clicked; keep the other limits
+  // at their current values so unrelated sections don't grow.
   return {
     q: route.query.q,
-    limit_buildings: facet === "rooms" ? props.queryLimitBuildings : props.queryLimitBuildings + 20,
-    limit_rooms: facet === "rooms" ? props.queryLimitRooms + 50 : props.queryLimitRooms,
+    limit_sites: props.queryLimitSites + (facet === "sites" ? SITE_BUMP : 0),
+    limit_buildings: props.queryLimitBuildings + (facet === "buildings" ? BUILDING_BUMP : 0),
+    limit_rooms: props.queryLimitRooms + (facet === "rooms" ? ROOM_BUMP : 0),
+    limit_pois: props.queryLimitPois + (facet === "pois" ? POI_BUMP : 0),
     ...filters.buildQueryObject(),
   };
 }
@@ -26,7 +37,7 @@ function viewMoreQuery(facet: string) {
 
 <template>
   <div v-for="s in data.sections" :key="s.facet">
-    <section class="flex flex-col gap-2">
+    <section v-if="s.entries.length" class="flex flex-col gap-2">
       <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
       <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
         <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
@@ -49,15 +60,19 @@ function viewMoreQuery(facet: string) {
 <i18n lang="yaml">
 de:
   sections:
-    sites_buildings: Gebäude / Standorte
+    sites: Standorte
+    buildings: Gebäude
     rooms: Räume
+    pois: POIs
   view_more: mehr anzeigen
   approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
-    sites_buildings: Buildings / Sites
+    sites: Sites
+    buildings: Buildings
     rooms: Rooms
+    pois: POIs
   view_more: view more
   approx_results: approx. {count} results, please narrow the search further
   results: 1 result | {count} results

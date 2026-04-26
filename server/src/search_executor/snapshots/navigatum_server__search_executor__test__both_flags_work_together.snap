@@ -1,9 +1,17 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: N-1406"
 expression: results.0
 info: "parsed_id=roomfinder,cropping=full"
 ---
+- facet: buildings
+  entries:
+    - id: "9201"
+      type: building
+      name: "TUM FZ Friedrich \u0019N\u0017. Schwarz Berchtesgaden"
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 0104.U1.406
@@ -62,11 +70,11 @@ info: "parsed_id=roomfinder,cropping=full"
       parsed_id: EG-06@9201
   n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
-  entries:
-    - id: "9201"
-      type: building
-      name: "TUM FZ Friedrich \u0019N\u0017. Schwarz Berchtesgaden"
-      subtext: Gebäude
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

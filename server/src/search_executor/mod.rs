@@ -15,11 +15,13 @@ mod lexer;
 mod merger;
 mod parser;
 
-#[derive(Serialize, Clone, Copy, utoipa::ToSchema)]
+#[derive(Serialize, Clone, Copy, utoipa::ToSchema, Debug, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultFacet {
-    SitesBuildings,
+    Sites,
+    Buildings,
     Rooms,
+    Pois,
     Addresses,
 }
 
@@ -161,7 +163,12 @@ pub async fn do_geoentry_search(
             return LimitedVec(vec![]);
         }
     };
-    let (section_buildings, mut section_rooms) = merger::merge_search_results(
+    let merger::MergedSections {
+        sites: section_sites,
+        buildings: section_buildings,
+        rooms: mut section_rooms,
+        pois: section_pois,
+    } = merger::merge_search_results(
         &limits,
         &response.hits,
         response.facet_distribution.as_ref(),
@@ -172,10 +179,14 @@ pub async fn do_geoentry_search(
         .iter_mut()
         .for_each(|r| visitor.visit(r));
 
-    match section_buildings.n_visible {
-        0 => LimitedVec(vec![section_rooms, section_buildings]),
-        _ => LimitedVec(vec![section_buildings, section_rooms]),
-    }
+    // Order: non-empty facets first, in priority order (sites > buildings >
+    // rooms > pois). Empty sections still trail at the end so the caller can
+    // observe `estimated_total_hits` if it cares (mirrors the previous
+    // two-section behavior where the empty section was kept in the response).
+    let sections = [section_sites, section_buildings, section_rooms, section_pois];
+    let (non_empty, empty): (Vec<_>, Vec<_>) =
+        sections.into_iter().partition(|s| s.n_visible != 0);
+    LimitedVec(non_empty.into_iter().chain(empty).collect())
 }
 
 #[cfg(test)]

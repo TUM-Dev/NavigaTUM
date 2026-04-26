@@ -12,7 +12,7 @@ import {
 import { useTemplateRef } from "vue";
 import type { components } from "~/api_types";
 import { useKnownUsages } from "~/composables/knownUsages";
-import { type SearchFilters, TYPE_BUCKET_OPTIONS } from "~/composables/searchFilters";
+import { FACET_OPTIONS, type SearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -45,8 +45,10 @@ const {
     const params = new URLSearchParams();
     params.append("q", locationSearch.value);
     params.append("limit_all", "8");
+    params.append("limit_sites", "8");
     params.append("limit_buildings", "8");
     params.append("limit_rooms", "0");
+    params.append("limit_pois", "0");
     params.append("pre_highlight", "<b class='text-blue'>");
     params.append("post_highlight", "</b>");
     return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
@@ -65,8 +67,10 @@ watch(locationSearch, (q) => {
 
 const locationSuggestions = computed<LocationSuggestion[]>(() => {
   if (locationSearch.value.length < 2) return [];
-  const section = locationData.value?.sections.find((s) => s.facet === "sites_buildings");
-  return section?.entries.map((e) => ({ id: e.id, name: e.name, subtext: e.subtext })) ?? [];
+  const sections = locationData.value?.sections ?? [];
+  return sections
+    .filter((s) => s.facet === "sites" || s.facet === "buildings")
+    .flatMap((s) => s.entries.map((e) => ({ id: e.id, name: e.name, subtext: e.subtext })));
 });
 
 const locationLoading = computed(
@@ -155,7 +159,7 @@ function closeLocation() {
       <PopoverPanel
         class="ring-black/5 absolute left-0 z-20 mt-2 w-48 rounded-sm bg-white p-2 shadow-lg ring-1 dark:bg-zinc-100">
         <label
-          v-for="opt in TYPE_BUCKET_OPTIONS"
+          v-for="opt in FACET_OPTIONS"
           :key="opt"
           class="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-200 text-zinc-800"
         >
