@@ -13,9 +13,15 @@ const { t } = useI18n({ useScope: "local" });
 
 const currentPath = computed(() => props.error?.url || route.fullPath);
 
+const pageTitle = computed(() =>
+  is404.value
+    ? `${t("title_404")} - NavigaTUM`
+    : `${props.error?.statusCode || t("title_generic")} - NavigaTUM`
+);
+
 useSeoMeta({
   robots: "noindex, nofollow",
-  title: is404.value ? "404 - Page Not Found" : `${props.error?.statusCode || "Error"} - NavigaTUM`,
+  title: pageTitle,
 });
 </script>
 
@@ -54,12 +60,14 @@ useSeoMeta({
     </div>
     <div v-else class="mx-auto max-w-xl pt-4">
       <div class="flex flex-col items-center gap-4 p-5">
-        <h5 class="text-zinc-800 text-xl font-bold">{{ error?.statusCode || "Error" }}</h5>
-        <p class="text-md text-zinc-600">{{ error?.statusMessage || "An error occurred" }}</p>
+        <h5 class="text-zinc-800 text-xl font-bold">{{ error?.statusCode || t("title_generic") }}</h5>
+        <p class="text-md text-zinc-600">{{ error?.statusMessage || t("generic_error") }}</p>
         <p v-if="error?.message" class="text-sm text-zinc-500 mt-2">
           {{ error.message }}
         </p>
-        <Btn @click="clearError({ redirect: '/' })" variant="primary" class="mt-4"> Go home </Btn>
+        <Btn @click="clearError({ redirect: '/' })" variant="primary" class="mt-4">
+          {{ t("go_home") }}
+        </Btn>
       </div>
     </div>
   </NuxtLayout>
@@ -73,6 +81,9 @@ de:
   img_alt: Illustration einer männlichen Person, die auf großen '404'-Buchstaben sitzt und einer weiblichen person vor dem TUM Hauptgebäude
   go_home: Zur Startseite
   call_to_action: Feedback geben
+  generic_error: Ein Fehler ist aufgetreten.
+  title_404: 404 - Seite nicht gefunden
+  title_generic: Fehler
 en:
   description: This could be because we made a mistake.
   got_here: "I have found the error by:\r\n1. ..."
@@ -80,4 +91,7 @@ en:
   img_alt: illustration of a female and male person sitting on large '404'-letters in front of the tum main building
   go_home: Go home
   call_to_action: Give Feedback
+  generic_error: An error occurred.
+  title_404: 404 - Page Not Found
+  title_generic: Error
 </i18n>

@@ -1,5 +1,6 @@
 ---
 title: Impressum
+description: Impressum von NavigaTUM mit Angaben zum Herausgeber, Verantwortlichen und Kontaktdaten gemäß den gesetzlichen Anforderungen.
 ---
 
 # Impressum
