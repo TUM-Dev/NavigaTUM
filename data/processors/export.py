@@ -22,8 +22,8 @@ OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
 
-_REMOVED_NAMES_RE = re.compile(r"bestelmeyer|gustav niemann|prandtl|messerschmidt")
-_ALLOWED_VARIATION = "prandtl str"
+_REMOVED_NAMES_RE = re.compile(rb"bestelmeyer|gustav[ -]+niemann|prandtl|messerschmidt", re.IGNORECASE)
+_ALLOWED_VARIATION_RE = re.compile(rb"prandtl[ -]+str", re.IGNORECASE)
 
 
 def _de(value: Any) -> Any:
@@ -124,8 +124,9 @@ def export_for_search(data: dict[str, Any]) -> None:
             },
         )
 
-    _make_sure_is_safe(export)
-    (OUTPUT_DIR_PATH / "search_data.json").write_bytes(orjson.dumps(export))
+    search_bytes = orjson.dumps(export)
+    _make_sure_is_safe(search_bytes)
+    (OUTPUT_DIR_PATH / "search_data.json").write_bytes(search_bytes)
     search_df = pl.DataFrame(export, infer_schema_length=None)
     search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
@@ -138,41 +139,18 @@ def extract_parent_building_names(data: dict[str, Any], parents: list[str], buil
     return short_names + long_names
 
 
-def _make_sure_is_safe(obj: object) -> None:
+def _make_sure_is_safe(blob: bytes) -> None:
     """
     Check that no NS-context names slipped into the export.
 
-    :param obj: obj to be checked
-    :raises RuntimeError: if a forbidden name is found in any string value.
+    :param blob: serialized JSON bytes to be checked
+    :raises RuntimeError: if a forbidden name is found.
     """
-    stack: list[Any] = [obj]
-    while stack:
-        item = stack.pop()
-        if isinstance(item, str):
-            # Cheap pre-filter: skip strings that can't possibly contain any forbidden name.
-            if "e" not in item and "a" not in item:
-                continue
-            content = item.lower()
-            if "  " in content:
-                content = content.replace("  ", " ")
-            if "-" in content:
-                content = content.replace("-", " ")
-            match = _REMOVED_NAMES_RE.search(content)
-            if match and _ALLOWED_VARIATION not in content:
-                raise RuntimeError(
-                    f"{match.group()} was purposely renamed due to NS context. Please make sure it is not included",
-                )
-        elif item is None or isinstance(item, (bool, int, float)):
-            continue
-        elif isinstance(item, dict):
-            stack.extend(item.values())
-            stack.extend(item.keys())
-        elif isinstance(item, (list, tuple)):
-            stack.extend(item)
-        elif isinstance(item, PydanticConfiguration):
-            stack.append(item.model_dump())
-        else:
-            raise ValueError(f"unhandled type: {type(item)}")
+    for match in _REMOVED_NAMES_RE.finditer(blob):
+        if not _ALLOWED_VARIATION_RE.match(blob, match.start()):
+            raise RuntimeError(
+                f"{match.group().decode()} was purposely renamed due to NS context. Please make sure it is not included",
+            )
 
 
 def export_for_status() -> None:
@@ -193,8 +171,8 @@ def export_for_api(data: dict[str, Any]) -> None:
         entry.setdefault("maps", {})["default"] = "interactive"
         export_data.append(extract_exported_item(data, entry))
 
-    _make_sure_is_safe(export_data)
     api_data_bytes = orjson.dumps(export_data, default=_orjson_default)
+    _make_sure_is_safe(api_data_bytes)
     (OUTPUT_DIR_PATH / "api_data.json").write_bytes(api_data_bytes)
     alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in orjson.loads(api_data_bytes)]
     df = pl.DataFrame(alias_data, infer_schema_length=None)
