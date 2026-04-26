@@ -8,7 +8,8 @@ from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema,
 
 
 def _read_csv_typed(path, schema: type[dy.Schema]) -> pl.DataFrame:
-    """Read a CSV against a dataframely schema, with whitespace stripping.
+    """
+    Read a CSV against a dataframely schema, with whitespace stripping.
 
     Narrowed dtypes (`pl.Enum`, `pl.Categorical`) are read as `pl.String` first so we can
     `str.strip_chars()` before casting to the final dtype. This both mimics the old Pydantic
