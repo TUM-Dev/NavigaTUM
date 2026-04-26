@@ -1,12 +1,12 @@
 use std::env;
-use std::io::Write as _;
 
 use crate::setup::file_loader;
-use polars::prelude::*;
+use bytes::Bytes;
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
+use parquet::record::Field;
 use serde::Deserialize;
 use sqlx::postgres::PgQueryResult;
 use sqlx::{PgPool, Postgres, Transaction};
-use tempfile::tempfile;
 
 #[derive(Deserialize, Default, Debug)]
 struct Station {
@@ -55,41 +55,26 @@ impl DBStation {
 
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
-    // Download the parquet file from CDN
     let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
 
-    // Write to temporary file
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-
-    // Read parquet file using ParquetReader
-    let df = ParquetReader::new(&mut file).finish()?;
-
-    // Extract columns
-    let dhid_col = df.column("dhid")?.str()?;
-    let parent_col = df.column("parent")?.str()?;
-    let name_col = df.column("name")?.str()?;
-    let lat_col = df.column("lat")?.f32()?;
-    let lon_col = df.column("lon")?.f32()?;
-
-    // Convert to DBStation structs
+    let reader = SerializedFileReader::new(Bytes::from(body))?;
     let mut stations = Vec::new();
-    for i in 0..df.height() {
-        let dhid = dhid_col.get(i).unwrap_or("").to_string();
-        let parent = parent_col.get(i).map(ToString::to_string);
-        let name = name_col.get(i).unwrap_or("").to_string();
-        let lat = f64::from(lat_col.get(i).unwrap_or(0.0));
-        let lon = f64::from(lon_col.get(i).unwrap_or(0.0));
-
-        let station = Station {
-            dhid,
-            parent,
-            name,
-            lat,
-            lon,
-        };
-
+    for row in reader.get_row_iter(None)? {
+        let row = row?;
+        let mut station = Station::default();
+        for (col_name, field) in row.get_column_iter() {
+            match (col_name.as_str(), field) {
+                ("dhid", Field::Str(v)) => station.dhid.clone_from(v),
+                ("parent", Field::Str(v)) => station.parent = Some(v.clone()),
+                ("name", Field::Str(v)) => station.name.clone_from(v),
+                ("lat", Field::Float(v)) => station.lat = f64::from(*v),
+                ("lat", Field::Double(v)) => station.lat = *v,
+                ("lon", Field::Float(v)) => station.lon = f64::from(*v),
+                ("lon", Field::Double(v)) => station.lon = *v,
+                _ => {}
+            }
+        }
         stations.push(DBStation::from_station(station));
     }
 
