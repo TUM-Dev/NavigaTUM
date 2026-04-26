@@ -80,7 +80,7 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
     return result.drop(["tumonline_data_json_new", "props_ids_b_id_new"])
 
 
-_BUILDING_TYPES = pl.Series(["building", "joined_building"])
+_BUILDING_TYPES = ["building", "joined_building"]
 
 
 def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:

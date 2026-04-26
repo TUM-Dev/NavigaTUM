@@ -189,10 +189,9 @@ def _run_pipeline(
             links_data = yaml_mod.safe_load(f) or {}
         comment_ids.update(str(k) for k in links_data)
     if comment_ids:
-        ids_series = pl.Series("_cid", list(comment_ids))
         df = df.with_columns(
             pl.when(
-                pl.col("id").is_in(ids_series)
+                pl.col("id").is_in(list(comment_ids))
                 & pl.col("sources_base_json").is_not_null()
                 & ~pl.col("sources_base_json").str.contains("NavigaTUM")
             )

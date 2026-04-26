@@ -69,7 +69,7 @@ def extract_tumonline_props(lf: pl.LazyFrame) -> pl.LazyFrame:
     )
 
 
-_FLOOR_PROP_PARENT_TYPES = pl.Series(["building", "joined_building", "site", "campus"])
+_FLOOR_PROP_PARENT_TYPES = ["building", "joined_building", "site", "campus"]
 
 
 def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
@@ -453,7 +453,7 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-_BUILDINGS_OVERVIEW_PARENT_TYPES = pl.Series(["area", "site", "campus"])
+_BUILDINGS_OVERVIEW_PARENT_TYPES = ["area", "site", "campus"]
 _BUILDINGS_OVERVIEW_CHILD_TYPES = {"area", "site", "campus", "building", "joined_building"}
 
 
@@ -545,16 +545,14 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-_ROOMS_OVERVIEW_PARENT_TYPES = pl.Series(
-    [
-        "area",
-        "site",
-        "campus",
-        "building",
-        "joined_building",
-        "virtual_room",
-    ]
-)
+_ROOMS_OVERVIEW_PARENT_TYPES = [
+    "area",
+    "site",
+    "campus",
+    "building",
+    "joined_building",
+    "virtual_room",
+]
 
 
 def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
