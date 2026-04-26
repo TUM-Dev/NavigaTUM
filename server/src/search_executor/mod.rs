@@ -154,25 +154,17 @@ pub async fn do_geoentry_search(
         query.with_filtering(&filter);
     }
 
-    let Ok(response) = query.execute().await else {
-        // error should be serde_json::error
-        error!("Error searching for results");
-        return LimitedVec(vec![]);
+    let response = match query.execute().await {
+        Ok(response) => response,
+        Err(e) => {
+            error!(error = ?e, "Error searching for results");
+            return LimitedVec(vec![]);
+        }
     };
     let (section_buildings, mut section_rooms) = merger::merge_search_results(
         &limits,
-        response
-            .results
-            .first()
-            .expect("multi-search request asks for 3 indexes; result 0 must exist"),
-        response
-            .results
-            .get(1)
-            .expect("multi-search request asks for 3 indexes; result 1 must exist"),
-        response
-            .results
-            .get(2)
-            .expect("multi-search request asks for 3 indexes; result 2 must exist"),
+        &response.hits,
+        response.facet_distribution.as_ref(),
     );
     let visitor = formatter::RoomVisitor::from((parsed_input, formatting_config));
     section_rooms

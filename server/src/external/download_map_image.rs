@@ -108,7 +108,7 @@ impl MapImageDownloadTask {
 #[tracing::instrument]
 async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec<u8>> {
     let url = format!(
-        "https://nav.tum.de/martin/style/navigatum-basemap/{z}/{x}/{y}@2x.png",
+        "https://nav.tum.de/martin/style/navigatum-basemap/{z}/{x}/{y}.png",
         x = location.x,
         y = location.y,
         z = location.z
@@ -116,7 +116,7 @@ async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec
     for i in 1..5 {
         let response = reqwest::get(&url).await?;
         let status = response.status();
-        if status.as_u16() == 400 {
+        if !status.is_success() {
             error!(url, ?status, "could not find {location:?}");
             return Err(io::Error::other("could not find requested tile").into());
         }

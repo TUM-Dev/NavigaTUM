@@ -87,5 +87,5 @@ function emptyRoomEdit() {
   return { coordinate: null, image: null, properties: null };
 }
 
-export { emptyPropertyFields, emptyRoomEdit };
 export type { PropertyFields };
+export { emptyPropertyFields, emptyRoomEdit };

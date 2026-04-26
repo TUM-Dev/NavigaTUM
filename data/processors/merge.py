@@ -5,6 +5,7 @@ import polars as pl
 import yaml
 from processors.df_utils import flatten_entry, to_json_or_none
 from utils import TranslatableStr
+import orjson
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -231,8 +232,6 @@ def add_usages(df: pl.DataFrame) -> pl.DataFrame:
 
 def add_links(df: pl.DataFrame) -> pl.DataFrame:
     """Merge links from links.yaml (id -> list of {text, url}) into props_links_json."""
-    import json as json_mod
-
     if not LINKS_YAML.exists():
         raise FileNotFoundError(f"Required source file not found: {LINKS_YAML}")
     with LINKS_YAML.open(encoding="utf-8") as f:
@@ -244,7 +243,7 @@ def add_links(df: pl.DataFrame) -> pl.DataFrame:
 
     rows = []
     for entry_id, links in links_data.items():
-        rows.append({"id": str(entry_id), "props_links_json__yaml": json_mod.dumps(links, ensure_ascii=False)})
+        rows.append({"id": str(entry_id), "props_links_json__yaml": orjson.dumps(links).decode()})
 
     links_df = pl.DataFrame(rows, infer_schema_length=None)
     result = df.join(links_df, on="id", how="left")

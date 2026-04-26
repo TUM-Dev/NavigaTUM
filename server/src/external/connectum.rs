@@ -149,6 +149,7 @@ impl OauthAccessToken {
             // no redirects to prevent [SSRF-vulns](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
             .redirect(redirect::Policy::none())
             .build()?;
+        let http_client = oauth2_reqwest::ReqwestClient::from(http_client);
         let token = BasicClient::new(ClientId::new(client_id))
             .set_client_secret(ClientSecret::new(client_secret))
             .set_auth_uri(AuthUrl::from_url(auth_url))

@@ -1,11 +1,27 @@
+use std::collections::HashMap;
+use std::fmt::{self, Debug, Formatter};
+
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
-use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
+use meilisearch_sdk::search::{
+    FederatedMultiSearchResponse, FederationOptions, MergeFacets, SearchQuery, Selectors,
+};
 use serde::Deserialize;
-use std::fmt::{self, Debug, Formatter};
 
 use crate::routes::search::{FormattingConfig, Limits};
+
+pub(crate) const ENTRIES_INDEX: &str = "entries";
+pub(crate) const FACET_FIELD: &str = "facet";
+pub(crate) const ROOM_FACET: &str = "room";
+pub(crate) const BUILDING_FACET: &str = "building";
+
+/// Federation has no per-facet quota — it merges by `_rankingScore` only. We
+/// over-fetch by this factor so the merger downstream can still fill both
+/// per-facet caps when one facet dominates the ranking (observed: queries
+/// like `MW1801` returned 14 buildings + 1 room at the natural cap of 15).
+/// Empirical; revisit if facet-starvation shows up in metrics.
+const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 
 #[derive(Deserialize, Default, Clone)]
 #[allow(dead_code)]
@@ -35,71 +51,12 @@ impl Debug for MSHit {
 }
 
 #[derive(Clone)]
-struct GeoEntryFilters {
-    default: String,
-    rooms: String,
-    buildings: String,
-}
-impl Default for GeoEntryFilters {
-    fn default() -> Self {
-        Self {
-            default: String::new(),
-            rooms: "facet = \"room\"".to_string(),
-            buildings: "facet = \"building\"".to_string(),
-        }
-    }
-}
-impl Debug for GeoEntryFilters {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let mut base = f.debug_struct("GeoEntryFilters");
-        if !self.default.is_empty() {
-            base.field("default", &self.default);
-        }
-        if !self.rooms.is_empty() {
-            base.field("rooms", &self.rooms);
-        }
-        if !self.buildings.is_empty() {
-            base.field("buildings", &self.buildings);
-        }
-        base.finish()
-    }
-}
-
-impl From<&String> for GeoEntryFilters {
-    fn from(ms_filter: &String) -> Self {
-        Self::default().with_filter(ms_filter)
-    }
-}
-
-impl GeoEntryFilters {
-    pub fn with_filter(&mut self, ms_filter: &impl ToString) -> Self {
-        let ms_filter = ms_filter.to_string();
-        // --
-        if self.default.is_empty() && !ms_filter.is_empty() {
-            self.default.push_str(" AND ");
-        }
-        self.default.push_str(&ms_filter);
-        // --
-        if self.buildings.is_empty() && !ms_filter.is_empty() {
-            self.buildings.push_str(" AND ");
-        }
-        self.buildings.push_str(&ms_filter);
-        // --
-        if self.rooms.is_empty() && !ms_filter.is_empty() {
-            self.rooms.push_str(" AND ");
-        }
-        self.rooms.push_str(&ms_filter);
-        self.clone()
-    }
-}
-
-#[derive(Clone)]
 pub struct GeoEntryQuery {
     client: Client,
     query: String,
     limits: Limits,
     formatting_config: FormattingConfig,
-    filters: GeoEntryFilters,
+    user_filter: String,
     sorting: Vec<String>,
 }
 
@@ -112,7 +69,7 @@ impl From<(&Client, String, &Limits, &FormattingConfig)> for GeoEntryQuery {
             query,
             limits: limits.clone(),
             formatting_config: formatting_config.clone(),
-            filters: GeoEntryFilters::default(),
+            user_filter: String::new(),
             sorting: Vec::new(),
         }
     }
@@ -125,95 +82,72 @@ impl GeoEntryQuery {
     }
     // add filtering constraints
     pub fn with_filtering(&mut self, ms_filter: &impl ToString) {
-        self.filters.with_filter(ms_filter);
+        let extra = ms_filter.to_string();
+        if !extra.is_empty() {
+            if !self.user_filter.is_empty() {
+                self.user_filter.push_str(" AND ");
+            }
+            self.user_filter.push_str(&extra);
+        }
     }
-    pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
-        let entries = self.client.index("entries");
 
-        // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
-        // If you can make it, please propose a PR, I know that this is really hacky ^^
-        let sorting = self
-            .sorting
-            .iter()
-            .map(String::as_str)
-            .collect::<Vec<&str>>();
+    pub async fn execute(self) -> Result<FederatedMultiSearchResponse<MSHit>, Error> {
+        let entries = self.client.index(ENTRIES_INDEX);
+        let sorting: Vec<&str> = self.sorting.iter().map(String::as_str).collect();
+        let rooms_filter = compose_filter(&facet_eq(ROOM_FACET), &self.user_filter);
+        let buildings_filter = compose_filter(&facet_eq(BUILDING_FACET), &self.user_filter);
 
-        // Currently ranking is designed to put buildings at the top if they equally
-        // match the term compared to a room. For this reason there is only a search
-        // for all entries and only rooms, search matching (and relevant) buildings can be
-        // expected to be at the top of the merged search. However sometimes a lot of
-        // buildings will be hidden (e.g. building parts), so the extra room search ....
-        self.client
-            .multi_search()
-            .with_search_query(
-                self.merged_query(&entries, &self.query)
-                    .with_sort(&sorting)
-                    .build(),
-            )
-            .with_search_query(
-                self.buildings_query(&entries, &self.query)
-                    .with_sort(&sorting)
-                    .build(),
-            )
-            .with_search_query(
-                self.rooms_query(&entries, &self.query)
-                    .with_sort(&sorting)
-                    .build(),
-            )
+        // Per-query `limit` is rejected by Meilisearch in federated mode; the
+        // global cap lives on `federation.limit` instead. `merge_facets` is
+        // set so the response uses the standard `facetDistribution` shape —
+        // the SDK's `facets_by_index` field type does not match Meilisearch's
+        // per-index keying and would fail to deserialise.
+        let mut facets_by_index = HashMap::new();
+        facets_by_index.insert(ENTRIES_INDEX.to_string(), vec![FACET_FIELD.to_string()]);
+
+        let mut multi = self.client.multi_search();
+        multi.with_search_query(self.facet_query(&entries, &rooms_filter, &sorting));
+        multi.with_search_query(self.facet_query(&entries, &buildings_filter, &sorting));
+        multi
+            .with_federation(FederationOptions {
+                limit: Some(
+                    (self.limits.buildings_count + self.limits.rooms_count)
+                        .saturating_mul(FEDERATION_OVERFETCH_FACTOR),
+                ),
+                facets_by_index: Some(facets_by_index),
+                merge_facets: Some(MergeFacets::default()),
+                ..FederationOptions::default()
+            })
             .execute::<MSHit>()
             .await
     }
 
-    fn common_query<'b: 'a, 'a>(
-        &'b self,
+    fn facet_query<'a>(
+        &'a self,
         entries: &'a Index,
+        filter: &'a str,
+        sorting: &'a [&'a str],
     ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
-            .with_facets(Selectors::Some(&["facet"]))
+            .with_query(&self.query)
+            .with_filter(filter)
+            .with_sort(sorting)
             .with_highlight_pre_tag(&self.formatting_config.highlighting.pre)
             .with_highlight_post_tag(&self.formatting_config.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
             .build()
     }
+}
 
-    fn merged_query<'a>(
-        &'a self,
-        entries: &'a Index,
-        query: &'a str,
-    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
-        let mut s = self
-            .common_query(entries)
-            .with_query(query)
-            .with_limit(self.limits.total_count)
-            .build();
-        if !self.filters.default.is_empty() {
-            s = s.with_filter(&self.filters.default).build();
-        }
-        s
-    }
+fn facet_eq(value: &str) -> String {
+    format!("{FACET_FIELD} = \"{value}\"")
+}
 
-    fn buildings_query<'a>(
-        &'a self,
-        entries: &'a Index,
-        query: &'a str,
-    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
-        self.common_query(entries)
-            .with_query(query)
-            .with_limit(2 * self.limits.buildings_count) // we might do reordering later
-            .with_filter(&self.filters.buildings)
-            .build()
-    }
-
-    fn rooms_query<'a>(
-        &'a self,
-        entries: &'a Index,
-        query: &'a str,
-    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
-        self.common_query(entries)
-            .with_query(query)
-            .with_limit(self.limits.rooms_count)
-            .with_filter(&self.filters.rooms)
-            .build()
+fn compose_filter(facet_filter: &str, user_filter: &str) -> String {
+    if user_filter.is_empty() {
+        facet_filter.to_string()
+    } else {
+        format!("{facet_filter} AND {user_filter}")
     }
 }
 
@@ -224,8 +158,10 @@ impl Debug for GeoEntryQuery {
         let mut base = f.debug_struct("GeoEntryQuery");
         base.field("query", &self.query)
             .field("limits", &self.limits)
-            .field("highlighting", &self.formatting_config.highlighting)
-            .field("filters", &self.filters);
+            .field("highlighting", &self.formatting_config.highlighting);
+        if !self.user_filter.is_empty() {
+            base.field("user_filter", &self.user_filter);
+        }
         if !self.sorting.is_empty() {
             base.field("sorting", &self.sorting);
         }

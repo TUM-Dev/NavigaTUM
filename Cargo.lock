@@ -3183,9 +3183,9 @@ dependencies = [
 
 [[package]]
 name = "meilisearch-index-setting-macro"
-version = "0.32.0"
+version = "0.33.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0795d177129fed792fc789cf07d4647bb9e3939409fbe01764805c060afcd0e"
+checksum = "93b5b21df781c820a9cc387b808d4128cbc164dd28d67ac6ed666a00996f8f15"
 dependencies = [
  "convert_case 0.8.0",
  "proc-macro2",
@@ -3196,9 +3196,9 @@ dependencies = [
 
 [[package]]
 name = "meilisearch-sdk"
-version = "0.32.0"
+version = "0.33.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4a20b5a4215a39c66854d14cbba97f615e84c49925d68629c05c42a5a85dac1"
+checksum = "19e6e3646ba2a9a306296c1edf4a050508a408c1b59ca456d9ad4965ec6e91e9"
 dependencies = [
  "async-trait",
  "bytes",
@@ -3302,8 +3302,8 @@ name = "motis-openapi-progenitor"
 version = "0.4.0"
 dependencies = [
  "chrono",
- "progenitor-client",
- "reqwest 0.12.28",
+ "progenitor-client 0.14.0",
+ "reqwest 0.13.2",
  "serde",
 ]
 
@@ -3316,7 +3316,7 @@ dependencies = [
  "bytes",
  "chrono",
  "futures-core",
- "progenitor-client",
+ "progenitor-client 0.11.2",
  "reqwest 0.12.28",
  "serde",
  "serde_urlencoded",
@@ -3398,12 +3398,13 @@ dependencies = [
  "moka",
  "motis-openapi-progenitor 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "oauth2",
+ "oauth2-reqwest",
  "octocrab",
  "polars",
  "pretty_assertions",
  "rand 0.10.1",
  "regex",
- "reqwest 0.12.28",
+ "reqwest 0.13.2",
  "rstest",
  "rustls",
  "serde",
@@ -3601,13 +3602,22 @@ dependencies = [
  "getrandom 0.2.17",
  "http 1.4.0",
  "rand 0.8.6",
- "reqwest 0.12.28",
  "serde",
  "serde_json",
  "serde_path_to_error",
  "sha2",
  "thiserror 1.0.69",
  "url",
+]
+
+[[package]]
+name = "oauth2-reqwest"
+version = "0.1.0-alpha.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "234fb5c965bbce983ee5de636a7a51d6a3223da8067ea02f9ab2d2d78ac08be2"
+dependencies = [
+ "oauth2",
+ "reqwest 0.13.2",
 ]
 
 [[package]]
@@ -4659,6 +4669,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "progenitor-client"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4e8a874cf25a33cac7a01b9c1de87bcfbc8aea93f3156d09dcc3bee516a78926"
+dependencies = [
+ "bytes",
+ "futures-core",
+ "percent-encoding",
+ "reqwest 0.13.2",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+]
+
+[[package]]
 name = "prometheus"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4813,7 +4838,7 @@ dependencies = [
  "once_cell",
  "socket2 0.6.3",
  "tracing",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -5147,7 +5172,7 @@ dependencies = [
  "url",
  "wasm-bindgen",
  "wasm-bindgen-futures",
- "wasm-streams",
+ "wasm-streams 0.4.2",
  "web-sys",
  "webpki-roots 1.0.7",
 ]
@@ -5165,6 +5190,7 @@ dependencies = [
  "futures-core",
  "futures-util",
  "h2 0.4.13",
+ "hickory-resolver",
  "http 1.4.0",
  "http-body",
  "http-body-util",
@@ -5174,6 +5200,7 @@ dependencies = [
  "js-sys",
  "log",
  "mime",
+ "once_cell",
  "percent-encoding",
  "pin-project-lite",
  "quinn",
@@ -5182,15 +5209,18 @@ dependencies = [
  "rustls-platform-verifier",
  "serde",
  "serde_json",
+ "serde_urlencoded",
  "sync_wrapper",
  "tokio",
  "tokio-rustls",
+ "tokio-util",
  "tower",
  "tower-http",
  "tower-service",
  "url",
  "wasm-bindgen",
  "wasm-bindgen-futures",
+ "wasm-streams 0.5.0",
  "web-sys",
 ]
 
@@ -7374,6 +7404,19 @@ name = "wasm-streams"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "15053d8d85c7eccdbefef60f06769760a563c7f0a9d6902a13d35c7800b0ad65"
+dependencies = [
+ "futures-util",
+ "js-sys",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+]
+
+[[package]]
+name = "wasm-streams"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d1ec4f6517c9e11ae630e200b2b65d193279042e28edd4a2cda233e46670bbb"
 dependencies = [
  "futures-util",
  "js-sys",

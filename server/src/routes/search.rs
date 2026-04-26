@@ -338,6 +338,7 @@ fn slugify(input: &str) -> String {
         .map(|c| {
             if c.is_alphanumeric()
                 || c == '-'
+                || c == '_'
                 || c == '.'
                 || c == 'ä'
                 || c == 'ö'
@@ -727,6 +728,12 @@ mod tests {
         let filter = build_meilisearch_filter(&["Garching".to_string()], &[], &[]);
         assert!(filter.contains("garching"));
         assert!(!filter.contains("Garching"));
+    }
+
+    #[test]
+    fn filter_preserves_underscores_in_parent_values() {
+        let filter = build_meilisearch_filter(&[], &[], &["joined_building".to_string()]);
+        assert!(filter.contains("joined_building"));
     }
 
     #[test]

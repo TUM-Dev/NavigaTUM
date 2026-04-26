@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import {
   mdiCheck,
   mdiChevronDown,
@@ -9,10 +9,10 @@ import {
   mdiMapMarker,
   mdiTagOutline,
 } from "@mdi/js";
-import {useTemplateRef} from "vue";
-import type {components} from "~/api_types";
-import {useKnownUsages} from "~/composables/knownUsages";
-import {TYPE_BUCKET_OPTIONS, type SearchFilters} from "~/composables/searchFilters";
+import { useTemplateRef } from "vue";
+import type { components } from "~/api_types";
+import { useKnownUsages } from "~/composables/knownUsages";
+import { type SearchFilters, TYPE_BUCKET_OPTIONS } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -26,7 +26,7 @@ const props = defineProps<{
   filters: SearchFilters;
 }>();
 
-const {t} = useI18n({useScope: "local"});
+const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 const knownUsages = useKnownUsages();
@@ -36,7 +36,11 @@ const locationOpen = ref(false);
 const locationSearch = ref("");
 const locationInput = useTemplateRef<HTMLInputElement>("locationInput");
 
-const { data: locationData, status: locationStatus, refresh: refreshLocation } = useFetch<SearchResponse>(
+const {
+  data: locationData,
+  status: locationStatus,
+  refresh: refreshLocation,
+} = useFetch<SearchResponse>(
   () => {
     const params = new URLSearchParams();
     params.append("q", locationSearch.value);
@@ -52,7 +56,7 @@ const { data: locationData, status: locationStatus, refresh: refreshLocation } =
     lazy: true,
     immediate: false,
     watch: false,
-  },
+  }
 );
 
 watch(locationSearch, (q) => {
@@ -62,10 +66,12 @@ watch(locationSearch, (q) => {
 const locationSuggestions = computed<LocationSuggestion[]>(() => {
   if (locationSearch.value.length < 2) return [];
   const section = locationData.value?.sections.find((s) => s.facet === "sites_buildings");
-  return section?.entries.map((e) => ({id: e.id, name: e.name, subtext: e.subtext})) ?? [];
+  return section?.entries.map((e) => ({ id: e.id, name: e.name, subtext: e.subtext })) ?? [];
 });
 
-const locationLoading = computed(() => locationSearch.value.length >= 2 && locationStatus.value === "pending");
+const locationLoading = computed(
+  () => locationSearch.value.length >= 2 && locationStatus.value === "pending"
+);
 
 function toggleLocationPanel() {
   locationOpen.value = !locationOpen.value;
@@ -92,7 +98,7 @@ const filteredUsages = computed(() => {
   const q = usageSearch.value.trim().toLowerCase();
   if (!q) return knownUsages.options.value;
   return knownUsages.options.value.filter(
-    (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q),
+    (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q)
   );
 });
 
