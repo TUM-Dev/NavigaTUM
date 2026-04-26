@@ -215,7 +215,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
                 .otherwise(pl.col("sources_base_json"))
                 .alias("sources_base_json"),
                 pl.when(pl.col("sources_patched_update") == True)  # noqa: E712
-                .then(pl.lit(value=True))
+                .then(pl.lit(True))  # noqa: FBT003
                 .otherwise(pl.col("sources_patched"))
                 .alias("sources_patched"),
             )

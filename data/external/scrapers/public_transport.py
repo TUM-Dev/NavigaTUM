@@ -41,7 +41,9 @@ def _load_stations() -> pl.DataFrame:
         )
         .cast(pl.Date),
     )
-    df = df.with_columns(pl.when(pl.col("SEV") == "ja").then(value=True).otherwise(value=False).name.keep())
+    df = df.with_columns(
+        pl.when(pl.col("SEV") == "ja").then(True).otherwise(False).name.keep(),  # noqa: FBT003
+    )
     with pl.StringCache():
         df = df.with_columns(pl.col("Authority").cast(pl.Categorical).name.keep())
     # P: "boarding_postion
