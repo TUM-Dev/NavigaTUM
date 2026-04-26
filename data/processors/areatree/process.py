@@ -291,7 +291,7 @@ def _warn_if_embedded_short_name(
         # Case 4: acronym short_name — use the |-syntax.
         fixed_name = f"{long_name}|{short}"
         fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
-        logging.warning(
+        _logger.warning(
             f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
             f"Use the '|'-syntax — line should be '{fixed}'"
         )
