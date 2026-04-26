@@ -12,12 +12,12 @@ dependencies = [
   "Pillow==12.2.0",
   "polars==1.40.1",
   "pyarrow==24.0.0",
-  "pydantic==2.12.5",
+  "pydantic==2.13.3",
   "pyyaml==6.0.3",
-  "requests==2.33.0",
+  "requests==2.33.1",
   "requests-oauthlib==2.0.0",
   "ruamel.yaml==0.19.1",
-  "tqdm==4.67.1",
+  "tqdm==4.67.3",
   "utm==0.8.1",
 ]
 
