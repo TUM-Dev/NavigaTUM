@@ -7,7 +7,7 @@ from typing import Any
 import polars as pl
 import yaml
 
-from external.loaders.tumonline import load_usages
+from external.loaders.tumonline import load_orgs, load_usages
 from external.models import tumonline
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
 from processors.patch import apply_roomcode_patch
@@ -103,10 +103,18 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     """
     rooms = _clean_tumonline_rooms()
 
-    orgs_de = tumonline.Organisation.load_all_for("de")
-    orgs_en = tumonline.Organisation.load_all_for("en")
+    orgs_lookup = {
+        row["org_id"]: row
+        for row in load_orgs("de")
+        .select("org_id", "code", pl.col("name").alias("name_de"))
+        .join(
+            load_orgs("en").select("org_id", pl.col("name").alias("name_en")),
+            on="org_id",
+            how="inner",
+        )
+        .iter_rows(named=True)
+    }
     usages_lookup = {row["usage_id"]: row for row in load_usages().iter_rows(named=True)}
-    org_id_to_code = {key: org.code for key, org in orgs_de.items()}
 
     building_parents = {
         brow["id"]: (brow["parents"] or [])
@@ -128,12 +136,8 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
         tumonline_usage = usages_lookup[room.usage_id]
         usage_name = _(tumonline_usage["name"])
 
-        operator_name = None
-        if room.main_operator_id in orgs_de:
-            operator_name = _(
-                orgs_de[room.main_operator_id].name,
-                orgs_en[room.main_operator_id].name,
-            )
+        op = orgs_lookup.get(room.main_operator_id)
+        operator_name = _(op["name_de"], op["name_en"]) if op else None
 
         tumonline_data = {
             "tumonline_id": room.tumonline_id,
@@ -141,7 +145,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             "arch_name": room.arch_name,
             "alt_name": room.alt_name,
             "address": {"place": room.address.place, "street": room.address.street, "zip_code": room.address.zip_code},
-            "operator": org_id_to_code.get(room.main_operator_id),
+            "operator": op["code"] if op else None,
             "operator_id": room.main_operator_id,
             "operator_name": operator_name,
             "calendar": room.calendar_resource_nr,

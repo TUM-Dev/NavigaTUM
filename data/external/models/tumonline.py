@@ -119,24 +119,3 @@ class Building(PydanticConfiguration):
         return buildings
 
 
-class Organisation(PydanticConfiguration):
-    code: str
-    name: str
-    path: str
-
-    @classmethod
-    def load_all_for(cls, lang: str) -> dict[int, "Organisation"]:
-        """Load all tumonline.Organisation's for a specific language"""
-        df = pl.read_csv(
-            RESULTS_PATH / f"orgs-{lang}_tumonline.csv",
-            schema_overrides={
-                "code": pl.String,
-                "name": pl.String,
-                "path": pl.String,
-            },
-        )
-        organizations = {}
-        for row in df.iter_rows(named=True):
-            org = cls(code=str(row["code"]), name=str(row["name"]), path=str(row["path"]))
-            organizations[int(row["org_id"])] = org
-        return organizations

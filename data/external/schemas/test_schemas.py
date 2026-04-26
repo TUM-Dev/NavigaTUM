@@ -1,9 +1,11 @@
+import typing
+
 import dataframely as dy
 import polars as pl
 import pytest
 
-from external.loaders.tumonline import load_usages
-from external.schemas.tumonline import UsagesSchema
+from external.loaders.tumonline import load_orgs, load_usages
+from external.schemas.tumonline import OrgsSchema, UsagesSchema
 
 
 def test_committed_usages_csv_satisfies_schema() -> None:
@@ -29,3 +31,24 @@ def test_usages_schema_rejects_missing_column() -> None:
     incomplete = pl.DataFrame({"usage_id": [1]})
     with pytest.raises(dy.exc.SchemaError):
         UsagesSchema.validate(incomplete)
+
+
+@pytest.mark.parametrize("lang", ["de", "en"])
+def test_committed_orgs_csv_satisfies_schema(lang: typing.Literal["de", "en"]) -> None:
+    """The cached `orgs-{lang}_tumonline.csv` must satisfy `OrgsSchema` (drift gate)."""
+    OrgsSchema.validate(load_orgs(lang))
+
+
+def test_orgs_schema_rejects_non_positive_id() -> None:
+    invalid = pl.DataFrame(
+        {"org_id": [0], "code": ["X"], "name": ["X"], "path": ["X"]},
+        schema=OrgsSchema.to_polars_schema(),
+    )
+    with pytest.raises(dy.exc.ValidationError):
+        OrgsSchema.validate(invalid)
+
+
+def test_orgs_schema_rejects_missing_column() -> None:
+    incomplete = pl.DataFrame({"org_id": [1]})
+    with pytest.raises(dy.exc.SchemaError):
+        OrgsSchema.validate(incomplete)

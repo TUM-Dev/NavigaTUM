@@ -8,7 +8,7 @@ import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
-from external.schemas.tumonline import UsagesSchema
+from external.schemas.tumonline import OrgsSchema, UsagesSchema
 from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
 
@@ -178,30 +178,17 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
     req = requests.get(url, headers={"Accept": "application/json"}, timeout=30)
     assert req.status_code == 200, f"Failed to download organisations.\n{req=}\n{req.text=}"
 
-    orgs = {}
-    for resource in req.json()["resource"]:
-        search_organisation = resource["content"]["organisationSearchDto"]
-        if designation := search_organisation.get("designation"):
-            orgs[search_organisation["id"]] = {
-                "code": designation,
-                "name": search_organisation["name"],
-                "path": search_organisation["orgPath"],
-            }
-
-    # Convert to CSV format
-    rows = []
-    for org_id, org_data in orgs.items():
-        row = {
-            "org_id": int(org_id),
-            "code": str(org_data.get("code", "")),
-            "name": str(org_data.get("name", "")),
-            "path": str(org_data.get("path", "")),
+    rows = [
+        {
+            "org_id": dto["id"],
+            "code": dto["designation"],
+            "name": dto["name"],
+            "path": dto["orgPath"],
         }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by org_id for consistency
-    df = df.sort("org_id")
+        for dto in (resource["content"]["organisationSearchDto"] for resource in req.json()["resource"])
+        if dto.get("designation")
+    ]
+    df = pl.DataFrame(rows, schema=OrgsSchema.to_polars_schema()).sort("org_id")
     df.write_csv(CACHE_PATH / f"orgs-{lang}_tumonline.csv")
 
 

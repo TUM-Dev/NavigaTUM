@@ -1,7 +1,3 @@
-from typing import Literal
-
-import pytest
-
 from external.models import public_transport, roomfinder, tumonline
 
 
@@ -28,12 +24,6 @@ def test_tumonline_room():
 def test_tumonline_building():
     """Load all buildings from the tumonline.Building"""
     tumonline.Building.load_all()
-
-
-@pytest.mark.parametrize("lang", ["de", "en"])
-def test_tumonline_org(lang: Literal["de", "en"]) -> None:
-    """Load all orgs from the tumonline.Organisation"""
-    tumonline.Organisation.load_all_for(lang)
 
 
 def test_public_transport():
