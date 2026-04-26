@@ -4,8 +4,8 @@ import dataframely as dy
 import polars as pl
 import pytest
 
-from external.loaders.tumonline import load_buildings, load_orgs, load_usages
-from external.schemas.tumonline import BuildingsSchema, OrgsSchema, UsagesSchema
+from external.loaders.tumonline import load_buildings, load_orgs, load_rooms, load_usages
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 
 
 def test_committed_usages_csv_satisfies_schema() -> None:
@@ -81,3 +81,42 @@ def test_buildings_schema_rejects_missing_column() -> None:
     incomplete = pl.DataFrame({"building_key": ["0101"]})
     with pytest.raises(dy.exc.SchemaError):
         BuildingsSchema.validate(incomplete)
+
+
+def test_committed_rooms_csv_satisfies_schema() -> None:
+    """The cached `rooms_tumonline.csv` must satisfy `RoomsSchema` (drift gate)."""
+    RoomsSchema.validate(load_rooms())
+
+
+def test_rooms_schema_rejects_non_positive_tumonline_id() -> None:
+    invalid = pl.DataFrame(
+        {
+            "room_key": ["0101.01.101"],
+            "address_place": ["X"],
+            "address_street": ["X"],
+            "address_zip_code": [80333],
+            "seats_sitting": [None],
+            "seats_wheelchair": [None],
+            "seats_standing": [None],
+            "floor_type": ["X"],
+            "floor_level": ["X"],
+            "tumonline_id": [0],
+            "area_id": [1],
+            "building_id": [1],
+            "main_operator_id": [1],
+            "usage_id": [1],
+            "alt_name": [None],
+            "arch_name": [None],
+            "calendar_resource_nr": [None],
+            "patched": [False],
+        },
+        schema=RoomsSchema.to_polars_schema(),
+    )
+    with pytest.raises(dy.exc.ValidationError):
+        RoomsSchema.validate(invalid)
+
+
+def test_rooms_schema_rejects_missing_column() -> None:
+    incomplete = pl.DataFrame({"room_key": ["0101.01.101"]})
+    with pytest.raises(dy.exc.SchemaError):
+        RoomsSchema.validate(incomplete)

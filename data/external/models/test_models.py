@@ -1,4 +1,4 @@
-from external.models import public_transport, roomfinder, tumonline
+from external.models import public_transport, roomfinder
 
 
 def test_roomfinder_map():
@@ -14,11 +14,6 @@ def test_roomfinder_room():
 def test_roomfinder_building():
     """Load all buildings from the roomfinder.Building"""
     roomfinder.Building.load_all()
-
-
-def test_tumonline_room():
-    """Load all rooms from the tumonline.Room"""
-    tumonline.Room.load_all()
 
 
 def test_public_transport():

@@ -8,7 +8,7 @@ import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
-from external.schemas.tumonline import BuildingsSchema, OrgsSchema, UsagesSchema
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
 
@@ -71,60 +71,31 @@ def scrape_rooms() -> None:
     """Retrieve the rooms as in TUMonline"""
     logging.info("Downloading the rooms of tumonline")
 
-    def _sanitise_room_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
-        val["tumonline_id"] = val.pop("nr")  # tumonline id for this room, not really relevant in our context
-        val.pop("room_code")
-        val["address"] = {
-            "place": val.pop("address_place"),
-            "street": val.pop("address_street"),
-            "zip_code": val.pop("address_zip_code"),
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
+    rows = [
+        {
+            "room_key": r["room_code"],
+            "address_place": r["address_place"],
+            "address_street": r["address_street"],
+            "address_zip_code": r["address_zip_code"],
+            "seats_sitting": r.get("seats"),
+            "seats_wheelchair": r.get("wheelchair_seats"),
+            "seats_standing": r.get("standing_seats"),
+            "floor_type": r["floor_type"],
+            "floor_level": r["address_floor"],
+            "tumonline_id": r["nr"],
+            "area_id": r["area_id"],
+            "building_id": r["building_id"],
+            "main_operator_id": r["main_operator_id"],
+            "usage_id": r["usage_id"],
+            "alt_name": _clean_spaces(r["alt_name"]).replace(" ( ", " (") if r.get("alt_name") else None,
+            "arch_name": r.get("arch_name") or None,
+            "calendar_resource_nr": r.get("calendar_resource_nr"),
+            "patched": False,
         }
-        if "alt_name" in val:
-            val["alt_name"] = _clean_spaces(val["alt_name"]).replace(" ( ", " (")
-        val["floor_level"] = val.pop("address_floor")
-        val["seats"] = {
-            "sitting": val.pop("seats", None),
-            "wheelchair": val.pop("wheelchair_seats", None),
-            "standing": val.pop("standing_seats", None),
-        }
-        return val
-
-    rooms = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
-    rooms = {r["room_code"]: _sanitise_room_value(r) for r in rooms}
-
-    # Convert to CSV format
-    rows = []
-    for room_key, room_data in rooms.items():
-        address = room_data.get("address", {})
-        seats = room_data.get("seats", {})
-
-        row = {
-            "room_key": str(room_key),
-            "address_place": str(address.get("place", "")),
-            "address_street": str(address.get("street", "")),
-            "address_zip_code": int(address.get("zip_code", 0)),
-            "seats_sitting": seats.get("sitting") if seats.get("sitting") is not None else None,
-            "seats_wheelchair": seats.get("wheelchair") if seats.get("wheelchair") is not None else None,
-            "seats_standing": seats.get("standing") if seats.get("standing") is not None else None,
-            "floor_type": str(room_data.get("floor_type", "")),
-            "floor_level": str(room_data.get("floor_level", "")),
-            "tumonline_id": int(room_data.get("tumonline_id", 0)),
-            "area_id": int(room_data.get("area_id", 0)),
-            "building_id": int(room_data.get("building_id", 0)),
-            "main_operator_id": int(room_data.get("main_operator_id", 0)),
-            "usage_id": int(room_data.get("usage_id", 0)),
-            "alt_name": str(room_data.get("alt_name", "")) if room_data.get("alt_name") else None,
-            "arch_name": str(room_data.get("arch_name", "")) if room_data.get("arch_name") else None,
-            "calendar_resource_nr": room_data.get("calendar_resource_nr")
-            if room_data.get("calendar_resource_nr") is not None
-            else None,
-            "patched": bool(room_data.get("patched", False)),
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by room_key for consistency
-    df = df.sort("room_key")
+        for r in payload
+    ]
+    df = pl.DataFrame(rows, schema=RoomsSchema.to_polars_schema()).sort("room_key")
     df.write_csv(CACHE_PATH / "rooms_tumonline.csv")
 
 

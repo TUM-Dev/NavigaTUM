@@ -6,7 +6,6 @@ import polars as pl
 import csv
 import yaml
 
-from external.models import tumonline
 from external.models.common import PydanticConfiguration
 from processors.df_utils import unflatten_row
 from utils import TranslatableStr

@@ -3,7 +3,7 @@ import typing
 import polars as pl
 
 from external.models.common import RESULTS_PATH
-from external.schemas.tumonline import BuildingsSchema, OrgsSchema, UsagesSchema
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 
 
 def load_usages() -> pl.DataFrame:
@@ -27,4 +27,12 @@ def load_buildings() -> pl.DataFrame:
     return pl.read_csv(
         RESULTS_PATH / "buildings_tumonline.csv",
         schema=BuildingsSchema.to_polars_schema(),
+    )
+
+
+def load_rooms() -> pl.DataFrame:
+    """Load the TUMonline room catalogue. Dtypes enforced by `RoomsSchema`."""
+    return pl.read_csv(
+        RESULTS_PATH / "rooms_tumonline.csv",
+        schema=RoomsSchema.to_polars_schema(),
     )

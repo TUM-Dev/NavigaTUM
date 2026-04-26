@@ -1,8 +1,6 @@
 import logging
 import re
-from typing import TypedDict
-
-from external.models import tumonline
+from typing import Any, TypedDict
 
 # python 3.11 feature => move to typing when 3.11 is mainstream
 from typing_extensions import NotRequired
@@ -14,7 +12,7 @@ class Patch(TypedDict):
     arch_name: NotRequired[str]
 
 
-def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch]) -> None:
+def apply_roomcode_patch(objects: dict[str, dict[str, Any]], patches: list[Patch]) -> None:
     """
     Apply patches to objects.
 
@@ -42,8 +40,8 @@ def apply_roomcode_patch(objects: dict[str, tumonline.Room], patches: list[Patch
                     to_delete.append(room_code)
                     continue
                 for patch_key, patched_value in patch.items():
-                    setattr(room, patch_key, patched_value)
-                    room.patched = True
+                    room[patch_key] = patched_value
+                    room["patched"] = True
 
     for room_code in to_delete:
         objects.pop(room_code)

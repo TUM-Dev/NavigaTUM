@@ -7,8 +7,7 @@ from typing import Any
 import polars as pl
 import yaml
 
-from external.loaders.tumonline import load_buildings, load_orgs, load_usages
-from external.models import tumonline
+from external.loaders.tumonline import load_buildings, load_orgs, load_rooms, load_usages
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
 from processors.patch import apply_roomcode_patch
 from utils import TranslatableStr as _
@@ -119,53 +118,57 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
             missing_buildings[b_id] = missing_buildings.get(b_id, 0) + 1
             continue
 
-        if room.usage_id not in usages_lookup:
-            logging.error(f"Unknown usage for room '{room_code}': Id '{room.usage_id}'")
+        if room["usage_id"] not in usages_lookup:
+            logging.error(f"Unknown usage for room '{room_code}': Id '{room['usage_id']}'")
             continue
-        tumonline_usage = usages_lookup[room.usage_id]
+        tumonline_usage = usages_lookup[room["usage_id"]]
         usage_name = _(tumonline_usage["name"])
 
-        op = orgs_lookup.get(room.main_operator_id)
+        op = orgs_lookup.get(room["main_operator_id"])
         operator_name = _(op["name_de"], op["name_en"]) if op else None
 
         tumonline_data = {
-            "tumonline_id": room.tumonline_id,
+            "tumonline_id": room["tumonline_id"],
             "roomcode": room_code,
-            "arch_name": room.arch_name,
-            "alt_name": room.alt_name,
-            "address": {"place": room.address.place, "street": room.address.street, "zip_code": room.address.zip_code},
+            "arch_name": room["arch_name"],
+            "alt_name": room["alt_name"],
+            "address": {
+                "place": room["address_place"],
+                "street": room["address_street"],
+                "zip_code": room["address_zip_code"],
+            },
             "operator": op["code"] if op else None,
-            "operator_id": room.main_operator_id,
+            "operator_id": room["main_operator_id"],
             "operator_name": operator_name,
-            "calendar": room.calendar_resource_nr,
-            "usage": room.usage_id,
+            "calendar": room["calendar_resource_nr"],
+            "usage": room["usage_id"],
         }
         source_entry = {
             "name": "TUMonline",
-            "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr={room.tumonline_id}",
+            "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr={room['tumonline_id']}",
         }
         candidate_rows.append(
             {
                 "id": room_code,
                 "type": "room",
-                "name": f"{room_code} ({room.alt_name})",
-                "name_de": f"{room_code} ({room.alt_name})",
-                "name_en": f"{room_code} ({room.alt_name})",
+                "name": f"{room_code} ({room['alt_name']})",
+                "name_de": f"{room_code} ({room['alt_name']})",
+                "name_en": f"{room_code} ({room['alt_name']})",
                 "parents": building_parents[b_id] + [b_id],
                 "tumonline_data_json": to_json_or_none(tumonline_data),
                 "props_ids_roomcode": room_code,
-                "props_ids_arch_name": room.arch_name if room.arch_name else None,
-                "props_address_street": room.address.street,
-                "props_address_plz_place": f"{room.address.zip_code} {room.address.place}",
+                "props_ids_arch_name": room["arch_name"] if room["arch_name"] else None,
+                "props_address_street": room["address_street"],
+                "props_address_plz_place": f"{room['address_zip_code']} {room['address_place']}",
                 "props_address_source": "tumonline",
-                "props_stats_n_seats_sitting": room.seats.sitting,
-                "props_stats_n_seats_standing": room.seats.standing,
-                "props_stats_n_seats_wheelchair": room.seats.wheelchair,
+                "props_stats_n_seats_sitting": room["seats_sitting"],
+                "props_stats_n_seats_standing": room["seats_standing"],
+                "props_stats_n_seats_wheelchair": room["seats_wheelchair"],
                 **translatable_to_columns("usage_name", usage_name),
                 "usage_din_277": tumonline_usage["din277_id"],
                 "usage_din_277_desc": tumonline_usage["din277_name"],
                 "sources_base_json": to_json_or_none([source_entry]),
-                "sources_patched": True if room.patched else None,
+                "sources_patched": True if room["patched"] else None,
             }
         )
 
@@ -228,13 +231,13 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def _clean_tumonline_rooms():
+def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     """
     Apply some known corrections / patches on the TUMonline room data.
 
     It also searches for inconsistencies not yet patched
     """
-    rooms = tumonline.Room.load_all()
+    rooms: dict[str, dict[str, Any]] = {row["room_key"]: row for row in load_rooms().iter_rows(named=True)}
 
     with (SOURCES_PATH / "15_patches-rooms_tumonline.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
@@ -245,8 +248,8 @@ def _clean_tumonline_rooms():
     used_roomcode_levels = {}
     invalid_rooms: list[str] = []
     for room_code, room in rooms.items():
-        if not room.arch_name or not room.alt_name:
-            logging.warning(f"ignoring {room_code} as it has {room.arch_name=}, {room.alt_name=}")
+        if not room["arch_name"] or not room["alt_name"]:
+            logging.warning(f"ignoring {room_code} as it has arch_name={room['arch_name']!r}, alt_name={room['alt_name']!r}")
             invalid_rooms.append(room_code)
             continue
         # Validate the room_code
@@ -266,16 +269,16 @@ def _clean_tumonline_rooms():
             used_roomcode_levels[roomcode_parts[1]] = room_code
 
         # Validate the arch_name.
-        arch_name_split = room.arch_name.split("@")
+        arch_name_split = room["arch_name"].split("@")
         if len(arch_name_split) != 2:
-            logging.warning(f"Invalid arch_name: No '@' in '{room.arch_name}' (room {room_code})")
+            logging.warning(f"Invalid arch_name: No '@' in '{room['arch_name']}' (room {room_code})")
             invalid_rooms.append(room_code)
             continue
         arch_name_parts: tuple[str, str] = (arch_name_split[0], arch_name_split[1])
         if len(arch_name_parts[1]) != 4 or not arch_name_parts[1].isdigit():
             logging.warning(
                 f"Invalid building specification in arch_name: Not four digits: "
-                f"'{arch_name_parts[1]}' in '{room.arch_name}' (room {room_code})",
+                f"'{arch_name_parts[1]}' in '{room['arch_name']}' (room {room_code})",
             )
             invalid_rooms.append(room_code)
 
@@ -290,17 +293,17 @@ def _clean_tumonline_rooms():
 
 
 def _infer_arch_name(
-    room: tumonline.Room,
+    room: dict[str, Any],
     arch_name_parts: tuple[str, str],
     used_arch_names: dict[str, tuple[str, str, str]],
     roomcode_parts: tuple[str, str, str],
-    rooms: dict[str, tumonline.Room],
+    rooms: dict[str, dict[str, Any]],
 ) -> None:
     """Infer the arch name and other related properties"""
     # Some rooms don't have an arch_name. The value is then usually just like "@1234".
     # Since this is not helpful (the building is already known for all rooms) rooms are then dropped.
     if len(arch_name_parts[0]) == 0:
-        room.arch_name = ""
+        room["arch_name"] = ""
         return
 
     # THIS SECTION MIGHT CHANGE THE ARCH_NAME as well
@@ -323,13 +326,13 @@ def _infer_arch_name(
             pass
 
     # Check for duplicate uses of arch names
-    if room.arch_name is None or room.arch_name not in used_arch_names:
-        if room.arch_name is not None:
-            used_arch_names[room.arch_name] = roomcode_parts
+    if room["arch_name"] is None or room["arch_name"] not in used_arch_names:
+        if room["arch_name"] is not None:
+            used_arch_names[room["arch_name"]] = roomcode_parts
         return
 
     r1_parts = roomcode_parts
-    r2_parts = used_arch_names[room.arch_name]
+    r2_parts = used_arch_names[room["arch_name"]]
     if r1_parts[0] == r2_parts[0] and r1_parts[2] == r2_parts[2]:
         return
 
@@ -344,15 +347,15 @@ def _infer_arch_name(
     min_len = min(len(r1_parts[2]), len(r2_parts[2]))
     if r1_parts[2][:min_len] == r2_parts[2][:min_len]:
         if len(r1_parts[2]) > len(r2_parts[2]):
-            room.arch_name = arch_name_parts[0] + r1_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
+            room["arch_name"] = arch_name_parts[0] + r1_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
         else:
-            looked_up_r2 = rooms[".".join(used_arch_names[room.arch_name])]
-            looked_up_r2.arch_name = arch_name_parts[0] + r2_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
-            used_arch_names[room.arch_name] = roomcode_parts
-        room.patched = True
+            looked_up_r2 = rooms[".".join(used_arch_names[room["arch_name"]])]
+            looked_up_r2["arch_name"] = arch_name_parts[0] + r2_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
+            used_arch_names[room["arch_name"]] = roomcode_parts
+        room["patched"] = True
 
 
-def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: tumonline.Room) -> None:
+def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: dict[str, Any]) -> None:
     """
     Deduces the alt_name from the roomname
 
@@ -362,44 +365,44 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
     As far as we observed so far, if the room has no arch_name it also doesn't have any roomname in the alt_name.
     Also, if there are no comma-separated parts, the roomname is usually not in the alt_name.
     """
-    if room.alt_name is None:
+    if room["alt_name"] is None:
         return
-    alt_parts = room.alt_name.split(",")
+    alt_parts = room["alt_name"].split(",")
     if len(alt_parts) < 2:
         return
     if alt_parts[0].lower() == arch_name_parts[0].lower():
-        room.alt_name = ", ".join(alt_parts[1:]).strip()
+        room["alt_name"] = ", ".join(alt_parts[1:]).strip()
         return
     # The most common mismatch is if the roomname in the alt_name is like "L516" and the arch_name starts with "L 516".
     # In this case we change the arch_name to the format without a space
     joined_roomname = arch_name_parts[0].replace(" ", "", 2)
     if arch_name_parts[0][:2] in {"R ", "L ", "M ", "N "} and alt_parts[0] == joined_roomname:
         arch_name_parts = alt_parts[0], arch_name_parts[1]
-        room.arch_name = "@".join(arch_name_parts)
-        room.alt_name = ", ".join(alt_parts[1:])
-        room.patched = True
+        room["arch_name"] = "@".join(arch_name_parts)
+        room["alt_name"] = ", ".join(alt_parts[1:])
+        room["patched"] = True
     # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG")
     elif alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", ""):
-        room.alt_name = ", ".join(alt_parts[1:])
-        room.patched = True
+        room["alt_name"] = ", ".join(alt_parts[1:])
+        room["patched"] = True
     # The second most common mismatch is if the roomname in the alt_name is prepended with the abbrev of the building
     # Example: "MW 1050"
     elif any(alt_parts[0].startswith(s) for s in ["PH ", "MW ", "WSI ", "CH ", "MI "]):
-        room.alt_name = ", ".join(alt_parts[1:])
-        room.patched = True
+        room["alt_name"] = ", ".join(alt_parts[1:])
+        room["patched"] = True
     # If the roomname has a comma, the comparison by parts fails
-    elif "," in arch_name_parts[0] and room.alt_name is not None and room.alt_name.startswith(arch_name_parts[0]):
+    elif "," in arch_name_parts[0] and room["alt_name"] is not None and room["alt_name"].startswith(arch_name_parts[0]):
         alt_name_index = arch_name_parts[0].count(",") + 1
-        room.alt_name = ", ".join(alt_parts[alt_name_index:])
-        room.patched = True
+        room["alt_name"] = ", ".join(alt_parts[alt_name_index:])
+        room["patched"] = True
     # The Theresianum is an exception where the roomname is the second part of the alt_name.
     # Both are discarded since both roomcode and building name are given separately
     elif alt_parts[0] == "Theresianum" and alt_parts[1] == arch_name_parts[0]:
-        room.alt_name = ", ".join(alt_parts[2:])
-        room.patched = True
+        room["alt_name"] = ", ".join(alt_parts[2:])
+        room["patched"] = True
     else:
         logging.debug(
             f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room_code=}",
         )
-    if room.alt_name is not None:
-        room.alt_name = room.alt_name.strip()
+    if room["alt_name"] is not None:
+        room["alt_name"] = room["alt_name"].strip()
