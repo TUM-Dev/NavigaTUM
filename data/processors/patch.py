@@ -5,6 +5,8 @@ from typing import Any, TypedDict
 # python 3.11 feature => move to typing when 3.11 is mainstream
 from typing_extensions import NotRequired
 
+_logger = logging.getLogger(__name__)
+
 
 class Patch(TypedDict):
     if_room_code: str
@@ -48,6 +50,6 @@ def apply_roomcode_patch(objects: dict[str, dict[str, Any]], patches: list[Patch
 
     for patch_check, _ in compiled_patches:
         if patch_check not in applied_patches:
-            logging.warning(
+            _logger.warning(
                 f"The patch for roomcode: r'{patch_check.pattern}' was never applied. Make sure it is still required.",
             )

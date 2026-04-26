@@ -1,12 +1,13 @@
-import orjson
 from typing import Any
 
+import orjson
 import polars as pl
-
 from utils import TranslatableStr
 
+_DEFAULT_DTYPE: pl.DataType = pl.Utf8()
 
-def ensure_column(df: pl.DataFrame, col_name: str, dtype: pl.DataType = pl.Utf8()) -> pl.DataFrame:
+
+def ensure_column(df: pl.DataFrame, col_name: str, dtype: pl.DataType = _DEFAULT_DTYPE) -> pl.DataFrame:
     """Ensure a column exists in the DataFrame, adding it as null if missing."""
     if col_name not in df.columns:
         df = df.with_columns(pl.lit(None).cast(dtype).alias(col_name))

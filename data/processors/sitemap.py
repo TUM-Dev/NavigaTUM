@@ -1,4 +1,3 @@
-import orjson
 import logging
 import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
 from datetime import datetime, timezone
@@ -6,8 +5,11 @@ from pathlib import Path
 from typing import Any, Literal, TypedDict
 
 import backoff
+import orjson
 import requests
 from defusedxml import ElementTree as defusedET
+
+_logger = logging.getLogger(__name__)
 
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
@@ -65,7 +67,7 @@ def fetch_old_data() -> list[Any]:
     try:
         return _download_old_data()
     except requests.exceptions.RequestException as error:
-        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+        _logger.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
         return []
 
 
@@ -82,7 +84,7 @@ def _download_old_data() -> list[Any]:
     """Download the currently online data from the server"""
     req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
     if req.status_code != 200:
-        logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
+        _logger.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
         return []
     old_data = orjson.loads(req.content)
     if isinstance(old_data, dict):
@@ -110,7 +112,7 @@ def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps
     new_data_dict = {entry["id"]: entry for entry in new_data}
     changed_count = 0
     for _id, entry in new_data_dict.items():
-        sitemap_name: Literal["room"] | Literal["other"] = entry["type"] if entry["type"] in sitemaps else "other"
+        sitemap_name: Literal["room", "other"] = entry["type"] if entry["type"] in sitemaps else "other"
 
         # Just copied from the webclient.
         # The webclient doesn't care about the prefix.
@@ -155,7 +157,7 @@ def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps
                 "priority": priority,
             },
         )
-    logging.info(f"{changed_count} of {len(new_data) - 1} URLs have been updated.")
+    _logger.info(f"{changed_count} of {len(new_data) - 1} URLs have been updated.")
 
     return sitemaps
 
@@ -165,10 +167,10 @@ def download_online_sitemap(url: str) -> dict[str, datetime]:
     try:
         req = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
     except requests.exceptions.RequestException as error:
-        logging.warning(f"Failed to download sitemap '{url}': {error}")
+        _logger.warning(f"Failed to download sitemap '{url}': {error}")
         return {}
     if req.status_code != 200:
-        logging.warning(f"Failed to download sitemap '{url}': Status code {req.status_code}")
+        _logger.warning(f"Failed to download sitemap '{url}': Status code {req.status_code}")
         return {}
 
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"

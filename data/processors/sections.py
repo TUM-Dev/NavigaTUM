@@ -1,11 +1,12 @@
-import orjson
 import logging
 import typing
 from typing import Any
 
+import orjson
 import polars as pl
-
 from utils import TranslatableStr
+
+_logger = logging.getLogger(__name__)
 
 _ = TranslatableStr
 
@@ -54,7 +55,7 @@ def extract_tumonline_props(lf: pl.LazyFrame) -> pl.LazyFrame:
     )
 
     # operator_name (de/en)
-    lf = lf.with_columns(
+    return lf.with_columns(
         [
             pl.when(_json_not_null("operator_name"))
             .then(pl.col("tumonline_data_json").str.json_path_match("$.operator_name.de"))
@@ -66,8 +67,6 @@ def extract_tumonline_props(lf: pl.LazyFrame) -> pl.LazyFrame:
             .alias("props_operator_name_en"),
         ]
     )
-
-    return lf
 
 
 _FLOOR_PROP_PARENT_TYPES = pl.Series(["building", "joined_building", "site", "campus"])
@@ -89,7 +88,7 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         pl.col("children_flat").is_null() | (pl.col("children_flat").list.len() == 0),
     )
     for parent_id in no_children["id"].to_list():
-        logging.warning(f"Entry {parent_id} has no children")
+        _logger.warning(f"Entry {parent_id} has no children")
 
     parents = parents.filter(
         pl.col("children_flat").is_not_null() & (pl.col("children_flat").list.len() > 0),
@@ -242,10 +241,7 @@ def _get_floor_name_and_type(f_id: int, floor: str, mezzanine_shift: int) -> tup
             floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
             return "basement", f"-{floor[1:]}", floor_name
         case floor if floor.startswith("Z"):
-            if f_id == 1:
-                floor_name = _("1. Zwischengeschoss, über EG")
-            else:
-                floor_name = _(f"{floor[1:]}. ") + _("Zwischengeschoss")
+            floor_name = _("1. Zwischengeschoss, über EG") if f_id == 1 else _(f"{floor[1:]}. ") + _("Zwischengeschoss")
             return "mezzanine", floor, floor_name
     # default case, but mypy doesn't recognize `case _:`
     og_floor = int(floor[1:])
@@ -390,17 +386,16 @@ def _gen_computed_props(
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
-    if floors := props.get("floors"):
-        if len(floors) == 1:
-            floor = floors[0]
-            floor_name = floor["name"]
-            # floor_name may be a dict {de:..., en:...} from JSON deserialization
-            if isinstance(floor_name, dict):
-                floor_name = TranslatableStr(floor_name["de"], floor_name.get("en"))
-            if floor["trivial"]:
-                computed.append({_("Stockwerk"): floor_name})
-            else:
-                computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor_name + ")"})
+    if (floors := props.get("floors")) and len(floors) == 1:
+        floor = floors[0]
+        floor_name = floor["name"]
+        # floor_name may be a dict {de:..., en:...} from JSON deserialization
+        if isinstance(floor_name, dict):
+            floor_name = TranslatableStr(floor_name["de"], floor_name.get("en"))
+        if floor["trivial"]:
+            computed.append({_("Stockwerk"): floor_name})
+        else:
+            computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor_name + ")"})
     b_prefix_raw: Any = entry.get("b_prefix_list") or entry.get("b_prefix")
     if b_prefix_raw and b_prefix_raw != _id:
         if isinstance(b_prefix_raw, list):
@@ -453,10 +448,9 @@ def localize_links(df: pl.DataFrame) -> pl.DataFrame:
                 link["url"] = {"de": link["url"], "en": link["url"]}
         return orjson.dumps(links).decode()
 
-    df = df.with_columns(
+    return df.with_columns(
         pl.col("props_links_json").map_elements(_localize_links_json, return_dtype=pl.Utf8).alias("props_links_json"),
     )
-    return df
 
 
 _BUILDINGS_OVERVIEW_PARENT_TYPES = pl.Series(["area", "site", "campus"])
