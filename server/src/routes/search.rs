@@ -853,10 +853,9 @@ mod tests {
 
     #[test]
     fn query_parses_repeated_filter_keys() {
-        let args: SearchQueryArgs = serde_html_form::from_str(
-            "q=raum&type=room&type=poi&in=garching&in=5304&usage=wc",
-        )
-        .unwrap();
+        let args: SearchQueryArgs =
+            serde_html_form::from_str("q=raum&type=room&type=poi&in=garching&in=5304&usage=wc")
+                .unwrap();
         assert_eq!(args.q, "raum");
         assert_eq!(args.filter_type, vec![FacetFilter::Room, FacetFilter::Poi]);
         assert_eq!(args.filter_in, vec!["garching", "5304"]);
