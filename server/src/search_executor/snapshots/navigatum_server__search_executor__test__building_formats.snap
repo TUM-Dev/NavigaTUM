@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: MW1801"
 expression: results_prefixed.0
 info: parsed_id=prefixed
@@ -49,7 +49,7 @@ info: parsed_id=prefixed
       subtext: Gebäudeteil
     - id: "5502"
       type: building
-      name: "Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung"
+      name: Institut für Werkstoffe und Verarbeitung
       subtext: Gebäudeteil
     - id: "5504"
       type: building
