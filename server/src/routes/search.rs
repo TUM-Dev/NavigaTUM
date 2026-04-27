@@ -87,6 +87,7 @@ pub struct SearchQueryArgs {
     /// Can be repeated for multiple values. Unknown values cause a `400`.
     #[serde(rename = "type", default)]
     #[schema(example = json!(["site", "room"]))]
+    #[param(inline)]
     filter_type: Vec<FacetFilter>,
 
     /// Sort results by distance to a coordinate (`lat,lon`).
