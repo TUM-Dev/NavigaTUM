@@ -1,12 +1,12 @@
 use std::env;
-use std::io::Write as _;
 
 use crate::limited::vec::LimitedVec;
 use crate::setup::file_loader;
-use polars::prelude::*;
+use bytes::Bytes;
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
+use parquet::record::Field;
 use sqlx::postgres::PgQueryResult;
 use sqlx::{Postgres, Transaction};
-use tempfile::tempfile;
 use tracing::error;
 
 #[derive(Debug, Clone)]
@@ -43,76 +43,49 @@ pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("alias_data.parquet", &cdn_url).await?;
     let mut aliase = Vec::<Alias>::new();
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-    let df = ParquetReader::new(&mut file)
-        .with_columns(Some(vec![
-            "id".to_string(),
-            "type".to_string(),
-            "visible_id".to_string(),
-            "aliases".to_string(),
-        ]))
-        .finish()?;
-    let id_col = df.column("id")?.str()?;
-    let type_col = df.column("type")?.str()?;
-    let visible_id_col = df.column("visible_id")?.str()?;
-    for index in 0..id_col.len() {
-        let id = id_col
-            .get(index)
-            .expect("index < id_col.len() — guaranteed by loop bound");
-        let r#type = type_col.get(index).expect("type_col matches id_col length");
-        let visible_id = visible_id_col.get(index);
-        let visible_id = match visible_id {
-            Some(v) => v.to_string(),
-            None => id.to_string(),
-        };
+    let reader = SerializedFileReader::new(Bytes::from(body))?;
+    for row in reader.get_row_iter(None)? {
+        let row = row?;
+        let mut id = String::new();
+        let mut r#type = String::new();
+        let mut visible_id_opt: Option<String> = None;
+        let mut nested_aliases: Vec<String> = Vec::new();
+        for (col_name, field) in row.get_column_iter() {
+            match (col_name.as_str(), field) {
+                ("id", Field::Str(v)) => id.clone_from(v),
+                ("type", Field::Str(v)) => r#type.clone_from(v),
+                ("visible_id", Field::Str(v)) => visible_id_opt = Some(v.clone()),
+                ("aliases", Field::ListInternal(list)) => {
+                    for el in list.elements() {
+                        if let Field::Str(s) = el {
+                            nested_aliases.push(s.clone());
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+        let visible_id = visible_id_opt.unwrap_or_else(|| id.clone());
         aliase.push(Alias {
-            alias: id.to_string(),
-            key: id.to_string(),
-            r#type: r#type.to_string(),
+            alias: id.clone(),
+            key: id.clone(),
+            r#type: r#type.clone(),
             visible_id: visible_id.clone(),
         });
         aliase.push(Alias {
             alias: visible_id.clone(),
-            key: id.to_string(),
-            r#type: r#type.to_string(),
+            key: id.clone(),
+            r#type: r#type.clone(),
             visible_id: visible_id.clone(),
         });
-    }
-
-    // Null and empty-list aliases are filtered out below, so we don't need to keep them.
-    let df_expanded = df.explode(
-        ["aliases"],
-        ExplodeOptions {
-            empty_as_null: false,
-            keep_nulls: false,
-        },
-    )?;
-    let mask = df_expanded.column("aliases")?.is_not_null();
-    let df_expanded = df_expanded.filter(&mask)?;
-    let id_col = df_expanded.column("id")?.str()?;
-    let type_col = df_expanded.column("type")?.str()?;
-    let visible_id_col = df_expanded.column("visible_id")?.str()?;
-    let aliases_col = df_expanded.column("aliases")?.str()?;
-    for index in 0..id_col.len() {
-        let alias = aliases_col
-            .get(index)
-            .expect("aliases_col matches id_col length after explode+filter");
-        let id = id_col
-            .get(index)
-            .expect("index < id_col.len() — guaranteed by loop bound");
-        let r#type = type_col.get(index).expect("type_col matches id_col length");
-        let visible_id = visible_id_col.get(index);
-        let visible_id = match visible_id {
-            Some(v) => v.to_string(),
-            None => id.to_string(),
-        };
-        aliase.push(Alias {
-            alias: alias.to_string(),
-            key: id.to_string(),
-            r#type: r#type.to_string(),
-            visible_id,
-        });
+        for alias in nested_aliases {
+            aliase.push(Alias {
+                alias,
+                key: id.clone(),
+                r#type: r#type.clone(),
+                visible_id: visible_id.clone(),
+            });
+        }
     }
     Ok(LimitedVec(aliase))
 }
