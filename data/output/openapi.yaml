@@ -600,15 +600,14 @@ paths:
         - name: type
           in: query
           description: |-
-            Filter by facet (one of `site`, `building`, `room`, `poi`).
+            Filter by facet.
 
-            Can be repeated for multiple values. Values outside this set are
-            silently dropped.
+            Can be repeated for multiple values. Unknown values cause a `400`.
           required: false
           schema:
             type: array
             items:
-              type: string
+              $ref: '#/components/schemas/FacetFilter'
         - name: near
           in: query
           description: Sort results by distance to a coordinate (`lat,lon`).
@@ -1247,6 +1246,19 @@ components:
             - "null"
           examples:
             - Genauere Angaben
+    FacetFilter:
+      type: string
+      description: |-
+        Allowlisted values for the `?type=` query parameter.
+
+        Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+        silently dropping them, and so the OpenAPI schema advertises the exact set
+        of accepted values.
+      enum:
+        - site
+        - building
+        - room
+        - poi
     FeaturedOverviewItemResponse:
       type: object
       required:

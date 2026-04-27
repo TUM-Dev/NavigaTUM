@@ -439,6 +439,15 @@ export type components = {
       readonly footer?: string | null;
       readonly header?: string | null;
     };
+    /**
+     * @description Allowlisted values for the `?type=` query parameter.
+     *
+     *     Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+     *     silently dropping them, and so the OpenAPI schema advertises the exact set
+     *     of accepted values.
+     * @enum {string}
+     */
+    readonly FacetFilter: "site" | "building" | "room" | "poi";
     readonly FeaturedOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -2124,12 +2133,11 @@ export type operations = {
          */
         usage?: readonly string[];
         /**
-         * @description Filter by facet (one of `site`, `building`, `room`, `poi`).
+         * @description Filter by facet.
          *
-         * Can be repeated for multiple values. Values outside this set are
-         * silently dropped.
+         * Can be repeated for multiple values. Unknown values cause a `400`.
          */
-        type?: readonly string[];
+        type?: readonly components["schemas"]["FacetFilter"][];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
         near?: string;
         /**

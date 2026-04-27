@@ -3,7 +3,7 @@ use std::fmt::{self, Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
-use crate::external::meilisearch::{BUILDING_FACET, POI_FACET, ROOM_FACET, SITE_FACET};
+use crate::external::meilisearch::FacetFilter;
 use crate::search_executor::{self, ResultFacet, ResultsSection};
 use actix_web::dev::Payload;
 use actix_web::error::ErrorBadRequest;
@@ -25,7 +25,7 @@ pub struct SearchCacheKey {
     pub formatting_config: FormattingConfig,
     pub filter_in: Vec<String>,
     pub filter_usage: Vec<String>,
-    pub filter_type: Vec<String>,
+    pub filter_type: Vec<FacetFilter>,
     pub near: Option<String>,
 }
 
@@ -82,13 +82,12 @@ pub struct SearchQueryArgs {
     #[schema(example = json!(["wc"]))]
     usage: Vec<String>,
 
-    /// Filter by facet (one of `site`, `building`, `room`, `poi`).
+    /// Filter by facet.
     ///
-    /// Can be repeated for multiple values. Values outside this set are
-    /// silently dropped.
+    /// Can be repeated for multiple values. Unknown values cause a `400`.
     #[serde(rename = "type", default)]
     #[schema(example = json!(["site", "room"]))]
-    filter_type: Vec<String>,
+    filter_type: Vec<FacetFilter>,
 
     /// Sort results by distance to a coordinate (`lat,lon`).
     #[schema(example = "48.123,11.456")]
@@ -407,7 +406,7 @@ fn slugify(input: &str) -> String {
 fn build_meilisearch_filter(
     filter_in: &[String],
     usage: &[String],
-    filter_type: &[String],
+    filter_type: &[FacetFilter],
 ) -> String {
     let mut filters = vec![];
     if !filter_in.is_empty() {
@@ -418,22 +417,10 @@ fn build_meilisearch_filter(
         ));
     }
     if !filter_type.is_empty() {
-        // `?type=` semantically filters by *facet* (site, building, room, poi).
-        // Values outside this allowlist are dropped silently.
-        let facets: Vec<String> = filter_type
-            .iter()
-            .map(|s| slugify(s))
-            .filter(|s| {
-                matches!(
-                    s.as_str(),
-                    SITE_FACET | BUILDING_FACET | ROOM_FACET | POI_FACET
-                )
-            })
-            .collect();
-        if !facets.is_empty() {
-            let facets_debug: Vec<&str> = facets.iter().map(String::as_str).collect();
-            filters.push(format!("(facet IN {facets_debug:?})"));
-        }
+        // Allowlist enforced by `serde` at deserialise time — unknown values
+        // already turned into a 400 before we got here.
+        let facets: Vec<&str> = filter_type.iter().map(|f| f.as_str()).collect();
+        filters.push(format!("(facet IN {facets:?})"));
     }
     if !usage.is_empty() {
         let usages: Vec<String> = usage.iter().map(|s| slugify(s)).collect();
@@ -797,7 +784,7 @@ mod tests {
 
     #[test]
     fn filter_type_only() {
-        let filter = build_meilisearch_filter(&[], &[], &["room".to_string()]);
+        let filter = build_meilisearch_filter(&[], &[], &[FacetFilter::Room]);
         assert!(filter.contains("facet"));
         assert!(filter.contains("room"));
     }
@@ -807,7 +794,7 @@ mod tests {
         let filter = build_meilisearch_filter(
             &["garching".to_string()],
             &["wc".to_string()],
-            &["room".to_string()],
+            &[FacetFilter::Room],
         );
         assert!(filter.contains("AND"));
         assert!(filter.contains("garching"));
@@ -823,27 +810,32 @@ mod tests {
     }
 
     #[test]
-    fn filter_type_drops_unknown_facets() {
-        // `joined_building` is no longer a valid facet (it's a `type`); it
-        // must be dropped so we don't leak invalid filters into Meilisearch.
-        let filter = build_meilisearch_filter(&[], &[], &["joined_building".to_string()]);
-        assert_eq!(filter, "");
-    }
-
-    #[test]
-    fn filter_type_keeps_only_known_facets() {
+    fn filter_type_serializes_all_known_facets() {
         let filter = build_meilisearch_filter(
             &[],
             &[],
             &[
-                "site".to_string(),
-                "campus".to_string(),
-                "poi".to_string(),
-                "room".to_string(),
-                "virtual_room".to_string(),
+                FacetFilter::Site,
+                FacetFilter::Building,
+                FacetFilter::Room,
+                FacetFilter::Poi,
             ],
         );
-        insta::assert_debug_snapshot!(filter, @"(facet IN [\"site\", \"poi\", \"room\"])");
+        insta::assert_snapshot!(filter, @r#"(facet IN ["site", "building", "room", "poi"])"#);
+    }
+
+    #[test]
+    fn query_rejects_unknown_facet_type() {
+        // Legacy raw types like `joined_building` and `virtual_room` are no
+        // longer valid `?type=` values — serde must reject them so callers get
+        // a loud 400 instead of a silently empty filter.
+        for bad in ["joined_building", "virtual_room", "campus", "area", ""] {
+            let q = format!("q=foo&type={bad}");
+            assert!(
+                serde_html_form::from_str::<SearchQueryArgs>(&q).is_err(),
+                "expected `type={bad}` to be rejected"
+            );
+        }
     }
 
     #[test]
@@ -861,10 +853,12 @@ mod tests {
 
     #[test]
     fn query_parses_repeated_filter_keys() {
-        let args: SearchQueryArgs =
-            serde_html_form::from_str("q=raum&type=room&in=garching&in=5304&usage=wc").unwrap();
+        let args: SearchQueryArgs = serde_html_form::from_str(
+            "q=raum&type=room&type=poi&in=garching&in=5304&usage=wc",
+        )
+        .unwrap();
         assert_eq!(args.q, "raum");
-        assert_eq!(args.filter_type, vec!["room"]);
+        assert_eq!(args.filter_type, vec![FacetFilter::Room, FacetFilter::Poi]);
         assert_eq!(args.filter_in, vec!["garching", "5304"]);
         assert_eq!(args.usage, vec!["wc"]);
     }

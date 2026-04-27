@@ -7,7 +7,7 @@ use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{
     FederatedMultiSearchResponse, FederationOptions, MergeFacets, SearchQuery, Selectors,
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::routes::search::{FormattingConfig, Limits};
 
@@ -21,6 +21,34 @@ pub(crate) const POI_FACET: &str = "poi";
 /// used by the merger when distributing the over-fetched federation budget
 /// across facet caps.
 pub(crate) const FACETS: &[&str] = &[SITE_FACET, BUILDING_FACET, ROOM_FACET, POI_FACET];
+
+/// Allowlisted values for the `?type=` query parameter.
+///
+/// Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+/// silently dropping them, and so the `OpenAPI` schema advertises the exact set
+/// of accepted values.
+#[derive(
+    Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize, utoipa::ToSchema,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum FacetFilter {
+    Site,
+    Building,
+    Room,
+    Poi,
+}
+
+impl FacetFilter {
+    #[must_use]
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Site => SITE_FACET,
+            Self::Building => BUILDING_FACET,
+            Self::Room => ROOM_FACET,
+            Self::Poi => POI_FACET,
+        }
+    }
+}
 
 /// Federation has no per-facet quota — it merges by `_rankingScore` only. We
 /// over-fetch by this factor so the merger downstream can still fill all
