@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: MW1801"
 expression: results.0
 info: highlighting=<em>
@@ -49,7 +49,7 @@ info: highlighting=<em>
       subtext: Gebäudeteil
     - id: "5502"
       type: building
-      name: "Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung"
+      name: Institut für Werkstoffe und Verarbeitung
       subtext: Gebäudeteil
     - id: "5504"
       type: building
