@@ -4,6 +4,7 @@ type PostFeedbackRequest = components["schemas"]["PostFeedbackRequest"];
 type FeedbackState = {
   open: boolean;
   data: Omit<PostFeedbackRequest, "privacy_checked" | "token">;
+  initialBody?: string;
 };
 export const useFeedback = () =>
   useState<FeedbackState>("feedback", () => ({

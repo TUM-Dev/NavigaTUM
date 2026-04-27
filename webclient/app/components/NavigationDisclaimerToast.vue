@@ -20,13 +20,15 @@ const { t } = useI18n({ useScope: "local" });
       :title="t('open-feedback-form')"
       @click="
         () => {
+          const body = !!comingFrom ? t('got_here_and_found_issues', [comingFrom]) : t('found_issues');
           feedback.open = true;
           feedback.data = {
             category: 'navigation',
             subject: `navigation from \`${selectedFrom}\` to \`${selectedTo}\``,
-            body: !!comingFrom ? t('got_here_and_found_issues', [comingFrom]) : t('found_issues'),
+            body,
             deletion_requested: false,
           };
+          feedback.initialBody = body;
         }
       "
     >

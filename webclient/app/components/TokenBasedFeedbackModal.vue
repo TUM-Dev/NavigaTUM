@@ -92,6 +92,10 @@ function sendForm() {
     error.value.message = t("error.form.too_short_body");
     return;
   }
+  if (feedback.value.initialBody && feedback.value.data.body.trim() === feedback.value.initialBody.trim()) {
+    error.value.message = t("error.form.body_unchanged");
+    return;
+  }
 
   loading.value = true;
   // Token may only be used after a short delay.
@@ -224,6 +228,7 @@ de:
     form:
       too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
       too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
+      body_unchanged: "Fehler: Bitte beschreibe dein Feedback in der Nachricht"
   status:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
@@ -257,6 +262,7 @@ en:
     form:
       too_short_body: "Error: Message missing or too short"
       too_short_subject: "Error: Subject missing or too short"
+      body_unchanged: "Error: Please describe your feedback in the message"
   status:
     server_error: Server Error
     send_unexpected_status: Unexpected status code
