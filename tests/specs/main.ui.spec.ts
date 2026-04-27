@@ -88,7 +88,13 @@ test.describe("Sites Overview", () => {
     const garchingLink = page.locator('a[href*="/view/garching"]').first();
     await garchingLink.click();
 
-    await expect(page).toHaveURL(/.*\/(view|campus)\/garching/);
+    // The /view/* link must resolve to the canonical /campus/ path and the
+    // detail page must actually render. Asserting on URL alone — or on text
+    // that also exists on the home page — would not catch #2888, where the
+    // URL changed but the home page never unmounted.
+    await expect(page).toHaveURL(/\/campus\/garching/);
+    await expect(page.locator("main")).toContainText(/Anzahl Räume/);
+    await expect(page.locator("main")).not.toContainText("Stammgelände");
   });
 
   test("should navigate to building details when clicking a building", async ({ page }) => {
@@ -97,7 +103,27 @@ test.describe("Sites Overview", () => {
     const miLink = page.locator('a[href*="/view/mi"]').first();
     await miLink.click();
 
-    await expect(page).toHaveURL(/\/(view|building)\/mi/);
+    await expect(page).toHaveURL(/\/building\/mi/);
+    await expect(page.locator("main")).toContainText(/Anzahl Räume/);
+    await expect(page.locator("main")).not.toContainText("Stammgelände");
+  });
+
+  test("should fully mount details after /view redirect (regression #2888)", async ({ page }) => {
+    // Regression: clicking a `/view/{id}` link from the prerendered home page
+    // updated `window.location` but left the home page mounted instead of the
+    // location detail page. Asserting on URL alone — as the previous tests did
+    // — was not enough to catch this. The whole click-then-render flow has to
+    // land on a detail page that no longer contains the home-page sites grid.
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const physikLink = page.locator('a[href*="/view/physik"]').first();
+    await physikLink.click();
+
+    await expect(page).toHaveURL(/\/site\/physik/);
+    await expect(page.locator("main")).toContainText("Physik");
+    // The home page's "Stammgelände" card must no longer be visible — its
+    // presence is the smoking gun that the home page never unmounted.
+    await expect(page.locator("main")).not.toContainText("Stammgelände");
   });
 
   test("should expand/collapse building lists", async ({ page }) => {
