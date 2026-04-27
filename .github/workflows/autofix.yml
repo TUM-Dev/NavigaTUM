@@ -212,6 +212,7 @@ jobs:
       - name: Update | Refresh types
         run: pnpm run type-refresh
         working-directory: webclient
+        continue-on-error: true
 
       - name: Restore | Discard lockfile side-effects from pnpm
         run: git checkout -- webclient/pnpm-lock.yaml
