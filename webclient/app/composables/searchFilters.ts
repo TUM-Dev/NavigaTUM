@@ -92,8 +92,11 @@ export function useSearchFilters(): SearchFilters {
   function replaceQuery(updates: Record<string, string | string[] | undefined>) {
     const current: Record<string, string | string[] | undefined> = {
       q: route.query.q as string | undefined,
+      limit_sites: route.query.limit_sites as string | undefined,
       limit_buildings: route.query.limit_buildings as string | undefined,
       limit_rooms: route.query.limit_rooms as string | undefined,
+      limit_pois: route.query.limit_pois as string | undefined,
+      limit_all: route.query.limit_all as string | undefined,
       ...shared.buildQueryObject(),
       ...updates,
     };
