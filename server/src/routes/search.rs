@@ -843,13 +843,7 @@ mod tests {
                 "virtual_room".to_string(),
             ],
         );
-        assert!(filter.contains("facet"));
-        assert!(filter.contains("site"));
-        assert!(filter.contains("poi"));
-        assert!(filter.contains("room"));
-        // dropped: not in the facet allowlist
-        assert!(!filter.contains("campus"));
-        assert!(!filter.contains("virtual_room"));
+        insta::assert_debug_snapshot!(filter, @"");
     }
 
     #[test]
