@@ -13,6 +13,7 @@ const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 const privacyChecked = ref(false);
 const feedback = useFeedback();
+const initialBody = feedback.value.data.body;
 
 function closeForm() {
   feedback.value.open = false;
@@ -92,7 +93,7 @@ function sendForm() {
     error.value.message = t("error.form.too_short_body");
     return;
   }
-  if (feedback.value.initialBody && feedback.value.data.body.trim() === feedback.value.initialBody.trim()) {
+  if (initialBody && feedback.value.data.body.trim() === initialBody.trim()) {
     error.value.message = t("error.form.body_unchanged");
     return;
   }
