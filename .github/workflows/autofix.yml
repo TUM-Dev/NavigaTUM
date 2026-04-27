@@ -113,8 +113,8 @@ jobs:
           BASE_URL: http://localhost:3000
           SKIP_WEBSERVER: true
 
-      - name: Restore | Discard lockfile side-effects from pnpm
-        run: git checkout -- tests/pnpm-lock.yaml
+      - name: Restore | Discard test-only side-effects (.env, lockfile)
+        run: git checkout -- .env tests/pnpm-lock.yaml
 
       - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
         with:
