@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import typing
@@ -8,9 +7,12 @@ import polars as pl
 import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
-
-from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
+
+from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
+from external.scraping_utils import CACHE_PATH
+
+_logger = logging.getLogger(__name__)
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
@@ -46,101 +48,56 @@ OAUTH_HEADERS = _generate_oauth_headers()
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
-    logging.info("Downloading the buildings of tumonline")
+    _logger.info("Downloading the buildings of tumonline")
 
-    def _sanitise_building_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
-        val["tumonline_id"] = val.pop("nr")
-        val["address"] = {
-            "place": val.pop("address_place"),
-            "street": val.pop("address_street"),
-            "zip_code": val.pop("address_zip_code"),
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
+    rows = [
+        {
+            "building_key": f"{b['building_id']:04d}",
+            "address_place": b["address_place"],
+            "address_street": b["address_street"],
+            "address_zip_code": b["address_zip_code"],
+            "area_id": b["area_id"],
+            "name": b["name"],
+            "tumonline_id": b["nr"],
+            "filter_id": b.get("filter_id"),
         }
-        return val
-
-    buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
-    buildings = {f"{r.pop('building_id'):04d}": _sanitise_building_value(r) for r in buildings}
-
-    # Convert to CSV format
-    rows = []
-    for building_key, building_data in buildings.items():
-        address = building_data.get("address", {})
-        row = {
-            "building_key": str(building_key),
-            "address_place": str(address.get("place", "")),
-            "address_street": str(address.get("street", "")),
-            "address_zip_code": int(address.get("zip_code", 0)),
-            "area_id": int(building_data.get("area_id", 0)),
-            "name": str(building_data.get("name", "")),
-            "tumonline_id": int(building_data.get("tumonline_id", 0)),
-            "filter_id": building_data.get("filter_id") if building_data.get("filter_id") is not None else None,
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by building_key for consistency
-    df = df.sort("building_key")
+        for b in payload
+    ]
+    df = pl.DataFrame(rows, schema=BuildingsSchema.to_polars_schema()).sort("building_key")
     df.write_csv(CACHE_PATH / "buildings_tumonline.csv")
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_rooms() -> None:
     """Retrieve the rooms as in TUMonline"""
-    logging.info("Downloading the rooms of tumonline")
+    _logger.info("Downloading the rooms of tumonline")
 
-    def _sanitise_room_value(val: dict[str, typing.Any]) -> dict[str, typing.Any]:
-        val["tumonline_id"] = val.pop("nr")  # tumonline id for this room, not really relevant in our context
-        val.pop("room_code")
-        val["address"] = {
-            "place": val.pop("address_place"),
-            "street": val.pop("address_street"),
-            "zip_code": val.pop("address_zip_code"),
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
+    rows = [
+        {
+            "room_key": r["room_code"],
+            "address_place": r["address_place"],
+            "address_street": r["address_street"],
+            "address_zip_code": r["address_zip_code"],
+            "seats_sitting": r.get("seats"),
+            "seats_wheelchair": r.get("wheelchair_seats"),
+            "seats_standing": r.get("standing_seats"),
+            "floor_type": r["floor_type"],
+            "floor_level": r["address_floor"],
+            "tumonline_id": r["nr"],
+            "area_id": r["area_id"],
+            "building_id": r["building_id"],
+            "main_operator_id": r["main_operator_id"],
+            "usage_id": r["usage_id"],
+            "alt_name": _clean_spaces(r["alt_name"]).replace(" ( ", " (") if r.get("alt_name") else None,
+            "arch_name": r.get("arch_name") or None,
+            "calendar_resource_nr": r.get("calendar_resource_nr"),
+            "patched": False,
         }
-        if "alt_name" in val:
-            val["alt_name"] = _clean_spaces(val["alt_name"]).replace(" ( ", " (")
-        val["floor_level"] = val.pop("address_floor")
-        val["seats"] = {
-            "sitting": val.pop("seats", None),
-            "wheelchair": val.pop("wheelchair_seats", None),
-            "standing": val.pop("standing_seats", None),
-        }
-        return val
-
-    rooms = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
-    rooms = {r["room_code"]: _sanitise_room_value(r) for r in rooms}
-
-    # Convert to CSV format
-    rows = []
-    for room_key, room_data in rooms.items():
-        address = room_data.get("address", {})
-        seats = room_data.get("seats", {})
-
-        row = {
-            "room_key": str(room_key),
-            "address_place": str(address.get("place", "")),
-            "address_street": str(address.get("street", "")),
-            "address_zip_code": int(address.get("zip_code", 0)),
-            "seats_sitting": seats.get("sitting") if seats.get("sitting") is not None else None,
-            "seats_wheelchair": seats.get("wheelchair") if seats.get("wheelchair") is not None else None,
-            "seats_standing": seats.get("standing") if seats.get("standing") is not None else None,
-            "floor_type": str(room_data.get("floor_type", "")),
-            "floor_level": str(room_data.get("floor_level", "")),
-            "tumonline_id": int(room_data.get("tumonline_id", 0)),
-            "area_id": int(room_data.get("area_id", 0)),
-            "building_id": int(room_data.get("building_id", 0)),
-            "main_operator_id": int(room_data.get("main_operator_id", 0)),
-            "usage_id": int(room_data.get("usage_id", 0)),
-            "alt_name": str(room_data.get("alt_name", "")) if room_data.get("alt_name") else None,
-            "arch_name": str(room_data.get("arch_name", "")) if room_data.get("arch_name") else None,
-            "calendar_resource_nr": room_data.get("calendar_resource_nr")
-            if room_data.get("calendar_resource_nr") is not None
-            else None,
-            "patched": bool(room_data.get("patched", False)),
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by room_key for consistency
-    df = df.sort("room_key")
+        for r in payload
+    ]
+    df = pl.DataFrame(rows, schema=RoomsSchema.to_polars_schema()).sort("room_key")
     df.write_csv(CACHE_PATH / "rooms_tumonline.csv")
 
 
@@ -152,25 +109,12 @@ def _clean_spaces(_string: str) -> str:
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_usages() -> None:
     """Retrieve all usage types available in TUMonline."""
-    logging.info("Downloading the usage types of tumonline")
+    _logger.info("Downloading the usage types of tumonline")
 
-    usages = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
-    usages = {u.pop("id"): u for u in usages}
+    payload = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
 
-    # Convert to CSV format
-    rows = []
-    for usage_id, usage_data in usages.items():
-        row = {
-            "usage_id": int(usage_id),
-            "din277_id": str(usage_data.get("din277_id", "")),
-            "din277_name": str(usage_data.get("din277_name", "")),
-            "name": str(usage_data.get("name", "")),
-        }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by usage_id for consistency
-    df = df.sort("usage_id")
+    rows = [{"usage_id": u["id"], **{c: u[c] for c in UsagesSchema.column_names() if c != "usage_id"}} for u in payload]
+    df = pl.DataFrame(rows, schema=UsagesSchema.to_polars_schema()).sort("usage_id")
     df.write_csv(CACHE_PATH / "usages_tumonline.csv")
 
 
@@ -181,7 +125,7 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
 
     :params lang: 'en' or 'de'
     """
-    logging.info("Scraping the orgs of tumonline")
+    _logger.info("Scraping the orgs of tumonline")
 
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
@@ -191,30 +135,17 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
     req = requests.get(url, headers={"Accept": "application/json"}, timeout=30)
     assert req.status_code == 200, f"Failed to download organisations.\n{req=}\n{req.text=}"
 
-    orgs = {}
-    for resource in req.json()["resource"]:
-        search_organisation = resource["content"]["organisationSearchDto"]
-        if designation := search_organisation.get("designation"):
-            orgs[search_organisation["id"]] = {
-                "code": designation,
-                "name": search_organisation["name"],
-                "path": search_organisation["orgPath"],
-            }
-
-    # Convert to CSV format
-    rows = []
-    for org_id, org_data in orgs.items():
-        row = {
-            "org_id": int(org_id),
-            "code": str(org_data.get("code", "")),
-            "name": str(org_data.get("name", "")),
-            "path": str(org_data.get("path", "")),
+    rows = [
+        {
+            "org_id": dto["id"],
+            "code": dto["designation"],
+            "name": dto["name"],
+            "path": dto["orgPath"],
         }
-        rows.append(row)
-
-    df = pl.DataFrame(rows, infer_schema_length=None)
-    # Sort by org_id for consistency
-    df = df.sort("org_id")
+        for dto in (resource["content"]["organisationSearchDto"] for resource in req.json()["resource"])
+        if dto.get("designation")
+    ]
+    df = pl.DataFrame(rows, schema=OrgsSchema.to_polars_schema()).sort("org_id")
     df.write_csv(CACHE_PATH / f"orgs-{lang}_tumonline.csv")
 
 

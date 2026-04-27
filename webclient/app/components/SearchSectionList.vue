@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useSearchFilters } from "~/composables/searchFilters";
@@ -14,6 +15,8 @@ const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
 const filters = useSearchFilters();
 
+const hasNoResults = computed(() => props.data.sections.every((s) => s.estimatedTotalHits === 0));
+
 function viewMoreQuery(facet: string) {
   return {
     q: route.query.q,
@@ -25,25 +28,41 @@ function viewMoreQuery(facet: string) {
 </script>
 
 <template>
-  <div v-for="s in data.sections" :key="s.facet">
-    <section class="flex flex-col gap-2">
-      <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
-      <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
-        <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
-      </ul>
-      <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
-        {{ t("approx_results", s.estimatedTotalHits) }}
-        <NuxtLinkLocale
-          :to="{ path: '/search', query: viewMoreQuery(s.facet) }"
-          class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
-          >{{ t("view_more") }}
-        </NuxtLinkLocale>
-      </p>
-      <p v-else class="text-zinc-500 text-sm">
-        {{ t("results", s.estimatedTotalHits) }}
-      </p>
-    </section>
+  <div
+    v-if="hasNoResults"
+    role="status"
+    class="bg-zinc-50 border-zinc-200 flex flex-col items-center gap-2 rounded-sm border px-4 py-10 text-center"
+  >
+    <MdiIcon :path="mdiMagnifyClose" :size="40" class="text-zinc-400" />
+    <p class="text-zinc-800 text-md font-semibold">{{ t("no_results.title") }}</p>
+    <p class="text-zinc-500 text-sm">
+      {{ filters.hasActiveFilters.value ? t("no_results.hint_filtered") : t("no_results.hint") }}
+    </p>
+    <Btn v-if="filters.hasActiveFilters.value" variant="linkButton" size="sm" @click="filters.clearAll()">
+      {{ t("no_results.clear_filters") }}
+    </Btn>
   </div>
+  <template v-else>
+    <div v-for="s in data.sections" :key="s.facet">
+      <section v-if="s.estimatedTotalHits > 0" class="flex flex-col gap-2">
+        <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
+        <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
+          <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
+        </ul>
+        <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
+          {{ t("approx_results", s.estimatedTotalHits) }}
+          <NuxtLinkLocale
+            :to="{ path: '/search', query: viewMoreQuery(s.facet) }"
+            class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
+            >{{ t("view_more") }}
+          </NuxtLinkLocale>
+        </p>
+        <p v-else class="text-zinc-500 text-sm">
+          {{ t("results", s.estimatedTotalHits) }}
+        </p>
+      </section>
+    </div>
+  </template>
 </template>
 
 <i18n lang="yaml">
@@ -54,6 +73,11 @@ de:
   view_more: mehr anzeigen
   approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
+  no_results:
+    title: Keine Ergebnisse gefunden
+    hint: Versuche es mit anderen Suchbegriffen.
+    hint_filtered: Keine Treffer für diese Suche mit den aktiven Filtern. Versuche, Filter zu entfernen oder andere Suchbegriffe zu verwenden.
+    clear_filters: Alle Filter entfernen
 en:
   sections:
     sites_buildings: Buildings / Sites
@@ -61,4 +85,9 @@ en:
   view_more: view more
   approx_results: approx. {count} results, please narrow the search further
   results: 1 result | {count} results
+  no_results:
+    title: No results found
+    hint: Try different keywords.
+    hint_filtered: No matches for this query with the active filters. Try removing filters or using different keywords.
+    clear_filters: Clear all filters
 </i18n>

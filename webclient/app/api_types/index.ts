@@ -101,7 +101,7 @@ export type paths = {
      * Get a entry-preview
      * @description This returns a 1200x630px preview for the location (room/building/..).
      *
-     * This is usefully for implementing custom OpenGraph images for detail previews.
+     * This is usefully for implementing custom `OpenGraph` images for detail previews.
      */
     get: operations["maps_handler"];
   };
@@ -410,7 +410,7 @@ export type components = {
       readonly entry_type: components["schemas"]["EventTypeResponse"];
       /**
        * Format: int32
-       * @description ID of the calendar entry used in TUMonline internally
+       * @description ID of the calendar entry used in `TUMonline` internally
        */
       readonly id: number;
       /**
@@ -478,7 +478,7 @@ export type components = {
       readonly name: string;
       /** @description Short name of the floor */
       readonly short_name: string;
-      /** @description How TUMonline names the floor */
+      /** @description How `TUMonline` names the floor */
       readonly tumonline: string;
       /** @description Type of floor */
       readonly type: components["schemas"]["FloorType"];
@@ -496,7 +496,7 @@ export type components = {
       readonly license: components["schemas"]["PossibleURLRefResponse"];
       /**
        * @description The name of the image file.
-       * consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+       * consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
        */
       readonly name: string;
     };
@@ -535,24 +535,8 @@ export type components = {
       [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
-        readonly properties?: null | readonly components["schemas"]["PropertyEdit"][];
+        readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
       };
-    };
-    readonly PropertyEdit: {
-      readonly type: "Name";
-      readonly name?: null | string;
-      readonly short_name?: null | string;
-    } | {
-      readonly type: "Usage";
-      readonly name_de: string;
-      readonly name_en: string;
-      readonly din_277?: null | string;
-      readonly din_277_desc?: null | string;
-    } | {
-      readonly type: "Link";
-      readonly text_de: string;
-      readonly text_en: string;
-      readonly url: string;
     };
     readonly LocationDetailsResponse: {
       /**
@@ -986,7 +970,7 @@ export type components = {
       /**
        * @description The full name of the operator (localized). Null for organisations that
        *  are no longer active (e.g. id=38698), but where the operator has not been
-       * updated in TUMonline.
+       * updated in `TUMonline`.
        */
       readonly name: string;
       /** @description Link to the operator */
@@ -1029,7 +1013,7 @@ export type components = {
        * @description Floor of the Map.
        *
        * Should be used for display to the user in selectors.
-       * Matches the floor part of the TUMonline roomcode.
+       * Matches the floor part of the `TUMonline` roomcode.
        * @example EG
        */
       readonly floor: string;
@@ -1083,7 +1067,7 @@ export type components = {
       readonly level: number;
       /** Format: double */
       readonly lon: number;
-      /** @description name of the transit stop / PoI / address */
+      /** @description name of the transit stop / `PoI` / address */
       readonly name: string;
       /**
        * Format: date-time
@@ -1157,6 +1141,31 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly PropertyEdit: OneOf<
+      [
+        {
+          readonly name?: string | null;
+          readonly short_name?: string | null;
+          /** @enum {string} */
+          readonly type: "name";
+        },
+        {
+          readonly din_277?: string | null;
+          readonly din_277_desc?: string | null;
+          readonly name_de: string;
+          readonly name_en: string;
+          /** @enum {string} */
+          readonly type: "usage";
+        },
+        {
+          readonly text_de: string;
+          readonly text_en: string;
+          /** @enum {string} */
+          readonly type: "link";
+          readonly url: string;
+        },
+      ]
+    >;
     /** @description Data for the info-card table */
     readonly PropsResponse: {
       /** @description Link to the calendar of the room */
@@ -1936,7 +1945,7 @@ export type operations = {
    * Get a entry-preview
    * @description This returns a 1200x630px preview for the location (room/building/..).
    *
-   * This is usefully for implementing custom OpenGraph images for detail previews.
+   * This is usefully for implementing custom `OpenGraph` images for detail previews.
    */
   maps_handler: {
     parameters: {
@@ -2046,7 +2055,7 @@ export type operations = {
         page_cursor?: string | null;
         /**
          * @description Time for the route (ISO 8601 format)
-         * Used with arrive_by to determine if this is departure or arrival time
+         * Used with `arrive_by` to determine if this is departure or arrival time
          */
         time?: string | null;
         /** @description Whether the time parameter represents arrival time (true) or departure time (false/not set) */

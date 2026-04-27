@@ -2,9 +2,9 @@ use crate::db::location::LocationKeyAlias;
 use crate::limited::vec::LimitedVec;
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{HttpResponse, get, web};
-use base64::Engine;
+use base64::Engine as _;
 use base64::prelude::BASE64_STANDARD;
-use fast_qr::convert::{Builder, Shape, image::ImageBuilder};
+use fast_qr::convert::{Builder as _, Shape, image::ImageBuilder};
 use fast_qr::qr::QRBuilder;
 use serde::Deserialize;
 use tracing::{debug, error, warn};
@@ -97,6 +97,7 @@ pub async fn qr_code_handler(
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use super::*;
 

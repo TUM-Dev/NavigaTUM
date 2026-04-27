@@ -11,7 +11,7 @@ pub struct Transportation {
 }
 impl Transportation {
     #[tracing::instrument(skip(pool))]
-    pub async fn fetch_all_near(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Transportation>> {
+    pub async fn fetch_all_near(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Self>> {
         // TODO: use the spatial index instead of just computing the distance for every entry
         sqlx::query_as!(
             Transportation,

@@ -1,5 +1,8 @@
-use motis_openapi_progenitor::{Client, types::PedestrianProfile, types::PlanResponse};
+use std::env;
 use std::fmt::Debug;
+
+use chrono::{DateTime, Utc};
+use motis_openapi_progenitor::{Client, types::PedestrianProfile, types::PlanResponse};
 use tracing::debug;
 
 #[derive(Clone, Debug)]
@@ -8,8 +11,8 @@ pub struct MotisWrapper(Client);
 impl Default for MotisWrapper {
     fn default() -> Self {
         let base_url =
-            std::env::var("MOTIS_URL").unwrap_or_else(|_| "https://api.transitous.org".to_string());
-        MotisWrapper(Client::new(&base_url))
+            env::var("MOTIS_URL").unwrap_or_else(|_| "https://api.transitous.org".to_string());
+        Self(Client::new(&base_url))
     }
 }
 
@@ -20,7 +23,7 @@ impl MotisWrapper {
         from: &str,
         to: &str,
         page_cursor: Option<&str>,
-        time: Option<&chrono::DateTime<chrono::Utc>>,
+        time: Option<&DateTime<Utc>>,
         arrive_by: bool,
         should_use_english: bool,
         pedestrian_profile: PedestrianProfile,

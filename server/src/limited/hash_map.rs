@@ -11,7 +11,7 @@ pub struct LimitedHashMap<K: Eq + Hash, V>(pub HashMap<K, V>);
 
 impl<K: Eq + Hash, V> From<HashMap<K, V>> for LimitedHashMap<K, V> {
     fn from(value: HashMap<K, V>) -> Self {
-        LimitedHashMap(value)
+        Self(value)
     }
 }
 
