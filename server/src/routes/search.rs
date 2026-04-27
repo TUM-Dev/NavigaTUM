@@ -843,7 +843,7 @@ mod tests {
                 "virtual_room".to_string(),
             ],
         );
-        insta::assert_debug_snapshot!(filter, @"");
+        insta::assert_debug_snapshot!(filter, @"(facet IN [\"site\", \"poi\", \"room\"])");
     }
 
     #[test]
