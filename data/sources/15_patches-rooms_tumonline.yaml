@@ -24,27 +24,6 @@ duplicates:
   ignore: []
   prepend_level: []
 
-# User-submitted rooms that do not exist in TUMonline.
-#
-# These rows are merged into the rooms dict in `processors/tumonline.py:_clean_tumonline_rooms`
-# before the drift-gate check runs, so a duplicate `room_key` here will fail the build the same
-# way as a duplicate inside TUMonline itself.
-#
-# Schema (matches the `NewRoom` type in
-# `server/src/routes/feedback/proposed_edits/addition/room.rs` 1:1, snake_case):
-#
-#   - room_key: "5117.EG.103"           # 3 dot-segments; alphanumeric/dot/dash
-#     parent_building_id: "5117"        # must equal the first segment of room_key
-#     alt_name: "Display name"
-#     arch_name: "EG103@5117"           # NAME@BUILDING, BUILDING is 4 digits
-#     usage_id: 12                      # must reference an entry in usages_tumonline.csv
-#     # Optional structured fields:
-#     seats: { sitting: 30, standing: 0, wheelchair: 0 }
-#     floor_type: "Linoleum"
-#     floor_level: "1.OG"
-#     address: { place: "Munich", street: "Theresienstr. 90", zip_code: "80333" }
-#     coords: { lat: 48.262, lon: 11.668 }
-#
-# Most additions land here via the feedback backend (POST /api/feedback/propose_edits with the
-# `additions` field). Manually appending here is also fine; validation is mirrored in Python.
+# Rooms not in TUMonline. Schema: NewRoom in addition/room.rs.
+# If TUMonline later ships the same room_key, the build fails — drop the entry here.
 additions: []
