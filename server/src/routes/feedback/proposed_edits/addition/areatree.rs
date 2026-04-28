@@ -147,24 +147,24 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
     };
 
     // Internal id parsing: <id>[,<visible_id>][[<type>]]
-    let (internal_no_type, kind_override) = if let Some(open) = internal_id_raw.find('[') {
-        let inner = internal_id_raw
-            .get(open + 1..)
-            .and_then(|s| s.strip_suffix(']'))
-            .ok_or_else(|| anyhow::anyhow!("malformed [type] in '{internal_id_raw}'"))?;
-        if inner.contains(',') {
-            anyhow::bail!("type comes after visible_ids: '{internal_id_raw}'");
-        }
-        (
-            internal_id_raw[..open].trim_end(),
-            Some(
-                AreatreeKind::from_str(inner.trim())
-                    .map_err(|_| anyhow::anyhow!("unknown areatree node type `{}`", inner.trim()))?,
-            ),
-        )
-    } else {
-        (internal_id_raw, None)
-    };
+    let (internal_no_type, kind_override) =
+        if let Some(open) = internal_id_raw.find('[') {
+            let inner = internal_id_raw
+                .get(open + 1..)
+                .and_then(|s| s.strip_suffix(']'))
+                .ok_or_else(|| anyhow::anyhow!("malformed [type] in '{internal_id_raw}'"))?;
+            if inner.contains(',') {
+                anyhow::bail!("type comes after visible_ids: '{internal_id_raw}'");
+            }
+            (
+                internal_id_raw[..open].trim_end(),
+                Some(AreatreeKind::from_str(inner.trim()).map_err(|_| {
+                    anyhow::anyhow!("unknown areatree node type `{}`", inner.trim())
+                })?),
+            )
+        } else {
+            (internal_id_raw, None)
+        };
 
     let (id, visible_id) = if internal_no_type.contains(',') {
         let mut split = internal_no_type.split(',');
