@@ -232,11 +232,7 @@ mod tests {
         "new-poi",
         (|e| matches!(e, AdditionError::UnknownParent { .. })) as Check
     )]
-    fn validate_failure_cases(
-        #[case] mutate: Mutate,
-        #[case] key: &str,
-        #[case] check: Check,
-    ) {
+    fn validate_failure_cases(#[case] mutate: Mutate, #[case] key: &str, #[case] check: Check) {
         let mut p = sample_poi();
         mutate(&mut p);
         let err = p.validate(key, &snapshot()).unwrap_err();

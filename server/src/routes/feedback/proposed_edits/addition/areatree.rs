@@ -452,7 +452,10 @@ mod tests {
         #[case] expected: &str,
     ) {
         let prefixes: Vec<String> = prefixes.iter().map(|p| (*p).to_string()).collect();
-        assert_eq!(format_line(&prefixes, name, short, id, visible, &kind), expected);
+        assert_eq!(
+            format_line(&prefixes, name, short, id, visible, &kind),
+            expected
+        );
     }
 
     #[test]

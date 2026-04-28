@@ -303,11 +303,7 @@ mod tests {
         "5117.EG.103",
         (|e| matches!(e, AdditionError::IdCollision(_, _))) as Check
     )]
-    fn validate_failure_cases(
-        #[case] mutate: Mutate,
-        #[case] key: &str,
-        #[case] check: Check,
-    ) {
+    fn validate_failure_cases(#[case] mutate: Mutate, #[case] key: &str, #[case] check: Check) {
         let mut r = sample_room();
         let mut s = snapshot_with(ar());
         mutate(&mut r, &mut s);
@@ -317,7 +313,9 @@ mod tests {
 
     #[test]
     fn validate_happy_path() {
-        sample_room().validate("5117.EG.103", &snapshot_with(ar())).unwrap();
+        sample_room()
+            .validate("5117.EG.103", &snapshot_with(ar()))
+            .unwrap();
     }
 
     fn setup_apply_dir() -> tempfile::TempDir {
@@ -346,8 +344,7 @@ mod tests {
         )
         .unwrap();
         assert_snapshot!("apply_patches_yaml", yaml);
-        let coords =
-            fs::read_to_string(dir.path().join("data/sources/coordinates.csv")).unwrap();
+        let coords = fs::read_to_string(dir.path().join("data/sources/coordinates.csv")).unwrap();
         assert_snapshot!("apply_coordinates_csv", coords);
     }
 

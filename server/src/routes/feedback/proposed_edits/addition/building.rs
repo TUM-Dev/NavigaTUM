@@ -277,10 +277,7 @@ mod tests {
         (|b| { b.parent_id = "0101".to_string(); }) as Mutate,
         (|e| matches!(e, AdditionError::WrongParentType { .. })) as Check
     )]
-    fn validate_failure_cases(
-        #[case] mutate: Mutate,
-        #[case] check: Check,
-    ) {
+    fn validate_failure_cases(#[case] mutate: Mutate, #[case] check: Check) {
         let mut b = sample_building();
         mutate(&mut b);
         let err = b.validate("x", &snapshot()).unwrap_err();
@@ -310,7 +307,9 @@ mod tests {
         fs::create_dir_all(&sources).unwrap();
         fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
 
-        let summary = sample_building().apply("0103", dir.path(), "branch").unwrap();
+        let summary = sample_building()
+            .apply("0103", dir.path(), "branch")
+            .unwrap();
         assert_snapshot!("apply_summary", summary);
         let areatree = fs::read_to_string(proc.join("config.areatree")).unwrap();
         assert_snapshot!("apply_areatree", areatree);
