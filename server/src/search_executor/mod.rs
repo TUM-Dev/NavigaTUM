@@ -15,11 +15,13 @@ mod lexer;
 mod merger;
 mod parser;
 
-#[derive(Serialize, Clone, Copy, utoipa::ToSchema)]
+#[derive(Serialize, Clone, Copy, utoipa::ToSchema, Debug, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultFacet {
-    SitesBuildings,
+    Sites,
+    Buildings,
     Rooms,
+    Pois,
     Addresses,
 }
 
@@ -161,7 +163,13 @@ pub async fn do_geoentry_search(
             return LimitedVec(vec![]);
         }
     };
-    let (section_buildings, mut section_rooms) = merger::merge_search_results(
+    let merger::MergedSections {
+        sites: section_sites,
+        buildings: section_buildings,
+        rooms: mut section_rooms,
+        pois: section_pois,
+        facet_order,
+    } = merger::merge_search_results(
         &limits,
         &response.hits,
         response.facet_distribution.as_ref(),
@@ -172,10 +180,35 @@ pub async fn do_geoentry_search(
         .iter_mut()
         .for_each(|r| visitor.visit(r));
 
-    match section_buildings.n_visible {
-        0 => LimitedVec(vec![section_rooms, section_buildings]),
-        _ => LimitedVec(vec![section_buildings, section_rooms]),
+    // Order: non-empty facets first, in the order they first appeared in the
+    // ranked Meilisearch hits (so a facet whose top hit is more relevant
+    // ranks above one whose top hit is weaker). Empty sections trail at the
+    // end so the caller can still observe `estimated_total_hits`.
+    let mut sites_opt = Some(section_sites);
+    let mut buildings_opt = Some(section_buildings);
+    let mut rooms_opt = Some(section_rooms);
+    let mut pois_opt = Some(section_pois);
+
+    let mut sections: Vec<ResultsSection> = Vec::with_capacity(4);
+    for facet in &facet_order {
+        let taken = match facet {
+            ResultFacet::Sites => sites_opt.take(),
+            ResultFacet::Buildings => buildings_opt.take(),
+            ResultFacet::Rooms => rooms_opt.take(),
+            ResultFacet::Pois => pois_opt.take(),
+            ResultFacet::Addresses => None,
+        };
+        if let Some(s) = taken {
+            sections.push(s);
+        }
     }
+    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt]
+        .into_iter()
+        .flatten()
+    {
+        sections.push(trailing);
+    }
+    LimitedVec(sections)
 }
 
 #[cfg(test)]

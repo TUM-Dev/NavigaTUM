@@ -52,13 +52,26 @@ info: cropping=full
       name: 9201.EG.006 (Seminarraum 1)
       subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
       subtext_bold: EG-06@9201
-  n_visible: 9
+    - id: 5406.03.621D
+      type: room
+      name: 5406.03.621D (Seminarraum)
+      subtext: "garching, Chemie"
+      subtext_bold: 46220@5406
+  n_visible: 2
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "9201"
       type: building
       name: "TUM FZ Friedrich \u0019N\u0017. Schwarz Berchtesgaden"
       subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
