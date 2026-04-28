@@ -404,21 +404,25 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
 
     apply_roomcode_patch(rooms, patches["patches"])
 
-    # User-submitted additions from the feedback path.  Validation already happened in the
-    # Rust handler when the addition was accepted; here we trust the file but still let the
-    # drift-gate's primary-key check catch a duplicate room_key.
+    # User-submitted additions from the feedback path. Validation already happened in the Rust
+    # handler when the addition was accepted, but the source-of-truth file can still drift if
+    # TUMonline starts shipping a room with the same key — fail loudly so the duplicate has to
+    # be resolved by removing the addition (or renaming it).
+    addition_collisions: list[str] = []
     for addition in patches.get("additions") or []:
         room_key = addition.get("room_key")
         if not room_key:
-            _logger.warning(f"skipping addition without room_key: {addition}")
-            continue
+            raise RuntimeError(f"addition without room_key: {addition!r}")
         if room_key in rooms:
-            _logger.warning(
-                f"addition `{room_key}` collides with an existing TUMonline room — keeping the "
-                f"TUMonline version. The drift-gate will fail until the duplicate is resolved."
-            )
+            addition_collisions.append(room_key)
             continue
         rooms[room_key] = _addition_to_row(addition)
+    if addition_collisions:
+        raise RuntimeError(
+            f"{len(addition_collisions)} user-added rooms collide with TUMonline rooms: "
+            f"{addition_collisions!r}. Remove them from `15_patches-rooms_tumonline.yaml` "
+            f"under `additions:` (TUMonline is now the source of truth for these keys)."
+        )
 
     used_arch_names: dict[str, tuple[str, str, str]] = {}
     used_roomcode_levels = {}
