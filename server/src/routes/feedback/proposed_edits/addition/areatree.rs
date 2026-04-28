@@ -396,23 +396,50 @@ mod tests {
         assert_eq!(idx.nodes.len(), 3);
     }
 
-    /// `name` is passed through to insta as the snapshot identifier so each rstest case lands
-    /// in its own snapshot file (insta cannot otherwise tell parametric cases apart).
-    #[rstest]
-    #[case::alphabetical_middle("middle", "nordgelaende", "0103", "0103:NewBldg:0103,n3")]
-    #[case::alphabetical_first("first", "nordgelaende", "0100", "0100:Foo:0100")]
-    #[case::alphabetical_last("last", "nordgelaende", "9999", "9999:Foo:9999")]
-    fn insert_under_picks_alphabetical_slot(
-        #[case] name: &str,
-        #[case] parent: &str,
-        #[case] new_id: &str,
-        #[case] new_line: &str,
-    ) {
-        let result = insert_under(SAMPLE, parent, new_id, new_line).unwrap();
-        // The siblings under `nordgelaende` (0100/0101/0102/0103/9999, depending on case) must
-        // remain in lexicographical order in the output. Snapshot pins both the indent and the
-        // exact placement.
-        assert_snapshot!(name, result);
+    #[test]
+    fn insert_under_alphabetical_middle() {
+        let result =
+            insert_under(SAMPLE, "nordgelaende", "0103", "0103:NewBldg:0103,n3").unwrap();
+        assert_snapshot!(result, @r"
+        :Standorte:root[root]
+          0:Stammgelände:stammgelaende[campus]
+            01:Nordgelände:nordgelaende
+              0101:Hörsäle (U-Trakt)|N1:0101,n1
+              0102:Hochvolthaus|N2:0102,n2
+              0103:NewBldg:0103,n3
+            02:Südgelände:suedgelaende
+              0201:Gabelsbergerstr. 43|S1:0201,s1
+        ");
+    }
+
+    #[test]
+    fn insert_under_alphabetical_first() {
+        let result = insert_under(SAMPLE, "nordgelaende", "0100", "0100:Foo:0100").unwrap();
+        assert_snapshot!(result, @r"
+        :Standorte:root[root]
+          0:Stammgelände:stammgelaende[campus]
+            01:Nordgelände:nordgelaende
+              0100:Foo:0100
+              0101:Hörsäle (U-Trakt)|N1:0101,n1
+              0102:Hochvolthaus|N2:0102,n2
+            02:Südgelände:suedgelaende
+              0201:Gabelsbergerstr. 43|S1:0201,s1
+        ");
+    }
+
+    #[test]
+    fn insert_under_alphabetical_last() {
+        let result = insert_under(SAMPLE, "nordgelaende", "9999", "9999:Foo:9999").unwrap();
+        assert_snapshot!(result, @r"
+        :Standorte:root[root]
+          0:Stammgelände:stammgelaende[campus]
+            01:Nordgelände:nordgelaende
+              0101:Hörsäle (U-Trakt)|N1:0101,n1
+              0102:Hochvolthaus|N2:0102,n2
+              9999:Foo:9999
+            02:Südgelände:suedgelaende
+              0201:Gabelsbergerstr. 43|S1:0201,s1
+        ");
     }
 
     #[test]

@@ -337,15 +337,32 @@ mod tests {
         let summary = sample_room()
             .apply("5117.EG.103", dir.path(), "branch")
             .unwrap();
-        assert_snapshot!("apply_summary", summary);
+        assert_snapshot!(
+            summary,
+            @"new room `5117.EG.103` (Testraum, arch_name `EG103@5117`, usage_id 12) @ Coordinate { lat: 48.262, lon: 11.668 }"
+        );
         let yaml = fs::read_to_string(
             dir.path()
                 .join("data/sources/15_patches-rooms_tumonline.yaml"),
         )
         .unwrap();
-        assert_snapshot!("apply_patches_yaml", yaml);
+        assert_snapshot!(yaml, @r"
+        additions:
+        - room_key: 5117.EG.103
+          parent_building_id: '5117'
+          alt_name: Testraum
+          arch_name: EG103@5117
+          usage_id: 12
+          coords:
+            lat: 48.262
+            lon: 11.668
+        patches: []
+        ");
         let coords = fs::read_to_string(dir.path().join("data/sources/coordinates.csv")).unwrap();
-        assert_snapshot!("apply_coordinates_csv", coords);
+        assert_snapshot!(coords, @r"
+        id,lat,lon
+        5117.EG.103,48.262,11.668
+        ");
     }
 
     #[test]

@@ -253,8 +253,25 @@ mod tests {
         let summary = sample_poi()
             .apply("validierungsautomat-99", dir.path(), "branch")
             .unwrap();
-        assert_snapshot!("apply_summary", summary);
+        assert_snapshot!(
+            summary,
+            @"new POI `validierungsautomat-99` (Validierungsautomat 99, usage `Validierungsautomat`, parent `5101.EG.917`)"
+        );
         let yaml = fs::read_to_string(sources.join("21_pois.yaml")).unwrap();
-        assert_snapshot!("apply_pois_yaml", yaml);
+        assert_snapshot!(yaml, @r"
+        existing-poi:
+          parent: x
+          name: x
+          usage:
+            name: x
+        validierungsautomat-99:
+          parent: 5101.EG.917
+          name: Validierungsautomat 99
+          usage:
+            name: Validierungsautomat
+          coords:
+            lat: 48.262
+            lon: 11.668
+        ");
     }
 }

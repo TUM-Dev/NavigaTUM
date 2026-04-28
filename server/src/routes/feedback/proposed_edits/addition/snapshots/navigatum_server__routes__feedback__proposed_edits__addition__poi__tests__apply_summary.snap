@@ -1,5 +1,0 @@
----
-source: server/src/routes/feedback/proposed_edits/addition/poi.rs
-expression: summary
----
-new POI `validierungsautomat-99` (Validierungsautomat 99, usage `Validierungsautomat`, parent `5101.EG.917`)

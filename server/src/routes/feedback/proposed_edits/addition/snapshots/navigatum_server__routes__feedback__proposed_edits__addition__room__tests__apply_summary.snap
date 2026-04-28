@@ -1,5 +1,0 @@
----
-source: server/src/routes/feedback/proposed_edits/addition/room.rs
-expression: summary
----
-new room `5117.EG.103` (Testraum, arch_name `EG103@5117`, usage_id 12) @ Coordinate { lat: 48.262, lon: 11.668 }

@@ -310,10 +310,42 @@ mod tests {
         let summary = sample_building()
             .apply("0103", dir.path(), "branch")
             .unwrap();
-        assert_snapshot!("apply_summary", summary);
+        assert_snapshot!(summary, @r#"
+        ```geojson
+        {
+          "geometry": {
+            "coordinates": [
+              11.0,
+              48.0
+            ],
+            "type": "Point"
+          },
+          "properties": {
+            "building_prefixes": [
+              "0103"
+            ],
+            "id": "0103",
+            "kind": "new-building",
+            "name": "New Bldg",
+            "node_kind": "building",
+            "parent_id": "nordgelaende"
+          },
+          "type": "Feature"
+        }
+        ```
+        "#);
         let areatree = fs::read_to_string(proc.join("config.areatree")).unwrap();
-        assert_snapshot!("apply_areatree", areatree);
+        assert_snapshot!(areatree, @r"
+        :Standorte:root[root]
+          0:Stammgelände:stammgelaende[campus]
+            01:Nordgelände:nordgelaende
+              0101:N1:0101,n1
+              0103:New Bldg|NB:0103,nb
+        ");
         let coords = fs::read_to_string(sources.join("coordinates.csv")).unwrap();
-        assert_snapshot!("apply_coordinates_csv", coords);
+        assert_snapshot!(coords, @r"
+        id,lat,lon
+        0103,48,11
+        ");
     }
 }
