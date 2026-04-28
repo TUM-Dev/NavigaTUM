@@ -200,6 +200,9 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
+    use insta::assert_snapshot;
+    use rstest::rstest;
+
     use super::super::areatree::AreatreeIndex;
     use super::*;
 
@@ -227,9 +230,9 @@ mod tests {
         serde_json::from_value(serde_json::json!({"lat": 48.0, "lon": 11.0})).unwrap()
     }
 
-    #[test]
-    fn validate_building_happy() {
-        let b = NewBuilding {
+    /// A canonical valid building used as the base for both happy-path and validation cases.
+    fn sample_building() -> NewBuilding {
+        NewBuilding {
             parent_id: "nordgelaende".to_string(),
             kind: BuildingKind::Building,
             building_prefixes: vec!["0103".to_string()],
@@ -238,46 +241,50 @@ mod tests {
             internal_id: None,
             visible_id: Some("nb".to_string()),
             coords: coord(),
-        };
-        b.validate("0103", &snapshot()).unwrap();
+        }
     }
 
     #[test]
-    fn validate_building_needs_one_prefix() {
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec![],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: None,
-            visible_id: None,
-            coords: coord(),
-        };
-        let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(
-            err,
-            AdditionError::BuildingNeedsExactlyOnePrefix(0)
-        ));
+    fn validate_building_happy() {
+        sample_building().validate("0103", &snapshot()).unwrap();
     }
 
-    #[test]
-    fn validate_joined_needs_multi_prefix() {
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::JoinedBuilding,
-            building_prefixes: vec!["1500".to_string()],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: Some("1500".to_string()),
-            visible_id: None,
-            coords: coord(),
-        };
+    type Mutate = fn(&mut NewBuilding);
+    type Check = fn(&AdditionError) -> bool;
+
+    #[rstest]
+    #[case::needs_one_prefix(
+        (|b| { b.building_prefixes.clear(); }) as Mutate,
+        (|e| matches!(e, AdditionError::BuildingNeedsExactlyOnePrefix(0))) as Check
+    )]
+    #[case::joined_needs_multi_prefix(
+        (|b| {
+            b.kind = BuildingKind::JoinedBuilding;
+            b.internal_id = Some("1500".to_string());
+            b.building_prefixes = vec!["1500".to_string()];
+        }) as Mutate,
+        (|e| matches!(e, AdditionError::JoinedBuildingNeedsMultiplePrefixes(1))) as Check
+    )]
+    #[case::bad_prefix_format(
+        (|b| { b.building_prefixes = vec!["abc".to_string()]; }) as Mutate,
+        (|e| matches!(e, AdditionError::BadBuildingPrefix(_))) as Check
+    )]
+    #[case::prefix_collision(
+        (|b| { b.building_prefixes = vec!["0101".to_string()]; }) as Mutate,
+        (|e| matches!(e, AdditionError::BuildingPrefixCollision(_))) as Check
+    )]
+    #[case::wrong_parent_type(
+        (|b| { b.parent_id = "0101".to_string(); }) as Mutate,
+        (|e| matches!(e, AdditionError::WrongParentType { .. })) as Check
+    )]
+    fn validate_failure_cases(
+        #[case] mutate: Mutate,
+        #[case] check: Check,
+    ) {
+        let mut b = sample_building();
+        mutate(&mut b);
         let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(
-            err,
-            AdditionError::JoinedBuildingNeedsMultiplePrefixes(1)
-        ));
+        assert!(check(&err), "got: {err}");
     }
 
     #[test]
@@ -294,54 +301,6 @@ mod tests {
     }
 
     #[test]
-    fn validate_bad_prefix_format() {
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec!["abc".to_string()],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: None,
-            visible_id: None,
-            coords: coord(),
-        };
-        let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::BadBuildingPrefix(_)));
-    }
-
-    #[test]
-    fn validate_prefix_collision() {
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec!["0101".to_string()],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: None,
-            visible_id: None,
-            coords: coord(),
-        };
-        let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::BuildingPrefixCollision(_)));
-    }
-
-    #[test]
-    fn validate_wrong_parent_type() {
-        let b = NewBuilding {
-            parent_id: "0101".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec!["0103".to_string()],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: None,
-            visible_id: None,
-            coords: coord(),
-        };
-        let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::WrongParentType { .. }));
-    }
-
-    #[test]
     fn apply_inserts_line() {
         let dir = tempfile::tempdir().unwrap();
         let proc = dir.path().join("data").join("processors").join("areatree");
@@ -351,24 +310,11 @@ mod tests {
         fs::create_dir_all(&sources).unwrap();
         fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
 
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec!["0103".to_string()],
-            name: "New Bldg".to_string(),
-            short_name: Some("NB".to_string()),
-            internal_id: None,
-            visible_id: Some("nb".to_string()),
-            coords: coord(),
-        };
-        let summary = b.apply("0103", dir.path(), "branch").unwrap();
-        assert!(summary.contains("new-building"));
-        let updated = fs::read_to_string(proc.join("config.areatree")).unwrap();
-        assert!(updated.contains("0103:New Bldg|NB:0103,nb"));
+        let summary = sample_building().apply("0103", dir.path(), "branch").unwrap();
+        assert_snapshot!("apply_summary", summary);
+        let areatree = fs::read_to_string(proc.join("config.areatree")).unwrap();
+        assert_snapshot!("apply_areatree", areatree);
         let coords = fs::read_to_string(sources.join("coordinates.csv")).unwrap();
-        assert!(
-            coords.contains("0103,48,11") || coords.contains("0103,48.0,11.0"),
-            "coordinates.csv unexpected: {coords}"
-        );
+        assert_snapshot!("apply_coordinates_csv", coords);
     }
 }

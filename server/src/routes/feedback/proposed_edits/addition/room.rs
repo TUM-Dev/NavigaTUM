@@ -216,6 +216,9 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
+    use insta::assert_snapshot;
+    use rstest::rstest;
+
     use super::super::areatree::AreatreeIndex;
     use super::*;
 
@@ -258,81 +261,66 @@ mod tests {
 "
     }
 
+    type Mutate = fn(&mut NewRoom, &mut RepoSnapshot);
+    type Check = fn(&AdditionError) -> bool;
+
+    /// One row per `AdditionError` variant the room validator can emit. Each row mutates
+    /// `sample_room` and chooses a key, then asserts the variant via `matches!`. New rules
+    /// added to `validate` should land here as a new `#[case]`.
+    #[rstest]
+    #[case::bad_room_code(
+        (|_r, _s| {}) as Mutate,
+        "5117.EG",
+        (|e| matches!(e, AdditionError::BadRoomCode(_, _))) as Check
+    )]
+    #[case::prefix_mismatch(
+        (|_r, _s| {}) as Mutate,
+        "0101.EG.103",
+        (|e| matches!(e, AdditionError::PrefixMismatch { .. })) as Check
+    )]
+    #[case::unknown_parent(
+        (|r, _s| { r.parent_building_id = "9999".to_string(); }) as Mutate,
+        "9999.EG.103",
+        (|e| matches!(e, AdditionError::UnknownParent { .. })) as Check
+    )]
+    #[case::wrong_parent_type(
+        (|r, _s| { r.parent_building_id = "m".to_string(); }) as Mutate,
+        "m.EG.103",
+        (|e| matches!(e, AdditionError::WrongParentType { .. })) as Check
+    )]
+    #[case::unknown_usage_id(
+        (|r, _s| { r.usage_id = 999; }) as Mutate,
+        "5117.EG.103",
+        (|e| matches!(e, AdditionError::UnknownUsageId(999))) as Check
+    )]
+    #[case::bad_arch_name(
+        (|r, _s| { r.arch_name = "bad-arch-name".to_string(); }) as Mutate,
+        "5117.EG.103",
+        (|e| matches!(e, AdditionError::BadArchName(_))) as Check
+    )]
+    #[case::id_collision_with_tumonline(
+        (|_r, s| { s.tumonline_room_codes.insert("5117.EG.103".to_string()); }) as Mutate,
+        "5117.EG.103",
+        (|e| matches!(e, AdditionError::IdCollision(_, _))) as Check
+    )]
+    fn validate_failure_cases(
+        #[case] mutate: Mutate,
+        #[case] key: &str,
+        #[case] check: Check,
+    ) {
+        let mut r = sample_room();
+        let mut s = snapshot_with(ar());
+        mutate(&mut r, &mut s);
+        let err = r.validate(key, &s).unwrap_err();
+        assert!(check(&err), "got: {err}");
+    }
+
     #[test]
     fn validate_happy_path() {
-        let r = sample_room();
-        let s = snapshot_with(ar());
-        r.validate("5117.EG.103", &s).unwrap();
+        sample_room().validate("5117.EG.103", &snapshot_with(ar())).unwrap();
     }
 
-    #[test]
-    fn validate_bad_room_code_segments() {
-        let r = sample_room();
-        let s = snapshot_with(ar());
-        let err = r.validate("5117.EG", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::BadRoomCode(_, _)));
-    }
-
-    #[test]
-    fn validate_prefix_mismatch() {
-        let r = sample_room();
-        let s = snapshot_with(ar());
-        let err = r.validate("0101.EG.103", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::PrefixMismatch { .. }));
-    }
-
-    #[test]
-    fn validate_unknown_parent() {
-        let mut r = sample_room();
-        r.parent_building_id = "9999".to_string();
-        let s = snapshot_with(ar());
-        let err = r.validate("9999.EG.103", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::UnknownParent { .. }));
-    }
-
-    #[test]
-    fn validate_wrong_parent_type() {
-        // Pointing parent_building_id at an area (id "m") instead of a building/joined_building.
-        let mut r = sample_room();
-        r.parent_building_id = "m".to_string();
-        let s = snapshot_with(ar());
-        let err = r.validate("m.EG.103", &s).unwrap_err();
-        assert!(
-            matches!(err, AdditionError::WrongParentType { .. }),
-            "expected WrongParentType, got: {err}"
-        );
-    }
-
-    #[test]
-    fn validate_unknown_usage_id() {
-        let mut r = sample_room();
-        r.usage_id = 999;
-        let s = snapshot_with(ar());
-        let err = r.validate("5117.EG.103", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::UnknownUsageId(999)));
-    }
-
-    #[test]
-    fn validate_bad_arch_name() {
-        let mut r = sample_room();
-        r.arch_name = "bad-arch-name".to_string();
-        let s = snapshot_with(ar());
-        let err = r.validate("5117.EG.103", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::BadArchName(_)));
-    }
-
-    #[test]
-    fn validate_id_collision_with_tumonline() {
-        let r = sample_room();
-        let mut s = snapshot_with(ar());
-        s.tumonline_room_codes.insert("5117.EG.103".to_string());
-        let err = r.validate("5117.EG.103", &s).unwrap_err();
-        assert!(matches!(err, AdditionError::IdCollision(_, _)));
-    }
-
-    #[test]
-    fn apply_writes_yaml_additions() {
-        let r = sample_room();
+    fn setup_apply_dir() -> tempfile::TempDir {
         let dir = tempfile::tempdir().unwrap();
         let sources = dir.path().join("data").join("sources");
         fs::create_dir_all(&sources).unwrap();
@@ -342,32 +330,25 @@ mod tests {
         )
         .unwrap();
         fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
-
-        let summary = r.apply("5117.EG.103", dir.path(), "branch").unwrap();
-        assert!(summary.contains("5117.EG.103"));
-        let written = fs::read_to_string(sources.join("15_patches-rooms_tumonline.yaml")).unwrap();
-        assert!(written.contains("additions:"));
-        assert!(written.contains("room_key: 5117.EG.103"));
-        assert!(written.contains("EG103@5117"));
+        dir
     }
 
     #[test]
-    fn apply_writes_coordinates() {
-        let r = sample_room();
-        let dir = tempfile::tempdir().unwrap();
-        let sources = dir.path().join("data").join("sources");
-        fs::create_dir_all(&sources).unwrap();
-        fs::write(
-            sources.join("15_patches-rooms_tumonline.yaml"),
-            "patches: []\n",
+    fn apply_writes_yaml_and_coordinates() {
+        let dir = setup_apply_dir();
+        let summary = sample_room()
+            .apply("5117.EG.103", dir.path(), "branch")
+            .unwrap();
+        assert_snapshot!("apply_summary", summary);
+        let yaml = fs::read_to_string(
+            dir.path()
+                .join("data/sources/15_patches-rooms_tumonline.yaml"),
         )
         .unwrap();
-        fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
-
-        r.apply("5117.EG.103", dir.path(), "branch").unwrap();
-        let coords = fs::read_to_string(sources.join("coordinates.csv")).unwrap();
-        assert!(coords.contains("5117.EG.103"));
-        assert!(coords.contains("48.262"));
+        assert_snapshot!("apply_patches_yaml", yaml);
+        let coords =
+            fs::read_to_string(dir.path().join("data/sources/coordinates.csv")).unwrap();
+        assert_snapshot!("apply_coordinates_csv", coords);
     }
 
     #[test]

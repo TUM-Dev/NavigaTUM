@@ -1,0 +1,26 @@
+---
+source: server/src/routes/feedback/proposed_edits/addition/building.rs
+expression: summary
+---
+```geojson
+{
+  "geometry": {
+    "coordinates": [
+      11.0,
+      48.0
+    ],
+    "type": "Point"
+  },
+  "properties": {
+    "building_prefixes": [
+      "0103"
+    ],
+    "id": "0103",
+    "kind": "new-building",
+    "name": "New Bldg",
+    "node_kind": "building",
+    "parent_id": "nordgelaende"
+  },
+  "type": "Feature"
+}
+```

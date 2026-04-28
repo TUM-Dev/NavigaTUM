@@ -1,0 +1,6 @@
+---
+source: server/src/routes/feedback/proposed_edits/addition/building.rs
+expression: coords
+---
+id,lat,lon
+0103,48,11

@@ -1,0 +1,6 @@
+---
+source: server/src/routes/feedback/proposed_edits/addition/room.rs
+expression: coords
+---
+id,lat,lon
+5117.EG.103,48.262,11.668

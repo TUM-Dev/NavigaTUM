@@ -162,6 +162,9 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
+    use insta::assert_snapshot;
+    use rstest::rstest;
+
     use super::super::areatree::AreatreeIndex;
     use super::*;
 
@@ -210,26 +213,34 @@ mod tests {
             .unwrap();
     }
 
-    #[test]
-    fn validate_bad_key() {
-        let err = sample_poi().validate("BadKey!", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::BadId(_)));
-    }
+    type Mutate = fn(&mut NewPoi);
+    type Check = fn(&AdditionError) -> bool;
 
-    #[test]
-    fn validate_id_collision() {
-        let err = sample_poi()
-            .validate("existing-poi", &snapshot())
-            .unwrap_err();
-        assert!(matches!(err, AdditionError::IdCollision(_, _)));
-    }
-
-    #[test]
-    fn validate_unknown_parent() {
+    #[rstest]
+    #[case::bad_key(
+        (|_p| {}) as Mutate,
+        "BadKey!",
+        (|e| matches!(e, AdditionError::BadId(_))) as Check
+    )]
+    #[case::id_collision(
+        (|_p| {}) as Mutate,
+        "existing-poi",
+        (|e| matches!(e, AdditionError::IdCollision(_, _))) as Check
+    )]
+    #[case::unknown_parent(
+        (|p| { p.parent = "nonexistent".to_string(); }) as Mutate,
+        "new-poi",
+        (|e| matches!(e, AdditionError::UnknownParent { .. })) as Check
+    )]
+    fn validate_failure_cases(
+        #[case] mutate: Mutate,
+        #[case] key: &str,
+        #[case] check: Check,
+    ) {
         let mut p = sample_poi();
-        p.parent = "nonexistent".to_string();
-        let err = p.validate("new-poi", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::UnknownParent { .. }));
+        mutate(&mut p);
+        let err = p.validate(key, &snapshot()).unwrap_err();
+        assert!(check(&err), "got: {err}");
     }
 
     #[test]
@@ -243,14 +254,11 @@ mod tests {
         )
         .unwrap();
 
-        let p = sample_poi();
-        let summary = p
+        let summary = sample_poi()
             .apply("validierungsautomat-99", dir.path(), "branch")
             .unwrap();
-        assert!(summary.contains("validierungsautomat-99"));
-        let written = fs::read_to_string(sources.join("21_pois.yaml")).unwrap();
-        assert!(written.contains("validierungsautomat-99:"));
-        assert!(written.contains("existing-poi:")); // pre-existing entry preserved
-        assert!(written.contains("Validierungsautomat 99"));
+        assert_snapshot!("apply_summary", summary);
+        let yaml = fs::read_to_string(sources.join("21_pois.yaml")).unwrap();
+        assert_snapshot!("apply_pois_yaml", yaml);
     }
 }

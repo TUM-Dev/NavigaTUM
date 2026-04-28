@@ -1,0 +1,9 @@
+---
+source: server/src/routes/feedback/proposed_edits/addition/building.rs
+expression: areatree
+---
+:Standorte:root[root]
+  0:Stammgelände:stammgelaende[campus]
+    01:Nordgelände:nordgelaende
+      0101:N1:0101,n1
+      0103:New Bldg|NB:0103,nb

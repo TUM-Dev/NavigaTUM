@@ -345,6 +345,9 @@ fn last_subtree_lineno(index: &AreatreeIndex, parent_id: &str) -> Option<usize> 
 #[cfg(test)]
 #[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    use insta::assert_snapshot;
+    use rstest::rstest;
+
     use super::*;
 
     const SAMPLE: &str = "\
@@ -393,126 +396,63 @@ mod tests {
         assert_eq!(idx.nodes.len(), 3);
     }
 
-    #[test]
-    fn insert_under_alphabetical() {
-        let result = insert_under(SAMPLE, "nordgelaende", "0103", "0103:NewBldg:0103,n3").unwrap();
-        let lines: Vec<&str> = result.lines().collect();
-        let positions: Vec<usize> = lines
-            .iter()
-            .enumerate()
-            .filter(|(_, l)| {
-                l.trim().starts_with("0101")
-                    || l.trim().starts_with("0102")
-                    || l.trim().starts_with("0103")
-            })
-            .map(|(i, _)| i)
-            .collect();
-        assert_eq!(positions.len(), 3);
-        let mut sorted = positions.clone();
-        sorted.sort_unstable();
-        assert_eq!(positions, sorted);
-        // verify it was inserted with correct indent (6 spaces).
-        let inserted = lines.iter().find(|l| l.trim().starts_with("0103")).unwrap();
-        assert!(inserted.starts_with("      "));
-    }
-
-    #[test]
-    fn insert_under_first_position() {
-        let result = insert_under(SAMPLE, "nordgelaende", "0100", "0100:Foo:0100").unwrap();
-        let nord_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("01:Nordgelände"))
-            .unwrap();
-        let foo_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("0100:Foo"))
-            .unwrap();
-        let n1_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("0101:"))
-            .unwrap();
-        assert!(nord_idx < foo_idx);
-        assert!(foo_idx < n1_idx);
-    }
-
-    #[test]
-    fn insert_under_last_position() {
-        let result = insert_under(SAMPLE, "nordgelaende", "9999", "9999:Foo:9999").unwrap();
-        let n2_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("0102:"))
-            .unwrap();
-        let foo_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("9999:"))
-            .unwrap();
-        // Insertion goes after the last line of the parent subtree (which is just 0102 here),
-        // so we should appear before "02:Südgelände" but after 0102.
-        let sud_idx = result
-            .lines()
-            .position(|l| l.trim().starts_with("02:Südgelände"))
-            .unwrap();
-        assert!(n2_idx < foo_idx);
-        assert!(foo_idx < sud_idx);
+    /// `name` is passed through to insta as the snapshot identifier so each rstest case lands
+    /// in its own snapshot file (insta cannot otherwise tell parametric cases apart).
+    #[rstest]
+    #[case::alphabetical_middle("middle", "nordgelaende", "0103", "0103:NewBldg:0103,n3")]
+    #[case::alphabetical_first("first", "nordgelaende", "0100", "0100:Foo:0100")]
+    #[case::alphabetical_last("last", "nordgelaende", "9999", "9999:Foo:9999")]
+    fn insert_under_picks_alphabetical_slot(
+        #[case] name: &str,
+        #[case] parent: &str,
+        #[case] new_id: &str,
+        #[case] new_line: &str,
+    ) {
+        let result = insert_under(SAMPLE, parent, new_id, new_line).unwrap();
+        // The siblings under `nordgelaende` (0100/0101/0102/0103/9999, depending on case) must
+        // remain in lexicographical order in the output. Snapshot pins both the indent and the
+        // exact placement.
+        assert_snapshot!(name, result);
     }
 
     #[test]
     fn insert_under_first_child() {
-        // Parent has no existing children.
         let content = "\
 :Standorte:root[root]
   0:Stammgelände:stammgelaende[campus]
 ";
         let result = insert_under(content, "stammgelaende", "01", "01:NewArea:newarea").unwrap();
-        let stamm_idx = result
-            .lines()
-            .position(|l| l.contains("stammgelaende"))
-            .unwrap();
-        let new_idx = result.lines().position(|l| l.contains("newarea")).unwrap();
-        assert_eq!(new_idx, stamm_idx + 1);
-        let new_line = result.lines().nth(new_idx).unwrap();
-        assert!(new_line.starts_with("    "));
+        assert_snapshot!(result, @r"
+        :Standorte:root[root]
+          0:Stammgelände:stammgelaende[campus]
+            01:NewArea:newarea
+        ");
     }
 
-    #[test]
-    fn format_line_inferred_building() {
-        let line = format_line(
-            &["5117".to_string()],
-            "New Bldg",
-            None,
-            "5117",
-            None,
-            &AreatreeKind::Building,
-        );
-        // Building kind is inferred when single prefix == id, no [type] suffix.
-        assert_eq!(line, "5117:New Bldg:5117");
-    }
-
-    #[test]
-    fn format_line_with_short_and_visible() {
-        let line = format_line(
-            &["5117".to_string()],
-            "New Bldg",
-            Some("NB"),
-            "5117",
-            Some("nb"),
-            &AreatreeKind::Building,
-        );
-        assert_eq!(line, "5117:New Bldg|NB:5117,nb");
-    }
-
-    #[test]
-    fn format_line_explicit_kind() {
-        let line = format_line(
-            &["15".to_string(), "17".to_string()],
-            "MRI joined",
-            None,
-            "1517",
-            None,
-            &AreatreeKind::JoinedBuilding,
-        );
-        // Multi-prefix => not inferred building; default would be area => need [joined_building].
-        assert_eq!(line, "15,17:MRI joined:1517[joined_building]");
+    #[rstest]
+    #[case::inferred_building(
+        &["5117"], "New Bldg", None, "5117", None, AreatreeKind::Building,
+        "5117:New Bldg:5117"
+    )]
+    #[case::short_and_visible(
+        &["5117"], "New Bldg", Some("NB"), "5117", Some("nb"), AreatreeKind::Building,
+        "5117:New Bldg|NB:5117,nb"
+    )]
+    #[case::explicit_joined_building(
+        &["15", "17"], "MRI joined", None, "1517", None, AreatreeKind::JoinedBuilding,
+        "15,17:MRI joined:1517[joined_building]"
+    )]
+    fn format_line_cases(
+        #[case] prefixes: &[&str],
+        #[case] name: &str,
+        #[case] short: Option<&str>,
+        #[case] id: &str,
+        #[case] visible: Option<&str>,
+        #[case] kind: AreatreeKind,
+        #[case] expected: &str,
+    ) {
+        let prefixes: Vec<String> = prefixes.iter().map(|p| (*p).to_string()).collect();
+        assert_eq!(format_line(&prefixes, name, short, id, visible, &kind), expected);
     }
 
     #[test]

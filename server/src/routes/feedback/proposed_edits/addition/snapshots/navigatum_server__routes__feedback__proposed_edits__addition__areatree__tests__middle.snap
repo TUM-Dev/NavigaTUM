@@ -1,0 +1,12 @@
+---
+source: server/src/routes/feedback/proposed_edits/addition/areatree.rs
+expression: result
+---
+:Standorte:root[root]
+  0:Stammgelände:stammgelaende[campus]
+    01:Nordgelände:nordgelaende
+      0101:Hörsäle (U-Trakt)|N1:0101,n1
+      0102:Hochvolthaus|N2:0102,n2
+      0103:NewBldg:0103,n3
+    02:Südgelände:suedgelaende
+      0201:Gabelsbergerstr. 43|S1:0201,s1
