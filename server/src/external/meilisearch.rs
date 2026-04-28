@@ -27,7 +27,7 @@ pub(crate) const FACETS: &[&str] = &[SITE_FACET, BUILDING_FACET, ROOM_FACET, POI
 /// Modeled as an enum so `serde` rejects unknown values with a 400 instead of
 /// silently dropping them, and so the `OpenAPI` schema advertises the exact set
 /// of accepted values.
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize, utoipa::IntoParams)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum FacetFilter {
     Site,
