@@ -64,7 +64,15 @@ info: cropping=full
       parsed_id: "\u00191010\u0017 Zentrum für Energie u. Information (ZEI)"
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

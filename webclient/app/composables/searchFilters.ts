@@ -4,31 +4,12 @@ import { allValues, firstOrDefault } from "~/composables/common";
 type FilterKind = "in" | "usage" | "type" | "near";
 type ListKind = "in" | "usage" | "type";
 
-// User-facing type buckets map to the underlying meilisearch `type` values.
-// Buckets bundle types that users wouldn't distinguish (e.g. virtual_room
-// is just a building part — users don't know the difference from a room).
-export const TYPE_BUCKETS = {
-  room: ["room", "virtual_room"],
-  building: ["building", "joined_building"],
-  site: ["site", "campus", "area"],
-  poi: ["poi"],
-} as const satisfies Record<string, readonly string[]>;
-
-export type TypeBucket = keyof typeof TYPE_BUCKETS;
-export const TYPE_BUCKET_OPTIONS = Object.keys(TYPE_BUCKETS) as readonly TypeBucket[];
-
-function isTypeBucket(value: string): value is TypeBucket {
-  return value in TYPE_BUCKETS;
-}
-
-function expandTypes(values: readonly string[]): string[] {
-  const out: string[] = [];
-  for (const v of values) {
-    if (isTypeBucket(v)) out.push(...TYPE_BUCKETS[v]);
-    else out.push(v); // pass through unknown values verbatim
-  }
-  return out;
-}
+// The backend's `facet` field already buckets indexed types into these four
+// categories; the frontend uses them directly as the user-facing taxonomy.
+// Subtypes (`virtual_room`, `joined_building`, `campus`, `area`) are an
+// internal detail of the data pipeline and not surfaced to users.
+export const FACET_OPTIONS = ["site", "building", "room", "poi"] as const;
+export type Facet = (typeof FACET_OPTIONS)[number];
 
 export type SearchFilters = {
   inFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
@@ -90,7 +71,7 @@ function makeShared(values: {
   function appendToParams(params: URLSearchParams) {
     for (const v of values.inFilter.value) params.append("in", v);
     for (const v of values.usageFilter.value) params.append("usage", v);
-    for (const v of expandTypes(values.typeFilter.value)) params.append("type", v);
+    for (const v of values.typeFilter.value) params.append("type", v);
     if (values.nearFilter.value) params.append("near", values.nearFilter.value);
   }
 
@@ -111,8 +92,11 @@ export function useSearchFilters(): SearchFilters {
   function replaceQuery(updates: Record<string, string | string[] | undefined>) {
     const current: Record<string, string | string[] | undefined> = {
       q: route.query.q as string | undefined,
+      limit_sites: route.query.limit_sites as string | undefined,
       limit_buildings: route.query.limit_buildings as string | undefined,
       limit_rooms: route.query.limit_rooms as string | undefined,
+      limit_pois: route.query.limit_pois as string | undefined,
+      limit_all: route.query.limit_all as string | undefined,
       ...shared.buildQueryObject(),
       ...updates,
     };

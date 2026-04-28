@@ -3,9 +3,12 @@ use actix_web::{
     dev::{ServiceFactory, ServiceRequest},
     web,
 };
-use utoipa::openapi::OpenApi;
+use utoipa::PartialSchema as _;
+use utoipa::openapi::{Components, OpenApi};
 use utoipa_actix_web::UtoipaApp;
 use utoipa_redoc::{Redoc, Servable as _};
+
+use crate::external::meilisearch::FacetFilter;
 
 #[derive(serde::Serialize, Default)]
 #[serde_with::skip_serializing_none]
@@ -38,8 +41,19 @@ where
     let (app, mut openapi) = app.split_for_parts();
 
     add_static_openapi_docs(&mut openapi);
+    register_extra_schemas(&mut openapi);
     app.app_data(web::Data::new(openapi.clone()))
         .service(Redoc::with_url("/api", openapi.clone()))
+}
+
+/// Registers schemas that are referenced via `$ref` from `IntoParams`-derived
+/// query structs but are otherwise invisible to `utoipa-actix-web`'s automatic
+/// schema collection (it only walks request/response body types).
+fn register_extra_schemas(openapi: &mut OpenApi) {
+    let components = openapi.components.get_or_insert_with(Components::new);
+    components
+        .schemas
+        .insert("FacetFilter".to_string(), FacetFilter::schema());
 }
 
 fn add_static_openapi_docs(openapi: &mut OpenApi) {

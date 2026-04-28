@@ -5,7 +5,7 @@ import typing
 import backoff
 import polars as pl
 import requests
-from oauthlib.oauth2 import BackendApplicationClient
+from oauthlib.oauth2 import BackendApplicationClient, OAuth2Error
 from requests_oauthlib import OAuth2Session
 from utils import setup_logging
 
@@ -18,6 +18,7 @@ TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
 
 
+@backoff.on_exception(backoff.expo, (requests.exceptions.RequestException, OAuth2Error), max_tries=8)
 def _generate_oauth_headers() -> dict[str, str]:
     """
     Generate the OAuth token and packs it into a header form for easier consumption.
