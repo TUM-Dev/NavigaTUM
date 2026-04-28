@@ -5,12 +5,13 @@ import polars as pl
 import pytest
 
 from external.loaders.tumonline import load_buildings, load_orgs, load_rooms, load_usages
+from external.schemas._drift_gate import assert_satisfies_schema
 from external.schemas.tumonline import BuildingsSchema, OrgsSchema, RoomsSchema, UsagesSchema
 
 
 def test_committed_usages_csv_satisfies_schema() -> None:
     """The cached `usages_tumonline.csv` must satisfy `UsagesSchema` (drift gate)."""
-    UsagesSchema.validate(load_usages())
+    assert_satisfies_schema(UsagesSchema, load_usages())
 
 
 def test_usages_schema_rejects_non_positive_id() -> None:
@@ -38,7 +39,7 @@ def test_usages_schema_rejects_missing_column() -> None:
 @pytest.mark.parametrize("lang", ["de", "en"])
 def test_committed_orgs_csv_satisfies_schema(lang: typing.Literal["de", "en"]) -> None:
     """The cached `orgs-{lang}_tumonline.csv` must satisfy `OrgsSchema` (drift gate)."""
-    OrgsSchema.validate(load_orgs(lang))
+    assert_satisfies_schema(OrgsSchema, load_orgs(lang))
 
 
 def test_orgs_schema_rejects_non_positive_id() -> None:
@@ -60,7 +61,7 @@ def test_orgs_schema_rejects_missing_column() -> None:
 
 def test_committed_buildings_csv_satisfies_schema() -> None:
     """The cached `buildings_tumonline.csv` must satisfy `BuildingsSchema` (drift gate)."""
-    BuildingsSchema.validate(load_buildings())
+    assert_satisfies_schema(BuildingsSchema, load_buildings())
 
 
 def test_buildings_schema_rejects_non_four_digit_key() -> None:
@@ -91,7 +92,7 @@ def test_buildings_schema_rejects_missing_column() -> None:
 
 def test_committed_rooms_csv_satisfies_schema() -> None:
     """The cached `rooms_tumonline.csv` must satisfy `RoomsSchema` (drift gate)."""
-    RoomsSchema.validate(load_rooms())
+    assert_satisfies_schema(RoomsSchema, load_rooms())
 
 
 def test_rooms_schema_rejects_non_positive_tumonline_id() -> None:
