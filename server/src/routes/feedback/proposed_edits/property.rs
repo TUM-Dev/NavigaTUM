@@ -144,7 +144,9 @@ impl AppliableEdit for PropertyEdit {
                         )
                     },
                 )?;
-                Ok(format!("usage: `{name_de}` / `{name_en}` (DIN 277: `{din}`)"))
+                Ok(format!(
+                    "usage: `{name_de}` / `{name_en}` (DIN 277: `{din}`)"
+                ))
             }
             Self::Link {
                 text_de,

@@ -6,9 +6,9 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
+use super::AppliableAddition;
 use super::areatree::{AreatreeKind, format_line, insert_under};
 use super::validation::{AdditionError, RepoSnapshot};
-use super::AppliableAddition;
 
 const MAX_NAME_LEN: usize = 200;
 
@@ -97,12 +97,12 @@ impl AppliableAddition for NewBuilding {
                 return Err(AdditionError::BuildingPrefixCollision(prefix.clone()));
             }
         }
-        let parent = snap
-            .areatree
-            .find(&self.parent_id)
-            .ok_or_else(|| AdditionError::UnknownParent {
-                parent: self.parent_id.clone(),
-            })?;
+        let parent =
+            snap.areatree
+                .find(&self.parent_id)
+                .ok_or_else(|| AdditionError::UnknownParent {
+                    parent: self.parent_id.clone(),
+                })?;
         let allowed: &[&str] = &["root", "site", "campus", "area"];
         if !allowed.contains(&parent.kind.as_str()) {
             return Err(AdditionError::WrongParentType {
@@ -113,13 +113,11 @@ impl AppliableAddition for NewBuilding {
             });
         }
 
-        let effective_id =
-            self.effective_id().ok_or_else(|| AdditionError::BadId(String::new()))?;
+        let effective_id = self
+            .effective_id()
+            .ok_or_else(|| AdditionError::BadId(String::new()))?;
         if snap.areatree.contains_id(&effective_id) {
-            return Err(AdditionError::IdCollision(
-                effective_id,
-                "config.areatree",
-            ));
+            return Err(AdditionError::IdCollision(effective_id, "config.areatree"));
         }
         if let Some(ref vid) = self.visible_id
             && snap.areatree.contains_visible_id(vid)
@@ -201,8 +199,8 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
-    use super::*;
     use super::super::areatree::AreatreeIndex;
+    use super::*;
 
     fn ar() -> &'static str {
         "\
@@ -256,7 +254,10 @@ mod tests {
             coords: Some(coord()),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::BuildingNeedsExactlyOnePrefix(0)));
+        assert!(matches!(
+            err,
+            AdditionError::BuildingNeedsExactlyOnePrefix(0)
+        ));
     }
 
     #[test]
@@ -373,4 +374,3 @@ mod tests {
         );
     }
 }
-

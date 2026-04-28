@@ -6,8 +6,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
-use super::validation::{AdditionError, RepoSnapshot};
 use super::AppliableAddition;
+use super::validation::{AdditionError, RepoSnapshot};
 
 const MAX_NAME_LEN: usize = 200;
 const MAX_KEY_LEN: usize = 64;
@@ -54,9 +54,9 @@ fn is_valid_poi_key(key: &str) -> bool {
     if !(first.is_ascii_lowercase() || first.is_ascii_digit()) {
         return false;
     }
-    bytes.iter().all(|b| {
-        b.is_ascii_lowercase() || b.is_ascii_digit() || matches!(b, b'_' | b'-')
-    })
+    bytes
+        .iter()
+        .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || matches!(b, b'_' | b'-'))
 }
 
 #[derive(Debug, Serialize)]
@@ -164,8 +164,8 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
-    use super::*;
     use super::super::areatree::AreatreeIndex;
+    use super::*;
 
     fn snapshot() -> RepoSnapshot {
         RepoSnapshot {
@@ -192,7 +192,9 @@ mod tests {
 
     #[test]
     fn validate_happy() {
-        sample_poi().validate("validierungsautomat-99", &snapshot()).unwrap();
+        sample_poi()
+            .validate("validierungsautomat-99", &snapshot())
+            .unwrap();
     }
 
     #[test]
@@ -203,7 +205,9 @@ mod tests {
 
     #[test]
     fn validate_id_collision() {
-        let err = sample_poi().validate("existing-poi", &snapshot()).unwrap_err();
+        let err = sample_poi()
+            .validate("existing-poi", &snapshot())
+            .unwrap_err();
         assert!(matches!(err, AdditionError::IdCollision(_, _)));
     }
 
@@ -227,7 +231,9 @@ mod tests {
         .unwrap();
 
         let p = sample_poi();
-        let summary = p.apply("validierungsautomat-99", dir.path(), "branch").unwrap();
+        let summary = p
+            .apply("validierungsautomat-99", dir.path(), "branch")
+            .unwrap();
         assert!(summary.contains("validierungsautomat-99"));
         let written = fs::read_to_string(sources.join("21_pois.yaml")).unwrap();
         assert!(written.contains("validierungsautomat-99:"));

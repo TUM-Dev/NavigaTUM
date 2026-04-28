@@ -7,9 +7,9 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
-use super::validation::{AdditionError, RepoSnapshot};
 use super::AppliableAddition;
 use super::areatree::AreatreeKind;
+use super::validation::{AdditionError, RepoSnapshot};
 
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct RoomLink {
@@ -91,10 +91,7 @@ impl RoomCode {
             ));
         }
         if parts.iter().any(|p| p.is_empty()) {
-            return Err(AdditionError::BadRoomCode(
-                key.to_string(),
-                "empty segment",
-            ));
+            return Err(AdditionError::BadRoomCode(key.to_string(), "empty segment"));
         }
         Ok(Self {
             building_prefix: parts[0].to_string(),
@@ -126,12 +123,16 @@ impl AppliableAddition for NewRoom {
                 want: self.parent_building_id.clone(),
             });
         }
-        let parent = snap.areatree.find(&self.parent_building_id).ok_or_else(|| {
-            AdditionError::UnknownParent {
+        let parent = snap
+            .areatree
+            .find(&self.parent_building_id)
+            .ok_or_else(|| AdditionError::UnknownParent {
                 parent: self.parent_building_id.clone(),
-            }
-        })?;
-        if !matches!(parent.kind, AreatreeKind::Building | AreatreeKind::JoinedBuilding) {
+            })?;
+        if !matches!(
+            parent.kind,
+            AreatreeKind::Building | AreatreeKind::JoinedBuilding
+        ) {
             return Err(AdditionError::WrongParentType {
                 parent: self.parent_building_id.clone(),
                 actual: parent.kind.as_str().to_string(),
@@ -222,8 +223,8 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
-    use super::*;
     use super::super::areatree::AreatreeIndex;
+    use super::*;
 
     fn snapshot_with(areatree: &str) -> RepoSnapshot {
         RepoSnapshot {

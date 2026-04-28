@@ -119,7 +119,9 @@ impl AreatreeIndex {
     }
 
     pub fn contains_b_prefix(&self, prefix: &str) -> bool {
-        self.nodes.iter().any(|n| n.b_prefixes.iter().any(|p| p == prefix))
+        self.nodes
+            .iter()
+            .any(|n| n.b_prefixes.iter().any(|p| p == prefix))
     }
 
     pub fn contains_visible_id(&self, vid: &str) -> bool {
@@ -285,7 +287,8 @@ pub fn insert_under(
     let direct_children: Vec<&AreatreeNode> = index
         .iter()
         .filter(|n| {
-            n.indent_level == new_indent_level && n.parents.last().map(String::as_str) == Some(parent_id)
+            n.indent_level == new_indent_level
+                && n.parents.last().map(String::as_str) == Some(parent_id)
         })
         .collect();
 
@@ -293,15 +296,14 @@ pub fn insert_under(
     // first sibling whose id is alphabetically > new_id. If none, insert after the LAST line that
     // belongs to the parent's subtree.
     let lines: Vec<&str> = file_content.lines().collect();
-    let insert_before_lineno: usize = if let Some(next_sibling) =
-        direct_children.iter().find(|c| c.id.as_str() > new_id)
-    {
-        next_sibling.line_no
-    } else if let Some(last_in_subtree_lineno) = last_subtree_lineno(&index, parent_id) {
-        last_in_subtree_lineno + 1
-    } else {
-        parent.line_no + 1
-    };
+    let insert_before_lineno: usize =
+        if let Some(next_sibling) = direct_children.iter().find(|c| c.id.as_str() > new_id) {
+            next_sibling.line_no
+        } else if let Some(last_in_subtree_lineno) = last_subtree_lineno(&index, parent_id) {
+            last_in_subtree_lineno + 1
+        } else {
+            parent.line_no + 1
+        };
 
     let mut out = String::with_capacity(file_content.len() + new_line.len() + 1);
     let trailing_newline = file_content.ends_with('\n');
@@ -370,7 +372,11 @@ mod tests {
         assert_eq!(n1.visible_id.as_deref(), Some("n1"));
         assert_eq!(
             n1.parents,
-            vec!["root".to_string(), "stammgelaende".to_string(), "nordgelaende".to_string()]
+            vec![
+                "root".to_string(),
+                "stammgelaende".to_string(),
+                "nordgelaende".to_string()
+            ]
         );
     }
 
@@ -394,7 +400,11 @@ mod tests {
         let positions: Vec<usize> = lines
             .iter()
             .enumerate()
-            .filter(|(_, l)| l.trim().starts_with("0101") || l.trim().starts_with("0102") || l.trim().starts_with("0103"))
+            .filter(|(_, l)| {
+                l.trim().starts_with("0101")
+                    || l.trim().starts_with("0102")
+                    || l.trim().starts_with("0103")
+            })
             .map(|(i, _)| i)
             .collect();
         assert_eq!(positions.len(), 3);
@@ -409,9 +419,18 @@ mod tests {
     #[test]
     fn insert_under_first_position() {
         let result = insert_under(SAMPLE, "nordgelaende", "0100", "0100:Foo:0100").unwrap();
-        let nord_idx = result.lines().position(|l| l.trim().starts_with("01:Nordgelände")).unwrap();
-        let foo_idx = result.lines().position(|l| l.trim().starts_with("0100:Foo")).unwrap();
-        let n1_idx = result.lines().position(|l| l.trim().starts_with("0101:")).unwrap();
+        let nord_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("01:Nordgelände"))
+            .unwrap();
+        let foo_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("0100:Foo"))
+            .unwrap();
+        let n1_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("0101:"))
+            .unwrap();
         assert!(nord_idx < foo_idx);
         assert!(foo_idx < n1_idx);
     }
@@ -419,11 +438,20 @@ mod tests {
     #[test]
     fn insert_under_last_position() {
         let result = insert_under(SAMPLE, "nordgelaende", "9999", "9999:Foo:9999").unwrap();
-        let n2_idx = result.lines().position(|l| l.trim().starts_with("0102:")).unwrap();
-        let foo_idx = result.lines().position(|l| l.trim().starts_with("9999:")).unwrap();
+        let n2_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("0102:"))
+            .unwrap();
+        let foo_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("9999:"))
+            .unwrap();
         // Insertion goes after the last line of the parent subtree (which is just 0102 here),
         // so we should appear before "02:Südgelände" but after 0102.
-        let sud_idx = result.lines().position(|l| l.trim().starts_with("02:Südgelände")).unwrap();
+        let sud_idx = result
+            .lines()
+            .position(|l| l.trim().starts_with("02:Südgelände"))
+            .unwrap();
         assert!(n2_idx < foo_idx);
         assert!(foo_idx < sud_idx);
     }
@@ -436,7 +464,10 @@ mod tests {
   0:Stammgelände:stammgelaende[campus]
 ";
         let result = insert_under(content, "stammgelaende", "01", "01:NewArea:newarea").unwrap();
-        let stamm_idx = result.lines().position(|l| l.contains("stammgelaende")).unwrap();
+        let stamm_idx = result
+            .lines()
+            .position(|l| l.contains("stammgelaende"))
+            .unwrap();
         let new_idx = result.lines().position(|l| l.contains("newarea")).unwrap();
         assert_eq!(new_idx, stamm_idx + 1);
         let new_line = result.lines().nth(new_idx).unwrap();
@@ -498,7 +529,13 @@ mod tests {
             .find_map(|p| std::fs::read_to_string(p).ok())
             .expect("config.areatree must be reachable for this integration check");
         let idx = AreatreeIndex::parse(&content).expect("real areatree must parse");
-        assert!(idx.find("root").is_some(), "real areatree must define `root`");
-        assert!(idx.nodes.len() > 100, "expected the real areatree to be large");
+        assert!(
+            idx.find("root").is_some(),
+            "real areatree must define `root`"
+        );
+        assert!(
+            idx.nodes.len() > 100,
+            "expected the real areatree to be large"
+        );
     }
 }

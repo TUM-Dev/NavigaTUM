@@ -48,12 +48,7 @@ impl Coordinate {
                     if let Some(existing_key) = line.split(',').next() {
                         if !wrote_edit && existing_key >= key {
                             wrote_edit = true;
-                            writeln!(
-                                writer,
-                                "{key},{lat},{lon}",
-                                lat = self.lat,
-                                lon = self.lon
-                            )?;
+                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)?;
                         }
                         if existing_key != key {
                             writeln!(writer, "{line}")?;

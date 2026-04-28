@@ -19,9 +19,7 @@ pub enum AdditionError {
     IdCollision(String, &'static str),
     #[error("parent `{parent}` does not exist")]
     UnknownParent { parent: String },
-    #[error(
-        "parent `{parent}` has type `{actual}`, but {kind} requires one of {expected:?}"
-    )]
+    #[error("parent `{parent}` has type `{actual}`, but {kind} requires one of {expected:?}")]
     WrongParentType {
         parent: String,
         actual: String,
@@ -143,7 +141,10 @@ impl RepoSnapshot {
             .filter_map(|s| s.parse::<u32>().ok())
             .collect();
 
-        let coords_csv = base_dir.join("data").join("sources").join("coordinates.csv");
+        let coords_csv = base_dir
+            .join("data")
+            .join("sources")
+            .join("coordinates.csv");
         let coord_ids = read_first_column(&coords_csv).unwrap_or_default();
 
         Ok(Self {
