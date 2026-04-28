@@ -4,27 +4,65 @@
 //! `TempRepo` has been cloned (and after any prior edits applied in the same batch). This
 //! avoids the in-memory cache staleness problem.
 use std::collections::{BTreeMap, HashSet};
+use std::fmt;
 use std::fs::{self, File};
-use std::io::{BufRead as _, BufReader};
+use std::io::{BufRead as _, BufReader, ErrorKind};
 use std::path::Path;
 
 use serde::Deserialize;
 use thiserror::Error;
 
-use super::areatree::AreatreeIndex;
+use super::areatree::{AreatreeIndex, AreatreeKind};
+
+/// Where an existing-id collision was found, so callers can format a sensible message and tests
+/// can `matches!` on the source rather than substrings.
+#[derive(Debug, Clone, Copy, strum::IntoStaticStr)]
+#[strum(serialize_all = "snake_case")]
+pub enum CollisionSource {
+    #[strum(serialize = "rooms_tumonline.csv")]
+    TumonlineRooms,
+    #[strum(serialize = "15_patches-rooms_tumonline.yaml additions")]
+    UserRoomAdditions,
+    #[strum(serialize = "21_pois.yaml")]
+    Pois,
+    #[strum(serialize = "config.areatree")]
+    Areatree,
+}
+
+impl fmt::Display for CollisionSource {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str((*self).into())
+    }
+}
+
+/// Which addition variant a parent-type rule applies to.
+#[derive(Debug, Clone, Copy, strum::IntoStaticStr)]
+#[strum(serialize_all = "snake_case")]
+pub enum AdditionVariant {
+    Room,
+    Building,
+    Poi,
+}
+
+impl fmt::Display for AdditionVariant {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str((*self).into())
+    }
+}
 
 #[derive(Debug, Error)]
 pub enum AdditionError {
-    #[error("ID `{0}` already exists in {1}")]
-    IdCollision(String, &'static str),
+    // `source` is a magic thiserror field name (it auto-wires `Error::source`); use `at` instead.
+    #[error("ID `{id}` already exists in {at}")]
+    IdCollision { id: String, at: CollisionSource },
     #[error("parent `{parent}` does not exist")]
     UnknownParent { parent: String },
     #[error("parent `{parent}` has type `{actual}`, but {kind} requires one of {expected:?}")]
     WrongParentType {
         parent: String,
-        actual: String,
-        kind: &'static str,
-        expected: &'static [&'static str],
+        actual: AreatreeKind,
+        kind: AdditionVariant,
+        expected: &'static [AreatreeKind],
     },
     #[error("usage_id {0} is not in usages_tumonline.csv")]
     UnknownUsageId(u32),
@@ -66,10 +104,6 @@ pub struct RepoSnapshot {
     pub user_added_room_codes: HashSet<String>,
     pub poi_keys: HashSet<String>,
     pub usage_ids: HashSet<u32>,
-    /// Existing IDs in `coordinates.csv`. Reserved for future cross-checks (e.g. warning when
-    /// a new building has the same coords as an existing one) — currently only loaded.
-    #[allow(dead_code)]
-    pub coord_ids: HashSet<String>,
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -91,34 +125,35 @@ impl RepoSnapshot {
             .join("processors")
             .join("areatree")
             .join("config.areatree");
-        let areatree_content = fs::read_to_string(&areatree_path)?;
-        let areatree = AreatreeIndex::parse(&areatree_content)?;
+        let areatree = AreatreeIndex::parse(&fs::read_to_string(&areatree_path)?)?;
 
         let pois_path = base_dir.join("data").join("sources").join("21_pois.yaml");
-        let poi_keys = if pois_path.exists() {
-            let s = fs::read_to_string(&pois_path)?;
-            let map: BTreeMap<String, serde_yaml::Value> =
-                serde_yaml::from_str(&s).unwrap_or_default();
-            map.into_keys().collect()
-        } else {
-            HashSet::new()
+        let poi_keys = match fs::read_to_string(&pois_path) {
+            Ok(s) => {
+                let map: BTreeMap<String, serde_yaml::Value> =
+                    serde_yaml::from_str(&s).unwrap_or_default();
+                map.into_keys().collect()
+            }
+            Err(e) if e.kind() == ErrorKind::NotFound => HashSet::new(),
+            Err(e) => return Err(e.into()),
         };
 
         let patches_path = base_dir
             .join("data")
             .join("sources")
             .join("15_patches-rooms_tumonline.yaml");
-        let user_added_room_codes = if patches_path.exists() {
-            let s = fs::read_to_string(&patches_path)?;
-            let parsed: PatchesFile = serde_yaml::from_str(&s).unwrap_or_default();
-            parsed
-                .additions
-                .into_iter()
-                .map(|a| a.room_key)
-                .filter(|k| !k.is_empty())
-                .collect()
-        } else {
-            HashSet::new()
+        let user_added_room_codes = match fs::read_to_string(&patches_path) {
+            Ok(s) => {
+                let parsed: PatchesFile = serde_yaml::from_str(&s).unwrap_or_default();
+                parsed
+                    .additions
+                    .into_iter()
+                    .map(|a| a.room_key)
+                    .filter(|k| !k.is_empty())
+                    .collect()
+            }
+            Err(e) if e.kind() == ErrorKind::NotFound => HashSet::new(),
+            Err(e) => return Err(e.into()),
         };
 
         let rooms_csv = base_dir
@@ -139,19 +174,12 @@ impl RepoSnapshot {
             .filter_map(|s| s.parse::<u32>().ok())
             .collect();
 
-        let coords_csv = base_dir
-            .join("data")
-            .join("sources")
-            .join("coordinates.csv");
-        let coord_ids = read_first_column(&coords_csv).unwrap_or_default();
-
         Ok(Self {
             areatree,
             tumonline_room_codes,
             user_added_room_codes,
             poi_keys,
             usage_ids,
-            coord_ids,
         })
     }
 }
@@ -201,11 +229,6 @@ mod tests {
         )
         .unwrap();
         fs::write(
-            sources.join("coordinates.csv"),
-            "id,lat,lon\n0101.01.101,1.0,1.0\n",
-        )
-        .unwrap();
-        fs::write(
             sources.join("21_pois.yaml"),
             "validierungsautomat-1:\n  parent: \"5101.EG.917\"\n  name: \"V1\"\n  usage: { name: V }\n",
         )
@@ -227,7 +250,6 @@ mod tests {
         assert!(snap.tumonline_room_codes.contains("0101.01.101A"));
         assert!(snap.usage_ids.contains(&12));
         assert!(snap.usage_ids.contains(&1));
-        assert!(snap.coord_ids.contains("0101.01.101"));
         assert!(snap.poi_keys.contains("validierungsautomat-1"));
         assert!(snap.user_added_room_codes.contains("5117.EG.999"));
     }

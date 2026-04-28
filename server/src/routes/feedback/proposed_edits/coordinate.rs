@@ -9,10 +9,10 @@ use super::AppliableEdit;
 pub struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]
-    pub(in crate::routes::feedback::proposed_edits) lat: f64,
+    lat: f64,
     /// Longitude
     #[schema(example = 48.26244490906312)]
-    pub(in crate::routes::feedback::proposed_edits) lon: f64,
+    lon: f64,
 }
 
 impl Coordinate {
@@ -22,8 +22,23 @@ impl Coordinate {
             .join("sources")
             .join("coordinates.csv")
     }
-}
-impl Coordinate {
+
+    /// Render a fenced `GeoJSON` Point feature with this coordinate as the geometry, using
+    /// `properties` for the feature's `properties` block. Centralised so callers don't have to
+    /// remember `GeoJSON`'s `[lon, lat]` ordering (RFC 7946) or the lat/lon field names.
+    pub(super) fn fenced_geojson_feature(&self, properties: &serde_json::Value) -> String {
+        let geojson = serde_json::json!({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [self.lon, self.lat]
+            },
+            "properties": properties,
+        });
+        let pretty = serde_json::to_string_pretty(&geojson).unwrap_or_else(|_| geojson.to_string());
+        format!("```geojson\n{pretty}\n```")
+    }
+
     pub(super) fn apply_to_csv(&self, key: &str, base_dir: &Path) -> anyhow::Result<()> {
         use std::io::{BufRead as _, BufReader, BufWriter, Write as _};
 
@@ -70,23 +85,12 @@ impl Coordinate {
 impl AppliableEdit for Coordinate {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
         self.apply_to_csv(key, base_dir)?;
-
-        let geojson = serde_json::json!({
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                // GeoJSON uses [longitude, latitude] ordering per RFC 7946
-                "coordinates": [self.lon, self.lat]
-            },
-            "properties": {
-                "kind": "coordinate-change",
-                "id": key,
-                "to_lat": self.lat,
-                "to_lon": self.lon
-            }
-        });
-        let pretty = serde_json::to_string_pretty(&geojson).unwrap_or_else(|_| geojson.to_string());
-        Ok(format!("```geojson\n{pretty}\n```"))
+        Ok(self.fenced_geojson_feature(&serde_json::json!({
+            "kind": "coordinate-change",
+            "id": key,
+            "to_lat": self.lat,
+            "to_lon": self.lon,
+        })))
     }
 }
 

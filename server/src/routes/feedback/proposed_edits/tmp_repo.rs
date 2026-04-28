@@ -113,7 +113,7 @@ impl TempRepo {
             branch_name,
         )?;
         let image_edits = edits.edits_for(|edit| edit.image);
-        description.appply_set("image", image_edits, self.dir.path(), branch_name)?;
+        description.apply_set("image", image_edits, self.dir.path(), branch_name)?;
 
         // Apply property edits — each entry can have multiple property edits
         let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits

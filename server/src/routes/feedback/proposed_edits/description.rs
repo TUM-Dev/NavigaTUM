@@ -21,7 +21,7 @@ impl Description {
                 .expect("writing to a String is infallible");
         }
     }
-    pub fn appply_set<T: AppliableEdit>(
+    pub fn apply_set<T: AppliableEdit>(
         &mut self,
         category_name: &'static str,
         set: HashMap<String, T>,
@@ -215,7 +215,7 @@ mod tests {
         let mut description = Description::default();
         let set: HashMap<String, TestEdit> = HashMap::default();
         description
-            .appply_set("category", set, Path::new(""), "none")
+            .apply_set("category", set, Path::new(""), "none")
             .unwrap();
         assert_eq!(description.title, "");
         assert_eq!(description.body, "");
@@ -226,7 +226,7 @@ mod tests {
         let mut description = Description::default();
         let set = HashMap::from([("key".to_string(), TestEdit)]);
         description
-            .appply_set("category", set, Path::new(""), "none")
+            .apply_set("category", set, Path::new(""), "none")
             .unwrap();
         assert_eq!(description.title, "1 category edit");
         assert_eq!(

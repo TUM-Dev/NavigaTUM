@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use super::super::coordinate::Coordinate;
 use super::AppliableAddition;
 use super::areatree::{AreatreeKind, format_line, insert_under};
-use super::validation::{AdditionError, RepoSnapshot};
+use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
 
 const MAX_NAME_LEN: usize = 200;
 
@@ -44,8 +44,7 @@ impl BuildingKind {
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct NewBuilding {
     pub parent_id: String,
-    /// What kind of node this is. Renamed away from `kind` because the [`super::Addition`]
-    /// enum already uses `kind` as its serde tag.
+    /// Renamed because the [`super::Addition`] enum's serde tag is also `kind`.
     #[serde(rename = "node_kind")]
     pub kind: BuildingKind,
     pub building_prefixes: Vec<String>,
@@ -74,26 +73,25 @@ impl NewBuilding {
 
 impl AppliableAddition for NewBuilding {
     fn validate(&self, _key: &str, snap: &RepoSnapshot) -> Result<(), AdditionError> {
-        // Coords are required by the type system (`Coordinate`, not `Option<Coordinate>`), so
-        // we don't repeat that check here — only the kind-specific shape rules below.
+        const ALLOWED_PARENT_KINDS: &[AreatreeKind] = &[
+            AreatreeKind::Root,
+            AreatreeKind::Site,
+            AreatreeKind::Campus,
+            AreatreeKind::Area,
+        ];
+
         match self.kind {
-            BuildingKind::Building => {
-                if self.building_prefixes.len() != 1 {
-                    return Err(AdditionError::BuildingNeedsExactlyOnePrefix(
-                        self.building_prefixes.len(),
-                    ));
-                }
+            BuildingKind::Building if self.building_prefixes.len() != 1 => {
+                return Err(AdditionError::BuildingNeedsExactlyOnePrefix(
+                    self.building_prefixes.len(),
+                ));
             }
-            BuildingKind::JoinedBuilding => {
-                if self.building_prefixes.len() < 2 {
-                    return Err(AdditionError::JoinedBuildingNeedsMultiplePrefixes(
-                        self.building_prefixes.len(),
-                    ));
-                }
+            BuildingKind::JoinedBuilding if self.building_prefixes.len() < 2 => {
+                return Err(AdditionError::JoinedBuildingNeedsMultiplePrefixes(
+                    self.building_prefixes.len(),
+                ));
             }
-            BuildingKind::Area => {
-                // Area is allowed to have zero prefixes; only the coords gate is enforced above.
-            }
+            _ => {}
         }
         for prefix in &self.building_prefixes {
             if prefix.len() != 4 || !prefix.chars().all(|c| c.is_ascii_digit()) {
@@ -109,13 +107,12 @@ impl AppliableAddition for NewBuilding {
                 .ok_or_else(|| AdditionError::UnknownParent {
                     parent: self.parent_id.clone(),
                 })?;
-        let allowed: &[&str] = &["root", "site", "campus", "area"];
-        if !allowed.contains(&parent.kind.as_str()) {
+        if !ALLOWED_PARENT_KINDS.contains(&parent.kind) {
             return Err(AdditionError::WrongParentType {
                 parent: self.parent_id.clone(),
-                actual: parent.kind.as_str().to_string(),
-                kind: "building",
-                expected: allowed,
+                actual: parent.kind,
+                kind: AdditionVariant::Building,
+                expected: ALLOWED_PARENT_KINDS,
             });
         }
 
@@ -123,7 +120,10 @@ impl AppliableAddition for NewBuilding {
             .effective_id()
             .ok_or_else(|| AdditionError::BadId(String::new()))?;
         if snap.areatree.contains_id(&effective_id) {
-            return Err(AdditionError::IdCollision(effective_id, "config.areatree"));
+            return Err(AdditionError::IdCollision {
+                id: effective_id,
+                at: CollisionSource::Areatree,
+            });
         }
         if let Some(ref vid) = self.visible_id
             && snap.areatree.contains_visible_id(vid)
@@ -158,7 +158,7 @@ impl AppliableAddition for NewBuilding {
             self.short_name.as_deref(),
             &effective_id,
             self.visible_id.as_deref(),
-            &kind_at,
+            kind_at,
         );
         let updated = insert_under(&content, &self.parent_id, &effective_id, &line)?;
         fs::write(&areatree_path, updated)?;
@@ -170,23 +170,14 @@ impl AppliableAddition for NewBuilding {
             }
         }
 
-        let geojson = serde_json::json!({
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [self.coords.lon, self.coords.lat]
-            },
-            "properties": {
-                "kind": "new-building",
-                "id": effective_id,
-                "name": self.name,
-                "node_kind": self.kind,
-                "parent_id": self.parent_id,
-                "building_prefixes": self.building_prefixes,
-            }
-        });
-        let pretty = serde_json::to_string_pretty(&geojson).unwrap_or_else(|_| geojson.to_string());
-        Ok(format!("```geojson\n{pretty}\n```"))
+        Ok(self.coords.fenced_geojson_feature(&serde_json::json!({
+            "kind": "new-building",
+            "id": effective_id,
+            "name": self.name,
+            "node_kind": self.kind,
+            "parent_id": self.parent_id,
+            "building_prefixes": self.building_prefixes,
+        })))
     }
 
     fn kind_label(&self) -> &'static str {
@@ -222,7 +213,6 @@ mod tests {
             user_added_room_codes: HashSet::new(),
             poi_keys: HashSet::new(),
             usage_ids: HashSet::new(),
-            coord_ids: HashSet::new(),
         }
     }
 

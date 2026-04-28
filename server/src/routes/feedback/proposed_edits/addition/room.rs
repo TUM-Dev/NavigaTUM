@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use super::super::coordinate::Coordinate;
 use super::AppliableAddition;
 use super::areatree::AreatreeKind;
-use super::validation::{AdditionError, RepoSnapshot};
+use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
 
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct RoomLink {
@@ -60,8 +60,6 @@ pub struct RoomAddress {
     pub zip_code: String,
 }
 
-/// What we serialize into the `additions:` YAML list. Holds the room key (`room_key`) inline so
-/// the Python data processor reads it as the dict key, plus all `NewRoom` fields.
 #[derive(Debug, Serialize, Deserialize)]
 struct YamlRoomAddition {
     room_key: String,
@@ -69,33 +67,25 @@ struct YamlRoomAddition {
     new_room: NewRoom,
 }
 
-#[derive(Debug)]
-pub struct RoomCode {
-    pub building_prefix: String,
-}
-
-impl RoomCode {
-    pub fn parse(key: &str) -> Result<Self, AdditionError> {
-        let parts: Vec<&str> = key.split('.').collect();
-        if parts.len() != 3 {
-            return Err(AdditionError::BadRoomCode(
-                key.to_string(),
-                "expected 3 dot-separated segments",
-            ));
-        }
-        if !key.chars().all(is_allowed_roomcode_char) {
-            return Err(AdditionError::BadRoomCode(
-                key.to_string(),
-                "contains disallowed characters",
-            ));
-        }
-        if parts.iter().any(|p| p.is_empty()) {
-            return Err(AdditionError::BadRoomCode(key.to_string(), "empty segment"));
-        }
-        Ok(Self {
-            building_prefix: parts[0].to_string(),
-        })
+/// Validate a `<building>.<level>.<room>` key and return the building prefix segment.
+fn validate_room_code(key: &str) -> Result<&str, AdditionError> {
+    let parts: Vec<&str> = key.split('.').collect();
+    if parts.len() != 3 {
+        return Err(AdditionError::BadRoomCode(
+            key.to_string(),
+            "expected 3 dot-separated segments",
+        ));
     }
+    if !key.chars().all(is_allowed_roomcode_char) {
+        return Err(AdditionError::BadRoomCode(
+            key.to_string(),
+            "contains disallowed characters",
+        ));
+    }
+    if parts.iter().any(|p| p.is_empty()) {
+        return Err(AdditionError::BadRoomCode(key.to_string(), "empty segment"));
+    }
+    Ok(parts[0])
 }
 
 fn is_arch_name_valid(s: &str) -> bool {
@@ -114,11 +104,14 @@ fn is_arch_name_valid(s: &str) -> bool {
 
 impl AppliableAddition for NewRoom {
     fn validate(&self, key: &str, snap: &RepoSnapshot) -> Result<(), AdditionError> {
-        let code = RoomCode::parse(key)?;
-        if code.building_prefix != self.parent_building_id {
+        const ALLOWED_PARENT_KINDS: &[AreatreeKind] =
+            &[AreatreeKind::Building, AreatreeKind::JoinedBuilding];
+
+        let prefix = validate_room_code(key)?;
+        if prefix != self.parent_building_id {
             return Err(AdditionError::PrefixMismatch {
                 code: key.to_string(),
-                got: code.building_prefix,
+                got: prefix.to_string(),
                 want: self.parent_building_id.clone(),
             });
         }
@@ -128,15 +121,12 @@ impl AppliableAddition for NewRoom {
             .ok_or_else(|| AdditionError::UnknownParent {
                 parent: self.parent_building_id.clone(),
             })?;
-        if !matches!(
-            parent.kind,
-            AreatreeKind::Building | AreatreeKind::JoinedBuilding
-        ) {
+        if !ALLOWED_PARENT_KINDS.contains(&parent.kind) {
             return Err(AdditionError::WrongParentType {
                 parent: self.parent_building_id.clone(),
-                actual: parent.kind.as_str().to_string(),
-                kind: "room",
-                expected: &["building", "joined_building"],
+                actual: parent.kind,
+                kind: AdditionVariant::Room,
+                expected: ALLOWED_PARENT_KINDS,
             });
         }
         if !snap.usage_ids.contains(&self.usage_id) {
@@ -152,16 +142,16 @@ impl AppliableAddition for NewRoom {
             });
         }
         if snap.tumonline_room_codes.contains(key) {
-            return Err(AdditionError::IdCollision(
-                key.to_string(),
-                "rooms_tumonline.csv",
-            ));
+            return Err(AdditionError::IdCollision {
+                id: key.to_string(),
+                at: CollisionSource::TumonlineRooms,
+            });
         }
         if snap.user_added_room_codes.contains(key) {
-            return Err(AdditionError::IdCollision(
-                key.to_string(),
-                "15_patches-rooms_tumonline.yaml additions",
-            ));
+            return Err(AdditionError::IdCollision {
+                id: key.to_string(),
+                at: CollisionSource::UserRoomAdditions,
+            });
         }
         Ok(())
     }
@@ -229,7 +219,6 @@ mod tests {
             user_added_room_codes: HashSet::new(),
             poi_keys: HashSet::new(),
             usage_ids: HashSet::from([12]),
-            coord_ids: HashSet::new(),
         }
     }
 
@@ -301,7 +290,7 @@ mod tests {
     #[case::id_collision_with_tumonline(
         (|_r, s| { s.tumonline_room_codes.insert("5117.EG.103".to_string()); }) as Mutate,
         "5117.EG.103",
-        (|e| matches!(e, AdditionError::IdCollision(_, _))) as Check
+        (|e| matches!(e, AdditionError::IdCollision { .. })) as Check
     )]
     fn validate_failure_cases(#[case] mutate: Mutate, #[case] key: &str, #[case] check: Check) {
         let mut r = sample_room();

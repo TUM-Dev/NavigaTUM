@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
 use super::AppliableAddition;
-use super::validation::{AdditionError, RepoSnapshot};
+use super::validation::{AdditionError, CollisionSource, RepoSnapshot};
 
 const MAX_NAME_LEN: usize = 200;
 const MAX_KEY_LEN: usize = 64;
@@ -104,7 +104,10 @@ impl AppliableAddition for NewPoi {
             return Err(AdditionError::BadUsageName);
         }
         if snap.poi_keys.contains(key) {
-            return Err(AdditionError::IdCollision(key.to_string(), "21_pois.yaml"));
+            return Err(AdditionError::IdCollision {
+                id: key.to_string(),
+                at: CollisionSource::Pois,
+            });
         }
         let parent_known = snap.areatree.contains_id(&self.parent)
             || snap.tumonline_room_codes.contains(&self.parent)
@@ -175,7 +178,6 @@ mod tests {
             user_added_room_codes: HashSet::new(),
             poi_keys: HashSet::from(["existing-poi".to_string()]),
             usage_ids: HashSet::new(),
-            coord_ids: HashSet::new(),
         }
     }
 
@@ -225,7 +227,7 @@ mod tests {
     #[case::id_collision(
         (|_p| {}) as Mutate,
         "existing-poi",
-        (|e| matches!(e, AdditionError::IdCollision(_, _))) as Check
+        (|e| matches!(e, AdditionError::IdCollision { .. })) as Check
     )]
     #[case::unknown_parent(
         (|p| { p.parent = "nonexistent".to_string(); }) as Mutate,

@@ -25,7 +25,7 @@ pub(crate) mod addition;
 mod coordinate;
 mod description;
 mod image;
-pub(crate) mod property;
+mod property;
 mod tmp_repo;
 
 const COMBINED_CAP: usize = 500;

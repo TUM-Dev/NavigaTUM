@@ -10,7 +10,12 @@
 //! The full areatree DSL (warnings about embedded short names, pattern matching for
 //! `_TUMONLINE_*_RE`, …) is intentionally NOT re-implemented here — we only need to know which
 //! IDs exist and where to insert.
-#[derive(Debug, Clone, PartialEq, Eq)]
+use std::str::FromStr as _;
+
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, strum::IntoStaticStr, strum::EnumString, strum::Display,
+)]
+#[strum(serialize_all = "snake_case")]
 pub enum AreatreeKind {
     Root,
     Site,
@@ -18,31 +23,6 @@ pub enum AreatreeKind {
     Area,
     Building,
     JoinedBuilding,
-}
-
-impl AreatreeKind {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            Self::Root => "root",
-            Self::Site => "site",
-            Self::Campus => "campus",
-            Self::Area => "area",
-            Self::Building => "building",
-            Self::JoinedBuilding => "joined_building",
-        }
-    }
-
-    fn parse(s: &str) -> anyhow::Result<Self> {
-        Ok(match s {
-            "root" => Self::Root,
-            "site" => Self::Site,
-            "campus" => Self::Campus,
-            "area" => Self::Area,
-            "building" => Self::Building,
-            "joined_building" => Self::JoinedBuilding,
-            other => anyhow::bail!("unknown areatree node type `{other}`"),
-        })
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -177,7 +157,10 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
         }
         (
             internal_id_raw[..open].trim_end(),
-            Some(AreatreeKind::parse(inner.trim())?),
+            Some(
+                AreatreeKind::from_str(inner.trim())
+                    .map_err(|_| anyhow::anyhow!("unknown areatree node type `{}`", inner.trim()))?,
+            ),
         )
     } else {
         (internal_id_raw, None)
@@ -226,16 +209,14 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
     })
 }
 
-/// Reconstruct an areatree line for a new node.
-///
-/// Mirrors `_format_line` in process.py.
+/// Reconstruct an areatree line for a new node. Mirrors `_format_line` in process.py.
 pub fn format_line(
     b_prefixes: &[String],
     name: &str,
     short_name: Option<&str>,
     id: &str,
     visible_id: Option<&str>,
-    kind: &AreatreeKind,
+    kind: AreatreeKind,
 ) -> String {
     let bp_str = b_prefixes.join(",");
     let name_str = match short_name {
@@ -247,19 +228,18 @@ pub fn format_line(
         None => id.to_string(),
     };
 
-    // The type bracket: only include it when it is NOT inferable. Inference rules:
-    //   - building if (single prefix == id)
+    // The type bracket is only emitted when the kind would NOT be inferred from the line:
+    //   - building when single prefix == id
     //   - area otherwise
-    let id_inferred_building = b_prefixes.len() == 1 && b_prefixes[0] == id;
-    let inferred_kind = if id_inferred_building {
+    let inferred_kind = if b_prefixes.len() == 1 && b_prefixes[0] == id {
         AreatreeKind::Building
     } else {
         AreatreeKind::Area
     };
-    let type_str = if *kind == inferred_kind {
+    let type_str = if kind == inferred_kind {
         String::new()
     } else {
-        format!("[{}]", kind.as_str())
+        format!("[{kind}]")
     };
 
     format!("{bp_str}:{name_str}:{id_str}{type_str}")
@@ -479,7 +459,7 @@ mod tests {
     ) {
         let prefixes: Vec<String> = prefixes.iter().map(|p| (*p).to_string()).collect();
         assert_eq!(
-            format_line(&prefixes, name, short, id, visible, &kind),
+            format_line(&prefixes, name, short, id, visible, kind),
             expected
         );
     }
