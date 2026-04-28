@@ -6,7 +6,7 @@ import { useEditProposal } from "~/composables/editProposal";
 
 definePageMeta({
   validate(route) {
-    return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
+    return /^(campus|site|building|room|poi)$/.test(route.params.view as string);
   },
   layout: "fullscreen",
 });
@@ -30,19 +30,23 @@ const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   retryDelay: 1000,
 });
 
-// Check if we need to redirect before showing error - use 301 for canonical URLs
-if (data.value?.redirect_url) {
-  const redirectPath = localePath(data.value.redirect_url as string);
-  if (route.path !== redirectPath) {
-    await navigateTo({ path: redirectPath, query: route.query }, { redirectCode: 301 });
-  }
-}
-
 if (error.value) {
   showError({
     statusCode: 404,
     statusMessage: "Location not found",
   });
+}
+
+// Canonical URLs may still drift (e.g. after rename); fall back to a clean
+// page reload so we never re-enter the broken in-setup `navigateTo` chain.
+if (import.meta.server && data.value?.redirect_url) {
+  const redirectPath = localePath(data.value.redirect_url as string);
+  if (route.path !== redirectPath) {
+    await navigateTo(
+      { path: redirectPath, query: route.query },
+      { redirectCode: 301, replace: true }
+    );
+  }
 }
 
 const editProposal = useEditProposal();
