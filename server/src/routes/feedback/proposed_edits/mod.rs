@@ -48,10 +48,10 @@ pub struct EditRequest {
     )]
     token: String,
     /// The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
-    #[serde(default)]
+    #[serde(default = "LimitedHashMap::empty")]
     edits: LimitedHashMap<String, Edit>,
     /// New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side.
-    #[serde(default)]
+    #[serde(default = "LimitedHashMap::empty")]
     pub(super) additions: LimitedHashMap<String, Addition>,
     /// Additional context for the edit.
     ///
@@ -392,18 +392,22 @@ mod tests {
         serde_json::from_value(json).unwrap()
     }
 
+    fn coords() -> serde_json::Value {
+        serde_json::json!({"lat": 48.262, "lon": 11.668})
+    }
+
     #[test]
     fn extract_subject_pure_addition_room() {
         let req = req_with_additions(serde_json::json!({
             "token": "x",
-            "edits": {},
             "additions": {
                 "5117.EG.103": {
                     "kind": "room",
                     "parent_building_id": "5117",
                     "alt_name": "Testraum",
                     "arch_name": "EG103@5117",
-                    "usage_id": 12
+                    "usage_id": 12,
+                    "coords": coords()
                 }
             },
             "additional_context": "",
@@ -416,10 +420,9 @@ mod tests {
     fn extract_subject_multiple_rooms() {
         let req = req_with_additions(serde_json::json!({
             "token": "x",
-            "edits": {},
             "additions": {
-                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12},
-                "5117.EG.104": {"kind": "room", "parent_building_id": "5117", "alt_name": "B", "arch_name": "EG104@5117", "usage_id": 12}
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()},
+                "5117.EG.104": {"kind": "room", "parent_building_id": "5117", "alt_name": "B", "arch_name": "EG104@5117", "usage_id": 12, "coords": coords()}
             },
             "additional_context": "",
             "privacy_checked": true
@@ -436,12 +439,11 @@ mod tests {
         for i in 0..10 {
             additions.insert(
                 format!("validierungsautomat-{i:02}"),
-                serde_json::json!({"kind": "poi", "parent": "0501", "name": format!("V{i}"), "usage_name": "x"}),
+                serde_json::json!({"kind": "poi", "parent": "0501", "name": format!("V{i}"), "usage_name": "x", "coords": coords()}),
             );
         }
         let req = req_with_additions(serde_json::json!({
             "token": "x",
-            "edits": {},
             "additions": additions,
             "additional_context": "",
             "privacy_checked": true
@@ -453,10 +455,9 @@ mod tests {
     fn extract_labels_includes_addition_kinds() {
         let req = req_with_additions(serde_json::json!({
             "token": "x",
-            "edits": {},
             "additions": {
-                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12},
-                "validierungsautomat-99": {"kind": "poi", "parent": "0501", "name": "V", "usage_name": "x"}
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()},
+                "validierungsautomat-99": {"kind": "poi", "parent": "0501", "name": "V", "usage_name": "x", "coords": coords()}
             },
             "additional_context": "",
             "privacy_checked": true
@@ -477,7 +478,7 @@ mod tests {
                 "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}}
             },
             "additions": {
-                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12}
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()}
             },
             "additional_context": "",
             "privacy_checked": true

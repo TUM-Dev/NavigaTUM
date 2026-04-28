@@ -73,7 +73,8 @@ mod tests {
             "parent_building_id": "5117",
             "alt_name": "Testraum",
             "arch_name": "EG103@5117",
-            "usage_id": 12
+            "usage_id": 12,
+            "coords": {"lat": 48.262, "lon": 11.668}
         });
         let a: Addition = serde_json::from_value(json).unwrap();
         assert_eq!(a.kind_label(), "room");
@@ -81,17 +82,17 @@ mod tests {
 
     #[test]
     fn deserializes_building_variant() {
+        // The inner enum `kind` field is renamed to `node_kind` to avoid colliding with the
+        // outer tag (`kind`).
         let json = serde_json::json!({
             "kind": "building",
             "parent_id": "stammgelaende",
-            "kind_of_node": "building",
+            "node_kind": "building",
             "building_prefixes": ["5117"],
             "name": "Foo",
             "coords": {"lat": 48.0, "lon": 11.0}
         });
-        // Note: Renamed field "kind_of_node" — actual field name in NewBuilding is `kind`,
-        // but tag also is `kind`. In the actual API the building's enum kind is renamed to
-        // `node_kind` to avoid collision (handled in building.rs via #[serde(rename)]).
-        let _ = json; // placeholder — see building.rs tests
+        let a: Addition = serde_json::from_value(json).unwrap();
+        assert_eq!(a.kind_label(), "building");
     }
 }

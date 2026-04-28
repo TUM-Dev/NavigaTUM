@@ -6,11 +6,14 @@ use serde::{Deserialize, Serialize};
 
 use crate::limited::OrMore;
 
-#[derive(Serialize, Deserialize, Clone, utoipa::ToSchema)]
+#[derive(Serialize, Deserialize, Clone, Default, utoipa::ToSchema)]
 pub struct LimitedHashMap<K: Eq + Hash, V>(pub HashMap<K, V>);
 
-impl<K: Eq + Hash, V> Default for LimitedHashMap<K, V> {
-    fn default() -> Self {
+impl<K: Eq + Hash, V> LimitedHashMap<K, V> {
+    /// Construct an empty map without requiring `K`/`V: Default` (which the derived
+    /// `Default` impl would). Use as `#[serde(default = "LimitedHashMap::empty")]` for fields
+    /// whose value type is not itself `Default`.
+    pub fn empty() -> Self {
         Self(HashMap::new())
     }
 }

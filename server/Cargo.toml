@@ -23,6 +23,7 @@ tracing-actix-web.workspace=true
 
 # errors
 anyhow = { workspace=true, features = ["backtrace"] }
+strum.workspace=true
 thiserror.workspace=true
 
 #serialisation

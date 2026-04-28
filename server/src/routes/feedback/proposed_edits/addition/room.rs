@@ -38,8 +38,7 @@ pub struct NewRoom {
     pub floor_level: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub address: Option<RoomAddress>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub coords: Option<Coordinate>,
+    pub coords: Coordinate,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub links: Vec<RoomLink>,
 }
@@ -195,20 +194,14 @@ impl AppliableAddition for NewRoom {
         let out = serde_yaml::to_string(&as_map)?;
         fs::write(&yaml_path, out)?;
 
-        if let Some(coord) = self.coords {
-            coord.apply_to_csv(key, base_dir)?;
-        }
+        self.coords.apply_to_csv(key, base_dir)?;
 
-        let coord_str = self
-            .coords
-            .as_ref()
-            .map(|c| format!(" @ {c:?}"))
-            .unwrap_or_default();
         Ok(format!(
-            "new room `{key}` ({alt}, arch_name `{arch}`, usage_id {uid}){coord_str}",
+            "new room `{key}` ({alt}, arch_name `{arch}`, usage_id {uid}) @ {coords:?}",
             alt = self.alt_name,
             arch = self.arch_name,
             uid = self.usage_id,
+            coords = self.coords,
         ))
     }
 
@@ -237,6 +230,10 @@ mod tests {
         }
     }
 
+    fn sample_coord() -> Coordinate {
+        serde_json::from_value(serde_json::json!({"lat": 48.262, "lon": 11.668})).unwrap()
+    }
+
     fn sample_room() -> NewRoom {
         NewRoom {
             parent_building_id: "5117".to_string(),
@@ -247,7 +244,7 @@ mod tests {
             floor_type: None,
             floor_level: None,
             address: None,
-            coords: None,
+            coords: sample_coord(),
             links: vec![],
         }
     }
@@ -344,6 +341,7 @@ mod tests {
             "patches: []\n",
         )
         .unwrap();
+        fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
 
         let summary = r.apply("5117.EG.103", dir.path(), "branch").unwrap();
         assert!(summary.contains("5117.EG.103"));
@@ -354,8 +352,8 @@ mod tests {
     }
 
     #[test]
-    fn apply_writes_coordinates_when_provided() {
-        let mut r = sample_room();
+    fn apply_writes_coordinates() {
+        let r = sample_room();
         let dir = tempfile::tempdir().unwrap();
         let sources = dir.path().join("data").join("sources");
         fs::create_dir_all(&sources).unwrap();
@@ -365,12 +363,22 @@ mod tests {
         )
         .unwrap();
         fs::write(sources.join("coordinates.csv"), "id,lat,lon\n").unwrap();
-        let coord_json = serde_json::json!({"lat": 48.262, "lon": 11.668});
-        r.coords = Some(serde_json::from_value(coord_json).unwrap());
 
         r.apply("5117.EG.103", dir.path(), "branch").unwrap();
         let coords = fs::read_to_string(sources.join("coordinates.csv")).unwrap();
         assert!(coords.contains("5117.EG.103"));
         assert!(coords.contains("48.262"));
+    }
+
+    #[test]
+    fn missing_coords_fails_to_deserialize() {
+        let json = serde_json::json!({
+            "parent_building_id": "5117",
+            "alt_name": "x",
+            "arch_name": "EG@5117",
+            "usage_id": 12
+        });
+        let err = serde_json::from_value::<NewRoom>(json).unwrap_err();
+        assert!(err.to_string().contains("coords"), "got: {err}");
     }
 }

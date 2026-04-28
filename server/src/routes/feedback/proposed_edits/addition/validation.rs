@@ -46,8 +46,6 @@ pub enum AdditionError {
     BadName { len: usize, max: usize },
     #[error("usage_name must be non-empty")]
     BadUsageName,
-    #[error("coords required for {0}")]
-    MissingCoords(&'static str),
     #[error("expected exactly one building_prefix for kind=Building, got {0}")]
     BuildingNeedsExactlyOnePrefix(usize),
     #[error("expected ≥ 2 building_prefixes for kind=JoinedBuilding, got {0}")]

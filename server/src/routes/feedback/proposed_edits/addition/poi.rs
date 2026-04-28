@@ -35,8 +35,7 @@ pub struct NewPoi {
     pub parent: String,
     pub name: String,
     pub usage_name: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub coords: Option<Coordinate>,
+    pub coords: Coordinate,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub links: Vec<PoiLink>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -64,8 +63,7 @@ struct YamlPoiEntry {
     parent: String,
     name: String,
     usage: YamlUsage,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    coords: Option<Coordinate>,
+    coords: Coordinate,
     #[serde(skip_serializing_if = "YamlProps::is_empty")]
     props: YamlProps,
 }
@@ -178,16 +176,31 @@ mod tests {
         }
     }
 
+    fn sample_coord() -> Coordinate {
+        serde_json::from_value(serde_json::json!({"lat": 48.262, "lon": 11.668})).unwrap()
+    }
+
     fn sample_poi() -> NewPoi {
         NewPoi {
             parent: "5101.EG.917".to_string(),
             name: "Validierungsautomat 99".to_string(),
             usage_name: "Validierungsautomat".to_string(),
-            coords: None,
+            coords: sample_coord(),
             links: vec![],
             comment: None,
             generic_props: vec![],
         }
+    }
+
+    #[test]
+    fn missing_coords_fails_to_deserialize() {
+        let json = serde_json::json!({
+            "parent": "0501",
+            "name": "x",
+            "usage_name": "x"
+        });
+        let err = serde_json::from_value::<NewPoi>(json).unwrap_err();
+        assert!(err.to_string().contains("coords"), "got: {err}");
     }
 
     #[test]

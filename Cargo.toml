@@ -76,6 +76,7 @@ serde_with = { version = "3.16.1", default-features = false, features = [] }
 serde_yaml = "0.9.34"
 sqlx = { version = "0.8.6", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 tempfile = "3.25.0"
+strum = { version = "0.27.2", features = ["derive"] }
 testcontainers = { version = "0.27.1", features = ["watchdog"] }
 testcontainers-modules = { version = "0.15.0", features = ["meilisearch", "postgres"] }
 thiserror = "2.0.18"

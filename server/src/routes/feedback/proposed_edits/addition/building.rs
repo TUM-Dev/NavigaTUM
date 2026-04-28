@@ -12,8 +12,19 @@ use super::validation::{AdditionError, RepoSnapshot};
 
 const MAX_NAME_LEN: usize = 200;
 
-#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[derive(
+    Debug,
+    Deserialize,
+    Serialize,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    utoipa::ToSchema,
+    strum::IntoStaticStr,
+)]
 #[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
 pub enum BuildingKind {
     Building,
     JoinedBuilding,
@@ -45,8 +56,7 @@ pub struct NewBuilding {
     pub internal_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub visible_id: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub coords: Option<Coordinate>,
+    pub coords: Coordinate,
 }
 
 impl NewBuilding {
@@ -64,15 +74,14 @@ impl NewBuilding {
 
 impl AppliableAddition for NewBuilding {
     fn validate(&self, _key: &str, snap: &RepoSnapshot) -> Result<(), AdditionError> {
+        // Coords are required by the type system (`Coordinate`, not `Option<Coordinate>`), so
+        // we don't repeat that check here — only the kind-specific shape rules below.
         match self.kind {
             BuildingKind::Building => {
                 if self.building_prefixes.len() != 1 {
                     return Err(AdditionError::BuildingNeedsExactlyOnePrefix(
                         self.building_prefixes.len(),
                     ));
-                }
-                if self.coords.is_none() {
-                    return Err(AdditionError::MissingCoords("building"));
                 }
             }
             BuildingKind::JoinedBuilding => {
@@ -81,12 +90,9 @@ impl AppliableAddition for NewBuilding {
                         self.building_prefixes.len(),
                     ));
                 }
-                if self.coords.is_none() {
-                    return Err(AdditionError::MissingCoords("joined_building"));
-                }
             }
             BuildingKind::Area => {
-                // Area without prefixes is fine; coords optional.
+                // Area is allowed to have zero prefixes; only the coords gate is enforced above.
             }
         }
         for prefix in &self.building_prefixes {
@@ -157,23 +163,18 @@ impl AppliableAddition for NewBuilding {
         let updated = insert_under(&content, &self.parent_id, &effective_id, &line)?;
         fs::write(&areatree_path, updated)?;
 
-        if let Some(coord) = self.coords {
-            coord.apply_to_csv(&effective_id, base_dir)?;
-            for prefix in &self.building_prefixes {
-                if prefix != &effective_id {
-                    coord.apply_to_csv(prefix, base_dir)?;
-                }
+        self.coords.apply_to_csv(&effective_id, base_dir)?;
+        for prefix in &self.building_prefixes {
+            if prefix != &effective_id {
+                self.coords.apply_to_csv(prefix, base_dir)?;
             }
         }
 
         let geojson = serde_json::json!({
             "type": "Feature",
-            "geometry": match self.coords {
-                Some(c) => serde_json::json!({
-                    "type": "Point",
-                    "coordinates": [c.lon, c.lat]
-                }),
-                None => serde_json::Value::Null,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [self.coords.lon, self.coords.lat]
             },
             "properties": {
                 "kind": "new-building",
@@ -236,7 +237,7 @@ mod tests {
             short_name: Some("NB".to_string()),
             internal_id: None,
             visible_id: Some("nb".to_string()),
-            coords: Some(coord()),
+            coords: coord(),
         };
         b.validate("0103", &snapshot()).unwrap();
     }
@@ -251,7 +252,7 @@ mod tests {
             short_name: None,
             internal_id: None,
             visible_id: None,
-            coords: Some(coord()),
+            coords: coord(),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
         assert!(matches!(
@@ -270,7 +271,7 @@ mod tests {
             short_name: None,
             internal_id: Some("1500".to_string()),
             visible_id: None,
-            coords: Some(coord()),
+            coords: coord(),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
         assert!(matches!(
@@ -280,19 +281,16 @@ mod tests {
     }
 
     #[test]
-    fn validate_building_missing_coords() {
-        let b = NewBuilding {
-            parent_id: "nordgelaende".to_string(),
-            kind: BuildingKind::Building,
-            building_prefixes: vec!["0103".to_string()],
-            name: "x".to_string(),
-            short_name: None,
-            internal_id: None,
-            visible_id: None,
-            coords: None,
-        };
-        let err = b.validate("x", &snapshot()).unwrap_err();
-        assert!(matches!(err, AdditionError::MissingCoords(_)));
+    fn missing_coords_fails_to_deserialize() {
+        // `coords` is required at the type level — serde rejects requests that omit it.
+        let json = serde_json::json!({
+            "parent_id": "nordgelaende",
+            "node_kind": "building",
+            "building_prefixes": ["0103"],
+            "name": "x"
+        });
+        let err = serde_json::from_value::<NewBuilding>(json).unwrap_err();
+        assert!(err.to_string().contains("coords"), "got: {err}");
     }
 
     #[test]
@@ -305,7 +303,7 @@ mod tests {
             short_name: None,
             internal_id: None,
             visible_id: None,
-            coords: Some(coord()),
+            coords: coord(),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
         assert!(matches!(err, AdditionError::BadBuildingPrefix(_)));
@@ -321,7 +319,7 @@ mod tests {
             short_name: None,
             internal_id: None,
             visible_id: None,
-            coords: Some(coord()),
+            coords: coord(),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
         assert!(matches!(err, AdditionError::BuildingPrefixCollision(_)));
@@ -337,7 +335,7 @@ mod tests {
             short_name: None,
             internal_id: None,
             visible_id: None,
-            coords: Some(coord()),
+            coords: coord(),
         };
         let err = b.validate("x", &snapshot()).unwrap_err();
         assert!(matches!(err, AdditionError::WrongParentType { .. }));
@@ -361,7 +359,7 @@ mod tests {
             short_name: Some("NB".to_string()),
             internal_id: None,
             visible_id: Some("nb".to_string()),
-            coords: Some(coord()),
+            coords: coord(),
         };
         let summary = b.apply("0103", dir.path(), "branch").unwrap();
         assert!(summary.contains("new-building"));
