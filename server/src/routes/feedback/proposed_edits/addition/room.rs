@@ -1,5 +1,3 @@
-//! New rooms — written into the `additions:` block of `15_patches-rooms_tumonline.yaml`,
-//! plus an optional coordinate written through the existing coordinate writer.
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
@@ -19,7 +17,7 @@ pub struct RoomLink {
 }
 
 const MAX_NAME_LEN: usize = 200;
-/// Allowed characters for a room key (matches `ALLOWED_ROOMCODE_CHARS` in tumonline.py).
+// Kept in sync with `ALLOWED_ROOMCODE_CHARS` in `data/processors/tumonline.py`.
 fn is_allowed_roomcode_char(c: char) -> bool {
     c.is_ascii_alphanumeric() || matches!(c, '.' | '-')
 }
@@ -67,7 +65,6 @@ struct YamlRoomAddition {
     new_room: NewRoom,
 }
 
-/// Validate a `<building>.<level>.<room>` key and return the building prefix segment.
 fn validate_room_code(key: &str) -> Result<&str, AdditionError> {
     let parts: Vec<&str> = key.split('.').collect();
     if parts.len() != 3 {
@@ -162,7 +159,8 @@ impl AppliableAddition for NewRoom {
             .join("sources")
             .join("15_patches-rooms_tumonline.yaml");
         let raw = fs::read_to_string(&yaml_path)?;
-        // Preserve unknown top-level keys via a flexible deserializer.
+        // Round-trip via untyped YAML so the file's other top-level keys (`patches`, …)
+        // survive untouched.
         let mut as_map: BTreeMap<String, serde_yaml::Value> = if raw.trim().is_empty() {
             BTreeMap::new()
         } else {
@@ -179,8 +177,6 @@ impl AppliableAddition for NewRoom {
         });
         as_map.insert("additions".to_string(), serde_yaml::to_value(&additions)?);
 
-        // Re-serialize. Insertion order is not preserved by BTreeMap (alphabetical), but the
-        // additions block is identified by its own key so that's fine.
         let out = serde_yaml::to_string(&as_map)?;
         fs::write(&yaml_path, out)?;
 
@@ -253,9 +249,8 @@ mod tests {
     type Mutate = fn(&mut NewRoom, &mut RepoSnapshot);
     type Check = fn(&AdditionError) -> bool;
 
-    /// One row per `AdditionError` variant the room validator can emit. Each row mutates
-    /// `sample_room` and chooses a key, then asserts the variant via `matches!`. New rules
-    /// added to `validate` should land here as a new `#[case]`.
+    // One case per `AdditionError` variant the room validator can emit; new rules added to
+    // `validate` should land here as a new `#[case]`.
     #[rstest]
     #[case::bad_room_code(
         (|_r, _s| {}) as Mutate,

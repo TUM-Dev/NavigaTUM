@@ -65,12 +65,10 @@ pub struct EditRequest {
     privacy_checked: bool,
 }
 
-/// Outcome of trying to apply an `EditRequest` to a clone of the repo.
 pub enum ApplyError {
-    /// One or more additions failed server-side validation. The handler maps this to 422 with a
-    /// JSON list of `{ key, error }` entries.
+    // Split out from `Other` so the handler can return a structured 422 with a per-key error
+    // list instead of a generic 500.
     AdditionValidation(Vec<AdditionValidationFailure>),
-    /// Anything else — I/O, git, GitHub. Mapped to 500.
     Other(anyhow::Error),
 }
 
@@ -108,7 +106,7 @@ impl EditRequest {
             TempRepo::clone_and_checkout_existing_branch(&url, branch_name).await?
         };
 
-        // Validate additions against the on-disk snapshot before touching any files.
+        // Reject malformed additions before any writes so a bad request never produces a PR.
         if !self.additions.0.is_empty() {
             let snap = addition::validation::RepoSnapshot::load(repo.base_dir())?;
             let mut failures = Vec::new();
@@ -217,7 +215,6 @@ impl EditRequest {
             parts.push(format!("{property_count} property {edits}"));
         }
 
-        // Additions: group by kind_label and emit a fragment per kind.
         let mut keys_by_kind: BTreeMap<&'static str, Vec<&str>> = BTreeMap::new();
         for (key, addition) in &self.additions.0 {
             keys_by_kind

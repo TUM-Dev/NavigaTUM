@@ -23,9 +23,7 @@ impl Coordinate {
             .join("coordinates.csv")
     }
 
-    /// Render a fenced `GeoJSON` Point feature with this coordinate as the geometry, using
-    /// `properties` for the feature's `properties` block. Centralised so callers don't have to
-    /// remember `GeoJSON`'s `[lon, lat]` ordering (RFC 7946) or the lat/lon field names.
+    /// Centralised so callers can't accidentally swap `[lon, lat]` (RFC 7946 ordering).
     pub(super) fn fenced_geojson_feature(&self, properties: &serde_json::Value) -> String {
         let geojson = serde_json::json!({
             "type": "Feature",

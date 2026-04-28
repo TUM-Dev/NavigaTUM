@@ -1,14 +1,5 @@
-//! Strict, typed additions for new rooms, buildings, and POIs.
-//!
-//! The dispatcher is the [`Addition`] enum (a `serde`-tagged sum); each variant has its own
-//! writer module and shares a validation step that consults a [`validation::RepoSnapshot`] of
-//! the on-disk reference data.
-//!
-//! The flow per request entry:
-//!   1. The handler builds a [`validation::RepoSnapshot`] from the cloned `TempRepo`.
-//!   2. Each addition is validated against the snapshot — any failure surfaces as 422.
-//!   3. After all additions validate, each one calls [`AppliableAddition::apply`] which writes
-//!      to the right files and returns a human-readable summary string for the PR description.
+//! Validation runs against [`validation::RepoSnapshot`] before any writes so a malformed
+//! addition surfaces as 422 rather than landing as a broken PR.
 use std::path::Path;
 
 use serde::Deserialize;
@@ -35,7 +26,6 @@ pub enum Addition {
 pub trait AppliableAddition {
     fn validate(&self, key: &str, snap: &RepoSnapshot) -> Result<(), AdditionError>;
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String>;
-    /// Stable label for the variant — used by the description renderer and PR title.
     fn kind_label(&self) -> &'static str;
 }
 
@@ -82,8 +72,7 @@ mod tests {
 
     #[test]
     fn deserializes_building_variant() {
-        // The inner enum `kind` field is renamed to `node_kind` to avoid colliding with the
-        // outer tag (`kind`).
+        // `node_kind` instead of `kind` to avoid colliding with the outer serde tag.
         let json = serde_json::json!({
             "kind": "building",
             "parent_id": "stammgelaende",

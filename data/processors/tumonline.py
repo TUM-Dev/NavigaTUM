@@ -359,14 +359,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def _addition_to_row(addition: dict[str, Any]) -> dict[str, Any]:
-    """
-    Convert one entry from the ``additions:`` block of `15_patches-rooms_tumonline.yaml` into the
-    same row shape that ``load_rooms`` returns.
-
-    User-submitted rooms have no TUMonline ids, so those columns are ``None``.  ``patched`` is
-    set to ``True`` so downstream code that branches on the patched flag treats them like
-    locally-modified rows.
-    """
+    """Reshape an ``additions:`` entry to match the row layout returned by ``load_rooms``."""
     address = addition.get("address") or {}
     seats = addition.get("seats") or {}
     return {
@@ -404,10 +397,8 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
 
     apply_roomcode_patch(rooms, patches["patches"])
 
-    # User-submitted additions from the feedback path. Validation already happened in the Rust
-    # handler when the addition was accepted, but the source-of-truth file can still drift if
-    # TUMonline starts shipping a room with the same key — fail loudly so the duplicate has to
-    # be resolved by removing the addition (or renaming it).
+    # The Rust handler already rejects collisions at submission time, but TUMonline may later
+    # ship a room with the same key — fail the build loudly so a human resolves which side wins.
     addition_collisions: list[str] = []
     for addition in patches.get("additions") or []:
         room_key = addition.get("room_key")

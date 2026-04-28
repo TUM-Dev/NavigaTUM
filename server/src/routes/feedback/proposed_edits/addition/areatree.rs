@@ -1,15 +1,6 @@
-//! Minimal Rust parser/writer for `data/processors/areatree/config.areatree`.
-//!
-//! Mirrors `data/processors/areatree/process.py` for the two operations that the addition path
-//! needs:
-//!   - **Index** every line by `id` with its `kind`, `parents` chain, and indent depth (used by
-//!     [`super::validation::RepoSnapshot`]).
-//!   - **Insert** a new line under a given parent at the right indent, sorted alphabetically
-//!     among existing siblings.
-//!
-//! The full areatree DSL (warnings about embedded short names, pattern matching for
-//! `_TUMONLINE_*_RE`, …) is intentionally NOT re-implemented here — we only need to know which
-//! IDs exist and where to insert.
+//! Subset of `data/processors/areatree/process.py` covering the two operations the addition
+//! path needs: indexing existing IDs and inserting a new line under a parent. Full DSL
+//! semantics are intentionally not re-implemented.
 use std::str::FromStr as _;
 
 #[derive(
@@ -29,13 +20,10 @@ pub enum AreatreeKind {
 pub struct AreatreeNode {
     pub id: String,
     pub kind: AreatreeKind,
-    /// All `b_prefix` entries for this row. Empty if the node has no building prefix.
     pub b_prefixes: Vec<String>,
     pub visible_id: Option<String>,
     pub parents: Vec<String>,
-    /// Indent level (in pairs of spaces).
     pub indent_level: usize,
-    /// 1-based line number in the source file (for error messages and stable sort tiebreaker).
     pub line_no: usize,
 }
 
@@ -209,7 +197,6 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
     })
 }
 
-/// Reconstruct an areatree line for a new node. Mirrors `_format_line` in process.py.
 pub fn format_line(
     b_prefixes: &[String],
     name: &str,
@@ -228,9 +215,8 @@ pub fn format_line(
         None => id.to_string(),
     };
 
-    // The type bracket is only emitted when the kind would NOT be inferred from the line:
-    //   - building when single prefix == id
-    //   - area otherwise
+    // Omit the explicit `[type]` bracket when the kind matches what the line shape implies,
+    // so the output stays consistent with hand-edited entries.
     let inferred_kind = if b_prefixes.len() == 1 && b_prefixes[0] == id {
         AreatreeKind::Building
     } else {
@@ -245,10 +231,8 @@ pub fn format_line(
     format!("{bp_str}:{name_str}:{id_str}{type_str}")
 }
 
-/// Insert `new_line_content` (no trailing newline, no leading indent) under `parent_id`.
-///
-/// Inserts among existing direct children of `parent_id`, alphabetically sorted by their primary
-/// id. If no parent or no existing children, appends after the parent's line block.
+/// Insert a new node under `parent_id`, sorted alphabetically among existing siblings to keep
+/// diffs against hand-edited entries minimal.
 pub fn insert_under(
     file_content: &str,
     parent_id: &str,
@@ -263,7 +247,6 @@ pub fn insert_under(
     let new_indent = "  ".repeat(new_indent_level);
     let new_line = format!("{new_indent}{new_line_content}");
 
-    // Direct children of the parent (immediately deeper indent, parent is in their parents chain).
     let direct_children: Vec<&AreatreeNode> = index
         .iter()
         .filter(|n| {
@@ -272,9 +255,6 @@ pub fn insert_under(
         })
         .collect();
 
-    // Find the source line we want to insert BEFORE. We walk siblings in source order; pick the
-    // first sibling whose id is alphabetically > new_id. If none, insert after the LAST line that
-    // belongs to the parent's subtree.
     let lines: Vec<&str> = file_content.lines().collect();
     let insert_before_lineno: usize =
         if let Some(next_sibling) = direct_children.iter().find(|c| c.id.as_str() > new_id) {
@@ -290,7 +270,7 @@ pub fn insert_under(
     let total = lines.len();
 
     for (i, line) in lines.iter().enumerate() {
-        let lineno = i + 1; // 1-based
+        let lineno = i + 1;
         if lineno == insert_before_lineno {
             out.push_str(&new_line);
             out.push('\n');
@@ -466,9 +446,7 @@ mod tests {
 
     #[test]
     fn parse_real_areatree_snippet() {
-        // The Cargo manifest sets the working dir for `cargo test` to the server crate. Resolve
-        // upward to the project root (containing `data/`) — fall back gracefully if running in
-        // a non-checkout environment.
+        // cwd differs between `cargo test` from the workspace root vs. the server crate.
         let candidate_paths = [
             "../data/processors/areatree/config.areatree",
             "data/processors/areatree/config.areatree",

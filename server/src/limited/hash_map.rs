@@ -10,9 +10,8 @@ use crate::limited::OrMore;
 pub struct LimitedHashMap<K: Eq + Hash, V>(pub HashMap<K, V>);
 
 impl<K: Eq + Hash, V> LimitedHashMap<K, V> {
-    /// Construct an empty map without requiring `K`/`V: Default` (which the derived
-    /// `Default` impl would). Use as `#[serde(default = "LimitedHashMap::empty")]` for fields
-    /// whose value type is not itself `Default`.
+    /// Drops the `V: Default` bound that the derived `Default` impl would impose, so this can
+    /// be used in `#[serde(default = "...")]` for value types that aren't themselves `Default`.
     pub fn empty() -> Self {
         Self(HashMap::new())
     }

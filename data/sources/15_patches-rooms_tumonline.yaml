@@ -24,6 +24,5 @@ duplicates:
   ignore: []
   prepend_level: []
 
-# Rooms not in TUMonline. Schema: NewRoom in addition/room.rs.
-# If TUMonline later ships the same room_key, the build fails — drop the entry here.
+# User-submitted rooms that aren't in TUMonline. Schema: `NewRoom` in `addition/room.rs`.
 additions: []

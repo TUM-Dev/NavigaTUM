@@ -1,5 +1,3 @@
-//! New buildings/areas — written by inserting a line into `config.areatree` (and writing one
-//! coordinate row per building prefix into `coordinates.csv`).
 use std::fs;
 use std::path::Path;
 
@@ -44,7 +42,7 @@ impl BuildingKind {
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct NewBuilding {
     pub parent_id: String,
-    /// Renamed because the [`super::Addition`] enum's serde tag is also `kind`.
+    // Renamed at the wire layer so it doesn't collide with the outer `Addition` serde tag.
     #[serde(rename = "node_kind")]
     pub kind: BuildingKind,
     pub building_prefixes: Vec<String>,
@@ -59,7 +57,6 @@ pub struct NewBuilding {
 }
 
 impl NewBuilding {
-    /// The id this entry will end up with in the areatree.
     fn effective_id(&self) -> Option<String> {
         if let Some(ref id) = self.internal_id {
             return Some(id.clone());
@@ -220,7 +217,6 @@ mod tests {
         serde_json::from_value(serde_json::json!({"lat": 48.0, "lon": 11.0})).unwrap()
     }
 
-    /// A canonical valid building used as the base for both happy-path and validation cases.
     fn sample_building() -> NewBuilding {
         NewBuilding {
             parent_id: "nordgelaende".to_string(),
@@ -276,7 +272,6 @@ mod tests {
 
     #[test]
     fn missing_coords_fails_to_deserialize() {
-        // `coords` is required at the type level — serde rejects requests that omit it.
         let json = serde_json::json!({
             "parent_id": "nordgelaende",
             "node_kind": "building",

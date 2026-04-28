@@ -60,8 +60,6 @@ impl Description {
         Ok(())
     }
 
-    /// Render and apply additions. Rooms and POIs use a table layout; buildings use the
-    /// fenced-block layout (their summary is a multi-line `GeoJSON` block).
     pub fn apply_additions(
         &mut self,
         additions: &LimitedHashMap<String, Addition>,
@@ -71,7 +69,6 @@ impl Description {
         if additions.0.is_empty() {
             return Ok(());
         }
-        // Group keys by kind_label so each kind gets its own section + title fragment.
         let mut by_kind: BTreeMap<&'static str, Vec<(&str, &Addition)>> = BTreeMap::new();
         for (k, a) in &additions.0 {
             by_kind.entry(a.kind_label()).or_default().push((k, a));
@@ -93,7 +90,7 @@ impl Description {
             writeln!(self.body, "\nThe following {kind} additions were made:")
                 .expect("writing to a String is infallible");
 
-            // Buildings use block format because their result is a fenced GeoJSON block.
+            // Building summaries are multi-line GeoJSON, which doesn't fit in a table cell.
             let use_blocks = kind == "building";
             if use_blocks {
                 for (key, addition) in &entries {

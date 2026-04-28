@@ -105,6 +105,11 @@ impl TempRepo {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
 
+        // Additions go before edits so that an edit in the same request can target a
+        // newly-added entry (e.g. add a room, then edit its coordinate). The reverse order
+        // would reject the edit because the target wouldn't exist yet.
+        description.apply_additions(&edits.additions, self.dir.path(), branch_name)?;
+
         let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
         description.apply_set_as_blocks(
             "coordinate",
@@ -150,10 +155,6 @@ impl TempRepo {
                 }
             }
         }
-
-        // Additions are applied AFTER edits (so any edits are part of the snapshot used
-        // to apply the additions, in case they reference newly-edited entries).
-        description.apply_additions(&edits.additions, self.dir.path(), branch_name)?;
 
         let first_line = description.body.lines().next();
         info!(description_first_line=?first_line, title=description.title, "generated description");

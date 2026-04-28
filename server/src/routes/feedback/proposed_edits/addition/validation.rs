@@ -1,8 +1,5 @@
-//! Snapshot of the on-disk reference data + `AdditionError` shared by all addition variants.
-//!
-//! The validation runs against the SAME files an addition will eventually modify, after the
-//! `TempRepo` has been cloned (and after any prior edits applied in the same batch). This
-//! avoids the in-memory cache staleness problem.
+//! Validates against the cloned `TempRepo` itself, not an in-memory cache, so additions can't
+//! pass validation against state that has already drifted from disk.
 use std::collections::{BTreeMap, HashSet};
 use std::fmt;
 use std::fs::{self, File};
@@ -14,8 +11,6 @@ use thiserror::Error;
 
 use super::areatree::{AreatreeIndex, AreatreeKind};
 
-/// Where an existing-id collision was found, so callers can format a sensible message and tests
-/// can `matches!` on the source rather than substrings.
 #[derive(Debug, Clone, Copy, strum::IntoStaticStr)]
 #[strum(serialize_all = "snake_case")]
 pub enum CollisionSource {
@@ -35,7 +30,6 @@ impl fmt::Display for CollisionSource {
     }
 }
 
-/// Which addition variant a parent-type rule applies to.
 #[derive(Debug, Clone, Copy, strum::IntoStaticStr)]
 #[strum(serialize_all = "snake_case")]
 pub enum AdditionVariant {
@@ -52,7 +46,7 @@ impl fmt::Display for AdditionVariant {
 
 #[derive(Debug, Error)]
 pub enum AdditionError {
-    // `source` is a magic thiserror field name (it auto-wires `Error::source`); use `at` instead.
+    // `source` is reserved by thiserror (auto-wires `Error::source`); use `at` to avoid collision.
     #[error("ID `{id}` already exists in {at}")]
     IdCollision { id: String, at: CollisionSource },
     #[error("parent `{parent}` does not exist")]
@@ -96,7 +90,6 @@ pub enum AdditionError {
     VisibleIdCollision(String),
 }
 
-/// Cached on-disk reference data that all addition validators consult.
 #[derive(Debug)]
 pub struct RepoSnapshot {
     pub areatree: AreatreeIndex,

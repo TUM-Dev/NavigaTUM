@@ -1,4 +1,3 @@
-//! New POIs — appended to `21_pois.yaml` (a flat `BTreeMap<String, PoiEntry>`).
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
