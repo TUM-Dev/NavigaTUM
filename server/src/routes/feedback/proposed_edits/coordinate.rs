@@ -1,17 +1,18 @@
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use super::AppliableEdit;
 
-#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
+#[derive(Deserialize, Serialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
 pub struct Coordinate {
     /// Latitude
     #[schema(example = 48.26244490906312)]
-    lat: f64,
+    pub(in crate::routes::feedback::proposed_edits) lat: f64,
     /// Longitude
     #[schema(example = 48.26244490906312)]
-    lon: f64,
+    pub(in crate::routes::feedback::proposed_edits) lon: f64,
 }
 
 impl Coordinate {
@@ -22,28 +23,22 @@ impl Coordinate {
             .join("coordinates.csv")
     }
 }
-// TODO: AppliableEdit::apply returns String and cannot propagate I/O errors;
-// the existing implementation panics on filesystem failure. Refactor to Result
-// before removing the allow.
-#[allow(clippy::unwrap_used, clippy::panic, clippy::absolute_paths)]
-impl AppliableEdit for Coordinate {
-    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
+impl Coordinate {
+    pub(super) fn apply_to_csv(&self, key: &str, base_dir: &Path) -> anyhow::Result<()> {
         use std::io::{BufRead as _, BufReader, BufWriter, Write as _};
 
         let csv_file = Self::get_coordinates_csv_path(base_dir);
         let temp_file = csv_file.with_extension("tmp");
 
         {
-            // Write header
-            let output = std::fs::File::create(&temp_file).unwrap();
+            let output = File::create(&temp_file)?;
             let mut writer = BufWriter::new(output);
-            writeln!(writer, "id,lat,lon").unwrap();
+            writeln!(writer, "id,lat,lon")?;
 
             let mut wrote_edit = false;
 
-            // Process remaining lines
             {
-                let input = std::fs::File::open(&csv_file).unwrap();
+                let input = File::open(&csv_file)?;
                 for line in BufReader::new(input)
                     .lines()
                     .skip(1)
@@ -53,24 +48,33 @@ impl AppliableEdit for Coordinate {
                     if let Some(existing_key) = line.split(',').next() {
                         if !wrote_edit && existing_key >= key {
                             wrote_edit = true;
-                            writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)
-                                .unwrap();
+                            writeln!(
+                                writer,
+                                "{key},{lat},{lon}",
+                                lat = self.lat,
+                                lon = self.lon
+                            )?;
                         }
                         if existing_key != key {
-                            writeln!(writer, "{line}").unwrap();
+                            writeln!(writer, "{line}")?;
                         }
                     }
                 }
             }
 
-            // Append at the end
             if !wrote_edit {
-                writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon).unwrap();
+                writeln!(writer, "{key},{lat},{lon}", lat = self.lat, lon = self.lon)?;
             }
         }
 
-        // Replace original file with temp file
-        std::fs::rename(&temp_file, &csv_file).unwrap();
+        fs::rename(&temp_file, &csv_file)?;
+        Ok(())
+    }
+}
+
+impl AppliableEdit for Coordinate {
+    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
+        self.apply_to_csv(key, base_dir)?;
 
         let geojson = serde_json::json!({
             "type": "Feature",
@@ -87,7 +91,7 @@ impl AppliableEdit for Coordinate {
             }
         });
         let pretty = serde_json::to_string_pretty(&geojson).unwrap_or_else(|_| geojson.to_string());
-        format!("```geojson\n{pretty}\n```")
+        Ok(format!("```geojson\n{pretty}\n```"))
     }
 }
 
@@ -121,17 +125,17 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n").unwrap();
-        coord.apply("2", dir.path(), "branch");
+        coord.apply("2", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,1.0,1.0\n2,0,0\n"
         );
-        coord.apply("000.991", dir.path(), "branch");
+        coord.apply("000.991", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,1.0,1.0\n000.991,0,0\n2,0,0\n"
         );
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,1.0,1.0\n000.991,0,0\n1,0,0\n2,0,0\n"
@@ -143,7 +147,7 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n2,1.0,1.0\n").unwrap();
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,1.0,1.0\n1,0,0\n2,1.0,1.0\n"
@@ -156,14 +160,14 @@ mod tests {
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\nalpha,1.0,1.0\nzulu,1.0,1.0\n").unwrap();
         // inserting chars works
-        coord.apply("beta", dir.path(), "branch");
+        coord.apply("beta", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\nalpha,1.0,1.0\nbeta,0,0\nzulu,1.0,1.0\n"
         );
 
         // inserting numbers
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("0", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\nalpha,1.0,1.0\nbeta,0,0\nzulu,1.0,1.0\n"
@@ -175,12 +179,12 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n1,1.0,1.0\n").unwrap();
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("0", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,1.0,1.0\n"
         );
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,0,0\n"
@@ -192,12 +196,12 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n1,1.0,1.0\n").unwrap();
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("0", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,1.0,1.0\n"
         );
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,0,0\n"
@@ -210,19 +214,19 @@ mod tests {
         let (dir, csv_file) = setup();
         fs::write(&csv_file, "id,lat,lon\n0,1.0,1.0\n2,1.0,1.0\n").unwrap();
 
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,1.0,1.0\n1,0,0\n2,1.0,1.0\n"
         );
 
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("0", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,0,0\n2,1.0,1.0\n"
         );
 
-        coord.apply("2", dir.path(), "branch");
+        coord.apply("2", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n0,0,0\n1,0,0\n2,0,0\n"
@@ -234,7 +238,7 @@ mod tests {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
 
-        coord.apply("1", dir.path(), "branch");
+        coord.apply("1", dir.path(), "branch").unwrap();
         assert_eq!(
             fs::read_to_string(&csv_file).unwrap(),
             "id,lat,lon\n1,0,0\n"
@@ -245,7 +249,7 @@ mod tests {
     fn test_newline_at_eof() {
         let coord = Coordinate::default();
         let (dir, csv_file) = setup();
-        coord.apply("0", dir.path(), "branch");
+        coord.apply("0", dir.path(), "branch").unwrap();
         let expected = "id,lat,lon\n0,0,0\n";
         assert_eq!(fs::read_to_string(&csv_file).unwrap(), expected);
     }
@@ -257,7 +261,7 @@ mod tests {
             lon: 11.668,
         };
         let (dir, _csv_file) = setup();
-        let result = coord.apply("mi", dir.path(), "branch");
+        let result = coord.apply("mi", dir.path(), "branch").unwrap();
 
         // The result must start and end with the geojson fenced block markers.
         assert!(

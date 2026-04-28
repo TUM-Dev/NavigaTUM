@@ -1,4 +1,5 @@
 use std::fmt::Write as _;
+use std::path::Path;
 
 use anyhow::Context as _;
 use tokio::process::Command;
@@ -91,8 +92,16 @@ impl TempRepo {
         }
     }
 
+    pub fn base_dir(&self) -> &Path {
+        self.dir.path()
+    }
+
     #[tracing::instrument]
-    pub fn apply_and_gen_description(&self, edits: &EditRequest, branch_name: &str) -> Description {
+    pub fn apply_and_gen_description(
+        &self,
+        edits: &EditRequest,
+        branch_name: &str,
+    ) -> anyhow::Result<Description> {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
 
@@ -102,9 +111,9 @@ impl TempRepo {
             coordinate_edits,
             self.dir.path(),
             branch_name,
-        );
+        )?;
         let image_edits = edits.edits_for(|edit| edit.image);
-        description.appply_set("image", image_edits, self.dir.path(), branch_name);
+        description.appply_set("image", image_edits, self.dir.path(), branch_name)?;
 
         // Apply property edits — each entry can have multiple property edits
         let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits
@@ -132,7 +141,7 @@ impl TempRepo {
             description.body += "| ---   | ---  |\n";
             for (key, props) in &property_edits {
                 for prop in *props {
-                    let result = prop.apply(key, self.dir.path(), branch_name);
+                    let result = prop.apply(key, self.dir.path(), branch_name)?;
                     writeln!(
                         description.body,
                         "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
@@ -142,10 +151,14 @@ impl TempRepo {
             }
         }
 
+        // Additions are applied AFTER edits (so any edits are part of the snapshot used
+        // to apply the additions, in case they reference newly-edited entries).
+        description.apply_additions(&edits.additions, self.dir.path(), branch_name)?;
+
         let first_line = description.body.lines().next();
         info!(description_first_line=?first_line, title=description.title, "generated description");
 
-        description
+        Ok(description)
     }
 
     #[tracing::instrument]

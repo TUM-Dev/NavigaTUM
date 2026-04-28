@@ -3242,6 +3242,7 @@ dependencies = [
  "tempfile",
  "testcontainers",
  "testcontainers-modules",
+ "thiserror 2.0.18",
  "tokio",
  "tracing",
  "tracing-actix-web",

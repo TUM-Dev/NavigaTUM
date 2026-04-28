@@ -6,8 +6,14 @@ use serde::{Deserialize, Serialize};
 
 use crate::limited::OrMore;
 
-#[derive(Serialize, Deserialize, Clone, Default, utoipa::ToSchema)]
+#[derive(Serialize, Deserialize, Clone, utoipa::ToSchema)]
 pub struct LimitedHashMap<K: Eq + Hash, V>(pub HashMap<K, V>);
+
+impl<K: Eq + Hash, V> Default for LimitedHashMap<K, V> {
+    fn default() -> Self {
+        Self(HashMap::new())
+    }
+}
 
 impl<K: Eq + Hash, V> From<HashMap<K, V>> for LimitedHashMap<K, V> {
     fn from(value: HashMap<K, V>) -> Self {

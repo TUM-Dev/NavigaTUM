@@ -358,6 +358,39 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
+def _addition_to_row(addition: dict[str, Any]) -> dict[str, Any]:
+    """
+    Convert one entry from the ``additions:`` block of `15_patches-rooms_tumonline.yaml` into the
+    same row shape that ``load_rooms`` returns.
+
+    User-submitted rooms have no TUMonline ids, so those columns are ``None``.  ``patched`` is
+    set to ``True`` so downstream code that branches on the patched flag treats them like
+    locally-modified rows.
+    """
+    address = addition.get("address") or {}
+    seats = addition.get("seats") or {}
+    return {
+        "room_key": addition["room_key"],
+        "address_place": address.get("place", "unknown"),
+        "address_street": address.get("street", "unknown"),
+        "address_zip_code": int(address["zip_code"]) if address.get("zip_code") else 0,
+        "seats_sitting": seats.get("sitting"),
+        "seats_wheelchair": seats.get("wheelchair"),
+        "seats_standing": seats.get("standing"),
+        "floor_type": addition.get("floor_type", "unknown"),
+        "floor_level": addition.get("floor_level", "unknown"),
+        "tumonline_id": None,
+        "area_id": None,
+        "building_id": None,
+        "main_operator_id": None,
+        "usage_id": int(addition["usage_id"]),
+        "alt_name": addition["alt_name"],
+        "arch_name": addition["arch_name"],
+        "calendar_resource_nr": None,
+        "patched": True,
+    }
+
+
 def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     """
     Apply some known corrections / patches on the TUMonline room data.
@@ -370,6 +403,22 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
         patches = yaml.safe_load(file.read())
 
     apply_roomcode_patch(rooms, patches["patches"])
+
+    # User-submitted additions from the feedback path.  Validation already happened in the
+    # Rust handler when the addition was accepted; here we trust the file but still let the
+    # drift-gate's primary-key check catch a duplicate room_key.
+    for addition in patches.get("additions") or []:
+        room_key = addition.get("room_key")
+        if not room_key:
+            _logger.warning(f"skipping addition without room_key: {addition}")
+            continue
+        if room_key in rooms:
+            _logger.warning(
+                f"addition `{room_key}` collides with an existing TUMonline room — keeping the "
+                f"TUMonline version. The drift-gate will fail until the duplicate is resolved."
+            )
+            continue
+        rooms[room_key] = _addition_to_row(addition)
 
     used_arch_names: dict[str, tuple[str, str, str]] = {}
     used_roomcode_levels = {}
