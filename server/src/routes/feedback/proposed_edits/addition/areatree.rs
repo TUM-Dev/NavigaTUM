@@ -398,8 +398,7 @@ mod tests {
 
     #[test]
     fn insert_under_alphabetical_middle() {
-        let result =
-            insert_under(SAMPLE, "nordgelaende", "0103", "0103:NewBldg:0103,n3").unwrap();
+        let result = insert_under(SAMPLE, "nordgelaende", "0103", "0103:NewBldg:0103,n3").unwrap();
         assert_snapshot!(result, @r"
         :Standorte:root[root]
           0:Stammgelände:stammgelaende[campus]
