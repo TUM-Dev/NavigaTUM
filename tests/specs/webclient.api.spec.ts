@@ -14,10 +14,10 @@ test.describe("Webclient - Prometheus Metrics", () => {
     // Extract only HELP and TYPE lines for the snapshot — these are stable
     // across environments, while metric values, active handles, and resource
     // types vary between dev mode, production, and different Node.js versions.
-    const structuralLines = body
+    const structuralLines = `${body
       .split("\n")
       .filter((line) => line.startsWith("# HELP") || line.startsWith("# TYPE"))
-      .join("\n");
+      .join("\n")}\n`;
 
     expect(structuralLines).toMatchSnapshot("prometheus-metrics.txt");
   });
