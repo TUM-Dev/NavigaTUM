@@ -1,7 +1,6 @@
 import type { components } from "~/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
-type ResultEntry = components["schemas"]["ResultEntry"];
 
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
@@ -11,15 +10,8 @@ function _allowHighlighting(text: string): string {
   return opt.replaceAll("\x19", "<b class='text-blue-500'>").replaceAll("\x17", "</b>");
 }
 
-export type SectionFacet = RoomFacet | SiteBuildingFacet;
-type RoomFacet = {
-  facet: "rooms";
-  name: string;
-  entries: EntryFacet[];
-  estimatedTotalHits: number;
-};
-type SiteBuildingFacet = {
-  facet: "sites_buildings";
+export type SectionFacet = {
+  facet: "sites" | "buildings" | "rooms" | "pois";
   name: string;
   entries: EntryFacet[];
   estimatedTotalHits: number;
@@ -35,51 +27,37 @@ type EntryFacet = {
   parsed_id: string | null;
 };
 
-export function extractFacets(data: SearchResponse, roomName: string, buildingName: string) {
+export function extractFacets(
+  data: SearchResponse,
+  labels: Record<SectionFacet["facet"], string>
+): SectionFacet[] {
   const sections: SectionFacet[] = [];
 
   for (const section of data.sections) {
-    const entries: EntryFacet[] = [];
-
-    switch (section.facet) {
-      case "rooms":
-        for (const entry of section.entries) {
-          entries.push({
-            id: entry.id,
-            name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
-            type: entry.type,
-            subtext: entry.subtext,
-            subtext_bold: _allowHighlighting(entry.subtext_bold || ""), // we explicitly dont let vue sanitise this text
-            parsed_id: _allowHighlighting(entry.parsed_id || ""), // we explicitly dont let vue sanitise this text
-          });
-        }
-        sections.push({
-          facet: "rooms",
-          name: roomName,
-          entries: entries,
-          estimatedTotalHits: section.estimatedTotalHits,
-        });
-        break;
-      case "sites_buildings":
-        for (const entry of section.entries) {
-          entries.push({
-            id: entry.id,
-            name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
-            type: entry.type,
-            subtext: entry.subtext,
-            subtext_bold: null,
-            parsed_id: null,
-          });
-        }
-        sections.push({
-          facet: "sites_buildings",
-          name: buildingName,
-          expanded: false,
-          entries: entries,
-          estimatedTotalHits: section.estimatedTotalHits,
-          n_visible: section.n_visible || entries.length,
-        });
+    if (
+      section.facet !== "sites" &&
+      section.facet !== "buildings" &&
+      section.facet !== "rooms" &&
+      section.facet !== "pois"
+    ) {
+      continue;
     }
+    const entries: EntryFacet[] = section.entries.map((entry) => ({
+      id: entry.id,
+      name: _allowHighlighting(entry.name),
+      type: entry.type,
+      subtext: entry.subtext,
+      subtext_bold: _allowHighlighting(entry.subtext_bold || ""),
+      parsed_id: _allowHighlighting(entry.parsed_id || ""),
+    }));
+    sections.push({
+      facet: section.facet,
+      name: labels[section.facet],
+      entries,
+      estimatedTotalHits: section.estimatedTotalHits,
+      expanded: false,
+      n_visible: section.n_visible || entries.length,
+    });
   }
 
   return sections;

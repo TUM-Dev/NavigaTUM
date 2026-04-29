@@ -600,14 +600,14 @@ paths:
         - name: type
           in: query
           description: |-
-            Filter by entry type (e.g. `room`, `building`).
+            Filter by facet.
 
-            Can be repeated for multiple values.
+            Can be repeated for multiple values. Unknown values cause a `400`.
           required: false
           schema:
             type: array
             items:
-              type: string
+              $ref: '#/components/schemas/FacetFilter'
         - name: near
           in: query
           description: Sort results by distance to a coordinate (`lat,lon`).
@@ -624,10 +624,21 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: limit_sites
+          in: query
+          description: |-
+            Maximum number of sites (campus / site / area) to return.
+
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
         - name: limit_buildings
           in: query
           description: |-
-            Maximum number of buildings/sites to return.
+            Maximum number of buildings to return.
 
             Clamped to `0`..`1000`.
             If this is a problem for you, please open an issue.
@@ -642,6 +653,17 @@ paths:
 
             Clamped to `0`..`1000`.
             If this is an problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: limit_pois
+          in: query
+          description: |-
+            Maximum number of POIs (points of interest) to return.
+
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
           required: false
           schema:
             type: integer
@@ -1224,6 +1246,19 @@ components:
             - "null"
           examples:
             - Genauere Angaben
+    FacetFilter:
+      type: string
+      description: |-
+        Allowlisted values for the `?type=` query parameter.
+
+        Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+        silently dropping them, and so the `OpenAPI` schema advertises the exact set
+        of accepted values.
+      enum:
+        - site
+        - building
+        - room
+        - poi
     FeaturedOverviewItemResponse:
       type: object
       required:
@@ -2590,8 +2625,10 @@ components:
     ResultFacet:
       type: string
       enum:
-        - sites_buildings
+        - sites
+        - buildings
         - rooms
+        - pois
         - addresses
     ResultsSection:
       type: object

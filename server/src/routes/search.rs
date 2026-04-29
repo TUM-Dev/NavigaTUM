@@ -3,6 +3,7 @@ use std::fmt::{self, Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
+use crate::external::meilisearch::FacetFilter;
 use crate::search_executor::{self, ResultFacet, ResultsSection};
 use actix_web::dev::Payload;
 use actix_web::error::ErrorBadRequest;
@@ -24,7 +25,7 @@ pub struct SearchCacheKey {
     pub formatting_config: FormattingConfig,
     pub filter_in: Vec<String>,
     pub filter_usage: Vec<String>,
-    pub filter_type: Vec<String>,
+    pub filter_type: Vec<FacetFilter>,
     pub near: Option<String>,
 }
 
@@ -81,12 +82,12 @@ pub struct SearchQueryArgs {
     #[schema(example = json!(["wc"]))]
     usage: Vec<String>,
 
-    /// Filter by entry type (e.g. `room`, `building`).
+    /// Filter by facet.
     ///
-    /// Can be repeated for multiple values.
+    /// Can be repeated for multiple values. Unknown values cause a `400`.
     #[serde(rename = "type", default)]
-    #[schema(example = json!(["room"]))]
-    filter_type: Vec<String>,
+    #[schema(example = json!(["site", "room"]))]
+    filter_type: Vec<FacetFilter>,
 
     /// Sort results by distance to a coordinate (`lat,lon`).
     #[schema(example = "48.123,11.456")]
@@ -98,7 +99,14 @@ pub struct SearchQueryArgs {
     /// Only activate this when you really need it.
     search_addresses: Option<bool>,
 
-    /// Maximum number of buildings/sites to return.
+    /// Maximum number of sites (campus / site / area) to return.
+    ///
+    /// Clamped to `0`..`1000`.
+    /// If this is a problem for you, please open an issue.
+    #[schema(default = 5, maximum = 1000, minimum = 0)]
+    limit_sites: Option<usize>,
+
+    /// Maximum number of buildings to return.
     ///
     /// Clamped to `0`..`1000`.
     /// If this is a problem for you, please open an issue.
@@ -111,6 +119,13 @@ pub struct SearchQueryArgs {
     /// If this is an problem for you, please open an issue.
     #[schema(default = 10, maximum = 1000, minimum = 0)]
     limit_rooms: Option<usize>,
+
+    /// Maximum number of POIs (points of interest) to return.
+    ///
+    /// Clamped to `0`..`1000`.
+    /// If this is a problem for you, please open an issue.
+    #[schema(default = 5, maximum = 1000, minimum = 0)]
+    limit_pois: Option<usize>,
 
     /// Maximum number of results to return.
     ///
@@ -196,11 +211,17 @@ impl Debug for SearchResponse {
         base.field("time_ms", &self.time_ms);
         for section in &self.sections {
             match section.facet {
-                ResultFacet::SitesBuildings => {
-                    base.field("sites_buildings", section);
+                ResultFacet::Sites => {
+                    base.field("sites", section);
+                }
+                ResultFacet::Buildings => {
+                    base.field("buildings", section);
                 }
                 ResultFacet::Rooms => {
                     base.field("rooms", section);
+                }
+                ResultFacet::Pois => {
+                    base.field("pois", section);
                 }
                 ResultFacet::Addresses => {
                     base.field("addresses", section);
@@ -214,16 +235,31 @@ impl Debug for SearchResponse {
 /// Limit per facet
 #[derive(Clone, Eq, PartialEq, Hash)]
 pub struct Limits {
+    pub sites_count: usize,
     pub buildings_count: usize,
     pub rooms_count: usize,
+    pub pois_count: usize,
     pub total_count: usize,
+}
+
+impl Limits {
+    /// Sum of per-facet caps. Used to size the federation budget upstream.
+    #[must_use]
+    pub fn per_facet_total(&self) -> usize {
+        self.sites_count
+            .saturating_add(self.buildings_count)
+            .saturating_add(self.rooms_count)
+            .saturating_add(self.pois_count)
+    }
 }
 
 impl Debug for Limits {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("Limits")
-            .field("building", &self.buildings_count)
+            .field("sites", &self.sites_count)
+            .field("buildings", &self.buildings_count)
             .field("rooms", &self.rooms_count)
+            .field("pois", &self.pois_count)
             .field("total", &self.total_count)
             .finish()
     }
@@ -233,8 +269,10 @@ impl Default for Limits {
     fn default() -> Self {
         Self {
             total_count: 10,
+            sites_count: 5,
             buildings_count: 5,
             rooms_count: 10,
+            pois_count: 5,
         }
     }
 }
@@ -243,6 +281,11 @@ impl From<&SearchQueryArgs> for Limits {
     fn from(args: &SearchQueryArgs) -> Self {
         let total_count = args.limit_all.unwrap_or(10).clamp(0, 1_000);
         Self {
+            sites_count: args
+                .limit_sites
+                .unwrap_or(5)
+                .clamp(0, 1_000)
+                .min(total_count),
             buildings_count: args
                 .limit_buildings
                 .unwrap_or(5)
@@ -251,6 +294,11 @@ impl From<&SearchQueryArgs> for Limits {
             rooms_count: args
                 .limit_rooms
                 .unwrap_or(10)
+                .clamp(0, 1_000)
+                .min(total_count),
+            pois_count: args
+                .limit_pois
+                .unwrap_or(5)
                 .clamp(0, 1_000)
                 .min(total_count),
             total_count,
@@ -358,7 +406,7 @@ fn slugify(input: &str) -> String {
 fn build_meilisearch_filter(
     filter_in: &[String],
     usage: &[String],
-    filter_type: &[String],
+    filter_type: &[FacetFilter],
 ) -> String {
     let mut filters = vec![];
     if !filter_in.is_empty() {
@@ -369,9 +417,10 @@ fn build_meilisearch_filter(
         ));
     }
     if !filter_type.is_empty() {
-        let types: Vec<String> = filter_type.iter().map(|s| slugify(s)).collect();
-        let types_debug: Vec<&str> = types.iter().map(String::as_str).collect();
-        filters.push(format!("(type IN {types_debug:?})"));
+        // Allowlist enforced by `serde` at deserialise time — unknown values
+        // already turned into a 400 before we got here.
+        let facets: Vec<&str> = filter_type.iter().map(|f| f.as_str()).collect();
+        filters.push(format!("(facet IN {facets:?})"));
     }
     if !usage.is_empty() {
         let usages: Vec<String> = usage.iter().map(|s| slugify(s)).collect();
@@ -459,7 +508,7 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
 
     debug!(?results_sections, "searching returned");
 
-    if results_sections.len() > 3 {
+    if results_sections.len() > 5 {
         error!(
             returned_section_cnt = results_sections.len(),
             "searching did not return expected the amount of sections it expected",
@@ -534,19 +583,25 @@ mod tests {
 
     fn assert_limits_invariants(limits: &Limits) {
         assert!(limits.total_count <= 1_000);
-        assert!(limits.rooms_count <= 1_000);
+        assert!(limits.sites_count <= 1_000);
         assert!(limits.buildings_count <= 1_000);
+        assert!(limits.rooms_count <= 1_000);
+        assert!(limits.pois_count <= 1_000);
 
-        assert!(limits.rooms_count <= limits.total_count);
+        assert!(limits.sites_count <= limits.total_count);
         assert!(limits.buildings_count <= limits.total_count);
+        assert!(limits.rooms_count <= limits.total_count);
+        assert!(limits.pois_count <= limits.total_count);
     }
 
     #[test]
     fn limits_default_values_are_sane() {
         let limits = Limits::default();
         assert_eq!(limits.total_count, 10);
-        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.sites_count, 5);
         assert_eq!(limits.buildings_count, 5);
+        assert_eq!(limits.rooms_count, 10);
+        assert_eq!(limits.pois_count, 5);
         assert_limits_invariants(&limits);
     }
 
@@ -554,15 +609,19 @@ mod tests {
     fn limits_are_clamped_to_global_max() {
         let input = SearchQueryArgs {
             limit_all: Some(usize::MAX),
+            limit_sites: Some(usize::MAX),
             limit_rooms: Some(usize::MAX),
             limit_buildings: Some(usize::MAX),
+            limit_pois: Some(usize::MAX),
             ..Default::default()
         };
         let limits = Limits::from(&input);
 
         assert_eq!(limits.total_count, 1_000);
+        assert_eq!(limits.sites_count, 1_000);
         assert_eq!(limits.rooms_count, 1_000);
         assert_eq!(limits.buildings_count, 1_000);
+        assert_eq!(limits.pois_count, 1_000);
         assert_limits_invariants(&limits);
     }
 
@@ -570,15 +629,19 @@ mod tests {
     fn limits_total_constrains_per_facet_limits() {
         let input = SearchQueryArgs {
             limit_all: Some(10),
+            limit_sites: Some(100),
             limit_rooms: Some(100),
             limit_buildings: Some(100),
+            limit_pois: Some(100),
             ..Default::default()
         };
         let limits = Limits::from(&input);
 
         assert_eq!(limits.total_count, 10);
+        assert_eq!(limits.sites_count, 10);
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.buildings_count, 10);
+        assert_eq!(limits.pois_count, 10);
         assert_limits_invariants(&limits);
     }
 
@@ -586,16 +649,32 @@ mod tests {
     fn limits_zero_is_allowed_and_keeps_invariants() {
         let input = SearchQueryArgs {
             limit_all: Some(0),
+            limit_sites: Some(0),
             limit_rooms: Some(0),
             limit_buildings: Some(0),
+            limit_pois: Some(0),
             ..Default::default()
         };
         let limits = Limits::from(&input);
 
         assert_eq!(limits.total_count, 0);
+        assert_eq!(limits.sites_count, 0);
         assert_eq!(limits.rooms_count, 0);
         assert_eq!(limits.buildings_count, 0);
+        assert_eq!(limits.pois_count, 0);
         assert_limits_invariants(&limits);
+    }
+
+    #[test]
+    fn limits_per_facet_total_sums_all_facets() {
+        let limits = Limits {
+            sites_count: 1,
+            buildings_count: 2,
+            rooms_count: 3,
+            pois_count: 4,
+            total_count: 100,
+        };
+        assert_eq!(limits.per_facet_total(), 10);
     }
 
     #[test]
@@ -705,8 +784,8 @@ mod tests {
 
     #[test]
     fn filter_type_only() {
-        let filter = build_meilisearch_filter(&[], &[], &["room".to_string()]);
-        assert!(filter.contains("type"));
+        let filter = build_meilisearch_filter(&[], &[], &[FacetFilter::Room]);
+        assert!(filter.contains("facet"));
         assert!(filter.contains("room"));
     }
 
@@ -715,7 +794,7 @@ mod tests {
         let filter = build_meilisearch_filter(
             &["garching".to_string()],
             &["wc".to_string()],
-            &["room".to_string()],
+            &[FacetFilter::Room],
         );
         assert!(filter.contains("AND"));
         assert!(filter.contains("garching"));
@@ -731,9 +810,32 @@ mod tests {
     }
 
     #[test]
-    fn filter_preserves_underscores_in_parent_values() {
-        let filter = build_meilisearch_filter(&[], &[], &["joined_building".to_string()]);
-        assert!(filter.contains("joined_building"));
+    fn filter_type_serializes_all_known_facets() {
+        let filter = build_meilisearch_filter(
+            &[],
+            &[],
+            &[
+                FacetFilter::Site,
+                FacetFilter::Building,
+                FacetFilter::Room,
+                FacetFilter::Poi,
+            ],
+        );
+        insta::assert_snapshot!(filter, @r#"(facet IN ["site", "building", "room", "poi"])"#);
+    }
+
+    #[test]
+    fn query_rejects_unknown_facet_type() {
+        // Legacy raw types like `joined_building` and `virtual_room` are no
+        // longer valid `?type=` values — serde must reject them so callers get
+        // a loud 400 instead of a silently empty filter.
+        for bad in ["joined_building", "virtual_room", "campus", "area", ""] {
+            let q = format!("q=foo&type={bad}");
+            assert!(
+                serde_html_form::from_str::<SearchQueryArgs>(&q).is_err(),
+                "expected `type={bad}` to be rejected"
+            );
+        }
     }
 
     #[test]
@@ -752,9 +854,10 @@ mod tests {
     #[test]
     fn query_parses_repeated_filter_keys() {
         let args: SearchQueryArgs =
-            serde_html_form::from_str("q=raum&type=room&in=garching&in=5304&usage=wc").unwrap();
+            serde_html_form::from_str("q=raum&type=room&type=poi&in=garching&in=5304&usage=wc")
+                .unwrap();
         assert_eq!(args.q, "raum");
-        assert_eq!(args.filter_type, vec!["room"]);
+        assert_eq!(args.filter_type, vec![FacetFilter::Room, FacetFilter::Poi]);
         assert_eq!(args.filter_in, vec!["garching", "5304"]);
         assert_eq!(args.usage, vec!["wc"]);
     }

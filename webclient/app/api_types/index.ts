@@ -439,6 +439,15 @@ export type components = {
       readonly footer?: string | null;
       readonly header?: string | null;
     };
+    /**
+     * @description Allowlisted values for the `?type=` query parameter.
+     *
+     * Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+     * silently dropping them, and so the `OpenAPI` schema advertises the exact set
+     * of accepted values.
+     * @enum {string}
+     */
+    readonly FacetFilter: "site" | "building" | "room" | "poi";
     readonly FeaturedOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -1282,7 +1291,7 @@ export type components = {
       readonly type: string;
     };
     /** @enum {string} */
-    readonly ResultFacet: "sites_buildings" | "rooms" | "addresses";
+    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "addresses";
     readonly ResultsSection: {
       readonly entries: readonly components["schemas"]["ResultEntry"][];
       /**
@@ -2124,11 +2133,11 @@ export type operations = {
          */
         usage?: readonly string[];
         /**
-         * @description Filter by entry type (e.g. `room`, `building`).
+         * @description Filter by facet.
          *
-         * Can be repeated for multiple values.
+         * Can be repeated for multiple values. Unknown values cause a `400`.
          */
-        type?: readonly string[];
+        type?: readonly components["schemas"]["FacetFilter"][];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
         near?: string;
         /**
@@ -2139,7 +2148,14 @@ export type operations = {
          */
         search_addresses?: boolean;
         /**
-         * @description Maximum number of buildings/sites to return.
+         * @description Maximum number of sites (campus / site / area) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_sites?: number;
+        /**
+         * @description Maximum number of buildings to return.
          *
          * Clamped to `0`..`1000`.
          * If this is a problem for you, please open an issue.
@@ -2152,6 +2168,13 @@ export type operations = {
          * If this is an problem for you, please open an issue.
          */
         limit_rooms?: number;
+        /**
+         * @description Maximum number of POIs (points of interest) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_pois?: number;
         /**
          * @description Maximum number of results to return.
          *

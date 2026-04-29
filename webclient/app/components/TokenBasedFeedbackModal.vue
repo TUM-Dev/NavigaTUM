@@ -13,6 +13,7 @@ const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 const privacyChecked = ref(false);
 const feedback = useFeedback();
+const initialBody = feedback.value.data.body;
 
 function closeForm() {
   feedback.value.open = false;
@@ -90,6 +91,10 @@ function sendForm() {
   }
   if (feedback.value.data.body.length < 10) {
     error.value.message = t("error.form.too_short_body");
+    return;
+  }
+  if (initialBody && feedback.value.data.body.trim() === initialBody.trim()) {
+    error.value.message = t("error.form.body_unchanged");
     return;
   }
 
@@ -224,6 +229,7 @@ de:
     form:
       too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
       too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
+      body_unchanged: "Fehler: Bitte beschreibe dein Feedback in der Nachricht"
   status:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
@@ -257,6 +263,7 @@ en:
     form:
       too_short_body: "Error: Message missing or too short"
       too_short_subject: "Error: Subject missing or too short"
+      body_unchanged: "Error: Please describe your feedback in the message"
   status:
     server_error: Server Error
     send_unexpected_status: Unexpected status code

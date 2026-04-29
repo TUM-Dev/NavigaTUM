@@ -7,17 +7,49 @@ use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{
     FederatedMultiSearchResponse, FederationOptions, MergeFacets, SearchQuery, Selectors,
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::routes::search::{FormattingConfig, Limits};
 
 pub(crate) const ENTRIES_INDEX: &str = "entries";
 pub(crate) const FACET_FIELD: &str = "facet";
-pub(crate) const ROOM_FACET: &str = "room";
+pub(crate) const SITE_FACET: &str = "site";
 pub(crate) const BUILDING_FACET: &str = "building";
+pub(crate) const ROOM_FACET: &str = "room";
+pub(crate) const POI_FACET: &str = "poi";
+/// Ordered list of facets the search federates over. Order is the priority
+/// used by the merger when distributing the over-fetched federation budget
+/// across facet caps.
+pub(crate) const FACETS: &[&str] = &[SITE_FACET, BUILDING_FACET, ROOM_FACET, POI_FACET];
+
+/// Allowlisted values for the `?type=` query parameter.
+///
+/// Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+/// silently dropping them, and so the `OpenAPI` schema advertises the exact set
+/// of accepted values.
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum FacetFilter {
+    Site,
+    Building,
+    Room,
+    Poi,
+}
+
+impl FacetFilter {
+    #[must_use]
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Site => SITE_FACET,
+            Self::Building => BUILDING_FACET,
+            Self::Room => ROOM_FACET,
+            Self::Poi => POI_FACET,
+        }
+    }
+}
 
 /// Federation has no per-facet quota — it merges by `_rankingScore` only. We
-/// over-fetch by this factor so the merger downstream can still fill both
+/// over-fetch by this factor so the merger downstream can still fill all
 /// per-facet caps when one facet dominates the ranking (observed: queries
 /// like `MW1801` returned 14 buildings + 1 room at the natural cap of 15).
 /// Empirical; revisit if facet-starvation shows up in metrics.
@@ -32,6 +64,7 @@ pub struct MSHit {
     pub arch_name: Option<String>,
     pub r#type: String,
     pub type_common_name: String,
+    pub facet: Option<String>,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     pub campus: Option<String>,
@@ -94,8 +127,12 @@ impl GeoEntryQuery {
     pub async fn execute(self) -> Result<FederatedMultiSearchResponse<MSHit>, Error> {
         let entries = self.client.index(ENTRIES_INDEX);
         let sorting: Vec<&str> = self.sorting.iter().map(String::as_str).collect();
-        let rooms_filter = compose_filter(&facet_eq(ROOM_FACET), &self.user_filter);
-        let buildings_filter = compose_filter(&facet_eq(BUILDING_FACET), &self.user_filter);
+        // One filter per facet, ordered to match `FACETS` so callers can
+        // reason about per-facet behavior consistently.
+        let per_facet_filters: Vec<String> = FACETS
+            .iter()
+            .map(|f| compose_filter(&facet_eq(f), &self.user_filter))
+            .collect();
 
         // Per-query `limit` is rejected by Meilisearch in federated mode; the
         // global cap lives on `federation.limit` instead. `merge_facets` is
@@ -106,12 +143,14 @@ impl GeoEntryQuery {
         facets_by_index.insert(ENTRIES_INDEX.to_string(), vec![FACET_FIELD.to_string()]);
 
         let mut multi = self.client.multi_search();
-        multi.with_search_query(self.facet_query(&entries, &rooms_filter, &sorting));
-        multi.with_search_query(self.facet_query(&entries, &buildings_filter, &sorting));
+        for filter in &per_facet_filters {
+            multi.with_search_query(self.facet_query(&entries, filter, &sorting));
+        }
         multi
             .with_federation(FederationOptions {
                 limit: Some(
-                    (self.limits.buildings_count + self.limits.rooms_count)
+                    self.limits
+                        .per_facet_total()
                         .saturating_mul(FEDERATION_OVERFETCH_FACTOR),
                 ),
                 facets_by_index: Some(facets_by_index),
