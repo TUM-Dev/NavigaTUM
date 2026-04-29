@@ -358,6 +358,32 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
+def _addition_to_row(addition: dict[str, Any]) -> dict[str, Any]:
+    """Reshape an ``additions:`` entry to match the row layout returned by ``load_rooms``."""
+    address = addition.get("address") or {}
+    seats = addition.get("seats") or {}
+    return {
+        "room_key": addition["room_key"],
+        "address_place": address.get("place", "unknown"),
+        "address_street": address.get("street", "unknown"),
+        "address_zip_code": int(address["zip_code"]) if address.get("zip_code") else 0,
+        "seats_sitting": seats.get("sitting"),
+        "seats_wheelchair": seats.get("wheelchair"),
+        "seats_standing": seats.get("standing"),
+        "floor_type": addition.get("floor_type", "unknown"),
+        "floor_level": addition.get("floor_level", "unknown"),
+        "tumonline_id": None,
+        "area_id": None,
+        "building_id": None,
+        "main_operator_id": None,
+        "usage_id": int(addition["usage_id"]),
+        "alt_name": addition["alt_name"],
+        "arch_name": addition["arch_name"],
+        "calendar_resource_nr": None,
+        "patched": True,
+    }
+
+
 def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     """
     Apply some known corrections / patches on the TUMonline room data.
@@ -370,6 +396,24 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
         patches = yaml.safe_load(file.read())
 
     apply_roomcode_patch(rooms, patches["patches"])
+
+    # The Rust handler already rejects collisions at submission time, but TUMonline may later
+    # ship a room with the same key — fail the build loudly so a human resolves which side wins.
+    addition_collisions: list[str] = []
+    for addition in patches.get("additions") or []:
+        room_key = addition.get("room_key")
+        if not room_key:
+            raise RuntimeError(f"addition without room_key: {addition!r}")
+        if room_key in rooms:
+            addition_collisions.append(room_key)
+            continue
+        rooms[room_key] = _addition_to_row(addition)
+    if addition_collisions:
+        raise RuntimeError(
+            f"{len(addition_collisions)} user-added rooms collide with TUMonline rooms: "
+            f"{addition_collisions!r}. Remove them from `15_patches-rooms_tumonline.yaml` "
+            f"under `additions:` (TUMonline is now the source of truth for these keys)."
+        )
 
     used_arch_names: dict[str, tuple[str, str, str]] = {}
     used_roomcode_levels = {}

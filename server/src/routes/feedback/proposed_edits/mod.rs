@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::path::Path;
+use std::sync::Arc;
 
 use actix_web::web::{Data, Json};
 use actix_web::{HttpResponse, post};
@@ -13,18 +14,22 @@ use url::Url;
 
 use crate::limited::hash_map::LimitedHashMap;
 
+use super::proposed_edits::addition::Addition;
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
 use super::proposed_edits::property::PropertyEdit;
-use super::proposed_edits::tmp_repo::TempRepo;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
+pub(crate) mod addition;
 mod coordinate;
 mod description;
 mod image;
-pub(crate) mod property;
+mod property;
+pub(crate) mod repo_pool;
 mod tmp_repo;
+
+const COMBINED_CAP: usize = 500;
 
 #[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
 struct Edit {
@@ -33,7 +38,7 @@ struct Edit {
     properties: Option<Vec<PropertyEdit>>,
 }
 pub trait AppliableEdit {
-    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String;
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String>;
 }
 
 #[derive(Debug, Deserialize, utoipa::IntoParams, utoipa::ToSchema)]
@@ -44,12 +49,16 @@ pub struct EditRequest {
     )]
     token: String,
     /// The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
+    #[serde(default = "LimitedHashMap::empty")]
     edits: LimitedHashMap<String, Edit>,
+    /// New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side.
+    #[serde(default = "LimitedHashMap::empty")]
+    pub(super) additions: LimitedHashMap<String, Addition>,
     /// Additional context for the edit.
     ///
     /// Will be displayed in the discription field of the PR
     #[schema(example = "I have a picture of the room, please add it to the roomfinder")]
-    additional_context: String,
+    pub(super) additional_context: String,
     /// Whether the user has checked the privacy-checkbox.
     ///
     /// We are posting the feedback publicly on GitHub (not a EU-Company).
@@ -57,25 +66,60 @@ pub struct EditRequest {
     privacy_checked: bool,
 }
 
+pub enum ApplyError {
+    // Split out from `Other` so the handler can return a structured 422 with a per-key error
+    // list instead of a generic 500.
+    AdditionValidation(Vec<AdditionValidationFailure>),
+    Other(anyhow::Error),
+}
+
+#[derive(Debug, serde::Serialize)]
+pub struct AdditionValidationFailure {
+    pub key: String,
+    pub error: String,
+}
+
+impl<E> From<E> for ApplyError
+where
+    E: Into<anyhow::Error>,
+{
+    fn from(e: E) -> Self {
+        Self::Other(e.into())
+    }
+}
+
 impl EditRequest {
-    #[tracing::instrument]
+    #[tracing::instrument(skip(repo_pool))]
     async fn apply_changes_and_generate_description(
         &self,
+        repo_pool: &repo_pool::RepoPool,
         branch_name: &str,
         branch_is_new: bool,
-    ) -> anyhow::Result<String> {
-        let Some(pat) = GitHub::github_token() else {
-            anyhow::bail!("Failed to get GitHub token");
-        };
-        let url = format!("https://{pat}@github.com/TUM-Dev/NavigaTUM");
-        let repo = if branch_is_new {
-            TempRepo::clone_and_checkout_new_branch(&url, branch_name).await?
-        } else {
-            TempRepo::clone_and_checkout_existing_branch(&url, branch_name).await?
-        };
-        let desc = repo.apply_and_gen_description(self, branch_name);
-        repo.commit(&desc.title).await?;
-        repo.push().await?;
+    ) -> Result<String, ApplyError> {
+        let worktree = repo_pool
+            .create_worktree(branch_name, branch_is_new)
+            .await?;
+
+        // Reject malformed additions before any writes so a bad request never produces a PR.
+        if !self.additions.0.is_empty() {
+            let snap = addition::validation::RepoSnapshot::load(worktree.base_dir())?;
+            let mut failures = Vec::new();
+            for (key, addition) in &self.additions.0 {
+                if let Err(e) = addition.validate(key, &snap) {
+                    failures.push(AdditionValidationFailure {
+                        key: key.clone(),
+                        error: e.to_string(),
+                    });
+                }
+            }
+            if !failures.is_empty() {
+                return Err(ApplyError::AdditionValidation(failures));
+            }
+        }
+
+        let desc = worktree.apply_and_gen_description(self, branch_name)?;
+        worktree.commit(&desc.title).await?;
+        worktree.push().await?;
         Ok(desc.body)
     }
     fn edits_for<T: AppliableEdit>(&self, extractor: fn(Edit) -> Option<T>) -> HashMap<String, T> {
@@ -108,6 +152,18 @@ impl EditRequest {
             .any(|(_, edit)| edit.properties.as_ref().is_some_and(|p| !p.is_empty()))
         {
             labels.push("property".to_string());
+        }
+        if !self.additions.0.is_empty() {
+            labels.push("addition".to_string());
+        }
+        let kinds: BTreeSet<&'static str> = self
+            .additions
+            .0
+            .values()
+            .map(Addition::kind_label)
+            .collect();
+        for kind in kinds {
+            labels.push(format!("new-{kind}"));
         }
         labels
     }
@@ -153,6 +209,35 @@ impl EditRequest {
             parts.push(format!("{property_count} property {edits}"));
         }
 
+        let mut keys_by_kind: BTreeMap<&'static str, Vec<&str>> = BTreeMap::new();
+        for (key, addition) in &self.additions.0 {
+            keys_by_kind
+                .entry(addition.kind_label())
+                .or_default()
+                .push(key.as_str());
+        }
+        for (kind, keys) in keys_by_kind {
+            let plural = match kind {
+                "room" => "rooms",
+                "building" => "buildings",
+                "poi" => "POIs",
+                _ => "entries",
+            };
+            let singular = match kind {
+                "poi" => "POI",
+                other => other,
+            };
+            match keys.len() {
+                0 => {}
+                1 => parts.push(format!("add {singular} `{}`", keys[0])),
+                2..=5 => parts.push(format!(
+                    "add {plural} `{}`",
+                    keys.iter().sorted().join("`, `")
+                )),
+                n => parts.push(format!("add {n} {plural}")),
+            }
+        }
+
         if parts.is_empty() {
             "no edits".to_string()
         } else {
@@ -192,6 +277,7 @@ impl EditRequest {
 #[post("/api/feedback/propose_edits")]
 pub async fn propose_edits(
     recorded_tokens: Data<RecordedTokens>,
+    repo_pool: Data<Arc<repo_pool::RepoPool>>,
     req_data: Json<EditRequest>,
 ) -> HttpResponse {
     // auth
@@ -205,18 +291,23 @@ pub async fn propose_edits(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     }
-    if req_data.edits.0.is_empty() {
+    if req_data.edits.0.is_empty() && req_data.additions.0.is_empty() {
         return HttpResponse::UnprocessableEntity()
             .content_type("text/plain")
-            .body("Not enough edits provided");
+            .body("Not enough edits or additions provided");
     }
-    if req_data.edits.0.len() > 500 {
+    let combined_count = req_data.edits.0.len() + req_data.additions.0.len();
+    if combined_count > COMBINED_CAP {
         return HttpResponse::InsufficientStorage()
             .content_type("text/plain")
-            .body("Too many edits provided");
+            .body("Too many edits + additions provided");
     }
 
     let branch_name = format!("usergenerated/request-{}", rand::random::<u16>());
+
+    // Serialize the full fetch→edit→push→PR-update cycle to avoid
+    // non-fast-forward push failures on the shared batch branch.
+    let _branch_guard = repo_pool.branch_mutex.lock().await;
 
     // Try to find an open batch PR and use it
     let batch_pr = super::batch_processor::find_open_batch_pr()
@@ -234,7 +325,7 @@ pub async fn propose_edits(
     let branch_is_new = pr_number_opt.is_none();
 
     match req_data
-        .apply_changes_and_generate_description(&branch_to_use, branch_is_new)
+        .apply_changes_and_generate_description(&repo_pool, &branch_to_use, branch_is_new)
         .await
     {
         Ok(description) => {
@@ -273,11 +364,124 @@ pub async fn propose_edits(
                     .await
             }
         }
-        Err(error) => {
+        Err(ApplyError::AdditionValidation(failures)) => {
+            info!(?failures, "addition validation failed");
+            HttpResponse::UnprocessableEntity()
+                .content_type("application/json")
+                .body(serde_json::to_string(&failures).unwrap_or_else(|_| "[]".to_string()))
+        }
+        Err(ApplyError::Other(error)) => {
             error!(?error, "could not apply changes");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Could apply changes, please try again later")
         }
+    }
+}
+
+#[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
+mod tests {
+    use super::*;
+
+    fn req_with_additions(json: serde_json::Value) -> EditRequest {
+        serde_json::from_value(json).unwrap()
+    }
+
+    fn coords() -> serde_json::Value {
+        serde_json::json!({"lat": 48.262, "lon": 11.668})
+    }
+
+    #[test]
+    fn extract_subject_pure_addition_room() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": {
+                "5117.EG.103": {
+                    "kind": "room",
+                    "parent_building_id": "5117",
+                    "alt_name": "Testraum",
+                    "arch_name": "EG103@5117",
+                    "usage_id": 12,
+                    "coords": coords()
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert_eq!(req.extract_subject(), "add room `5117.EG.103`");
+    }
+
+    #[test]
+    fn extract_subject_multiple_rooms() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": {
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()},
+                "5117.EG.104": {"kind": "room", "parent_building_id": "5117", "alt_name": "B", "arch_name": "EG104@5117", "usage_id": 12, "coords": coords()}
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        let subj = req.extract_subject();
+        assert!(subj.starts_with("add rooms `"));
+        assert!(subj.contains("5117.EG.103"));
+        assert!(subj.contains("5117.EG.104"));
+    }
+
+    #[test]
+    fn extract_subject_many_pois() {
+        let mut additions = serde_json::Map::new();
+        for i in 0..10 {
+            additions.insert(
+                format!("validierungsautomat-{i:02}"),
+                serde_json::json!({"kind": "poi", "parent": "0501", "name": format!("V{i}"), "usage_name": "x", "coords": coords()}),
+            );
+        }
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": additions,
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert_eq!(req.extract_subject(), "add 10 POIs");
+    }
+
+    #[test]
+    fn extract_labels_includes_addition_kinds() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": {
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()},
+                "validierungsautomat-99": {"kind": "poi", "parent": "0501", "name": "V", "usage_name": "x", "coords": coords()}
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        let labels = req.extract_labels();
+        assert!(labels.contains(&"webform".to_string()));
+        assert!(labels.contains(&"addition".to_string()));
+        assert!(labels.contains(&"new-room".to_string()));
+        assert!(labels.contains(&"new-poi".to_string()));
+        assert!(!labels.contains(&"new-building".to_string()));
+    }
+
+    #[test]
+    fn extract_subject_combines_edits_and_additions() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}}
+            },
+            "additions": {
+                "5117.EG.103": {"kind": "room", "parent_building_id": "5117", "alt_name": "A", "arch_name": "EG103@5117", "usage_id": 12, "coords": coords()}
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        let subj = req.extract_subject();
+        assert!(subj.contains("coordinate edit for `0101`"));
+        assert!(subj.contains("add room `5117.EG.103`"));
+        assert!(subj.contains(" and "));
     }
 }

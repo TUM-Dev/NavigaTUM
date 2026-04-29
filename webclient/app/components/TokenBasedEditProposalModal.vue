@@ -6,7 +6,9 @@ import { useFeedbackToken } from "~/composables/feedbackToken";
 type EditRequest = components["schemas"]["EditRequest"];
 
 const props = defineProps<{
-  data: Pick<EditRequest, "edits" | "additional_context">;
+  data: Pick<EditRequest, "additional_context"> & {
+    edits: NonNullable<EditRequest["edits"]>;
+  };
 }>();
 
 const emit = defineEmits<{
