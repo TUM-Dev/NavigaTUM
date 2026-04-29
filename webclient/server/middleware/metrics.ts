@@ -1,4 +1,4 @@
-import { ssrRenderDuration, pageRequests } from "../utils/metrics";
+import { pageRequests, ssrRenderDuration } from "../utils/metrics";
 
 export default defineEventHandler((event) => {
   const start = performance.now();
