@@ -147,38 +147,20 @@ impl Image {
     }
 }
 impl AppliableEdit for Image {
-    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> String {
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String> {
         let image_dir = base_dir.join("data").join("sources").join("img");
-        let target = match Self::image_should_be_saved_at(key, &image_dir.join("lg")) {
-            Ok(path) => path,
-            Err(e) => {
-                error!(?self, error = ?e, "Invalid key for image");
-                return format!("Error: Invalid key - {e}");
-            }
-        };
+        let target = Self::image_should_be_saved_at(key, &image_dir.join("lg"))
+            .inspect_err(|e| error!(?self, error = ?e, "Invalid key for image"))?;
 
-        let content_result = self.save_content(&target);
-        let metadata_result = self.save_metadata(key, &image_dir);
+        self.save_content(&target)
+            .inspect_err(|e| error!(?self, error = ?e, "Error saving image"))?;
+        self.save_metadata(key, &image_dir)
+            .inspect_err(|e| error!(?self, error = ?e, "Error saving metadata"))?;
 
-        let success = format!(
+        Ok(format!(
             "![image showing {key}](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename})",
             filename = target.file_name().unwrap_or_default().to_string_lossy()
-        );
-        match (content_result, metadata_result) {
-            (Ok(()), Ok(())) => success,
-            (Err(e), Ok(())) => {
-                error!(?self, error = ?e, "Error saving image");
-                "Error saving image".to_string()
-            }
-            (Ok(()), Err(e)) => {
-                error!(?self, error = ?e, "Error saving metadata");
-                "Error saving metadata".to_string()
-            }
-            (Err(content), Err(meta)) => {
-                error!(?meta, ?content, ?self, "Error saving metadata and content");
-                "Error saving metadata+content".to_string()
-            }
-        }
+        ))
     }
 }
 

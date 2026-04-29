@@ -265,6 +265,8 @@ export type components = {
        */
       readonly start_after: string;
     };
+    /** @enum {string} */
+    readonly BuildingKind: "building" | "joined_building" | "area";
     readonly BuildingsOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -379,8 +381,10 @@ export type components = {
        * @example I have a picture of the room, please add it to the roomfinder
        */
       readonly additional_context: string;
+      /** @description New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side. */
+      readonly additions?: components["schemas"]["LimitedHashMap_String_Addition"];
       /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
-      readonly edits: components["schemas"]["LimitedHashMap_String_Edit"];
+      readonly edits?: components["schemas"]["LimitedHashMap_String_Edit"];
       /**
        * @description Whether the user has checked the privacy-checkbox.
        *
@@ -494,6 +498,10 @@ export type components = {
     };
     /** @enum {string} */
     readonly FloorType: "roof" | "upper" | "semi_upper" | "ground" | "semi_basement" | "basement";
+    readonly GenericProp: {
+      readonly name: components["schemas"]["TranslatableStr"];
+      readonly text: string;
+    };
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -539,6 +547,24 @@ export type components = {
        * @description The number of transfers this trip has.
        */
       readonly transfer_count: number;
+    };
+    readonly LimitedHashMap_String_Addition: {
+      [key: string]: OneOf<
+        [
+          components["schemas"]["NewRoom"] & {
+            /** @enum {string} */
+            readonly kind: "room";
+          },
+          components["schemas"]["NewBuilding"] & {
+            /** @enum {string} */
+            readonly kind: "building";
+          },
+          components["schemas"]["NewPoi"] & {
+            /** @enum {string} */
+            readonly kind: "poi";
+          },
+        ]
+      >;
     };
     readonly LimitedHashMap_String_Edit: {
       [key: string]: {
@@ -961,6 +987,38 @@ export type components = {
     readonly NearbyLocationsResponse: {
       readonly public_transport: readonly components["schemas"]["TransportationResponse"][];
     };
+    readonly NewBuilding: {
+      readonly building_prefixes: readonly string[];
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly internal_id?: string | null;
+      readonly name: string;
+      readonly node_kind: components["schemas"]["BuildingKind"];
+      readonly parent_id: string;
+      readonly short_name?: string | null;
+      readonly visible_id?: string | null;
+    };
+    readonly NewPoi: {
+      readonly comment?: null | components["schemas"]["TranslatableStr"];
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly generic_props?: readonly components["schemas"]["GenericProp"][];
+      readonly links?: readonly components["schemas"]["PoiLink"][];
+      readonly name: string;
+      readonly parent: string;
+      readonly usage_name: string;
+    };
+    readonly NewRoom: {
+      readonly address?: null | components["schemas"]["RoomAddress"];
+      readonly alt_name: string;
+      readonly arch_name: string;
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly floor_level?: string | null;
+      readonly floor_type?: string | null;
+      readonly links?: readonly components["schemas"]["RoomLink"][];
+      readonly parent_building_id: string;
+      readonly seats?: null | components["schemas"]["Seats"];
+      /** Format: int32 */
+      readonly usage_id: number;
+    };
     readonly Offsets: {
       /** Format: int32 */
       readonly header?: number | null;
@@ -1102,6 +1160,10 @@ export type components = {
        */
       readonly track?: string | null;
       readonly vertex_type?: null | components["schemas"]["VertexTypeResponse"];
+    };
+    readonly PoiLink: {
+      readonly text: components["schemas"]["TranslatableStr"];
+      readonly url: string;
     };
     /** @description A link with a localized link text and url */
     readonly PossibleURLRefResponse: {
@@ -1310,6 +1372,16 @@ export type components = {
        */
       readonly n_visible: number;
     };
+    readonly RoomAddress: {
+      readonly place: string;
+      readonly street: string;
+      readonly zip_code: string;
+    };
+    readonly RoomLink: {
+      readonly text_de: string;
+      readonly text_en: string;
+      readonly url: string;
+    };
     readonly RoomfinderMapEntryResponse: {
       /** @description Where the map is stored */
       readonly file: string;
@@ -1385,6 +1457,14 @@ export type components = {
        * @example 8
        */
       readonly time_ms: number;
+    };
+    readonly Seats: {
+      /** Format: int32 */
+      readonly sitting?: number | null;
+      /** Format: int32 */
+      readonly standing?: number | null;
+      /** Format: int32 */
+      readonly wheelchair?: number | null;
     };
     readonly SectionsResponse: {
       readonly buildings_overview?: null | components["schemas"]["BuildingsOverviewResponse"];
@@ -1605,6 +1685,10 @@ export type components = {
     };
     /** @enum {string} */
     readonly TransitStopTypeResponse: "stop" | "station";
+    readonly TranslatableStr: {
+      readonly de: string;
+      readonly en: string;
+    };
     readonly TransportationResponse: {
       /** Format: double */
       readonly distance_meters: number;
