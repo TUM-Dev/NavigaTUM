@@ -1,4 +1,5 @@
 use std::fmt::Write as _;
+use std::path::Path;
 
 use anyhow::Context as _;
 use tokio::process::Command;
@@ -91,10 +92,23 @@ impl TempRepo {
         }
     }
 
+    pub fn base_dir(&self) -> &Path {
+        self.dir.path()
+    }
+
     #[tracing::instrument]
-    pub fn apply_and_gen_description(&self, edits: &EditRequest, branch_name: &str) -> Description {
+    pub fn apply_and_gen_description(
+        &self,
+        edits: &EditRequest,
+        branch_name: &str,
+    ) -> anyhow::Result<Description> {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
+
+        // Additions go before edits so that an edit in the same request can target a
+        // newly-added entry (e.g. add a room, then edit its coordinate). The reverse order
+        // would reject the edit because the target wouldn't exist yet.
+        description.apply_additions(&edits.additions, self.dir.path(), branch_name)?;
 
         let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
         description.apply_set_as_blocks(
@@ -102,9 +116,9 @@ impl TempRepo {
             coordinate_edits,
             self.dir.path(),
             branch_name,
-        );
+        )?;
         let image_edits = edits.edits_for(|edit| edit.image);
-        description.appply_set("image", image_edits, self.dir.path(), branch_name);
+        description.apply_set("image", image_edits, self.dir.path(), branch_name)?;
 
         // Apply property edits — each entry can have multiple property edits
         let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits
@@ -132,7 +146,7 @@ impl TempRepo {
             description.body += "| ---   | ---  |\n";
             for (key, props) in &property_edits {
                 for prop in *props {
-                    let result = prop.apply(key, self.dir.path(), branch_name);
+                    let result = prop.apply(key, self.dir.path(), branch_name)?;
                     writeln!(
                         description.body,
                         "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
@@ -145,7 +159,7 @@ impl TempRepo {
         let first_line = description.body.lines().next();
         info!(description_first_line=?first_line, title=description.title, "generated description");
 
-        description
+        Ok(description)
     }
 
     #[tracing::instrument]

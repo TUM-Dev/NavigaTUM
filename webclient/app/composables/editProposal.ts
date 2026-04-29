@@ -2,6 +2,9 @@ import type { DeepWritable } from "ts-essentials";
 import type { components } from "~/api_types";
 
 type EditRequest = components["schemas"]["EditRequest"];
+type EditRequestData = Omit<EditRequest, "privacy_checked" | "token" | "edits"> & {
+  edits: NonNullable<EditRequest["edits"]>;
+};
 type PropertyFields = {
   name: string;
   shortName: string;
@@ -19,7 +22,7 @@ type EditProposalState = {
     id: string | null;
     name: string | null;
   };
-  data: DeepWritable<Omit<EditRequest, "privacy_checked" | "token">>;
+  data: DeepWritable<EditRequestData>;
   locationPicker: {
     open: boolean;
     lat: number;
