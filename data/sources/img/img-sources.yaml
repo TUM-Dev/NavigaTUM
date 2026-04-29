@@ -1245,6 +1245,12 @@ mw:
     author: Heddergott, Andreas / TUM
     license:
       text: frei füer Berichterstattung über TU München
+nordgelaende:
+  0:
+    author: hi
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 obernach:
   0:
     author: Manfred Schmierl
