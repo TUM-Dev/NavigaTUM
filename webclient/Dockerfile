@@ -32,6 +32,7 @@ RUN pnpm install --frozen-lockfile
 COPY --link public public
 COPY --link content content
 COPY --link app app
+COPY --link server server
 RUN pnpm run postinstall
 RUN pnpm run build && test -f /app/.output/server/index.mjs
 
