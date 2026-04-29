@@ -215,16 +215,13 @@ def export_known_usages(df: pl.DataFrame) -> None:
     data_dir = Path(__file__).parent.parent
     translations = yaml.safe_load((data_dir / "translations.yaml").read_text(encoding="utf-8"))
 
-    usages_df = (
-        pl.read_csv(
-            data_dir / "external" / "results" / "usages_tumonline.csv",
-            schema_overrides={"din277_id": pl.String, "name": pl.String},
-        )
-        .select(
-            pl.col("name").alias("name_de"),
-            pl.col("din277_id").alias("din_277"),
-        )
-        .unique()
+    usages_df = pl.read_csv(
+        data_dir / "external" / "results" / "usages_tumonline.csv",
+        schema_overrides={"din277_id": pl.String, "name": pl.String},
+    ).select(
+        pl.col("usage_id"),
+        pl.col("name").alias("name_de"),
+        pl.col("din277_id").alias("din_277"),
     )
 
     counts_df = (
@@ -244,8 +241,8 @@ def export_known_usages(df: pl.DataFrame) -> None:
             pl.col("name_de").replace_strict(translations, default=pl.col("name_de")).alias("name_en"),
             pl.col("len").fill_null(0).alias("occurrences"),
         )
-        .select("name_de", "name_en", "din_277", "occurrences")
-        .sort("occurrences", descending=True)
+        .select("usage_id", "name_de", "name_en", "din_277", "occurrences")
+        .sort(["occurrences", "name_de"], descending=[True, False])
     )
 
     (OUTPUT_DIR_PATH / "known_usages.json").write_bytes(
