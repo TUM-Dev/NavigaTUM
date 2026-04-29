@@ -1351,6 +1351,11 @@ stammgelaende:
     author: FOTAG Luftbild München
     license:
       text: Free for use in reporting on TUM, with the copyright noted
+  3:
+    author: helo
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 suedgelaende:
   0:
     author: Alexander Pach
