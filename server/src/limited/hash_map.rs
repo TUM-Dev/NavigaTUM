@@ -9,6 +9,14 @@ use crate::limited::OrMore;
 #[derive(Serialize, Deserialize, Clone, Default, utoipa::ToSchema)]
 pub struct LimitedHashMap<K: Eq + Hash, V>(pub HashMap<K, V>);
 
+impl<K: Eq + Hash, V> LimitedHashMap<K, V> {
+    /// Drops the `V: Default` bound that the derived `Default` impl would impose, so this can
+    /// be used in `#[serde(default = "...")]` for value types that aren't themselves `Default`.
+    pub fn empty() -> Self {
+        Self(HashMap::new())
+    }
+}
+
 impl<K: Eq + Hash, V> From<HashMap<K, V>> for LimitedHashMap<K, V> {
     fn from(value: HashMap<K, V>) -> Self {
         Self(value)
