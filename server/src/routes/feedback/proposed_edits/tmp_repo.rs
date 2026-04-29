@@ -1,5 +1,5 @@
 use std::fmt::Write as _;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
 use tokio::process::Command;
@@ -10,88 +10,13 @@ use super::EditRequest;
 use super::description::Description;
 
 #[derive(Debug)]
-pub struct TempRepo {
-    dir: tempfile::TempDir,
-    branch_name: String,
+pub struct Worktree {
+    pub(super) dir: tempfile::TempDir,
+    pub(super) branch_name: String,
+    pub(super) bare_path: PathBuf,
 }
-impl TempRepo {
-    /// Clone the repository from `main` and create `branch_name` as a new local branch.
-    ///
-    /// Use this when no batch PR exists yet and a fresh branch needs to be pushed for the first
-    /// time.
-    #[tracing::instrument(skip(url))]
-    pub async fn clone_and_checkout_new_branch(
-        url: &str,
-        branch_name: &str,
-    ) -> anyhow::Result<Self> {
-        let dir = tempfile::tempdir()?;
 
-        info!(target_dir = ?dir, "Cloning repository (new branch)");
-        let out = Command::new("git")
-            .current_dir(&dir)
-            .arg("clone")
-            .arg("--depth=1")
-            .arg(url)
-            .arg(dir.path())
-            .output()
-            .await?;
-        debug!(output=?out,"git clone output");
-        if out.status.code() != Some(0) {
-            anyhow::bail!("git clone failed with output: {out:?}");
-        }
-
-        // Create a new local branch from main.
-        let out = Command::new("git")
-            .current_dir(&dir)
-            .arg("checkout")
-            .arg("-b")
-            .arg(branch_name)
-            .arg("main")
-            .output()
-            .await?;
-        debug!(output=?out,"git checkout output");
-        match out.status.code() {
-            Some(0) => Ok(Self {
-                dir,
-                branch_name: branch_name.to_string(),
-            }),
-            _ => anyhow::bail!("git checkout failed with output: {out:?}"),
-        }
-    }
-
-    /// Clone the repository by checking out an already-existing remote branch `branch_name`.
-    ///
-    /// Use this when adding an edit to an existing batch PR.  Cloning `main` and branching from
-    /// it would create a diverging history and cause the subsequent push to be rejected as
-    /// non-fast-forward.
-    #[tracing::instrument(skip(url))]
-    pub async fn clone_and_checkout_existing_branch(
-        url: &str,
-        branch_name: &str,
-    ) -> anyhow::Result<Self> {
-        let dir = tempfile::tempdir()?;
-
-        info!(target_dir = ?dir, branch_name, "Cloning repository (existing branch)");
-        let out = Command::new("git")
-            .current_dir(&dir)
-            .arg("clone")
-            .arg("--depth=1")
-            .arg("--branch")
-            .arg(branch_name)
-            .arg(url)
-            .arg(dir.path())
-            .output()
-            .await?;
-        debug!(output=?out,"git clone output");
-        match out.status.code() {
-            Some(0) => Ok(Self {
-                dir,
-                branch_name: branch_name.to_string(),
-            }),
-            _ => anyhow::bail!("git clone failed with output: {out:?}"),
-        }
-    }
-
+impl Worktree {
     pub fn base_dir(&self) -> &Path {
         self.dir.path()
     }
@@ -176,26 +101,8 @@ impl TempRepo {
         debug!(output=?out,"git add output");
         let out = Command::new("git")
             .current_dir(&self.dir)
-            .arg("config")
-            .arg("user.email")
-            .arg("actions@github.com")
-            .output()
-            .await
-            .context("Failed to config user.email")?;
-        debug!(output=?out,"git config user.email output");
-        let out = Command::new("git")
-            .current_dir(&self.dir)
-            .arg("config")
-            .arg("user.name")
-            .arg("GitHub Actions")
-            .output()
-            .await
-            .context("Failed to config user.name")?;
-        debug!(output=?out,"git config user.name output");
-        let out = Command::new("git")
-            .current_dir(&self.dir)
             .arg("commit")
-            .arg("--all") // run git add . before commit
+            .arg("--all")
             .arg("--message")
             .arg(title)
             .output()
@@ -207,19 +114,10 @@ impl TempRepo {
             _ => anyhow::bail!("git commit failed with output: {out:?}"),
         }
     }
+
     #[tracing::instrument]
     pub async fn push(&self) -> anyhow::Result<()> {
         info!("Pushing changes to the remote");
-        let out = Command::new("git")
-            .current_dir(&self.dir)
-            .arg("status")
-            .output()
-            .await
-            .context("Failed to run git status")?;
-        debug!(output=?out,"git status output");
-        if out.status.code() != Some(0) {
-            anyhow::bail!("git status failed with output: {out:?}");
-        }
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("push")
@@ -237,6 +135,27 @@ impl TempRepo {
     }
 }
 
+impl Drop for Worktree {
+    fn drop(&mut self) {
+        let bare_path = self.bare_path.clone();
+        let dir_path = self.dir.path().to_path_buf();
+        // Best-effort cleanup — fire and forget.
+        tokio::spawn(async move {
+            let path_str = dir_path.to_string_lossy().to_string();
+            let _ = Command::new("git")
+                .current_dir(&bare_path)
+                .args(["worktree", "remove", "--force", &path_str])
+                .output()
+                .await;
+            let _ = Command::new("git")
+                .current_dir(&bare_path)
+                .args(["worktree", "prune"])
+                .output()
+                .await;
+        });
+    }
+}
+
 #[cfg(test)]
 #[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
@@ -245,32 +164,71 @@ mod tests {
     use super::*;
 
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
+
+    /// Helper: create a Worktree the old-fashioned way (via clone) for tests
+    /// that don't have a bare repo available.
+    async fn clone_worktree(url: &str, branch_name: &str) -> anyhow::Result<Worktree> {
+        let dir = tempfile::tempdir()?;
+
+        let out = Command::new("git")
+            .current_dir(&dir)
+            .args(["clone", "--depth=1", url])
+            .arg(dir.path())
+            .output()
+            .await?;
+        if !out.status.success() {
+            anyhow::bail!("git clone failed: {out:?}");
+        }
+
+        let out = Command::new("git")
+            .current_dir(&dir)
+            .args(["checkout", "-b", branch_name, "main"])
+            .output()
+            .await?;
+        if !out.status.success() {
+            anyhow::bail!("git checkout failed: {out:?}");
+        }
+
+        let _ = Command::new("git")
+            .current_dir(&dir)
+            .args(["config", "user.email", "test@test.com"])
+            .output()
+            .await;
+        let _ = Command::new("git")
+            .current_dir(&dir)
+            .args(["config", "user.name", "Test"])
+            .output()
+            .await;
+
+        Ok(Worktree {
+            bare_path: dir.path().to_path_buf(),
+            dir,
+            branch_name: branch_name.to_string(),
+        })
+    }
+
     #[tokio::test]
     async fn test_new() {
-        let temp_repo = TempRepo::clone_and_checkout_new_branch(GIT_URL, "branch_does_not_exist")
+        let worktree = clone_worktree(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
-        assert!(temp_repo.dir.path().exists());
-        assert!(temp_repo.dir.path().join(".git").exists());
-        assert!(temp_repo.dir.path().join("README.md").exists());
+        assert!(worktree.dir.path().exists());
+        assert!(worktree.dir.path().join(".git").exists());
+        assert!(worktree.dir.path().join("README.md").exists());
     }
 
     #[tokio::test]
     async fn test_checkout_and_commit() {
-        let temp_repo = TempRepo::clone_and_checkout_new_branch(GIT_URL, "branch_does_not_exist")
+        let worktree = clone_worktree(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
-        // test the branch was created
 
         let title = "Test commit";
-        // test if adding files works
-        let file_path = temp_repo.dir.path().join("test-file.txt");
-        fs::write(file_path, "test content").unwrap();
+        let file_path = worktree.dir.path().join("test-file.txt");
+        fs::write(&file_path, "test content").unwrap();
+        worktree.commit(title).await.unwrap();
 
-        temp_repo.commit(title).await.unwrap();
-        // test if editing files works
-        let file_path = temp_repo.dir.path().join("test-file.txt");
-        fs::write(file_path, "different content").unwrap();
-        temp_repo.commit(title).await.unwrap();
+        fs::write(&file_path, "different content").unwrap();
+        worktree.commit(title).await.unwrap();
     }
 }

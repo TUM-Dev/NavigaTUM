@@ -149,11 +149,12 @@ pub fn setup_logging() {
         .expect("the tracing subscriber to be set as the global default");
 }
 
-#[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started))]
+#[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started, repo_pool))]
 async fn run_maintenance_work(
     pool: Pool<Postgres>,
     meilisearch_initialised: Arc<RwLock<()>>,
     initialisation_started: Arc<Barrier>,
+    repo_pool: Arc<feedback::proposed_edits::repo_pool::RepoPool>,
 ) {
     if env::var("SKIP_MS_SETUP") == Ok("true".to_string()) {
         info!("skipping the database setup as SKIP_MS_SETUP=true");
@@ -190,6 +191,9 @@ async fn run_maintenance_work(
     let cal_pool = pool.clone();
     set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
     set.join_all().await;
+
+    // Warm up the bare repo for edit proposals after all other setup is done.
+    repo_pool.warm().await;
 }
 
 #[tokio::main]
@@ -201,12 +205,17 @@ async fn main() -> anyhow::Result<()> {
 
     let data = AppData::new().await;
 
+    // Persistent bare repo for edit proposals — the initial clone runs in the
+    // background after MS/DB setup; requests before that fall back to lazy init.
+    let repo_pool = Arc::new(feedback::proposed_edits::repo_pool::RepoPool::new());
+
     // without this barrier an external client might race the RWLock for meilisearch_initialised and gain the read lock before it is allowed
     let initialisation_started = Arc::new(Barrier::new(2));
     let maintenance_thread = tokio::spawn(run_maintenance_work(
         data.pool.clone(),
         data.meilisearch_initialised.clone(),
         initialisation_started.clone(),
+        repo_pool.clone(),
     ));
 
     let prometheus = build_metrics();
@@ -220,6 +229,7 @@ async fn main() -> anyhow::Result<()> {
         .finish()
         .expect("Invalid configuration of the governor");
     let recorded_tokens = web::Data::new(feedback::tokens::RecordedTokens::default());
+    let repo_pool = web::Data::new(repo_pool);
 
     info!("running the server");
     HttpServer::new(move || {
@@ -240,6 +250,7 @@ async fn main() -> anyhow::Result<()> {
                 .app_data(web::Data::new(data.clone()))
                 .into_utoipa_app()
                 .app_data(recorded_tokens.clone())
+                .app_data(repo_pool.clone())
                 .service(health_status_handler)
                 .service(calendar::calendar_handler)
                 .service(maps::route::route_handler)
