@@ -1206,6 +1206,12 @@ mi:
     author: Andreas Heddergott / TUM
     license:
       text: "frei für Berichterstattung über TU München; Die Parabelrutsche ist ein Kunstwerk von Brunner/Ritz. Bei Verwendung des Bildmaterials sind entsprechende Verwertungsrechte bei der VG Bild-Kunst einzuholen. \r\nIm Bildnachweis deshalb bitte den jeweiligen Fotografen / TUM angeben und VG Bild-Kunst, Bonn YYYY."
+mii:
+  0:
+    author: i
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 mri:
   0:
     author: Astrid Eckert
