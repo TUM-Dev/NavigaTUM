@@ -1,4 +1,5 @@
 type KnownUsage = {
+  usage_id: number;
   name_de: string;
   name_en: string;
   din_277: string;
@@ -6,6 +7,8 @@ type KnownUsage = {
 };
 
 export type UsageOption = {
+  /** numeric primary key matching `usages_tumonline.csv`; required when submitting an addition. */
+  usage_id: number;
   /** slug used in the meilisearch index (lowercased, German name with umlauts preserved) */
   slug: string;
   /** localized display name */
@@ -42,6 +45,7 @@ export function useKnownUsages() {
     const isDe = locale.value === "de";
 
     return (data.value ?? []).map((u) => ({
+      usage_id: u.usage_id,
       slug: slugify(u.name_de),
       label: isDe ? u.name_de : u.name_en,
       altLabel: isDe ? u.name_en : u.name_de,
@@ -54,11 +58,26 @@ export function useKnownUsages() {
     return options.value.find((o) => o.slug === slug)?.label ?? slug;
   }
 
+  function byId(id: number | null): UsageOption | null {
+    if (id === null) return null;
+    return options.value.find((o) => o.usage_id === id) ?? null;
+  }
+
+  function filter(query: string): UsageOption[] {
+    const q = query.trim().toLowerCase();
+    if (!q) return options.value;
+    return options.value.filter(
+      (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q) || o.din.toLowerCase().includes(q)
+    );
+  }
+
   return {
     options,
     pending,
     error,
     refresh,
     labelFor,
+    byId,
+    filter,
   };
 }

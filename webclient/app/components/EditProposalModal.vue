@@ -131,6 +131,11 @@ watch(
   }
 );
 
+function switchToAddProposal() {
+  editProposal.value.open = false;
+  editProposal.value.addOpen = true;
+}
+
 // Methods
 function addImageEditForRoom(
   roomId: string,
@@ -224,7 +229,7 @@ function getEditTypeDisplay(roomId: string): string {
 </script>
 
 <template>
-  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data">
+  <TokenBasedEditProposalModal v-if="editProposal" v-model:open="editProposal.open" :data="editProposal.data" :title="t('title')">
     <template #modal>
       <!-- Additional Context -->
       <div class="flex flex-col">
@@ -271,6 +276,13 @@ function getEditTypeDisplay(roomId: string): string {
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("properties_title") }}</span>
               <span class="text-xs text-zinc-200 font-normal">{{ t("properties_desc") }}</span>
+            </div>
+          </Btn>
+
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
+            <div class="flex flex-col items-start">
+              <span class="font-medium">{{ t("propose_addition_title") }}</span>
+              <span class="text-xs text-zinc-200 font-normal">{{ t("propose_addition_desc") }}</span>
             </div>
           </Btn>
         </div>
@@ -383,7 +395,7 @@ function getEditTypeDisplay(roomId: string): string {
       </div>
 
       <!-- Current Edits -->
-      <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.edits).length">
+      <div class="pt-4 pb-2" v-if="Object.keys(editProposal.data.edits).length">
         <label class="text-zinc-600 text-sm font-semibold">{{ t("current_edits") }}</label>
         <div class="space-y-2 mt-2">
           <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
@@ -395,6 +407,28 @@ function getEditTypeDisplay(roomId: string): string {
                 </div>
               </div>
               <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
+                {{ t("remove") }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Additions -->
+      <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.additions).length">
+        <label class="text-zinc-600 text-sm font-semibold">{{ t("pending_additions") }}</label>
+        <div class="space-y-2 mt-2">
+          <div
+            v-for="(addition, addId) in editProposal.data.additions"
+            :key="addId"
+            class="bg-zinc-100 border-zinc-300 rounded p-3 border"
+          >
+            <div class="flex justify-between items-start">
+              <div class="flex-grow">
+                <p class="font-medium text-sm text-zinc-900">{{ addId }}</p>
+                <p class="text-xs text-zinc-600 mt-1">{{ t(`kind.${addition.kind}`) }}</p>
+              </div>
+              <button @click="() => delete editProposal.data.additions[addId]" class="text-red-600 hover:text-red-800 text-sm">
                 {{ t("remove") }}
               </button>
             </div>
@@ -416,6 +450,7 @@ function getEditTypeDisplay(roomId: string): string {
 
 <i18n lang="yaml">
 de:
+  title: Änderungen vorschlagen
   additional_context: Zusätzlicher Kontext
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
   additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
@@ -436,6 +471,13 @@ de:
   room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
   map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
   map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
+  propose_addition_title: Raum, Gebäude oder POI fehlt
+  propose_addition_desc: Einen neuen Eintrag strukturiert vorschlagen
+  pending_additions: Neue Einträge in dieser Anfrage
+  kind:
+    room: Raum
+    building: Gebäude
+    poi: POI
   room_edits: Raum-Änderungen
   coordinate: Koordinaten
   image: Bild
@@ -446,6 +488,7 @@ de:
   success_response_at: Du findest unsere Antwort auf {this_pr}
   success_this_pr: diesem GitHub Pull Request
 en:
+  title: Propose Changes
   additional_context: Additional Context
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
   additional_context_help: Describe any issues or improvement suggestions here.
@@ -466,6 +509,13 @@ en:
   room_position_wrong_desc: Correct this room's position in Navigatum
   map_missing_roads_title: Other details (paths, vegetation) missing from map
   map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
+  propose_addition_title: Missing a room, building, or POI?
+  propose_addition_desc: Propose a new entry in a structured form
+  pending_additions: New entries in this request
+  kind:
+    room: Room
+    building: Building
+    poi: POI
   room_edits: Room Edits
   coordinate: Coordinate
   image: Image
