@@ -20,24 +20,24 @@ mbtiles:
 postgres:
   connection_string: ${DATABASE_URL:postgres://postgres:CHANGE_ME@localhost:5432/postgres}
   auto_publish: false
-  # events_active is a now()-dependent view: it filters to events visible in the
-  # current wall-clock window (starts_at - 2h * days_long .. ends_at). Martin's
-  # in-process LRU has no per-source TTL, so we keep tiles fresh via HTTP cache
-  # headers (cache_ttl in seconds; 60s ≈ one frontend poll cycle, low enough
-  # that a newly-active event appears within a minute, high enough to coalesce
-  # bursty traffic). Pair this with a reverse-proxy `Cache-Control: max-age=60,
-  # stale-while-revalidate=120` for the /tiles/events_active path.
+  # events_active is a now()-dependent view that filters events to the current
+  # wall-clock window (starts_at - 2h * days_long .. ends_at). Martin's in-process
+  # cache only supports zoom-bound rules, not time TTL, so we set `cache: disable`
+  # here — every tile request re-evaluates `now()` against the DB. Freshness is
+  # then provided by the reverse proxy via `Cache-Control: max-age=3600,
+  # stale-while-revalidate=7200` on /tiles/events_active (≥ 1h).
   tables:
     events_active:
       schema: public
       table: events_active
       srid: 4326
       geometry_column: geometry
+      geometry_type: POINT
       id_column: id
       minzoom: 10
       maxzoom: 22
       bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
-      cache_ttl: 60
+      cache: disable
       properties:
         name: text
         description: text

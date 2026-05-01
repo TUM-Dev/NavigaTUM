@@ -1,8 +1,13 @@
-use crate::setup::file_loader;
-use polars::prelude::*;
-use std::io::Write;
-use tempfile::tempfile;
+use std::env;
 
+use crate::setup::file_loader;
+use bytes::Bytes;
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
+use parquet::record::Field;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{PgPool, Postgres, Transaction};
+
+#[derive(Default, Debug)]
 struct DBOrg {
     org_id: i32,
     code: String,
@@ -15,8 +20,8 @@ struct DBOrg {
 impl DBOrg {
     async fn store(
         &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "INSERT INTO tumonline_orgs(org_id, code, name_de, name_en, path_de, path_en) \
              VALUES ($1, $2, $3, $4, $5, $6)",
@@ -33,43 +38,27 @@ impl DBOrg {
 }
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("tumonline_orgs.parquet", &cdn_url).await?;
 
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-
-    let df = ParquetReader::new(&mut file).finish()?;
-
-    let org_id_col = df.column("org_id")?.i32()?;
-    let code_col = df.column("code")?.str()?;
-    let name_de_col = df.column("name_de")?.str()?;
-    let name_en_col = df.column("name_en")?.str()?;
-    let path_de_col = df.column("path_de")?.str()?;
-    let path_en_col = df.column("path_en")?.str()?;
-
-    let mut orgs = Vec::with_capacity(df.height());
-    for i in 0..df.height() {
-        let Some(org_id) = org_id_col.get(i) else {
-            continue;
-        };
-        let Some(code) = code_col.get(i) else {
-            continue;
-        };
-        let Some(name_en) = name_en_col.get(i) else {
-            continue;
-        };
-        let name_de = name_de_col.get(i).unwrap_or(name_en);
-
-        orgs.push(DBOrg {
-            org_id,
-            code: code.to_string(),
-            name_de: name_de.to_string(),
-            name_en: name_en.to_string(),
-            path_de: path_de_col.get(i).map(str::to_string),
-            path_en: path_en_col.get(i).map(str::to_string),
-        });
+    let reader = SerializedFileReader::new(Bytes::from(body))?;
+    let mut orgs = Vec::new();
+    for row in reader.get_row_iter(None)? {
+        let row = row?;
+        let mut org = DBOrg::default();
+        for (col_name, field) in row.get_column_iter() {
+            match (col_name.as_str(), field) {
+                ("org_id", Field::Int(v)) => org.org_id = *v,
+                ("code", Field::Str(v)) => org.code.clone_from(v),
+                ("name_de", Field::Str(v)) => org.name_de.clone_from(v),
+                ("name_en", Field::Str(v)) => org.name_en.clone_from(v),
+                ("path_de", Field::Str(v)) => org.path_de = Some(v.clone()),
+                ("path_en", Field::Str(v)) => org.path_en = Some(v.clone()),
+                _ => {}
+            }
+        }
+        orgs.push(org);
     }
 
     // Truncate cascades to events because events.organising_org_id references tumonline_orgs(org_id).

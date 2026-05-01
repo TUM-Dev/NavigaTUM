@@ -1,8 +1,24 @@
+use std::env;
+
 use crate::setup::file_loader;
+use bytes::Bytes;
 use chrono::{DateTime, Utc};
-use polars::prelude::*;
-use std::io::Write;
-use tempfile::tempfile;
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
+use parquet::record::Field;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{PgPool, Postgres, Transaction};
+
+#[derive(Default, Debug)]
+struct RawEvent {
+    name: String,
+    description: Option<String>,
+    image: Option<String>,
+    lat: f64,
+    lon: f64,
+    starts_at: String,
+    ends_at: String,
+    organising_org_id: i32,
+}
 
 struct DBEvent {
     name: String,
@@ -18,8 +34,8 @@ struct DBEvent {
 impl DBEvent {
     async fn store(
         &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org_id) \
              VALUES ($1, $2, $3, POINT($4, $5), $6, $7, $8)",
@@ -38,53 +54,42 @@ impl DBEvent {
 }
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download("events.parquet", &cdn_url).await?;
 
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-
-    let df = ParquetReader::new(&mut file).finish()?;
-
-    let name_col = df.column("name")?.str()?;
-    let description_col = df.column("description")?.str()?;
-    let image_col = df.column("image")?.str()?;
-    let lat_col = df.column("lat")?.f64()?;
-    let lon_col = df.column("lon")?.f64()?;
-    let starts_at_col = df.column("starts_at")?.str()?;
-    let ends_at_col = df.column("ends_at")?.str()?;
-    let organising_org_id_col = df.column("organising_org_id")?.i32()?;
-
-    let mut events = Vec::with_capacity(df.height());
-    for i in 0..df.height() {
-        let Some(name) = name_col.get(i) else {
+    let reader = SerializedFileReader::new(Bytes::from(body))?;
+    let mut events = Vec::new();
+    for row in reader.get_row_iter(None)? {
+        let row = row?;
+        let mut raw = RawEvent::default();
+        for (col_name, field) in row.get_column_iter() {
+            match (col_name.as_str(), field) {
+                ("name", Field::Str(v)) => raw.name.clone_from(v),
+                ("description", Field::Str(v)) => raw.description = Some(v.clone()),
+                ("image", Field::Str(v)) => raw.image = Some(v.clone()),
+                ("lat", Field::Float(v)) => raw.lat = f64::from(*v),
+                ("lat", Field::Double(v)) => raw.lat = *v,
+                ("lon", Field::Float(v)) => raw.lon = f64::from(*v),
+                ("lon", Field::Double(v)) => raw.lon = *v,
+                ("starts_at", Field::Str(v)) => raw.starts_at.clone_from(v),
+                ("ends_at", Field::Str(v)) => raw.ends_at.clone_from(v),
+                ("organising_org_id", Field::Int(v)) => raw.organising_org_id = *v,
+                _ => {}
+            }
+        }
+        if raw.name.is_empty() {
             continue;
-        };
-        let Some(starts_raw) = starts_at_col.get(i) else {
-            continue;
-        };
-        let Some(ends_raw) = ends_at_col.get(i) else {
-            continue;
-        };
-        let Some(lat) = lat_col.get(i) else { continue };
-        let Some(lon) = lon_col.get(i) else { continue };
-        let Some(organising_org_id) = organising_org_id_col.get(i) else {
-            continue;
-        };
-
-        let starts_at = DateTime::parse_from_rfc3339(starts_raw)?.with_timezone(&Utc);
-        let ends_at = DateTime::parse_from_rfc3339(ends_raw)?.with_timezone(&Utc);
-
+        }
         events.push(DBEvent {
-            name: name.to_string(),
-            description: description_col.get(i).map(str::to_string),
-            image: image_col.get(i).map(str::to_string),
-            lat,
-            lon,
-            starts_at,
-            ends_at,
-            organising_org_id,
+            name: raw.name,
+            description: raw.description,
+            image: raw.image,
+            lat: raw.lat,
+            lon: raw.lon,
+            starts_at: DateTime::parse_from_rfc3339(&raw.starts_at)?.with_timezone(&Utc),
+            ends_at: DateTime::parse_from_rfc3339(&raw.ends_at)?.with_timezone(&Utc),
+            organising_org_id: raw.organising_org_id,
         });
     }
 
@@ -97,9 +102,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn clean(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+async fn clean(tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
     sqlx::query!("DELETE FROM events WHERE 1=1")
         .execute(&mut **tx)
         .await

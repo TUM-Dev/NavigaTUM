@@ -9,7 +9,6 @@ import processors.areatree.process as areatree
 from processors import (
     aliases,
     coords,
-    events,
     export,
     images,
     merge,
@@ -20,7 +19,6 @@ from processors import (
     sitemap,
     structure,
     tumonline,
-    tumonline_orgs,
 )
 from processors.df_utils import ensure_columns
 from processors.sitemap import SimplifiedSitemaps
@@ -263,8 +261,8 @@ def _run_pipeline(
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
-    tumonline_orgs.export_tumonline_orgs_parquet()
-    events.export_events_parquet()
+    export.export_tumonline_orgs_parquet()
+    export.export_events_parquet()
     sitemap.generate_sitemap(
         old_data=fut_old_data.result(),
         old_sitemaps=fut_old_sitemaps.result(),
