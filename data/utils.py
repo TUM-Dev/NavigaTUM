@@ -111,7 +111,7 @@ def convert_to_webp(source: Path) -> None:
 
     image = Image.open(source)
     image.save(destination, format="webp")
-    os.remove(source)
+    source.unlink()
 
 
 def setup_logging(level: int = logging.INFO) -> None:

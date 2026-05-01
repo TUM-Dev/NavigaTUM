@@ -2,7 +2,7 @@ name: Security audit
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-server
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 on:
   schedule:
@@ -27,6 +27,9 @@ jobs:
         - name: Run zizmor
           uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
   cargo-audit:
+    # Only run on the daily schedule. Advisories still file issues, but PRs
+    # aren't blocked when a transitive dep gets a new RUSTSEC entry.
+    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     permissions:
       contents: read

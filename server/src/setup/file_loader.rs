@@ -1,5 +1,9 @@
 use std::path::PathBuf;
 use std::time::Duration;
+
+use serde::de::DeserializeOwned;
+use tokio::fs;
+use tokio::time::sleep;
 use tracing::{debug, info, warn};
 
 /// Attempts to load a file from the local filesystem first, falling back to downloading it via HTTP.
@@ -8,7 +12,7 @@ use tracing::{debug, info, warn};
 /// the ability to download them in development environments.
 ///
 /// # Arguments
-///   * `filename` - The name of the file to load (e.g., "api_data.json")
+///   * `filename` - The name of the file to load (e.g., "`api_data.json`")
 ///   * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
 ///
 /// # Returns
@@ -48,7 +52,7 @@ async fn try_load_from_disk(filename: &str) -> Option<Vec<u8>> {
 
     for path in search_paths {
         debug!(?path, "Checking for file");
-        match tokio::fs::read(&path).await {
+        match fs::read(&path).await {
             Ok(bytes) => {
                 debug!(?path, size = bytes.len(), "Successfully read file");
                 return Some(bytes);
@@ -106,7 +110,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
                         }
                         last_error = Some(anyhow::Error::from(e));
                         if attempt < max_retries {
-                            tokio::time::sleep(retry_delay).await;
+                            sleep(retry_delay).await;
                             retry_delay *= 2;
                         }
                     }
@@ -123,7 +127,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
                     }
                     last_error = Some(anyhow::Error::from(e));
                     if attempt < max_retries {
-                        tokio::time::sleep(retry_delay).await;
+                        sleep(retry_delay).await;
                         retry_delay *= 2;
                     }
                 }
@@ -140,7 +144,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
                 }
                 last_error = Some(anyhow::Error::from(e));
                 if attempt < max_retries {
-                    tokio::time::sleep(retry_delay).await;
+                    sleep(retry_delay).await;
                     retry_delay *= 2;
                 }
             }
@@ -148,7 +152,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
     }
 
     Err(last_error
-        .unwrap_or_else(|| anyhow::anyhow!("Download failed after {} retries", max_retries)))
+        .unwrap_or_else(|| anyhow::anyhow!("Download failed after {max_retries} retries")))
 }
 
 /// Loads a JSON file from disk or downloads it, then parses it.
@@ -161,7 +165,7 @@ async fn download_file(filename: &str, cdn_url: &str) -> anyhow::Result<Vec<u8>>
 /// The parsed JSON value
 pub async fn load_json_or_download<T>(filename: &str, cdn_url: &str) -> anyhow::Result<T>
 where
-    T: serde::de::DeserializeOwned,
+    T: DeserializeOwned,
 {
     let bytes = load_file_or_download(filename, cdn_url).await?;
     let value = serde_json::from_slice(&bytes)?;

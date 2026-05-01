@@ -1,13 +1,13 @@
+use std::collections::HashMap;
+use std::fmt::{self, Debug, Formatter};
+
 use crate::external::connectum::ConnectumEvent;
 use crate::limited::hash_map::LimitedHashMap;
 use crate::limited::vec::LimitedVec;
 use chrono::{DateTime, Utc};
-use sqlx::PgPool;
-use std::collections::HashMap;
-use std::fmt::{Debug, Formatter};
-use tracing::debug;
-use tracing::error;
-use tracing::warn;
+use sqlx::postgres::PgQueryResult;
+use sqlx::{PgPool, Postgres, Transaction};
+use tracing::{debug, error, warn};
 
 pub struct CalendarLocation {
     pub key: String,
@@ -23,7 +23,7 @@ impl CalendarLocation {
     pub(crate) async fn get_locations(
         pool: &PgPool,
         ids: &[String],
-    ) -> anyhow::Result<LimitedVec<CalendarLocation>> {
+    ) -> anyhow::Result<LimitedVec<Self>> {
         let res = sqlx::query_as!(
         CalendarLocation,
         "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])",
@@ -34,8 +34,10 @@ impl CalendarLocation {
         Ok(LimitedVec(res))
     }
 }
+// Debug intentionally elides last_modified_at and aliased keys for log readability.
+#[allow(clippy::missing_fields_in_debug)]
 impl Debug for CalendarLocation {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("CalendarLocation");
         base.field("building", &self.key).field("name", &self.name);
         if let Some(from) = &self.last_calendar_scrape_at {
@@ -56,9 +58,9 @@ impl LocationEvents {
         locations: Vec<CalendarLocation>,
         start_after: &DateTime<Utc>,
         end_before: &DateTime<Utc>,
-    ) -> anyhow::Result<LimitedHashMap<String, LocationEvents>> {
-        let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
-        for location in locations.into_iter() {
+    ) -> anyhow::Result<LimitedHashMap<String, Self>> {
+        let mut located_events: HashMap<String, Self> = HashMap::new();
+        for location in locations {
             let events = sqlx::query_as!(
             Event,
             r#"SELECT id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type
@@ -72,7 +74,7 @@ impl LocationEvents {
                 .await?;
             located_events.insert(
                 location.key.clone(),
-                LocationEvents {
+                Self {
                     location,
                     events: events.into(),
                 },
@@ -97,18 +99,18 @@ impl Event {
     #[tracing::instrument(skip(pool))]
     pub async fn store_all(
         pool: &PgPool,
-        events: LimitedVec<Event>,
+        events: LimitedVec<Self>,
         id: &str,
     ) -> anyhow::Result<()> {
         // insert into db
         let mut tx = pool.begin().await?;
-        if let Err(e) = Event::delete(&mut tx, id).await {
+        if let Err(e) = Self::delete(&mut tx, id).await {
             error!(error = ?e, "could not delete existing events");
             tx.rollback().await?;
             return Err(e.into());
         }
         let mut failed: Option<(usize, sqlx::Error)> = None;
-        for event in events.0.iter() {
+        for event in &events.0 {
             // conflicts cannot occur because all values for said room were dropped
             if let Err(e) = event.store(&mut tx).await {
                 failed = match failed {
@@ -130,10 +132,7 @@ impl Event {
         Ok(())
     }
     #[tracing::instrument(skip(tx))]
-    async fn delete(
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-        id: &str,
-    ) -> Result<(), sqlx::Error> {
+    async fn delete(tx: &mut Transaction<'_, Postgres>, id: &str) -> Result<(), sqlx::Error> {
         loop {
             // deliberately somewhat low to not have too long blocking segments
             let res = sqlx::query!(
@@ -160,7 +159,7 @@ impl Event {
         pool: &PgPool,
         id: &str,
         scrape_at: &DateTime<Utc>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
             scrape_at,
@@ -180,8 +179,8 @@ impl Event {
     #[tracing::instrument(skip(tx))]
     pub async fn store(
         &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        tx: &mut Transaction<'_, Postgres>,
+    ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT INTO calendar (id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
@@ -208,7 +207,7 @@ impl Event {
 }
 
 impl Debug for Event {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let duration = (self.end_at - self.start_at).num_minutes();
         f.debug_tuple("Event")
             .field(&format!(
@@ -223,7 +222,7 @@ impl Debug for Event {
 }
 impl From<ConnectumEvent> for Event {
     fn from(value: ConnectumEvent) -> Self {
-        Event {
+        Self {
             id: value.id,
             room_code: value.room_code,
             start_at: value.start_at,

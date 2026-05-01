@@ -1,5 +1,5 @@
 use std::collections::BTreeMap;
-use std::fs::File;
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use super::AppliableEdit;
 
 #[derive(Deserialize, Debug, Clone, utoipa::ToSchema)]
-#[serde(tag = "type")]
+#[serde(tag = "type", rename_all = "lowercase")]
 pub enum PropertyEdit {
     Name {
         name: Option<String>,
@@ -46,22 +46,22 @@ impl PropertyEdit {
         csv_path_fn: fn(&Path) -> PathBuf,
         header: &str,
         make_line: impl FnOnce() -> String,
-    ) {
-        use std::io::{BufRead, BufReader, BufWriter, Write};
+    ) -> anyhow::Result<()> {
+        use std::io::{BufRead as _, BufReader, BufWriter, Write as _};
 
         let csv_file = csv_path_fn(base_dir);
         let temp_file = csv_file.with_extension("tmp");
 
         {
-            let output = std::fs::File::create(&temp_file).unwrap();
+            let output = File::create(&temp_file)?;
             let mut writer = BufWriter::new(output);
-            writeln!(writer, "{header}").unwrap();
+            writeln!(writer, "{header}")?;
 
             let mut wrote_edit = false;
             let new_line = make_line();
 
             {
-                let input = std::fs::File::open(&csv_file).unwrap();
+                let input = File::open(&csv_file)?;
                 for line in BufReader::new(input)
                     .lines()
                     .skip(1)
@@ -71,21 +71,22 @@ impl PropertyEdit {
                     if let Some(existing_key) = line.split(',').next() {
                         if !wrote_edit && existing_key >= key {
                             wrote_edit = true;
-                            writeln!(writer, "{new_line}").unwrap();
+                            writeln!(writer, "{new_line}")?;
                         }
                         if existing_key != key {
-                            writeln!(writer, "{line}").unwrap();
+                            writeln!(writer, "{line}")?;
                         }
                     }
                 }
             }
 
             if !wrote_edit {
-                writeln!(writer, "{new_line}").unwrap();
+                writeln!(writer, "{new_line}")?;
             }
         }
 
-        std::fs::rename(&temp_file, &csv_file).unwrap();
+        fs::rename(&temp_file, &csv_file)?;
+        Ok(())
     }
 }
 
@@ -98,9 +99,9 @@ fn csv_escape(s: &str) -> String {
 }
 
 impl AppliableEdit for PropertyEdit {
-    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> String {
+    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
         match self {
-            PropertyEdit::Name { name, short_name } => {
+            Self::Name { name, short_name } => {
                 let name_val = name.as_deref().unwrap_or("");
                 let short_val = short_name.as_deref().unwrap_or("");
                 Self::apply_csv_edit(
@@ -116,10 +117,10 @@ impl AppliableEdit for PropertyEdit {
                             csv_escape(short_val)
                         )
                     },
-                );
-                format!("name: `{name_val}`, short_name: `{short_val}`")
+                )?;
+                Ok(format!("name: `{name_val}`, short_name: `{short_val}`"))
             }
-            PropertyEdit::Usage {
+            Self::Usage {
                 name_de,
                 name_en,
                 din_277,
@@ -142,10 +143,12 @@ impl AppliableEdit for PropertyEdit {
                             csv_escape(din_desc),
                         )
                     },
-                );
-                format!("usage: `{name_de}` / `{name_en}` (DIN 277: `{din}`)")
+                )?;
+                Ok(format!(
+                    "usage: `{name_de}` / `{name_en}` (DIN 277: `{din}`)"
+                ))
             }
-            PropertyEdit::Link {
+            Self::Link {
                 text_de,
                 text_en,
                 url,
@@ -153,7 +156,7 @@ impl AppliableEdit for PropertyEdit {
                 let yaml_path = base_dir.join("data").join("sources").join("links.yaml");
 
                 let mut links: BTreeMap<String, Vec<LinkEntry>> = if yaml_path.exists() {
-                    let file = File::open(&yaml_path).unwrap();
+                    let file = File::open(&yaml_path)?;
                     serde_yaml::from_reader(file).unwrap_or_default()
                 } else {
                     BTreeMap::new()
@@ -169,16 +172,17 @@ impl AppliableEdit for PropertyEdit {
 
                 links.entry(key.to_string()).or_default().push(entry);
 
-                let file = File::create(&yaml_path).unwrap();
-                serde_yaml::to_writer(file, &links).unwrap();
+                let file = File::create(&yaml_path)?;
+                serde_yaml::to_writer(file, &links)?;
 
-                format!("link: [`{text_de}` / `{text_en}`]({url})")
+                Ok(format!("link: [`{text_de}` / `{text_en}`]({url})"))
             }
         }
     }
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
     use std::fs;
 
@@ -212,7 +216,7 @@ mod tests {
             name: Some("Test Room".to_string()),
             short_name: Some("TR".to_string()),
         };
-        let desc = edit.apply("0101.01.001", dir.path(), "branch");
+        let desc = edit.apply("0101.01.001", dir.path(), "branch").unwrap();
         assert_snapshot!(desc, @r#"name: `Test Room`, short_name: `TR`"#);
         assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r"
         id,name,short_name,arch_name
@@ -233,7 +237,7 @@ mod tests {
             name: Some("Beta".to_string()),
             short_name: None,
         };
-        edit.apply("beta", dir.path(), "branch");
+        edit.apply("beta", dir.path(), "branch").unwrap();
         assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r"
         id,name,short_name,arch_name
         alpha,A,,
@@ -255,7 +259,7 @@ mod tests {
             name: Some("New".to_string()),
             short_name: Some("N".to_string()),
         };
-        edit.apply("alpha", dir.path(), "branch");
+        edit.apply("alpha", dir.path(), "branch").unwrap();
         assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r"
         id,name,short_name,arch_name
         alpha,New,N,
@@ -271,7 +275,7 @@ mod tests {
             din_277: Some("NF2.1".to_string()),
             din_277_desc: Some("Büroräume".to_string()),
         };
-        let desc = edit.apply("room1", dir.path(), "branch");
+        let desc = edit.apply("room1", dir.path(), "branch").unwrap();
         assert_snapshot!(desc, @"usage: `Büro` / `Office` (DIN 277: `NF2.1`)");
         assert_snapshot!(fs::read_to_string(sources_dir.join("usages.csv")).unwrap(), @r"
         id,name_de,name_en,din_277,din_277_desc
@@ -287,7 +291,7 @@ mod tests {
             text_en: "Homepage".to_string(),
             url: "https://example.com".to_string(),
         };
-        let desc = edit.apply("room1", dir.path(), "branch");
+        let desc = edit.apply("room1", dir.path(), "branch").unwrap();
         assert_snapshot!(desc, @"link: [`Homepage` / `Homepage`](https://example.com)");
         assert_snapshot!(fs::read_to_string(sources_dir.join("links.yaml")).unwrap(), @r"
         room1:
@@ -312,7 +316,7 @@ mod tests {
             text_en: "New".to_string(),
             url: "https://new.com".to_string(),
         };
-        edit.apply("room1", dir.path(), "branch");
+        edit.apply("room1", dir.path(), "branch").unwrap();
         assert_snapshot!(fs::read_to_string(sources_dir.join("links.yaml")).unwrap(), @r"
         room1:
         - text:
@@ -333,7 +337,7 @@ mod tests {
             name: Some("Room, with comma".to_string()),
             short_name: None,
         };
-        edit.apply("test", dir.path(), "branch");
+        edit.apply("test", dir.path(), "branch").unwrap();
         assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r#"
         id,name,short_name,arch_name
         test,"Room, with comma",,

@@ -1,4 +1,4 @@
-use tracing::{debug, debug_span, info, info_span};
+use tracing::{debug, info, info_span};
 
 use crate::limited::vec::LimitedVec;
 
@@ -42,52 +42,24 @@ pub async fn load_data(pool: &sqlx::PgPool) -> anyhow::Result<()> {
 }
 
 #[tracing::instrument(skip(pool))]
-async fn find_keys_which_need_updating(
+pub(crate) async fn find_keys_which_need_updating(
     pool: &sqlx::PgPool,
     keys: &LimitedVec<String>,
     hashes: &LimitedVec<i64>,
 ) -> anyhow::Result<LimitedVec<String>> {
-    let number_of_keys = sqlx::query_scalar!("SELECT COUNT(*) FROM de")
-        .fetch_one(pool)
-        .await?;
-    if number_of_keys == Some(0) {
-        debug!(cnt = keys.len(), "all keys need updating",);
-        return Ok(keys.clone());
-    }
-
-    let mut keys_which_need_updating = {
-        let _ = debug_span!("keys_which_need_updating").enter();
-        let keys_which_need_updating = sqlx::query_scalar!(
-            r#"
-SELECT de.key
-FROM de, (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)
-WHERE de.key = expected.key and de.hash != expected.hash
+    let keys_which_need_updating = sqlx::query_scalar!(
+        r#"
+SELECT expected.key AS "key!"
+FROM (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)
+LEFT JOIN de ON de.key = expected.key
+WHERE de.key IS NULL OR de.hash != expected.hash
 "#,
-            keys.as_ref(),
-            hashes.as_ref(),
-        )
-        .fetch_all(pool)
-        .await?;
-        debug!(cnt = keys_which_need_updating.len(), "updated items",);
-        keys_which_need_updating
-    };
-
-    let mut keys_which_need_removing = {
-        let _ = debug_span!("keys_which_need_removing").enter();
-        let keys_which_need_removing = sqlx::query_scalar!(
-            r#"
-SELECT de.key
-FROM de
-WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.key=expected2.key)
-"#,
-            keys.as_ref()
-        )
-        .fetch_all(pool)
-        .await?;
-        debug!(cnt = keys_which_need_removing.len(), "deleted items",);
-        keys_which_need_removing
-    };
-    keys_which_need_updating.append(&mut keys_which_need_removing);
+        keys.as_ref(),
+        hashes.as_ref(),
+    )
+    .fetch_all(pool)
+    .await?;
+    debug!(cnt = keys_which_need_updating.len(), "keys to (re)load");
     Ok(LimitedVec(keys_which_need_updating))
 }
 

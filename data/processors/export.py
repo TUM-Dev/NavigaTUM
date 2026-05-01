@@ -1,50 +1,47 @@
-import json
 import re
 from pathlib import Path
 from typing import Any
-import polars as pl
-import csv
-import yaml
 
-from external.models import tumonline
+import orjson
+import polars as pl
+import xxhash
+import yaml
 from external.models.common import PydanticConfiguration
-from processors.df_utils import unflatten_row
 from utils import TranslatableStr
 from utils import TranslatableStr as _
+
+from processors.df_utils import unflatten_row
+
+
+def _orjson_default(o: Any) -> Any:
+    if isinstance(o, PydanticConfiguration):
+        return o.model_dump()
+    raise TypeError(f"Object of type {type(o)} is not JSON serializable")
+
 
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
+
+_REMOVED_NAMES_RE = re.compile(rb"bestelmeyer|gustav[ -]+niemann|prandtl|messerschmidt", re.IGNORECASE)
+_ALLOWED_VARIATION_RE = re.compile(rb"prandtl[ -]+str", re.IGNORECASE)
+
+
+def _de(value: Any) -> Any:
+    """Pick the German variant from a TranslatableStr-shaped dict; pass-through otherwise."""
+    if isinstance(value, dict) and value.keys() <= {"de", "en"}:
+        return value.get("de", value.get("en", {}))
+    return value
 
 
 def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
-    if isinstance(value, dict):
-        value = value.get("de", value.get("en", ""))
-    if isinstance(value, TranslatableStr):
-        value = unlocalise(value)
-
+    value = _de(value)
     if not isinstance(value, str):
         raise ValueError(f"Expected str, got {type(value)}")
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
-
-
-def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
-    """Recursively unlocalise a dictionary"""
-    if isinstance(value, bool | float | int | str) or value is None:
-        return value
-    if isinstance(value, list):
-        return [unlocalise(v) for v in value]
-    if isinstance(value, dict):
-        # We consider each dict that has only the keys "de" and/or "en" as translated string
-        if set(value.keys()) | {"de", "en"} == {"de", "en"}:
-            # Since we only unlocalise dicts with either en and/or de or {}, the default to {} is fine
-            return value.get("de", value.get("en", {}))
-
-        return {k: unlocalise(v) for k, v in value.items()}
-    raise ValueError(f"Unhandled type {type(value)}")
 
 
 def normalise_id(_id: str) -> str | None:
@@ -92,8 +89,11 @@ def export_for_search(data: dict[str, Any]) -> None:
         geo = {}
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
-        parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
+        parent_building_names = [
+            _de(n) for n in extract_parent_building_names(data, entry["parents"], building_parents_index)
+        ]
         address = entry.get("tumonline_data", {}).get("address", {})
+        street = address.get("street", None) if isinstance(address, dict) else address.street
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -101,11 +101,11 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "ms_id": _id.replace(".", "-"),
                 "room_code": _id,
                 "room_code_normalised": normalise_id(_id),
-                "name": entry["name"],
+                "name": _de(entry["name"]),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
                 "type": entry["type"],
-                "type_common_name": entry["type_common_name"],
+                "type_common_name": _de(entry["type_common_name"]),
                 "facet": {
                     "site": "site",
                     "campus": "site",
@@ -114,27 +114,25 @@ def export_for_search(data: dict[str, Any]) -> None:
                     "building": "building",
                     "room": "room",
                     "virtual_room": "room",
+                    "poi": "poi",
                 }.get(entry["type"]),
-                "operator_name": entry.get("props", {}).get("operator", {}).get("name", None),
+                "operator_name": _de(entry.get("props", {}).get("operator", {}).get("name", None)),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
-                "address": address.get("street", None) if isinstance(address, dict) else address.street,
+                "address": _de(street),
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,
             },
         )
 
-    # the data contains translations, currently we don't allow these in the search api
-    export = unlocalise(export)
-
-    _make_sure_is_safe(export)
-    with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
-        json.dump(export, file)
+    search_bytes = orjson.dumps(export)
+    _make_sure_is_safe(search_bytes)
+    (OUTPUT_DIR_PATH / "search_data.json").write_bytes(search_bytes)
     search_df = pl.DataFrame(export, infer_schema_length=None)
-    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
+    search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def extract_parent_building_names(data: dict[str, Any], parents: list[str], building_parents_index: int) -> list[str]:
@@ -145,48 +143,29 @@ def extract_parent_building_names(data: dict[str, Any], parents: list[str], buil
     return short_names + long_names
 
 
-def _make_sure_is_safe(obj: object) -> None:
+def _make_sure_is_safe(blob: bytes) -> None:
     """
-    Check if any of the specified names in removed_names are present
+    Check that no NS-context names slipped into the export.
 
-    :param obj: obj to be checked
-    :raises RuntimeError: If any of the specified names (removed_names) are found in the content of the file.
+    :param blob: serialized JSON bytes to be checked
+    :raises RuntimeError: if a forbidden name is found.
     """
-    removed_names = ["bestelmeyer", "gustav niemann", "prandtl", "messerschmidt"]
-    allowed_variation = "prandtl str"
-    if isinstance(obj, str):
-        content = obj.lower().replace("  ", " ").replace("-", " ")
-        for name in removed_names:
-            if name in content and allowed_variation not in content:
-                raise RuntimeError(
-                    f"{name} was purposely renamed due to NS context. Please make sure it is not included"
-                )
-    elif isinstance(obj, dict):
-        for key, val in obj.items():
-            _make_sure_is_safe(key)
-            _make_sure_is_safe(val)
-    elif isinstance(obj, list) or isinstance(obj, tuple):
-        for entry in obj:
-            _make_sure_is_safe(entry)
-    elif isinstance(obj, PydanticConfiguration):
-        return _make_sure_is_safe(obj.model_dump())
-    elif isinstance(obj, bool) or isinstance(obj, int) or isinstance(obj, float) or obj is None:
-        pass
-    else:
-        raise ValueError(f"unhandled type: {type(obj)}")
+    for match in _REMOVED_NAMES_RE.finditer(blob):
+        if not _ALLOWED_VARIATION_RE.match(blob, match.start()):
+            raise RuntimeError(
+                f"{match.group().decode()} was purposely renamed due to NS context. Please make sure it is not included",
+            )
 
 
 def export_for_status() -> None:
     """Generate hashes for the contents of data"""
-    with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
-        export_data = json.load(file)
+    export_data = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
     export_json_data = [(d["id"], d["hash"]) for d in export_data]
-    with (OUTPUT_DIR_PATH / "status_data.json").open("w", encoding="utf-8") as file:
-        json.dump(export_json_data, file)
+    (OUTPUT_DIR_PATH / "status_data.json").write_bytes(orjson.dumps(export_json_data))
 
     export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
     df = pl.DataFrame(export_polars_data, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
+    df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def export_for_api(data: dict[str, Any]) -> None:
@@ -196,18 +175,17 @@ def export_for_api(data: dict[str, Any]) -> None:
         entry.setdefault("maps", {})["default"] = "interactive"
         export_data.append(extract_exported_item(data, entry))
 
-    _make_sure_is_safe(export_data)
-    with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
-        json.dump(export_data, file, cls=EnhancedJSONEncoder)
-    with (OUTPUT_DIR_PATH / "api_data.json").open("r", encoding="utf-8") as file:
-        alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in json.load(file)]
+    api_data_bytes = orjson.dumps(export_data, default=_orjson_default)
+    _make_sure_is_safe(api_data_bytes)
+    (OUTPUT_DIR_PATH / "api_data.json").write_bytes(api_data_bytes)
+    alias_data = [{k: r.get(k) for k in ("id", "type", "visible_id", "aliases")} for r in orjson.loads(api_data_bytes)]
     df = pl.DataFrame(alias_data, infer_schema_length=None)
-    df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=22)
+    df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=3)
 
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
-    parent_names = [data[p]["name"] if not p == "root" else _("Standorte", "Sites") for p in entry["parents"]]
+    parent_names = [data[p]["name"] if p != "root" else _("Standorte", "Sites") for p in entry["parents"]]
     result = {
         "parent_names": parent_names,
         **entry,
@@ -219,10 +197,16 @@ def extract_exported_item(data, entry):
         result.pop(key, None)
     if "props" in result:
         prop_keys_to_keep = {"computed", "floors", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
-        to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
+        to_delete = [e for e in result["props"] if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
-    result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
+    # Stable, deterministic content hash. Python's built-in `hash()` is salted by PYTHONHASHSEED
+    # and varies across processes, which makes it useless as a cache/etag fingerprint. xxhash is
+    # a fast non-cryptographic hash; xxh64 returns a 64-bit value we coerce into a signed int64
+    # (same value range as the prior `hash()`, drop-in for the parquet/JSON consumers).
+    serialised = orjson.dumps(result, option=orjson.OPT_SORT_KEYS, default=_orjson_default)
+    digest = xxhash.xxh64(serialised).intdigest()
+    result["hash"] = digest - (1 << 64) if digest >= (1 << 63) else digest
     return result
 
 
@@ -231,16 +215,13 @@ def export_known_usages(df: pl.DataFrame) -> None:
     data_dir = Path(__file__).parent.parent
     translations = yaml.safe_load((data_dir / "translations.yaml").read_text(encoding="utf-8"))
 
-    usages_df = (
-        pl.read_csv(
-            data_dir / "external" / "results" / "usages_tumonline.csv",
-            schema_overrides={"din277_id": pl.String, "name": pl.String},
-        )
-        .select(
-            pl.col("name").alias("name_de"),
-            pl.col("din277_id").alias("din_277"),
-        )
-        .unique()
+    usages_df = pl.read_csv(
+        data_dir / "external" / "results" / "usages_tumonline.csv",
+        schema_overrides={"din277_id": pl.String, "name": pl.String},
+    ).select(
+        pl.col("usage_id"),
+        pl.col("name").alias("name_de"),
+        pl.col("din277_id").alias("din_277"),
     )
 
     counts_df = (
@@ -260,18 +241,10 @@ def export_known_usages(df: pl.DataFrame) -> None:
             pl.col("name_de").replace_strict(translations, default=pl.col("name_de")).alias("name_en"),
             pl.col("len").fill_null(0).alias("occurrences"),
         )
-        .select("name_de", "name_en", "din_277", "occurrences")
-        .sort("occurrences", descending=True)
+        .select("usage_id", "name_de", "name_en", "din_277", "occurrences")
+        .sort(["occurrences", "name_de"], descending=[True, False])
     )
 
-    with (OUTPUT_DIR_PATH / "known_usages.json").open("w", encoding="utf-8") as f:
-        json.dump(result_df.to_dicts(), f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-
-class EnhancedJSONEncoder(json.JSONEncoder):
-    def default(self, o: Any) -> Any:
-        """Enhanced JSONEncoder that can handle dataclasses"""
-        if isinstance(o, PydanticConfiguration):
-            return o.model_dump()
-        return super().default(o)
+    (OUTPUT_DIR_PATH / "known_usages.json").write_bytes(
+        orjson.dumps(result_df.to_dicts(), option=orjson.OPT_INDENT_2) + b"\n"
+    )

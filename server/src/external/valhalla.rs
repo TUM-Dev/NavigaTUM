@@ -1,4 +1,6 @@
+use std::env;
 use std::fmt::Debug;
+
 use tracing::debug;
 use valhalla_client::costing::Costing;
 use valhalla_client::route::Location;
@@ -9,11 +11,11 @@ pub struct ValhallaWrapper(Valhalla);
 
 impl Default for ValhallaWrapper {
     fn default() -> Self {
-        let base_url = std::env::var("VALHALLA_URL")
+        let base_url = env::var("VALHALLA_URL")
             .unwrap_or_else(|_| "https://nav.tum.de/valhalla".to_string())
             .parse()
             .expect("Valhalla url is not a valid url");
-        ValhallaWrapper(Valhalla::new(base_url))
+        Self(Valhalla::new(base_url))
     }
 }
 

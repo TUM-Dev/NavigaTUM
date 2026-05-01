@@ -101,7 +101,7 @@ export type paths = {
      * Get a entry-preview
      * @description This returns a 1200x630px preview for the location (room/building/..).
      *
-     * This is usefully for implementing custom OpenGraph images for detail previews.
+     * This is usefully for implementing custom `OpenGraph` images for detail previews.
      */
     get: operations["maps_handler"];
   };
@@ -265,6 +265,8 @@ export type components = {
        */
       readonly start_after: string;
     };
+    /** @enum {string} */
+    readonly BuildingKind: "building" | "joined_building" | "area";
     readonly BuildingsOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -379,8 +381,10 @@ export type components = {
        * @example I have a picture of the room, please add it to the roomfinder
        */
       readonly additional_context: string;
+      /** @description New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side. */
+      readonly additions?: components["schemas"]["LimitedHashMap_String_Addition"];
       /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
-      readonly edits: components["schemas"]["LimitedHashMap_String_Edit"];
+      readonly edits?: components["schemas"]["LimitedHashMap_String_Edit"];
       /**
        * @description Whether the user has checked the privacy-checkbox.
        *
@@ -410,7 +414,7 @@ export type components = {
       readonly entry_type: components["schemas"]["EventTypeResponse"];
       /**
        * Format: int32
-       * @description ID of the calendar entry used in TUMonline internally
+       * @description ID of the calendar entry used in `TUMonline` internally
        */
       readonly id: number;
       /**
@@ -439,6 +443,15 @@ export type components = {
       readonly footer?: string | null;
       readonly header?: string | null;
     };
+    /**
+     * @description Allowlisted values for the `?type=` query parameter.
+     *
+     * Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+     * silently dropping them, and so the `OpenAPI` schema advertises the exact set
+     * of accepted values.
+     * @enum {string}
+     */
+    readonly FacetFilter: "site" | "building" | "room" | "poi";
     readonly FeaturedOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -478,13 +491,17 @@ export type components = {
       readonly name: string;
       /** @description Short name of the floor */
       readonly short_name: string;
-      /** @description How TUMonline names the floor */
+      /** @description How `TUMonline` names the floor */
       readonly tumonline: string;
       /** @description Type of floor */
       readonly type: components["schemas"]["FloorType"];
     };
     /** @enum {string} */
     readonly FloorType: "roof" | "upper" | "semi_upper" | "ground" | "semi_basement" | "basement";
+    readonly GenericProp: {
+      readonly name: components["schemas"]["TranslatableStr"];
+      readonly text: string;
+    };
     readonly Image: {
       /** @description The image encoded as base64 */
       readonly content: string;
@@ -496,7 +513,7 @@ export type components = {
       readonly license: components["schemas"]["PossibleURLRefResponse"];
       /**
        * @description The name of the image file.
-       * consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+       * consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
        */
       readonly name: string;
     };
@@ -531,28 +548,30 @@ export type components = {
        */
       readonly transfer_count: number;
     };
+    readonly LimitedHashMap_String_Addition: {
+      [key: string]: OneOf<
+        [
+          components["schemas"]["NewRoom"] & {
+            /** @enum {string} */
+            readonly kind: "room";
+          },
+          components["schemas"]["NewBuilding"] & {
+            /** @enum {string} */
+            readonly kind: "building";
+          },
+          components["schemas"]["NewPoi"] & {
+            /** @enum {string} */
+            readonly kind: "poi";
+          },
+        ]
+      >;
+    };
     readonly LimitedHashMap_String_Edit: {
       [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
-        readonly properties?: null | readonly components["schemas"]["PropertyEdit"][];
+        readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
       };
-    };
-    readonly PropertyEdit: {
-      readonly type: "Name";
-      readonly name?: null | string;
-      readonly short_name?: null | string;
-    } | {
-      readonly type: "Usage";
-      readonly name_de: string;
-      readonly name_en: string;
-      readonly din_277?: null | string;
-      readonly din_277_desc?: null | string;
-    } | {
-      readonly type: "Link";
-      readonly text_de: string;
-      readonly text_en: string;
-      readonly url: string;
     };
     readonly LocationDetailsResponse: {
       /**
@@ -968,6 +987,38 @@ export type components = {
     readonly NearbyLocationsResponse: {
       readonly public_transport: readonly components["schemas"]["TransportationResponse"][];
     };
+    readonly NewBuilding: {
+      readonly building_prefixes: readonly string[];
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly internal_id?: string | null;
+      readonly name: string;
+      readonly node_kind: components["schemas"]["BuildingKind"];
+      readonly parent_id: string;
+      readonly short_name?: string | null;
+      readonly visible_id?: string | null;
+    };
+    readonly NewPoi: {
+      readonly comment?: null | components["schemas"]["TranslatableStr"];
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly generic_props?: readonly components["schemas"]["GenericProp"][];
+      readonly links?: readonly components["schemas"]["PoiLink"][];
+      readonly name: string;
+      readonly parent: string;
+      readonly usage_name: string;
+    };
+    readonly NewRoom: {
+      readonly address?: null | components["schemas"]["RoomAddress"];
+      readonly alt_name: string;
+      readonly arch_name: string;
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly floor_level?: string | null;
+      readonly floor_type?: string | null;
+      readonly links?: readonly components["schemas"]["RoomLink"][];
+      readonly parent_building_id: string;
+      readonly seats?: null | components["schemas"]["Seats"];
+      /** Format: int32 */
+      readonly usage_id: number;
+    };
     readonly Offsets: {
       /** Format: int32 */
       readonly header?: number | null;
@@ -986,7 +1037,7 @@ export type components = {
       /**
        * @description The full name of the operator (localized). Null for organisations that
        *  are no longer active (e.g. id=38698), but where the operator has not been
-       * updated in TUMonline.
+       * updated in `TUMonline`.
        */
       readonly name: string;
       /** @description Link to the operator */
@@ -1029,7 +1080,7 @@ export type components = {
        * @description Floor of the Map.
        *
        * Should be used for display to the user in selectors.
-       * Matches the floor part of the TUMonline roomcode.
+       * Matches the floor part of the `TUMonline` roomcode.
        * @example EG
        */
       readonly floor: string;
@@ -1083,7 +1134,7 @@ export type components = {
       readonly level: number;
       /** Format: double */
       readonly lon: number;
-      /** @description name of the transit stop / PoI / address */
+      /** @description name of the transit stop / `PoI` / address */
       readonly name: string;
       /**
        * Format: date-time
@@ -1109,6 +1160,10 @@ export type components = {
        */
       readonly track?: string | null;
       readonly vertex_type?: null | components["schemas"]["VertexTypeResponse"];
+    };
+    readonly PoiLink: {
+      readonly text: components["schemas"]["TranslatableStr"];
+      readonly url: string;
     };
     /** @description A link with a localized link text and url */
     readonly PossibleURLRefResponse: {
@@ -1157,6 +1212,31 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
+    readonly PropertyEdit: OneOf<
+      [
+        {
+          readonly name?: string | null;
+          readonly short_name?: string | null;
+          /** @enum {string} */
+          readonly type: "name";
+        },
+        {
+          readonly din_277?: string | null;
+          readonly din_277_desc?: string | null;
+          readonly name_de: string;
+          readonly name_en: string;
+          /** @enum {string} */
+          readonly type: "usage";
+        },
+        {
+          readonly text_de: string;
+          readonly text_en: string;
+          /** @enum {string} */
+          readonly type: "link";
+          readonly url: string;
+        },
+      ]
+    >;
     /** @description Data for the info-card table */
     readonly PropsResponse: {
       /** @description Link to the calendar of the room */
@@ -1273,7 +1353,7 @@ export type components = {
       readonly type: string;
     };
     /** @enum {string} */
-    readonly ResultFacet: "sites_buildings" | "rooms" | "addresses";
+    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "addresses";
     readonly ResultsSection: {
       readonly entries: readonly components["schemas"]["ResultEntry"][];
       /**
@@ -1291,6 +1371,16 @@ export type components = {
        * @example 4
        */
       readonly n_visible: number;
+    };
+    readonly RoomAddress: {
+      readonly place: string;
+      readonly street: string;
+      readonly zip_code: string;
+    };
+    readonly RoomLink: {
+      readonly text_de: string;
+      readonly text_en: string;
+      readonly url: string;
     };
     readonly RoomfinderMapEntryResponse: {
       /** @description Where the map is stored */
@@ -1367,6 +1457,14 @@ export type components = {
        * @example 8
        */
       readonly time_ms: number;
+    };
+    readonly Seats: {
+      /** Format: int32 */
+      readonly sitting?: number | null;
+      /** Format: int32 */
+      readonly standing?: number | null;
+      /** Format: int32 */
+      readonly wheelchair?: number | null;
     };
     readonly SectionsResponse: {
       readonly buildings_overview?: null | components["schemas"]["BuildingsOverviewResponse"];
@@ -1587,6 +1685,10 @@ export type components = {
     };
     /** @enum {string} */
     readonly TransitStopTypeResponse: "stop" | "station";
+    readonly TranslatableStr: {
+      readonly de: string;
+      readonly en: string;
+    };
     readonly TransportationResponse: {
       /** Format: double */
       readonly distance_meters: number;
@@ -1936,7 +2038,7 @@ export type operations = {
    * Get a entry-preview
    * @description This returns a 1200x630px preview for the location (room/building/..).
    *
-   * This is usefully for implementing custom OpenGraph images for detail previews.
+   * This is usefully for implementing custom `OpenGraph` images for detail previews.
    */
   maps_handler: {
     parameters: {
@@ -2046,7 +2148,7 @@ export type operations = {
         page_cursor?: string | null;
         /**
          * @description Time for the route (ISO 8601 format)
-         * Used with arrive_by to determine if this is departure or arrival time
+         * Used with `arrive_by` to determine if this is departure or arrival time
          */
         time?: string | null;
         /** @description Whether the time parameter represents arrival time (true) or departure time (false/not set) */
@@ -2115,11 +2217,11 @@ export type operations = {
          */
         usage?: readonly string[];
         /**
-         * @description Filter by entry type (e.g. `room`, `building`).
+         * @description Filter by facet.
          *
-         * Can be repeated for multiple values.
+         * Can be repeated for multiple values. Unknown values cause a `400`.
          */
-        type?: readonly string[];
+        type?: readonly components["schemas"]["FacetFilter"][];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
         near?: string;
         /**
@@ -2130,7 +2232,14 @@ export type operations = {
          */
         search_addresses?: boolean;
         /**
-         * @description Maximum number of buildings/sites to return.
+         * @description Maximum number of sites (campus / site / area) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_sites?: number;
+        /**
+         * @description Maximum number of buildings to return.
          *
          * Clamped to `0`..`1000`.
          * If this is a problem for you, please open an issue.
@@ -2143,6 +2252,13 @@ export type operations = {
          * If this is an problem for you, please open an issue.
          */
         limit_rooms?: number;
+        /**
+         * @description Maximum number of POIs (points of interest) to return.
+         *
+         * Clamped to `0`..`1000`.
+         * If this is a problem for you, please open an issue.
+         */
+        limit_pois?: number;
         /**
          * @description Maximum number of results to return.
          *

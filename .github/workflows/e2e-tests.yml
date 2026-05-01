@@ -2,7 +2,7 @@ name: E2E Tests
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-server
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 on:
   pull_request:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup | Pull Docker images
         run: docker compose pull
       - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build server
+        run: docker compose -f compose.local.yml build server webclient
 
       - name: Setup | pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
@@ -100,16 +100,23 @@ jobs:
           curl -v -f http://localhost:3003/api/status
           echo "::endgroup::"
 
+          echo "Waiting for webclient to become healthy (max 120s)…"
+          timeout 120 bash -c 'until curl -fs http://localhost:3000/metrics >/dev/null; do sleep 2; done'
+
       - name: Run API tests
         working-directory: tests
         run: pnpm test:api
         env:
           SKIP_WEBSERVER: true
           BASE_URL: http://localhost:3003
+          WEBCLIENT_BASE_URL: http://localhost:3000
 
       - name: Server logs on failure
         if: failure()
         run: docker compose -f compose.local.yml logs server
+      - name: Webclient logs on failure
+        if: failure()
+        run: docker compose -f compose.local.yml logs webclient
       - name: MeiliSearch logs on failure
         if: failure()
         run: docker compose -f compose.local.yml logs meilisearch

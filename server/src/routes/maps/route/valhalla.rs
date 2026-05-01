@@ -18,7 +18,7 @@ pub struct ValhallaRoutingResponse {
 }
 impl From<Trip> for ValhallaRoutingResponse {
     fn from(value: Trip) -> Self {
-        ValhallaRoutingResponse {
+        Self {
             legs: value
                 .legs
                 .into_iter()
@@ -57,7 +57,7 @@ pub struct SummaryResponse {
 }
 impl From<Summary> for SummaryResponse {
     fn from(value: Summary) -> Self {
-        SummaryResponse {
+        Self {
             time_seconds: value.time,
             length_meters: value.length * 1000.0,
             has_toll: value.has_toll,
@@ -79,7 +79,7 @@ pub struct ValhallaLegResponse {
 }
 impl From<Leg> for ValhallaLegResponse {
     fn from(value: Leg) -> Self {
-        ValhallaLegResponse {
+        Self {
             summary: SummaryResponse::from(value.summary),
             maneuvers: value
                 .maneuvers
@@ -174,12 +174,12 @@ pub struct ManeuverResponse {
 }
 impl From<Maneuver> for ManeuverResponse {
     fn from(value: Maneuver) -> Self {
-        ManeuverResponse {
+        Self {
             r#type: ManeuverTypeResponse::from(value.type_),
             instruction: value
                 .instruction
                 .strip_suffix(".")
-                .map(|s| s.to_string())
+                .map(ToString::to_string)
                 .unwrap_or(value.instruction),
             verbal_transition_alert_instruction: value.verbal_transition_alert_instruction,
             verbal_pre_transition_instruction: value.verbal_pre_transition_instruction,
@@ -336,12 +336,12 @@ pub struct TransitInfoResponse {
     #[schema(examples(0))]
     text_color: String,
     /// The description of the transit route
-    #[schema(examples(r#"Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
+    #[schema(examples(r"Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
 N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
 Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
 Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
 depending on the time. Late night trains operate via Whitehall Street, Manhattan.
-Late night service is local"#))]
+Late night service is local"))]
     description: String,
     /// Global operator/agency identifier
     ///
@@ -366,7 +366,7 @@ Late night service is local"#))]
 }
 impl From<TransitInfo> for TransitInfoResponse {
     fn from(value: TransitInfo) -> Self {
-        TransitInfoResponse {
+        Self {
             onestop_id: value.onestop_id,
             short_name: value.short_name,
             long_name: value.long_name,
@@ -426,7 +426,7 @@ pub struct TransitStopResponse {
 }
 impl From<TransitStop> for TransitStopResponse {
     fn from(value: TransitStop) -> Self {
-        TransitStopResponse {
+        Self {
             r#type: TransitStopTypeResponse::from(value.type_),
             name: value.name,
             arrival_date_time: value.arrival_date_time,

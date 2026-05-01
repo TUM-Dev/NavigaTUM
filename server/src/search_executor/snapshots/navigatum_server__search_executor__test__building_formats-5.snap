@@ -1,10 +1,10 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: PH5101"
 expression: results_prefixed.0
 info: parsed_id=prefixed
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "5101"
       type: building
@@ -60,4 +60,12 @@ info: parsed_id=prefixed
       subtext: "garching, Physik I"
       subtext_bold: 4238@5101
   n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

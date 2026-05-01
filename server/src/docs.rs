@@ -3,8 +3,12 @@ use actix_web::{
     dev::{ServiceFactory, ServiceRequest},
     web,
 };
+use utoipa::PartialSchema as _;
+use utoipa::openapi::{Components, OpenApi};
 use utoipa_actix_web::UtoipaApp;
-use utoipa_redoc::{Redoc, Servable};
+use utoipa_redoc::{Redoc, Servable as _};
+
+use crate::external::meilisearch::FacetFilter;
 
 #[derive(serde::Serialize, Default)]
 #[serde_with::skip_serializing_none]
@@ -37,16 +41,27 @@ where
     let (app, mut openapi) = app.split_for_parts();
 
     add_static_openapi_docs(&mut openapi);
+    register_extra_schemas(&mut openapi);
     app.app_data(web::Data::new(openapi.clone()))
         .service(Redoc::with_url("/api", openapi.clone()))
 }
 
-fn add_static_openapi_docs(openapi: &mut utoipa::openapi::OpenApi) {
+/// Registers schemas that are referenced via `$ref` from `IntoParams`-derived
+/// query structs but are otherwise invisible to `utoipa-actix-web`'s automatic
+/// schema collection (it only walks request/response body types).
+fn register_extra_schemas(openapi: &mut OpenApi) {
+    let components = openapi.components.get_or_insert_with(Components::new);
+    components
+        .schemas
+        .insert("FacetFilter".to_string(), FacetFilter::schema());
+}
+
+fn add_static_openapi_docs(openapi: &mut OpenApi) {
     use utoipa::openapi::extensions::ExtensionsBuilder;
     use utoipa::openapi::external_docs::ExternalDocsBuilder;
     use utoipa::openapi::tag::TagBuilder;
     use utoipa::openapi::{ContactBuilder, InfoBuilder, LicenseBuilder, ServerBuilder};
-    let description = r#"Navigating around TUM with excellence – An API to search for rooms,
+    let description = r"Navigating around TUM with excellence – An API to search for rooms,
 buildings and other places
 
 NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
@@ -60,7 +75,7 @@ NavigaTUM is a tool developed by students for students, to help you get around a
 - [x] Generate turn by turn navigation advice for navigating end to end
 - [ ] Generate maps from CAD data sources
 
-If you'd like to help out or join us in this adventure, we would love to talk to you."#;
+If you'd like to help out or join us in this adventure, we would love to talk to you.";
     openapi.info = InfoBuilder::new()
             .title("NavigaTUM")
             .description(Some(description))
@@ -79,11 +94,11 @@ If you'd like to help out or join us in this adventure, we would love to talk to
                     .build()))
             .version(env!("CARGO_PKG_VERSION"))
             .extensions(Some(ExtensionsBuilder::new()
-                .add("logo", serde_json::to_value(OpenApiLogo{ 
+                .add("logo", serde_json::to_value(OpenApiLogo{
                     href: Some("https://nav.tum.de".to_string()),
-                    url: "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/webclient/app/assets/logos/navigatum.svg".to_string(), 
+                    url: "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/webclient/app/assets/logos/navigatum.svg".to_string(),
                     ..OpenApiLogo::default()
-                }).unwrap())
+                }).expect("OpenApiLogo serializes to JSON cleanly"))
                 .build()))
             .build();
     openapi.servers = Some(vec![

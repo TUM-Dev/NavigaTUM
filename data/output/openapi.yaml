@@ -315,7 +315,7 @@ paths:
       description: |-
         This returns a 1200x630px preview for the location (room/building/..).
 
-        This is usefully for implementing custom OpenGraph images for detail previews.
+        This is usefully for implementing custom `OpenGraph` images for detail previews.
       operationId: maps_handler
       parameters:
         - name: id
@@ -513,7 +513,7 @@ paths:
           in: query
           description: |-
             Time for the route (ISO 8601 format)
-            Used with arrive_by to determine if this is departure or arrival time
+            Used with `arrive_by` to determine if this is departure or arrival time
           required: false
           schema:
             type:
@@ -600,14 +600,14 @@ paths:
         - name: type
           in: query
           description: |-
-            Filter by entry type (e.g. `room`, `building`).
+            Filter by facet.
 
-            Can be repeated for multiple values.
+            Can be repeated for multiple values. Unknown values cause a `400`.
           required: false
           schema:
             type: array
             items:
-              type: string
+              $ref: '#/components/schemas/FacetFilter'
         - name: near
           in: query
           description: Sort results by distance to a coordinate (`lat,lon`).
@@ -624,10 +624,21 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: limit_sites
+          in: query
+          description: |-
+            Maximum number of sites (campus / site / area) to return.
+
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
         - name: limit_buildings
           in: query
           description: |-
-            Maximum number of buildings/sites to return.
+            Maximum number of buildings to return.
 
             Clamped to `0`..`1000`.
             If this is a problem for you, please open an issue.
@@ -642,6 +653,17 @@ paths:
 
             Clamped to `0`..`1000`.
             If this is an problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: limit_pois
+          in: query
+          description: |-
+            Maximum number of POIs (points of interest) to return.
+
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
           required: false
           schema:
             type: integer
@@ -903,6 +925,12 @@ components:
           examples:
             - "2039-01-19T03:14:07+01:00"
             - 2042-01-07T00:00:00 UTC
+    BuildingKind:
+      type: string
+      enum:
+        - building
+        - joined_building
+        - area
     BuildingsOverviewItemResponse:
       type: object
       required:
@@ -1102,7 +1130,6 @@ components:
       type: object
       required:
         - token
-        - edits
         - additional_context
         - privacy_checked
       properties:
@@ -1113,6 +1140,9 @@ components:
 
             Will be displayed in the discription field of the PR
           example: I have a picture of the room, please add it to the roomfinder
+        additions:
+          $ref: '#/components/schemas/LimitedHashMap_String_Addition'
+          description: New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side.
         edits:
           $ref: '#/components/schemas/LimitedHashMap_String_Edit'
           description: The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
@@ -1159,7 +1189,7 @@ components:
         id:
           type: integer
           format: int32
-          description: ID of the calendar entry used in TUMonline internally
+          description: ID of the calendar entry used in `TUMonline` internally
           examples:
             - 6424
         room_code:
@@ -1224,6 +1254,19 @@ components:
             - "null"
           examples:
             - Genauere Angaben
+    FacetFilter:
+      type: string
+      description: |-
+        Allowlisted values for the `?type=` query parameter.
+
+        Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+        silently dropping them, and so the `OpenAPI` schema advertises the exact set
+        of accepted values.
+      enum:
+        - site
+        - building
+        - room
+        - poi
     FeaturedOverviewItemResponse:
       type: object
       required:
@@ -1306,7 +1349,7 @@ components:
             - Z1
         tumonline:
           type: string
-          description: How TUMonline names the floor
+          description: How `TUMonline` names the floor
           examples:
             - U1
             - EG
@@ -1323,6 +1366,16 @@ components:
         - ground
         - semi_basement
         - basement
+    GenericProp:
+      type: object
+      required:
+        - name
+        - text
+      properties:
+        name:
+          $ref: '#/components/schemas/TranslatableStr'
+        text:
+          type: string
     Image:
       type: object
       required:
@@ -1351,7 +1404,7 @@ components:
           type: string
           description: |-
             The name of the image file.
-            consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+            consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
           examples:
             - mi_0.webp
     ImageMetadata:
@@ -1401,6 +1454,42 @@ components:
           type: integer
           format: int64
           description: The number of transfers this trip has.
+    LimitedHashMap_String_Addition:
+      type: object
+      additionalProperties:
+        oneOf:
+          - allOf:
+              - $ref: '#/components/schemas/NewRoom'
+              - type: object
+                required:
+                  - kind
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - room
+          - allOf:
+              - $ref: '#/components/schemas/NewBuilding'
+              - type: object
+                required:
+                  - kind
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - building
+          - allOf:
+              - $ref: '#/components/schemas/NewPoi'
+              - type: object
+                required:
+                  - kind
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - poi
+      propertyNames:
+        type: string
     LimitedHashMap_String_Edit:
       type: object
       additionalProperties:
@@ -1414,6 +1503,12 @@ components:
             oneOf:
               - type: "null"
               - $ref: '#/components/schemas/Image'
+          properties:
+            type:
+              - array
+              - "null"
+            items:
+              $ref: '#/components/schemas/PropertyEdit'
       propertyNames:
         type: string
     LocationDetailsResponse:
@@ -2054,6 +2149,108 @@ components:
           items:
             $ref: '#/components/schemas/TransportationResponse'
           maxItems: 50
+    NewBuilding:
+      type: object
+      required:
+        - parent_id
+        - node_kind
+        - building_prefixes
+        - name
+        - coords
+      properties:
+        building_prefixes:
+          type: array
+          items:
+            type: string
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        internal_id:
+          type:
+            - string
+            - "null"
+        name:
+          type: string
+        node_kind:
+          $ref: '#/components/schemas/BuildingKind'
+        parent_id:
+          type: string
+        short_name:
+          type:
+            - string
+            - "null"
+        visible_id:
+          type:
+            - string
+            - "null"
+    NewPoi:
+      type: object
+      required:
+        - parent
+        - name
+        - usage_name
+        - coords
+      properties:
+        comment:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/TranslatableStr'
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        generic_props:
+          type: array
+          items:
+            $ref: '#/components/schemas/GenericProp'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/PoiLink'
+        name:
+          type: string
+        parent:
+          type: string
+        usage_name:
+          type: string
+    NewRoom:
+      type: object
+      required:
+        - parent_building_id
+        - alt_name
+        - arch_name
+        - usage_id
+        - coords
+      properties:
+        address:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/RoomAddress'
+        alt_name:
+          type: string
+        arch_name:
+          type: string
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        floor_level:
+          type:
+            - string
+            - "null"
+        floor_type:
+          type:
+            - string
+            - "null"
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomLink'
+        parent_building_id:
+          type: string
+        seats:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/Seats'
+        usage_id:
+          type: integer
+          format: int32
+          minimum: 0
     Offsets:
       type: object
       properties:
@@ -2093,7 +2290,7 @@ components:
           description: |-
             The full name of the operator (localized). Null for organisations that
              are no longer active (e.g. id=38698), but where the operator has not been
-            updated in TUMonline.
+            updated in `TUMonline`.
           examples:
             - TUM School of Social Sciences and Technology
         url:
@@ -2142,7 +2339,7 @@ components:
             Floor of the Map.
 
             Should be used for display to the user in selectors.
-            Matches the floor part of the TUMonline roomcode.
+            Matches the floor part of the `TUMonline` roomcode.
           example: EG
         id:
           type: integer
@@ -2223,7 +2420,7 @@ components:
           format: double
         name:
           type: string
-          description: name of the transit stop / PoI / address
+          description: name of the transit stop / `PoI` / address
         scheduled_arrival:
           type:
             - string
@@ -2260,6 +2457,16 @@ components:
           oneOf:
             - type: "null"
             - $ref: '#/components/schemas/VertexTypeResponse'
+    PoiLink:
+      type: object
+      required:
+        - text
+        - url
+      properties:
+        text:
+          $ref: '#/components/schemas/TranslatableStr'
+        url:
+          type: string
     PossibleURLRefResponse:
       type: object
       description: A link with a localized link text and url
@@ -2332,6 +2539,63 @@ components:
           type:
             - string
             - "null"
+    PropertyEdit:
+      oneOf:
+        - type: object
+          required:
+            - type
+          properties:
+            name:
+              type:
+                - string
+                - "null"
+            short_name:
+              type:
+                - string
+                - "null"
+            type:
+              type: string
+              enum:
+                - name
+        - type: object
+          required:
+            - name_de
+            - name_en
+            - type
+          properties:
+            din_277:
+              type:
+                - string
+                - "null"
+            din_277_desc:
+              type:
+                - string
+                - "null"
+            name_de:
+              type: string
+            name_en:
+              type: string
+            type:
+              type: string
+              enum:
+                - usage
+        - type: object
+          required:
+            - text_de
+            - text_en
+            - url
+            - type
+          properties:
+            text_de:
+              type: string
+            text_en:
+              type: string
+            type:
+              type: string
+              enum:
+                - link
+            url:
+              type: string
     PropsResponse:
       type: object
       description: Data for the info-card table
@@ -2527,8 +2791,10 @@ components:
     ResultFacet:
       type: string
       enum:
-        - sites_buildings
+        - sites
+        - buildings
         - rooms
+        - pois
         - addresses
     ResultsSection:
       type: object
@@ -2559,6 +2825,32 @@ components:
             More results might be displayed when clicking "expand".
           example: 4
           minimum: 0
+    RoomAddress:
+      type: object
+      required:
+        - place
+        - street
+        - zip_code
+      properties:
+        place:
+          type: string
+        street:
+          type: string
+        zip_code:
+          type: string
+    RoomLink:
+      type: object
+      required:
+        - text_de
+        - text_en
+        - url
+      properties:
+        text_de:
+          type: string
+        text_en:
+          type: string
+        url:
+          type: string
     RoomfinderMapEntryResponse:
       type: object
       required:
@@ -2697,6 +2989,27 @@ components:
             other timeouts (browser, your client) may be smaller.
             Expected average is `10`..`50` for uncached, regular requests.
           example: 8
+          minimum: 0
+    Seats:
+      type: object
+      properties:
+        sitting:
+          type:
+            - integer
+            - "null"
+          format: int32
+          minimum: 0
+        standing:
+          type:
+            - integer
+            - "null"
+          format: int32
+          minimum: 0
+        wheelchair:
+          type:
+            - integer
+            - "null"
+          format: int32
           minimum: 0
     SectionsResponse:
       type: object
@@ -3038,6 +3351,16 @@ components:
       enum:
         - stop
         - station
+    TranslatableStr:
+      type: object
+      required:
+        - de
+        - en
+      properties:
+        de:
+          type: string
+        en:
+          type: string
     TransportationResponse:
       type: object
       required:

@@ -6,9 +6,11 @@ requires-python = ">=3.14"
 dependencies = [
   "backoff==2.2.1",
   "beautifulsoup4==4.14.3",
+  "brotli>=1.2.0",
   "dataframely==2.9.1",
   "defusedxml==0.7.1",
   "lxml==6.1.0",
+  "orjson==3.11.8",
   "Pillow==12.2.0",
   "polars==1.40.1",
   "pyarrow==24.0.0",
@@ -19,6 +21,7 @@ dependencies = [
   "ruamel.yaml==0.19.1",
   "tqdm==4.67.3",
   "utm==0.8.1",
+  "xxhash==3.7.0",
 ]
 
 [dependency-groups]
@@ -102,7 +105,46 @@ indent-width = 4
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "W", "RUF", "UP", "D"]
+select = [
+  # pycodestyle / pyflakes / docstrings — fundamentals
+  "E", "W", "F", "D",
+  # ruff-specific, pyupgrade
+  "RUF", "UP",
+  # bug catchers
+  "B",     # flake8-bugbear (mutable defaults, zip-without-strict, …)
+  "DTZ",   # naive datetime usage
+  "PYI",   # type-stub issues
+  "YTT",   # sys.version misuse
+  # imports
+  "I",     # isort (sort imports)
+  "ICN",   # canonical aliases (np, pd, pl, …)
+  "TID",   # tidy-imports (no relative, no banned)
+  "FA",    # `from __future__ import annotations` where it helps
+  # logging
+  "LOG",   # mis-use of the `logging` stdlib module
+  "G",     # logging format (G004 disabled below)
+  # naming
+  "N",     # pep8-naming
+  # comprehensions, performance, simplification
+  "C4",    # flake8-comprehensions
+  "PERF",  # micro-perf foot-guns
+  "SIM",   # flake8-simplify
+  "PIE",   # misc lints
+  "FLY",   # static `str.join` → f-string
+  "RET",   # branches around `return`
+  "RSE",   # `raise Exception()` → `raise Exception`
+  # paths / fs / exec
+  "PTH",   # prefer pathlib over os.path
+  "EXE",   # executable shebang sanity
+  # api ergonomics
+  "ARG",   # unused arguments
+  "FBT",   # boolean-trap (positional bools)
+  "PT",    # pytest style
+  "T20",   # leftover prints
+  # numpy / type-checking placement
+  "NPY",   # numpy-specific
+  "TC",    # type-checking imports placement
+]
 ignore = [
   #### modules
   "EM", # no formatting in exceptions (why is this a rule?)
@@ -112,7 +154,13 @@ ignore = [
 
   #### rules
   "SIM108", # ternary operator should be used without a concearn for the code complexity
-  "G004", # while if all parameters had
+  "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
+  "TC001", # runtime imports in TYPE_CHECKING — pydantic/dataframely need the symbols at runtime
+  "TC002",
+  "TC003",
+  "FBT001", # boolean-trap on definitions is too opinionated for internal helpers
+  "FBT002",
+  "PT011", # `pytest.raises(Exception)` without `match=` — too noisy in current tests
 
   # docstrings
   "D100", # Missing docstring in public module => too much work
@@ -148,6 +196,22 @@ unfixable = []
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+# pytest activates fixtures via parameter name; the body may not reference them.
+"**/test_*.py" = ["ARG001", "ARG002"]
+"**/tests/**" = ["ARG001", "ARG002"]
+
+[tool.ruff.lint.pep8-naming]
+# `dataframely` rules and pydantic validators receive the class as first argument.
+classmethod-decorators = [
+  "classmethod",
+  "pydantic.validator",
+  "pydantic.field_validator",
+  "pydantic.root_validator",
+  "dataframely.rule",
+  "dy.rule",
+]
 
 [tool.ruff.format]
 quote-style = "double"
