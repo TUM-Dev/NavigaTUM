@@ -1,4 +1,12 @@
-cache_size_mb: 1024
+cache:
+  size_mb: 1024
+  # Tile-cache TTL/TTI. The events_active view depends on `now()`, so cached
+  # tiles must expire periodically — 1h matches the freshness window this
+  # source is willing to surface a newly-active event in. Other tile sources
+  # are static and rebuilt at the data-pipeline layer, so a 1h ceiling on
+  # their cache lifetime is harmless.
+  tile_expiry: 1h
+  tile_idle_timeout: 10m
 listen_addresses: 0.0.0.0:3001
 base_path: ${BASE_PATH:/}
 web_ui: enableforall
@@ -21,11 +29,9 @@ postgres:
   connection_string: ${DATABASE_URL:postgres://postgres:CHANGE_ME@localhost:5432/postgres}
   auto_publish: false
   # events_active is a now()-dependent view that filters events to the current
-  # wall-clock window (starts_at - 2h * days_long .. ends_at). Martin's in-process
-  # cache only supports zoom-bound rules, not time TTL, so we set `cache: disable`
-  # here — every tile request re-evaluates `now()` against the DB. Freshness is
-  # then provided by the reverse proxy via `Cache-Control: max-age=3600,
-  # stale-while-revalidate=7200` on /tiles/events_active (≥ 1h).
+  # wall-clock window (starts_at - 2h * days_long .. ends_at). It inherits the
+  # global tile_expiry / tile_idle_timeout above, which keeps tiles fresh on
+  # the order of an hour without thundering on the DB for every request.
   tables:
     events_active:
       schema: public
@@ -37,7 +43,6 @@ postgres:
       minzoom: 10
       maxzoom: 22
       bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
-      cache: disable
       properties:
         name: text
         description: text
