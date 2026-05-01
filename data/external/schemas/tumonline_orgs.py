@@ -3,7 +3,8 @@ import polars as pl
 
 
 class TumonlineOrgsSchema(dy.Schema):
-    """Schema for the merged TUMonline organisation catalogue (`tumonline_orgs.parquet`).
+    """
+    Schema for the merged TUMonline organisation catalogue (`tumonline_orgs.parquet`).
 
     Built from `orgs-{de,en}_tumonline.csv` joined on `org_id`. The server FK-references
     this table from `events.organising_org_id`.

@@ -5,7 +5,8 @@ from external.schemas.tumonline_orgs import TumonlineOrgsSchema
 
 
 def load_tumonline_orgs() -> pl.DataFrame:
-    """Build the bilingual TUMonline orgs frame from the per-language CSVs.
+    """
+    Build the bilingual TUMonline orgs frame from the per-language CSVs.
 
     Merges `orgs-en_tumonline.csv` and `orgs-de_tumonline.csv` on `org_id`,
     falling back to the English name/path when the German row is missing.
