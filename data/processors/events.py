@@ -1,10 +1,3 @@
-"""Events processor: read sources/events.csv, validate, and write output/events.parquet.
-
-Also exports known_event_orgs.json — the curated list of allowed organising orgs
-(TUMonline orgs + accredited HSGs) that the frontend uses to populate the
-organising-org dropdown. Storage stays free-form (TEXT), validation is UI-only.
-"""
-
 import json
 from datetime import datetime
 from pathlib import Path
