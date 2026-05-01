@@ -67,7 +67,10 @@ export function useKnownUsages() {
     const q = query.trim().toLowerCase();
     if (!q) return options.value;
     return options.value.filter(
-      (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q) || o.din.toLowerCase().includes(q)
+      (o) =>
+        o.label.toLowerCase().includes(q) ||
+        o.altLabel.toLowerCase().includes(q) ||
+        o.din.toLowerCase().includes(q)
     );
   }
 

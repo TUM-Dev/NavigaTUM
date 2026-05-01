@@ -16,7 +16,10 @@ const idValidation = inject<{ pending: Ref<boolean>; collides: Ref<boolean> }>(
   "addProposal:idValidation",
   { pending: ref(false), collides: ref(false) }
 );
-const editExistingEntry = inject<() => Promise<void> | void>("addProposal:editExistingEntry", () => {});
+const editExistingEntry = inject<() => Promise<void> | void>(
+  "addProposal:editExistingEntry",
+  () => {}
+);
 
 // Prefix picker uses the same building search as the parent picker so the user can pick existing
 // buildings instead of typing 4-digit codes by hand. The picker's ids feed into building_prefixes;
@@ -44,10 +47,7 @@ function removePrefix(idx: number) {
 // Keep the first prefix in sync with the entry id. For `building` kind that's the entire list;
 // for `joined_building`/`area` users add additional prefixes after it.
 watch(
-  [
-    () => editProposal.value.pendingAddition.id,
-    () => editProposal.value.pendingAddition.node_kind,
-  ],
+  [() => editProposal.value.pendingAddition.id, () => editProposal.value.pendingAddition.node_kind],
   ([id, kind]) => {
     const trimmed = id.trim();
     const prefixes = editProposal.value.pendingAddition.building_prefixes;

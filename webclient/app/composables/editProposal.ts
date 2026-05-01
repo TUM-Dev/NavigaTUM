@@ -159,5 +159,5 @@ function emptyRoomEdit() {
   return { coordinate: null, image: null, properties: null };
 }
 
-export type { AdditionDraft, AdditionKind, LinkDraft, GenericPropDraft, PropertyFields };
+export type { AdditionDraft, AdditionKind, GenericPropDraft, LinkDraft, PropertyFields };
 export { emptyAdditionDraft, emptyPropertyFields, emptyRoomEdit };

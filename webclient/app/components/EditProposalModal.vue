@@ -20,9 +20,9 @@ const runtimeConfig = useRuntimeConfig();
 const { data: knownUsages } = useAsyncData(
   "known_usages",
   () =>
-    $fetch<{ usage_id: number; occurrences: number; name_de: string; name_en: string; din_277: string }[]>(
-      `${runtimeConfig.public.cdnURL}/cdn/known_usages.json`
-    ),
+    $fetch<
+      { usage_id: number; occurrences: number; name_de: string; name_en: string; din_277: string }[]
+    >(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
   { default: () => [] }
 );
 

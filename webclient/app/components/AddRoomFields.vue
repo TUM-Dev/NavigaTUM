@@ -7,10 +7,9 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 import { mdiCheck, mdiUnfoldMoreHorizontal } from "@mdi/js";
+import type { components } from "~/api_types";
 import { useEditProposal } from "~/composables/editProposal";
 import { type UsageOption, useKnownUsages } from "~/composables/knownUsages";
-
-import type { components } from "~/api_types";
 
 type FloorType = components["schemas"]["FloorType"];
 

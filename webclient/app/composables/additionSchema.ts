@@ -67,7 +67,9 @@ const newBuildingSchema = z
     id: z.string().min(1, "error.id_required"),
     parent_id: z.string().min(1, "error.parent_required"),
     name: z.string().min(1, "error.name_required").max(MAX_NAME_LEN, "error.name_too_long"),
-    node_kind: z.enum(["building", "joined_building", "area"], { message: "error.node_kind_required" }),
+    node_kind: z.enum(["building", "joined_building", "area"], {
+      message: "error.node_kind_required",
+    }),
     building_prefixes: z.array(buildingPrefixSchema),
     coords: coordsSchema,
   })
@@ -103,7 +105,11 @@ export type AdditionFieldErrors = Partial<Record<string, string>>;
 export function validateAddition(draft: AdditionDraft): AdditionFieldErrors {
   if (!draft.kind) return {};
   const schema =
-    draft.kind === "room" ? newRoomSchema : draft.kind === "building" ? newBuildingSchema : newPoiSchema;
+    draft.kind === "room"
+      ? newRoomSchema
+      : draft.kind === "building"
+        ? newBuildingSchema
+        : newPoiSchema;
   const result = schema.safeParse(draft);
   if (result.success) return {};
   const errors: AdditionFieldErrors = {};
@@ -117,6 +123,10 @@ export function validateAddition(draft: AdditionDraft): AdditionFieldErrors {
 export function isAdditionValid(draft: AdditionDraft): boolean {
   if (!draft.kind) return false;
   const schema =
-    draft.kind === "room" ? newRoomSchema : draft.kind === "building" ? newBuildingSchema : newPoiSchema;
+    draft.kind === "room"
+      ? newRoomSchema
+      : draft.kind === "building"
+        ? newBuildingSchema
+        : newPoiSchema;
   return schema.safeParse(draft).success;
 }

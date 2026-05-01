@@ -16,7 +16,6 @@ function switchToEditProposal() {
   };
   editProposal.value.open = true;
 }
-
 </script>
 
 <template>
