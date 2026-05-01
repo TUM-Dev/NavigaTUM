@@ -309,7 +309,8 @@ def export_tumonline_orgs_parquet() -> None:
 
 
 def export_events_parquet() -> None:
-    """Read events.csv, validate ISO-8601 datetimes + start <= end, write events.parquet.
+    """
+    Read events.csv, validate ISO-8601 datetimes + start <= end, write events.parquet.
 
     Datetimes stay as ISO-8601 strings so the Rust parquet reader can parse them
     with chrono::DateTime::parse_from_rfc3339 without depending on Polars'
