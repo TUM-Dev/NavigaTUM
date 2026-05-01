@@ -14,8 +14,8 @@ CREATE TABLE events
 (
     id                BIGSERIAL PRIMARY KEY,
     name              TEXT        NOT NULL,
-    description       TEXT        NULL,
-    image             TEXT        NULL,
+    description       TEXT        NOT NULL,
+    image             TEXT        NOT NULL,
     coordinate        Point       NOT NULL,
     starts_at         TIMESTAMPTZ NOT NULL,
     ends_at           TIMESTAMPTZ NOT NULL,

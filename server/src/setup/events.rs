@@ -11,8 +11,8 @@ use sqlx::{PgPool, Postgres, Transaction};
 #[derive(Default, Debug)]
 struct RawEvent {
     name: String,
-    description: Option<String>,
-    image: Option<String>,
+    description: String,
+    image: String,
     lat: f64,
     lon: f64,
     starts_at: String,
@@ -22,8 +22,8 @@ struct RawEvent {
 
 struct DBEvent {
     name: String,
-    description: Option<String>,
-    image: Option<String>,
+    description: String,
+    image: String,
     lat: f64,
     lon: f64,
     starts_at: DateTime<Utc>,
@@ -66,8 +66,8 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
         for (col_name, field) in row.get_column_iter() {
             match (col_name.as_str(), field) {
                 ("name", Field::Str(v)) => raw.name.clone_from(v),
-                ("description", Field::Str(v)) => raw.description = Some(v.clone()),
-                ("image", Field::Str(v)) => raw.image = Some(v.clone()),
+                ("description", Field::Str(v)) => raw.description.clone_from(v),
+                ("image", Field::Str(v)) => raw.image.clone_from(v),
                 ("lat", Field::Float(v)) => raw.lat = f64::from(*v),
                 ("lat", Field::Double(v)) => raw.lat = *v,
                 ("lon", Field::Float(v)) => raw.lon = f64::from(*v),
