@@ -51,9 +51,15 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
 
     let mut orgs = Vec::with_capacity(df.height());
     for i in 0..df.height() {
-        let Some(org_id) = org_id_col.get(i) else { continue };
-        let Some(code) = code_col.get(i) else { continue };
-        let Some(name_en) = name_en_col.get(i) else { continue };
+        let Some(org_id) = org_id_col.get(i) else {
+            continue;
+        };
+        let Some(code) = code_col.get(i) else {
+            continue;
+        };
+        let Some(name_en) = name_en_col.get(i) else {
+            continue;
+        };
         let name_de = name_de_col.get(i).unwrap_or(name_en);
 
         orgs.push(DBOrg {

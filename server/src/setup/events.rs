@@ -58,12 +58,20 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
 
     let mut events = Vec::with_capacity(df.height());
     for i in 0..df.height() {
-        let Some(name) = name_col.get(i) else { continue };
-        let Some(starts_raw) = starts_at_col.get(i) else { continue };
-        let Some(ends_raw) = ends_at_col.get(i) else { continue };
+        let Some(name) = name_col.get(i) else {
+            continue;
+        };
+        let Some(starts_raw) = starts_at_col.get(i) else {
+            continue;
+        };
+        let Some(ends_raw) = ends_at_col.get(i) else {
+            continue;
+        };
         let Some(lat) = lat_col.get(i) else { continue };
         let Some(lon) = lon_col.get(i) else { continue };
-        let Some(organising_org_id) = organising_org_id_col.get(i) else { continue };
+        let Some(organising_org_id) = organising_org_id_col.get(i) else {
+            continue;
+        };
 
         let starts_at = DateTime::parse_from_rfc3339(starts_raw)?.with_timezone(&Utc);
         let ends_at = DateTime::parse_from_rfc3339(ends_raw)?.with_timezone(&Utc);
