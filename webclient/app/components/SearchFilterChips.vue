@@ -98,13 +98,7 @@ const usageOpen = ref(false);
 const usageSearch = ref("");
 const usageInput = useTemplateRef<HTMLInputElement>("usageInput");
 
-const filteredUsages = computed(() => {
-  const q = usageSearch.value.trim().toLowerCase();
-  if (!q) return knownUsages.options.value;
-  return knownUsages.options.value.filter(
-    (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q)
-  );
-});
+const filteredUsages = computed(() => knownUsages.filter(usageSearch.value));
 
 function toggleUsagePanel() {
   usageOpen.value = !usageOpen.value;
@@ -317,8 +311,7 @@ function closeLocation() {
                 :checked="props.filters.usageFilter.value.includes(opt.slug)"
                 @change="props.filters.toggleFilterValue('usage', opt.slug)"
               />
-              <span class="flex-grow text-zinc-800">{{ opt.label }}</span>
-              <span class="text-xs font-mono text-zinc-400" :title="t('din_277_help')">{{ opt.din }}</span>
+              <UsageOptionContent :usage="opt" />
             </label>
           </li>
         </ul>
@@ -423,7 +416,6 @@ de:
   usage: Nutzung
   usage_panel_title: Nach Nutzung filtern
   usage_placeholder: Nutzungsart suchen...
-  din_277_help: DIN 277 Klassifizierung
   remove_usage: Nutzung entfernen
   location: Standort
   location_panel_title: Standort einschränken
@@ -445,7 +437,6 @@ en:
   usage: Usage
   usage_panel_title: Filter by usage
   usage_placeholder: Search usage type...
-  din_277_help: DIN 277 classification
   remove_usage: Remove usage
   location: Location
   location_panel_title: Restrict to location

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 
 const searchBarFocused = ref(false);
 const feedback = useFeedback();
+const editProposal = useEditProposal();
 const route = useRoute();
 const searchElement = ref<HTMLElement | null>(null);
 
@@ -91,6 +93,7 @@ const { t } = useI18n({ useScope: "local" });
   <AppFooter :class="searchBarFocused ? 'opacity-70' : ''" />
   <ClientOnly>
     <LazyFeedbackModal v-if="feedback.open" />
+    <LazyAddProposalModal v-if="editProposal.addOpen" />
   </ClientOnly>
 </template>
 

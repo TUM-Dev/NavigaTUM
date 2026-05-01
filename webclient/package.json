@@ -37,7 +37,8 @@
 		"ts-essentials": "^10.1.1",
 		"vue": "3.5.33",
 		"vue-router": "5.0.6",
-		"vue3-carousel": "0.17.0"
+		"vue3-carousel": "0.17.0",
+		"zod": "^4.4.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.13",

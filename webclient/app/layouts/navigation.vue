@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 
 const feedback = useFeedback();
+const editProposal = useEditProposal();
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
@@ -32,6 +34,7 @@ const { t } = useI18n({ useScope: "local" });
   <AppFooter />
   <ClientOnly>
     <LazyFeedbackModal v-if="feedback.open" />
+    <LazyAddProposalModal v-if="editProposal.addOpen" />
   </ClientOnly>
 </template>
 

@@ -240,6 +240,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
   <ClientOnly>
     <LazyCalendarModal v-if="calendar.length" />
     <LazyEditProposalModal v-if="editProposal.open" />
+    <LazyAddProposalModal v-if="editProposal.addOpen" />
     <LazyFeedbackModal v-if="feedback.open" />
     <LazyDetailsImageSlideshowModal
       v-if="slideshowOpen && !!data?.imgs"

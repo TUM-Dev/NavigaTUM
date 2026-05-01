@@ -86,10 +86,23 @@ async function searchGoTo(id: string): Promise<void> {
   document.getElementById("search")?.blur();
 }
 
+function closeSearchBar(): void {
+  // Force-close even if a child (filter chip, sort popover, …) flipped the keep-focus flags;
+  // ESC is the user's "I'm done" signal and should always tear the panel down.
+  keep_focus.value = false;
+  interacting_with_panel.value = false;
+  searchBarFocused.value = false;
+  document.getElementById("search")?.blur();
+}
+
+onKeyStroke("Escape", () => {
+  if (searchBarFocused.value) closeSearchBar();
+});
+
 function onKeyDown(e: KeyboardEvent): void {
   switch (e.key) {
     case "Escape":
-      document.getElementById("search")?.blur();
+      closeSearchBar();
       break;
 
     case "ArrowDown":
