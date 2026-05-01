@@ -7,6 +7,7 @@ import processors.areatree.process as areatree
 from processors import (
     aliases,
     coords,
+    events,
     export,
     images,
     merge,
@@ -231,6 +232,8 @@ def main() -> None:
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
+    events.export_events_parquet()
+    events.export_known_event_orgs()
     sitemap.generate_sitemap()
 
     resizer.join(timeout=60 * 4)
