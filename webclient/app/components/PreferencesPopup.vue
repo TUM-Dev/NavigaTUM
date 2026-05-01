@@ -20,10 +20,9 @@ import {
 } from "@mdi/js";
 
 const colorMode = useColorMode();
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const { preferences, updatePreference } = useUserPreferences();
 
-const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 const isOpen = ref(false);
