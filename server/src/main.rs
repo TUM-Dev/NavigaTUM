@@ -168,6 +168,7 @@ async fn run_maintenance_work(
         setup::database::setup(&pool).await.unwrap();
         setup::database::load_data(&pool).await.unwrap();
         setup::transportation::setup(&pool).await.unwrap();
+        setup::tumonline_orgs::setup(&pool).await.unwrap();
         setup::events::setup(&pool).await.unwrap();
     } else {
         info!("skipping the database setup as SKIP_DB_SETUP=true");

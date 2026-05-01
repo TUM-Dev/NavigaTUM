@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org) VALUES ($1, $2, $3, POINT($4, $5), $6, $7, $8)",
+  "query": "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org_id) VALUES ($1, $2, $3, POINT($4, $5), $6, $7, $8)",
   "describe": {
     "columns": [],
     "parameters": {
@@ -12,10 +12,10 @@
         "Float8",
         "Timestamptz",
         "Timestamptz",
-        "Text"
+        "Int4"
       ]
     },
     "nullable": []
   },
-  "hash": "9ce8849a503d9e23c31cb44620efd02f21c5e84d4d3d48625cb6aace2f402bfc"
+  "hash": "75fc6e03d6c726e27a979a03372940e19568016519452d7a176fee2782cff937"
 }

@@ -18,6 +18,7 @@ from processors import (
     sitemap,
     structure,
     tumonline,
+    tumonline_orgs,
 )
 from processors.df_utils import ensure_columns
 from utils import DEV_MODE, setup_logging
@@ -232,8 +233,8 @@ def main() -> None:
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
+    tumonline_orgs.export_tumonline_orgs_parquet()
     events.export_events_parquet()
-    events.export_known_event_orgs()
     sitemap.generate_sitemap()
 
     resizer.join(timeout=60 * 4)

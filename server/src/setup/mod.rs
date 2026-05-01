@@ -6,3 +6,4 @@ pub mod meilisearch;
 pub mod tests;
 pub(crate) mod events;
 pub(crate) mod transportation;
+pub(crate) mod tumonline_orgs;

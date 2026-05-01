@@ -12,7 +12,7 @@ struct DBEvent {
     lon: f64,
     starts_at: DateTime<Utc>,
     ends_at: DateTime<Utc>,
-    organising_org: String,
+    organising_org_id: i32,
 }
 
 impl DBEvent {
@@ -21,7 +21,7 @@ impl DBEvent {
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(
-            "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org) \
+            "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org_id) \
              VALUES ($1, $2, $3, POINT($4, $5), $6, $7, $8)",
             self.name,
             self.description,
@@ -30,7 +30,7 @@ impl DBEvent {
             self.lon,
             self.starts_at,
             self.ends_at,
-            self.organising_org,
+            self.organising_org_id,
         )
         .execute(&mut **tx)
         .await
@@ -54,7 +54,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     let lon_col = df.column("lon")?.f64()?;
     let starts_at_col = df.column("starts_at")?.str()?;
     let ends_at_col = df.column("ends_at")?.str()?;
-    let organising_org_col = df.column("organising_org")?.str()?;
+    let organising_org_id_col = df.column("organising_org_id")?.i32()?;
 
     let mut events = Vec::with_capacity(df.height());
     for i in 0..df.height() {
@@ -63,7 +63,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
         let Some(ends_raw) = ends_at_col.get(i) else { continue };
         let Some(lat) = lat_col.get(i) else { continue };
         let Some(lon) = lon_col.get(i) else { continue };
-        let Some(organising_org) = organising_org_col.get(i) else { continue };
+        let Some(organising_org_id) = organising_org_id_col.get(i) else { continue };
 
         let starts_at = DateTime::parse_from_rfc3339(starts_raw)?.with_timezone(&Utc);
         let ends_at = DateTime::parse_from_rfc3339(ends_raw)?.with_timezone(&Utc);
@@ -76,7 +76,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
             lon,
             starts_at,
             ends_at,
-            organising_org: organising_org.to_string(),
+            organising_org_id,
         });
     }
 

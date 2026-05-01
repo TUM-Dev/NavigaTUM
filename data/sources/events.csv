@@ -1,3 +1,3 @@
-event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org
-https://www.tum.de/fileadmin/_processed_/example.jpg,48.149678,11.567909,TUM Open Campus Day,2026-06-15T10:00:00+02:00,2026-06-15T18:00:00+02:00,Annual open-campus event with lab tours and student-life booths across the main campus.,TUM Center for Study and Teaching
-https://fs.ei.tum.de/uploads/sommerfest.jpg,48.149974,11.568029,Sommerfest Fachschaft EI,2026-07-04T17:00:00+02:00,2026-07-04T23:30:00+02:00,Open-air summer party hosted by the EI student council.,Fachschaft Elektrotechnik und Informationstechnik
+event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id
+https://www.tum.de/fileadmin/_processed_/example.jpg,48.149678,11.567909,TUM Open Campus Day,2026-06-15T10:00:00+02:00,2026-06-15T18:00:00+02:00,Annual open-campus event with lab tours and student-life booths across the main campus.,14146
+https://www.mw.tum.de/fileadmin/_processed_/open-day.jpg,48.149974,11.568029,Mechanical Engineering Open Day,2026-07-04T10:00:00+02:00,2026-07-04T17:00:00+02:00,Open day with lab demos and student-project showcases at the MW central services.,15252
