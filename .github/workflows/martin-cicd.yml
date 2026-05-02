@@ -50,9 +50,11 @@ jobs:
           sparse-checkout: |
             map
       - name: Setup | Install dependencies
-        run: npm install @maplibre/maplibre-gl-style-spec@24.8.1 --global
+        run: npm ci
+        working-directory: map/martin
       - name: Run style validation
-        run: gl-style-validate map/martin/styles/navigatum-basemap.json
+        run: node --input-type=module -e "import {validateStyleMin} from '@maplibre/maplibre-gl-style-spec'; import {readFileSync} from 'fs'; const errors = validateStyleMin(JSON.parse(readFileSync('styles/navigatum-basemap.json', 'utf8'))); if (errors.length) { console.error(errors); process.exit(1); }"
+        working-directory: map/martin
 
   build:
     uses: ./.github/workflows/_docker-build.yml
