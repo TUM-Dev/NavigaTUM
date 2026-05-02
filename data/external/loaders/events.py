@@ -11,14 +11,7 @@ EVENTS_CSV = SOURCES_PATH / "events.csv"
 def load_events() -> pl.DataFrame:
     """
     Build the events frame from `data/sources/events.csv`.
-
-    Renames the `event_*`-prefixed CSV columns to the parquet shape and casts
-    via `EventsSchema`. Returns an empty schema-conforming frame if the CSV is
-    absent so the parquet still gets generated for environments without events.
     """
-    if not EVENTS_CSV.exists():
-        return EventsSchema.create_empty()
-
     raw = pl.read_csv(
         EVENTS_CSV,
         schema_overrides={
