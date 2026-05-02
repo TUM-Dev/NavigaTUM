@@ -1,6 +1,4 @@
-import dataframely as dy
 import polars as pl
-import pytest
 
 from external.loaders.events import load_events
 from external.schemas._drift_gate import assert_satisfies_schema
@@ -29,5 +27,3 @@ def test_events_schema_accepts_minimal_valid_row() -> None:
     """A row matching every rule must validate cleanly (positive control)."""
     df = pl.DataFrame(_valid_row(), schema=EventsSchema.to_polars_schema())
     EventsSchema.validate(df)
-
-
