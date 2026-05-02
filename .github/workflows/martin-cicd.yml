@@ -53,7 +53,7 @@ jobs:
         run: npm ci
         working-directory: map/martin
       - name: Run style validation
-        run: node --input-type=module -e "import {validateStyleMin} from '@maplibre/maplibre-gl-style-spec'; import {readFileSync} from 'fs'; const errors = validateStyleMin(JSON.parse(readFileSync('styles/navigatum-basemap.json', 'utf8'))); if (errors.length) { console.error(errors); process.exit(1); }"
+        run: node validate-style.mjs styles/navigatum-basemap.json
         working-directory: map/martin
 
   build:
