@@ -5,7 +5,7 @@ from external.schemas._drift_gate import assert_satisfies_schema
 from external.schemas.events import EventsSchema
 
 
-def _valid_row() -> dict[str, list]:
+def _valid_row() -> dict[str, list[object]]:
     return {
         "image": ["https://example.org/i.jpg"],
         "lat": [48.149678],

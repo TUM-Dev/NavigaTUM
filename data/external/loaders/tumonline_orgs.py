@@ -1,10 +1,11 @@
+import dataframely as dy
 import polars as pl
 
 from external.loaders.tumonline import load_orgs
 from external.schemas.tumonline_orgs import TumonlineOrgsSchema
 
 
-def load_tumonline_orgs() -> pl.DataFrame:
+def load_tumonline_orgs() -> dy.DataFrame[TumonlineOrgsSchema]:
     """
     Build the bilingual TUMonline orgs frame from the per-language CSVs
     """
@@ -19,4 +20,4 @@ def load_tumonline_orgs() -> pl.DataFrame:
         .select("org_id", "code", "name_de", "name_en", "path_de", "path_en")
         .unique(subset=["org_id"])
     )
-    return TumonlineOrgsSchema.cast(df)
+    return TumonlineOrgsSchema.validate(df, cast=True)

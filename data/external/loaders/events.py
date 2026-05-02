@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import dataframely as dy
 import polars as pl
 
 from external.schemas.events import EventsSchema
@@ -20,15 +21,16 @@ _CSV_RENAME = {
 }
 
 
-def load_events() -> pl.DataFrame:
+def load_events() -> dy.DataFrame[EventsSchema]:
     """
     Build the events frame from `data/sources/events.csv`.
 
     Renames the `event_*`-prefixed CSV columns to the parquet shape with dtypes
-    derived from `EventsSchema`.
+    derived from `EventsSchema`. Validates against the schema so the return type
+    is statically verified by mypy.
     """
     schema = EventsSchema.to_polars_schema()
     read_schema = pl.Schema({csv: schema[parquet] for csv, parquet in _CSV_RENAME.items()})
 
     df = pl.read_csv(EVENTS_CSV, schema=read_schema)
-    return df.rename(_CSV_RENAME)
+    return EventsSchema.validate(df.rename(_CSV_RENAME))
