@@ -50,7 +50,7 @@ jobs:
           sparse-checkout: |
             map
       - name: Setup | Install dependencies
-        run: npm install @maplibre/maplibre-gl-style-spec --global
+        run: npm install @maplibre/maplibre-gl-style-spec@24.8.1 --global
       - name: Run style validation
         run: gl-style-validate map/martin/styles/navigatum-basemap.json
 
