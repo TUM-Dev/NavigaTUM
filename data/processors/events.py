@@ -59,9 +59,7 @@ def export_events_parquet() -> None:
     _validate_iso8601(raw["event_datetime_start_at"].to_list(), "event_datetime_start_at")
     _validate_iso8601(raw["event_datetime_end_at"].to_list(), "event_datetime_end_at")
 
-    for i, (start, end) in enumerate(
-        zip(raw["event_datetime_start_at"], raw["event_datetime_end_at"], strict=True)
-    ):
+    for i, (start, end) in enumerate(zip(raw["event_datetime_start_at"], raw["event_datetime_end_at"], strict=True)):
         if datetime.fromisoformat(end) < datetime.fromisoformat(start):
             raise ValueError(f"events.csv row {i}: end {end} is before start {start}")
 
