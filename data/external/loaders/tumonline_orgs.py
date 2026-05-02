@@ -6,9 +6,7 @@ from external.schemas.tumonline_orgs import TumonlineOrgsSchema
 
 
 def load_tumonline_orgs() -> dy.DataFrame[TumonlineOrgsSchema]:
-    """
-    Build the bilingual TUMonline orgs frame from the per-language CSVs
-    """
+    """Build the bilingual TUMonline orgs frame from the per-language CSVs."""
     en = load_orgs("en").rename({"name": "name_en", "path": "path_en"})
     de = load_orgs("de").rename({"name": "name_de", "path": "path_de"})
     df = (

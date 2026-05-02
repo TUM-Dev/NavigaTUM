@@ -177,12 +177,21 @@ async fn run_maintenance_work(
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     } else {
         let _ = debug_span!("updating postgis data").enter();
-        let _ = debug_span!("updating postgis data").enter();
-        setup::database::setup(&pool).await.unwrap();
-        setup::database::load_data(&pool).await.unwrap();
-        setup::transportation::setup(&pool).await.unwrap();
-        setup::tumonline_orgs::setup(&pool).await.unwrap();
-        setup::events::setup(&pool).await.unwrap();
+        setup::database::setup(&pool)
+            .await
+            .expect("postgis schema setup to succeed");
+        setup::database::load_data(&pool)
+            .await
+            .expect("postgis initial data load to succeed");
+        setup::transportation::setup(&pool)
+            .await
+            .expect("transportation table setup to succeed");
+        setup::tumonline_orgs::setup(&pool)
+            .await
+            .expect("tumonline_orgs table setup to succeed");
+        setup::events::setup(&pool)
+            .await
+            .expect("events table setup to succeed");
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();
