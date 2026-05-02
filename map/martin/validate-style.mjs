@@ -1,4 +1,4 @@
-import {validateStyleMin} from "@maplibre/maplibre-gl-style-spec";
+import {validateStyle} from "@maplibre/maplibre-gl-style-spec";
 import {readFileSync} from "fs";
 
 const file = process.argv[2];
@@ -8,7 +8,7 @@ if (!file) {
 }
 
 const style = JSON.parse(readFileSync(file, "utf8"));
-const errors = validateStyleMin(style);
+const errors = validateStyle(style);
 if (errors.length) {
   for (const error of errors) {
     console.error(error.message);
