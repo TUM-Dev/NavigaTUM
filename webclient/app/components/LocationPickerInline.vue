@@ -55,7 +55,12 @@ function initMap() {
       const fullscreenCtl = new FullscreenControl({ container: mapContainer.value as HTMLElement });
       mapInstance.addControl(fullscreenCtl);
     }
-    mapInstance.addControl(new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }));
+    mapInstance.addControl(
+      new GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: false,
+      })
+    );
 
     const draggableMarker = new Marker({ element: createMarker(120), draggable: true });
     draggableMarker.setLngLat([lon.value, lat.value]).addTo(mapInstance);
@@ -80,7 +85,12 @@ watch(
   ([newLat, newLon]) => {
     if (marker.value && map.value) {
       marker.value.setLngLat([newLon ?? 11.5681, newLat ?? 48.149]);
-      map.value.flyTo({ center: [newLon ?? 11.5681, newLat ?? 48.149], zoom: props.zoom, speed: 1, maxDuration: 1000 });
+      map.value.flyTo({
+        center: [newLon ?? 11.5681, newLat ?? 48.149],
+        zoom: props.zoom,
+        speed: 1,
+        maxDuration: 1000,
+      });
     }
   },
   { immediate: false }

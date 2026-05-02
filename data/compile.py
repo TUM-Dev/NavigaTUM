@@ -261,6 +261,8 @@ def _run_pipeline(
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
+    export.export_tumonline_orgs_parquet()
+    export.export_events_parquet()
     sitemap.generate_sitemap(
         old_data=fut_old_data.result(),
         old_sitemaps=fut_old_sitemaps.result(),

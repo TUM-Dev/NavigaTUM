@@ -2,8 +2,8 @@
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiClose, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
 import type { components } from "~/api_types";
-import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
+import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
 
@@ -129,14 +129,11 @@ const composedRoomId = computed(() => {
   if (!prefix || !floor || !number) return "";
   return `${prefix}.${floor}.${number}`;
 });
-watch(
-  [composedRoomId, () => editProposal.value.pendingAddition.kind],
-  ([id, kind]) => {
-    if (kind !== "room") return;
-    if (editProposal.value.pendingAddition.id === id) return;
-    editProposal.value.pendingAddition.id = id;
-  }
-);
+watch([composedRoomId, () => editProposal.value.pendingAddition.kind], ([id, kind]) => {
+  if (kind !== "room") return;
+  if (editProposal.value.pendingAddition.id === id) return;
+  editProposal.value.pendingAddition.id = id;
+});
 // Reset the local segment refs when the kind changes or the draft id is cleared (commit/cancel
 // replace `pendingAddition` with `emptyAdditionDraft()`).
 watch(
@@ -168,7 +165,9 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
   const coords = { lat: draft.coords.lat, lon: draft.coords.lon };
   if (draft.kind === "room") {
     const seats =
-      draft.seats.sitting !== null || draft.seats.standing !== null || draft.seats.wheelchair !== null
+      draft.seats.sitting !== null ||
+      draft.seats.standing !== null ||
+      draft.seats.wheelchair !== null
         ? {
             sitting: draft.seats.sitting,
             standing: draft.seats.standing,

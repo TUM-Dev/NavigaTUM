@@ -186,6 +186,12 @@ async fn run_maintenance_work(
         setup::transportation::setup(&pool)
             .await
             .expect("transportation table setup to succeed");
+        setup::tumonline_orgs::setup(&pool)
+            .await
+            .expect("tumonline_orgs table setup to succeed");
+        setup::events::setup(&pool)
+            .await
+            .expect("events table setup to succeed");
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();

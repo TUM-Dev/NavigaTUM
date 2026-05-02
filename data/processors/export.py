@@ -248,3 +248,26 @@ def export_known_usages(df: pl.DataFrame) -> None:
     (OUTPUT_DIR_PATH / "known_usages.json").write_bytes(
         orjson.dumps(result_df.to_dicts(), option=orjson.OPT_INDENT_2) + b"\n"
     )
+
+
+def export_tumonline_orgs_parquet() -> None:
+    """Build the bilingual TUMonline orgs frame and write tumonline_orgs.parquet."""
+    from external.loaders.tumonline_orgs import load_tumonline_orgs
+    from external.schemas.tumonline_orgs import TumonlineOrgsSchema
+
+    TumonlineOrgsSchema.write_parquet(load_tumonline_orgs(), OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
+
+
+def export_events_parquet() -> None:
+    """
+    Read events.csv and write events.parquet.
+
+    Datetimes stay as ISO-8601 strings so the Rust parquet reader can parse them
+    with chrono::DateTime::parse_from_rfc3339 without depending on Polars'
+    datetime serialization specifics. EventsSchema enforces the RFC 3339 shape
+    and `ends_at >= starts_at` (matching the DB CHECK constraint).
+    """
+    from external.loaders.events import load_events
+    from external.schemas.events import EventsSchema
+
+    EventsSchema.write_parquet(load_events(), OUTPUT_DIR_PATH / "events.parquet")
