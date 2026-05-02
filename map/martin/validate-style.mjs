@@ -1,4 +1,4 @@
-import {validateStyle} from "@maplibre/maplibre-gl-style-spec";
+import {validateStyle} from "@maplibre/maplibre-gl-style-spec/src/validate_style";
 import {readFileSync} from "fs";
 
 const file = process.argv[2];
