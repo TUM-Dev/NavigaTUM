@@ -1217,6 +1217,12 @@ mri:
     author: Klinikums rechts der Isar
     license:
       text: Verwendung frei für Berichterstattung über die TU München und das Klinikums rechts der Isarunter Nennung des Copyrights / Free for use in reporting on TU München and Klinikums rechts der Isar with the copyright noted.
+muc:
+  0:
+    author: TUM CST
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 mw:
   0:
     author: Renardo la vulpo
