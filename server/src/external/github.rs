@@ -168,11 +168,9 @@ impl GitHub {
 
         loop {
             for pr in &page.items {
-                if let Some(labels) = &pr.labels {
-                    for pr_label in labels {
-                        if pr_label.name == label {
-                            return Ok(Some((pr.number, pr.head.ref_field.clone())));
-                        }
+                for pr_label in &pr.labels {
+                    if pr_label.name == label {
+                        return Ok(Some((pr.number, pr.head.ref_field.clone())));
                     }
                 }
             }
