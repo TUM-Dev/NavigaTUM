@@ -16,7 +16,7 @@ dependencies = [
   "pyarrow==24.0.0",
   "pydantic==2.13.4",
   "pyyaml==6.0.3",
-  "requests==2.33.1",
+  "requests==2.34.1",
   "requests-oauthlib==2.0.0",
   "ruamel.yaml==0.19.1",
   "tqdm==4.67.3",
