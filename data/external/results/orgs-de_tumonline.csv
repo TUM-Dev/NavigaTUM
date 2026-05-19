@@ -47,7 +47,7 @@ org_id,code,name,path
 14632,TUCHSDK,Studiendekan,Technische Universität München/Fakultäten/Ehemalige Fakultät für Chemie/Studiendekan
 14635,TUCHWA0,Institut für Wasserchemie und Chemische Balneologie,Technische Universität München/Schools/Natural Sciences/Wasserchemie und Chemische Balneologie
 14684,TUCHAC6,Lehrstuhl für Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. Fässler),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. Fässler)
-14692,TUCHAC2,Ehem. Lehrstuhl für Bauchemie (Prof. Plank),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Bauchemie (Prof. Plank)
+14692,TUCHAC2,Ehem. Lehrstuhl für Bauchemie (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Bauchemie (N.N.)
 14706,TUCHWA1,Lehrstuhl für Analytische Chemie und Wasserchemie (Prof. Elsner),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Analytische Chemie und Wasserchemie (Prof. Elsner)
 14711,TUCHOC1,Lehrstuhl für Organische Chemie I (Prof. Bach),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Organische Chemie I (Prof. Bach)
 14712,TUCHOC2,Lehrstuhl für Organische Chemie II (Prof. Sieber),Technische Universität München/Schools/Natural Sciences/Departments/Bioscience/Organische Chemie II (Prof. Sieber)
@@ -351,7 +351,7 @@ org_id,code,name,path
 16213,TUPHE25,Lehrstuhl für Experimentelle Halbleiterphysik (Prof. Sharp),Technische Universität München/Schools/Natural Sciences/Departments/Physics/Experimentelle Halbleiterphysik (Prof. Sharp)
 16214,TUPHT31,Lehrstuhl für Theoretische Elementarteilchenphysik (Prof. Beneke),Technische Universität München/Schools/Natural Sciences/Departments/Physics/Theoretische Elementarteilchenphysik (Prof. Beneke)
 16218,TUPHT38,Lehrstuhl für Theoretische Biophysik - Molekulardynamik (Prof. Zacharias),Technische Universität München/Schools/Natural Sciences/Departments/Bioscience/Theoretische Biophysik - Molekulardynamik (Prof. Zacharias)
-16219,TUPHT39,Lehrstuhl für Theoretische Physik - Angewandte Quantenfeldtheorie (N.N.),Technische Universität München/Fakultäten/Ehemalige Fakultät für Physik/Physik-Department/Theoretische Physik - Angewandte Quantenfeldtheorie (N.N.)
+16219,TUPHT39,Lehrstuhl für Theoretische Physik - Angewandte Quantenfeldtheorie (Prof. Brambilla komm.),Technische Universität München/Fakultäten/Ehemalige Fakultät für Physik/Physik-Department/Theoretische Physik - Angewandte Quantenfeldtheorie (Prof. Brambilla komm.)
 16227,TUPHT35,Lehrstuhl für Theoretische Biophysik - Neuronale Informationsverarbeitung von Raum und Zeit (N.N.),Technische Universität München/Fakultäten/Ehemalige Fakultät für Physik/Physik-Department/Theoretische Biophysik - Neuronale Informationsverarbeitung von Raum und Zeit (N.N.)
 16301,TUPE000,Partnerschaftliche Einrichtungen,Technische Universität München/Partnerschaftliche Einrichtungen
 16340,TUPEZAE,Bayerisches Zentrum für Angewandte Energieforschung e.V. (ZAE),Technische Universität München/Partnerschaftliche Einrichtungen/Bayerisches Zentrum für Angewandte Energieforschung e.V. (ZAE)
@@ -433,7 +433,7 @@ org_id,code,name,path
 21615,TUPHT44,Lehrstuhl für Theoretische Teilchen- und Kernphysik (Prof. Brambilla),Technische Universität München/Schools/Natural Sciences/Departments/Physics/Theoretische Teilchen- und Kernphysik (Prof. Brambilla)
 21879,TUPHZEI,Zentrale Einrichtungen des Departments,Technische Universität München/Fakultäten/Ehemalige Fakultät für Physik/Zentrale Einrichtungen des Departments
 22127,TUCHDEP,Department Chemie,Technische Universität München/Fakultäten/Ehemalige Fakultät für Chemie/Department Chemie
-22510,TUCHTC3,Wacker-Lehrstuhl für Makromolekulare Chemie (Prof. Adams komm.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (Prof. Adams komm.)
+22510,TUCHTC3,Wacker-Lehrstuhl für Makromolekulare Chemie (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Makromolekulare Chemie (N.N.)
 23046,TUCHAC4,Professur für Anorganische Chemie (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Anorganische Chemie (N.N.)
 23057,TUCHOC6,Professur für Organische Chemie (Prof. Glaser),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Organische Chemie (Prof. Glaser)
 23183,TUCHEM1,Professur für Elektronenmikroskopie (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Bioscience/Elektronenmikroskopie (N.N.)
@@ -498,7 +498,7 @@ org_id,code,name,path
 26221,TUZV842,Elektrotechnik Weihenstephan (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)
 26225,TUZV843,Umwelttechnik und Entsorgung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Umwelttechnik und Entsorgung (ZA 4)
 26229,TUZV844,Infrastruktur Weihenstephan (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)
-26233,TUZV845,"Betriebshof, Hausverwaltung (ZA 4)","Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)"
+26233,TUZV845,Betriebshof Weihenstephan (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Betriebshof Weihenstephan (ZA 4)
 26237,TUZV846,Dienstbetrieb (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Dienstbetrieb (ZA 4)
 26519,TUMEGY0,Klinik und Poliklinik für Frauenheilkunde (Prof. Kiechle),Technische Universität München/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Frauenheilkunde (Prof. Kiechle)
 26541,TUMEAU0,Klinik und Poliklinik für Augenheilkunde (Prof. Charbel Issa),Technische Universität München/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik für Augenheilkunde (Prof. Charbel Issa)
@@ -518,7 +518,7 @@ org_id,code,name,path
 26848,TUZEIA0,ZIEL-Mitglieder,Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder
 26864,TUZEIA1,Bereich Lebensmittelsicherheit,Technische Universität München/Zentrale wissenschaftliche Einrichtungen/Forschungszentrum Weihenstephan für Brau- und Lebensmittelqualität/Bereich Lebensmittelsicherheit
 26866,TUZEIA3,ZIEL-Prof. Haller (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Haller (LS)
-26867,TUZEIA4,ZIEL-Prof. Hauner (MH 1513) (Prof. Haller),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Hauner (MH 1513) (Prof. Haller)
+26867,TUZEIA4,ZIEL-Prof. Hauner (MH 1513) (N.N.),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Hauner (MH 1513) (N.N.)
 26871,TUZEIA8,ZIEL-Prof. Klingenspor (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Klingenspor (LS)
 26884,TUZEING,Arbeitsgruppen,Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Arbeitsgruppen
 27382,TUMENW0,Institut für Neurowissenschaften (Prof. Misgeld komm.),Technische Universität München/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Neurowissenschaften (Prof. Misgeld komm.)
@@ -667,7 +667,7 @@ org_id,code,name,path
 42949,TUZEEP2,Experimentelle Halbleiterphysik (N.N.),Technische Universität München/Zentralinstitute/Zentralinstitut für Physikalische Grundlagen d. Halbleiterelektronik - Walter Schottky Institut (WSI)/Experimentelle Halbleiterphysik (N.N.)
 42950,TUZEHLT,Halbleitertechnologie (Prof. Belkin),Technische Universität München/Zentralinstitute/Zentralinstitut für Physikalische Grundlagen d. Halbleiterelektronik - Walter Schottky Institut (WSI)/Halbleitertechnologie (Prof. Belkin)
 43203,TUMWMPA,Staatliches Materialprüfamt für den Maschinenbau (MPA),Technische Universität München/Schools/Engineering and Design/Staatliches Materialprüfamt für den Maschinenbau (MPA)
-43242,TUCHTH4,Lehrstuhl für Theoretische Chemie (Prof. Heiz komm.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Theoretische Chemie (Prof. Heiz komm.)
+43242,TUCHTH4,Lehrstuhl für Theoretische Chemie (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Theoretische Chemie (N.N.)
 43299,TUWZM5E,Lehrstuhl für Analytische Lebensmittelchemie (Prof. Rychlik),Technische Universität München/Schools/Life Sciences/Departments/Life Science Engineering/Analytische Lebensmittelchemie (Prof. Rychlik)
 43315,TUWZM2B,Versuchsstation für Tierzucht (Staatsgut Thalhausen),Technische Universität München/Schools/Life Sciences/TUM Animal Research Center (ARC)/Nutztier-Unit/Versuchsstation für Tierzucht (Staatsgut Thalhausen)
 43317,TUBVHGT,Lehrstuhl für Hydrogeologie (Prof. Einsiedl),Technische Universität München/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Hydrogeologie (Prof. Einsiedl)
@@ -968,19 +968,19 @@ org_id,code,name,path
 48312,TUZV46F,Werkstatt Starkstromtechnik (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Werkstatt Starkstromtechnik (ZA 4)
 48313,TUZV46G,Werkstatt Mess- und Regelungstechnik (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Werkstatt Mess- und Regelungstechnik (ZA 4)
 48314,TUZV46H,Telefonzentrale (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Telefonzentrale (ZA 4)
-48315,TUZV46I,Schlüsselverwaltung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)/Schlüsselverwaltung (ZA 4)
-48316,TUZV46J,Reinigung und Bewachung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)/Reinigung und Bewachung (ZA 4)
+48315,TUZV46I,Schlüsselverwaltung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Schlüsselverwaltung (ZA 4)
+48316,TUZV46J,Reinigung und Bewachung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Reinigung und Bewachung (ZA 4)
 48317,TUZV46K,Raumbestandsverwaltung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Flächenmanagement (ZA 4)/Raumbestandsverwaltung (ZA 4)
-48318,TUZV46L,"Betriebshof, Hausverwaltung (ZA 4)","Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)"
+48318,TUZV46L,Betriebshof Weihenstephan (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Betriebshof Weihenstephan (ZA 4)/Betriebshof Weihenstephan (ZA 4)
 48319,TUZV46M,Dienstfahrzeuge und Drucklufttechnik (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Dienstfahrzeuge und Drucklufttechnik (ZA 4)
-48320,TUZV46N,Poststelle (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)/Poststelle (ZA 4)
-48321,TUZV46O,Registratur (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)/Registratur (ZA 4)
-48322,TUZV46P,Archiv (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)/Archiv (ZA 4)
+48320,TUZV46N,Poststelle (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Poststelle (ZA 4)
+48321,TUZV46O,Registratur (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Registratur (ZA 4)
+48322,TUZV46P,Archiv (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Archiv (ZA 4)
 48323,TUZV46Q,Hörsaalvermietung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Dienstbetrieb (ZA 4)/Hörsaalvermietung (ZA 4)
 48324,TUZV40A,Controlling und Reporting (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Controlling und Reporting (ZA 4)
 48337,TUZV350,Finanzbuchhaltung Campus München,Technische Universität München/Zentrale Verwaltung/Finanzen (ZA 3)/Finanzbuchhaltung (Referat 35)/Finanzbuchhaltung Campus München
 48338,TUZV351,Finanzbuchhaltung Campus Weihenstephan,Technische Universität München/Zentrale Verwaltung/Finanzen (ZA 3)/Finanzbuchhaltung (Referat 35)/Finanzbuchhaltung Campus Weihenstephan
-48377,TUPHEQT,Professur für Quantum Technologies (Prof. Poot),Technische Universität München/Schools/Natural Sciences/Departments/Physics/Quantum Technologies (Prof. Poot)
+48377,TUPHEQT,Professur für Quantum Technologies (N.N.),Technische Universität München/Schools/Natural Sciences/Departments/Physics/Quantum Technologies (N.N.)
 48397,TUWZP7G,Professur für Pflanzengenetik (N.N.),Technische Universität München/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzengenetik (N.N.)
 48417,TUZV454,Abfallentsorgung/Umwelt (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Abfallentsorgung/Umwelt (ZA 4)
 48481,TUPEFVW,Verwaltung,Technische Universität München/Hochschule für Politik München/Verwaltung
@@ -1069,7 +1069,6 @@ org_id,code,name,path
 49381,TUWIH05,Professur für Strategic Management (Prof. Li) (TUM Campus Heilbronn),"Technische Universität München/Schools/Management/Departments/Marketing, Strategy and Leadership/Strategic Management (Prof. Li) (TUM Campus Heilbronn)"
 49382,TUWIH01,Campus Heilbronn Gruppe - Einheiten TUM Campus Heilbronn (MGT),Technische Universität München/Schools/Management/Einheiten TUM Campus Heilbronn (MGT)/Campus Heilbronn Gruppe
 49398,TUWIB39,Professur für Business Analytics and Intelligent Systems (Prof. Schiffer),Technische Universität München/Schools/Management/Departments/Operations and Technology/Business Analytics and Intelligent Systems (Prof. Schiffer)
-49417,TUEDS29,Professur für Schul- und Unterrichtsforschung (Prof. Holzberger),Technische Universität München/Schools/Social Sciences and Technology/Departments/Educational Sciences/Schul- und Unterrichtsforschung (Prof. Holzberger)
 49437,TUEDS30,Professur für Technikdidaktik für das berufliche Lehramt (Prof. Pittich),Technische Universität München/Schools/Social Sciences and Technology/Departments/Educational Sciences/Technikdidaktik für das berufliche Lehramt (Prof. Pittich)
 49457,TUPENPC,Nuclear Physics European Collaboration Committee (NuPECC),Technische Universität München/Partnerschaftliche Einrichtungen/Nuclear Physics European Collaboration Committee (NuPECC)
 49477,TUZET17,Core Facility Genomics,Technische Universität München/Zentralinstitute/Zentralinstitut für translationale Krebsforschung (TranslaTUM)/Core Facility Genomics
@@ -1817,7 +1816,7 @@ org_id,code,name,path
 54217,TUZEDMG,Zentrum für Digitale Medizin und Gesundheit (ZDMG),Technische Universität München/Integrative Research Institutes/Munich Data Science Institute (MDSI)/Zentrum für Digitale Medizin und Gesundheit (ZDMG)
 54237,TUS2HYP,Hyperloop,Technische Universität München/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Hyperloop
 54238,TUCSP16,Professur für Synthetische Biologie (Prof. Niederholtmeyer),Technische Universität München/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrstühle und Professuren/Synthetische Biologie (Prof. Niederholtmeyer)
-54239,TUS2DAT,Lehrstuhl für Design and Transdisciplinarity (Prof. Diefenthaler),Technische Universität München/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Design and Transdisciplinarity (Prof. Diefenthaler)
+54239,TUS2DAT,Lehrstuhl für Design and Transdisciplinarity (Prof. Diefenthaler),Technische Universität München/Schools/Engineering and Design/Departments/Architecture/Design and Transdisciplinarity (Prof. Diefenthaler)
 54240,TUZECCA,TUM Center for Culture and Arts,Technische Universität München/TUM Institute for Life Long Learning/TUM Center for Culture and Arts
 54257,TUZECOS,TUM Center for Organoid Systems (TUM COS),Technische Universität München/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/TUM Center for Organoid Systems (TUM COS)
 54297,TUXS230,Studiengang M.Sc. Risk and Safety,Technische Universität München/Schools/Engineering and Design/Studienorganisation/Interdisciplinary Engineering/M.Sc. Risk and Safety
@@ -1913,7 +1912,7 @@ org_id,code,name,path
 54977,TUS2RTS,Professur für Planung und Betrieb von Schienenverkehrssystemen (Prof. Weik),Technische Universität München/Schools/Engineering and Design/Departments/Mobility Systems Engineering/Planung und Betrieb von Schienenverkehrssystemen (Prof. Weik)
 54997,TUS3007,Professur für Digitale Katalyse (Prof. Stein),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Digitale Katalyse (Prof. Stein)
 55017,TUXO500,Studienorganisation der TUM School of Medicine and Health,Technische Universität München/Schools/Medicine and Health/Studienorganisation
-55037,TUZEEKF,Else Kröner Fresenius Zentrum für Ernährungsmedizin (Prof. Haller),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Else Kröner Fresenius Zentrum für Ernährungsmedizin (Prof. Haller)
+55037,TUZEEKF,Else Kröner Fresenius Zentrum für Ernährungsmedizin (N.N.),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Else Kröner Fresenius Zentrum für Ernährungsmedizin (N.N.)
 55057,TUXS60Q,Studiengang M.Sc. Management and Digital Technology,Technische Universität München/Schools/Management/Studienorganisation/School of Management Standort Heilbronn/M.Sc. Management and Digital Technology
 55077,TUS3O25,Abteilung 5100 (NAT) Finance Office (NAT),Technische Universität München/Schools/Natural Sciences/School Office/Administration (NAT)/Finance Office (NAT)/Abteilung 5100 (NAT)
 55078,TUS3O26,Abteilung 5400 (NAT) Finance Office (NAT),Technische Universität München/Schools/Natural Sciences/School Office/Administration (NAT)/Finance Office (NAT)/Abteilung 5400 (NAT)
@@ -2008,7 +2007,6 @@ org_id,code,name,path
 55302,TUZVVUF,Vergaberecht und Flächenmanagement (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Flächenmanagement (ZA 4)
 55303,TUZVPUD,Prozesse und Digitalisierung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Prozesse und Digitalisierung (ZA 4)
 55304,TUZVPUS,Personal und Stellen (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Personal und Stellen (ZA 4)
-55305,TUZVIGM,Infrastrukturelles Gebäudemanagement (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Gebäudemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Gebäudemanagement (ZA 4)
 55306,TUZVEUM,Energie- und Medienversorgung (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Energie- und Medienversorgung (ZA 4)
 55317,TUS4P9N,Professur für Plant Proteins and Nutrition (Prof. Weisz),Technische Universität München/Schools/Life Sciences/Departments/Life Science Engineering/Plant Proteins and Nutrition (Prof. Weisz)
 55318,TUS4M1D,Professur für Translational Microbiome Data Integration (Prof. Schirmer),Technische Universität München/Schools/Life Sciences/Departments/Molecular Life Sciences/Translational Microbiome Data Integration (Prof. Schirmer)
@@ -2090,7 +2088,7 @@ org_id,code,name,path
 56177,TUZEI13,ZIEL-Prof. Schloter (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Schloter (LS)
 56178,TUZEI10,ZIEL-Prof. Gerner (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Gerner (LS)
 56179,TUZEI14,ZIEL-Prof. Uhlenhaut (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Uhlenhaut (LS)
-56180,TUZEI11,ZIEL-Prof. Hofmann/Prof. Dawid (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Hofmann/Prof. Dawid (LS)
+56180,TUZEI11,ZIEL- Prof. Dawid (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL- Prof. Dawid (LS)
 56181,TUZEI12,ZIEL-Prof. Schirmer (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Schirmer (LS)
 56182,TUZEIA9,ZIEL-Prof. Brück (NAT),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Brück (NAT)
 56197,TUXB40Z,Studiengangsbündel Lebensmittelchemie und Sustainable Food,Technische Universität München/Schools/Life Sciences/Studienorganisation/Lebensmittelchemie und Sustainable Food
@@ -2227,7 +2225,7 @@ org_id,code,name,path
 57437,TUZEI19,ZIEL-Prof. Weisz (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Weisz (LS)
 57438,TUZEI21,ZIEL-Prof. Bartelt (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Bartelt (LS)
 57439,TUZEI20,ZIEL-Prof. Stecher-Letsch (LS),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Stecher-Letsch (LS)
-57440,TUZEI22,ZIEL-Prof. Timper (MH 1513),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Timper (MH 1513)
+57440,TUZEI22,ZIEL-Prof. Timper (MH 1513) (N.N.),Technische Universität München/Zentralinstitute/Zentralinstitut für Ernährungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL-Prof. Timper (MH 1513) (N.N.)
 57457,TUWIH16,Professur für Transportation Analytics (Prof. Li) (TUM Campus Heilbronn),Technische Universität München/Schools/Management/Departments/Operations and Technology/Transportation Analytics (Prof. Li) (TUM Campus Heilbronn)
 57458,TUZVRUG,Raum- und Geodaten (ZA 4),Technische Universität München/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Raum- und Geodaten (ZA 4)
 57477,TUS5MSZ,Münchener Studienzentrum (MSZ),Technische Universität München/Schools/Medicine and Health/Schoolzentrale Core Facilities/Münchener Studienzentrum (MSZ)
@@ -2285,3 +2283,6 @@ org_id,code,name,path
 58198,TUXS72D,Studiengang Interdisciplinary Programs - Austausch,Technische Universität München/Schools/Social Sciences and Technology/Studienorganisation/Austauschprogramme/nicht studienbeitragspflichtig/Interdisciplinary Programs - Austausch
 58237,TUS2DSM,Professur für Digitale Tragwerke aus mineralischen Werkstoffen (Prof. Bos),Technische Universität München/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Digitale Tragwerke aus mineralischen Werkstoffen (Prof. Bos)
 58257,TUS5PT2,Professur für RNA-Pharmakologie und Genregulation (Prof. Andergassen),Technische Universität München/Schools/Medicine and Health/Departments/Preclinical Medicine/Institut für Pharmakologie und Toxikologie (Prof. Engelhardt)/RNA-Pharmakologie und Genregulation (Prof. Andergassen)
+58297,TUXSC0L,Studiengang Sustainable Engineering for Materials and Processes,Technische Universität München/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Studienorganisation/Studienkolleg/Sustainable Engineering for Materials and Processes
+58317,TUS1332,Professur für Information Systems Engineering (Prof. Werner),"Technische Universität München/Schools/Computation, Information and Technology/Departments/Computer Science/Information Systems Engineering (Prof. Werner)"
+58337,TUS1333,"Professur für Logik, Automaten und Spieltheorie in der Informatik (Prof. Hollender)","Technische Universität München/Schools/Computation, Information and Technology/Departments/Computer Science/Logik, Automaten und Spieltheorie in der Informatik (Prof. Hollender)"
