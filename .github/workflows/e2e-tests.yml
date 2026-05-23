@@ -162,7 +162,7 @@ jobs:
         run: pnpm install
       - name: Install Browser
         working-directory: tests
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: pnpm exec playwright install ${{ matrix.browser }}
 
       - name: Setup | Create .env file for docker-compose
         run: |
