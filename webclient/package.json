@@ -55,7 +55,7 @@
 		"vue-tsc": "3.3.1"
 	},
 	"type": "module",
-	"packageManager": "pnpm@10.14.0",
+	"packageManager": "pnpm@11.3.0",
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"@biomejs/biome",
