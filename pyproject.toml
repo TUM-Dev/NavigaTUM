@@ -12,7 +12,7 @@ dependencies = [
   "lxml==6.1.0",
   "orjson==3.11.9",
   "Pillow==12.2.0",
-  "polars==1.40.1",
+  "polars==1.41.0",
   "pyarrow==24.0.0",
   "pydantic==2.13.4",
   "pyyaml==6.0.3",
@@ -26,13 +26,13 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "mypy==2.0.0",
+  "mypy==2.1.0",
   "pre-commit==4.6.0",
   "pytest==9.0.3",
-  "ruff==0.15.12",
+  "ruff==0.15.14",
   "types-Pillow==10.2.0.20240822",
-  "types-PyYAML==6.0.12.20260510",
-  "types-requests==2.33.0.20260508",
+  "types-PyYAML==6.0.12.20260518",
+  "types-requests==2.33.0.20260518",
   "types-termcolor==1.1.6.2",
 ]
 
