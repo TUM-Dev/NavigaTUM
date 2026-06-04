@@ -45,6 +45,18 @@ test.describe("Search Page - Results Display", () => {
   });
 });
 
+test.describe("Search Page - English ↔ German synonyms (#960)", () => {
+  for (const query of ["library", "libraries", "bibliothek", "Teilbibliothek"]) {
+    test(`q=${query} returns at least one building result`, async ({ page }) => {
+      await page.goto(`/search?q=${query}`, { waitUntil: "networkidle" });
+      await page.waitForLoadState("networkidle");
+
+      const resultLinks = page.locator('a[href*="/view/"]');
+      expect(await resultLinks.count()).toBeGreaterThan(0);
+    });
+  }
+});
+
 test.describe("Search Page - Empty and Error States", () => {
   test("should handle empty search query", async ({ page }) => {
     await page.goto("/search?q=", { waitUntil: "networkidle" });

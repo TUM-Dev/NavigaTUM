@@ -104,7 +104,7 @@ const nodeKindIndex = computed(() => {
       <span class="text-zinc-600 mb-1 block text-xs font-medium">{{ t("node_kind") }} <span class="text-red-700">*</span></span>
       <TabGroup :selected-index="nodeKindIndex < 0 ? 0 : nodeKindIndex" :default-index="0">
         <TabList class="bg-zinc-100 flex space-x-1 rounded-lg p-1">
-          <Tab v-for="opt in kindOptions" :key="opt.value" v-slot="{ selected }" as="template">
+          <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <button
               :class="[
                 'w-full rounded-md py-2 px-3 text-sm font-medium leading-5',

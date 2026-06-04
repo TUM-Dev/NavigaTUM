@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiClose, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
@@ -327,14 +327,6 @@ const mapLon = computed({
   },
 });
 
-function idHint() {
-  const kind = editProposal.value.pendingAddition.kind;
-  if (kind === "room") return t("id_hint.room");
-  if (kind === "building") return t("id_hint.building");
-  if (kind === "poi") return t("id_hint.poi");
-  return "";
-}
-
 // Share id-validation state with per-kind sub-components (e.g. AddBuildingFields renders the id
 // input itself inside its Identifiers fieldset).
 provide("addProposal:idValidation", {
@@ -360,7 +352,7 @@ watch(
     <div class="space-y-3">
       <TabGroup :selected-index="kindIndex < 0 ? 0 : kindIndex" :default-index="0">
         <TabList class="bg-zinc-100 flex space-x-1 rounded-lg p-1">
-          <Tab v-for="opt in kindOptions" :key="opt.value" v-slot="{ selected }" as="template">
+          <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <button
               :class="[
                 'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
