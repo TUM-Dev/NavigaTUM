@@ -1898,6 +1898,7 @@ components:
         - transit
         - tram
         - subway
+        - suburban
         - ferry
         - airplane
         - metro
@@ -1912,6 +1913,7 @@ components:
         - cable_car
         - funicular
         - areal_lift
+        - ride_sharing
         - other
     MotisLegResponse:
       type: object
@@ -3368,6 +3370,7 @@ components:
       required:
         - id
         - name
+        - modes
         - lat
         - lon
         - distance_meters
@@ -3379,8 +3382,8 @@ components:
           exclusiveMinimum: 0
         id:
           type: string
-          description: The globally unique and somewhat stable id of the station from the transport agency
-          example: de:09184:2073:0:1
+          description: The globally unique and somewhat stable id of the station from motis/transitous
+          example: de:09184:2073
         lat:
           type: number
           format: double
@@ -3391,22 +3394,20 @@ components:
           format: double
           description: Longitude
           example: 48.26244490906312
+        modes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModeResponse'
+          description: |-
+            Transport modes served at this station, as reported by motis.
+            Unknown / future motis values are normalised to `other`.
+          example:
+            - bus
+            - subway
         name:
           type: string
           description: How the station was named by the operator
           example: Garching, Boltzmannstraße
-        parent_id:
-          type:
-            - string
-            - "null"
-          description: The globally unique and somewhat stable id of the station from the transport agency
-          example: de:09184:2073
-        parent_name:
-          type:
-            - string
-            - "null"
-          description: How the station was named by the operator
-          example: Boltzmannstraße
     TravelModeResponse:
       type: string
       enum:

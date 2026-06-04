@@ -807,6 +807,7 @@ export type components = {
       | "transit"
       | "tram"
       | "subway"
+      | "suburban"
       | "ferry"
       | "airplane"
       | "metro"
@@ -821,6 +822,7 @@ export type components = {
       | "cable_car"
       | "funicular"
       | "areal_lift"
+      | "ride_sharing"
       | "other";
     readonly MotisLegResponse: {
       /** @description Identifies a transit brand which is often synonymous with a transit agency. */
@@ -1695,8 +1697,8 @@ export type components = {
       /** Format: double */
       readonly distance_meters: number;
       /**
-       * @description The globally unique and somewhat stable id of the station from the transport agency
-       * @example de:09184:2073:0:1
+       * @description The globally unique and somewhat stable id of the station from motis/transitous
+       * @example de:09184:2073
        */
       readonly id: string;
       /**
@@ -1712,20 +1714,19 @@ export type components = {
        */
       readonly lon: number;
       /**
+       * @description Transport modes served at this station, as reported by motis.
+       * Unknown / future motis values are normalised to `other`.
+       * @example [
+       *   "bus",
+       *   "subway"
+       * ]
+       */
+      readonly modes: readonly components["schemas"]["ModeResponse"][];
+      /**
        * @description How the station was named by the operator
        * @example Garching, Boltzmannstraße
        */
       readonly name: string;
-      /**
-       * @description The globally unique and somewhat stable id of the station from the transport agency
-       * @example de:09184:2073
-       */
-      readonly parent_id?: string | null;
-      /**
-       * @description How the station was named by the operator
-       * @example Boltzmannstraße
-       */
-      readonly parent_name?: string | null;
     };
     /** @enum {string} */
     readonly TravelModeResponse: "drive" | "pedestrian" | "bicycle" | "public_transit";

@@ -236,6 +236,25 @@ test.describe("API Endpoints - Nearby Locations", () => {
     expect(data).toHaveProperty("public_transport");
     expect(Array.isArray(data.public_transport)).toBe(true);
   });
+
+  // The MI building sits ~150m from the Garching U6 endpoint
+  // "Garching, Forschungszentrum". Motis returns several platform rows for that
+  // station (subway tracks expose `parentId`, bus tracks don't), and the scraper
+  // has to fold them into a single row with both modes. If it regresses, this
+  // station shows up multiple times and/or with only one mode - that's the
+  // single most likely regression on this endpoint.
+  test("folds motis platforms into one station with all served modes", async ({ request }) => {
+    const response = await request.get("/api/locations/mi/nearby");
+    expect(response.status()).toBe(200);
+
+    const data = await response.json();
+    const garching = data.public_transport.filter(
+      (s: { name: string }) => s.name === "Garching, Forschungszentrum"
+    );
+    expect(garching).toHaveLength(1);
+    expect(garching[0].modes).toEqual(expect.arrayContaining(["subway", "bus"]));
+    expect(garching[0].distance_meters).toBeLessThan(500);
+  });
 });
 
 test.describe("API Endpoints - Calendar", () => {
