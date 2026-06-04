@@ -377,7 +377,8 @@ impl ModeResponse {
     pub fn parse_or_other(s: &str) -> Self {
         use serde::Deserialize as _;
         use serde::de::IntoDeserializer as _;
-        let de: serde::de::value::StrDeserializer<serde::de::value::Error> = s.into_deserializer();
+        use serde::de::value::{Error, StrDeserializer};
+        let de: StrDeserializer<Error> = s.into_deserializer();
         Self::deserialize(de).unwrap_or(Self::Other)
     }
 }
