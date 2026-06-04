@@ -21,25 +21,25 @@ function removeLink(idx: number) {
           v-model="link.url"
           type="url"
           placeholder="https://"
-          class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 w-full rounded border px-2 py-1 text-sm"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
         />
         <div class="grid grid-cols-2 gap-1">
           <input
             v-model="link.text_de"
             type="text"
             :placeholder="t('text_de')"
-            class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 text-sm"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
           />
           <input
             v-model="link.text_en"
             type="text"
             :placeholder="t('text_en')"
-            class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 text-sm"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
           />
         </div>
       </div>
       <button type="button" class="focusable mt-1 rounded-sm" :title="t('remove')" @click="removeLink(idx)">
-        <MdiIcon :path="mdiClose" :size="16" class="text-zinc-500 hover:text-zinc-700" />
+        <MdiIcon :path="mdiClose" :size="16" class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200" />
       </button>
     </div>
     <Btn variant="secondary" size="sm" @click="addLink">

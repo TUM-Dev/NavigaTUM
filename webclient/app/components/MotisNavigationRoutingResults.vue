@@ -143,28 +143,28 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
     <div v-else-if="viewMode === 'summary'">
       <!-- Direct connections summary -->
       <div v-if="data.direct && data.direct.length > 0" class="mb-6">
-        <h3 class="text-zinc-700 mb-3 text-lg font-semibold">
+        <h3 class="text-zinc-700 dark:text-zinc-200 mb-3 text-lg font-semibold">
           {{ t("direct_connections") }}
         </h3>
         <div class="space-y-2 w-full max-w-full">
           <div
             v-for="(connection, i) in data.direct"
             :key="`direct-${i}`"
-            class="bg-zinc-50 hover:bg-zinc-100 cursor-pointer rounded-lg border p-4 transition-colors w-full max-w-full"
+            class="bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer rounded-lg border p-4 transition-colors w-full max-w-full"
             @click="handleItinerarySelect(-1 - i)"
           >
             <div class="flex items-center justify-between w-full min-w-0">
               <div class="flex flex-col gap-2 min-w-0 flex-1">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4 min-w-0">
-                    <span class="text-zinc-900 font-medium truncate">
+                    <span class="text-zinc-900 dark:text-zinc-50 font-medium truncate">
                       {{ formatTime(connection.start_time) }} - {{ formatTime(connection.end_time) }}
                     </span>
-                    <span class="text-zinc-600 flex-shrink-0">
+                    <span class="text-zinc-600 dark:text-zinc-300 flex-shrink-0">
                       {{ formatDuration(connection.duration) }}
                     </span>
                   </div>
-                  <div class="text-zinc-500 text-sm flex-shrink-0">
+                  <div class="text-zinc-500 dark:text-zinc-400 text-sm flex-shrink-0">
                     {{ connection.legs.length === 1 ? t("direct") : t("legs", connection.legs.length) }}
                   </div>
                 </div>
@@ -178,7 +178,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                       <!-- Separator arrow between legs -->
                       <svg
                         v-if="legIndex > 0"
-                        class="w-3 h-3 text-zinc-400 mx-1 flex-shrink-0"
+                        class="w-3 h-3 text-zinc-400 dark:text-zinc-500 mx-1 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -202,13 +202,13 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900 dark:text-zinc-50" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
                   <div
                     v-show="showDirectOverflow"
-                    class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-zinc-50 to-transparent pointer-events-none z-10"
+                    class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-zinc-50 dark:from-zinc-900 to-transparent pointer-events-none z-10"
                   ></div>
                 </div>
               </div>
@@ -223,21 +223,21 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
           <div
             v-for="(itinerary, i) in data.itineraries"
             :key="`summary-${i}`"
-            class="bg-zinc-50 hover:bg-zinc-100 cursor-pointer rounded-lg border p-4 transition-colors w-full max-w-full"
+            class="bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer rounded-lg border p-4 transition-colors w-full max-w-full"
             @click="handleItinerarySelect(i)"
           >
             <div class="flex items-center justify-between w-full min-w-0">
               <div class="flex flex-col gap-2 min-w-0 flex-1">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4 min-w-0">
-                    <span class="text-zinc-900 font-medium truncate">
+                    <span class="text-zinc-900 dark:text-zinc-50 font-medium truncate">
                       {{ formatTime(itinerary.start_time) }} - {{ formatTime(itinerary.end_time) }}
                     </span>
-                    <span class="text-zinc-600 flex-shrink-0">
+                    <span class="text-zinc-600 dark:text-zinc-300 flex-shrink-0">
                       {{ formatDuration(itinerary.duration) }}
                     </span>
                   </div>
-                  <div class="text-zinc-500 text-sm flex-shrink-0">
+                  <div class="text-zinc-500 dark:text-zinc-400 text-sm flex-shrink-0">
                     {{ t("transfers", itinerary.transfer_count) }}
                   </div>
                 </div>
@@ -251,7 +251,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                       <!-- Separator arrow between legs -->
                       <svg
                         v-if="legIndex > 0"
-                        class="w-3 h-3 text-zinc-400 mx-1 flex-shrink-0"
+                        class="w-3 h-3 text-zinc-400 dark:text-zinc-500 mx-1 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -275,13 +275,13 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900 dark:text-zinc-50" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
                   <div
                     v-show="showTransitOverflow"
-                    class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-zinc-50 to-transparent pointer-events-none z-10"
+                    class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-zinc-50 dark:from-zinc-900 to-transparent pointer-events-none z-10"
                   ></div>
                 </div>
               </div>
@@ -305,7 +305,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
     <div v-else-if="viewMode === 'details'">
       <!-- Back to summary button -->
       <div class="mb-4">
-        <button @click="backToSummary" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+        <button @click="backToSummary" class="flex items-center gap-2 text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200 font-medium">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>

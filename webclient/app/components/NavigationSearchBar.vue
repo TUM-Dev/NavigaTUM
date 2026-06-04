@@ -177,7 +177,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 
 <template>
   <div
-    class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
+    class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600 dark:focus-within:outline-blue-300"
   >
     <textarea
       :id="queryId"
@@ -193,7 +193,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       maxlength="2048"
       :name="queryId"
       type="text"
-      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
+      class="text-zinc-800 dark:text-zinc-100 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 dark:placeholder:text-zinc-100 focus-within:placeholder:text-zinc-500 dark:focus-within:placeholder:text-zinc-400 placeholder:font-normal focus:outline-0"
       :placeholder="t('input.placeholder-' + queryId)"
       :aria-label="t('input.aria-searchlabel')"
       @focus="
@@ -207,7 +207,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       <button
         v-if="isGeolocationSupported && !geolocationState.mapGeolocationActive"
         type="button"
-        class="focusable text-zinc-600 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
+        class="focusable text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
         :title="t('gps.use_current_location')"
         :aria-label="t('gps.use_current_location')"
         @click="useCurrentLocation"
@@ -218,8 +218,8 @@ const { data, error } = await useFetch<SearchResponse>(url, {
           :class="[
             'mr-1',
             {
-              'text-blue-600 animate-pulse': isSearchingLocation,
-              'text-zinc-600': !isSearchingLocation,
+              'text-blue-600 dark:text-blue-300 animate-pulse': isSearchingLocation,
+              'text-zinc-600 dark:text-zinc-300': !isSearchingLocation,
             },
           ]"
         />
@@ -230,14 +230,14 @@ const { data, error } = await useFetch<SearchResponse>(url, {
   <ClientOnly>
     <div
       v-if="currently_actively_picking && data && query.length !== 0"
-      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 z-30 -ms-4 mt-56 flex max-h-[calc(100vh-80px)] min-w-96 max-w-sm flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30 md:me-3"
+      class="shadow-4xl bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 absolute top-3 z-30 -ms-4 mt-56 flex max-h-[calc(100vh-80px)] min-w-96 max-w-sm flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30 dark:shadow-zinc-200/30 md:me-3"
     >
       <Toast v-if="error" id="search-error" level="error">
         <p class="text-md font-bold">{{ t("error.header") }}</p>
         <p class="text-sm">
           {{ t("error.reason") }}:<br />
           <code
-            class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-950/20"
+            class="text-red-900 dark:text-red-50 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-900/20"
           >
             {{ error }}
           </code>
@@ -246,8 +246,8 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       </Toast>
       <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
         <div class="flex items-center">
-          <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-          <div class="border-zinc-800 flex-grow border-t" />
+          <span class="text-md text-zinc-800 dark:text-zinc-100 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+          <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
         </div>
 
         <template v-for="(e, i) in s.entries" :key="e.id">
@@ -268,7 +268,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
           >
             {{ t("show_hidden", s.entries.length - s.n_visible) }}
           </Btn>
-          <span class="text-zinc-400 text-sm">
+          <span class="text-zinc-400 dark:text-zinc-500 text-sm">
             {{
               s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
             }}

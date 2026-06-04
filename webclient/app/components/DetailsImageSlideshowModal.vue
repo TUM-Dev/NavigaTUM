@@ -71,10 +71,10 @@ const subtitles = computed<SubTitle[]>(() => {
     <div v-if="shownImage" class="pt-5">
       <div class="grid min-h-20 auto-cols-auto grid-cols-2 gap-5 text-center">
         <div v-for="(sub, i) in subtitles" :key="i" class="text-balance col-span-2 md:col-span-1">
-          <h6 class="text-zinc-600 text-sm font-semibold">
+          <h6 class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold">
             {{ sub.title }}
           </h6>
-          <div class="wrap- text-zinc-600 text-sm" :class="[sub.text.length > 100 ? 'text-xs' : '']">
+          <div class="wrap- text-zinc-600 dark:text-zinc-300 text-sm" :class="[sub.text.length > 100 ? 'text-xs' : '']">
             <Btn v-if="sub.url" variant="link" size="-ps-1 !inline" :to="sub.url">
               {{ sub.text }}
             </Btn>

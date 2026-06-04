@@ -40,30 +40,30 @@ async function updateLocale(value: "de" | "en") {
     <!-- Trigger Button -->
     <button
       id="preferences"
-      class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white ring-opacity-0 hover:bg-zinc-100/10 hover:ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+      class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white/0 dark:ring-white/0 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:ring-white/20 dark:hover:ring-white/20 focus:outline-none focus:ring-white/100 dark:focus:ring-white/100"
       @click="isOpen = true"
     >
       <span class="absolute -inset-1.5" />
       <span class="sr-only">Open preferences menu</span>
-      <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900" />
+      <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900 dark:text-zinc-50" />
     </button>
 
     <!-- Modal Dialog -->
     <ClientOnly>
-      <LazyModal v-model="isOpen" :title="t('preferences')" class="bg-white" @close="isOpen = false">
+      <LazyModal v-model="isOpen" :title="t('preferences')" class="bg-white dark:bg-black" @close="isOpen = false">
         <div class="space-y-8">
           <!-- Theme Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("theme") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-4">{{ t("theme") }}</h3>
             <TabGroup :default-index="colorMode.preference === 'system' ? 0 : colorMode.preference === 'light' ? 1 : 2">
-              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
+              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="colorMode.preference = 'system'"
                   >
@@ -77,9 +77,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="colorMode.preference = 'light'"
                   >
@@ -93,9 +93,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="colorMode.preference = 'dark'"
                   >
@@ -111,16 +111,16 @@ async function updateLocale(value: "de" | "en") {
 
           <!-- Language Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-4">{{ t("language") }}</h3>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-4">{{ t("language") }}</h3>
             <TabGroup :default-index="locale === 'de' ? 0 : 1">
-              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
+              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="locale = 'de'"
                   >
@@ -131,9 +131,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="locale = 'en'"
                   >
@@ -146,17 +146,17 @@ async function updateLocale(value: "de" | "en") {
 
           <!-- Preferred Transport Mode Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("preferredTransportMode") }}</h3>
-            <p class="text-sm text-zinc-600 mb-4">{{ t("preferredTransportMode.help") }}</p>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("preferredTransportMode") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("preferredTransportMode.help") }}</p>
             <TabGroup :default-index="['pedestrian', 'bicycle', 'motorcycle', 'car', 'public_transit'].indexOf(preferences.route_costing)">
-              <TabList class="flex flex-wrap gap-2 rounded-lg bg-zinc-100 p-2">
+              <TabList class="flex flex-wrap gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-2">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('route_costing', 'pedestrian')"
                   >
@@ -170,9 +170,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('route_costing', 'bicycle')"
                   >
@@ -186,9 +186,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('route_costing', 'motorcycle')"
                   >
@@ -202,9 +202,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('route_costing', 'car')"
                   >
@@ -218,9 +218,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('route_costing', 'public_transit')"
                   >
@@ -236,17 +236,17 @@ async function updateLocale(value: "de" | "en") {
 
           <!-- Pedestrian Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("pedestrianType") }}</h3>
-            <p class="text-sm text-zinc-600 mb-4">{{ t("pedestrianType.help") }}</p>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("pedestrianType") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("pedestrianType.help") }}</p>
             <TabGroup :default-index="preferences.pedestrian_type === 'blind' ? 2 : preferences.pedestrian_type === 'wheelchair' ? 1 : 0">
-              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
+              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('pedestrian_type', 'standard')"
                   >
@@ -260,9 +260,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('pedestrian_type', 'wheelchair')"
                   >
@@ -276,9 +276,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('pedestrian_type', 'blind')"
                   >
@@ -294,17 +294,17 @@ async function updateLocale(value: "de" | "en") {
 
           <!-- Bicycle Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("bicycleType") }}</h3>
-            <p class="text-sm text-zinc-600 mb-4">{{ t("bicycleType.help") }}</p>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("bicycleType") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("bicycleType.help") }}</p>
             <TabGroup :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')">
-              <TabList class="grid grid-cols-4 gap-2 rounded-lg bg-zinc-100 p-2">
+              <TabList class="grid grid-cols-4 gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-2">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('bicycle_type', 'hybrid')"
                   >
@@ -318,9 +318,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('bicycle_type', 'road')"
                   >
@@ -334,9 +334,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('bicycle_type', 'cross')"
                   >
@@ -350,9 +350,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('bicycle_type', 'mountain')"
                   >
@@ -368,17 +368,17 @@ async function updateLocale(value: "de" | "en") {
 
           <!-- Motorcycle Type Setting -->
           <div>
-            <h3 class="text-lg font-semibold text-zinc-800 mb-2">{{ t("ptwType") }}</h3>
-            <p class="text-sm text-zinc-600 mb-4">{{ t("ptwType.help") }}</p>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("ptwType") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("ptwType.help") }}</p>
             <TabGroup :default-index="['motorcycle', 'moped'].indexOf(preferences.ptw_type || 'motorcycle')">
-              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 p-1">
+              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
                   <button
                     :class="[
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('ptw_type', 'motorcycle')"
                   >
@@ -392,9 +392,9 @@ async function updateLocale(value: "de" | "en") {
                   <button
                     :class="[
                       'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                       'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
                     ]"
                     @click="updatePreference('ptw_type', 'moped')"
                   >

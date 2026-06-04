@@ -233,56 +233,56 @@ function getEditTypeDisplay(roomId: string): string {
     <template #modal>
       <!-- Additional Context -->
       <div class="flex flex-col">
-        <label class="text-zinc-600 text-sm font-semibold" for="edit-context">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="edit-context">
           {{ t("additional_context") }}
         </label>
         <textarea
           id="edit-context"
           v-model="editProposal.data.additional_context"
-          class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 resize-y rounded border px-2 py-1"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 resize-y rounded border px-2 py-1"
           :placeholder="t('additional_context_placeholder')"
           rows="3"
         />
-        <p class="text-zinc-500 text-xs">{{ t("additional_context_help") }}</p>
+        <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("additional_context_help") }}</p>
       </div>
 
       <!-- Other Changes Section -->
       <div class="pt-4">
-        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
 
         <div class="space-y-2">
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("suggest_image_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("suggest_image_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("suggest_image_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startLocationEdit">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("room_position_wrong_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("map_missing_roads_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (propertiesModalOpen = true)">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("properties_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("properties_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("properties_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("propose_addition_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("propose_addition_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
             </div>
           </Btn>
         </div>
@@ -319,35 +319,35 @@ function getEditTypeDisplay(roomId: string): string {
           <div class="space-y-3">
             <!-- Name -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
               <input
                 id="edit-name"
                 v-model="editProposal.propertyFields.name"
                 type="text"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               />
-              <p class="text-zinc-500 text-xs mt-1">{{ t("field_name_help") }}</p>
+              <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_name_help") }}</p>
             </div>
 
             <!-- Short Name -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
               <input
                 id="edit-short-name"
                 v-model="editProposal.propertyFields.shortName"
                 type="text"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               />
-              <p class="text-zinc-500 text-xs mt-1">{{ t("field_short_name_help") }}</p>
+              <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_short_name_help") }}</p>
             </div>
 
             <!-- Category -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
               <select
                 id="edit-category"
                 v-model="selectedCategory"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               >
                 <option value="">-</option>
                 <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
@@ -357,32 +357,32 @@ function getEditTypeDisplay(roomId: string): string {
             </div>
 
             <!-- Add a Link -->
-            <div class="border-t border-zinc-200 pt-3">
-              <label class="text-zinc-500 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
+            <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">URL</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">URL</span>
                   <input
                     v-model="editProposal.propertyFields.linkUrl"
                     type="url"
                     placeholder="https://"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">DE</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">DE</span>
                   <input
                     v-model="editProposal.propertyFields.linkTextDe"
                     type="text"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">EN</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">EN</span>
                   <input
                     v-model="editProposal.propertyFields.linkTextEn"
                     type="text"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
               </div>
@@ -396,17 +396,17 @@ function getEditTypeDisplay(roomId: string): string {
 
       <!-- Current Edits -->
       <div class="pt-4 pb-2" v-if="Object.keys(editProposal.data.edits).length">
-        <label class="text-zinc-600 text-sm font-semibold">{{ t("current_edits") }}</label>
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold">{{ t("current_edits") }}</label>
         <div class="space-y-2 mt-2">
-          <div v-for="roomId in Object.keys(editProposal.data.edits)" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
+          <div v-for="roomId in Object.keys(editProposal.data.edits)" :key="roomId" class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 rounded p-3 border">
             <div class="flex justify-between items-start">
               <div class="flex-grow">
-                <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>
-                <div class="text-xs text-zinc-600 mt-1">
+                <p class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ editProposal.selected?.name }}</p>
+                <div class="text-xs text-zinc-600 dark:text-zinc-300 mt-1">
                   <p>{{ getEditTypeDisplay(String(roomId)) }}</p>
                 </div>
               </div>
-              <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
+              <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 text-sm">
                 {{ t("remove") }}
               </button>
             </div>
@@ -416,19 +416,19 @@ function getEditTypeDisplay(roomId: string): string {
 
       <!-- Pending Additions -->
       <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.additions).length">
-        <label class="text-zinc-600 text-sm font-semibold">{{ t("pending_additions") }}</label>
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold">{{ t("pending_additions") }}</label>
         <div class="space-y-2 mt-2">
           <div
             v-for="(addition, addId) in editProposal.data.additions"
             :key="addId"
-            class="bg-zinc-100 border-zinc-300 rounded p-3 border"
+            class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 rounded p-3 border"
           >
             <div class="flex justify-between items-start">
               <div class="flex-grow">
-                <p class="font-medium text-sm text-zinc-900">{{ addId }}</p>
-                <p class="text-xs text-zinc-600 mt-1">{{ t(`kind.${addition.kind}`) }}</p>
+                <p class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ addId }}</p>
+                <p class="text-xs text-zinc-600 dark:text-zinc-300 mt-1">{{ t(`kind.${addition.kind}`) }}</p>
               </div>
-              <button @click="() => delete editProposal.data.additions[addId]" class="text-red-600 hover:text-red-800 text-sm">
+              <button @click="() => delete editProposal.data.additions[addId]" class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 text-sm">
                 {{ t("remove") }}
               </button>
             </div>

@@ -559,7 +559,7 @@ defineExpose({
     id="interactive-indoor-map-container"
     class="!h-full min-h-96 print:!hidden"
     :class="{
-      'dark:bg-black bg-white border-zinc-300 border': webglSupport,
+      'dark:bg-black bg-white border-zinc-300 dark:border-zinc-600 border': webglSupport,
     }"
   >
     <div v-if="webglSupport" id="interactive-indoor-map" class="relative !h-full min-h-96 !w-full" />

@@ -1,5 +1,5 @@
 <template>
-  <header class="shadow-black/5 dark:shadow-black/20 bg-zinc-50 fixed top-0 z-20 w-full shadow-md dark:bg-zinc-900">
+  <header class="shadow-black/5 dark:shadow-black/20 bg-zinc-50 fixed top-0 z-20 w-full shadow-md dark:bg-zinc-800">
     <nav class="mx-auto max-w-4xl">
       <div class="mx-3 my-2.5 flex place-content-between content-between justify-between gap-x-3 md:gap-x-10 lg:mx-10">
         <NuxtLinkLocale class="my-auto hidden lg:block print:!block" to="/">

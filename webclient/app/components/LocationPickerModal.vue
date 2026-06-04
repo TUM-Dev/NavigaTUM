@@ -193,7 +193,7 @@ defineExpose({
     <div class="location-picker">
       <!-- Instructions above map -->
       <div
-        class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
+        class="aspect-4/3 relative border border-zinc-300 dark:border-zinc-600 rounded-lg overflow-hidden"
         :class="{
           'dark:bg-black bg-white': webglSupport,
         }"
