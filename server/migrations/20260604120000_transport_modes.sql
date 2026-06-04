@@ -4,7 +4,7 @@ CREATE TABLE transportation_stations
 (
     id         TEXT PRIMARY KEY,
     name       TEXT   NOT NULL,
-    modes      TEXT[] NOT NULL DEFAULT '{}',
+    modes      TEXT[] NOT NULL CHECK (cardinality(modes) > 0),
     coordinate Point  NOT NULL
 );
 
