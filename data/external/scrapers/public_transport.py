@@ -94,9 +94,7 @@ def cluster_bboxes(coords: pl.DataFrame) -> list[Bbox]:
         ((pl.col("lat") - pl.col("lat_b")) * _KM_PER_DEG_LAT).alias("dlat_km"),
         ((pl.col("lon") - pl.col("lon_b")) * _KM_PER_DEG_LON_AT_REF).alias("dlon_km"),
     )
-    pairs = pairs.with_columns(
-        (pl.col("dlat_km").pow(2) + pl.col("dlon_km").pow(2)).sqrt().alias("dist_km")
-    )
+    pairs = pairs.with_columns((pl.col("dlat_km").pow(2) + pl.col("dlon_km").pow(2)).sqrt().alias("dist_km"))
     edges = (
         pairs.filter(pl.col("dist_km") < _CLUSTER_EPS_KM)
         .select(pl.col("idx").cast(pl.Int64), pl.col("idx_b").cast(pl.Int64))
@@ -168,14 +166,16 @@ def _stops_to_rows(stops: list[dict[str, Any]]) -> list[dict[str, Any]]:
         lon = stop.get("lon")
         if not stop_id or not name or lat is None or lon is None:
             continue
-        rows.append({
-            "stop_id": str(stop_id),
-            "parent_id": stop.get("parentId"),
-            "name": str(name),
-            "lat": float(lat),
-            "lon": float(lon),
-            "modes": _normalise_modes(stop.get("modes")),
-        })
+        rows.append(
+            {
+                "stop_id": str(stop_id),
+                "parent_id": stop.get("parentId"),
+                "name": str(name),
+                "lat": float(lat),
+                "lon": float(lon),
+                "modes": _normalise_modes(stop.get("modes")),
+            }
+        )
     return rows
 
 
@@ -195,10 +195,7 @@ def _fold_to_stations(rows: pl.DataFrame) -> pl.DataFrame:
         .agg(
             pl.col("lat").mean().alias("lat"),
             pl.col("lon").mean().alias("lon"),
-            pl.col("modes")
-            .list.explode(keep_nulls=False, empty_as_null=False)
-            .unique()
-            .alias("modes"),
+            pl.col("modes").list.explode(keep_nulls=False, empty_as_null=False).unique().alias("modes"),
             pl.col("parent_id").drop_nulls().first().alias("_parent_id"),
             pl.col("stop_id").sort_by(pl.col("stop_id").str.len_chars()).first().alias("_fallback_id"),
         )
