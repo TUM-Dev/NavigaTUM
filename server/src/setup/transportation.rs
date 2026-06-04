@@ -10,41 +10,24 @@ use sqlx::{PgPool, Postgres, Transaction};
 
 #[derive(Deserialize, Default, Debug)]
 struct Station {
-    dhid: String,
-    parent: Option<String>,
-    name: String,
-    lat: f64,
-    lon: f64,
-}
-
-struct DBStation {
-    parent: Option<String>,
     id: String,
     name: String,
+    modes: Vec<String>,
     lat: f64,
     lon: f64,
 }
 
-impl DBStation {
-    fn from_station(station: Station) -> Self {
-        Self {
-            parent: station.parent,
-            id: station.dhid,
-            name: station.name,
-            lat: station.lat,
-            lon: station.lon,
-        }
-    }
+impl Station {
     async fn store(
         &self,
         tx: &mut Transaction<'_, Postgres>,
     ) -> Result<PgQueryResult, sqlx::Error> {
         sqlx::query!(
-            "INSERT INTO transportation_stations(parent,id,name,coordinate)\
+            "INSERT INTO transportation_stations(id,name,modes,coordinate)\
             VALUES ($1,$2,$3,POINT($4,$5))",
-            self.parent,
             self.id,
             self.name,
+            &self.modes,
             self.lat,
             self.lon
         )
@@ -65,9 +48,18 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
         let mut station = Station::default();
         for (col_name, field) in row.get_column_iter() {
             match (col_name.as_str(), field) {
-                ("dhid", Field::Str(v)) => station.dhid.clone_from(v),
-                ("parent", Field::Str(v)) => station.parent = Some(v.clone()),
+                ("id", Field::Str(v)) => station.id.clone_from(v),
                 ("name", Field::Str(v)) => station.name.clone_from(v),
+                ("modes", Field::ListInternal(list)) => {
+                    station.modes = list
+                        .elements()
+                        .iter()
+                        .filter_map(|f| match f {
+                            Field::Str(s) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .collect();
+                }
                 ("lat", Field::Float(v)) => station.lat = f64::from(*v),
                 ("lat", Field::Double(v)) => station.lat = *v,
                 ("lon", Field::Float(v)) => station.lon = f64::from(*v),
@@ -75,16 +67,16 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
                 _ => {}
             }
         }
-        stations.push(DBStation::from_station(station));
+        stations.push(station);
     }
 
     let mut tx = pool.begin().await?;
     clean(&mut tx).await?;
-    for transportation in stations {
-        if transportation.name.is_empty() {
+    for station in stations {
+        if station.name.is_empty() || station.id.is_empty() {
             continue;
         }
-        transportation.store(&mut tx).await?;
+        station.store(&mut tx).await?;
     }
     tx.commit().await?;
     Ok(())
