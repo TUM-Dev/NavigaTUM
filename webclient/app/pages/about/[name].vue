@@ -33,4 +33,3 @@ useSeoMeta({
     <ContentRenderer v-if="page" :value="page" :prose="true" />
   </div>
 </template>
-
