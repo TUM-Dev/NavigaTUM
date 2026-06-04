@@ -75,6 +75,7 @@ RUN     mkdir -p ./server/src/ \
 COPY    server/.sqlx server/.sqlx
 
 COPY    motis-openapi-progenitor/src motis-openapi-progenitor/src
+COPY    motis-openapi-progenitor/README.md motis-openapi-progenitor/README.md
 COPY    server/src server/src
 COPY    server/migrations server/migrations
 RUN     if [ $PROFILE == "release" ]; then \
