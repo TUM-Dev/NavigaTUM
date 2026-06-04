@@ -12,4 +12,5 @@ class OperatorsSchema(dy.Schema):
 
     @dy.rule()
     def id_positive(cls) -> pl.Expr:
+        """`id` must be a positive TUMonline operator id."""
         return pl.col("id") > 0

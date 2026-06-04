@@ -7,6 +7,7 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_usages_parquet(df: pl.DataFrame) -> None:
+    """Write `usages.parquet` — UNION DISTINCT of German and English usage triples."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     de_side = df.select(
         pl.col("usage_name_de").alias("name"),

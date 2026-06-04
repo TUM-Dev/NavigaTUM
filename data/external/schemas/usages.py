@@ -11,4 +11,5 @@ class UsagesSchema(dy.Schema):
 
     @dy.rule()
     def name_non_empty(cls) -> pl.Expr:
+        """`name` must be a non-empty usage label."""
         return pl.col("name").str.strip_chars().str.len_chars() > 0

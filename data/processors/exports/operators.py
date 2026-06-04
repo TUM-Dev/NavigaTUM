@@ -7,10 +7,12 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_operators_de_parquet(df: pl.DataFrame) -> None:
+    """Write `operators_de.parquet` (German operator names)."""
     _write_operators_parquet(df, name_column="props_operator_name_de", filename="operators_de.parquet")
 
 
 def export_operators_en_parquet(df: pl.DataFrame) -> None:
+    """Write `operators_en.parquet` (English operator names)."""
     _write_operators_parquet(df, name_column="props_operator_name_en", filename="operators_en.parquet")
 
 

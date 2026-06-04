@@ -12,4 +12,5 @@ class RankingFactorsSchema(dy.Schema):
 
     @dy.rule()
     def id_non_empty(cls) -> pl.Expr:
+        """`id` must be a non-empty entry id."""
         return pl.col("id").str.strip_chars().str.len_chars() > 0

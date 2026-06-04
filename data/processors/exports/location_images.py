@@ -8,6 +8,7 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_location_images_parquet(df: pl.DataFrame) -> None:
+    """Write `location_images.parquet` — one row per (entry, image) pair."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     rows: list[dict[str, object]] = []
     for row in df.iter_rows(named=True):

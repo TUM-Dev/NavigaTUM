@@ -7,6 +7,7 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_ranking_factors_parquet(df: pl.DataFrame) -> None:
+    """Write `ranking_factors.parquet` from the flat location dataframe."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     extracted = df.select(
         pl.col("id"),

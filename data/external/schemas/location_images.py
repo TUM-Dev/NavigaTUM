@@ -14,4 +14,5 @@ class LocationImagesSchema(dy.Schema):
 
     @dy.rule()
     def key_non_empty(cls) -> pl.Expr:
+        """`key` must be a non-empty entry id."""
         return pl.col("key").str.strip_chars().str.len_chars() > 0

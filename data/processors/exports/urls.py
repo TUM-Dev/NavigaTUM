@@ -8,10 +8,12 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_urls_de_parquet(df: pl.DataFrame) -> None:
+    """Write `urls_de.parquet` (German link text and URLs)."""
     _write_urls_parquet(df, language="de", filename="urls_de.parquet")
 
 
 def export_urls_en_parquet(df: pl.DataFrame) -> None:
+    """Write `urls_en.parquet` (English link text and URLs)."""
     _write_urls_parquet(df, language="en", filename="urls_en.parquet")
 
 
