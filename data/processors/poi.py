@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -7,6 +8,8 @@ from utils import TranslatableStr as _
 
 from processors import merge
 from processors.df_utils import translatable_to_columns
+
+_logger = logging.getLogger(__name__)
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -93,3 +96,48 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
         df = pl.concat([df, new_df], how="diagonal_relaxed")
 
     return df
+
+
+def propagate_poi_floors(df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Copy the immediate parent's `props_floors_json` onto each POI row.
+
+    POIs don't get floors assigned by `sections.compute_floor_prop` (which only
+    targets `[building, joined_building, site, campus]` and their room children
+    with a roomcode). Without floors, `FloorControl.setAvailableFloors([])`
+    dims every button and the indoor overlay never displays.
+
+    For a room-parented POI this yields a single-floor list (auto-selected by
+    `DetailsInteractiveMap.vue`). For a building-parented POI it yields the
+    full building floor list (user picks).
+    """
+    pois = df.filter(pl.col("type") == "poi").select(
+        "id",
+        pl.col("parents").list.last().alias("parent_id"),
+    )
+    if pois.height == 0:
+        return df
+
+    parent_floors = df.select(
+        pl.col("id").alias("parent_id"),
+        pl.col("props_floors_json").alias("parent_floors_json"),
+    )
+    pois_with_parent = pois.join(parent_floors, on="parent_id", how="left")
+
+    for row in pois_with_parent.filter(pl.col("parent_floors_json").is_null()).iter_rows(named=True):
+        _logger.warning(f"POI {row['id']}: parent {row['parent_id']} has no floors")
+
+    updates = pois_with_parent.filter(pl.col("parent_floors_json").is_not_null()).select(
+        "id",
+        pl.col("parent_floors_json").alias("props_floors_json_new"),
+    )
+    if updates.height == 0:
+        return df
+
+    return (
+        df.join(updates, on="id", how="left")
+        .with_columns(
+            pl.coalesce(pl.col("props_floors_json_new"), pl.col("props_floors_json")).alias("props_floors_json"),
+        )
+        .drop("props_floors_json_new")
+    )
