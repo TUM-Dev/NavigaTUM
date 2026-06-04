@@ -61,7 +61,15 @@ impl PropertyEdit {
         {
             let output = File::create(&temp_file)?;
             let mut writer = BufWriter::new(output);
-            writeln!(writer, "{}", header.iter().map(|h| csv_escape(h)).collect::<Vec<_>>().join(","))?;
+            writeln!(
+                writer,
+                "{}",
+                header
+                    .iter()
+                    .map(|h| csv_escape(h))
+                    .collect::<Vec<_>>()
+                    .join(",")
+            )?;
 
             let mut wrote_edit = false;
 
