@@ -12,7 +12,7 @@ _ROOT_NAME_DE = "Standorte"
 
 
 def export_parents_parquet(df: pl.DataFrame) -> None:
-    """Write `parents.parquet` — one row per (entry, ancestor) pair."""
+    """Write `parents.parquet` - one row per (entry, ancestor) pair."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     name_by_id: dict[str, str | None] = dict(zip(df["id"].to_list(), df["name"].to_list(), strict=True))
     name_by_id["root"] = _ROOT_NAME_DE

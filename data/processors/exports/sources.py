@@ -8,7 +8,7 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_sources_parquet(df: pl.DataFrame) -> None:
-    """Write `sources.parquet` — one row per (entry, source) pair."""
+    """Write `sources.parquet` - one row per (entry, source) pair."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     rows: list[dict[str, object]] = []
     for row in df.iter_rows(named=True):

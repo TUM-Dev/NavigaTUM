@@ -75,4 +75,3 @@ async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawImage) -> Result<
     .await?;
     Ok(())
 }
-

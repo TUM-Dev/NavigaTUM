@@ -61,4 +61,3 @@ async fn insert_row(
     .await?;
     Ok(())
 }
-
