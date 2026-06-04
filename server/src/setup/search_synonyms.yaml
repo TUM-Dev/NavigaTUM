@@ -6,8 +6,16 @@ ch: [ Chemie ]
 Maschinenwesen: [ mw ]
 
 Immathalle: [ Immatrikulationshalle ]
-Bib: [ Bibliothek, Teilbibliothek ]
-TB: [ Teilbibliothek ]
+
+# English ↔ German for "library" (issue #960). First English↔German pair —
+# extend this pattern when adding others (mensa↔cafeteria, hörsaal↔lecture hall, …).
+library: [ Bibliothek, Teilbibliothek, Universitätsbibliothek, Bib, TB ]
+libraries: [ Bibliothek, Teilbibliothek, Universitätsbibliothek, Bib, TB ]
+Bibliothek: [ Teilbibliothek, Universitätsbibliothek, library, libraries, Bib ]
+Teilbibliothek: [ Bibliothek, Universitätsbibliothek, library, libraries, Bib, TB ]
+Universitätsbibliothek: [ Bibliothek, Teilbibliothek, library, libraries ]
+Bib: [ Bibliothek, Teilbibliothek, Universitätsbibliothek, library, libraries ]
+TB: [ Teilbibliothek, Bibliothek, library, libraries ]
 
 HS: [ Hörsaal, Vorlesungssaal ]
 Hörsaal: [ HS, Vorlesungssaal ]
