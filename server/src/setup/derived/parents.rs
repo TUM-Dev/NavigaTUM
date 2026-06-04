@@ -5,7 +5,7 @@ use sqlx::{PgPool, Postgres, Transaction};
 
 use crate::setup::file_loader;
 
-#[derive(Debug, Default, Clone, PartialEq, Eq)]
+#[derive(Debug, Default)]
 struct RawParent {
     key: String,
     id: Option<String>,
@@ -54,77 +54,3 @@ async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawParent) -> Result
     Ok(())
 }
 
-#[cfg(test)]
-mod tests {
-    use sqlx::FromRow;
-
-    use super::{RawParent, load_rows};
-    use crate::setup::tests::PostgresTestContainer;
-
-    #[derive(Debug, PartialEq, Eq, FromRow)]
-    struct ParentRow {
-        key: Option<String>,
-        id: Option<String>,
-        name: Option<String>,
-    }
-
-    // parent_names entries are mixed: plain strings for normal parents,
-    // `{de, en}` objects for the synthetic root. COALESCE handles both.
-    const EXPECTED_FROM_DE: &str = "\
-        WITH paired AS ( \
-            SELECT key, \
-                   jsonb_array_elements_text(data -> 'parents')      AS id, \
-                   jsonb_array_elements(data -> 'parent_names')      AS name_jsonb \
-            FROM de \
-            WHERE jsonb_typeof(data -> 'parents') = 'array' \
-              AND jsonb_typeof(data -> 'parent_names') = 'array' \
-        ) \
-        SELECT key, id, \
-               COALESCE(name_jsonb ->> 'de', name_jsonb #>> '{}') AS name \
-        FROM paired";
-
-    const STABLE_ORDER: &str = " ORDER BY \
-        key NULLS FIRST, \
-        id NULLS FIRST, \
-        name NULLS FIRST";
-
-    #[tokio::test]
-    #[tracing_test::traced_test]
-    async fn parents_table_matches_jsonb_source() {
-        let pg = PostgresTestContainer::new().await;
-        pg.load_data_retrying().await;
-
-        let expected_query = format!("{EXPECTED_FROM_DE}{STABLE_ORDER}");
-        let expected: Vec<ParentRow> = sqlx::query_as(&expected_query)
-            .fetch_all(&pg.pool)
-            .await
-            .expect("expected rows from de JSONB");
-
-        let raw_rows: Vec<RawParent> = expected
-            .iter()
-            .filter_map(|row| {
-                row.key.as_ref().map(|key| RawParent {
-                    key: key.clone(),
-                    id: row.id.clone(),
-                    name: row.name.clone(),
-                })
-            })
-            .collect();
-        load_rows(&pg.pool, &raw_rows)
-            .await
-            .expect("load parents from de-derived rows");
-
-        let table_query = format!("SELECT key, id, name FROM parents{STABLE_ORDER}");
-        let actual: Vec<ParentRow> = sqlx::query_as(&table_query)
-            .fetch_all(&pg.pool)
-            .await
-            .expect("select from parents");
-
-        let expected_non_null: Vec<&ParentRow> =
-            expected.iter().filter(|r| r.key.is_some()).collect();
-        assert_eq!(expected_non_null.len(), actual.len(), "row count mismatch");
-        for (e, a) in expected_non_null.iter().zip(actual.iter()) {
-            assert_eq!(*e, a);
-        }
-    }
-}

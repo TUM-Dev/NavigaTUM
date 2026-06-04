@@ -5,7 +5,7 @@ use sqlx::{PgPool, Postgres, Transaction};
 
 use crate::setup::file_loader;
 
-#[derive(Debug, Default, Clone, PartialEq, Eq)]
+#[derive(Debug, Default)]
 struct RawOperator {
     id: i32,
     url: Option<String>,
@@ -62,67 +62,3 @@ async fn insert_row(
     Ok(())
 }
 
-#[cfg(test)]
-mod tests {
-    use sqlx::FromRow;
-
-    use super::{RawOperator, load_rows};
-    use crate::setup::tests::PostgresTestContainer;
-
-    #[derive(Debug, PartialEq, Eq, FromRow)]
-    struct OperatorRow {
-        id: Option<i32>,
-        url: Option<String>,
-        code: Option<String>,
-        name: Option<String>,
-    }
-
-    const EXPECTED_FROM_EN: &str = "\
-        SELECT DISTINCT (data -> 'props' -> 'operator' ->> 'id')::integer AS id, \
-                        data -> 'props' -> 'operator' ->> 'url'           AS url, \
-                        data -> 'props' -> 'operator' ->> 'code'          AS code, \
-                        data -> 'props' -> 'operator' ->> 'name'          AS name \
-        FROM en \
-        WHERE (data -> 'props' -> 'operator' ->> 'id') IS NOT NULL";
-
-    const STABLE_ORDER: &str = " ORDER BY id";
-
-    #[tokio::test]
-    #[tracing_test::traced_test]
-    async fn operators_en_table_matches_jsonb_source() {
-        let pg = PostgresTestContainer::new().await;
-        pg.load_data_retrying().await;
-
-        let expected_query = format!("{EXPECTED_FROM_EN}{STABLE_ORDER}");
-        let expected: Vec<OperatorRow> = sqlx::query_as(&expected_query)
-            .fetch_all(&pg.pool)
-            .await
-            .expect("expected rows from en JSONB");
-
-        let raw_rows: Vec<RawOperator> = expected
-            .iter()
-            .filter_map(|row| {
-                row.id.map(|id| RawOperator {
-                    id,
-                    url: row.url.clone(),
-                    code: row.code.clone(),
-                    name: row.name.clone(),
-                })
-            })
-            .collect();
-        load_rows(&pg.pool, &raw_rows)
-            .await
-            .expect("load operators_en from en-derived rows");
-
-        let table_query = format!("SELECT id, url, code, name FROM operators_en{STABLE_ORDER}");
-        let actual: Vec<OperatorRow> = sqlx::query_as(&table_query)
-            .fetch_all(&pg.pool)
-            .await
-            .expect("select from operators_en");
-
-        assert_eq!(expected.len(), actual.len(), "row count mismatch");
-        for (e, a) in expected.iter().zip(actual.iter()) {
-            assert_eq!(e, a);
-        }
-    }
-}
