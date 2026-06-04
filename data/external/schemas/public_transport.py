@@ -38,6 +38,6 @@ class StationsSchema(dy.Schema):
 
     id = dy.String(nullable=False, primary_key=True)
     name = dy.String(nullable=False)
-    modes = dy.List(dy.Enum(TRANSPORT_MODES, nullable=False), nullable=False)
+    modes = dy.List(dy.Enum(TRANSPORT_MODES, nullable=False), nullable=False, min_length=1)
     lat = dy.Float64(nullable=False)
     lon = dy.Float64(nullable=False)

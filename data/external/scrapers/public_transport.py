@@ -50,15 +50,6 @@ class Bbox:
         }
 
 
-_EMPTY_STATIONS_SCHEMA = {
-    "id": pl.Utf8,
-    "name": pl.Utf8,
-    "modes": pl.List(pl.Utf8),
-    "lat": pl.Float64,
-    "lon": pl.Float64,
-}
-
-
 def _read_tum_coords() -> pl.DataFrame:
     df = pl.read_csv(_COORDINATES_CSV, schema_overrides={"id": pl.Utf8})
     return df.select(
@@ -188,8 +179,6 @@ def _fold_to_stations(rows: pl.DataFrame) -> pl.DataFrame:
     duplicates per station. `name` is already city-prefixed in German GTFS
     (`"Garching, Forschungszentrum"`), making it a more reliable station key.
     """
-    if rows.is_empty():
-        return pl.DataFrame(schema=_EMPTY_STATIONS_SCHEMA)
     return (
         rows.group_by("name")
         .agg(
