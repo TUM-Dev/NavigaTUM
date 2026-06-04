@@ -7,7 +7,7 @@ Maschinenwesen: [ mw ]
 
 Immathalle: [ Immatrikulationshalle ]
 
-# English ↔ German for "library" (issue #960). First English↔German pair —
+# English ↔ German for "library" (issue #960). First English↔German pair -
 # extend this pattern when adding others (mensa↔cafeteria, hörsaal↔lecture hall, …).
 library: [ Bibliothek, Teilbibliothek, Universitätsbibliothek, Bib, TB ]
 libraries: [ Bibliothek, Teilbibliothek, Universitätsbibliothek, Bib, TB ]
