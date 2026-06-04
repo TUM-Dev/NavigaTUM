@@ -21,13 +21,11 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawParent>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawParent| {
-        match (col, field) {
-            ("key", Field::Str(v)) => r.key.clone_from(v),
-            ("id", Field::Str(v)) => r.id = Some(v.clone()),
-            ("name", Field::Str(v)) => r.name = Some(v.clone()),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawParent| match (col, field) {
+        ("key", Field::Str(v)) => r.key.clone_from(v),
+        ("id", Field::Str(v)) => r.id = Some(v.clone()),
+        ("name", Field::Str(v)) => r.name = Some(v.clone()),
+        _ => {}
     })
 }
 
@@ -39,17 +37,12 @@ async fn load_rows(pool: &PgPool, rows: &[RawParent]) -> anyhow::Result<()> {
     for r in rows {
         insert_row(&mut tx, r).await?;
     }
-    sqlx::query!("ANALYZE parents")
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query!("ANALYZE parents").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawParent,
-) -> Result<(), sqlx::Error> {
+async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawParent) -> Result<(), sqlx::Error> {
     sqlx::query!(
         "INSERT INTO parents (key, id, name) VALUES ($1, $2, $3)",
         r.key,
@@ -121,8 +114,7 @@ mod tests {
             .await
             .expect("load parents from de-derived rows");
 
-        let table_query =
-            format!("SELECT key, id, name FROM parents{STABLE_ORDER}");
+        let table_query = format!("SELECT key, id, name FROM parents{STABLE_ORDER}");
         let actual: Vec<ParentRow> = sqlx::query_as(&table_query)
             .fetch_all(&pg.pool)
             .await

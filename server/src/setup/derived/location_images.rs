@@ -26,18 +26,16 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawImage>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawImage| {
-        match (col, field) {
-            ("key", Field::Str(v)) => r.key.clone_from(v),
-            ("name", Field::Str(v)) => r.name = Some(v.clone()),
-            ("author_url", Field::Str(v)) => r.author_url = Some(v.clone()),
-            ("author_text", Field::Str(v)) => r.author_text = Some(v.clone()),
-            ("source_url", Field::Str(v)) => r.source_url = Some(v.clone()),
-            ("source_text", Field::Str(v)) => r.source_text = Some(v.clone()),
-            ("license_url", Field::Str(v)) => r.license_url = Some(v.clone()),
-            ("license_text", Field::Str(v)) => r.license_text = Some(v.clone()),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawImage| match (col, field) {
+        ("key", Field::Str(v)) => r.key.clone_from(v),
+        ("name", Field::Str(v)) => r.name = Some(v.clone()),
+        ("author_url", Field::Str(v)) => r.author_url = Some(v.clone()),
+        ("author_text", Field::Str(v)) => r.author_text = Some(v.clone()),
+        ("source_url", Field::Str(v)) => r.source_url = Some(v.clone()),
+        ("source_text", Field::Str(v)) => r.source_text = Some(v.clone()),
+        ("license_url", Field::Str(v)) => r.license_url = Some(v.clone()),
+        ("license_text", Field::Str(v)) => r.license_text = Some(v.clone()),
+        _ => {}
     })
 }
 
@@ -56,10 +54,7 @@ async fn load_rows(pool: &PgPool, rows: &[RawImage]) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawImage,
-) -> Result<(), sqlx::Error> {
+async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawImage) -> Result<(), sqlx::Error> {
     sqlx::query!(
         "INSERT INTO location_images (\
             key, name, \

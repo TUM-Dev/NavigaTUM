@@ -22,14 +22,12 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawSource>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawSource| {
-        match (col, field) {
-            ("key", Field::Str(v)) => r.key.clone_from(v),
-            ("url", Field::Str(v)) => r.url = Some(v.clone()),
-            ("name", Field::Str(v)) => r.name = Some(v.clone()),
-            ("patched", Field::Bool(v)) => r.patched = Some(*v),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawSource| match (col, field) {
+        ("key", Field::Str(v)) => r.key.clone_from(v),
+        ("url", Field::Str(v)) => r.url = Some(v.clone()),
+        ("name", Field::Str(v)) => r.name = Some(v.clone()),
+        ("patched", Field::Bool(v)) => r.patched = Some(*v),
+        _ => {}
     })
 }
 
@@ -41,17 +39,12 @@ async fn load_rows(pool: &PgPool, rows: &[RawSource]) -> anyhow::Result<()> {
     for r in rows {
         insert_row(&mut tx, r).await?;
     }
-    sqlx::query!("ANALYZE sources")
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query!("ANALYZE sources").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawSource,
-) -> Result<(), sqlx::Error> {
+async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawSource) -> Result<(), sqlx::Error> {
     sqlx::query!(
         "INSERT INTO sources (key, url, name, patched) VALUES ($1, $2, $3, $4)",
         r.key,
@@ -126,8 +119,7 @@ mod tests {
             .await
             .expect("load sources from de-derived rows");
 
-        let table_query =
-            format!("SELECT key, url, name, patched FROM sources{STABLE_ORDER}");
+        let table_query = format!("SELECT key, url, name, patched FROM sources{STABLE_ORDER}");
         let actual: Vec<SourceRow> = sqlx::query_as(&table_query)
             .fetch_all(&pg.pool)
             .await

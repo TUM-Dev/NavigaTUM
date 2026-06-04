@@ -21,13 +21,11 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawUrl>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawUrl| {
-        match (col, field) {
-            ("key", Field::Str(v)) => r.key.clone_from(v),
-            ("url", Field::Str(v)) => r.url = Some(v.clone()),
-            ("text", Field::Str(v)) => r.text = Some(v.clone()),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawUrl| match (col, field) {
+        ("key", Field::Str(v)) => r.key.clone_from(v),
+        ("url", Field::Str(v)) => r.url = Some(v.clone()),
+        ("text", Field::Str(v)) => r.text = Some(v.clone()),
+        _ => {}
     })
 }
 
@@ -39,17 +37,12 @@ async fn load_rows(pool: &PgPool, rows: &[RawUrl]) -> anyhow::Result<()> {
     for r in rows {
         insert_row(&mut tx, r).await?;
     }
-    sqlx::query!("ANALYZE urls_en")
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query!("ANALYZE urls_en").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawUrl,
-) -> Result<(), sqlx::Error> {
+async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawUrl) -> Result<(), sqlx::Error> {
     sqlx::query!(
         "INSERT INTO urls_en (key, url, text) VALUES ($1, $2, $3)",
         r.key,
@@ -117,15 +110,13 @@ mod tests {
             .await
             .expect("load urls_en from en-derived rows");
 
-        let table_query =
-            format!("SELECT key, url, text FROM urls_en{STABLE_ORDER}");
+        let table_query = format!("SELECT key, url, text FROM urls_en{STABLE_ORDER}");
         let actual: Vec<UrlRow> = sqlx::query_as(&table_query)
             .fetch_all(&pg.pool)
             .await
             .expect("select from urls_en");
 
-        let expected_non_null: Vec<&UrlRow> =
-            expected.iter().filter(|r| r.key.is_some()).collect();
+        let expected_non_null: Vec<&UrlRow> = expected.iter().filter(|r| r.key.is_some()).collect();
         assert_eq!(expected_non_null.len(), actual.len(), "row count mismatch");
         for (e, a) in expected_non_null.iter().zip(actual.iter()) {
             assert_eq!(*e, a);

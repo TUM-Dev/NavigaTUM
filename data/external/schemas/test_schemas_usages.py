@@ -16,7 +16,7 @@ def test_usages_schema_rejects_empty_name() -> None:
 
 
 def test_usages_schema_rejects_duplicate_name() -> None:
-    """Same name with different DIN values is a drift signal — must fail."""
+    """Same name with different DIN values is a drift signal - must fail."""
     invalid = pl.DataFrame(
         {
             "name": ["NF1.2", "NF1.2"],

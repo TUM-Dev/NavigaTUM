@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import polars as pl
-
 from external.schemas.location_images import LocationImagesSchema
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"

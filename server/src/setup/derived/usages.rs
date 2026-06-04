@@ -21,13 +21,11 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawUsage>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawUsage| {
-        match (col, field) {
-            ("name", Field::Str(v)) => r.name.clone_from(v),
-            ("din_277", Field::Str(v)) => r.din_277 = Some(v.clone()),
-            ("din_277_desc", Field::Str(v)) => r.din_277_desc = Some(v.clone()),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawUsage| match (col, field) {
+        ("name", Field::Str(v)) => r.name.clone_from(v),
+        ("din_277", Field::Str(v)) => r.din_277 = Some(v.clone()),
+        ("din_277_desc", Field::Str(v)) => r.din_277_desc = Some(v.clone()),
+        _ => {}
     })
 }
 
@@ -39,18 +37,13 @@ async fn load_rows(pool: &PgPool, rows: &[RawUsage]) -> anyhow::Result<()> {
     for r in rows {
         insert_row(&mut tx, r).await?;
     }
-    sqlx::query!("ANALYZE usages")
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query!("ANALYZE usages").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawUsage,
-) -> Result<(), sqlx::Error> {
-    // `usage_id = hashtext(name)` is computed in SQL — Postgres' hashtext
+async fn insert_row(tx: &mut Transaction<'_, Postgres>, r: &RawUsage) -> Result<(), sqlx::Error> {
+    // `usage_id = hashtext(name)` is computed in SQL - Postgres' hashtext
     // is not reproducible from Polars.
     sqlx::query!(
         "INSERT INTO usages (usage_id, name, din_277, din_277_desc) \
@@ -124,9 +117,8 @@ mod tests {
             .await
             .expect("load usages from de/en-derived rows");
 
-        let table_query = format!(
-            "SELECT usage_id, name, din_277, din_277_desc FROM usages{STABLE_ORDER}"
-        );
+        let table_query =
+            format!("SELECT usage_id, name, din_277, din_277_desc FROM usages{STABLE_ORDER}");
         let actual: Vec<UsageRow> = sqlx::query_as(&table_query)
             .fetch_all(&pg.pool)
             .await

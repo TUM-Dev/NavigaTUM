@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import polars as pl
-
 from external.schemas.operators import OperatorsSchema
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"

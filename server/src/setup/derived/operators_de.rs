@@ -22,14 +22,12 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
 }
 
 fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawOperator>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawOperator| {
-        match (col, field) {
-            ("id", Field::Int(v)) => r.id = *v,
-            ("url", Field::Str(v)) => r.url = Some(v.clone()),
-            ("code", Field::Str(v)) => r.code = Some(v.clone()),
-            ("name", Field::Str(v)) => r.name = Some(v.clone()),
-            _ => {}
-        }
+    super::decode_parquet_rows(body, |col, field, r: &mut RawOperator| match (col, field) {
+        ("id", Field::Int(v)) => r.id = *v,
+        ("url", Field::Str(v)) => r.url = Some(v.clone()),
+        ("code", Field::Str(v)) => r.code = Some(v.clone()),
+        ("name", Field::Str(v)) => r.name = Some(v.clone()),
+        _ => {}
     })
 }
 
@@ -118,8 +116,7 @@ mod tests {
             .await
             .expect("load operators_de from de-derived rows");
 
-        let table_query =
-            format!("SELECT id, url, code, name FROM operators_de{STABLE_ORDER}");
+        let table_query = format!("SELECT id, url, code, name FROM operators_de{STABLE_ORDER}");
         let actual: Vec<OperatorRow> = sqlx::query_as(&table_query)
             .fetch_all(&pg.pool)
             .await
