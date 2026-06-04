@@ -87,7 +87,7 @@ useSeoMeta({
 <template>
   <div v-if="data" class="flex flex-col gap-5 pt-5">
     <small class="text-zinc-500">
-      {{ t("runtime") }}: {{ data.time_ms }}ms –
+      {{ t("runtime") }}: {{ data.time_ms }}ms -
       <button
         data-cy="open-feedback-search"
         type="button"

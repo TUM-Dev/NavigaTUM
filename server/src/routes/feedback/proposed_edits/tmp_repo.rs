@@ -45,7 +45,7 @@ impl Worktree {
         let image_edits = edits.edits_for(|edit| edit.image);
         description.apply_set("image", image_edits, self.dir.path(), branch_name)?;
 
-        // Apply property edits — each entry can have multiple property edits
+        // Apply property edits - each entry can have multiple property edits
         let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits
             .edits
             .0
@@ -139,7 +139,7 @@ impl Drop for Worktree {
     fn drop(&mut self) {
         let bare_path = self.bare_path.clone();
         let dir_path = self.dir.path().to_path_buf();
-        // Best-effort cleanup — fire and forget.
+        // Best-effort cleanup - fire and forget.
         tokio::spawn(async move {
             let path_str = dir_path.to_string_lossy().to_string();
             let _ = Command::new("git")

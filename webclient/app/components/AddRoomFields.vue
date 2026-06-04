@@ -123,7 +123,7 @@ const selectedUsage = computed<UsageOption | null>({
                 v-model="editProposal.pendingAddition.floor_type"
                 class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 w-full rounded border px-2 py-1 text-sm"
               >
-                <option value="">—</option>
+                <option value="">-</option>
                 <option v-for="ft in floorTypeOptions" :key="ft" :value="ft">{{ t(`floor.type_options.${ft}`) }}</option>
               </select>
             </div>

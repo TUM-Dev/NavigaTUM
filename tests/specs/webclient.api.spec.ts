@@ -11,7 +11,7 @@ test.describe("Webclient - Prometheus Metrics", () => {
 
     const body = await response.text();
 
-    // Extract only HELP and TYPE lines for the snapshot — these are stable
+    // Extract only HELP and TYPE lines for the snapshot - these are stable
     // across environments, while metric values, active handles, and resource
     // types vary between dev mode, production, and different Node.js versions.
     const structuralLines = `${body

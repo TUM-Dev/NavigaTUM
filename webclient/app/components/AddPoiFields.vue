@@ -113,7 +113,7 @@ function removeProp(idx: number) {
 de:
   name: Name
   short_description: Kurzbeschreibung
-  short_description_help: Wird in Suchergebnissen und auf Übersichtskarten als Untertitel angezeigt – also dort, wo nur eine Zeile Platz ist (z.B. {ex1}, {ex2}).
+  short_description_help: Wird in Suchergebnissen und auf Übersichtskarten als Untertitel angezeigt - also dort, wo nur eine Zeile Platz ist (z.B. {ex1}, {ex2}).
   short_description_help_ex1: Mensa
   short_description_help_ex2: Bibliothek
   more_options: Weitere Felder
@@ -132,7 +132,7 @@ de:
 en:
   name: Name
   short_description: Short description
-  short_description_help: Shown as the subtitle in search results and on overview maps — wherever only a single line fits (e.g. {ex1}, {ex2}).
+  short_description_help: Shown as the subtitle in search results and on overview maps - wherever only a single line fits (e.g. {ex1}, {ex2}).
   short_description_help_ex1: Cafeteria
   short_description_help_ex2: Library
   more_options: More fields

@@ -1,6 +1,6 @@
 // Zod schemas for the "propose a new entry" forms. These intentionally mirror the Rust validators
 // in `server/src/routes/feedback/proposed_edits/addition/{room,building,poi}.rs`. Whenever the
-// backend rules change, update both — the matching `case` in each Rust validator's rstest table
+// backend rules change, update both - the matching `case` in each Rust validator's rstest table
 // is the source of truth.
 import { z } from "zod";
 import type { AdditionDraft } from "~/composables/editProposal";

@@ -49,7 +49,7 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
     # Type
     row["type"] = entry.get("type")
 
-    # Name — can be str or TranslatableStr
+    # Name - can be str or TranslatableStr
     name = entry.get("name")
     if isinstance(name, (TranslatableStr, dict)) and "de" in name:
         row["name"] = name.get("de", name.get("en", ""))
