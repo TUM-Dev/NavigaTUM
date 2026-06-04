@@ -79,7 +79,7 @@ function close() {
                 <MdiIcon :path="mdiClose" :size="16" />
               </button>
             </div>
-            <div class="bg-white text-zinc-600 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-100">
+            <div class="bg-white text-zinc-600 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-900">
               <slot />
             </div>
           </div>

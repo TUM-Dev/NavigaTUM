@@ -158,7 +158,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
       <div
         v-if="filteredList.length > 0"
         v-bind="containerProps"
-        class="bg-zinc-100 border-zinc-400 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-200"
+        class="bg-zinc-100 border-zinc-400 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-800"
       >
         <ul v-bind="wrapperProps">
           <li>

@@ -151,7 +151,7 @@ function closeLocation() {
       leave-to-class="opacity-0 translate-y-1"
     >
       <PopoverPanel
-        class="ring-black/5 absolute left-0 z-20 mt-2 w-48 rounded-sm bg-white p-2 shadow-lg ring-1 dark:bg-zinc-100">
+        class="ring-black/5 absolute left-0 z-20 mt-2 w-48 rounded-sm bg-white p-2 shadow-lg ring-1 dark:bg-zinc-900">
         <label
           v-for="opt in FACET_OPTIONS"
           :key="opt"
@@ -230,7 +230,7 @@ function closeLocation() {
 
   <!-- Inline usage panel -->
   <div v-if="usageOpen" id="usage-filter-panel" class="order-1 basis-full">
-    <div class="border-zinc-200 bg-white rounded-sm border shadow-sm dark:bg-zinc-100">
+    <div class="border-zinc-200 bg-white rounded-sm border shadow-sm dark:bg-zinc-900">
       <div class="border-zinc-200 flex items-center justify-between border-b px-3 py-2">
         <span class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-700">
           <MdiIcon :path="mdiTagOutline" :size="16"/>
@@ -324,7 +324,7 @@ function closeLocation() {
 
   <!-- Inline location panel -->
   <div v-if="locationOpen" id="location-filter-panel" class="order-1 basis-full">
-    <div class="border-zinc-200 bg-white rounded-sm border shadow-sm dark:bg-zinc-100">
+    <div class="border-zinc-200 bg-white rounded-sm border shadow-sm dark:bg-zinc-900">
       <div class="border-zinc-200 flex items-center justify-between border-b px-3 py-2">
         <span class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-700">
           <MdiIcon :path="mdiMapMarker" :size="16"/>

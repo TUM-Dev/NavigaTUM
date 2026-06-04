@@ -67,7 +67,7 @@ useSeoMeta({
   }
 
   code {
-    @apply text-blue-900 bg-blue-100 mb-4 flex max-w-full flex-col items-start space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-blue-950 dark:bg-blue-50;
+    @apply text-blue-900 bg-blue-100 mb-4 flex max-w-full flex-col items-start space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-blue-950 dark:bg-blue-950;
   }
   code span {
     @apply !ms-0;

@@ -63,7 +63,7 @@ const navigation = computed(() => [
           <Btn to="https://tum.dev" variant="link" size="md" class="!text-sm font-bold">
             <I18nT keypath="madewithlove">
               <template #heart>
-                <MdiIcon :path="mdiHeart" :size="24" class="text-red-500 dark:text-red-300" />
+                <MdiIcon :path="mdiHeart" :size="24" class="text-red-500 dark:text-red-700" />
               </template>
             </I18nT>
           </Btn>

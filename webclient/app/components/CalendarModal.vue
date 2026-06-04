@@ -30,7 +30,7 @@ const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
           <p class="text-sm">
             {{ t("error.reason") }}:<br />
             <code
-              class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-50/20"
+              class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-950/20"
             >
               {{ error }}
             </code>

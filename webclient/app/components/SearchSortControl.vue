@@ -42,7 +42,7 @@ function setSort(next: SortBy) {
         leave-to-class="opacity-0 translate-y-1"
       >
         <PopoverPanel
-          class="ring-black/5 absolute right-0 z-20 mt-2 w-52 rounded-sm bg-white p-1 shadow-lg ring-1 dark:bg-zinc-100"
+          class="ring-black/5 absolute right-0 z-20 mt-2 w-52 rounded-sm bg-white p-1 shadow-lg ring-1 dark:bg-zinc-900"
         >
           <div class="text-zinc-500 px-2 py-1 text-xs font-semibold uppercase tracking-wide">
             {{ t("sort_by") }}
