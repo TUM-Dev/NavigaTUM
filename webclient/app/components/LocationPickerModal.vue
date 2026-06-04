@@ -193,7 +193,7 @@ defineExpose({
     <div class="location-picker">
       <!-- Instructions above map -->
       <div
-        class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
+        class="aspect-4/3 relative border border-zinc-300 dark:border-zinc-600 rounded-lg overflow-hidden"
         :class="{
           'dark:bg-black bg-white': webglSupport,
         }"
@@ -247,7 +247,7 @@ defineExpose({
   /* User location dot styling */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   /* Make the container properly sized */

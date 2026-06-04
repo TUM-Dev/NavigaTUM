@@ -86,12 +86,12 @@ useSeoMeta({
 
 <template>
   <div v-if="data" class="flex flex-col gap-5 pt-5">
-    <small class="text-zinc-500">
+    <small class="text-zinc-500 dark:text-zinc-400">
       {{ t("runtime") }}: {{ data.time_ms }}ms -
       <button
         data-cy="open-feedback-search"
         type="button"
-        class="focusable text-blue-600 visited:text-blue-600 hover:text-blue-500"
+        class="focusable text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:text-blue-500 dark:hover:text-blue-400"
         :aria-label="t('feedback.open')"
         @click="
           () => {

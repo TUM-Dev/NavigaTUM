@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
     :class="props.class"
   >
     <template v-for="(item, i) in props.items" :key="item.to">
-      <span v-if="i > 0" aria-hidden="true" class="text-zinc-500">/</span>
+      <span v-if="i > 0" aria-hidden="true" class="text-zinc-500 dark:text-zinc-400">/</span>
       <li property="itemListElement" typeof="ListItem">
         <NuxtLinkLocale
           :to="item.to"
@@ -21,12 +21,12 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
           typeof="WebPage"
           class="focusable rounded-sm hover:underline"
           :class="{
-            'visited:text-blue-500': i > 0,
-            'visited:text-zinc-500': i === 0,
-            'hover:text-blue-600': i > 0,
-            'hover:text-zinc-600': i === 0,
-            'text-blue-500': i > 0,
-            'text-zinc-500': i === 0,
+            'visited:text-blue-500 dark:visited:text-blue-400': i > 0,
+            'visited:text-zinc-500 dark:visited:text-zinc-400': i === 0,
+            'hover:text-blue-600 dark:hover:text-blue-300': i > 0,
+            'hover:text-zinc-600 dark:hover:text-zinc-300': i === 0,
+            'text-blue-500 dark:text-blue-400': i > 0,
+            'text-zinc-500 dark:text-zinc-400': i === 0,
           }"
         >
           <span property="name">{{ item.name }}</span>

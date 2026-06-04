@@ -12,13 +12,13 @@ const { t } = useI18n({ useScope: "local" });
 <template>
   <div>
     <div v-for="(l, i) in data.legs" :key="i" class="gap-1">
-      <p class="text-zinc-500 mt-3 flex items-center gap-5 pb-4 font-semibold">
+      <p class="text-zinc-500 dark:text-zinc-400 mt-3 flex items-center gap-5 pb-4 font-semibold">
         <span>{{
           l.summary.length_meters >= 1000
             ? t("kilometers", [(l.summary.length_meters / 1000).toFixed(1)])
             : t("meters", l.summary.length_meters)
         }}</span>
-        <span class="border-zinc-500 flex-grow border-t" />
+        <span class="border-zinc-500 dark:border-zinc-400 flex-grow border-t" />
         <span>{{
           l.summary.time_seconds >= 60
             ? t("minutes", Math.ceil(l.summary.time_seconds / 60))
@@ -32,15 +32,15 @@ const { t } = useI18n({ useScope: "local" });
         @click="emit('selectManeuver', { begin_shape_index: m.begin_shape_index, end_shape_index: m.end_shape_index })"
       >
         <div
-          class="bg-zinc-200 flex flex-row items-center gap-3 overflow-auto rounded-md p-2 py-1 group-hover:bg-zinc-300"
+          class="bg-zinc-200 dark:bg-zinc-700 flex flex-row items-center gap-3 overflow-auto rounded-md p-2 py-1 group-hover:bg-zinc-300 dark:group-hover:bg-zinc-600"
           :aria-label="m.verbal_transition_alert_instruction ?? undefined"
         >
           <NavigationRoutingManeuverIcon :type="m.type" />
-          <div class="text-zinc-900">{{ m.instruction }}</div>
+          <div class="text-zinc-900 dark:text-zinc-50">{{ m.instruction }}</div>
         </div>
         <small
           v-if="m.length_meters"
-          class="text-zinc-500"
+          class="text-zinc-500 dark:text-zinc-400"
           :aria-label="m.verbal_post_transition_instruction ?? undefined"
           >{{ t("meters", m.length_meters) }}</small
         >

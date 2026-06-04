@@ -118,13 +118,13 @@ onUnmounted(() => {
 <template>
   <div class="location-picker">
     <div
-      class="aspect-4/3 border-zinc-300 relative overflow-hidden rounded-lg border"
+      class="aspect-4/3 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
       :class="{ 'dark:bg-black bg-white': webglSupport }"
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
       <LazyMapGLNotSupported v-else />
     </div>
-    <p class="text-zinc-500 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
+    <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
   </div>
 </template>
 
@@ -156,7 +156,7 @@ onUnmounted(() => {
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   .maplibregl-map {

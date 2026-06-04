@@ -5,7 +5,7 @@ const { t } = useI18n({ useScope: "local" });
 <template>
   <div>
     <div class="py-12 text-center">
-      <div class="text-zinc-400 mb-4">
+      <div class="text-zinc-400 dark:text-zinc-500 mb-4">
         <svg class="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             stroke-linecap="round"
@@ -15,8 +15,8 @@ const { t } = useI18n({ useScope: "local" });
           />
         </svg>
       </div>
-      <h3 class="text-zinc-700 mb-2 text-lg font-semibold">{{ t("no_routes_found") }}</h3>
-      <p class="text-zinc-500 mb-6 text-sm max-w-md mx-auto">{{ t("no_routes_description") }}</p>
+      <h3 class="text-zinc-700 dark:text-zinc-200 mb-2 text-lg font-semibold">{{ t("no_routes_found") }}</h3>
+      <p class="text-zinc-500 dark:text-zinc-400 mb-6 text-sm max-w-md mx-auto">{{ t("no_routes_description") }}</p>
     </div>
   </div>
 </template>

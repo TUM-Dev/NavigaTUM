@@ -195,12 +195,12 @@ function handleSelectItinerary(itineraryIndex: number) {
         <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
       </ClientOnly>
     </div>
-    <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
+    <div class="bg-zinc-100 dark:bg-zinc-800 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
         v-if="coming_from"
         :to="'/view/' + coming_from"
         property="item"
-        class="focusable text-blue-400 rounded-md pb-2 hover:text-blue-500 hover:underline"
+        class="focusable text-blue-400 dark:text-blue-500 rounded-md pb-2 hover:text-blue-500 dark:hover:text-blue-400 hover:underline"
       >
         <div class="my-auto flex flex-row gap-2">
           <MdiIcon :path="mdiChevronLeft" :size="16" />
@@ -237,7 +237,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
       />
-      <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+      <div v-else-if="status === 'pending'" class="text-zinc-900 dark:text-zinc-50 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
       </div>
@@ -245,7 +245,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         {{ error.message }}
       </Toast>
 
-      <div v-if="status === 'success' && !!data" class="border-zinc-500 border-t p-1" />
+      <div v-if="status === 'success' && !!data" class="border-zinc-500 dark:border-zinc-400 border-t p-1" />
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
     </div>
   </div>

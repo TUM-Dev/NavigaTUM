@@ -157,7 +157,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col overflow-hidden bg-zinc-50">
+  <div class="h-screen flex flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-900">
     <!-- Main Container: Desktop = Row, Mobile = Stack (Map + Overlay) -->
     <!-- Added pt-[65px] to account for fixed header -->
     <div class="relative flex-1 flex flex-col md:flex-row overflow-hidden pt-[65px]">
@@ -167,7 +167,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
       -->
       <div
         ref="sheetContainer"
-        class="bg-zinc-50 z-20 flex flex-col border-zinc-200 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
+        class="bg-zinc-50 dark:bg-zinc-900 z-20 flex flex-col border-zinc-200 dark:border-zinc-700 transition-all duration-300 ease-in-out md:relative md:w-[60%] lg:w-[40%] xl:w-[35%] md:max-w-[40rem] md:h-full md:border-r md:shadow-none max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-md:rounded-t-2xl"
         :class="{
           'max-md:top-[65px]': mobileSheetState === 'up',
           'max-md:max-h-[50vh]': mobileSheetState === 'middle',
@@ -177,7 +177,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
         <!-- Mobile Handle / Toggle -->
         <button
           type="button"
-          class="md:hidden flex w-full justify-center pt-2 pb-2 shrink-0 bg-zinc-50"
+          class="md:hidden flex w-full justify-center pt-2 pb-2 shrink-0 bg-zinc-50 dark:bg-zinc-900"
           :aria-expanded="mobileSheetState === 'up' ? true : mobileSheetState === 'middle' ? true : false"
           aria-controls="sheet-content"
           :aria-label="t('Toggle details sheet')"
@@ -189,7 +189,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
             'cursor-grabbing': isSwiping,
           }"
         >
-          <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500' : 'bg-zinc-300'"></div>
+          <div class="w-12 h-1.5 rounded-full" :class="isSwiping ? 'bg-zinc-500 dark:bg-zinc-400' : 'bg-zinc-300 dark:bg-zinc-600'"></div>
         </button>
 
         <!-- Scrollable Content -->
@@ -227,7 +227,7 @@ const { isSwiping } = useSwipe(sheetContainer, {
       </div>
 
       <!-- Loading State -->
-      <div v-else class="absolute inset-0 z-10 flex items-center justify-center bg-zinc-50/80 backdrop-blur-sm">
+      <div v-else class="absolute inset-0 z-10 flex items-center justify-center bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur-sm">
         <div class="flex flex-col items-center gap-5">
           <Spinner class="h-8 w-8" />
           {{ t("Loading data...") }}

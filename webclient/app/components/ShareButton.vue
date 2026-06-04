@@ -59,21 +59,21 @@ const tabs = [
     class="focusable rounded-sm"
     @click="modalOpen = true"
   >
-    <MdiIcon :path="mdiShare" :size="28" class="text-blue-600 hover:text-blue-900" />
+    <MdiIcon :path="mdiShare" :size="28" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50" />
   </button>
   <ClientOnly>
     <LazyModal v-model="modalOpen" :title="t('share')">
       <TabGroup>
-        <TabList class="mb-4 flex flex-wrap gap-1 rounded-lg bg-zinc-100 p-1">
+        <TabList class="mb-4 flex flex-wrap gap-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
           <Tab v-for="tab in tabs" :key="tab.key" as="template" v-slot="{ selected }">
             <button
               type="button"
               :class="[
                 'flex flex-1 items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-medium leading-5 transition-all',
-                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500 focus:outline-none focus:ring-2',
                 selected
-                  ? 'bg-white text-zinc-700 shadow'
-                  : 'text-zinc-500 hover:bg-white/60 hover:text-zinc-700',
+                  ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow'
+                  : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/60 dark:hover:bg-black/60 hover:text-zinc-700 dark:hover:text-zinc-200',
               ]"
             >
               <MdiIcon :path="tab.icon" :size="16" class="shrink-0" />
@@ -98,7 +98,7 @@ const tabs = [
               </Btn>
             </div>
             <div class="flex flex-col gap-1">
-              <h3 class="text-sm font-semibold text-zinc-600">{{ t("open_in") }}</h3>
+              <h3 class="text-sm font-semibold text-zinc-600 dark:text-zinc-300">{{ t("open_in") }}</h3>
               <Btn
                 variant="link"
                 :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
@@ -123,16 +123,16 @@ const tabs = [
                 :alt="t('qr_code_alt')"
                 width="500"
                 height="500"
-                class="bg-zinc-50 w-100 max-w-64"
+                class="bg-zinc-50 dark:bg-zinc-900 w-100 max-w-64"
               />
             </div>
           </TabPanel>
           <TabPanel class="flex flex-col gap-2 focus:outline-none">
-            <p class="text-sm text-zinc-500">{{ t("embed_description") }}</p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ t("embed_description") }}</p>
             <textarea
               readonly
               rows="3"
-              class="focusable rounded-sm border border-zinc-300 bg-zinc-50 p-2 font-mono text-xs text-zinc-700"
+              class="focusable rounded-sm border border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 p-2 font-mono text-xs text-zinc-700 dark:text-zinc-200"
               :value="embedSnippet"
               @focus="($event.target as HTMLTextAreaElement).select()"
             />

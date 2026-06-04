@@ -40,7 +40,7 @@ const handleNextPage = () => {
       <button
         :disabled="!previousPageCursor"
         @click="handlePreviousPage"
-        class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 bg-zinc-100 rounded hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         <MdiIcon :path="mdiChevronLeft" :size="14" class="mr-1" />
         {{ t("earlier") }}
@@ -48,7 +48,7 @@ const handleNextPage = () => {
       <button
         :disabled="!nextPageCursor"
         @click="handleNextPage"
-        class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 bg-zinc-100 rounded hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="inline-flex items-center px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {{ t("later") }}
         <MdiIcon :path="mdiChevronRight" :size="14" class="ml-1" />
@@ -56,11 +56,11 @@ const handleNextPage = () => {
     </div>
 
     <!-- Large pagination controls (for bottom of list) -->
-    <div v-else class="flex justify-center gap-4 mt-6 pt-4 border-t border-zinc-200">
+    <div v-else class="flex justify-center gap-4 mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-700">
       <button
         :disabled="!previousPageCursor"
         @click="handlePreviousPage"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-black border border-zinc-300 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         <MdiIcon :path="mdiChevronLeft" :size="16" class="mr-2" />
         {{ t("load_earlier_connections") }}
@@ -68,7 +68,7 @@ const handleNextPage = () => {
       <button
         :disabled="!nextPageCursor"
         @click="handleNextPage"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-black border border-zinc-300 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {{ t("load_later_connections") }}
         <MdiIcon :path="mdiChevronRight" :size="16" class="ml-2" />
