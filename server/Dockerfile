@@ -37,7 +37,7 @@ RUN cp external/results/public_transport.parquet output/public_transport.parquet
     && cp -r output/maps/site_plans output/maps/roomfinder \
     && cp -r output/maps/overlays output/maps/overlay
 
-FROM    rust:1.95-alpine AS compiler
+FROM    rust:1.96-alpine AS compiler
 
 # to ache the build this line inludes all the dependencies all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
@@ -67,13 +67,15 @@ COPY    motis-openapi-progenitor/Cargo.* ./motis-openapi-progenitor/
 RUN     mkdir -p ./server/src/ \
         && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
         && mkdir -p ./motis-openapi-progenitor/src/ \
-        && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
+        && : > motis-openapi-progenitor/src/lib.rs \
         && if [ $PROFILE == "release" ]; then cargo build --release; else cargo build; fi \
-        && rm -fr target/${PROFILE}/deps/navigatum*
+        && rm -fr target/${PROFILE}/deps/navigatum* target/${PROFILE}/deps/*motis_openapi_progenitor*
 
 # second run of the image build (including our code)
 COPY    server/.sqlx server/.sqlx
 
+COPY    motis-openapi-progenitor/src motis-openapi-progenitor/src
+COPY    motis-openapi-progenitor/README.md motis-openapi-progenitor/README.md
 COPY    server/src server/src
 COPY    server/migrations server/migrations
 RUN     if [ $PROFILE == "release" ]; then \

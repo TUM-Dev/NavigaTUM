@@ -13,7 +13,7 @@ def _read_csv_typed(path: Path, schema: type[dy.Schema]) -> pl.DataFrame:
 
     Narrowed dtypes (`pl.Enum`, `pl.Categorical`) are read as `pl.String` first so we can
     `str.strip_chars()` before casting to the final dtype. This both mimics the old Pydantic
-    `str_strip_whitespace=True` behaviour and avoids polluting Categorical dictionaries — and
+    `str_strip_whitespace=True` behaviour and avoids polluting Categorical dictionaries - and
     avoids Enum cast errors on stray whitespace (e.g. `"Nationalpark Berchtesgaden\n"`).
     """
     full = schema.to_polars_schema()

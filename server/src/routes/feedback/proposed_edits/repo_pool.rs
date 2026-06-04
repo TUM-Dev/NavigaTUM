@@ -38,7 +38,7 @@ pub struct RepoPool {
 impl RepoPool {
     const FETCH_STALENESS_SECS: u64 = 60;
 
-    /// Create a new `RepoPool`. This is cheap — the actual bare clone is
+    /// Create a new `RepoPool`. This is cheap - the actual bare clone is
     /// deferred until `warm()` is called or the first `create_worktree()`.
     pub fn new() -> Self {
         Self {
@@ -48,7 +48,7 @@ impl RepoPool {
     }
 
     /// Eagerly trigger the bare clone so subsequent requests are fast.
-    /// Safe to call multiple times — only the first call does work.
+    /// Safe to call multiple times - only the first call does work.
     pub async fn warm(&self) {
         match self.get_inner().await {
             Ok(_) => info!("RepoPool warmed up"),
@@ -63,7 +63,7 @@ impl RepoPool {
             .await
     }
 
-    /// Bootstrap the bare repo.  Safe to call on every server start — it will
+    /// Bootstrap the bare repo.  Safe to call on every server start - it will
     /// either clone fresh or prune stale worktrees from a previous run.
     #[tracing::instrument]
     async fn init_bare() -> anyhow::Result<Inner> {
@@ -157,7 +157,7 @@ impl RepoPool {
         }
 
         let _guard = inner.fetch_mutex.lock().await;
-        // Double-check after acquiring the lock — another task may have fetched.
+        // Double-check after acquiring the lock - another task may have fetched.
         let last = inner.last_fetch.load(Ordering::Relaxed);
         if now.saturating_sub(last) < Self::FETCH_STALENESS_SECS {
             return Ok(());
@@ -233,7 +233,7 @@ impl RepoPool {
                 );
             }
         } else {
-            // Existing branch — check it out from the remote tracking ref
+            // Existing branch - check it out from the remote tracking ref
             let remote_ref = format!("origin/{branch}");
             let out = Command::new("git")
                 .current_dir(&inner.bare_path)

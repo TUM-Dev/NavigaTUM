@@ -89,8 +89,8 @@ test.describe("Sites Overview", () => {
     await garchingLink.click();
 
     // The /view/* link must resolve to the canonical /campus/ path and the
-    // detail page must actually render. Asserting on URL alone — or on text
-    // that also exists on the home page — would not catch #2888, where the
+    // detail page must actually render. Asserting on URL alone - or on text
+    // that also exists on the home page - would not catch #2888, where the
     // URL changed but the home page never unmounted.
     await expect(page).toHaveURL(/\/campus\/garching/);
     await expect(page.locator("main")).toContainText(/Anzahl Räume/);
@@ -111,8 +111,8 @@ test.describe("Sites Overview", () => {
   test("should fully mount details after /view redirect (regression #2888)", async ({ page }) => {
     // Regression: clicking a `/view/{id}` link from the prerendered home page
     // updated `window.location` but left the home page mounted instead of the
-    // location detail page. Asserting on URL alone — as the previous tests did
-    // — was not enough to catch this. The whole click-then-render flow has to
+    // location detail page. Asserting on URL alone - as the previous tests did
+    // - was not enough to catch this. The whole click-then-render flow has to
     // land on a detail page that no longer contains the home-page sites grid.
     await page.goto("/", { waitUntil: "networkidle" });
 
@@ -121,7 +121,7 @@ test.describe("Sites Overview", () => {
 
     await expect(page).toHaveURL(/\/site\/physik/);
     await expect(page.locator("main")).toContainText("Physik");
-    // The home page's "Stammgelände" card must no longer be visible — its
+    // The home page's "Stammgelände" card must no longer be visible - its
     // presence is the smoking gun that the home page never unmounted.
     await expect(page.locator("main")).not.toContainText("Stammgelände");
   });

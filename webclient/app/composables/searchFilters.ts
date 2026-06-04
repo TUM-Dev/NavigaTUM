@@ -39,7 +39,7 @@ function activateNearFilter(setter: (coords: string) => void) {
         setter(`${pos.coords.latitude},${pos.coords.longitude}`);
       },
       () => {
-        // Geolocation denied or unavailable — do nothing
+        // Geolocation denied or unavailable - do nothing
       }
     );
   }

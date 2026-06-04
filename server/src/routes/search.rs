@@ -417,7 +417,7 @@ fn build_meilisearch_filter(
         ));
     }
     if !filter_type.is_empty() {
-        // Allowlist enforced by `serde` at deserialise time — unknown values
+        // Allowlist enforced by `serde` at deserialise time - unknown values
         // already turned into a 400 before we got here.
         let facets: Vec<&str> = filter_type.iter().map(|f| f.as_str()).collect();
         filters.push(format!("(facet IN {facets:?})"));
@@ -827,7 +827,7 @@ mod tests {
     #[test]
     fn query_rejects_unknown_facet_type() {
         // Legacy raw types like `joined_building` and `virtual_room` are no
-        // longer valid `?type=` values — serde must reject them so callers get
+        // longer valid `?type=` values - serde must reject them so callers get
         // a loud 400 instead of a silently empty filter.
         for bad in ["joined_building", "virtual_room", "campus", "area", ""] {
             let q = format!("q=foo&type={bad}");

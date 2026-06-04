@@ -27,7 +27,7 @@ Die Technische Universität München wird gesetzlich vertreten durch den Präsid
 ```plain
 Frank Elsinga
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
-Telefon: +49-(0)176 – 56–727-579
+Telefon: +49-(0)176 - 56-727-579
 E-Mail: navigatum (at-symbol) tum.de
 ```
 
@@ -63,7 +63,7 @@ Wir haften nicht für Schäden, die durch die Nutzung dieses Internetangebots en
 Dieser Haftungsausschluss gilt nicht, soweit die Vorschriften des § 839 BGB (Haftung bei Amtspflichtverletzung) einschlägig sind.
 Für etwaige Schäden, die beim Aufrufen oder Herunterladen von Daten durch Schadsoftware oder der Installation oder Nutzung von Software verursacht werden, übernehmen wir keine Haftung.
 
-Falls im Einzelfall erforderlich: Der Haftungsausschluss gilt nicht für Informationen, die in den Anwendungsbereich der Europäischen Dienstleistungsrichtlinie (Richtlinie 2006/123/EG – DLRL) fallen.
+Falls im Einzelfall erforderlich: Der Haftungsausschluss gilt nicht für Informationen, die in den Anwendungsbereich der Europäischen Dienstleistungsrichtlinie (Richtlinie 2006/123/EG - DLRL) fallen.
 Für diese Informationen wird die Richtigkeit und Aktualität gewährleistet.
 
 ## Links

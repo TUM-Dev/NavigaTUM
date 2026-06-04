@@ -15,7 +15,7 @@ const osmEditUrl = computed(() => {
   return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
 });
 
-// Known usages for category dropdown — cached across modal opens
+// Known usages for category dropdown - cached across modal opens
 const runtimeConfig = useRuntimeConfig();
 const { data: knownUsages } = useAsyncData(
   "known_usages",
@@ -119,7 +119,7 @@ function injectPropertyEdits() {
   editProposal.value.data.edits[roomId].properties = propertyEdits;
 }
 
-// Watch for submission — inject property edits when the modal data changes
+// Watch for submission - inject property edits when the modal data changes
 watch(
   () => editProposal.value.open,
   (isOpen) => {
@@ -349,7 +349,7 @@ function getEditTypeDisplay(roomId: string): string {
                 v-model="selectedCategory"
                 class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
               >
-                <option value="">—</option>
+                <option value="">-</option>
                 <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
                   {{ opt.label }}
                 </option>
@@ -398,7 +398,7 @@ function getEditTypeDisplay(roomId: string): string {
       <div class="pt-4 pb-2" v-if="Object.keys(editProposal.data.edits).length">
         <label class="text-zinc-600 text-sm font-semibold">{{ t("current_edits") }}</label>
         <div class="space-y-2 mt-2">
-          <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
+          <div v-for="roomId in Object.keys(editProposal.data.edits)" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
             <div class="flex justify-between items-start">
               <div class="flex-grow">
                 <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>

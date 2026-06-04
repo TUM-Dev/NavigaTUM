@@ -113,7 +113,7 @@ function _send() {
             }
           })
           .catch(() => {
-            // body wasn't JSON — leave the generic message in place
+            // body wasn't JSON - leave the generic message in place
           });
       } else {
         // we reset the token here to be sure that it is the cause of the error
@@ -182,7 +182,7 @@ function sendForm() {
       <ul class="mt-1 list-disc pl-5 text-sm text-red-900">
         <li v-for="failure in validationFailures" :key="failure.key">
           <code class="bg-red-100 rounded px-1 py-0.5 text-xs">{{ failure.key }}</code>
-          — {{ failure.error }}
+          - {{ failure.error }}
         </li>
       </ul>
     </div>

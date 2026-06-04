@@ -45,7 +45,7 @@ const searchUrl = computed(() => {
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 
-// Manual debounced fetch — useFetch with `immediate: false` + `lazy` was firing inconsistently
+// Manual debounced fetch - useFetch with `immediate: false` + `lazy` was firing inconsistently
 // against an empty URL, leaving `searchResults` in a half-state that broke the entries computed.
 const searchResults = ref<SearchResponse | null>(null);
 let searchCounter = 0;

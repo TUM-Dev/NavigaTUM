@@ -3,7 +3,6 @@ import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import {
   mdiAccountMultiple,
   mdiBike,
-  mdiBikeFast,
   mdiBus,
   mdiCar,
   mdiEye,

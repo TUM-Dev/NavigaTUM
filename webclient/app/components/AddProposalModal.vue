@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiClose, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
@@ -108,13 +108,13 @@ const roomParentPrefix = computed(() => {
   return numeric ?? parentId;
 });
 
-// Floors known on the parent — what the TUMonline room-code uses for the floor segment.
+// Floors known on the parent - what the TUMonline room-code uses for the floor segment.
 type ParentFloorOption = { tumonline: string; label: string };
 const parentFloorOptions = computed<ParentFloorOption[]>(() => {
   const floors = parentDetails.value?.props?.floors ?? [];
   return floors
     .filter((f) => !!f.tumonline)
-    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} — ${f.short_name || f.name}` }));
+    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
 // Room IDs follow PARENT.FLOOR.NUMBER. The parent segment is auto-filled and disabled so users
@@ -261,7 +261,7 @@ function commitDraft(): { id: string; displayName: string } | null {
 
 function commitAddition() {
   if (!commitDraft()) return;
-  // Hand back to the Propose Changes modal — submission/privacy/send live there.
+  // Hand back to the Propose Changes modal - submission/privacy/send live there.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
 }
@@ -327,14 +327,6 @@ const mapLon = computed({
   },
 });
 
-function idHint() {
-  const kind = editProposal.value.pendingAddition.kind;
-  if (kind === "room") return t("id_hint.room");
-  if (kind === "building") return t("id_hint.building");
-  if (kind === "poi") return t("id_hint.poi");
-  return "";
-}
-
 // Share id-validation state with per-kind sub-components (e.g. AddBuildingFields renders the id
 // input itself inside its Identifiers fieldset).
 provide("addProposal:idValidation", {
@@ -360,7 +352,7 @@ watch(
     <div class="space-y-3">
       <TabGroup :selected-index="kindIndex < 0 ? 0 : kindIndex" :default-index="0">
         <TabList class="bg-zinc-100 flex space-x-1 rounded-lg p-1">
-          <Tab v-for="opt in kindOptions" :key="opt.value" v-slot="{ selected }" as="template">
+          <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <button
               :class="[
                 'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
@@ -431,7 +423,7 @@ watch(
               class="focusable bg-zinc-200 text-zinc-900 w-32 rounded border px-2 py-1 text-sm"
               :class="roomIdFormatError ? 'border-red-500' : 'border-zinc-400'"
             >
-              <option value="">—</option>
+              <option value="">-</option>
               <option v-for="f in parentFloorOptions" :key="f.tumonline" :value="f.tumonline">{{ f.label }}</option>
             </select>
             <input

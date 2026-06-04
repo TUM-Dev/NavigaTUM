@@ -61,7 +61,7 @@ fn add_static_openapi_docs(openapi: &mut OpenApi) {
     use utoipa::openapi::external_docs::ExternalDocsBuilder;
     use utoipa::openapi::tag::TagBuilder;
     use utoipa::openapi::{ContactBuilder, InfoBuilder, LicenseBuilder, ServerBuilder};
-    let description = r"Navigating around TUM with excellence – An API to search for rooms,
+    let description = r"Navigating around TUM with excellence - An API to search for rooms,
 buildings and other places
 
 NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
