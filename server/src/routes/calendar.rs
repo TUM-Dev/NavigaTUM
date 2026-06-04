@@ -409,8 +409,12 @@ mod db_tests {
         for (key, data) in locations {
             for lang in ["de", "en"] {
                 let sql = match lang {
-                    "de" => "INSERT INTO de(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)",
-                    "en" => "INSERT INTO en(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)",
+                    "de" => {
+                        "INSERT INTO de(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
+                    "en" => {
+                        "INSERT INTO en(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
                     _ => unreachable!(),
                 };
                 sqlx::query(sql)
