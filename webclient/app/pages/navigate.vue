@@ -33,6 +33,7 @@ definePageMeta({
 const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
+const runtimeConfig = useRuntimeConfig();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
@@ -54,9 +55,11 @@ type NavigationResponse =
 const timeSelection = ref<TimeSelection | undefined>(undefined);
 const debouncedTimeSelection = refDebounced(timeSelection, 200);
 const motisPageCursor = ref<string | undefined>(undefined);
+// Currently selected itinerary for map display
+const selectedItineraryIndex = ref(0);
 
 const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
+  `${runtimeConfig.public.apiURL}/api/maps/route`,
   {
     query: computed(() => ({
       lang: locale.value,
@@ -78,18 +81,20 @@ const { data, status, error } = await useFetch<NavigationResponse>(
   }
 );
 
-effect(() => {
-  if (!data.value || !indoorMap.value) return;
-  if (data.value.router === "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
-  if (data.value?.router === "motis") {
-    // Reset to first itinerary when data changes
-    selectedItineraryIndex.value = 0;
-    // Draw the first itinerary if available
-    if (data.value.itineraries.length > 0 && indoorMap.value && data.value.itineraries[0]) {
-      indoorMap.value.drawMotisItinerary(data.value.itineraries[0]);
+watch(
+  [data, indoorMap],
+  ([newData, newMap]) => {
+    if (!newData || !newMap) return;
+    if (newData.router === "valhalla") newMap.drawRoute(newData.legs[0].shape);
+    if (newData.router === "motis") {
+      selectedItineraryIndex.value = 0;
+      if (newData.itineraries.length > 0 && newData.itineraries[0]) {
+        newMap.drawMotisItinerary(newData.itineraries[0]);
+      }
     }
-  }
-});
+  },
+  { immediate: true }
+);
 
 const title = computed(() => {
   if (selected_from.value && selected_to.value)
@@ -150,9 +155,6 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
 function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_index: number }) {
   setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
 }
-
-// Currently selected itinerary for map display
-const selectedItineraryIndex = ref(0);
 
 function handleSelectLeg(itineraryIndex: number, legIndex: number) {
   console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
