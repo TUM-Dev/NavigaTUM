@@ -18,14 +18,11 @@ import {
   decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
-  type PlatformChangeMarker,
 } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
-type MotisLegResponse = components["schemas"]["MotisLegResponse"];
-type PlaceResponse = components["schemas"]["PlaceResponse"];
 
 // Simplified GeoJSON Feature type to avoid deep type inference
 interface SimpleGeoJSONFeature {

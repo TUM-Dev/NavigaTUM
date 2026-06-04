@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   mdiArrowLeft,
-  mdiArrowLeftTop,
   mdiArrowRight,
   mdiArrowTopLeft,
   mdiArrowTopRight,

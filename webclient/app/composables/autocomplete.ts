@@ -1,7 +1,6 @@
 import type { components } from "~/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
-type ResultEntry = components["schemas"]["ResultEntry"];
 
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the

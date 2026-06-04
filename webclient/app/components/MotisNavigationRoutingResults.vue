@@ -76,14 +76,6 @@ const backToSummary = () => {
   selectedItineraryIndex.value = null;
 };
 
-// Handle leg selection - this should show details if not already showing
-const handleLegSelect = (itineraryIndex: number, legIndex: number) => {
-  if (viewMode.value === "summary") {
-    showItineraryDetails(itineraryIndex);
-  }
-  emit("selectLeg", itineraryIndex, legIndex);
-};
-
 // Handle itinerary selection
 const handleItinerarySelect = (itineraryIndex: number) => {
   showItineraryDetails(itineraryIndex);
@@ -329,7 +321,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
             <MotisDirectConnections
               :connections="[data.direct[Math.abs(selectedItineraryIndex + 1)]!]"
               @select-leg="
-                (itineraryIndex, legIndex) =>
+                (_, legIndex) =>
                   selectedItineraryIndex !== null && emit('selectLeg', Math.abs(selectedItineraryIndex + 1), legIndex)
               "
             />
