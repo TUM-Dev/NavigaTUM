@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "ANALYZE sources",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "ee5882c99d740dd33f8e45b4b1bf156e7de0c35df5327f382d7f9d1488264da9"
+}

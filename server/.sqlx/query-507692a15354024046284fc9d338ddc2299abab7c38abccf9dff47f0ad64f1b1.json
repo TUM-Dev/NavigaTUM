@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "ANALYZE ranking_factors",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "507692a15354024046284fc9d338ddc2299abab7c38abccf9dff47f0ad64f1b1"
+}

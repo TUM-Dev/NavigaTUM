@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO ranking_factors (id, rank_type, rank_combined, rank_usage, rank_custom, rank_boost) VALUES ($1, $2, $3, $4, $5, $6)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Int4",
+        "Int4",
+        "Int4",
+        "Int4",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "a8aaa162e6e0f8f22265fbfa407d32cc230013d8e8f7ddf51077bfcc0d2fb2af"
+}

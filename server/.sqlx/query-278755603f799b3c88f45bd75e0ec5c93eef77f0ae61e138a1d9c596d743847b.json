@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "TRUNCATE TABLE operators_de",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "278755603f799b3c88f45bd75e0ec5c93eef77f0ae61e138a1d9c596d743847b"
+}

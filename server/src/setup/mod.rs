@@ -1,4 +1,5 @@
 pub mod database;
+pub(crate) mod derived;
 mod file_loader;
 
 pub(crate) mod events;

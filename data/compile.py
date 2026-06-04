@@ -21,6 +21,13 @@ from processors import (
     tumonline,
 )
 from processors.df_utils import ensure_columns
+from processors.exports import location_images as location_images_export
+from processors.exports import operators as operators_export
+from processors.exports import parents as parents_export
+from processors.exports import ranking_factors as ranking_factors_export
+from processors.exports import sources as sources_export
+from processors.exports import urls as urls_export
+from processors.exports import usages as usages_export
 from processors.sitemap import SimplifiedSitemaps
 from utils import DEV_MODE, setup_logging
 
@@ -263,6 +270,15 @@ def _run_pipeline(
     export.export_known_usages(df)
     export.export_tumonline_orgs_parquet()
     export.export_events_parquet()
+    ranking_factors_export.export_ranking_factors_parquet(df)
+    operators_export.export_operators_de_parquet(df)
+    operators_export.export_operators_en_parquet(df)
+    sources_export.export_sources_parquet(df)
+    usages_export.export_usages_parquet(df)
+    urls_export.export_urls_de_parquet(df)
+    urls_export.export_urls_en_parquet(df)
+    parents_export.export_parents_parquet(df)
+    location_images_export.export_location_images_parquet(df)
     sitemap.generate_sitemap(
         old_data=fut_old_data.result(),
         old_sitemaps=fut_old_sitemaps.result(),

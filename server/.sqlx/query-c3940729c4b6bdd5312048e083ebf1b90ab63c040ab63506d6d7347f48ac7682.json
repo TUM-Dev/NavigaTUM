@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "ANALYZE location_images",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "c3940729c4b6bdd5312048e083ebf1b90ab63c040ab63506d6d7347f48ac7682"
+}
