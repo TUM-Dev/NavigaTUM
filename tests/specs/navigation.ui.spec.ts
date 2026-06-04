@@ -45,11 +45,7 @@ test.describe("Navigation Page - Transportation Modes", () => {
     await expect(page).toHaveURL(/mode=bicycle/);
   });
 
-  // Regression test for https://github.com/TUM-Dev/NavigaTUM/issues/2091:
-  // clicking a different transport mode used to leave the map's polyline stale
-  // until the user also clicked a step in the route planner. The map canvas
-  // should look materially different for two different transport modes between
-  // the same endpoints.
+  // Regression test for TUM-Dev/NavigaTUM#2091: mode switch left polyline stale.
   test("clicking a mode button redraws the route on the map", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/mode=pedestrian/);
