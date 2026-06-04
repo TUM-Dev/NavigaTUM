@@ -214,6 +214,9 @@ const suggestLocationFix = () => {
       <ClientOnly>
         <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview"/>
       </ClientOnly>
+      <ClientOnly>
+        <LazyDetailsNearbyTransportSection :id="data.id"/>
+      </ClientOnly>
       <DetailsSources
         :coords="data.coords"
         :sources="data.sources"
