@@ -44,6 +44,34 @@ test.describe("Navigation Page - Transportation Modes", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=bicycle", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/mode=bicycle/);
   });
+
+  // Regression test for https://github.com/TUM-Dev/NavigaTUM/issues/2091:
+  // clicking a different transport mode used to leave the map's polyline stale
+  // until the user also clicked a step in the route planner. The map canvas
+  // should look materially different for two different transport modes between
+  // the same endpoints.
+  test("clicking a mode button redraws the route on the map", async ({ page }) => {
+    await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL(/mode=pedestrian/);
+
+    const mapCanvas = page.locator("#interactive-indoor-map canvas").first();
+    await expect(mapCanvas).toBeVisible();
+    const before = await mapCanvas.screenshot();
+
+    const bikeRoute = page.waitForResponse(
+      (res) =>
+        res.url().includes("/api/maps/route") &&
+        res.url().includes("route_costing=bicycle") &&
+        res.status() === 200
+    );
+    await page.getByLabel("Fahrrad").click();
+    await bikeRoute;
+    await expect(page).toHaveURL(/mode=bicycle/);
+    await page.waitForLoadState("networkidle");
+
+    const after = await mapCanvas.screenshot();
+    expect(before.equals(after)).toBe(false);
+  });
 });
 
 test.describe("Navigation Page - Map Display", () => {
