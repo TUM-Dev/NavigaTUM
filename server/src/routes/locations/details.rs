@@ -633,7 +633,7 @@ mod tests {
             .service(get_handler);
         let app = actix_web::test::init_service(app).await;
         let req = actix_web::test::TestRequest::get()
-            .uri(&format!("/{key}"))
+            .uri(&format!("/api/locations/{key}"))
             .to_request();
         let (_, resp) = actix_web::test::call_service(&app, req).await.into_parts();
 

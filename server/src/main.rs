@@ -49,8 +49,11 @@ pub struct AppData {
 
 impl AppData {
     async fn new() -> Self {
+        // max bumped to fit 9 parallel derived-table setups (plus headroom
+        // for calendar refresh and request handling).
         let pool = PgPoolOptions::new()
             .min_connections(2)
+            .max_connections(20)
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
@@ -192,33 +195,32 @@ async fn run_maintenance_work(
         setup::events::setup(&pool)
             .await
             .expect("events table setup to succeed");
-        setup::derived::ranking_factors::setup(&pool)
-            .await
-            .expect("ranking_factors table setup to succeed");
-        setup::derived::operators_de::setup(&pool)
-            .await
-            .expect("operators_de table setup to succeed");
-        setup::derived::operators_en::setup(&pool)
-            .await
-            .expect("operators_en table setup to succeed");
-        setup::derived::sources::setup(&pool)
-            .await
-            .expect("sources table setup to succeed");
-        setup::derived::usages::setup(&pool)
-            .await
-            .expect("usages table setup to succeed");
-        setup::derived::urls_de::setup(&pool)
-            .await
-            .expect("urls_de table setup to succeed");
-        setup::derived::urls_en::setup(&pool)
-            .await
-            .expect("urls_en table setup to succeed");
-        setup::derived::parents::setup(&pool)
-            .await
-            .expect("parents table setup to succeed");
-        setup::derived::location_images::setup(&pool)
-            .await
-            .expect("location_images table setup to succeed");
+        // The 9 derived-table loaders have no inter-dependencies (each
+        // FKs back to `de` or `en`, never to another derived table) and
+        // can populate concurrently once `database::load_data` returns.
+        let mut derived_set = JoinSet::new();
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::ranking_factors::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::operators_de::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::operators_en::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::sources::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::usages::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::urls_de::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::urls_en::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::parents::setup(&p).await });
+        let p = pool.clone();
+        derived_set.spawn(async move { setup::derived::location_images::setup(&p).await });
+        while let Some(res) = derived_set.join_next().await {
+            res.expect("derived table task to complete")
+                .expect("derived table setup to succeed");
+        }
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();

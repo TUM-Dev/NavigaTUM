@@ -8,11 +8,11 @@ use crate::setup::file_loader;
 #[derive(Debug, Default)]
 struct RawRankingFactors {
     id: String,
-    rank_type: Option<i32>,
-    rank_combined: Option<i32>,
-    rank_usage: Option<i32>,
-    rank_custom: Option<i32>,
-    rank_boost: Option<i32>,
+    rank_type: Option<i16>,
+    rank_combined: Option<i16>,
+    rank_usage: Option<i16>,
+    rank_custom: Option<i16>,
+    rank_boost: Option<i16>,
 }
 
 #[tracing::instrument(skip(pool))]
@@ -27,11 +27,14 @@ fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawRankingFactors>> {
     super::decode_parquet_rows(body, |col, field, r: &mut RawRankingFactors| {
         match (col, field) {
             ("id", Field::Str(v)) => r.id.clone_from(v),
-            ("rank_type", Field::Int(v)) => r.rank_type = Some(*v),
-            ("rank_combined", Field::Int(v)) => r.rank_combined = Some(*v),
-            ("rank_usage", Field::Int(v)) => r.rank_usage = Some(*v),
-            ("rank_custom", Field::Int(v)) => r.rank_custom = Some(*v),
-            ("rank_boost", Field::Int(v)) => r.rank_boost = Some(*v),
+            // SMALLINT in PG; dataframely Int16 → polars Int16 → parquet
+            // physical INT32. Truncation here is safe because the schema
+            // validates the i16 range before writing.
+            ("rank_type", Field::Int(v)) => r.rank_type = Some(*v as i16),
+            ("rank_combined", Field::Int(v)) => r.rank_combined = Some(*v as i16),
+            ("rank_usage", Field::Int(v)) => r.rank_usage = Some(*v as i16),
+            ("rank_custom", Field::Int(v)) => r.rank_custom = Some(*v as i16),
+            ("rank_boost", Field::Int(v)) => r.rank_boost = Some(*v as i16),
             _ => {}
         }
     })
