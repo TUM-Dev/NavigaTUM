@@ -241,7 +241,7 @@ test.describe("API Endpoints - Nearby Locations", () => {
   // "Garching, Forschungszentrum". Motis returns several platform rows for that
   // station (subway tracks expose `parentId`, bus tracks don't), and the scraper
   // has to fold them into a single row with both modes. If it regresses, this
-  // station shows up multiple times and/or with only one mode — that's the
+  // station shows up multiple times and/or with only one mode - that's the
   // single most likely regression on this endpoint.
   test("folds motis platforms into one station with all served modes", async ({ request }) => {
     const response = await request.get("/api/locations/mi/nearby");

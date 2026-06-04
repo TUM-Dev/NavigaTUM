@@ -26,7 +26,7 @@ _BBOX_PAD_KM = 1.5
 # Courtesy cadence agreed with the motis maintainers; transitous is a free community service.
 _INTER_REQUEST_DELAY_S = 1.5
 
-# Equirectangular projection at mid-Bavaria — accurate enough for sub-kilometre clustering
+# Equirectangular projection at mid-Bavaria - accurate enough for sub-kilometre clustering
 # decisions at TUM latitudes (~47-49 deg N).
 _REF_LAT_DEG = 48.5
 _KM_PER_DEG_LAT = 111.0
@@ -210,7 +210,7 @@ def scrape_stations() -> None:
             all_rows.extend(_stops_to_rows(stops))
 
     if not all_rows:
-        raise RuntimeError("motis returned no stops across all bboxes — refusing to overwrite parquet")
+        raise RuntimeError("motis returned no stops across all bboxes - refusing to overwrite parquet")
     stations = _fold_to_stations(pl.DataFrame(all_rows, infer_schema_length=None)).sort("id")
     stations = stations.with_columns(
         pl.col("modes").list.eval(pl.element().cast(pl.Enum(TRANSPORT_MODES))),
