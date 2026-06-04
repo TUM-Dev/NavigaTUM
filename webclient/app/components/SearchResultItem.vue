@@ -26,10 +26,16 @@ defineProps<{
         </div>
         <span v-else class="line-clamp-1" v-html="item.name" />
       </div>
-      <small>
+      <small
+        v-if="
+          item.subtext ||
+          ((item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi') && item.subtext_bold)
+        "
+      >
         {{ item.subtext }}
-        <template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
-          >, <b v-html="item.subtext_bold"
+        <template
+          v-if="(item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi') && item.subtext_bold"
+          ><template v-if="item.subtext">, </template><b v-html="item.subtext_bold"
         /></template>
       </small>
     </div>

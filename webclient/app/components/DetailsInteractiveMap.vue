@@ -141,7 +141,7 @@ function initMap(containerId: string): MapLibreMap {
       const availableFloorIds = props.floors.map((floor) => floor.id);
       floorControl.value.setAvailableFloors(availableFloorIds);
       if (props.floors.length === 1) {
-        floorControl.value.setLevel(availableFloorIds[0] || null);
+        floorControl.value.setLevel(availableFloorIds[0] ?? null);
       }
     }
   });
