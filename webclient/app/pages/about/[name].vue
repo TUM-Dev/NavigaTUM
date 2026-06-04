@@ -35,6 +35,8 @@ useSeoMeta({
 </template>
 
 <style lang="postcss">
+@reference "~/assets/css/main.css";
+
 #contentwrapper {
   h1 {
     @apply text-zinc-900 pb-3 pt-4 text-3xl font-medium;

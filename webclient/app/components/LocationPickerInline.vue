@@ -156,7 +156,7 @@ onUnmounted(() => {
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   .maplibregl-map {

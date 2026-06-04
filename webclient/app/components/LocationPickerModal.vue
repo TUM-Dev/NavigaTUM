@@ -247,7 +247,7 @@ defineExpose({
   /* User location dot styling */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   /* Make the container properly sized */

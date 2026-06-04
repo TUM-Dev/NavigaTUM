@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-blue-50: #f3f6fc;
+  --color-blue-100: #e5edf9;
+  --color-blue-200: #c6d9f1;
+  --color-blue-300: #93bae6;
+  --color-blue-400: #5a97d6;
+  --color-blue-500: #3070b3;
+  --color-blue-600: #245fa5;
+  --color-blue-700: #1f4d85;
+  --color-blue-800: #1d426f;
+  --color-blue-900: #1d385d;
+  --color-blue-950: #13243e;
+  --color-blue: #3070b3;
+
+  --color-fuchsia-pink-50: #faf5fa;
+  --color-fuchsia-pink-100: #f7ecf6;
+  --color-fuchsia-pink-200: #f1d9f0;
+  --color-fuchsia-pink-300: #e6bbe2;
+  --color-fuchsia-pink-400: #d591cf;
+  --color-fuchsia-pink-500: #c56fb9;
+  --color-fuchsia-pink-600: #b55ca5;
+  --color-fuchsia-pink-700: #973f85;
+  --color-fuchsia-pink-800: #7d376d;
+  --color-fuchsia-pink-900: #6a315d;
+  --color-fuchsia-pink-950: #3f1837;
+  --color-fuchsia-pink: #b55ca5;
+}
+
+body {
+  background-color: var(--color-zinc-50);
+}
+
+.dark body {
+  background-color: var(--color-zinc-900);
+}
+
+/* v-cloak is set until vue loaded */
+[v-cloak] {
+  display: none;
+}
+
+.focusable {
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus-visible:outline-0;
+}
+
+/* see https://www.youtube.com/watch?v=cH8VbLM1958 why this is here */
+* {
+  min-width: 0;
+}
