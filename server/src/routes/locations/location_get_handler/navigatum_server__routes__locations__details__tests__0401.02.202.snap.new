@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "2202@0401"
+  ],
+  "coords": {
+    "lat": 48.14842851268828,
+    "lon": 11.564122841401296,
+    "source": "roomfinder"
+  },
+  "id": "0401.02.202",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0401.02.202 (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südwestgelände",
+    "Richard-Wagner-Str. 18"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedwestgelaende",
+    "0401"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0401.02.202"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "2202"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Richard-Wagner-Str. 18, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVR35",
+      "id": 26036,
+      "name": "Finanzbuchhaltung (Referat 35)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=26036"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0401.02.202",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7115"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=2202@0401&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

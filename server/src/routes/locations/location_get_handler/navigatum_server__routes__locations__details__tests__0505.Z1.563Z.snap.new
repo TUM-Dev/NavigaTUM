@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "Z563@0505"
+  ],
+  "coords": {
+    "lat": 48.15002700153411,
+    "lon": 11.567081606050753,
+    "source": "roomfinder"
+  },
+  "id": "0505.Z1.563Z",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0505.Z1.563Z (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Wirtschaftswissenschaften"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0505"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0505.Z1.563Z"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "Z563"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Zwischengeschoss, über EG"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      }
+    ],
+    "operator": {
+      "code": "TUWIB21",
+      "id": 44544,
+      "name": "Lehrstuhl für Forschungs- und Wissenschaftsmanagement (Prof. Peus)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=44544"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0505.Z1.563Z",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=64606"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=Z563@0505&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

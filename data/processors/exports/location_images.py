@@ -33,4 +33,4 @@ def export_location_images_parquet(df: pl.DataFrame) -> None:
             )
 
     out = pl.DataFrame(rows, schema=LocationImagesSchema.to_polars_schema())
-    LocationImagesSchema.write_parquet(out, OUTPUT_DIR / "location_images.parquet")
+    LocationImagesSchema.write_parquet(LocationImagesSchema.validate(out), OUTPUT_DIR / "location_images.parquet")

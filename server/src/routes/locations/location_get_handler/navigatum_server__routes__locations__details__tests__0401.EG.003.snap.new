@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0003@0401"
+  ],
+  "coords": {
+    "lat": 48.148381143327256,
+    "lon": 11.564100538907963,
+    "source": "roomfinder"
+  },
+  "id": "0401.EG.003",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0401.EG.003 (SAP-Schulungsraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südwestgelände",
+    "Richard-Wagner-Str. 18"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedwestgelaende",
+    "0401"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0401.EG.003"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0003"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Richard-Wagner-Str. 18, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUZVR72",
+      "id": 26126,
+      "name": "SAP-Team",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=26126"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/0401.EG.003",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7031"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=0003@0401&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Übungsraum"
+}

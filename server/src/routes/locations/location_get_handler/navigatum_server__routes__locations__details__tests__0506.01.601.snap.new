@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1601@0506"
+  ],
+  "coords": {
+    "lat": 48.15005537207176,
+    "lon": 11.567540388307595,
+    "source": "roomfinder"
+  },
+  "id": "0506.01.601",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.01.601 (Theresianum, 1601, Hörsaal eben, ohne exp. Bühne)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=12511",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.01.601"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1601"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1 (1. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "1. OG + 1 Zwischengeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 900,
+    "rank_type": 100,
+    "rank_usage": 900
+  },
+  "redirect_url": "/room/0506.01.601",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7365"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=1601@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Hörsaal"
+}

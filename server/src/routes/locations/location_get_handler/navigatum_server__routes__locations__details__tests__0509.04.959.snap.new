@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "3959@0509"
+  ],
+  "coords": {
+    "lat": 48.14919598837929,
+    "lon": 11.566874321622116,
+    "source": "roomfinder"
+  },
+  "id": "0509.04.959",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.04.959 (Flur)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.04.959"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "3959"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "3 (3. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 4,
+        "name": "3. OG + 1 Zwischengeschoss",
+        "short_name": "3",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 2,
+    "rank_type": 100,
+    "rank_usage": 2
+  },
+  "redirect_url": "/room/0509.04.959",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=39482"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=3959@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Flur"
+}

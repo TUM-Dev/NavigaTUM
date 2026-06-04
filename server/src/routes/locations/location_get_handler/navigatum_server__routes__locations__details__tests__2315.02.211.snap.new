@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "15211@2315"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.18069617628951,
+    "lon": 11.54610558014624,
+    "source": "inferred"
+  },
+  "id": "2315.02.211",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "2315.02.211 (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark",
+    "Präventionszentrum"
+  ],
+  "parents": [
+    "root",
+    "olympiapark",
+    "2315"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "2315.02.211"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "15211"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Am Olympiacampus 12, 80809 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZEZHS",
+      "id": 19672,
+      "name": "Zentraler Hochschulsport",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19672"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/2315.02.211",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=9566"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

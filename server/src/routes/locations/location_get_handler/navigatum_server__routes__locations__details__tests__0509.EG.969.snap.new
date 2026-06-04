@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0969@0509"
+  ],
+  "coords": {
+    "lat": 48.14950788138249,
+    "lon": 11.56699631061653,
+    "source": "roomfinder"
+  },
+  "id": "0509.EG.969",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.EG.969 (Kühlraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.EG.969"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0969"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUPESWM",
+      "id": 39687,
+      "name": "Studentenwerk München",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=39687"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0509.EG.969",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38167"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=0969@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Kühlraum"
+}

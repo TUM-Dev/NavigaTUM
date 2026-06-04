@@ -28,4 +28,4 @@ def _write_operators_parquet(df: pl.DataFrame, *, name_column: str, filename: st
         .filter(pl.col("id").is_not_null())
         .unique()
     )
-    OperatorsSchema.write_parquet(extracted, OUTPUT_DIR / filename)
+    OperatorsSchema.write_parquet(OperatorsSchema.validate(extracted), OUTPUT_DIR / filename)

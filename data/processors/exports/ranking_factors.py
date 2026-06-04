@@ -17,4 +17,5 @@ def export_ranking_factors_parquet(df: pl.DataFrame) -> None:
         pl.col("ranking_rank_custom").cast(pl.Int16).alias("rank_custom"),
         pl.col("ranking_rank_boost").cast(pl.Int16).alias("rank_boost"),
     ).unique()
-    RankingFactorsSchema.write_parquet(extracted, OUTPUT_DIR / "ranking_factors.parquet")
+    typed = RankingFactorsSchema.validate(extracted)
+    RankingFactorsSchema.write_parquet(typed, OUTPUT_DIR / "ranking_factors.parquet")

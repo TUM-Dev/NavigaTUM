@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "2612@0506"
+  ],
+  "coords": {
+    "lat": 48.149793503501144,
+    "lon": 11.567915125958736,
+    "source": "roomfinder"
+  },
+  "id": "0506.02.612",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.02.612 (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.02.612"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "2612"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2 (2. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TULRSGD",
+      "id": 15102,
+      "name": "Professur für Satellitengeodäsie (Prof. Pail komm.)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15102"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0506.02.612",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7627"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=2612@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

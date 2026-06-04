@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0930@0509"
+  ],
+  "coords": {
+    "lat": 48.14902242685358,
+    "lon": 11.566780477141451,
+    "source": "roomfinder"
+  },
+  "id": "0509.EG.930",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.EG.930 (Treppenraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.EG.930"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0930"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/0509.EG.930",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37874"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=0930@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Treppenhaus"
+}

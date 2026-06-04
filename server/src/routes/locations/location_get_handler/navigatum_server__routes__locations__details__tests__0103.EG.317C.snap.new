@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N0317C@0103"
+  ],
+  "coords": {
+    "lat": 48.150955839368,
+    "lon": 11.567325423734587,
+    "source": "roomfinder"
+  },
+  "id": "0103.EG.317C",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.EG.317C (Messraum einfach)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.EG.317C"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N0317C"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUEIHFT",
+      "id": 15394,
+      "name": "Lehrstuhl für Hochfrequenztechnik (Prof. Eibert)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15394"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 200,
+    "rank_type": 100,
+    "rank_usage": 200
+  },
+  "redirect_url": "/room/0103.EG.317C",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=40889"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=N0317C@0103&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Labor - Physik"
+}

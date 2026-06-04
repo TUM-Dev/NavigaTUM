@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N Z2352@0103"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.15114367337869,
+    "lon": 11.567722807804218,
+    "source": "inferred"
+  },
+  "id": "0103.02.352",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.02.352 (Archiv (Gesperrt))",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.02.352"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N Z2352"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2 (2. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUPEWR0",
+      "id": 39688,
+      "name": "Weitere Räume",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=39688"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0103.02.352",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=64582"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Archiv"
+}

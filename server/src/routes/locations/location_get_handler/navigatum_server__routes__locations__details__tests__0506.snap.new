@@ -1,0 +1,985 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0506"
+  ],
+  "coords": {
+    "lat": 48.149942869142315,
+    "lon": 11.567721566030482,
+    "source": "roomfinder"
+  },
+  "id": "0506",
+  "imgs": [
+    {
+      "author": {
+        "text": "David Bonello",
+        "url": null
+      },
+      "license": {
+        "text": "CC0 1.0",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "name": "0506_0.webp"
+    }
+  ],
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Theresianum",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0506"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "168 (109 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      },
+      {
+        "id": 2,
+        "name": "1. OG + 1 Zwischengeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      },
+      {
+        "id": 4,
+        "name": "3. OG + 1 Zwischengeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      },
+      {
+        "id": 5,
+        "name": "4. OG + 1 Zwischengeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 5,
+    "rank_combined": 1005,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/z6",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0506.01.634",
+              "name": "0506.01.634 (Personenaufzug)"
+            },
+            {
+              "id": "0506.EG.633",
+              "name": "0506.EG.633 (Aufzug)"
+            }
+          ],
+          "count": 2,
+          "name": "Aufzug"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.04.620",
+              "name": "0506.04.620 (Aufzugsmaschinenraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzugsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.U1.633",
+              "name": "0506.U1.633 (Aufzugsunterfahrt)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzugsschacht"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.605",
+              "name": "0506.01.605 (Besprechung)"
+            },
+            {
+              "id": "0506.03.617",
+              "name": "0506.03.617 (Besprechungsraum)"
+            },
+            {
+              "id": "0506.Z1.683",
+              "name": "0506.Z1.683 (Besprechungsraum)"
+            }
+          ],
+          "count": 3,
+          "name": "Besprechungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.603",
+              "name": "0506.01.603 (Bibliothek)"
+            }
+          ],
+          "count": 1,
+          "name": "Bibliothek"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.612",
+              "name": "0506.01.612 (Prof.-Büro)"
+            },
+            {
+              "id": "0506.01.613",
+              "name": "0506.01.613 (Büro)"
+            },
+            {
+              "id": "0506.01.614",
+              "name": "0506.01.614 (Prof.-Büro)"
+            },
+            {
+              "id": "0506.01.615",
+              "name": "0506.01.615 (Büro)"
+            },
+            {
+              "id": "0506.01.616",
+              "name": "0506.01.616 (Büro)"
+            },
+            {
+              "id": "0506.01.617",
+              "name": "0506.01.617 (Büro)"
+            },
+            {
+              "id": "0506.01.618",
+              "name": "0506.01.618 (Büro)"
+            },
+            {
+              "id": "0506.01.619",
+              "name": "0506.01.619 (Büro)"
+            },
+            {
+              "id": "0506.01.620",
+              "name": "0506.01.620 (Büro)"
+            },
+            {
+              "id": "0506.01.621",
+              "name": "0506.01.621 (Büro)"
+            },
+            {
+              "id": "0506.02.611",
+              "name": "0506.02.611 (Büro)"
+            },
+            {
+              "id": "0506.02.612",
+              "name": "0506.02.612 (Büro)"
+            },
+            {
+              "id": "0506.02.613",
+              "name": "0506.02.613 (Büro)"
+            },
+            {
+              "id": "0506.02.614",
+              "name": "0506.02.614 (Büro)"
+            },
+            {
+              "id": "0506.02.615",
+              "name": "0506.02.615 (Büro)"
+            },
+            {
+              "id": "0506.02.618",
+              "name": "0506.02.618 (Büro)"
+            },
+            {
+              "id": "0506.02.620",
+              "name": "0506.02.620 (Büro)"
+            },
+            {
+              "id": "0506.02.621",
+              "name": "0506.02.621 (Büro)"
+            },
+            {
+              "id": "0506.03.610",
+              "name": "0506.03.610 (Prof.-Büro)"
+            },
+            {
+              "id": "0506.03.611",
+              "name": "0506.03.611 (Büro)"
+            },
+            {
+              "id": "0506.03.612",
+              "name": "0506.03.612 (Büro)"
+            },
+            {
+              "id": "0506.03.614",
+              "name": "0506.03.614 (Büro)"
+            },
+            {
+              "id": "0506.03.615",
+              "name": "0506.03.615 (Büro)"
+            },
+            {
+              "id": "0506.03.618",
+              "name": "0506.03.618 (Büro)"
+            },
+            {
+              "id": "0506.03.619",
+              "name": "0506.03.619 (Büro)"
+            },
+            {
+              "id": "0506.03.620",
+              "name": "0506.03.620 (Büro)"
+            },
+            {
+              "id": "0506.03.621",
+              "name": "0506.03.621 (Büro)"
+            },
+            {
+              "id": "0506.EG.616",
+              "name": "0506.EG.616 (Büro)"
+            },
+            {
+              "id": "0506.Z1.680",
+              "name": "0506.Z1.680 (Büro)"
+            },
+            {
+              "id": "0506.Z1.681",
+              "name": "0506.Z1.681 (Büro)"
+            },
+            {
+              "id": "0506.Z1.682",
+              "name": "0506.Z1.682 (Büro)"
+            },
+            {
+              "id": "0506.Z1.685",
+              "name": "0506.Z1.685 (Büro)"
+            },
+            {
+              "id": "0506.Z1.686",
+              "name": "0506.Z1.686 (Büro)"
+            },
+            {
+              "id": "0506.Z1.687",
+              "name": "0506.Z1.687 (Büro)"
+            },
+            {
+              "id": "0506.Z1.688",
+              "name": "0506.Z1.688 (Büro)"
+            },
+            {
+              "id": "0506.Z1.691",
+              "name": "0506.Z1.691 (Büro)"
+            },
+            {
+              "id": "0506.Z1.692",
+              "name": "0506.Z1.692 (Büro)"
+            }
+          ],
+          "count": 37,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.04.650",
+              "name": "0506.04.650 (Flucht- / Dachterrasse (Reinigen))"
+            }
+          ],
+          "count": 1,
+          "name": "Dachterrasse"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.604",
+              "name": "0506.01.604 (Flur 4)"
+            },
+            {
+              "id": "0506.01.608",
+              "name": "0506.01.608 (Flur 3)"
+            },
+            {
+              "id": "0506.01.625",
+              "name": "0506.01.625 (Flur 1)"
+            },
+            {
+              "id": "0506.01.630",
+              "name": "0506.01.630 (Flur 2)"
+            },
+            {
+              "id": "0506.02.604",
+              "name": "0506.02.604 (Flur)"
+            },
+            {
+              "id": "0506.02.604A",
+              "name": "0506.02.604A (Flur)"
+            },
+            {
+              "id": "0506.02.604B",
+              "name": "0506.02.604B (Flur)"
+            },
+            {
+              "id": "0506.02.604C",
+              "name": "0506.02.604C (Flur)"
+            },
+            {
+              "id": "0506.02.630",
+              "name": "0506.02.630 (Flur 1)"
+            },
+            {
+              "id": "0506.02.630A",
+              "name": "0506.02.630A (Flur)"
+            },
+            {
+              "id": "0506.03.604",
+              "name": "0506.03.604 (Flur 2)"
+            },
+            {
+              "id": "0506.03.630",
+              "name": "0506.03.630 (Flur)"
+            },
+            {
+              "id": "0506.04.630",
+              "name": "0506.04.630 (Flur)"
+            },
+            {
+              "id": "0506.EG.604",
+              "name": "0506.EG.604 (Foyer)"
+            },
+            {
+              "id": "0506.EG.604A",
+              "name": "0506.EG.604A (Foyer)"
+            },
+            {
+              "id": "0506.EG.625",
+              "name": "0506.EG.625 (Flur)"
+            },
+            {
+              "id": "0506.U1.604",
+              "name": "0506.U1.604 (Flur 4)"
+            },
+            {
+              "id": "0506.U1.618",
+              "name": "0506.U1.618 (Flur)"
+            },
+            {
+              "id": "0506.U1.625",
+              "name": "0506.U1.625 (Flur)"
+            },
+            {
+              "id": "0506.U1.630",
+              "name": "0506.U1.630 (Flur)"
+            },
+            {
+              "id": "0506.Z1.604",
+              "name": "0506.Z1.604 (Flur)"
+            },
+            {
+              "id": "0506.Z1.608",
+              "name": "0506.Z1.608 (Flur)"
+            },
+            {
+              "id": "0506.Z1.625",
+              "name": "0506.Z1.625 (Flur)"
+            },
+            {
+              "id": "0506.Z1.630",
+              "name": "0506.Z1.630 (Flur)"
+            }
+          ],
+          "count": 24,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.603B",
+              "name": "0506.01.603B (Galerie)"
+            },
+            {
+              "id": "0506.01.605B",
+              "name": "0506.01.605B (Galerie)"
+            },
+            {
+              "id": "0506.01.607B",
+              "name": "0506.01.607B (Galerie)"
+            },
+            {
+              "id": "0506.03.601",
+              "name": "0506.03.601 (Galerie)"
+            },
+            {
+              "id": "0506.03.605",
+              "name": "0506.03.605 (Galerie)"
+            },
+            {
+              "id": "0506.03.607",
+              "name": "0506.03.607 (Galerie)"
+            },
+            {
+              "id": "0506.03.609",
+              "name": "0506.03.609 (Galerie)"
+            }
+          ],
+          "count": 7,
+          "name": "Gang (Galerie)"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.631",
+              "name": "0506.01.631 (Installation)"
+            },
+            {
+              "id": "0506.02.631",
+              "name": "0506.02.631 (Installation)"
+            },
+            {
+              "id": "0506.02.632",
+              "name": "0506.02.632 (Installation)"
+            },
+            {
+              "id": "0506.03.631",
+              "name": "0506.03.631 (Installation)"
+            },
+            {
+              "id": "0506.03.632",
+              "name": "0506.03.632 (Installation)"
+            },
+            {
+              "id": "0506.04.631",
+              "name": "0506.04.631 (Installation)"
+            },
+            {
+              "id": "0506.EG.605",
+              "name": "0506.EG.605 (Installation)"
+            },
+            {
+              "id": "0506.EG.605A",
+              "name": "0506.EG.605A (Installation)"
+            },
+            {
+              "id": "0506.EG.607",
+              "name": "0506.EG.607 (Installation)"
+            },
+            {
+              "id": "0506.EG.607A",
+              "name": "0506.EG.607A (Installation)"
+            },
+            {
+              "id": "0506.EG.631",
+              "name": "0506.EG.631 (Installation)"
+            },
+            {
+              "id": "0506.EG.632",
+              "name": "0506.EG.632 (Installation)"
+            },
+            {
+              "id": "0506.U1.618A",
+              "name": "0506.U1.618A (LRZ-Verteilerknoten)"
+            },
+            {
+              "id": "0506.U1.620",
+              "name": "0506.U1.620 (LRZ-Verteilerknoten)"
+            },
+            {
+              "id": "0506.U1.621A",
+              "name": "0506.U1.621A (Installationsraum)"
+            },
+            {
+              "id": "0506.U1.621B",
+              "name": "0506.U1.621B (Installationsraum)"
+            },
+            {
+              "id": "0506.U1.631",
+              "name": "0506.U1.631 (Installation)"
+            },
+            {
+              "id": "0506.U1.632",
+              "name": "0506.U1.632 (Installation)"
+            },
+            {
+              "id": "0506.U1.690",
+              "name": "0506.U1.690 (Installationsschacht)"
+            }
+          ],
+          "count": 19,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.04.621",
+              "name": "0506.04.621 (Heizung u. Brauchwassererwärmung)"
+            },
+            {
+              "id": "0506.U1.601",
+              "name": "0506.U1.601 (Heizungsraum)"
+            },
+            {
+              "id": "0506.U1.601A",
+              "name": "0506.U1.601A (Heizung/Brauchwassererwärmung)"
+            }
+          ],
+          "count": 3,
+          "name": "Heizungsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.601",
+              "name": "0506.01.601 (Theresianum, 1601, Hörsaal eben, ohne exp. Bühne)"
+            },
+            {
+              "id": "0506.EG.601",
+              "name": "0506.EG.601 (Theresianum, 0601, Hörsaal eben, ohne exp. Bühne)"
+            },
+            {
+              "id": "0506.EG.602",
+              "name": "0506.EG.602 (Theresianum, 0602, Hörsaal ansteigend, ohne exp. B)"
+            },
+            {
+              "id": "0506.EG.606",
+              "name": "0506.EG.606 (Theresianum, 0606, Hörsaal ansteigend, ohne exp. B)"
+            },
+            {
+              "id": "0506.Z1.670",
+              "name": "0506.Z1.670 (Hör-/Lehrsaal eben o.Exp.Bühne)"
+            }
+          ],
+          "count": 5,
+          "name": "Hörsaal"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.03.625",
+              "name": "0506.03.625 (Kopierer)"
+            }
+          ],
+          "count": 1,
+          "name": "Kopierraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.02.617",
+              "name": "0506.02.617 (Elektroniklabor)"
+            },
+            {
+              "id": "0506.U1.619",
+              "name": "0506.U1.619 (Feinmessraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Labor - Physik"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.02.625",
+              "name": "0506.02.625 (Lager)"
+            },
+            {
+              "id": "0506.02.628",
+              "name": "0506.02.628 (Lager)"
+            },
+            {
+              "id": "0506.02.629",
+              "name": "0506.02.629 (Lager)"
+            },
+            {
+              "id": "0506.U1.607",
+              "name": "0506.U1.607 (Lager (ASTA))"
+            },
+            {
+              "id": "0506.U1.607A",
+              "name": "0506.U1.607A (Lager (ASTA))"
+            },
+            {
+              "id": "0506.U1.609",
+              "name": "0506.U1.609 (Lager)"
+            },
+            {
+              "id": "0506.U1.609A",
+              "name": "0506.U1.609A (Lager/Tagungsmöbel)"
+            },
+            {
+              "id": "0506.U1.611",
+              "name": "0506.U1.611 (Lager)"
+            },
+            {
+              "id": "0506.U1.614",
+              "name": "0506.U1.614 (Lager)"
+            },
+            {
+              "id": "0506.U1.615",
+              "name": "0506.U1.615 (Lager)"
+            }
+          ],
+          "count": 10,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.04.699B",
+              "name": "0506.04.699B (Sonstige Luftflächen)"
+            }
+          ],
+          "count": 1,
+          "name": "Luftraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.632",
+              "name": "0506.01.632 (Raumlufttechnik)"
+            },
+            {
+              "id": "0506.U1.603",
+              "name": "0506.U1.603 (Raumlufttechnik)"
+            }
+          ],
+          "count": 2,
+          "name": "Lufttechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.607",
+              "name": "0506.01.607 (Computerraum mit Galerie)"
+            }
+          ],
+          "count": 1,
+          "name": "Praktikumsraum - EDV"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.U1.602A",
+              "name": "0506.U1.602A (Putzraum)"
+            },
+            {
+              "id": "0506.U1.623",
+              "name": "0506.U1.623 (Putzraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.609",
+              "name": "0506.01.609 (Seminarraum)"
+            },
+            {
+              "id": "0506.02.607",
+              "name": "0506.02.607 (Theresianum, 2607, Seminarraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Seminarraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.U1.613",
+              "name": "0506.U1.613 (Server)"
+            }
+          ],
+          "count": 1,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.609B",
+              "name": "0506.01.609B (Studentenarbeitsraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Studentenarbeitsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.602",
+              "name": "0506.01.602 (Treppenraum)"
+            },
+            {
+              "id": "0506.01.603A",
+              "name": "0506.01.603A (Treppe)"
+            },
+            {
+              "id": "0506.01.603C",
+              "name": "0506.01.603C (Treppe)"
+            },
+            {
+              "id": "0506.01.607A",
+              "name": "0506.01.607A (Treppe)"
+            },
+            {
+              "id": "0506.01.607C",
+              "name": "0506.01.607C (Treppe)"
+            },
+            {
+              "id": "0506.01.609A",
+              "name": "0506.01.609A (Treppe)"
+            },
+            {
+              "id": "0506.01.609C",
+              "name": "0506.01.609C (Treppe)"
+            },
+            {
+              "id": "0506.01.610",
+              "name": "0506.01.610 (Treppenraum)"
+            },
+            {
+              "id": "0506.02.601A",
+              "name": "0506.02.601A (Treppe)"
+            },
+            {
+              "id": "0506.02.602",
+              "name": "0506.02.602 (Treppenraum)"
+            },
+            {
+              "id": "0506.02.605A",
+              "name": "0506.02.605A (Treppe)"
+            },
+            {
+              "id": "0506.02.607A",
+              "name": "0506.02.607A (Treppe)"
+            },
+            {
+              "id": "0506.02.609A",
+              "name": "0506.02.609A (Treppe)"
+            },
+            {
+              "id": "0506.02.610",
+              "name": "0506.02.610 (Treppenraum)"
+            },
+            {
+              "id": "0506.03.602",
+              "name": "0506.03.602 (Treppenraum)"
+            },
+            {
+              "id": "0506.03.610A",
+              "name": "0506.03.610A (Treppenraum)"
+            },
+            {
+              "id": "0506.EG.603",
+              "name": "0506.EG.603 (Treppenraum)"
+            },
+            {
+              "id": "0506.EG.610",
+              "name": "0506.EG.610 (Treppenraum)"
+            },
+            {
+              "id": "0506.U1.602",
+              "name": "0506.U1.602 (Treppenraum)"
+            },
+            {
+              "id": "0506.U1.608",
+              "name": "0506.U1.608 (Treppenraum)"
+            },
+            {
+              "id": "0506.U1.610",
+              "name": "0506.U1.610 (Treppenraum)"
+            },
+            {
+              "id": "0506.Z1.603",
+              "name": "0506.Z1.603 (Treppenhaus)"
+            },
+            {
+              "id": "0506.Z1.610",
+              "name": "0506.Z1.610 (Treppenhaus)"
+            }
+          ],
+          "count": 23,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.U1.624",
+              "name": "0506.U1.624 (WC-Barrierefrei)"
+            }
+          ],
+          "count": 1,
+          "name": "WC Barrierefrei"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.623",
+              "name": "0506.01.623 (WC-Damen)"
+            },
+            {
+              "id": "0506.02.623",
+              "name": "0506.02.623 (WC-Damen)"
+            },
+            {
+              "id": "0506.03.623",
+              "name": "0506.03.623 (WC-Damen)"
+            },
+            {
+              "id": "0506.EG.623",
+              "name": "0506.EG.623 (WC-Damen)"
+            },
+            {
+              "id": "0506.Z1.623",
+              "name": "0506.Z1.623 (WC-Damen)"
+            }
+          ],
+          "count": 5,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.01.622",
+              "name": "0506.01.622 (WC-Herren)"
+            },
+            {
+              "id": "0506.02.622",
+              "name": "0506.02.622 (WC-Herren)"
+            },
+            {
+              "id": "0506.03.622",
+              "name": "0506.03.622 (WC-Herren)"
+            },
+            {
+              "id": "0506.EG.622",
+              "name": "0506.EG.622 (WC-Herren)"
+            },
+            {
+              "id": "0506.U1.622",
+              "name": "0506.U1.622 (WC-Herren)"
+            },
+            {
+              "id": "0506.Z1.624",
+              "name": "0506.Z1.624 (WC-Herren)"
+            }
+          ],
+          "count": 6,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.02.626",
+              "name": "0506.02.626 (Metallwerkstätte fein)"
+            }
+          ],
+          "count": 1,
+          "name": "Werkstatt"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.EG.608",
+              "name": "0506.EG.608 (Windfang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        },
+        {
+          "children": [
+            {
+              "id": "0506.02.601",
+              "name": "0506.02.601 (Übungsraum)"
+            },
+            {
+              "id": "0506.02.605",
+              "name": "0506.02.605 (Übungsraum)"
+            },
+            {
+              "id": "0506.02.609",
+              "name": "0506.02.609 (Übungsraum)"
+            },
+            {
+              "id": "0506.02.619",
+              "name": "0506.02.619 (Übungsraum)"
+            }
+          ],
+          "count": 4,
+          "name": "Übungsraum"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0506"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

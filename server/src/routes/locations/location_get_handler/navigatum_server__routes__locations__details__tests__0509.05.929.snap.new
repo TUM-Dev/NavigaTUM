@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "4929@0509"
+  ],
+  "coords": {
+    "lat": 48.14893840038751,
+    "lon": 11.566749840370344,
+    "source": "roomfinder"
+  },
+  "id": "0509.05.929",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.05.929 (Flur mit Arbeitsplätzen)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.05.929"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "4929"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "4 (4. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 5,
+        "name": "4. OG + 1 Zwischengeschoss",
+        "short_name": "4",
+        "tumonline": "05",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUEIEDA",
+      "id": 15393,
+      "name": "Lehrstuhl für Entwurfsautomatisierung (Prof. Schlichtmann)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15393"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 2,
+    "rank_type": 100,
+    "rank_usage": 2
+  },
+  "redirect_url": "/room/0509.05.929",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=14262"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=4929@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Flur"
+}

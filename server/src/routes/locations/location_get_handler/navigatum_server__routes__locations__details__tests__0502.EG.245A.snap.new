@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0245A@0502"
+  ],
+  "coords": {
+    "lat": 48.14808101622289,
+    "lon": 11.56741997586134,
+    "source": "roomfinder"
+  },
+  "id": "0502.EG.245A",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0502.EG.245A (Treppe)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Zentralgebäude 2"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0502"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0502.EG.245A"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0245A"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/0502.EG.245A",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=75229"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=0245A@0502&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Treppenhaus"
+}

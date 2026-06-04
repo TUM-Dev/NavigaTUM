@@ -1,0 +1,275 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0403"
+  ],
+  "coords": {
+    "lat": 48.14801246062699,
+    "lon": 11.56380020088646,
+    "source": "roomfinder"
+  },
+  "id": "0403",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Friedrich Schiedel-Kindergarten",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südwestgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedwestgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0403"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Richard-Wagner-Str. 14, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "25 (18 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 0,
+    "rank_combined": 1000,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/sw3",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0403.EG.019",
+              "name": "0403.EG.019 (Abstellraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Abstellraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.014",
+              "name": "0403.EG.014 (Leiterinnenzimmer)"
+            }
+          ],
+          "count": 1,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.01.020",
+              "name": "0403.01.020 (Flur/Vorplatz)"
+            },
+            {
+              "id": "0403.EG.002",
+              "name": "0403.EG.002 (Diele)"
+            },
+            {
+              "id": "0403.EG.003",
+              "name": "0403.EG.003 (Flur)"
+            },
+            {
+              "id": "0403.EG.013",
+              "name": "0403.EG.013 (Flur/Personal)"
+            },
+            {
+              "id": "0403.EG.015",
+              "name": "0403.EG.015 (Flur/Anschlussraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.005",
+              "name": "0403.EG.005 (Gardarobe zu Gruppenraum 1)"
+            },
+            {
+              "id": "0403.EG.008",
+              "name": "0403.EG.008 (Gardarobe zu Gruppenraum 2)"
+            }
+          ],
+          "count": 2,
+          "name": "Garderobe"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.01.023",
+              "name": "0403.01.023 (Technik/Gasheizung)"
+            }
+          ],
+          "count": 1,
+          "name": "Gasanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.01.022",
+              "name": "0403.01.022 (Geräte/Lager)"
+            },
+            {
+              "id": "0403.EG.004",
+              "name": "0403.EG.004 (Lager/Spielgeräte)"
+            }
+          ],
+          "count": 2,
+          "name": "Geräteraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.010",
+              "name": "0403.EG.010 (Gruppenhauptraum 1)"
+            },
+            {
+              "id": "0403.EG.011",
+              "name": "0403.EG.011 (Gruppennebenraum)"
+            },
+            {
+              "id": "0403.EG.012",
+              "name": "0403.EG.012 (Gruppenraum 2)"
+            }
+          ],
+          "count": 3,
+          "name": "Kindergarten"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.017",
+              "name": "0403.EG.017 (Küche)"
+            }
+          ],
+          "count": 1,
+          "name": "Küche"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.009",
+              "name": "0403.EG.009 (Lager)"
+            },
+            {
+              "id": "0403.EG.018",
+              "name": "0403.EG.018 (Lager)"
+            }
+          ],
+          "count": 2,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.006",
+              "name": "0403.EG.006 (WC-Vorraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Sanitärraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.020",
+              "name": "0403.EG.020 (Treppe)"
+            }
+          ],
+          "count": 1,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.01.021",
+              "name": "0403.01.021 (Mehrzweckraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Unterrichtsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.007A",
+              "name": "0403.EG.007A (WC)"
+            },
+            {
+              "id": "0403.EG.007B",
+              "name": "0403.EG.007B (WC)"
+            },
+            {
+              "id": "0403.EG.016",
+              "name": "0403.EG.016 (WC-Personal)"
+            }
+          ],
+          "count": 3,
+          "name": "WC"
+        },
+        {
+          "children": [
+            {
+              "id": "0403.EG.001",
+              "name": "0403.EG.001 (Windfang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0403"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

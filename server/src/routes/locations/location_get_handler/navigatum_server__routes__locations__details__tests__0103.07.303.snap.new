@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N7303@0103"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.15114367337869,
+    "lon": 11.567722807804218,
+    "source": "inferred"
+  },
+  "id": "0103.07.303",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.07.303 (Installation)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.07.303"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N7303"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "7 (7. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 8,
+        "name": "7. OG + 1 Zwischengeschoss",
+        "short_name": "7",
+        "tumonline": "07",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVR44",
+      "id": 26064,
+      "name": "Gebäudemanagement München (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=26064"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0103.07.303",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38075"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Gebäudeleittechnik"
+}

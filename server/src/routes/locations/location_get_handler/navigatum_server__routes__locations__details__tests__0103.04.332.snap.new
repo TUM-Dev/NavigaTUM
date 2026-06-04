@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N4332@0103"
+  ],
+  "coords": {
+    "lat": 48.151061809844755,
+    "lon": 11.568061642022125,
+    "source": "roomfinder"
+  },
+  "id": "0103.04.332",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.04.332 (Flur)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.04.332"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N4332"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "4 (4. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 5,
+        "name": "4. OG + 1 Zwischengeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 2,
+    "rank_type": 100,
+    "rank_usage": 2
+  },
+  "redirect_url": "/room/0103.04.332",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37534"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=N4332@0103&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Flur"
+}

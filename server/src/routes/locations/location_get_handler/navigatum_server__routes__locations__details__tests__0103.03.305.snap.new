@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N3305@0103"
+  ],
+  "coords": {
+    "lat": 48.150992270843794,
+    "lon": 11.568083749177132,
+    "source": "roomfinder"
+  },
+  "id": "0103.03.305",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.03.305 (Putzraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.03.305"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N3305"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "3 (3. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 4,
+        "name": "3. OG + 1 Zwischengeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVMUC",
+      "id": 55298,
+      "name": "Standort München (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=55298"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0103.03.305",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37402"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=N3305@0103&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Putzraum"
+}

@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N3350A@0103"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.15114367337869,
+    "lon": 11.567722807804218,
+    "source": "inferred"
+  },
+  "id": "0103.03.350A",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.03.350A (Treppe)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.03.350A"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N3350A"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "3 (3. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 4,
+        "name": "3. OG + 1 Zwischengeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/0103.03.350A",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=64279"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Treppenhaus"
+}

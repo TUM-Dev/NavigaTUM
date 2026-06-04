@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1353@0503"
+  ],
+  "coords": {
+    "lat": 48.148519230715486,
+    "lon": 11.565774344779838,
+    "source": "roomfinder"
+  },
+  "id": "0503.01.353",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0503.01.353 (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Thierschbau"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0503"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0503.01.353"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1353"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUWIR01",
+      "id": 14823,
+      "name": "Lehrstuhl für Wirtschaftsrecht und Geistiges Eigentum (Prof. Ann)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=14823"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0503.01.353",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=39119"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=1353@0503&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

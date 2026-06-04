@@ -27,14 +27,15 @@ fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawRankingFactors>> {
     super::decode_parquet_rows(body, |col, field, r: &mut RawRankingFactors| {
         match (col, field) {
             ("id", Field::Str(v)) => r.id.clone_from(v),
-            // SMALLINT in PG; dataframely Int16 → polars Int16 → parquet
-            // physical INT32. Truncation here is safe because the schema
-            // validates the i16 range before writing.
-            ("rank_type", Field::Int(v)) => r.rank_type = Some(*v as i16),
-            ("rank_combined", Field::Int(v)) => r.rank_combined = Some(*v as i16),
-            ("rank_usage", Field::Int(v)) => r.rank_usage = Some(*v as i16),
-            ("rank_custom", Field::Int(v)) => r.rank_custom = Some(*v as i16),
-            ("rank_boost", Field::Int(v)) => r.rank_boost = Some(*v as i16),
+            // SMALLINT in PG; the parquet physical type is INT32 even for
+            // dataframely Int16. try_from drops out-of-range rows to None,
+            // which the dataframely Int16 validation upstream should make
+            // unreachable in practice.
+            ("rank_type", Field::Int(v)) => r.rank_type = i16::try_from(*v).ok(),
+            ("rank_combined", Field::Int(v)) => r.rank_combined = i16::try_from(*v).ok(),
+            ("rank_usage", Field::Int(v)) => r.rank_usage = i16::try_from(*v).ok(),
+            ("rank_custom", Field::Int(v)) => r.rank_custom = i16::try_from(*v).ok(),
+            ("rank_boost", Field::Int(v)) => r.rank_boost = i16::try_from(*v).ok(),
             _ => {}
         }
     })

@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N3815@0108"
+  ],
+  "coords": {
+    "lat": 48.150563917657294,
+    "lon": 11.56953889395835,
+    "source": "roomfinder"
+  },
+  "id": "0108.03.815",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0108.03.815 (Seminarraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "Verfügungsgebäude"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0108"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=15022",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0108.03.815"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N3815"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "3. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "3. Obergeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUEIEWK",
+      "id": 15358,
+      "name": "Professur für Energiemanagement-Technologien (Prof. Goebel)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15358"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/0108.03.815",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7381"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=N3815@0108&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Seminarraum"
+}

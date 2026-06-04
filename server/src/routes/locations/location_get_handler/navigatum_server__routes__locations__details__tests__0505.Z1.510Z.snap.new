@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "Z510@0505"
+  ],
+  "coords": {
+    "lat": 48.14959438419696,
+    "lon": 11.566589406566427,
+    "source": "roomfinder"
+  },
+  "id": "0505.Z1.510Z",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0505.Z1.510Z (CIP-Pool)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Wirtschaftswissenschaften"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0505"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=21729",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0505.Z1.510Z"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "Z510"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Zwischengeschoss, über EG"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      }
+    ],
+    "operator": {
+      "code": "TUS6OTS",
+      "id": 14881,
+      "name": "School Office der TUM School of Management",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=14881"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 250,
+    "rank_type": 100,
+    "rank_usage": 250
+  },
+  "redirect_url": "/room/0505.Z1.510Z",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=62636"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=Z510@0505&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Praktikumsraum - EDV"
+}

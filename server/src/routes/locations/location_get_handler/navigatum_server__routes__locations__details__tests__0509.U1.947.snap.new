@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "-1947@0509"
+  ],
+  "coords": {
+    "lat": 48.14927307843835,
+    "lon": 11.566929755179492,
+    "source": "roomfinder"
+  },
+  "id": "0509.U1.947",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.U1.947 (Studentenarb. m. DV)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=21846",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.U1.947"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "-1947"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      }
+    ],
+    "operator": {
+      "code": "TUS1DP4",
+      "id": 53600,
+      "name": "Department Electrical Engineering",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=53600"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/0509.U1.947",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37542"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=-1947@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Studentenarbeitsraum"
+}

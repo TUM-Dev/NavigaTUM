@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0577C@0505"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.149849092912845,
+    "lon": 11.56670096590265,
+    "source": "inferred"
+  },
+  "id": "0505.EG.577C",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0505.EG.577C (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Wirtschaftswissenschaften"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0505"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0505.EG.577C"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0577C"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUZVHRE",
+      "id": 45009,
+      "name": "TUM CST - Recht",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=45009"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0505.EG.577C",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=66922"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

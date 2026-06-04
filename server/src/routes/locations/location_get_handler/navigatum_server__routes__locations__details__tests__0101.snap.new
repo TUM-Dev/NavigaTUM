@@ -1,0 +1,2588 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0101"
+  ],
+  "coords": {
+    "lat": 48.15043520999847,
+    "lon": 11.568332964253916,
+    "source": "roomfinder"
+  },
+  "id": "0101",
+  "imgs": [
+    {
+      "author": {
+        "text": "David Bonello",
+        "url": null
+      },
+      "license": {
+        "text": "CC0 1.0",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "name": "0101_0.webp"
+    }
+  ],
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Hörsäle (U-Trakt)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0101"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "542 (436 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      },
+      {
+        "id": 2,
+        "name": "1. OG + 1 Zwischengeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      },
+      {
+        "id": 4,
+        "name": "Dachgeschoss",
+        "short_name": "4",
+        "tumonline": "DG",
+        "type": "roof"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 21,
+    "rank_combined": 1021,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/n1",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0101.U1.132C",
+              "name": "0101.U1.132C (Abstellraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Abstellraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.107A",
+              "name": "0101.01.107A (Registratur u. Archiv)"
+            },
+            {
+              "id": "0101.U1.112",
+              "name": "0101.U1.112 (Archiv)"
+            }
+          ],
+          "count": 2,
+          "name": "Archiv"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.170A",
+              "name": "0101.EG.170A (Aufzug)"
+            },
+            {
+              "id": "0101.EG.195D",
+              "name": "0101.EG.195D (Aufzug)"
+            }
+          ],
+          "count": 2,
+          "name": "Aufzug"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.DG.102",
+              "name": "0101.DG.102 (Aufzugsmaschinenraum)"
+            },
+            {
+              "id": "0101.DG.105",
+              "name": "0101.DG.105 (Aufzugsmaschinenraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Aufzugsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.199M",
+              "name": "0101.U1.199M (Schacht f.Personenaufzug)"
+            },
+            {
+              "id": "0101.U1.953",
+              "name": "0101.U1.953 (Schacht f.Personenaufzug)"
+            }
+          ],
+          "count": 2,
+          "name": "Aufzugsschacht"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.160",
+              "name": "0101.EG.160 (Schausammlung öffentl.)"
+            },
+            {
+              "id": "0101.Z1.060",
+              "name": "0101.Z1.060 (Lehr-/Schausammlungsraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Ausstellungssaal"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.110H",
+              "name": "0101.EG.110H (Treppe im Freien)"
+            },
+            {
+              "id": "0101.U1.602",
+              "name": "0101.U1.602 (Treppe im Freien)"
+            }
+          ],
+          "count": 2,
+          "name": "Außenstiege"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.147",
+              "name": "0101.01.147 (Besprechungsraum/Büro mit Archiv)"
+            },
+            {
+              "id": "0101.02.122",
+              "name": "0101.02.122 (Besprechungsraum)"
+            },
+            {
+              "id": "0101.02.133",
+              "name": "0101.02.133 (Besprechungsraum)"
+            },
+            {
+              "id": "0101.02.151",
+              "name": "0101.02.151 (Kommunikation)"
+            },
+            {
+              "id": "0101.EG.148",
+              "name": "0101.EG.148 (Besprechungsraum)"
+            },
+            {
+              "id": "0101.Z1.030",
+              "name": "0101.Z1.030 (Besprechungsraum)"
+            }
+          ],
+          "count": 6,
+          "name": "Besprechungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.195",
+              "name": "0101.01.195 (Bibliothek)"
+            },
+            {
+              "id": "0101.Z1.031",
+              "name": "0101.Z1.031 (Bibliotheksraum einf.)"
+            }
+          ],
+          "count": 2,
+          "name": "Bibliothek"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.110C",
+              "name": "0101.01.110C (Hutzimmer)"
+            },
+            {
+              "id": "0101.01.110D",
+              "name": "0101.01.110D (Büro)"
+            },
+            {
+              "id": "0101.01.110E",
+              "name": "0101.01.110E (Hutzimmer)"
+            },
+            {
+              "id": "0101.01.111",
+              "name": "0101.01.111 (Büro)"
+            },
+            {
+              "id": "0101.01.112",
+              "name": "0101.01.112 (Büro)"
+            },
+            {
+              "id": "0101.01.113",
+              "name": "0101.01.113 (Büro)"
+            },
+            {
+              "id": "0101.01.117",
+              "name": "0101.01.117 (Büro)"
+            },
+            {
+              "id": "0101.01.118",
+              "name": "0101.01.118 (Büro)"
+            },
+            {
+              "id": "0101.01.120",
+              "name": "0101.01.120 (Büro)"
+            },
+            {
+              "id": "0101.01.121",
+              "name": "0101.01.121 (Büro)"
+            },
+            {
+              "id": "0101.01.122",
+              "name": "0101.01.122 (Büro)"
+            },
+            {
+              "id": "0101.01.124A",
+              "name": "0101.01.124A (Büro)"
+            },
+            {
+              "id": "0101.01.124B",
+              "name": "0101.01.124B (Büro)"
+            },
+            {
+              "id": "0101.01.125A",
+              "name": "0101.01.125A (Büro)"
+            },
+            {
+              "id": "0101.01.125B",
+              "name": "0101.01.125B (Büro)"
+            },
+            {
+              "id": "0101.01.127",
+              "name": "0101.01.127 (Büro)"
+            },
+            {
+              "id": "0101.01.128",
+              "name": "0101.01.128 (Büro)"
+            },
+            {
+              "id": "0101.01.129",
+              "name": "0101.01.129 (Büro)"
+            },
+            {
+              "id": "0101.01.130",
+              "name": "0101.01.130 (Büro)"
+            },
+            {
+              "id": "0101.01.131",
+              "name": "0101.01.131 (Büro)"
+            },
+            {
+              "id": "0101.01.137",
+              "name": "0101.01.137 (Büro)"
+            },
+            {
+              "id": "0101.01.138",
+              "name": "0101.01.138 (Büro)"
+            },
+            {
+              "id": "0101.01.139",
+              "name": "0101.01.139 (Büro)"
+            },
+            {
+              "id": "0101.01.140",
+              "name": "0101.01.140 (Büro)"
+            },
+            {
+              "id": "0101.01.144",
+              "name": "0101.01.144 (Büro)"
+            },
+            {
+              "id": "0101.01.145",
+              "name": "0101.01.145 (Sekretariat mit Materialausgabe)"
+            },
+            {
+              "id": "0101.01.148",
+              "name": "0101.01.148 (Büro)"
+            },
+            {
+              "id": "0101.01.149",
+              "name": "0101.01.149 (Büro)"
+            },
+            {
+              "id": "0101.01.150",
+              "name": "0101.01.150 (Büro)"
+            },
+            {
+              "id": "0101.01.151",
+              "name": "0101.01.151 (Büro)"
+            },
+            {
+              "id": "0101.01.152",
+              "name": "0101.01.152 (Büro)"
+            },
+            {
+              "id": "0101.01.153",
+              "name": "0101.01.153 (Büro)"
+            },
+            {
+              "id": "0101.01.155",
+              "name": "0101.01.155 (Emeritus)"
+            },
+            {
+              "id": "0101.01.156",
+              "name": "0101.01.156 (Büro)"
+            },
+            {
+              "id": "0101.02.101",
+              "name": "0101.02.101 (Büro)"
+            },
+            {
+              "id": "0101.02.104",
+              "name": "0101.02.104 (Büro)"
+            },
+            {
+              "id": "0101.02.105",
+              "name": "0101.02.105 (Büro)"
+            },
+            {
+              "id": "0101.02.110",
+              "name": "0101.02.110 (Büro)"
+            },
+            {
+              "id": "0101.02.111",
+              "name": "0101.02.111 (Hausmeister)"
+            },
+            {
+              "id": "0101.02.114",
+              "name": "0101.02.114 (Büro)"
+            },
+            {
+              "id": "0101.02.115",
+              "name": "0101.02.115 (Büro)"
+            },
+            {
+              "id": "0101.02.116",
+              "name": "0101.02.116 (Büro)"
+            },
+            {
+              "id": "0101.02.117",
+              "name": "0101.02.117 (Büro)"
+            },
+            {
+              "id": "0101.02.118",
+              "name": "0101.02.118 (Büro)"
+            },
+            {
+              "id": "0101.02.119",
+              "name": "0101.02.119 (Büro)"
+            },
+            {
+              "id": "0101.02.120",
+              "name": "0101.02.120 (Büro)"
+            },
+            {
+              "id": "0101.02.121",
+              "name": "0101.02.121 (Büro)"
+            },
+            {
+              "id": "0101.02.124",
+              "name": "0101.02.124 (Büro)"
+            },
+            {
+              "id": "0101.02.136",
+              "name": "0101.02.136 (Büro)"
+            },
+            {
+              "id": "0101.02.137",
+              "name": "0101.02.137 (Büro)"
+            },
+            {
+              "id": "0101.02.138",
+              "name": "0101.02.138 (Büro)"
+            },
+            {
+              "id": "0101.02.139",
+              "name": "0101.02.139 (Büro)"
+            },
+            {
+              "id": "0101.02.140",
+              "name": "0101.02.140 (Büro)"
+            },
+            {
+              "id": "0101.02.141",
+              "name": "0101.02.141 (Büro)"
+            },
+            {
+              "id": "0101.02.142",
+              "name": "0101.02.142 (Dekan)"
+            },
+            {
+              "id": "0101.02.143",
+              "name": "0101.02.143 (Dekanat)"
+            },
+            {
+              "id": "0101.02.145",
+              "name": "0101.02.145 (Graduate Center CIT)"
+            },
+            {
+              "id": "0101.02.146",
+              "name": "0101.02.146 (Büro)"
+            },
+            {
+              "id": "0101.02.147",
+              "name": "0101.02.147 (Student Exchange Coordinator)"
+            },
+            {
+              "id": "0101.02.148",
+              "name": "0101.02.148 (Leitung Academic and Student Affairs)"
+            },
+            {
+              "id": "0101.02.149",
+              "name": "0101.02.149 (Academic and Student Affairs)"
+            },
+            {
+              "id": "0101.02.150",
+              "name": "0101.02.150 (Academic and Student Affairs)"
+            },
+            {
+              "id": "0101.02.150A",
+              "name": "0101.02.150A (Academic and Student Affairs)"
+            },
+            {
+              "id": "0101.02.155",
+              "name": "0101.02.155 (Büro)"
+            },
+            {
+              "id": "0101.02.157",
+              "name": "0101.02.157 (Fachschaft Bau, Geo und Umwelt)"
+            },
+            {
+              "id": "0101.02.160",
+              "name": "0101.02.160 (Büro)"
+            },
+            {
+              "id": "0101.02.161",
+              "name": "0101.02.161 (Büro)"
+            },
+            {
+              "id": "0101.EG.113",
+              "name": "0101.EG.113 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.115",
+              "name": "0101.EG.115 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.118",
+              "name": "0101.EG.118 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.125",
+              "name": "0101.EG.125 (Ordinarius)"
+            },
+            {
+              "id": "0101.EG.131",
+              "name": "0101.EG.131 (Netzwerkadministrator)"
+            },
+            {
+              "id": "0101.EG.132",
+              "name": "0101.EG.132 (Büro)"
+            },
+            {
+              "id": "0101.EG.133",
+              "name": "0101.EG.133 (Büro)"
+            },
+            {
+              "id": "0101.EG.134",
+              "name": "0101.EG.134 (Büro)"
+            },
+            {
+              "id": "0101.EG.135",
+              "name": "0101.EG.135 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.136",
+              "name": "0101.EG.136 (Büro)"
+            },
+            {
+              "id": "0101.EG.138",
+              "name": "0101.EG.138 (Büro)"
+            },
+            {
+              "id": "0101.EG.139",
+              "name": "0101.EG.139 (Büro)"
+            },
+            {
+              "id": "0101.EG.142",
+              "name": "0101.EG.142 (Büro mit Archiv)"
+            },
+            {
+              "id": "0101.EG.144",
+              "name": "0101.EG.144 (Büro)"
+            },
+            {
+              "id": "0101.EG.146",
+              "name": "0101.EG.146 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.147",
+              "name": "0101.EG.147 (Büro mit exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0101.EG.149",
+              "name": "0101.EG.149 (Büro)"
+            },
+            {
+              "id": "0101.EG.150",
+              "name": "0101.EG.150 (Büro)"
+            },
+            {
+              "id": "0101.U1.101",
+              "name": "0101.U1.101 (Büro Fahrbereitschaft)"
+            },
+            {
+              "id": "0101.Z1.007",
+              "name": "0101.Z1.007 (Büro)"
+            },
+            {
+              "id": "0101.Z1.008",
+              "name": "0101.Z1.008 (Büro)"
+            },
+            {
+              "id": "0101.Z1.009",
+              "name": "0101.Z1.009 (Büro)"
+            },
+            {
+              "id": "0101.Z1.010",
+              "name": "0101.Z1.010 (Büro)"
+            },
+            {
+              "id": "0101.Z1.011",
+              "name": "0101.Z1.011 (Prof.-Büro)"
+            },
+            {
+              "id": "0101.Z1.012",
+              "name": "0101.Z1.012 (Büro)"
+            },
+            {
+              "id": "0101.Z1.013",
+              "name": "0101.Z1.013 (Büro)"
+            },
+            {
+              "id": "0101.Z1.014",
+              "name": "0101.Z1.014 (Büro)"
+            },
+            {
+              "id": "0101.Z1.015",
+              "name": "0101.Z1.015 (Büro)"
+            },
+            {
+              "id": "0101.Z1.016",
+              "name": "0101.Z1.016 (Büro)"
+            },
+            {
+              "id": "0101.Z1.017",
+              "name": "0101.Z1.017 (Büro)"
+            },
+            {
+              "id": "0101.Z1.018",
+              "name": "0101.Z1.018 (Büro)"
+            },
+            {
+              "id": "0101.Z1.019",
+              "name": "0101.Z1.019 (Büro)"
+            },
+            {
+              "id": "0101.Z1.020",
+              "name": "0101.Z1.020 (Büro)"
+            },
+            {
+              "id": "0101.Z1.021",
+              "name": "0101.Z1.021 (Büro)"
+            },
+            {
+              "id": "0101.Z1.024",
+              "name": "0101.Z1.024 (Büro)"
+            },
+            {
+              "id": "0101.Z1.025",
+              "name": "0101.Z1.025 (Büro)"
+            },
+            {
+              "id": "0101.Z1.026",
+              "name": "0101.Z1.026 (Büro)"
+            },
+            {
+              "id": "0101.Z1.028",
+              "name": "0101.Z1.028 (Büro)"
+            },
+            {
+              "id": "0101.Z1.032",
+              "name": "0101.Z1.032 (Büro)"
+            },
+            {
+              "id": "0101.Z1.034",
+              "name": "0101.Z1.034 (Büro)"
+            },
+            {
+              "id": "0101.Z1.035",
+              "name": "0101.Z1.035 (Büro)"
+            },
+            {
+              "id": "0101.Z1.036",
+              "name": "0101.Z1.036 (Büro)"
+            },
+            {
+              "id": "0101.Z1.037",
+              "name": "0101.Z1.037 (Büro)"
+            },
+            {
+              "id": "0101.Z1.038",
+              "name": "0101.Z1.038 (Büro)"
+            },
+            {
+              "id": "0101.Z1.045",
+              "name": "0101.Z1.045 (Büro)"
+            }
+          ],
+          "count": 112,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.114",
+              "name": "0101.U1.114 (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.115",
+              "name": "0101.U1.115 (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118A",
+              "name": "0101.U1.118A (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118B",
+              "name": "0101.U1.118B (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118C",
+              "name": "0101.U1.118C (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118D",
+              "name": "0101.U1.118D (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118E",
+              "name": "0101.U1.118E (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.118F",
+              "name": "0101.U1.118F (Stromversorgung)"
+            },
+            {
+              "id": "0101.U1.119",
+              "name": "0101.U1.119 (Stromversorgung)"
+            }
+          ],
+          "count": 9,
+          "name": "Elektrische Stromversorgung"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.128",
+              "name": "0101.EG.128 (Fachschaft EI)"
+            }
+          ],
+          "count": 1,
+          "name": "Fachschaft EI"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.501",
+              "name": "0101.U1.501 (Fahrbereich)"
+            },
+            {
+              "id": "0101.U1.502",
+              "name": "0101.U1.502 (Fahrbereich)"
+            },
+            {
+              "id": "0101.U1.503",
+              "name": "0101.U1.503 (Fahrbereich)"
+            },
+            {
+              "id": "0101.U1.504",
+              "name": "0101.U1.504 (Fahrbereich)"
+            },
+            {
+              "id": "0101.U1.505",
+              "name": "0101.U1.505 (Fahrbereich)"
+            },
+            {
+              "id": "0101.U1.506",
+              "name": "0101.U1.506 (Fahrbereich)"
+            }
+          ],
+          "count": 6,
+          "name": "Fahrzeugverkehrsfläche"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.123B",
+              "name": "0101.EG.123B (Gang,  Weg im Freien)"
+            },
+            {
+              "id": "0101.EG.140B",
+              "name": "0101.EG.140B (Gang,  Weg im Freien)"
+            },
+            {
+              "id": "0101.U1.508",
+              "name": "0101.U1.508 (Gang,  Weg im Freien)"
+            },
+            {
+              "id": "0101.U1.509",
+              "name": "0101.U1.509 (Gang,  Weg im Freien)"
+            },
+            {
+              "id": "0101.U1.601",
+              "name": "0101.U1.601 (Gang,  Weg im Freien)"
+            }
+          ],
+          "count": 5,
+          "name": "Fluchtweg"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.101",
+              "name": "0101.01.101 (Flur)"
+            },
+            {
+              "id": "0101.01.102",
+              "name": "0101.01.102 (Flur)"
+            },
+            {
+              "id": "0101.01.103",
+              "name": "0101.01.103 (Flur)"
+            },
+            {
+              "id": "0101.01.103A",
+              "name": "0101.01.103A (Flur)"
+            },
+            {
+              "id": "0101.01.103B",
+              "name": "0101.01.103B (Flur)"
+            },
+            {
+              "id": "0101.01.104",
+              "name": "0101.01.104 (Flur)"
+            },
+            {
+              "id": "0101.01.137A",
+              "name": "0101.01.137A (Flur)"
+            },
+            {
+              "id": "0101.01.196",
+              "name": "0101.01.196 (Flur)"
+            },
+            {
+              "id": "0101.01.197",
+              "name": "0101.01.197 (Flur)"
+            },
+            {
+              "id": "0101.01.198",
+              "name": "0101.01.198 (Flur)"
+            },
+            {
+              "id": "0101.01.199",
+              "name": "0101.01.199 (N1 1.OG,  Foyer)"
+            },
+            {
+              "id": "0101.02.100",
+              "name": "0101.02.100 (N1 2.OG,  Foyer)"
+            },
+            {
+              "id": "0101.02.195B",
+              "name": "0101.02.195B (Flur)"
+            },
+            {
+              "id": "0101.02.195C",
+              "name": "0101.02.195C (Flur)"
+            },
+            {
+              "id": "0101.02.195D",
+              "name": "0101.02.195D (Flur)"
+            },
+            {
+              "id": "0101.02.196",
+              "name": "0101.02.196 (Flur)"
+            },
+            {
+              "id": "0101.02.196A",
+              "name": "0101.02.196A (Flur)"
+            },
+            {
+              "id": "0101.02.196B",
+              "name": "0101.02.196B (Flur)"
+            },
+            {
+              "id": "0101.02.196C",
+              "name": "0101.02.196C (Flur)"
+            },
+            {
+              "id": "0101.02.197",
+              "name": "0101.02.197 (Flur)"
+            },
+            {
+              "id": "0101.02.198",
+              "name": "0101.02.198 (Flur)"
+            },
+            {
+              "id": "0101.02.199",
+              "name": "0101.02.199 (Flur)"
+            },
+            {
+              "id": "0101.EG.110",
+              "name": "0101.EG.110 (N1 EG,  Foyer)"
+            },
+            {
+              "id": "0101.EG.110A",
+              "name": "0101.EG.110A (Flur)"
+            },
+            {
+              "id": "0101.EG.110B",
+              "name": "0101.EG.110B (Flur)"
+            },
+            {
+              "id": "0101.EG.123A",
+              "name": "0101.EG.123A (Flur)"
+            },
+            {
+              "id": "0101.EG.140A",
+              "name": "0101.EG.140A (Flur)"
+            },
+            {
+              "id": "0101.EG.170C",
+              "name": "0101.EG.170C (Flur zu WC)"
+            },
+            {
+              "id": "0101.EG.171A",
+              "name": "0101.EG.171A (Flur)"
+            },
+            {
+              "id": "0101.EG.171C",
+              "name": "0101.EG.171C (Flur)"
+            },
+            {
+              "id": "0101.EG.190",
+              "name": "0101.EG.190 (Flur)"
+            },
+            {
+              "id": "0101.EG.190C",
+              "name": "0101.EG.190C (Flur)"
+            },
+            {
+              "id": "0101.EG.190D",
+              "name": "0101.EG.190D (Flur)"
+            },
+            {
+              "id": "0101.EG.194B",
+              "name": "0101.EG.194B (Flur)"
+            },
+            {
+              "id": "0101.EG.194C",
+              "name": "0101.EG.194C (Flur)"
+            },
+            {
+              "id": "0101.U1.111",
+              "name": "0101.U1.111 (Flur)"
+            },
+            {
+              "id": "0101.U1.111A",
+              "name": "0101.U1.111A (Flur)"
+            },
+            {
+              "id": "0101.U1.111B",
+              "name": "0101.U1.111B (Flur)"
+            },
+            {
+              "id": "0101.U1.117",
+              "name": "0101.U1.117 (Flur)"
+            },
+            {
+              "id": "0101.U1.130A",
+              "name": "0101.U1.130A (Flur)"
+            },
+            {
+              "id": "0101.U1.132A",
+              "name": "0101.U1.132A (Flur)"
+            },
+            {
+              "id": "0101.U1.132B",
+              "name": "0101.U1.132B (Flur)"
+            },
+            {
+              "id": "0101.U1.132D",
+              "name": "0101.U1.132D (Flur)"
+            },
+            {
+              "id": "0101.Z1.048",
+              "name": "0101.Z1.048 (Flur)"
+            },
+            {
+              "id": "0101.Z1.048A",
+              "name": "0101.Z1.048A (Flur)"
+            },
+            {
+              "id": "0101.Z1.048B",
+              "name": "0101.Z1.048B (Flur)"
+            },
+            {
+              "id": "0101.Z1.048C",
+              "name": "0101.Z1.048C (Flur)"
+            },
+            {
+              "id": "0101.Z1.048D",
+              "name": "0101.Z1.048D (Flur)"
+            },
+            {
+              "id": "0101.Z1.049A",
+              "name": "0101.Z1.049A (Flur)"
+            },
+            {
+              "id": "0101.Z1.050A",
+              "name": "0101.Z1.050A (Flur)"
+            },
+            {
+              "id": "0101.Z1.060A",
+              "name": "0101.Z1.060A (Flur)"
+            },
+            {
+              "id": "0101.Z1.060B",
+              "name": "0101.Z1.060B (Flur)"
+            },
+            {
+              "id": "0101.Z1.060C",
+              "name": "0101.Z1.060C (Flur)"
+            },
+            {
+              "id": "0101.Z1.062",
+              "name": "0101.Z1.062 (Flure,  Hallen)"
+            }
+          ],
+          "count": 54,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.DG.996",
+              "name": "0101.DG.996 (Freiluftexperimentierfläche)"
+            },
+            {
+              "id": "0101.DG.996A",
+              "name": "0101.DG.996A (Freiluftexperimentierfläche)"
+            }
+          ],
+          "count": 2,
+          "name": "Freiluftfläche"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.109D",
+              "name": "0101.U1.109D (Durchgang)"
+            }
+          ],
+          "count": 1,
+          "name": "Gang"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.109F",
+              "name": "0101.U1.109F (Park-Durchgangsbereich zu NK 109D)"
+            },
+            {
+              "id": "0101.U1.201",
+              "name": "0101.U1.201 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.202",
+              "name": "0101.U1.202 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.203",
+              "name": "0101.U1.203 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.204",
+              "name": "0101.U1.204 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.204A",
+              "name": "0101.U1.204A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.204B",
+              "name": "0101.U1.204B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.205",
+              "name": "0101.U1.205 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.205A",
+              "name": "0101.U1.205A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.205B",
+              "name": "0101.U1.205B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.206",
+              "name": "0101.U1.206 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.206A",
+              "name": "0101.U1.206A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.206B",
+              "name": "0101.U1.206B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.207",
+              "name": "0101.U1.207 (Dienstparkplatz)"
+            },
+            {
+              "id": "0101.U1.208",
+              "name": "0101.U1.208 (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.209",
+              "name": "0101.U1.209 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.209A",
+              "name": "0101.U1.209A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.209B",
+              "name": "0101.U1.209B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.210",
+              "name": "0101.U1.210 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.210A",
+              "name": "0101.U1.210A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.210B",
+              "name": "0101.U1.210B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.211",
+              "name": "0101.U1.211 (Dienstfahrzeuge)"
+            },
+            {
+              "id": "0101.U1.211A",
+              "name": "0101.U1.211A (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.211B",
+              "name": "0101.U1.211B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.212",
+              "name": "0101.U1.212 (Dienstfahrzeuge/Zugang zu NK109C)"
+            },
+            {
+              "id": "0101.U1.300",
+              "name": "0101.U1.300 (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.301",
+              "name": "0101.U1.301 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.302",
+              "name": "0101.U1.302 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.303",
+              "name": "0101.U1.303 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.304",
+              "name": "0101.U1.304 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.305",
+              "name": "0101.U1.305 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.306",
+              "name": "0101.U1.306 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.307",
+              "name": "0101.U1.307 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.308",
+              "name": "0101.U1.308 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.309",
+              "name": "0101.U1.309 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.310",
+              "name": "0101.U1.310 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.311",
+              "name": "0101.U1.311 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.312",
+              "name": "0101.U1.312 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.313",
+              "name": "0101.U1.313 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.314",
+              "name": "0101.U1.314 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.315",
+              "name": "0101.U1.315 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.316",
+              "name": "0101.U1.316 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.317",
+              "name": "0101.U1.317 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.318",
+              "name": "0101.U1.318 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.319",
+              "name": "0101.U1.319 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.320",
+              "name": "0101.U1.320 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.321",
+              "name": "0101.U1.321 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.322",
+              "name": "0101.U1.322 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.323",
+              "name": "0101.U1.323 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.324",
+              "name": "0101.U1.324 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.325",
+              "name": "0101.U1.325 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.326",
+              "name": "0101.U1.326 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.327",
+              "name": "0101.U1.327 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.328",
+              "name": "0101.U1.328 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.329",
+              "name": "0101.U1.329 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.330",
+              "name": "0101.U1.330 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.331",
+              "name": "0101.U1.331 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.332",
+              "name": "0101.U1.332 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.333",
+              "name": "0101.U1.333 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.334",
+              "name": "0101.U1.334 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.335",
+              "name": "0101.U1.335 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.336",
+              "name": "0101.U1.336 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.337",
+              "name": "0101.U1.337 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.338",
+              "name": "0101.U1.338 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.339",
+              "name": "0101.U1.339 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.340",
+              "name": "0101.U1.340 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.341",
+              "name": "0101.U1.341 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.342",
+              "name": "0101.U1.342 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.343",
+              "name": "0101.U1.343 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.344",
+              "name": "0101.U1.344 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.345",
+              "name": "0101.U1.345 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.346",
+              "name": "0101.U1.346 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.347",
+              "name": "0101.U1.347 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.348",
+              "name": "0101.U1.348 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.349",
+              "name": "0101.U1.349 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.350",
+              "name": "0101.U1.350 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.351",
+              "name": "0101.U1.351 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.352",
+              "name": "0101.U1.352 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.353",
+              "name": "0101.U1.353 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.354",
+              "name": "0101.U1.354 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.355",
+              "name": "0101.U1.355 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.356",
+              "name": "0101.U1.356 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.357",
+              "name": "0101.U1.357 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.358",
+              "name": "0101.U1.358 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.359",
+              "name": "0101.U1.359 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.360",
+              "name": "0101.U1.360 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.361",
+              "name": "0101.U1.361 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.362",
+              "name": "0101.U1.362 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.363",
+              "name": "0101.U1.363 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.364",
+              "name": "0101.U1.364 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.365",
+              "name": "0101.U1.365 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.366",
+              "name": "0101.U1.366 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.367",
+              "name": "0101.U1.367 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.368",
+              "name": "0101.U1.368 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.369",
+              "name": "0101.U1.369 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.370",
+              "name": "0101.U1.370 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.371",
+              "name": "0101.U1.371 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.372",
+              "name": "0101.U1.372 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.373",
+              "name": "0101.U1.373 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.374",
+              "name": "0101.U1.374 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.375",
+              "name": "0101.U1.375 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.376",
+              "name": "0101.U1.376 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.377",
+              "name": "0101.U1.377 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.378",
+              "name": "0101.U1.378 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.380",
+              "name": "0101.U1.380 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.381",
+              "name": "0101.U1.381 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.382",
+              "name": "0101.U1.382 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.383",
+              "name": "0101.U1.383 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.384",
+              "name": "0101.U1.384 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.385",
+              "name": "0101.U1.385 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.386",
+              "name": "0101.U1.386 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.387",
+              "name": "0101.U1.387 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.388",
+              "name": "0101.U1.388 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.389",
+              "name": "0101.U1.389 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.391",
+              "name": "0101.U1.391 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.392",
+              "name": "0101.U1.392 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.393",
+              "name": "0101.U1.393 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.394",
+              "name": "0101.U1.394 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.395",
+              "name": "0101.U1.395 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.397",
+              "name": "0101.U1.397 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.398",
+              "name": "0101.U1.398 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.399",
+              "name": "0101.U1.399 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.399A",
+              "name": "0101.U1.399A (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.399B",
+              "name": "0101.U1.399B (Kfz.-Abst.i.Gebäude integriert)"
+            },
+            {
+              "id": "0101.U1.400",
+              "name": "0101.U1.400 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.401",
+              "name": "0101.U1.401 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.402",
+              "name": "0101.U1.402 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.403",
+              "name": "0101.U1.403 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.404",
+              "name": "0101.U1.404 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.405",
+              "name": "0101.U1.405 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.406",
+              "name": "0101.U1.406 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.407",
+              "name": "0101.U1.407 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.408",
+              "name": "0101.U1.408 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.409",
+              "name": "0101.U1.409 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.410",
+              "name": "0101.U1.410 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.411",
+              "name": "0101.U1.411 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.412",
+              "name": "0101.U1.412 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.413",
+              "name": "0101.U1.413 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.414",
+              "name": "0101.U1.414 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.415",
+              "name": "0101.U1.415 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.416",
+              "name": "0101.U1.416 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.417",
+              "name": "0101.U1.417 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.418",
+              "name": "0101.U1.418 (Parkbucht)"
+            },
+            {
+              "id": "0101.U1.419",
+              "name": "0101.U1.419 (Parkbucht)"
+            }
+          ],
+          "count": 144,
+          "name": "Garage"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.189",
+              "name": "0101.EG.189 (Garderobe)"
+            },
+            {
+              "id": "0101.U1.109B",
+              "name": "0101.U1.109B (Umkleide)"
+            }
+          ],
+          "count": 2,
+          "name": "Garderobe"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.195A",
+              "name": "0101.01.195A (LRZ-Verteilerknoten)"
+            },
+            {
+              "id": "0101.01.195B",
+              "name": "0101.01.195B (Installationsschacht)"
+            },
+            {
+              "id": "0101.EG.179A",
+              "name": "0101.EG.179A (Brandmeldezentrale)"
+            },
+            {
+              "id": "0101.EG.180",
+              "name": "0101.EG.180 (Maschinenraum)"
+            },
+            {
+              "id": "0101.U1.112A",
+              "name": "0101.U1.112A (LRZ-Verteilerknoten)"
+            },
+            {
+              "id": "0101.U1.611",
+              "name": "0101.U1.611 (Installationskanal)"
+            },
+            {
+              "id": "0101.U1.612",
+              "name": "0101.U1.612 (Installationskanal)"
+            },
+            {
+              "id": "0101.U1.613",
+              "name": "0101.U1.613 (Installationskanal)"
+            }
+          ],
+          "count": 8,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.02.179",
+              "name": "0101.02.179 (Wilhelm-Nusselt-Hörsaal)"
+            },
+            {
+              "id": "0101.02.189",
+              "name": "0101.02.189 (Hans-Piloty-Hörsaal)"
+            },
+            {
+              "id": "0101.02.190",
+              "name": "0101.02.190 (Hans-Heinrich-Meinke-Hörsaal)"
+            },
+            {
+              "id": "0101.Z1.070",
+              "name": "0101.Z1.070 (Lothar-Rohde-Hörsaal)"
+            },
+            {
+              "id": "0101.Z1.080",
+              "name": "0101.Z1.080 (August-Föppl-Hörsaal)"
+            },
+            {
+              "id": "0101.Z1.090",
+              "name": "0101.Z1.090 (Hörsaal mit exp. Bühne)"
+            },
+            {
+              "id": "0101.Z1.095",
+              "name": "0101.Z1.095 (Hörsaal mit exp. Bühne)"
+            }
+          ],
+          "count": 7,
+          "name": "Hörsaal"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.116",
+              "name": "0101.01.116 (Drucker)"
+            },
+            {
+              "id": "0101.02.123",
+              "name": "0101.02.123 (Kopier-u. Schneiderraum)"
+            },
+            {
+              "id": "0101.02.148A",
+              "name": "0101.02.148A (Vervielfältigungsraum)"
+            },
+            {
+              "id": "0101.EG.129",
+              "name": "0101.EG.129 (Kopierraum)"
+            },
+            {
+              "id": "0101.Z1.052",
+              "name": "0101.Z1.052 (Vervielfältigungsraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Kopierraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.02.179A",
+              "name": "0101.02.179A (Regieraum,  Hörsaal-Technik)"
+            },
+            {
+              "id": "0101.02.189A",
+              "name": "0101.02.189A (Regieraum,  Hörsaal-Technik)"
+            },
+            {
+              "id": "0101.02.190A",
+              "name": "0101.02.190A (Regieraum,  Hörsaal-Technik)"
+            },
+            {
+              "id": "0101.02.190C",
+              "name": "0101.02.190C (Regieraum)"
+            },
+            {
+              "id": "0101.02.190D",
+              "name": "0101.02.190D (Regieraum)"
+            },
+            {
+              "id": "0101.Z1.090A",
+              "name": "0101.Z1.090A (Regieraum)"
+            },
+            {
+              "id": "0101.Z1.095A",
+              "name": "0101.Z1.095A (Regieraum)"
+            }
+          ],
+          "count": 7,
+          "name": "Labor - Video"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.106",
+              "name": "0101.01.106 (Lager)"
+            },
+            {
+              "id": "0101.01.107",
+              "name": "0101.01.107 (Lager)"
+            },
+            {
+              "id": "0101.01.107B",
+              "name": "0101.01.107B (Lager)"
+            },
+            {
+              "id": "0101.01.108",
+              "name": "0101.01.108 (Lager Medientechnik)"
+            },
+            {
+              "id": "0101.01.160A",
+              "name": "0101.01.160A (Lager)"
+            },
+            {
+              "id": "0101.02.178",
+              "name": "0101.02.178 (Lager)"
+            },
+            {
+              "id": "0101.EG.110I",
+              "name": "0101.EG.110I (Lager)"
+            },
+            {
+              "id": "0101.EG.171D",
+              "name": "0101.EG.171D (Lager Hausmeister)"
+            },
+            {
+              "id": "0101.EG.178A",
+              "name": "0101.EG.178A (Vorraum Server)"
+            },
+            {
+              "id": "0101.EG.179",
+              "name": "0101.EG.179 (Lager)"
+            },
+            {
+              "id": "0101.EG.179B",
+              "name": "0101.EG.179B (Technikraum Lager)"
+            },
+            {
+              "id": "0101.EG.190A",
+              "name": "0101.EG.190A (Lager)"
+            },
+            {
+              "id": "0101.EG.190B",
+              "name": "0101.EG.190B (Lager)"
+            },
+            {
+              "id": "0101.EG.190E",
+              "name": "0101.EG.190E (Lager)"
+            },
+            {
+              "id": "0101.EG.191",
+              "name": "0101.EG.191 (Tagungsmöbellager)"
+            },
+            {
+              "id": "0101.EG.191A",
+              "name": "0101.EG.191A (Lager)"
+            },
+            {
+              "id": "0101.EG.194D",
+              "name": "0101.EG.194D (Lager)"
+            },
+            {
+              "id": "0101.EG.195",
+              "name": "0101.EG.195 (Lager Baumechanik)"
+            },
+            {
+              "id": "0101.EG.195A",
+              "name": "0101.EG.195A (Lager Baumechanik)"
+            },
+            {
+              "id": "0101.EG.195B",
+              "name": "0101.EG.195B (Lager Baumechanik)"
+            },
+            {
+              "id": "0101.U1.109A",
+              "name": "0101.U1.109A (Reifenlager)"
+            },
+            {
+              "id": "0101.U1.109C",
+              "name": "0101.U1.109C (Lager)"
+            },
+            {
+              "id": "0101.Z1.002",
+              "name": "0101.Z1.002 (Lager)"
+            },
+            {
+              "id": "0101.Z1.044A",
+              "name": "0101.Z1.044A (Lager)"
+            },
+            {
+              "id": "0101.Z1.045A",
+              "name": "0101.Z1.045A (Lager)"
+            },
+            {
+              "id": "0101.Z1.049",
+              "name": "0101.Z1.049 (Lager)"
+            },
+            {
+              "id": "0101.Z1.050",
+              "name": "0101.Z1.050 (Lager)"
+            }
+          ],
+          "count": 27,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.02.184",
+              "name": "0101.02.184 (Lüftung)"
+            },
+            {
+              "id": "0101.02.186",
+              "name": "0101.02.186 (Lüftung)"
+            },
+            {
+              "id": "0101.02.186A",
+              "name": "0101.02.186A (Raumlufttechnische Anlage)"
+            },
+            {
+              "id": "0101.02.191",
+              "name": "0101.02.191 (Lüftung)"
+            },
+            {
+              "id": "0101.02.192",
+              "name": "0101.02.192 (Kältemaschine)"
+            },
+            {
+              "id": "0101.EG.176",
+              "name": "0101.EG.176 (RLT)"
+            },
+            {
+              "id": "0101.EG.199B",
+              "name": "0101.EG.199B (Technik RLT)"
+            },
+            {
+              "id": "0101.U1.103",
+              "name": "0101.U1.103 (Lüftung)"
+            },
+            {
+              "id": "0101.U1.104",
+              "name": "0101.U1.104 (Lüftung)"
+            },
+            {
+              "id": "0101.U1.109E",
+              "name": "0101.U1.109E (Raumluftpodest im NK109C)"
+            },
+            {
+              "id": "0101.U1.110",
+              "name": "0101.U1.110 (Raumluft)"
+            },
+            {
+              "id": "0101.U1.118",
+              "name": "0101.U1.118 (Lüftung)"
+            },
+            {
+              "id": "0101.U1.125",
+              "name": "0101.U1.125 (Lüftung)"
+            },
+            {
+              "id": "0101.U1.126",
+              "name": "0101.U1.126 (Lüftung)"
+            },
+            {
+              "id": "0101.U1.140",
+              "name": "0101.U1.140 (RLT-Anlage (Zugang Steiggitter 0102))"
+            }
+          ],
+          "count": 15,
+          "name": "Lufttechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.02.135",
+              "name": "0101.02.135 (Cip-Pool)"
+            }
+          ],
+          "count": 1,
+          "name": "Praktikumsraum - EDV"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.110A",
+              "name": "0101.01.110A (Elektronikpraktikum)"
+            },
+            {
+              "id": "0101.01.110F",
+              "name": "0101.01.110F (Praktikum)"
+            },
+            {
+              "id": "0101.02.102",
+              "name": "0101.02.102 (El-Praktikum)"
+            },
+            {
+              "id": "0101.02.134",
+              "name": "0101.02.134 (Praktikumsraum)"
+            },
+            {
+              "id": "0101.02.159",
+              "name": "0101.02.159 (Elektronikpraktikum)"
+            }
+          ],
+          "count": 5,
+          "name": "Praktikumsraum - Physik"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.170B",
+              "name": "0101.EG.170B (Putzraum)"
+            },
+            {
+              "id": "0101.EG.170E",
+              "name": "0101.EG.170E (Putzraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.126B",
+              "name": "0101.EG.126B (Sekretariat)"
+            },
+            {
+              "id": "0101.Z1.023",
+              "name": "0101.Z1.023 (Sekretariat)"
+            },
+            {
+              "id": "0101.Z1.029",
+              "name": "0101.Z1.029 (Sekretariat)"
+            }
+          ],
+          "count": 3,
+          "name": "Sekretariat"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.135",
+              "name": "0101.01.135 (Seminarraum)"
+            },
+            {
+              "id": "0101.02.128",
+              "name": "0101.02.128 (Seminarraum)"
+            },
+            {
+              "id": "0101.EG.116",
+              "name": "0101.EG.116 (Seminarraum)"
+            },
+            {
+              "id": "0101.Z1.005",
+              "name": "0101.Z1.005 (Seminarraum)"
+            },
+            {
+              "id": "0101.Z1.039",
+              "name": "0101.Z1.039 (Seminarraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Seminarraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.130",
+              "name": "0101.EG.130 (Serverraum)"
+            },
+            {
+              "id": "0101.EG.177",
+              "name": "0101.EG.177 (Technikraum 2)"
+            },
+            {
+              "id": "0101.EG.178B",
+              "name": "0101.EG.178B (Technikraum 2)"
+            },
+            {
+              "id": "0101.Z1.031A",
+              "name": "0101.Z1.031A (Serverraum)"
+            },
+            {
+              "id": "0101.Z1.043",
+              "name": "0101.Z1.043 (Serverraum)"
+            },
+            {
+              "id": "0101.Z1.051",
+              "name": "0101.Z1.051 (Serverraum)"
+            },
+            {
+              "id": "0101.Z1.052A",
+              "name": "0101.Z1.052A (Serverraum)"
+            }
+          ],
+          "count": 7,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.136",
+              "name": "0101.01.136 (Sozialraum)"
+            },
+            {
+              "id": "0101.02.127",
+              "name": "0101.02.127 (Aufenthaltsraum/Küche)"
+            },
+            {
+              "id": "0101.EG.151",
+              "name": "0101.EG.151 (Elternzimmer)"
+            },
+            {
+              "id": "0101.U1.101A",
+              "name": "0101.U1.101A (Aufenthaltsraum Fahrbereitschaft)"
+            },
+            {
+              "id": "0101.Z1.006",
+              "name": "0101.Z1.006 (Sozialraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Sozialraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.199",
+              "name": "0101.EG.199 (Cip-Raum)"
+            }
+          ],
+          "count": 1,
+          "name": "Sprachlabor"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.171B",
+              "name": "0101.EG.171B (Kellertreppe)"
+            }
+          ],
+          "count": 1,
+          "name": "Stiege"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.110B",
+              "name": "0101.01.110B (Studentenarbeitsraum)"
+            },
+            {
+              "id": "0101.01.114",
+              "name": "0101.01.114 (Studentenarbeitsplatz mit DV)"
+            },
+            {
+              "id": "0101.01.115",
+              "name": "0101.01.115 (Studentenarbeitsraum)"
+            },
+            {
+              "id": "0101.01.199A",
+              "name": "0101.01.199A (N1 1.OG,  Studentische Arbeitsplätze)"
+            },
+            {
+              "id": "0101.02.100A",
+              "name": "0101.02.100A (Studentenarbeitsplätze)"
+            },
+            {
+              "id": "0101.02.103",
+              "name": "0101.02.103 (Studentenarbeitsplatz mit DV)"
+            },
+            {
+              "id": "0101.02.112",
+              "name": "0101.02.112 (Studentenarbeitsraum)"
+            },
+            {
+              "id": "0101.EG.111",
+              "name": "0101.EG.111 (Studentenlabor)"
+            },
+            {
+              "id": "0101.EG.120",
+              "name": "0101.EG.120 (Studentenlabor)"
+            },
+            {
+              "id": "0101.EG.122",
+              "name": "0101.EG.122 (Studentenlabor)"
+            },
+            {
+              "id": "0101.EG.137",
+              "name": "0101.EG.137 (Studentenlabor)"
+            },
+            {
+              "id": "0101.Z1.003",
+              "name": "0101.Z1.003 (Studentenarbeitsraum)"
+            },
+            {
+              "id": "0101.Z1.044",
+              "name": "0101.Z1.044 (Studentenarbeitsraum)"
+            },
+            {
+              "id": "0101.Z1.062B",
+              "name": "0101.Z1.062B (N1 ZG,  Studentische Arbeitsplätze)"
+            }
+          ],
+          "count": 14,
+          "name": "Studentenarbeitsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.136A",
+              "name": "0101.01.136A (Teeküche)"
+            },
+            {
+              "id": "0101.01.146",
+              "name": "0101.01.146 (Teeküche)"
+            },
+            {
+              "id": "0101.02.144",
+              "name": "0101.02.144 (Teeküche)"
+            },
+            {
+              "id": "0101.EG.126C",
+              "name": "0101.EG.126C (Teeküche)"
+            },
+            {
+              "id": "0101.Z1.022",
+              "name": "0101.Z1.022 (Teeküche)"
+            },
+            {
+              "id": "0101.Z1.033",
+              "name": "0101.Z1.033 (Teeküche)"
+            }
+          ],
+          "count": 6,
+          "name": "Teeküche"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.101A",
+              "name": "0101.01.101A (Treppe)"
+            },
+            {
+              "id": "0101.01.173A",
+              "name": "0101.01.173A (Treppe)"
+            },
+            {
+              "id": "0101.01.173B",
+              "name": "0101.01.173B (Treppe)"
+            },
+            {
+              "id": "0101.01.199B",
+              "name": "0101.01.199B (Treppe)"
+            },
+            {
+              "id": "0101.01.199C",
+              "name": "0101.01.199C (Treppe)"
+            },
+            {
+              "id": "0101.01.199D",
+              "name": "0101.01.199D (Treppe)"
+            },
+            {
+              "id": "0101.01.199E",
+              "name": "0101.01.199E (Treppe)"
+            },
+            {
+              "id": "0101.01.199F",
+              "name": "0101.01.199F (Treppe)"
+            },
+            {
+              "id": "0101.01.199G",
+              "name": "0101.01.199G (Treppe)"
+            },
+            {
+              "id": "0101.02.171",
+              "name": "0101.02.171 (Treppe)"
+            },
+            {
+              "id": "0101.02.171A",
+              "name": "0101.02.171A (Treppe)"
+            },
+            {
+              "id": "0101.02.195",
+              "name": "0101.02.195 (Treppe)"
+            },
+            {
+              "id": "0101.02.195A",
+              "name": "0101.02.195A (Treppe)"
+            },
+            {
+              "id": "0101.DG.101",
+              "name": "0101.DG.101 (Treppe Ost/Dachgeschoss)"
+            },
+            {
+              "id": "0101.DG.104",
+              "name": "0101.DG.104 (Treppe West Dachgeschoss)"
+            },
+            {
+              "id": "0101.EG.110C",
+              "name": "0101.EG.110C (Treppe)"
+            },
+            {
+              "id": "0101.EG.110D",
+              "name": "0101.EG.110D (Treppe)"
+            },
+            {
+              "id": "0101.EG.110E",
+              "name": "0101.EG.110E (Treppe)"
+            },
+            {
+              "id": "0101.EG.110F",
+              "name": "0101.EG.110F (Treppe)"
+            },
+            {
+              "id": "0101.EG.160A",
+              "name": "0101.EG.160A (Treppe)"
+            },
+            {
+              "id": "0101.EG.160B",
+              "name": "0101.EG.160B (Treppe)"
+            },
+            {
+              "id": "0101.EG.171",
+              "name": "0101.EG.171 (Treppenraum)"
+            },
+            {
+              "id": "0101.EG.171E",
+              "name": "0101.EG.171E (Treppe)"
+            },
+            {
+              "id": "0101.EG.194",
+              "name": "0101.EG.194 (Treppenraum)"
+            },
+            {
+              "id": "0101.EG.194A",
+              "name": "0101.EG.194A (Treppe)"
+            },
+            {
+              "id": "0101.U1.130",
+              "name": "0101.U1.130 (Treppe)"
+            },
+            {
+              "id": "0101.U1.131",
+              "name": "0101.U1.131 (Treppe)"
+            },
+            {
+              "id": "0101.U1.132",
+              "name": "0101.U1.132 (Treppe/Flur)"
+            },
+            {
+              "id": "0101.U1.140A",
+              "name": "0101.U1.140A (Treppe)"
+            },
+            {
+              "id": "0101.Z1.049B",
+              "name": "0101.Z1.049B (Treppe)"
+            },
+            {
+              "id": "0101.Z1.050B",
+              "name": "0101.Z1.050B (Treppe)"
+            }
+          ],
+          "count": 31,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.N0126A",
+              "name": "0101.EG.N0126A (BESPRECHUNGSRAUM)"
+            },
+            {
+              "id": "0101.EG.N0161",
+              "name": "0101.EG.N0161 (GALERIE)"
+            },
+            {
+              "id": "0101.EG.N0178",
+              "name": "0101.EG.N0178 (PUTZKAMMER)"
+            }
+          ],
+          "count": 3,
+          "name": "Unbekannt"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.107",
+              "name": "0101.U1.107 (WC)"
+            }
+          ],
+          "count": 1,
+          "name": "WC"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.174B",
+              "name": "0101.EG.174B (WC-Barrierefrei)"
+            }
+          ],
+          "count": 1,
+          "name": "WC Barrierefrei"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.170",
+              "name": "0101.01.170 (WC-Damen)"
+            },
+            {
+              "id": "0101.01.173D",
+              "name": "0101.01.173D (WC-Damen)"
+            },
+            {
+              "id": "0101.02.194",
+              "name": "0101.02.194 (WC-Damen)"
+            },
+            {
+              "id": "0101.EG.170D",
+              "name": "0101.EG.170D (WC-Damen mit Dusche)"
+            },
+            {
+              "id": "0101.EG.172B",
+              "name": "0101.EG.172B (WC-Damen)"
+            },
+            {
+              "id": "0101.EG.176B",
+              "name": "0101.EG.176B (WC-Damen)"
+            },
+            {
+              "id": "0101.EG.198B",
+              "name": "0101.EG.198B (WC-Damen)"
+            },
+            {
+              "id": "0101.Z1.041",
+              "name": "0101.Z1.041 (WC-Damen)"
+            }
+          ],
+          "count": 8,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.173",
+              "name": "0101.01.173 (WC-Herren)"
+            },
+            {
+              "id": "0101.02.175",
+              "name": "0101.02.175 (WC-Herren)"
+            },
+            {
+              "id": "0101.EG.170",
+              "name": "0101.EG.170 (WC-Herren)"
+            },
+            {
+              "id": "0101.EG.192A",
+              "name": "0101.EG.192A (WC-Herren)"
+            },
+            {
+              "id": "0101.Z1.046",
+              "name": "0101.Z1.046 (WC-Herren)"
+            }
+          ],
+          "count": 5,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.170A",
+              "name": "0101.01.170A (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0101.01.173C",
+              "name": "0101.01.173C (WC-Vorraum Herren)"
+            },
+            {
+              "id": "0101.02.175A",
+              "name": "0101.02.175A (WC-Vorraum Herren)"
+            },
+            {
+              "id": "0101.EG.172A",
+              "name": "0101.EG.172A (WC-Damen / Wickeltisch)"
+            },
+            {
+              "id": "0101.EG.176C",
+              "name": "0101.EG.176C (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0101.EG.192B",
+              "name": "0101.EG.192B (WC-Vorraum Herren)"
+            },
+            {
+              "id": "0101.EG.198D",
+              "name": "0101.EG.198D (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0101.Z1.041A",
+              "name": "0101.Z1.041A (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0101.Z1.046A",
+              "name": "0101.Z1.046A (WC-Vorraum Herren)"
+            }
+          ],
+          "count": 9,
+          "name": "WC Vorraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.DG.103",
+              "name": "0101.DG.103 (Wasserversorgung Dachgeschoss Ost)"
+            }
+          ],
+          "count": 1,
+          "name": "Wassertechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.U1.109",
+              "name": "0101.U1.109 (Waschhalle)"
+            }
+          ],
+          "count": 1,
+          "name": "Werkhalle"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.141",
+              "name": "0101.EG.141 (Elektronik-Werkstatt)"
+            },
+            {
+              "id": "0101.EG.152",
+              "name": "0101.EG.152 (Werkstatt)"
+            },
+            {
+              "id": "0101.U1.113",
+              "name": "0101.U1.113 (Metallwerkstätte grob)"
+            }
+          ],
+          "count": 3,
+          "name": "Werkstatt"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.EG.123",
+              "name": "0101.EG.123 (Windfang)"
+            },
+            {
+              "id": "0101.EG.140",
+              "name": "0101.EG.140 (Windfang)"
+            }
+          ],
+          "count": 2,
+          "name": "Windfang"
+        },
+        {
+          "children": [
+            {
+              "id": "0101.01.160",
+              "name": "0101.01.160 (Zeichensaal mit Arbeitsplätzen)"
+            }
+          ],
+          "count": 1,
+          "name": "Zeichensaal"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0101"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

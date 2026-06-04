@@ -1,0 +1,719 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@2315"
+  ],
+  "coords": {
+    "lat": 48.18069617628951,
+    "lon": 11.54610558014624,
+    "source": "roomfinder"
+  },
+  "id": "2315",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Präventionszentrum",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark"
+  ],
+  "parents": [
+    "root",
+    "olympiapark"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "2315"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Am Olympiacampus 12, 80809 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "109 (88 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 4,
+    "rank_combined": 1004,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/2315",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "2315.01.102",
+              "name": "2315.01.102 (Archiv,  Lager für Schnittraum)"
+            },
+            {
+              "id": "2315.01.113",
+              "name": "2315.01.113 (Flur zu 113A/Registratur)"
+            },
+            {
+              "id": "2315.02.202",
+              "name": "2315.02.202 (Registratur)"
+            },
+            {
+              "id": "2315.02.219",
+              "name": "2315.02.219 (Registratur)"
+            }
+          ],
+          "count": 4,
+          "name": "Archiv"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.U1.060",
+              "name": "2315.U1.060 (Aufzug)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzug"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.U1.004",
+              "name": "2315.U1.004 (Aufzugsmaschinenraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzugsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.02.233",
+              "name": "2315.02.233 (Besprechungsraum 02.OG)"
+            }
+          ],
+          "count": 1,
+          "name": "Besprechungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.114",
+              "name": "2315.01.114 (Büro)"
+            },
+            {
+              "id": "2315.01.122",
+              "name": "2315.01.122 (Medizinische Diagnistik)"
+            },
+            {
+              "id": "2315.01.123",
+              "name": "2315.01.123 (Medizinische Diagnostik)"
+            },
+            {
+              "id": "2315.02.203",
+              "name": "2315.02.203 (Büro)"
+            },
+            {
+              "id": "2315.02.204",
+              "name": "2315.02.204 (Büro)"
+            },
+            {
+              "id": "2315.02.205",
+              "name": "2315.02.205 (Büro)"
+            },
+            {
+              "id": "2315.02.206",
+              "name": "2315.02.206 (Büro)"
+            },
+            {
+              "id": "2315.02.207",
+              "name": "2315.02.207 (Büro)"
+            },
+            {
+              "id": "2315.02.208",
+              "name": "2315.02.208 (Büro)"
+            },
+            {
+              "id": "2315.02.209",
+              "name": "2315.02.209 (Büro)"
+            },
+            {
+              "id": "2315.02.210",
+              "name": "2315.02.210 (Büro)"
+            },
+            {
+              "id": "2315.02.211",
+              "name": "2315.02.211 (Büro)"
+            },
+            {
+              "id": "2315.02.212",
+              "name": "2315.02.212 (Büro)"
+            },
+            {
+              "id": "2315.02.213",
+              "name": "2315.02.213 (Büro)"
+            },
+            {
+              "id": "2315.02.214",
+              "name": "2315.02.214 (Büro)"
+            },
+            {
+              "id": "2315.02.222",
+              "name": "2315.02.222 (Büro)"
+            },
+            {
+              "id": "2315.02.223",
+              "name": "2315.02.223 (Büro)"
+            },
+            {
+              "id": "2315.02.226",
+              "name": "2315.02.226 (Büro)"
+            },
+            {
+              "id": "2315.02.227",
+              "name": "2315.02.227 (Büro)"
+            },
+            {
+              "id": "2315.02.228",
+              "name": "2315.02.228 (Büro)"
+            },
+            {
+              "id": "2315.02.229",
+              "name": "2315.02.229 (Büro)"
+            },
+            {
+              "id": "2315.02.230",
+              "name": "2315.02.230 (Büro)"
+            },
+            {
+              "id": "2315.02.231",
+              "name": "2315.02.231 (Büro)"
+            },
+            {
+              "id": "2315.EG.012A",
+              "name": "2315.EG.012A (Büro)"
+            },
+            {
+              "id": "2315.EG.013A",
+              "name": "2315.EG.013A (Büro)"
+            }
+          ],
+          "count": 25,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.107",
+              "name": "2315.01.107 (Lgf11b Chemikalien-Lager)"
+            }
+          ],
+          "count": 1,
+          "name": "Chemikalienlager"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.102A",
+              "name": "2315.01.102A (Tech07b Elektro Verteiler)"
+            },
+            {
+              "id": "2315.01.113A",
+              "name": "2315.01.113A (Tech07a Elektro Verteiler)"
+            },
+            {
+              "id": "2315.02.202A",
+              "name": "2315.02.202A (Tech07d Elektro Verteiler)"
+            },
+            {
+              "id": "2315.02.219A",
+              "name": "2315.02.219A (Tech07c Elektro Verteiler)"
+            },
+            {
+              "id": "2315.U1.005",
+              "name": "2315.U1.005 (Tech05 Elektroraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Elektrische Stromversorgung"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.150",
+              "name": "2315.01.150 (Flur zu Seminar. 15125)"
+            },
+            {
+              "id": "2315.01.151",
+              "name": "2315.01.151 (Hauptflur)"
+            },
+            {
+              "id": "2315.01.152",
+              "name": "2315.01.152 (Lab. Hauptflur)"
+            },
+            {
+              "id": "2315.01.153",
+              "name": "2315.01.153 (Lab. Hauptflur)"
+            },
+            {
+              "id": "2315.01.154",
+              "name": "2315.01.154 (Lab. Hauptflur)"
+            },
+            {
+              "id": "2315.02.250",
+              "name": "2315.02.250 (Vorraum zu Seminar. 15234)"
+            },
+            {
+              "id": "2315.02.251",
+              "name": "2315.02.251 (Flur)"
+            },
+            {
+              "id": "2315.02.252",
+              "name": "2315.02.252 (Flur)"
+            },
+            {
+              "id": "2315.EG.051",
+              "name": "2315.EG.051 (Flur)"
+            }
+          ],
+          "count": 9,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.EG.030",
+              "name": "2315.EG.030 (Technikverteiler ZG)"
+            },
+            {
+              "id": "2315.U1.001",
+              "name": "2315.U1.001 (Technikzentrale)"
+            },
+            {
+              "id": "2315.U1.002",
+              "name": "2315.U1.002 (Technikübergabe)"
+            }
+          ],
+          "count": 3,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.02.221",
+              "name": "2315.02.221 (Kasse)"
+            }
+          ],
+          "count": 1,
+          "name": "Geschäftsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.02.232",
+              "name": "2315.02.232 (Kopierraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Kopierraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.120",
+              "name": "2315.01.120 (Spühlküche)"
+            }
+          ],
+          "count": 1,
+          "name": "Küche"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.EG.009",
+              "name": "2315.EG.009 (Lbt14 Kühlproben)"
+            }
+          ],
+          "count": 1,
+          "name": "Kühlraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.119",
+              "name": "2315.01.119 (Autoklavenraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Labor (Technik)"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.106",
+              "name": "2315.01.106 (Lehrlabor)"
+            },
+            {
+              "id": "2315.01.108",
+              "name": "2315.01.108 (Western Blot,  Elektrophorese)"
+            },
+            {
+              "id": "2315.01.109",
+              "name": "2315.01.109 (Molekularbiol. Labor)"
+            },
+            {
+              "id": "2315.01.110",
+              "name": "2315.01.110 (Biologische Labore)"
+            },
+            {
+              "id": "2315.01.116",
+              "name": "2315.01.116 (Biochemisches Labor)"
+            },
+            {
+              "id": "2315.01.117",
+              "name": "2315.01.117 (Durchflusszytometrie)"
+            },
+            {
+              "id": "2315.01.118",
+              "name": "2315.01.118 (Zellbiologie)"
+            },
+            {
+              "id": "2315.01.121",
+              "name": "2315.01.121 (Histologie)"
+            }
+          ],
+          "count": 8,
+          "name": "Labor - Chemie"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.103",
+              "name": "2315.01.103 (Ergometrie)"
+            },
+            {
+              "id": "2315.01.104",
+              "name": "2315.01.104 (Medizinische Diagnostik)"
+            },
+            {
+              "id": "2315.EG.002",
+              "name": "2315.EG.002 (Biomechanische Diagnostik II)"
+            },
+            {
+              "id": "2315.EG.003",
+              "name": "2315.EG.003 (Biomechanische Diagnostik I)"
+            },
+            {
+              "id": "2315.EG.004",
+              "name": "2315.EG.004 (Leistungsphysiologische Diagnostik I)"
+            },
+            {
+              "id": "2315.EG.005",
+              "name": "2315.EG.005 (Leistungsphysiologische Diagnostik II)"
+            }
+          ],
+          "count": 6,
+          "name": "Labor - Physik"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.105",
+              "name": "2315.01.105 (Lager)"
+            },
+            {
+              "id": "2315.EG.006",
+              "name": "2315.EG.006 (Abstellraum/Lager)"
+            },
+            {
+              "id": "2315.EG.010",
+              "name": "2315.EG.010 (Abstellraum/Lager)"
+            },
+            {
+              "id": "2315.EG.011",
+              "name": "2315.EG.011 (Abstellraum/Lager)"
+            },
+            {
+              "id": "2315.EG.014",
+              "name": "2315.EG.014 (Lager ZG)"
+            }
+          ],
+          "count": 5,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.111A",
+              "name": "2315.01.111A (Putzraum)"
+            },
+            {
+              "id": "2315.02.217B",
+              "name": "2315.02.217B (Putzraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.101",
+              "name": "2315.01.101 (WC-Vorraum Damen)"
+            },
+            {
+              "id": "2315.01.112",
+              "name": "2315.01.112 (WC-Vorraum Damen)"
+            },
+            {
+              "id": "2315.02.201",
+              "name": "2315.02.201 (WC-Vorraum Herren)"
+            },
+            {
+              "id": "2315.02.217",
+              "name": "2315.02.217 (WC-Vorraum Herren)"
+            },
+            {
+              "id": "2315.02.218",
+              "name": "2315.02.218 (WC-Vorraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Sanitärraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.02.220",
+              "name": "2315.02.220 (Sekretariat)"
+            }
+          ],
+          "count": 1,
+          "name": "Sekretariat"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.125",
+              "name": "2315.01.125 (Seminarraum PZ 01)"
+            },
+            {
+              "id": "2315.02.234",
+              "name": "2315.02.234 (Seminarraum PZ 02)"
+            },
+            {
+              "id": "2315.EG.001",
+              "name": "2315.EG.001 (Audi Lounge)"
+            }
+          ],
+          "count": 3,
+          "name": "Seminarraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.124",
+              "name": "2315.01.124 (EDV/Server)"
+            }
+          ],
+          "count": 1,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.115",
+              "name": "2315.01.115 (Teeküche)"
+            },
+            {
+              "id": "2315.02.225",
+              "name": "2315.02.225 (Teeküche)"
+            }
+          ],
+          "count": 2,
+          "name": "Teeküche"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.140",
+              "name": "2315.01.140 (Treppe West)"
+            },
+            {
+              "id": "2315.01.141",
+              "name": "2315.01.141 (Treppe Ost)"
+            },
+            {
+              "id": "2315.02.240",
+              "name": "2315.02.240 (Treppe West)"
+            },
+            {
+              "id": "2315.02.241",
+              "name": "2315.02.241 (Treppe Ost)"
+            },
+            {
+              "id": "2315.EG.040",
+              "name": "2315.EG.040 (Treppe Ost)"
+            },
+            {
+              "id": "2315.EG.041",
+              "name": "2315.EG.041 (Treppe West)"
+            },
+            {
+              "id": "2315.EG.042",
+              "name": "2315.EG.042 (Treppe West ZG)"
+            },
+            {
+              "id": "2315.EG.043",
+              "name": "2315.EG.043 (Treppe Ost ZG)"
+            },
+            {
+              "id": "2315.U1.040",
+              "name": "2315.U1.040 (Westtreppe)"
+            }
+          ],
+          "count": 9,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.EG.013",
+              "name": "2315.EG.013 (Vorraum zu 12A/13A)"
+            }
+          ],
+          "count": 1,
+          "name": "Vorraum"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.EG.012",
+              "name": "2315.EG.012 (WC-Barrierefrei)"
+            }
+          ],
+          "count": 1,
+          "name": "WC Barrierefrei"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.101A",
+              "name": "2315.01.101A (WC-Damen)"
+            },
+            {
+              "id": "2315.01.112A",
+              "name": "2315.01.112A (WC-Damen)"
+            },
+            {
+              "id": "2315.02.218A",
+              "name": "2315.02.218A (WC-Damen)"
+            },
+            {
+              "id": "2315.EG.008",
+              "name": "2315.EG.008 (WC-Damen/Umkleide/Dusche)"
+            }
+          ],
+          "count": 4,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.01.111",
+              "name": "2315.01.111 (WC-Herren)"
+            },
+            {
+              "id": "2315.02.201A",
+              "name": "2315.02.201A (WC-Herren)"
+            },
+            {
+              "id": "2315.02.217A",
+              "name": "2315.02.217A (WC-Herren)"
+            },
+            {
+              "id": "2315.EG.007",
+              "name": "2315.EG.007 (WC-Herren/Umkleide/Dusche)"
+            }
+          ],
+          "count": 4,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.02.224",
+              "name": "2315.02.224 (Werkstatt Elektro)"
+            }
+          ],
+          "count": 1,
+          "name": "Werkstatt"
+        },
+        {
+          "children": [
+            {
+              "id": "2315.EG.050",
+              "name": "2315.EG.050 (Windfang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@2315"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

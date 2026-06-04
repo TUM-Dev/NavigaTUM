@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1607@0506"
+  ],
+  "coords": {
+    "lat": 48.14996227859554,
+    "lon": 11.5678943211511,
+    "source": "roomfinder"
+  },
+  "id": "0506.01.607",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.01.607 (Computerraum mit Galerie)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.01.607"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1607"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1 (1. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "1. OG + 1 Zwischengeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUBVWBW",
+      "id": 15045,
+      "name": "Lehrstuhl für Wasserbau (Prof. Rüther)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15045"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 250,
+    "rank_type": 100,
+    "rank_usage": 250
+  },
+  "redirect_url": "/room/0506.01.607",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38497"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=1607@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Praktikumsraum - EDV"
+}

@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "15001@2315"
+  ],
+  "coords": {
+    "lat": 48.1806660090127,
+    "lon": 11.546407218497876,
+    "source": "navigatum"
+  },
+  "id": "2315.EG.001",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "2315.EG.001 (Audi Lounge)",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark",
+    "Präventionszentrum"
+  ],
+  "parents": [
+    "root",
+    "olympiapark",
+    "2315"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=18181",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "2315.EG.001"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "15001"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Am Olympiacampus 12, 80809 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUS5000",
+      "id": 51899,
+      "name": "TUM School of Medicine and Health",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=51899"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/2315.EG.001",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=21810"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Seminarraum"
+}

@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N0352@0103"
+  ],
+  "coords": {
+    "lat": 48.15105388604279,
+    "lon": 11.568020277911932,
+    "source": "roomfinder"
+  },
+  "id": "0103.EG.352",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0103.EG.352 (WC-Damen)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "El.Masch./Geräte"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0103"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0103.EG.352"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N0352"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUPEWR0",
+      "id": 39688,
+      "name": "Weitere Räume",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=39688"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0103.EG.352",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=41310"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=N0352@0103&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "WC Damen"
+}

@@ -1,0 +1,82 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.14775450574333,
+    "lon": 11.566933615914824,
+    "source": "inferred"
+  },
+  "id": "0201.02.999",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0201.02.999 (Schacht f.Personenaufzug)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südgelände",
+    "Gabelsbergerstr. 43, StudiTUM"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedgelaende",
+    "0201"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0201.02.999"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Gabelsbergerstr. 43, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUVBSBV",
+      "id": 30361,
+      "name": "Studentische Vertretung",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=30361"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/0201.02.999",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=77444"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Aufzugsschacht"
+}

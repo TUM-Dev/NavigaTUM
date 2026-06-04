@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "-2910@0509"
+  ],
+  "coords": {
+    "lat": 48.1489705355437,
+    "lon": 11.566791761253754,
+    "source": "roomfinder"
+  },
+  "id": "0509.U2.910",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.U2.910 (Lager)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.U2.910"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "-2910"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": -2,
+        "name": "2. Untergeschoss",
+        "short_name": "-2",
+        "tumonline": "U2",
+        "type": "basement"
+      }
+    ],
+    "operator": {
+      "code": "TUEICDA",
+      "id": 53299,
+      "name": "Lehrstuhl für Design Automation (Prof. Wille)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=53299"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0509.U2.910",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37475"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=-2910@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Lager"
+}

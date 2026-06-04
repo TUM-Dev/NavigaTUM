@@ -1,0 +1,97 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@2109"
+  ],
+  "coords": {
+    "lat": 48.169921494150984,
+    "lon": 11.4959076787309,
+    "source": "roomfinder"
+  },
+  "id": "2109",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Tankstelle",
+  "parent_names": [
+    "Standorte",
+    "Kapuzinerhölzl, Motorenlabor, Lehrstuhl für Verbrennungskraftmaschinen"
+  ],
+  "parents": [
+    "root",
+    "kapuzinerhoelzl"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "2109"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Schragenhofstr. 31, 80992 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "1"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 0,
+    "rank_combined": 1000,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/2109",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "2109.EG.999",
+              "name": "2109.EG.999 (Tankstelle/Fahrradabstellbereich)"
+            }
+          ],
+          "count": 1,
+          "name": "Freiluftfläche"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@2109"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

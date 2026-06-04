@@ -29,4 +29,4 @@ def export_parents_parquet(df: pl.DataFrame) -> None:
         )
 
     out = pl.DataFrame(rows, schema=ParentsSchema.to_polars_schema())
-    ParentsSchema.write_parquet(out, OUTPUT_DIR / "parents.parquet")
+    ParentsSchema.write_parquet(ParentsSchema.validate(out), OUTPUT_DIR / "parents.parquet")

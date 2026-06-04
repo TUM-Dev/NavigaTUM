@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1623@0506"
+  ],
+  "coords": {
+    "lat": 48.149973787490296,
+    "lon": 11.567487466227924,
+    "source": "roomfinder"
+  },
+  "id": "0506.01.623",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.01.623 (WC-Damen)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.01.623"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1623"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1 (1. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 2,
+        "name": "1. OG + 1 Zwischengeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0506.01.623",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38648"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=1623@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "WC Damen"
+}

@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N0807@0108"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.150563917657294,
+    "lon": 11.56953889395835,
+    "source": "inferred"
+  },
+  "id": "0108.EG.807",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0108.EG.807 (Energy System Lab 2)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "Verfügungsgebäude"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0108"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0108.EG.807"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N0807"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUEIEWK",
+      "id": 15358,
+      "name": "Professur für Energiemanagement-Technologien (Prof. Goebel)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15358"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0108.EG.807",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37761"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Labor (Technik)"
+}

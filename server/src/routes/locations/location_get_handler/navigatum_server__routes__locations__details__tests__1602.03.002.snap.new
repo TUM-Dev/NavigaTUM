@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "2.3.2@1602"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.164370030469755,
+    "lon": 11.59244000493922,
+    "source": "inferred"
+  },
+  "id": "1602.03.002",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "1602.03.002 (Aufenthalt)",
+  "parent_names": [
+    "Standorte",
+    "Am Biederstein (MRI Außenstelle)",
+    "Altbau 2+3, Anatomisches Institut"
+  ],
+  "parents": [
+    "root",
+    "biederstein",
+    "1602"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "1602.03.002"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "2.3.2"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "3. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Biedersteiner Str. 29, 80802 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "3. Obergeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUMEZN1",
+      "id": 40711,
+      "name": "Lehrstuhl für Zellbiologie des Nervensystems (Prof. Misgeld)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=40711"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/1602.03.002",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=60425"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Sozialraum"
+}

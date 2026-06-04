@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "0210A/G@0502"
+  ],
+  "coords": {
+    "lat": 48.14820628057423,
+    "lon": 11.56810542970648,
+    "source": "roomfinder"
+  },
+  "id": "0502.Z1.210A",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0502.Z1.210A (Galerie)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Zentralgebäude 2"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0502"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0502.Z1.210A"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "0210A/G"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Zwischengeschoss, über EG"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      }
+    ],
+    "operator": {
+      "code": "TUPEWR0",
+      "id": 39688,
+      "name": "Weitere Räume",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=39688"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 2,
+    "rank_type": 100,
+    "rank_usage": 2
+  },
+  "redirect_url": "/room/0502.Z1.210A",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=75235"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=0210A/G@0502&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Gang (Galerie)"
+}

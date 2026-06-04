@@ -32,4 +32,4 @@ def _write_urls_parquet(df: pl.DataFrame, *, language: str, filename: str) -> No
             rows.append({"key": row["id"], "url": url, "text": text})
 
     out = pl.DataFrame(rows, schema=UrlsSchema.to_polars_schema())
-    UrlsSchema.write_parquet(out, OUTPUT_DIR / filename)
+    UrlsSchema.write_parquet(UrlsSchema.validate(out), OUTPUT_DIR / filename)

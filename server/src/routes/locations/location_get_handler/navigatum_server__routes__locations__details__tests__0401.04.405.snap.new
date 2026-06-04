@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "4405@0401"
+  ],
+  "coords": {
+    "lat": 48.148376005115374,
+    "lon": 11.564031789072237,
+    "source": "roomfinder"
+  },
+  "id": "0401.04.405",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0401.04.405 (Druckerraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südwestgelände",
+    "Richard-Wagner-Str. 18"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedwestgelaende",
+    "0401"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0401.04.405"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "4405"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "4. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Richard-Wagner-Str. 18, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 4,
+        "name": "4. Obergeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVR73",
+      "id": 26130,
+      "name": "Campus-Management-Team",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=26130"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 200,
+    "rank_type": 100,
+    "rank_usage": 200
+  },
+  "redirect_url": "/room/0401.04.405",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38060"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=4405@0401&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Kopierraum"
+}

@@ -1,0 +1,916 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0108"
+  ],
+  "coords": {
+    "lat": 48.150563917657294,
+    "lon": 11.56953889395835,
+    "source": "roomfinder"
+  },
+  "id": "0108",
+  "imgs": [
+    {
+      "author": {
+        "text": "Alexander Pach",
+        "url": null
+      },
+      "license": {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "name": "0108_0.webp"
+    }
+  ],
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Verfügungsgebäude",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0108"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "145 (111 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      },
+      {
+        "id": 3,
+        "name": "3. Obergeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      },
+      {
+        "id": 4,
+        "name": "4. Obergeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 5,
+    "rank_combined": 1005,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/n8",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0108.03.821",
+              "name": "0108.03.821 (Archiv)"
+            }
+          ],
+          "count": 1,
+          "name": "Archiv"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.02.839A",
+              "name": "0108.02.839A (Personenaufzug)"
+            },
+            {
+              "id": "0108.EG.839A",
+              "name": "0108.EG.839A (Personenaufzug)"
+            },
+            {
+              "id": "0108.U1.839",
+              "name": "0108.U1.839 (Aufzug)"
+            }
+          ],
+          "count": 3,
+          "name": "Aufzug"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.04.801",
+              "name": "0108.04.801 (Aufzugsmaschinenraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzugsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.U1.806C",
+              "name": "0108.U1.806C (Kontrollraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Beobachterraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.02.809",
+              "name": "0108.02.809 (Besprechungsraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Besprechungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.816",
+              "name": "0108.01.816 (Prof.-Büro)"
+            },
+            {
+              "id": "0108.01.818",
+              "name": "0108.01.818 (Büro)"
+            },
+            {
+              "id": "0108.01.819",
+              "name": "0108.01.819 (Büro)"
+            },
+            {
+              "id": "0108.01.820",
+              "name": "0108.01.820 (Büro)"
+            },
+            {
+              "id": "0108.01.821",
+              "name": "0108.01.821 (Büro)"
+            },
+            {
+              "id": "0108.01.822",
+              "name": "0108.01.822 (Büro)"
+            },
+            {
+              "id": "0108.01.823",
+              "name": "0108.01.823 (Büro)"
+            },
+            {
+              "id": "0108.01.824",
+              "name": "0108.01.824 (Büro)"
+            },
+            {
+              "id": "0108.01.825",
+              "name": "0108.01.825 (Büro)"
+            },
+            {
+              "id": "0108.02.801",
+              "name": "0108.02.801 (Büro)"
+            },
+            {
+              "id": "0108.02.802",
+              "name": "0108.02.802 (Büro)"
+            },
+            {
+              "id": "0108.02.803",
+              "name": "0108.02.803 (Büro)"
+            },
+            {
+              "id": "0108.02.805",
+              "name": "0108.02.805 (Büro)"
+            },
+            {
+              "id": "0108.02.807",
+              "name": "0108.02.807 (Büro/Archiv)"
+            },
+            {
+              "id": "0108.02.808",
+              "name": "0108.02.808 (Büro)"
+            },
+            {
+              "id": "0108.02.811",
+              "name": "0108.02.811 (Prof.-Büro)"
+            },
+            {
+              "id": "0108.02.814",
+              "name": "0108.02.814 (Büro)"
+            },
+            {
+              "id": "0108.02.816",
+              "name": "0108.02.816 (Büro)"
+            },
+            {
+              "id": "0108.02.818",
+              "name": "0108.02.818 (CAD)"
+            },
+            {
+              "id": "0108.02.819",
+              "name": "0108.02.819 (Büro)"
+            },
+            {
+              "id": "0108.02.821",
+              "name": "0108.02.821 (Büro)"
+            },
+            {
+              "id": "0108.02.822",
+              "name": "0108.02.822 (Büro)"
+            },
+            {
+              "id": "0108.02.823",
+              "name": "0108.02.823 (Büro)"
+            },
+            {
+              "id": "0108.02.825",
+              "name": "0108.02.825 (Büro/PC-Übungsraum)"
+            },
+            {
+              "id": "0108.03.801",
+              "name": "0108.03.801 (Gastdozent)"
+            },
+            {
+              "id": "0108.03.807",
+              "name": "0108.03.807 (Hutzimmer-Emeritus)"
+            },
+            {
+              "id": "0108.03.820",
+              "name": "0108.03.820 (Büro)"
+            },
+            {
+              "id": "0108.EG.801",
+              "name": "0108.EG.801 (Büro)"
+            },
+            {
+              "id": "0108.EG.811",
+              "name": "0108.EG.811 (Büro)"
+            },
+            {
+              "id": "0108.EG.816",
+              "name": "0108.EG.816 (Prof.-Büro)"
+            },
+            {
+              "id": "0108.EG.819",
+              "name": "0108.EG.819 (Büro)"
+            },
+            {
+              "id": "0108.EG.820",
+              "name": "0108.EG.820 (Büro)"
+            },
+            {
+              "id": "0108.EG.821",
+              "name": "0108.EG.821 (Büro)"
+            }
+          ],
+          "count": 33,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.828",
+              "name": "0108.EG.828 (Dusche)"
+            },
+            {
+              "id": "0108.U1.828",
+              "name": "0108.U1.828 (Dusche)"
+            }
+          ],
+          "count": 2,
+          "name": "Dusche"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.830",
+              "name": "0108.01.830 (Elektro Versorgung)"
+            },
+            {
+              "id": "0108.02.830",
+              "name": "0108.02.830 (Elektro Versorgung)"
+            },
+            {
+              "id": "0108.03.828",
+              "name": "0108.03.828 (Elektro Raum)"
+            },
+            {
+              "id": "0108.EG.830",
+              "name": "0108.EG.830 (Elektro Versorgung)"
+            },
+            {
+              "id": "0108.U1.830",
+              "name": "0108.U1.830 (Elektro Verteiler)"
+            }
+          ],
+          "count": 5,
+          "name": "Elektrische Stromversorgung"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.800",
+              "name": "0108.EG.800 (Einfahrt)"
+            }
+          ],
+          "count": 1,
+          "name": "Fahrzeugverkehrsfläche"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.03.825",
+              "name": "0108.03.825 (Dachfreifläche (Reinigen))"
+            }
+          ],
+          "count": 1,
+          "name": "Fluchtweg"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.816B",
+              "name": "0108.01.816B (Flur)"
+            },
+            {
+              "id": "0108.01.836",
+              "name": "0108.01.836 (Flur 1)"
+            },
+            {
+              "id": "0108.01.837",
+              "name": "0108.01.837 (Flur 2)"
+            },
+            {
+              "id": "0108.01.840",
+              "name": "0108.01.840 (Flur)"
+            },
+            {
+              "id": "0108.02.835",
+              "name": "0108.02.835 (Flur 1)"
+            },
+            {
+              "id": "0108.02.836",
+              "name": "0108.02.836 (Flur 2)"
+            },
+            {
+              "id": "0108.02.837",
+              "name": "0108.02.837 (Flur 3)"
+            },
+            {
+              "id": "0108.02.838",
+              "name": "0108.02.838 (Übergang)"
+            },
+            {
+              "id": "0108.02.839",
+              "name": "0108.02.839 (Flur 4)"
+            },
+            {
+              "id": "0108.03.835",
+              "name": "0108.03.835 (Flur 1)"
+            },
+            {
+              "id": "0108.EG.835",
+              "name": "0108.EG.835 (Flur 1)"
+            },
+            {
+              "id": "0108.EG.836",
+              "name": "0108.EG.836 (Eingangshalle)"
+            },
+            {
+              "id": "0108.EG.837",
+              "name": "0108.EG.837 (Flur 3)"
+            },
+            {
+              "id": "0108.EG.838",
+              "name": "0108.EG.838 (Flur 2)"
+            },
+            {
+              "id": "0108.U1.837",
+              "name": "0108.U1.837 (Flur 1)"
+            },
+            {
+              "id": "0108.U1.838",
+              "name": "0108.U1.838 (Flur 2)"
+            }
+          ],
+          "count": 16,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.03.824",
+              "name": "0108.03.824 (Solaranlage (Reinigen))"
+            }
+          ],
+          "count": 1,
+          "name": "Freiluftfläche"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.811G",
+              "name": "0108.EG.811G (Galerie)"
+            }
+          ],
+          "count": 1,
+          "name": "Gang (Galerie)"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.U1.808",
+              "name": "0108.U1.808 (Gasversorgung)"
+            }
+          ],
+          "count": 1,
+          "name": "Gasanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.851",
+              "name": "0108.EG.851 (Installationsschacht)"
+            },
+            {
+              "id": "0108.U1.809",
+              "name": "0108.U1.809 (Haustechnik)"
+            },
+            {
+              "id": "0108.U1.840",
+              "name": "0108.U1.840 (Betriebstechnik)"
+            },
+            {
+              "id": "0108.U1.841",
+              "name": "0108.U1.841 (Betriebstechnik)"
+            },
+            {
+              "id": "0108.U1.842",
+              "name": "0108.U1.842 (Betriebstechnik)"
+            },
+            {
+              "id": "0108.U1.851",
+              "name": "0108.U1.851 (Installationsschacht)"
+            }
+          ],
+          "count": 6,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.816A",
+              "name": "0108.01.816A (Büronebenraum)"
+            },
+            {
+              "id": "0108.01.828",
+              "name": "0108.01.828 (Druckerraum)"
+            },
+            {
+              "id": "0108.02.812",
+              "name": "0108.02.812 (Kopierraum)"
+            }
+          ],
+          "count": 3,
+          "name": "Kopierraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.804",
+              "name": "0108.01.804 (Labor)"
+            },
+            {
+              "id": "0108.03.806",
+              "name": "0108.03.806 (Exp. Arbeitsplatz)"
+            },
+            {
+              "id": "0108.03.809",
+              "name": "0108.03.809 (Lichttechnisches Labor)"
+            },
+            {
+              "id": "0108.EG.806",
+              "name": "0108.EG.806 (Energy System Lab 3)"
+            },
+            {
+              "id": "0108.EG.807",
+              "name": "0108.EG.807 (Energy System Lab 2)"
+            },
+            {
+              "id": "0108.EG.808",
+              "name": "0108.EG.808 (Energy System Lab 1)"
+            },
+            {
+              "id": "0108.EG.812",
+              "name": "0108.EG.812 (Elektro Labor)"
+            },
+            {
+              "id": "0108.EG.825",
+              "name": "0108.EG.825 (Energy System Lab 4)"
+            },
+            {
+              "id": "0108.U1.811",
+              "name": "0108.U1.811 (Teleaktions-Labor)"
+            },
+            {
+              "id": "0108.U1.815",
+              "name": "0108.U1.815 (Roboter-Labor)"
+            },
+            {
+              "id": "0108.U1.816",
+              "name": "0108.U1.816 (Montage-Labor)"
+            }
+          ],
+          "count": 11,
+          "name": "Labor (Technik)"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.801",
+              "name": "0108.01.801 (Labor)"
+            },
+            {
+              "id": "0108.01.807",
+              "name": "0108.01.807 (Prozesslabor)"
+            },
+            {
+              "id": "0108.01.808",
+              "name": "0108.01.808 (Prozesslabor)"
+            },
+            {
+              "id": "0108.03.808",
+              "name": "0108.03.808 (Physiklabor)"
+            },
+            {
+              "id": "0108.EG.815",
+              "name": "0108.EG.815 (Messlabor)"
+            },
+            {
+              "id": "0108.U1.818",
+              "name": "0108.U1.818 (Elektroniklabor)"
+            }
+          ],
+          "count": 6,
+          "name": "Labor - Physik"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.806G",
+              "name": "0108.EG.806G (Lager)"
+            },
+            {
+              "id": "0108.U1.819",
+              "name": "0108.U1.819 (Lager)"
+            }
+          ],
+          "count": 2,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.809",
+              "name": "0108.01.809 (Klimatechnik)"
+            },
+            {
+              "id": "0108.04.802",
+              "name": "0108.04.802 (Betriebstechnik)"
+            }
+          ],
+          "count": 2,
+          "name": "Lufttechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.802",
+              "name": "0108.01.802 (Elektronikpraktikum)"
+            }
+          ],
+          "count": 1,
+          "name": "Praktikumsraum - Physik"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.827",
+              "name": "0108.01.827 (Putzraum)"
+            },
+            {
+              "id": "0108.02.827",
+              "name": "0108.02.827 (Putzraum)"
+            },
+            {
+              "id": "0108.03.827",
+              "name": "0108.03.827 (Putzraum)"
+            },
+            {
+              "id": "0108.EG.827",
+              "name": "0108.EG.827 (Putzraum)"
+            },
+            {
+              "id": "0108.U1.827",
+              "name": "0108.U1.827 (Putzraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.815",
+              "name": "0108.01.815 (Sekretariat)"
+            },
+            {
+              "id": "0108.02.813",
+              "name": "0108.02.813 (Sekretariat)"
+            }
+          ],
+          "count": 2,
+          "name": "Sekretariat"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.812",
+              "name": "0108.01.812 (Seminar)"
+            },
+            {
+              "id": "0108.03.815",
+              "name": "0108.03.815 (Seminarraum)"
+            },
+            {
+              "id": "0108.03.823",
+              "name": "0108.03.823 (Seminarraum)"
+            }
+          ],
+          "count": 3,
+          "name": "Seminarraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.03.818",
+              "name": "0108.03.818 (Server)"
+            }
+          ],
+          "count": 1,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.03.811",
+              "name": "0108.03.811 (Studentenarb. m. DV)"
+            },
+            {
+              "id": "0108.03.816",
+              "name": "0108.03.816 (Studentenarb. m. DV)"
+            }
+          ],
+          "count": 2,
+          "name": "Studentenarbeitsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.826",
+              "name": "0108.01.826 (Treppe Ost)"
+            },
+            {
+              "id": "0108.01.834",
+              "name": "0108.01.834 (Treppe)"
+            },
+            {
+              "id": "0108.02.826",
+              "name": "0108.02.826 (Treppe Ost)"
+            },
+            {
+              "id": "0108.02.834",
+              "name": "0108.02.834 (Treppe)"
+            },
+            {
+              "id": "0108.03.826",
+              "name": "0108.03.826 (Treppe Ost)"
+            },
+            {
+              "id": "0108.03.834",
+              "name": "0108.03.834 (Treppe)"
+            },
+            {
+              "id": "0108.04.803",
+              "name": "0108.04.803 (Treppe)"
+            },
+            {
+              "id": "0108.EG.826",
+              "name": "0108.EG.826 (Treppe Ost)"
+            },
+            {
+              "id": "0108.EG.834",
+              "name": "0108.EG.834 (Treppe)"
+            },
+            {
+              "id": "0108.U1.826",
+              "name": "0108.U1.826 (Treppe Ost)"
+            },
+            {
+              "id": "0108.U1.835",
+              "name": "0108.U1.835 (Treppe)"
+            }
+          ],
+          "count": 11,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.838",
+              "name": "0108.01.838 (Experimentierhalle)"
+            },
+            {
+              "id": "0108.EG.839",
+              "name": "0108.EG.839 (Experimentierhalle)"
+            }
+          ],
+          "count": 2,
+          "name": "Versuchshalle"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.U1.832",
+              "name": "0108.U1.832 (WC-Barrierefrei)"
+            }
+          ],
+          "count": 1,
+          "name": "WC Barrierefrei"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.832",
+              "name": "0108.01.832 (WC-Damen)"
+            },
+            {
+              "id": "0108.02.832",
+              "name": "0108.02.832 (WC-Damen)"
+            },
+            {
+              "id": "0108.03.832",
+              "name": "0108.03.832 (WC-Damen)"
+            },
+            {
+              "id": "0108.EG.832",
+              "name": "0108.EG.832 (WC-Damen)"
+            }
+          ],
+          "count": 4,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.831",
+              "name": "0108.01.831 (WC-Herren)"
+            },
+            {
+              "id": "0108.02.831",
+              "name": "0108.02.831 (WC-Herren)"
+            },
+            {
+              "id": "0108.03.831",
+              "name": "0108.03.831 (WC-Herren)"
+            },
+            {
+              "id": "0108.EG.831",
+              "name": "0108.EG.831 (WC-Herren)"
+            },
+            {
+              "id": "0108.U1.831",
+              "name": "0108.U1.831 (WC-Herren)"
+            }
+          ],
+          "count": 5,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.823",
+              "name": "0108.EG.823 (Werkstatt Holz u. Metall grob)"
+            },
+            {
+              "id": "0108.EG.840",
+              "name": "0108.EG.840 (Elt.Techn.Werkstatt o.f.e.M.)"
+            },
+            {
+              "id": "0108.U1.821",
+              "name": "0108.U1.821 (Elektrowerkstatt)"
+            }
+          ],
+          "count": 3,
+          "name": "Werkstatt"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.EG.809",
+              "name": "0108.EG.809 (Windfang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        },
+        {
+          "children": [
+            {
+              "id": "0108.01.803",
+              "name": "0108.01.803 (Gruppenraum)"
+            },
+            {
+              "id": "0108.01.811",
+              "name": "0108.01.811 (Praktikum)"
+            },
+            {
+              "id": "0108.U1.806A",
+              "name": "0108.U1.806A (Experimenteller Raum)"
+            },
+            {
+              "id": "0108.U1.806B",
+              "name": "0108.U1.806B (Experimenteller Raum)"
+            },
+            {
+              "id": "0108.U1.825",
+              "name": "0108.U1.825 (Experimenteller Raum)"
+            },
+            {
+              "id": "0108.U1.825A",
+              "name": "0108.U1.825A (Experimenteller Raum)"
+            }
+          ],
+          "count": 6,
+          "name": "Übungsraum"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0108"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

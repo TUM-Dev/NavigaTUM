@@ -1,0 +1,903 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0401"
+  ],
+  "coords": {
+    "lat": 48.14854437965052,
+    "lon": 11.564145106803837,
+    "source": "roomfinder"
+  },
+  "id": "0401",
+  "imgs": [
+    {
+      "author": {
+        "text": "Frank Elsinga",
+        "url": null
+      },
+      "license": {
+        "text": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "name": "0401_0.webp"
+    }
+  ],
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Richard-Wagner-Str. 18",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südwestgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedwestgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0401"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Richard-Wagner-Str. 18, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "158 (137 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      },
+      {
+        "id": 3,
+        "name": "3. Obergeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      },
+      {
+        "id": 4,
+        "name": "4. Obergeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      },
+      {
+        "id": 5,
+        "name": "Dachgeschoss",
+        "short_name": "5",
+        "tumonline": "DG",
+        "type": "roof"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 6,
+    "rank_combined": 1006,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/sw1",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0401.01.101",
+              "name": "0401.01.101 (Archiv)"
+            },
+            {
+              "id": "0401.02.205",
+              "name": "0401.02.205 (Archiv)"
+            },
+            {
+              "id": "0401.U1.001A",
+              "name": "0401.U1.001A (Archiv)"
+            },
+            {
+              "id": "0401.U1.010",
+              "name": "0401.U1.010 (Archiv)"
+            },
+            {
+              "id": "0401.U1.011",
+              "name": "0401.U1.011 (Archiv)"
+            },
+            {
+              "id": "0401.U1.013",
+              "name": "0401.U1.013 (Archiv)"
+            },
+            {
+              "id": "0401.U1.014",
+              "name": "0401.U1.014 (Archiv)"
+            }
+          ],
+          "count": 7,
+          "name": "Archiv"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.104",
+              "name": "0401.01.104 (Besprechungsraum)"
+            },
+            {
+              "id": "0401.02.209",
+              "name": "0401.02.209 (Besprechungsraum)"
+            },
+            {
+              "id": "0401.02.215",
+              "name": "0401.02.215 (Besprechungsraum)"
+            },
+            {
+              "id": "0401.03.311",
+              "name": "0401.03.311 (Besprechungsraum)"
+            },
+            {
+              "id": "0401.EG.015",
+              "name": "0401.EG.015 (Besprechungsraum/ZV 4)"
+            }
+          ],
+          "count": 5,
+          "name": "Besprechungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.102",
+              "name": "0401.01.102 (Büro)"
+            },
+            {
+              "id": "0401.01.103",
+              "name": "0401.01.103 (Büro)"
+            },
+            {
+              "id": "0401.01.106",
+              "name": "0401.01.106 (Büro)"
+            },
+            {
+              "id": "0401.01.107",
+              "name": "0401.01.107 (Büro)"
+            },
+            {
+              "id": "0401.01.108",
+              "name": "0401.01.108 (Büro)"
+            },
+            {
+              "id": "0401.01.109",
+              "name": "0401.01.109 (Büro)"
+            },
+            {
+              "id": "0401.01.110",
+              "name": "0401.01.110 (Büro)"
+            },
+            {
+              "id": "0401.01.111",
+              "name": "0401.01.111 (Büro)"
+            },
+            {
+              "id": "0401.01.112",
+              "name": "0401.01.112 (Büro/ZV 4-Leitung)"
+            },
+            {
+              "id": "0401.01.113",
+              "name": "0401.01.113 (Büro)"
+            },
+            {
+              "id": "0401.01.114",
+              "name": "0401.01.114 (Büro)"
+            },
+            {
+              "id": "0401.01.115",
+              "name": "0401.01.115 (Büro)"
+            },
+            {
+              "id": "0401.01.116",
+              "name": "0401.01.116 (Büro)"
+            },
+            {
+              "id": "0401.01.117",
+              "name": "0401.01.117 (Büro)"
+            },
+            {
+              "id": "0401.01.119",
+              "name": "0401.01.119 (Büro)"
+            },
+            {
+              "id": "0401.01.120",
+              "name": "0401.01.120 (Büro)"
+            },
+            {
+              "id": "0401.02.202",
+              "name": "0401.02.202 (Büro)"
+            },
+            {
+              "id": "0401.02.203",
+              "name": "0401.02.203 (Büro)"
+            },
+            {
+              "id": "0401.02.204",
+              "name": "0401.02.204 (Büro)"
+            },
+            {
+              "id": "0401.02.206",
+              "name": "0401.02.206 (Büro)"
+            },
+            {
+              "id": "0401.02.207",
+              "name": "0401.02.207 (Büro)"
+            },
+            {
+              "id": "0401.02.208",
+              "name": "0401.02.208 (Büro)"
+            },
+            {
+              "id": "0401.02.210",
+              "name": "0401.02.210 (Postraum)"
+            },
+            {
+              "id": "0401.02.211",
+              "name": "0401.02.211 (Büro)"
+            },
+            {
+              "id": "0401.02.212",
+              "name": "0401.02.212 (Büro)"
+            },
+            {
+              "id": "0401.02.213",
+              "name": "0401.02.213 (Büro)"
+            },
+            {
+              "id": "0401.02.214",
+              "name": "0401.02.214 (Büro)"
+            },
+            {
+              "id": "0401.02.215A",
+              "name": "0401.02.215A (Büro)"
+            },
+            {
+              "id": "0401.02.215B",
+              "name": "0401.02.215B (Büro)"
+            },
+            {
+              "id": "0401.02.219",
+              "name": "0401.02.219 (Büro)"
+            },
+            {
+              "id": "0401.02.220",
+              "name": "0401.02.220 (Büro)"
+            },
+            {
+              "id": "0401.03.301",
+              "name": "0401.03.301 (Büro)"
+            },
+            {
+              "id": "0401.03.303",
+              "name": "0401.03.303 (Büro)"
+            },
+            {
+              "id": "0401.03.304",
+              "name": "0401.03.304 (Büro)"
+            },
+            {
+              "id": "0401.03.306",
+              "name": "0401.03.306 (Büro)"
+            },
+            {
+              "id": "0401.03.307",
+              "name": "0401.03.307 (Büro)"
+            },
+            {
+              "id": "0401.03.308",
+              "name": "0401.03.308 (Büro)"
+            },
+            {
+              "id": "0401.03.309",
+              "name": "0401.03.309 (Büro)"
+            },
+            {
+              "id": "0401.03.313",
+              "name": "0401.03.313 (Büro)"
+            },
+            {
+              "id": "0401.03.314",
+              "name": "0401.03.314 (Büro)"
+            },
+            {
+              "id": "0401.03.315",
+              "name": "0401.03.315 (Büro)"
+            },
+            {
+              "id": "0401.03.316",
+              "name": "0401.03.316 (Büro)"
+            },
+            {
+              "id": "0401.03.319",
+              "name": "0401.03.319 (Büro)"
+            },
+            {
+              "id": "0401.03.320",
+              "name": "0401.03.320 (Büro)"
+            },
+            {
+              "id": "0401.04.401",
+              "name": "0401.04.401 (Büro)"
+            },
+            {
+              "id": "0401.04.402",
+              "name": "0401.04.402 (Büro)"
+            },
+            {
+              "id": "0401.04.403",
+              "name": "0401.04.403 (Büro)"
+            },
+            {
+              "id": "0401.04.404",
+              "name": "0401.04.404 (Büro)"
+            },
+            {
+              "id": "0401.04.408",
+              "name": "0401.04.408 (Büro)"
+            },
+            {
+              "id": "0401.04.409",
+              "name": "0401.04.409 (Büro)"
+            },
+            {
+              "id": "0401.04.411",
+              "name": "0401.04.411 (Büro)"
+            },
+            {
+              "id": "0401.04.412",
+              "name": "0401.04.412 (Büro)"
+            },
+            {
+              "id": "0401.04.413",
+              "name": "0401.04.413 (Büro)"
+            },
+            {
+              "id": "0401.04.414",
+              "name": "0401.04.414 (Büro)"
+            },
+            {
+              "id": "0401.04.415",
+              "name": "0401.04.415 (Büro)"
+            },
+            {
+              "id": "0401.04.416",
+              "name": "0401.04.416 (Büro)"
+            },
+            {
+              "id": "0401.04.419",
+              "name": "0401.04.419 (Büro)"
+            },
+            {
+              "id": "0401.04.420",
+              "name": "0401.04.420 (Büro)"
+            },
+            {
+              "id": "0401.04.421",
+              "name": "0401.04.421 (Büro)"
+            },
+            {
+              "id": "0401.EG.010",
+              "name": "0401.EG.010 (Büro)"
+            },
+            {
+              "id": "0401.EG.011",
+              "name": "0401.EG.011 (Büro)"
+            },
+            {
+              "id": "0401.EG.012",
+              "name": "0401.EG.012 (Büro)"
+            },
+            {
+              "id": "0401.EG.013",
+              "name": "0401.EG.013 (Büro)"
+            },
+            {
+              "id": "0401.EG.016",
+              "name": "0401.EG.016 (Büro)"
+            },
+            {
+              "id": "0401.EG.017",
+              "name": "0401.EG.017 (Büro)"
+            },
+            {
+              "id": "0401.EG.018",
+              "name": "0401.EG.018 (Büro)"
+            }
+          ],
+          "count": 66,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.118",
+              "name": "0401.01.118 (Flur)"
+            },
+            {
+              "id": "0401.01.121",
+              "name": "0401.01.121 (Flur)"
+            },
+            {
+              "id": "0401.02.216",
+              "name": "0401.02.216 (Flur)"
+            },
+            {
+              "id": "0401.02.217",
+              "name": "0401.02.217 (Flur)"
+            },
+            {
+              "id": "0401.03.318",
+              "name": "0401.03.318 (Flur)"
+            },
+            {
+              "id": "0401.03.323",
+              "name": "0401.03.323 (Flur)"
+            },
+            {
+              "id": "0401.04.423",
+              "name": "0401.04.423 (Flur)"
+            },
+            {
+              "id": "0401.04.427",
+              "name": "0401.04.427 (Flur)"
+            },
+            {
+              "id": "0401.04.429A",
+              "name": "0401.04.429A (Flur)"
+            },
+            {
+              "id": "0401.EG.009",
+              "name": "0401.EG.009 (Flur)"
+            },
+            {
+              "id": "0401.EG.009A",
+              "name": "0401.EG.009A (Einfahrt)"
+            },
+            {
+              "id": "0401.EG.022",
+              "name": "0401.EG.022 (Flur)"
+            },
+            {
+              "id": "0401.U1.023",
+              "name": "0401.U1.023 (Kellerflur)"
+            },
+            {
+              "id": "0401.U1.024",
+              "name": "0401.U1.024 (Keller-Technik-Flur)"
+            }
+          ],
+          "count": 14,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.U1.999",
+              "name": "0401.U1.999 (Nicht genutzte Nutzflächen)"
+            }
+          ],
+          "count": 1,
+          "name": "Freifläche"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.02.218",
+              "name": "0401.02.218 (LRZ-Verteilerknoten)"
+            },
+            {
+              "id": "0401.DG.501",
+              "name": "0401.DG.501 (Install./Dachabstellraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.U1.016",
+              "name": "0401.U1.016 (Heiz.-/EDV-Technik)"
+            }
+          ],
+          "count": 1,
+          "name": "Heizungsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.02.201",
+              "name": "0401.02.201 (Kopierraum)"
+            },
+            {
+              "id": "0401.03.305",
+              "name": "0401.03.305 (Kopierraum)"
+            },
+            {
+              "id": "0401.03.310",
+              "name": "0401.03.310 (Post)"
+            },
+            {
+              "id": "0401.04.405",
+              "name": "0401.04.405 (Druckerraum)"
+            }
+          ],
+          "count": 4,
+          "name": "Kopierraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.03.321",
+              "name": "0401.03.321 (Küche)"
+            },
+            {
+              "id": "0401.EG.021",
+              "name": "0401.EG.021 (Küche)"
+            }
+          ],
+          "count": 2,
+          "name": "Küche"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.121A",
+              "name": "0401.01.121A (Lager)"
+            },
+            {
+              "id": "0401.03.328",
+              "name": "0401.03.328 (Lager)"
+            },
+            {
+              "id": "0401.EG.015A",
+              "name": "0401.EG.015A (Lager)"
+            },
+            {
+              "id": "0401.U1.006",
+              "name": "0401.U1.006 (Lager)"
+            },
+            {
+              "id": "0401.U1.007",
+              "name": "0401.U1.007 (Lager)"
+            },
+            {
+              "id": "0401.U1.008",
+              "name": "0401.U1.008 (Lager)"
+            },
+            {
+              "id": "0401.U1.009",
+              "name": "0401.U1.009 (Lager)"
+            },
+            {
+              "id": "0401.U1.012",
+              "name": "0401.U1.012 (Lager)"
+            },
+            {
+              "id": "0401.U1.015",
+              "name": "0401.U1.015 (Lager)"
+            }
+          ],
+          "count": 9,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.U1.021",
+              "name": "0401.U1.021 (Raumlufttechnik)"
+            }
+          ],
+          "count": 1,
+          "name": "Lufttechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.EG.005",
+              "name": "0401.EG.005 (Putzraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.04.417",
+              "name": "0401.04.417 (Seminarraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Seminarraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.03.317",
+              "name": "0401.03.317 (Technikraum 2)"
+            },
+            {
+              "id": "0401.04.418",
+              "name": "0401.04.418 (Technikraum 2)"
+            },
+            {
+              "id": "0401.U1.025",
+              "name": "0401.U1.025 (Serverraum)"
+            }
+          ],
+          "count": 3,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.04.425",
+              "name": "0401.04.425 (Ruheraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Sozialraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.105",
+              "name": "0401.01.105 (Teeküche)"
+            },
+            {
+              "id": "0401.01.123A",
+              "name": "0401.01.123A (Küche)"
+            },
+            {
+              "id": "0401.04.410",
+              "name": "0401.04.410 (Teeküche)"
+            }
+          ],
+          "count": 3,
+          "name": "Teeküche"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.124",
+              "name": "0401.01.124 (Treppenhaus)"
+            },
+            {
+              "id": "0401.02.225",
+              "name": "0401.02.225 (Treppenhaus)"
+            },
+            {
+              "id": "0401.03.326",
+              "name": "0401.03.326 (Treppenhaus)"
+            },
+            {
+              "id": "0401.04.428",
+              "name": "0401.04.428 (Treppenhaus)"
+            },
+            {
+              "id": "0401.DG.528",
+              "name": "0401.DG.528 (Treppenhaus)"
+            },
+            {
+              "id": "0401.EG.023",
+              "name": "0401.EG.023 (Treppenhaus)"
+            },
+            {
+              "id": "0401.U1.022",
+              "name": "0401.U1.022 (Treppenhaus)"
+            }
+          ],
+          "count": 7,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.04.422",
+              "name": "0401.04.422 (WC)"
+            },
+            {
+              "id": "0401.04.424",
+              "name": "0401.04.424 (WC)"
+            }
+          ],
+          "count": 2,
+          "name": "WC"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.122",
+              "name": "0401.01.122 (WC-Damen)"
+            },
+            {
+              "id": "0401.01.125",
+              "name": "0401.01.125 (WC-Damen)"
+            },
+            {
+              "id": "0401.02.217A",
+              "name": "0401.02.217A (WC-Damen)"
+            },
+            {
+              "id": "0401.02.221",
+              "name": "0401.02.221 (WC-Damen)"
+            },
+            {
+              "id": "0401.02.223",
+              "name": "0401.02.223 (WC-Damen)"
+            },
+            {
+              "id": "0401.03.322",
+              "name": "0401.03.322 (WC-Damen)"
+            },
+            {
+              "id": "0401.03.327",
+              "name": "0401.03.327 (WC-Damen)"
+            },
+            {
+              "id": "0401.EG.001",
+              "name": "0401.EG.001 (WC-Damen)"
+            },
+            {
+              "id": "0401.EG.019",
+              "name": "0401.EG.019 (WC-Damen)"
+            }
+          ],
+          "count": 9,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.01.123",
+              "name": "0401.01.123 (WC-Herren)"
+            },
+            {
+              "id": "0401.01.126",
+              "name": "0401.01.126 (WC-Herren)"
+            },
+            {
+              "id": "0401.02.222",
+              "name": "0401.02.222 (WC-Herren)"
+            },
+            {
+              "id": "0401.02.224",
+              "name": "0401.02.224 (WC-Herren)"
+            },
+            {
+              "id": "0401.03.324",
+              "name": "0401.03.324 (WC-Herren)"
+            },
+            {
+              "id": "0401.03.325",
+              "name": "0401.03.325 (WC-Herren)"
+            },
+            {
+              "id": "0401.04.429",
+              "name": "0401.04.429 (WC-Herren)"
+            },
+            {
+              "id": "0401.EG.002",
+              "name": "0401.EG.002 (WC-Herren)"
+            },
+            {
+              "id": "0401.EG.020",
+              "name": "0401.EG.020 (WC-Herren)"
+            }
+          ],
+          "count": 9,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.02.222A",
+              "name": "0401.02.222A (WC-Vorraum Herren)"
+            },
+            {
+              "id": "0401.EG.001A",
+              "name": "0401.EG.001A (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0401.EG.002A",
+              "name": "0401.EG.002A (WC-Vorraum Herren)"
+            },
+            {
+              "id": "0401.EG.019A",
+              "name": "0401.EG.019A (WC-Vorraum Damen)"
+            },
+            {
+              "id": "0401.EG.020A",
+              "name": "0401.EG.020A (WC-Vorraum Herren)"
+            }
+          ],
+          "count": 5,
+          "name": "WC Vorraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0401.03.312",
+              "name": "0401.03.312 (Büro)"
+            },
+            {
+              "id": "0401.04.406",
+              "name": "0401.04.406 (Gruppenarbeitsraum/Besprechungsraum)"
+            },
+            {
+              "id": "0401.EG.003",
+              "name": "0401.EG.003 (SAP-Schulungsraum)"
+            },
+            {
+              "id": "0401.EG.007",
+              "name": "0401.EG.007 (EDV-Schulungsraum)"
+            },
+            {
+              "id": "0401.EG.008",
+              "name": "0401.EG.008 (Workshopraum)"
+            }
+          ],
+          "count": 5,
+          "name": "Übungsraum"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0401"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

@@ -26,4 +26,4 @@ def export_sources_parquet(df: pl.DataFrame) -> None:
         )
 
     out = pl.DataFrame(rows, schema=SourcesSchema.to_polars_schema())
-    SourcesSchema.write_parquet(out, OUTPUT_DIR / "sources.parquet")
+    SourcesSchema.write_parquet(SourcesSchema.validate(out), OUTPUT_DIR / "sources.parquet")

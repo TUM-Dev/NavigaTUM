@@ -20,4 +20,4 @@ def export_usages_parquet(df: pl.DataFrame) -> None:
         pl.col("usage_din_277_desc").alias("din_277_desc"),
     )
     combined = pl.concat([de_side, en_side]).filter(pl.col("name").is_not_null()).unique()
-    UsagesSchema.write_parquet(combined, OUTPUT_DIR / "usages.parquet")
+    UsagesSchema.write_parquet(UsagesSchema.validate(combined), OUTPUT_DIR / "usages.parquet")

@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "2601@0506"
+  ],
+  "coords": {
+    "lat": 48.15006645241249,
+    "lon": 11.567526930509649,
+    "source": "roomfinder"
+  },
+  "id": "0506.02.601",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.02.601 (Übungsraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=15033",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.02.601"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "2601"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2 (2. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUS2000",
+      "id": 51267,
+      "name": "TUM School of Engineering and Design",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=51267"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/0506.02.601",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7501"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=2601@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Übungsraum"
+}

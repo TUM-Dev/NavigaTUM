@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "9006@2309"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.17758961767951,
+    "lon": 11.551480975648806,
+    "source": "inferred"
+  },
+  "id": "2309.EG.006",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "2309.EG.006 (Stromversorgung)",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark",
+    "Tennis Gebäude"
+  ],
+  "parents": [
+    "root",
+    "olympiapark",
+    "2309"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "2309.EG.006"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "9006"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Kolehmainenweg 7, 80809 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUZVCIO",
+      "id": 55301,
+      "name": "Campus im Olympiapark (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=55301"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/2309.EG.006",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=42565"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Elektrische Stromversorgung"
+}

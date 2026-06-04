@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "2621@0506"
+  ],
+  "coords": {
+    "lat": 48.14993341263991,
+    "lon": 11.56743482097116,
+    "source": "roomfinder"
+  },
+  "id": "0506.02.621",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0506.02.621 (Büro)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Theresianum"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0506"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0506.02.621"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "2621"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "2 (2. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 3,
+        "name": "2. OG + 1 Zwischengeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TULRAPG",
+      "id": 15101,
+      "name": "Lehrstuhl für Astronomische und Physikalische Geodäsie (Prof. Pail)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15101"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 100,
+    "rank_type": 100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/room/0506.02.621",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=7570"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=2621@0506&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Büro"
+}

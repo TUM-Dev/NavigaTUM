@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "4946@0509"
+  ],
+  "coords": {
+    "lat": 48.14926923674655,
+    "lon": 11.566978334557156,
+    "source": "roomfinder"
+  },
+  "id": "0509.05.946",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.05.946 (Lager)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.05.946"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "4946"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "4 (4. OG + 1 Zwischengeschoss)"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 5,
+        "name": "4. OG + 1 Zwischengeschoss",
+        "short_name": "4",
+        "tumonline": "05",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUEIESI",
+      "id": 48038,
+      "name": "Professur für Embedded Systems and Internet of Things (Prof. Steinhorst)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=48038"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0509.05.946",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=39751"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=4946@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Lager"
+}

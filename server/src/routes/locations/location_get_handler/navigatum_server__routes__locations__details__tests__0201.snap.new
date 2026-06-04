@@ -1,0 +1,490 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@0201"
+  ],
+  "coords": {
+    "lat": 48.14775450574333,
+    "lon": 11.566933615914824,
+    "source": "roomfinder"
+  },
+  "id": "0201",
+  "imgs": [
+    {
+      "author": {
+        "text": "David Bonello",
+        "url": null
+      },
+      "license": {
+        "text": "CC0 1.0",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "name": "0201_0.webp"
+    }
+  ],
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Gabelsbergerstr. 43, StudiTUM",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Südgelände"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "suedgelaende"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "0201"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Gabelsbergerstr. 43, 80333 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "63 (43 ohne Flure etc.)"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      },
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      },
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      },
+      {
+        "id": 2,
+        "name": "2. Obergeschoss",
+        "short_name": "2",
+        "tumonline": "02",
+        "type": "upper"
+      },
+      {
+        "id": 3,
+        "name": "3. Obergeschoss",
+        "short_name": "3",
+        "tumonline": "03",
+        "type": "upper"
+      },
+      {
+        "id": 4,
+        "name": "4. Obergeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ],
+    "links": [
+      {
+        "text": "Lernraumbelegung",
+        "url": "https://www.devapp.it.tum.de/iris/app/"
+      },
+      {
+        "text": "Über das StudiTUM",
+        "url": "https://www.sv.tum.de/sv/studitum/"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 2,
+    "rank_combined": 1002,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/s1",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "0201.04.001",
+              "name": "0201.04.001 (Abstellraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Abstellraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.EG.011",
+              "name": "0201.EG.011 (Personenaufzug)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzug"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.04.002",
+              "name": "0201.04.002 (Maschinenraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Aufzugsanlage"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.01.012",
+              "name": "0201.01.012 (Personenaufzug)"
+            },
+            {
+              "id": "0201.02.999",
+              "name": "0201.02.999 (Schacht f.Personenaufzug)"
+            },
+            {
+              "id": "0201.03.012",
+              "name": "0201.03.012 (Personenaufzug)"
+            }
+          ],
+          "count": 3,
+          "name": "Aufzugsschacht"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.03.006",
+              "name": "0201.03.006 (Büro)"
+            }
+          ],
+          "count": 1,
+          "name": "Büro"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.03.008",
+              "name": "0201.03.008 (Dusche)"
+            }
+          ],
+          "count": 1,
+          "name": "Dusche"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.01.011",
+              "name": "0201.01.011 (Flur/Vorraum)"
+            },
+            {
+              "id": "0201.02.011",
+              "name": "0201.02.011 (Flur/Vorraum)"
+            },
+            {
+              "id": "0201.03.011",
+              "name": "0201.03.011 (Flur/Vorraum)"
+            },
+            {
+              "id": "0201.04.003",
+              "name": "0201.04.003 (Dachflur)"
+            },
+            {
+              "id": "0201.04.004",
+              "name": "0201.04.004 (Flur)"
+            },
+            {
+              "id": "0201.EG.010",
+              "name": "0201.EG.010 (Flur/Vorraum)"
+            },
+            {
+              "id": "0201.U1.005",
+              "name": "0201.U1.005 (Gang)"
+            },
+            {
+              "id": "0201.U1.006",
+              "name": "0201.U1.006 (Gang)"
+            },
+            {
+              "id": "0201.U1.009",
+              "name": "0201.U1.009 (Flur)"
+            }
+          ],
+          "count": 9,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.U1.007",
+              "name": "0201.U1.007 (Heizung)"
+            }
+          ],
+          "count": 1,
+          "name": "Gebäudeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.U1.001",
+              "name": "0201.U1.001 (Lager AStA)"
+            },
+            {
+              "id": "0201.U1.002",
+              "name": "0201.U1.002 (Lager/Lüftung)"
+            },
+            {
+              "id": "0201.U1.003",
+              "name": "0201.U1.003 (Lager AStA)"
+            },
+            {
+              "id": "0201.U1.004",
+              "name": "0201.U1.004 (Lager AStA)"
+            },
+            {
+              "id": "0201.U1.008",
+              "name": "0201.U1.008 (Lager/Daten)"
+            }
+          ],
+          "count": 5,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.03.007",
+              "name": "0201.03.007 (Reinigung)"
+            }
+          ],
+          "count": 1,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.U1.010",
+              "name": "0201.U1.010 (EDV)"
+            }
+          ],
+          "count": 1,
+          "name": "Serverraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.03.009",
+              "name": "0201.03.009 (Ruheraum)"
+            },
+            {
+              "id": "0201.EG.002",
+              "name": "0201.EG.002 (Aufenthalt/Cafe/Getränke)"
+            }
+          ],
+          "count": 2,
+          "name": "Sozialraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.01.001",
+              "name": "0201.01.001 (Stillarbeitsraum)"
+            },
+            {
+              "id": "0201.01.002",
+              "name": "0201.01.002 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.01.003",
+              "name": "0201.01.003 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.01.004",
+              "name": "0201.01.004 (Besprechungsraum Studentische Vertretung / SV)"
+            },
+            {
+              "id": "0201.01.007",
+              "name": "0201.01.007 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.01.008",
+              "name": "0201.01.008 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.01.009",
+              "name": "0201.01.009 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.02.001",
+              "name": "0201.02.001 (Stillarbeitsraum)"
+            },
+            {
+              "id": "0201.02.002",
+              "name": "0201.02.002 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.02.003",
+              "name": "0201.02.003 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.02.004",
+              "name": "0201.02.004 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.02.007",
+              "name": "0201.02.007 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.02.008",
+              "name": "0201.02.008 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.02.009",
+              "name": "0201.02.009 (Einzelarbeitsraum)"
+            },
+            {
+              "id": "0201.03.001",
+              "name": "0201.03.001 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.03.002",
+              "name": "0201.03.002 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.03.003",
+              "name": "0201.03.003 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.EG.001",
+              "name": "0201.EG.001 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.EG.003",
+              "name": "0201.EG.003 (Stud.arbeit)"
+            },
+            {
+              "id": "0201.EG.006",
+              "name": "0201.EG.006 (Stud.arbeit)"
+            }
+          ],
+          "count": 20,
+          "name": "Studentenarbeitsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.01.013",
+              "name": "0201.01.013 (Treppenhaus)"
+            },
+            {
+              "id": "0201.02.013",
+              "name": "0201.02.013 (Treppenhaus)"
+            },
+            {
+              "id": "0201.03.013",
+              "name": "0201.03.013 (Treppenhaus)"
+            },
+            {
+              "id": "0201.04.005",
+              "name": "0201.04.005 (Treppe)"
+            },
+            {
+              "id": "0201.EG.012",
+              "name": "0201.EG.012 (Treppenhaus)"
+            },
+            {
+              "id": "0201.U1.011",
+              "name": "0201.U1.011 (Treppenhaus)"
+            }
+          ],
+          "count": 6,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.01.005",
+              "name": "0201.01.005 (WC)"
+            },
+            {
+              "id": "0201.01.006",
+              "name": "0201.01.006 (WC)"
+            },
+            {
+              "id": "0201.02.005",
+              "name": "0201.02.005 (WC)"
+            },
+            {
+              "id": "0201.02.006",
+              "name": "0201.02.006 (WC)"
+            },
+            {
+              "id": "0201.03.004",
+              "name": "0201.03.004 (WC)"
+            },
+            {
+              "id": "0201.03.005",
+              "name": "0201.03.005 (WC)"
+            },
+            {
+              "id": "0201.EG.004",
+              "name": "0201.EG.004 (WC)"
+            },
+            {
+              "id": "0201.EG.005",
+              "name": "0201.EG.005 (WC)"
+            },
+            {
+              "id": "0201.EG.007",
+              "name": "0201.EG.007 (WC)"
+            }
+          ],
+          "count": 9,
+          "name": "WC"
+        },
+        {
+          "children": [
+            {
+              "id": "0201.EG.008",
+              "name": "0201.EG.008 (Eingang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@0201"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

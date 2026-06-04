@@ -1,0 +1,133 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@2312"
+  ],
+  "coords": {
+    "lat": 48.17943002724296,
+    "lon": 11.546280004450988,
+    "source": "roomfinder"
+  },
+  "id": "2312",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Sport-, Aussenanlagen/Teil-Umbau",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark"
+  ],
+  "parents": [
+    "root",
+    "olympiapark"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "2312"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Am Olympiacampus 11, 80809 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "10"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 0,
+    "rank_combined": 1000,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/2312",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "2312.EG.101",
+              "name": "2312.EG.101 (Beachbasketball, BEA1, Sandplatz)"
+            },
+            {
+              "id": "2312.EG.102",
+              "name": "2312.EG.102 (Beachhandball, BEA 2, Sandplatz)"
+            },
+            {
+              "id": "2312.EG.106",
+              "name": "2312.EG.106 (Beachvolleyball, BEA 3-6, Sandplatz)"
+            },
+            {
+              "id": "2312.EG.110",
+              "name": "2312.EG.110 (Basketballplatz 1)"
+            },
+            {
+              "id": "2312.EG.111",
+              "name": "2312.EG.111 (Basketballplatz 2)"
+            },
+            {
+              "id": "2312.EG.201",
+              "name": "2312.EG.201 (Sportwiese, SPW 1, Rasen)"
+            },
+            {
+              "id": "2312.EG.202",
+              "name": "2312.EG.202 (Sportwiese, SPW 2, Rasen)"
+            },
+            {
+              "id": "2312.EG.203",
+              "name": "2312.EG.203 (Sportwiese, SPW 3, Rasen)"
+            },
+            {
+              "id": "2312.EG.206",
+              "name": "2312.EG.206 (Sportwiese, SPW 6, Rasen)"
+            },
+            {
+              "id": "2312.EG.301",
+              "name": "2312.EG.301 (Multifunktionsplatz)"
+            }
+          ],
+          "count": 10,
+          "name": "Freifläche"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@2312"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

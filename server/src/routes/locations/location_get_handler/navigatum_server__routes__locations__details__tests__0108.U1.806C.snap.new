@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "N-1806C@0108"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.150563917657294,
+    "lon": 11.56953889395835,
+    "source": "inferred"
+  },
+  "id": "0108.U1.806C",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0108.U1.806C (Kontrollraum)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Nordgelände",
+    "Verfügungsgebäude"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "nordgelaende",
+    "0108"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0108.U1.806C"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "N-1806C"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Theresienstr. 90, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      }
+    ],
+    "operator": {
+      "code": "TUBVVTK",
+      "id": 15092,
+      "name": "Lehrstuhl für Verkehrstechnik (Prof. Bogenberger)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=15092"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0108.U1.806C",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=37672"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Beobachterraum"
+}

@@ -1,0 +1,92 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "-1545@0505"
+  ],
+  "coords": {
+    "lat": 48.15008278802749,
+    "lon": 11.566775185296128,
+    "source": "roomfinder"
+  },
+  "id": "0505.U1.545",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0505.U1.545 (Technik/ELT)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Wirtschaftswissenschaften"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0505"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0505.U1.545"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "-1545"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      }
+    ],
+    "operator": {
+      "code": "TUZVMUC",
+      "id": 55298,
+      "name": "Standort München (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=55298"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0505.U1.545",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=62629"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=-1545@0505&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Elektrische Stromversorgung"
+}

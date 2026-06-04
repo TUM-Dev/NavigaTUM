@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1108A@0501"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.148828833650946,
+    "lon": 11.568026579842776,
+    "source": "inferred"
+  },
+  "id": "0501.01.108A",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0501.01.108A (Fluchttreppenhaus)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Institutsbau"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0501"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0501.01.108A"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1108A"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Obergeschoss",
+        "short_name": "1",
+        "tumonline": "01",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUZVZA4",
+      "id": 19691,
+      "name": "Immobilien (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/0501.01.108A",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=74705"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Treppenhaus"
+}

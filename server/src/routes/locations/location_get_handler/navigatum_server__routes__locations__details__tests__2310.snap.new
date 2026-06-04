@@ -1,0 +1,247 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@2310"
+  ],
+  "coords": {
+    "lat": 48.17704861293168,
+    "lon": 11.552342025117062,
+    "source": "roomfinder"
+  },
+  "id": "2310",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Tennisanlagen",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark"
+  ],
+  "parents": [
+    "root",
+    "olympiapark"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "2310"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Kolehmainenweg 7, 80809 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "37"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 1,
+    "rank_combined": 1001,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/2310",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "2310.EG.001B",
+              "name": "2310.EG.001B (Beachfeld B 1)"
+            },
+            {
+              "id": "2310.EG.002B",
+              "name": "2310.EG.002B (Beachfeld B 2)"
+            },
+            {
+              "id": "2310.EG.003B",
+              "name": "2310.EG.003B (Beachfeld B 3)"
+            },
+            {
+              "id": "2310.EG.004B",
+              "name": "2310.EG.004B (Beachfeld B 4)"
+            },
+            {
+              "id": "2310.EG.005B",
+              "name": "2310.EG.005B (Beachfeld B 5)"
+            },
+            {
+              "id": "2310.EG.006B",
+              "name": "2310.EG.006B (Beachfeld B 6)"
+            },
+            {
+              "id": "2310.EG.007B",
+              "name": "2310.EG.007B (Beachfeld B 7)"
+            },
+            {
+              "id": "2310.EG.008B",
+              "name": "2310.EG.008B (Beachfeld B 8)"
+            },
+            {
+              "id": "2310.EG.009B",
+              "name": "2310.EG.009B (Beachfeld B 9)"
+            },
+            {
+              "id": "2310.EG.010B",
+              "name": "2310.EG.010B (Beachfeld B 10)"
+            },
+            {
+              "id": "2310.EG.011B",
+              "name": "2310.EG.011B (Beachfeld B 11)"
+            },
+            {
+              "id": "2310.EG.012B",
+              "name": "2310.EG.012B (Beachfeld B 12)"
+            },
+            {
+              "id": "2310.EG.013B",
+              "name": "2310.EG.013B (Beachfeld B 13)"
+            },
+            {
+              "id": "2310.EG.101T",
+              "name": "2310.EG.101T (Sandtennisplatz T 1)"
+            },
+            {
+              "id": "2310.EG.102T",
+              "name": "2310.EG.102T (Sandtennisplatz T 2)"
+            },
+            {
+              "id": "2310.EG.103T",
+              "name": "2310.EG.103T (Sandtennisplatz T 3)"
+            },
+            {
+              "id": "2310.EG.104T",
+              "name": "2310.EG.104T (Sandtennisplatz T 4)"
+            },
+            {
+              "id": "2310.EG.105T",
+              "name": "2310.EG.105T (Sandtennisplatz T 5)"
+            },
+            {
+              "id": "2310.EG.106T",
+              "name": "2310.EG.106T (Sandtennisplatz T 6)"
+            },
+            {
+              "id": "2310.EG.107T",
+              "name": "2310.EG.107T (Sandtennisplatz T 7)"
+            },
+            {
+              "id": "2310.EG.108T",
+              "name": "2310.EG.108T (Sandtennisplatz T 8)"
+            },
+            {
+              "id": "2310.EG.109T",
+              "name": "2310.EG.109T (Sandtennisplatz T 9)"
+            },
+            {
+              "id": "2310.EG.110T",
+              "name": "2310.EG.110T (Sandtennisplatz T 10)"
+            },
+            {
+              "id": "2310.EG.111T",
+              "name": "2310.EG.111T (Sandtennisplatz T 11)"
+            },
+            {
+              "id": "2310.EG.112T",
+              "name": "2310.EG.112T (Sandtennisplatz T 12)"
+            },
+            {
+              "id": "2310.EG.113T",
+              "name": "2310.EG.113T (Sandtennisplatz T 13)"
+            },
+            {
+              "id": "2310.EG.114T",
+              "name": "2310.EG.114T (Sandtennisplatz T 14)"
+            },
+            {
+              "id": "2310.EG.115T",
+              "name": "2310.EG.115T (Sandtennisplatz T 15)"
+            },
+            {
+              "id": "2310.EG.116T",
+              "name": "2310.EG.116T (Sandtennisplatz T 16)"
+            },
+            {
+              "id": "2310.EG.117T",
+              "name": "2310.EG.117T (Sandtennisplatz T 17)"
+            },
+            {
+              "id": "2310.EG.118T",
+              "name": "2310.EG.118T (Kunststofftennisplatz T 18)"
+            },
+            {
+              "id": "2310.EG.119T",
+              "name": "2310.EG.119T (Kunststofftennisplatz T 19)"
+            },
+            {
+              "id": "2310.EG.120T",
+              "name": "2310.EG.120T (Kunststofftennisplatz T 20)"
+            },
+            {
+              "id": "2310.EG.121T",
+              "name": "2310.EG.121T (Kunststofftennisplatz T 21)"
+            },
+            {
+              "id": "2310.EG.122T",
+              "name": "2310.EG.122T (Kunststofftennisplatz T 22)"
+            },
+            {
+              "id": "2310.EG.201T",
+              "name": "2310.EG.201T (Tenniswand TEW)"
+            }
+          ],
+          "count": 36,
+          "name": "Freifläche"
+        },
+        {
+          "children": [
+            {
+              "id": "2310.EG.020B",
+              "name": "2310.EG.020B (Beachfeld Müll/Lagerraum)"
+            }
+          ],
+          "count": 1,
+          "name": "Lager"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@2310"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

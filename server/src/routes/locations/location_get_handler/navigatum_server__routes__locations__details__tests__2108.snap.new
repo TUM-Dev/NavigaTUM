@@ -1,0 +1,97 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "@2108"
+  ],
+  "coords": {
+    "lat": 48.1700777915966,
+    "lon": 11.496685934512428,
+    "source": "roomfinder"
+  },
+  "id": "2108",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "Bunker",
+  "parent_names": [
+    "Standorte",
+    "Kapuzinerhölzl, Motorenlabor, Lehrstuhl für Verbrennungskraftmaschinen"
+  ],
+  "parents": [
+    "root",
+    "kapuzinerhoelzl"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Gebäudekennung",
+        "text": "2108"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Schragenhofstr. 31, 80992 München"
+      },
+      {
+        "extra": null,
+        "name": "Anzahl Räume",
+        "text": "1"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 0,
+    "rank_combined": 1000,
+    "rank_type": 1000,
+    "rank_usage": 100
+  },
+  "redirect_url": "/building/2108",
+  "sections": {
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "2108.U1.888",
+              "name": "2108.U1.888 (Lager)"
+            }
+          ],
+          "count": 1,
+          "name": "Lager"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?@2108"
+      }
+    ]
+  },
+  "type": "building",
+  "type_common_name": "Gebäude"
+}

@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "59.0.200@1559"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.13814,
+    "lon": 11.60203,
+    "source": "inferred"
+  },
+  "id": "1559.EG.200",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "1559.EG.200 (Treppenhaus)",
+  "parent_names": [
+    "Standorte",
+    "Klinikum rechts der Isar",
+    "Trogerstr. 30, Mikrobiologie/Virologie"
+  ],
+  "parents": [
+    "root",
+    "mri",
+    "1559"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "1559.EG.200"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "59.0.200"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Trogerstr. 30, 81675 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUMEFME",
+      "id": 14191,
+      "name": "Ehemalige Fakultät für Medizin",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=14191"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 1,
+    "rank_type": 100,
+    "rank_usage": 1
+  },
+  "redirect_url": "/room/1559.EG.200",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=60360"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Treppenhaus"
+}

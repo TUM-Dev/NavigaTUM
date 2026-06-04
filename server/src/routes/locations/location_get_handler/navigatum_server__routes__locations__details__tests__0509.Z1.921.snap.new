@@ -1,0 +1,93 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "Z921@0509"
+  ],
+  "coords": {
+    "lat": 48.1487386952626,
+    "lon": 11.566923686212574,
+    "source": "roomfinder"
+  },
+  "id": "0509.Z1.921",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0509.Z1.921 (Studentenarbeitsraum m. DV)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Neubau Innenhof"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0509"
+  ],
+  "props": {
+    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=30432",
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0509.Z1.921"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "Z921"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Zwischengeschoss, über EG"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 1,
+        "name": "1. Zwischengeschoss, über EG",
+        "short_name": "Z1",
+        "tumonline": "Z1",
+        "type": "semi_upper"
+      }
+    ],
+    "operator": {
+      "code": "TUS1DP4",
+      "id": 53600,
+      "name": "Department Electrical Engineering",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=53600"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 500,
+    "rank_type": 100,
+    "rank_usage": 500
+  },
+  "redirect_url": "/room/0509.Z1.921",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=38246"
+      },
+      {
+        "name": "Roomfinder",
+        "url": "https://portal.mytum.de/displayRoomMap?roomid=Z921@0509&disable_decoration=yes"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Studentenarbeitsraum"
+}

@@ -1,0 +1,89 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "-1501A@0505"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.149849092912845,
+    "lon": 11.56670096590265,
+    "source": "inferred"
+  },
+  "id": "0505.U1.501A",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "0505.U1.501A (Fernmeldetechnik)",
+  "parent_names": [
+    "Standorte",
+    "Stammgelände",
+    "Zentralgelände",
+    "Wirtschaftswissenschaften"
+  ],
+  "parents": [
+    "root",
+    "stammgelaende",
+    "zentralgelaende",
+    "0505"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "0505.U1.501A"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "-1501A"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Arcisstr. 21, 80333 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": -1,
+        "name": "1. Untergeschoss",
+        "short_name": "-1",
+        "tumonline": "U1",
+        "type": "basement"
+      }
+    ],
+    "operator": {
+      "code": "TUZVMUC",
+      "id": 55298,
+      "name": "Standort München (ZA 4)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=55298"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/0505.U1.501A",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=75989"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Fernmeldetechnik"
+}

@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "B20@2310"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.17704861293168,
+    "lon": 11.552342025117062,
+    "source": "inferred"
+  },
+  "id": "2310.EG.020B",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "2310.EG.020B (Beachfeld Müll/Lagerraum)",
+  "parent_names": [
+    "Standorte",
+    "Campus im Olympiapark",
+    "Tennisanlagen"
+  ],
+  "parents": [
+    "root",
+    "olympiapark",
+    "2310"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "2310.EG.020B"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "B20"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "Erdgeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Kolehmainenweg 7, 80809 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 0,
+        "name": "Erdgeschoss",
+        "short_name": "0",
+        "tumonline": "EG",
+        "type": "ground"
+      }
+    ],
+    "operator": {
+      "code": "TUS5000",
+      "id": 51899,
+      "name": "TUM School of Medicine and Health",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=51899"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/2310.EG.020B",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=74813"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Lager"
+}

@@ -1,0 +1,87 @@
+---
+source: server/src/routes/locations/details.rs
+assertion_line: 651
+expression: body_value
+---
+{
+  "aliases": [
+    "1.4.2@1601"
+  ],
+  "coords": {
+    "accuracy": "building",
+    "lat": 48.164370030469755,
+    "lon": 11.59244000493922,
+    "source": "inferred"
+  },
+  "id": "1601.04.002",
+  "maps": {
+    "default": "interactive"
+  },
+  "name": "1601.04.002 (Betriebstechn. Anlagen allg.)",
+  "parent_names": [
+    "Standorte",
+    "Am Biederstein (MRI Außenstelle)",
+    "Altbau 1, Vorklinik. Inst."
+  ],
+  "parents": [
+    "root",
+    "biederstein",
+    "1601"
+  ],
+  "props": {
+    "computed": [
+      {
+        "extra": null,
+        "name": "Raumkennung",
+        "text": "1601.04.002"
+      },
+      {
+        "extra": null,
+        "name": "Architekten-Name",
+        "text": "1.4.2"
+      },
+      {
+        "extra": null,
+        "name": "Stockwerk",
+        "text": "4. Obergeschoss"
+      },
+      {
+        "extra": null,
+        "name": "Adresse",
+        "text": "Biedersteiner Str. 29, 80802 München"
+      }
+    ],
+    "floors": [
+      {
+        "id": 4,
+        "name": "4. Obergeschoss",
+        "short_name": "4",
+        "tumonline": "04",
+        "type": "upper"
+      }
+    ],
+    "operator": {
+      "code": "TUS5000",
+      "id": 51899,
+      "name": "TUM School of Medicine and Health",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=51899"
+    }
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/1601.04.002",
+  "sections": {},
+  "sources": {
+    "base": [
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=60386"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Gebäudeleittechnik"
+}
