@@ -1,5 +1,5 @@
-use logos::Logos;
-use std::fmt::{Debug, Formatter};
+use logos::Logos as _;
+use std::fmt::{self, Debug, Formatter};
 use tracing::warn;
 
 use super::lexer::Token;
@@ -16,7 +16,7 @@ pub struct ParsedQuery {
 }
 
 impl Debug for ParsedQuery {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("ParsedQuery")
             .field("tokens", &self.tokens)
             .finish()
@@ -49,7 +49,7 @@ impl From<&str> for ParsedQuery {
                 Ok(Token::SplittableText((s1, s2))) => {
                     result.tokens.push(TextToken::SplittableText((s1, s2)));
                 }
-                Err(_) => {
+                Err(()) => {
                     warn!("Error in query parsing");
                 }
             }

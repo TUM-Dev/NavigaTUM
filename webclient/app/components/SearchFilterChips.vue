@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import {
   mdiCheck,
   mdiChevronDown,
@@ -9,10 +9,10 @@ import {
   mdiMapMarker,
   mdiTagOutline,
 } from "@mdi/js";
-import {useTemplateRef} from "vue";
-import type {components} from "~/api_types";
-import {useKnownUsages} from "~/composables/knownUsages";
-import {TYPE_BUCKET_OPTIONS, type SearchFilters} from "~/composables/searchFilters";
+import { useTemplateRef } from "vue";
+import type { components } from "~/api_types";
+import { useKnownUsages } from "~/composables/knownUsages";
+import { FACET_OPTIONS, type SearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -26,7 +26,7 @@ const props = defineProps<{
   filters: SearchFilters;
 }>();
 
-const {t} = useI18n({useScope: "local"});
+const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 const knownUsages = useKnownUsages();
@@ -36,13 +36,19 @@ const locationOpen = ref(false);
 const locationSearch = ref("");
 const locationInput = useTemplateRef<HTMLInputElement>("locationInput");
 
-const { data: locationData, status: locationStatus, refresh: refreshLocation } = useFetch<SearchResponse>(
+const {
+  data: locationData,
+  status: locationStatus,
+  refresh: refreshLocation,
+} = useFetch<SearchResponse>(
   () => {
     const params = new URLSearchParams();
     params.append("q", locationSearch.value);
     params.append("limit_all", "8");
+    params.append("limit_sites", "8");
     params.append("limit_buildings", "8");
     params.append("limit_rooms", "0");
+    params.append("limit_pois", "0");
     params.append("pre_highlight", "<b class='text-blue'>");
     params.append("post_highlight", "</b>");
     return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
@@ -52,7 +58,7 @@ const { data: locationData, status: locationStatus, refresh: refreshLocation } =
     lazy: true,
     immediate: false,
     watch: false,
-  },
+  }
 );
 
 watch(locationSearch, (q) => {
@@ -61,11 +67,15 @@ watch(locationSearch, (q) => {
 
 const locationSuggestions = computed<LocationSuggestion[]>(() => {
   if (locationSearch.value.length < 2) return [];
-  const section = locationData.value?.sections.find((s) => s.facet === "sites_buildings");
-  return section?.entries.map((e) => ({id: e.id, name: e.name, subtext: e.subtext})) ?? [];
+  const sections = locationData.value?.sections ?? [];
+  return sections
+    .filter((s) => s.facet === "sites" || s.facet === "buildings")
+    .flatMap((s) => s.entries.map((e) => ({ id: e.id, name: e.name, subtext: e.subtext })));
 });
 
-const locationLoading = computed(() => locationSearch.value.length >= 2 && locationStatus.value === "pending");
+const locationLoading = computed(
+  () => locationSearch.value.length >= 2 && locationStatus.value === "pending"
+);
 
 function toggleLocationPanel() {
   locationOpen.value = !locationOpen.value;
@@ -88,13 +98,7 @@ const usageOpen = ref(false);
 const usageSearch = ref("");
 const usageInput = useTemplateRef<HTMLInputElement>("usageInput");
 
-const filteredUsages = computed(() => {
-  const q = usageSearch.value.trim().toLowerCase();
-  if (!q) return knownUsages.options.value;
-  return knownUsages.options.value.filter(
-    (o) => o.label.toLowerCase().includes(q) || o.altLabel.toLowerCase().includes(q),
-  );
-});
+const filteredUsages = computed(() => knownUsages.filter(usageSearch.value));
 
 function toggleUsagePanel() {
   usageOpen.value = !usageOpen.value;
@@ -149,7 +153,7 @@ function closeLocation() {
       <PopoverPanel
         class="ring-black/5 absolute left-0 z-20 mt-2 w-48 rounded-sm bg-white p-2 shadow-lg ring-1 dark:bg-zinc-100">
         <label
-          v-for="opt in TYPE_BUCKET_OPTIONS"
+          v-for="opt in FACET_OPTIONS"
           :key="opt"
           class="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-200 text-zinc-800"
         >
@@ -307,8 +311,7 @@ function closeLocation() {
                 :checked="props.filters.usageFilter.value.includes(opt.slug)"
                 @change="props.filters.toggleFilterValue('usage', opt.slug)"
               />
-              <span class="flex-grow text-zinc-800">{{ opt.label }}</span>
-              <span class="text-xs font-mono text-zinc-400" :title="t('din_277_help')">{{ opt.din }}</span>
+              <UsageOptionContent :usage="opt" />
             </label>
           </li>
         </ul>
@@ -413,7 +416,6 @@ de:
   usage: Nutzung
   usage_panel_title: Nach Nutzung filtern
   usage_placeholder: Nutzungsart suchen...
-  din_277_help: DIN 277 Klassifizierung
   remove_usage: Nutzung entfernen
   location: Standort
   location_panel_title: Standort einschränken
@@ -435,7 +437,6 @@ en:
   usage: Usage
   usage_panel_title: Filter by usage
   usage_placeholder: Search usage type...
-  din_277_help: DIN 277 classification
   remove_usage: Remove usage
   location: Location
   location_panel_title: Restrict to location

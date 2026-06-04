@@ -45,6 +45,18 @@ test.describe("Search Page - Results Display", () => {
   });
 });
 
+test.describe("Search Page - English ↔ German synonyms (#960)", () => {
+  for (const query of ["library", "libraries", "bibliothek", "Teilbibliothek"]) {
+    test(`q=${query} returns at least one building result`, async ({ page }) => {
+      await page.goto(`/search?q=${query}`, { waitUntil: "networkidle" });
+      await page.waitForLoadState("networkidle");
+
+      const resultLinks = page.locator('a[href*="/view/"]');
+      expect(await resultLinks.count()).toBeGreaterThan(0);
+    });
+  }
+});
+
 test.describe("Search Page - Empty and Error States", () => {
   test("should handle empty search query", async ({ page }) => {
     await page.goto("/search?q=", { waitUntil: "networkidle" });
@@ -409,19 +421,19 @@ test.describe("Search Filters - Autocomplete dropdown integration", () => {
   });
 });
 
-test.describe("Search Filters - API parameter expansion", () => {
-  const expansionCases = [
-    { bucket: "building", expanded: "joined_building", label: "Gebäude" },
-    { bucket: "room", expanded: "virtual_room", label: "Raum" },
+test.describe("Search Filters - API parameter passthrough", () => {
+  const passthroughCases = [
+    { bucket: "building", label: "Gebäude" },
+    { bucket: "room", label: "Raum" },
   ] as const;
 
-  for (const { bucket, expanded, label } of expansionCases) {
-    test(`type=${bucket} in URL expands to ${bucket}+${expanded} on the API call`, async ({
+  for (const { bucket, label } of passthroughCases) {
+    test(`type=${bucket} in URL is sent verbatim (server buckets internally)`, async ({
       page,
     }) => {
-      // Initial /search load runs useFetch server-side, so the browser never
-      // emits the API request. Load the page first, then toggle the bucket
-      // via the UI to force a client-side fetch we can observe.
+      // The server's `facet` field already buckets subtypes (e.g. joined_building
+      // is filed under `building`), so the frontend does not expand the bucket
+      // name client-side anymore — it just passes the chosen bucket through.
       await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
       const requestPromise = page.waitForRequest(
@@ -433,7 +445,8 @@ test.describe("Search Filters - API parameter expansion", () => {
       await typePopover(page).getByText(label, { exact: true }).click();
 
       const request = await requestPromise;
-      expect(request.url()).toContain(`type=${expanded}`);
+      const occurrences = request.url().match(new RegExp(`type=${bucket}\\b`, "g")) ?? [];
+      expect(occurrences).toHaveLength(1);
     });
   }
 });

@@ -1,4 +1,4 @@
-use unicode_truncate::UnicodeTruncateStr;
+use unicode_truncate::UnicodeTruncateStr as _;
 
 use super::ResultEntry;
 use super::parser::{ParsedQuery, TextToken};
@@ -106,9 +106,21 @@ impl RoomVisitor {
         config: &FormattingConfig,
     ) -> (Option<&'a str>, String) {
         if first_token.contains('@') {
-            return (None, hit.arch_name.as_ref().unwrap().to_string());
+            return (
+                None,
+                hit.arch_name
+                    .as_ref()
+                    .expect("caller guarantees arch_name is set when first_token contains '@'")
+                    .clone(),
+            );
         }
-        let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
+        let arch_id = hit
+            .arch_name
+            .as_ref()
+            .expect("caller guarantees arch_name is set for room hits")
+            .split('@')
+            .next()
+            .expect("split iterator always yields at least one element");
         // For some well known buildings we have a prefix that we can use instead
         let prefix = match unicode_split_at(&hit.name, 3).0 {
             "560" | "561" => Some("MI "),

@@ -1,7 +1,17 @@
-use std::fmt::{Display, Formatter};
+// Tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded
+// by the OpenStreetMap tile pyramid sizing.
+#![allow(
+    clippy::cast_possible_truncation,
+    clippy::cast_sign_loss,
+    clippy::cast_possible_wrap
+)]
+
+use std::fmt::{self, Display, Formatter};
 use std::io;
 use std::time::Duration;
 
+use image::{DynamicImage, load_from_memory};
+use tokio::time::sleep;
 use tracing::{error, warn};
 
 use crate::limited::vec::LimitedVec;
@@ -15,7 +25,7 @@ struct TileLocation {
 }
 
 impl Display for TileLocation {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_tuple("TileLocation")
             .field(&self.x)
             .field(&self.y)
@@ -55,6 +65,7 @@ impl MapImageDownloadTask {
         }
         (offset_value % possible_tiles) as u32
     }
+    #[must_use]
     pub fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
             location: TileLocation {
@@ -66,6 +77,7 @@ impl MapImageDownloadTask {
         }
     }
 
+    #[must_use]
     pub fn with_index(self, x_index: u32, y_index: u32) -> Self {
         Self {
             index: (x_index, y_index),
@@ -75,10 +87,10 @@ impl MapImageDownloadTask {
 
     // type and create are specified, because a custom conversion is needed
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
-    pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
+    pub async fn fulfill(self) -> Option<((u32, u32), DynamicImage)> {
         let raw_tile = download_map_image(self.location).await;
         match raw_tile {
-            Ok(bytes) => match image::load_from_memory(&bytes.0) {
+            Ok(bytes) => match load_from_memory(&bytes.0) {
                 Ok(img) => Some((self.index, img)),
                 Err(e) => {
                     error!(?self, error = ?e, "Error while parsing image");
@@ -96,7 +108,7 @@ impl MapImageDownloadTask {
 #[tracing::instrument]
 async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec<u8>> {
     let url = format!(
-        "https://nav.tum.de/martin/style/navigatum-basemap/{z}/{x}/{y}@2x.png",
+        "https://nav.tum.de/martin/style/navigatum-basemap/{z}/{x}/{y}.png",
         x = location.x,
         y = location.y,
         z = location.z
@@ -104,7 +116,7 @@ async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec
     for i in 1..5 {
         let response = reqwest::get(&url).await?;
         let status = response.status();
-        if status.as_u16() == 400 {
+        if !status.is_success() {
             error!(url, ?status, "could not find {location:?}");
             return Err(io::Error::other("could not find requested tile").into());
         }
@@ -122,7 +134,7 @@ async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec
             retrying_in= ?wait_time,
             "retrying because response is only {size}B"
         );
-        tokio::time::sleep(wait_time).await;
+        sleep(wait_time).await;
     }
     Err(anyhow::anyhow!("Got only short Responses from {url}"))
 }

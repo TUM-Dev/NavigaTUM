@@ -1,9 +1,12 @@
 import logging
 
 import polars as pl
+from utils import TranslatableStr
+from utils import TranslatableStr as _
 
 from processors.df_utils import ensure_column
-from utils import TranslatableStr, TranslatableStr as _
+
+_logger = logging.getLogger(__name__)
 
 
 def add_children_properties(lf: pl.LazyFrame) -> pl.LazyFrame:
@@ -42,9 +45,7 @@ def add_children_properties(lf: pl.LazyFrame) -> pl.LazyFrame:
 
     # Join back onto main LazyFrame
     lf = lf.join(children_agg, left_on="id", right_on="parent_id", how="left")
-    lf = lf.join(children_flat_agg, left_on="id", right_on="parent_id", how="left")
-
-    return lf
+    return lf.join(children_flat_agg, left_on="id", right_on="parent_id", how="left")
 
 
 def add_stats(df: pl.DataFrame) -> pl.DataFrame:
@@ -58,7 +59,7 @@ def add_stats(df: pl.DataFrame) -> pl.DataFrame:
         pl.col("type").is_in(["root", "site", "campus", "area"]) & pl.col("children_flat").is_null()
     )
     for row in missing_children.iter_rows(named=True):
-        logging.warning(f"'{row['id']}' ({row['type']}) has no children")
+        _logger.warning(f"'{row['id']}' ({row['type']}) has no children")
 
     # Only process entries that have children_flat
     has_children = df.filter(pl.col("children_flat").is_not_null()).select("id", "children_flat")
@@ -132,11 +133,9 @@ def add_stats(df: pl.DataFrame) -> pl.DataFrame:
         & (pl.col("props_stats_n_rooms") == 0)
     )
     for row in zero_rooms.iter_rows(named=True):
-        logging.warning(f"'{row['id']}' ({row['type']}) has no rooms")
+        _logger.warning(f"'{row['id']}' ({row['type']}) has no rooms")
 
-    df = df.drop(["_n_rooms", "_n_rooms_reg", "_n_buildings"])
-
-    return df
+    return df.drop(["_n_rooms", "_n_rooms_reg", "_n_buildings"])
 
 
 def infer_addresses(df: pl.DataFrame) -> pl.DataFrame:
@@ -180,7 +179,7 @@ def infer_addresses(df: pl.DataFrame) -> pl.DataFrame:
 
     # Join back and fill in missing addresses
     df = df.join(uniform, on="id", how="left")
-    df = df.with_columns(
+    return df.with_columns(
         pl.coalesce(pl.col("props_address_street"), pl.col("inferred_street")).alias("props_address_street"),
         pl.coalesce(pl.col("props_address_plz_place"), pl.col("inferred_plz")).alias("props_address_plz_place"),
         pl.when(pl.col("props_address_source").is_null() & pl.col("inferred_street").is_not_null())
@@ -188,8 +187,6 @@ def infer_addresses(df: pl.DataFrame) -> pl.DataFrame:
         .otherwise(pl.col("props_address_source"))
         .alias("props_address_source"),
     ).drop(["inferred_street", "inferred_plz"])
-
-    return df
 
 
 TYPE_COMMON_NAME_BY_TYPE: dict[str, str | TranslatableStr] = {
@@ -253,6 +250,4 @@ def infer_type_common_name(lf: pl.LazyFrame) -> pl.LazyFrame:
         pl.col("type_common_name_de").alias("type_common_name"),
     )
 
-    lf = lf.drop(["_last_parent", "_parent_type"])
-
-    return lf
+    return lf.drop(["_last_parent", "_parent_type"])

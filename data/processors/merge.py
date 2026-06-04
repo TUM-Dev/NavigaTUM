@@ -1,10 +1,12 @@
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
 import yaml
-from processors.df_utils import flatten_entry, to_json_or_none
 from utils import TranslatableStr
+
+from processors.df_utils import flatten_entry
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -78,9 +80,7 @@ def add_coordinates(df: pl.DataFrame) -> pl.DataFrame:
     ]
 
     result = result.with_columns(coalesce_exprs)
-    result = result.drop(["coords_lat__csv", "coords_lon__csv"])
-
-    return result
+    return result.drop(["coords_lat__csv", "coords_lon__csv"])
 
 
 def _apply_patch_df(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
@@ -93,11 +93,11 @@ def _apply_patch_df(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
         return df
 
     # Align dtypes: cast patch columns to match df where they overlap
-    cast_exprs = []
-    for col in patch_df.columns:
-        if col != "id" and col in df.columns:
-            if patch_df.schema[col] != df.schema[col]:
-                cast_exprs.append(pl.col(col).cast(df.schema[col]))
+    cast_exprs = [
+        pl.col(col).cast(df.schema[col])
+        for col in patch_df.columns
+        if col != "id" and col in df.columns and patch_df.schema[col] != df.schema[col]
+    ]
     if cast_exprs:
         patch_df = patch_df.with_columns(cast_exprs)
 
@@ -111,18 +111,14 @@ def _apply_patch_df(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
     result = df.join(renamed, on="id", how="full", coalesce=True)
 
     # Coalesce: patch wins over original
-    coalesce_exprs = []
-    for col in common_cols:
-        coalesce_exprs.append(pl.coalesce(pl.col(f"{col}__patch"), pl.col(col)).alias(col))
+    coalesce_exprs = [pl.coalesce(pl.col(f"{col}__patch"), pl.col(col)).alias(col) for col in common_cols]
 
     if coalesce_exprs:
         result = result.with_columns(coalesce_exprs)
 
     # Drop the __patch columns
     drop_cols = [f"{c}__patch" for c in common_cols]
-    result = result.drop(drop_cols)
-
-    return result
+    return result.drop(drop_cols)
 
 
 def _yaml_to_patch_df(yaml_data: dict[str, dict[str, Any]]) -> pl.DataFrame:
@@ -231,8 +227,6 @@ def add_usages(df: pl.DataFrame) -> pl.DataFrame:
 
 def add_links(df: pl.DataFrame) -> pl.DataFrame:
     """Merge links from links.yaml (id -> list of {text, url}) into props_links_json."""
-    import json as json_mod
-
     if not LINKS_YAML.exists():
         raise FileNotFoundError(f"Required source file not found: {LINKS_YAML}")
     with LINKS_YAML.open(encoding="utf-8") as f:
@@ -244,11 +238,10 @@ def add_links(df: pl.DataFrame) -> pl.DataFrame:
 
     rows = []
     for entry_id, links in links_data.items():
-        rows.append({"id": str(entry_id), "props_links_json__yaml": json_mod.dumps(links, ensure_ascii=False)})
+        rows.append({"id": str(entry_id), "props_links_json__yaml": orjson.dumps(links).decode()})
 
     links_df = pl.DataFrame(rows, infer_schema_length=None)
     result = df.join(links_df, on="id", how="left")
-    result = result.with_columns(
+    return result.with_columns(
         pl.coalesce(pl.col("props_links_json__yaml"), pl.col("props_links_json")).alias("props_links_json"),
     ).drop("props_links_json__yaml")
-    return result

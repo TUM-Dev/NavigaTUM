@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiMagnify } from "@mdi/js";
+import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
@@ -18,24 +18,27 @@ const keep_focus = ref(false);
 const interacting_with_panel = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<number | undefined>(undefined);
-const sites_buildings_expanded = ref<boolean>(false);
+// Per-facet expand state. Sites/buildings/rooms can freeze with
+// `n_visible < entries.length` when a lower-priority facet appears; the
+// "show hidden" button on each such section toggles its slot here.
+const expandedFacets = ref<Set<string>>(new Set());
 
 const visibleElements = computed<string[]>(() => {
   if (!data.value) return [] as string[];
 
   const visible: string[] = [] as string[];
   for (const section of data.value.sections) {
-    if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value
-        ? Number.POSITIVE_INFINITY
-        : section.n_visible;
-      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
-    } else {
-      visible.push(...section.entries.map((e) => e.id));
-    }
+    const cap = expandedFacets.value.has(section.facet)
+      ? Number.POSITIVE_INFINITY
+      : section.n_visible;
+    visible.push(...section.entries.slice(0, cap).map((e) => e.id));
   }
   return visible;
 });
+
+const hasNoResults = computed(
+  () => !!data.value && data.value.sections.every((s) => s.estimatedTotalHits === 0)
+);
 
 function searchFocus(): void {
   searchBarFocused.value = true;
@@ -83,10 +86,23 @@ async function searchGoTo(id: string): Promise<void> {
   document.getElementById("search")?.blur();
 }
 
+function closeSearchBar(): void {
+  // Force-close even if a child (filter chip, sort popover, …) flipped the keep-focus flags;
+  // ESC is the user's "I'm done" signal and should always tear the panel down.
+  keep_focus.value = false;
+  interacting_with_panel.value = false;
+  searchBarFocused.value = false;
+  document.getElementById("search")?.blur();
+}
+
+onKeyStroke("Escape", () => {
+  if (searchBarFocused.value) closeSearchBar();
+});
+
 function onKeyDown(e: KeyboardEvent): void {
   switch (e.key) {
     case "Escape":
-      document.getElementById("search")?.blur();
+      closeSearchBar();
       break;
 
     case "ArrowDown":
@@ -214,15 +230,42 @@ const { data, error } = useFetch<SearchResponse>(url, {
         <p class="text-sm">{{ t("error.call_to_action") }}</p>
       </Toast>
       <template v-if="data">
-        <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
-          <div class="flex items-center">
-            <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-            <div class="border-zinc-800 flex-grow border-t" />
-          </div>
+        <div
+          v-if="hasNoResults"
+          role="status"
+          class="flex flex-col items-center gap-1 px-2 py-6 text-center"
+        >
+          <MdiIcon :path="mdiMagnifyClose" :size="32" class="text-zinc-400" />
+          <p class="text-zinc-800 text-sm font-semibold">{{ t("no_results.title") }}</p>
+          <p class="text-zinc-500 text-xs">
+            {{ filters.hasActiveFilters.value ? t("no_results.hint_filtered") : t("no_results.hint") }}
+          </p>
+          <Btn
+            v-if="filters.hasActiveFilters.value"
+            variant="linkButton"
+            size="sm"
+            @mousedown="keep_focus = true"
+            @click="filters.clearAll()"
+          >
+            {{ t("no_results.clear_filters") }}
+          </Btn>
+        </div>
+        <ul
+          v-for="s in data.sections"
+          v-else
+          v-cloak
+          :key="s.facet"
+          class="flex flex-col gap-2"
+        >
+          <template v-if="s.estimatedTotalHits > 0">
+            <div class="flex items-center">
+              <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+              <div class="border-zinc-800 flex-grow border-t" />
+            </div>
 
           <template v-for="(e, i) in s.entries" :key="e.id">
             <SearchResultItemLink
-              v-if="i < s.n_visible"
+              v-if="expandedFacets.has(s.facet) || i < s.n_visible"
               :highlighted="e.id === visibleElements[highlighted ?? -1]"
               :item="e"
               @click="searchBarFocused = false"
@@ -232,11 +275,11 @@ const { data, error } = useFetch<SearchResponse>(url, {
           </template>
           <li class="-mt-2">
             <Btn
-              v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
+              v-if="!expandedFacets.has(s.facet) && s.n_visible < s.entries.length"
               variant="linkButton"
               size="sm"
               @mousedown="keep_focus = true"
-              @click="sites_buildings_expanded = true"
+              @click="expandedFacets = new Set([...expandedFacets, s.facet])"
             >
               {{ t("show_hidden", s.entries.length - s.n_visible) }}
             </Btn>
@@ -246,6 +289,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
               }}
             </span>
           </li>
+          </template>
         </ul>
       </template>
     </div>
@@ -261,10 +305,22 @@ de:
     action: Go
   show_hidden: +{count} ausgeblendet
   sections:
-    sites_buildings: Gebäude / Standorte
+    sites: Standorte
+    buildings: Gebäude
     rooms: Räume
+    pois: POIs
+    addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
+  no_results:
+    title: Keine Ergebnisse gefunden
+    hint: Versuche es mit anderen Suchbegriffen.
+    hint_filtered: Keine Treffer mit den aktiven Filtern.
+    clear_filters: Filter entfernen
+  error:
+    header: Bei der Suche ist ein Fehler aufgetreten
+    reason: Der Grund für diesen Fehler ist
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktiere uns bitte über das Feedback-Formular.
 en:
   input:
     placeholder: Search
@@ -273,8 +329,20 @@ en:
     action: Go
   show_hidden: +{count} hidden
   sections:
-    sites_buildings: Buildings / Sites
+    sites: Sites
+    buildings: Buildings
     rooms: Rooms
+    pois: POIs
+    addresses: Addresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
+  no_results:
+    title: No results found
+    hint: Try different keywords.
+    hint_filtered: No matches with the active filters.
+    clear_filters: Clear filters
+  error:
+    header: Something went wrong while searching
+    reason: Reason for this error is
+    call_to_action: If this issue persists, please contact us via the feedback form.
 </i18n>

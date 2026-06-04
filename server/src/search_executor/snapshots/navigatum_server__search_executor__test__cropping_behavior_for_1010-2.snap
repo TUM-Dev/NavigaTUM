@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: 1010 znn"
 expression: results_full.0
 info: cropping=full
@@ -20,9 +20,9 @@ info: cropping=full
     - id: 0510.01.010
       type: room
       name: 0510.01.010 (Küche)
-      subtext: "stammgelände, Verwaltungsbau (Z10)"
+      subtext: "stammgelände, Z10"
       subtext_bold: 1010@0510
-      parsed_id: "\u00191010\u0017 Verwaltungsbau (Z10)"
+      parsed_id: "\u00191010\u0017 Z10"
     - id: 2906.01.010
       type: room
       name: 2906.01.010 (Büro)
@@ -32,18 +32,18 @@ info: cropping=full
     - id: 5433.01.010
       type: room
       name: 5433.01.010 (Büro)
-      subtext: "garching, Entrepreneurship Research Institute"
+      subtext: "garching, ECM"
       subtext_bold: 1010@5433
-      parsed_id: "\u00191010\u0017 Entrepreneurship Research Institute"
+      parsed_id: "\u00191010\u0017 ECM"
     - id: 0202.U1.010
       type: room
       name: 0202.U1.010 (Lager)
-      subtext: "stammgelände, Gabelsbergerstr. 39 (S2)"
+      subtext: "stammgelände, S2"
       subtext_bold: "-1010@0202"
     - id: 0401.U1.010
       type: room
       name: 0401.U1.010 (Archiv)
-      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext: "stammgelände, SW1)"
       subtext_bold: "-1010@0401"
     - id: 2906.U1.010
       type: room
@@ -53,18 +53,26 @@ info: cropping=full
     - id: 5413.EG.010
       type: room
       name: 5413.EG.010 (Hausanschluss)
-      subtext: "garching, BNMRZ Bayerisches NMR-Zentrum"
+      subtext: "garching, Bayerisches NMR-Zentrum"
       subtext_bold: 1010@5413
-      parsed_id: "\u00191010\u0017 BNMRZ Bayerisches NMR-Zentrum"
+      parsed_id: "\u00191010\u0017 Bayerisches NMR-Zentrum"
     - id: 5414.01.010
       type: room
       name: 5414.01.010 (Lager)
-      subtext: "garching, Zentrum für Energie und Information (ZEI)"
+      subtext: "garching, Zentrum für Energie u. Information (ZEI)"
       subtext_bold: 1010@5414
-      parsed_id: "\u00191010\u0017 Zentrum für Energie und Information (ZEI)"
+      parsed_id: "\u00191010\u0017 Zentrum für Energie u. Information (ZEI)"
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

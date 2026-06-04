@@ -1,11 +1,14 @@
-import logging
-from math import prod
-from zipfile import ZipFile
-import polars as pl
 import datetime as dt
+import logging
+from zipfile import ZipFile
 
-from external.scraping_utils import _download_file, CACHE_PATH
+import polars as pl
 from utils import setup_logging
+
+from external.schemas.public_transport import StationsSchema
+from external.scraping_utils import CACHE_PATH
+
+_logger = logging.getLogger(__name__)
 
 HST_REPORT_URL = "https://www.opendata-oepnv.de/fileadmin/datasets/delfi/20250310_zHV_gesamt.zip"
 OPEN_DATA_OEPNV_URL = "https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite?tx_vrrkit_view%5Baction%5D=details&tx_vrrkit_view%5Bcontroller%5D=View&tx_vrrkit_view%5Bdataset_name%5D=deutschlandweite-haltestellendaten&cHash=02aa95607cd0164111fcf703f749a2ee"
@@ -26,7 +29,7 @@ def _load_stations() -> pl.DataFrame:
         assert len(files) == 1, f"Expected 1 CSV file, but found {len(files)}: {files}"
         file_name = files[0]
         file_zip.extract(file_name, PUBLIC_TRANSPORT_CACHE_PATH)
-    logging.info(f"Extracted the zip file to {file_name}")
+    _logger.info(f"Extracted the zip file to {file_name}")
     df = pl.read_csv(PUBLIC_TRANSPORT_CACHE_PATH / file_name, separator=";", decimal_comma=True)
 
     # datatype cleanup
@@ -38,7 +41,9 @@ def _load_stations() -> pl.DataFrame:
         )
         .cast(pl.Date),
     )
-    df = df.with_columns(pl.when(pl.col("SEV") == "ja").then(True).otherwise(False).name.keep())
+    df = df.with_columns(
+        pl.when(pl.col("SEV") == "ja").then(True).otherwise(False).name.keep(),  # noqa: FBT003
+    )
     with pl.StringCache():
         df = df.with_columns(pl.col("Authority").cast(pl.Categorical).name.keep())
     # P: "boarding_postion
@@ -56,7 +61,7 @@ def _load_stations() -> pl.DataFrame:
         pl.when(pl.col("DelfiName").is_in(["-", "", None]))
         .then(pl.col("Name"))
         .otherwise(pl.col("DelfiName"))
-        .name.map(lambda x: "Name")
+        .name.map(lambda _: "Name")
     )
     df.drop_in_place("DelfiName")
     df = df.with_columns(pl.col("Latitude").cast(pl.Float32).name.keep())
@@ -73,21 +78,21 @@ def _load_stations() -> pl.DataFrame:
     valid_coordinates &= ~df["Latitude"].is_nan()
     invalid_coordinates = ~valid_coordinates
     if invalid_coordinates.any():
-        logging.warning(f"Dropped {invalid_coordinates.sum()} / {df['DHID'].count()} rows due to invalid coordinates")
+        _logger.warning(f"Dropped {invalid_coordinates.sum()} / {df['DHID'].count()} rows due to invalid coordinates")
         df = df.filter(valid_coordinates)
 
     if df["DHID"].is_null().any():
-        logging.warning(f"Dropped {df['DHID'].is_null().sum()} / {df['DHID'].count()} rows due to missing DHID")
+        _logger.warning(f"Dropped {df['DHID'].is_null().sum()} / {df['DHID'].count()} rows due to missing DHID")
         df = df.filter(~(df["DHID"].is_null()))
 
     if df["Name"].is_null().any():
-        logging.warning(f"Dropped {df['Name'].is_null().sum()} / {df['Name'].count()} rows due to missing Name")
+        _logger.warning(f"Dropped {df['Name'].is_null().sum()} / {df['Name'].count()} rows due to missing Name")
         df = df.filter(~(df["Name"].is_null()))
 
     last_operation_date = df.drop_in_place("LastOperationDate")
-    had_last_operation_date = ~last_operation_date.is_null() & (last_operation_date < dt.datetime.now())
+    had_last_operation_date = ~last_operation_date.is_null() & (last_operation_date < dt.datetime.now(tz=dt.UTC))
     if had_last_operation_date.any():
-        logging.warning(
+        _logger.warning(
             f"Dropped {had_last_operation_date.sum()} / {df['DHID'].count()} rows due to having had the LastOperationDate"
         )
         df = df.filter(~had_last_operation_date)
@@ -109,7 +114,7 @@ def _load_stations() -> pl.DataFrame:
         ],
         strict=True,
     )
-    df = df.rename(
+    return df.rename(
         {
             "DHID": "dhid",
             "Parent": "parent",
@@ -120,14 +125,13 @@ def _load_stations() -> pl.DataFrame:
         },
         strict=True,
     )
-    return df
 
 
 def scrape_stations() -> None:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
-    logging.info("Scraping the bus and train stations of the MVV")
-    df = _load_stations()
-    df.write_parquet(CACHE_PATH / "public_transport.parquet", use_pyarrow=True, compression_level=22)
+    _logger.info("Scraping the bus and train stations of the MVV")
+    df = StationsSchema.cast(_load_stations())
+    StationsSchema.write_parquet(df, CACHE_PATH / "public_transport.parquet")
 
 
 if __name__ == "__main__":

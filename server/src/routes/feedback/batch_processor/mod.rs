@@ -43,7 +43,7 @@ pub async fn update_batch_pr_metadata(
 
     let github = GitHub::default();
     match github.update_pr_labels(pr_number, labels).await {
-        Ok(_) => info!("Updated labels for batch PR #{}", pr_number),
+        Ok(()) => info!("Updated labels for batch PR #{}", pr_number),
         Err(e) => error!(
             error=?e, %pr_number, "Failed to update labels for batch PR"
         ),
@@ -63,7 +63,7 @@ pub async fn update_batch_pr_metadata(
     let github = GitHub::default();
     let title = format!("chore(data): batch edits ({edit_count} edits)");
     match github.update_pr_title(pr_number, &title).await {
-        Ok(_) => info!(%pr_number, "Updated title for batch PR"),
+        Ok(()) => info!(%pr_number, "Updated title for batch PR"),
         Err(e) => error!(error=?e, %pr_number, "Failed to update title for batch PR"),
     }
 
@@ -86,7 +86,7 @@ pub async fn update_batch_pr_metadata(
         .update_pr_description(pr_number, &updated_description)
         .await
     {
-        Ok(_) => info!(%pr_number, "Updated description for batch PR"),
+        Ok(()) => info!(%pr_number, "Updated description for batch PR"),
         Err(e) => error!(error=?e, %pr_number, 
             "Failed to update description for batch PR"),
     }

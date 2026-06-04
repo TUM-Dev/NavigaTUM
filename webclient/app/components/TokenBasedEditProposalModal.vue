@@ -5,9 +5,18 @@ import { useFeedbackToken } from "~/composables/feedbackToken";
 
 type EditRequest = components["schemas"]["EditRequest"];
 
-const props = defineProps<{
-  data: Pick<EditRequest, "edits" | "additional_context">;
-}>();
+const props = withDefaults(
+  defineProps<{
+    data: Pick<EditRequest, "additional_context"> & {
+      edits: NonNullable<EditRequest["edits"]>;
+      additions: NonNullable<EditRequest["additions"]>;
+    };
+    title?: string;
+  }>(),
+  { title: "" }
+);
+
+const open = defineModel<boolean>("open", { required: true });
 
 const emit = defineEmits<{
   beforeSubmit: [];
@@ -17,17 +26,20 @@ const runtimeConfig = useRuntimeConfig();
 const { t } = useI18n({ useScope: "local" });
 const loading = ref(false);
 const successUrl = ref("");
+const validationFailures = ref<Array<{ key: string; error: string }>>([]);
 const { error, token } = useFeedbackToken(t);
 const privacyChecked = ref(false);
 const editProposal = useEditProposal();
+const modalTitle = computed(() => props.title || t("title"));
 
 function closeForm() {
-  editProposal.value.open = false;
+  open.value = false;
   editProposal.value.imageUpload.open = false;
   editProposal.value.locationPicker.open = false;
   successUrl.value = "";
   error.value.blockSend = false;
   error.value.message = "";
+  validationFailures.value = [];
   privacyChecked.value = false;
 }
 
@@ -35,6 +47,7 @@ function resetFormData() {
   // Reset form data after successful submission
   editProposal.value.data.additional_context = "";
   editProposal.value.data.edits = {};
+  editProposal.value.data.additions = {};
   editProposal.value.selected.id = null;
   editProposal.value.selected.name = null;
   editProposal.value.imageUpload.selectedFile = null;
@@ -91,6 +104,17 @@ function _send() {
         error.value.message = t("error.bad_request");
       } else if (r.status === SubmissionStatus.UNPROCESSABLE_ENTITY) {
         error.value.message = t("error.validation_failed");
+        r.json()
+          .then((body: unknown) => {
+            if (Array.isArray(body)) {
+              validationFailures.value = (body as Array<{ key: unknown; error: unknown }>)
+                .filter((e) => typeof e?.key === "string" && typeof e?.error === "string")
+                .map((e) => ({ key: String(e.key), error: String(e.error) }));
+            }
+          })
+          .catch(() => {
+            // body wasn't JSON — leave the generic message in place
+          });
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
@@ -123,11 +147,15 @@ function sendForm() {
   // Inject property edits before validation
   emit("beforeSubmit");
 
-  // validate the foreign form - require either context or edits
+  // Reset stale per-key validation failures from a previous submission attempt.
+  validationFailures.value = [];
+
+  // validate the foreign form - require context, edits, or additions
   const hasContext = editProposal.value.data.additional_context.length >= 10;
   const hasEdits = Object.keys(editProposal.value.data.edits).length > 0;
+  const hasAdditions = Object.keys(editProposal.value.data.additions).length > 0;
 
-  if (!hasContext && !hasEdits) {
+  if (!hasContext && !hasEdits && !hasAdditions) {
     error.value.message = t("error.form.no_content");
     return;
   }
@@ -143,8 +171,21 @@ function sendForm() {
 </script>
 
 <template>
-  <Modal v-if="!successUrl" v-model="editProposal.open" :title="t('title')" @close="closeForm">
+  <Modal v-if="!successUrl" v-model="open" :title="modalTitle" @close="closeForm">
     <Toast v-if="error.message" id="token-modal-error" class="mb-4" :msg="error.message" level="error" />
+    <div
+      v-if="validationFailures.length"
+      class="bg-red-50 border-red-300 mb-4 rounded border px-3 py-2"
+      data-cy="validation-failures"
+    >
+      <p class="text-red-900 text-sm font-semibold">{{ t("validation_failures.title") }}</p>
+      <ul class="mt-1 list-disc pl-5 text-sm text-red-900">
+        <li v-for="failure in validationFailures" :key="failure.key">
+          <code class="bg-red-100 rounded px-1 py-0.5 text-xs">{{ failure.key }}</code>
+          — {{ failure.error }}
+        </li>
+      </ul>
+    </div>
 
     <div class="flex flex-col gap-1">
       <slot name="modal" />
@@ -231,7 +272,7 @@ function sendForm() {
       </Btn>
     </div>
   </Modal>
-  <Modal v-if="successUrl" v-model="editProposal.open" :title="t('thank_you')" @close="closeForm">
+  <Modal v-if="successUrl" v-model="open" :title="t('thank_you')" @close="closeForm">
     <slot name="success" :success-url="successUrl" />
 
     <Btn size="md" variant="primary" @click="closeForm">OK</Btn>
@@ -254,10 +295,12 @@ de:
     bad_request: Ungültige Anfrage. Nicht alle erforderlichen Felder sind vorhanden.
     validation_failed: Validierung fehlgeschlagen. Bitte überprüfe deine Eingaben.
     form:
-      no_content: "Fehler: Bitte füge zusätzlichen Kontext (mindestens 10 Zeichen) oder konkrete Änderungen hinzu"
+      no_content: "Fehler: Bitte füge zusätzlichen Kontext (mindestens 10 Zeichen), konkrete Änderungen oder neue Einträge hinzu"
   status:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
+  validation_failures:
+    title: "Folgende Einträge konnten nicht angelegt werden:"
   public:
     agreement: Meine Änderungsvorschläge dürfen anonym, aber öffentlich zugänglich auf der {github_project_issues} gespeichert werden.
     disclaimer: Mit der Nutzung dieses Formulars stimmst du explizit den {github_site_policy} sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
@@ -288,10 +331,12 @@ en:
     bad_request: Invalid request. Not all required fields are present.
     validation_failed: Validation failed. Please check your inputs.
     form:
-      no_content: "Error: Please add additional context (at least 10 characters) or concrete edits"
+      no_content: "Error: Please add additional context (at least 10 characters), concrete edits, or new entries"
   status:
     server_error: Server Error
     send_unexpected_status: Unexpected status code
+  validation_failures:
+    title: "These entries could not be created:"
   public:
     agreement: My edit proposal data may be stored anonymously but publicly accessible on the {github_project_issues}.
     disclaimer: By using this edit proposal form, you explicitly agree to the {github_site_policy} as well as a possible transfer of the data outside the European Union.

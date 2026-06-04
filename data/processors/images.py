@@ -1,5 +1,4 @@
 import hashlib
-import json
 import logging
 import os
 import shutil
@@ -8,15 +7,16 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, NamedTuple
 
+import orjson
 import polars as pl
-import pydantic
+import utils
 import yaml
+from external.models.common import PydanticConfiguration
 from PIL import Image
 from pydantic import Field
 from pydantic.networks import HttpUrl
 
-import utils
-from external.models.common import PydanticConfiguration
+_logger = logging.getLogger(__name__)
 
 
 class UrlStr(PydanticConfiguration):
@@ -69,13 +69,13 @@ def add_img(df: pl.DataFrame) -> pl.DataFrame:
         _id, _index = parse_image_filename(image_path.name)
 
         if _id not in img_sources or _index not in img_sources[_id]:
-            logging.warning(f"No source information for image '{image_path}', it will not be used")
+            _logger.warning(f"No source information for image '{image_path}', it will not be used")
 
     # Build imgs data per id
     imgs_rows = []
     for _id, _source_data in img_sources.items():
         if _id not in existing_ids:
-            logging.warning(f"There are images for '{_id}', but it was not found in the provided data, ignoring")
+            _logger.warning(f"There are images for '{_id}', but it was not found in the provided data, ignoring")
             continue
 
         img_data = []
@@ -83,14 +83,14 @@ def add_img(df: pl.DataFrame) -> pl.DataFrame:
             if image_path.name.startswith(f"{_id}_"):
                 source_info = _add_source_info(image_path.name, _source_data)
                 if not source_info:
-                    logging.warning(
+                    _logger.warning(
                         f"possibly skipped adding images for '{image_path}', a image was skipped because of missing "
                         f"source information. Adding more images would violate the enumeration-consistency",
                     )
                     break
                 img_data.append(source_info)
 
-        imgs_rows.append({"id": _id, "imgs_json_new": json.dumps(img_data)})
+        imgs_rows.append({"id": _id, "imgs_json_new": orjson.dumps(img_data).decode()})
 
     if imgs_rows:
         imgs_df = pl.DataFrame(imgs_rows)
@@ -121,7 +121,7 @@ def _add_source_info(fname, source_data):
     required_fields = ["author", "license"]
     for field in required_fields:
         if field not in source_data[_index]:
-            logging.warning(f"No {field} information for image '{fname}', it will not be used")
+            _logger.warning(f"No {field} information for image '{fname}', it will not be used")
             return None
 
     def _parse(obj):
@@ -181,7 +181,7 @@ class Resizer:
             if target != self.source:
                 # since we are already smaller than the max_size, we can copy the original image.
                 if target.is_file():
-                    os.remove(target)
+                    target.unlink()
                 shutil.copy(self.source, target)
             return
         if width < height:
@@ -213,23 +213,22 @@ def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "header" / order.source.name, (512, 210), order.offsets.header)
     # pylint: disable-next=broad-exception-caught
     except Exception as error:
-        logging.error(error)  # otherwise we would not see if an error occurs
+        _logger.error(error)  # otherwise we would not see if an error occurs
 
 
 def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:
     """Extract the offsets for the given image. Offsets are only available for the images, we crop"""
     if _id not in img_sources or _index >= len(img_sources[_id]):
-        logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
+        _logger.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
         return ImageOffset()
     return img_sources[_id][_index].offsets
 
 
 def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
-    logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
+    _logger.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT_FILE_PATH.is_file():
-        with HASH_LUT_FILE_PATH.open(encoding="utf-8") as file:
-            return json.load(file)  # type: ignore
+        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore
     return {}
 
 
@@ -240,8 +239,7 @@ def _save_hash_lut(img_sources: dict[str, list[ImageSource]]) -> None:
         _id, _index = parse_image_filename(img_path.name)
         offsets = _extract_offsets(_id, _index, img_path, img_sources)
         hashes_lut[img_path.name] = _gen_file_hash(img_path, offsets)
-    with HASH_LUT_FILE_PATH.open("w+", encoding="utf-8") as file:
-        json.dump(hashes_lut, file, sort_keys=True, indent=2)
+    HASH_LUT_FILE_PATH.write_bytes(orjson.dumps(hashes_lut, option=orjson.OPT_INDENT_2 | orjson.OPT_SORT_KEYS))
 
 
 def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
@@ -249,7 +247,7 @@ def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
     with img_path.open("rb") as file:
         # pylint: disable-next=unexpected-keyword-arg
         file_hash = hashlib.sha256(file.read(), usedforsecurity=False).hexdigest()
-        json_offsets = json.dumps({"thumb": offsets.thumb, "header": offsets.header}, sort_keys=True).encode("utf-8")
+        json_offsets = orjson.dumps({"thumb": offsets.thumb, "header": offsets.header}, option=orjson.OPT_SORT_KEYS)
         # pylint: disable-next=unexpected-keyword-arg
         offset_hash = hashlib.sha256(json_offsets, usedforsecurity=False).hexdigest()
         return f"{file_hash}_{offset_hash}"
@@ -261,7 +259,7 @@ def resize_and_crop() -> None:
 
     This will overwrite any existing thumbs/header-small's.
     """
-    logging.info(f"convert {IMAGE_BASE_PATH} to webp")
+    _logger.info(f"convert {IMAGE_BASE_PATH} to webp")
     utils.convert_to_webp(IMAGE_BASE_PATH)
 
     # in DEV, we can save some time by not resizing the images, if they have not changed
@@ -276,8 +274,8 @@ def resize_and_crop() -> None:
             if actual_hash == expected_hashes_lut.get(img_path.name, ""):
                 continue  # skip this image, since it (and its offsets) have not changed
             if DEV_MODE:
-                logging.debug(f"Image '{img_path.name}' has changed, resizing and cropping...")
+                _logger.debug(f"Image '{img_path.name}' has changed, resizing and cropping...")
             executor.submit(_refresh_for_all_resolutions, RefreshResolutionOrder(img_path, offsets))
     _save_hash_lut(img_sources)
     resize_and_crop_time = time.time() - start_time
-    logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")
+    _logger.info(f"Resize and crop took {resize_and_crop_time:.2f}s")

@@ -1,12 +1,12 @@
-import json
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
+from utils import TranslatableStr as _
 
 from processors import merge
 from processors.df_utils import translatable_to_columns
-from utils import TranslatableStr as _
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -19,7 +19,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
 
     existing_ids = set(df["id"].to_list())
     # Build parent lookup: id -> parents list
-    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list()))
+    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list(), strict=True))
 
     new_rows: list[dict[str, Any]] = []
     for _id, poi in poi_data.items():
@@ -45,7 +45,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
             "id": _id,
             "type": "poi",
             "parents": parents,
-            "sources_base_json": json.dumps([{"name": "NavigaTUM"}]),
+            "sources_base_json": orjson.dumps([{"name": "NavigaTUM"}]).decode(),
         }
 
         # Name columns
@@ -64,23 +64,23 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
 
         # Description
         if "description" in poi:
-            row["description_json"] = json.dumps(poi["description"])
+            row["description_json"] = orjson.dumps(poi["description"]).decode()
 
         # Props - links are kept as plain strings, localize_links handles them later
         if "props" in poi:
             if "links" in poi["props"]:
-                row["props_links_json"] = json.dumps(poi["props"]["links"])
+                row["props_links_json"] = orjson.dumps(poi["props"]["links"]).decode()
             if "comment" in poi["props"]:
                 c = poi["props"]["comment"]
                 if isinstance(c, dict):
                     row["props_comment_de"] = c.get("de", "")
                     row["props_comment_en"] = c.get("en", "")
             if "generic" in poi["props"]:
-                row["props_generic_json"] = json.dumps(poi["props"]["generic"])
+                row["props_generic_json"] = orjson.dumps(poi["props"]["generic"]).decode()
 
         # Generators
         if "generators" in poi:
-            row["generators_json"] = json.dumps(poi["generators"])
+            row["generators_json"] = orjson.dumps(poi["generators"]).decode()
 
         new_rows.append(row)
 
