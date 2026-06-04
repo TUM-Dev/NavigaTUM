@@ -12,7 +12,6 @@ const MAX_POI_KEY_LEN = 64;
 
 // `is_allowed_roomcode_char` in room.rs (mirrored from `ALLOWED_ROOMCODE_CHARS` in
 // `data/processors/tumonline.py`).
-const ROOM_SEGMENT_RE = /^[A-Za-z0-9-]+$/;
 const ROOM_KEY_RE = /^[A-Za-z0-9.-]+$/;
 
 // `is_arch_name_valid` in room.rs.

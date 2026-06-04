@@ -1,4 +1,12 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false
+  }
 }

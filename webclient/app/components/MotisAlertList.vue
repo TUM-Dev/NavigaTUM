@@ -37,16 +37,6 @@ const hasMoreAlerts = computed(() => {
 const remainingCount = computed(() => {
   return props.alerts.length - props.maxVisible;
 });
-
-// Sort alerts by severity (severe first)
-const sortedAlerts = computed(() => {
-  return [...props.alerts].sort((a, b) => {
-    const severityOrder = { severe: 0, warning: 1, info: 2, unknown: 3 };
-    const aSeverity = severityOrder[a.severity_level as keyof typeof severityOrder] ?? 4;
-    const bSeverity = severityOrder[b.severity_level as keyof typeof severityOrder] ?? 4;
-    return aSeverity - bSeverity;
-  });
-});
 </script>
 
 <template>
