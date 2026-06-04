@@ -48,7 +48,7 @@ impl FacetFilter {
     }
 }
 
-/// Federation has no per-facet quota — it merges by `_rankingScore` only. We
+/// Federation has no per-facet quota - it merges by `_rankingScore` only. We
 /// over-fetch by this factor so the merger downstream can still fill all
 /// per-facet caps when one facet dominates the ranking (observed: queries
 /// like `MW1801` returned 14 buildings + 1 room at the natural cap of 15).
@@ -136,7 +136,7 @@ impl GeoEntryQuery {
 
         // Per-query `limit` is rejected by Meilisearch in federated mode; the
         // global cap lives on `federation.limit` instead. `merge_facets` is
-        // set so the response uses the standard `facetDistribution` shape —
+        // set so the response uses the standard `facetDistribution` shape -
         // the SDK's `facets_by_index` field type does not match Meilisearch's
         // per-index keying and would fail to deserialise.
         let mut facets_by_index = HashMap::new();

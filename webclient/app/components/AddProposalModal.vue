@@ -108,13 +108,13 @@ const roomParentPrefix = computed(() => {
   return numeric ?? parentId;
 });
 
-// Floors known on the parent — what the TUMonline room-code uses for the floor segment.
+// Floors known on the parent - what the TUMonline room-code uses for the floor segment.
 type ParentFloorOption = { tumonline: string; label: string };
 const parentFloorOptions = computed<ParentFloorOption[]>(() => {
   const floors = parentDetails.value?.props?.floors ?? [];
   return floors
     .filter((f) => !!f.tumonline)
-    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} — ${f.short_name || f.name}` }));
+    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
 // Room IDs follow PARENT.FLOOR.NUMBER. The parent segment is auto-filled and disabled so users
@@ -261,7 +261,7 @@ function commitDraft(): { id: string; displayName: string } | null {
 
 function commitAddition() {
   if (!commitDraft()) return;
-  // Hand back to the Propose Changes modal — submission/privacy/send live there.
+  // Hand back to the Propose Changes modal - submission/privacy/send live there.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
 }
@@ -423,7 +423,7 @@ watch(
               class="focusable bg-zinc-200 text-zinc-900 w-32 rounded border px-2 py-1 text-sm"
               :class="roomIdFormatError ? 'border-red-500' : 'border-zinc-400'"
             >
-              <option value="">—</option>
+              <option value="">-</option>
               <option v-for="f in parentFloorOptions" :key="f.tumonline" :value="f.tumonline">{{ f.label }}</option>
             </select>
             <input

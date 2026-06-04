@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: NavigaTUM
   description: |-
-    Navigating around TUM with excellence – An API to search for rooms,
+    Navigating around TUM with excellence - An API to search for rooms,
     buildings and other places
 
     NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.

@@ -28,7 +28,7 @@ _TUMONLINE_NAME_DB_LIMIT = 40
 # Leading parenthetical building codes that TUMonline prepends (e.g. "(N1) Hörsäle (U-Trakt)" or
 # "(Südost 1) ..."). NavigaTUM's areatree drops these in favour of an explicit visible_id.
 _TUMONLINE_LEADING_CODE_RE = re.compile(r"^\((?:[A-Z]{1,3}\d{0,2}[A-Za-z]?|Südost\s*\d+)\)\s+")
-# TUMonline operator/location markers — allowed anywhere in the name, not just trailing
+# TUMonline operator/location markers - allowed anywhere in the name, not just trailing
 # (e.g. "Neherstr.1 (AM) ForTe", "Prinzregentenstr. 68 (AM) MRI", "Heßstr. 134 (UMBAU)").
 _TUMONLINE_TRAILING_NOISE_RE = re.compile(r"\s*\((?:AM|NR|SZ|GP|GM|LfL|HSWT|UMBAU|VSG\.\w+|VST\.\w+)\)\s*")
 # Trailing operator-suffix tokens TUMonline appends to building names.
@@ -42,8 +42,8 @@ _TUMONLINE_LOCATION_PREFIX_RE = re.compile(
     r"|VST\.Thalh\.-|VSG\.(?:Grünschw|Roggst|Roggenst)\.-"
     r"|Holzforschung München|Limnologische Station"
     r"|FMI/|LfL|GP|TUM CS|TUMCS|HSWT|ZIP\s*-"
-    r"|GM(?=[A-Z])"  # "GMTrafostation" — strip just "GM" when no space follows
-    r"|GM"  # "GM Verwaltung" — strip with optional trailing space
+    r"|GM(?=[A-Z])"  # "GMTrafostation" - strip just "GM" when no space follows
+    r"|GM"  # "GM Verwaltung" - strip with optional trailing space
     r"|Garmisch-Partenkirchen"
     r")[ ]*"
 )
@@ -67,7 +67,7 @@ _AREATREE_TRAILING_SHORT_RE = re.compile(
     r"|[A-Z]{1,3}\s?\d+[A-Z]?|[A-Z]{2,6}(?:[-/][A-Z]{2,6})?"
     r")\)\s*$"
 )
-# Areatree-side leading "Gebäudeteil N, " enrichment — drop so the comparison hinges on the
+# Areatree-side leading "Gebäudeteil N, " enrichment - drop so the comparison hinges on the
 # real building name rather than the descriptor.
 _AREATREE_LEADING_GEBAEUDETEIL_RE = re.compile(r"^Gebäudeteil\s+\d+,\s*", re.IGNORECASE)
 
@@ -169,9 +169,9 @@ def _building_names_equivalent(
     Suppresses warnings caused by:
     - TUMonline's leading building-code prefix (e.g. ``(N1) U-Trakt``).
     - TUMonline's location/operator prefix (``Obernach``, ``Dürnast``, ``FMI/``, ``LfL`` ...).
-      The areatree's parent area already provides this context — but if the areatree itself
+      The areatree's parent area already provides this context - but if the areatree itself
       includes the prefix in the name, we must compare without stripping. So we try both ways.
-    - TUMonline's operator/location markers (``(AM)``, ``(NR)``, ``(SZ)``, ``(UMBAU)`` ...) —
+    - TUMonline's operator/location markers (``(AM)``, ``(NR)``, ``(SZ)``, ``(UMBAU)`` ...) -
       anywhere in the string, not just trailing.
     - TUMonline's trailing operator-suffix tokens (``LMU``, ``PH``, ``MRI``, ``ForTe``).
     - Common German abbreviations (``Str.`` ↔ ``Straße``, ``f.`` ↔ ``für``, ``u.`` ↔ ``und``,
@@ -182,7 +182,7 @@ def _building_names_equivalent(
       (e.g. AT ``Petersgasse 18|PG 18`` vs TUMonline ``TUM CS PG18``), treat as equivalent.
     """
     short_norm = _alphanum_lower(areatree_short_name) if areatree_short_name else ""
-    # Try both with and without the TUMonline location prefix — the areatree may or may not carry it.
+    # Try both with and without the TUMonline location prefix - the areatree may or may not carry it.
     for drop_prefix in (True, False):
         a_norm = _alphanum_lower(_strip_noise(areatree_name, drop_location_prefix=drop_prefix))
         t_norm = _alphanum_lower(_strip_noise(tumonline_name, drop_location_prefix=drop_prefix))
@@ -195,7 +195,7 @@ def _building_names_equivalent(
         # If TUMonline's name reduces to the areatree's explicit short_name, accept.
         if short_norm and t_norm == short_norm:
             return True
-        # 40-char truncation: accept either direction — the areatree name might be the full
+        # 40-char truncation: accept either direction - the areatree name might be the full
         # canonical form (TUM is its truncated prefix) or the areatree name might match the
         # truncated prefix itself (allowing 1-2 partial trailing chars).
         if len(tumonline_name) == _TUMONLINE_NAME_DB_LIMIT:
@@ -398,7 +398,7 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
     apply_roomcode_patch(rooms, patches["patches"])
 
     # The Rust handler already rejects collisions at submission time, but TUMonline may later
-    # ship a room with the same key — fail the build loudly so a human resolves which side wins.
+    # ship a room with the same key - fail the build loudly so a human resolves which side wins.
     addition_collisions: list[str] = []
     for addition in patches.get("additions") or []:
         room_key = addition.get("room_key")

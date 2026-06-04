@@ -70,7 +70,7 @@ Main components:
 - Handle all edge cases, including error conditions and boundary values.
 - Use the type system to encode correctness constraints.
 - Prefer compile-time guarantees over runtime checks where possible.
-- Model the full error space—no shortcuts or simplified error handling.
+- Model the full error space-no shortcuts or simplified error handling.
 
 ### Production-grade engineering
 

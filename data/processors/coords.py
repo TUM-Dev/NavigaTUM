@@ -91,7 +91,7 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
 
     # 3a. POIs whose direct parent is a room: inherit the room's coords first,
     # so the marker lands at the room centroid instead of the building centroid.
-    # accuracy stays "building" — the existing "inaccurate position" toast
+    # accuracy stays "building" - the existing "inaccurate position" toast
     # (DetailsContentSidebar.vue) keeps encouraging the user to refine the coord.
     room_coords = df.filter((pl.col("type") == "room") & pl.col("coords_lat").is_not_null()).select(
         pl.col("id").alias("room_id"),

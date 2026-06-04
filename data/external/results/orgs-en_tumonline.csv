@@ -396,7 +396,7 @@ org_id,code,name,path
 19699,TUZEIEL,ZIEL - Institute für Food & Health,Technische Universität München/Corporate Research Centers/ZIEL - Institute für Food & Health
 19700,TUXB70L,Academic Programs WTG,Technische Universität München/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/WTG
 19701,TUZEZMT,Munich Institute of Biomedical Engineering (MIBE),Technische Universität München/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)
-19703,TUZEWSI,Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI),Technische Universität München/Corporate Research Centers/Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI)
+19703,TUZEWSI,Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI),Technische Universität München/Corporate Research Centers/Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI)
 19704,TUZEMZ0,ProLehre Medien und Didaktik,Technische Universität München/TUM Institute for Life Long Learning/ProLehre Medien und Didaktik
 19705,TUZEFRM,Research Neutron Source FRM II,Technische Universität München/Central Scientific Institutions/Research Neutron Source FRM II
 19706,TUZEIAS,TUM Institute for Advanced Study (IAS),Technische Universität München/Central Scientific Institutions/TUM Institute for Advanced Study (IAS)
@@ -664,8 +664,8 @@ org_id,code,name,path
 42886,TUS6RES,Resources (MGT) - School Office,Technische Universität München/Schools/Management/School Office/Resources (MGT)
 42888,TUWIC03,Executive & Professional Education Academy,Technische Universität München/TUM Institute for Life Long Learning/Executive & Professional Education Academy
 42933,TUMWSBT,Associate Professorship of Systems biotechnology (Prof. Kremling),Technische Universität München/Schools/Engineering and Design/Departments/Energy and Process Engineering/Systems biotechnology (Prof. Kremling)
-42949,TUZEEP2,Research groups Experimental Semiconductor Physics (N.N.),Technische Universität München/Corporate Research Centers/Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI)/Experimental Semiconductor Physics (N.N.)
-42950,TUZEHLT,Research groups Semiconductor Technology (Prof. Belkin),Technische Universität München/Corporate Research Centers/Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI)/Semiconductor Technology (Prof. Belkin)
+42949,TUZEEP2,Research groups Experimental Semiconductor Physics (N.N.),Technische Universität München/Corporate Research Centers/Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI)/Experimental Semiconductor Physics (N.N.)
+42950,TUZEHLT,Research groups Semiconductor Technology (Prof. Belkin),Technische Universität München/Corporate Research Centers/Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI)/Semiconductor Technology (Prof. Belkin)
 43203,TUMWMPA,Staatliches Materialprüfamt für den Maschinenbau (MPA),Technische Universität München/Schools/Engineering and Design/Staatliches Materialprüfamt für den Maschinenbau (MPA)
 43242,TUCHTH4,Chair of Theoretical Chemistry (Prof. Heiz komm.),Technische Universität München/Schools/Natural Sciences/Departments/Chemistry/Theoretical Chemistry (Prof. Heiz komm.)
 43299,TUWZM5E,Chair of Analytical Food Chemistry (Prof. Rychlik),Technische Universität München/Schools/Life Sciences/Departments/Life Science Engineering/Analytical Food Chemistry (Prof. Rychlik)
@@ -824,7 +824,7 @@ org_id,code,name,path
 45838,TUZEBD8,Data Protection Representative Munich Institute of Biomedical Engineering (MIBE),Technische Universität München/Integrative Research Institutes/Munich Institute of Biomedical Engineering (MIBE)/Data Protection Representative
 45839,TUZEBD9,Data Protection Representative ZIEL - Institute für Food & Health,Technische Universität München/Corporate Research Centers/ZIEL - Institute für Food & Health/Data Protection Representative
 45840,TUZEB10,Data Protection Representative TUM Catalysis Research Center (CRC),Technische Universität München/Corporate Research Centers/TUM Catalysis Research Center (CRC)/Data Protection Representative
-45841,TUZEB11,Data Protection Representative Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI),Technische Universität München/Corporate Research Centers/Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI)/Data Protection Representative
+45841,TUZEB11,Data Protection Representative Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI),Technische Universität München/Corporate Research Centers/Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI)/Data Protection Representative
 45851,TUPEFAS,Issue related committee,Technische Universität München/Institutions close to the University/Issue related committee
 45872,TUPRBE7,Delegate officer for Brand Policy and Corporate Design,Technische Universität München/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Brand Policy and Corporate Design
 45891,TUWZP3C,TUM Forschungslaboratorium Holz,Technische Universität München/Schools/Life Sciences/TUM Forschungslaboratorium Holz
@@ -833,7 +833,7 @@ org_id,code,name,path
 45951,TUMWLWE,Chair of Wind Energy (Prof. Bottasso),Technische Universität München/Schools/Engineering and Design/Departments/Energy and Process Engineering/Wind Energy (Prof. Bottasso)
 45971,TUZVR87,Construction Management Weihenstephan (Central department 4),Technische Universität München/Central Administration/Real Estate Management (Central department 4)/Site Weihenstephan (Central department 4)/Construction Management Weihenstephan (Central department 4)
 45991,TUGSCRE,Campus for Research Excellence and Technological Enterprise (TUM CREATE),Technische Universität München/Central Scientific Institutions/TUM Graduate School/Graduate Centers/Campus for Research Excellence and Technological Enterprise (TUM CREATE)
-46012,TUZEE24,Research groups Halbleiter-Nanostrukturen und-Quantensysteme (Prof. Finley),Technische Universität München/Corporate Research Centers/Walter Schottky Institute – Center for Nanotechnology and Nanomaterials (WSI)/Halbleiter-Nanostrukturen und-Quantensysteme (Prof. Finley)
+46012,TUZEE24,Research groups Halbleiter-Nanostrukturen und-Quantensysteme (Prof. Finley),Technische Universität München/Corporate Research Centers/Walter Schottky Institute - Center for Nanotechnology and Nanomaterials (WSI)/Halbleiter-Nanostrukturen und-Quantensysteme (Prof. Finley)
 46031,TUMEZN0,Institute of Cell Biology of the Nervous System (Prof. Misgeld),Technische Universität München/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)
 46071,TUZVWEB,Web Communications (Internet),Technische Universität München/Functional Units/Corporate Communications Center (HR2)/Web Communications (Internet)
 46091,TUINI23,Informatics 23 - Chair of Sensor-based Robotic Systems and Intelligent Assistance Systems (Prof. Albu-Schäffer),"Technische Universität München/Schools/Computation, Information and Technology/Departments/Computer Engineering/Sensor-based Robotic Systems and Intelligent Assistance Systems (Prof. Albu-Schäffer)"

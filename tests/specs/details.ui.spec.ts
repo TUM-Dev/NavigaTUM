@@ -208,7 +208,7 @@ test.describe("Details Page - Share and Actions", () => {
     const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
     await shareButton.click();
 
-    // share dialog uses tabs — switch to the Embed tab
+    // share dialog uses tabs - switch to the Embed tab
     const embedTab = page.getByRole("tab", { name: /Einbetten/i });
     await expect(embedTab).toBeVisible();
     await embedTab.click();
