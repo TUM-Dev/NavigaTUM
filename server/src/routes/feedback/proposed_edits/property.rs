@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File};
+use std::io::{self, BufWriter, Write};
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
@@ -44,10 +45,8 @@ impl PropertyEdit {
         key: &str,
         base_dir: &Path,
         csv_path_fn: fn(&Path) -> PathBuf,
-        new_fields: Vec<String>,
+        new_fields: &[String],
     ) -> anyhow::Result<()> {
-        use std::io::{BufWriter, Write as _};
-
         let csv_file = csv_path_fn(base_dir);
         let temp_file = csv_file.with_extension("tmp");
 
@@ -85,7 +84,7 @@ impl PropertyEdit {
                             .map(ToString::to_string)
                             .collect()
                     });
-                    write_padded_row(&mut writer, &new_fields, col_count, extras.as_deref())?;
+                    write_padded_row(&mut writer, new_fields, col_count, extras.as_deref())?;
                     wrote_edit = true;
                     if existing_key == key {
                         continue;
@@ -101,7 +100,7 @@ impl PropertyEdit {
             }
 
             if !wrote_edit {
-                write_padded_row(&mut writer, &new_fields, col_count, None)?;
+                write_padded_row(&mut writer, new_fields, col_count, None)?;
             }
         }
 
@@ -110,12 +109,12 @@ impl PropertyEdit {
     }
 }
 
-fn write_padded_row<W: std::io::Write>(
+fn write_padded_row<W: Write>(
     writer: &mut W,
     new_fields: &[String],
     col_count: usize,
     extras: Option<&[String]>,
-) -> std::io::Result<()> {
+) -> io::Result<()> {
     let mut fields: Vec<String> = new_fields.iter().map(|f| csv_escape(f)).collect();
     let known = new_fields.len();
     if col_count > known {
@@ -151,7 +150,7 @@ impl AppliableEdit for PropertyEdit {
                     key,
                     base_dir,
                     Self::names_csv_path,
-                    vec![key.to_string(), name_val.to_string(), short_val.to_string()],
+                    &[key.to_string(), name_val.to_string(), short_val.to_string()],
                 )?;
                 Ok(format!("name: `{name_val}`, short_name: `{short_val}`"))
             }
@@ -167,7 +166,7 @@ impl AppliableEdit for PropertyEdit {
                     key,
                     base_dir,
                     Self::usages_csv_path,
-                    vec![
+                    &[
                         key.to_string(),
                         name_de.clone(),
                         name_en.clone(),

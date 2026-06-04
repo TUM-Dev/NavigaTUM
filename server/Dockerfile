@@ -67,13 +67,14 @@ COPY    motis-openapi-progenitor/Cargo.* ./motis-openapi-progenitor/
 RUN     mkdir -p ./server/src/ \
         && echo "fn main() { println!(\"Hello, world!\");}" > server/src/main.rs \
         && mkdir -p ./motis-openapi-progenitor/src/ \
-        && echo "fn main() { println!(\"Hello, world!\");}" > motis-openapi-progenitor/src/main.rs \
+        && : > motis-openapi-progenitor/src/lib.rs \
         && if [ $PROFILE == "release" ]; then cargo build --release; else cargo build; fi \
-        && rm -fr target/${PROFILE}/deps/navigatum*
+        && rm -fr target/${PROFILE}/deps/navigatum* target/${PROFILE}/deps/*motis_openapi_progenitor*
 
 # second run of the image build (including our code)
 COPY    server/.sqlx server/.sqlx
 
+COPY    motis-openapi-progenitor/src motis-openapi-progenitor/src
 COPY    server/src server/src
 COPY    server/migrations server/migrations
 RUN     if [ $PROFILE == "release" ]; then \
