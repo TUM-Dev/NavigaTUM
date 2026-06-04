@@ -408,10 +408,22 @@ mod db_tests {
         let (locations, events) = sample_data();
         for (key, data) in locations {
             for lang in ["de", "en"] {
-                let query = format!(
-                    "INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')"
-                );
-                sqlx::query(&query).execute(&mut *tx).await.unwrap();
+                let sql = match lang {
+                    "de" => {
+                        "INSERT INTO de(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
+                    "en" => {
+                        "INSERT INTO en(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
+                    _ => unreachable!(),
+                };
+                sqlx::query(sql)
+                    .bind(&key)
+                    .bind(&data)
+                    .bind(now_rfc3339)
+                    .execute(&mut *tx)
+                    .await
+                    .unwrap();
             }
         }
 
