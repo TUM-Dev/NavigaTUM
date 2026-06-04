@@ -45,7 +45,7 @@
 		"@nuxtjs/tailwindcss": "7.0.0-beta.1",
 		"@types/geojson": "7946.0.16",
 		"@vue/tsconfig": "0.9.1",
-		"openapi-typescript": "6.7.6",
+		"openapi-typescript": "7.13.0",
 		"tailwindcss": "4.3.0",
 		"typescript": "6.0.3",
 		"vue-tsc": "3.3.3"
