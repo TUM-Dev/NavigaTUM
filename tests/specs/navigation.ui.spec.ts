@@ -44,6 +44,23 @@ test.describe("Navigation Page - Transportation Modes", () => {
     await page.goto("/navigate?from=mi&to=mw&mode=bicycle", { waitUntil: "networkidle" });
     await expect(page).toHaveURL(/mode=bicycle/);
   });
+
+  // Regression test for TUM-Dev/NavigaTUM#2091: mode switch left polyline stale.
+  // CI talks to upstream Valhalla, which can return 5xx for these pairs, so we
+  // assert on the request the page fires (proving useFetch saw the mode change)
+  // rather than on the response payload or the map screenshot.
+  test("clicking a mode button refetches the route with the new mode", async ({ page }) => {
+    await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveURL(/mode=pedestrian/);
+
+    const bikeRequest = page.waitForRequest(
+      (req) =>
+        req.url().includes("/api/maps/route") && req.url().includes("route_costing=bicycle")
+    );
+    await page.getByLabel("Fahrrad").click();
+    await bikeRequest;
+    await expect(page).toHaveURL(/mode=bicycle/);
+  });
 });
 
 test.describe("Navigation Page - Map Display", () => {
