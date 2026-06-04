@@ -33,6 +33,7 @@ definePageMeta({
 const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
+const runtimeConfig = useRuntimeConfig();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
@@ -58,7 +59,7 @@ const motisPageCursor = ref<string | undefined>(undefined);
 const selectedItineraryIndex = ref(0);
 
 const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
+  `${runtimeConfig.public.apiURL}/api/maps/route`,
   {
     query: computed(() => ({
       lang: locale.value,
