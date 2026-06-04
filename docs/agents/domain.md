@@ -6,7 +6,7 @@ This repo is **multi-context**: a single monorepo with three distinct stacks, ea
 
 ## Before exploring, read these
 
-- **`CONTEXT-MAP.md`** at the repo root — points at one `CONTEXT.md` per context. Read each one relevant to the topic.
+- **`CONTEXT-MAP.md`** at the repo root - points at one `CONTEXT.md` per context. Read each one relevant to the topic.
 - The per-context **`CONTEXT.md`** for the stack you're working in (see layout below).
 - **`docs/adr/`** at the repo root for system-wide decisions, plus **`<stack>/docs/adr/`** for stack-specific decisions touching the area you're about to work in.
 
@@ -44,12 +44,12 @@ When in doubt, consult `CONTEXT-MAP.md`.
 
 ## Use the glossary's vocabulary
 
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in the relevant `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids — and don't mix vocabulary across stacks (e.g. backend "entry" vs. frontend "detail view" are not always interchangeable).
+When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in the relevant `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids - and don't mix vocabulary across stacks (e.g. backend "entry" vs. frontend "detail view" are not always interchangeable).
 
-If the concept you need isn't in the glossary yet, that's a signal — either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/grill-with-docs`).
+If the concept you need isn't in the glossary yet, that's a signal - either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/grill-with-docs`).
 
 ## Flag ADR conflicts
 
 If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
 
-> _Contradicts `server/docs/adr/0007-search-index-layout.md` — but worth reopening because…_
+> _Contradicts `server/docs/adr/0007-search-index-layout.md` - but worth reopening because…_

@@ -4,7 +4,7 @@ Issues and PRDs for this repo live as GitHub issues on the upstream **`TUM-Dev/N
 
 ## Repo targeting
 
-The local `origin` remote points at a personal fork (`CommanderStorm/NavigaTUM`). All issue and PR operations should target the upstream instead — pass `--repo TUM-Dev/NavigaTUM` explicitly to `gh` so commands don't default to the fork.
+The local `origin` remote points at a personal fork (`CommanderStorm/NavigaTUM`). All issue and PR operations should target the upstream instead - pass `--repo TUM-Dev/NavigaTUM` explicitly to `gh` so commands don't default to the fork.
 
 ## Conventions
 
@@ -19,9 +19,9 @@ The local `origin` remote points at a personal fork (`CommanderStorm/NavigaTUM`)
 
 Webform-originated reports and data-correction requests are tracked in **GitHub Discussions** on `TUM-Dev/NavigaTUM`, not Issues. When triaging or surveying:
 
-- Don't open new Issues for webform/data items — check Discussions first and route there.
+- Don't open new Issues for webform/data items - check Discussions first and route there.
 - Use `gh api repos/TUM-Dev/NavigaTUM/discussions` (or the equivalent GraphQL query) to list/search.
-- Look for broad-class duplicates when surveying — many incoming items collapse into one umbrella thread.
+- Look for broad-class duplicates when surveying - many incoming items collapse into one umbrella thread.
 
 ## When a skill says "publish to the issue tracker"
 

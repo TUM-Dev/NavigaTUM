@@ -8,7 +8,7 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 | `needs-info`      | Apply label `needs-info`                                         |
 | `ready-for-agent` | Apply label `ready-for-agent`                                    |
 | `ready-for-human` | Apply label `ready-for-human`                                    |
-| `wontfix`         | Close the issue as "not planned" — no label. See command below.  |
+| `wontfix`         | Close the issue as "not planned" - no label. See command below.  |
 
 ## Closing as "not planned" (the `wontfix` role)
 
@@ -16,11 +16,11 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 gh issue close <number> --repo TUM-Dev/NavigaTUM --reason "not planned" --comment "<rationale>"
 ```
 
-Always include a comment explaining why — drive-by closes without rationale are unhelpful to reporters.
+Always include a comment explaining why - drive-by closes without rationale are unhelpful to reporters.
 
 ## Notes on label hygiene
 
-- The older label `information requested` exists on the repo but is superseded by `needs-info` — don't add it to new issues.
+- The older label `information requested` exists on the repo but is superseded by `needs-info` - don't add it to new issues.
 - All five labels above already exist on `TUM-Dev/NavigaTUM`; no creation step is required.
 
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), look up the mechanic in this table and execute it against the upstream repo.
