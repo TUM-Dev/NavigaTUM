@@ -22,6 +22,26 @@ repos:
     rev: 0.11.17
     hooks:
       - id: uv-lock
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.7.1
+    hooks:
+      - id: fix-smartquotes
+        # scraped TUMonline CSVs contain smart quotes inside CSV-quoted fields;
+        # naive ASCII replacement would corrupt the CSV escaping.
+        exclude: "^data/external/results/.*\\.csv$"
+      - id: fix-spaces
+      - id: fix-ligatures
+      - id: forbid-bidi-controls
+  - repo: local
+    hooks:
+      - id: fix-unicode-dashes-single
+        name: fold unicode dashes to single ASCII hyphen
+        # texthooks' fix-unicode-dashes maps em-dash to "--"; we want single "-".
+        # exclude self so the bracket pattern below is not eaten by its own hook.
+        exclude: "^\\.pre-commit-config\\.yaml$"
+        entry: sed -i 's/[‐‑‒–—―⁃−﹘﹣－]/-/g'
+        language: system
+        types: [text]
   # only server
   - repo: local
     hooks:
