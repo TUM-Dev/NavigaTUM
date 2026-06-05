@@ -84,6 +84,7 @@ function rowTitle(entry: StopTimeEntry): string {
           type="button"
           class="focusable w-full flex items-center gap-3 p-3 text-left"
           :aria-expanded="!!state"
+          :aria-controls="`nearby-departures-${station.id}`"
           @click="toggleExpand(station.id)"
         >
           <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -113,7 +114,12 @@ function rowTitle(entry: StopTimeEntry): string {
           />
         </button>
         <template v-if="state">
-          <div class="border-t border-zinc-200 p-3">
+          <div
+            :id="`nearby-departures-${station.id}`"
+            role="status"
+            aria-live="polite"
+            class="border-t border-zinc-200 p-3"
+          >
             <div v-if="state.loading" class="text-zinc-500 text-sm">
               {{ t("loading") }}
             </div>

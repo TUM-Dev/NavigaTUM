@@ -1,4 +1,4 @@
-import { useIntervalFn } from "@vueuse/core";
+import { useIntervalFn, useTimestamp } from "@vueuse/core";
 import type { components } from "~/api_types";
 
 type NearbyLocationsResponse = components["schemas"]["NearbyLocationsResponse"];
@@ -151,7 +151,7 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
       state: stationState.get(station.id),
     }))
   );
-  const now = ref(Date.now());
+  const now = useTimestamp({ interval: TICK_INTERVAL_MS });
   // Non-reactive: cancels superseded in-flight fetches so a slow earlier
   // response can't overwrite a faster later one (toggle off→on, locale flip,
   // periodic refresh racing a manual toggle, …).
@@ -223,10 +223,6 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
       void fetchDepartures(stationId);
     }
   });
-
-  useIntervalFn(() => {
-    now.value = Date.now();
-  }, TICK_INTERVAL_MS);
 
   useIntervalFn(() => {
     for (const stationId of stationState.keys()) {
