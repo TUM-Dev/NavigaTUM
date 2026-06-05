@@ -64,6 +64,51 @@ test.describe("Details Page - Interactive Map", () => {
   });
 });
 
+test.describe("Details Page - POI Floor Inheritance", () => {
+  // Regression for TUM-Dev/NavigaTUM#1696: POIs used to leave FloorControl empty
+  // (every button dimmed), so the indoor overlay never showed. POIs now inherit
+  // floors from their immediate parent in the data pipeline.
+  const stubBasemap = async (page: import("@playwright/test").Page) => {
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+  };
+
+  test("room-parented POI auto-selects the room's floor", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/validierungsautomat-5", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("poi/validierungsautomat-5");
+
+    const floorCtrl = page.locator(".floor-ctrl");
+    await expect(floorCtrl).toBeVisible();
+
+    // Single inherited floor → DetailsInteractiveMap auto-calls setLevel(EG.id)
+    const egButton = floorCtrl.locator("button", { hasText: /^EG$/ });
+    await expect(egButton).toHaveClass(/active/);
+  });
+
+  test("building-parented POI exposes building floors as clickable", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/validierungsautomat-9", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("poi/validierungsautomat-9");
+
+    const floorCtrl = page.locator(".floor-ctrl");
+    await expect(floorCtrl).toBeVisible();
+
+    // Multiple inherited floors → no auto-select, EG button is enabled.
+    const egButton = floorCtrl.locator("button", { hasText: /^EG$/ });
+    await expect(egButton).toBeEnabled();
+    await expect(egButton).not.toHaveCSS("cursor", "not-allowed");
+  });
+});
+
 test.describe("Details Page - Images", () => {
   test("should display and interact with location images", async ({ page }) => {
     await page.goto("/view/chemie", { waitUntil: "networkidle" });
@@ -163,7 +208,7 @@ test.describe("Details Page - Share and Actions", () => {
     const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
     await shareButton.click();
 
-    // share dialog uses tabs — switch to the Embed tab
+    // share dialog uses tabs - switch to the Embed tab
     const embedTab = page.getByRole("tab", { name: /Einbetten/i });
     await expect(embedTab).toBeVisible();
     await embedTab.click();

@@ -25,7 +25,7 @@ const { t } = useI18n({ useScope: "local" });
       }
     "
   >
-    <MdiIcon :path="mdiFlag" :size="28" class="text-blue-600 hover:text-blue-900" />
+    <MdiIcon :path="mdiFlag" :size="28" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50" />
   </button>
 </template>
 

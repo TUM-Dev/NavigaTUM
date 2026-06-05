@@ -12,11 +12,11 @@ defineProps<{ item: ResultEntryItem }>();
 
 <template>
   <div class="my-auto min-w-9 md:min-w-11">
-    <div v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'" class="text-zinc-900 p-2">
+    <div v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'" class="text-zinc-900 dark:text-zinc-50 p-2">
       <MdiIcon :path="mdiMagnify" :size="20" v-if="item.parsed_id" class="md:!w-6 md:!h-6" />
       <MdiIcon :path="mdiMapMarker" :size="20" v-else class="md:!w-6 md:!h-6" />
     </div>
-    <div v-else class="text-white bg-blue-500 rounded-full p-2">
+    <div v-else class="text-white dark:text-black bg-blue-500 dark:bg-blue-400 rounded-full p-2">
       <MdiIcon
         :path="mdiOfficeBuildingOutline"
         :size="20"

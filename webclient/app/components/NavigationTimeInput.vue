@@ -89,7 +89,7 @@ const minDate = computed(() => {
         <input
           type="time"
           v-model="timeValue"
-          class="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          class="block w-full rounded-md border border-zinc-300 dark:border-zinc-600 px-3 py-2 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400 sm:text-sm"
           step="600"
         />
       </div>
@@ -100,7 +100,7 @@ const minDate = computed(() => {
           type="date"
           v-model="dateValue"
           :min="minDate"
-          class="block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          class="block w-full rounded-md border border-zinc-300 dark:border-zinc-600 px-3 py-2 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400 sm:text-sm"
         />
       </div>
     </div>

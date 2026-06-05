@@ -6,7 +6,7 @@ use motis_openapi_progenitor::types::{
     Alert, AlertCause, AlertEffect, AlertSeverityLevel, Direction, Itinerary, Leg, Mode, Place,
     PlanResponse, Rental, RentalFormFactor, StepInstruction, VertexType,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 pub struct MotisRoutingResponse {
@@ -321,7 +321,7 @@ fn infer_color_from_route_type(route_type: Option<i64>) -> Color {
     .expect("all colors are static and valid")
 }
 
-#[derive(Serialize, Debug, utoipa::ToSchema)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ModeResponse {
     Walk,
@@ -341,6 +341,8 @@ pub enum ModeResponse {
     Transit,
     Tram,
     Subway,
+    /// S-Bahn / commuter rail. Served by motis on `/map/stops` but missing from the progenitor `Mode`.
+    Suburban,
     Ferry,
     Airplane,
     Metro,
@@ -365,7 +367,20 @@ pub enum ModeResponse {
     Funicular,
     /// Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
     ArealLift,
+    /// Served by motis on `/map/stops` but missing from the progenitor `Mode`.
+    RideSharing,
     Other,
+}
+
+impl ModeResponse {
+    /// Unknown / future motis values fold to `Other` so a new motis release does not break the API.
+    pub fn parse_or_other(s: &str) -> Self {
+        use serde::Deserialize as _;
+        use serde::de::IntoDeserializer as _;
+        use serde::de::value::{Error, StrDeserializer};
+        let de: StrDeserializer<Error> = s.into_deserializer();
+        Self::deserialize(de).unwrap_or(Self::Other)
+    }
 }
 impl From<Mode> for ModeResponse {
     fn from(mode: Mode) -> Self {

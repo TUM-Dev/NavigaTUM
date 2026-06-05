@@ -1,6 +1,6 @@
 // Zod schemas for the "propose a new entry" forms. These intentionally mirror the Rust validators
 // in `server/src/routes/feedback/proposed_edits/addition/{room,building,poi}.rs`. Whenever the
-// backend rules change, update both — the matching `case` in each Rust validator's rstest table
+// backend rules change, update both - the matching `case` in each Rust validator's rstest table
 // is the source of truth.
 import { z } from "zod";
 import type { AdditionDraft } from "~/composables/editProposal";
@@ -12,7 +12,6 @@ const MAX_POI_KEY_LEN = 64;
 
 // `is_allowed_roomcode_char` in room.rs (mirrored from `ALLOWED_ROOMCODE_CHARS` in
 // `data/processors/tumonline.py`).
-const ROOM_SEGMENT_RE = /^[A-Za-z0-9-]+$/;
 const ROOM_KEY_RE = /^[A-Za-z0-9.-]+$/;
 
 // `is_arch_name_valid` in room.rs.

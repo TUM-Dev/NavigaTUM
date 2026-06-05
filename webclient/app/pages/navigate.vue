@@ -33,6 +33,7 @@ definePageMeta({
 const indoorMap = useTemplateRef("indoorMap");
 const route = useRoute();
 const router = useRouter();
+const runtimeConfig = useRuntimeConfig();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
@@ -54,9 +55,11 @@ type NavigationResponse =
 const timeSelection = ref<TimeSelection | undefined>(undefined);
 const debouncedTimeSelection = refDebounced(timeSelection, 200);
 const motisPageCursor = ref<string | undefined>(undefined);
+// Currently selected itinerary for map display
+const selectedItineraryIndex = ref(0);
 
 const { data, status, error } = await useFetch<NavigationResponse>(
-  "https://nav.tum.de/api/maps/route",
+  `${runtimeConfig.public.apiURL}/api/maps/route`,
   {
     query: computed(() => ({
       lang: locale.value,
@@ -78,18 +81,20 @@ const { data, status, error } = await useFetch<NavigationResponse>(
   }
 );
 
-effect(() => {
-  if (!data.value || !indoorMap.value) return;
-  if (data.value.router === "valhalla") indoorMap.value.drawRoute(data.value.legs[0].shape);
-  if (data.value?.router === "motis") {
-    // Reset to first itinerary when data changes
-    selectedItineraryIndex.value = 0;
-    // Draw the first itinerary if available
-    if (data.value.itineraries.length > 0 && indoorMap.value && data.value.itineraries[0]) {
-      indoorMap.value.drawMotisItinerary(data.value.itineraries[0]);
+watch(
+  [data, indoorMap],
+  ([newData, newMap]) => {
+    if (!newData || !newMap) return;
+    if (newData.router === "valhalla") newMap.drawRoute(newData.legs[0].shape);
+    if (newData.router === "motis") {
+      selectedItineraryIndex.value = 0;
+      if (newData.itineraries.length > 0 && newData.itineraries[0]) {
+        newMap.drawMotisItinerary(newData.itineraries[0]);
+      }
     }
-  }
-});
+  },
+  { immediate: true }
+);
 
 const title = computed(() => {
   if (selected_from.value && selected_to.value)
@@ -151,9 +156,6 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
   setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
 }
 
-// Currently selected itinerary for map display
-const selectedItineraryIndex = ref(0);
-
 function handleSelectLeg(itineraryIndex: number, legIndex: number) {
   console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
   if (data.value?.router === "motis" && indoorMap.value) {
@@ -193,12 +195,12 @@ function handleSelectItinerary(itineraryIndex: number) {
         <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
       </ClientOnly>
     </div>
-    <div class="bg-zinc-100 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
+    <div class="bg-zinc-100 dark:bg-zinc-800 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
         v-if="coming_from"
         :to="'/view/' + coming_from"
         property="item"
-        class="focusable text-blue-400 rounded-md pb-2 hover:text-blue-500 hover:underline"
+        class="focusable text-blue-400 dark:text-blue-500 rounded-md pb-2 hover:text-blue-500 dark:hover:text-blue-400 hover:underline"
       >
         <div class="my-auto flex flex-row gap-2">
           <MdiIcon :path="mdiChevronLeft" :size="16" />
@@ -235,7 +237,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"
       />
-      <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+      <div v-else-if="status === 'pending'" class="text-zinc-900 dark:text-zinc-50 flex flex-col items-center gap-5 py-32">
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
       </div>
@@ -243,7 +245,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         {{ error.message }}
       </Toast>
 
-      <div v-if="status === 'success' && !!data" class="border-zinc-500 border-t p-1" />
+      <div v-if="status === 'success' && !!data" class="border-zinc-500 dark:border-zinc-400 border-t p-1" />
       <NavigationDisclaimerToast :coming-from="coming_from" :selected-from="selected_from" :selected-to="selected_to" />
     </div>
   </div>

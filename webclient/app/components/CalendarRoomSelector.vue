@@ -68,7 +68,7 @@ async function addLocation() {
           parsed_id: 'parsed_id' in location ? (location.parsed_id as string) : undefined,
         }"
       />
-      <div class="text-zinc-600 flex flex-col gap-1">
+      <div class="text-zinc-600 dark:text-zinc-300 flex flex-col gap-1">
         <NuxtLinkLocale class="line-clamp-1 hover:underline" :to="'/view/' + key">{{ location.name }}</NuxtLinkLocale>
         <small>
           {{ location.type_common_name }}
@@ -84,12 +84,12 @@ async function addLocation() {
     <li class="flex">
       <button
         type="button"
-        class="focusable group bg-zinc-50 border-zinc-200 flex min-w-14 origin-center place-items-center content-center items-center justify-center justify-items-center justify-self-center rounded-md border object-center align-middle hover:bg-blue-100"
+        class="focusable group bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 flex min-w-14 origin-center place-items-center content-center items-center justify-center justify-items-center justify-self-center rounded-md border object-center align-middle hover:bg-blue-100 dark:hover:bg-blue-800"
         :title="t('add_location')"
         :aria-label="t('add_location')"
         @click="addLocation"
       >
-        <MdiIcon :path="mdiPlusCircle" :size="20" class="group-hover:text-black" />
+        <MdiIcon :path="mdiPlusCircle" :size="20" class="group-hover:text-black dark:group-hover:text-white" />
       </button>
     </li>
   </ul>

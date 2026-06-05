@@ -8,7 +8,7 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
   entries:
     - id: wzw-ziel
       type: area
-      name: "\u0019ZIEL\u0017 – Institute for Food & Health"
+      name: "\u0019ZIEL\u0017 - Institute for Food & Health"
       subtext: Gebiet / Gruppe von Gebäuden
     - id: "4224"
       type: building
@@ -16,11 +16,11 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
       subtext: Gebäude
     - id: "4124"
       type: building
-      name: "\u0019ZIEL\u0017 II – Molekulare Biowissenschaften"
+      name: "\u0019ZIEL\u0017 II - Molekulare Biowissenschaften"
       subtext: Gebäude
     - id: "4126"
       type: building
-      name: "\u0019ZIEL\u0017 I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
+      name: "\u0019ZIEL\u0017 I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext: Gebäude
   n_visible: 4
   estimatedTotalHits: "[estimatedTotalHits]"
@@ -29,17 +29,17 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
     - id: 4124.U1.104
       type: room
       name: 4124.U1.104 (Seminarraum 23 /Übungsraum (WZWS23))
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
       subtext_bold: U/1.04@4124
     - id: 4126.01.609B
       type: room
       name: 4126.01.609B (Seminarraum 14 (WZWS14))
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
+      subtext: "weihenstephan, ZIEL I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext_bold: O.09 a/b@4126
     - id: 4126.U1.610B
       type: room
       name: 4126.U1.610B (Seminarraum (gem. Nutzung 1124302030;11243)
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
+      subtext: "weihenstephan, ZIEL I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext_bold: U 10/2@4126
     - id: 4224.01.148
       type: room

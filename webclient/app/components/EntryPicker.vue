@@ -45,7 +45,7 @@ const searchUrl = computed(() => {
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 
-// Manual debounced fetch — useFetch with `immediate: false` + `lazy` was firing inconsistently
+// Manual debounced fetch - useFetch with `immediate: false` + `lazy` was firing inconsistently
 // against an empty URL, leaving `searchResults` in a half-state that broke the entries computed.
 const searchResults = ref<SearchResponse | null>(null);
 let searchCounter = 0;
@@ -118,13 +118,13 @@ function onKeydown(e: KeyboardEvent) {
 
 <template>
   <div class="relative">
-    <div v-if="selectedId" class="bg-zinc-200 border-zinc-400 flex items-center gap-2 rounded border px-2 py-1">
+    <div v-if="selectedId" class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex items-center gap-2 rounded border px-2 py-1">
       <div class="flex flex-grow flex-col text-sm">
-        <span class="text-zinc-900">{{ selectedName || selectedId }}</span>
-        <span v-if="selectedName && selectedName !== selectedId" class="text-zinc-500 text-xs">{{ selectedId }}</span>
+        <span class="text-zinc-900 dark:text-zinc-50">{{ selectedName || selectedId }}</span>
+        <span v-if="selectedName && selectedName !== selectedId" class="text-zinc-500 dark:text-zinc-400 text-xs">{{ selectedId }}</span>
       </div>
       <button type="button" class="focusable rounded-sm" :title="t('clear')" @click="clearSelection">
-        <MdiIcon :path="mdiClose" :size="16" class="text-zinc-500 hover:text-zinc-700" />
+        <MdiIcon :path="mdiClose" :size="16" class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200" />
       </button>
     </div>
     <div v-else>
@@ -132,7 +132,7 @@ function onKeydown(e: KeyboardEvent) {
         id="entry-picker-input"
         v-model="query"
         type="text"
-        class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 w-full rounded border px-2 py-1 text-sm"
+        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
         :placeholder="placeholder || t('placeholder')"
         @focus="open = true"
         @blur="onBlur"
@@ -140,22 +140,22 @@ function onKeydown(e: KeyboardEvent) {
       />
       <div
         v-if="open && debounced.length >= 2"
-        class="bg-zinc-50 border-zinc-300 absolute left-0 right-0 z-50 mt-1 max-h-72 overflow-y-auto rounded border shadow-lg"
+        class="bg-zinc-50 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 absolute left-0 right-0 z-50 mt-1 max-h-72 overflow-y-auto rounded border shadow-lg"
       >
-        <p v-if="entries.length === 0" class="text-zinc-500 px-2 py-2 text-sm">{{ t("no_results") }}</p>
+        <p v-if="entries.length === 0" class="text-zinc-500 dark:text-zinc-400 px-2 py-2 text-sm">{{ t("no_results") }}</p>
         <button
           v-for="(entry, idx) in entries"
           :key="entry.id"
           type="button"
-          class="block w-full cursor-pointer text-left hover:bg-blue-100"
-          :class="{ 'bg-blue-200': idx === highlighted }"
+          class="block w-full cursor-pointer text-left hover:bg-blue-100 dark:hover:bg-blue-800"
+          :class="{ 'bg-blue-200 dark:bg-blue-700': idx === highlighted }"
           @mousedown.prevent="selectEntry(entry)"
           @mouseenter="highlighted = idx"
         >
           <SearchResultItem :item="entry" :highlighted="idx === highlighted" />
         </button>
       </div>
-      <p v-else-if="open && query.length > 0 && debounced.length < 2" class="text-zinc-500 mt-1 text-xs">
+      <p v-else-if="open && query.length > 0 && debounced.length < 2" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
         {{ t("type_more") }}
       </p>
     </div>

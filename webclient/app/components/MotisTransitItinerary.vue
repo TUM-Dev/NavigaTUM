@@ -43,17 +43,17 @@ const formatDuration = (seconds: number) => {
   <div class="mb-6 rounded-lg border">
     <!-- Itinerary Header -->
     <div
-      class="bg-zinc-50 flex items-center justify-between rounded-t-lg p-4 cursor-pointer hover:bg-zinc-100 transition-colors"
+      class="bg-zinc-50 dark:bg-zinc-900 flex items-center justify-between rounded-t-lg p-4 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
       @click="emit('selectItinerary', itineraryIndex)"
       :title="`${t('select_itinerary')} ${itineraryIndex + 1}`"
     >
       <div class="flex items-center gap-4">
-        <span class="text-zinc-900 font-semibold">
+        <span class="text-zinc-900 dark:text-zinc-50 font-semibold">
           {{ formatTime(itinerary.start_time) }} - {{ formatTime(itinerary.end_time) }}
         </span>
-        <span class="text-zinc-600">{{ formatDuration(itinerary.duration) }}</span>
+        <span class="text-zinc-600 dark:text-zinc-300">{{ formatDuration(itinerary.duration) }}</span>
       </div>
-      <div class="text-zinc-500 text-sm">
+      <div class="text-zinc-500 dark:text-zinc-400 text-sm">
         {{ t("transfers", itinerary.transfer_count) }}
       </div>
     </div>

@@ -188,14 +188,3 @@ function refetchEvents() {
     </FullCalendar>
   </div>
 </template>
-
-<style lang="postcss">
-.fc-event-main {
-  @apply flex;
-}
-
-.fc-list-day-side-text,
-.fc-list-day-text {
-  @apply text-zinc-900 dark:text-zinc-100;
-}
-</style>

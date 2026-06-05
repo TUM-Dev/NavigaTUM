@@ -141,7 +141,7 @@ function initMap(containerId: string): MapLibreMap {
       const availableFloorIds = props.floors.map((floor) => floor.id);
       floorControl.value.setAvailableFloors(availableFloorIds);
       if (props.floors.length === 1) {
-        floorControl.value.setLevel(availableFloorIds[0] || null);
+        floorControl.value.setLevel(availableFloorIds[0] ?? null);
       }
     }
   });
@@ -197,11 +197,11 @@ onMounted(() => {
     id="interactive-legacy-map-container"
     class="mb-2.5 aspect-4/3 print:!hidden relative"
     :class="{
-      'dark:bg-black bg-white border-zinc-300 border': webglSupport,
+      'dark:bg-black bg-white border-zinc-300 dark:border-zinc-600 border': webglSupport,
     }"
   >
     <div v-if="webglSupport && !initialLoaded" class="absolute inset-0 z-10 flex items-center justify-center">
-      <Spinner class="h-12 w-12 text-blue-500" />
+      <Spinner class="h-12 w-12 text-blue-500 dark:text-blue-400" />
     </div>
     <div
       v-if="webglSupport"
@@ -222,7 +222,7 @@ onMounted(() => {
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   > div {

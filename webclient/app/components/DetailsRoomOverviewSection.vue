@@ -53,11 +53,11 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
     v-if="props.rooms?.usages"
     class="flex flex-col gap-3 print:!hidden"
   >
-    <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
+    <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
     <div class="flex flex-col gap-2">
       <Listbox v-model="selectedUsage" as="div" class="relative z-10">
         <ListboxButton
-          class="focusable text-zinc-600 bg-zinc-200 border-zinc-400 relative w-full rounded-sm border py-2 pr-10 text-left sm:text-sm"
+          class="focusable text-zinc-600 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 relative w-full rounded-sm border py-2 pr-10 text-left sm:text-sm"
         >
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <MdiIcon :path="mdiFilter" :size="16" />
@@ -74,7 +74,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="ring-black/5 bg-zinc-200 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
+            class="ring-black/5 dark:ring-white/5 bg-zinc-200 dark:bg-zinc-700 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
           >
             <ListboxOption
               v-slot="{ active, selected }"
@@ -85,19 +85,19 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 dark:text-blue-50 bg-blue-100 dark:bg-blue-800' : 'text-zinc-900 dark:text-zinc-50']"
               >
-                <span v-if="selected" class="text-blue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 dark:text-blue-300 my-auto">
                   <MdiIcon :path="mdiCheck" :size="20" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
                   <span
-                    class="text-zinc-600 my-auto block truncate"
+                    class="text-zinc-600 dark:text-zinc-300 my-auto block truncate"
                     :class="[selected ? 'font-medium' : 'ms-10 font-normal']"
                   >
                     {{ t("any_usage") }}
                   </span>
-                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
+                  <span class="bg-blue-300 dark:bg-blue-600 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", combined_list.length) }}
                   </span>
                 </div>
@@ -113,19 +113,19 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 dark:text-blue-50 bg-blue-100 dark:bg-blue-800' : 'text-zinc-900 dark:text-zinc-50']"
               >
-                <span v-if="selected" class="text-blue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 dark:text-blue-300 my-auto">
                   <MdiIcon :path="mdiCheck" :size="20" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
                   <span
-                    class="text-zinc-600 my-auto block truncate"
+                    class="text-zinc-600 dark:text-zinc-300 my-auto block truncate"
                     :class="[selected ? 'font-medium' : 'ms-10 font-normal']"
                   >
                     {{ usage.name }}
                   </span>
-                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
+                  <span class="bg-blue-300 dark:bg-blue-600 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", usage.count) }}
                   </span>
                 </div>
@@ -134,8 +134,8 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
           </ListboxOptions>
         </Transition>
       </Listbox>
-      <div class="bg-zinc-200 border-zinc-400 z-0 flex w-full shrink items-center border">
-        <MdiIcon :path="mdiMagnify" :size="24" class="text-zinc-600 pl-2" aria-hidden="true" />
+      <div class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 z-0 flex w-full shrink items-center border">
+        <MdiIcon :path="mdiMagnify" :size="24" class="text-zinc-600 dark:text-zinc-300 pl-2" aria-hidden="true" />
         <textarea
           id="search-input"
           v-model="search"
@@ -149,16 +149,16 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
           spellcheck="false"
           maxlength="2048"
           type="text"
-          class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow resize-none rounded-sm py-2 ps-6 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
+          class="focusable text-zinc-800 dark:text-zinc-100 bg-zinc-200 dark:bg-zinc-700 w-full flex-grow resize-none rounded-sm py-2 ps-6 font-semibold placeholder:text-zinc-800 dark:placeholder:text-zinc-100 focus-within:placeholder:text-zinc-500 dark:focus-within:placeholder:text-zinc-400 placeholder:font-normal"
           :placeholder="t('search')"
         />
       </div>
     </div>
-    <div class="text-zinc-600">
+    <div class="text-zinc-600 dark:text-zinc-300">
       <div
         v-if="filteredList.length > 0"
         v-bind="containerProps"
-        class="bg-zinc-100 border-zinc-400 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-200"
+        class="bg-zinc-100 border-zinc-400 dark:border-zinc-500 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-700"
       >
         <ul v-bind="wrapperProps">
           <li>
@@ -166,7 +166,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
               v-for="(room, index) in list"
               :key="index"
               :to="`/view/${room.data.id}`"
-              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-blue-500"
+              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white dark:hover:text-black hover:bg-blue-500 dark:hover:bg-blue-400"
             >
               <MdiIcon :path="mdiMapMarker" :size="16" class="my-auto" aria-hidden="true" />
               {{ room.data.name }}

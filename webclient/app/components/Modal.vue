@@ -67,19 +67,19 @@ function close() {
           @click.self="close"
         >
           <div class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl" :class="props.class">
-            <div class="bg-zinc-200 flex w-full flex-row justify-between rounded-t-md p-5">
-              <h2 v-if="props.title" class="text-zinc-800 text-lg font-semibold">{{ props.title }}</h2>
+            <div class="bg-zinc-200 dark:bg-zinc-700 flex w-full flex-row justify-between rounded-t-md p-5">
+              <h2 v-if="props.title" class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ props.title }}</h2>
               <button
                 v-if="!props.disableClose"
                 type="button"
                 :aria-label="t('close')"
-                class="focusable text-zinc-800 mx-4 my-2 text-xl"
+                class="focusable text-zinc-800 dark:text-zinc-100 mx-4 my-2 text-xl"
                 @click.prevent="close"
               >
                 <MdiIcon :path="mdiClose" :size="16" />
               </button>
             </div>
-            <div class="bg-white text-zinc-600 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-100">
+            <div class="bg-white text-zinc-600 dark:text-zinc-300 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-800">
               <slot />
             </div>
           </div>

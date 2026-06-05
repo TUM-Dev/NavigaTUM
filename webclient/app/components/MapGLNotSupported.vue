@@ -3,7 +3,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col items-center justify-center text-center p-3 text-lg leading-normal bg-red-100 text-red-950">
+  <div class="w-full h-full flex flex-col items-center justify-center text-center p-3 text-lg leading-normal bg-red-100 dark:bg-red-800 text-red-950">
     <p class="hidden md:block mb-4">
       {{ t("no_webgl.detailed_message") }}
     </p>

@@ -1,4 +1,5 @@
 use crate::db::public_transport::Transportation;
+use crate::routes::maps::route::motis::ModeResponse;
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{HttpResponse, get, web};
 use serde::{Deserialize, Serialize};
@@ -67,18 +68,16 @@ struct NearbyLocationsResponse {
 
 #[derive(Serialize, Deserialize, Clone, Debug, utoipa::ToSchema)]
 struct TransportationResponse {
-    /// The globally unique and somewhat stable id of the station from the transport agency
-    #[schema(example = "de:09184:2073:0:1")]
+    /// The globally unique and somewhat stable id of the station from motis/transitous
+    #[schema(example = "de:09184:2073")]
     id: String,
     /// How the station was named by the operator
     #[schema(example = "Garching, Boltzmannstraße")]
     name: String,
-    /// The globally unique and somewhat stable id of the station from the transport agency
-    #[schema(example = "de:09184:2073")]
-    parent_id: Option<String>,
-    /// How the station was named by the operator
-    #[schema(example = "Boltzmannstraße")]
-    parent_name: Option<String>,
+    /// Transport modes served at this station, as reported by motis.
+    /// Unknown / future motis values are normalised to `other`.
+    #[schema(example = json!(["bus", "subway"]))]
+    modes: Vec<ModeResponse>,
     /// Latitude
     #[schema(example = 48.26244490906312)]
     lat: f64,
@@ -93,8 +92,11 @@ impl From<Transportation> for TransportationResponse {
         Self {
             id: value.id,
             name: value.name,
-            parent_id: value.parent_id,
-            parent_name: value.parent_name,
+            modes: value
+                .modes
+                .iter()
+                .map(|s| ModeResponse::parse_or_other(s))
+                .collect(),
             lat: value
                 .lat
                 .expect("since the location is always present, this field can never be null"),

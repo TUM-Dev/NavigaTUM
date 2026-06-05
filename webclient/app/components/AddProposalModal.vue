@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiClose, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
@@ -108,13 +108,13 @@ const roomParentPrefix = computed(() => {
   return numeric ?? parentId;
 });
 
-// Floors known on the parent — what the TUMonline room-code uses for the floor segment.
+// Floors known on the parent - what the TUMonline room-code uses for the floor segment.
 type ParentFloorOption = { tumonline: string; label: string };
 const parentFloorOptions = computed<ParentFloorOption[]>(() => {
   const floors = parentDetails.value?.props?.floors ?? [];
   return floors
     .filter((f) => !!f.tumonline)
-    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} — ${f.short_name || f.name}` }));
+    .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
 // Room IDs follow PARENT.FLOOR.NUMBER. The parent segment is auto-filled and disabled so users
@@ -261,7 +261,7 @@ function commitDraft(): { id: string; displayName: string } | null {
 
 function commitAddition() {
   if (!commitDraft()) return;
-  // Hand back to the Propose Changes modal — submission/privacy/send live there.
+  // Hand back to the Propose Changes modal - submission/privacy/send live there.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
 }
@@ -327,14 +327,6 @@ const mapLon = computed({
   },
 });
 
-function idHint() {
-  const kind = editProposal.value.pendingAddition.kind;
-  if (kind === "room") return t("id_hint.room");
-  if (kind === "building") return t("id_hint.building");
-  if (kind === "poi") return t("id_hint.poi");
-  return "";
-}
-
 // Share id-validation state with per-kind sub-components (e.g. AddBuildingFields renders the id
 // input itself inside its Identifiers fieldset).
 provide("addProposal:idValidation", {
@@ -359,14 +351,14 @@ watch(
 
     <div class="space-y-3">
       <TabGroup :selected-index="kindIndex < 0 ? 0 : kindIndex" :default-index="0">
-        <TabList class="bg-zinc-100 flex space-x-1 rounded-lg p-1">
-          <Tab v-for="opt in kindOptions" :key="opt.value" v-slot="{ selected }" as="template">
+        <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
+          <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <button
               :class="[
                 'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400',
+                'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
                 'focus:outline-none focus:ring-2 transition-all',
-                kindIndex === kindOptions.indexOf(opt) ? 'bg-white text-zinc-700 shadow' : 'text-zinc-500 hover:bg-white/[0.12] hover:text-zinc-700',
+                kindIndex === kindOptions.indexOf(opt) ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
               ]"
               @click="editProposal.pendingAddition.kind = opt.value"
             >
@@ -381,8 +373,8 @@ watch(
 
       <template v-if="editProposal.pendingAddition.kind">
         <div>
-          <label class="text-zinc-600 mb-1 block text-xs font-medium">
-            {{ t("parent_label") }} <span class="text-red-700">*</span>
+          <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
+            {{ t("parent_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <EntryPicker
             v-model:selected-id="editProposal.pendingAddition.parent_id"
@@ -394,16 +386,16 @@ watch(
 
         <!-- Room name comes between parent and id so the user works top-down: where → what's it called → its id. -->
         <div v-if="editProposal.pendingAddition.kind === 'room'">
-          <label class="text-zinc-600 mb-1 block text-xs font-medium" for="add-room-alt-name">
-            {{ t("alt_name") }} <span class="text-red-700">*</span>
+          <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-room-alt-name">
+            {{ t("alt_name") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <input
             id="add-room-alt-name"
             v-model="editProposal.pendingAddition.alt_name"
             type="text"
-            class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 w-full rounded border px-2 py-1 text-sm"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
           />
-          <I18nT keypath="alt_name_help" tag="p" class="text-zinc-500 mt-1 text-xs">
+          <I18nT keypath="alt_name_help" tag="p" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
             <template #example>
               <code class="font-mono">{{ t("alt_name_help_example") }}</code>
             </template>
@@ -412,8 +404,8 @@ watch(
 
         <!-- For buildings the id input lives inside the Identifiers fieldset of AddBuildingFields. -->
         <div v-if="editProposal.pendingAddition.kind !== 'building'">
-          <label class="text-zinc-600 mb-1 block text-xs font-medium" for="add-id">
-            {{ t("id_label") }} <span class="text-red-700">*</span>
+          <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-id">
+            {{ t("id_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <div v-if="editProposal.pendingAddition.kind === 'room'" class="flex items-center gap-1">
             <input
@@ -422,16 +414,16 @@ watch(
               type="text"
               disabled
               :placeholder="t('room_id_parent_placeholder')"
-              class="bg-zinc-100 border-zinc-300 text-zinc-500 w-24 cursor-not-allowed rounded border px-2 py-1 text-sm"
+              class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-500 dark:text-zinc-400 w-24 cursor-not-allowed rounded border px-2 py-1 text-sm"
             />
-            <span class="text-zinc-500 select-none">.</span>
+            <span class="text-zinc-500 dark:text-zinc-400 select-none">.</span>
             <select
               v-if="parentFloorOptions.length"
               v-model="roomFloorSegment"
-              class="focusable bg-zinc-200 text-zinc-900 w-32 rounded border px-2 py-1 text-sm"
-              :class="roomIdFormatError ? 'border-red-500' : 'border-zinc-400'"
+              class="focusable bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 w-32 rounded border px-2 py-1 text-sm"
+              :class="roomIdFormatError ? 'border-red-500 dark:border-red-400' : 'border-zinc-400 dark:border-zinc-500'"
             >
-              <option value="">—</option>
+              <option value="">-</option>
               <option v-for="f in parentFloorOptions" :key="f.tumonline" :value="f.tumonline">{{ f.label }}</option>
             </select>
             <input
@@ -439,16 +431,16 @@ watch(
               v-model="roomFloorSegment"
               type="text"
               :placeholder="t('room_id_floor_placeholder')"
-              class="focusable bg-zinc-200 text-zinc-900 w-20 rounded border px-2 py-1 text-sm"
-              :class="roomIdFormatError ? 'border-red-500' : 'border-zinc-400'"
+              class="focusable bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 w-20 rounded border px-2 py-1 text-sm"
+              :class="roomIdFormatError ? 'border-red-500 dark:border-red-400' : 'border-zinc-400 dark:border-zinc-500'"
             />
-            <span class="text-zinc-500 select-none">.</span>
+            <span class="text-zinc-500 dark:text-zinc-400 select-none">.</span>
             <input
               v-model="roomNumberSegment"
               type="text"
               :placeholder="t('room_id_number_placeholder')"
-              class="focusable bg-zinc-200 text-zinc-900 flex-grow rounded border px-2 py-1 text-sm"
-              :class="roomIdFormatError ? 'border-red-500' : 'border-zinc-400'"
+              class="focusable bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 flex-grow rounded border px-2 py-1 text-sm"
+              :class="roomIdFormatError ? 'border-red-500 dark:border-red-400' : 'border-zinc-400 dark:border-zinc-500'"
             />
           </div>
           <input
@@ -456,25 +448,25 @@ watch(
             id="add-id"
             v-model="editProposal.pendingAddition.id"
             type="text"
-            class="focusable bg-zinc-200 text-zinc-900 w-full rounded border px-2 py-1 text-sm"
-            :class="idCollidesOnServer ? 'border-red-500' : 'border-zinc-400'"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+            :class="idCollidesOnServer ? 'border-red-500 dark:border-red-400' : 'border-zinc-400 dark:border-zinc-500'"
           />
-          <p v-if="idCheckPending" class="text-zinc-500 mt-1 text-xs">{{ t("id_checking") }}</p>
+          <p v-if="idCheckPending" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">{{ t("id_checking") }}</p>
           <template v-else-if="idCollidesOnServer">
-            <p class="text-red-700 mt-1 text-xs">{{ t("error.id_exists_on_server") }}</p>
+            <p class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ t("error.id_exists_on_server") }}</p>
             <button
               type="button"
-              class="text-blue-600 hover:underline mt-1 text-xs"
+              class="text-blue-600 dark:text-blue-300 hover:underline mt-1 text-xs"
               @click="editExistingEntry"
             >
               {{ t("error.edit_existing_instead") }}
             </button>
           </template>
-          <p v-else-if="roomIdFormatError" class="text-red-700 mt-1 text-xs">{{ t(roomIdFormatError) }}</p>
-          <p v-else-if="editProposal.pendingAddition.kind === 'room'" class="text-zinc-500 mt-1 text-xs">
+          <p v-else-if="roomIdFormatError" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ t(roomIdFormatError) }}</p>
+          <p v-else-if="editProposal.pendingAddition.kind === 'room'" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
             {{ t("id_hint.room_segments") }}
           </p>
-          <p v-else class="text-zinc-500 mt-1 text-xs">{{ t("id_hint.poi") }}</p>
+          <p v-else class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">{{ t("id_hint.poi") }}</p>
         </div>
 
         <AddRoomFields v-if="editProposal.pendingAddition.kind === 'room'" />
@@ -482,8 +474,8 @@ watch(
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
 
         <div>
-          <label class="text-zinc-600 mb-1 block text-xs font-medium">
-            {{ t("coords_label") }} <span class="text-red-700">*</span>
+          <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
+            {{ t("coords_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <LocationPickerInline
             v-model:lat="mapLat"
@@ -491,7 +483,7 @@ watch(
             :initial-lat="mapInitialLat"
             :initial-lon="mapInitialLon"
           />
-          <p v-if="editProposal.pendingAddition.coords.picked" class="text-zinc-600 mt-1 text-xs">
+          <p v-if="editProposal.pendingAddition.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
             {{ editProposal.pendingAddition.coords.lat.toFixed(5) }},
             {{ editProposal.pendingAddition.coords.lon.toFixed(5) }}
           </p>

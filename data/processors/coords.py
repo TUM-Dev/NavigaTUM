@@ -89,7 +89,39 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
         .alias("coords_source")
     )
 
-    # 3. For rooms/virtual_rooms/poi without coords: copy from parent building
+    # 3a. POIs whose direct parent is a room: inherit the room's coords first,
+    # so the marker lands at the room centroid instead of the building centroid.
+    # accuracy stays "building" - the existing "inaccurate position" toast
+    # (DetailsContentSidebar.vue) keeps encouraging the user to refine the coord.
+    room_coords = df.filter((pl.col("type") == "room") & pl.col("coords_lat").is_not_null()).select(
+        pl.col("id").alias("room_id"),
+        pl.col("coords_lat").alias("room_lat"),
+        pl.col("coords_lon").alias("room_lon"),
+    )
+    poi_needs_coords = df.filter((pl.col("type") == "poi") & pl.col("coords_lat").is_null()).select(
+        "id",
+        pl.col("parents").list.last().alias("direct_parent"),
+    )
+    if poi_needs_coords.height > 0:
+        poi_room_match = poi_needs_coords.join(
+            room_coords, left_on="direct_parent", right_on="room_id", how="inner"
+        ).select("id", "room_lat", "room_lon")
+        if poi_room_match.height > 0:
+            df = df.join(poi_room_match, on="id", how="left")
+            df = df.with_columns(
+                pl.coalesce(pl.col("coords_lat"), pl.col("room_lat")).alias("coords_lat"),
+                pl.coalesce(pl.col("coords_lon"), pl.col("room_lon")).alias("coords_lon"),
+                pl.when(pl.col("coords_lat").is_null() & pl.col("room_lat").is_not_null())
+                .then(pl.lit("inferred"))
+                .otherwise(pl.col("coords_source"))
+                .alias("coords_source"),
+                pl.when(pl.col("coords_lat").is_null() & pl.col("room_lat").is_not_null())
+                .then(pl.lit("building"))
+                .otherwise(pl.col("coords_accuracy"))
+                .alias("coords_accuracy"),
+            ).drop("room_lat", "room_lon")
+
+    # 3b. For rooms/virtual_rooms/poi still without coords: copy from parent building
     building_coords = df.filter(pl.col("type") == "building").select(
         pl.col("id").alias("bldg_id"),
         pl.col("coords_lat").alias("bldg_lat"),
