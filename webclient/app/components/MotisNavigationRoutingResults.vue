@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, watch } from "vue";
+import { useResizeObserver } from "@vueuse/core";
 import type { components } from "~/api_types";
 
 type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
@@ -30,35 +30,29 @@ const transitContainer2 = ref<HTMLElement | null>(null);
 const showDirectOverflow = ref(false);
 const showTransitOverflow = ref(false);
 
-// Check for overflow after content updates
 const checkOverflow = () => {
-  nextTick(() => {
-    if (transitContainer.value) {
-      showDirectOverflow.value =
-        transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
-    }
-    if (transitContainer2.value) {
-      showTransitOverflow.value =
-        transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
-    }
-  });
+  if (transitContainer.value) {
+    showDirectOverflow.value =
+      transitContainer.value.scrollWidth > transitContainer.value.clientWidth;
+  }
+  if (transitContainer2.value) {
+    showTransitOverflow.value =
+      transitContainer2.value.scrollWidth > transitContainer2.value.clientWidth;
+  }
 };
 
-// Watch for data changes to recheck overflow
-watch(() => props.data, checkOverflow, { deep: true, flush: "post" });
-
-// Setup overflow detection
-onMounted(() => {
-  checkOverflow();
-
-  // Recheck on window resize
-  window.addEventListener("resize", checkOverflow);
-
-  // Cleanup on unmount
-  onUnmounted(() => {
-    window.removeEventListener("resize", checkOverflow);
-  });
-});
+// Both needed: data changes can grow scrollWidth without the box (clientWidth) changing.
+watch(
+  () => props.data,
+  () => nextTick(checkOverflow),
+  {
+    deep: true,
+    flush: "post",
+    immediate: true,
+  }
+);
+useResizeObserver(transitContainer, checkOverflow);
+useResizeObserver(transitContainer2, checkOverflow);
 
 const hasResults = computed(() => {
   return (props.data?.direct?.length || 0) > 0 || (props.data?.itineraries?.length || 0) > 0;

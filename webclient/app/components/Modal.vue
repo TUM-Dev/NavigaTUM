@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mdiClose } from "@mdi/js";
+import { onKeyStroke } from "@vueuse/core";
 
 export interface Props {
   title: string;
@@ -26,20 +27,10 @@ watchEffect(() => {
   }
 });
 
-onMounted(() => {
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      close();
-    }
-  };
+onKeyStroke("Escape", () => close());
 
-  document.addEventListener("keydown", handleEscape);
-
-  // Cleanup function
-  onBeforeUnmount(() => {
-    document.removeEventListener("keydown", handleEscape);
-    document.body?.classList.remove("overflow-y-hidden");
-  });
+onBeforeUnmount(() => {
+  document.body?.classList.remove("overflow-y-hidden");
 });
 
 function close() {

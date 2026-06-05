@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core";
 import type { GeoJSONSource } from "maplibre-gl";
 import {
   FullscreenControl,
@@ -44,6 +45,12 @@ const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+const fullscreenContainerEl = ref<HTMLElement | null>(null);
+// Maplibre bug: the map doesn't update to the new size when changing between
+// fullscreen in the mobile version.
+useResizeObserver(fullscreenContainerEl, () => {
+  map.value?.resize();
+});
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
@@ -168,15 +175,10 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         fullscreenCtl._map.resize();
       }
     };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
-    }
     map.addControl(fullscreenCtl);
+    if (isMobile) {
+      fullscreenContainerEl.value = fullscreenCtl._container;
+    }
 
     const location = new GeolocateControl({
       positionOptions: {
