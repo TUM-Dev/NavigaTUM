@@ -11,6 +11,7 @@ import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 import {
   calculateItineraryBounds,
@@ -46,6 +47,7 @@ const geolocateControl = ref<GeolocateControl | undefined>(undefined);
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
+const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
@@ -133,7 +135,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
+    const isMobile = isMobileQuery.value;
     const fullscreenContainer = isMobile
       ? document.getElementById("interactive-indoor-map")
       : document.getElementById("interactive-indoor-map-container");

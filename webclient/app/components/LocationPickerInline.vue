@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -6,6 +7,7 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface Props {
@@ -22,6 +24,7 @@ const { t } = useI18n({ useScope: "local" });
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
+const isMobile = useIsMobile();
 
 function createMarker(hueRotation = 120) {
   const markerDiv = document.createElement("div");
@@ -50,8 +53,7 @@ function initMap() {
 
   mapInstance.on("load", () => {
     mapInstance.addControl(new NavigationControl({}), "top-left");
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    if (isMobile) {
+    if (isMobile.value) {
       const fullscreenCtl = new FullscreenControl({ container: mapContainer.value as HTMLElement });
       mapInstance.addControl(fullscreenCtl);
     }
@@ -96,18 +98,9 @@ watch(
   { immediate: false }
 );
 
-onMounted(() => {
-  nextTick(() => {
-    let timeoutInMs = 25;
-    function pollMap() {
-      if (mapContainer.value) initMap();
-      else {
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-    pollMap();
-  });
+onMounted(async () => {
+  await until(mapContainer).toBeTruthy();
+  initMap();
 });
 
 onUnmounted(() => {
