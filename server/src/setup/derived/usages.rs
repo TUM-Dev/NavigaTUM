@@ -14,7 +14,8 @@ pub struct Usages;
 
 impl DerivedTable for Usages {
     const FILENAME: &'static str = "usages.parquet";
-    const TABLE: &'static str = "usages";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE usages";
+    const ANALYZE_SQL: &'static str = "ANALYZE usages";
     type Row = RawUsage;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

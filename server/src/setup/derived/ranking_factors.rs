@@ -17,7 +17,8 @@ pub struct RankingFactors;
 
 impl DerivedTable for RankingFactors {
     const FILENAME: &'static str = "ranking_factors.parquet";
-    const TABLE: &'static str = "ranking_factors";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE ranking_factors";
+    const ANALYZE_SQL: &'static str = "ANALYZE ranking_factors";
     type Row = RawRankingFactors;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

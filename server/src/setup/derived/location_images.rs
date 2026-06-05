@@ -19,7 +19,8 @@ pub struct LocationImages;
 
 impl DerivedTable for LocationImages {
     const FILENAME: &'static str = "location_images.parquet";
-    const TABLE: &'static str = "location_images";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE location_images";
+    const ANALYZE_SQL: &'static str = "ANALYZE location_images";
     type Row = RawImage;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

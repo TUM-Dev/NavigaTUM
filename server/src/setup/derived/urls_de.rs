@@ -14,7 +14,8 @@ pub struct UrlsDe;
 
 impl DerivedTable for UrlsDe {
     const FILENAME: &'static str = "urls_de.parquet";
-    const TABLE: &'static str = "urls_de";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE urls_de";
+    const ANALYZE_SQL: &'static str = "ANALYZE urls_de";
     type Row = RawUrl;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

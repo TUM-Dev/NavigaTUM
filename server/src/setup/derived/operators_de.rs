@@ -15,7 +15,8 @@ pub struct OperatorsDe;
 
 impl DerivedTable for OperatorsDe {
     const FILENAME: &'static str = "operators_de.parquet";
-    const TABLE: &'static str = "operators_de";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE operators_de";
+    const ANALYZE_SQL: &'static str = "ANALYZE operators_de";
     type Row = RawOperator;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

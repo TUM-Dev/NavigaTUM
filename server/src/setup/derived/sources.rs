@@ -15,7 +15,8 @@ pub struct Sources;
 
 impl DerivedTable for Sources {
     const FILENAME: &'static str = "sources.parquet";
-    const TABLE: &'static str = "sources";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE sources";
+    const ANALYZE_SQL: &'static str = "ANALYZE sources";
     type Row = RawSource;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

@@ -14,7 +14,8 @@ pub struct Parents;
 
 impl DerivedTable for Parents {
     const FILENAME: &'static str = "parents.parquet";
-    const TABLE: &'static str = "parents";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE parents";
+    const ANALYZE_SQL: &'static str = "ANALYZE parents";
     type Row = RawParent;
 
     fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {

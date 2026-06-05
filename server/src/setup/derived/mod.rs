@@ -18,15 +18,14 @@ pub(crate) mod urls_de;
 pub(crate) mod urls_en;
 pub(crate) mod usages;
 
-/// `insert` is per-table because `sqlx::query!` requires literal SQL (so the
-/// column list and parameter types cannot be expressed generically). TRUNCATE
-/// and ANALYZE are param-less DDL on a compile-time-known [`Self::TABLE`] and
-/// are issued via runtime [`sqlx::query`] from the shared [`run`].
+/// `insert` is per-table because `sqlx::query!` requires literal SQL.
+/// TRUNCATE / ANALYZE are pre-baked as `&'static str` so [`run`] can issue
+/// them via runtime [`sqlx::query`] without tripping sqlx 0.9's non-`'static`
+/// SQL ban.
 pub(super) trait DerivedTable {
     const FILENAME: &'static str;
-    /// Interpolated directly into runtime SQL; must be a `&'static` identifier
-    /// to keep TRUNCATE / ANALYZE injection-safe.
-    const TABLE: &'static str;
+    const TRUNCATE_SQL: &'static str;
+    const ANALYZE_SQL: &'static str;
     type Row: Default + Send;
 
     fn parse_field(col: &str, field: &Field, row: &mut Self::Row);
@@ -37,21 +36,17 @@ pub(super) trait DerivedTable {
     ) -> impl Future<Output = sqlx::Result<()>> + Send;
 }
 
-#[tracing::instrument(skip(pool), fields(table = T::TABLE))]
+#[tracing::instrument(skip(pool), fields(filename = T::FILENAME))]
 pub(super) async fn run<T: DerivedTable>(pool: PgPool) -> anyhow::Result<()> {
     let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = file_loader::load_file_or_download(T::FILENAME, &cdn_url).await?;
     let rows = decode_parquet_rows::<T::Row>(body, T::parse_field)?;
     let mut tx = pool.begin().await?;
-    sqlx::query(&format!("TRUNCATE TABLE {}", T::TABLE))
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query(T::TRUNCATE_SQL).execute(&mut *tx).await?;
     for r in &rows {
         T::insert(&mut tx, r).await?;
     }
-    sqlx::query(&format!("ANALYZE {}", T::TABLE))
-        .execute(&mut *tx)
-        .await?;
+    sqlx::query(T::ANALYZE_SQL).execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }
