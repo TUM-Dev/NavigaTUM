@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiChevronDown, mdiHelpCircle } from "@mdi/js";
+import { mdiArrowRightThin, mdiChevronDown, mdiHelpCircle } from "@mdi/js";
 import { useIntervalFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { formatDistance } from "~/utils/motis";
@@ -232,10 +232,11 @@ useIntervalFn(() => {
                   {{ entry.displayName || entry.routeShortName || modeLabel(entry.mode) }}
                 </span>
                 <span
-                  class="text-zinc-700 truncate min-w-0"
+                  class="text-zinc-700 truncate min-w-0 inline-flex items-center gap-1"
                   :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
                 >
-                  {{ entry.tripTo?.name || entry.headsign }}
+                  <MdiIcon :path="mdiArrowRightThin" :size="16" class="text-zinc-400 shrink-0" />
+                  <span class="truncate">{{ entry.tripTo?.name || entry.headsign }}</span>
                 </span>
               </template>
             </ul>
