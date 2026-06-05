@@ -33,30 +33,30 @@ const props = defineProps<{
 // Color encodes the mode so users can tell `mdiTrain` instances apart in
 // the station-header strip (where no route badge is nearby to disambiguate).
 const MODE_COLOR: Partial<Record<ModeResponse, string>> = {
-  highspeed_rail: "text-red-700",
-  long_distance: "text-red-900",
-  night_rail: "text-blue-900",
-  regional_fast_rail: "text-orange-700",
-  regional_rail: "text-orange-500",
-  rail: "text-zinc-700",
-  tram: "text-red-500",
-  subway: "text-blue-700",
-  metro: "text-blue-400",
-  suburban: "text-green-700",
-  bus: "text-green-500",
-  coach: "text-orange-800",
-  ferry: "text-blue-500",
-  airplane: "text-blue-800",
-  cable_car: "text-green-300",
-  funicular: "text-green-800",
-  areal_lift: "text-blue-300",
-  rental: "text-orange-300",
-  flex: "text-orange-400",
-  odm: "text-zinc-600",
-  ride_sharing: "text-zinc-500",
+  highspeed_rail: "text-red-700 dark:text-red-300",
+  long_distance: "text-red-900 dark:text-red-200",
+  night_rail: "text-blue-900 dark:text-blue-200",
+  regional_fast_rail: "text-orange-700 dark:text-orange-300",
+  regional_rail: "text-orange-500 dark:text-orange-400",
+  rail: "text-zinc-700 dark:text-zinc-300",
+  tram: "text-red-500 dark:text-red-400",
+  subway: "text-blue-700 dark:text-blue-300",
+  metro: "text-blue-400 dark:text-blue-300",
+  suburban: "text-green-700 dark:text-green-400",
+  bus: "text-green-500 dark:text-green-400",
+  coach: "text-orange-800 dark:text-orange-200",
+  ferry: "text-blue-500 dark:text-blue-400",
+  airplane: "text-blue-800 dark:text-blue-300",
+  cable_car: "text-green-300 dark:text-green-300",
+  funicular: "text-green-800 dark:text-green-300",
+  areal_lift: "text-blue-300 dark:text-blue-300",
+  rental: "text-orange-300 dark:text-orange-300",
+  flex: "text-orange-400 dark:text-orange-300",
+  odm: "text-zinc-600 dark:text-zinc-300",
+  ride_sharing: "text-zinc-500 dark:text-zinc-300",
 };
 
-const modeColorClass = computed(() => MODE_COLOR[props.mode] ?? "text-zinc-900");
+const modeColorClass = computed(() => MODE_COLOR[props.mode] ?? "text-zinc-900 dark:text-zinc-50");
 </script>
 
 <template>
