@@ -51,6 +51,14 @@ Die Nutzung der Naigation erfolgt auf einer rein freiwilligen Basis.
 Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
 Während der Nutzung der Karte können Nutzer ihren eigenen Standort auf der Karte anzeigen lassen.
 
+#### Naheliegender öffentlicher Verkehr
+
+Die Detailseiten zu Gebäuden und Räumen enthalten den Abschnitt "Naheliegender öffentlicher Verkehr", in dem die nächsten Abfahrten von Haltestellen in der Nähe des angezeigten Ortes aufgelistet werden.
+Das Laden der Abfahrten einer Haltestelle erfolgt rein freiwillig - der Abschnitt kontaktiert einen Drittanbieter erst, sobald die Nutzer:in eine konkrete Haltestelle aufklappt.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bereitstellung von Abfahrts-/Ankunftsinformationen für den angezeigten Ort).
+Der Browser der Nutzer:in kontaktiert die [Transitous-API für den öffentlichen Verkehr](https://transitous.org) (`https://api.transitous.org`) **direkt** für die Echtzeit-Abfahrten.
+NavigaTUM proxyt diese Anfragen nicht und sieht die Antwort nicht.
+
 ### Empfänger von personenbezogenen Daten
 
 Der technische Betrieb unserer Datenverarbeitungssysteme erfolgt durch:
@@ -64,6 +72,22 @@ Fax: (089) 35831 9700
 E-Mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
+
+Für die Funktion "Naheliegender öffentlicher Verkehr" kontaktiert der Browser der Nutzer:in zusätzlich einen Drittanbieter:
+
+```plain
+Transitous - Community-betriebenes freies und offenes ÖPNV-Routing
+https://transitous.org
+Quelle / Kontakt: https://github.com/public-transport/transitous
+```
+
+Folgende Daten werden vom Browser der Nutzer:in an `api.transitous.org` übermittelt, sobald eine Haltestelle aufgeklappt wird:
+
+- die Haltestellen-ID (z.B. eine DELFI-/GTFS-Stop-ID) der Haltestelle, die geöffnet wurde
+- das angefragte Sprach-Tag (`de` oder `en`)
+- die vom Browser standardmäßig gesendeten HTTP-Header, insbesondere die IP-Adresse, der `User-Agent` und der `Referer` - Letzterer ist durch die Referrer-Policy von NavigaTUM auf den Origin `https://nav.tum.de/` beschränkt.
+
+NavigaTUM hat keinen Vertrag mit Transitous und sieht die Antwort nicht. Wie Transitous die Anfragen verarbeitet, ist in deren [Datenschutzerklärung](https://transitous.org/privacy/) beschrieben (Kurzfassung: IP, Zeitpunkt, angefragte URL und `User-Agent` werden bis zu 2 Tage protokolliert).
 
 Gegebenenfalls werden Ihre Daten an die zuständigen Aufsichts- und Rechnungsprüfungsbehörden zur Wahrnehmung der jeweiligen Kontrollrechte übermittelt.
 
@@ -86,6 +110,20 @@ Die Daten werden nach der Errechnung der Navigationsroute verworfen und damit ni
 #### Karte - Standort
 
 Die Daten werden nicht an unseren Server übermittelt und damit nicht gespeichert.
+
+#### Naheliegender öffentlicher Verkehr
+
+NavigaTUM speichert keine Daten aus der Funktion "Naheliegender öffentlicher Verkehr".
+Die Anfrage verlässt den Browser der Nutzer:in direkt in Richtung der Transitous-API und die Antwort wird ausschließlich clientseitig dargestellt.
+
+Laut der [Datenschutzerklärung von Transitous](https://transitous.org/privacy/) speichert Transitous selbst auf der Empfängerseite folgende Daten für maximal **2 Tage** (berechtigtes Interesse zur Fehleranalyse und Missbrauchsabwehr):
+
+- die IP-Adresse der anfragenden Stelle
+- den Zeitpunkt der Anfrage
+- die angefragte URL (in unserem Fall enthält diese die Haltestellen-ID und das Sprach-Tag)
+- den `User-Agent`-Header
+
+Nach 2 Tagen werden die Logeinträge gelöscht. Eine frühere Löschung von Einträgen, die einer Person zugeordnet werden können (z.B. über IP-Adresse und Zeitfenster), kann per E-Mail direkt bei der Transitous-Serverbetreibung angefragt werden; die entsprechende Adresse ist auf <https://transitous.org/privacy/> veröffentlicht.
 
 ## Ihre Rechte
 
@@ -273,3 +311,13 @@ Die Daten werden nicht an Server übermittelt und erfolgt rein lokal.
 
 **Bereitstellung vorgeschrieben oder erforderlich:**
 Es besteht keine Bereitstellung dieser personenbezogenen Daten.
+
+#### Naheliegender öffentlicher Verkehr
+
+Auf den Detailseiten zu Gebäuden und Räumen kann die Nutzer:in eine naheliegende Haltestelle aufklappen, um deren nächste Abfahrten zu sehen. Solange die Nutzer:in keine Haltestelle ausdrücklich aufklappt, wird keine Anfrage an einen Drittanbieter gesendet.
+
+**Empfänger:**
+Die Anfrage geht direkt vom Browser der Nutzer:in an die Transitous-API für den öffentlichen Verkehr (`https://api.transitous.org`). NavigaTUM proxyt diese Anfragen nicht, sieht die Antwort nicht und speichert keine Daten aus dieser Funktion. Auf der Transitous-Seite werden IP-Adresse, Zeitpunkt, angefragte URL und `User-Agent` bis zu 2 Tage protokolliert; die [Datenschutzerklärung von Transitous](https://transitous.org/privacy/) nennt die Adresse für Löschanfragen.
+
+**Bereitstellung vorgeschrieben oder erforderlich:**
+Die Bereitstellung der Haltestellen-ID und der Anfrage erfolgt freiwillig; klappt die Nutzer:in den Abschnitt nicht auf, werden keine Daten an Transitous übermittelt.

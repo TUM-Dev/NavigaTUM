@@ -202,7 +202,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900 dark:text-zinc-50" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->
@@ -275,7 +275,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
                         {{ leg.route_short_name }}
                       </div>
                       <!-- Non-transit or transit without route info -->
-                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5 text-zinc-900 dark:text-zinc-50" transparent />
+                      <MotisTransitModeIcon v-else :mode="leg.mode" class="w-5 h-5" transparent />
                     </template>
                   </div>
                   <!-- Fade-out gradient for overflow -->

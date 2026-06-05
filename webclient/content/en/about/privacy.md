@@ -55,6 +55,14 @@ The use of navigation is purely voluntary.
 The processing is based on Art. 6 para. 1 lit. a GDPR.
 While using the map, users can have their own location displayed on the map.
 
+#### Nearby public transport
+
+The detail pages for buildings and rooms include a "Nearby public transport" section that lists upcoming departures from stops near the location.
+Loading departures for a stop is purely voluntary - the section only contacts a third-party server once the user expands a specific station.
+The processing is based on Art. 6 para. 1 lit. f GDPR (legitimate interest in offering arrival/departure information for the displayed location).
+The user's browser contacts the [Transitous public-transport API](https://transitous.org) (`https://api.transitous.org`) **directly** to fetch real-time departures.
+NavigaTUM does not proxy these requests and does not see the response.
+
 ### Recipients of personal data
 
 The technical operation of our data processing systems is carried out by:
@@ -68,6 +76,22 @@ Fax: (089) 35831 9700
 E-mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
+
+For the "Nearby public transport" feature, the user's browser additionally contacts a third-party service:
+
+```plain
+Transitous - community-run free and open public-transport routing
+https://transitous.org
+Source / contact: https://github.com/public-transport/transitous
+```
+
+The following data is transmitted to `api.transitous.org` by the user's browser when the user expands a station:
+
+- the public-transport stop identifier (e.g. a DELFI/GTFS stop ID) for the station the user opened
+- the requested language tag (`de` or `en`)
+- the browser-default HTTP request headers, in particular the IP address, the `User-Agent` and the `Referer` - the latter is restricted by NavigaTUM's referrer policy to the origin `https://nav.tum.de/`.
+
+NavigaTUM has no contract with Transitous and does not see the response. Transitous's own handling of these requests is described in their [privacy policy](https://transitous.org/privacy/) (summary: IP, time, requested URL and `User-Agent` are logged for up to 2 days).
 
 If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of
 the respective control rights.
@@ -94,6 +118,20 @@ The data is discarded after the navigation route has been calculated and is ther
 #### Map - Location
 
 The data is not transmitted to our server and is therefore not saved.
+
+#### Nearby public transport
+
+NavigaTUM does not store any data from the "Nearby public transport" feature.
+The request leaves the user's browser directly for the Transitous API and the response is rendered client-side only.
+
+Per the [Transitous privacy policy](https://transitous.org/privacy/), Transitous itself logs the following on the receiving side for up to **2 days** (legitimate interest in debugging and abuse prevention):
+
+- the IP address of the requester
+- the time of the request
+- the requested URL (which in our case contains the stop ID and language tag)
+- the `User-Agent` header
+
+After 2 days the log entries are deleted. Earlier deletion of entries that can be attributed to you (for example by IP address and timeframe) can be requested by e-mail directly from the Transitous server maintainer; the address is published on <https://transitous.org/privacy/>.
 
 ## Your rights
 
@@ -303,3 +341,13 @@ The data is not transmitted to servers and is purely local.
 
 **Provision prescribed or required:**
 There is no provision of this personal data.
+
+#### Nearby public transport
+
+On building/room detail pages, the user can expand a nearby public-transport stop to view its upcoming departures. Until the user explicitly expands a station, no request to a third-party server is made.
+
+**Recipient:**
+The request goes directly from the user's browser to the Transitous public-transport API (`https://api.transitous.org`). NavigaTUM does not proxy these requests, does not see the response and does not store any data from this feature. The Transitous side logs the IP address, request time, requested URL and `User-Agent` for up to 2 days; the full [Transitous privacy policy](https://transitous.org/privacy/) lists the deletion contact.
+
+**Provision prescribed or required:**
+The provision of the stop identifier and the request itself is voluntary; if the user does not expand the section no data is sent to Transitous.

@@ -58,6 +58,12 @@ export default defineNuxtConfig({
         },
       ],
       meta: [
+        // Browser fetch() cannot set User-Agent (forbidden header per Fetch spec).
+        // Pinning the default referrer policy guarantees cross-origin requests
+        // (e.g. Transitous /stoptimes) carry `Referer: https://nav.tum.de/`, which
+        // the upstream policy accepts as a User-Agent replacement provided contact
+        // info is on the site - see content/{en,de}/about/imprint.md.
+        { name: "referrer", content: "strict-origin-when-cross-origin" },
         { name: "fediverse:creator", content: "@CommanderStorm@chaos.social" },
         { name: "msapplication-TileColor", content: "#0065bd" },
         { name: "theme-color", content: "#ffffff" },
