@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { mdiCalendar, mdiPlusCircle } from "@mdi/js";
-import { useTimeoutFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";
@@ -52,7 +51,7 @@ async function addLocation() {
   calendar.value = [...calendar.value, selectedLocation];
   emit("change");
   // todo: debug why this is not syncinc apropriately, quite a crude hack
-  useTimeoutFn(() => location.reload(), 500);
+  setTimeout(() => location.reload(), 500);
 }
 </script>
 
