@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mdiClose } from "@mdi/js";
+import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
@@ -21,17 +22,10 @@ const query = ref("");
 const open = ref(false);
 const highlighted = ref(-1);
 const debounced = ref("");
-let debounceHandle: ReturnType<typeof setTimeout> | null = null;
-
-watch(query, (value) => {
-  if (debounceHandle) clearTimeout(debounceHandle);
-  debounceHandle = setTimeout(() => {
-    debounced.value = value.trim();
-  }, 200);
-});
-onUnmounted(() => {
-  if (debounceHandle) clearTimeout(debounceHandle);
-});
+const applyDebounced = useDebounceFn((value: string) => {
+  debounced.value = value.trim();
+}, 200);
+watch(query, applyDebounced);
 
 const searchUrl = computed(() => {
   if (debounced.value.length < 2) return null;
