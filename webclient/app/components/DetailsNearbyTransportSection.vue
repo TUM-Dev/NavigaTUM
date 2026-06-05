@@ -161,20 +161,25 @@ useIntervalFn(() => {
       <li
         v-for="station in sortedStations"
         :key="station.id"
-        class="bg-zinc-100 border border-zinc-200 rounded-md"
+        class="bg-zinc-100 border border-zinc-200 rounded-sm"
       >
         <button
           type="button"
-          class="focusable w-full flex items-center justify-between gap-3 p-3 text-left"
+          class="focusable w-full flex items-center gap-3 p-3 text-left"
           :aria-expanded="stationState.has(station.id)"
           @click="toggleExpand(station.id)"
         >
-          <div class="flex items-center gap-2 min-w-0">
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <span class="text-zinc-800 font-medium truncate">{{ station.name }}</span>
+            <span class="text-zinc-500 text-sm shrink-0">{{ formatDistance(station.distance_meters) }}</span>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
             <MotisTransitModeIcon
               v-for="mode in station.modes"
               :key="mode"
               :mode="mode"
               transparent
+              class="text-zinc-900"
               :title="modeLabel(mode)"
             />
             <MdiIcon
@@ -183,17 +188,13 @@ useIntervalFn(() => {
               :size="18"
               class="text-zinc-400"
             />
-            <span class="text-zinc-800 font-medium truncate">{{ station.name }}</span>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <span class="text-zinc-500 text-sm">{{ formatDistance(station.distance_meters) }}</span>
-            <MdiIcon
-              :path="mdiChevronDown"
-              :size="18"
-              class="text-zinc-500 transition-transform"
-              :class="{ 'rotate-180': stationState.has(station.id) }"
-            />
-          </div>
+          <MdiIcon
+            :path="mdiChevronDown"
+            :size="18"
+            class="text-zinc-500 transition-transform shrink-0"
+            :class="{ 'rotate-180': stationState.has(station.id) }"
+          />
         </button>
         <template v-if="stationState.get(station.id) as DepartureState | undefined">
           <div class="border-t border-zinc-200 p-3">
@@ -206,29 +207,37 @@ useIntervalFn(() => {
             <div v-else-if="!stationState.get(station.id)!.entries.length" class="text-zinc-500 text-sm">
               {{ t("no_departures") }}
             </div>
-            <ul v-else class="flex flex-col gap-2">
-              <li
-                v-for="(entry, idx) in stationState.get(station.id)!.entries"
-                :key="idx"
-                class="flex items-center gap-2 text-sm"
-                :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
-              >
+            <ul v-else class="grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-3 gap-y-2 items-center text-sm">
+              <template v-for="(entry, idx) in stationState.get(station.id)!.entries" :key="idx">
                 <span
-                  class="rounded px-2 py-0.5 text-xs font-semibold shrink-0"
+                  class="text-zinc-800 font-medium tabular-nums text-right"
+                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                >
+                  {{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}
+                </span>
+                <span
+                  class="text-zinc-500 text-xs tabular-nums whitespace-nowrap"
+                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                >
+                  {{ scheduledClockLabel(entry) }}<span
+                    v-if="delayMinutes(entry) !== null"
+                    class="text-red-600 font-semibold ms-1"
+                  >+{{ delayMinutes(entry) }}</span>
+                </span>
+                <span
+                  class="rounded px-2 py-0.5 text-xs font-semibold justify-self-start"
+                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
                   :style="routeBadgeStyle(entry)"
                 >
                   {{ entry.displayName || entry.routeShortName || modeLabel(entry.mode) }}
                 </span>
-                <span class="text-zinc-700 truncate flex-1">{{ entry.tripTo?.name || entry.headsign }}</span>
-                <span class="text-zinc-500 text-xs shrink-0">{{ scheduledClockLabel(entry) }}</span>
                 <span
-                  v-if="delayMinutes(entry) !== null"
-                  class="text-red-600 text-xs font-semibold shrink-0"
+                  class="text-zinc-700 truncate min-w-0"
+                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
                 >
-                  +{{ delayMinutes(entry) }}
+                  {{ entry.tripTo?.name || entry.headsign }}
                 </span>
-                <span class="text-zinc-800 font-medium shrink-0">{{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}</span>
-              </li>
+              </template>
             </ul>
           </div>
         </template>
