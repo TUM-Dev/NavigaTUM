@@ -62,7 +62,7 @@ export default defineNuxtConfig({
         // Pinning the default referrer policy guarantees cross-origin requests
         // (e.g. Transitous /stoptimes) carry `Referer: https://nav.tum.de/`, which
         // the upstream policy accepts as a User-Agent replacement provided contact
-        // info is on the site — see content/{en,de}/about/imprint.md.
+        // info is on the site - see content/{en,de}/about/imprint.md.
         { name: "referrer", content: "strict-origin-when-cross-origin" },
         { name: "fediverse:creator", content: "@CommanderStorm@chaos.social" },
         { name: "msapplication-TileColor", content: "#0065bd" },
