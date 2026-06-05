@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "ANALYZE transportation_stations",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "f2d8403bd181e1c5006bbe048ce1386ddde74dedee72cb908d2de3d782777c49"
+}

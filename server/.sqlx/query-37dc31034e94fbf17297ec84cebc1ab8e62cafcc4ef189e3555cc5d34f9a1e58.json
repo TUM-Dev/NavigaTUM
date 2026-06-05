@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "ANALYZE events",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "37dc31034e94fbf17297ec84cebc1ab8e62cafcc4ef189e3555cc5d34f9a1e58"
+}

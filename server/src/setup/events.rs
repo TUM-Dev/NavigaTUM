@@ -98,6 +98,7 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     for event in events {
         event.store(&mut tx).await?;
     }
+    sqlx::query!("ANALYZE events").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
 }

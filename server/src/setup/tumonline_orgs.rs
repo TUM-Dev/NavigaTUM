@@ -70,6 +70,9 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     for org in orgs {
         org.store(&mut tx).await?;
     }
+    sqlx::query!("ANALYZE tumonline_orgs")
+        .execute(&mut *tx)
+        .await?;
     tx.commit().await?;
     Ok(())
 }

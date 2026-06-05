@@ -86,6 +86,9 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
         }
         transportation.store(&mut tx).await?;
     }
+    sqlx::query!("ANALYZE transportation_stations")
+        .execute(&mut *tx)
+        .await?;
     tx.commit().await?;
     Ok(())
 }
