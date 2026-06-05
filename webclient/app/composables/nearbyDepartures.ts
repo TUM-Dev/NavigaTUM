@@ -240,7 +240,7 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
     }
   }, REFRESH_INTERVAL_MS);
 
-  // Suspend the Transitous polling while the tab is hidden — saves third-party
+  // Suspend the Transitous polling while the tab is hidden - saves third-party
   // hits on backgrounded tabs and keeps the CORS-* allowance polite.
   const visibility = useDocumentVisibility();
   watch(visibility, (v) => {
