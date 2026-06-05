@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -6,6 +7,7 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface Props {
@@ -22,6 +24,7 @@ const { t } = useI18n({ useScope: "local" });
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
+const isMobile = useIsMobile();
 
 function createMarker(hueRotation = 120) {
   const markerDiv = document.createElement("div");
@@ -50,8 +53,7 @@ function initMap() {
 
   mapInstance.on("load", () => {
     mapInstance.addControl(new NavigationControl({}), "top-left");
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    if (isMobile) {
+    if (isMobile.value) {
       const fullscreenCtl = new FullscreenControl({ container: mapContainer.value as HTMLElement });
       mapInstance.addControl(fullscreenCtl);
     }
@@ -96,18 +98,9 @@ watch(
   { immediate: false }
 );
 
-onMounted(() => {
-  nextTick(() => {
-    let timeoutInMs = 25;
-    function pollMap() {
-      if (mapContainer.value) initMap();
-      else {
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-    pollMap();
-  });
+onMounted(async () => {
+  await until(mapContainer).toBeTruthy();
+  initMap();
 });
 
 onUnmounted(() => {
@@ -118,13 +111,13 @@ onUnmounted(() => {
 <template>
   <div class="location-picker">
     <div
-      class="aspect-4/3 border-zinc-300 relative overflow-hidden rounded-lg border"
+      class="aspect-4/3 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
       :class="{ 'dark:bg-black bg-white': webglSupport }"
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
       <LazyMapGLNotSupported v-else />
     </div>
-    <p class="text-zinc-500 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
+    <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
   </div>
 </template>
 
@@ -156,7 +149,7 @@ onUnmounted(() => {
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   .maplibregl-map {

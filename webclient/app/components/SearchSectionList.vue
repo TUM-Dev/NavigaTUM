@@ -42,11 +42,11 @@ function viewMoreQuery(facet: string) {
   <div
     v-if="hasNoResults"
     role="status"
-    class="bg-zinc-50 border-zinc-200 flex flex-col items-center gap-2 rounded-sm border px-4 py-10 text-center"
+    class="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 flex flex-col items-center gap-2 rounded-sm border px-4 py-10 text-center"
   >
-    <MdiIcon :path="mdiMagnifyClose" :size="40" class="text-zinc-400" />
-    <p class="text-zinc-800 text-md font-semibold">{{ t("no_results.title") }}</p>
-    <p class="text-zinc-500 text-sm">
+    <MdiIcon :path="mdiMagnifyClose" :size="40" class="text-zinc-400 dark:text-zinc-500" />
+    <p class="text-zinc-800 dark:text-zinc-100 text-md font-semibold">{{ t("no_results.title") }}</p>
+    <p class="text-zinc-500 dark:text-zinc-400 text-sm">
       {{ filters.hasActiveFilters.value ? t("no_results.hint_filtered") : t("no_results.hint") }}
     </p>
     <Btn v-if="filters.hasActiveFilters.value" variant="linkButton" size="sm" @click="filters.clearAll()">
@@ -56,19 +56,19 @@ function viewMoreQuery(facet: string) {
   <template v-else>
     <div v-for="s in data.sections" :key="s.facet">
       <section v-if="s.entries.length" class="flex flex-col gap-2">
-        <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
+        <h2 class="text-md text-zinc-500 dark:text-zinc-400 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
         <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
           <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
         </ul>
-        <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
+        <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 dark:text-zinc-400 text-sm">
           {{ t("approx_results", s.estimatedTotalHits) }}
           <NuxtLinkLocale
             :to="{ path: '/search', query: viewMoreQuery(s.facet) }"
-            class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
+            class="focusable text-blue-500 dark:text-blue-400 rounded-sm visited:text-blue-500 dark:visited:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 hover:underline"
             >{{ t("view_more") }}
           </NuxtLinkLocale>
         </p>
-        <p v-else class="text-zinc-500 text-sm">
+        <p v-else class="text-zinc-500 dark:text-zinc-400 text-sm">
           {{ t("results", s.estimatedTotalHits) }}
         </p>
       </section>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useEventListener } from "@vueuse/core";
 import { useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 
@@ -50,12 +51,9 @@ function handleKeyDown(event: KeyboardEvent) {
 
 onMounted(() => {
   searchElement.value = document.getElementById("search");
-  document.addEventListener("keydown", handleKeyDown);
 });
 
-onUnmounted(() => {
-  document.removeEventListener("keydown", handleKeyDown);
-});
+useEventListener(document, "keydown", handleKeyDown);
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
@@ -72,7 +70,7 @@ const { t } = useI18n({ useScope: "local" });
 <template>
   <a
     href="#main-content"
-    class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-30 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+    class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-30 focus:rounded focus:bg-blue-600 dark:focus:bg-blue-300 focus:px-4 focus:py-2 focus:text-white dark:focus:text-black focus:shadow-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2"
   >
     {{ t("skip_to_content") }}
   </a>

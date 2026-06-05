@@ -45,6 +45,18 @@ test.describe("Search Page - Results Display", () => {
   });
 });
 
+test.describe("Search Page - English ↔ German synonyms (#960)", () => {
+  for (const query of ["library", "libraries", "bibliothek", "Teilbibliothek"]) {
+    test(`q=${query} returns at least one building result`, async ({ page }) => {
+      await page.goto(`/search?q=${query}`, { waitUntil: "networkidle" });
+      await page.waitForLoadState("networkidle");
+
+      const resultLinks = page.locator('a[href*="/view/"]');
+      expect(await resultLinks.count()).toBeGreaterThan(0);
+    });
+  }
+});
+
 test.describe("Search Page - Empty and Error States", () => {
   test("should handle empty search query", async ({ page }) => {
     await page.goto("/search?q=", { waitUntil: "networkidle" });
@@ -286,7 +298,7 @@ test.describe("Search Filters - Location panel", () => {
     const input = page.getByPlaceholder("Gebäude oder Standort suchen...");
     await input.fill("garching");
 
-    // Wait for either suggestions or a "no results" message — both prove the
+    // Wait for either suggestions or a "no results" message - both prove the
     // fetch ran (loading, then settled).
     const suggestions = page.locator("#location-filter-panel ul li");
     const noResults = page.locator("#location-filter-panel").getByText("Keine Ergebnisse");
@@ -421,7 +433,7 @@ test.describe("Search Filters - API parameter passthrough", () => {
     }) => {
       // The server's `facet` field already buckets subtypes (e.g. joined_building
       // is filed under `building`), so the frontend does not expand the bucket
-      // name client-side anymore — it just passes the chosen bucket through.
+      // name client-side anymore - it just passes the chosen bucket through.
       await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
       const requestPromise = page.waitForRequest(

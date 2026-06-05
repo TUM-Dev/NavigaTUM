@@ -23,13 +23,13 @@ const variantClasses = computed(() => {
       case "action":
         return "";
       case "primary":
-        return "bg-blue-400 text-blue-50";
+        return "bg-blue-400 dark:bg-blue-500 text-blue-50 dark:text-blue-900";
       case "secondary":
-        return "bg-zinc-400 text-zinc-50";
+        return "bg-zinc-400 dark:bg-zinc-500 text-zinc-50 dark:text-zinc-900";
       case "linkButton":
-        return "bg-transparent text-blue-600";
+        return "bg-transparent text-blue-600 dark:text-blue-300";
       case "link":
-        return "bg-transparent text-blue-600 hover:underline";
+        return "bg-transparent text-blue-600 dark:text-blue-300 hover:underline";
       default:
         return props.variant;
     }
@@ -38,13 +38,13 @@ const variantClasses = computed(() => {
     case "action":
       return "";
     case "primary":
-      return "bg-blue-500 visited:text-blue-50 text-blue-50 hover:bg-blue-600 hover:text-white";
+      return "bg-blue-500 dark:bg-blue-400 visited:text-blue-50 dark:visited:text-blue-900 text-blue-50 dark:text-blue-900 hover:bg-blue-600 dark:hover:bg-blue-300 hover:text-white dark:hover:text-black";
     case "secondary":
-      return "bg-zinc-500 visited:text-zinc-50 text-zinc-50 hover:bg-zinc-600 hover:text-white";
+      return "bg-zinc-500 dark:bg-zinc-400 visited:text-zinc-50 dark:visited:text-zinc-900 text-zinc-50 dark:text-zinc-900 hover:bg-zinc-600 dark:hover:bg-zinc-300 hover:text-white dark:hover:text-black";
     case "linkButton":
-      return "bg-transparent visited:text-blue-600 text-blue-600 hover:bg-blue-900/10 dark:hover:bg-blue-50/20 hover:text-blue-500";
+      return "bg-transparent visited:text-blue-600 dark:visited:text-blue-300 text-blue-600 dark:text-blue-300 hover:bg-blue-900/10 dark:hover:bg-blue-50/10 hover:text-blue-500 dark:hover:text-blue-400";
     case "link":
-      return "bg-transparent visited:text-blue-600 text-blue-600 hover:underline";
+      return "bg-transparent visited:text-blue-600 dark:visited:text-blue-300 text-blue-600 dark:text-blue-300 hover:underline";
     default:
       return props.variant;
   }

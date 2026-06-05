@@ -331,6 +331,12 @@ heilbronn:
   coords:
     lat: 49.14991790304142
     lon: 9.214257130268168
+1913:
+  coords:
+    lat: 49.149295
+    lon: 9.210713
+  osm:
+  - way/1457907541
 1915:
   coords:
     lat: 49.153491683965264
@@ -444,6 +450,12 @@ staudensichtungsgarten:
   coords:
     lat: 48.39832
     lon: 11.72429
+4240:
+  coords:
+    lat: 48.399850
+    lon: 11.727978
+  osm:
+  - way/764601048
 duernast: {}
 thalhausen: {}
 roggenstein: {}
@@ -982,8 +994,8 @@ taufkirchen-ottobrunn:
     lon: 11.061414
 9344:
   coords:
-    lat: 48.344112
-    lon: 11.746225
+    lat: 48.0843
+    lon: 11.2970
 9377:
   coords:
     lat: 48.05453

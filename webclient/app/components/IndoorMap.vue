@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core";
 import type { GeoJSONSource } from "maplibre-gl";
 import {
   FullscreenControl,
@@ -11,6 +12,7 @@ import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 import {
   calculateItineraryBounds,
@@ -18,14 +20,11 @@ import {
   decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
-  type PlatformChangeMarker,
 } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
-type MotisLegResponse = components["schemas"]["MotisLegResponse"];
-type PlaceResponse = components["schemas"]["PlaceResponse"];
 
 // Simplified GeoJSON Feature type to avoid deep type inference
 interface SimpleGeoJSONFeature {
@@ -46,9 +45,16 @@ const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+const fullscreenContainerEl = ref<HTMLElement | null>(null);
+// Maplibre bug: the map doesn't update to the new size when changing between
+// fullscreen in the mobile version.
+useResizeObserver(fullscreenContainerEl, () => {
+  map.value?.resize();
+});
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
+const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
@@ -136,7 +142,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
+    const isMobile = isMobileQuery.value;
     const fullscreenContainer = isMobile
       ? document.getElementById("interactive-indoor-map")
       : document.getElementById("interactive-indoor-map-container");
@@ -169,15 +175,10 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         fullscreenCtl._map.resize();
       }
     };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
-    }
     map.addControl(fullscreenCtl);
+    if (isMobile) {
+      fullscreenContainerEl.value = fullscreenCtl._container;
+    }
 
     const location = new GeolocateControl({
       positionOptions: {
@@ -562,7 +563,7 @@ defineExpose({
     id="interactive-indoor-map-container"
     class="!h-full min-h-96 print:!hidden"
     :class="{
-      'dark:bg-black bg-white border-zinc-300 border': webglSupport,
+      'dark:bg-black bg-white border-zinc-300 dark:border-zinc-600 border': webglSupport,
     }"
   >
     <div v-if="webglSupport" id="interactive-indoor-map" class="relative !h-full min-h-96 !w-full" />
@@ -579,7 +580,7 @@ defineExpose({
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   > div {

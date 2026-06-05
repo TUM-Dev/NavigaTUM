@@ -7,16 +7,16 @@ dependencies = [
   "backoff==2.2.1",
   "beautifulsoup4==4.14.3",
   "brotli>=1.2.0",
-  "dataframely==2.9.1",
+  "dataframely==2.10.1",
   "defusedxml==0.7.1",
-  "lxml==6.1.0",
+  "lxml==6.1.1",
   "orjson==3.11.9",
   "Pillow==12.2.0",
   "polars==1.41.2",
   "pyarrow==24.0.0",
   "pydantic==2.13.4",
   "pyyaml==6.0.3",
-  "requests==2.33.1",
+  "requests==2.34.2",
   "requests-oauthlib==2.0.0",
   "ruamel.yaml==0.19.1",
   "tqdm==4.67.3",
@@ -29,7 +29,7 @@ dev = [
   "mypy==2.1.0",
   "pre-commit==4.6.0",
   "pytest==9.0.3",
-  "ruff==0.15.15",
+  "ruff==0.15.16",
   "types-Pillow==10.2.0.20240822",
   "types-PyYAML==6.0.12.20260518",
   "types-requests==2.33.0.20260518",
@@ -106,7 +106,7 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = [
-  # pycodestyle / pyflakes / docstrings — fundamentals
+  # pycodestyle / pyflakes / docstrings - fundamentals
   "E", "W", "F", "D",
   # ruff-specific, pyupgrade
   "RUF", "UP",
@@ -155,12 +155,12 @@ ignore = [
   #### rules
   "SIM108", # ternary operator should be used without a concearn for the code complexity
   "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
-  "TC001", # runtime imports in TYPE_CHECKING — pydantic/dataframely need the symbols at runtime
+  "TC001", # runtime imports in TYPE_CHECKING - pydantic/dataframely need the symbols at runtime
   "TC002",
   "TC003",
   "FBT001", # boolean-trap on definitions is too opinionated for internal helpers
   "FBT002",
-  "PT011", # `pytest.raises(Exception)` without `match=` — too noisy in current tests
+  "PT011", # `pytest.raises(Exception)` without `match=` - too noisy in current tests
 
   # docstrings
   "D100", # Missing docstring in public module => too much work

@@ -3,7 +3,6 @@
   "extends": [
     "config:recommended",
     "group:recommended",
-    "group:allNonMajor",
     "customManagers:biomeVersions"
   ],
   "timezone": "Europe/Berlin",
@@ -23,11 +22,40 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "groupName": "major-release",
-      "automerge": false
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "github-actions",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "docker",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["pep621", "pip_requirements"],
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "groupName": "python",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "groupName": "node",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "groupName": "rust",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "groupName": "pre-commit",
+      "automerge": true
     },
     {
       "groupName": "testing",
@@ -86,14 +114,6 @@
       ]
     },
     {
-      "groupName": "maplibre",
-      "automerge": false,
-      "matchPackageNames": [
-        "/maplibre-gl/",
-        "/maplibre-gl-indoor/"
-      ]
-    },
-    {
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -105,10 +125,17 @@
       ]
     },
     {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "groupName": "devDependencies"
+      "groupName": "maplibre",
+      "automerge": false,
+      "matchPackageNames": [
+        "/maplibre-gl/",
+        "/maplibre-gl-indoor/"
+      ]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major-release",
+      "automerge": false
     }
   ]
 }

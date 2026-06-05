@@ -384,6 +384,8 @@ struct PropsResponse {
     /// A sorted (lowest floor first) list of floors
     ///
     /// For buildings, this may contain multiple floors while rooms usually only have one floor.
+    /// POIs inherit floors from their immediate parent: a single floor when parented to a room,
+    /// or the full building list when parented to a building.
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     floors: Vec<FloorResponse>,
 }

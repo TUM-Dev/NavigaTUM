@@ -111,4 +111,4 @@
 # poi queries
 - target: validierungsautomat-1
   query: Validierungsautomat
-  comment: 'Regression: #1868 — POIs were silently dropped from search results'
+  comment: 'Regression: #1868 - POIs were silently dropped from search results'

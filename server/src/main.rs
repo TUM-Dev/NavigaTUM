@@ -233,7 +233,7 @@ async fn main() -> anyhow::Result<()> {
 
     let data = AppData::new().await;
 
-    // Persistent bare repo for edit proposals — the initial clone runs in the
+    // Persistent bare repo for edit proposals - the initial clone runs in the
     // background after MS/DB setup; requests before that fall back to lazy init.
     let repo_pool = Arc::new(feedback::proposed_edits::repo_pool::RepoPool::new());
 

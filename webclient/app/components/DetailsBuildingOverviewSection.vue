@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  mdiArrowRight,
-  mdiChevronDown,
-  mdiChevronRight,
-  mdiChevronUp,
-  mdiOfficeBuilding,
-} from "@mdi/js";
+import { mdiChevronDown, mdiChevronRight, mdiChevronUp, mdiOfficeBuilding } from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 
@@ -22,14 +16,14 @@ const runtimeConfig = useRuntimeConfig();
 
 <template>
   <section v-if="props.buildings" class="print:!hidden">
-    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
+    <h2 class="text-zinc-800 dark:text-zinc-100 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <MdiIcon :path="mdiArrowRight" :size="16" /></NuxtLinkLocale> -->
-    <div class="text-zinc-600 grid grid-cols-1 gap-3 lg:grid-cols-2">
+    <div class="text-zinc-600 dark:text-zinc-300 grid grid-cols-1 gap-3 lg:grid-cols-2">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <NuxtLinkLocale
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
-          class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
+          class="focusable border-zinc-200 dark:border-zinc-700 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100 dark:hover:bg-zinc-800"
           :aria-label="t('show_details_for', [b.name])"
         >
           <div class="flex flex-row items-center gap-3">
@@ -43,12 +37,12 @@ const runtimeConfig = useRuntimeConfig();
                 :src="`${runtimeConfig.public.cdnURL}/cdn/thumb/${b.thumb}`"
               />
             </figure>
-            <div v-else class="text-white bg-blue-500 min-w-11 rounded-full p-2">
+            <div v-else class="text-white dark:text-black bg-blue-500 dark:bg-blue-400 min-w-11 rounded-full p-2">
               <MdiIcon :path="mdiOfficeBuilding" :size="28" class="mx-auto" />
             </div>
             <div class="flex flex-col justify-evenly">
               <div class="line-clamp-2 text-balance">{{ b.name }}</div>
-              <small class="text-zinc-600">{{ b.subtext }}</small>
+              <small class="text-zinc-600 dark:text-zinc-300">{{ b.subtext }}</small>
             </div>
           </div>
           <MdiIcon :path="mdiChevronRight" :size="16" />

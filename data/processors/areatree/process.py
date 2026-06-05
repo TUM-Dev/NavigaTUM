@@ -39,7 +39,7 @@ _LEADING_ACRONYM_RE = re.compile(
 # Institutional-brand prefixes that are NOT short names. Skip the warning entirely for these.
 _INSTITUTIONAL_BRANDS: frozenset[str] = frozenset({"TUM", "LMU"})
 # TUMonline operator/location markers that occasionally bleed into areatree names. They are not
-# real short names — suggest dropping them.
+# real short names - suggest dropping them.
 _TUMONLINE_NOISE_MARKERS: frozenset[str] = frozenset({"AM", "NR", "SZ", "GP", "GM"})
 # Trailing parentheticals that look like building/identifier codes. When matched these should
 # become a ``visible_id`` rather than a short_name.
@@ -260,12 +260,12 @@ def _warn_if_embedded_short_name(
         long_name = _EMBEDDED_SHORT_NAME_RE.sub("", name).rstrip(" ,;")
         short_norm = _normalize_id(short)
 
-        # Case 1: TUMonline operator/location marker — just noise.
+        # Case 1: TUMonline operator/location marker - just noise.
         if short.upper() in _TUMONLINE_NOISE_MARKERS:
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
             _logger.warning(
                 f"'{entry_id}': name '{name}' contains TUMonline noise marker '({short})'. "
-                f"Drop it — line should be '{fixed}'"
+                f"Drop it - line should be '{fixed}'"
             )
             return
 
@@ -274,33 +274,33 @@ def _warn_if_embedded_short_name(
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
             _logger.warning(
                 f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
-                f"Drop the trailing '({short})' — line should be '{fixed}'"
+                f"Drop the trailing '({short})' - line should be '{fixed}'"
             )
             return
 
-        # Case 3: looks like a code (Bau 501, BL. G, BT07, N1, ...) — make it the visible_id.
+        # Case 3: looks like a code (Bau 501, BL. G, BT07, N1, ...) - make it the visible_id.
         if not visible_id and _CODE_LIKE_RE.match(short):
             new_visible = short_norm
             fixed = _format_line(building_ids, long_name, entry_id, new_visible)
             _logger.warning(
                 f"'{entry_id}': name '{name}' embeds the code '({short})'. "
-                f"Promote it to a visible_id — line should be '{fixed}'"
+                f"Promote it to a visible_id - line should be '{fixed}'"
             )
             return
 
-        # Case 4: acronym short_name — use the |-syntax.
+        # Case 4: acronym short_name - use the |-syntax.
         fixed_name = f"{long_name}|{short}"
         fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
         _logger.warning(
             f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
-            f"Use the '|'-syntax — line should be '{fixed}'"
+            f"Use the '|'-syntax - line should be '{fixed}'"
         )
         return
 
     leading = _LEADING_ACRONYM_RE.match(name)
     if leading:
         short = leading.group(1)
-        # Case 1 (leading): institutional brand — meaningless as short_name, skip silently.
+        # Case 1 (leading): institutional brand - meaningless as short_name, skip silently.
         if short in _INSTITUTIONAL_BRANDS:
             return
 
@@ -312,7 +312,7 @@ def _warn_if_embedded_short_name(
             fixed = _format_line(building_ids, long_name, entry_id, visible_id)
             _logger.warning(
                 f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
-                f"Drop the leading '{short}' — line should be '{fixed}'"
+                f"Drop the leading '{short}' - line should be '{fixed}'"
             )
             return
 
@@ -321,5 +321,5 @@ def _warn_if_embedded_short_name(
         fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
         _logger.warning(
             f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
-            f"Use the '|'-syntax — line should be '{fixed}'"
+            f"Use the '|'-syntax - line should be '{fixed}'"
         )

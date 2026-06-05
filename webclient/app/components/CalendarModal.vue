@@ -30,7 +30,7 @@ const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
           <p class="text-sm">
             {{ t("error.reason") }}:<br />
             <code
-              class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-50/20"
+              class="text-red-900 dark:text-red-50 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-900/20"
             >
               {{ error }}
             </code>
@@ -39,7 +39,7 @@ const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
             <template #feedbackForm>
               <button
                 type="button"
-                class="text-blue-600 bg-transparent visited:text-blue-600 hover:underline"
+                class="text-blue-600 dark:text-blue-300 bg-transparent visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                 :aria-label="t('error.feedback-open')"
                 @click="
                   () => {
@@ -68,7 +68,7 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
       </template>
       <template #default>
         <div>
-          <div v-if="locations.size === 0" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+          <div v-if="locations.size === 0" class="text-zinc-900 dark:text-zinc-50 flex flex-col items-center gap-5 py-32">
             <Spinner class="h-8 w-8" />
             {{ t("Loading data...") }}
           </div>

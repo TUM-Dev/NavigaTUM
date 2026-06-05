@@ -240,6 +240,7 @@ def _run_pipeline(
     lf = sections.extract_tumonline_props(lf)
     df = lf.collect()
     df = sections.compute_floor_prop(df)
+    df = poi.propagate_poi_floors(df)
     df = sections.compute_props(df)
     df = sections.localize_links(df)
 

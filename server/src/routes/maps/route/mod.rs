@@ -19,7 +19,7 @@ use valhalla_client::{
     },
     route::ShapePoint,
 };
-mod motis;
+pub(crate) mod motis;
 mod valhalla;
 
 #[derive(Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]

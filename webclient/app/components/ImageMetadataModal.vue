@@ -133,16 +133,16 @@ function processFile(file: File) {
     <div class="space-y-4">
       <!-- File Upload Drop Zone -->
       <div>
-        <label class="block text-sm font-medium text-zinc-700 mb-2"> {{ t("select_image") }} <span class="text-red-500">*</span> </label>
+        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-2"> {{ t("select_image") }} <span class="text-red-500 dark:text-red-400">*</span> </label>
         <div
           ref="dropZone"
           :class="[
             'border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 cursor-pointer relative overflow-hidden',
             isDragOver
-              ? 'border-blue-500 bg-blue-50 scale-105 shadow-lg'
+              ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900 scale-105 shadow-lg'
               : props.selectedFile
-                ? 'border-blue-400 bg-blue-50 hover:border-blue-500 hover:bg-blue-100'
-                : 'border-zinc-300 bg-gradient-to-br from-zinc-50 to-zinc-100 hover:border-blue-400 hover:bg-gradient-to-br hover:from-blue-50 hover:to-zinc-100 hover:shadow-md',
+                ? 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800'
+                : 'border-zinc-300 dark:border-zinc-600 bg-gradient-to-br from-zinc-50 dark:from-zinc-900 to-zinc-100 dark:to-zinc-800 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-gradient-to-br hover:from-blue-50 dark:hover:from-blue-900 hover:to-zinc-100 dark:hover:to-zinc-800 hover:shadow-md',
           ]"
           @click="triggerFileInput"
           @dragover.prevent="handleDragOver"
@@ -153,27 +153,27 @@ function processFile(file: File) {
 
           <div v-if="!props.selectedFile" class="space-y-3">
             <div :class="['transition-transform duration-300', isDragOver ? 'scale-110' : 'scale-100']">
-              <MdiIcon :path="mdiImage" :size="64" class="mx-auto text-zinc-400" />
+              <MdiIcon :path="mdiImage" :size="64" class="mx-auto text-zinc-400 dark:text-zinc-500" />
             </div>
-            <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600' : 'text-zinc-600']">
+            <div :class="['transition-all duration-300', isDragOver ? 'text-blue-600 dark:text-blue-300' : 'text-zinc-600 dark:text-zinc-300']">
               <p class="text-lg font-medium">
                 {{ isDragOver ? t("release_to_upload") : t("drop_image_here") }}
               </p>
               <p class="text-sm mt-1">{{ t("or_click_to_browse") }}</p>
-              <p class="text-xs text-zinc-500 mt-2">{{ t("supported_formats", ["JPG, PNG, GIF, WebP (max 10MB)"]) }}</p>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-2">{{ t("supported_formats", ["JPG, PNG, GIF, WebP (max 10MB)"]) }}</p>
             </div>
           </div>
 
           <div v-else class="space-y-3">
             <div>
-              <MdiIcon :path="mdiFileCheck" :size="64" class="mx-auto text-blue-500" />
+              <MdiIcon :path="mdiFileCheck" :size="64" class="mx-auto text-blue-500 dark:text-blue-400" />
             </div>
-            <div class="text-zinc-700">
-              <p class="text-lg font-medium text-blue-700">{{ props.selectedFile.fileName }}</p>
-              <p class="text-sm text-blue-600 mb-3">{{ t("file_selected_successfully") }}</p>
+            <div class="text-zinc-700 dark:text-zinc-200">
+              <p class="text-lg font-medium text-blue-700 dark:text-blue-200">{{ props.selectedFile.fileName }}</p>
+              <p class="text-sm text-blue-600 dark:text-blue-300 mb-3">{{ t("file_selected_successfully") }}</p>
               <button
                 @click.stop="removeSelectedFile"
-                class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100 hover:border-slate-300 transition-colors duration-200"
+                class="inline-flex items-center px-3 py-1 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-colors duration-200"
               >
                 <MdiIcon :path="mdiClose" :size="12" class="mr-1" />
                 {{ t("remove_file") }}
@@ -181,30 +181,30 @@ function processFile(file: File) {
             </div>
           </div>
           <!-- Error message -->
-          <p v-if="fileError" class="text-sm text-red-600 mt-2 font-medium">{{ fileError }}</p>
+          <p v-if="fileError" class="text-sm text-red-600 dark:text-red-300 mt-2 font-medium">{{ fileError }}</p>
         </div>
       </div>
 
       <!-- Author -->
       <div>
-        <label class="block text-sm font-medium text-zinc-700 mb-1"> {{ t("image_author") }} <span class="text-red-500">*</span> </label>
+        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-1"> {{ t("image_author") }} <span class="text-red-500 dark:text-red-400">*</span> </label>
         <input
           v-model="localMetadata.author"
           type="text"
           :placeholder="t('image_author_placeholder')"
-          class="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           required
         />
       </div>
 
       <!-- License Info -->
       <div>
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
           <div class="flex items-start">
-            <MdiIcon :path="mdiInformation" :size="20" class="text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
+            <MdiIcon :path="mdiInformation" :size="20" class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" />
             <div>
-              <p class="text-sm font-medium text-blue-800">{{ t("license_info_title") }}</p>
-              <p class="text-sm text-blue-700 mt-1">{{ t("license_info_description") }}</p>
+              <p class="text-sm font-medium text-blue-800 dark:text-blue-100">{{ t("license_info_title") }}</p>
+              <p class="text-sm text-blue-700 dark:text-blue-200 mt-1">{{ t("license_info_description") }}</p>
             </div>
           </div>
         </div>

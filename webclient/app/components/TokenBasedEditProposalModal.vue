@@ -113,7 +113,7 @@ function _send() {
             }
           })
           .catch(() => {
-            // body wasn't JSON — leave the generic message in place
+            // body wasn't JSON - leave the generic message in place
           });
       } else {
         // we reset the token here to be sure that it is the cause of the error
@@ -175,14 +175,14 @@ function sendForm() {
     <Toast v-if="error.message" id="token-modal-error" class="mb-4" :msg="error.message" level="error" />
     <div
       v-if="validationFailures.length"
-      class="bg-red-50 border-red-300 mb-4 rounded border px-3 py-2"
+      class="bg-red-50 dark:bg-red-900 border-red-300 dark:border-red-600 mb-4 rounded border px-3 py-2"
       data-cy="validation-failures"
     >
-      <p class="text-red-900 text-sm font-semibold">{{ t("validation_failures.title") }}</p>
-      <ul class="mt-1 list-disc pl-5 text-sm text-red-900">
+      <p class="text-red-900 dark:text-red-50 text-sm font-semibold">{{ t("validation_failures.title") }}</p>
+      <ul class="mt-1 list-disc pl-5 text-sm text-red-900 dark:text-red-50">
         <li v-for="failure in validationFailures" :key="failure.key">
-          <code class="bg-red-100 rounded px-1 py-0.5 text-xs">{{ failure.key }}</code>
-          — {{ failure.error }}
+          <code class="bg-red-100 dark:bg-red-800 rounded px-1 py-0.5 text-xs">{{ failure.key }}</code>
+          - {{ failure.error }}
         </li>
       </ul>
     </div>
@@ -196,7 +196,7 @@ function sendForm() {
               <template #github_project_issues>
                 <NuxtLink
                   tabindex="1"
-                  class="text-blue-600 visited:text-blue-600 hover:underline"
+                  class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                   to="https://github.com/TUM-Dev/navigatum/issues"
                   target="_blank"
                   external
@@ -212,7 +212,7 @@ function sendForm() {
                 <template #github_site_policy>
                   <NuxtLink
                     tabindex="1"
-                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                     to="https://docs.github.com/en/github/site-policy"
                     target="_blank"
                     external
@@ -230,7 +230,7 @@ function sendForm() {
             <p>
               <I18nT keypath="public.objection_instruction" tag="span">
                 <template #imprint>
-                  <NuxtLinkLocale tabindex="1" to="/about/impressum" class="text-blue-600 visited:text-blue-600 hover:underline">
+                  <NuxtLinkLocale tabindex="1" to="/about/impressum" class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline">
                     {{ t("public.imprint") }}
                   </NuxtLinkLocale>
                 </template>
@@ -238,7 +238,7 @@ function sendForm() {
               <br />
               <I18nT keypath="public.question_contact">
                 <template #datenschutz>
-                  <NuxtLink tabindex="1" class="text-blue-600 visited:text-blue-600 hover:underline" to="https://datenschutz.tum.de" target="_blank" external
+                  <NuxtLink tabindex="1" class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline" to="https://datenschutz.tum.de" target="_blank" external
                     >datenschutz.tum.de
                   </NuxtLink>
                 </template>
@@ -254,8 +254,8 @@ function sendForm() {
         variant="primary"
         size="md"
         :class="{
-          '!text-blue-900 !bg-blue-200 cursor-progress': loading,
-          '!text-blue-50 !bg-blue-300 cursor-not-allowed': error.blockSend,
+          '!text-blue-900 dark:!text-blue-50 !bg-blue-200 dark:!bg-blue-700 cursor-progress': loading,
+          '!text-blue-50 dark:!text-blue-900 !bg-blue-300 dark:!bg-blue-600 cursor-not-allowed': error.blockSend,
         }"
         v-bind="{ disabled: loading || error.blockSend }"
         @click="sendForm"

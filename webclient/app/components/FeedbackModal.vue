@@ -21,20 +21,20 @@ function switchToEditProposal() {
 <template>
   <TokenBasedFeedbackModal :data="feedback.data">
     <template #modal>
-      <div v-if="feedback.data.category === 'entry'" class="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-4">
-        <p class="text-blue-900 font-semibold mb-1">{{ t("edit_hint.title") }}</p>
-        <p class="text-blue-800 text-sm mb-3">{{ t("edit_hint.text") }}</p>
+      <div v-if="feedback.data.category === 'entry'" class="bg-blue-50 dark:bg-blue-900 border border-blue-300 dark:border-blue-600 rounded-lg p-4 mb-4">
+        <p class="text-blue-900 dark:text-blue-50 font-semibold mb-1">{{ t("edit_hint.title") }}</p>
+        <p class="text-blue-800 dark:text-blue-100 text-sm mb-3">{{ t("edit_hint.text") }}</p>
         <Btn variant="primary" size="md" @click="switchToEditProposal">
           {{ t("edit_hint.propose_edits") }}
         </Btn>
       </div>
 
-      <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
-      <div class="text-zinc-600 flex flex-row gap-2 pb-3">
+      <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
+      <div class="text-zinc-600 dark:text-zinc-300 flex flex-row gap-2 pb-3">
         <select
           id="feedback-category"
           v-model="feedback.data.category"
-          class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 rounded border px-2 py-1"
           :aria-label="t('category')"
         >
           <option value="general">{{ t("type.general") }}</option>
@@ -47,24 +47,24 @@ function switchToEditProposal() {
         <input
           id="feedback-subject"
           v-model="feedback.data.subject"
-          class="focusable bg-zinc-200 border-zinc-400 flex-grow rounded border px-2 py-1"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex-grow rounded border px-2 py-1"
           type="text"
           :placeholder="t('subject')"
         />
       </div>
 
       <div class="flex flex-col pb-5">
-        <label class="text-zinc-600 text-sm font-semibold" for="feedback-body">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="feedback-body">
           {{ t("message") }}
         </label>
         <textarea
           id="feedback-body"
           v-model="feedback.data.body"
-          class="focusable bg-zinc-200 border-zinc-400 resize-y rounded border px-2 py-1"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 resize-y rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
         />
-        <p class="text-zinc-500 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
+        <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
       </div>
 
       <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
