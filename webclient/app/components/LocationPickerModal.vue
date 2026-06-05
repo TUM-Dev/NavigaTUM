@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -7,6 +8,7 @@ import {
   NavigationControl,
 } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -33,6 +35,7 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMapLoaded = ref(false);
+const isMobile = useIsMobile();
 
 const coordinates = ref({
   lat: props.initialLat,
@@ -75,8 +78,7 @@ function initMap() {
     mapInstance.addControl(new NavigationControl({}), "top-left");
 
     // Add fullscreen control for mobile
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    if (isMobile) {
+    if (isMobile.value) {
       const fullscreenCtl = new FullscreenControl({
         container: mapContainer.value as HTMLElement,
       });
@@ -158,22 +160,9 @@ watch(
   { immediate: false }
 );
 
-onMounted(() => {
-  nextTick(() => {
-    // Poll for map container availability
-    let timeoutInMs = 25;
-
-    function pollMap() {
-      if (mapContainer.value) {
-        initMap();
-      } else {
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-
-    pollMap();
-  });
+onMounted(async () => {
+  await until(mapContainer).toBeTruthy();
+  initMap();
 });
 
 onUnmounted(() => {

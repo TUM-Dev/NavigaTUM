@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -8,6 +9,7 @@ import {
 } from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 
 const props = defineProps<{
@@ -20,6 +22,8 @@ const props = defineProps<{
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
+const mapContainer = ref<HTMLElement>();
+const isMobile = useIsMobile();
 const zoom = computed<number>(() => {
   if (props.type === "building") return 17;
   if (props.type === "room") return 18;
@@ -112,13 +116,12 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
     const fullscreenCtl = new FullscreenControl();
     map.addControl(fullscreenCtl, "top-right");
 
     // controls
     const controls = [];
-    if (!isMobile) {
+    if (!isMobile.value) {
       controls.push(
         new NavigationControl({
           showCompass: false,
@@ -166,29 +169,10 @@ function initMap(containerId: string): MapLibreMap {
 }
 
 // --- Loading components ---
-onMounted(() => {
-  nextTick(() => {
-    // Even though 'mounted' is called there is no guarantee apparently,
-    // that we can reference the map by ID in the DOM yet. For this reason we
-    // try to poll now (Not the best solution probably)
-    let timeoutInMs = 25;
-
-    function pollMap() {
-      const canLoadMap = document.getElementById("interactive-legacy-map") !== null;
-      if (canLoadMap) {
-        loadInteractiveMap();
-        window.scrollTo({ top: 0, behavior: "auto" });
-      } else {
-        console.info(
-          `'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`
-        );
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-
-    pollMap();
-  });
+onMounted(async () => {
+  await until(mapContainer).toBeTruthy();
+  loadInteractiveMap();
+  window.scrollTo({ top: 0, behavior: "auto" });
 });
 </script>
 
@@ -206,6 +190,7 @@ onMounted(() => {
     <div
       v-if="webglSupport"
       id="interactive-legacy-map"
+      ref="mapContainer"
       class="absolute !h-full !w-full transition-opacity duration-300"
       :class="{ 'opacity-0': !initialLoaded }"
     />
