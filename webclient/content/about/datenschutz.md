@@ -54,7 +54,7 @@ Während der Nutzung der Karte können Nutzer ihren eigenen Standort auf der Kar
 #### Naheliegender öffentlicher Verkehr
 
 Die Detailseiten zu Gebäuden und Räumen enthalten den Abschnitt "Naheliegender öffentlicher Verkehr", in dem die nächsten Abfahrten von Haltestellen in der Nähe des angezeigten Ortes aufgelistet werden.
-Das Laden der Abfahrten einer Haltestelle erfolgt rein freiwillig — der Abschnitt kontaktiert einen Drittanbieter erst, sobald die Nutzer:in eine konkrete Haltestelle aufklappt.
+Das Laden der Abfahrten einer Haltestelle erfolgt rein freiwillig - der Abschnitt kontaktiert einen Drittanbieter erst, sobald die Nutzer:in eine konkrete Haltestelle aufklappt.
 Die Verarbeitung basiert auf Grundlage des Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bereitstellung von Abfahrts-/Ankunftsinformationen für den angezeigten Ort).
 Der Browser der Nutzer:in kontaktiert die [Transitous-API für den öffentlichen Verkehr](https://transitous.org) (`https://api.transitous.org`) **direkt** für die Echtzeit-Abfahrten.
 NavigaTUM proxyt diese Anfragen nicht und sieht die Antwort nicht.
@@ -76,7 +76,7 @@ www.lrz.de
 Für die Funktion "Naheliegender öffentlicher Verkehr" kontaktiert der Browser der Nutzer:in zusätzlich einen Drittanbieter:
 
 ```plain
-Transitous — Community-betriebenes freies und offenes ÖPNV-Routing
+Transitous - Community-betriebenes freies und offenes ÖPNV-Routing
 https://transitous.org
 Quelle / Kontakt: https://github.com/public-transport/transitous
 ```
@@ -85,7 +85,7 @@ Folgende Daten werden vom Browser der Nutzer:in an `api.transitous.org` übermit
 
 - die Haltestellen-ID (z.B. eine DELFI-/GTFS-Stop-ID) der Haltestelle, die geöffnet wurde
 - das angefragte Sprach-Tag (`de` oder `en`)
-- die vom Browser standardmäßig gesendeten HTTP-Header, insbesondere die IP-Adresse, der `User-Agent` und der `Referer` — Letzterer ist durch die Referrer-Policy von NavigaTUM auf den Origin `https://nav.tum.de/` beschränkt.
+- die vom Browser standardmäßig gesendeten HTTP-Header, insbesondere die IP-Adresse, der `User-Agent` und der `Referer` - Letzterer ist durch die Referrer-Policy von NavigaTUM auf den Origin `https://nav.tum.de/` beschränkt.
 
 NavigaTUM hat keinen Vertrag mit Transitous und sieht die Antwort nicht. Wie Transitous die Anfragen verarbeitet, ist in deren [Datenschutzerklärung](https://transitous.org/privacy/) beschrieben (Kurzfassung: IP, Zeitpunkt, angefragte URL und `User-Agent` werden bis zu 2 Tage protokolliert).
 

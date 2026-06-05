@@ -12,7 +12,7 @@ const TICK_INTERVAL_MS = 1_000;
 const N_DEPARTURES = 3;
 const LOOKAHEAD_S = 86_400;
 // Ask the API for everything within this window (seconds), with N_DEPARTURES
-// as a floor. Per spec, response size = max(n, count-in-window) — so a busy
+// as a floor. Per spec, response size = max(n, count-in-window) - so a busy
 // station returns *all* events in the window (often more than 3), while a
 // sparse station still returns at least 3 departures spanning longer.
 const NEAR_WINDOW_S = 10 * 60;
@@ -105,7 +105,7 @@ export function trackOf(entry: StopTimeEntry): string | null {
 }
 
 // `pickupDropoffType` summarizes the per-stop pickup/dropoff at the queried stop.
-// NOT_ALLOWED means the train passes without picking up *or* dropping off here —
+// NOT_ALLOWED means the train passes without picking up *or* dropping off here -
 // e.g. sightseeing routes that only board/alight at fixed termini.
 export function boardingRestriction(entry: StopTimeEntry): BoardingRestriction {
   if (entry.pickupDropoffType === "NOT_ALLOWED") return "no_boarding_alighting";

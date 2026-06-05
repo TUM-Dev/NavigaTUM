@@ -58,7 +58,7 @@ While using the map, users can have their own location displayed on the map.
 #### Nearby public transport
 
 The detail pages for buildings and rooms include a "Nearby public transport" section that lists upcoming departures from stops near the location.
-Loading departures for a stop is purely voluntary — the section only contacts a third-party server once the user expands a specific station.
+Loading departures for a stop is purely voluntary - the section only contacts a third-party server once the user expands a specific station.
 The processing is based on Art. 6 para. 1 lit. f GDPR (legitimate interest in offering arrival/departure information for the displayed location).
 The user's browser contacts the [Transitous public-transport API](https://transitous.org) (`https://api.transitous.org`) **directly** to fetch real-time departures.
 NavigaTUM does not proxy these requests and does not see the response.
@@ -80,7 +80,7 @@ www.lrz.de
 For the "Nearby public transport" feature, the user's browser additionally contacts a third-party service:
 
 ```plain
-Transitous — community-run free and open public-transport routing
+Transitous - community-run free and open public-transport routing
 https://transitous.org
 Source / contact: https://github.com/public-transport/transitous
 ```
@@ -89,7 +89,7 @@ The following data is transmitted to `api.transitous.org` by the user's browser 
 
 - the public-transport stop identifier (e.g. a DELFI/GTFS stop ID) for the station the user opened
 - the requested language tag (`de` or `en`)
-- the browser-default HTTP request headers, in particular the IP address, the `User-Agent` and the `Referer` — the latter is restricted by NavigaTUM's referrer policy to the origin `https://nav.tum.de/`.
+- the browser-default HTTP request headers, in particular the IP address, the `User-Agent` and the `Referer` - the latter is restricted by NavigaTUM's referrer policy to the origin `https://nav.tum.de/`.
 
 NavigaTUM has no contract with Transitous and does not see the response. Transitous's own handling of these requests is described in their [privacy policy](https://transitous.org/privacy/) (summary: IP, time, requested URL and `User-Agent` are logged for up to 2 days).
 

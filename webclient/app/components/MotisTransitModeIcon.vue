@@ -35,7 +35,7 @@ const props = defineProps<{
 // Constrained to the working tailwind.config.ts palette: zinc, orange, green,
 // red, blue. (The config also defines `fuchsia-pink`, but its hyphenated name
 // collides with Tailwind's `text-{color}-{shade}` parser and emits broken
-// rgba(undefined,…) rules — avoid until the palette key is renamed.)
+// rgba(undefined,…) rules - avoid until the palette key is renamed.)
 const MODE_COLOR: Partial<Record<ModeResponse, string>> = {
   highspeed_rail: "text-red-700",
   long_distance: "text-red-900",
