@@ -1,4 +1,9 @@
-import { useIntervalFn, useTimestamp } from "@vueuse/core";
+import {
+  tryOnScopeDispose,
+  useDocumentVisibility,
+  useIntervalFn,
+  useTimestamp,
+} from "@vueuse/core";
 import type { components } from "~/api_types";
 
 type NearbyLocationsResponse = components["schemas"]["NearbyLocationsResponse"];
@@ -157,6 +162,11 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
   // periodic refresh racing a manual toggle, …).
   const inFlight = new Map<string, AbortController>();
 
+  tryOnScopeDispose(() => {
+    for (const c of inFlight.values()) c.abort();
+    inFlight.clear();
+  });
+
   async function fetchDepartures(stationId: string): Promise<void> {
     inFlight.get(stationId)?.abort();
     const controller = new AbortController();
@@ -224,11 +234,19 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
     }
   });
 
-  useIntervalFn(() => {
+  const refresh = useIntervalFn(() => {
     for (const stationId of stationState.keys()) {
       void fetchDepartures(stationId);
     }
   }, REFRESH_INTERVAL_MS);
+
+  // Suspend the Transitous polling while the tab is hidden — saves third-party
+  // hits on backgrounded tabs and keeps the CORS-* allowance polite.
+  const visibility = useDocumentVisibility();
+  watch(visibility, (v) => {
+    if (v === "visible") refresh.resume();
+    else refresh.pause();
+  });
 
   return { stations, toggleExpand, now };
 }
