@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core";
 import type { GeoJSONSource } from "maplibre-gl";
 import {
   FullscreenControl,
@@ -43,6 +44,14 @@ const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+// Tracks the fullscreen control's DOM container so we can observe its size
+// from the setup scope (the actual element is assigned inside map.on("load")).
+const fullscreenContainerEl = ref<HTMLElement | null>(null);
+// Mobile-only workaround for a maplibre bug where the canvas does not resize
+// when the fullscreen container's dimensions change during animation.
+useResizeObserver(fullscreenContainerEl, () => {
+  map.value?.resize();
+});
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
@@ -166,15 +175,13 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         fullscreenCtl._map.resize();
       }
     };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
-    }
     map.addControl(fullscreenCtl);
+    // The mobile workaround for the fullscreen resize bug is wired up via the
+    // setup-scope `useResizeObserver` above; assigning the element here is
+    // what activates it.
+    if (isMobile) {
+      fullscreenContainerEl.value = fullscreenCtl._container;
+    }
 
     const location = new GeolocateControl({
       positionOptions: {

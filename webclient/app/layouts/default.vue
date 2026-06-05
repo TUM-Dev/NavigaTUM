@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useEventListener } from "@vueuse/core";
 import { useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 
@@ -50,12 +51,9 @@ function handleKeyDown(event: KeyboardEvent) {
 
 onMounted(() => {
   searchElement.value = document.getElementById("search");
-  document.addEventListener("keydown", handleKeyDown);
 });
 
-onUnmounted(() => {
-  document.removeEventListener("keydown", handleKeyDown);
-});
+useEventListener(document, "keydown", handleKeyDown);
 
 const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
