@@ -5,7 +5,10 @@ import polars as pl
 class UsagesSchema(dy.Schema):
     """`usage_id = hashtext(name)` is computed by Postgres at INSERT time."""
 
-    name = dy.String(primary_key=True, nullable=False)
+    # No primary_key: source data allows the same name to appear with
+    # different (din_277, din_277_desc) combinations (~7 cases at current
+    # load); the legacy `usages` mat view's UNION tolerates these too.
+    name = dy.String(nullable=False)
     din_277 = dy.String(nullable=True)
     din_277_desc = dy.String(nullable=True)
 
