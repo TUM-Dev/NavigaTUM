@@ -187,32 +187,29 @@ async fn run_maintenance_work(
         setup::database::load_data(&pool)
             .await
             .expect("postgis initial data load to succeed");
-        // Once `de`/`en` are populated, every remaining loader fans out:
-        // - the 9 derived tables FK back to `de`/`en` only,
-        // - transportation is FK-isolated,
-        // - tumonline_orgs -> events is a self-contained sequential pair
-        //   (events.organising_org_id REFERENCES tumonline_orgs.org_id).
+        // Once `de`/`en` are populated, every remaining loader fans out.
+        // The lookup tables FK back to `de`/`en` only, transportation is
+        // FK-isolated, and tumonline_orgs -> events is a self-contained
+        // sequential pair (events.organising_org_id REFERENCES
+        // tumonline_orgs.org_id).
         let mut loaders = JoinSet::new();
-        {
-            let p = pool.clone();
-            loaders.spawn(async move { setup::transportation::setup(&p).await });
-        }
+        loaders.spawn(setup::transportation::setup(pool.clone()));
         {
             let p = pool.clone();
             loaders.spawn(async move {
-                setup::tumonline_orgs::setup(&p).await?;
-                setup::events::setup(&p).await
+                setup::tumonline_orgs::setup(p.clone()).await?;
+                setup::events::setup(p).await
             });
         }
-        loaders.spawn(setup::derived::ranking_factors::setup(pool.clone()));
-        loaders.spawn(setup::derived::operators_de::setup(pool.clone()));
-        loaders.spawn(setup::derived::operators_en::setup(pool.clone()));
-        loaders.spawn(setup::derived::sources::setup(pool.clone()));
-        loaders.spawn(setup::derived::usages::setup(pool.clone()));
-        loaders.spawn(setup::derived::urls_de::setup(pool.clone()));
-        loaders.spawn(setup::derived::urls_en::setup(pool.clone()));
-        loaders.spawn(setup::derived::parents::setup(pool.clone()));
-        loaders.spawn(setup::derived::location_images::setup(pool.clone()));
+        loaders.spawn(setup::ranking_factors::setup(pool.clone()));
+        loaders.spawn(setup::operators_de::setup(pool.clone()));
+        loaders.spawn(setup::operators_en::setup(pool.clone()));
+        loaders.spawn(setup::sources::setup(pool.clone()));
+        loaders.spawn(setup::usages::setup(pool.clone()));
+        loaders.spawn(setup::urls_de::setup(pool.clone()));
+        loaders.spawn(setup::urls_en::setup(pool.clone()));
+        loaders.spawn(setup::parents::setup(pool.clone()));
+        loaders.spawn(setup::location_images::setup(pool.clone()));
         while let Some(res) = loaders.join_next().await {
             res.expect("loader task to complete")
                 .expect("loader setup to succeed");

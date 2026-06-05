@@ -1,7 +1,7 @@
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use super::DerivedTable;
+use super::Loader;
 
 #[derive(Debug, Default)]
 pub struct RawOperator {
@@ -13,7 +13,7 @@ pub struct RawOperator {
 
 pub struct OperatorsDe;
 
-impl DerivedTable for OperatorsDe {
+impl Loader for OperatorsDe {
     const FILENAME: &'static str = "operators_de.parquet";
     const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE operators_de";
     const ANALYZE_SQL: &'static str = "ANALYZE operators_de";
@@ -29,7 +29,7 @@ impl DerivedTable for OperatorsDe {
         }
     }
 
-    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
         sqlx::query!(
             "INSERT INTO operators_de (id, url, code, name) VALUES ($1, $2, $3, $4)",
             r.id,

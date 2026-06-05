@@ -1,7 +1,7 @@
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use super::DerivedTable;
+use super::Loader;
 
 #[derive(Debug, Default)]
 pub struct RawSource {
@@ -13,7 +13,7 @@ pub struct RawSource {
 
 pub struct Sources;
 
-impl DerivedTable for Sources {
+impl Loader for Sources {
     const FILENAME: &'static str = "sources.parquet";
     const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE sources";
     const ANALYZE_SQL: &'static str = "ANALYZE sources";
@@ -29,7 +29,7 @@ impl DerivedTable for Sources {
         }
     }
 
-    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
         sqlx::query!(
             "INSERT INTO sources (key, url, name, patched) VALUES ($1, $2, $3, $4)",
             r.key,

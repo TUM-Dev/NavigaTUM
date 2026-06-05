@@ -1,23 +1,10 @@
-use std::env;
-
-use crate::setup::file_loader;
-use bytes::Bytes;
-use parquet::file::reader::{FileReader as _, SerializedFileReader};
 use parquet::record::Field;
-use serde::Deserialize;
-use sqlx::postgres::PgQueryResult;
 use sqlx::{PgPool, Postgres, Transaction};
 
-#[derive(Deserialize, Default, Debug)]
-struct Station {
-    dhid: String,
-    parent: Option<String>,
-    name: String,
-    lat: f64,
-    lon: f64,
-}
+use super::Loader;
 
-struct DBStation {
+#[derive(Debug, Default)]
+pub struct RawStation {
     parent: Option<String>,
     id: String,
     name: String,
@@ -25,72 +12,47 @@ struct DBStation {
     lon: f64,
 }
 
-impl DBStation {
-    fn from_station(station: Station) -> Self {
-        Self {
-            parent: station.parent,
-            id: station.dhid,
-            name: station.name,
-            lat: station.lat,
-            lon: station.lon,
+pub struct Transportation;
+
+impl Loader for Transportation {
+    const FILENAME: &'static str = "public_transport.parquet";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE transportation_stations";
+    const ANALYZE_SQL: &'static str = "ANALYZE transportation_stations";
+    type Row = RawStation;
+
+    fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {
+        match (col, field) {
+            // parquet column `dhid` maps to the table's `id` PK.
+            ("dhid", Field::Str(v)) => r.id.clone_from(v),
+            ("parent", Field::Str(v)) => r.parent = Some(v.clone()),
+            ("name", Field::Str(v)) => r.name.clone_from(v),
+            ("lat", Field::Float(v)) => r.lat = f64::from(*v),
+            ("lat", Field::Double(v)) => r.lat = *v,
+            ("lon", Field::Float(v)) => r.lon = f64::from(*v),
+            ("lon", Field::Double(v)) => r.lon = *v,
+            _ => {}
         }
     }
-    async fn store(
-        &self,
-        tx: &mut Transaction<'_, Postgres>,
-    ) -> Result<PgQueryResult, sqlx::Error> {
+
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
+        if r.name.is_empty() {
+            return Ok(());
+        }
         sqlx::query!(
-            "INSERT INTO transportation_stations(parent,id,name,coordinate)\
-            VALUES ($1,$2,$3,POINT($4,$5))",
-            self.parent,
-            self.id,
-            self.name,
-            self.lat,
-            self.lon
+            "INSERT INTO transportation_stations(parent, id, name, coordinate) \
+             VALUES ($1, $2, $3, POINT($4, $5))",
+            r.parent,
+            r.id,
+            r.name,
+            r.lat,
+            r.lon,
         )
         .execute(&mut **tx)
-        .await
+        .await?;
+        Ok(())
     }
 }
 
-#[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
-    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
-
-    let reader = SerializedFileReader::new(Bytes::from(body))?;
-    let mut stations = Vec::new();
-    for row in reader.get_row_iter(None)? {
-        let row = row?;
-        let mut station = Station::default();
-        for (col_name, field) in row.get_column_iter() {
-            match (col_name.as_str(), field) {
-                ("dhid", Field::Str(v)) => station.dhid.clone_from(v),
-                ("parent", Field::Str(v)) => station.parent = Some(v.clone()),
-                ("name", Field::Str(v)) => station.name.clone_from(v),
-                ("lat", Field::Float(v)) => station.lat = f64::from(*v),
-                ("lat", Field::Double(v)) => station.lat = *v,
-                ("lon", Field::Float(v)) => station.lon = f64::from(*v),
-                ("lon", Field::Double(v)) => station.lon = *v,
-                _ => {}
-            }
-        }
-        stations.push(DBStation::from_station(station));
-    }
-
-    let mut tx = pool.begin().await?;
-    sqlx::query!("TRUNCATE TABLE transportation_stations")
-        .execute(&mut *tx)
-        .await?;
-    for transportation in stations {
-        if transportation.name.is_empty() {
-            continue;
-        }
-        transportation.store(&mut tx).await?;
-    }
-    sqlx::query!("ANALYZE transportation_stations")
-        .execute(&mut *tx)
-        .await?;
-    tx.commit().await?;
-    Ok(())
+pub async fn setup(pool: PgPool) -> anyhow::Result<()> {
+    super::run::<Transportation>(pool).await
 }

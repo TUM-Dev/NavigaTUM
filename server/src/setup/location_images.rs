@@ -1,7 +1,7 @@
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use super::DerivedTable;
+use super::Loader;
 
 #[derive(Debug, Default)]
 pub struct RawImage {
@@ -17,7 +17,7 @@ pub struct RawImage {
 
 pub struct LocationImages;
 
-impl DerivedTable for LocationImages {
+impl Loader for LocationImages {
     const FILENAME: &'static str = "location_images.parquet";
     const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE location_images";
     const ANALYZE_SQL: &'static str = "ANALYZE location_images";
@@ -37,7 +37,7 @@ impl DerivedTable for LocationImages {
         }
     }
 
-    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
         sqlx::query!(
             "INSERT INTO location_images (\
                 key, name, \

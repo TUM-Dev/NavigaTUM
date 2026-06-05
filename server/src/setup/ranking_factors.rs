@@ -1,7 +1,7 @@
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use super::DerivedTable;
+use super::Loader;
 
 #[derive(Debug, Default)]
 pub struct RawRankingFactors {
@@ -15,7 +15,7 @@ pub struct RawRankingFactors {
 
 pub struct RankingFactors;
 
-impl DerivedTable for RankingFactors {
+impl Loader for RankingFactors {
     const FILENAME: &'static str = "ranking_factors.parquet";
     const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE ranking_factors";
     const ANALYZE_SQL: &'static str = "ANALYZE ranking_factors";
@@ -37,7 +37,7 @@ impl DerivedTable for RankingFactors {
         }
     }
 
-    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
         sqlx::query!(
             "INSERT INTO ranking_factors \
              (id, rank_type, rank_combined, rank_usage, rank_custom, rank_boost) \

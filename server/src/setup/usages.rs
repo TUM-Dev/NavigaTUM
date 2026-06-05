@@ -1,7 +1,7 @@
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use super::DerivedTable;
+use super::Loader;
 
 #[derive(Debug, Default)]
 pub struct RawUsage {
@@ -12,7 +12,7 @@ pub struct RawUsage {
 
 pub struct Usages;
 
-impl DerivedTable for Usages {
+impl Loader for Usages {
     const FILENAME: &'static str = "usages.parquet";
     const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE usages";
     const ANALYZE_SQL: &'static str = "ANALYZE usages";
@@ -29,7 +29,7 @@ impl DerivedTable for Usages {
 
     /// `usage_id = hashtext(name)` is computed in SQL - Postgres' hashtext
     /// is not reproducible from Polars.
-    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
         sqlx::query!(
             "INSERT INTO usages (usage_id, name, din_277, din_277_desc) \
              VALUES (hashtext($1), $1, $2, $3)",
