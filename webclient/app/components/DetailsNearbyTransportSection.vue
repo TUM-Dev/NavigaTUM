@@ -12,7 +12,7 @@ const props = defineProps<{
   readonly id: string;
 }>();
 
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 const { data } = await useFetch<NearbyLocationsResponse, string>(
@@ -25,20 +25,33 @@ const STOPTIMES_URL = "https://api.transitous.org/api/v4/stoptimes";
 const REFRESH_INTERVAL_MS = 180_000;
 const TICK_INTERVAL_MS = 1_000;
 const N_DEPARTURES = 3;
+const LOOKAHEAD_S = 86_400;
+// Ask the API for everything within this window (seconds), with N_DEPARTURES
+// as a floor. Per spec, response size = max(n, count-in-window) — so a busy
+// station returns *all* events in the window (often more than 3), while a
+// sparse station still returns at least 3 departures spanning longer.
+const NEAR_WINDOW_S = 10 * 60;
 
 type StopTimeEntry = {
   readonly mode?: ModeResponse;
   readonly headsign?: string | null;
   readonly cancelled?: boolean;
+  readonly tripCancelled?: boolean;
   readonly displayName?: string | null;
   readonly routeShortName?: string | null;
   readonly routeColor?: string | null;
   readonly routeTextColor?: string | null;
+  readonly agencyName?: string | null;
+  readonly pickupDropoffType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
   readonly tripTo?: { readonly name?: string | null } | null;
   readonly place?: {
     readonly departure?: string | null;
     readonly scheduledDeparture?: string | null;
     readonly cancelled?: boolean;
+    readonly track?: string | null;
+    readonly scheduledTrack?: string | null;
+    readonly pickupType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
+    readonly dropoffType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
   } | null;
 };
 type StopTimesResponse = { readonly stopTimes?: readonly StopTimeEntry[] };
@@ -77,14 +90,28 @@ async function fetchDepartures(stationId: string): Promise<void> {
   } else {
     stationState.set(stationId, { loading: true, error: null, entries: [] });
   }
-  const params = new URLSearchParams({ stopId: stationId, n: String(N_DEPARTURES) });
+  const params = new URLSearchParams({
+    stopId: stationId,
+    n: String(N_DEPARTURES),
+    window: String(NEAR_WINDOW_S),
+    language: locale.value,
+  });
   try {
     const res = await fetch(`${STOPTIMES_URL}?${params.toString()}`, { credentials: "omit" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const body = (await res.json()) as StopTimesResponse;
     const entry = stationState.get(stationId);
     if (entry) {
-      entry.entries = (body.stopTimes ?? []).slice(0, N_DEPARTURES);
+      const nowMs = Date.now();
+      const floor = nowMs - 30_000;
+      const cutoff = nowMs + LOOKAHEAD_S * 1_000;
+      entry.entries = (body.stopTimes ?? []).filter((e) => {
+        const iso = e.place?.departure ?? e.place?.scheduledDeparture;
+        if (!iso) return true;
+        const t = Date.parse(iso);
+        if (Number.isNaN(t)) return true;
+        return t >= floor && t <= cutoff;
+      });
       entry.loading = false;
     }
   } catch (e) {
@@ -116,8 +143,12 @@ function countdownLabel(iso: string | null | undefined): string {
   const diffMs = departure - now.value;
   if (diffMs < -30_000) return t("departed");
   if (diffMs < 30_000) return t("now");
-  const minutes = Math.round(diffMs / 60_000);
-  return t("in_minutes", { count: minutes });
+  const totalMinutes = Math.round(diffMs / 60_000);
+  if (totalMinutes < 60) return t("in_minutes", { count: totalMinutes });
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  if (m === 0) return t("in_hours", { count: h });
+  return t("in_hours_minutes", { h, m });
 }
 
 function scheduledClockLabel(entry: StopTimeEntry): string {
@@ -137,11 +168,50 @@ function delayMinutes(entry: StopTimeEntry): number | null {
   return Math.round(diff / 60_000);
 }
 
+function trackLabel(entry: StopTimeEntry): string {
+  const track = entry.place?.track ?? entry.place?.scheduledTrack;
+  return track ? t("track", { track }) : "";
+}
+
+function boardingRestriction(entry: StopTimeEntry): string {
+  // `pickupDropoffType` summarizes the per-stop pickup/dropoff at the queried stop.
+  // NOT_ALLOWED means the train passes without picking up *or* dropping off here —
+  // e.g. sightseeing routes that only board/alight at fixed termini.
+  if (entry.pickupDropoffType === "NOT_ALLOWED") return t("no_boarding_alighting");
+  if (entry.place?.pickupType === "NOT_ALLOWED" && entry.place?.dropoffType !== "NOT_ALLOWED") {
+    return t("alighting_only");
+  }
+  if (entry.place?.dropoffType === "NOT_ALLOWED" && entry.place?.pickupType !== "NOT_ALLOWED") {
+    return t("boarding_only");
+  }
+  return "";
+}
+
+function rowTitle(entry: StopTimeEntry): string {
+  // Aggregated context for hover: who runs the line, any boarding restriction,
+  // and any cancellation note. Destination already shown inline.
+  const parts: string[] = [];
+  const dest = entry.tripTo?.name || entry.headsign;
+  if (dest) parts.push(`→ ${dest}`);
+  if (entry.agencyName) parts.push(entry.agencyName);
+  const restriction = boardingRestriction(entry);
+  if (restriction) parts.push(restriction);
+  if (entry.tripCancelled) parts.push(t("trip_cancelled"));
+  else if (entry.cancelled || entry.place?.cancelled) parts.push(t("stop_cancelled"));
+  return parts.join(" · ");
+}
+
 function routeBadgeStyle(entry: StopTimeEntry): Record<string, string> {
   const bg = entry.routeColor ? `#${entry.routeColor}` : "#3f3f46";
   const fg = entry.routeTextColor ? `#${entry.routeTextColor}` : "#ffffff";
   return { backgroundColor: bg, color: fg };
 }
+
+watch(locale, () => {
+  for (const id of stationState.keys()) {
+    void fetchDepartures(id);
+  }
+});
 
 useIntervalFn(() => {
   now.value = Date.now();
@@ -170,7 +240,7 @@ useIntervalFn(() => {
           @click="toggleExpand(station.id)"
         >
           <div class="flex items-center gap-2 min-w-0 flex-1">
-            <span class="text-zinc-800 font-medium truncate">{{ station.name }}</span>
+            <span class="text-zinc-800 font-medium truncate" :title="station.name">{{ station.name }}</span>
             <span class="text-zinc-500 text-sm shrink-0">{{ formatDistance(station.distance_meters) }}</span>
           </div>
           <div class="flex items-center gap-1 shrink-0">
@@ -179,7 +249,6 @@ useIntervalFn(() => {
               :key="mode"
               :mode="mode"
               transparent
-              class="text-zinc-900"
               :title="modeLabel(mode)"
             />
             <MdiIcon
@@ -225,18 +294,34 @@ useIntervalFn(() => {
                   >+{{ delayMinutes(entry) }}</span>
                 </span>
                 <span
-                  class="rounded px-2 py-0.5 text-xs font-semibold justify-self-start"
+                  class="justify-self-start flex items-center gap-2 min-w-0"
                   :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
-                  :style="routeBadgeStyle(entry)"
                 >
-                  {{ entry.displayName || entry.routeShortName || modeLabel(entry.mode) }}
+                  <span
+                    class="rounded px-2 py-0.5 text-xs font-semibold truncate max-w-28"
+                    :style="routeBadgeStyle(entry)"
+                    :title="entry.routeShortName || entry.displayName || modeLabel(entry.mode)"
+                  >
+                    {{ entry.routeShortName || entry.displayName || modeLabel(entry.mode) }}
+                  </span>
+                  <span
+                    v-if="trackLabel(entry)"
+                    class="text-zinc-500 text-xs whitespace-nowrap"
+                  >{{ trackLabel(entry) }}</span>
                 </span>
                 <span
-                  class="text-zinc-700 truncate min-w-0 inline-flex items-center gap-1"
+                  class="text-zinc-700 flex items-center gap-1 min-w-0"
                   :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                  :title="rowTitle(entry)"
                 >
                   <MdiIcon :path="mdiArrowRightThin" :size="16" class="text-zinc-400 shrink-0" />
-                  <span class="truncate">{{ entry.tripTo?.name || entry.headsign }}</span>
+                  <span class="truncate min-w-0">{{ entry.tripTo?.name || entry.headsign }}</span>
+                </span>
+                <span
+                  v-if="boardingRestriction(entry)"
+                  class="col-span-full text-center text-orange-700 text-xs font-semibold -mt-1 mb-1"
+                >
+                  ⚠ {{ boardingRestriction(entry) }}
                 </span>
               </template>
             </ul>
@@ -256,6 +341,14 @@ de:
   now: jetzt
   departed: abgefahren
   in_minutes: "in {count} min"
+  in_hours: "in {count} h"
+  in_hours_minutes: "in {h} h {m} min"
+  track: "Gl. {track}"
+  no_boarding_alighting: "Kein Ein-/Ausstieg"
+  alighting_only: "nur Ausstieg"
+  boarding_only: "nur Einstieg"
+  trip_cancelled: "Fahrt fällt aus"
+  stop_cancelled: "Halt entfällt"
   mode:
     walk: zu Fuß
     bike: Fahrrad
@@ -293,6 +386,14 @@ en:
   now: now
   departed: departed
   in_minutes: "in {count} min"
+  in_hours: "in {count}h"
+  in_hours_minutes: "in {h}h {m}min"
+  track: "Pl. {track}"
+  no_boarding_alighting: "No boarding/alighting"
+  alighting_only: "Alighting only"
+  boarding_only: "Boarding only"
+  trip_cancelled: "Trip cancelled"
+  stop_cancelled: "Stop cancelled"
   mode:
     walk: Walk
     bike: Bike
