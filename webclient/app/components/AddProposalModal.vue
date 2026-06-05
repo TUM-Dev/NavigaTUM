@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
@@ -25,40 +26,37 @@ const kindIndex = computed(() => {
 // Debounce + verify the id against /api/locations/{id}; 200 means collision, 404 means free.
 const idCheckPending = ref(false);
 const idCollidesOnServer = ref(false);
-let idDebounceHandle: ReturnType<typeof setTimeout> | null = null;
+// Counter still needed to invalidate in-flight fetches when the input changes
+// after the debounce already fired; `useDebounceFn` only cancels pending calls.
 let idCheckCounter = 0;
-function cancelIdCheck() {
-  if (idDebounceHandle) clearTimeout(idDebounceHandle);
-  idDebounceHandle = null;
-  idCheckCounter++;
-  idCheckPending.value = false;
-}
+const runIdCheck = useDebounceFn(async (id: string, ticket: number) => {
+  try {
+    const res = await fetch(
+      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+      { credentials: "omit" }
+    );
+    if (ticket !== idCheckCounter) return;
+    idCollidesOnServer.value = res.ok;
+  } catch {
+    // Network failure: don't block. The server validates again on submit.
+  } finally {
+    if (ticket === idCheckCounter) idCheckPending.value = false;
+  }
+}, 350);
 watch(
   () => editProposal.value.pendingAddition.id,
   (value) => {
-    cancelIdCheck();
+    idCheckCounter++;
     idCollidesOnServer.value = false;
     const id = value.trim();
-    if (!id) return;
+    if (!id) {
+      idCheckPending.value = false;
+      return;
+    }
     idCheckPending.value = true;
-    const ticket = idCheckCounter;
-    idDebounceHandle = setTimeout(async () => {
-      try {
-        const res = await fetch(
-          `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
-          { credentials: "omit" }
-        );
-        if (ticket !== idCheckCounter) return;
-        idCollidesOnServer.value = res.ok;
-      } catch {
-        // Network failure: don't block. The server validates again on submit.
-      } finally {
-        if (ticket === idCheckCounter) idCheckPending.value = false;
-      }
-    }, 350);
+    runIdCheck(id, idCheckCounter);
   }
 );
-onUnmounted(cancelIdCheck);
 
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;

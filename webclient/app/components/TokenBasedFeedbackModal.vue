@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTimeoutFn } from "@vueuse/core";
 import { useFeedback } from "~/composables/feedback";
 import { useFeedbackToken } from "~/composables/feedbackToken";
 
@@ -103,7 +104,7 @@ function sendForm() {
   const MINIMUM_DELAY_MS = 10_000;
   const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
   if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
-    setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+    useTimeoutFn(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
   else _send();
 }
 </script>
