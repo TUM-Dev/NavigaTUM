@@ -65,10 +65,10 @@ useSeoMeta({
     <div v-else class="flex flex-1 items-center justify-center">
       <Spinner class="h-8 w-8" />
     </div>
-    <div class="flex shrink-0 items-center gap-3 border-t border-zinc-200 bg-white px-3 py-2">
+    <div class="flex shrink-0 items-center gap-3 border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-black px-3 py-2">
       <div class="min-w-0 flex-1">
-        <div class="truncate text-sm font-semibold text-zinc-800">{{ data?.name }}</div>
-        <div v-if="data?.type_common_name" class="truncate text-xs text-zinc-500">
+        <div class="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">{{ data?.name }}</div>
+        <div v-if="data?.type_common_name" class="truncate text-xs text-zinc-500 dark:text-zinc-400">
           {{ data.type_common_name }}
         </div>
       </div>
@@ -76,7 +76,7 @@ useSeoMeta({
         :href="detailsUrl"
         target="_blank"
         rel="noopener"
-        class="focusable flex shrink-0 flex-row items-center gap-1 rounded-sm bg-blue-500 px-3 py-1.5 text-sm font-semibold text-blue-50 hover:bg-blue-600 hover:text-white"
+        class="focusable flex shrink-0 flex-row items-center gap-1 rounded-sm bg-blue-500 dark:bg-blue-400 px-3 py-1.5 text-sm font-semibold text-blue-50 dark:text-blue-900 hover:bg-blue-600 dark:hover:bg-blue-300 hover:text-white dark:hover:text-black"
       >
         {{ t("view_in_navigatum") }}
         <MdiIcon :path="mdiOpenInNew" :size="16" class="my-auto" />

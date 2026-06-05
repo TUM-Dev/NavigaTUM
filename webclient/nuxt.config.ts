@@ -17,9 +17,9 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/image",
   ],
+  css: ["~/assets/css/main.css"],
   app: {
     head: {
-      bodyAttrs: { class: "bg-zinc-50" },
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       link: [
@@ -139,13 +139,6 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  postcss: {
-    plugins: {
-      "tailwindcss/nesting": {},
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
   colorMode: {
     storageKey: "theme",
     preference: "system",

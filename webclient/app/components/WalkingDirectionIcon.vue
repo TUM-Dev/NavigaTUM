@@ -18,7 +18,7 @@ defineProps<{ direction: DirectionResponse }>();
 </script>
 
 <template>
-  <div class="bg-blue-100 text-blue-800 flex h-8 w-8 items-center justify-center rounded-full">
+  <div class="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 flex h-8 w-8 items-center justify-center rounded-full">
     <!-- Depart -->
     <MdiIcon v-if="direction === 'depart'" :path="mdiPlay" :size="16" />
 

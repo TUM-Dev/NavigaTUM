@@ -14,7 +14,7 @@ const month = computed<number>(() => new Date().getMonth() + 1);
       <template #osm_sc_link>
         <NuxtLink
           to="https://streetcomplete.app/"
-          class="text-blue-600 underline visited:text-blue-600 hover:text-blue-700"
+          class="text-blue-600 dark:text-blue-300 underline visited:text-blue-600 dark:visited:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200"
           target="_blank"
         >
           {{ t("osm_sc_link") }}

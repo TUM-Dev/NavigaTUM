@@ -101,7 +101,7 @@ const suggestLocationFix = () => {
         <NuxtImg
           :alt="t('image_alt')"
           :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-          class="bg-zinc-100 block md:h-64 w-full object-cover"
+          class="bg-zinc-100 dark:bg-zinc-800 block md:h-64 w-full object-cover"
           :class="mobileSheetState === 'up' ? 'h-32' : 'h-20'"
           preload
           placeholder
@@ -112,12 +112,12 @@ const suggestLocationFix = () => {
     </div>
     <div
       v-else-if="!data?.imgs?.length"
-      class="bg-zinc-100 shrink-0 group hover:border-zinc-400 hover:bg-zinc-200 border-2 rounded-2xl border-dashed border-zinc-300 md:m-2 md:mb-0"
+      class="bg-zinc-100 dark:bg-zinc-800 shrink-0 group hover:border-zinc-400 dark:hover:border-zinc-500 hover:bg-zinc-200 dark:hover:bg-zinc-700 border-2 rounded-2xl border-dashed border-zinc-300 dark:border-zinc-600 md:m-2 md:mb-0"
       :class="mobileSheetState === 'up' ? 'px-2' : 'mt-1'"
     >
       <button
         type="button"
-        class="w-full flex flex-col items-center justify-center text-zinc-500 group-hover:text-zinc-700 group-hover:border-zinc-400 transition-colors"
+        class="w-full flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-200 group-hover:border-zinc-400 dark:group-hover:border-zinc-500 transition-colors"
         :class="mobileSheetState === 'up' ? 'h-32' : 'h-20'"
         @click="suggestImage"
       >
@@ -128,7 +128,7 @@ const suggestLocationFix = () => {
   </div>
 
   <!-- Content Padding -->
-  <div class="px-5 pb-8 pt-4 bg-zinc-50">
+  <div class="px-5 pb-8 pt-4 bg-zinc-50 dark:bg-zinc-900">
     <!-- Breadcrumbs -->
     <BreadcrumbList
       :items="
@@ -142,12 +142,12 @@ const suggestLocationFix = () => {
 
     <!-- Title & Actions -->
     <div class="group flex py-1 rounded transition-colors flex-row items-center gap-2">
-      <h1 class="text-zinc-800 text-2xl font-bold leading-tight">{{ data.name }}</h1>
+      <h1 class="text-zinc-800 dark:text-zinc-100 text-2xl font-bold leading-tight">{{ data.name }}</h1>
       <button
         v-if="clipboardIsSupported"
         :title="t('header.copy_link')"
         type="button"
-        class="hidden group-hover:block text-zinc-800"
+        class="hidden group-hover:block text-zinc-800 dark:text-zinc-100"
         @click="copy(`https://nav.tum.de${route.fullPath}`)"
       >
         <MdiIcon :path="mdiClipboardCheck" :size="20" v-if="copied"/>
@@ -157,7 +157,7 @@ const suggestLocationFix = () => {
 
     <!-- Type & Buttons -->
     <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
-      <span class="text-zinc-500 text-sm font-medium">{{ data.type_common_name }}</span>
+      <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
       <div class="flex flex-row items-center gap-3">
         <button
           v-if="data.props?.calendar_url"
@@ -166,7 +166,7 @@ const suggestLocationFix = () => {
           :title="t('header.calendar')"
           @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
         >
-          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 hover:text-blue-900"/>
+          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
         </button>
         <button
           type="button"
@@ -174,7 +174,7 @@ const suggestLocationFix = () => {
           :title="t('header.suggest_edit')"
           @click="suggestEdit"
         >
-          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 hover:text-blue-900"/>
+          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
         </button>
         <ShareButton :coords="data.coords" :name="data.name" :id="data.id"/>
         <DetailsFeedbackButton/>
@@ -185,10 +185,10 @@ const suggestLocationFix = () => {
     <div class="flex flex-col gap-2 mb-4">
       <div
         v-if="data.coords.accuracy === 'building'"
-        class="text-orange-900 bg-orange-50 border border-orange-200 rounded p-3 text-sm flex flex-col gap-2"
+        class="text-orange-900 dark:text-orange-50 bg-orange-50 dark:bg-orange-900 border border-orange-200 dark:border-orange-700 rounded p-3 text-sm flex flex-col gap-2"
       >
         <span>{{ t("msg.inaccurate_only_building") }}</span>
-        <button type="button" class="text-orange-700 hover:text-orange-900 text-xs font-bold uppercase self-start"
+        <button type="button" class="text-orange-700 dark:text-orange-200 hover:text-orange-900 dark:hover:text-orange-50 text-xs font-bold uppercase self-start"
                 @click="suggestLocationFix">
           {{ t("suggest_edit") }}
         </button>
@@ -219,7 +219,7 @@ const suggestLocationFix = () => {
         :coords="data.coords"
         :sources="data.sources"
         :image="data.imgs?.length ? data.imgs[0] : undefined"
-        class="text-xs text-zinc-400 mt-4"
+        class="text-xs text-zinc-400 dark:text-zinc-500 mt-4"
       />
     </div>
   </div>

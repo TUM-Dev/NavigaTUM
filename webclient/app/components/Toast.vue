@@ -23,10 +23,10 @@ const { t } = useI18n({ useScope: "local" });
     :data-cy="'toast-' + level"
     class="text-pretty rounded border p-1.5 text-sm leading-5"
     :class="{
-      'text-red-900 bg-red-100 border-red-300': level === 'error',
-      'text-orange-900 bg-orange-100 border-orange-300': level === 'warning',
-      'text-blue-900 bg-blue-100 border-blue-300': level === 'info',
-      'text-zinc-900 bg-zinc-100 border-zinc-300': level === 'default',
+      'text-red-900 dark:text-red-50 bg-red-100 dark:bg-red-800 border-red-300 dark:border-red-600': level === 'error',
+      'text-orange-900 dark:text-orange-50 bg-orange-100 dark:bg-orange-800 border-orange-300 dark:border-orange-600': level === 'warning',
+      'text-blue-900 dark:text-blue-50 bg-blue-100 dark:bg-blue-800 border-blue-300 dark:border-blue-600': level === 'info',
+      'text-zinc-900 dark:text-zinc-50 bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600': level === 'default',
       'flex flex-row': dismissable,
     }"
   >
@@ -35,7 +35,7 @@ const { t } = useI18n({ useScope: "local" });
       v-if="dismissable"
       type="button"
       :aria-label="t('close')"
-      class="group text-zinc-800 p-2 hover:text-blue-800"
+      class="group text-zinc-800 dark:text-zinc-100 p-2 hover:text-blue-800 dark:hover:text-blue-100"
       @click.prevent="() => shown.push(id)"
     >
       <MdiIcon v-if="dismissable" :path="mdiClose" :size="16" />

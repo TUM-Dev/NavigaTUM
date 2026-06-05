@@ -10,7 +10,7 @@ useHead({
 </script>
 
 <template>
-  <main class="h-screen w-screen overflow-hidden bg-zinc-50">
+  <main class="h-screen w-screen overflow-hidden bg-zinc-50 dark:bg-zinc-900">
     <slot />
   </main>
 </template>

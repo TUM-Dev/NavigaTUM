@@ -32,7 +32,7 @@ const navigation = computed(() => [
 </script>
 
 <template>
-  <footer data-cy="main-footer" class="bg-zinc-100 print:!hidden" :class="props.class">
+  <footer data-cy="main-footer" class="bg-zinc-100 dark:bg-zinc-800 print:!hidden" :class="props.class">
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-14 lg:px-8">
       <nav class="-mb-6 columns-2 text-center sm:columns-3 sm:justify-center sm:space-x-12 md:flex" aria-label="Footer">
         <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">
@@ -59,11 +59,11 @@ const navigation = computed(() => [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
-        <p class="text-zinc-600 text-center text-xs">
+        <p class="text-zinc-600 dark:text-zinc-300 text-center text-xs">
           <Btn to="https://tum.dev" variant="link" size="md" class="!text-sm font-bold">
             <I18nT keypath="madewithlove">
               <template #heart>
-                <MdiIcon :path="mdiHeart" :size="24" class="text-red-500 dark:text-red-300" />
+                <MdiIcon :path="mdiHeart" :size="24" class="text-red-500 dark:text-red-600" />
               </template>
             </I18nT>
           </Btn>
@@ -71,7 +71,7 @@ const navigation = computed(() => [
       </div>
       <div class="mt-10 flex justify-center space-x-10 text-center">
         <Btn to="https://tum.de" variant="rounded-xl pt-2 pb-4 px-4 focusable" size="sm">
-          <p class="text-zinc-600 text-center text-xs">
+          <p class="text-zinc-600 dark:text-zinc-300 text-center text-xs">
             {{ t("official_roomfinder") }}<br />
             <img
               :alt="t('tum_logo_alt')"

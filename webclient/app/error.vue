@@ -30,8 +30,8 @@ useSeoMeta({
     <div class="mx-auto max-w-xl pt-4" v-if="is404">
       <img src="./assets/404_navigatum.svg" :alt="t('img_alt')" />
       <div class="flex flex-col items-center gap-1 p-5">
-        <h5 class="text-zinc-800 text-lg">{{ t("header") }}</h5>
-        <p class="text-md text-zinc-600">{{ t("description") }}</p>
+        <h5 class="text-zinc-800 dark:text-zinc-100 text-lg">{{ t("header") }}</h5>
+        <p class="text-md text-zinc-600 dark:text-zinc-300">{{ t("description") }}</p>
       </div>
       <div class="flex flex-row items-center justify-evenly">
         <div class="flex flex-row gap-4">
@@ -60,9 +60,9 @@ useSeoMeta({
     </div>
     <div v-else class="mx-auto max-w-xl pt-4">
       <div class="flex flex-col items-center gap-4 p-5">
-        <h5 class="text-zinc-800 text-xl font-bold">{{ error?.statusCode || t("title_generic") }}</h5>
-        <p class="text-md text-zinc-600">{{ error?.statusMessage || t("generic_error") }}</p>
-        <p v-if="error?.message" class="text-sm text-zinc-500 mt-2">
+        <h5 class="text-zinc-800 dark:text-zinc-100 text-xl font-bold">{{ error?.statusCode || t("title_generic") }}</h5>
+        <p class="text-md text-zinc-600 dark:text-zinc-300">{{ error?.statusMessage || t("generic_error") }}</p>
+        <p v-if="error?.message" class="text-sm text-zinc-500 dark:text-zinc-400 mt-2">
           {{ error.message }}
         </p>
         <Btn @click="clearError({ redirect: '/' })" variant="primary" class="mt-4">

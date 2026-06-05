@@ -39,11 +39,11 @@ const selectedOption = computed(() => options.find((opt) => opt.value === select
 <template>
   <Listbox v-model="selectedMode" as="div" class="relative">
     <ListboxButton
-      class="relative w-full cursor-pointer rounded-md border border-zinc-300 bg-white py-1.5 pl-3 pr-10 text-left text-zinc-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+      class="relative w-full cursor-pointer rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-black py-1.5 pl-3 pr-10 text-left text-zinc-900 dark:text-zinc-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 sm:text-sm"
     >
       <span class="block truncate">{{ selectedOption?.label }}</span>
       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-        <MdiIcon :path="mdiUnfoldMoreHorizontal" :size="20" class="text-zinc-400" aria-hidden="true" />
+        <MdiIcon :path="mdiUnfoldMoreHorizontal" :size="20" class="text-zinc-400 dark:text-zinc-500" aria-hidden="true" />
       </span>
     </ListboxButton>
 
@@ -53,7 +53,7 @@ const selectedOption = computed(() => options.find((opt) => opt.value === select
       leave-to-class="opacity-0"
     >
       <ListboxOptions
-        class="absolute z-10 mt-1 max-h-60 w-auto min-w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+        class="absolute z-10 mt-1 max-h-60 w-auto min-w-full overflow-auto rounded-md bg-white dark:bg-black py-1 text-base shadow-lg ring-1 ring-black/5 dark:ring-white/5 focus:outline-none sm:text-sm"
       >
         <ListboxOption
           v-for="option in options"
@@ -64,7 +64,7 @@ const selectedOption = computed(() => options.find((opt) => opt.value === select
         >
           <li
             :class="[
-              active ? 'bg-blue-600 text-white' : 'text-zinc-900',
+              active ? 'bg-blue-600 dark:bg-blue-300 text-white dark:text-black' : 'text-zinc-900 dark:text-zinc-50',
               'relative cursor-default select-none py-2 pl-10 pr-4',
             ]"
           >
@@ -73,7 +73,7 @@ const selectedOption = computed(() => options.find((opt) => opt.value === select
             </span>
             <span
               v-if="selected"
-              :class="[active ? 'text-white' : 'text-blue-600', 'absolute inset-y-0 left-0 flex items-center pl-3']"
+              :class="[active ? 'text-white dark:text-black' : 'text-blue-600 dark:text-blue-300', 'absolute inset-y-0 left-0 flex items-center pl-3']"
             >
               <MdiIcon :path="mdiCheck" :size="20" aria-hidden="true" />
             </span>
