@@ -218,18 +218,9 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
     void fetchDepartures(stationId);
   }
 
-  // `immediate` covers `useFetch` resolving after mount.
-  watch(
-    sortedStations,
-    (stations) => {
-      const closest = stations[0];
-      if (closest && !stationState.has(closest.id)) {
-        void fetchDepartures(closest.id);
-      }
-    },
-    { immediate: true }
-  );
-
+  // No auto-expand: the privacy policy promises Transitous is contacted only
+  // after the user explicitly expands a station. Departure fetches must stay
+  // gated on toggleExpand.
   watch(locale, () => {
     for (const stationId of stationState.keys()) {
       void fetchDepartures(stationId);
