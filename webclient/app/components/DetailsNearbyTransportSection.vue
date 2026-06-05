@@ -1,135 +1,27 @@
 <script setup lang="ts">
 import { mdiArrowRightThin, mdiChevronDown, mdiHelpCircle } from "@mdi/js";
-import { useIntervalFn } from "@vueuse/core";
 import type { components } from "~/api_types";
+import {
+  boardingRestriction,
+  countdownPhase,
+  delayMinutes,
+  isStopCancelled,
+  routeBadgeStyle,
+  type StopTimeEntry,
+  scheduledClockLabel,
+  trackOf,
+  useNearbyDepartures,
+} from "~/composables/nearbyDepartures";
 import { formatDistance } from "~/utils/motis";
 
-type NearbyLocationsResponse = components["schemas"]["NearbyLocationsResponse"];
-type TransportationResponse = components["schemas"]["TransportationResponse"];
 type ModeResponse = components["schemas"]["ModeResponse"];
 
 const props = defineProps<{
   readonly id: string;
 }>();
 
-const { t, locale } = useI18n({ useScope: "local" });
-const runtimeConfig = useRuntimeConfig();
-
-const { data } = await useFetch<NearbyLocationsResponse, string>(
-  () => `${runtimeConfig.public.apiURL}/api/locations/${props.id}/nearby`,
-  { dedupe: "cancel", credentials: "omit" }
-);
-
-// Endorsed by the motis maintainers: CORS is `*` and the endpoint is cheap enough for per-pageview hits.
-const STOPTIMES_URL = "https://api.transitous.org/api/v4/stoptimes";
-const REFRESH_INTERVAL_MS = 180_000;
-const TICK_INTERVAL_MS = 1_000;
-const N_DEPARTURES = 3;
-const LOOKAHEAD_S = 86_400;
-// Ask the API for everything within this window (seconds), with N_DEPARTURES
-// as a floor. Per spec, response size = max(n, count-in-window) — so a busy
-// station returns *all* events in the window (often more than 3), while a
-// sparse station still returns at least 3 departures spanning longer.
-const NEAR_WINDOW_S = 10 * 60;
-
-type StopTimeEntry = {
-  readonly mode?: ModeResponse;
-  readonly headsign?: string | null;
-  readonly cancelled?: boolean;
-  readonly tripCancelled?: boolean;
-  readonly displayName?: string | null;
-  readonly routeShortName?: string | null;
-  readonly routeColor?: string | null;
-  readonly routeTextColor?: string | null;
-  readonly agencyName?: string | null;
-  readonly pickupDropoffType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
-  readonly tripTo?: { readonly name?: string | null } | null;
-  readonly place?: {
-    readonly departure?: string | null;
-    readonly scheduledDeparture?: string | null;
-    readonly cancelled?: boolean;
-    readonly track?: string | null;
-    readonly scheduledTrack?: string | null;
-    readonly pickupType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
-    readonly dropoffType?: "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER" | null;
-  } | null;
-};
-type StopTimesResponse = { readonly stopTimes?: readonly StopTimeEntry[] };
-
-type DepartureState = {
-  loading: boolean;
-  error: string | null;
-  entries: readonly StopTimeEntry[];
-};
-const stationState = reactive(new Map<string, DepartureState>());
-
-const now = ref(Date.now());
-
-const sortedStations = computed<readonly TransportationResponse[]>(() => {
-  const list = data.value?.public_transport ?? [];
-  return [...list].sort((a, b) => a.distance_meters - b.distance_meters);
-});
-
-// `immediate` + watching `sortedStations` covers `useFetch` resolving after mount.
-watch(
-  sortedStations,
-  (stations) => {
-    const closest = stations[0];
-    if (closest && !stationState.has(closest.id)) {
-      void fetchDepartures(closest.id);
-    }
-  },
-  { immediate: true }
-);
-
-async function fetchDepartures(stationId: string): Promise<void> {
-  const existing = stationState.get(stationId);
-  if (existing) {
-    existing.loading = true;
-    existing.error = null;
-  } else {
-    stationState.set(stationId, { loading: true, error: null, entries: [] });
-  }
-  const params = new URLSearchParams({
-    stopId: stationId,
-    n: String(N_DEPARTURES),
-    window: String(NEAR_WINDOW_S),
-    language: locale.value,
-  });
-  try {
-    const res = await fetch(`${STOPTIMES_URL}?${params.toString()}`, { credentials: "omit" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const body = (await res.json()) as StopTimesResponse;
-    const entry = stationState.get(stationId);
-    if (entry) {
-      const nowMs = Date.now();
-      const floor = nowMs - 30_000;
-      const cutoff = nowMs + LOOKAHEAD_S * 1_000;
-      entry.entries = (body.stopTimes ?? []).filter((e) => {
-        const iso = e.place?.departure ?? e.place?.scheduledDeparture;
-        if (!iso) return true;
-        const t = Date.parse(iso);
-        if (Number.isNaN(t)) return true;
-        return t >= floor && t <= cutoff;
-      });
-      entry.loading = false;
-    }
-  } catch (e) {
-    const entry = stationState.get(stationId);
-    if (entry) {
-      entry.error = e instanceof Error ? e.message : String(e);
-      entry.loading = false;
-    }
-  }
-}
-
-function toggleExpand(stationId: string): void {
-  if (stationState.has(stationId)) {
-    stationState.delete(stationId);
-    return;
-  }
-  void fetchDepartures(stationId);
-}
+const { t } = useI18n({ useScope: "local" });
+const { stations, toggleExpand, now } = await useNearbyDepartures(() => props.id);
 
 function modeLabel(mode: ModeResponse | undefined | null): string {
   if (!mode) return "";
@@ -137,106 +29,61 @@ function modeLabel(mode: ModeResponse | undefined | null): string {
 }
 
 function countdownLabel(iso: string | null | undefined): string {
-  if (!iso) return "";
-  const departure = Date.parse(iso);
-  if (Number.isNaN(departure)) return "";
-  const diffMs = departure - now.value;
-  if (diffMs < -30_000) return t("departed");
-  if (diffMs < 30_000) return t("now");
-  const totalMinutes = Math.round(diffMs / 60_000);
-  if (totalMinutes < 60) return t("in_minutes", { count: totalMinutes });
-  const h = Math.floor(totalMinutes / 60);
-  const m = totalMinutes % 60;
-  if (m === 0) return t("in_hours", { count: h });
-  return t("in_hours_minutes", { h, m });
-}
-
-function scheduledClockLabel(entry: StopTimeEntry): string {
-  const iso = entry.place?.departure ?? entry.place?.scheduledDeparture;
-  if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-}
-
-function delayMinutes(entry: StopTimeEntry): number | null {
-  const actualIso = entry.place?.departure;
-  const scheduledIso = entry.place?.scheduledDeparture;
-  if (!actualIso || !scheduledIso) return null;
-  const diff = Date.parse(actualIso) - Date.parse(scheduledIso);
-  if (Number.isNaN(diff) || Math.abs(diff) < 30_000) return null;
-  return Math.round(diff / 60_000);
+  const phase = countdownPhase(iso, now.value);
+  switch (phase.kind) {
+    case "empty":
+      return "";
+    case "departed":
+      return t("departed");
+    case "now":
+      return t("now");
+    case "minutes":
+      return t("in_minutes", { count: phase.count });
+    case "hours":
+      return t("in_hours", { count: phase.hours });
+    case "hoursMinutes":
+      return t("in_hours_minutes", { h: phase.hours, m: phase.minutes });
+  }
 }
 
 function trackLabel(entry: StopTimeEntry): string {
-  const track = entry.place?.track ?? entry.place?.scheduledTrack;
+  const track = trackOf(entry);
   return track ? t("track", { track }) : "";
 }
 
-function boardingRestriction(entry: StopTimeEntry): string {
-  // `pickupDropoffType` summarizes the per-stop pickup/dropoff at the queried stop.
-  // NOT_ALLOWED means the train passes without picking up *or* dropping off here —
-  // e.g. sightseeing routes that only board/alight at fixed termini.
-  if (entry.pickupDropoffType === "NOT_ALLOWED") return t("no_boarding_alighting");
-  if (entry.place?.pickupType === "NOT_ALLOWED" && entry.place?.dropoffType !== "NOT_ALLOWED") {
-    return t("alighting_only");
-  }
-  if (entry.place?.dropoffType === "NOT_ALLOWED" && entry.place?.pickupType !== "NOT_ALLOWED") {
-    return t("boarding_only");
-  }
-  return "";
+function boardingRestrictionLabel(entry: StopTimeEntry): string {
+  const restriction = boardingRestriction(entry);
+  return restriction === "none" ? "" : t(restriction);
 }
 
+// Aggregated context for hover: who runs the line, any boarding restriction,
+// and any cancellation note. Destination already shown inline.
 function rowTitle(entry: StopTimeEntry): string {
-  // Aggregated context for hover: who runs the line, any boarding restriction,
-  // and any cancellation note. Destination already shown inline.
   const parts: string[] = [];
   const dest = entry.tripTo?.name || entry.headsign;
   if (dest) parts.push(`→ ${dest}`);
   if (entry.agencyName) parts.push(entry.agencyName);
-  const restriction = boardingRestriction(entry);
+  const restriction = boardingRestrictionLabel(entry);
   if (restriction) parts.push(restriction);
   if (entry.tripCancelled) parts.push(t("trip_cancelled"));
-  else if (entry.cancelled || entry.place?.cancelled) parts.push(t("stop_cancelled"));
+  else if (isStopCancelled(entry)) parts.push(t("stop_cancelled"));
   return parts.join(" · ");
 }
-
-function routeBadgeStyle(entry: StopTimeEntry): Record<string, string> {
-  const bg = entry.routeColor ? `#${entry.routeColor}` : "#3f3f46";
-  const fg = entry.routeTextColor ? `#${entry.routeTextColor}` : "#ffffff";
-  return { backgroundColor: bg, color: fg };
-}
-
-watch(locale, () => {
-  for (const id of stationState.keys()) {
-    void fetchDepartures(id);
-  }
-});
-
-useIntervalFn(() => {
-  now.value = Date.now();
-}, TICK_INTERVAL_MS);
-
-useIntervalFn(() => {
-  for (const id of stationState.keys()) {
-    void fetchDepartures(id);
-  }
-}, REFRESH_INTERVAL_MS);
 </script>
 
 <template>
-  <div v-if="sortedStations.length" class="flex flex-col gap-3 print:!hidden">
+  <div v-if="stations.length" class="flex flex-col gap-3 print:!hidden">
     <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
     <ul class="flex flex-col gap-2">
       <li
-        v-for="station in sortedStations"
+        v-for="{ station, state } in stations"
         :key="station.id"
         class="bg-zinc-100 border border-zinc-200 rounded-sm"
       >
         <button
           type="button"
           class="focusable w-full flex items-center gap-3 p-3 text-left"
-          :aria-expanded="stationState.has(station.id)"
+          :aria-expanded="!!state"
           @click="toggleExpand(station.id)"
         >
           <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -262,31 +109,31 @@ useIntervalFn(() => {
             :path="mdiChevronDown"
             :size="18"
             class="text-zinc-500 transition-transform shrink-0"
-            :class="{ 'rotate-180': stationState.has(station.id) }"
+            :class="{ 'rotate-180': !!state }"
           />
         </button>
-        <template v-if="stationState.get(station.id) as DepartureState | undefined">
+        <template v-if="state">
           <div class="border-t border-zinc-200 p-3">
-            <div v-if="stationState.get(station.id)!.loading" class="text-zinc-500 text-sm">
+            <div v-if="state.loading" class="text-zinc-500 text-sm">
               {{ t("loading") }}
             </div>
-            <div v-else-if="stationState.get(station.id)!.error" class="text-red-700 text-sm">
-              {{ t("error", { msg: stationState.get(station.id)!.error }) }}
+            <div v-else-if="state.error" class="text-red-700 text-sm">
+              {{ t("error", { msg: state.error }) }}
             </div>
-            <div v-else-if="!stationState.get(station.id)!.entries.length" class="text-zinc-500 text-sm">
+            <div v-else-if="!state.entries.length" class="text-zinc-500 text-sm">
               {{ t("no_departures") }}
             </div>
             <ul v-else class="grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-3 gap-y-2 items-center text-sm">
-              <template v-for="(entry, idx) in stationState.get(station.id)!.entries" :key="idx">
+              <template v-for="(entry, idx) in state.entries" :key="idx">
                 <span
                   class="text-zinc-800 font-medium tabular-nums text-right"
-                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
                 >
                   {{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}
                 </span>
                 <span
                   class="text-zinc-500 text-xs tabular-nums whitespace-nowrap"
-                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
                 >
                   {{ scheduledClockLabel(entry) }}<span
                     v-if="delayMinutes(entry) !== null"
@@ -295,7 +142,7 @@ useIntervalFn(() => {
                 </span>
                 <span
                   class="justify-self-start flex items-center gap-2 min-w-0"
-                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
                 >
                   <span
                     class="rounded px-2 py-0.5 text-xs font-semibold truncate max-w-28"
@@ -311,17 +158,17 @@ useIntervalFn(() => {
                 </span>
                 <span
                   class="text-zinc-700 flex items-center gap-1 min-w-0"
-                  :class="{ 'text-zinc-400 line-through': entry.cancelled || entry.place?.cancelled }"
+                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
                   :title="rowTitle(entry)"
                 >
                   <MdiIcon :path="mdiArrowRightThin" :size="16" class="text-zinc-400 shrink-0" />
                   <span class="truncate min-w-0">{{ entry.tripTo?.name || entry.headsign }}</span>
                 </span>
                 <span
-                  v-if="boardingRestriction(entry)"
+                  v-if="boardingRestrictionLabel(entry)"
                   class="col-span-full text-center text-orange-700 text-xs font-semibold -mt-1 mb-1"
                 >
-                  ⚠ {{ boardingRestriction(entry) }}
+                  ⚠ {{ boardingRestrictionLabel(entry) }}
                 </span>
               </template>
             </ul>
