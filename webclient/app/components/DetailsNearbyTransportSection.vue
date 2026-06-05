@@ -73,12 +73,12 @@ function rowTitle(entry: StopTimeEntry): string {
 
 <template>
   <div v-if="stations.length" class="flex flex-col gap-3 print:!hidden">
-    <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
+    <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
     <ul class="flex flex-col gap-2">
       <li
         v-for="{ station, state } in stations"
         :key="station.id"
-        class="bg-zinc-100 border border-zinc-200 rounded-sm"
+        class="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-sm"
       >
         <button
           type="button"
@@ -88,8 +88,8 @@ function rowTitle(entry: StopTimeEntry): string {
           @click="toggleExpand(station.id)"
         >
           <div class="flex items-center gap-2 min-w-0 flex-1">
-            <span class="text-zinc-800 font-medium truncate" :title="station.name">{{ station.name }}</span>
-            <span class="text-zinc-500 text-sm shrink-0">{{ formatDistance(station.distance_meters) }}</span>
+            <span class="text-zinc-800 dark:text-zinc-100 font-medium truncate" :title="station.name">{{ station.name }}</span>
+            <span class="text-zinc-500 dark:text-zinc-400 text-sm shrink-0">{{ formatDistance(station.distance_meters) }}</span>
           </div>
           <div class="flex items-center gap-1 shrink-0">
             <MotisTransitModeIcon
@@ -103,13 +103,13 @@ function rowTitle(entry: StopTimeEntry): string {
               v-if="!station.modes.length"
               :path="mdiHelpCircle"
               :size="18"
-              class="text-zinc-400"
+              class="text-zinc-400 dark:text-zinc-500"
             />
           </div>
           <MdiIcon
             :path="mdiChevronDown"
             :size="18"
-            class="text-zinc-500 transition-transform shrink-0"
+            class="text-zinc-500 dark:text-zinc-400 transition-transform shrink-0"
             :class="{ 'rotate-180': !!state }"
           />
         </button>
@@ -118,37 +118,37 @@ function rowTitle(entry: StopTimeEntry): string {
             :id="`nearby-departures-${station.id}`"
             role="status"
             aria-live="polite"
-            class="border-t border-zinc-200 p-3"
+            class="border-t border-zinc-200 dark:border-zinc-700 p-3"
           >
-            <div v-if="state.loading" class="text-zinc-500 text-sm">
+            <div v-if="state.loading" class="text-zinc-500 dark:text-zinc-400 text-sm">
               {{ t("loading") }}
             </div>
-            <div v-else-if="state.error" class="text-red-700 text-sm">
+            <div v-else-if="state.error" class="text-red-700 dark:text-red-300 text-sm">
               {{ t("error", { msg: state.error }) }}
             </div>
-            <div v-else-if="!state.entries.length" class="text-zinc-500 text-sm">
+            <div v-else-if="!state.entries.length" class="text-zinc-500 dark:text-zinc-400 text-sm">
               {{ t("no_departures") }}
             </div>
             <ul v-else class="grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-3 gap-y-2 items-center text-sm">
               <template v-for="(entry, idx) in state.entries" :key="idx">
                 <span
-                  class="text-zinc-800 font-medium tabular-nums text-right"
-                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
+                  class="text-zinc-800 dark:text-zinc-100 font-medium tabular-nums text-right"
+                  :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
                 >
                   {{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}
                 </span>
                 <span
-                  class="text-zinc-500 text-xs tabular-nums whitespace-nowrap"
-                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
+                  class="text-zinc-500 dark:text-zinc-400 text-xs tabular-nums whitespace-nowrap"
+                  :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
                 >
                   {{ scheduledClockLabel(entry) }}<span
                     v-if="delayMinutes(entry) !== null"
-                    class="text-red-600 font-semibold ms-1"
+                    class="text-red-600 dark:text-red-400 font-semibold ms-1"
                   >+{{ delayMinutes(entry) }}</span>
                 </span>
                 <span
                   class="justify-self-start flex items-center gap-2 min-w-0"
-                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
+                  :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
                 >
                   <span
                     class="rounded px-2 py-0.5 text-xs font-semibold truncate max-w-28"
@@ -159,20 +159,20 @@ function rowTitle(entry: StopTimeEntry): string {
                   </span>
                   <span
                     v-if="trackLabel(entry)"
-                    class="text-zinc-500 text-xs whitespace-nowrap"
+                    class="text-zinc-500 dark:text-zinc-400 text-xs whitespace-nowrap"
                   >{{ trackLabel(entry) }}</span>
                 </span>
                 <span
-                  class="text-zinc-700 flex items-center gap-1 min-w-0"
-                  :class="{ 'text-zinc-400 line-through': isStopCancelled(entry) }"
+                  class="text-zinc-700 dark:text-zinc-200 flex items-center gap-1 min-w-0"
+                  :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
                   :title="rowTitle(entry)"
                 >
-                  <MdiIcon :path="mdiArrowRightThin" :size="16" class="text-zinc-400 shrink-0" />
+                  <MdiIcon :path="mdiArrowRightThin" :size="16" class="text-zinc-400 dark:text-zinc-500 shrink-0" />
                   <span class="truncate min-w-0">{{ entry.tripTo?.name || entry.headsign }}</span>
                 </span>
                 <span
                   v-if="boardingRestrictionLabel(entry)"
-                  class="col-span-full text-center text-orange-700 text-xs font-semibold -mt-1 mb-1"
+                  class="col-span-full text-center text-orange-700 dark:text-orange-300 text-xs font-semibold -mt-1 mb-1"
                 >
                   ⚠ {{ boardingRestrictionLabel(entry) }}
                 </span>
