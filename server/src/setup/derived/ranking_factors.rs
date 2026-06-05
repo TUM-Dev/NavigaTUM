@@ -1,12 +1,10 @@
-use std::env;
-
 use parquet::record::Field;
 use sqlx::{PgPool, Postgres, Transaction};
 
-use crate::setup::file_loader;
+use super::DerivedTable;
 
 #[derive(Debug, Default)]
-struct RawRankingFactors {
+pub struct RawRankingFactors {
     id: String,
     rank_type: Option<i16>,
     rank_combined: Option<i16>,
@@ -15,16 +13,14 @@ struct RawRankingFactors {
     rank_boost: Option<i16>,
 }
 
-#[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
-    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = file_loader::load_file_or_download("ranking_factors.parquet", &cdn_url).await?;
-    let rows = parse_parquet(body)?;
-    load_rows(pool, &rows).await
-}
+pub struct RankingFactors;
 
-fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawRankingFactors>> {
-    super::decode_parquet_rows(body, |col, field, r: &mut RawRankingFactors| {
+impl DerivedTable for RankingFactors {
+    const FILENAME: &'static str = "ranking_factors.parquet";
+    const TABLE: &'static str = "ranking_factors";
+    type Row = RawRankingFactors;
+
+    fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {
         match (col, field) {
             ("id", Field::Str(v)) => r.id.clone_from(v),
             // SMALLINT in PG; the parquet physical type is INT32 even for
@@ -38,40 +34,26 @@ fn parse_parquet(body: Vec<u8>) -> anyhow::Result<Vec<RawRankingFactors>> {
             ("rank_boost", Field::Int(v)) => r.rank_boost = i16::try_from(*v).ok(),
             _ => {}
         }
-    })
-}
-
-async fn load_rows(pool: &PgPool, rows: &[RawRankingFactors]) -> anyhow::Result<()> {
-    let mut tx = pool.begin().await?;
-    sqlx::query!("TRUNCATE TABLE ranking_factors")
-        .execute(&mut *tx)
-        .await?;
-    for r in rows {
-        insert_row(&mut tx, r).await?;
     }
-    sqlx::query!("ANALYZE ranking_factors")
-        .execute(&mut *tx)
+
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> sqlx::Result<()> {
+        sqlx::query!(
+            "INSERT INTO ranking_factors \
+             (id, rank_type, rank_combined, rank_usage, rank_custom, rank_boost) \
+             VALUES ($1, $2, $3, $4, $5, $6)",
+            r.id,
+            r.rank_type,
+            r.rank_combined,
+            r.rank_usage,
+            r.rank_custom,
+            r.rank_boost,
+        )
+        .execute(&mut **tx)
         .await?;
-    tx.commit().await?;
-    Ok(())
+        Ok(())
+    }
 }
 
-async fn insert_row(
-    tx: &mut Transaction<'_, Postgres>,
-    r: &RawRankingFactors,
-) -> Result<(), sqlx::Error> {
-    sqlx::query!(
-        "INSERT INTO ranking_factors \
-         (id, rank_type, rank_combined, rank_usage, rank_custom, rank_boost) \
-         VALUES ($1, $2, $3, $4, $5, $6)",
-        r.id,
-        r.rank_type,
-        r.rank_combined,
-        r.rank_usage,
-        r.rank_custom,
-        r.rank_boost,
-    )
-    .execute(&mut **tx)
-    .await?;
-    Ok(())
+pub async fn setup(pool: PgPool) -> anyhow::Result<()> {
+    super::run::<RankingFactors>(pool).await
 }

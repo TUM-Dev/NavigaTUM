@@ -199,24 +199,15 @@ async fn run_maintenance_work(
         // FKs back to `de` or `en`, never to another derived table) and
         // can populate concurrently once `database::load_data` returns.
         let mut derived_set = JoinSet::new();
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::ranking_factors::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::operators_de::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::operators_en::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::sources::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::usages::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::urls_de::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::urls_en::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::parents::setup(&p).await });
-        let p = pool.clone();
-        derived_set.spawn(async move { setup::derived::location_images::setup(&p).await });
+        derived_set.spawn(setup::derived::ranking_factors::setup(pool.clone()));
+        derived_set.spawn(setup::derived::operators_de::setup(pool.clone()));
+        derived_set.spawn(setup::derived::operators_en::setup(pool.clone()));
+        derived_set.spawn(setup::derived::sources::setup(pool.clone()));
+        derived_set.spawn(setup::derived::usages::setup(pool.clone()));
+        derived_set.spawn(setup::derived::urls_de::setup(pool.clone()));
+        derived_set.spawn(setup::derived::urls_en::setup(pool.clone()));
+        derived_set.spawn(setup::derived::parents::setup(pool.clone()));
+        derived_set.spawn(setup::derived::location_images::setup(pool.clone()));
         while let Some(res) = derived_set.join_next().await {
             res.expect("derived table task to complete")
                 .expect("derived table setup to succeed");
