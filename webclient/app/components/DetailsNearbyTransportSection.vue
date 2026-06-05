@@ -56,6 +56,18 @@ function boardingRestrictionLabel(entry: StopTimeEntry): string {
   return restriction === "none" ? "" : t(restriction);
 }
 
+function departureTimeClass(entry: StopTimeEntry): string {
+  if (isStopCancelled(entry)) return "text-zinc-400 dark:text-zinc-500 line-through";
+  if (delayMinutes(entry) !== null) return "text-red-600 dark:text-red-400";
+  return "text-zinc-500 dark:text-zinc-400";
+}
+
+function departureTimeTitle(entry: StopTimeEntry): string {
+  const delay = delayMinutes(entry);
+  if (delay !== null) return t("actual_departure", { delay });
+  return t("scheduled_departure");
+}
+
 // Aggregated context for hover: who runs the line, any boarding restriction,
 // and any cancellation note. Destination already shown inline.
 function rowTitle(entry: StopTimeEntry): string {
@@ -138,12 +150,13 @@ function rowTitle(entry: StopTimeEntry): string {
                   {{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}
                 </span>
                 <span
-                  class="text-zinc-500 dark:text-zinc-400 text-xs tabular-nums whitespace-nowrap"
-                  :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
+                  class="text-xs tabular-nums whitespace-nowrap"
+                  :class="departureTimeClass(entry)"
+                  :title="departureTimeTitle(entry)"
                 >
                   {{ scheduledClockLabel(entry) }}<span
                     v-if="delayMinutes(entry) !== null"
-                    class="text-red-600 dark:text-red-400 font-semibold ms-1"
+                    class="font-semibold ms-1"
                   >+{{ delayMinutes(entry) }}</span>
                 </span>
                 <span
@@ -202,6 +215,8 @@ de:
   boarding_only: "nur Einstieg"
   trip_cancelled: "Fahrt fällt aus"
   stop_cancelled: "Halt entfällt"
+  scheduled_departure: "Planmäßige Abfahrt"
+  actual_departure: "Tatsächliche Abfahrt (+{delay} min Verspätung)"
   mode:
     walk: zu Fuß
     bike: Fahrrad
@@ -247,6 +262,8 @@ en:
   boarding_only: "Boarding only"
   trip_cancelled: "Trip cancelled"
   stop_cancelled: "Stop cancelled"
+  scheduled_departure: "Scheduled departure"
+  actual_departure: "Actual departure ({delay} min delay)"
   mode:
     walk: Walk
     bike: Bike
