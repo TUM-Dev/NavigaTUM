@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "DELETE FROM events WHERE 1=1",
+  "query": "TRUNCATE TABLE transportation_stations",
   "describe": {
     "columns": [],
     "parameters": {
@@ -8,5 +8,5 @@
     },
     "nullable": []
   },
-  "hash": "398a7fadbb2a682c3802bdeaa2d9a200e6a8e1e1071d719e9dc211cb4653d09b"
+  "hash": "80e763dbf0327a55a465705e2563995c7985e720b93d7c7467a517d33da8f953"
 }

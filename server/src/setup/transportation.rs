@@ -79,7 +79,9 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     }
 
     let mut tx = pool.begin().await?;
-    clean(&mut tx).await?;
+    sqlx::query!("TRUNCATE TABLE transportation_stations")
+        .execute(&mut *tx)
+        .await?;
     for transportation in stations {
         if transportation.name.is_empty() {
             continue;
@@ -91,10 +93,4 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
         .await?;
     tx.commit().await?;
     Ok(())
-}
-
-async fn clean(tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
-    sqlx::query!("DELETE FROM transportation_stations WHERE 1=1")
-        .execute(&mut **tx)
-        .await
 }

@@ -94,17 +94,13 @@ pub async fn setup(pool: &PgPool) -> anyhow::Result<()> {
     }
 
     let mut tx = pool.begin().await?;
-    clean(&mut tx).await?;
+    sqlx::query!("TRUNCATE TABLE events RESTART IDENTITY")
+        .execute(&mut *tx)
+        .await?;
     for event in events {
         event.store(&mut tx).await?;
     }
     sqlx::query!("ANALYZE events").execute(&mut *tx).await?;
     tx.commit().await?;
     Ok(())
-}
-
-async fn clean(tx: &mut Transaction<'_, Postgres>) -> Result<PgQueryResult, sqlx::Error> {
-    sqlx::query!("DELETE FROM events WHERE 1=1")
-        .execute(&mut **tx)
-        .await
 }
