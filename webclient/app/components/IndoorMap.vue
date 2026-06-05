@@ -44,11 +44,9 @@ const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
-// Tracks the fullscreen control's DOM container so we can observe its size
-// from the setup scope (the actual element is assigned inside map.on("load")).
 const fullscreenContainerEl = ref<HTMLElement | null>(null);
-// Mobile-only workaround for a maplibre bug where the canvas does not resize
-// when the fullscreen container's dimensions change during animation.
+// Maplibre bug: the map doesn't update to the new size when changing between
+// fullscreen in the mobile version.
 useResizeObserver(fullscreenContainerEl, () => {
   map.value?.resize();
 });
@@ -176,9 +174,6 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       }
     };
     map.addControl(fullscreenCtl);
-    // The mobile workaround for the fullscreen resize bug is wired up via the
-    // setup-scope `useResizeObserver` above; assigning the element here is
-    // what activates it.
     if (isMobile) {
       fullscreenContainerEl.value = fullscreenCtl._container;
     }

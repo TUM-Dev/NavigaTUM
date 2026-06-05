@@ -30,9 +30,6 @@ const transitContainer2 = ref<HTMLElement | null>(null);
 const showDirectOverflow = ref(false);
 const showTransitOverflow = ref(false);
 
-// scrollWidth (content) can grow without the element's box (clientWidth)
-// changing when `props.data` updates, so a watch on data is still needed in
-// addition to the resize observers that catch box-size changes.
 const checkOverflow = () => {
   if (transitContainer.value) {
     showDirectOverflow.value =
@@ -44,6 +41,7 @@ const checkOverflow = () => {
   }
 };
 
+// Both needed: data changes can grow scrollWidth without the box (clientWidth) changing.
 watch(
   () => props.data,
   () => nextTick(checkOverflow),
