@@ -200,6 +200,7 @@ const suggestLocationFix = () => {
         id="details-no_floor_overlay"
       />
       <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment"/>
+      <DetailsIrisCoverageCard :has-coverage="data.props.has_iris_coverage"/>
     </div>
 
     <!-- Property Table -->
