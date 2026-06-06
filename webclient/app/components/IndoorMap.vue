@@ -108,8 +108,10 @@ function createMarker(hueRotation = 0): HTMLDivElement {
 async function initMap(containerId: string): Promise<MapLibreMap> {
   const map = new MapLibreMap({
     container: containerId,
-    // while having the hash in the url is nice, it is overridden on map load anyway => not much use
-    hash: false,
+    // Serialise the viewport (zoom and centre) into the URL hash. An incoming
+    // hash is overridden once we frame the route or endpoint, but the written
+    // hash keeps the map state deep-linkable and reflects what is on screen.
+    hash: true,
 
     canvasContextAttributes: {
       // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
