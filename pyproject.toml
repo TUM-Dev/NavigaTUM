@@ -147,6 +147,9 @@ select = [
   "ARG",   # unused arguments
   "FBT",   # boolean-trap (positional bools)
   "PT",    # pytest style
+  "SLF",   # private member access across modules
+  "SLOT",  # `__slots__` correctness on subclasses
+  "T10",   # leftover `breakpoint()` / `pdb` calls
   "T20",   # leftover prints
   # numpy / type-checking placement
   "NPY",   # numpy-specific
