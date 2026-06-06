@@ -127,6 +127,9 @@ select = [
   "G",     # logging format (G004 disabled below)
   # naming
   "N",     # pep8-naming
+  # pylint subsets - errors and warnings only; PLR (refactor) overlaps with C90 which is excluded
+  "PLE",   # pylint errors
+  "PLW",   # pylint warnings
   # comprehensions, performance, simplification
   "C4",    # flake8-comprehensions
   "FURB",  # refurb-style modernizations
