@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO transportation_stations(id,name,modes,coordinate)VALUES ($1,$2,$3,POINT($4,$5))",
+  "query": "INSERT INTO transportation_stations(id, name, modes, coordinate) VALUES ($1, $2, $3, POINT($4, $5))",
   "describe": {
     "columns": [],
     "parameters": {
@@ -14,5 +14,5 @@
     },
     "nullable": []
   },
-  "hash": "523b7075ac8ca95dcf8bb513dd5561bb3f1390640064d7c59c012b1307976b83"
+  "hash": "3044debe5e9b58c4f6882b3ab159f6059d061eb14ae18f9827f229d50f22b90e"
 }

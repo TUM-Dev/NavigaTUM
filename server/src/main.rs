@@ -49,8 +49,12 @@ pub struct AppData {
 
 impl AppData {
     async fn new() -> Self {
+        // max bumped to fit 11 parallel post-load_data loaders (9 derived
+        // tables + transportation + the tumonline_orgs->events chain),
+        // plus headroom for request handling while setup runs.
         let pool = PgPoolOptions::new()
             .min_connections(2)
+            .max_connections(20)
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
@@ -183,15 +187,33 @@ async fn run_maintenance_work(
         setup::database::load_data(&pool)
             .await
             .expect("postgis initial data load to succeed");
-        setup::transportation::setup(&pool)
-            .await
-            .expect("transportation table setup to succeed");
-        setup::tumonline_orgs::setup(&pool)
-            .await
-            .expect("tumonline_orgs table setup to succeed");
-        setup::events::setup(&pool)
-            .await
-            .expect("events table setup to succeed");
+        // Once `de`/`en` are populated, every remaining loader fans out.
+        // The lookup tables FK back to `de`/`en` only, transportation is
+        // FK-isolated, and tumonline_orgs -> events is a self-contained
+        // sequential pair (events.organising_org_id REFERENCES
+        // tumonline_orgs.org_id).
+        let mut loaders = JoinSet::new();
+        loaders.spawn(setup::transportation::setup(pool.clone()));
+        {
+            let p = pool.clone();
+            loaders.spawn(async move {
+                setup::tumonline_orgs::setup(p.clone()).await?;
+                setup::events::setup(p).await
+            });
+        }
+        loaders.spawn(setup::ranking_factors::setup(pool.clone()));
+        loaders.spawn(setup::operators_de::setup(pool.clone()));
+        loaders.spawn(setup::operators_en::setup(pool.clone()));
+        loaders.spawn(setup::sources::setup(pool.clone()));
+        loaders.spawn(setup::usages::setup(pool.clone()));
+        loaders.spawn(setup::urls_de::setup(pool.clone()));
+        loaders.spawn(setup::urls_en::setup(pool.clone()));
+        loaders.spawn(setup::parents::setup(pool.clone()));
+        loaders.spawn(setup::location_images::setup(pool.clone()));
+        while let Some(res) = loaders.join_next().await {
+            res.expect("loader task to complete")
+                .expect("loader setup to succeed");
+        }
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();
