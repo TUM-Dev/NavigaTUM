@@ -260,11 +260,11 @@ const actions = computed<DetailAction[]>(() => [
 de:
   image_alt: Header-Bild, zeigt das Gebäude
   header:
-    calendar: Kalender öffnen
+    calendar: Kalender
     copy_link: Link kopieren
     share: Teilen
-    start_navigation: Navigation starten
-    suggest_edit: Änderung vorschlagen
+    start_navigation: Navigation
+    suggest_edit: Bearbeiten
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
   msg:
@@ -273,11 +273,11 @@ de:
 en:
   image_alt: Header image, showing the building
   header:
-    calendar: Open calendar
+    calendar: Calendar
     copy_link: Copy link
     share: Share
-    start_navigation: Start navigation
-    suggest_edit: Suggest a change
+    start_navigation: Navigate
+    suggest_edit: Edit
   add_first_image: Add first image
   suggest_edit: I know where it is
   msg:
