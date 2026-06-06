@@ -25,13 +25,13 @@ const getAlertSeverityClass = (severity?: string | null) => {
 
   switch (severity) {
     case "severe":
-      return `${baseClasses} bg-red-50 text-red-900 border-red-200`;
+      return `${baseClasses} bg-red-50 dark:bg-red-900 text-red-900 dark:text-red-50 border-red-200 dark:border-red-700`;
     case "warning":
-      return `${baseClasses} bg-orange-50 text-orange-900 border-orange-200`;
+      return `${baseClasses} bg-orange-50 dark:bg-orange-900 text-orange-900 dark:text-orange-50 border-orange-200 dark:border-orange-700`;
     case "info":
-      return `${baseClasses} bg-blue-50 text-blue-900 border-blue-200`;
+      return `${baseClasses} bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-50 border-blue-200 dark:border-blue-700`;
     default:
-      return `${baseClasses} bg-gray-50 text-gray-900 border-gray-200`;
+      return `${baseClasses} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 border-gray-200 dark:border-gray-700`;
   }
 };
 
@@ -39,13 +39,13 @@ const getAlertSeverityClass = (severity?: string | null) => {
 const getIconColorClass = (severity?: string | null) => {
   switch (severity) {
     case "severe":
-      return "text-red-700";
+      return "text-red-700 dark:text-red-200";
     case "warning":
-      return "text-orange-700";
+      return "text-orange-700 dark:text-orange-200";
     case "info":
-      return "text-blue-700";
+      return "text-blue-700 dark:text-blue-200";
     default:
-      return "text-gray-700";
+      return "text-gray-700 dark:text-gray-200";
   }
 };
 

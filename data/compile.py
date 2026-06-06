@@ -1,15 +1,19 @@
 import logging
+from concurrent.futures import Future, ThreadPoolExecutor
+from datetime import datetime
 from multiprocessing import Process
+from typing import Any
 
 import polars as pl
-
 import processors.areatree.process as areatree
 from processors import (
     aliases,
     coords,
     export,
     images,
+    iris,
     merge,
+    opening_hours,
     poi,
     roomfinder,
     search,
@@ -19,7 +23,17 @@ from processors import (
     tumonline,
 )
 from processors.df_utils import ensure_columns
+from processors.exports import location_images as location_images_export
+from processors.exports import operators as operators_export
+from processors.exports import parents as parents_export
+from processors.exports import ranking_factors as ranking_factors_export
+from processors.exports import sources as sources_export
+from processors.exports import urls as urls_export
+from processors.exports import usages as usages_export
+from processors.sitemap import SimplifiedSitemaps
 from utils import DEV_MODE, setup_logging
+
+_logger = logging.getLogger(__name__)
 
 # All columns that may be referenced by downstream processors.
 # Ensures they exist (as null) before any processor tries to read them.
@@ -92,21 +106,47 @@ _ALL_NULLABLE_COLUMNS: dict[str, pl.DataType] = {
 
 def main() -> None:
     """Process data and generate output."""
-    logging.info("-- (Parallel) Convert, resize and crop the images for different resolutions and formats")
+    _logger.info("-- (Parallel) Convert, resize and crop the images for different resolutions and formats")
     resizer = Process(target=images.resize_and_crop)
     resizer.start()
 
+    # Kick off sitemap network IO in worker threads so it overlaps with the main pipeline.
+    # The threads release the GIL during socket reads, so the merge/lazy work runs unimpeded.
+    # try/finally guarantees the executor is shut down even on early failure.
+    sitemap_io = ThreadPoolExecutor(max_workers=3, thread_name_prefix="sitemap-io")
+    try:
+        fut_old_data = sitemap_io.submit(sitemap.fetch_old_data)
+        fut_old_sitemaps = sitemap_io.submit(sitemap.fetch_online_sitemaps)
+        fut_web_sitemap = sitemap_io.submit(sitemap.download_online_sitemap, sitemap.WEB_SITEMAP_URL)
+
+        _run_pipeline(
+            resizer=resizer,
+            fut_old_data=fut_old_data,
+            fut_old_sitemaps=fut_old_sitemaps,
+            fut_web_sitemap=fut_web_sitemap,
+        )
+    finally:
+        sitemap_io.shutdown(wait=True)
+
+
+def _run_pipeline(
+    *,
+    resizer: Process,
+    fut_old_data: Future[list[Any]],
+    fut_old_sitemaps: Future[SimplifiedSitemaps],
+    fut_web_sitemap: Future[dict[str, datetime]],
+) -> None:
     # --- Read base data ---
-    logging.info("-- 00 areatree")
+    _logger.info("-- 00 areatree")
     df = areatree.read_areatree()
 
-    logging.info("-- 01 areas extended")
+    _logger.info("-- 01 areas extended")
     df = merge.patch_areas(df)
 
     # --- Decomposed CSV overrides that create/patch entries ---
     # Applied early (before source annotation and merges) so entries exist
     # for TUMonline/Roomfinder matching, matching original patch_rooms behavior
-    logging.info("-- 02 room overrides (names, usages, ranking)")
+    _logger.info("-- 02 room overrides (names, usages, ranking)")
     df = merge.add_names(df)
     df = merge.add_usages(df)
     df = merge.add_ranking(df)
@@ -118,30 +158,32 @@ def main() -> None:
     df = df.with_columns(pl.col("sources_base_json").fill_null('[{"name":"NavigaTUM"}]'))
 
     # --- Buildings (eager: Python dict lookups) ---
-    logging.info("-- 10 Roomfinder buildings")
+    _logger.info("-- 10 Roomfinder buildings")
     df = roomfinder.merge_roomfinder_buildings(df)
 
-    logging.info("-- 11 TUMonline buildings")
+    _logger.info("-- 11 TUMonline buildings")
     df = tumonline.merge_tumonline_buildings(df)
 
     # --- Rooms (eager: Python dict lookups, concat) ---
-    logging.info("-- 15 TUMonline rooms")
+    _logger.info("-- 15 TUMonline rooms")
     df = tumonline.merge_tumonline_rooms(df)
 
-    logging.info("-- 16 Roomfinder rooms")
+    _logger.info("-- 16 Roomfinder rooms")
     df = roomfinder.merge_roomfinder_rooms(df)
 
     # --- POIs (eager: Python dict lookups, concat) ---
-    logging.info("-- 21 POIs")
+    _logger.info("-- 21 POIs")
     df = poi.merge_poi(df)
 
     # Re-ensure columns after concat (new rows from rooms/POIs may lack some columns)
     df = ensure_columns(df, _ALL_NULLABLE_COLUMNS)
 
     # --- Decomposed CSV/YAML overrides (metadata only, entries already created at step 02) ---
-    logging.info("-- 22 Decomposed overrides (comments, links)")
+    _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
+    # Fails the build if a schedule targets an unknown entry id.
+    df = opening_hours.merge_opening_hours(df)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.
@@ -158,10 +200,9 @@ def main() -> None:
             links_data = yaml_mod.safe_load(f) or {}
         comment_ids.update(str(k) for k in links_data)
     if comment_ids:
-        ids_series = pl.Series("_cid", list(comment_ids))
         df = df.with_columns(
             pl.when(
-                pl.col("id").is_in(ids_series)
+                pl.col("id").is_in(list(comment_ids))
                 & pl.col("sources_base_json").is_not_null()
                 & ~pl.col("sources_base_json").str.contains("NavigaTUM")
             )
@@ -172,66 +213,86 @@ def main() -> None:
 
     # --- Structure: lazy block for children + type_common_name,
     #     eager for stats + addresses (need .height / logging) ---
-    logging.info("-- 30 Add children properties")
+    _logger.info("-- 30 Add children properties")
     lf = df.lazy()
     lf = structure.add_children_properties(lf)
     df = lf.collect()
 
-    logging.info("-- 33 Add (structural) stats")
+    _logger.info("-- 33 Add (structural) stats")
     df = structure.add_stats(df)
 
-    logging.info("-- 34 Infer more props")
+    _logger.info("-- 34 Infer more props")
     df = structure.infer_addresses(df)
 
-    logging.info("-- 35 Infer the common_name for every type")
+    _logger.info("-- 35 Infer the common_name for every type")
     lf = df.lazy()
     lf = structure.infer_type_common_name(lf)
     df = lf.collect()
 
     # --- Coordinates (eager: map_elements, error checks) ---
-    logging.info("-- 40 Coordinates")
+    _logger.info("-- 40 Coordinates")
     df = merge.add_coordinates(df)
     df = coords.add_and_check_coords(df)
 
     # --- Images (eager: file IO, set lookup) ---
-    logging.info("-- 51 Add image information")
+    _logger.info("-- 51 Add image information")
     df = images.add_img(df)
 
     # --- Sections: lazy for extract_tumonline_props, eager for the rest ---
-    logging.info("-- 80 Generate info card")
+    _logger.info("-- 80 Generate info card")
     lf = df.lazy()
     lf = sections.extract_tumonline_props(lf)
     df = lf.collect()
     df = sections.compute_floor_prop(df)
+    df = poi.propagate_poi_floors(df)
     df = sections.compute_props(df)
     df = sections.localize_links(df)
 
-    logging.info("-- 81 Generate overview sections")
+    _logger.info("-- 81 Generate overview sections")
     df = sections.generate_buildings_overview(df)
     df = sections.generate_rooms_overview(df)
 
     # --- Search + Aliases: lazy block (pure expressions) ---
-    logging.info("-- 90 Search: Build base ranking")
+    _logger.info("-- 90 Search: Build base ranking")
     lf = df.lazy()
     lf = search.add_ranking_base(lf)
 
-    logging.info("-- 97 Search: Get combined ranking")
+    _logger.info("-- 97 Search: Get combined ranking")
     lf = search.add_ranking_combined(lf)
 
-    logging.info("-- 98 Aliases: extract aliases")
+    _logger.info("-- 98 Aliases: extract aliases")
     lf = aliases.add_aliases(lf, aliases.building_short_name_lookup(df))
 
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")
     df = lf.collect()
 
-    logging.info("-- 100 Export and generate Sitemap")
+    # Needs arch_name (added at step 98) to join the Iris roster against NavigaTUM aliases.
+    _logger.info("-- 99 Studentische Vertretung IRIS learning-room coverage")
+    df = iris.add_iris_coverage(df)
+
+    _logger.info("-- 100 Export and generate Sitemap")
     data = export.reconstruct_data(df)
     export.export_for_search(data)
     export.export_for_api(data)
     export.export_for_status()
     export.export_known_usages(df)
-    sitemap.generate_sitemap()
+    export.export_tumonline_orgs_parquet()
+    export.export_events_parquet()
+    ranking_factors_export.export_ranking_factors_parquet(df)
+    operators_export.export_operators_de_parquet(df)
+    operators_export.export_operators_en_parquet(df)
+    sources_export.export_sources_parquet(df)
+    usages_export.export_usages_parquet(df)
+    urls_export.export_urls_de_parquet(df)
+    urls_export.export_urls_en_parquet(df)
+    parents_export.export_parents_parquet(df)
+    location_images_export.export_location_images_parquet(df)
+    sitemap.generate_sitemap(
+        old_data=fut_old_data.result(),
+        old_sitemaps=fut_old_sitemaps.result(),
+        web_sitemap=fut_web_sitemap.result(),
+    )
 
     resizer.join(timeout=60 * 4)
     if resizer.exitcode != 0:

@@ -1,99 +1,119 @@
-import re
-
 import polars as pl
 
-# Types whose short_name we are willing to borrow when walking up from a building.
-# We deliberately stop at geographic groupings (area/campus/site): a campus short_name
-# like "Garching" is not a meaningful room-code prefix.
-_BUILDING_LIKE_TYPES = {"building", "joined_building"}
+# Walks stop here so geographic short_names ("Garching", "Innenstadt") never leak into room aliases.
+_BUILDING_LIKE_TYPES = ["building", "joined_building"]
 
-# Only short_names that read as a room-code prefix become friendly arch-name aliases.
-# This excludes descriptive multi-word short_names ("Mathe/Info (MI)", "Business Campus 1")
-# that would otherwise produce nonsensical aliases like "Mathe/Info (MI)0001".
-_CODE_LIKE_SHORT_NAME = re.compile(r"^[A-Za-z0-9]+$")
+# Descriptive short_names ("Mathe/Info (MI)") would yield nonsensical "Mathe/Info (MI)0001" aliases.
+_CODE_LIKE_SHORT_NAME = r"^[A-Za-z0-9]+$"
 
 
-def building_short_name_lookup(df: pl.DataFrame) -> dict[str, str]:
+def building_short_name_lookup(meta: pl.DataFrame) -> pl.DataFrame:
     """
     Map every entry id to the code-like short_name that prefixes its rooms' arch names.
 
-    An entry uses its own short_name when it has one; otherwise it borrows the nearest
-    ``building``/``joined_building`` ancestor's short_name (e.g. building ``5510`` has no
-    short_name of its own but sits under the ``mw`` joined_building, so it resolves to ``MW``).
-    The walk stops at the first non-building-like ancestor so geographic short_names never leak in.
+    Walks each entry's ancestor chain ``[self, immediate_parent, ..., root]`` nearest-first
+    and stops at the first ancestor that is either geographic OR carries any short_name.
+    The entry receives a row only when that stop ancestor is building-like and its
+    short_name matches :data:`_CODE_LIKE_SHORT_NAME`; a non-code-like short_name on a
+    building-like ancestor is treated as a deliberate "no usable prefix here" signal
+    and prevents borrowing from further up the chain.
 
-    Only short_names matching :data:`_CODE_LIKE_SHORT_NAME` are returned; others cannot form a
-    sensible ``<short_name><number>`` alias and are dropped here so the caller stays simple.
+    Returns a DataFrame with columns ``id`` and ``building_short_name``.
     """
-    by_id = {row["id"]: row for row in df.select(["id", "type", "short_name", "parents"]).to_dicts()}
+    chains = (
+        meta.lazy()
+        .select(
+            pl.col("id"),
+            pl.concat_list(pl.col("id"), pl.col("parents").list.reverse()).alias("ancestor_id"),
+        )
+        .explode("ancestor_id")
+        .with_columns(pl.int_range(pl.len()).over("id").alias("depth"))
+    )
 
-    lookup: dict[str, str] = {}
-    for entry_id, row in by_id.items():
-        # nearest-first: the entry itself, then its parents from immediate up to root
-        for ancestor_id in [entry_id, *reversed(row["parents"] or [])]:
-            ancestor = by_id.get(ancestor_id)
-            if ancestor is None or ancestor["type"] not in _BUILDING_LIKE_TYPES:
-                break
-            if short_name := ancestor["short_name"]:
-                if _CODE_LIKE_SHORT_NAME.match(short_name):
-                    lookup[entry_id] = short_name
-                break
-    return lookup
+    # `root` appears in every chain but is not always materialised as a meta row; the
+    # left join produces nulls for it, which the is_in below folds into the geographic branch.
+    ancestor_attrs = meta.lazy().select(
+        pl.col("id").alias("ancestor_id"),
+        pl.col("type").alias("ancestor_type"),
+        pl.col("short_name").alias("ancestor_short_name"),
+    )
+    chains = chains.join(ancestor_attrs, on="ancestor_id", how="left").sort("id", "depth")
+
+    is_building_like = pl.col("ancestor_type").is_in(_BUILDING_LIKE_TYPES).fill_null(value=False)
+    is_stop = ((~is_building_like) | pl.col("ancestor_short_name").is_not_null()).cast(pl.Int32)
+
+    chains = chains.with_columns(is_stop.cum_sum().over("id").alias("stops_seen"))
+    first_stops = chains.filter((pl.col("stops_seen") == 1) & (is_stop == 1))
+
+    return (
+        first_stops.filter(
+            is_building_like & pl.col("ancestor_short_name").str.contains(_CODE_LIKE_SHORT_NAME),
+        )
+        .select(
+            pl.col("id"),
+            pl.col("ancestor_short_name").alias("building_short_name"),
+        )
+        .collect()
+    )
 
 
-def add_aliases(lf: pl.LazyFrame, short_name_lookup: dict[str, str]) -> pl.LazyFrame:
+def add_aliases(lf: pl.LazyFrame, short_name_lookup: pl.DataFrame) -> pl.LazyFrame:
     """
-    Add arch_name and aliases_json columns.
+    Add ``arch_name`` and ``aliases_json`` columns to ``lf``.
 
-    For buildings: arch_name = "@" + id
-    For others with tumonline_data_json containing arch_name: extract it via JSON path.
+    Buildings synthesise an ``"@<id>"`` arch_name; every other entry inherits one from
+    ``tumonline_data_json``. When the arch_name has the canonical
+    ``"<number>@<building_id>"`` shape and ``short_name_lookup`` has a code-like
+    short_name for that building, a friendly ``"<short_name><number>"`` alias is emitted
+    alongside the raw form so room-code searches (e.g. ``MW0001``) resolve correctly
+    without breaking existing links.
 
-    TUMonline supplies arch_names as ``<number>@<building_id>`` (e.g. ``0001@5510``). When the
-    building resolves to a code-like short_name via :func:`building_short_name_lookup`, we also
-    emit a friendly ``<short_name><number>`` alias (e.g. ``MW0001``) so that room-code searches
-    resolve to the correct entry. The raw upstream form is always kept so existing links survive.
-
-    Returns a LazyFrame with arch_name and aliases_json columns added.
+    ``aliases_json`` is the JSON array string of the resulting list, or ``"[]"`` when
+    no arch_name is known.
     """
-    # Extract arch_name from tumonline_data_json for non-buildings
     extracted_arch = (
         pl.when(pl.col("tumonline_data_json").is_not_null())
         .then(pl.col("tumonline_data_json").str.json_path_match("$.arch_name"))
         .otherwise(pl.lit(None))
     )
-
     lf = lf.with_columns(
         pl.when(pl.col("type") == "building")
         .then(pl.lit("@") + pl.col("id"))
         .otherwise(extracted_arch)
         .alias("arch_name"),
     )
-
-    # Null out empty arch_names (json_path_match returns "" for empty values)
+    # json_path_match returns "" for missing keys; the rest of the pipeline uses null tests.
     lf = lf.with_columns(
         pl.when(pl.col("arch_name") == "").then(pl.lit(None)).otherwise(pl.col("arch_name")).alias("arch_name"),
     )
 
-    # Derive the friendly "<short_name><number>" form from "<number>@<building_id>" arch_names.
-    arch_parts = pl.col("arch_name").str.split("@")
-    number = arch_parts.list.get(0, null_on_oob=True)
-    building_id = arch_parts.list.get(1, null_on_oob=True)
-    building_short_name = building_id.replace_strict(short_name_lookup, default=None)
+    # split_exact yields null for the right half when arch_name lacks "@", so malformed
+    # arch_names naturally miss the join below and derive no friendly alias.
+    arch_parts = pl.col("arch_name").str.split_exact("@", 1)
+    lf = lf.with_columns(
+        arch_parts.struct.field("field_0").alias("_arch_number"),
+        arch_parts.struct.field("field_1").alias("_arch_building_id"),
+    )
+
+    lookup = short_name_lookup.lazy().rename({"id": "_arch_building_id"})
+    lf = lf.join(lookup, on="_arch_building_id", how="left")
+
+    # Buildings carry arch_name = "@<id>", i.e. number == "", so they decline to derive
+    # a friendly alias against themselves.
     friendly_alias = (
-        pl.when(building_short_name.is_not_null() & (number != ""))
-        .then(building_short_name + number)
+        pl.when(pl.col("building_short_name").is_not_null() & (pl.col("_arch_number") != ""))
+        .then(pl.col("building_short_name") + pl.col("_arch_number"))
         .otherwise(pl.lit(None))
     )
-    lf = lf.with_columns(friendly_alias.alias("_friendly_alias"))
 
-    # aliases_json: JSON array string of [arch_name, friendly_alias?], else empty array.
+    # Naive JSON quoting is safe: arch_names and short_names are alphanumeric so they
+    # cannot contain embedded quotes (the _CODE_LIKE_SHORT_NAME regex enforces this).
+    aliases_list = pl.concat_list(pl.col("arch_name"), friendly_alias).list.drop_nulls()
     lf = lf.with_columns(
         pl.when(pl.col("arch_name").is_null())
         .then(pl.lit("[]"))
-        .when(pl.col("_friendly_alias").is_null())
-        .then(pl.lit('["') + pl.col("arch_name") + pl.lit('"]'))
-        .otherwise(pl.lit('["') + pl.col("arch_name") + pl.lit('","') + pl.col("_friendly_alias") + pl.lit('"]'))
+        .otherwise(pl.lit('["') + aliases_list.list.join('","') + pl.lit('"]'))
         .alias("aliases_json"),
     )
 
-    return lf.drop("_friendly_alias")
+    return lf.drop("_arch_number", "_arch_building_id", "building_short_name")

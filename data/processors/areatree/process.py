@@ -1,13 +1,57 @@
 import logging
-from pathlib import Path
+import re
 from collections.abc import Iterator
+from pathlib import Path
 
 import polars as pl
 
 from processors.areatree import models
 from processors.df_utils import to_json_or_none
 
+_logger = logging.getLogger(__name__)
+
 AREATREE_FILE = Path(__file__).parent / "config.areatree"
+
+# Trailing parenthetical that looks like a short name / building code rather than a clarification.
+# Matches things like "(N1)", "(Z11)", "(SW3)", "(BC1)", "(Bau 501)", "(BL. G)", "(BT07)",
+# "(CH1)", "(CH 1)", "(MW25)", "(WSI)", "(CRC)", "(IAS)", "(KBA)", "(MAK/BUA)", "(SG 16)".
+# Excludes longer descriptors like "(GRS-Altbau)", "(orange)", "(hellgrün)" by limiting length
+# and requiring an uppercase-dominant token shape.
+_EMBEDDED_SHORT_NAME_RE = re.compile(
+    r"\s*\((?:"
+    r"Bau\s+\d+"  # Bau 501
+    r"|BL\.?\s*[A-Z]"  # BL. G, BL F
+    r"|BT\d+"  # BT07
+    r"|[A-Z]{1,3}\s?\d+[A-Z]?"  # N1, Z11, SW3, BC1, CH 1, MW25, SG 16
+    r"|[A-Z]{2,6}(?:[-/][A-Z]{2,6})?"  # WSI, CRC, MAK/BUA
+    r")\)\s*$"
+)
+# Leading short-name acronym pattern. Requires multiple uppercase letters in the leading token
+# (so it catches "BNMRZ", "HEZ", "LWF", "LfL", "HfP", "iGZW") but skips ordinary capitalised
+# words like "Campus", "Mensa", "Halle", "Munich".
+_LEADING_ACRONYM_RE = re.compile(
+    r"^("
+    r"[A-Z]{2,6}"  # all caps: BNMRZ, HEZ, LWF, KFZ, HSWT, BLQ
+    r"|[a-z][A-Z][A-Za-z]{1,4}"  # leading-lower: iGZW
+    r"|[A-Z][a-z][A-Z][A-Za-z]{0,3}"  # HfP, LfL
+    r")\s+[A-ZÄÖÜ][a-zäöüß]"
+)
+# Institutional-brand prefixes that are NOT short names. Skip the warning entirely for these.
+_INSTITUTIONAL_BRANDS: frozenset[str] = frozenset({"TUM", "LMU"})
+# TUMonline operator/location markers that occasionally bleed into areatree names. They are not
+# real short names - suggest dropping them.
+_TUMONLINE_NOISE_MARKERS: frozenset[str] = frozenset({"AM", "NR", "SZ", "GP", "GM"})
+# Trailing parentheticals that look like building/identifier codes. When matched these should
+# become a ``visible_id`` rather than a short_name.
+_CODE_LIKE_RE = re.compile(
+    r"^(?:"
+    r"Bau\s+\d+"  # Bau 501
+    r"|BL\.?\s*[A-Z]"  # BL. G
+    r"|BT\d+"  # BT07
+    r"|CH\s*\d+|MW\s*\d+|SG\s*\d+|PG\s*\d+"  # CH 1, MW25, SG 16, PG 18
+    r"|[A-Z]{1,3}\s?\d+[A-Z]?"  # N1, Z11, SW3, BC1
+    r")$"
+)
 
 
 def read_areatree() -> pl.DataFrame:
@@ -89,8 +133,17 @@ def _parse_areatree_line(line: str, parents: list[str]) -> models.AreatreeBuidli
     (building_ids, raw_names, internal_id) = _split_line(line)
 
     building_data = _extract_building_prefix(building_ids)
-    names = _extract_names(raw_names.split("|"))
+    raw_name_parts = raw_names.split("|")
+    names = _extract_names(raw_name_parts)
     id_and_type = _extract_id_and_type(internal_id, building_data.get("b_prefix"))
+    visible_id_raw = id_and_type.get("visible_id")
+    _warn_if_embedded_short_name(
+        names["name"],
+        has_explicit_short_name=len(raw_name_parts) > 1,
+        building_ids=building_ids,
+        entry_id=id_and_type["id"],
+        visible_id=visible_id_raw if isinstance(visible_id_raw, str) else None,
+    )
     # we merge the results like this for mypy to be happy, sigh
     result: models.AreatreeBuidling = {
         "id": id_and_type["id"],
@@ -158,9 +211,115 @@ def _extract_names(names: list[str]) -> models.Names:
     building_data: models.Names = {"name": names[0]}
     if len(names) == 2:
         if len(names[1]) > 20:
-            logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
+            _logger.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
 
         building_data["short_name"] = names[1]
     elif len(names) > 2:
         raise RuntimeError(f"Too many names: {names}")
     return building_data
+
+
+def _normalize_id(value: str) -> str:
+    """Lowercase + strip whitespace/punctuation so 'BL. G' matches 'bl-g'."""
+    return re.sub(r"[\s\-_./]", "", value).lower()
+
+
+def _format_line(building_ids: str, name: str, entry_id: str, visible_id: str | None) -> str:
+    """Reconstruct a full areatree line `<building_ids>:<name>:<id>[,<visible_id>]`."""
+    internal = entry_id if not visible_id else f"{entry_id},{visible_id}"
+    return f"{building_ids}:{name}:{internal}"
+
+
+def _warn_if_embedded_short_name(
+    name: str,
+    has_explicit_short_name: bool,
+    building_ids: str,
+    entry_id: str,
+    visible_id: str | None,
+) -> None:
+    """
+    Flag names that bake a short-name into the long name.
+
+    Four cases are distinguished:
+
+    1. **TUMonline noise** (``(AM)``/``(NR)``/``(SZ)``): suggest dropping outright.
+    2. **Duplicates the visible_id**: parenthetical equals the existing visible_id; drop it.
+    3. **Code-like parenthetical** without a visible_id: promote to ``visible_id``.
+    4. **Acronym short-name**: migrate to the explicit ``long name|short name`` syntax.
+
+    Leading-acronym patterns are also detected, with hardcoded skips for institutional brands
+    (``TUM``, ``LMU``) where the prefix is just branding rather than a real short name.
+    """
+    if has_explicit_short_name:
+        return
+    visible_norm = _normalize_id(visible_id) if visible_id else ""
+
+    trailing = _EMBEDDED_SHORT_NAME_RE.search(name)
+    if trailing:
+        short = trailing.group(0).strip().strip("()").strip()
+        long_name = _EMBEDDED_SHORT_NAME_RE.sub("", name).rstrip(" ,;")
+        short_norm = _normalize_id(short)
+
+        # Case 1: TUMonline operator/location marker - just noise.
+        if short.upper() in _TUMONLINE_NOISE_MARKERS:
+            fixed = _format_line(building_ids, long_name, entry_id, visible_id)
+            _logger.warning(
+                f"'{entry_id}': name '{name}' contains TUMonline noise marker '({short})'. "
+                f"Drop it - line should be '{fixed}'"
+            )
+            return
+
+        # Case 2: parenthetical duplicates the existing visible_id.
+        if visible_norm and short_norm == visible_norm:
+            fixed = _format_line(building_ids, long_name, entry_id, visible_id)
+            _logger.warning(
+                f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
+                f"Drop the trailing '({short})' - line should be '{fixed}'"
+            )
+            return
+
+        # Case 3: looks like a code (Bau 501, BL. G, BT07, N1, ...) - make it the visible_id.
+        if not visible_id and _CODE_LIKE_RE.match(short):
+            new_visible = short_norm
+            fixed = _format_line(building_ids, long_name, entry_id, new_visible)
+            _logger.warning(
+                f"'{entry_id}': name '{name}' embeds the code '({short})'. "
+                f"Promote it to a visible_id - line should be '{fixed}'"
+            )
+            return
+
+        # Case 4: acronym short_name - use the |-syntax.
+        fixed_name = f"{long_name}|{short}"
+        fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
+        _logger.warning(
+            f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
+            f"Use the '|'-syntax - line should be '{fixed}'"
+        )
+        return
+
+    leading = _LEADING_ACRONYM_RE.match(name)
+    if leading:
+        short = leading.group(1)
+        # Case 1 (leading): institutional brand - meaningless as short_name, skip silently.
+        if short in _INSTITUTIONAL_BRANDS:
+            return
+
+        long_name = name[len(short) :].lstrip(" ,;-")
+        short_norm = _normalize_id(short)
+
+        # Case 2 (leading): duplicates visible_id.
+        if visible_norm and short_norm == visible_norm:
+            fixed = _format_line(building_ids, long_name, entry_id, visible_id)
+            _logger.warning(
+                f"'{entry_id}': name '{name}' duplicates the visible_id '{visible_id}'. "
+                f"Drop the leading '{short}' - line should be '{fixed}'"
+            )
+            return
+
+        # Case 4 (leading): acronym short_name.
+        fixed_name = f"{long_name}|{short}"
+        fixed = _format_line(building_ids, fixed_name, entry_id, visible_id)
+        _logger.warning(
+            f"'{entry_id}': name '{name}' embeds the short name '{short}'. "
+            f"Use the '|'-syntax - line should be '{fixed}'"
+        )

@@ -11,10 +11,15 @@ def _meta(rows: list[dict[str, Any]]) -> pl.DataFrame:
     return pl.DataFrame(rows, infer_schema_length=None)
 
 
+def _as_dict(lookup: pl.DataFrame) -> dict[str, str]:
+    """Collapse the lookup DataFrame into a plain dict for ergonomic assertions."""
+    return {row["id"]: row["building_short_name"] for row in lookup.to_dicts()}
+
+
 def test_lookup_uses_own_short_name() -> None:
     """A building with its own short_name resolves to it directly."""
     meta = _meta([{"id": "5204", "type": "building", "short_name": "UTG", "parents": ["root"]}])
-    assert building_short_name_lookup(meta)["5204"] == "UTG"
+    assert _as_dict(building_short_name_lookup(meta)) == {"5204": "UTG"}
 
 
 def test_lookup_walks_up_to_joined_building() -> None:
@@ -26,7 +31,7 @@ def test_lookup_walks_up_to_joined_building() -> None:
             {"id": "5510", "type": "building", "short_name": None, "parents": ["root", "garching", "mw"]},
         ],
     )
-    assert building_short_name_lookup(meta)["5510"] == "MW"
+    assert _as_dict(building_short_name_lookup(meta))["5510"] == "MW"
 
 
 def test_lookup_stops_at_geographic_ancestor() -> None:
@@ -37,13 +42,21 @@ def test_lookup_stops_at_geographic_ancestor() -> None:
             {"id": "9999", "type": "building", "short_name": None, "parents": ["root", "garching"]},
         ],
     )
-    assert "9999" not in building_short_name_lookup(meta)
+    assert "9999" not in _as_dict(building_short_name_lookup(meta))
 
 
 def test_lookup_excludes_non_code_like_short_names() -> None:
     """Descriptive multi-word short_names would yield nonsensical aliases and are dropped."""
     meta = _meta([{"id": "mi", "type": "joined_building", "short_name": "Mathe/Info (MI)", "parents": ["root"]}])
-    assert "mi" not in building_short_name_lookup(meta)
+    assert "mi" not in _as_dict(building_short_name_lookup(meta))
+
+
+def _lookup_df(mapping: dict[str, str]) -> pl.DataFrame:
+    """Build the lookup frame `add_aliases` expects from a compact dict literal."""
+    return pl.DataFrame(
+        {"id": list(mapping), "building_short_name": list(mapping.values())},
+        schema={"id": pl.Utf8, "building_short_name": pl.Utf8},
+    )
 
 
 def _aliases_for(arch: str | None, lookup: dict[str, str], entry_type: str = "room", _id: str = "x") -> list[str]:
@@ -54,7 +67,7 @@ def _aliases_for(arch: str | None, lookup: dict[str, str], entry_type: str = "ro
         {"id": [_id], "type": [entry_type], "tumonline_data_json": [td]},
         schema={"id": pl.Utf8, "type": pl.Utf8, "tumonline_data_json": pl.Utf8},
     ).lazy()
-    out = add_aliases(lf, lookup).collect()
+    out = add_aliases(lf, _lookup_df(lookup)).collect()
     aliases: list[str] = json.loads(out["aliases_json"][0])
     return aliases
 

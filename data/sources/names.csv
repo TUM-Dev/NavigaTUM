@@ -26,6 +26,7 @@ id,name,short_name,arch_name
 0505.03.572,TUM Speaker Series (Büro),FS SOM,
 0509.EG.980,"Audimax, Werner-von-Siemens-Hörsaal",,
 0509.02.953A,Think Tank / Teeküche,,1951
+4210,ehem. Agrarsystemtechnik,,
 4219.EG.040,Masterstudierende und Doktoranden LAT,,
 4219.EG.044,Sekretariat LAT,,
 4219.EG.045,Professor LAT,,
@@ -33,6 +34,9 @@ id,name,short_name,arch_name
 4219.EG.048,Doktoranden LAT,,
 4219.EG.041,Wissenschaftliche Mitarbeiter LAT,,
 4219.EG.047,Büro Mitarbeiter LAT,,
+5501.02.141,Small Workspace,Kleines Hutzimmer,
+5501.02.142,Large Workspace,Großes Hutzimmer,
+5506.02.619A,Reinraum Satelliten Integration,Sat. Integration,
 5532.01.105,Besprechungsraum Studentische Vertretung / SV,,
 5532.02.211,WC-Damen,,
 5101.EG.257,Büro Fachschaft Mathe Physik Informatik Chemie / MPIC,,

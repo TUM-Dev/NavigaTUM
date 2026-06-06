@@ -1,3 +1,5 @@
+use std::fmt;
+
 use actix_web::HttpResponse;
 use actix_web::post;
 use actix_web::web::{Data, Json};
@@ -23,16 +25,16 @@ enum FeedbackCategory {
     #[default]
     Other,
 }
-impl std::fmt::Display for FeedbackCategory {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for FeedbackCategory {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let val = match self {
-            FeedbackCategory::Bug => "bug",
-            FeedbackCategory::Feature => "feature",
-            FeedbackCategory::Search => "search",
-            FeedbackCategory::Navigation => "navigation",
-            FeedbackCategory::Entry => "entry",
-            FeedbackCategory::General => "general",
-            FeedbackCategory::Other => "other",
+            Self::Bug => "bug",
+            Self::Feature => "feature",
+            Self::Search => "search",
+            Self::Navigation => "navigation",
+            Self::Entry => "entry",
+            Self::General => "general",
+            Self::Other => "other",
         };
         f.write_str(val)
     }
@@ -95,12 +97,12 @@ pub struct PostFeedbackRequest {
     responses(
         (status = 201, description = "The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.", body = Url, content_type = "text/plain", example = "https://github.com/TUM-Dev/navigatum/issues/9"),
         (status = 400, description = "**Bad Request.** Not all fields in the body are present as defined above"),
-        (status = 403, description = r#"**Forbidden.** Causes are (delivered via the body):
+        (status = 403, description = r"**Forbidden.** Causes are (delivered via the body):
 
 - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
 - `Token not old enough, please wait`: Tokens are only valid after 10s.
 - `Token expired`: Tokens are only valid for 12h.
-- `Token already used`: Tokens are non reusable/refreshable single-use items."#, body = String, content_type = "text/plain"),
+- `Token already used`: Tokens are non reusable/refreshable single-use items.", body = String, content_type = "text/plain"),
         (status = 422, description = "**Unprocessable Entity.** Subject or body missing or too short."),
         (status = 451, description = "**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be `true`"),
         (status = 500, description = "**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later"),
@@ -122,7 +124,7 @@ pub async fn send_feedback(
         return HttpResponse::UnavailableForLegalReasons()
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
-    };
+    }
 
     GitHub::default()
         .open_issue(&req_data.subject, &req_data.body, parse_labels(&req_data.0))

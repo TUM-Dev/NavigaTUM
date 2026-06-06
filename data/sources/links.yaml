@@ -10,10 +10,6 @@
   url: https://www.fs.ei.tum.de/
 '0201':
 - text:
-    de: Lernraumbelegung
-    en: Learning rooms usage
-  url: https://www.devapp.it.tum.de/iris/app/
-- text:
     de: Über das StudiTUM
     en: About the StudiTUM
   url:
@@ -78,10 +74,6 @@
   url: https://tum-som.com/events/
 '4113':
 - text:
-    de: Lernraumbelegung
-    en: Learning rooms usage
-  url: https://www.devapp.it.tum.de/iris/app/
-- text:
     de: Über das StudiTUM
     en: About the StudiTUM
   url:
@@ -131,10 +123,6 @@
     en: Opening hours & articles
   url: https://fsmb.de/studierende/skriptenverkauf/
 '5532':
-- text:
-    de: Lernraumbelegung
-    en: Learning rooms usage
-  url: https://www.devapp.it.tum.de/iris/app/
 - text:
     de: Über das StudiTUM
     en: About the StudiTUM

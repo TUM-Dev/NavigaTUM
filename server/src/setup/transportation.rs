@@ -1,110 +1,68 @@
-use crate::setup::file_loader;
-use polars::prelude::*;
-use serde::Deserialize;
-use std::io::Write;
-use tempfile::tempfile;
+use parquet::record::Field;
+use sqlx::{PgPool, Postgres, Transaction};
 
-#[derive(Deserialize, Default, Debug)]
-struct Station {
-    dhid: String,
-    parent: Option<String>,
-    name: String,
-    lat: f64,
-    lon: f64,
-}
+use super::Loader;
 
-struct DBStation {
-    parent: Option<String>,
+#[derive(Debug, Default)]
+pub struct RawStation {
     id: String,
     name: String,
+    modes: Vec<String>,
     lat: f64,
     lon: f64,
 }
 
-impl DBStation {
-    fn from_station(station: Station) -> Self {
-        Self {
-            parent: station.parent,
-            id: station.dhid,
-            name: station.name,
-            lat: station.lat,
-            lon: station.lon,
+pub struct Transportation;
+
+impl Loader for Transportation {
+    const FILENAME: &'static str = "public_transport.parquet";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE transportation_stations";
+    const ANALYZE_SQL: &'static str = "ANALYZE transportation_stations";
+    type Row = RawStation;
+
+    fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {
+        match (col, field) {
+            ("id", Field::Str(v)) => r.id.clone_from(v),
+            ("name", Field::Str(v)) => r.name.clone_from(v),
+            ("modes", Field::ListInternal(list)) => {
+                r.modes = list
+                    .elements()
+                    .iter()
+                    .filter_map(|f| match f {
+                        Field::Str(s) => Some(s.clone()),
+                        _ => None,
+                    })
+                    .collect();
+            }
+            ("lat", Field::Float(v)) => r.lat = f64::from(*v),
+            ("lat", Field::Double(v)) => r.lat = *v,
+            ("lon", Field::Float(v)) => r.lon = f64::from(*v),
+            ("lon", Field::Double(v)) => r.lon = *v,
+            _ => {}
         }
     }
-    async fn store(
-        &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
+        // The migration enforces NOT NULL on id/name and cardinality(modes) > 0;
+        // skip parquet rows that would violate those constraints.
+        if r.id.is_empty() || r.name.is_empty() || r.modes.is_empty() {
+            return Ok(());
+        }
         sqlx::query!(
-            "INSERT INTO transportation_stations(parent,id,name,coordinate)\
-            VALUES ($1,$2,$3,POINT($4,$5))",
-            self.parent,
-            self.id,
-            self.name,
-            self.lat,
-            self.lon
+            "INSERT INTO transportation_stations(id, name, modes, coordinate) \
+             VALUES ($1, $2, $3, POINT($4, $5))",
+            r.id,
+            r.name,
+            &r.modes,
+            r.lat,
+            r.lon,
         )
         .execute(&mut **tx)
-        .await
+        .await?;
+        Ok(())
     }
 }
 
-#[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
-    // Download the parquet file from CDN
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = file_loader::load_file_or_download("public_transport.parquet", &cdn_url).await?;
-
-    // Write to temporary file
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-
-    // Read parquet file using ParquetReader
-    let df = ParquetReader::new(&mut file).finish()?;
-
-    // Extract columns
-    let dhid_col = df.column("dhid")?.str()?;
-    let parent_col = df.column("parent")?.str()?;
-    let name_col = df.column("name")?.str()?;
-    let lat_col = df.column("lat")?.f32()?;
-    let lon_col = df.column("lon")?.f32()?;
-
-    // Convert to DBStation structs
-    let mut stations = Vec::new();
-    for i in 0..df.height() {
-        let dhid = dhid_col.get(i).unwrap_or("").to_string();
-        let parent = parent_col.get(i).map(|s| s.to_string());
-        let name = name_col.get(i).unwrap_or("").to_string();
-        let lat = lat_col.get(i).unwrap_or(0.0) as f64;
-        let lon = lon_col.get(i).unwrap_or(0.0) as f64;
-
-        let station = Station {
-            dhid,
-            parent,
-            name,
-            lat,
-            lon,
-        };
-
-        stations.push(DBStation::from_station(station));
-    }
-
-    let mut tx = pool.begin().await?;
-    clean(&mut tx).await?;
-    for transportation in stations {
-        if transportation.name.is_empty() {
-            continue;
-        }
-        transportation.store(&mut tx).await?;
-    }
-    tx.commit().await?;
-    Ok(())
-}
-
-async fn clean(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
-    sqlx::query!("DELETE FROM transportation_stations WHERE 1=1")
-        .execute(&mut **tx)
-        .await
+pub async fn setup(pool: PgPool) -> anyhow::Result<()> {
+    super::run::<Transportation>(pool).await
 }

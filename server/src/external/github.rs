@@ -1,7 +1,14 @@
+use std::env;
+use std::sync::LazyLock;
+
 use actix_web::HttpResponse;
 use octocrab::Octocrab;
+use octocrab::params::State;
 use regex::Regex;
 use tracing::error;
+
+static FEEDBACK_NEWLINE_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"[ \t]*\n").expect("static regex must compile at startup"));
 
 #[derive(Debug)]
 pub struct GitHub {
@@ -87,7 +94,16 @@ impl GitHub {
             .send()
             .await
         {
-            Ok(pr) => pr.number,
+            Ok(pr) => {
+                if let Some(n) = pr.number {
+                    n
+                } else {
+                    error!("GitHub returned a created PR without a number");
+                    return HttpResponse::InternalServerError()
+                        .content_type("text/plain")
+                        .body("Failed to create a pull request, please try again later");
+                }
+            }
             Err(e) => {
                 error!(error = ?e, "Error creating pull request");
                 return HttpResponse::InternalServerError()
@@ -129,12 +145,13 @@ impl GitHub {
             .take(len)
             .collect::<String>();
 
-        let re = Regex::new(r"[ \t]*\n").unwrap();
-        re.replace_all(&s_clean, "  \n").to_string()
+        FEEDBACK_NEWLINE_RE
+            .replace_all(&s_clean, "  \n")
+            .to_string()
     }
 
     pub fn github_token() -> Option<String> {
-        match std::env::var("GITHUB_TOKEN") {
+        match env::var("GITHUB_TOKEN") {
             Ok(token) => Some(token.trim().to_string()),
             Err(e) => {
                 error!(error = ?e, "GITHUB_TOKEN has to be set for feedback");
@@ -146,25 +163,27 @@ impl GitHub {
     /// Find an open PR with a specific label
     #[tracing::instrument]
     pub async fn find_pr_with_label(self, label: &str) -> anyhow::Result<Option<(u64, String)>> {
-        // Listing PRs on a public repo does not require auth
-        let octocrab = Octocrab::default();
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
 
         // Search through all pages of open PRs to find one with the label
         let mut page = octocrab
             .pulls("TUM-Dev", "NavigaTUM")
             .list()
-            .state(octocrab::params::State::Open)
+            .state(State::Open)
             .per_page(100)
             .send()
             .await?;
 
         loop {
             for pr in &page.items {
-                if let Some(labels) = &pr.labels {
-                    for pr_label in labels {
-                        if pr_label.name == label {
-                            return Ok(Some((pr.number, pr.head.ref_field.clone())));
-                        }
+                for pr_label in pr.labels.iter().flatten() {
+                    if pr_label.name == label {
+                        let (Some(head), Some(number)) = (pr.head.as_deref(), pr.number) else {
+                            continue;
+                        };
+                        return Ok(Some((number, head.ref_field.clone())));
                     }
                 }
             }

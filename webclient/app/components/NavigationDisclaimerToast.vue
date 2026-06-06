@@ -37,7 +37,7 @@ const { t } = useI18n({ useScope: "local" });
 
 <i18n lang="yaml">
 de:
-  disclaimer: "Beta-Phase: Noch nicht implementiert ist {route_planning} und {barrier_free_routing}."
+  disclaimer: "Noch nicht implementiert ist {route_planning} und {barrier_free_routing}."
   disclaimer_route_planning: indoor
   disclaimer_barrier_free_routing: barrierefreies Routing
   disclaimer_cta: Wir würden uns trotzdem über dein Feedback freuen 😊
@@ -45,7 +45,7 @@ de:
   found_issues: "Ich habe diese Probleme gefunden:"
   got_here_and_found_issues: "Ich habe die Navigation via {0} gefunden und mir ist dieses Problem aufgefallen:"
 en:
-  disclaimer: "Beta stage: Not implemented is {route_planning} and {barrier_free_routing}."
+  disclaimer: "Not yet implemented is {route_planning} and {barrier_free_routing}."
   disclaimer_route_planning: indoor
   disclaimer_barrier_free_routing: barrier-free routing
   disclaimer_cta: We would still appreciate your feedback 😊

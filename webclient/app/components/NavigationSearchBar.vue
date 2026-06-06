@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiCrosshairsGps } from "@mdi/js";
+import { mdiCrosshairsGps, mdiMagnify } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
@@ -13,6 +13,10 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
+// Tracks real input focus (distinct from `currently_actively_picking`, which only governs the
+// autocomplete dropdown and is cleared as soon as an entry is picked). The search button keys off
+// this so it stays visible while the field is being edited and autohides once focus leaves.
+const isFocused = ref(false);
 
 // Use shared geolocation state
 const geolocationState = useSharedGeolocation();
@@ -61,19 +65,19 @@ const selected = useRouteQuery<string>(props.queryId, "", {
   router,
 });
 const highlighted = ref<number>(0);
-const sites_buildings_expanded = ref<boolean>(false);
+// Per-facet expand state (sites/buildings/rooms can freeze with
+// `n_visible < entries.length`).
+const expandedFacets = ref<Set<string>>(new Set());
 
 const visibleElements = computed<string[]>(() => {
   if (!data.value) return [];
 
   const visible: string[] = [];
   for (const section of data.value.sections) {
-    if (section.facet === "sites_buildings") {
-      const max_sites_buildings = sites_buildings_expanded.value
-        ? Number.POSITIVE_INFINITY
-        : section.n_visible;
-      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
-    } else visible.push(...section.entries.map((e) => e.id));
+    const cap = expandedFacets.value.has(section.facet)
+      ? Number.POSITIVE_INFINITY
+      : section.n_visible;
+    visible.push(...section.entries.slice(0, cap).map((e) => e.id));
   }
   return visible;
 });
@@ -177,7 +181,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 
 <template>
   <div
-    class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
+    class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600 dark:focus-within:outline-blue-300"
   >
     <textarea
       :id="queryId"
@@ -193,21 +197,39 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       maxlength="2048"
       :name="queryId"
       type="text"
-      class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
+      class="text-zinc-800 dark:text-zinc-100 flex-grow resize-none bg-transparent py-2.5 ps-3 pe-2 text-sm font-semibold placeholder:text-zinc-800 dark:placeholder:text-zinc-100 focus-within:placeholder:text-zinc-500 dark:focus-within:placeholder:text-zinc-400 placeholder:font-normal focus:outline-0"
       :placeholder="t('input.placeholder-' + queryId)"
       :aria-label="t('input.aria-searchlabel')"
       @focus="
-        console.log('focuseed', queryId);
+        isFocused = true;
         currently_actively_picking = true;
         highlighted = 0;
       "
+      @blur="isFocused = false"
       @keydown="onKeyDown"
     />
+    <!--
+      Offer to search only while the field is focused and already holds a selected endpoint: without
+      an id there is nothing to route, and a button lingering after blur is just noise. `mousedown`
+      is prevented so the click does not blur the textarea first, which would hide this very button
+      before the click lands.
+    -->
+    <button
+      v-if="selected && isFocused"
+      type="submit"
+      class="focusable text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900 flex items-center justify-center px-3 py-2.5 transition-all duration-200 rounded-sm"
+      :title="t('search_route')"
+      :aria-label="t('search_route')"
+      @mousedown.prevent
+      @click="currently_actively_picking = false"
+    >
+      <MdiIcon :path="mdiMagnify" :size="16" />
+    </button>
     <ClientOnly>
       <button
         v-if="isGeolocationSupported && !geolocationState.mapGeolocationActive"
         type="button"
-        class="focusable text-zinc-600 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
+        class="focusable text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900 flex items-center justify-center px-3 py-2.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent rounded-sm text-xs font-medium whitespace-nowrap"
         :title="t('gps.use_current_location')"
         :aria-label="t('gps.use_current_location')"
         @click="useCurrentLocation"
@@ -218,8 +240,8 @@ const { data, error } = await useFetch<SearchResponse>(url, {
           :class="[
             'mr-1',
             {
-              'text-blue-600 animate-pulse': isSearchingLocation,
-              'text-zinc-600': !isSearchingLocation,
+              'text-blue-600 dark:text-blue-300 animate-pulse': isSearchingLocation,
+              'text-zinc-600 dark:text-zinc-300': !isSearchingLocation,
             },
           ]"
         />
@@ -230,14 +252,14 @@ const { data, error } = await useFetch<SearchResponse>(url, {
   <ClientOnly>
     <div
       v-if="currently_actively_picking && data && query.length !== 0"
-      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 z-30 -ms-4 mt-56 flex max-h-[calc(100vh-80px)] min-w-96 max-w-sm flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30 md:me-3"
+      class="shadow-4xl bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 absolute top-3 z-30 -ms-4 mt-56 flex max-h-[calc(100vh-80px)] min-w-96 max-w-sm flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30 dark:shadow-zinc-200/30 md:me-3"
     >
       <Toast v-if="error" id="search-error" level="error">
         <p class="text-md font-bold">{{ t("error.header") }}</p>
         <p class="text-sm">
           {{ t("error.reason") }}:<br />
           <code
-            class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-50/20"
+            class="text-red-900 dark:text-red-50 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-900/20"
           >
             {{ error }}
           </code>
@@ -246,29 +268,30 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       </Toast>
       <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
         <div class="flex items-center">
-          <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-          <div class="border-zinc-800 flex-grow border-t" />
+          <span class="text-md text-zinc-800 dark:text-zinc-100 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+          <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
         </div>
 
         <template v-for="(e, i) in s.entries" :key="e.id">
           <SearchResultItem
-            v-if="i < s.n_visible"
+            v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"
+            @mousedown.prevent
             @click="select(e.id)"
             @mouseover="highlighted = i"
           />
         </template>
         <li class="-mt-2">
           <Btn
-            v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
+            v-if="!expandedFacets.has(s.facet) && s.n_visible < s.entries.length"
             variant="linkButton"
             size="sm"
-            @click="sites_buildings_expanded = true"
+            @click="expandedFacets = new Set([...expandedFacets, s.facet])"
           >
             {{ t("show_hidden", s.entries.length - s.n_visible) }}
           </Btn>
-          <span class="text-zinc-400 text-sm">
+          <span class="text-zinc-400 dark:text-zinc-500 text-sm">
             {{
               s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
             }}
@@ -287,13 +310,20 @@ de:
     aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
     aria-searchlabel: Suchfeld
     action: Go
+  search_route: Route suchen
   show_hidden: +{count} ausgeblendet
   sections:
-    sites_buildings: Gebäude / Standorte
+    sites: Standorte
+    buildings: Gebäude
     rooms: Räume
+    pois: POIs
     addresses: Adressen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
+  error:
+    header: Bei der Suche ist ein Fehler aufgetreten
+    reason: Der Grund für diesen Fehler ist
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktiere uns bitte über das Feedback-Formular.
   gps:
     use_current_location: Aktuellen Standort verwenden (GPS)
     my_location: Mein Standort
@@ -312,13 +342,20 @@ en:
     aria-actionlabel: Search for the room-query entered in the search field
     aria-searchlabel: Search-field
     action: Go
+  search_route: Search route
   show_hidden: +{count} hidden
   sections:
-    sites_buildings: Buildings / Sites
+    sites: Sites
+    buildings: Buildings
     rooms: Rooms
-    addresses: Adresses
+    pois: POIs
+    addresses: Addresses
   results: 1 result | {count} results
   approx_results: approx. {count} results
+  error:
+    header: Something went wrong while searching
+    reason: Reason for this error is
+    call_to_action: If this issue persists, please contact us via the feedback form.
   gps:
     use_current_location: Use current location (GPS)
     my_location: My location

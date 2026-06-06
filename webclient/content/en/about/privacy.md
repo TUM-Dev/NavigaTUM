@@ -1,5 +1,6 @@
 ---
 title: Privacy Policy
+description: NavigaTUM's privacy policy. What data we collect, how it is processed, and the rights of users under the EU General Data Protection Regulation (GDPR).
 ---
 
 # Privacy Policy
@@ -54,6 +55,22 @@ The use of navigation is purely voluntary.
 The processing is based on Art. 6 para. 1 lit. a GDPR.
 While using the map, users can have their own location displayed on the map.
 
+#### Nearby public transport
+
+The detail pages for buildings and rooms include a "Nearby public transport" section that lists upcoming departures from stops near the location.
+Loading departures for a stop is purely voluntary - the section only contacts a third-party server once the user expands a specific station.
+The processing is based on Art. 6 para. 1 lit. f GDPR (legitimate interest in offering arrival/departure information for the displayed location).
+The user's browser contacts the [Transitous public-transport API](https://transitous.org) (`https://api.transitous.org`) **directly** to fetch real-time departures.
+NavigaTUM does not proxy these requests and does not see the response.
+
+#### Learning-room availability
+
+Detail pages of buildings or areas that have learning-room coverage include a "Learning rooms" section showing the current occupancy status of the building's learning rooms.
+The processing is based on Art. 6 para. 1 lit. f GDPR (legitimate interest in showing the current learning-room availability for the displayed building).
+For this, the user's browser contacts the [Studentische Vertretung IRIS learning-room display](https://iris.asta.tum.de) (`https://iris.asta.tum.de/api/`) **directly**.
+Unlike the public-transport feature, this request is not triggered by an explicit action: it is sent automatically once the section becomes visible and then repeated roughly every 60 seconds (see the "Recipients" section for details).
+NavigaTUM does not proxy these requests and does not see the response.
+
 ### Recipients of personal data
 
 The technical operation of our data processing systems is carried out by:
@@ -67,6 +84,47 @@ Fax: (089) 35831 9700
 E-mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
+
+#### Third-party services contacted from the browser
+
+Some features show live data by having the user's browser contact a third-party service **directly**.
+The same applies to all of these services: NavigaTUM does not proxy these requests, does not see the responses and stores no data from them.
+With every request, the technically necessary information reaches the respective third party - in particular the user's IP address and the browser-default HTTP headers (`User-Agent`, `Referer`).
+The `Referer` is restricted by NavigaTUM's referrer policy to the origin `https://nav.tum.de/`.
+**No** NavigaTUM identifier of the user and **no** search query entered elsewhere is sent along.
+NavigaTUM has no contract with any of these providers.
+
+This currently concerns the following services:
+
+**Nearby public transport - Transitous**
+
+```plain
+Transitous - community-run free and open public-transport routing
+https://transitous.org
+Source / contact: https://github.com/public-transport/transitous
+```
+
+The browser contacts `https://api.transitous.org` only once the user expands a specific station.
+In addition to the information listed above, the following is transmitted:
+
+- the public-transport stop identifier (e.g. a DELFI/GTFS stop ID) for the station the user opened
+- the requested language tag (`de` or `en`)
+
+Transitous's own handling of these requests is described in their [privacy policy](https://transitous.org/privacy/) (summary: IP, time, requested URL and `User-Agent` are logged for up to 2 days).
+
+**Learning-room availability - Studentische Vertretung IRIS**
+
+```plain
+IRIS - learning-room display of the Studentische Vertretung (student representation) of TU Munich
+Responsible body: Technical University of Munich, Arcisstraße 21, 80333 Munich
+https://iris.asta.tum.de
+```
+
+On building/area pages that have learning-room coverage, the browser contacts `https://iris.asta.tum.de/api/` automatically once the "Learning rooms" section becomes visible, and then again roughly every 60 seconds.
+As soon as the section scrolls out of view or the browser tab moves to the background, the refresh pauses.
+Beyond the information listed above, **no** further parameters are transmitted: the request always fetches the full Iris room list, which is identical for every user, and in particular contains **no** indication of which building the user is currently viewing.
+
+How these requests are processed is described in the [Studentische Vertretung IRIS privacy policy](https://www.devapp.it.tum.de/iris/app/about) (summary: the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address; operated by the LRZ).
 
 If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of
 the respective control rights.
@@ -93,6 +151,26 @@ The data is discarded after the navigation route has been calculated and is ther
 #### Map - Location
 
 The data is not transmitted to our server and is therefore not saved.
+
+#### Nearby public transport
+
+NavigaTUM does not store any data from the "Nearby public transport" feature.
+The request leaves the user's browser directly for the Transitous API and the response is rendered client-side only.
+
+Per the [Transitous privacy policy](https://transitous.org/privacy/), Transitous itself logs the following on the receiving side for up to **2 days** (legitimate interest in debugging and abuse prevention):
+
+- the IP address of the requester
+- the time of the request
+- the requested URL (which in our case contains the stop ID and language tag)
+- the `User-Agent` header
+
+After 2 days the log entries are deleted. Earlier deletion of entries that can be attributed to you (for example by IP address and timeframe) can be requested by e-mail directly from the Transitous server maintainer; the address is published on <https://transitous.org/privacy/>.
+
+#### Learning-room availability
+
+NavigaTUM does not store any data from the "Learning rooms" feature.
+The request leaves the user's browser directly for the Studentische Vertretung IRIS display and the response is rendered client-side only.
+Any logging takes place solely at Studentische Vertretung IRIS as the operator: per its [privacy policy](https://www.devapp.it.tum.de/iris/app/about), the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address (operated by the LRZ).
 
 ## Your rights
 
@@ -302,3 +380,23 @@ The data is not transmitted to servers and is purely local.
 
 **Provision prescribed or required:**
 There is no provision of this personal data.
+
+#### Nearby public transport
+
+On building/room detail pages, the user can expand a nearby public-transport stop to view its upcoming departures. Until the user explicitly expands a station, no request to a third-party server is made.
+
+**Recipient:**
+The request goes directly from the user's browser to the Transitous public-transport API (`https://api.transitous.org`). NavigaTUM does not proxy these requests, does not see the response and does not store any data from this feature. The Transitous side logs the IP address, request time, requested URL and `User-Agent` for up to 2 days; the full [Transitous privacy policy](https://transitous.org/privacy/) lists the deletion contact.
+
+**Provision prescribed or required:**
+The provision of the stop identifier and the request itself is voluntary; if the user does not expand the section no data is sent to Transitous.
+
+#### Learning-room availability
+
+On building/area pages that have learning-room coverage, the "Learning rooms" section shows the current occupancy status of the learning rooms. Once this section is visible, the browser loads the status automatically and refreshes it roughly every 60 seconds; while the section is off-screen or the tab is in the background, the refresh pauses.
+
+**Recipient:**
+The request goes directly from the user's browser to the Studentische Vertretung IRIS display (`https://iris.asta.tum.de/api/`). NavigaTUM does not proxy these requests, does not see the response and does not store any data from this feature. The request contains no NavigaTUM identifier and no indication of the building being viewed. How Studentische Vertretung IRIS, as the operator, processes these requests is described in its [privacy policy](https://www.devapp.it.tum.de/iris/app/about).
+
+**Provision prescribed or required:**
+The provision is voluntary; if the user does not open a building/area page that has learning-room coverage, or the section is not visible, no data is sent to the Studentische Vertretung IRIS display.

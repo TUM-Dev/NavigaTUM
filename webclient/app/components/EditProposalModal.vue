@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import { useEditProposal, emptyPropertyFields, emptyRoomEdit } from "~/composables/editProposal";
 import type { components } from "~/api_types";
+import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
+import { useFeedback } from "~/composables/feedback";
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
+const feedback = useFeedback();
+const route = useRoute();
+
+function switchToFeedback() {
+  const id = editProposal.value.selected?.id ?? (route.params.id as string);
+  editProposal.value.open = false;
+  feedback.value.open = true;
+  feedback.value.data = {
+    category: "entry",
+    subject: `[${id}]: `,
+    body: "",
+    deletion_requested: false,
+  };
+}
 
 const propertiesModalOpen = ref(false);
 
@@ -15,11 +30,15 @@ const osmEditUrl = computed(() => {
   return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
 });
 
-// Known usages for category dropdown — cached across modal opens
+// Known usages for category dropdown - cached across modal opens
 const runtimeConfig = useRuntimeConfig();
-const { data: knownUsages } = useAsyncData("known_usages", () =>
-  $fetch<{ name_de: string; name_en: string; din_277: string }[]>(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
-  { default: () => [] },
+const { data: knownUsages } = useAsyncData(
+  "known_usages",
+  () =>
+    $fetch<
+      { usage_id: number; occurrences: number; name_de: string; name_en: string; din_277: string }[]
+    >(`${runtimeConfig.public.cdnURL}/cdn/known_usages.json`),
+  { default: () => [] }
 );
 
 const categoryOptions = computed(() =>
@@ -27,7 +46,7 @@ const categoryOptions = computed(() =>
     label: `${u.name_de} / ${u.name_en}`,
     value: `${u.name_de}|${u.name_en}|${u.din_277}`,
     ...u,
-  })),
+  }))
 );
 
 const selectedCategory = computed({
@@ -64,7 +83,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.name !== original.name || fields.shortName !== original.shortName) {
     if (fields.name || fields.shortName) {
       edits.push({
-        type: "Name",
+        type: "name",
         name: fields.name || null,
         short_name: fields.shortName || null,
       });
@@ -75,7 +94,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   if (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) {
     if (fields.categoryDe) {
       edits.push({
-        type: "Usage",
+        type: "usage",
         name_de: fields.categoryDe,
         name_en: fields.categoryEn || fields.categoryDe,
         din_277: fields.categoryDin277 || null,
@@ -89,7 +108,7 @@ function buildPropertyEdits(): PropertyEdit[] {
     if (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) {
       if (fields.linkTextDe || fields.linkTextEn) {
         edits.push({
-          type: "Link",
+          type: "link",
           text_de: fields.linkTextDe || fields.linkTextEn,
           text_en: fields.linkTextEn || fields.linkTextDe,
           url: fields.linkUrl,
@@ -115,7 +134,7 @@ function injectPropertyEdits() {
   editProposal.value.data.edits[roomId].properties = propertyEdits;
 }
 
-// Watch for submission — inject property edits when the modal data changes
+// Watch for submission - inject property edits when the modal data changes
 watch(
   () => editProposal.value.open,
   (isOpen) => {
@@ -124,14 +143,19 @@ watch(
       editProposal.value.propertyFields = emptyPropertyFields();
       editProposal.value.originalPropertyFields = emptyPropertyFields();
     }
-  },
+  }
 );
+
+function switchToAddProposal() {
+  editProposal.value.open = false;
+  editProposal.value.addOpen = true;
+}
 
 // Methods
 function addImageEditForRoom(
   roomId: string,
   base64: string,
-  metadata: typeof editProposal.value.imageUpload.metadata,
+  metadata: typeof editProposal.value.imageUpload.metadata
 ) {
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
@@ -217,57 +241,70 @@ function getEditTypeDisplay(roomId: string): string {
 
   return types.length > 0 ? types.join(", ") : t("room_edits");
 }
-
 </script>
 
 <template>
-  <TokenBasedEditProposalModal v-if="editProposal" :data="editProposal.data">
+  <TokenBasedEditProposalModal v-if="editProposal" v-model:open="editProposal.open" :data="editProposal.data" :title="t('title')">
     <template #modal>
-      <!-- Additional Context -->
+      <!-- What would you like to change? -->
       <div class="flex flex-col">
-        <label class="text-zinc-600 text-sm font-semibold" for="edit-context">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="edit-context">
           {{ t("additional_context") }}
         </label>
         <textarea
           id="edit-context"
           v-model="editProposal.data.additional_context"
-          class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 resize-y rounded border px-2 py-1"
+          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 resize-y rounded border px-2 py-1"
           :placeholder="t('additional_context_placeholder')"
           rows="3"
         />
-        <p class="text-zinc-500 text-xs">{{ t("additional_context_help") }}</p>
+        <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("additional_context_help") }}</p>
+        <button
+          type="button"
+          class="focusable text-zinc-500 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-300 mt-1 self-start rounded-sm text-xs underline"
+          @click="switchToFeedback"
+        >
+          {{ t("report_problem_instead") }}
+        </button>
       </div>
 
       <!-- Other Changes Section -->
       <div class="pt-4">
-        <label class="text-zinc-600 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
 
         <div class="space-y-2">
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("suggest_image_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("suggest_image_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("suggest_image_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startLocationEdit">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("room_position_wrong_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("map_missing_roads_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (propertiesModalOpen = true)">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("properties_title") }}</span>
-              <span class="text-xs text-zinc-200 font-normal">{{ t("properties_desc") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("properties_desc") }}</span>
+            </div>
+          </Btn>
+
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
+            <div class="flex flex-col items-start">
+              <span class="font-medium">{{ t("propose_addition_title") }}</span>
+              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
             </div>
           </Btn>
         </div>
@@ -304,37 +341,37 @@ function getEditTypeDisplay(roomId: string): string {
           <div class="space-y-3">
             <!-- Name -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-name">{{ t("field_name") }}</label>
               <input
                 id="edit-name"
                 v-model="editProposal.propertyFields.name"
                 type="text"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               />
-              <p class="text-zinc-500 text-xs mt-1">{{ t("field_name_help") }}</p>
+              <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_name_help") }}</p>
             </div>
 
             <!-- Short Name -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-short-name">{{ t("field_short_name") }}</label>
               <input
                 id="edit-short-name"
                 v-model="editProposal.propertyFields.shortName"
                 type="text"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               />
-              <p class="text-zinc-500 text-xs mt-1">{{ t("field_short_name_help") }}</p>
+              <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_short_name_help") }}</p>
             </div>
 
             <!-- Category -->
             <div>
-              <label class="text-zinc-500 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="edit-category">{{ t("field_category") }}</label>
               <select
                 id="edit-category"
                 v-model="selectedCategory"
-                class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 w-full text-sm"
+                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
               >
-                <option value="">—</option>
+                <option value="">-</option>
                 <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
                   {{ opt.label }}
                 </option>
@@ -342,32 +379,32 @@ function getEditTypeDisplay(roomId: string): string {
             </div>
 
             <!-- Add a Link -->
-            <div class="border-t border-zinc-200 pt-3">
-              <label class="text-zinc-500 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
+            <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1">{{ t("field_add_link") }}</label>
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">URL</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">URL</span>
                   <input
                     v-model="editProposal.propertyFields.linkUrl"
                     type="url"
                     placeholder="https://"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">DE</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">DE</span>
                   <input
                     v-model="editProposal.propertyFields.linkTextDe"
                     type="text"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="text-zinc-400 text-xs w-8">EN</span>
+                  <span class="text-zinc-400 dark:text-zinc-500 text-xs w-8">EN</span>
                   <input
                     v-model="editProposal.propertyFields.linkTextEn"
                     type="text"
-                    class="focusable bg-zinc-200 border-zinc-400 text-zinc-900 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
               </div>
@@ -380,18 +417,40 @@ function getEditTypeDisplay(roomId: string): string {
       </div>
 
       <!-- Current Edits -->
-      <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.edits).length">
-        <label class="text-zinc-600 text-sm font-semibold">{{ t("current_edits") }}</label>
+      <div class="pt-4 pb-2" v-if="Object.keys(editProposal.data.edits).length">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold">{{ t("current_edits") }}</label>
         <div class="space-y-2 mt-2">
-          <div v-for="(edit, roomId) in editProposal.data.edits" :key="roomId" class="bg-zinc-100 border-zinc-300 rounded p-3 border">
+          <div v-for="roomId in Object.keys(editProposal.data.edits)" :key="roomId" class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 rounded p-3 border">
             <div class="flex justify-between items-start">
               <div class="flex-grow">
-                <p class="font-medium text-sm text-zinc-900">{{ editProposal.selected?.name }}</p>
-                <div class="text-xs text-zinc-600 mt-1">
+                <p class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ editProposal.selected?.name }}</p>
+                <div class="text-xs text-zinc-600 dark:text-zinc-300 mt-1">
                   <p>{{ getEditTypeDisplay(String(roomId)) }}</p>
                 </div>
               </div>
-              <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 hover:text-red-800 text-sm">
+              <button @click="() => delete editProposal.data.edits[roomId]" class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 text-sm">
+                {{ t("remove") }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Additions -->
+      <div class="pt-4 pb-8" v-if="Object.keys(editProposal.data.additions).length">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold">{{ t("pending_additions") }}</label>
+        <div class="space-y-2 mt-2">
+          <div
+            v-for="(addition, addId) in editProposal.data.additions"
+            :key="addId"
+            class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 rounded p-3 border"
+          >
+            <div class="flex justify-between items-start">
+              <div class="flex-grow">
+                <p class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ addId }}</p>
+                <p class="text-xs text-zinc-600 dark:text-zinc-300 mt-1">{{ t(`kind.${addition.kind}`) }}</p>
+              </div>
+              <button @click="() => delete editProposal.data.additions[addId]" class="text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 text-sm">
                 {{ t("remove") }}
               </button>
             </div>
@@ -413,9 +472,11 @@ function getEditTypeDisplay(roomId: string): string {
 
 <i18n lang="yaml">
 de:
-  additional_context: Zusätzlicher Kontext
+  title: Änderungen vorschlagen
+  additional_context: Was möchtest du ändern?
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
   additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
+  report_problem_instead: Du kennst die Lösung nicht? Melde einfach ein Problem.
   other_changes: Weitere Änderungen
   properties: Eigenschaften
   properties_title: Eigenschaften bearbeiten
@@ -433,6 +494,13 @@ de:
   room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
   map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
   map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
+  propose_addition_title: Raum, Gebäude oder POI fehlt
+  propose_addition_desc: Einen neuen Eintrag strukturiert vorschlagen
+  pending_additions: Neue Einträge in dieser Anfrage
+  kind:
+    room: Raum
+    building: Gebäude
+    poi: POI
   room_edits: Raum-Änderungen
   coordinate: Koordinaten
   image: Bild
@@ -443,9 +511,11 @@ de:
   success_response_at: Du findest unsere Antwort auf {this_pr}
   success_this_pr: diesem GitHub Pull Request
 en:
-  additional_context: Additional Context
+  title: Propose Changes
+  additional_context: What would you like to change?
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
   additional_context_help: Describe any issues or improvement suggestions here.
+  report_problem_instead: Don't know the fix? Just report a problem.
   other_changes: Other changes
   properties: Properties
   properties_title: Edit properties
@@ -463,6 +533,13 @@ en:
   room_position_wrong_desc: Correct this room's position in Navigatum
   map_missing_roads_title: Other details (paths, vegetation) missing from map
   map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
+  propose_addition_title: Missing a room, building, or POI?
+  propose_addition_desc: Propose a new entry in a structured form
+  pending_additions: New entries in this request
+  kind:
+    room: Room
+    building: Building
+    poi: POI
   room_edits: Room Edits
   coordinate: Coordinate
   image: Image

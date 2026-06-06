@@ -4,7 +4,8 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from external.models import tumonline
+from external.loaders.tumonline import load_buildings
+
 from processors import areatree
 from processors.areatree.process import (
     _areatree_lines,
@@ -187,9 +188,9 @@ def test_all_tumonline_buildings_in_areatree() -> None:
             known_b_prefixes.update(row["b_prefix_list"])
 
     missing = sorted(
-        (b_id, building.name)
-        for b_id, building in tumonline.Building.load_all().items()
-        if b_id not in known_b_prefixes
+        (building["building_key"], building["name"])
+        for building in load_buildings().iter_rows(named=True)
+        if building["building_key"] not in known_b_prefixes
     )
 
     assert not missing, "TUMonline buildings missing from areatree:\n" + "\n".join(

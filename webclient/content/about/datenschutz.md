@@ -1,5 +1,6 @@
 ---
 title: Datenschutzerklärung
+description: Datenschutzerklärung von NavigaTUM. Welche Daten werden erhoben, wie werden sie verarbeitet und welche Rechte haben Nutzende nach der DSGVO.
 ---
 
 # Datenschutzerklärung
@@ -50,6 +51,22 @@ Die Nutzung der Naigation erfolgt auf einer rein freiwilligen Basis.
 Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
 Während der Nutzung der Karte können Nutzer ihren eigenen Standort auf der Karte anzeigen lassen.
 
+#### Naheliegender öffentlicher Verkehr
+
+Die Detailseiten zu Gebäuden und Räumen enthalten den Abschnitt "Naheliegender öffentlicher Verkehr", in dem die nächsten Abfahrten von Haltestellen in der Nähe des angezeigten Ortes aufgelistet werden.
+Das Laden der Abfahrten einer Haltestelle erfolgt rein freiwillig - der Abschnitt kontaktiert einen Drittanbieter erst, sobald die Nutzer:in eine konkrete Haltestelle aufklappt.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bereitstellung von Abfahrts-/Ankunftsinformationen für den angezeigten Ort).
+Der Browser der Nutzer:in kontaktiert die [Transitous-API für den öffentlichen Verkehr](https://transitous.org) (`https://api.transitous.org`) **direkt** für die Echtzeit-Abfahrten.
+NavigaTUM proxyt diese Anfragen nicht und sieht die Antwort nicht.
+
+#### Lernraum-Verfügbarkeit
+
+Detailseiten von Gebäuden bzw. Bereichen, für die eine Lernraum-Abdeckung vorliegt, enthalten den Abschnitt "Lernräume", der den aktuellen Belegungsstatus von Lernräumen des Gebäudes anzeigt.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Anzeige der aktuellen Lernraum-Verfügbarkeit für das angezeigte Gebäude).
+Der Browser der Nutzer:in kontaktiert hierfür die [IRIS-Lernraum-Anzeige der Studentischen Vertretung](https://iris.asta.tum.de) (`https://iris.asta.tum.de/api/`) **direkt**.
+Anders als beim öffentlichen Verkehr wird diese Anfrage nicht erst durch eine ausdrückliche Aktion ausgelöst, sondern automatisch, sobald der Abschnitt sichtbar ist, und danach etwa alle 60 Sekunden wiederholt (Details siehe Abschnitt "Empfänger").
+NavigaTUM proxyt diese Anfragen nicht und sieht die Antwort nicht.
+
 ### Empfänger von personenbezogenen Daten
 
 Der technische Betrieb unserer Datenverarbeitungssysteme erfolgt durch:
@@ -63,6 +80,47 @@ Fax: (089) 35831 9700
 E-Mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
+
+#### Browser-seitig kontaktierte Drittanbieter-Dienste
+
+Einige Funktionen zeigen Live-Daten an, indem der Browser der Nutzer:in einen Drittanbieter **direkt** kontaktiert.
+Für alle diese Dienste gilt gleichermaßen: NavigaTUM proxyt diese Anfragen nicht, sieht die Antworten nicht und speichert daraus keine Daten.
+Bei jeder Anfrage erreichen den jeweiligen Drittanbieter die technisch notwendigen Angaben - insbesondere die IP-Adresse der Nutzer:in sowie die vom Browser standardmäßig gesendeten HTTP-Header (`User-Agent`, `Referer`).
+Der `Referer` ist durch die Referrer-Policy von NavigaTUM auf den Origin `https://nav.tum.de/` beschränkt.
+Es werden **keine** NavigaTUM-Kennungen der Nutzer:in und **keine** an anderer Stelle eingegebene Suchanfrage mitgesendet.
+NavigaTUM hat mit keinem dieser Anbieter einen Vertrag.
+
+Derzeit betrifft das folgende Dienste:
+
+**Naheliegender öffentlicher Verkehr - Transitous**
+
+```plain
+Transitous - Community-betriebenes freies und offenes ÖPNV-Routing
+https://transitous.org
+Quelle / Kontakt: https://github.com/public-transport/transitous
+```
+
+Der Browser kontaktiert `https://api.transitous.org` erst, sobald die Nutzer:in eine konkrete Haltestelle aufklappt.
+Zusätzlich zu den oben genannten Angaben werden dabei übermittelt:
+
+- die Haltestellen-ID (z.B. eine DELFI-/GTFS-Stop-ID) der aufgeklappten Haltestelle
+- das angefragte Sprach-Tag (`de` oder `en`)
+
+Wie Transitous die Anfragen verarbeitet, ist in deren [Datenschutzerklärung](https://transitous.org/privacy/) beschrieben (Kurzfassung: IP, Zeitpunkt, angefragte URL und `User-Agent` werden bis zu 2 Tage protokolliert).
+
+**Lernraum-Verfügbarkeit - Studentische Vertretung IRIS**
+
+```plain
+IRIS - Lernraum-Anzeige der Studentischen Vertretung der TU München
+Verantwortliche Stelle: Technische Universität München, Arcisstraße 21, 80333 München
+https://iris.asta.tum.de
+```
+
+Auf Gebäude-/Bereichsseiten mit Lernraum-Abdeckung kontaktiert der Browser `https://iris.asta.tum.de/api/` automatisch, sobald der Abschnitt "Lernräume" sichtbar ist, und danach etwa alle 60 Sekunden erneut.
+Sobald der Abschnitt aus dem Sichtfeld scrollt oder der Browser-Tab in den Hintergrund wechselt, pausiert die Aktualisierung.
+Über die oben genannten Angaben hinaus werden **keine** weiteren Parameter übermittelt: Die Anfrage ruft stets die vollständige, für alle Nutzer:innen identische Iris-Raumliste ab und enthält insbesondere **keine** Angabe dazu, welches Gebäude die Nutzer:in gerade betrachtet.
+
+Wie die Anfragen verarbeitet werden, ist in der [Datenschutzerklärung von IRIS der Studentischen Vertretung](https://www.devapp.it.tum.de/iris/app/about) beschrieben (Kurzfassung: Der Webserver protokolliert u.a. IP-Adresse, Zeitpunkt und angefragte URL; Logeinträge, die älter als sieben Tage sind, werden durch Kürzung der IP-Adresse anonymisiert; der Betrieb erfolgt durch das LRZ).
 
 Gegebenenfalls werden Ihre Daten an die zuständigen Aufsichts- und Rechnungsprüfungsbehörden zur Wahrnehmung der jeweiligen Kontrollrechte übermittelt.
 
@@ -85,6 +143,26 @@ Die Daten werden nach der Errechnung der Navigationsroute verworfen und damit ni
 #### Karte - Standort
 
 Die Daten werden nicht an unseren Server übermittelt und damit nicht gespeichert.
+
+#### Naheliegender öffentlicher Verkehr
+
+NavigaTUM speichert keine Daten aus der Funktion "Naheliegender öffentlicher Verkehr".
+Die Anfrage verlässt den Browser der Nutzer:in direkt in Richtung der Transitous-API und die Antwort wird ausschließlich clientseitig dargestellt.
+
+Laut der [Datenschutzerklärung von Transitous](https://transitous.org/privacy/) speichert Transitous selbst auf der Empfängerseite folgende Daten für maximal **2 Tage** (berechtigtes Interesse zur Fehleranalyse und Missbrauchsabwehr):
+
+- die IP-Adresse der anfragenden Stelle
+- den Zeitpunkt der Anfrage
+- die angefragte URL (in unserem Fall enthält diese die Haltestellen-ID und das Sprach-Tag)
+- den `User-Agent`-Header
+
+Nach 2 Tagen werden die Logeinträge gelöscht. Eine frühere Löschung von Einträgen, die einer Person zugeordnet werden können (z.B. über IP-Adresse und Zeitfenster), kann per E-Mail direkt bei der Transitous-Serverbetreibung angefragt werden; die entsprechende Adresse ist auf <https://transitous.org/privacy/> veröffentlicht.
+
+#### Lernraum-Verfügbarkeit
+
+NavigaTUM speichert keine Daten aus der Funktion "Lernräume".
+Die Anfrage verlässt den Browser der Nutzer:in direkt in Richtung der IRIS-Anzeige der Studentischen Vertretung und die Antwort wird ausschließlich clientseitig dargestellt.
+Eine etwaige Protokollierung erfolgt allein auf Seiten der Studentischen Vertretung IRIS als Betreiber: Laut dessen [Datenschutzerklärung](https://www.devapp.it.tum.de/iris/app/about) protokolliert der Webserver u.a. die IP-Adresse, den Zeitpunkt und die angefragte URL; Logeinträge, die älter als sieben Tage sind, werden durch Kürzung der IP-Adresse anonymisiert (Betrieb durch das LRZ).
 
 ## Ihre Rechte
 
@@ -272,3 +350,23 @@ Die Daten werden nicht an Server übermittelt und erfolgt rein lokal.
 
 **Bereitstellung vorgeschrieben oder erforderlich:**
 Es besteht keine Bereitstellung dieser personenbezogenen Daten.
+
+#### Naheliegender öffentlicher Verkehr
+
+Auf den Detailseiten zu Gebäuden und Räumen kann die Nutzer:in eine naheliegende Haltestelle aufklappen, um deren nächste Abfahrten zu sehen. Solange die Nutzer:in keine Haltestelle ausdrücklich aufklappt, wird keine Anfrage an einen Drittanbieter gesendet.
+
+**Empfänger:**
+Die Anfrage geht direkt vom Browser der Nutzer:in an die Transitous-API für den öffentlichen Verkehr (`https://api.transitous.org`). NavigaTUM proxyt diese Anfragen nicht, sieht die Antwort nicht und speichert keine Daten aus dieser Funktion. Auf der Transitous-Seite werden IP-Adresse, Zeitpunkt, angefragte URL und `User-Agent` bis zu 2 Tage protokolliert; die [Datenschutzerklärung von Transitous](https://transitous.org/privacy/) nennt die Adresse für Löschanfragen.
+
+**Bereitstellung vorgeschrieben oder erforderlich:**
+Die Bereitstellung der Haltestellen-ID und der Anfrage erfolgt freiwillig; klappt die Nutzer:in den Abschnitt nicht auf, werden keine Daten an Transitous übermittelt.
+
+#### Lernraum-Verfügbarkeit
+
+Auf Gebäude-/Bereichsseiten mit Lernraum-Abdeckung zeigt der Abschnitt "Lernräume" den aktuellen Belegungsstatus der Lernräume. Sobald dieser Abschnitt sichtbar ist, lädt der Browser den Status automatisch und aktualisiert ihn etwa alle 60 Sekunden; bei nicht sichtbarem Abschnitt oder im Hintergrund liegendem Tab pausiert die Aktualisierung.
+
+**Empfänger:**
+Die Anfrage geht direkt vom Browser der Nutzer:in an die IRIS-Anzeige der Studentischen Vertretung (`https://iris.asta.tum.de/api/`). NavigaTUM proxyt diese Anfragen nicht, sieht die Antwort nicht und speichert keine Daten aus dieser Funktion. Die Anfrage enthält keine NavigaTUM-Kennung und keine Angabe zum betrachteten Gebäude. Wie die Studentische Vertretung IRIS als Betreiber die Anfragen verarbeitet, ist in dessen [Datenschutzerklärung](https://www.devapp.it.tum.de/iris/app/about) beschrieben.
+
+**Bereitstellung vorgeschrieben oder erforderlich:**
+Die Bereitstellung erfolgt freiwillig; ruft die Nutzer:in keine Gebäude-/Bereichsseite mit Lernraum-Abdeckung auf bzw. ist der Abschnitt nicht sichtbar, werden keine Daten an die IRIS-Anzeige der Studentischen Vertretung übermittelt.

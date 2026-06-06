@@ -25,6 +25,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 COPY tsconfig.json .
 COPY ./*.ts .
 RUN pnpm install --frozen-lockfile
@@ -32,6 +33,7 @@ RUN pnpm install --frozen-lockfile
 COPY --link public public
 COPY --link content content
 COPY --link app app
+COPY --link server server
 RUN pnpm run postinstall
 RUN pnpm run build && test -f /app/.output/server/index.mjs
 

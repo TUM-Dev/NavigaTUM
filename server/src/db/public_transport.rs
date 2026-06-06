@@ -3,15 +3,14 @@ use sqlx::PgPool;
 pub struct Transportation {
     pub id: String,
     pub name: String,
-    pub parent_id: Option<String>,
-    pub parent_name: Option<String>,
+    pub modes: Vec<String>,
     pub lat: Option<f64>,             // not really null, sqlx just thinks this
     pub lon: Option<f64>,             // not really null, sqlx just thinks this
     pub distance_meters: Option<f64>, // not really null, sqlx just thinks this
 }
 impl Transportation {
     #[tracing::instrument(skip(pool))]
-    pub async fn fetch_all_near(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Transportation>> {
+    pub async fn fetch_all_near(pool: &PgPool, id: &str) -> sqlx::Result<Vec<Self>> {
         // TODO: use the spatial index instead of just computing the distance for every entry
         sqlx::query_as!(
             Transportation,
@@ -21,24 +20,12 @@ WITH coodinates_for_keys(key, coordinate) as (SELECT key, point(lat, lon)::geome
 
 SELECT t.id,
        t.name,
-       CASE -- case statement to make sqlx believe it's nullable
-           WHEN
-               parent.id IS NOT NULL
-           THEN parent.id
-           ELSE NULL
-       END as parent_id,
-       CASE -- case statement to make sqlx believe it's nullable
-           WHEN
-               parent.name IS NOT NULL
-           THEN parent.name
-           ELSE NULL
-       END as parent_name,
+       t.modes                                                  as "modes!: Vec<String>",
        ST_X(t.coordinate::geometry)                             as lat,
        ST_Y(t.coordinate::geometry)                             as lon,
        ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) as distance_meters
 FROM coodinates_for_keys c,
      transportation_stations t
-     LEFT OUTER JOIN transportation_stations parent on t.parent = parent.id
 WHERE ST_DISTANCE(t.coordinate::geometry, c.coordinate, false) < 1000
   AND c.key = $1
 ORDER BY ST_DISTANCE(t.coordinate::geometry, c.coordinate, false)

@@ -23,26 +23,42 @@ test.describe("Search Page - Basic Functionality", () => {
 });
 
 test.describe("Search Page - Results Display", () => {
-  test("should display search results as clickable links", async ({ page }) => {
+  test("should display search results as canonical /{type}/{id} links", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     // Wait for search results to load
     await page.waitForLoadState("networkidle");
 
-    const resultLinks = page.locator('a[href*="/view/"]');
+    const resultLinks = page.locator(
+      'a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"], a[href*="/poi/"]'
+    );
     const count = await resultLinks.count();
     expect(count).toBeGreaterThan(0);
     // await expect(page).toHaveScreenshot();
   });
 
-  test("should navigate to details page when clicking a result", async ({ page }) => {
+  test("should navigate to the canonical details page when clicking a result", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    const firstResult = page.locator('a[href*="/view/mi"]').first();
+    const firstResult = page.locator('a[href*="/building/mi"]').first();
     await expect(firstResult).toBeVisible();
     await firstResult.click();
-    await expect(page).toHaveURL(/\/(view|building)\/mi/);
+    await expect(page).toHaveURL(/\/building\/mi/);
   });
+});
+
+test.describe("Search Page - English ↔ German synonyms (#960)", () => {
+  for (const query of ["library", "libraries", "bibliothek", "Teilbibliothek"]) {
+    test(`q=${query} returns at least one building result`, async ({ page }) => {
+      await page.goto(`/search?q=${query}`, { waitUntil: "networkidle" });
+      await page.waitForLoadState("networkidle");
+
+      const resultLinks = page.locator(
+        'a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"], a[href*="/poi/"]'
+      );
+      expect(await resultLinks.count()).toBeGreaterThan(0);
+    });
+  }
 });
 
 test.describe("Search Page - Empty and Error States", () => {
@@ -106,11 +122,12 @@ test.describe("Search Page - Filtering and Pagination", () => {
 });
 
 test.describe("Search Page - URL Handling", () => {
-  test.skip("should preserve search query in URL when navigating back", async ({ page }) => {
+  test("should return to the search results when navigating back", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    const firstResult = page.locator('a[href*="/view/"]').first();
+    const firstResult = page.locator('a[href*="/building/mi"]').first();
     await firstResult.click();
+    await expect(page).toHaveURL(/\/building\/mi/);
 
     await page.waitForLoadState("networkidle");
     await page.goBack();
@@ -286,7 +303,7 @@ test.describe("Search Filters - Location panel", () => {
     const input = page.getByPlaceholder("Gebäude oder Standort suchen...");
     await input.fill("garching");
 
-    // Wait for either suggestions or a "no results" message — both prove the
+    // Wait for either suggestions or a "no results" message - both prove the
     // fetch ran (loading, then settled).
     const suggestions = page.locator("#location-filter-panel ul li");
     const noResults = page.locator("#location-filter-panel").getByText("Keine Ergebnisse");
@@ -409,19 +426,19 @@ test.describe("Search Filters - Autocomplete dropdown integration", () => {
   });
 });
 
-test.describe("Search Filters - API parameter expansion", () => {
-  const expansionCases = [
-    { bucket: "building", expanded: "joined_building", label: "Gebäude" },
-    { bucket: "room", expanded: "virtual_room", label: "Raum" },
+test.describe("Search Filters - API parameter passthrough", () => {
+  const passthroughCases = [
+    { bucket: "building", label: "Gebäude" },
+    { bucket: "room", label: "Raum" },
   ] as const;
 
-  for (const { bucket, expanded, label } of expansionCases) {
-    test(`type=${bucket} in URL expands to ${bucket}+${expanded} on the API call`, async ({
+  for (const { bucket, label } of passthroughCases) {
+    test(`type=${bucket} in URL is sent verbatim (server buckets internally)`, async ({
       page,
     }) => {
-      // Initial /search load runs useFetch server-side, so the browser never
-      // emits the API request. Load the page first, then toggle the bucket
-      // via the UI to force a client-side fetch we can observe.
+      // The server's `facet` field already buckets subtypes (e.g. joined_building
+      // is filed under `building`), so the frontend does not expand the bucket
+      // name client-side anymore - it just passes the chosen bucket through.
       await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
       const requestPromise = page.waitForRequest(
@@ -433,7 +450,8 @@ test.describe("Search Filters - API parameter expansion", () => {
       await typePopover(page).getByText(label, { exact: true }).click();
 
       const request = await requestPromise;
-      expect(request.url()).toContain(`type=${expanded}`);
+      const occurrences = request.url().match(new RegExp(`type=${bucket}\\b`, "g")) ?? [];
+      expect(occurrences).toHaveLength(1);
     });
   }
 });

@@ -46,12 +46,12 @@ impl Arguments {
             return Err(HttpResponse::BadRequest()
                 .content_type("text/plain")
                 .body("Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"));
-        };
+        }
         if ids.is_empty() {
             return Err(HttpResponse::BadRequest()
                 .content_type("text/plain")
                 .body("No id requested"));
-        };
+        }
         Ok(ids)
     }
 }
@@ -128,7 +128,7 @@ struct LocationEventsResponse {
 }
 impl From<LocationEvents> for LocationEventsResponse {
     fn from(value: LocationEvents) -> Self {
-        LocationEventsResponse {
+        Self {
             events: value.events.into_iter().map(EventResponse::from).collect(),
             location: CalendarLocationResponse::from(value.location),
         }
@@ -142,13 +142,13 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
                 .body("Requested id {id} does not exist"));
         }
     }
-    assert_eq!(locations.len(), ids.len());
+    debug_assert_eq!(locations.len(), ids.len());
     for loc in locations {
         if loc.last_calendar_scrape_at.is_none() {
             return Err(HttpResponse::ServiceUnavailable()
                 .content_type("text/plain")
                 .body(format!("Room {key}/{url:?} calendar entry is currently in the process of being scraped, please try again later", key = loc.key, url = loc.calendar_url)));
-        };
+        }
     }
     for loc in locations {
         if loc.calendar_url.is_none() {
@@ -159,7 +159,7 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
                     key = loc.key,
                     url = loc.calendar_url
                 )));
-        };
+        }
     }
     Ok(())
 }
@@ -204,7 +204,7 @@ pub struct CalendarLocationResponse {
 }
 impl From<CalendarLocation> for CalendarLocationResponse {
     fn from(value: CalendarLocation) -> Self {
-        CalendarLocationResponse {
+        Self {
             key: value.key,
             name: value.name,
             last_calendar_scrape_at: value
@@ -219,7 +219,7 @@ impl From<CalendarLocation> for CalendarLocationResponse {
 
 #[derive(Serialize, Deserialize, utoipa::ToSchema)]
 struct EventResponse {
-    /// ID of the calendar entry used in TUMonline internally
+    /// ID of the calendar entry used in `TUMonline` internally
     #[schema(examples(6424))]
     id: i32,
     /// Structured, globaly unique room code
@@ -253,7 +253,7 @@ struct EventResponse {
 }
 impl From<Event> for EventResponse {
     fn from(value: Event) -> Self {
-        EventResponse {
+        Self {
             id: value.id,
             room_code: value.room_code,
             start_at: value.start_at,
@@ -279,15 +279,21 @@ pub enum EventTypeResponse {
 impl From<String> for EventTypeResponse {
     fn from(value: String) -> Self {
         match value.as_str() {
-            "lecture" => EventTypeResponse::Lecture,
-            "exercise" => EventTypeResponse::Exercise,
-            "exam" => EventTypeResponse::Exam,
-            "barred" => EventTypeResponse::Barred,
-            _ => EventTypeResponse::Other,
+            "lecture" => Self::Lecture,
+            "exercise" => Self::Exercise,
+            "exam" => Self::Exam,
+            "barred" => Self::Barred,
+            _ => Self::Other,
         }
     }
 }
 #[cfg(test)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::panic_in_result_fn,
+    clippy::absolute_paths
+)]
 mod db_tests {
     use actix_web::App;
     use actix_web::http::header::ContentType;
@@ -301,7 +307,7 @@ mod db_tests {
     use crate::setup::tests::PostgresTestContainer;
 
     /// Workaround because [`Option::unwrap()`] is not (yet) available in const context.
-    /// See https://github.com/rust-lang/rust/issues/67441 for further context
+    /// See <https://github.com/rust-lang/rust/issues/67441> for further context
     const fn unwrap<T: Copy>(opt: Option<T>) -> T {
         match opt {
             Some(val) => val,
@@ -402,10 +408,22 @@ mod db_tests {
         let (locations, events) = sample_data();
         for (key, data) in locations {
             for lang in ["de", "en"] {
-                let query = format!(
-                    "INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')"
-                );
-                sqlx::query(&query).execute(&mut *tx).await.unwrap();
+                let sql = match lang {
+                    "de" => {
+                        "INSERT INTO de(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
+                    "en" => {
+                        "INSERT INTO en(key,data,last_calendar_scrape_at) VALUES ($1, $2, $3::timestamptz)"
+                    }
+                    _ => unreachable!(),
+                };
+                sqlx::query(sql)
+                    .bind(&key)
+                    .bind(&data)
+                    .bind(now_rfc3339)
+                    .execute(&mut *tx)
+                    .await
+                    .unwrap();
             }
         }
 

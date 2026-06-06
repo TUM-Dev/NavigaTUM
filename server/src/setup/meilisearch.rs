@@ -1,15 +1,17 @@
 use std::collections::HashMap;
+use std::env;
 use std::time::Duration;
 
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
+use tokio::time::sleep;
 use tracing::{debug, error, info};
 
 use crate::setup::file_loader;
 
-const TIMEOUT: Option<Duration> = Some(Duration::from_secs(60));
+const TIMEOUT: Option<Duration> = Some(Duration::from_mins(1));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(250));
 
 #[derive(serde::Deserialize)]
@@ -45,7 +47,7 @@ async fn wait_for_healthy(client: &Client) {
             }
         }
         counter += 1;
-        tokio::time::sleep(Duration::from_secs(1)).await;
+        sleep(Duration::from_secs(1)).await;
     }
 }
 #[tracing::instrument(skip(client))]
@@ -103,14 +105,14 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add settings to Meilisearch: {content:?}");
+        anyhow::bail!("Failed to add settings to Meilisearch: {content:?}");
     }
     Ok(())
 }
 #[tracing::instrument(skip(client))]
 pub async fn load_data(client: &Client) -> anyhow::Result<()> {
     let entries = client.index("entries");
-    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents =
         file_loader::load_json_or_download::<Vec<Value>>("search_data.json", &cdn_url).await?;
     let res = entries
@@ -119,7 +121,7 @@ pub async fn load_data(client: &Client) -> anyhow::Result<()> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add documents to Meilisearch: {content:?}");
+        anyhow::bail!("Failed to add documents to Meilisearch: {content:?}");
     }
 
     info!("{cnt} documents added", cnt = documents.len());

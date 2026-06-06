@@ -23,6 +23,23 @@ test.describe("Details Page - Basic Functionality", () => {
 
 test.describe("Details Page - Interactive Map", () => {
   test("should display interactive map with controls", async ({ page }) => {
+    // The interactive map fetches its style from the production Martin
+    // tileserver. When that endpoint is unavailable (intermittent 404s),
+    // MapLibre never fires `load`, so the navigation/fullscreen controls
+    // are never added and the test fails for an upstream reason. Stub the
+    // style with a minimal valid maplibre style so the controls render
+    // regardless of the upstream tileserver state.
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+
     await page.goto("/view/mi", { waitUntil: "networkidle" });
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
@@ -44,6 +61,51 @@ test.describe("Details Page - Interactive Map", () => {
     await expect(zoomOutButton).toHaveCount(1);
 
     // await expect(page).toHaveScreenshot();
+  });
+});
+
+test.describe("Details Page - POI Floor Inheritance", () => {
+  // Regression for TUM-Dev/NavigaTUM#1696: POIs used to leave FloorControl empty
+  // (every button dimmed), so the indoor overlay never showed. POIs now inherit
+  // floors from their immediate parent in the data pipeline.
+  const stubBasemap = async (page: import("@playwright/test").Page) => {
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+  };
+
+  test("room-parented POI auto-selects the room's floor", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/validierungsautomat-5", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("poi/validierungsautomat-5");
+
+    const floorCtrl = page.locator(".floor-ctrl");
+    await expect(floorCtrl).toBeVisible();
+
+    // Single inherited floor → DetailsInteractiveMap auto-calls setLevel(EG.id)
+    const egButton = floorCtrl.locator("button", { hasText: /^EG$/ });
+    await expect(egButton).toHaveClass(/active/);
+  });
+
+  test("building-parented POI exposes building floors as clickable", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/validierungsautomat-9", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("poi/validierungsautomat-9");
+
+    const floorCtrl = page.locator(".floor-ctrl");
+    await expect(floorCtrl).toBeVisible();
+
+    // Multiple inherited floors → no auto-select, EG button is enabled.
+    const egButton = floorCtrl.locator("button", { hasText: /^EG$/ });
+    await expect(egButton).toBeEnabled();
+    await expect(egButton).not.toHaveCSS("cursor", "not-allowed");
   });
 });
 
@@ -69,8 +131,8 @@ test.describe("Details Page - Navigation Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const navButton = page.getByRole("link", { name: "BETA Navigation starten" }).first();
-    expect(navButton).toBeVisible();
+    const navButton = page.getByRole("link", { name: "Navigation starten" }).first();
+    await expect(navButton).toBeVisible();
     await expect(navButton).toHaveCount(1);
     // Scroll element into view before clicking
     await navButton.scrollIntoViewIfNeeded();
@@ -126,15 +188,118 @@ test.describe("Details Page - Share and Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
+    const shareButton = page.getByRole("button", { name: "Teilen", exact: true });
     await shareButton.click();
 
+    // Share tab is the default selected tab and now also lists external "Open in" links
     const googleMapsLink = page.getByRole("link", { name: "Google Maps" });
     await expect(googleMapsLink).toHaveCount(1);
 
-    // Check for any action button
-    const actionButtons = page.getByRole("img", { name: "QR-Code für diese Seite" });
-    expect(actionButtons).toHaveCount(1);
+    // QR code lives behind its own tab
+    await page.getByRole("tab", { name: /QR-Code/i }).click();
+    const qrImage = page.getByRole("img", { name: "QR-Code für diese Seite" });
+    await expect(qrImage).toHaveCount(1);
+  });
+
+  test("share modal exposes a copyable iframe embed snippet", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    const shareButton = page.getByRole("button", { name: "Teilen", exact: true });
+    await shareButton.click();
+
+    // share dialog uses tabs - switch to the Embed tab
+    const embedTab = page.getByRole("tab", { name: /Einbetten/i });
+    await expect(embedTab).toBeVisible();
+    await embedTab.click();
+
+    const snippet = page.locator("textarea[readonly]");
+    await expect(snippet).toHaveCount(1);
+    const value = await snippet.inputValue();
+    expect(value).toContain('src="https://nav.tum.de/embed/mi"');
+    expect(value).toContain("<iframe");
+    expect(value).toContain('allow="fullscreen; geolocation"');
+
+    const copyButton = page.getByRole("button", { name: /Einbettungs-Code kopieren/i });
+    await expect(copyButton).toBeVisible();
+  });
+});
+
+test.describe("Details Page - Action Toolbar", () => {
+  test("action tiles expose their labels as visible text", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await expect(page.getByText("Teilen", { exact: true })).toBeVisible();
+    await expect(page.getByText("Änderung vorschlagen", { exact: true })).toBeVisible();
+  });
+
+  test("suggest-a-change tile opens the edit modal with the lead question", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
+
+    await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
+    await expect(page.getByText("Was möchtest du ändern?")).toBeVisible();
+  });
+
+  test("report-a-problem link bridges from the edit modal to feedback", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
+
+    await page.getByRole("button", { name: /Melde einfach ein Problem/ }).click();
+
+    // entry-feedback hint only renders for the "entry" category
+    await expect(page.getByText("Möchtest du einen Eintrag korrigieren?")).toBeVisible();
+  });
+});
+
+test.describe("Embed Page - Basic Rendering", () => {
+  test("should render minimal embed view with map and CTA", async ({ page }) => {
+    await page.goto("/embed/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("/embed/mi");
+
+    const mapCanvas = page.getByRole("region", { name: "Map" });
+    await expect(mapCanvas).toHaveCount(1);
+    await expect(mapCanvas).toBeVisible();
+
+    const detailsLink = page.getByRole("link", { name: /In NavigaTUM ansehen/i });
+    await expect(detailsLink).toBeVisible();
+    await expect(detailsLink).toHaveAttribute("target", "_blank");
+    await expect(detailsLink).toHaveAttribute("href", "https://nav.tum.de/building/mi");
+
+    // The embed layout strips the main app nav header
+    await expect(page.locator("header")).toHaveCount(0);
+  });
+
+  test("should set noindex robots meta", async ({ page }) => {
+    await page.goto("/embed/mi", { waitUntil: "networkidle" });
+    const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+    expect(robots).toMatch(/noindex/i);
+  });
+
+  test("should 404 on non-existent location", async ({ page }) => {
+    await page.goto("/embed/nonexistent_location_12345", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("/embed/nonexistent_location_12345");
+    const heading404 = page.getByRole("heading", { name: "Die angeforderte Seite wurde" });
+    await expect(heading404).toBeVisible();
+  });
+
+  test("should not be blocked by X-Frame-Options for iframe usage", async ({ page }) => {
+    const response = await page.goto("/embed/mi", { waitUntil: "domcontentloaded" });
+    expect(response).not.toBeNull();
+    const xfo = response?.headers()["x-frame-options"];
+    // route-rule clears X-Frame-Options so embed can be iframed by third parties
+    expect(xfo === undefined || xfo === "").toBeTruthy();
+
+    const csp = response?.headers()["content-security-policy"];
+    if (csp) {
+      expect(csp).toMatch(/frame-ancestors\s+\*/);
+    }
   });
 });
 

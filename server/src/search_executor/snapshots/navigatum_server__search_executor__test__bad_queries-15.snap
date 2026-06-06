@@ -10,12 +10,12 @@ snapshot_kind: text
     - id: 4124.EG.320
       type: room
       name: "4124.EG.320 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
       subtext_bold: E/3.20@4124
     - id: 4124.EG.321
       type: room
       name: "4124.EG.321 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
       subtext_bold: E/3.21@4124
     - id: 0104.U1.404
       type: room

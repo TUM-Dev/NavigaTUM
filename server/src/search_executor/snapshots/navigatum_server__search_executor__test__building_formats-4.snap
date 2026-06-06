@@ -1,10 +1,10 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Query: MI5601"
 expression: results_roomfinder.0
 info: parsed_id=roomfinder
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "5601"
       type: building
@@ -69,4 +69,12 @@ info: parsed_id=roomfinder
       subtext_bold: "-1.01.031C@5601"
       parsed_id: "-1.01.031C@5601"
   n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

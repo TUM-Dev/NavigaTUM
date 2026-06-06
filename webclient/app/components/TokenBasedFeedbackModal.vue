@@ -13,6 +13,7 @@ const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 const privacyChecked = ref(false);
 const feedback = useFeedback();
+const initialBody = feedback.value.data.body;
 
 function closeForm() {
   feedback.value.open = false;
@@ -92,6 +93,10 @@ function sendForm() {
     error.value.message = t("error.form.too_short_body");
     return;
   }
+  if (initialBody && feedback.value.data.body.trim() === initialBody.trim()) {
+    error.value.message = t("error.form.body_unchanged");
+    return;
+  }
 
   loading.value = true;
   // Token may only be used after a short delay.
@@ -132,7 +137,7 @@ function sendForm() {
                 <template #github_site_policy>
                   <NuxtLink
                     tabindex="1"
-                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                     to="https://docs.github.com/en/github/site-policy"
                     target="_blank"
                     external
@@ -153,7 +158,7 @@ function sendForm() {
                   <NuxtLinkLocale
                     tabindex="1"
                     to="/about/impressum"
-                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                   >
                     {{ t("public.imprint") }}
                   </NuxtLinkLocale>
@@ -164,7 +169,7 @@ function sendForm() {
                 <template #datenschutz>
                   <NuxtLink
                     tabindex="1"
-                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
                     to="https://datenschutz.tum.de"
                     target="_blank"
                     external
@@ -183,8 +188,8 @@ function sendForm() {
         variant="primary"
         size="md"
         :class="{
-          '!text-blue-900 !bg-blue-200 cursor-progress': loading,
-          '!text-blue-50 !bg-blue-300 cursor-not-allowed': error.blockSend,
+          '!text-blue-900 dark:!text-blue-50 !bg-blue-200 dark:!bg-blue-700 cursor-progress': loading,
+          '!text-blue-50 dark:!text-blue-900 !bg-blue-300 dark:!bg-blue-600 cursor-not-allowed': error.blockSend,
         }"
         v-bind="{ disabled: loading || error.blockSend }"
         @click="sendForm"
@@ -224,6 +229,7 @@ de:
     form:
       too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
       too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
+      body_unchanged: "Fehler: Bitte beschreibe dein Feedback in der Nachricht"
   status:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
@@ -257,6 +263,7 @@ en:
     form:
       too_short_body: "Error: Message missing or too short"
       too_short_subject: "Error: Subject missing or too short"
+      body_unchanged: "Error: Please describe your feedback in the message"
   status:
     server_error: Server Error
     send_unexpected_status: Unexpected status code
