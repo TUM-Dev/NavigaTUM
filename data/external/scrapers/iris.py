@@ -1,40 +1,36 @@
 import logging
 
-import pydantic
+import polars as pl
 import requests
+
+from external.scraping_utils import CACHE_PATH
+from utils import setup_logging
 
 IRIS_API_URL = "https://iris.asta.tum.de/api/"
 
 
-class IrisRoom(pydantic.BaseModel):
+def scrape_iris() -> None:
     """
-    A single room from the AStA Iris learning-room API (`GET https://iris.asta.tum.de/api/`).
+    Download the AStA Iris learning-room roster and store it for the build.
 
-    Iris is a third party whose response shape we don't control, so unknown fields are
-    ignored rather than rejected (e.g. the `percent`/`color` WAAS fields are not modelled here).
+    On failure the existing roster is left untouched, so a transient AStA outage degrades to
+    the previously-scraped data rather than breaking the build.
     """
+    response = requests.get(IRIS_API_URL, timeout=30)
+    response.raise_for_status()
+    rooms = response.json()["raeume"]
 
-    model_config = pydantic.ConfigDict(extra="ignore", str_strip_whitespace=True)
+    df = pl.DataFrame(
+        {
+            "raum_nr_architekt": [room["raum_nr_architekt"] for room in rooms],
+            "gebaeude_code": [str(room["gebaeude_code"]) for room in rooms],
+        },
+        schema={"raum_nr_architekt": pl.String, "gebaeude_code": pl.String},
+    )
+    df.write_csv(CACHE_PATH / "iris.csv")
+    logging.info(f"Scraped {len(df)} Iris rooms across {df['gebaeude_code'].n_unique()} buildings")
 
-    # The `<arch_name>@<building_id>` form, joined against NavigaTUM aliases.
-    raum_nr_architekt: str
-    # The NavigaTUM building id (verified 1:1), used as a cross-check on the alias join.
-    gebaeude_code: str
 
-
-def fetch_iris_rooms() -> list[IrisRoom] | None:
-    """
-    Fetch the Iris learning-room roster once per build.
-
-    Returns the parsed rooms, or `None` if Iris is unreachable or returns an unexpected shape.
-    A transient AStA outage must never break the build, so any failure is logged and swallowed;
-    the caller falls back to the previously-known coverage set.
-    """
-    try:
-        response = requests.get(IRIS_API_URL, timeout=30)
-        response.raise_for_status()
-        raeume = response.json()["raeume"]
-        return [IrisRoom.model_validate(raum) for raum in raeume]
-    except (requests.RequestException, ValueError, KeyError, pydantic.ValidationError) as error:
-        logging.warning("Could not fetch Iris learning-room coverage from %s: %s", IRIS_API_URL, error)
-        return None
+if __name__ == "__main__":
+    setup_logging()
+    scrape_iris()

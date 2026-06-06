@@ -115,7 +115,7 @@ class LocationSchema(dy.Schema):
     external_data_json = dy.String()
 
     # --- AStA Iris learning-room coverage ---
-    has_iris_coverage = dy.Bool()
+    has_iris_coverage = dy.Bool(nullable=False)
 
     @dy.rule()
     def type_is_valid(cls) -> pl.Expr:

@@ -160,13 +160,6 @@ struct LocationDetailsResponse {
     /// - featured view
     #[serde(default)]
     sections: SectionsResponse,
-    /// Whether this building/area has AStA Iris learning-room coverage.
-    ///
-    /// Derived at data-build time by matching the AStA Iris room roster against our aliases.
-    /// When `true`, the page can offer a learning-room availability view without a second request.
-    /// Absent (rather than `false`) for entries without coverage.
-    #[serde(default, skip_serializing_if = "core::ops::Not::not")]
-    has_iris_coverage: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
@@ -392,6 +385,13 @@ struct PropsResponse {
     /// For buildings, this may contain multiple floors while rooms usually only have one floor.
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     floors: Vec<FloorResponse>,
+    /// Whether this building/area has AStA Iris learning-room coverage.
+    ///
+    /// Derived at data-build time by matching the AStA Iris room roster against our aliases.
+    /// When `true`, the page can offer a learning-room availability view without a second request.
+    /// Absent (rather than `false`) for entries without coverage.
+    #[serde(default, skip_serializing_if = "core::ops::Not::not")]
+    has_iris_coverage: bool,
 }
 
 #[serde_with::skip_serializing_none]

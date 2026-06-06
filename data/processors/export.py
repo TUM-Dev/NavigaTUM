@@ -218,7 +218,16 @@ def extract_exported_item(data, entry):
     for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
         result.pop(key, None)
     if "props" in result:
-        prop_keys_to_keep = {"computed", "floors", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
+        prop_keys_to_keep = {
+            "computed",
+            "floors",
+            "links",
+            "comment",
+            "calendar_url",
+            "tumonline_room_nr",
+            "operator",
+            "has_iris_coverage",
+        }
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]

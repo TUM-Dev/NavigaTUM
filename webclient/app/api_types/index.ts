@@ -565,13 +565,6 @@ export type components = {
       readonly aliases: readonly string[];
       /** @description Coordinate of the location */
       readonly coords: components["schemas"]["CoordinateResponse"];
-      /**
-       * @description Whether this building/area has AStA Iris learning-room coverage.
-       *
-       * Derived at data-build time by matching the AStA Iris room roster against our aliases.
-       * When `true`, the page can offer a learning-room availability view without a second request.
-       */
-      readonly has_iris_coverage?: boolean;
       /** @description The id, that was requested */
       readonly id: string;
       /**
@@ -1181,6 +1174,14 @@ export type components = {
        * For buildings, this may contain multiple floors while rooms usually only have one floor.
        */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
+      /**
+       * @description Whether this building/area has AStA Iris learning-room coverage.
+       *
+       * Derived at data-build time by matching the AStA Iris room roster against our aliases.
+       * When `true`, the page can offer a learning-room availability view without a second request.
+       * Absent (rather than `false`) for entries without coverage.
+       */
+      readonly has_iris_coverage?: boolean;
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };

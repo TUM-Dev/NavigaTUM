@@ -304,6 +304,9 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         props["generic"] = json.loads(row["props_generic_json"])
     if row.get("props_comment_de"):
         props["comment"] = {"en": row.get("props_comment_en", ""), "de": row["props_comment_de"]}
+    # Emitted only where present, so absent reads as "no coverage" on the info card.
+    if row.get("has_iris_coverage"):
+        props["has_iris_coverage"] = True
 
     if props:
         result["props"] = props
@@ -390,10 +393,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     # External data
     if row.get("external_data_json"):
         result["external_data"] = json.loads(row["external_data_json"])
-
-    # AStA Iris learning-room coverage (only emitted where present, i.e. on covered buildings).
-    if row.get("has_iris_coverage"):
-        result["has_iris_coverage"] = True
 
     # Custom rooms overview
     if row.get("generate_rooms_overview_json"):

@@ -2,7 +2,12 @@ from typing import Literal
 
 import pytest
 
-from external.models import public_transport, roomfinder, tumonline
+from external.models import iris, public_transport, roomfinder, tumonline
+
+
+def test_iris_room():
+    """Load all rooms from the iris.IrisRoom"""
+    iris.IrisRoom.load_all()
 
 
 def test_roomfinder_map():
