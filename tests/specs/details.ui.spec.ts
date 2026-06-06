@@ -343,8 +343,9 @@ test.describe("Details Page - Breadcrumbs", () => {
     // Assert last breadcrumb label (current context)
     await expect(items.nth(3)).toContainText("Hörsaal 1");
 
-    // Click parent (building) breadcrumb
-    const parentLink = items.nth(3).locator('a[href="/view/5602"]');
+    // Click parent (building) breadcrumb. Breadcrumbs now emit the canonical
+    // /{type}/{id} path (here /building/5602) rather than the redirecting /view/{id}.
+    const parentLink = items.nth(3).locator('a[href="/building/5602"]');
     await expect(parentLink).toBeVisible();
 
     await parentLink.click();
