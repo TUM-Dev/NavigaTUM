@@ -1,10 +1,12 @@
+from typing import Any
+
 from utils import TranslatableStr
 
 from processors.export import extract_exported_item
 
 
-def _data() -> dict:
-    """A minimal ancestor chain root -> garching -> mi, keyed by id as the pipeline keys it."""
+def _data() -> dict[str, dict[str, Any]]:
+    """Build a minimal ancestor chain root -> garching -> mi, keyed by id as the pipeline keys it."""
     return {
         "root": {"id": "root", "type": "root", "name": TranslatableStr("Standorte", "Sites"), "parents": []},
         "garching": {
