@@ -131,8 +131,8 @@ test.describe("Details Page - Navigation Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const navButton = page.getByRole("link", { name: "BETA Navigation starten" }).first();
-    expect(navButton).toBeVisible();
+    const navButton = page.getByRole("link", { name: "Navigation starten (BETA)" }).first();
+    await expect(navButton).toBeVisible();
     await expect(navButton).toHaveCount(1);
     // Scroll element into view before clicking
     await navButton.scrollIntoViewIfNeeded();
