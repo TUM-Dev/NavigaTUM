@@ -3,6 +3,8 @@ type ActionBase = {
   key: string;
   icon: string;
   label: string;
+  // One-word fallback shown on mobile, where the full label would wrap to two lines in the 2-up grid.
+  shortLabel?: string;
   visible?: boolean;
 };
 export type DetailAction = ActionBase &
@@ -16,6 +18,8 @@ const visibleActions = computed(() => props.actions.filter((a) => a.visible !== 
 
 const tileClass =
   "focusable flex h-full w-full cursor-pointer flex-col items-center justify-center gap-0.5 rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-2 py-1.5 text-blue-600 dark:text-blue-300 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-900 dark:hover:text-blue-50 transition-colors";
+const mobileLabelClass = "text-center text-xs font-medium leading-tight sm:hidden";
+const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight sm:block";
 </script>
 
 <template>
@@ -29,19 +33,23 @@ const tileClass =
         v-if="action.href !== undefined"
         :to="action.href"
         :class="tileClass"
+        :aria-label="action.label"
         prefetch-on="interaction"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span class="text-center text-xs font-medium leading-tight">{{ action.label }}</span>
+        <span :class="mobileLabelClass">{{ action.shortLabel ?? action.label }}</span>
+        <span :class="desktopLabelClass">{{ action.label }}</span>
       </NuxtLinkLocale>
       <button
         v-else
         type="button"
         :class="tileClass"
+        :aria-label="action.label"
         @click="action.onClick?.()"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span class="text-center text-xs font-medium leading-tight">{{ action.label }}</span>
+        <span :class="mobileLabelClass">{{ action.shortLabel ?? action.label }}</span>
+        <span :class="desktopLabelClass">{{ action.label }}</span>
       </button>
     </li>
   </ul>

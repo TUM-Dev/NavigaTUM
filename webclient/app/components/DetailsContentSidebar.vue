@@ -111,6 +111,7 @@ const actions = computed<DetailAction[]>(() => [
     key: "calendar",
     icon: mdiCalendarMonth,
     label: t("header.calendar"),
+    shortLabel: t("header.calendar_short"),
     visible: !!props.data.props?.calendar_url,
     onClick: () => {
       calendar.value = [...new Set([...calendar.value, route.params.id?.toString() ?? "404"])];
@@ -120,6 +121,7 @@ const actions = computed<DetailAction[]>(() => [
     key: "navigation",
     icon: mdiDirections,
     label: t("header.start_navigation"),
+    shortLabel: t("header.start_navigation_short"),
     visible: navigationEnabled.value,
     href: `/navigate?coming_from=${props.data.id}&to=${props.data.id}&q_to=${props.data.name}`,
   },
@@ -135,6 +137,7 @@ const actions = computed<DetailAction[]>(() => [
     key: "suggest-change",
     icon: mdiPencil,
     label: t("header.suggest_edit"),
+    shortLabel: t("header.suggest_edit_short"),
     onClick: suggestEdit,
   },
 ]);
@@ -260,11 +263,14 @@ const actions = computed<DetailAction[]>(() => [
 de:
   image_alt: Header-Bild, zeigt das Gebäude
   header:
-    calendar: Kalender
+    calendar: Kalender öffnen
+    calendar_short: Kalender
     copy_link: Link kopieren
     share: Teilen
-    start_navigation: Navigation
-    suggest_edit: Bearbeiten
+    start_navigation: Navigation starten
+    start_navigation_short: Navigation
+    suggest_edit: Änderung vorschlagen
+    suggest_edit_short: Bearbeiten
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
   msg:
@@ -273,11 +279,14 @@ de:
 en:
   image_alt: Header image, showing the building
   header:
-    calendar: Calendar
+    calendar: Open calendar
+    calendar_short: Calendar
     copy_link: Copy link
     share: Share
-    start_navigation: Navigate
-    suggest_edit: Edit
+    start_navigation: Start navigation
+    start_navigation_short: Navigate
+    suggest_edit: Suggest a change
+    suggest_edit_short: Edit
   add_first_image: Add first image
   suggest_edit: I know where it is
   msg:

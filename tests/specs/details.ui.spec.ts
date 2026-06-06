@@ -131,7 +131,7 @@ test.describe("Details Page - Navigation Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const navButton = page.getByRole("link", { name: "Navigation", exact: true }).first();
+    const navButton = page.getByRole("link", { name: "Navigation starten" }).first();
     await expect(navButton).toBeVisible();
     await expect(navButton).toHaveCount(1);
     // Scroll element into view before clicking
@@ -175,7 +175,7 @@ test.describe("Details Page - Calendar Integration", () => {
     // view -> room redirect
     await expect(page).toHaveURL("room/5602.EG.001");
 
-    const calendarButton = page.getByRole("button", { name: "Kalender", exact: true });
+    const calendarButton = page.getByRole("button", { name: "Kalender öffnen" });
     await expect(calendarButton).toHaveCount(1);
     await calendarButton.click();
     await expect(page).toHaveURL("/room/5602.EG.001?calendar[]=5602.EG.001");
@@ -231,14 +231,14 @@ test.describe("Details Page - Action Toolbar", () => {
     await expect(page).toHaveURL("building/mi");
 
     await expect(page.getByText("Teilen", { exact: true })).toBeVisible();
-    await expect(page.getByText("Bearbeiten", { exact: true })).toBeVisible();
+    await expect(page.getByText("Änderung vorschlagen", { exact: true })).toBeVisible();
   });
 
   test("suggest-a-change tile opens the edit modal with the lead question", async ({ page }) => {
     await page.goto("/view/mi", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("building/mi");
 
-    await page.getByRole("button", { name: "Bearbeiten", exact: true }).click();
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
 
     await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
     await expect(page.getByText("Was möchtest du ändern?")).toBeVisible();
@@ -248,7 +248,7 @@ test.describe("Details Page - Action Toolbar", () => {
     await page.goto("/view/mi", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("building/mi");
 
-    await page.getByRole("button", { name: "Bearbeiten", exact: true }).click();
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
 
     await page.getByRole("button", { name: /Melde einfach ein Problem/ }).click();
