@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiCrosshairsGps } from "@mdi/js";
+import { mdiCrosshairsGps, mdiMagnify } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
@@ -225,6 +225,17 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         />
       </button>
     </ClientOnly>
+    <!-- Only offer to search once an endpoint is picked: without an id there is nothing to route. -->
+    <button
+      v-if="selected"
+      type="submit"
+      class="focusable text-blue-600 hover:text-blue-800 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 rounded-sm"
+      :title="t('search_route')"
+      :aria-label="t('search_route')"
+      @click="currently_actively_picking = false"
+    >
+      <MdiIcon :path="mdiMagnify" :size="18" />
+    </button>
   </div>
   <!-- Autocomplete -->
   <ClientOnly>
@@ -287,6 +298,7 @@ de:
     aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
     aria-searchlabel: Suchfeld
     action: Go
+  search_route: Route suchen
   show_hidden: +{count} ausgeblendet
   sections:
     sites: Standorte
@@ -318,6 +330,7 @@ en:
     aria-actionlabel: Search for the room-query entered in the search field
     aria-searchlabel: Search-field
     action: Go
+  search_route: Search route
   show_hidden: +{count} hidden
   sections:
     sites: Sites
