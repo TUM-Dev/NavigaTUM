@@ -313,8 +313,9 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
 
     if arch_name := row.get("arch_name"):
         result["arch_name"] = arch_name
-    if aliases := row.get("aliases"):
-        result["aliases"] = list(aliases)
+    # The API contract requires `aliases` on every entry, so emit it unconditionally:
+    # an empty list is the valid "no aliases" value, not a reason to drop the field.
+    result["aliases"] = list(row.get("aliases") or [])
     if (imgs_json := row.get("imgs_json")) is not None:
         result["imgs"] = orjson.loads(imgs_json)
     if row.get("type_common_name") or row.get("type_common_name_de"):

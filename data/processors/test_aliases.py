@@ -4,6 +4,7 @@ from typing import Any
 import polars as pl
 
 from processors.aliases import add_aliases, building_short_name_lookup
+from processors.df_utils import unflatten_row
 
 
 def _meta(rows: list[dict[str, Any]]) -> pl.DataFrame:
@@ -96,3 +97,19 @@ def test_add_aliases_handles_arch_name_without_at() -> None:
 def test_add_aliases_empty_when_no_arch_name() -> None:
     """Entries without an arch_name produce an empty alias list."""
     assert _aliases_for(None, {}) == []
+
+
+def test_unflatten_always_emits_aliases() -> None:
+    """
+    The /locations/:id API requires `aliases` on every entry, so an empty list must survive the round-trip.
+
+    Regression: an empty list is falsy, so a truthiness guard silently dropped the field for
+    alias-less entries (e.g. the `mi` joined_building), and the server rejected the detail as
+    `missing field 'aliases'`.
+    """
+    assert unflatten_row({"id": "mi", "type": "joined_building", "aliases": []})["aliases"] == []
+    assert unflatten_row({"id": "mi", "type": "joined_building"})["aliases"] == []
+    assert unflatten_row({"id": "x", "type": "room", "aliases": ["0001@5510", "MW0001"]})["aliases"] == [
+        "0001@5510",
+        "MW0001",
+    ]
