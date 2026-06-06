@@ -6,9 +6,11 @@ import {
   mdiLink,
   mdiPencil,
   mdiPlus,
+  mdiShareVariant,
 } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
+import type { DetailAction } from "~/components/DetailActionToolbar.vue";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -26,8 +28,9 @@ const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 const calendar = useCalendar();
 
-// Navigation is a beta gimmick that only makes sense when we know the location more precisely than the building level.
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
+
+const shareModalOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {
@@ -74,7 +77,6 @@ const suggestEdit = () => {
     floor: floorIds[0] ?? null,
   };
 
-  // Pre-fill property fields with current values
   const fields = emptyPropertyFields();
   editProposal.value.propertyFields = { ...fields, name: props.data.name };
   editProposal.value.originalPropertyFields = { ...fields, name: props.data.name };
@@ -101,6 +103,43 @@ const suggestLocationFix = () => {
   };
   editProposal.value.open = true;
 };
+
+const actions = computed<DetailAction[]>(() => [
+  {
+    key: "calendar",
+    icon: mdiCalendarMonth,
+    label: t("header.calendar"),
+    shortLabel: t("header.calendar_short"),
+    visible: !!props.data.props?.calendar_url,
+    onClick: () => {
+      calendar.value = [...new Set([...calendar.value, route.params.id?.toString() ?? "404"])];
+    },
+  },
+  {
+    key: "navigation",
+    icon: mdiDirections,
+    label: t("header.start_navigation"),
+    shortLabel: t("header.start_navigation_short"),
+    visible: navigationEnabled.value,
+    href: `/navigate?coming_from=${props.data.id}&to=${props.data.id}&q_to=${props.data.name}`,
+  },
+  {
+    key: "share",
+    icon: mdiShareVariant,
+    label: t("header.share"),
+    shortLabel: t("header.share"),
+    onClick: () => {
+      shareModalOpen.value = true;
+    },
+  },
+  {
+    key: "suggest-change",
+    icon: mdiPencil,
+    label: t("header.suggest_edit"),
+    shortLabel: t("header.suggest_edit_short"),
+    onClick: suggestEdit,
+  },
+]);
 </script>
 
 <template>
@@ -165,41 +204,12 @@ const suggestLocationFix = () => {
       </button>
     </div>
 
-    <!-- Type & Buttons -->
-    <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
+    <!-- Type -->
+    <div class="flex flex-wrap items-center gap-y-2 mb-3">
       <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
-      <div class="flex flex-row items-center gap-3">
-        <NuxtLinkLocale
-          v-if="navigationEnabled"
-          :to="`/navigate?coming_from=${data.id}&to=${data.id}&q_to=${data.name}`"
-          class="focusable rounded-sm print:hidden"
-          :title="t('header.start_navigation')"
-          :aria-label="t('header.start_navigation')"
-          prefetch-on="interaction"
-        >
-          <MdiIcon :path="mdiDirections" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </NuxtLinkLocale>
-        <button
-          v-if="data.props?.calendar_url"
-          type="button"
-          class="focusable rounded-sm"
-          :title="t('header.calendar')"
-          @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
-        >
-          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </button>
-        <button
-          type="button"
-          class="focusable rounded-sm"
-          :title="t('header.suggest_edit')"
-          @click="suggestEdit"
-        >
-          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </button>
-        <ShareButton :coords="data.coords" :name="data.name" :id="data.id"/>
-        <DetailsFeedbackButton/>
-      </div>
     </div>
+
+    <ShareModal v-model:open="shareModalOpen" :coords="data.coords" :name="data.name" :id="data.id"/>
 
     <!-- Toasts/Alerts -->
     <div class="flex flex-col gap-2 mb-4">
@@ -223,9 +233,12 @@ const suggestLocationFix = () => {
     </div>
 
     <!-- Property Table -->
-    <div class="mb-8">
+    <div class="mb-6">
       <DetailsPropertyTable :props="data.props"/>
     </div>
+
+    <!-- Action bar -->
+    <DetailActionToolbar :actions="actions" class="mb-8"/>
 
     <!-- Extra Sections -->
     <div class="flex flex-col gap-6">
@@ -251,9 +264,13 @@ de:
   image_alt: Header-Bild, zeigt das Gebäude
   header:
     calendar: Kalender öffnen
+    calendar_short: Kalender
     copy_link: Link kopieren
-    start_navigation: Navigation starten (BETA)
+    share: Teilen
+    start_navigation: Navigation starten
+    start_navigation_short: Navigation
     suggest_edit: Änderung vorschlagen
+    suggest_edit_short: Bearbeiten
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
   msg:
@@ -263,9 +280,13 @@ en:
   image_alt: Header image, showing the building
   header:
     calendar: Open calendar
+    calendar_short: Calendar
     copy_link: Copy link
-    start_navigation: Start navigation (BETA)
-    suggest_edit: Suggest edit
+    share: Share
+    start_navigation: Start navigation
+    start_navigation_short: Navigate
+    suggest_edit: Suggest a change
+    suggest_edit_short: Edit
   add_first_image: Add first image
   suggest_edit: I know where it is
   msg:

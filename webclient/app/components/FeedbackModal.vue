@@ -91,7 +91,7 @@ de:
     general: Generelles Feedback über diese Website
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
-    navigation: (Beta) Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
+    navigation: Feedback zur Navigation. Von wo bis wo wolltest du navigieren? Welche Probleme hast du gemerkt?
   edit_hint:
     title: Möchtest du einen Eintrag korrigieren?
     text: "Bitte nutze stattdessen unser Bearbeitungsformular, um Daten wie Namen, Koordinaten oder Adressen direkt zu korrigieren. So können wir deine Änderungen schneller umsetzen."
@@ -108,7 +108,7 @@ de:
     feature: Features
     general: Allgemein
     search: Suche
-    navigation: (Beta) Navigation
+    navigation: Navigation
 en:
   category: Feedback category
   delete: Delete this GitHub issue when resolved.
@@ -119,7 +119,7 @@ en:
     general: General Feedback about this website
     other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
-    navigation: (Beta) Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
+    navigation: Feedback on navigation. From where to where did you want to navigate? What problems did you notice?
   edit_hint:
     title: Want to correct an entry?
     text: "Please use our edit form instead to directly correct data like names, coordinates, or addresses. This helps us process your changes much faster."
@@ -136,5 +136,5 @@ en:
     feature: Features
     general: General
     search: Search
-    navigation: (Beta) Navigation
+    navigation: Navigation
 </i18n>

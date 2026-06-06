@@ -131,7 +131,7 @@ test.describe("Details Page - Navigation Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const navButton = page.getByRole("link", { name: "Navigation starten (BETA)" }).first();
+    const navButton = page.getByRole("link", { name: "Navigation starten" }).first();
     await expect(navButton).toBeVisible();
     await expect(navButton).toHaveCount(1);
     // Scroll element into view before clicking
@@ -188,7 +188,7 @@ test.describe("Details Page - Share and Actions", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/mi");
 
-    const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
+    const shareButton = page.getByRole("button", { name: "Teilen", exact: true });
     await shareButton.click();
 
     // Share tab is the default selected tab and now also lists external "Open in" links
@@ -205,7 +205,7 @@ test.describe("Details Page - Share and Actions", () => {
     await page.goto("/view/mi", { waitUntil: "networkidle" });
     await expect(page).toHaveURL("building/mi");
 
-    const shareButton = page.getByRole("button", { name: "Externe Links und optionen" });
+    const shareButton = page.getByRole("button", { name: "Teilen", exact: true });
     await shareButton.click();
 
     // share dialog uses tabs - switch to the Embed tab
@@ -222,6 +222,39 @@ test.describe("Details Page - Share and Actions", () => {
 
     const copyButton = page.getByRole("button", { name: /Einbettungs-Code kopieren/i });
     await expect(copyButton).toBeVisible();
+  });
+});
+
+test.describe("Details Page - Action Toolbar", () => {
+  test("action tiles expose their labels as visible text", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await expect(page.getByText("Teilen", { exact: true })).toBeVisible();
+    await expect(page.getByText("Änderung vorschlagen", { exact: true })).toBeVisible();
+  });
+
+  test("suggest-a-change tile opens the edit modal with the lead question", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
+
+    await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
+    await expect(page.getByText("Was möchtest du ändern?")).toBeVisible();
+  });
+
+  test("report-a-problem link bridges from the edit modal to feedback", async ({ page }) => {
+    await page.goto("/view/mi", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi");
+
+    await page.getByRole("button", { name: "Änderung vorschlagen", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Änderungen vorschlagen" })).toBeVisible();
+
+    await page.getByRole("button", { name: /Melde einfach ein Problem/ }).click();
+
+    // entry-feedback hint only renders for the "entry" category
+    await expect(page.getByText("Möchtest du einen Eintrag korrigieren?")).toBeVisible();
   });
 });
 
