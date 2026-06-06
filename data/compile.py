@@ -6,6 +6,7 @@ from typing import Any
 
 import polars as pl
 import processors.areatree.process as areatree
+from external.loaders.opening_hours import load_opening_hours
 from processors import (
     aliases,
     coords,
@@ -20,6 +21,7 @@ from processors import (
     sections,
     sitemap,
     structure,
+    studierendenwerk,
     tumonline,
 )
 from processors.df_utils import ensure_columns
@@ -182,8 +184,12 @@ def _run_pipeline(
     _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
+    # Hand-authored schedules win over scraped mensa hours on an id collision.
+    schedules = pl.concat([load_opening_hours(), studierendenwerk.mensa_opening_hours()], how="vertical").unique(
+        subset="id", keep="first", maintain_order=True
+    )
     # Fails the build if a schedule targets an unknown entry id.
-    df = opening_hours.merge_opening_hours(df)
+    df = opening_hours.merge_opening_hours(df, schedules=schedules)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.
