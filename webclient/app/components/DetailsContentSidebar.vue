@@ -28,7 +28,7 @@ const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 const calendar = useCalendar();
 
-// Navigation is a beta gimmick that only makes sense when we know the location more precisely than the building level.
+// Navigation only makes sense when we know the location more precisely than the building level.
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
 
 const shareModalOpen = ref(false);
@@ -207,8 +207,6 @@ const actions = computed<DetailAction[]>(() => [
       <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
     </div>
 
-    <!-- Action bar -->
-    <DetailActionToolbar :actions="actions" class="mb-6"/>
     <ShareModal v-model:open="shareModalOpen" :coords="data.coords" :name="data.name" :id="data.id"/>
 
     <!-- Toasts/Alerts -->
@@ -234,9 +232,12 @@ const actions = computed<DetailAction[]>(() => [
     </div>
 
     <!-- Property Table -->
-    <div class="mb-8">
+    <div class="mb-6">
       <DetailsPropertyTable :props="data.props"/>
     </div>
+
+    <!-- Action bar -->
+    <DetailActionToolbar :actions="actions" class="mb-8"/>
 
     <!-- Extra Sections -->
     <div class="flex flex-col gap-6">
@@ -262,7 +263,7 @@ de:
     calendar: Kalender öffnen
     copy_link: Link kopieren
     share: Teilen
-    start_navigation: Navigation starten (BETA)
+    start_navigation: Navigation starten
     suggest_edit: Änderung vorschlagen
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
@@ -275,7 +276,7 @@ en:
     calendar: Open calendar
     copy_link: Copy link
     share: Share
-    start_navigation: Start navigation (BETA)
+    start_navigation: Start navigation
     suggest_edit: Suggest a change
   add_first_image: Add first image
   suggest_edit: I know where it is

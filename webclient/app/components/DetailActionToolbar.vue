@@ -15,7 +15,7 @@ const props = defineProps<{
 const visibleActions = computed(() => props.actions.filter((a) => a.visible !== false));
 
 const tileClass =
-  "focusable flex h-full w-full flex-col items-center justify-center gap-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-2 py-2.5 text-blue-600 dark:text-blue-300 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-900 dark:hover:text-blue-50 transition-colors";
+  "focusable flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-2 py-1.5 text-blue-600 dark:text-blue-300 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-900 dark:hover:text-blue-50 transition-colors";
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const tileClass =
         :class="tileClass"
         prefetch-on="interaction"
       >
-        <MdiIcon :path="action.icon" :size="24" class="shrink-0" />
+        <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
         <span class="text-center text-xs font-medium leading-tight">{{ action.label }}</span>
       </NuxtLinkLocale>
       <button
@@ -40,7 +40,7 @@ const tileClass =
         :class="tileClass"
         @click="action.onClick?.()"
       >
-        <MdiIcon :path="action.icon" :size="24" class="shrink-0" />
+        <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
         <span class="text-center text-xs font-medium leading-tight">{{ action.label }}</span>
       </button>
     </li>
