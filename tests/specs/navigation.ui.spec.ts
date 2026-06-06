@@ -101,6 +101,39 @@ test.describe("Navigation Page - Location Search", () => {
   });
 });
 
+test.describe("Navigation Page - Search route button", () => {
+  test("appears only once an endpoint is selected and submits without reloading", async ({
+    page,
+  }) => {
+    await page.goto("/navigate", { waitUntil: "networkidle" });
+
+    // No endpoint picked yet -> no route to search for, so no button.
+    await expect(page.getByRole("button", { name: "Route suchen" })).toHaveCount(0);
+
+    const fromInput = page.getByPlaceholder("Von").first();
+    await fromInput.fill("Mathematik Informatik");
+    await page.getByText("Fakultät Mathematik").click();
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
+
+    // Selecting an endpoint reveals the search button inside that field.
+    const searchButton = page.getByRole("button", { name: "Route suchen" }).first();
+    await expect(searchButton).toBeVisible();
+
+    // Submitting must stay client-side: a full reload would discard in-memory state (e.g. the
+    // public-transit time selection). Tag the window and assert the tag survives the click.
+    await page.evaluate(() => {
+      (window as unknown as { __noReload: boolean }).__noReload = true;
+    });
+    await searchButton.click();
+    await expect
+      .poll(() =>
+        page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload === true)
+      )
+      .toBe(true);
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
+  });
+});
+
 test.describe("Navigation Page - Back Navigation", () => {
   test("should show and use back button when coming from details page", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw&coming_from=mi", { waitUntil: "networkidle" });
