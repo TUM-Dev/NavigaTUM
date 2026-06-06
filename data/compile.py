@@ -265,7 +265,7 @@ def _run_pipeline(
     df = lf.collect()
 
     # Needs arch_name (added at step 98) to join the Iris roster against NavigaTUM aliases.
-    _logger.info("-- 99 AStA Iris learning-room coverage")
+    _logger.info("-- 99 Studentische Vertretung IRIS learning-room coverage")
     df = iris.add_iris_coverage(df)
 
     _logger.info("-- 100 Export and generate Sitemap")

@@ -2,7 +2,7 @@ import dataframely as dy
 
 
 class IrisRoomsSchema(dy.Schema):
-    """AStA Iris learning-room roster (`iris.csv`)."""
+    """Studentische Vertretung IRIS learning-room roster (`iris.csv`)."""
 
     # The `<arch_name>@<building_id>` form, joined against NavigaTUM aliases. Globally unique.
     raum_nr_architekt = dy.String(nullable=False, primary_key=True)

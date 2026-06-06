@@ -42,7 +42,7 @@ jobs:
           CONNECTUM_OAUTH_CLIENT_ID: "${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}"
           CONNECTUM_OAUTH_CLIENT_SECRET: "${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}"
         working-directory: data/external
-      - name: Download AStA Iris learning-room roster
+      - name: Download Studentische Vertretung IRIS learning-room roster
         continue-on-error: true # an outage leaves the previous roster in place => coverage degrades, build still works
         run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/iris.py
         working-directory: data/external

@@ -220,7 +220,6 @@ const suggestLocationFix = () => {
         id="details-no_floor_overlay"
       />
       <Toast v-if="data.props.comment" :msg="data.props.comment" id="details-comment"/>
-      <DetailsIrisCoverageCard :has-coverage="data.props.has_iris_coverage"/>
     </div>
 
     <!-- Property Table -->
@@ -232,6 +231,8 @@ const suggestLocationFix = () => {
     <div class="flex flex-col gap-6">
       <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview"/>
       <ClientOnly>
+        <!-- Browser-side live status; gated on the build-time signal so uncovered pages issue no Iris request. -->
+        <LazyDetailsIrisCoverageCard v-if="data.props.has_iris_coverage" :building-id="data.id"/>
         <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview"/>
         <LazyDetailsNearbyTransportSection :id="data.id"/>
       </ClientOnly>

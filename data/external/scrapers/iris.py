@@ -14,9 +14,9 @@ _logger = logging.getLogger(__name__)
 
 def scrape_iris() -> None:
     """
-    Write `iris.csv` from the live AStA Iris endpoint.
+    Write `iris.csv` from the live Studentische Vertretung IRIS endpoint.
 
-    Refuses to overwrite with an empty roster, so a transient AStA outage leaves the previously
+    Refuses to overwrite with an empty roster, so a transient outage leaves the previously
     scraped data in place rather than wiping coverage.
     """
     response = requests.get(IRIS_API_URL, timeout=30)

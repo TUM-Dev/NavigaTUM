@@ -6,7 +6,7 @@ from external.schemas.iris import IrisRoomsSchema
 
 def load_iris_rooms() -> pl.DataFrame:
     """
-    Load the AStA Iris learning-room roster. Dtypes enforced by `IrisRoomsSchema`.
+    Load the Studentische Vertretung IRIS learning-room roster. Dtypes enforced by `IrisRoomsSchema`.
 
     Both columns stay `String` so building ids like "0201" keep their leading zeros.
     """
