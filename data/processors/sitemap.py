@@ -1,6 +1,6 @@
 import logging
 import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal, TypedDict
 
@@ -41,7 +41,7 @@ WEB_SITEMAP_URL = "https://nav.tum.de/sitemap-webclient.xml"
 def generate_sitemap(
     *,
     old_data: list[Any],
-    old_sitemaps: "SimplifiedSitemaps",
+    old_sitemaps: SimplifiedSitemaps,
     web_sitemap: dict[str, datetime],
 ) -> None:
     """
@@ -71,7 +71,7 @@ def fetch_old_data() -> list[Any]:
         return []
 
 
-def fetch_online_sitemaps() -> "SimplifiedSitemaps":
+def fetch_online_sitemaps() -> SimplifiedSitemaps:
     """Download both room and other sitemaps. Safe to call from a worker thread."""
     return {
         "room": download_online_sitemap(ROOM_SITEMAP_URL),
@@ -130,12 +130,12 @@ def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps
         }[entry["type"]]
         url = f"https://nav.tum.de/{url_type_name}/{_id}"
         if _id not in old_data_dict or entry != old_data_dict[_id]:
-            lastmod = datetime.now(timezone.utc)
+            lastmod = datetime.now(UTC)
             changed_count += 1
         elif old_lastmod := old_sitemaps[sitemap_name].get(url):
             lastmod = old_lastmod
         else:
-            lastmod = datetime.now(timezone.utc)
+            lastmod = datetime.now(UTC)
             changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
@@ -181,7 +181,7 @@ def download_online_sitemap(url: str) -> dict[str, datetime]:
         lastmod = child.find(f"{xmlns}lastmod")
         if loc is not None and lastmod is not None:
             lastmod_time = datetime.fromisoformat(lastmod.text.rstrip("Z"))
-            sitemap[loc.text] = lastmod_time.replace(tzinfo=timezone.utc)
+            sitemap[loc.text] = lastmod_time.replace(tzinfo=UTC)
     return sitemap
 
 

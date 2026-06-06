@@ -2,7 +2,7 @@ import logging
 import os
 from math import acos, cos, radians, sin
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 from PIL import Image
 from ruamel.yaml import YAML
@@ -51,15 +51,15 @@ class TranslatableStr(dict[str, str]):
         """Return a hash as if this was a string."""
         return hash(self["de"])
 
-    def __le__(self, other: "TranslatableStr") -> bool:
+    def __le__(self, other: TranslatableStr) -> bool:
         """Compare one String to another, sorting by the german string."""
         return str(self["de"]) <= str(other["de"])
 
-    def __lt__(self, other: "TranslatableStr") -> bool:
+    def __lt__(self, other: TranslatableStr) -> bool:
         """Compare one String to another, sorting by the german string."""
         return str(self["de"]) < str(other["de"])
 
-    def __add__(self, other: Union[str, "TranslatableStr"]) -> "TranslatableStr":
+    def __add__(self, other: str | TranslatableStr) -> TranslatableStr:
         """Concatenate two TranslatableStr or a TranslatableStr with a string ."""
         if isinstance(other, str):
             return TranslatableStr(self["de"] + other, self["en"] + other)
@@ -67,13 +67,13 @@ class TranslatableStr(dict[str, str]):
             return TranslatableStr(self["de"] + other["de"], self["en"] + other["en"])
         raise ValueError(f"{self} + {other} is not implmented")
 
-    def __radd__(self, other: str) -> "TranslatableStr":
+    def __radd__(self, other: str) -> TranslatableStr:
         """Concatenate a TranslatableStr onto a string"""
         if isinstance(other, str):
             return TranslatableStr(other + self["de"], other + self["en"])
         raise ValueError(f"{other} + {self} is not implmented")
 
-    def format(self, *args: Any, **kwargs: Any) -> "TranslatableStr":
+    def format(self, *args: Any, **kwargs: Any) -> TranslatableStr:
         """Apply the format-method to the contained data, as if the class itsself was a string."""
         self["de"] = self["de"].format(*args, **kwargs)
         self["en"] = self["en"].format(*args, **kwargs)

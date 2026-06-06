@@ -35,7 +35,7 @@ class ImageSource(PydanticConfiguration):
     offsets: ImageOffset = Field(default_factory=ImageOffset)
 
     @classmethod
-    def load_all(cls) -> dict[str, list["ImageSource"]]:
+    def load_all(cls) -> dict[str, list[ImageSource]]:
         """Load the image sources from the img-sources.yaml file"""
         with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
             raw: dict[str, dict[int, dict[str, Any]]] = yaml.safe_load(file.read())
