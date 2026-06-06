@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { mdiCalendarMonth, mdiClipboardCheck, mdiLink, mdiPencil, mdiPlus } from "@mdi/js";
+import {
+  mdiCalendarMonth,
+  mdiClipboardCheck,
+  mdiDirections,
+  mdiLink,
+  mdiPencil,
+  mdiPlus,
+} from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
@@ -18,6 +25,9 @@ const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 const calendar = useCalendar();
+
+// Navigation is a beta gimmick that only makes sense when we know the location more precisely than the building level.
+const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {
@@ -159,6 +169,16 @@ const suggestLocationFix = () => {
     <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
       <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
       <div class="flex flex-row items-center gap-3">
+        <NuxtLinkLocale
+          v-if="navigationEnabled"
+          :to="`/navigate?coming_from=${data.id}&to=${data.id}&q_to=${data.name}`"
+          class="focusable rounded-sm print:hidden"
+          :title="t('header.start_navigation')"
+          :aria-label="t('header.start_navigation')"
+          prefetch-on="interaction"
+        >
+          <MdiIcon :path="mdiDirections" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
+        </NuxtLinkLocale>
         <button
           v-if="data.props?.calendar_url"
           type="button"
@@ -205,8 +225,7 @@ const suggestLocationFix = () => {
 
     <!-- Property Table -->
     <div class="mb-8">
-      <DetailsPropertyTable :id="data.id" :props="data.props" :name="data.name"
-                            :navigation-enabled="data.coords.accuracy !== 'building'"/>
+      <DetailsPropertyTable :props="data.props"/>
     </div>
 
     <!-- Extra Sections -->
@@ -232,6 +251,7 @@ de:
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
+    start_navigation: Navigation starten (BETA)
     suggest_edit: Änderung vorschlagen
   add_first_image: Erstes Bild hinzufügen
   suggest_edit: Ich weiß wo es liegt
@@ -243,6 +263,7 @@ en:
   header:
     calendar: Open calendar
     copy_link: Copy link
+    start_navigation: Start navigation (BETA)
     suggest_edit: Suggest edit
   add_first_image: Add first image
   suggest_edit: I know where it is
