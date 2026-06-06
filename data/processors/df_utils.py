@@ -305,6 +305,9 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         props["generic"] = orjson.loads(row["props_generic_json"])
     if row.get("props_comment_de"):
         props["comment"] = {"en": row.get("props_comment_en", ""), "de": row["props_comment_de"]}
+    # Emitted only where present, so absent reads as "no coverage" on the info card.
+    if row.get("has_iris_coverage"):
+        props["has_iris_coverage"] = True
 
     if props:
         result["props"] = props

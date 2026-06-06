@@ -2632,6 +2632,14 @@ components:
             For buildings, this may contain multiple floors while rooms usually only have one floor.
             POIs inherit floors from their immediate parent: a single floor when parented to a room,
             or the full building list when parented to a building.
+        has_iris_coverage:
+          type: boolean
+          description: |-
+            Whether this building/area has `AStA` Iris learning-room coverage.
+
+            Derived at data-build time by matching the `AStA` Iris room roster against our aliases.
+            When `true`, the page can offer a learning-room availability view without a second request.
+            Absent (rather than `false`) for entries without coverage.
         links:
           type: array
           items:

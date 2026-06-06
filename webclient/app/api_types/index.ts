@@ -1258,6 +1258,14 @@ export type components = {
        * or the full building list when parented to a building.
        */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
+      /**
+       * @description Whether this building/area has AStA Iris learning-room coverage.
+       *
+       * Derived at data-build time by matching the AStA Iris room roster against our aliases.
+       * When `true`, the page can offer a learning-room availability view without a second request.
+       * Absent (rather than `false`) for entries without coverage.
+       */
+      readonly has_iris_coverage?: boolean;
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };

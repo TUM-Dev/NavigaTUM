@@ -11,6 +11,7 @@ from processors import (
     coords,
     export,
     images,
+    iris,
     merge,
     poi,
     roomfinder,
@@ -262,6 +263,10 @@ def _run_pipeline(
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")
     df = lf.collect()
+
+    # Needs arch_name (added at step 98) to join the Iris roster against NavigaTUM aliases.
+    _logger.info("-- 99 AStA Iris learning-room coverage")
+    df = iris.add_iris_coverage(df)
 
     _logger.info("-- 100 Export and generate Sitemap")
     data = export.reconstruct_data(df)
