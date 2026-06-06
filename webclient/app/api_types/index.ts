@@ -1259,9 +1259,9 @@ export type components = {
        */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
       /**
-       * @description Whether this building/area has AStA Iris learning-room coverage.
+       * @description Whether this building/area has Studentische Vertretung IRIS learning-room coverage.
        *
-       * Derived at data-build time by matching the AStA Iris room roster against our aliases.
+       * Derived at data-build time by matching the Studentische Vertretung IRIS room roster against our aliases.
        * When `true`, the page can offer a learning-room availability view without a second request.
        * Absent (rather than `false`) for entries without coverage.
        */

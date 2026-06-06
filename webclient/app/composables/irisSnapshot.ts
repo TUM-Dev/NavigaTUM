@@ -2,7 +2,7 @@ import { tryOnScopeDispose } from "@vueuse/core";
 import { IRIS_API_URL, type IrisRoom, parseIrisRooms } from "~/utils/iris";
 
 /**
- * Own the browser-side fetch of the full AStA Iris room roster.
+ * Own the browser-side fetch of the full Studentische Vertretung IRIS room roster.
  *
  * The roster is fetched directly from `iris.asta.tum.de` (public, CORS-`*`) and never proxied
  * through the NavigaTUM server. Each {@link refresh} aborts a still-pending one so a slow earlier

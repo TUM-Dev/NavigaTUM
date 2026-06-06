@@ -114,7 +114,7 @@ class LocationSchema(dy.Schema):
     description_json = dy.String()
     external_data_json = dy.String()
 
-    # --- AStA Iris learning-room coverage ---
+    # --- Studentische Vertretung IRIS learning-room coverage ---
     has_iris_coverage = dy.Bool(nullable=False)
 
     @dy.rule()

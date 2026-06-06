@@ -67,7 +67,7 @@ NavigaTUM does not proxy these requests and does not see the response.
 
 Detail pages of buildings or areas that have learning-room coverage include a "Learning rooms" section showing the current occupancy status of the building's learning rooms.
 The processing is based on Art. 6 para. 1 lit. f GDPR (legitimate interest in showing the current learning-room availability for the displayed building).
-For this, the user's browser contacts the [AStA Iris learning-room display](https://iris.asta.tum.de) (`https://iris.asta.tum.de/api/`) **directly**.
+For this, the user's browser contacts the [Studentische Vertretung IRIS learning-room display](https://iris.asta.tum.de) (`https://iris.asta.tum.de/api/`) **directly**.
 Unlike the public-transport feature, this request is not triggered by an explicit action: it is sent automatically once the section becomes visible and then repeated roughly every 60 seconds (see the "Recipients" section for details).
 NavigaTUM does not proxy these requests and does not see the response.
 
@@ -112,10 +112,10 @@ In addition to the information listed above, the following is transmitted:
 
 Transitous's own handling of these requests is described in their [privacy policy](https://transitous.org/privacy/) (summary: IP, time, requested URL and `User-Agent` are logged for up to 2 days).
 
-**Learning-room availability - AStA Iris**
+**Learning-room availability - Studentische Vertretung IRIS**
 
 ```plain
-AStA Iris - learning-room display of the student representation of TU Munich
+IRIS - learning-room display of the Studentische Vertretung (student representation) of TU Munich
 Responsible body: Technical University of Munich, Arcisstraße 21, 80333 Munich
 https://iris.asta.tum.de
 ```
@@ -124,7 +124,7 @@ On building/area pages that have learning-room coverage, the browser contacts `h
 As soon as the section scrolls out of view or the browser tab moves to the background, the refresh pauses.
 Beyond the information listed above, **no** further parameters are transmitted: the request always fetches the full Iris room list, which is identical for every user, and in particular contains **no** indication of which building the user is currently viewing.
 
-How these requests are processed is described in the [AStA Iris privacy policy](https://www.devapp.it.tum.de/iris/app/about) (summary: the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address; operated by the LRZ).
+How these requests are processed is described in the [Studentische Vertretung IRIS privacy policy](https://www.devapp.it.tum.de/iris/app/about) (summary: the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address; operated by the LRZ).
 
 If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of
 the respective control rights.
@@ -169,8 +169,8 @@ After 2 days the log entries are deleted. Earlier deletion of entries that can b
 #### Learning-room availability
 
 NavigaTUM does not store any data from the "Learning rooms" feature.
-The request leaves the user's browser directly for the AStA Iris display and the response is rendered client-side only.
-Any logging takes place solely at AStA Iris as the operator: per its [privacy policy](https://www.devapp.it.tum.de/iris/app/about), the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address (operated by the LRZ).
+The request leaves the user's browser directly for the Studentische Vertretung IRIS display and the response is rendered client-side only.
+Any logging takes place solely at Studentische Vertretung IRIS as the operator: per its [privacy policy](https://www.devapp.it.tum.de/iris/app/about), the web server logs the IP address, time and requested URL among others; log entries older than seven days are anonymized by truncating the IP address (operated by the LRZ).
 
 ## Your rights
 
@@ -396,7 +396,7 @@ The provision of the stop identifier and the request itself is voluntary; if the
 On building/area pages that have learning-room coverage, the "Learning rooms" section shows the current occupancy status of the learning rooms. Once this section is visible, the browser loads the status automatically and refreshes it roughly every 60 seconds; while the section is off-screen or the tab is in the background, the refresh pauses.
 
 **Recipient:**
-The request goes directly from the user's browser to the AStA Iris display (`https://iris.asta.tum.de/api/`). NavigaTUM does not proxy these requests, does not see the response and does not store any data from this feature. The request contains no NavigaTUM identifier and no indication of the building being viewed. How AStA Iris, as the operator, processes these requests is described in its [privacy policy](https://www.devapp.it.tum.de/iris/app/about).
+The request goes directly from the user's browser to the Studentische Vertretung IRIS display (`https://iris.asta.tum.de/api/`). NavigaTUM does not proxy these requests, does not see the response and does not store any data from this feature. The request contains no NavigaTUM identifier and no indication of the building being viewed. How Studentische Vertretung IRIS, as the operator, processes these requests is described in its [privacy policy](https://www.devapp.it.tum.de/iris/app/about).
 
 **Provision prescribed or required:**
-The provision is voluntary; if the user does not open a building/area page that has learning-room coverage, or the section is not visible, no data is sent to the AStA Iris display.
+The provision is voluntary; if the user does not open a building/area page that has learning-room coverage, or the section is not visible, no data is sent to the Studentische Vertretung IRIS display.

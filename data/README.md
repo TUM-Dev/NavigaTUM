@@ -154,7 +154,7 @@ Some work is underway to ensure that this format is actually being followed via 
     - **Steps 7x**: -
     - **Steps 8x**: Generate properties and sections (such as overview sections)
 - **Steps 90-99**: Process and export for search, and derive external coverage signals (such as
-  AStA Iris learning-room coverage, which needs the `arch_name` aliases built at step 98).
+  Studentische Vertretung IRIS learning-room coverage, which needs the `arch_name` aliases built at step 98).
 - **Step 100**: Export final data (for use in the API). Some temporary data fields might be removed at this point.
 
 ### Details

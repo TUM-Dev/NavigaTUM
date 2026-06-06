@@ -1,10 +1,10 @@
-// Types and pure derivation for the AStA Iris learning-room availability card.
+// Types and pure derivation for the Studentische Vertretung IRIS learning-room availability card.
 //
 // The browser-side fetch, per-room alias resolution, and polling live in the
 // `useIrisAvailability` composable. Everything here is pure (no Nuxt auto-imports,
 // no network) so the parsing and alias-join logic stays unit-testable.
 
-// Public, unauthenticated AStA Iris endpoints. The API sends `Access-Control-Allow-Origin: *`,
+// Public, unauthenticated Studentische Vertretung IRIS endpoints. The API sends `Access-Control-Allow-Origin: *`,
 // so the browser may fetch it directly - NavigaTUM never proxies live status.
 export const IRIS_API_URL = "https://iris.asta.tum.de/api/";
 export const IRIS_SITE_URL = "https://iris.asta.tum.de/";
@@ -71,7 +71,7 @@ function parseOccupancy(raw: Record<string, unknown>): IrisOccupancy | null {
 }
 
 /**
- * Parse the AStA Iris `GET /api/` body into the rooms we render.
+ * Parse the Studentische Vertretung IRIS `GET /api/` body into the rooms we render.
  *
  * Tolerant by design: a malformed body yields an empty list and individual rooms missing the
  * fields we depend on are skipped, so a partial response degrades gracefully instead of throwing.
