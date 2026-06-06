@@ -12,6 +12,7 @@ import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import type { DetailAction } from "~/components/DetailActionToolbar.vue";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
@@ -31,6 +32,20 @@ const calendar = useCalendar();
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
 
 const shareModalOpen = ref(false);
+
+// Breadcrumb ancestors link straight to their canonical /{type}/{id} path via the parent's type
+// (parallel to parents/parent_names). Index 0 is the synthetic `root` and links home. When
+// `parent_types` is absent (data from an older pipeline) or non-routable, fall back to /view/{id},
+// which the server redirects to the canonical path.
+const breadcrumbItems = computed(() =>
+  props.data.parent_names.map((name, i) => {
+    const id = props.data.parents[i];
+    // Index 0 is the synthetic `root`; a missing id (parallel arrays out of sync) also links home.
+    if (i === 0 || !id) return { name, to: "/" };
+    const type = props.data.parent_types?.[i];
+    return { name, to: type && isRoutableEntityType(type) ? entityPath(id, type) : `/view/${id}` };
+  })
+);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {
@@ -121,7 +136,7 @@ const actions = computed<DetailAction[]>(() => [
     label: t("header.start_navigation"),
     shortLabel: t("header.start_navigation_short"),
     visible: navigationEnabled.value,
-    href: `/navigate?coming_from=${props.data.id}&to=${props.data.id}&q_to=${props.data.name}`,
+    href: `/navigate?coming_from=${props.data.id}&coming_from_type=${props.data.type}&to=${props.data.id}&q_to=${props.data.name}`,
   },
   {
     key: "share",
@@ -179,15 +194,7 @@ const actions = computed<DetailAction[]>(() => [
   <!-- Content Padding -->
   <div class="px-5 pb-8 pt-4 bg-zinc-50 dark:bg-zinc-900">
     <!-- Breadcrumbs -->
-    <BreadcrumbList
-      :items="
-        data.parent_names.map((n, i) => ({
-          name: n,
-          to: i > 0 ? '/view/' + data?.parents[i] : '/',
-        }))
-      "
-      class="mb-2"
-    />
+    <BreadcrumbList :items="breadcrumbItems" class="mb-2" />
 
     <!-- Title & Actions -->
     <div class="group flex py-1 rounded transition-colors flex-row items-center gap-2">

@@ -597,12 +597,24 @@ export type components = {
       /** @description The name of the entry in a human-readable form */
       readonly name: string;
       /**
-       * @description The ids of the parents.
+       * @description The human names of the parents.
        *
        * They are ordered as they would appear in a Breadcrumb menu.
        * See `parents` for their actual ids.
        */
       readonly parent_names: readonly [string, ...string[]];
+      /**
+       * @description The types of the parents.
+       *
+       * They are ordered as they would appear in a Breadcrumb menu, parallel to `parents`
+       * and `parent_names`. The client uses each type to build the canonical `/{type}/{id}`
+       * breadcrumb link without a per-id round-trip. The synthetic `root` ancestor reports
+       * the type `root`.
+       *
+       * Optional so the server still deserializes data emitted by an older pipeline (where
+       * this field is absent) during the rollout window before the data job repopulates the CDN.
+       */
+      readonly parent_types?: readonly [string, ...string[]] | null;
       /**
        * @description The ids of the parents.
        *
