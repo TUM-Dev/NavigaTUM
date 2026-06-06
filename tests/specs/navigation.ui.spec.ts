@@ -72,6 +72,74 @@ test.describe("Navigation Page - Map Display", () => {
 
     // await expect(page).toHaveScreenshot();
   });
+
+  // Regression test for TUM-Dev/NavigaTUM#1960: with only one endpoint defined
+  // the map used to stay on the campus-overview default (the Studitum) instead
+  // of framing the endpoint. There is no route to fit to, so the page resolves
+  // the single endpoint's coordinates via /api/locations/<id> and centres on
+  // them. Map rendering is flaky to screenshot in CI, so we assert that the
+  // resolution request fires (proving the focus path ran) rather than on pixels.
+  test("resolves the single endpoint when only `from` is defined", async ({ page }) => {
+    const detailsRequest = page.waitForRequest((req) => req.url().includes("/api/locations/mi"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?from=mi", { waitUntil: "domcontentloaded" });
+    await detailsRequest;
+    await expect(page).toHaveURL(/from=mi/);
+  });
+
+  test("resolves the single endpoint when only `to` is defined", async ({ page }) => {
+    const detailsRequest = page.waitForRequest((req) => req.url().includes("/api/locations/mi"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?to=mi", { waitUntil: "domcontentloaded" });
+    await detailsRequest;
+    await expect(page).toHaveURL(/to=mi/);
+  });
+
+  test("with both endpoints, fits the route and does not resolve a single endpoint", async ({
+    page,
+  }) => {
+    const locationsRequests: string[] = [];
+    page.on("request", (req) => {
+      if (req.url().includes("/api/locations/")) locationsRequests.push(req.url());
+    });
+    const routeRequest = page.waitForRequest((req) => req.url().includes("/api/maps/route"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
+    await routeRequest;
+    // The single-endpoint resolver would only fire client-side once the map has
+    // mounted, so wait for the canvas before asserting it stayed silent.
+    await expect(page.locator("canvas").first()).toBeVisible();
+    expect(locationsRequests).toEqual([]);
+  });
+
+  test("with neither endpoint, keeps the campus-overview default", async ({ page }) => {
+    const locationsRequests: string[] = [];
+    page.on("request", (req) => {
+      if (req.url().includes("/api/locations/")) locationsRequests.push(req.url());
+    });
+    await page.goto("/navigate", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("canvas").first()).toBeVisible();
+    expect(locationsRequests).toEqual([]);
+  });
+
+  test("falls back gracefully when the single endpoint id is unresolvable", async ({ page }) => {
+    const pageErrors: Error[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err));
+    const detailsResponse = page.waitForResponse(
+      (resp) => resp.url().includes("/api/locations/invalid_location_123"),
+      { timeout: 15_000 }
+    );
+    await page.goto("/navigate?from=invalid_location_123", { waitUntil: "domcontentloaded" });
+
+    // The id does not resolve, so the resolver must swallow the 404 rather than
+    // throw, and the map must still render (on its campus-overview default).
+    expect((await detailsResponse).status()).toBe(404);
+    await expect(page.locator("canvas").first()).toBeVisible();
+    expect(pageErrors).toEqual([]);
+  });
 });
 
 test.describe("Navigation Page - Turn-by-Turn Directions", () => {

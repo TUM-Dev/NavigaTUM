@@ -58,11 +58,12 @@ const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
-const zoom = computed<number>(() => {
-  if (props.type === "building") return 17;
-  if (props.type === "room") return 18;
+function zoomForType(type: LocationDetailsResponse["type"] | undefined): number {
+  if (type === "building") return 17;
+  if (type === "room") return 18;
   return 16;
-});
+}
+const zoom = computed<number>(() => zoomForType(props.type));
 
 onMounted(async () => {
   if (!webglSupport) return;
@@ -393,6 +394,27 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   );
 }
 
+/**
+ * Centre the map on a single location.
+ *
+ * Used by the navigation view when only one endpoint is defined and there is
+ * no route to fit to: the map should frame that endpoint rather than fall back
+ * to the campus-overview default. The zoom is chosen by entry type so a room is
+ * shown closer than a whole site.
+ */
+function flyToCoords(
+  coords: { lat: number; lon: number },
+  type?: LocationDetailsResponse["type"],
+  isAfterLoaded = false
+) {
+  if (!map.value || (!isAfterLoaded && !map.value.loaded())) {
+    afterLoaded.value = () => flyToCoords(coords, type, true);
+    return;
+  }
+  marker.value?.setLngLat([coords.lon, coords.lat]);
+  map.value.flyTo({ center: [coords.lon, coords.lat], zoom: zoomForType(type) });
+}
+
 function fitBounds(lon: [number, number], lat: [number, number]) {
   if (!map.value) {
     console.error("tried to fly to point but map has not loaded yet.. wtf??");
@@ -550,6 +572,7 @@ function triggerGeolocation() {
 defineExpose({
   drawRoute,
   fitBounds,
+  flyToCoords,
   drawMotisItinerary,
   highlightMotisLeg,
   focusOnMotisLeg,
