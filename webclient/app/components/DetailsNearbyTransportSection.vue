@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mdiArrowRightThin, mdiChevronDown, mdiChevronUp, mdiHelpCircle } from "@mdi/js";
+import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import {
   boardingRestriction,
@@ -24,7 +25,7 @@ const { t } = useI18n({ useScope: "local" });
 const { stations, toggleExpand, now } = await useNearbyDepartures(() => props.id);
 
 const INITIAL_VISIBLE = 5;
-const showAll = ref(false);
+const [showAll, toggleShowAll] = useToggle(false);
 const visibleStations = computed(() =>
   showAll.value ? stations.value : stations.value.slice(0, INITIAL_VISIBLE)
 );
@@ -207,7 +208,7 @@ function rowTitle(entry: StopTimeEntry): string {
       type="button"
       class="focusable self-start flex items-center gap-1 rounded-sm px-2 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100"
       :aria-expanded="showAll"
-      @click="showAll = !showAll"
+      @click="toggleShowAll()"
     >
       <MdiIcon :path="showAll ? mdiChevronUp : mdiChevronDown" :size="16" />
       {{ showAll ? t("show_less") : t("show_more", { count: hiddenCount }) }}
