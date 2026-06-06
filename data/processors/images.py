@@ -211,9 +211,8 @@ def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
         resizer.resize_to_max_size(IMAGE_BASE_PATH / "lg" / order.source.name, 3840)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "header" / order.source.name, (512, 210), order.offsets.header)
-    # pylint: disable-next=broad-exception-caught
-    except Exception as error:
-        _logger.error(error)  # otherwise we would not see if an error occurs
+    except Exception as error:  # noqa: BLE001 (resize is a per-image batch task; log and skip rather than abort the whole batch)
+        _logger.error(error)
 
 
 def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:
@@ -228,7 +227,7 @@ def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
     _logger.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT_FILE_PATH.is_file():
-        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore
+        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore[no-any-return]
     return {}
 
 

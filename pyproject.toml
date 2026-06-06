@@ -112,8 +112,11 @@ select = [
   # ruff-specific, pyupgrade
   "RUF", "UP",
   # bug catchers
+  "A",     # flake8-builtins (shadowing `id`, `type`, `list`, …)
   "B",     # flake8-bugbear (mutable defaults, zip-without-strict, …)
+  "BLE",   # blind `except Exception` / bare `except`
   "DTZ",   # naive datetime usage
+  "PGH",   # pygrep-hooks (blanket noqa, type: ignore, eval, …)
   "PYI",   # type-stub issues
   "YTT",   # sys.version misuse
   # imports
