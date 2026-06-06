@@ -20,45 +20,45 @@
 :Standorte:root[root]
   0:Stammgelände:stammgelaende[campus]
     01:Nordgelände:nordgelaende
-      0101:U-Trakt (N1):0101,n1
-      0102:Hochvolthaus (N2):0102,n2
-      0103:E-Technik El. Maschinen / Geräte (N3):0103,n3
-      0104:E-Technik Elektrophysik (N4):0104,n4
-      0105:E-Technik Neubau (N5):0105,n5
-      0106:Materialprüfamt (N6):0106,n6
-      0108:E-Technik Verfügungsgebäude (N8):0108,n8
-      0109:Reflexionsarmer Raum (N9):0109,n9
+      0101:U-Trakt|N1:0101,n1
+      0102:Hochvolthaus|N2:0102,n2
+      0103:E-Technik El. Maschinen / Geräte|N3:0103,n3
+      0104:E-Technik Elektrophysik|N4:0104,n4
+      0105:E-Technik Neubau|N5:0105,n5
+      0106:Materialprüfamt|N6:0106,n6
+      0108:E-Technik Verfügungsgebäude|N8:0108,n8
+      0109:Reflexionsarmer Raum|N9:0109,n9
     02:Südgelände:suedgelaende
       0201:StudiTUM Innenstadt (S1)|StudiTUM:0201,studitum-innenstadt
-      0202:Gabelsbergerstr. 39 (S2):0202,s2
-      0203:Gabelsbergerstr. 45 (S3):0203,s3
-      0204:Gabelsbergerstr. 49 (S4):0204,s4
-      0205:Arcisstr. 19 (S5):0205,s5
+      0202:Gabelsbergerstr. 39|S2:0202,s2
+      0203:Gabelsbergerstr. 45|S3:0203,s3
+      0204:Gabelsbergerstr. 49|S4:0204,s4
+      0205:Arcisstr. 19|S5:0205,s5
       0206:Mensa Arcisstr. 17 (S6)|Mensa:0206,s6
       2920:Gabelsbergerstr. 47:
     03:Südostgelände:suedostgelaende
       0305:Block D (Südost 5, ehemalig LRZ):0305,so5
     04,2903,291:Südwestgelände:suedwestgelaende
-      0401:Richard-Wagner-Str. 18 (SW1):0401,sw1
-      0403:Richard-Wagner-Str. 14 (SW3), Kindergarten:0403,sw3
+      0401:Richard-Wagner-Str. 18|SW1:0401,sw1
+      0403:Richard-Wagner-Str. 14, Kindergarten|SW3:0403,sw3
       2903:Haus Soller Augustenstr. 44-46:
       2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
       2911:Richard-Wagner-Str. 3 / Haus C, Sprachenzentrum / Alumni & Career:2911,riwa3
       2912:Brienner Forum Haus E (AM):
       2913:Brienner Forum Haus F (AM):
     05:Zentralgelände:zentralgelaende
-      0501:Hauptgebäude (Z1):
-      0502:Zentralgebäude 2 (Z2):
-      0503:Thierschbau (Z3):
-      0504:Landwirtschaftsbau (Z4):
-      0505:Wirtschaftswissenschaften (Z5):
-      0506:Theresianum (Z6):
-      0507:Zentralgebäude 7 (Z7):
+      0501:Hauptgebäude|Z1:
+      0502:Zentralgebäude 2|Z2:
+      0503:Thierschbau|Z3:
+      0504:Landwirtschaftsbau|Z4:
+      0505:Wirtschaftswissenschaften|Z5:
+      0506:Theresianum|Z6:
+      0507:Zentralgebäude 7|Z7:
       0508:Heizkraftwerk, Dieter-Thoma-Labor (Z8)|Heizkraftwerk (Z8):
       0509:Wienandsbau, E-Technik / Audimax (Z9)|Wienandsbau (Z9):
-      0510:Verwaltungsbau (Z10):
-      0511:Elektro/Werkstatt/Lösungsmittel (Z11):
-      0512:Garagen (Z12):
+      0510:Verwaltungsbau|Z10:
+      0511:Elektro/Werkstatt/Lösungsmittel|Z11:
+      0512:Garagen|Z12:
       0597:Vorplatz Audi-Max:
   15,17:Klinikum rechts der Isar (MRI)|MRI:mri[site]
     1501:Chirurgische Klinik (Bau 501):
@@ -100,10 +100,10 @@
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
     2315:Präventionszentrum:
-    2317:Kletterturm (KLT):
+    2317:Kletterturm|KLT:
     2318:Boulderturm:
-    2319:Kletter- und Boulderanlage Outdoor (KBA):
-    2320:Fitnessanlage Outdoor (FIA):
+    2319:Kletter- und Boulderanlage Outdoor|KBA:
+    2320:Fitnessanlage Outdoor|FIA:
     2321:Rasenspielplätze/Teil-Umbauten:
     2330:CiO/SG Seminarräume:
     2331:CiO/SG Hallen West, Cafeteria:
@@ -378,13 +378,13 @@
       5103:Betriebsgebäude II / Verwaltung:
       5104:RCM-Technikum:
       5108:Physik II Messbunker:
-      5109:LMU Physik, Munich Center for Advanced Photonics (MAP):
+      5109:LMU Physik, Munich Center for Advanced Photonics|MAP:
       5111:Siedlungswasserwirtschaft:
-      5112:Walter-Schottky-Institut (WSI):
-      5115:Zentrum für Nanotechnologie & -materialien (ZNN):
+      5112:Walter-Schottky-Institut|WSI:
+      5115:Zentrum für Nanotechnologie & -materialien|ZNN:
       5116:Trafostation des ZNN:
       5117:Paula-Hahn-Weinheimerstr. 1:
-      :Maier-Leibnitz-Laboratorium (MLL), TUM & LMU:mll
+      :Maier-Leibnitz-Laboratorium, TUM & LMU|MLL:mll
         5120:Beschleuniger:
         5121:Atlashalle:
       5123:LMU Physik Werkstattgebäude:
@@ -408,8 +408,8 @@
       -5251:RCM-Abwassergebäude:
       -5252:RCM-Gasversorgung:
       5257:Werkstatt u. Bürogebäude FRM II (UYW):5257,uyw
-    5301:Institute for Advanced Study (IAS):5301,ias
-    5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
+    5301:Institute for Advanced Study|IAS:5301,ias
+    5302:Centrum Baustoffe und Materialprüfung|CBM:5302,cbm
     5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
     :Chemie:chemie[joined_building]
@@ -422,12 +422,12 @@
     :Chemie Nebengebäude:chemie-nebengebaeude
       5408:Hofgebäude 1:
       5409:Umfüllstation / Sondermüll:
-      -5410:Catalysis Research Center (CRC):  # Nur auf Karte
+      -5410:Catalysis Research Center|CRC:  # Nur auf Karte
       5413:BNMRZ Bayerisches NMR-Zentrum:
-    5414:Zentrum für Energie und Information (ZEI):
-    -5415:Center for Functional Protein Assemblies (CPA):
+    5414:Zentrum für Energie und Information|ZEI:
+    -5415:Center for Functional Protein Assemblies|CPA:
     5433:Entrepreneurship Research Institute:
-    :Maschinenwesen (MW):mw[joined_building]
+    :Maschinenwesen|MW:mw[joined_building]
       5501:Gebäudeteil 1, Institut für Mechatronik:
       5502:Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung:
       5503:Gebäudeteil 3, Institut für Produktionstechnik:
@@ -449,23 +449,23 @@
     5531:Ingeborg Ortner-Kinderhaus:
     5532:StudiTUM Garching|StudiTUM:5532,studitum-garching
     560,561:Fakultät Mathematik & Informatik (FMI oder MI)|Mathe/Info (MI):mi[joined_building]
-      5601:Magistrale / Foyer (BT01):
-      5602:Hörsaal 1 (BT02):
-      5603:Bibliothek (BT03):
-      5604:Finger 04 (BT04):
-      5605:Finger 05 (BT05):
-      5606:Finger 06 (BT06):
-      5607:Finger 07 (BT07):
-      5608:Finger 08 (BT08):
-      5609:Finger 09 (BT09):
-      5610:Finger 10 (BT10):
-      5611:Finger 11 (BT11):
-      5612:Finger 12 (BT12):
-      5613:Finger 13 (BT13):
+      5601:Magistrale / Foyer|BT01:
+      5602:Hörsaal 1|BT02:
+      5603:Bibliothek|BT03:
+      5604:Finger 04|BT04:
+      5605:Finger 05|BT05:
+      5606:Finger 06|BT06:
+      5607:Finger 07|BT07:
+      5608:Finger 08|BT08:
+      5609:Finger 09|BT09:
+      5610:Finger 10|BT10:
+      5611:Finger 11|BT11:
+      5612:Finger 12|BT12:
+      5613:Finger 13|BT13:
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich Institute of Biomedical Engineering, MIBE (ehem. IMETUM, ZIMT, MSB)|MIBE:
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching
-    5932:Siemens Technology Center (STC):5932,siemens-garching
+    5932:Siemens Technology Center|STC:5932,siemens-garching
     5933:SAP Labs Munich (AM):5933,sap-garching
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:

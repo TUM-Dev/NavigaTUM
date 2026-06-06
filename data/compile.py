@@ -219,7 +219,7 @@ def main() -> None:
     lf = search.add_ranking_combined(lf)
 
     logging.info("-- 98 Aliases: extract aliases")
-    lf = aliases.add_aliases(lf)
+    lf = aliases.add_aliases(lf, aliases.building_short_name_lookup(df))
 
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")

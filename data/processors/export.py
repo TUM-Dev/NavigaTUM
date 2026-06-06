@@ -104,6 +104,9 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "name": entry["name"],
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
+                # The raw "<number>@<building_id>" form plus the derived "<short_name><number>"
+                # friendly form, so room-code queries like "MW0001" resolve to the right entry.
+                "aliases": entry.get("aliases", []),
                 "type": entry["type"],
                 "type_common_name": entry["type_common_name"],
                 "facet": {
