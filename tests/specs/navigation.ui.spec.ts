@@ -1,4 +1,14 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+// Collects every /api/locations/* request a page fires, so a test can assert
+// whether the single-endpoint resolver ran (issue #1960).
+function trackLocationRequests(page: Page): string[] {
+  const requests: string[] = [];
+  page.on("request", (req) => {
+    if (req.url().includes("/api/locations/")) requests.push(req.url());
+  });
+  return requests;
+}
 
 test.describe("Navigation Page - Basic Functionality", () => {
   test("should load navigation page with inputs", async ({ page }) => {
@@ -100,10 +110,7 @@ test.describe("Navigation Page - Map Display", () => {
   test("with both endpoints, fits the route and does not resolve a single endpoint", async ({
     page,
   }) => {
-    const locationsRequests: string[] = [];
-    page.on("request", (req) => {
-      if (req.url().includes("/api/locations/")) locationsRequests.push(req.url());
-    });
+    const locationsRequests = trackLocationRequests(page);
     const routeRequest = page.waitForRequest((req) => req.url().includes("/api/maps/route"), {
       timeout: 15_000,
     });
@@ -116,10 +123,7 @@ test.describe("Navigation Page - Map Display", () => {
   });
 
   test("with neither endpoint, keeps the campus-overview default", async ({ page }) => {
-    const locationsRequests: string[] = [];
-    page.on("request", (req) => {
-      if (req.url().includes("/api/locations/")) locationsRequests.push(req.url());
-    });
+    const locationsRequests = trackLocationRequests(page);
     await page.goto("/navigate", { waitUntil: "domcontentloaded" });
     await expect(page.locator("canvas").first()).toBeVisible();
     expect(locationsRequests).toEqual([]);

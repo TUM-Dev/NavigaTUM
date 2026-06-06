@@ -11,6 +11,7 @@ import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
+import { zoomForLocationType } from "~/utils/map";
 
 const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
@@ -24,11 +25,7 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
-const zoom = computed<number>(() => {
-  if (props.type === "building") return 17;
-  if (props.type === "room") return 18;
-  return 16;
-});
+const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 const initialLoaded = ref(false);
 

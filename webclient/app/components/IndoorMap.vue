@@ -14,6 +14,7 @@ import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
+import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
@@ -58,12 +59,7 @@ const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
-function zoomForType(type: LocationDetailsResponse["type"] | undefined): number {
-  if (type === "building") return 17;
-  if (type === "room") return 18;
-  return 16;
-}
-const zoom = computed<number>(() => zoomForType(props.type));
+const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 onMounted(async () => {
   if (!webglSupport) return;
@@ -412,7 +408,7 @@ function flyToCoords(
     return;
   }
   marker.value?.setLngLat([coords.lon, coords.lat]);
-  map.value.flyTo({ center: [coords.lon, coords.lat], zoom: zoomForType(type) });
+  map.value.flyTo({ center: [coords.lon, coords.lat], zoom: zoomForLocationType(type) });
 }
 
 function fitBounds(lon: [number, number], lat: [number, number]) {
