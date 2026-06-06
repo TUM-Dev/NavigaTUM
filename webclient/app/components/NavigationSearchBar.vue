@@ -13,6 +13,10 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
+// Tracks real input focus (distinct from `currently_actively_picking`, which only governs the
+// autocomplete dropdown and is cleared as soon as an entry is picked). The search button keys off
+// this so it stays visible while the field is being edited and autohides once focus leaves.
+const isFocused = ref(false);
 
 // Use shared geolocation state
 const geolocationState = useSharedGeolocation();
@@ -197,12 +201,30 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       :placeholder="t('input.placeholder-' + queryId)"
       :aria-label="t('input.aria-searchlabel')"
       @focus="
-        console.log('focuseed', queryId);
+        isFocused = true;
         currently_actively_picking = true;
         highlighted = 0;
       "
+      @blur="isFocused = false"
       @keydown="onKeyDown"
     />
+    <!--
+      Offer to search only while the field is focused and already holds a selected endpoint: without
+      an id there is nothing to route, and a button lingering after blur is just noise. `mousedown`
+      is prevented so the click does not blur the textarea first, which would hide this very button
+      before the click lands.
+    -->
+    <button
+      v-if="selected && isFocused"
+      type="submit"
+      class="focusable text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900 flex items-center justify-center px-3 py-2.5 transition-all duration-200 rounded-sm"
+      :title="t('search_route')"
+      :aria-label="t('search_route')"
+      @mousedown.prevent
+      @click="currently_actively_picking = false"
+    >
+      <MdiIcon :path="mdiMagnify" :size="16" />
+    </button>
     <ClientOnly>
       <button
         v-if="isGeolocationSupported && !geolocationState.mapGeolocationActive"
@@ -225,17 +247,6 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         />
       </button>
     </ClientOnly>
-    <!-- Only offer to search once an endpoint is picked: without an id there is nothing to route. -->
-    <button
-      v-if="selected"
-      type="submit"
-      class="focusable text-blue-600 hover:text-blue-800 hover:bg-blue-50 flex items-center justify-center px-3 py-2.5 transition-all duration-200 rounded-sm"
-      :title="t('search_route')"
-      :aria-label="t('search_route')"
-      @click="currently_actively_picking = false"
-    >
-      <MdiIcon :path="mdiMagnify" :size="18" />
-    </button>
   </div>
   <!-- Autocomplete -->
   <ClientOnly>

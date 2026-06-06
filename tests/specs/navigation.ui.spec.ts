@@ -149,6 +149,24 @@ test.describe("Navigation Page - Search route button", () => {
       .toBe(true);
     await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
   });
+
+  test("autohides once the field loses focus", async ({ page }) => {
+    await page.goto("/navigate", { waitUntil: "networkidle" });
+
+    const fromInput = page.getByPlaceholder("Von").first();
+    await fromInput.fill("Mathematik Informatik");
+    await page.getByText("Fakultät Mathematik").click();
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
+
+    // While the field stays focused, the button remains available...
+    await expect(page.getByRole("button", { name: "Route suchen" }).first()).toBeVisible();
+
+    // ...but it must not linger as dead chrome once focus moves away, even though the endpoint
+    // selection (and thus the route) is still set.
+    await fromInput.blur();
+    await expect(page.getByRole("button", { name: "Route suchen" })).toHaveCount(0);
+    await expect(page).toHaveURL((url) => url.searchParams.get("from") === "mi");
+  });
 });
 
 test.describe("Navigation Page - Back Navigation", () => {
