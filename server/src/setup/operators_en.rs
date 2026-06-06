@@ -1,0 +1,48 @@
+use parquet::record::Field;
+use sqlx::{PgPool, Postgres, Transaction};
+
+use super::Loader;
+
+#[derive(Debug, Default)]
+pub struct RawOperator {
+    id: i32,
+    url: Option<String>,
+    code: Option<String>,
+    name: Option<String>,
+}
+
+pub struct OperatorsEn;
+
+impl Loader for OperatorsEn {
+    const FILENAME: &'static str = "operators_en.parquet";
+    const TRUNCATE_SQL: &'static str = "TRUNCATE TABLE operators_en";
+    const ANALYZE_SQL: &'static str = "ANALYZE operators_en";
+    type Row = RawOperator;
+
+    fn parse_field(col: &str, field: &Field, r: &mut Self::Row) {
+        match (col, field) {
+            ("id", Field::Int(v)) => r.id = *v,
+            ("url", Field::Str(v)) => r.url = Some(v.clone()),
+            ("code", Field::Str(v)) => r.code = Some(v.clone()),
+            ("name", Field::Str(v)) => r.name = Some(v.clone()),
+            _ => {}
+        }
+    }
+
+    async fn insert(tx: &mut Transaction<'_, Postgres>, r: &Self::Row) -> anyhow::Result<()> {
+        sqlx::query!(
+            "INSERT INTO operators_en (id, url, code, name) VALUES ($1, $2, $3, $4)",
+            r.id,
+            r.url,
+            r.code,
+            r.name,
+        )
+        .execute(&mut **tx)
+        .await?;
+        Ok(())
+    }
+}
+
+pub async fn setup(pool: PgPool) -> anyhow::Result<()> {
+    super::run::<OperatorsEn>(pool).await
+}

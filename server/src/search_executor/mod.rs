@@ -1,7 +1,7 @@
 use meilisearch_sdk::client::Client;
 use parser::TextToken;
 use serde::Serialize;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{self, Debug, Formatter};
 use tracing::error;
 
 use crate::external::meilisearch::{GeoEntryQuery, MSHit};
@@ -15,11 +15,13 @@ mod lexer;
 mod merger;
 mod parser;
 
-#[derive(Serialize, Clone, Copy, utoipa::ToSchema)]
+#[derive(Serialize, Clone, Copy, utoipa::ToSchema, Debug, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultFacet {
-    SitesBuildings,
+    Sites,
+    Buildings,
     Rooms,
+    Pois,
     Addresses,
 }
 
@@ -41,7 +43,7 @@ pub struct ResultsSection {
 }
 
 impl Debug for ResultsSection {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_set();
         for i in 0..=3 {
             if let Some(e) = self.entries.get(i) {
@@ -109,7 +111,7 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
             .map(|r| {
                 let subtext = r.address.serialise();
                 ResultEntry {
-                    hit: Default::default(),
+                    hit: MSHit::default(),
                     id: format!("osm_{}", r.osm_id),
                     r#type: r.address_type,
                     name: r.address.road.unwrap_or(r.name),
@@ -147,23 +149,30 @@ pub async fn do_geoentry_search(
         .collect::<Vec<String>>()
         .join(" ");
     let mut query = GeoEntryQuery::from((client, query, &limits, &formatting_config));
-    for sort in sorting {
+    for sort in &sorting {
         query.with_sorting(sort);
     }
     if !filter.is_empty() {
-        query.with_filtering(filter);
+        query.with_filtering(&filter);
     }
 
-    let Ok(response) = query.execute().await else {
-        // error should be serde_json::error
-        error!("Error searching for results");
-        return LimitedVec(vec![]);
+    let response = match query.execute().await {
+        Ok(response) => response,
+        Err(e) => {
+            error!(error = ?e, "Error searching for results");
+            return LimitedVec(vec![]);
+        }
     };
-    let (section_buildings, mut section_rooms) = merger::merge_search_results(
+    let merger::MergedSections {
+        sites: section_sites,
+        buildings: section_buildings,
+        rooms: mut section_rooms,
+        pois: section_pois,
+        facet_order,
+    } = merger::merge_search_results(
         &limits,
-        response.results.first().unwrap(),
-        response.results.get(1).unwrap(),
-        response.results.get(2).unwrap(),
+        &response.hits,
+        response.facet_distribution.as_ref(),
     );
     let visitor = formatter::RoomVisitor::from((parsed_input, formatting_config));
     section_rooms
@@ -171,15 +180,46 @@ pub async fn do_geoentry_search(
         .iter_mut()
         .for_each(|r| visitor.visit(r));
 
-    match section_buildings.n_visible {
-        0 => LimitedVec(vec![section_rooms, section_buildings]),
-        _ => LimitedVec(vec![section_buildings, section_rooms]),
+    // Order: non-empty facets first, in the order they first appeared in the
+    // ranked Meilisearch hits (so a facet whose top hit is more relevant
+    // ranks above one whose top hit is weaker). Empty sections trail at the
+    // end so the caller can still observe `estimated_total_hits`.
+    let mut sites_opt = Some(section_sites);
+    let mut buildings_opt = Some(section_buildings);
+    let mut rooms_opt = Some(section_rooms);
+    let mut pois_opt = Some(section_pois);
+
+    let mut sections: Vec<ResultsSection> = Vec::with_capacity(4);
+    for facet in &facet_order {
+        let taken = match facet {
+            ResultFacet::Sites => sites_opt.take(),
+            ResultFacet::Buildings => buildings_opt.take(),
+            ResultFacet::Rooms => rooms_opt.take(),
+            ResultFacet::Pois => pois_opt.take(),
+            ResultFacet::Addresses => None,
+        };
+        if let Some(s) = taken {
+            sections.push(s);
+        }
     }
+    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt]
+        .into_iter()
+        .flatten()
+    {
+        sections.push(trailing);
+    }
+    LimitedVec(sections)
 }
 
 #[cfg(test)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::panic_in_result_fn,
+    clippy::absolute_paths
+)]
 mod test {
-    use std::fmt::{Display, Formatter};
+    use std::fmt::{self, Display, Formatter};
 
     use super::*;
     use crate::routes::search::{CroppingMode, Highlighting, ParsedIdMode};
@@ -219,7 +259,7 @@ mod test {
         }
     }
     impl Display for TestQuery {
-        fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
             write!(
                 f,
                 "'{query}' should get '{target}' in {among} results",
@@ -377,8 +417,7 @@ mod test {
             if let (Some(c), Some(f)) = (pid_c.as_ref(), pid_f.as_ref()) {
                 assert!(
                     f.chars().count() >= c.chars().count(),
-                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={}",
-                    id_c
+                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={id_c}"
                 );
             }
         }
@@ -442,8 +481,7 @@ mod test {
 
             assert!(
                 pid.contains('@'),
-                "Expected Roomfinder parsed_id to contain '@' (arch_id@building_id), got: {}",
-                pid
+                "Expected Roomfinder parsed_id to contain '@' (arch_id@building_id), got: {pid}"
             );
         }
 
@@ -498,7 +536,7 @@ mod test {
             let in_parsed_id = e
                 .parsed_id
                 .as_ref()
-                .map_or(false, |p| p.contains("<em>") || p.contains("</em>"));
+                .is_some_and(|p| p.contains("<em>") || p.contains("</em>"));
 
             let in_name = e.name.contains("<em>") || e.name.contains("</em>");
 
@@ -507,8 +545,7 @@ mod test {
 
         assert!(
             has_custom_highlighting,
-            "Expected custom highlighting markers to appear in results for query '{}'",
-            query
+            "Expected custom highlighting markers to appear in results for query '{query}'"
         );
 
         insta::with_settings!({
@@ -577,20 +614,17 @@ mod test {
 
             assert!(
                 !rooms_prefixed.entries.is_empty(),
-                "Expected at least one room entry for prefixed mode query '{}'",
-                query
+                "Expected at least one room entry for prefixed mode query '{query}'"
             );
 
             // In prefixed mode, we don't require `parsed_id` to always be present for every result
             // (it depends on query parsing and hit metadata). But if it *is* present, it must not
             // look like a raw Roomfinder arch name (arch_id@building_id).
-            for entry in rooms_prefixed.entries.iter() {
+            for entry in &rooms_prefixed.entries {
                 if let Some(pid) = entry.parsed_id.as_ref() {
                     assert!(
                         !pid.contains('@'),
-                        "Expected prefixed parsed_id to not contain '@' for query '{}', got: {}",
-                        query,
-                        pid
+                        "Expected prefixed parsed_id to not contain '@' for query '{query}', got: {pid}"
                     );
                 }
             }
@@ -603,8 +637,7 @@ mod test {
 
             assert!(
                 !rooms_roomfinder.entries.is_empty(),
-                "Expected at least one room entry for roomfinder mode query '{}'",
-                query
+                "Expected at least one room entry for roomfinder mode query '{query}'"
             );
 
             // In Roomfinder mode, `parsed_id` should be the raw `arch_name` (contains '@').
@@ -612,12 +645,11 @@ mod test {
             let has_raw_archname_format = rooms_roomfinder
                 .entries
                 .iter()
-                .any(|e| e.parsed_id.as_ref().map_or(false, |p| p.contains('@')));
+                .any(|e| e.parsed_id.as_ref().is_some_and(|p| p.contains('@')));
 
             assert!(
                 has_raw_archname_format,
-                "Expected at least one Roomfinder parsed_id to contain '@' for query '{}'",
-                query
+                "Expected at least one Roomfinder parsed_id to contain '@' for query '{query}'"
             );
 
             // Snapshot only stable fields to reduce brittleness across ranking/index changes.
@@ -698,13 +730,11 @@ mod test {
 
         assert!(
             !rooms_cropped.entries.is_empty(),
-            "Expected at least one room entry for cropping=CROP query '{}'",
-            query
+            "Expected at least one room entry for cropping=CROP query '{query}'"
         );
         assert!(
             !rooms_full.entries.is_empty(),
-            "Expected at least one room entry for cropping=FULL query '{}'",
-            query
+            "Expected at least one room entry for cropping=FULL query '{query}'"
         );
 
         // Deterministic comparison: sort by id and compare overlapping entries.
@@ -728,8 +758,7 @@ mod test {
             if let (Some(c), Some(f)) = (pid_c.as_ref(), pid_f.as_ref()) {
                 assert!(
                     f.chars().count() >= c.chars().count(),
-                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={}",
-                    id_c
+                    "Expected cropping=FULL parsed_id to be >= cropping=CROP parsed_id length for id={id_c}"
                 );
             }
         }

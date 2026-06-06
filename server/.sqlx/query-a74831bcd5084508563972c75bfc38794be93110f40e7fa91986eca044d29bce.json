@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO usages (usage_id, name, din_277, din_277_desc) VALUES (hashtext($1), $1, $2, $3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "a74831bcd5084508563972c75bfc38794be93110f40e7fa91986eca044d29bce"
+}

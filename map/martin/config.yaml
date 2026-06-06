@@ -1,4 +1,7 @@
-cache_size_mb: 1024
+cache:
+  size_mb: 1024
+  tile_expiry: 1h
+  tile_idle_timeout: 10m
 listen_addresses: 0.0.0.0:3001
 base_path: ${BASE_PATH:/}
 web_ui: enableforall
@@ -20,6 +23,27 @@ mbtiles:
 postgres:
   connection_string: ${DATABASE_URL:postgres://postgres:CHANGE_ME@localhost:5432/postgres}
   auto_publish: false
+  tables:
+    events_active:
+      schema: public
+      table: events_active
+      srid: 4326
+      geometry_column: geometry
+      geometry_type: POINT
+      id_column: id
+      minzoom: 10
+      maxzoom: 22
+      bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
+      properties:
+        name: text
+        description: text
+        image: text
+        starts_at: timestamptz
+        ends_at: timestamptz
+        organising_org_id: int4
+        organising_org_code: text
+        organising_org_name_de: text
+        organising_org_name_en: text
   functions:
       indoor_rooms:
         schema: public

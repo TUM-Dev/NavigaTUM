@@ -17,9 +17,9 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/image",
   ],
+  css: ["~/assets/css/main.css"],
   app: {
     head: {
-      bodyAttrs: { class: "bg-zinc-50" },
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       link: [
@@ -58,6 +58,12 @@ export default defineNuxtConfig({
         },
       ],
       meta: [
+        // Browser fetch() cannot set User-Agent (forbidden header per Fetch spec).
+        // Pinning the default referrer policy guarantees cross-origin requests
+        // (e.g. Transitous /stoptimes) carry `Referer: https://nav.tum.de/`, which
+        // the upstream policy accepts as a User-Agent replacement provided contact
+        // info is on the site - see content/{en,de}/about/imprint.md.
+        { name: "referrer", content: "strict-origin-when-cross-origin" },
         { name: "fediverse:creator", content: "@CommanderStorm@chaos.social" },
         { name: "msapplication-TileColor", content: "#0065bd" },
         { name: "theme-color", content: "#ffffff" },
@@ -133,13 +139,6 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  postcss: {
-    plugins: {
-      "tailwindcss/nesting": {},
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
   colorMode: {
     storageKey: "theme",
     preference: "system",
@@ -170,6 +169,20 @@ export default defineNuxtConfig({
     "/en/poi/**": { swr: 3600 },
     "/navigate": { swr: 3600 },
     "/en/navigate": { swr: 3600 },
+    "/embed/**": {
+      swr: 3600,
+      headers: {
+        "X-Frame-Options": "",
+        "Content-Security-Policy": "frame-ancestors *",
+      },
+    },
+    "/en/embed/**": {
+      swr: 3600,
+      headers: {
+        "X-Frame-Options": "",
+        "Content-Security-Policy": "frame-ancestors *",
+      },
+    },
   },
   typescript: {
     typeCheck: false, // we already typecheck in CI => no need to

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -7,6 +8,7 @@ import {
   NavigationControl,
 } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -33,6 +35,7 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMapLoaded = ref(false);
+const isMobile = useIsMobile();
 
 const coordinates = ref({
   lat: props.initialLat,
@@ -75,8 +78,7 @@ function initMap() {
     mapInstance.addControl(new NavigationControl({}), "top-left");
 
     // Add fullscreen control for mobile
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
-    if (isMobile) {
+    if (isMobile.value) {
       const fullscreenCtl = new FullscreenControl({
         container: mapContainer.value as HTMLElement,
       });
@@ -158,22 +160,9 @@ watch(
   { immediate: false }
 );
 
-onMounted(() => {
-  nextTick(() => {
-    // Poll for map container availability
-    let timeoutInMs = 25;
-
-    function pollMap() {
-      if (mapContainer.value) {
-        initMap();
-      } else {
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-
-    pollMap();
-  });
+onMounted(async () => {
+  await until(mapContainer).toBeTruthy();
+  initMap();
 });
 
 onUnmounted(() => {
@@ -193,7 +182,7 @@ defineExpose({
     <div class="location-picker">
       <!-- Instructions above map -->
       <div
-        class="aspect-4/3 relative border border-zinc-300 rounded-lg overflow-hidden"
+        class="aspect-4/3 relative border border-zinc-300 dark:border-zinc-600 rounded-lg overflow-hidden"
         :class="{
           'dark:bg-black bg-white': webglSupport,
         }"
@@ -247,7 +236,7 @@ defineExpose({
   /* User location dot styling */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   /* Make the container properly sized */

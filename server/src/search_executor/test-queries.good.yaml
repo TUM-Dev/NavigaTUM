@@ -108,3 +108,7 @@
     zeroes are in the room number
 - target: 5510.EG.026M
   query: 26m@5510
+# poi queries
+- target: validierungsautomat-1
+  query: Validierungsautomat
+  comment: 'Regression: #1868 - POIs were silently dropped from search results'

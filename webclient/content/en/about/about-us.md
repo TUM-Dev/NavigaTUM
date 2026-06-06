@@ -1,5 +1,6 @@
 ---
 title: About NavigaTUM
+description: NavigaTUM is an open-source tool developed by students for students to help you find your way around the Technical University of Munich (TUM).
 ---
 
 # About NavigaTUM

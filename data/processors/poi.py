@@ -1,12 +1,15 @@
-import json
+import logging
 from pathlib import Path
 from typing import Any
 
+import orjson
 import polars as pl
+from utils import TranslatableStr as _
 
 from processors import merge
 from processors.df_utils import translatable_to_columns
-from utils import TranslatableStr as _
+
+_logger = logging.getLogger(__name__)
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
@@ -19,7 +22,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
 
     existing_ids = set(df["id"].to_list())
     # Build parent lookup: id -> parents list
-    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list()))
+    parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list(), strict=True))
 
     new_rows: list[dict[str, Any]] = []
     for _id, poi in poi_data.items():
@@ -45,7 +48,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
             "id": _id,
             "type": "poi",
             "parents": parents,
-            "sources_base_json": json.dumps([{"name": "NavigaTUM"}]),
+            "sources_base_json": orjson.dumps([{"name": "NavigaTUM"}]).decode(),
         }
 
         # Name columns
@@ -64,23 +67,23 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
 
         # Description
         if "description" in poi:
-            row["description_json"] = json.dumps(poi["description"])
+            row["description_json"] = orjson.dumps(poi["description"]).decode()
 
         # Props - links are kept as plain strings, localize_links handles them later
         if "props" in poi:
             if "links" in poi["props"]:
-                row["props_links_json"] = json.dumps(poi["props"]["links"])
+                row["props_links_json"] = orjson.dumps(poi["props"]["links"]).decode()
             if "comment" in poi["props"]:
                 c = poi["props"]["comment"]
                 if isinstance(c, dict):
                     row["props_comment_de"] = c.get("de", "")
                     row["props_comment_en"] = c.get("en", "")
             if "generic" in poi["props"]:
-                row["props_generic_json"] = json.dumps(poi["props"]["generic"])
+                row["props_generic_json"] = orjson.dumps(poi["props"]["generic"]).decode()
 
         # Generators
         if "generators" in poi:
-            row["generators_json"] = json.dumps(poi["generators"])
+            row["generators_json"] = orjson.dumps(poi["generators"]).decode()
 
         new_rows.append(row)
 
@@ -93,3 +96,48 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
         df = pl.concat([df, new_df], how="diagonal_relaxed")
 
     return df
+
+
+def propagate_poi_floors(df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Copy the immediate parent's `props_floors_json` onto each POI row.
+
+    POIs don't get floors assigned by `sections.compute_floor_prop` (which only
+    targets `[building, joined_building, site, campus]` and their room children
+    with a roomcode). Without floors, `FloorControl.setAvailableFloors([])`
+    dims every button and the indoor overlay never displays.
+
+    For a room-parented POI this yields a single-floor list (auto-selected by
+    `DetailsInteractiveMap.vue`). For a building-parented POI it yields the
+    full building floor list (user picks).
+    """
+    pois = df.filter(pl.col("type") == "poi").select(
+        "id",
+        pl.col("parents").list.last().alias("parent_id"),
+    )
+    if pois.height == 0:
+        return df
+
+    parent_floors = df.select(
+        pl.col("id").alias("parent_id"),
+        pl.col("props_floors_json").alias("parent_floors_json"),
+    )
+    pois_with_parent = pois.join(parent_floors, on="parent_id", how="left")
+
+    for row in pois_with_parent.filter(pl.col("parent_floors_json").is_null()).iter_rows(named=True):
+        _logger.warning(f"POI {row['id']}: parent {row['parent_id']} has no floors")
+
+    updates = pois_with_parent.filter(pl.col("parent_floors_json").is_not_null()).select(
+        "id",
+        pl.col("parent_floors_json").alias("props_floors_json_new"),
+    )
+    if updates.height == 0:
+        return df
+
+    return (
+        df.join(updates, on="id", how="left")
+        .with_columns(
+            pl.coalesce(pl.col("props_floors_json_new"), pl.col("props_floors_json")).alias("props_floors_json"),
+        )
+        .drop("props_floors_json_new")
+    )

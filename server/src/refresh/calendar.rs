@@ -1,12 +1,12 @@
 use crate::db::calendar::Event;
 use crate::external::connectum::APIRequestor;
 use crate::limited::vec::LimitedVec;
-use futures::StreamExt;
+use futures::StreamExt as _;
 use futures::stream::FuturesUnordered;
-use serde::{Deserialize, Serialize, Serializer};
+use serde::{Deserialize, Serialize, Serializer as _};
 use sqlx::PgPool;
 use std::env;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{self, Debug, Formatter};
 use std::time::Duration;
 use tokio::time::sleep;
 use tracing::{debug, error};
@@ -19,7 +19,7 @@ struct LocationKey {
 }
 
 impl Debug for LocationKey {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.serialize_str(&self.key)
     }
 }
@@ -93,7 +93,7 @@ pub async fn all_entries(pool: &PgPool) {
         };
         let should_sleep_for_more_results = ids.len() < 20;
         if should_sleep_for_more_results {
-            sleep(Duration::from_secs(60)).await;
+            sleep(Duration::from_mins(1)).await;
         }
 
         refresh_events(pool, &api, ids).await;
@@ -143,7 +143,7 @@ async fn refresh_single(pool: &PgPool, mut api: APIRequestor, id: String) -> any
                 debug!(
                     error = "https://gitlab.campusonline.community/tum/connectum/-/issues/118",
                     "Cannot download calendar"
-                )
+                );
             } else {
                 error!(error = ?e, "Could not download calendar");
             }

@@ -55,7 +55,7 @@ def add_ranking_base(lf: pl.LazyFrame) -> pl.LazyFrame:
     )
 
     # Type-specific boosts
-    lf = lf.with_columns(
+    return lf.with_columns(
         pl.when((pl.col("type") == "room") & pl.col("props_stats_n_seats").is_not_null())
         .then((pl.col("props_stats_n_seats") // 10).clip(0, 99))
         .when(pl.col("type").is_in(["building", "joined_building"]) & pl.col("props_stats_n_rooms_reg").is_not_null())
@@ -67,8 +67,6 @@ def add_ranking_base(lf: pl.LazyFrame) -> pl.LazyFrame:
         .alias("ranking_rank_boost"),
     )
 
-    return lf
-
 
 def add_ranking_combined(lf: pl.LazyFrame) -> pl.LazyFrame:
     """
@@ -76,7 +74,7 @@ def add_ranking_combined(lf: pl.LazyFrame) -> pl.LazyFrame:
 
     Returns a LazyFrame with a ranking_rank_combined column added.
     """
-    lf = lf.with_columns(
+    return lf.with_columns(
         pl.when(pl.col("ranking_rank_type").is_not_null())
         .then(
             (pl.col("ranking_rank_type") * pl.col("ranking_rank_usage")) // 100
@@ -87,4 +85,3 @@ def add_ranking_combined(lf: pl.LazyFrame) -> pl.LazyFrame:
         .cast(pl.Int64)
         .alias("ranking_rank_combined"),
     )
-    return lf

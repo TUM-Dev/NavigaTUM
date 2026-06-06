@@ -1,6 +1,12 @@
+// This module exposes test fixtures (testcontainer setup) consumed only from
+// `#[cfg(test)]` blocks in other modules. Production-code lints (panic, unwrap,
+// absolute_paths) are intentionally relaxed for the same reasons they're
+// relaxed inside per-file `mod tests` blocks.
+#![allow(clippy::unwrap_used, clippy::panic, clippy::absolute_paths)]
+
 use meilisearch_sdk::client::Client;
-use testcontainers::{ContainerAsync, ImageExt};
-use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
+use testcontainers::{ContainerAsync, ImageExt as _};
+use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner as _};
 use tracing::{error, info};
 
 pub struct PostgresTestContainer {
@@ -109,4 +115,62 @@ async fn test_db_setup() {
 async fn test_meilisearch_setup() {
     let ms = MeiliSearchTestContainer::new().await;
     ms.load_data_retrying().await;
+}
+
+/// Inserts a row into `de` with the minimal JSON needed to satisfy the
+/// generated NOT NULL columns (`name`, `type`, `type_common_name`, `coords.lat`, `coords.lon`).
+async fn seed_de(pool: &sqlx::Pool<sqlx::Postgres>, key: &str, hash: i64) {
+    let data = serde_json::json!({
+        "name": key,
+        "type": "room",
+        "type_common_name": "room",
+        "coords": { "lat": 0.0, "lon": 0.0, "source": "test" },
+    });
+    sqlx::query!(
+        "INSERT INTO de(key, data, hash) VALUES ($1, $2, $3)",
+        key,
+        data,
+        hash,
+    )
+    .execute(pool)
+    .await
+    .unwrap();
+}
+
+#[tokio::test]
+#[tracing_test::traced_test]
+async fn find_keys_returns_missing_and_changed_but_not_unchanged() {
+    use crate::limited::vec::LimitedVec;
+
+    let pg = PostgresTestContainer::new().await;
+    seed_de(&pg.pool, "A", 1).await;
+    seed_de(&pg.pool, "B", 2).await;
+
+    let keys = LimitedVec(vec!["A".to_string(), "B".to_string(), "C".to_string()]);
+    let hashes = LimitedVec(vec![1, 99, 7]);
+
+    let result = crate::setup::database::find_keys_which_need_updating(&pg.pool, &keys, &hashes)
+        .await
+        .unwrap();
+    let mut got = result.0;
+    got.sort();
+    assert_eq!(got, vec!["B".to_string(), "C".to_string()]);
+}
+
+#[tokio::test]
+#[tracing_test::traced_test]
+async fn find_keys_returns_all_when_db_is_empty() {
+    use crate::limited::vec::LimitedVec;
+
+    let pg = PostgresTestContainer::new().await;
+
+    let keys = LimitedVec(vec!["A".to_string(), "B".to_string()]);
+    let hashes = LimitedVec(vec![1, 2]);
+
+    let result = crate::setup::database::find_keys_which_need_updating(&pg.pool, &keys, &hashes)
+        .await
+        .unwrap();
+    let mut got = result.0;
+    got.sort();
+    assert_eq!(got, vec!["A".to_string(), "B".to_string()]);
 }

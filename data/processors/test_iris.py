@@ -1,47 +1,41 @@
 import logging
 
 import polars as pl
+from external.schemas.iris import IrisRoomsSchema
 
-from external.models.iris import IrisRoom
 from processors.iris import add_iris_coverage, derive_coverage_building_ids
 
-# A curated slice of the live Iris response (only the two fields the join reads), spanning
-# buildings 4113, 3515 and 5606. See `GET https://iris.asta.tum.de/api/` for the full shape.
-FIXTURE_ROOMS = [
-    IrisRoom(raum_nr_architekt=arch, gebaeude_code=arch.rpartition("@")[2])
-    for arch in ("D 11@4113", "D 5@4113", "DG.29@3515", "01.06.011@5606", "01.20@3515", "02.06.020@5606")
-]
+
+def _rooms(*raum_nr_architekt: str) -> pl.DataFrame:
+    """Build an Iris roster frame; gebaeude_code is the `@`-suffix, as Iris reports it."""
+    rows = [{"raum_nr_architekt": arch, "gebaeude_code": arch.rpartition("@")[2]} for arch in raum_nr_architekt]
+    return pl.DataFrame(rows, schema=IrisRoomsSchema.to_polars_schema())
 
 
 def test_matched_room_yields_its_building_id():
     """A single Iris room whose arch_name NavigaTUM knows contributes its building id."""
-    room = IrisRoom(raum_nr_architekt="D 11@4113", gebaeude_code="4113")
-
-    coverage = derive_coverage_building_ids([room], navigatum_arch_names={"D 11@4113"})
+    coverage = derive_coverage_building_ids(_rooms("D 11@4113"), navigatum_arch_names={"D 11@4113"})
 
     assert coverage == {"4113"}
 
 
 def test_room_unknown_to_navigatum_is_ignored():
     """An Iris room whose arch_name NavigaTUM does not know contributes no coverage."""
-    room = IrisRoom(raum_nr_architekt="GHOST@9999", gebaeude_code="9999")
-
-    coverage = derive_coverage_building_ids([room], navigatum_arch_names={"D 11@4113"})
+    coverage = derive_coverage_building_ids(_rooms("GHOST@9999"), navigatum_arch_names={"D 11@4113"})
 
     assert coverage == set()
 
 
-def test_fixture_join_includes_building_with_any_match_excludes_buildings_with_none():
+def test_join_includes_building_with_any_match_excludes_buildings_with_none():
     """
-    Against a slice of the live Iris response: a building with >=1 matched room is covered.
+    A building with >=1 matched room is covered; a building with none is not.
 
-    The fixture spans buildings 4113, 3515 and 5606. NavigaTUM here knows one room each from
+    The roster spans buildings 4113, 3515 and 5606. NavigaTUM here knows one room each from
     4113 and 5606 but none from 3515, so only those two buildings gain coverage.
     """
-    coverage = derive_coverage_building_ids(
-        FIXTURE_ROOMS,
-        navigatum_arch_names={"D 11@4113", "01.06.011@5606"},
-    )
+    rooms = _rooms("D 11@4113", "D 5@4113", "DG.29@3515", "01.06.011@5606", "01.20@3515", "02.06.020@5606")
+
+    coverage = derive_coverage_building_ids(rooms, navigatum_arch_names={"D 11@4113", "01.06.011@5606"})
 
     assert coverage == {"4113", "5606"}
 
@@ -53,10 +47,8 @@ def test_building_in_iris_without_alias_match_is_warned_as_coverage_gap(caplog):
     `gebaeude_code` matches NavigaTUM building ids 1:1, so a building present in Iris but absent
     from the alias-derived set signals that our aliases are missing those rooms.
     """
-    rooms = [IrisRoom(raum_nr_architekt="DG.29@3515", gebaeude_code="3515")]
-
     with caplog.at_level(logging.WARNING):
-        coverage = derive_coverage_building_ids(rooms, navigatum_arch_names=set())
+        coverage = derive_coverage_building_ids(_rooms("DG.29@3515"), navigatum_arch_names=set())
 
     assert coverage == set()
     assert "3515" in caplog.text
@@ -75,9 +67,7 @@ def _sample_entries() -> pl.DataFrame:
 
 def test_add_coverage_marks_only_matched_buildings():
     """add_iris_coverage flags the matched building, leaving its rooms and other buildings False."""
-    rooms = [IrisRoom(raum_nr_architekt="01.06.011@5606", gebaeude_code="5606")]
-
-    df = add_iris_coverage(_sample_entries(), rooms=rooms)
+    df = add_iris_coverage(_sample_entries(), rooms=_rooms("01.06.011@5606"))
 
     coverage = dict(zip(df["id"], df["has_iris_coverage"], strict=True))
     assert coverage == {"5606": True, "5606.EG.011": False, "0001": False}
@@ -85,7 +75,7 @@ def test_add_coverage_marks_only_matched_buildings():
 
 def test_add_coverage_with_no_rooms_marks_nothing():
     """First build (no scraped roster) marks no coverage and produces a non-null column."""
-    df = add_iris_coverage(_sample_entries(), rooms=[])
+    df = add_iris_coverage(_sample_entries(), rooms=_rooms())
 
     assert df["has_iris_coverage"].to_list() == [False, False, False]
     assert df["has_iris_coverage"].null_count() == 0

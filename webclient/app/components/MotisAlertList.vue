@@ -37,22 +37,12 @@ const hasMoreAlerts = computed(() => {
 const remainingCount = computed(() => {
   return props.alerts.length - props.maxVisible;
 });
-
-// Sort alerts by severity (severe first)
-const sortedAlerts = computed(() => {
-  return [...props.alerts].sort((a, b) => {
-    const severityOrder = { severe: 0, warning: 1, info: 2, unknown: 3 };
-    const aSeverity = severityOrder[a.severity_level as keyof typeof severityOrder] ?? 4;
-    const bSeverity = severityOrder[b.severity_level as keyof typeof severityOrder] ?? 4;
-    return aSeverity - bSeverity;
-  });
-});
 </script>
 
 <template>
   <div v-if="alerts.length > 0" class="space-y-2">
     <!-- Title -->
-    <div v-if="title" class="text-xs text-zinc-600 font-medium mb-1">
+    <div v-if="title" class="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-1">
       {{ title }}
     </div>
 
@@ -72,7 +62,7 @@ const sortedAlerts = computed(() => {
     <div v-if="hasMoreAlerts" class="mt-2">
       <button
         @click="showAll = !showAll"
-        class="text-xs text-zinc-600 hover:text-zinc-800 underline hover:no-underline transition-colors"
+        class="text-xs text-zinc-600 dark:text-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-100 underline hover:no-underline transition-colors"
       >
         <span v-if="!showAll">
           {{ t("show_more_alerts", remainingCount) }}

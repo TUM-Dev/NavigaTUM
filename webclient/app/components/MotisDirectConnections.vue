@@ -47,12 +47,12 @@ const formatDistance = (meters: number) => {
 
 <template>
   <div v-if="connections.length > 0" class="mb-6">
-    <div v-for="(itinerary, i) in connections" :key="`direct-${i}`" class="bg-zinc-50 mb-3 rounded-lg border p-4">
+    <div v-for="(itinerary, i) in connections" :key="`direct-${i}`" class="bg-zinc-50 dark:bg-zinc-900 mb-3 rounded-lg border p-4">
       <div class="mb-2 flex items-center justify-between">
-        <span class="text-zinc-900 font-medium">
+        <span class="text-zinc-900 dark:text-zinc-50 font-medium">
           {{ formatTime(itinerary.start_time) }} - {{ formatTime(itinerary.end_time) }}
         </span>
-        <span class="text-zinc-600 text-sm">
+        <span class="text-zinc-600 dark:text-zinc-300 text-sm">
           {{ formatDuration(itinerary.duration) }}
         </span>
       </div>
@@ -63,12 +63,12 @@ const formatDistance = (meters: number) => {
         @click="emit('selectLeg', i, j)"
       >
         <div
-          class="bg-white flex flex-row items-center gap-3 overflow-auto rounded-md border p-3 group-hover:bg-zinc-100"
+          class="bg-white dark:bg-black flex flex-row items-center gap-3 overflow-auto rounded-md border p-3 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800"
         >
           <MotisTransitModeIcon :mode="leg.mode" />
           <div class="flex-grow">
-            <div class="text-zinc-900 font-medium">{{ leg.from.name }} → {{ leg.to.name }}</div>
-            <div class="text-zinc-600 text-sm">
+            <div class="text-zinc-900 dark:text-zinc-50 font-medium">{{ leg.from.name }} → {{ leg.to.name }}</div>
+            <div class="text-zinc-600 dark:text-zinc-300 text-sm">
               {{ formatDuration(leg.duration) }}
               <span v-if="leg.distance"> • {{ formatDistance(leg.distance) }}</span>
             </div>

@@ -23,3 +23,6 @@ patches:
 duplicates:
   ignore: []
   prepend_level: []
+
+# User-submitted rooms that aren't in TUMonline. Schema: `NewRoom` in `addition/room.rs`.
+additions: []

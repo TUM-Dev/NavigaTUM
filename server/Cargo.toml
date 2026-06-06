@@ -2,7 +2,7 @@
 name = "navigatum-server"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition.workspace=true
-description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
+description = "Navigating around TUM with excellence - An API and website to search for rooms, buildings and other places"
 repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
@@ -23,6 +23,8 @@ tracing-actix-web.workspace=true
 
 # errors
 anyhow = { workspace=true, features = ["backtrace"] }
+strum.workspace=true
+thiserror.workspace=true
 
 #serialisation
 serde = { workspace=true, features = ["derive"] }
@@ -47,13 +49,14 @@ sqlx = { workspace=true, features = ['chrono', 'json', 'macros', 'migrate', 'pos
 chrono = { workspace=true, default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = {version="0.32.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"]}
+meilisearch-sdk.workspace = true
 logos.workspace=true
 regex.workspace=true
 
 # web access
-oauth2 = { workspace=true, default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
+oauth2 = { workspace=true, default-features = false }
+oauth2-reqwest.workspace=true
+reqwest = { workspace=true, default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls"] }
 
 # image production
 image = { workspace=true, default-features = false, features = ["jpeg", "png", "webp"] }
@@ -71,12 +74,14 @@ actix-governor = { workspace=true, features = ["logger"] }
 # proposing feedback
 tempfile.workspace=true
 base64.workspace=true
-polars = { workspace=true, features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
+bytes.workspace=true
+csv.workspace=true
+parquet = { workspace=true, default-features = false, features = ["zstd"] }
 
 # geodata
 actix-middleware-etag.workspace=true
 valhalla-client = { workspace=true, default-features = false }
-motis-openapi-progenitor = "0.4.0"
+motis-openapi-progenitor.workspace = true
 chroma-forge.workspace=true
 
 # docs
@@ -93,3 +98,6 @@ rstest.workspace=true
 testcontainers = { workspace=true, features = ["watchdog"] }
 testcontainers-modules = { workspace=true, features = ["meilisearch", "postgres"] }
 tracing-test.workspace=true
+
+[lints]
+workspace = true

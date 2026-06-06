@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core";
 import type { GeoJSONSource } from "maplibre-gl";
 import {
   FullscreenControl,
@@ -11,21 +12,20 @@ import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
+import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
+import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
   decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
-  type PlatformChangeMarker,
 } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
-type MotisLegResponse = components["schemas"]["MotisLegResponse"];
-type PlaceResponse = components["schemas"]["PlaceResponse"];
 
 // Simplified GeoJSON Feature type to avoid deep type inference
 interface SimpleGeoJSONFeature {
@@ -46,17 +46,20 @@ const marker = ref<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+const fullscreenContainerEl = ref<HTMLElement | null>(null);
+// Maplibre bug: the map doesn't update to the new size when changing between
+// fullscreen in the mobile version.
+useResizeObserver(fullscreenContainerEl, () => {
+  map.value?.resize();
+});
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
+const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
-const zoom = computed<number>(() => {
-  if (props.type === "building") return 17;
-  if (props.type === "room") return 18;
-  return 16;
-});
+const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 onMounted(async () => {
   if (!webglSupport) return;
@@ -105,8 +108,8 @@ function createMarker(hueRotation = 0): HTMLDivElement {
 async function initMap(containerId: string): Promise<MapLibreMap> {
   const map = new MapLibreMap({
     container: containerId,
-    // while having the hash in the url is nice, it is overridden on map load anyway => not much use
-    hash: false,
+    // Reflect the viewport in the URL hash so the map state is deep-linkable.
+    hash: true,
 
     canvasContextAttributes: {
       // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
@@ -136,7 +139,7 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     // is maximized instead. This is determined once to select the correct
     // container to maximize, and then remains unchanged even if the browser
     // is resized (not relevant for users but for developers).
-    const isMobile = window.matchMedia("only screen and (max-width: 480px)").matches;
+    const isMobile = isMobileQuery.value;
     const fullscreenContainer = isMobile
       ? document.getElementById("interactive-indoor-map")
       : document.getElementById("interactive-indoor-map-container");
@@ -169,15 +172,10 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
         fullscreenCtl._map.resize();
       }
     };
-    // There is a bug that the map doesn't update to the new size
-    // when changing between fullscreen in the mobile version.
-    if (isMobile) {
-      const fullscreenObserver = new ResizeObserver(() => {
-        fullscreenCtl._map.resize();
-      });
-      fullscreenObserver.observe(fullscreenCtl._container);
-    }
     map.addControl(fullscreenCtl);
+    if (isMobile) {
+      fullscreenContainerEl.value = fullscreenCtl._container;
+    }
 
     const location = new GeolocateControl({
       positionOptions: {
@@ -392,6 +390,20 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   );
 }
 
+/** Centre the map on a single location, used when there is no route to fit. */
+function flyToCoords(
+  coords: { lat: number; lon: number },
+  type?: LocationDetailsResponse["type"],
+  isAfterLoaded = false
+) {
+  if (!map.value || (!isAfterLoaded && !map.value.loaded())) {
+    afterLoaded.value = () => flyToCoords(coords, type, true);
+    return;
+  }
+  marker.value?.setLngLat([coords.lon, coords.lat]);
+  map.value.flyTo({ center: [coords.lon, coords.lat], zoom: zoomForLocationType(type) });
+}
+
 function fitBounds(lon: [number, number], lat: [number, number]) {
   if (!map.value) {
     console.error("tried to fly to point but map has not loaded yet.. wtf??");
@@ -549,6 +561,7 @@ function triggerGeolocation() {
 defineExpose({
   drawRoute,
   fitBounds,
+  flyToCoords,
   drawMotisItinerary,
   highlightMotisLeg,
   focusOnMotisLeg,
@@ -562,7 +575,7 @@ defineExpose({
     id="interactive-indoor-map-container"
     class="!h-full min-h-96 print:!hidden"
     :class="{
-      'dark:bg-black bg-white border-zinc-300 border': webglSupport,
+      'dark:bg-black bg-white border-zinc-300 dark:border-zinc-600 border': webglSupport,
     }"
   >
     <div v-if="webglSupport" id="interactive-indoor-map" class="relative !h-full min-h-96 !w-full" />
@@ -579,7 +592,7 @@ defineExpose({
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-blue-500;
+    background-color: var(--color-blue-500);
   }
 
   > div {

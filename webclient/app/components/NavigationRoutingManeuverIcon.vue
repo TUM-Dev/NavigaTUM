@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   mdiArrowLeft,
-  mdiArrowLeftTop,
   mdiArrowRight,
   mdiArrowTopLeft,
   mdiArrowTopRight,
@@ -28,7 +27,7 @@ defineProps<{ type: ManeuverTypeResponse }>();
 </script>
 
 <template>
-  <div class="text-zinc-900 min-w-11 rounded-full p-2">
+  <div class="text-zinc-900 dark:text-zinc-50 min-w-11 rounded-full p-2">
     <MdiIcon :path="mdiExitToApp" :size="28" v-if="type === 'building_exit' || type === 'exit_left'" class="mx-auto" />
     <MdiIcon :path="mdiExitToApp" :size="28" v-else-if="type === 'exit_right'" class="mx-auto scale-x-[-1]" />
     <MdiIcon :path="mdiLogin" :size="28" v-else-if="type === 'building_enter'" class="mx-auto" />

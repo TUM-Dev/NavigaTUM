@@ -1,6 +1,9 @@
+use std::fmt;
+
 use crate::localisation::LanguageOptions;
 use actix_web::{HttpResponse, get, web};
-use serde::{Deserialize, Serialize};
+use motis_openapi_progenitor::types::PedestrianProfile;
+use serde::{Deserialize, Serialize, de};
 #[expect(
     unused_imports,
     reason = "has to be imported as otherwise utoipa generates incorrect code"
@@ -10,12 +13,13 @@ use sqlx::PgPool;
 use tracing::{debug, error};
 use valhalla_client::{
     costing::{
-        BicycleCostingOptions, Costing, MultimodalCostingOptions, PedestrianCostingOptions,
-        bicycle::BicycleType, pedestrian::PedestrianType,
+        AutoCostingOptions, BicycleCostingOptions, Costing, MotorScooterCostingOptions,
+        MotorcycleCostingOptions, MultimodalCostingOptions, PedestrianCostingOptions,
+        TransitCostingOptions, bicycle::BicycleType, pedestrian::PedestrianType,
     },
     route::ShapePoint,
 };
-mod motis;
+pub(crate) mod motis;
 mod valhalla;
 
 #[derive(Serialize, Clone, Copy, Debug, PartialEq, utoipa::ToSchema)]
@@ -29,7 +33,7 @@ struct Coordinate {
 }
 impl Coordinate {
     /// Great-circle distance (Haversine formula)
-    fn distance_to(&self, other: &Coordinate) -> f64 {
+    fn distance_to(&self, other: &Self) -> f64 {
         const EARTH_RADIUS_KM: f64 = 6371.0;
 
         let (lat1, lon1) = (self.lat.to_radians(), self.lon.to_radians());
@@ -47,18 +51,18 @@ impl Coordinate {
 }
 impl From<ShapePoint> for Coordinate {
     fn from(value: ShapePoint) -> Self {
-        Coordinate {
+        Self {
             lon: value.lon,
             lat: value.lat,
         }
     }
 }
-impl std::fmt::Display for Coordinate {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for Coordinate {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{},{}", self.lat, self.lon)
     }
 }
-impl<'de> serde::Deserialize<'de> for Coordinate {
+impl<'de> Deserialize<'de> for Coordinate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -66,14 +70,14 @@ impl<'de> serde::Deserialize<'de> for Coordinate {
         let s = String::deserialize(deserializer)?;
         let (p1, p2) = s
             .split_once(',')
-            .ok_or(serde::de::Error::custom("expected 'lat,lon'"))?;
+            .ok_or(de::Error::custom("expected 'lat,lon'"))?;
         let lat = p1
             .parse::<f64>()
-            .map_err(|_| serde::de::Error::custom("invalid latitude"))?;
+            .map_err(|_| de::Error::custom("invalid latitude"))?;
         let lon = p2
             .parse::<f64>()
-            .map_err(|_| serde::de::Error::custom("invalid longitude"))?;
-        Ok(Coordinate { lat, lon })
+            .map_err(|_| de::Error::custom("invalid longitude"))?;
+        Ok(Self { lat, lon })
     }
 }
 
@@ -90,8 +94,8 @@ enum RequestedLocation {
 impl RequestedLocation {
     async fn try_resolve_coordinates(&self, pool: &PgPool) -> anyhow::Result<Option<Coordinate>> {
         match self {
-            RequestedLocation::Coordinate(coords) => Ok(Some(*coords)),
-            RequestedLocation::Location(key) => {
+            Self::Coordinate(coords) => Ok(Some(*coords)),
+            Self::Location(key) => {
                 let coords = sqlx::query_as!(
                     Coordinate,
                     r#"SELECT lat,lon
@@ -151,28 +155,28 @@ impl CostingRequest {
         ptw_type: PoweredTwoWheeledRestrictionRequest,
     ) -> Costing {
         match self {
-            CostingRequest::Pedestrian => Costing::Pedestrian(
+            Self::Pedestrian => Costing::Pedestrian(
                 PedestrianCostingOptions::builder().r#type(PedestrianType::from(pedestrian_type)),
             ),
-            CostingRequest::Bicycle => Costing::Bicycle(
+            Self::Bicycle => Costing::Bicycle(
                 BicycleCostingOptions::builder().bicycle_type(BicycleType::from(bicycle_type)),
             ),
-            CostingRequest::Motorcycle => match ptw_type {
+            Self::Motorcycle => match ptw_type {
                 PoweredTwoWheeledRestrictionRequest::Moped => {
-                    Costing::Motorcycle(Default::default())
+                    Costing::Motorcycle(MotorcycleCostingOptions::default())
                 }
                 PoweredTwoWheeledRestrictionRequest::Motorcycle => {
-                    Costing::MotorScooter(Default::default())
+                    Costing::MotorScooter(MotorScooterCostingOptions::default())
                 }
             },
-            CostingRequest::Car => Costing::Auto(Default::default()),
-            CostingRequest::PublicTransit => {
+            Self::Car => Costing::Auto(AutoCostingOptions::default()),
+            Self::PublicTransit => {
                 let pedestrian_costing = PedestrianCostingOptions::builder()
                     .r#type(PedestrianType::from(pedestrian_type));
                 Costing::Multimodal(
                     MultimodalCostingOptions::builder()
                         .pedestrian(pedestrian_costing)
-                        .transit(Default::default()),
+                        .transit(TransitCostingOptions::default()),
                 )
             }
         }
@@ -213,7 +217,7 @@ struct RoutingRequest {
     #[param(inline)]
     page_cursor: Option<String>,
     /// Time for the route (ISO 8601 format)
-    /// Used with arrive_by to determine if this is departure or arrival time
+    /// Used with `arrive_by` to determine if this is departure or arrival time
     #[serde(default)]
     #[param(inline)]
     time: Option<chrono::DateTime<chrono::Utc>>,
@@ -236,21 +240,17 @@ enum PedestrianTypeRequest {
 impl From<PedestrianTypeRequest> for PedestrianType {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::Standard => PedestrianType::Foot,
-            PedestrianTypeRequest::Blind => PedestrianType::Blind,
-            PedestrianTypeRequest::Wheelchair => PedestrianType::Wheelchair,
+            PedestrianTypeRequest::Standard => Self::Foot,
+            PedestrianTypeRequest::Blind => Self::Blind,
+            PedestrianTypeRequest::Wheelchair => Self::Wheelchair,
         }
     }
 }
-impl From<PedestrianTypeRequest> for motis_openapi_progenitor::types::PedestrianProfile {
+impl From<PedestrianTypeRequest> for PedestrianProfile {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
-            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => {
-                motis_openapi_progenitor::types::PedestrianProfile::Foot
-            }
-            PedestrianTypeRequest::Wheelchair => {
-                motis_openapi_progenitor::types::PedestrianProfile::Wheelchair
-            }
+            PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => Self::Foot,
+            PedestrianTypeRequest::Wheelchair => Self::Wheelchair,
         }
     }
 }
@@ -280,10 +280,10 @@ enum BicycleRestrictionRequest {
 impl From<BicycleRestrictionRequest> for BicycleType {
     fn from(bicycle_type: BicycleRestrictionRequest) -> Self {
         match bicycle_type {
-            BicycleRestrictionRequest::Road => BicycleType::Road,
-            BicycleRestrictionRequest::Hybrid => BicycleType::Hybrid,
-            BicycleRestrictionRequest::Cross => BicycleType::Cross,
-            BicycleRestrictionRequest::Mountain => BicycleType::Mountain,
+            BicycleRestrictionRequest::Road => Self::Road,
+            BicycleRestrictionRequest::Hybrid => Self::Hybrid,
+            BicycleRestrictionRequest::Cross => Self::Cross,
+            BicycleRestrictionRequest::Mountain => Self::Mountain,
         }
     }
 }
@@ -372,6 +372,9 @@ pub async fn route_handler(
             response,
         )))
     } else {
+        // valhalla's API takes f32 coordinates; f64→f32 is acceptable here:
+        // ~7 significant digits is well below the precision routing requires.
+        #[allow(clippy::cast_possible_truncation)]
         let routing = data
             .valhalla
             .route(

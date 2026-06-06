@@ -2,8 +2,11 @@ import logging
 
 import polars as pl
 import utm
-from processors.df_utils import ensure_columns
 from utils import distance_via_great_circle
+
+from processors.df_utils import ensure_columns
+
+_logger = logging.getLogger(__name__)
 
 MAX_DISTANCE_METERS_FROM_PARENT = 400
 
@@ -20,7 +23,7 @@ def assert_buildings_have_coords(df: pl.DataFrame) -> None:
     if buildings_without.height > 0:
         ids = buildings_without["id"].to_list()
         names = buildings_without["name"].to_list()
-        msg = "\n".join(f"{i}: {n}" for i, n in zip(ids, names))
+        msg = "\n".join(f"{i}: {n}" for i, n in zip(ids, names, strict=True))
         raise RuntimeError(f"No coordinates known for the following buildings:\n{msg}")
 
 
@@ -86,7 +89,39 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
         .alias("coords_source")
     )
 
-    # 3. For rooms/virtual_rooms/poi without coords: copy from parent building
+    # 3a. POIs whose direct parent is a room: inherit the room's coords first,
+    # so the marker lands at the room centroid instead of the building centroid.
+    # accuracy stays "building" - the existing "inaccurate position" toast
+    # (DetailsContentSidebar.vue) keeps encouraging the user to refine the coord.
+    room_coords = df.filter((pl.col("type") == "room") & pl.col("coords_lat").is_not_null()).select(
+        pl.col("id").alias("room_id"),
+        pl.col("coords_lat").alias("room_lat"),
+        pl.col("coords_lon").alias("room_lon"),
+    )
+    poi_needs_coords = df.filter((pl.col("type") == "poi") & pl.col("coords_lat").is_null()).select(
+        "id",
+        pl.col("parents").list.last().alias("direct_parent"),
+    )
+    if poi_needs_coords.height > 0:
+        poi_room_match = poi_needs_coords.join(
+            room_coords, left_on="direct_parent", right_on="room_id", how="inner"
+        ).select("id", "room_lat", "room_lon")
+        if poi_room_match.height > 0:
+            df = df.join(poi_room_match, on="id", how="left")
+            df = df.with_columns(
+                pl.coalesce(pl.col("coords_lat"), pl.col("room_lat")).alias("coords_lat"),
+                pl.coalesce(pl.col("coords_lon"), pl.col("room_lon")).alias("coords_lon"),
+                pl.when(pl.col("coords_lat").is_null() & pl.col("room_lat").is_not_null())
+                .then(pl.lit("inferred"))
+                .otherwise(pl.col("coords_source"))
+                .alias("coords_source"),
+                pl.when(pl.col("coords_lat").is_null() & pl.col("room_lat").is_not_null())
+                .then(pl.lit("building"))
+                .otherwise(pl.col("coords_accuracy"))
+                .alias("coords_accuracy"),
+            ).drop("room_lat", "room_lon")
+
+    # 3b. For rooms/virtual_rooms/poi still without coords: copy from parent building
     building_coords = df.filter(pl.col("type") == "building").select(
         pl.col("id").alias("bldg_id"),
         pl.col("coords_lat").alias("bldg_lat"),
@@ -106,13 +141,13 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
         bad_counts = parent_counts.filter(pl.col("len") != 1)
         if bad_counts.height > 0:
             for row in bad_counts.iter_rows(named=True):
-                logging.error(f"Could not find distinct parent building for {row['id']}")
+                _logger.error(f"Could not find distinct parent building for {row['id']}")
             error = True
 
         no_parent = needs_coords.join(parent_buildings.select("id").unique(), on="id", how="anti")
         if no_parent.height > 0:
             for rid in no_parent["id"].to_list():
-                logging.error(f"Could not find distinct parent building for {rid}")
+                _logger.error(f"Could not find distinct parent building for {rid}")
             error = True
 
         parent_buildings = parent_buildings.group_by("id").agg(
@@ -143,7 +178,7 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
         no_children = needs_avg.filter(pl.col("children_flat").is_null() | (pl.col("children_flat").list.len() == 0))
         if no_children.height > 0:
             for rid in no_children["id"].to_list():
-                logging.error(f"Cannot infer coordinate of '{rid}' because it has no children")
+                _logger.error(f"Cannot infer coordinate of '{rid}' because it has no children")
             error = True
 
         exploded = (
@@ -179,7 +214,7 @@ def assign_coordinates(df: pl.DataFrame) -> pl.DataFrame:
     )
     if unknown.height > 0:
         for row in unknown.iter_rows(named=True):
-            logging.error(f"Don't know how to infer coordinate for entry type '{row['type']}'")
+            _logger.error(f"Don't know how to infer coordinate for entry type '{row['type']}'")
         error = True
 
     if error:

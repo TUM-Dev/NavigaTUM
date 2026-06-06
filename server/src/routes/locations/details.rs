@@ -190,13 +190,14 @@ struct OperatorResponse {
     code: String,
     /// The full name of the operator (localized). Null for organisations that
     ///  are no longer active (e.g. id=38698), but where the operator has not been
-    /// updated in TUMonline.
+    /// updated in `TUMonline`.
     #[schema(examples("TUM School of Social Sciences and Technology"))]
     name: String,
 }
 
 #[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
+#[allow(clippy::struct_field_names)]
 struct SectionsResponse {
     buildings_overview: Option<BuildingsOverviewResponse>,
     rooms_overview: Option<RoomsOverviewResponse>,
@@ -316,7 +317,7 @@ struct OverlayMapEntryResponse {
     /// Floor of the Map.
     ///
     /// Should be used for display to the user in selectors.
-    /// Matches the floor part of the TUMonline roomcode.
+    /// Matches the floor part of the `TUMonline` roomcode.
     #[schema(example = "EG")]
     floor: String,
     /// human-readable name of the map
@@ -383,6 +384,8 @@ struct PropsResponse {
     /// A sorted (lowest floor first) list of floors
     ///
     /// For buildings, this may contain multiple floors while rooms usually only have one floor.
+    /// POIs inherit floors from their immediate parent: a single floor when parented to a room,
+    /// or the full building list when parented to a building.
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
     floors: Vec<FloorResponse>,
     /// Whether this building/area has AStA Iris learning-room coverage.
@@ -418,7 +421,7 @@ struct FloorResponse {
         "1st mezzanine, above ground floor"
     ))]
     name: String,
-    /// How TUMonline names the floor
+    /// How `TUMonline` names the floor
     #[schema(examples("U1", "EG", "Z1"))]
     tumonline: String,
     /// Type of floor
@@ -474,7 +477,7 @@ struct SourcesResponse {
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct ImageInfoResponse {
     /// The name of the image file.
-    /// consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+    /// consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
     #[schema(examples("mi_0.webp"))]
     name: String,
     author: URLRefResponse,
@@ -498,6 +501,7 @@ struct URLRefResponse {
 
 #[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
+#[allow(clippy::struct_field_names)]
 struct RankingFactorsResponse {
     #[schema(minimum = 0)]
     rank_combined: i32,
@@ -572,6 +576,13 @@ async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, S
 }
 
 #[cfg(test)]
+#[allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::panic_in_result_fn,
+    clippy::cast_precision_loss,
+    clippy::absolute_paths
+)]
 mod tests {
     use tokio::task::LocalSet;
     use tracing::info;
@@ -593,7 +604,7 @@ mod tests {
     ///
     /// This is a *bit* slow, due to using a [`tokio::task::LocalSet`].
     /// Using multiple cores for this might be possible, but optimising this testcase from 10m is currently not worth it
-    #[ignore]
+    #[ignore = "slow (~10min via tokio LocalSet); run explicitly with `cargo test -- --ignored`"]
     #[actix_web::test]
     #[tracing_test::traced_test]
     async fn test_get_handler_unchanged() {
@@ -631,7 +642,7 @@ mod tests {
             .service(get_handler);
         let app = actix_web::test::init_service(app).await;
         let req = actix_web::test::TestRequest::get()
-            .uri(&format!("/{key}"))
+            .uri(&format!("/api/locations/{key}"))
             .to_request();
         let (_, resp) = actix_web::test::call_service(&app, req).await.into_parts();
 
