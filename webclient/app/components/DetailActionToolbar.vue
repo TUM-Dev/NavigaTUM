@@ -17,8 +17,9 @@ const visibleActions = computed(() => props.actions.filter((a) => a.visible !== 
 
 const tileClass =
   "focusable flex h-full w-full cursor-pointer flex-col items-center justify-center gap-0.5 rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-2 py-1.5 text-blue-600 dark:text-blue-300 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-900 dark:hover:text-blue-50 transition-colors";
-const mobileLabelClass = "text-center text-xs font-medium leading-tight sm:hidden";
-const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight sm:block";
+const labelClass = "text-center text-xs font-medium leading-tight";
+const mobileOnlyLabelClass = `${labelClass} sm:hidden`;
+const desktopOnlyLabelClass = `hidden ${labelClass} sm:block`;
 </script>
 
 <template>
@@ -36,8 +37,11 @@ const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight 
         prefetch-on="interaction"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span :class="mobileLabelClass">{{ action.shortLabel }}</span>
-        <span :class="desktopLabelClass">{{ action.label }}</span>
+        <span v-if="action.shortLabel === action.label" :class="labelClass">{{ action.label }}</span>
+        <template v-else>
+          <span :class="mobileOnlyLabelClass">{{ action.shortLabel }}</span>
+          <span :class="desktopOnlyLabelClass">{{ action.label }}</span>
+        </template>
       </NuxtLinkLocale>
       <button
         v-else
@@ -47,8 +51,11 @@ const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight 
         @click="action.onClick?.()"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span :class="mobileLabelClass">{{ action.shortLabel }}</span>
-        <span :class="desktopLabelClass">{{ action.label }}</span>
+        <span v-if="action.shortLabel === action.label" :class="labelClass">{{ action.label }}</span>
+        <template v-else>
+          <span :class="mobileOnlyLabelClass">{{ action.shortLabel }}</span>
+          <span :class="desktopOnlyLabelClass">{{ action.label }}</span>
+        </template>
       </button>
     </li>
   </ul>
