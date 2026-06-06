@@ -4,7 +4,6 @@ import polars as pl
 from external.schemas._validators import (
     is_http_url,
     is_iso_date,
-    opening_hours_has_no_macros,
     opening_hours_non_empty,
 )
 
@@ -13,9 +12,11 @@ class OpeningHoursSchema(dy.Schema):
     """
     Hand-authored opening-hours record attached to a single entry.
 
-    The on-disk form is a plain OSM `opening_hours` string; `id` is the primary
-    key, so one schedule per entry. Dates are `YYYY-MM-DD` strings so the server
-    reads them from the details JSON without a locale-specific format.
+    The on-disk form is an OSM `opening_hours` string, optionally carrying
+    `lecture:`/`break:` macros that the compile step expands against the semester
+    list into plain OSM (see `semester_block_expander`). `id` is the primary key,
+    so one schedule per entry. Dates are `YYYY-MM-DD` strings so the server reads
+    them from the details JSON without a locale-specific format.
     """
 
     id = dy.String(nullable=False, primary_key=True)
@@ -30,11 +31,6 @@ class OpeningHoursSchema(dy.Schema):
     def opening_hours_non_empty(cls) -> pl.Expr:
         """`opening_hours` must be a non-empty OSM string after trimming."""
         return opening_hours_non_empty("opening_hours")
-
-    @dy.rule()
-    def opening_hours_has_no_macros(cls) -> pl.Expr:
-        """Reject `lecture:`/`break:` macros; only plain OSM is supported."""
-        return opening_hours_has_no_macros("opening_hours")
 
     @dy.rule()
     def source_url_is_http(cls) -> pl.Expr:

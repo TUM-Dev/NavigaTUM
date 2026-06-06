@@ -34,12 +34,9 @@ def test_committed_opening_hours_csv_satisfies_schema() -> None:
     assert_satisfies_schema(OpeningHoursSchema, load_opening_hours())
 
 
-def test_committed_opening_hours_strings_parse_as_osm() -> None:
-    """Every committed OSM string must parse; the loader does not check this at runtime."""
-    for row in load_opening_hours().iter_rows(named=True):
-        assert opening_hours.validate(row["opening_hours"]), (
-            f"opening_hours for entry {row['id']!r} does not parse: {row['opening_hours']!r}"
-        )
+# The on-disk form may carry `lecture:`/`break:` macros, so the committed strings are not
+# plain OSM until expanded. The expanded-output parse gate lives in
+# `processors/test_opening_hours.py::test_committed_schedules_expand_to_valid_plain_osm`.
 
 
 @pytest.mark.parametrize(
@@ -73,10 +70,9 @@ def test_opening_hours_schema_rejects_empty_osm() -> None:
 
 
 @pytest.mark.parametrize("osm", ["lecture: Mo-Fr 08:00-20:00", "Mo-Fr 08:00-20:00; break: 12:00-13:00"])
-def test_opening_hours_schema_rejects_macros(osm: str) -> None:
-    """`lecture:`/`break:` macros must be rejected."""
-    with pytest.raises(dy.exc.ValidationError):
-        OpeningHoursSchema.validate(_row_with(opening_hours=osm))
+def test_opening_hours_schema_accepts_macros(osm: str) -> None:
+    """`lecture:`/`break:` macros are valid on disk; the compile step expands them (positive control)."""
+    OpeningHoursSchema.validate(_row_with(opening_hours=osm))
 
 
 @pytest.mark.parametrize("url", ["www.ub.tum.de", "ftp://ub.tum.de", "/relative/path", ""])

@@ -188,7 +188,8 @@ def _run_pipeline(
     schedules = pl.concat([load_opening_hours(), studierendenwerk.mensa_opening_hours()], how="vertical").unique(
         subset="id", keep="first", maintain_order=True
     )
-    # Fails the build if a schedule targets an unknown entry id.
+    # Expands lecture:/break: macros against the semester list; fails the build on an unknown
+    # target id or a schedule that does not expand to a plain-OSM string.
     df = opening_hours.merge_opening_hours(df, schedules=schedules)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
