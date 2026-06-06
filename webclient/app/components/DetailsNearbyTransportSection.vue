@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { mdiArrowRightThin, mdiChevronDown, mdiHelpCircle } from "@mdi/js";
+import { mdiArrowRightThin, mdiChevronDown, mdiChevronUp, mdiHelpCircle } from "@mdi/js";
+import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import {
   boardingRestriction,
@@ -22,6 +23,13 @@ const props = defineProps<{
 
 const { t } = useI18n({ useScope: "local" });
 const { stations, toggleExpand, now } = await useNearbyDepartures(() => props.id);
+
+const INITIAL_VISIBLE = 5;
+const [showAll, toggleShowAll] = useToggle(false);
+const visibleStations = computed(() =>
+  showAll.value ? stations.value : stations.value.slice(0, INITIAL_VISIBLE)
+);
+const hiddenCount = computed(() => Math.max(0, stations.value.length - INITIAL_VISIBLE));
 
 function modeLabel(mode: ModeResponse | undefined | null): string {
   if (!mode) return "";
@@ -88,7 +96,7 @@ function rowTitle(entry: StopTimeEntry): string {
     <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
     <ul class="flex flex-col gap-2">
       <li
-        v-for="{ station, state } in stations"
+        v-for="{ station, state } in visibleStations"
         :key="station.id"
         class="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-sm"
       >
@@ -195,6 +203,16 @@ function rowTitle(entry: StopTimeEntry): string {
         </template>
       </li>
     </ul>
+    <button
+      v-if="hiddenCount > 0"
+      type="button"
+      class="focusable self-start flex items-center gap-1 rounded-sm px-2 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100"
+      :aria-expanded="showAll"
+      @click="toggleShowAll()"
+    >
+      <MdiIcon :path="showAll ? mdiChevronUp : mdiChevronDown" :size="16" />
+      {{ showAll ? t("show_less") : t("show_more", { count: hiddenCount }) }}
+    </button>
   </div>
 </template>
 
@@ -204,6 +222,8 @@ de:
   loading: Lädt Abfahrten…
   error: 'Abfahrten konnten nicht geladen werden: {msg}'
   no_departures: Keine bevorstehenden Abfahrten.
+  show_more: "{count} weitere anzeigen"
+  show_less: Weniger anzeigen
   now: jetzt
   departed: abgefahren
   in_minutes: "in {count} min"
@@ -251,6 +271,8 @@ en:
   loading: Loading departures…
   error: 'Could not load departures: {msg}'
   no_departures: No upcoming departures.
+  show_more: "Show {count} more"
+  show_less: Show less
   now: now
   departed: departed
   in_minutes: "in {count} min"
