@@ -40,9 +40,6 @@ dev = [
 [tool.uv]
 package = false
 
-[tool.bandit]
-skips = ["B101"]
-
 [tool.mypy]
 python_version = "3.14"
 ignore_missing_imports = true
@@ -118,6 +115,7 @@ select = [
   "DTZ",   # naive datetime usage
   "PGH",   # pygrep-hooks (blanket noqa, type: ignore, eval, …)
   "PYI",   # type-stub issues
+  "S",     # flake8-bandit (security; replaces the bandit pre-commit hook)
   "YTT",   # sys.version misuse
   # imports
   "I",     # isort (sort imports)
@@ -159,6 +157,7 @@ ignore = [
   #### rules
   "SIM108", # ternary operator should be used without a concearn for the code complexity
   "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
+  "S101", # `assert` is used as a runtime guard in CLI/scraping code; this matched bandit's prior `B101` skip
   "TC001", # runtime imports in TYPE_CHECKING - pydantic/dataframely need the symbols at runtime
   "TC002",
   "TC003",
