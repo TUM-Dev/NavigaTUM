@@ -1,11 +1,26 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
+import { useFeedback } from "~/composables/feedback";
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
 const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
+const feedback = useFeedback();
+const route = useRoute();
+
+function switchToFeedback() {
+  const id = editProposal.value.selected?.id ?? (route.params.id as string);
+  editProposal.value.open = false;
+  feedback.value.open = true;
+  feedback.value.data = {
+    category: "entry",
+    subject: `[${id}]: `,
+    body: "",
+    deletion_requested: false,
+  };
+}
 
 const propertiesModalOpen = ref(false);
 
@@ -231,7 +246,7 @@ function getEditTypeDisplay(roomId: string): string {
 <template>
   <TokenBasedEditProposalModal v-if="editProposal" v-model:open="editProposal.open" :data="editProposal.data" :title="t('title')">
     <template #modal>
-      <!-- Additional Context -->
+      <!-- What would you like to change? -->
       <div class="flex flex-col">
         <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="edit-context">
           {{ t("additional_context") }}
@@ -244,6 +259,13 @@ function getEditTypeDisplay(roomId: string): string {
           rows="3"
         />
         <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("additional_context_help") }}</p>
+        <button
+          type="button"
+          class="focusable text-zinc-500 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-300 mt-1 self-start rounded-sm text-xs underline"
+          @click="switchToFeedback"
+        >
+          {{ t("report_problem_instead") }}
+        </button>
       </div>
 
       <!-- Other Changes Section -->
@@ -451,9 +473,10 @@ function getEditTypeDisplay(roomId: string): string {
 <i18n lang="yaml">
 de:
   title: Änderungen vorschlagen
-  additional_context: Zusätzlicher Kontext
+  additional_context: Was möchtest du ändern?
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
   additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
+  report_problem_instead: Du kennst die Lösung nicht? Melde einfach ein Problem.
   other_changes: Weitere Änderungen
   properties: Eigenschaften
   properties_title: Eigenschaften bearbeiten
@@ -489,9 +512,10 @@ de:
   success_this_pr: diesem GitHub Pull Request
 en:
   title: Propose Changes
-  additional_context: Additional Context
+  additional_context: What would you like to change?
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
   additional_context_help: Describe any issues or improvement suggestions here.
+  report_problem_instead: Don't know the fix? Just report a problem.
   other_changes: Other changes
   properties: Properties
   properties_title: Edit properties

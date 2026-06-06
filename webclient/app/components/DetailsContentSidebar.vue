@@ -6,9 +6,11 @@ import {
   mdiLink,
   mdiPencil,
   mdiPlus,
+  mdiShareVariant,
 } from "@mdi/js";
 import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
+import type { DetailAction } from "~/components/DetailActionToolbar.vue";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -28,6 +30,8 @@ const calendar = useCalendar();
 
 // Navigation is a beta gimmick that only makes sense when we know the location more precisely than the building level.
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
+
+const shareModalOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {
@@ -101,6 +105,39 @@ const suggestLocationFix = () => {
   };
   editProposal.value.open = true;
 };
+
+const actions = computed<DetailAction[]>(() => [
+  {
+    key: "calendar",
+    icon: mdiCalendarMonth,
+    label: t("header.calendar"),
+    visible: !!props.data.props?.calendar_url,
+    onClick: () => {
+      calendar.value = [...new Set([...calendar.value, route.params.id?.toString() ?? "404"])];
+    },
+  },
+  {
+    key: "navigation",
+    icon: mdiDirections,
+    label: t("header.start_navigation"),
+    visible: navigationEnabled.value,
+    href: `/navigate?coming_from=${props.data.id}&to=${props.data.id}&q_to=${props.data.name}`,
+  },
+  {
+    key: "share",
+    icon: mdiShareVariant,
+    label: t("header.share"),
+    onClick: () => {
+      shareModalOpen.value = true;
+    },
+  },
+  {
+    key: "suggest-change",
+    icon: mdiPencil,
+    label: t("header.suggest_edit"),
+    onClick: suggestEdit,
+  },
+]);
 </script>
 
 <template>
@@ -165,41 +202,14 @@ const suggestLocationFix = () => {
       </button>
     </div>
 
-    <!-- Type & Buttons -->
-    <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
+    <!-- Type -->
+    <div class="flex flex-wrap items-center gap-y-2 mb-3">
       <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
-      <div class="flex flex-row items-center gap-3">
-        <NuxtLinkLocale
-          v-if="navigationEnabled"
-          :to="`/navigate?coming_from=${data.id}&to=${data.id}&q_to=${data.name}`"
-          class="focusable rounded-sm print:hidden"
-          :title="t('header.start_navigation')"
-          :aria-label="t('header.start_navigation')"
-          prefetch-on="interaction"
-        >
-          <MdiIcon :path="mdiDirections" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </NuxtLinkLocale>
-        <button
-          v-if="data.props?.calendar_url"
-          type="button"
-          class="focusable rounded-sm"
-          :title="t('header.calendar')"
-          @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
-        >
-          <MdiIcon :path="mdiCalendarMonth" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </button>
-        <button
-          type="button"
-          class="focusable rounded-sm"
-          :title="t('header.suggest_edit')"
-          @click="suggestEdit"
-        >
-          <MdiIcon :path="mdiPencil" :size="26" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50"/>
-        </button>
-        <ShareButton :coords="data.coords" :name="data.name" :id="data.id"/>
-        <DetailsFeedbackButton/>
-      </div>
     </div>
+
+    <!-- Action bar -->
+    <DetailActionToolbar :actions="actions" class="mb-6"/>
+    <ShareModal v-model:open="shareModalOpen" :coords="data.coords" :name="data.name" :id="data.id"/>
 
     <!-- Toasts/Alerts -->
     <div class="flex flex-col gap-2 mb-4">
@@ -251,6 +261,7 @@ de:
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
+    share: Teilen
     start_navigation: Navigation starten (BETA)
     suggest_edit: Änderung vorschlagen
   add_first_image: Erstes Bild hinzufügen
@@ -263,8 +274,9 @@ en:
   header:
     calendar: Open calendar
     copy_link: Copy link
+    share: Share
     start_navigation: Start navigation (BETA)
-    suggest_edit: Suggest edit
+    suggest_edit: Suggest a change
   add_first_image: Add first image
   suggest_edit: I know where it is
   msg:

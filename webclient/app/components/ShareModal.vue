@@ -11,6 +11,8 @@ const props = defineProps<{
   readonly id: string;
 }>();
 
+const open = defineModel<boolean>("open", { required: true });
+
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { t } = useI18n({ useScope: "local" });
@@ -22,7 +24,6 @@ const {
 const { share, isSupported: shareIsSupported } = useShare();
 const runtimeConfig = useRuntimeConfig();
 
-const modalOpen = ref(false);
 const shareOptions = () =>
   ({
     title: props.name,
@@ -52,17 +53,8 @@ const tabs = [
 </script>
 
 <template>
-  <button
-    type="button"
-    :title="t('external_link')"
-    :aria-label="t('sharing_options')"
-    class="focusable rounded-sm"
-    @click="modalOpen = true"
-  >
-    <MdiIcon :path="mdiShare" :size="28" class="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-50" />
-  </button>
   <ClientOnly>
-    <LazyModal v-model="modalOpen" :title="t('share')">
+    <LazyModal v-model="open" :title="t('share')">
       <TabGroup>
         <TabList class="mb-4 flex flex-wrap gap-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
           <Tab v-for="tab in tabs" :key="tab.key" as="template" v-slot="{ selected }">
@@ -158,8 +150,6 @@ de:
   copy_embed: Einbettungs-Code kopieren
   open_in: Öffnen in
   other_app: Andere App ...
-  external_link: Externe Links
-  sharing_options: Externe Links und optionen diese seite zu teilen
   share: Teilen
   share_link: Teilen mit ...
   qr_code: QR-Code
@@ -172,8 +162,6 @@ en:
   copy_embed: Copy embed code
   open_in: Open in
   other_app: Other app ...
-  external_link: External links
-  sharing_options: External links and options to share this page
   share: Share
   share_link: Share with ...
   qr_code: QR Code
