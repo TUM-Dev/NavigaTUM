@@ -28,7 +28,6 @@ const runtimeConfig = useRuntimeConfig();
 const editProposal = useEditProposal();
 const calendar = useCalendar();
 
-// Navigation only makes sense when we know the location more precisely than the building level.
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
 
 const shareModalOpen = ref(false);
@@ -78,7 +77,6 @@ const suggestEdit = () => {
     floor: floorIds[0] ?? null,
   };
 
-  // Pre-fill property fields with current values
   const fields = emptyPropertyFields();
   editProposal.value.propertyFields = { ...fields, name: props.data.name };
   editProposal.value.originalPropertyFields = { ...fields, name: props.data.name };
@@ -129,6 +127,7 @@ const actions = computed<DetailAction[]>(() => [
     key: "share",
     icon: mdiShareVariant,
     label: t("header.share"),
+    shortLabel: t("header.share"),
     onClick: () => {
       shareModalOpen.value = true;
     },

@@ -3,8 +3,7 @@ type ActionBase = {
   key: string;
   icon: string;
   label: string;
-  // One-word fallback shown on mobile, where the full label would wrap to two lines in the 2-up grid.
-  shortLabel?: string;
+  shortLabel: string;
   visible?: boolean;
 };
 export type DetailAction = ActionBase &
@@ -37,7 +36,7 @@ const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight 
         prefetch-on="interaction"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span :class="mobileLabelClass">{{ action.shortLabel ?? action.label }}</span>
+        <span :class="mobileLabelClass">{{ action.shortLabel }}</span>
         <span :class="desktopLabelClass">{{ action.label }}</span>
       </NuxtLinkLocale>
       <button
@@ -48,7 +47,7 @@ const desktopLabelClass = "hidden text-center text-xs font-medium leading-tight 
         @click="action.onClick?.()"
       >
         <MdiIcon :path="action.icon" :size="20" class="shrink-0" />
-        <span :class="mobileLabelClass">{{ action.shortLabel ?? action.label }}</span>
+        <span :class="mobileLabelClass">{{ action.shortLabel }}</span>
         <span :class="desktopLabelClass">{{ action.label }}</span>
       </button>
     </li>
