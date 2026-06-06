@@ -14,6 +14,7 @@ import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
+import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
@@ -58,11 +59,7 @@ const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
-const zoom = computed<number>(() => {
-  if (props.type === "building") return 17;
-  if (props.type === "room") return 18;
-  return 16;
-});
+const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 onMounted(async () => {
   if (!webglSupport) return;
@@ -111,8 +108,8 @@ function createMarker(hueRotation = 0): HTMLDivElement {
 async function initMap(containerId: string): Promise<MapLibreMap> {
   const map = new MapLibreMap({
     container: containerId,
-    // while having the hash in the url is nice, it is overridden on map load anyway => not much use
-    hash: false,
+    // Reflect the viewport in the URL hash so the map state is deep-linkable.
+    hash: true,
 
     canvasContextAttributes: {
       // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
@@ -393,6 +390,20 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   );
 }
 
+/** Centre the map on a single location, used when there is no route to fit. */
+function flyToCoords(
+  coords: { lat: number; lon: number },
+  type?: LocationDetailsResponse["type"],
+  isAfterLoaded = false
+) {
+  if (!map.value || (!isAfterLoaded && !map.value.loaded())) {
+    afterLoaded.value = () => flyToCoords(coords, type, true);
+    return;
+  }
+  marker.value?.setLngLat([coords.lon, coords.lat]);
+  map.value.flyTo({ center: [coords.lon, coords.lat], zoom: zoomForLocationType(type) });
+}
+
 function fitBounds(lon: [number, number], lat: [number, number]) {
   if (!map.value) {
     console.error("tried to fly to point but map has not loaded yet.. wtf??");
@@ -550,6 +561,7 @@ function triggerGeolocation() {
 defineExpose({
   drawRoute,
   fitBounds,
+  flyToCoords,
   drawMotisItinerary,
   highlightMotisLeg,
   focusOnMotisLeg,

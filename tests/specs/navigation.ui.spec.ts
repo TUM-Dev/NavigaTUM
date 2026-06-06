@@ -1,10 +1,24 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+// Collects /api/locations/* requests, to check whether the resolver ran.
+function trackLocationRequests(page: Page): string[] {
+  const requests: string[] = [];
+  page.on("request", (req) => {
+    if (req.url().includes("/api/locations/")) requests.push(req.url());
+  });
+  return requests;
+}
+
+// Viewport hashes (`#zoom/lat/lng`): MI frames at zoom 16, campus default at zoom 18.
+const MI_VIEWPORT = /#16\/48\.262\d*\/11\.668\d*/;
+const CAMPUS_DEFAULT_VIEWPORT = /#18\/48\.266\d*\/11\.670\d*/;
 
 test.describe("Navigation Page - Basic Functionality", () => {
   test("should load navigation page with inputs", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    await expect(page).toHaveURL("/navigate");
+    // Allow the map's viewport hash after the path.
+    await expect(page).toHaveURL(/\/navigate(#|$)/);
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
     const fromInput = page.getByPlaceholder("Von").first();
@@ -71,6 +85,67 @@ test.describe("Navigation Page - Map Display", () => {
     await expect(mapCanvas).toBeVisible();
 
     // await expect(page).toHaveScreenshot();
+  });
+
+  // Regression test for #1960: with one endpoint, the map must centre on it
+  // rather than the campus default. Checks the resolve request fires and the
+  // viewport hash frames the endpoint.
+  test("resolves the single endpoint when only `from` is defined", async ({ page }) => {
+    const detailsRequest = page.waitForRequest((req) => req.url().includes("/api/locations/mi"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?from=mi", { waitUntil: "domcontentloaded" });
+    await detailsRequest;
+    await expect(page).toHaveURL(/from=mi/);
+    await expect(page).toHaveURL(MI_VIEWPORT);
+  });
+
+  test("resolves the single endpoint when only `to` is defined", async ({ page }) => {
+    const detailsRequest = page.waitForRequest((req) => req.url().includes("/api/locations/mi"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?to=mi", { waitUntil: "domcontentloaded" });
+    await detailsRequest;
+    await expect(page).toHaveURL(/to=mi/);
+    await expect(page).toHaveURL(MI_VIEWPORT);
+  });
+
+  test("with both endpoints, fits the route and does not resolve a single endpoint", async ({
+    page,
+  }) => {
+    const locationsRequests = trackLocationRequests(page);
+    const routeRequest = page.waitForRequest((req) => req.url().includes("/api/maps/route"), {
+      timeout: 15_000,
+    });
+    await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
+    await routeRequest;
+    // Wait for the map to mount before asserting the resolver stayed silent.
+    await expect(page.locator("canvas").first()).toBeVisible();
+    expect(locationsRequests).toEqual([]);
+  });
+
+  test("with neither endpoint, keeps the campus-overview default", async ({ page }) => {
+    const locationsRequests = trackLocationRequests(page);
+    await page.goto("/navigate", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("canvas").first()).toBeVisible();
+    await expect(page).toHaveURL(CAMPUS_DEFAULT_VIEWPORT);
+    expect(locationsRequests).toEqual([]);
+  });
+
+  test("falls back gracefully when the single endpoint id is unresolvable", async ({ page }) => {
+    const pageErrors: Error[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err));
+    const detailsResponse = page.waitForResponse(
+      (resp) => resp.url().includes("/api/locations/invalid_location_123"),
+      { timeout: 15_000 }
+    );
+    await page.goto("/navigate?from=invalid_location_123", { waitUntil: "domcontentloaded" });
+
+    // The 404 must be swallowed (no throw) and the map left at the default view.
+    expect((await detailsResponse).status()).toBe(404);
+    await expect(page.locator("canvas").first()).toBeVisible();
+    await expect(page).toHaveURL(CAMPUS_DEFAULT_VIEWPORT);
+    expect(pageErrors).toEqual([]);
   });
 });
 

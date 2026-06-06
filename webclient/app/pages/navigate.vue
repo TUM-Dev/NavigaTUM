@@ -3,7 +3,7 @@ import { mdiChevronLeft } from "@mdi/js";
 import { refDebounced } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import { useTemplateRef } from "vue";
-import type { operations } from "~/api_types";
+import type { components, operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { firstOrDefault } from "~/composables/common";
@@ -92,6 +92,43 @@ watch(
         newMap.drawMotisItinerary(newData.itineraries[0]);
       }
     }
+  },
+  { immediate: true }
+);
+
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+
+// The endpoint to centre on when only `from` or `to` is set (no route to fit).
+const single_endpoint = computed<string | undefined>(() => {
+  if (selected_from.value && !selected_to.value) return selected_from.value;
+  if (selected_to.value && !selected_from.value) return selected_to.value;
+  return undefined;
+});
+
+async function focusSingleEndpoint(value: string) {
+  const map = indoorMap.value;
+  if (!map) return;
+
+  const parsed = parseCoordinateId(value);
+  if (typeof parsed !== "string") {
+    map.flyToCoords(parsed);
+    return;
+  }
+  try {
+    const details = await $fetch<LocationDetailsResponse>(
+      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(parsed)}`,
+      { query: { lang: locale.value }, credentials: "omit" }
+    );
+    map.flyToCoords(details.coords, details.type);
+  } catch {
+    // Unresolvable id: keep the default view.
+  }
+}
+
+watch(
+  [single_endpoint, indoorMap],
+  ([value]) => {
+    if (value) focusSingleEndpoint(value);
   },
   { immediate: true }
 );
