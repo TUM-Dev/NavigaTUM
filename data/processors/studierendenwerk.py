@@ -1,5 +1,5 @@
 import logging
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import dataframely as dy
@@ -45,7 +45,7 @@ def mensa_opening_hours(
     """
     canteens = _load_stored_canteens() if canteens is None else canteens
     mapping = _load_mapping() if mapping is None else mapping
-    today = datetime.now(tz=timezone.utc).date() if today is None else today
+    today = datetime.now(tz=UTC).date() if today is None else today
 
     joined = mapping.join(canteens, on="canteen_id", how="left")
     for row in joined.filter(pl.col("opening_hours").is_null()).iter_rows(named=True):
