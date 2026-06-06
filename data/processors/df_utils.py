@@ -338,7 +338,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         result["tumonline_data"] = orjson.loads(row["tumonline_data_json"])
     if row.get("roomfinder_data_json"):
         result["roomfinder_data"] = orjson.loads(row["roomfinder_data_json"])
-    # Emitted only where a schedule was attached, so an absent key reads as "no opening hours".
     if row.get("opening_hours_json"):
         result["opening_hours"] = orjson.loads(row["opening_hours_json"])
 

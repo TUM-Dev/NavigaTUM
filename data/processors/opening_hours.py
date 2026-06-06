@@ -2,19 +2,16 @@ import orjson
 import polars as pl
 from external.loaders.opening_hours import load_opening_hours
 
-# Always emitted; the optional window/variant keys are dropped when null so the
-# webclient reads an absent key as "no bound" rather than a literal null.
+# Optional keys are omitted when null, not emitted as null.
 _REQUIRED_KEYS = {"opening_hours": "osm", "source_url": "source_url", "last_update": "last_update"}
 _OPTIONAL_KEYS = ("valid_from", "valid_until", "service")
 
 
 def merge_opening_hours(df: pl.DataFrame, *, schedules: pl.DataFrame | None = None) -> pl.DataFrame:
     """
-    Attach hand-authored opening-hours schedules to their entries.
+    Attach opening-hours schedules to their entries as an `opening_hours_json` payload.
 
-    Each schedule is serialized to an `opening_hours_json` payload joined onto the
-    entry by `id`. `schedules` is injectable for testing; in the pipeline it defaults
-    to the validated, OSM-parse-checked `sources/opening_hours.csv`.
+    `schedules` is injectable for tests; it defaults to the validated CSV.
     """
     schedules = load_opening_hours() if schedules is None else schedules
 

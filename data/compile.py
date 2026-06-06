@@ -182,7 +182,7 @@ def _run_pipeline(
     _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
-    # Fails the build if a hand-authored OSM schedule does not parse or targets an unknown entry.
+    # Fails the build if a schedule targets an unknown entry id.
     df = opening_hours.merge_opening_hours(df)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created

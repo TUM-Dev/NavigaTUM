@@ -5,20 +5,18 @@ _ISO_DATE_REGEX = r"^\d{4}-\d{2}-\d{2}$"
 
 
 def _is_iso_date(column: str) -> pl.Expr:
-    """Zero-padded `YYYY-MM-DD` format *and* a real calendar date (rejects e.g. `2026-13-40`)."""
+    """Zero-padded `YYYY-MM-DD` and a real calendar date (rejects e.g. `2026-13-40`)."""
     col = pl.col(column)
     return col.str.contains(_ISO_DATE_REGEX) & col.str.to_date("%Y-%m-%d", strict=False).is_not_null()
 
 
 class OpeningHoursSchema(dy.Schema):
     """
-    Schema for a hand-authored opening-hours record attached to a single entry.
+    Hand-authored opening-hours record attached to a single entry.
 
-    The canonical on-disk form is a plain OSM `opening_hours` string (no
-    `lecture:`/`break:` macros in this slice). One row per entry: `id` is the
-    primary key, which enforces the "one schedule per entry" invariant for now.
-    Dates are kept as `YYYY-MM-DD` strings so the server can parse them as plain
-    dates from the details JSON without depending on a locale-specific format.
+    The on-disk form is a plain OSM `opening_hours` string; `id` is the primary
+    key, so one schedule per entry. Dates are `YYYY-MM-DD` strings so the server
+    reads them from the details JSON without a locale-specific format.
     """
 
     id = dy.String(nullable=False, primary_key=True)
@@ -36,12 +34,12 @@ class OpeningHoursSchema(dy.Schema):
 
     @dy.rule()
     def opening_hours_has_no_macros(cls) -> pl.Expr:
-        """`lecture:`/`break:` semester macros are out of scope for this slice (plain OSM only)."""
+        """Reject `lecture:`/`break:` macros; only plain OSM is supported."""
         return ~pl.col("opening_hours").str.contains(r"(?i)\b(lecture|break)\s*:")
 
     @dy.rule()
     def source_url_is_http(cls) -> pl.Expr:
-        """`source_url` must be an absolute http(s) URL the webclient can link to."""
+        """`source_url` must be an absolute http(s) URL."""
         return pl.col("source_url").str.contains(r"^https?://")
 
     @dy.rule()

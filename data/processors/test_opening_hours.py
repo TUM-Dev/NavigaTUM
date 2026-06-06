@@ -62,14 +62,14 @@ def test_merge_keeps_present_optional_fields() -> None:
 
 
 def test_merge_with_no_schedules_yields_null_column() -> None:
-    """With no schedules the column still exists (all null) so downstream export is unconditional."""
+    """With no schedules the column still exists, all null."""
     df = merge_opening_hours(_entries(), schedules=_schedule().clear())
 
     assert df["opening_hours_json"].to_list() == [None, None]
 
 
 def test_merge_raises_when_schedule_targets_unknown_entry() -> None:
-    """A schedule pointing at an id absent from the frame is a typo and must fail the build."""
+    """A schedule targeting an id absent from the frame must raise."""
     orphan = _schedule(id="9999")
     with pytest.raises(ValueError, match="9999"):
         merge_opening_hours(_entries(), schedules=orphan)
