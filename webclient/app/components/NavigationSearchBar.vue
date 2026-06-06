@@ -277,6 +277,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
             v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"
+            @mousedown.prevent
             @click="select(e.id)"
             @mouseover="highlighted = i"
           />
