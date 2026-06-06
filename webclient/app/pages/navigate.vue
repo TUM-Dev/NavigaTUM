@@ -98,9 +98,7 @@ watch(
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
-// When exactly one endpoint is defined there is no route to fit the map to, so
-// it would otherwise stay on its campus-overview default (the Studitum). Centre
-// it on whichever endpoint the user did specify instead.
+// The endpoint to centre on when only `from` or `to` is set (no route to fit).
 const single_endpoint = computed<string | undefined>(() => {
   if (selected_from.value && !selected_to.value) return selected_from.value;
   if (selected_to.value && !selected_from.value) return selected_to.value;
@@ -123,8 +121,7 @@ async function focusSingleEndpoint(value: string) {
     );
     map.flyToCoords(details.coords, details.type);
   } catch {
-    // Unresolvable id (e.g. a typo, or an entry without coordinates): keep the
-    // campus-overview default rather than jumping to an unrelated building.
+    // Unresolvable id: keep the default view.
   }
 }
 

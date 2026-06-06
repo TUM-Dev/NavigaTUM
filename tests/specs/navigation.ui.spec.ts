@@ -1,7 +1,6 @@
 import { expect, type Page, test } from "@playwright/test";
 
-// Collects every /api/locations/* request a page fires, so a test can assert
-// whether the single-endpoint resolver ran (issue #1960).
+// Collects /api/locations/* requests, to check whether the resolver ran.
 function trackLocationRequests(page: Page): string[] {
   const requests: string[] = [];
   page.on("request", (req) => {
@@ -10,10 +9,7 @@ function trackLocationRequests(page: Page): string[] {
   return requests;
 }
 
-// The map serialises its viewport into the URL hash as `#zoom/lat/lng`, which
-// lets us assert what the camera is actually framing. The MI building complex
-// (a joined_building) sits at ~48.26252/11.66808 and frames at zoom 16; the
-// campus-overview default is zoom 18 centred on the Studitum (~48.2669/11.6701).
+// Viewport hashes (`#zoom/lat/lng`): MI frames at zoom 16, campus default at zoom 18.
 const MI_VIEWPORT = /#16\/48\.262\d*\/11\.668\d*/;
 const CAMPUS_DEFAULT_VIEWPORT = /#18\/48\.266\d*\/11\.670\d*/;
 
@@ -21,7 +17,7 @@ test.describe("Navigation Page - Basic Functionality", () => {
   test("should load navigation page with inputs", async ({ page }) => {
     await page.goto("/navigate", { waitUntil: "networkidle" });
 
-    // The map serialises its viewport into the URL hash, so allow it after the path.
+    // Allow the map's viewport hash after the path.
     await expect(page).toHaveURL(/\/navigate(#|$)/);
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
@@ -91,12 +87,9 @@ test.describe("Navigation Page - Map Display", () => {
     // await expect(page).toHaveScreenshot();
   });
 
-  // Regression test for TUM-Dev/NavigaTUM#1960: with only one endpoint defined
-  // the map used to stay on the campus-overview default (the Studitum) instead
-  // of framing the endpoint. There is no route to fit to, so the page resolves
-  // the single endpoint's coordinates via /api/locations/<id> and centres on
-  // them. We assert both that the resolution request fires (the mechanism) and
-  // that the viewport hash ends up framing the endpoint (the actual outcome).
+  // Regression test for #1960: with one endpoint, the map must centre on it
+  // rather than the campus default. Checks the resolve request fires and the
+  // viewport hash frames the endpoint.
   test("resolves the single endpoint when only `from` is defined", async ({ page }) => {
     const detailsRequest = page.waitForRequest((req) => req.url().includes("/api/locations/mi"), {
       timeout: 15_000,
@@ -126,8 +119,7 @@ test.describe("Navigation Page - Map Display", () => {
     });
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
     await routeRequest;
-    // The single-endpoint resolver would only fire client-side once the map has
-    // mounted, so wait for the canvas before asserting it stayed silent.
+    // Wait for the map to mount before asserting the resolver stayed silent.
     await expect(page.locator("canvas").first()).toBeVisible();
     expect(locationsRequests).toEqual([]);
   });
@@ -149,9 +141,7 @@ test.describe("Navigation Page - Map Display", () => {
     );
     await page.goto("/navigate?from=invalid_location_123", { waitUntil: "domcontentloaded" });
 
-    // The id does not resolve, so the resolver must swallow the 404 rather than
-    // throw, and the map must stay on its campus-overview default instead of
-    // jumping to an unrelated building.
+    // The 404 must be swallowed (no throw) and the map left at the default view.
     expect((await detailsResponse).status()).toBe(404);
     await expect(page.locator("canvas").first()).toBeVisible();
     await expect(page).toHaveURL(CAMPUS_DEFAULT_VIEWPORT);

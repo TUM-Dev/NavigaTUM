@@ -108,9 +108,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
 async function initMap(containerId: string): Promise<MapLibreMap> {
   const map = new MapLibreMap({
     container: containerId,
-    // Serialise the viewport (zoom and centre) into the URL hash. An incoming
-    // hash is overridden once we frame the route or endpoint, but the written
-    // hash keeps the map state deep-linkable and reflects what is on screen.
+    // Reflect the viewport in the URL hash so the map state is deep-linkable.
     hash: true,
 
     canvasContextAttributes: {
@@ -392,14 +390,7 @@ function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
   );
 }
 
-/**
- * Centre the map on a single location.
- *
- * Used by the navigation view when only one endpoint is defined and there is
- * no route to fit to: the map should frame that endpoint rather than fall back
- * to the campus-overview default. The zoom is chosen by entry type so a room is
- * shown closer than a whole site.
- */
+/** Centre the map on a single location, used when there is no route to fit. */
 function flyToCoords(
   coords: { lat: number; lon: number },
   type?: LocationDetailsResponse["type"],
