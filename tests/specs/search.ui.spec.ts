@@ -23,25 +23,27 @@ test.describe("Search Page - Basic Functionality", () => {
 });
 
 test.describe("Search Page - Results Display", () => {
-  test("should display search results as clickable links", async ({ page }) => {
+  test("should display search results as canonical /{type}/{id} links", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
     // Wait for search results to load
     await page.waitForLoadState("networkidle");
 
-    const resultLinks = page.locator('a[href*="/view/"]');
+    const resultLinks = page.locator(
+      'a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"], a[href*="/poi/"]'
+    );
     const count = await resultLinks.count();
     expect(count).toBeGreaterThan(0);
     // await expect(page).toHaveScreenshot();
   });
 
-  test("should navigate to details page when clicking a result", async ({ page }) => {
+  test("should navigate to the canonical details page when clicking a result", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    const firstResult = page.locator('a[href*="/view/mi"]').first();
+    const firstResult = page.locator('a[href*="/building/mi"]').first();
     await expect(firstResult).toBeVisible();
     await firstResult.click();
-    await expect(page).toHaveURL(/\/(view|building)\/mi/);
+    await expect(page).toHaveURL(/\/building\/mi/);
   });
 });
 
@@ -51,7 +53,9 @@ test.describe("Search Page - English ↔ German synonyms (#960)", () => {
       await page.goto(`/search?q=${query}`, { waitUntil: "networkidle" });
       await page.waitForLoadState("networkidle");
 
-      const resultLinks = page.locator('a[href*="/view/"]');
+      const resultLinks = page.locator(
+        'a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"], a[href*="/poi/"]'
+      );
       expect(await resultLinks.count()).toBeGreaterThan(0);
     });
   }
@@ -118,11 +122,12 @@ test.describe("Search Page - Filtering and Pagination", () => {
 });
 
 test.describe("Search Page - URL Handling", () => {
-  test.skip("should preserve search query in URL when navigating back", async ({ page }) => {
+  test("should return to the search results when navigating back", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
-    const firstResult = page.locator('a[href*="/view/"]').first();
+    const firstResult = page.locator('a[href*="/building/mi"]').first();
     await firstResult.click();
+    await expect(page).toHaveURL(/\/building\/mi/);
 
     await page.waitForLoadState("networkidle");
     await page.goBack();
