@@ -135,6 +135,13 @@ useSeoMeta({
   twitterCard: "summary",
 });
 
+// The endpoints already live in the URL query, so the route below recomputes reactively as
+// they change. A native GET submit would full-reload the page and discard the in-memory time
+// selection, so we only dismiss the keyboard / autocomplete instead.
+function onSearchSubmit() {
+  if (typeof document !== "undefined") (document.activeElement as HTMLElement | null)?.blur();
+}
+
 function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: number) {
   if (data.value?.router !== "valhalla") return;
 
@@ -206,7 +213,14 @@ function handleSelectItinerary(itineraryIndex: number) {
         </div>
       </NuxtLinkLocale>
       <NavigationModeSelector v-model:mode="mode" />
-      <form action="/navigate" autocomplete="off" method="GET" role="search" class="flex flex-col gap-2">
+      <form
+        action="/navigate"
+        autocomplete="off"
+        method="GET"
+        role="search"
+        class="flex flex-col gap-2"
+        @submit.prevent="onSearchSubmit"
+      >
         <NavigationSearchBar query-id="from" />
         <NavigationSearchBar query-id="to" />
         <div v-if="mode === 'public_transit'" class="mb-4">
