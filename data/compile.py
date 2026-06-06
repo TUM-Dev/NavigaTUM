@@ -13,6 +13,7 @@ from processors import (
     images,
     iris,
     merge,
+    opening_hours,
     poi,
     roomfinder,
     search,
@@ -178,9 +179,11 @@ def _run_pipeline(
     df = ensure_columns(df, _ALL_NULLABLE_COLUMNS)
 
     # --- Decomposed CSV/YAML overrides (metadata only, entries already created at step 02) ---
-    _logger.info("-- 22 Decomposed overrides (comments, links)")
+    _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
+    # Fails the build if a hand-authored OSM schedule does not parse or targets an unknown entry.
+    df = opening_hours.merge_opening_hours(df)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.

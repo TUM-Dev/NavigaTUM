@@ -10,6 +10,7 @@ dependencies = [
   "dataframely==2.10.1",
   "defusedxml==0.7.1",
   "lxml==6.1.1",
+  "opening-hours-py==1.3.1",
   "orjson==3.11.9",
   "Pillow==12.2.0",
   "polars==1.41.2",
