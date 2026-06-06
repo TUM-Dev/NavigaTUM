@@ -59,7 +59,7 @@ def building_short_name_lookup(meta: pl.DataFrame) -> pl.DataFrame:
 
 def add_aliases(lf: pl.LazyFrame, short_name_lookup: pl.DataFrame) -> pl.LazyFrame:
     """
-    Add ``arch_name`` and ``aliases_json`` columns to ``lf``.
+    Add ``arch_name`` and ``aliases`` columns to ``lf``.
 
     Buildings synthesise an ``"@<id>"`` arch_name; every other entry inherits one from
     ``tumonline_data_json``. When the arch_name has the canonical
@@ -68,8 +68,8 @@ def add_aliases(lf: pl.LazyFrame, short_name_lookup: pl.DataFrame) -> pl.LazyFra
     alongside the raw form so room-code searches (e.g. ``MW0001``) resolve correctly
     without breaking existing links.
 
-    ``aliases_json`` is the JSON array string of the resulting list, or ``"[]"`` when
-    no arch_name is known.
+    ``aliases`` is a ``List[Utf8]`` of the resulting alias strings; empty when no
+    arch_name is known.
     """
     extracted_arch = (
         pl.when(pl.col("tumonline_data_json").is_not_null())
@@ -106,14 +106,10 @@ def add_aliases(lf: pl.LazyFrame, short_name_lookup: pl.DataFrame) -> pl.LazyFra
         .otherwise(pl.lit(None))
     )
 
-    # Naive JSON quoting is safe: arch_names and short_names are alphanumeric so they
-    # cannot contain embedded quotes (the _CODE_LIKE_SHORT_NAME regex enforces this).
+    # concat_list keeps the friendly form null when absent; drop_nulls strips it so the
+    # resulting list contains only the actually-present alias forms. An entry with no
+    # arch_name at all returns an empty list rather than [null].
     aliases_list = pl.concat_list(pl.col("arch_name"), friendly_alias).list.drop_nulls()
-    lf = lf.with_columns(
-        pl.when(pl.col("arch_name").is_null())
-        .then(pl.lit("[]"))
-        .otherwise(pl.lit('["') + aliases_list.list.join('","') + pl.lit('"]'))
-        .alias("aliases_json"),
-    )
+    lf = lf.with_columns(aliases_list.alias("aliases"))
 
     return lf.drop("_arch_number", "_arch_building_id", "building_short_name")

@@ -162,7 +162,7 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
 
     # Late-stage
     row["arch_name"] = entry.get("arch_name")
-    row["aliases_json"] = to_json_or_none(entry.get("aliases"))
+    row["aliases"] = entry.get("aliases") or []
     row["imgs_json"] = to_json_or_none(entry.get("imgs"))
     type_common_name = entry.get("type_common_name")
     if type_common_name is not None:
@@ -344,8 +344,8 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     # Late-stage
     if row.get("arch_name"):
         result["arch_name"] = row["arch_name"]
-    if row.get("aliases_json"):
-        result["aliases"] = orjson.loads(row["aliases_json"])
+    if aliases := row.get("aliases"):
+        result["aliases"] = list(aliases)
     if row.get("imgs_json") is not None:
         result["imgs"] = orjson.loads(row["imgs_json"])
     if row.get("type_common_name") or row.get("type_common_name_de"):

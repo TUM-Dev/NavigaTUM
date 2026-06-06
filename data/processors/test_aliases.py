@@ -68,8 +68,7 @@ def _aliases_for(arch: str | None, lookup: dict[str, str], entry_type: str = "ro
         schema={"id": pl.Utf8, "type": pl.Utf8, "tumonline_data_json": pl.Utf8},
     ).lazy()
     out = add_aliases(lf, _lookup_df(lookup)).collect()
-    aliases: list[str] = json.loads(out["aliases_json"][0])
-    return aliases
+    return out["aliases"][0].to_list()
 
 
 def test_add_aliases_derives_friendly_form() -> None:
