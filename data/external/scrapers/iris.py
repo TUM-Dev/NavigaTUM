@@ -26,8 +26,7 @@ def scrape_iris() -> None:
         raise RuntimeError("Iris returned no rooms - refusing to overwrite the roster")
 
     rows = [
-        {"raum_nr_architekt": room["raum_nr_architekt"], "gebaeude_code": str(room["gebaeude_code"])}
-        for room in rooms
+        {"raum_nr_architekt": room["raum_nr_architekt"], "gebaeude_code": str(room["gebaeude_code"])} for room in rooms
     ]
     df = pl.DataFrame(rows, schema=IrisRoomsSchema.to_polars_schema()).sort("raum_nr_architekt")
     df.write_csv(CACHE_PATH / "iris.csv")
