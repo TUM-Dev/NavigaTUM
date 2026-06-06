@@ -8,14 +8,12 @@ _DEFAULT_DTYPE: pl.DataType = pl.Utf8()
 
 
 def ensure_column(df: pl.DataFrame, col_name: str, dtype: pl.DataType = _DEFAULT_DTYPE) -> pl.DataFrame:
-    """Ensure a column exists in the DataFrame, adding it as null if missing."""
     if col_name not in df.columns:
         df = df.with_columns(pl.lit(None).cast(dtype).alias(col_name))
     return df
 
 
 def ensure_columns(df: pl.DataFrame, columns: dict[str, pl.DataType]) -> pl.DataFrame:
-    """Ensure multiple columns exist in the DataFrame, adding them as null if missing."""
     missing = {name: dtype for name, dtype in columns.items() if name not in df.columns}
     if missing:
         df = df.with_columns([pl.lit(None).cast(dtype).alias(name) for name, dtype in missing.items()])
@@ -23,7 +21,7 @@ def ensure_columns(df: pl.DataFrame, columns: dict[str, pl.DataType]) -> pl.Data
 
 
 def translatable_to_columns(field: str, value: Any) -> dict[str, str | None]:
-    """Split a TranslatableStr or plain string into _de/_en suffix columns."""
+    """Split a TranslatableStr or plain string into ``{field}_de`` / ``{field}_en`` columns."""
     if value is None:
         return {f"{field}_de": None, f"{field}_en": None}
     if isinstance(value, TranslatableStr):
@@ -36,20 +34,17 @@ def translatable_to_columns(field: str, value: Any) -> dict[str, str | None]:
 
 
 def to_json_or_none(value: Any) -> str | None:
-    """Serialize a value to JSON string, or return None if value is None."""
     if value is None:
         return None
     return orjson.dumps(value).decode()
 
 
 def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
-    """Convert a legacy dict entry to a flat column dict for DataFrame insertion."""
+    """Convert a legacy nested dict entry into a flat column dict for DataFrame insertion."""
     row: dict[str, Any] = {"id": entry_id}
 
-    # Type
     row["type"] = entry.get("type")
 
-    # Name - can be str or TranslatableStr
     name = entry.get("name")
     if isinstance(name, (TranslatableStr, dict)) and "de" in name:
         row["name"] = name.get("de", name.get("en", ""))
@@ -63,7 +58,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
         row["name_de"] = None
         row["name_en"] = None
 
-    # Short name
     short_name = entry.get("short_name")
     if short_name is not None:
         if isinstance(short_name, str):
@@ -77,7 +71,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
     row["visible_id"] = entry.get("visible_id")
     row["parents"] = entry.get("parents", [])
 
-    # b_prefix
     b_prefix = entry.get("b_prefix")
     if isinstance(b_prefix, list):
         row["b_prefix"] = None
@@ -89,7 +82,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
         row["b_prefix"] = None
         row["b_prefix_list"] = None
 
-    # Coords
     if coords := entry.get("coords"):
         row["coords_lat"] = coords.get("lat")
         row["coords_lon"] = coords.get("lon")
@@ -101,7 +93,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
             row["coords_utm_zone_number"] = utm.get("zone_number")
             row["coords_utm_zone_letter"] = utm.get("zone_letter")
 
-    # Props
     props = entry.get("props", {})
     if ids := props.get("ids"):
         row["props_ids_b_id"] = ids.get("b_id")
@@ -137,7 +128,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
     if (comment := props.get("comment")) is not None:
         row.update(translatable_to_columns("props_comment", comment))
 
-    # Usage
     if usage := entry.get("usage"):
         row.update(translatable_to_columns("usage_name", usage.get("name")))
         row["usage_din_277"] = usage.get("din_277")
@@ -145,7 +135,6 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
         if din277_name := usage.get("din277_name"):
             row["usage_din277_name"] = din277_name
 
-    # Ranking
     if rf := entry.get("ranking_factors"):
         row["ranking_rank_type"] = rf.get("rank_type")
         row["ranking_rank_usage"] = rf.get("rank_usage")
@@ -153,11 +142,9 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
         row["ranking_rank_custom"] = rf.get("rank_custom")
         row["ranking_rank_combined"] = rf.get("rank_combined")
 
-    # External data
     row["tumonline_data_json"] = to_json_or_none(entry.get("tumonline_data"))
     row["roomfinder_data_json"] = to_json_or_none(entry.get("roomfinder_data"))
 
-    # Late-stage
     row["arch_name"] = entry.get("arch_name")
     row["aliases"] = entry.get("aliases") or []
     row["imgs_json"] = to_json_or_none(entry.get("imgs"))
@@ -172,40 +159,30 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
                 type_common_name.get("de") if isinstance(type_common_name, dict) else str(type_common_name)
             )
 
-    # Sections
     sections = entry.get("sections", {})
     row["sections_buildings_overview_json"] = to_json_or_none(sections.get("buildings_overview"))
     row["sections_rooms_overview_json"] = to_json_or_none(sections.get("rooms_overview"))
 
-    # Metadata
     sources = entry.get("sources", {})
     row["sources_base_json"] = to_json_or_none(sources.get("base"))
     row["sources_patched"] = sources.get("patched")
     row["data_quality_json"] = to_json_or_none(entry.get("data_quality"))
     row["generators_json"] = to_json_or_none(entry.get("generators"))
 
-    # Structural
     row["children"] = entry.get("children")
     row["children_flat"] = entry.get("children_flat")
 
-    # Maps
     row["maps_default"] = entry.get("maps", {}).get("default")
-
-    # Description
     row["description_json"] = to_json_or_none(entry.get("description"))
-
-    # External data
     row["external_data_json"] = to_json_or_none(entry.get("external_data"))
-
-    # Custom rooms overview (only mi has this)
+    # Only the `mi` joined_building has this.
     row["generate_rooms_overview_json"] = to_json_or_none(entry.get("generate_rooms_overview"))
 
     return row
 
 
 def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
-    """Reconstruct a nested dict from flat DataFrame columns (for JSON export)."""
-    # Name: use TranslatableStr dict when de != en
+    """Reconstruct the nested API dict from flat DataFrame columns."""
     name_de = row.get("name_de") or row.get("name")
     name_en = row.get("name_en")
     if name_de and name_en and name_de != name_en:
@@ -225,13 +202,11 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if visible_id := row.get("visible_id"):
         result["visible_id"] = visible_id
 
-    # b_prefix
     if b_prefix_list := row.get("b_prefix_list"):
         result["b_prefix"] = b_prefix_list
     elif b_prefix := row.get("b_prefix"):
         result["b_prefix"] = b_prefix
 
-    # Coords
     if (lat := row.get("coords_lat")) is not None:
         result["coords"] = {
             "lat": lat,
@@ -242,7 +217,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         if accuracy := row.get("coords_accuracy"):
             result["coords"]["accuracy"] = accuracy
 
-    # Props
     props: dict[str, Any] = {}
     ids: dict[str, Any] = {}
     if b_id := row.get("props_ids_b_id"):
@@ -301,14 +275,13 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         props["generic"] = orjson.loads(generic_json)
     if comment_de := row.get("props_comment_de"):
         props["comment"] = {"en": row.get("props_comment_en", ""), "de": comment_de}
-    # Emitted only where present, so absent reads as "no coverage" on the info card.
+    # Absent reads as "no coverage" on the info card; we only emit when present.
     if row.get("has_iris_coverage"):
         props["has_iris_coverage"] = True
 
     if props:
         result["props"] = props
 
-    # Usage
     if row.get("usage_name_de") or row.get("usage_din_277"):
         usage: dict[str, Any] = {}
         if name_de := row.get("usage_name_de"):
@@ -321,7 +294,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
             usage["din277_name"] = din277_name
         result["usage"] = usage
 
-    # Ranking
     ranking: dict[str, Any] = {}
     for key in ["rank_type", "rank_usage", "rank_boost", "rank_custom", "rank_combined"]:
         if (rank := row.get(f"ranking_{key}")) is not None:
@@ -329,7 +301,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if ranking:
         result["ranking_factors"] = ranking
 
-    # External data
     if tumonline_json := row.get("tumonline_data_json"):
         result["tumonline_data"] = orjson.loads(tumonline_json)
     if roomfinder_json := row.get("roomfinder_data_json"):
@@ -337,7 +308,6 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if opening_hours_json := row.get("opening_hours_json"):
         result["opening_hours"] = orjson.loads(opening_hours_json)
 
-    # Late-stage
     if arch_name := row.get("arch_name"):
         result["arch_name"] = arch_name
     if aliases := row.get("aliases"):
@@ -347,21 +317,19 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if row.get("type_common_name") or row.get("type_common_name_de"):
         tcn_de = row.get("type_common_name_de") or row.get("type_common_name")
         tcn_en = row.get("type_common_name_en") or tcn_de
-        # Values from usage_name are always TranslatableStr dicts (even when de==en).
-        # Values from TYPE_COMMON_NAME_BY_TYPE that were plain strings stay as strings.
+        # usage_name values are always TranslatableStr dicts; TYPE_COMMON_NAME_BY_TYPE plain
+        # strings stay as strings, so we only collapse to a string for the known plain-string types.
         plain_string_types = {"Campus", "POI"}
         if tcn_de in plain_string_types and tcn_de == tcn_en:
             result["type_common_name"] = tcn_de
         else:
             result["type_common_name"] = {"en": tcn_en, "de": tcn_de}
 
-    # Sections
     if buildings_overview_json := row.get("sections_buildings_overview_json"):
         result.setdefault("sections", {})["buildings_overview"] = orjson.loads(buildings_overview_json)
     if rooms_overview_json := row.get("sections_rooms_overview_json"):
         result.setdefault("sections", {})["rooms_overview"] = orjson.loads(rooms_overview_json)
 
-    # Metadata
     sources: dict[str, Any] = {}
     if sources_base_json := row.get("sources_base_json"):
         sources["base"] = orjson.loads(sources_base_json)
@@ -375,25 +343,18 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if generators_json := row.get("generators_json"):
         result["generators"] = orjson.loads(generators_json)
 
-    # Structural (not exported to API, but available)
+    # children / children_flat are kept on the row but not surfaced through the API.
     if children := row.get("children"):
         result["children"] = children
     if children_flat := row.get("children_flat"):
         result["children_flat"] = children_flat
 
-    # Maps
     if maps_default := row.get("maps_default"):
         result["maps"] = {"default": maps_default}
-
-    # Description
     if description_json := row.get("description_json"):
         result["description"] = orjson.loads(description_json)
-
-    # External data
     if external_data_json := row.get("external_data_json"):
         result["external_data"] = orjson.loads(external_data_json)
-
-    # Custom rooms overview
     if generate_rooms_overview_json := row.get("generate_rooms_overview_json"):
         result["generate_rooms_overview"] = orjson.loads(generate_rooms_overview_json)
 
