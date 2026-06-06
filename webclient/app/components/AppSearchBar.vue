@@ -3,8 +3,10 @@ import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
+type ResultEntry = components["schemas"]["ResultEntry"];
 
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
   required: true,
@@ -23,15 +25,15 @@ const highlighted = ref<number | undefined>(undefined);
 // "show hidden" button on each such section toggles its slot here.
 const expandedFacets = ref<Set<string>>(new Set());
 
-const visibleElements = computed<string[]>(() => {
-  if (!data.value) return [] as string[];
+const visibleElements = computed<ResultEntry[]>(() => {
+  if (!data.value) return [] as ResultEntry[];
 
-  const visible: string[] = [] as string[];
+  const visible: ResultEntry[] = [] as ResultEntry[];
   for (const section of data.value.sections) {
     const cap = expandedFacets.value.has(section.facet)
       ? Number.POSITIVE_INFINITY
       : section.n_visible;
-    visible.push(...section.entries.slice(0, cap).map((e) => e.id));
+    visible.push(...section.entries.slice(0, cap));
   }
   return visible;
 });
@@ -79,8 +81,9 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
   document.getElementById("search")?.blur();
 }
 
-async function searchGoTo(id: string): Promise<void> {
-  await navigateTo(localePath(`/view/${id}`));
+async function searchGoTo(entry: ResultEntry): Promise<void> {
+  if (!isRoutableEntityType(entry.type)) return;
+  await navigateTo(localePath(entityPath(entry.id, entry.type)));
   searchBarFocused.value = false;
   query.value = "";
   document.getElementById("search")?.blur();
@@ -133,9 +136,9 @@ function onKeyDown(e: KeyboardEvent): void {
     case "Enter":
       e.preventDefault();
       if (highlighted.value !== undefined) {
-        const visible = visibleElements.value[highlighted.value];
-        if (visible !== undefined) {
-          searchGoTo(visible);
+        const entry = visibleElements.value[highlighted.value];
+        if (entry !== undefined) {
+          searchGoTo(entry);
         } else {
           searchGo(true);
         }
@@ -266,7 +269,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
           <template v-for="(e, i) in s.entries" :key="e.id">
             <SearchResultItemLink
               v-if="expandedFacets.has(s.facet) || i < s.n_visible"
-              :highlighted="e.id === visibleElements[highlighted ?? -1]"
+              :highlighted="e.id === visibleElements[highlighted ?? -1]?.id"
               :item="e"
               @click="searchBarFocused = false"
               @mousedown="keep_focus = true"
