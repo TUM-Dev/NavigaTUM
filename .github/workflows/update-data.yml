@@ -46,6 +46,10 @@ jobs:
         continue-on-error: true # an outage leaves the previous roster in place => coverage degrades, build still works
         run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/iris.py
         working-directory: data/external
+      - name: Download Studierendenwerk canteen opening hours
+        continue-on-error: true # an outage leaves the previous hours in place => coverage degrades, build still works
+        run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/studierendenwerk.py
+        working-directory: data/external
       - continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: ls -lah data/external/results
       - continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
