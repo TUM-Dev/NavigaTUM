@@ -8,12 +8,14 @@ _DEFAULT_DTYPE: pl.DataType = pl.Utf8()
 
 
 def ensure_column(df: pl.DataFrame, col_name: str, dtype: pl.DataType = _DEFAULT_DTYPE) -> pl.DataFrame:
+    """Add ``col_name`` as a typed null column if absent."""
     if col_name not in df.columns:
         df = df.with_columns(pl.lit(None).cast(dtype).alias(col_name))
     return df
 
 
 def ensure_columns(df: pl.DataFrame, columns: dict[str, pl.DataType]) -> pl.DataFrame:
+    """Add any of ``columns`` that are absent as typed null columns."""
     missing = {name: dtype for name, dtype in columns.items() if name not in df.columns}
     if missing:
         df = df.with_columns([pl.lit(None).cast(dtype).alias(name) for name, dtype in missing.items()])
@@ -34,6 +36,7 @@ def translatable_to_columns(field: str, value: Any) -> dict[str, str | None]:
 
 
 def to_json_or_none(value: Any) -> str | None:
+    """``orjson.dumps`` ``value`` to a string, passing ``None`` through unchanged."""
     if value is None:
         return None
     return orjson.dumps(value).decode()
