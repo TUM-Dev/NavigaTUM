@@ -1,5 +1,6 @@
-from processors.export import extract_exported_item
 from utils import TranslatableStr
+
+from processors.export import extract_exported_item
 
 
 def _data() -> dict:
