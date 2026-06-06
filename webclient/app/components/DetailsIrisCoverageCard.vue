@@ -133,7 +133,8 @@ function statusAriaLabel(status: string): string {
     <div class="flex flex-row items-baseline justify-between gap-2">
       <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
       <Btn :to="IRIS_SITE_URL" variant="link" size="text-xs gap-1 rounded">
-        {{ t("source") }}
+        <span class="sm:hidden">{{ t("source_short") }}</span>
+        <span class="hidden sm:inline">{{ t("source") }}</span>
         <MdiIcon :path="mdiOpenInNew" :size="14" class="my-auto" aria-hidden="true" />
       </Btn>
     </div>
@@ -144,7 +145,7 @@ function statusAriaLabel(status: string): string {
     >
       {{ t("loading") }}
     </div>
-    <div v-else class="text-zinc-600 dark:text-zinc-300 grid grid-cols-1 gap-3">
+    <div v-else class="text-zinc-600 dark:text-zinc-300 grid grid-cols-1 sm:grid-cols-2 gap-3">
       <NuxtLinkLocale
         v-for="room in visibleRooms"
         :key="room.archName"
@@ -190,6 +191,7 @@ function statusAriaLabel(status: string): string {
 de:
   title: Lernräume
   source: via Studentische Vertretung IRIS
+  source_short: via SV IRIS
   loading: Live-Verfügbarkeit wird geladen…
   occupancy: "{percent}% belegt"
   until: bis {time}
@@ -206,6 +208,7 @@ de:
 en:
   title: Learning rooms
   source: via Studentische Vertretung IRIS
+  source_short: via SV IRIS
   loading: Loading live availability…
   occupancy: "{percent}% in use"
   until: until {time}
