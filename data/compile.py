@@ -9,6 +9,7 @@ from processors import (
     coords,
     export,
     images,
+    iris,
     merge,
     poi,
     roomfinder,
@@ -224,6 +225,10 @@ def main() -> None:
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")
     df = lf.collect()
+
+    # Needs arch_name (added at step 98) to join Iris rooms against NavigaTUM aliases.
+    logging.info("-- 99 AStA Iris learning-room coverage")
+    df = iris.add_iris_coverage(df)
 
     logging.info("-- 100 Export and generate Sitemap")
     data = export.reconstruct_data(df)

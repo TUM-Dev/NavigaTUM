@@ -1447,6 +1447,13 @@ components:
         coords:
           $ref: '#/components/schemas/CoordinateResponse'
           description: Coordinate of the location
+        has_iris_coverage:
+          type: boolean
+          description: |-
+            Whether this building/area has AStA Iris learning-room coverage.
+
+            Derived at data-build time by matching the AStA Iris room roster against our aliases.
+            When `true`, the page can offer a learning-room availability view without a second request.
         id:
           type: string
           description: The id, that was requested

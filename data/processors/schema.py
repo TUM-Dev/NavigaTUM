@@ -114,6 +114,9 @@ class LocationSchema(dy.Schema):
     description_json = dy.String()
     external_data_json = dy.String()
 
+    # --- AStA Iris learning-room coverage ---
+    has_iris_coverage = dy.Bool()
+
     @dy.rule()
     def type_is_valid(cls) -> pl.Expr:
         """Validate that the type column only contains the allowed entry kinds."""

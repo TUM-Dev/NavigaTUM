@@ -565,6 +565,13 @@ export type components = {
       readonly aliases: readonly string[];
       /** @description Coordinate of the location */
       readonly coords: components["schemas"]["CoordinateResponse"];
+      /**
+       * @description Whether this building/area has AStA Iris learning-room coverage.
+       *
+       * Derived at data-build time by matching the AStA Iris room roster against our aliases.
+       * When `true`, the page can offer a learning-room availability view without a second request.
+       */
+      readonly has_iris_coverage?: boolean;
       /** @description The id, that was requested */
       readonly id: string;
       /**

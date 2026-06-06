@@ -391,6 +391,10 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if row.get("external_data_json"):
         result["external_data"] = json.loads(row["external_data_json"])
 
+    # AStA Iris learning-room coverage (only emitted where present, i.e. on covered buildings).
+    if row.get("has_iris_coverage"):
+        result["has_iris_coverage"] = True
+
     # Custom rooms overview
     if row.get("generate_rooms_overview_json"):
         result["generate_rooms_overview"] = json.loads(row["generate_rooms_overview_json"])
