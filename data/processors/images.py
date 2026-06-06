@@ -42,7 +42,7 @@ class ImageSource(PydanticConfiguration):
             image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
         for key in image_sources:
             if not isinstance(key, str):
-                raise ValueError(
+                raise TypeError(
                     f"Key '{key}' form `img-sources.yaml` is not a string. "
                     "This is not allowed, as for integers leading zeros are silently ignored.",
                 )
@@ -110,9 +110,9 @@ def parse_image_filename(image_name: str) -> tuple[str, int]:
     try:
         _id = parts[0]
         _index = int(parts[1])
-        return _id, _index
     except Exception as error:
         raise RuntimeError(f"Error: failed to parse image file name '{image_name}'") from error
+    return _id, _index
 
 
 def _add_source_info(fname, source_data):
@@ -211,8 +211,9 @@ def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
         resizer.resize_to_max_size(IMAGE_BASE_PATH / "lg" / order.source.name, 3840)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "header" / order.source.name, (512, 210), order.offsets.header)
-    except Exception as error:  # noqa: BLE001 (resize is a per-image batch task; log and skip rather than abort the whole batch)
-        _logger.error(error)
+    except Exception:
+        # Resize is a per-image batch task: log and skip rather than abort the whole batch.
+        _logger.exception("image resize failed")
 
 
 def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:

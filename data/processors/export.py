@@ -40,7 +40,7 @@ def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str |
         return None
     value = _de(value)
     if not isinstance(value, str):
-        raise ValueError(f"Expected str, got {type(value)}")
+        raise TypeError(f"Expected str, got {type(value)}")
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 

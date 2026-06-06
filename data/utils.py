@@ -34,7 +34,7 @@ class TranslatableStr(dict[str, str]):
 
     def __init__(self, message: str, en_message: str | None = None) -> None:
         if not isinstance(message, str):
-            raise ValueError("message must be a str")
+            raise TypeError("message must be a str")
         if not message.strip():
             raise ValueError("message must not be empty")
         if en_message is None:

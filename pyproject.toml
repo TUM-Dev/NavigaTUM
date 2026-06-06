@@ -129,12 +129,14 @@ select = [
   "N",     # pep8-naming
   # comprehensions, performance, simplification
   "C4",    # flake8-comprehensions
+  "FURB",  # refurb-style modernizations
   "PERF",  # micro-perf foot-guns
   "SIM",   # flake8-simplify
   "PIE",   # misc lints
   "FLY",   # static `str.join` → f-string
   "RET",   # branches around `return`
   "RSE",   # `raise Exception()` → `raise Exception`
+  "TRY",   # tryceratops (exception-handling antipatterns)
   # paths / fs / exec
   "PTH",   # prefer pathlib over os.path
   "EXE",   # executable shebang sanity
@@ -158,6 +160,7 @@ ignore = [
   "SIM108", # ternary operator should be used without a concearn for the code complexity
   "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
   "S101", # `assert` is used as a runtime guard in CLI/scraping code; this matched bandit's prior `B101` skip
+  "TRY003", # long messages on vanilla exceptions; switching every site to a custom class isn't worth it for a batch pipeline
   "TC001", # runtime imports in TYPE_CHECKING - pydantic/dataframely need the symbols at runtime
   "TC002",
   "TC003",
