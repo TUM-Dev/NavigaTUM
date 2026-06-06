@@ -34,11 +34,6 @@ def test_committed_opening_hours_csv_satisfies_schema() -> None:
     assert_satisfies_schema(OpeningHoursSchema, load_opening_hours())
 
 
-# The on-disk form may carry `lecture:`/`break:` macros, so the committed strings are not
-# plain OSM until expanded. The expanded-output parse gate lives in
-# `processors/test_opening_hours.py::test_committed_schedules_expand_to_valid_plain_osm`.
-
-
 @pytest.mark.parametrize(
     "osm",
     [
