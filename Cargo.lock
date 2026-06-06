@@ -137,9 +137,9 @@ dependencies = [
 
 [[package]]
 name = "actix-middleware-etag"
-version = "0.4.6"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b915b8743bbcb25df65d8353f7353604befce3a4266c6e50158f9df844471ee3"
+checksum = "ceddb9bfb4c0cddb580c0c6ee366910157570ea104a87ba6b8d10e4826432acd"
 dependencies = [
  "actix-service",
  "actix-web",
@@ -5132,9 +5132,9 @@ checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
 
 [[package]]
 name = "str-buf"
-version = "3.0.3"
+version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ceb97b7225c713c2fd4db0153cb6b3cab244eb37900c3f634ed4d43310d8c34"
+checksum = "8851322aaeb49413520014cd2e9e1a195401eb417ccf76403bb6164466738d1c"
 
 [[package]]
 name = "strength_reduce"
