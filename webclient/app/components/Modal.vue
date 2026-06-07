@@ -5,6 +5,7 @@ import { onKeyStroke } from "@vueuse/core";
 export interface Props {
   title: string;
   disableClose?: boolean;
+  chromeless?: boolean;
   class?: string;
 }
 const isOpen = defineModel<boolean>({ required: true });
@@ -55,9 +56,11 @@ function close() {
         <div
           v-if="isOpen"
           class="fixed inset-0 z-50 flex h-screen w-full items-center justify-center backdrop-blur-sm backdrop-brightness-95"
+          :class="{ 'p-4': props.chromeless }"
           @click.self="close"
         >
-          <div class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl" :class="props.class">
+          <slot v-if="props.chromeless" />
+          <div v-else class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl" :class="props.class">
             <div class="bg-zinc-200 dark:bg-zinc-700 flex w-full flex-row justify-between rounded-t-md p-5">
               <h2 v-if="props.title" class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ props.title }}</h2>
               <button
