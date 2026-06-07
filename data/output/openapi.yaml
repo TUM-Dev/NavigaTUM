@@ -1521,6 +1521,7 @@ components:
         - aliases
         - parents
         - parent_names
+        - parent_types
         - props
         - ranking_factors
         - sources
@@ -1581,9 +1582,7 @@ components:
             See `parents` for their actual ids.
           minItems: 1
         parent_types:
-          type:
-            - array
-            - "null"
+          type: array
           items:
             $ref: '#/components/schemas/ParentLocationTypeResponse'
           description: |-
