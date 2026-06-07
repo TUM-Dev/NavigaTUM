@@ -49,7 +49,7 @@ pub(super) fn rebuild_highlighted_name(
         let Some(span) = raw_name.get(start..end) else {
             continue;
         };
-        out.push_str(&raw_name[cursor..start]);
+        out.push_str(raw_name.get(cursor..start).unwrap_or_default());
         if span_matches_query(span, &query_lower, &query_tokens) {
             out.push_str(pre);
             out.push_str(span);
@@ -59,7 +59,7 @@ pub(super) fn rebuild_highlighted_name(
         }
         cursor = end;
     }
-    out.push_str(&raw_name[cursor..]);
+    out.push_str(raw_name.get(cursor..).unwrap_or_default());
     out
 }
 
