@@ -3,13 +3,15 @@ import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
-  type MapGeoJSONFeature,
   type IControl,
+  type MapGeoJSONFeature,
   Map as MapLibreMap,
   Marker,
   NavigationControl,
 } from "maplibre-gl";
+import { type App, createApp } from "vue";
 import type { components } from "~/api_types";
+import EventMarker from "~/components/EventMarker.vue";
 import { FloorControl } from "~/composables/FloorControl";
 import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
@@ -85,22 +87,22 @@ function createMarker(hueRotation = 0) {
 }
 
 // --- Active-event photo markers ---
-// `events_active` is not in the basemap style; we add it (plus an invisible backing layer that keeps
-// its tiles loaded and features queryable) at runtime and reconcile HTML markers on every settle.
+// `events_active` is not part of the basemap style, so we add it at runtime alongside an invisible
+// backing layer that keeps its tiles loaded and features queryable.
 const MARTIN_BASE_URL = "https://nav.tum.de/martin";
 const EVENTS_SOURCE_ID = "events_active";
 const EVENTS_LAYER_ID = "events_active-backing";
-// Viewport-scoped and moderated, so this is a defensive ceiling, not an expected value.
+// A defensive ceiling: the view is moderated and viewport-scoped, so this is never expected to hit.
 const MAX_EVENT_MARKERS = 200;
-
-// Blue inner ring + white outer ring + soft shadow, distinct from the orange location pin; the blue
-// fill shows until the photo loads and behind the fallback glyph.
-const EVENT_MARKER_CLASSES =
-  "box-border size-10 cursor-pointer overflow-hidden rounded-full border-2 border-blue-500 bg-blue-500 shadow-md ring-2 ring-white";
 
 type EventMarkerFeature = MarkerFeature & { image: string; name: string };
 
-const eventMarkers = new Map<string, Marker>();
+// Each marker is a mounted EventMarker app; the app is kept so it can be unmounted on removal.
+interface EventMarkerInstance {
+  marker: Marker;
+  app: App;
+}
+const eventMarkers = new Map<string, EventMarkerInstance>();
 
 function toEventFeature(feature: MapGeoJSONFeature): EventMarkerFeature | null {
   if (feature.id === undefined) return null;
@@ -117,59 +119,20 @@ function toEventFeature(feature: MapGeoJSONFeature): EventMarkerFeature | null {
   };
 }
 
-// Generic event glyph (calendar), white on the blue ring, shown when an image is missing or broken.
-function showEventFallback(element: HTMLElement): void {
-  element.classList.add("flex", "items-center", "justify-center", "text-white");
-  const ns = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(ns, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("fill", "none");
-  svg.setAttribute("stroke", "currentColor");
-  svg.setAttribute("stroke-width", "2");
-  svg.setAttribute("stroke-linecap", "round");
-  svg.setAttribute("stroke-linejoin", "round");
-  svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("class", "size-1/2");
-  const rect = document.createElementNS(ns, "rect");
-  rect.setAttribute("x", "3");
-  rect.setAttribute("y", "4");
-  rect.setAttribute("width", "18");
-  rect.setAttribute("height", "18");
-  rect.setAttribute("rx", "2");
-  const path = document.createElementNS(ns, "path");
-  path.setAttribute("d", "M16 2v4M8 2v4M3 10h18");
-  svg.append(rect, path);
-  element.appendChild(svg);
+function createEventMarker(feature: EventMarkerFeature): EventMarkerInstance {
+  const element = document.createElement("div");
+  const app = createApp(EventMarker, { image: feature.image, name: feature.name });
+  app.mount(element);
+  const marker = new Marker({ element }).setLngLat([feature.lon, feature.lat]);
+  return { marker, app };
 }
 
-function createEventMarker(feature: EventMarkerFeature): Marker {
-  const element = document.createElement("div");
-  element.className = EVENT_MARKER_CLASSES;
-
-  if (feature.image) {
-    const image = document.createElement("img");
-    // The ring shows immediately; the photo lazy-swaps in. `[filter:none]` keeps real-world imagery
-    // safe from any dark-mode inversion.
-    image.className = "block size-full rounded-full object-cover [filter:none]";
-    image.alt = feature.name;
-    image.loading = "lazy";
-    image.decoding = "async";
-    image.draggable = false;
-    image.addEventListener(
-      "error",
-      () => {
-        image.remove();
-        showEventFallback(element);
-      },
-      { once: true }
-    );
-    element.appendChild(image);
-    image.src = feature.image;
-  } else {
-    showEventFallback(element);
-  }
-
-  return new Marker({ element }).setLngLat([feature.lon, feature.lat]);
+function removeEventMarker(id: string): void {
+  const instance = eventMarkers.get(id);
+  if (!instance) return;
+  instance.marker.remove();
+  instance.app.unmount();
+  eventMarkers.delete(id);
 }
 
 function syncEventMarkers(): void {
@@ -192,28 +155,24 @@ function syncEventMarkers(): void {
   }
 
   const { added, removed, kept } = diffMarkers(features, new Set(eventMarkers.keys()));
-  for (const id of removed) {
-    eventMarkers.get(id)?.remove();
-    eventMarkers.delete(id);
-  }
+  for (const id of removed) removeEventMarker(id);
   for (const feature of added) {
-    const eventMarker = createEventMarker(feature);
+    const instance = createEventMarker(feature);
     // @ts-expect-error somehow this is too deep for typescript
-    eventMarker.addTo(currentMap);
-    eventMarkers.set(feature.id, eventMarker);
+    instance.marker.addTo(currentMap);
+    eventMarkers.set(feature.id, instance);
   }
   for (const feature of kept) {
-    eventMarkers.get(feature.id)?.setLngLat([feature.lon, feature.lat]);
+    eventMarkers.get(feature.id)?.marker.setLngLat([feature.lon, feature.lat]);
   }
   features.forEach((feature, index) => {
-    const element = eventMarkers.get(feature.id)?.getElement();
+    const element = eventMarkers.get(feature.id)?.marker.getElement();
     if (element) element.style.zIndex = String(index);
   });
 }
 
 function teardownEventMarkers(): void {
-  for (const eventMarker of eventMarkers.values()) eventMarker.remove();
-  eventMarkers.clear();
+  for (const id of [...eventMarkers.keys()]) removeEventMarker(id);
   const currentMap = map.value;
   if (currentMap) {
     currentMap.off("idle", syncEventMarkers);
@@ -294,7 +253,7 @@ function initMap(containerId: string): MapLibreMap {
       type: "circle",
       source: EVENTS_SOURCE_ID,
       "source-layer": EVENTS_SOURCE_ID,
-      // Invisible: present only so tiles load and features stay queryable; markers are the visuals.
+      // Invisible: only here so tiles load and features stay queryable; the markers are the visuals.
       paint: { "circle-radius": 0, "circle-opacity": 0 },
     });
     map.on("idle", syncEventMarkers);
@@ -327,7 +286,6 @@ onMounted(async () => {
   window.scrollTo({ top: 0, behavior: "auto" });
 });
 
-// Tear down event markers and their listeners so nothing leaks across client-side navigation.
 onBeforeUnmount(teardownEventMarkers);
 </script>
 

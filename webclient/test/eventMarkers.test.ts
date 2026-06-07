@@ -3,7 +3,11 @@ import { dedupeFeatures, diffMarkers } from "../app/utils/eventMarkers";
 
 // `queryRenderedFeatures` returns one row per (feature, tile) pair, so an event sitting on a tile
 // boundary comes back several times under the same stable `id`. These fixtures mimic that.
-type Feat = { id: string; lon: number; lat: number };
+interface Feat {
+  id: string;
+  lon: number;
+  lat: number;
+}
 const feat = (id: string, lon = 11.5, lat = 48.1): Feat => ({ id, lon, lat });
 
 describe("dedupeFeatures", () => {
