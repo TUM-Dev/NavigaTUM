@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { mdiCalendarStar, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
 import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
+import { berlinWallTimeToRfc3339 } from "~/utils/datetime";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
@@ -22,6 +23,7 @@ const kindOptions: { value: AdditionKind; icon: string }[] = [
   { value: "room", icon: mdiSofa },
   { value: "building", icon: mdiDomain },
   { value: "poi", icon: mdiMapMarker },
+  { value: "event", icon: mdiCalendarStar },
 ];
 const kindIndex = computed(() => {
   const k = editProposal.value.pendingAddition.kind;
@@ -53,7 +55,9 @@ watch(
     idCheckCounter++;
     idCollidesOnServer.value = false;
     const id = value.trim();
-    if (!id) {
+    // Events aren't locations, and their id is a content hash derived from the image rather than
+    // typed, so the `/api/locations/{id}` collision check doesn't apply.
+    if (!id || editProposal.value.pendingAddition.kind === "event") {
       idCheckPending.value = false;
       return;
     }
@@ -231,6 +235,27 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       generic_props: generic_props.length > 0 ? generic_props : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
+  if (draft.kind === "event") {
+    if (!draft.image) return null;
+    return {
+      kind: "event",
+      name: draft.name,
+      description: draft.description,
+      // The form holds Europe/Berlin wall-clock; stamp the offset for the RFC3339 server contract.
+      // `newEventSchema` already rejected unconvertible values, so the `?? ""` fallback is unreachable.
+      starts_at: berlinWallTimeToRfc3339(draft.starts_at) ?? "",
+      ends_at: berlinWallTimeToRfc3339(draft.ends_at) ?? "",
+      coords,
+      organising_org_id: draft.organising_org_id as number,
+      image: {
+        content: draft.image.base64,
+        metadata: {
+          author: draft.image_author,
+          license: { text: draft.image_license_text, url: draft.image_license_url || null },
+        },
+      },
+    } as components["schemas"]["LimitedHashMap_String_Addition"][string];
+  }
   return null;
 }
 
@@ -395,7 +420,8 @@ watch(
       </TabGroup>
 
       <template v-if="editProposal.pendingAddition.kind">
-        <div>
+        <!-- Events have no parent entry; their place on the map is the picked coordinate alone. -->
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("parent_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -425,8 +451,8 @@ watch(
           </I18nT>
         </div>
 
-        <!-- For buildings the id input lives inside the Identifiers fieldset of AddBuildingFields. -->
-        <div v-if="editProposal.pendingAddition.kind !== 'building'">
+        <!-- Buildings render the id input inside AddBuildingFields; events derive it from the image. -->
+        <div v-if="editProposal.pendingAddition.kind !== 'building' && editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-id">
             {{ t("id_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -495,6 +521,7 @@ watch(
         <AddRoomFields v-if="editProposal.pendingAddition.kind === 'room'" />
         <AddBuildingFields v-if="editProposal.pendingAddition.kind === 'building'" />
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
+        <AddEventFields v-if="editProposal.pendingAddition.kind === 'event'" />
 
         <div>
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
@@ -516,7 +543,8 @@ watch(
 
     <div class="float-right mt-6 flex flex-row-reverse gap-2">
       <Btn variant="primary" size="md" :disabled="!draftIsReady" @click="commitAddition">{{ t("commit") }}</Btn>
-      <Btn variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
+      <!-- Events carry their image inline in the addition, so the separate image-upload step doesn't apply. -->
+      <Btn v-if="editProposal.pendingAddition.kind !== 'event'" variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
       <Btn variant="linkButton" size="md" @click="cancelAddition">{{ t("cancel") }}</Btn>
     </div>
   </Modal>
@@ -532,6 +560,7 @@ de:
     room: Raum
     building: Gebäude
     poi: POI
+    event: Veranstaltung
   id_label: ID
   id_hint:
     room_segments: "Setzt sich aus übergeordnetem Gebäude, Stockwerk und Raumnummer zusammen."
@@ -564,6 +593,7 @@ en:
     room: Room
     building: Building
     poi: POI
+    event: Event
   id_label: ID
   id_hint:
     room_segments: "Composed from the parent building, floor and room number."

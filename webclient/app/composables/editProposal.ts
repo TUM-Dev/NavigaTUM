@@ -7,7 +7,7 @@ type EditRequestData = Omit<EditRequest, "privacy_checked" | "token" | "edits" |
   additions: NonNullable<EditRequest["additions"]>;
 };
 type BuildingKind = components["schemas"]["BuildingKind"];
-type AdditionKind = "room" | "building" | "poi";
+type AdditionKind = "room" | "building" | "poi" | "event";
 
 interface LinkDraft {
   text_de: string;
@@ -47,6 +47,21 @@ interface AdditionDraft {
   comment_en: string;
   poi_links: LinkDraft[];
   generic_props: GenericPropDraft[];
+  // event-only. `name` (shared) carries the event title; `description` is single-language and
+  // rendered verbatim. `starts_at`/`ends_at` hold the `datetime-local` wall value (Europe/Berlin),
+  // converted to RFC3339 only at submit time. The image rides inline in the addition (unlike the
+  // separate image edit used for room/building/poi), so its bytes + author/license live here, and
+  // `image_width`/`image_height` back the client-side minimum-dimension check.
+  description: string;
+  starts_at: string;
+  ends_at: string;
+  organising_org_id: number | null;
+  image: { base64: string; fileName: string } | null;
+  image_width: number | null;
+  image_height: number | null;
+  image_author: string;
+  image_license_text: string;
+  image_license_url: string;
 }
 
 interface PropertyFields {
@@ -127,6 +142,16 @@ function emptyAdditionDraft(): AdditionDraft {
     comment_en: "",
     poi_links: [],
     generic_props: [],
+    description: "",
+    starts_at: "",
+    ends_at: "",
+    organising_org_id: null,
+    image: null,
+    image_width: null,
+    image_height: null,
+    image_author: "",
+    image_license_text: "CC BY 4.0",
+    image_license_url: "https://creativecommons.org/licenses/by/4.0/",
   };
 }
 
