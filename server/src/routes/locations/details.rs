@@ -140,7 +140,7 @@ struct LocationDetailsResponse {
     /// They are ordered as they would appear in a Breadcrumb menu.
     /// See `parents` for their actual ids.
     #[schema(min_items = 1)]
-    parent_types: Option<Vec<ParentLocationTypeResponse>>,
+    parent_types: Vec<ParentLocationTypeResponse>,
     /// Data for the info-card table
     props: PropsResponse,
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
