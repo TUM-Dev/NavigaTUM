@@ -16,7 +16,9 @@ def test_export_known_orgs_writes_picker_fields_sorted_by_name() -> None:
     assert len(orgs) == expected_count, "one row per validated TUMonline org"
 
     for org in orgs:
-        assert list(org.keys()) == ["org_id", "code", "name_de", "name_en"], "stable field set and order for the frontend contract"
+        assert list(org.keys()) == ["org_id", "code", "name_de", "name_en"], (
+            "stable field set and order for the frontend contract"
+        )
         assert isinstance(org["org_id"], int)
         assert org["org_id"] > 0, "org_id is the positive key submitted as organising_org_id"
         assert org["code"].strip(), "code is the non-empty TUMonline org code"
