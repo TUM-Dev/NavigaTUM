@@ -246,9 +246,13 @@ test.describe("Navigation Page - Search route button", () => {
 
 test.describe("Navigation Page - Back Navigation", () => {
   test("should show and use back button when coming from details page", async ({ page }) => {
-    await page.goto("/navigate?from=mi&to=mw&coming_from=mi", { waitUntil: "networkidle" });
+    // The detail page passes `coming_from_type` so the back-link targets the canonical
+    // /{type}/{id} (here `mi` is a joined_building -> /building/mi), not a /view/{id} redirect.
+    await page.goto("/navigate?from=mi&to=mw&coming_from=mi&coming_from_type=joined_building", {
+      waitUntil: "networkidle",
+    });
 
-    const backButton = page.locator('a[href*="/view/mi"]').first();
+    const backButton = page.locator('a[href*="/building/mi"]').first();
     await expect(backButton).toBeVisible();
   });
 });

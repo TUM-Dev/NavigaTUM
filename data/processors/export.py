@@ -187,8 +187,12 @@ def export_for_api(data: dict[str, Any]) -> None:
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
     parent_names = [data[p]["name"] if p != "root" else _("Standorte", "Sites") for p in entry["parents"]]
+    # Parallel to `parents`/`parent_names`: each parent's type lets the client build the canonical
+    # /{type}/{id} breadcrumb link without a per-id round-trip. `root` is synthetic (no data entry).
+    parent_types = [data[p]["type"] if p != "root" else "root" for p in entry["parents"]]
     result = {
         "parent_names": parent_names,
+        "parent_types": parent_types,
         **entry,
     }
     if "children" in result:

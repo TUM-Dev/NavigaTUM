@@ -597,12 +597,22 @@ export type components = {
       /** @description The name of the entry in a human-readable form */
       readonly name: string;
       /**
-       * @description The ids of the parents.
+       * @description The human names of the parents.
        *
        * They are ordered as they would appear in a Breadcrumb menu.
        * See `parents` for their actual ids.
        */
       readonly parent_names: readonly [string, ...string[]];
+      /**
+       * @description The types of the parents.
+       *
+       * They are ordered as they would appear in a Breadcrumb menu.
+       * See `parents` for their actual ids.
+       */
+      readonly parent_types: readonly [
+        components["schemas"]["ParentLocationTypeResponse"],
+        ...components["schemas"]["ParentLocationTypeResponse"][],
+      ];
       /**
        * @description The ids of the parents.
        *
@@ -1113,6 +1123,22 @@ export type components = {
        */
       readonly default?: number | null;
     };
+    /**
+     * @description The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+     *
+     * Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+     * @enum {string}
+     */
+    readonly ParentLocationTypeResponse:
+      | "root"
+      | "site"
+      | "campus"
+      | "area"
+      | "joined_building"
+      | "building"
+      | "room"
+      | "virtual_room"
+      | "poi";
     readonly PlaceResponse: {
       /** @description Alerts for this stop. */
       readonly alerts?: readonly components["schemas"]["AlertResponse"][];

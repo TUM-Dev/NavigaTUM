@@ -1521,6 +1521,7 @@ components:
         - aliases
         - parents
         - parent_names
+        - parent_types
         - props
         - ranking_factors
         - sources
@@ -1575,7 +1576,17 @@ components:
                 - Fakultät Mathematik & Informatik (FMI oder MI)
                 - Finger 06 (BT06)
           description: |-
-            The ids of the parents.
+            The human names of the parents.
+
+            They are ordered as they would appear in a Breadcrumb menu.
+            See `parents` for their actual ids.
+          minItems: 1
+        parent_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParentLocationTypeResponse'
+          description: |-
+            The types of the parents.
 
             They are ordered as they would appear in a Breadcrumb menu.
             See `parents` for their actual ids.
@@ -2376,6 +2387,22 @@ components:
             - We suggest, you don't show a map by default.
             - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
           example: 0
+    ParentLocationTypeResponse:
+      type: string
+      description: |-
+        The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+
+        Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+      enum:
+        - root
+        - site
+        - campus
+        - area
+        - joined_building
+        - building
+        - room
+        - virtual_room
+        - poi
     PlaceResponse:
       type: object
       required:
