@@ -273,6 +273,17 @@ def export_tumonline_orgs_parquet() -> None:
     TumonlineOrgsSchema.write_parquet(load_tumonline_orgs(), OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
 
 
+def export_known_orgs() -> None:
+    """Export the known TUMonline orgs as json"""
+    # `org_id` is the value submitted as `events.organising_org_id`
+    # `code` is the human-readable disambiguator for the ~100 orgs that share a localized name
+    result_df = load_tumonline_orgs().select(["org_id", "code", "name_de", "name_en"]).sort("code")
+
+    (OUTPUT_DIR_PATH / "known_orgs.json").write_bytes(
+        orjson.dumps(result_df.to_dicts(), option=orjson.OPT_INDENT_2) + b"\n"
+    )
+
+
 def export_events_parquet() -> None:
     """
     Read events.csv and write events.parquet.

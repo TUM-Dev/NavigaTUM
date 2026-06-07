@@ -283,6 +283,7 @@ def _run_pipeline(
     export.export_for_status()
     export.export_known_usages(df)
     export.export_tumonline_orgs_parquet()
+    export.export_known_orgs()
     export.export_events_parquet()
     ranking_factors_export.export_ranking_factors_parquet(df)
     operators_export.export_operators_de_parquet(df)
