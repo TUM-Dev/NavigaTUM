@@ -609,7 +609,10 @@ export type components = {
        * They are ordered as they would appear in a Breadcrumb menu.
        * See `parents` for their actual ids.
        */
-      readonly parent_types?: readonly components["schemas"]["ParentLocationTypeResponse"][] | null;
+      readonly parent_types: readonly [
+        components["schemas"]["ParentLocationTypeResponse"],
+        ...components["schemas"]["ParentLocationTypeResponse"][],
+      ];
       /**
        * @description The ids of the parents.
        *

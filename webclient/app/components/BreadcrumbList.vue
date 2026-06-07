@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// `to` is optional: an ancestor without a canonical entity route renders as plain text.
+// `to` optional: items without a route render as plain text.
 type Item = { to?: string; name: string };
 const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
   class: "",

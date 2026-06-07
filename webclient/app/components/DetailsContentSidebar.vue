@@ -33,16 +33,13 @@ const navigationEnabled = computed(() => props.data.coords.accuracy !== "buildin
 
 const shareModalOpen = ref(false);
 
-// Breadcrumb ancestors link straight to their canonical /{type}/{id} path via the parent's type
-// (parallel to parents/parent_names). Index 0 is the synthetic `root` and links home. An ancestor
-// whose type is missing (data from an older pipeline) or non-routable renders as plain, unlinked
-// text - we only link entities that have a canonical entity route.
+// Only ancestors with a routable type get a canonical /{type}/{id} link; the rest render as plain text.
 const breadcrumbItems = computed(() =>
   props.data.parent_names.map((name, i) => {
     const id = props.data.parents[i];
-    // Index 0 is the synthetic `root`; a missing id (parallel arrays out of sync) also links home.
+    // Index 0 (synthetic `root`) and any missing id link home.
     if (i === 0 || !id) return { name, to: "/" };
-    const type = props.data.parent_types?.[i];
+    const type = props.data.parent_types[i];
     return { name, to: type && isRoutableEntityType(type) ? entityPath(id, type) : undefined };
   })
 );
