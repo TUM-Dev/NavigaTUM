@@ -1416,21 +1416,9 @@ zentralgelaende:
     author: Astrid Eckert
     license:
       text: ©Astrid Eckert / TUM; frei für die Berichterstattung über die TUM unter Nennung des Copyrights
-# Campus-event images (data/sources/events.csv). Keyed by the content hash of the lg/ source,
-# same enumeration-by-index convention as every other repo image. events.csv stores the delivery
-# path /cdn/thumb/<key>_<index>.webp, which the photo marker fetches verbatim. Keys are quoted so
-# an all-digit hash is never silently read as an integer (leading zeros would be lost).
-# TODO(#3140): provenance/licensing below is best-effort from the source page and must be
-# confirmed by a maintainer before these seed rows are treated as production data.
-'2a2e032bb328fa01':
-  0:
-    author: Technische Universität München
-    license:
-      text: ©TUM; sourced from tum.de - licensing to be confirmed before production use
-      url: https://www.tum.de/fileadmin/_processed_/c/5/csm_1584780_0346e6dc92.webp
 '9d02ddd940c43f87':
   0:
-    author: GARNIX Festival
+    author: Studentische Vertretung TUM
     license:
-      text: ©GARNIX; sourced from garnix-openair.de - licensing to be confirmed before production use
+      text: Verwendung frei für die Berichterstattung unter Angabe der Quelle „Studentische Vertretung TUM" / Free for use in reporting, citing the source „Studentische Vertretung TUM"
       url: https://garnix-openair.de/

@@ -34,9 +34,9 @@ def test_events_schema_accepts_minimal_valid_row() -> None:
 @pytest.mark.parametrize(
     "image",
     [
-        "https://www.tum.de/fileadmin/_processed_/c/5/csm_1584780_0346e6dc92.webp",  # external host
-        "2a2e032bb328fa01_0.webp",  # bare filename, missing the /cdn/thumb/ delivery prefix
-        "/cdn/lg/2a2e032bb328fa01_0.webp",  # wrong size: the marker only renders the thumb crop
+        "https://example.org/i.webp",  # external host
+        "9d02ddd940c43f87_0.webp",  # bare filename, missing the /cdn/thumb/ delivery prefix
+        "/cdn/lg/9d02ddd940c43f87_0.webp",  # wrong size: the marker only renders the thumb crop
     ],
 )
 def test_events_schema_rejects_non_thumb_cdn_paths(image: str) -> None:
