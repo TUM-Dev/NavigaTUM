@@ -22,10 +22,10 @@ const combined_list = computed(() => {
   }
   return combinedList;
 });
-type SelectedRoomGroup = {
+interface SelectedRoomGroup {
   rooms: readonly RoomsOverviewUsageChildResponse[];
   label: string;
-};
+}
 const selectedRooms = computed<SelectedRoomGroup>(() => {
   if (selectedUsage.value === -1) {
     return { rooms: combined_list.value, label: t("any_usage") };

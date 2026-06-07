@@ -227,14 +227,14 @@ impl EditRequest {
                 "poi" => "POI",
                 other => other,
             };
-            match keys.len() {
-                0 => {}
-                1 => parts.push(format!("add {singular} `{}`", keys[0])),
-                2..=5 => parts.push(format!(
+            match keys.as_slice() {
+                [] => {}
+                [only] => parts.push(format!("add {singular} `{only}`")),
+                many if many.len() <= 5 => parts.push(format!(
                     "add {plural} `{}`",
-                    keys.iter().sorted().join("`, `")
+                    many.iter().sorted().join("`, `")
                 )),
-                n => parts.push(format!("add {n} {plural}")),
+                many => parts.push(format!("add {} {plural}", many.len())),
             }
         }
 
@@ -380,8 +380,13 @@ pub async fn propose_edits(
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use super::*;
 
     fn req_with_additions(json: serde_json::Value) -> EditRequest {

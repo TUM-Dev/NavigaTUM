@@ -1,11 +1,21 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 expression: actual
 info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 ---
 - facet: rooms
   entries:
+    - id: 5212.01.030
+      type: room
+      name: "5212.01.\u001903\u00170 (Gemeinschaftsraum)"
+      subtext: "garching, RCM-Hauptbau"
+      subtext_bold: H.1.030@5212
+    - id: 5212.02.030
+      type: room
+      name: "5212.02.\u001903\u00170 (Gemeinschaftsraum)"
+      subtext: "garching, RCM-Hauptbau"
+      subtext_bold: H.2.030@5212
     - id: 2910.EG.031
       type: room
       name: "2910.EG.\u001903\u00171 (WC-Herren)"
@@ -21,12 +31,12 @@ info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room,
     - id: 0205.03.311
       type: room
       name: "0205.\u001903\u0017.311 (WC-\u0019H\u0017)"
-      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext: "stammgelände, S5"
       subtext_bold: 3311@0205
     - id: 0205.03.311A
       type: room
       name: "0205.\u001903\u0017.311A (Vorraum WC-\u0019H\u0017)"
-      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext: "stammgelände, S5"
       subtext_bold: 3311A@0205
     - id: 2910.03.301
       type: room
@@ -48,19 +58,17 @@ info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room,
       name: "2910.\u001903\u0017.304 (Büro)"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.304@2910
-    - id: 2910.03.305
-      type: room
-      name: "2910.\u001903\u0017.305 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.305@2910
-    - id: 2910.03.306
-      type: room
-      name: "2910.\u001903\u0017.306 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.306@2910
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

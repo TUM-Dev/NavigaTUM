@@ -24,7 +24,7 @@ const NEAR_WINDOW_S = 10 * 60;
 
 type PickupDropoffType = "NORMAL" | "NOT_ALLOWED" | "PHONE_AGENCY" | "COORDINATE_WITH_DRIVER";
 
-export type StopTimeEntry = {
+export interface StopTimeEntry {
   readonly mode?: ModeResponse;
   readonly headsign?: string | null;
   readonly cancelled?: boolean;
@@ -45,19 +45,21 @@ export type StopTimeEntry = {
     readonly pickupType?: PickupDropoffType | null;
     readonly dropoffType?: PickupDropoffType | null;
   } | null;
-};
-type StopTimesResponse = { readonly stopTimes?: readonly StopTimeEntry[] };
+}
+interface StopTimesResponse {
+  readonly stopTimes?: readonly StopTimeEntry[];
+}
 
-export type DepartureState = {
+export interface DepartureState {
   loading: boolean;
   error: string | null;
   entries: readonly StopTimeEntry[];
-};
+}
 
-export type StationView = {
+export interface StationView {
   readonly station: TransportationResponse;
   readonly state: DepartureState | undefined;
-};
+}
 
 export type CountdownPhase =
   | { kind: "empty" }

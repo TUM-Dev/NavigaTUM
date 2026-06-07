@@ -12,7 +12,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 // all the below are updated by the calendar
 const earliest_last_sync = ref<Date | null>(null);
 const locations = ref<Map<string, CalendarLocationResponse>>(new Map());
-const modalOpen = ref(!!calendar.value.length);
+const modalOpen = ref(calendar.value.length > 0);
 watchEffect(() => {
   if (calendar.value.length && !modalOpen.value) {
     modalOpen.value = true;

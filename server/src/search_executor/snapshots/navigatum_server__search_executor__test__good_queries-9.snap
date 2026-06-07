@@ -1,10 +1,10 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'Physik Container' should get '5140' in 1 results"
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "5140"
       type: building
@@ -14,11 +14,15 @@ info: "'Physik Container' should get '5140' in 1 results"
       type: building
       name: "WSI \u0019Container\u0017"
       subtext: Gebäude
+    - id: "5131"
+      type: building
+      name: "FRM-Poststelle (\u0019Container\u0017)"
+      subtext: Gebäude
     - id: "5160"
       type: building
       name: "UCN-Testanlage (\u0019Container\u0017)"
       subtext: Gebäude
-  n_visible: 3
+  n_visible: 4
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
@@ -52,10 +56,13 @@ info: "'Physik Container' should get '5140' in 1 results"
       name: 5140.01.206 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3206@5140
-    - id: 5140.01.207
-      type: room
-      name: 5140.01.207 (CIP-Raum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3207@5140
-  n_visible: 7
+  n_visible: 6
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

@@ -45,10 +45,12 @@ pub struct NewPoi {
 
 fn is_valid_poi_key(key: &str) -> bool {
     let bytes = key.as_bytes();
-    if bytes.is_empty() || bytes.len() > MAX_KEY_LEN {
+    if bytes.len() > MAX_KEY_LEN {
         return false;
     }
-    let first = bytes[0];
+    let Some(&first) = bytes.first() else {
+        return false;
+    };
     if !(first.is_ascii_lowercase() || first.is_ascii_digit()) {
         return false;
     }
@@ -159,8 +161,13 @@ impl AppliableAddition for NewPoi {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use std::collections::HashSet;
     use std::fs;
 

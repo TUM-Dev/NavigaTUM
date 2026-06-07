@@ -80,41 +80,44 @@ function buildPropertyEdits(): PropertyEdit[] {
   const edits: PropertyEdit[] = [];
 
   // Name changed?
-  if (fields.name !== original.name || fields.shortName !== original.shortName) {
-    if (fields.name || fields.shortName) {
-      edits.push({
-        type: "name",
-        name: fields.name || null,
-        short_name: fields.shortName || null,
-      });
-    }
+  if (
+    (fields.name !== original.name || fields.shortName !== original.shortName) &&
+    (fields.name || fields.shortName)
+  ) {
+    edits.push({
+      type: "name",
+      name: fields.name || null,
+      short_name: fields.shortName || null,
+    });
   }
 
   // Category changed?
-  if (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) {
-    if (fields.categoryDe) {
-      edits.push({
-        type: "usage",
-        name_de: fields.categoryDe,
-        name_en: fields.categoryEn || fields.categoryDe,
-        din_277: fields.categoryDin277 || null,
-        din_277_desc: fields.categoryDin277Desc || null,
-      });
-    }
+  if (
+    (fields.categoryDe !== original.categoryDe || fields.categoryEn !== original.categoryEn) &&
+    fields.categoryDe
+  ) {
+    edits.push({
+      type: "usage",
+      name_de: fields.categoryDe,
+      name_en: fields.categoryEn || fields.categoryDe,
+      din_277: fields.categoryDin277 || null,
+      din_277_desc: fields.categoryDin277Desc || null,
+    });
   }
 
   // Link added?
-  if (fields.linkUrl) {
-    if (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) {
-      if (fields.linkTextDe || fields.linkTextEn) {
-        edits.push({
-          type: "link",
-          text_de: fields.linkTextDe || fields.linkTextEn,
-          text_en: fields.linkTextEn || fields.linkTextDe,
-          url: fields.linkUrl,
-        });
-      }
-    }
+  if (
+    fields.linkUrl &&
+    (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) &&
+    (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) &&
+    (fields.linkTextDe || fields.linkTextEn)
+  ) {
+    edits.push({
+      type: "link",
+      text_de: fields.linkTextDe || fields.linkTextEn,
+      text_en: fields.linkTextEn || fields.linkTextDe,
+      url: fields.linkUrl,
+    });
   }
 
   return edits;
@@ -234,7 +237,7 @@ function getEditTypeDisplay(roomId: string): string {
   const edit = editProposal.value.data.edits[roomId];
   if (!edit) return t("room_edits");
 
-  const types = [];
+  const types: string[] = [];
   if (edit.coordinate) types.push(t("coordinate"));
   if (edit.image) types.push(t("image"));
   if (edit.properties?.length) types.push(t("property"));

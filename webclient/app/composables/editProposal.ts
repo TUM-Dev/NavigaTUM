@@ -9,10 +9,18 @@ type EditRequestData = Omit<EditRequest, "privacy_checked" | "token" | "edits" |
 type BuildingKind = components["schemas"]["BuildingKind"];
 type AdditionKind = "room" | "building" | "poi";
 
-type LinkDraft = { text_de: string; text_en: string; url: string };
-type GenericPropDraft = { name_de: string; name_en: string; text: string };
+interface LinkDraft {
+  text_de: string;
+  text_en: string;
+  url: string;
+}
+interface GenericPropDraft {
+  name_de: string;
+  name_en: string;
+  text: string;
+}
 
-type AdditionDraft = {
+interface AdditionDraft {
   kind: AdditionKind | null;
   id: string;
   parent_id: string;
@@ -39,9 +47,9 @@ type AdditionDraft = {
   comment_en: string;
   poi_links: LinkDraft[];
   generic_props: GenericPropDraft[];
-};
+}
 
-type PropertyFields = {
+interface PropertyFields {
   name: string;
   shortName: string;
   categoryDe: string;
@@ -51,8 +59,8 @@ type PropertyFields = {
   linkUrl: string;
   linkTextDe: string;
   linkTextEn: string;
-};
-type EditProposalState = {
+}
+interface EditProposalState {
   open: boolean;
   addOpen: boolean;
   selected: {
@@ -78,7 +86,7 @@ type EditProposalState = {
   propertyFields: PropertyFields;
   originalPropertyFields: PropertyFields;
   pendingAddition: AdditionDraft;
-};
+}
 
 function emptyPropertyFields(): PropertyFields {
   return {

@@ -5,8 +5,12 @@ import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
+
+const FOUR_DIGIT_PREFIX = /^\d{4}$/;
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
@@ -73,7 +77,7 @@ const parentLookupUrl = computed(() => {
   const pid = editProposal.value.pendingAddition.parent_id;
   return pid ? `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(pid)}` : "";
 });
-type ParentDetails = {
+interface ParentDetails {
   id: string;
   coords?: { lat: number; lon: number };
   aliases?: readonly string[];
@@ -86,7 +90,7 @@ type ParentDetails = {
       type: string;
     }[];
   };
-};
+}
 const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.value, {
   immediate: false,
   lazy: true,
@@ -100,18 +104,21 @@ const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.va
 const roomParentPrefix = computed(() => {
   const parentId = editProposal.value.pendingAddition.parent_id.trim();
   if (!parentId) return "";
-  if (/^\d{4}$/.test(parentId)) return parentId;
+  if (FOUR_DIGIT_PREFIX.test(parentId)) return parentId;
   const aliases = parentDetails.value?.aliases ?? [];
-  const numeric = aliases.find((a) => /^\d{4}$/.test(a));
+  const numeric = aliases.find((a) => FOUR_DIGIT_PREFIX.test(a));
   return numeric ?? parentId;
 });
 
 // Floors known on the parent - what the TUMonline room-code uses for the floor segment.
-type ParentFloorOption = { tumonline: string; label: string };
+interface ParentFloorOption {
+  tumonline: string;
+  label: string;
+}
 const parentFloorOptions = computed<ParentFloorOption[]>(() => {
   const floors = parentDetails.value?.props?.floors ?? [];
   return floors
-    .filter((f) => !!f.tumonline)
+    .filter((f) => Boolean(f.tumonline))
     .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
@@ -185,7 +192,7 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       floor_level: draft.floor_level || null,
       // Address omitted on purpose: the server inherits it from the parent building.
       address: null,
-      links: links.length ? links : undefined,
+      links: links.length > 0 ? links : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
   if (draft.kind === "building") {
@@ -220,8 +227,8 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       usage_name: draft.usage_name,
       coords,
       comment,
-      links: links.length ? links : undefined,
-      generic_props: generic_props.length ? generic_props : undefined,
+      links: links.length > 0 ? links : undefined,
+      generic_props: generic_props.length > 0 ? generic_props : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
   return null;
@@ -290,7 +297,25 @@ async function editExistingEntry() {
   editProposal.value.selected = { id, name: null };
   // Open the edit modal once we land on the entry's detail page.
   editProposal.value.open = true;
-  await navigateTo(localePath(`/view/${id}`));
+  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly
+  // instead of bouncing through the /view/{id} redirect. On any failure (network, unknown type),
+  // fall back to /view/{id}, which the server redirects to the canonical path.
+  let target = `/view/${id}`;
+  try {
+    const res = await fetch(
+      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+      {
+        credentials: "omit",
+      }
+    );
+    if (res.ok) {
+      const details = (await res.json()) as Pick<LocationDetailsResponse, "type">;
+      if (isRoutableEntityType(details.type)) target = entityPath(id, details.type);
+    }
+  } catch {
+    // Network failure: keep the /view/{id} fallback.
+  }
+  await navigateTo(localePath(target));
 }
 provide("addProposal:editExistingEntry", editExistingEntry);
 

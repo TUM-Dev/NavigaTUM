@@ -1,4 +1,4 @@
-use tracing::{debug, info, info_span};
+use tracing::{Instrument as _, debug, info, info_span};
 
 use crate::limited::vec::LimitedVec;
 
@@ -17,20 +17,26 @@ pub async fn load_data(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     debug!("starting to download the status");
     let (new_keys, new_hashes) = data::download_status().await?;
     debug!("loaded new keys/hashes successfully");
-    {
-        let _ = info_span!("deleting old data").enter();
+    async {
         let mut tx = pool.begin().await?;
         cleanup_deleted(&new_keys, &mut tx).await?;
         tx.commit().await?;
+        anyhow::Ok(())
     }
+    .instrument(info_span!("deleting old data"))
+    .await?;
     let keys_which_need_updating =
         find_keys_which_need_updating(pool, &new_keys, &new_hashes).await?;
     if !keys_which_need_updating.is_empty() {
-        let _ = info_span!("loading changed data").enter();
-        let data = data::download_updates(&keys_which_need_updating).await?;
-        let mut tx = pool.begin().await?;
-        data::load_all_to_db(data, &mut tx).await?;
-        tx.commit().await?;
+        async {
+            let data = data::download_updates(&keys_which_need_updating).await?;
+            let mut tx = pool.begin().await?;
+            data::load_all_to_db(data, &mut tx).await?;
+            tx.commit().await?;
+            anyhow::Ok(())
+        }
+        .instrument(info_span!("loading changed data"))
+        .await?;
     }
     {
         let aliases = alias::download_updates().await?;

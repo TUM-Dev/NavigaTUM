@@ -11,7 +11,7 @@ type ListKind = "in" | "usage" | "type";
 export const FACET_OPTIONS = ["site", "building", "room", "poi"] as const;
 export type Facet = (typeof FACET_OPTIONS)[number];
 
-export type SearchFilters = {
+export interface SearchFilters {
   inFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
   usageFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
   typeFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
@@ -24,7 +24,7 @@ export type SearchFilters = {
   toggleFilterValue: (kind: "type" | "usage", value: string) => void;
   addInFilter: (value: string) => void;
   setNear: (enabled: boolean) => void;
-};
+}
 
 function activateNearFilter(setter: (coords: string) => void) {
   const geo = useSharedGeolocation();
@@ -131,8 +131,8 @@ export function useSearchFilters(): SearchFilters {
   function toggleFilterValue(kind: "type" | "usage", value: string) {
     const current = listFor(kind);
     const idx = current.indexOf(value);
-    if (idx !== -1) current.splice(idx, 1);
-    else current.push(value);
+    if (idx === -1) current.push(value);
+    else current.splice(idx, 1);
     replaceQuery({ [kind]: current.length ? current : undefined });
   }
 
@@ -215,12 +215,12 @@ export function useStagedSearchFilters(): SearchFilters {
   function toggleFilterValue(kind: "type" | "usage", value: string) {
     const list = listRef(kind);
     const idx = list.value.indexOf(value);
-    if (idx !== -1) {
+    if (idx === -1) {
+      list.value = [...list.value, value];
+    } else {
       const next = [...list.value];
       next.splice(idx, 1);
       list.value = next;
-    } else {
-      list.value = [...list.value, value];
     }
   }
 

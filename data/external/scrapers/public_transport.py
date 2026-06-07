@@ -125,7 +125,7 @@ def _fetch_stops(session: requests.Session, bbox: Bbox) -> list[dict[str, Any]]:
     response.raise_for_status()
     payload = response.json()
     if not isinstance(payload, list):
-        raise RuntimeError(f"unexpected /map/stops payload shape: {type(payload).__name__}")
+        raise TypeError(f"unexpected /map/stops payload shape: {type(payload).__name__}")
     return payload
 
 

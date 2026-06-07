@@ -220,13 +220,14 @@ pub async fn do_geoentry_search(
 }
 
 #[cfg(test)]
-#[allow(
-    clippy::unwrap_used,
-    clippy::panic,
-    clippy::panic_in_result_fn,
-    clippy::absolute_paths
-)]
 mod test {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::absolute_paths,
+        reason = "tests assert via panic/unwrap and reference absolute paths to fixtures"
+    )]
     use std::fmt::{self, Display, Formatter};
 
     use super::*;

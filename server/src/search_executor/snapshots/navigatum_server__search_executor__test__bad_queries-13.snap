@@ -1,14 +1,22 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: Copy/paste from real search
 expression: actual
 info: "'Augustenstraße 44; Raum 209; 2.OG' should get '2903.02.209' in 1 results # Copy/paste from real search"
 ---
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

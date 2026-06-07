@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: typo with short word and at first letter
 expression: actual
 info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word and at first letter"
@@ -24,7 +24,7 @@ info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word an
     - id: 0508.EG.806
       type: room
       name: "0508.EG.806 (Gruppenraum \u0019f\u0017. Praktika)"
-      subtext: "stammgelände, Heizkraftwerk (Z8)"
+      subtext: "stammgelände, Heizkraftwerk"
       subtext_bold: 0806@0508
     - id: 2913.01.110
       type: room
@@ -46,17 +46,31 @@ info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word an
       name: "5407.EG.651E (Phys.Messr.\u0019f\u0017.instr.Analytik)"
       subtext: "garching, Chemie"
       subtext_bold: 16515@5407
-  n_visible: 8
+    - id: 5302.EG.064F
+      type: room
+      name: 5302.EG.064F (Prüflabor Ofenraum)
+      subtext: "garching, CBM"
+      subtext_bold: 00.064.F@5302
+    - id: 5302.EG.065F
+      type: room
+      name: 5302.EG.065F (Elektrochemielabor)
+      subtext: "garching, CBM"
+      subtext_bold: 00.065.F@5302
+  n_visible: 3
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "2913"
       type: building
       name: "Brienner Forum Haus \u0019F\u0017 (AM)"
       subtext: Gebäude
-    - id: "2607"
-      type: building
-      name: "Fahrzeughalle (BL. \u0019F\u0017)"
-      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

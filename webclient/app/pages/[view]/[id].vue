@@ -4,9 +4,11 @@ import type { components } from "~/api_types";
 import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
 import { useEditProposal } from "~/composables/editProposal";
 
+const VALID_VIEW_RE = /^(campus|site|building|room|poi)$/;
+
 definePageMeta({
   validate(route) {
-    return /^(campus|site|building|room|poi)$/.test(route.params.view as string);
+    return VALID_VIEW_RE.test(route.params.view as string);
   },
   layout: "fullscreen",
 });

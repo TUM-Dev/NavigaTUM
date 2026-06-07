@@ -1,14 +1,14 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'mi hs 1' should get '5602.EG.001' in 1 results"
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "5602"
       type: building
-      name: "\u0019Hörsaal\u0017 \u00191\u0017 (BT02)"
+      name: "\u0019Hörsaal\u0017 \u00191\u0017"
       subtext: Gebäudeteil
     - id: mi
       type: joined_building
@@ -16,11 +16,15 @@ info: "'mi hs 1' should get '5602.EG.001' in 1 results"
       subtext: Gebäudekomplex
     - id: "5606"
       type: building
-      name: Finger 06 (BT06)
+      name: Gebäudeteil 06
       subtext: Gebäudeteil
     - id: "5605"
       type: building
-      name: Finger 05 (BT05)
+      name: Gebäudeteil 05
+      subtext: Gebäudeteil
+    - id: "5607"
+      type: building
+      name: Gebäudeteil 07
       subtext: Gebäudeteil
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
@@ -72,4 +76,12 @@ info: "'mi hs 1' should get '5602.EG.001' in 1 results"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.031B@5603
   n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

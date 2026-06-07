@@ -41,13 +41,11 @@ function _send() {
     },
     body: JSON.stringify(data),
   })
-    .then((r) => {
+    .then(async (r) => {
       loading.value = false;
       if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         token.value = null;
-        r.text().then((url) => {
-          successUrl.value = url;
-        });
+        successUrl.value = await r.text();
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
         error.value.message = `${t("status.server_error")} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {

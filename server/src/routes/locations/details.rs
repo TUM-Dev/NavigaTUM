@@ -129,12 +129,18 @@ struct LocationDetailsResponse {
     /// See `parent_names` for their human names.
     #[schema(min_items=1, examples(json!(["root","garching","mi", "5602"])))]
     parents: Vec<String>,
-    /// The ids of the parents.
+    /// The human names of the parents.
     ///
     /// They are ordered as they would appear in a Breadcrumb menu.
     /// See `parents` for their actual ids.
     #[schema(min_items=1, examples(json!(["Standorte","Garching Forschungszentrum","Fakultät Mathematik & Informatik (FMI oder MI)", "Finger 06 (BT06)"])))]
     parent_names: Vec<String>,
+    /// The types of the parents.
+    ///
+    /// They are ordered as they would appear in a Breadcrumb menu.
+    /// See `parents` for their actual ids.
+    #[schema(min_items = 1)]
+    parent_types: Vec<ParentLocationTypeResponse>,
     /// Data for the info-card table
     props: PropsResponse,
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
@@ -176,6 +182,23 @@ enum LocationTypeResponse {
     Other,
 }
 
+/// The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+///
+/// Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum ParentLocationTypeResponse {
+    Root,
+    Site,
+    Campus,
+    Area,
+    JoinedBuilding,
+    Building,
+    Room,
+    VirtualRoom,
+    Poi,
+}
+
 /// Operator of a location
 #[derive(Serialize, Deserialize, Debug, Clone, utoipa::ToSchema)]
 struct OperatorResponse {
@@ -197,7 +220,10 @@ struct OperatorResponse {
 
 #[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-#[allow(clippy::struct_field_names)]
+#[expect(
+    clippy::struct_field_names,
+    reason = "field names mirror the public API schema and intentionally share a common suffix"
+)]
 struct SectionsResponse {
     buildings_overview: Option<BuildingsOverviewResponse>,
     rooms_overview: Option<RoomsOverviewResponse>,
@@ -501,7 +527,10 @@ struct URLRefResponse {
 
 #[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
-#[allow(clippy::struct_field_names)]
+#[expect(
+    clippy::struct_field_names,
+    reason = "field names mirror the public API schema and intentionally share a common suffix"
+)]
 struct RankingFactorsResponse {
     #[schema(minimum = 0)]
     rank_combined: i32,
@@ -553,19 +582,14 @@ enum CoordinateSourceResponse {
 async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
     match LocationKeyAlias::fetch_all(pool, query).await {
         Ok(d) => {
-            let redirect_url = match d.len() {
-                0 => return None, // not key or alias
-                1 => d[0].redirect_exact_match(),
-                _ => {
-                    let keys = d
-                        .clone()
-                        .into_iter()
-                        .map(|a| a.key)
-                        .collect::<Vec<String>>();
-                    format!("/search?q={}", keys.join("+"))
-                }
+            let first = d.first()?; // not key or alias
+            let redirect_url = if d.len() == 1 {
+                first.redirect_exact_match()
+            } else {
+                let keys = d.iter().map(|a| a.key.clone()).collect::<Vec<String>>();
+                format!("/search?q={}", keys.join("+"))
             };
-            Some((d[0].key.clone(), redirect_url))
+            Some((first.key.clone(), redirect_url))
         }
         Err(RowNotFound) => None,
         Err(e) => {
@@ -576,14 +600,15 @@ async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, S
 }
 
 #[cfg(test)]
-#[allow(
-    clippy::unwrap_used,
-    clippy::panic,
-    clippy::panic_in_result_fn,
-    clippy::cast_precision_loss,
-    clippy::absolute_paths
-)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::cast_precision_loss,
+        clippy::absolute_paths,
+        reason = "tests assert via panic/unwrap, cast freely, and reference absolute fixture paths"
+    )]
     use tokio::task::LocalSet;
     use tracing::info;
 

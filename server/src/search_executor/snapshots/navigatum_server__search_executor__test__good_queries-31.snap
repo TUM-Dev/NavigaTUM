@@ -1,65 +1,80 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: ""
 expression: actual
-info: "'019 lmu' should get '5123.EG.019' in 1 results"
-snapshot_kind: text
+info: "'audimax' should get '0509.EG.980' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5123.EG.019
+    - id: 0509.EG.980
       type: room
-      name: "5123.EG.\u0019019\u0017 (\u0019LMU\u0017 Hörsaal im Physik Werkstattgebäude)"
-      subtext: "garching, LMU Physik Werkstattgebäude"
-      subtext_bold: 019@5123
-    - id: 5109.EG.019
+      name: "0509.EG.980 (\u0019Audimax\u0017, Werner-von-Siemens-Hörsaal)"
+      subtext: "stammgelände, Wienandsbau"
+      subtext_bold: 0980@0509
+    - id: 8120.01.101
       type: room
-      name: "5109.EG.\u0019019\u0017 (Kernphysiklabor)"
-      subtext: "garching, LMU Physik, Munich Center for Advanced Photonics (MAP)"
-      subtext_bold: 019@5109
-    - id: 5120.EG.019
+      name: "8120.01.101 (\u0019Audimax\u0017 im Galileo)"
+      subtext: "garching, Galileo"
+      subtext_bold: Audimax@8120
+    - id: 0509.02.986
       type: room
-      name: "5120.EG.\u0019019\u0017 (Elektrolabor)"
-      subtext: "garching, Beschleuniger"
-      subtext_bold: 019@5120
-    - id: 5109.01.019
+      name: "0509.02.986 (\u0019Audimax\u0017 Galerie)"
+      subtext: "stammgelände, Wienandsbau"
+      subtext_bold: 1986@0509
+    - id: 5620.01.101
       type: room
-      name: "5109.01.\u0019019\u0017 (Büro)"
-      subtext: "garching, LMU Physik, Munich Center for Advanced Photonics (MAP)"
-      subtext_bold: 019@5109
-    - id: 5109.03.019
+      name: "5620.01.101 (Hörsaal 1,  \"Interims I\")"
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 101@5620
+    - id: 5620.01.102
       type: room
-      name: "5109.03.\u0019019\u0017 (Büro)"
-      subtext: "garching, LMU Physik, Munich Center for Advanced Photonics (MAP)"
-      subtext_bold: 019@5109
-    - id: 5123.U1.019
+      name: "5620.01.102 (Hörsaal 2,  \"Interims I\")"
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 102@5620
+    - id: 0509.EG.986
       type: room
-      name: "5123.U1.\u0019019\u0017 (Abwasseraufbereitung/-beseitigung)"
-      subtext: "garching, LMU Physik Werkstattgebäude"
-      subtext_bold: 019@5123
-    - id: 8111.EG.019
+      name: "0509.EG.986 (Spülküche \u0019Audimax\u0017)"
+      subtext: "stammgelände, Wienandsbau"
+      subtext_bold: 0986@0509
+    - id: 5620.EG.003
       type: room
-      name: "8111.EG.\u0019019\u0017 (Praktikumsraum)"
-      subtext: "garching-hochbrück, Schleißheimerstr. 90a"
-      subtext_bold: 0.019@8111
-    - id: 1548.01.019
+      name: 5620.EG.003 (WC-Damen)
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 003@5620
+    - id: 5620.EG.004
       type: room
-      name: "1548.01.\u0019019\u0017 (Seminarraum)"
-      subtext: "mri, Schneckenburgerstr. 8, GSF-Container (\"Schneckenbunker\"), Virologie (Bau 548)"
-      subtext_bold: 48.1.19@1548
-    - id: 1713.U2.019
+      name: 5620.EG.004 (WC-Herren)
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 004@5620
+    - id: 5620.EG.005
       type: room
-      name: "1713.U2.\u0019019\u0017 (Intensiv)"
-      subtext: "mri, Nigerstr. 3, Student Office (Bau 713)"
-      subtext_bold: 713.02.19@1713
-    - id: 4220.01.019
+      name: 5620.EG.005 (Putzraum)
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 005@5620
+    - id: 5620.EG.006
       type: room
-      name: "4220.01.\u0019019\u0017 (Gruppenarbeitsraum)"
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 19@4220
-  n_visible: 10
+      name: 5620.EG.006 (WC-Barrierefrei)
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 006@5620
+  n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: buildings
+  entries:
+    - id: "5620"
+      type: building
+      name: "Interims-\u0019Audimax\u0017"
+      subtext: Gebäude
+    - id: "0597"
+      type: building
+      name: "Vorplatz \u0019Audi-Max\u0017"
+      subtext: Gebäude
+  n_visible: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

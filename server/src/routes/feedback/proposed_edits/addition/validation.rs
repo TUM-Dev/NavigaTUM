@@ -192,8 +192,13 @@ fn read_first_column(path: &Path) -> anyhow::Result<HashSet<String>> {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use std::fs;
 
     use super::*;
