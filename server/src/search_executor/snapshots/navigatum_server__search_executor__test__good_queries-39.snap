@@ -1,72 +1,27 @@
 ---
-source: src/search_executor/mod.rs
-description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+source: server/src/search_executor/mod.rs
+description: ""
 expression: actual
-info: "'H.3' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+info: "'26m@5510' should get '5510.EG.026M' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 2910.EG.003
+    - id: 5510.EG.026M
       type: room
-      name: 2910.EG.003 (Seminarraum)
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.003@2910
-    - id: 4124.U1.001A
-      type: room
-      name: "4124.U1.001A (Praktikum (Hinterer Raumteil) S1,  Bio 1)"
-      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
-      subtext_bold: P/1.01 H@4124
-    - id: 2910.03.301
-      type: room
-      name: "2910.03.\u00193\u001701 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.301@2910
-      parsed_id: "\u0019H.3\u001701 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.302
-      type: room
-      name: "2910.03.\u00193\u001702 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.302@2910
-      parsed_id: "\u0019H.3\u001702 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.303
-      type: room
-      name: "2910.03.\u00193\u001703 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.303@2910
-      parsed_id: "\u0019H.3\u001703 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.304
-      type: room
-      name: "2910.03.\u00193\u001704 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.304@2910
-      parsed_id: "\u0019H.3\u001704 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.305
-      type: room
-      name: "2910.03.\u00193\u001705 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.305@2910
-      parsed_id: "\u0019H.3\u001705 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.306
-      type: room
-      name: "2910.03.\u00193\u001706 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.306@2910
-      parsed_id: "\u0019H.3\u001706 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.307
-      type: room
-      name: "2910.03.\u00193\u001707 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.307@2910
-      parsed_id: "\u0019H.3\u001707 RiWa 1 (HfP/GOV)"
-    - id: 2910.03.308
-      type: room
-      name: "2910.03.\u00193\u001708 (Büro)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.308@2910
-      parsed_id: "\u0019H.3\u001708 RiWa 1 (HfP/GOV)"
-  n_visible: 10
+      name: "\u00195510\u0017.EG.026M (School Office Finanzen)"
+      subtext: "garching, MW"
+      subtext_bold: MW 0026M@5510
+  n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

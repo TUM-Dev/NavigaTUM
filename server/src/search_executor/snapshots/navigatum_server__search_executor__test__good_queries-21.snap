@@ -1,63 +1,72 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: ""
 expression: actual
-info: "'Raum 0337 mw' should get '5503.EG.337' in 1 results"
+info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5503.EG.337
+    - id: 5101.EG.502
       type: room
-      name: 5503.EG.337 (Seminarraum)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0337@5503
-    - id: 0503.EG.337
+      name: "5101.EG.502 (\u0019Physik\u0017 \u0019Hörsaal\u0017 \u00192\u0017)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2502@5101
+    - id: 5101.EG.503
       type: room
-      name: 0503.EG.337 (Büro)
-      subtext: "stammgelände, Thierschbau (Z3)"
-      subtext_bold: 0337@0503
-    - id: 2334.EG.128
+      name: "5101.EG.503 (\u0019Physik\u0017 \u0019Hörsaal\u0017 3)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2503@5101
+    - id: 5101.EG.501
       type: room
-      name: "2334.EG.128 ((34.\u00190.337\u0017) Büro)"
-      subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
-      subtext_bold: 00.2334.128@2334
-    - id: 0509.EG.980
+      name: "5101.EG.501 (Rudolf-Mößbauer-\u0019Hörsaal\u0017)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2501@5101
+    - id: 5510.EG.027
       type: room
-      name: "0509.EG.980 (Audimax, Werner-von-Siemens-Hörsaal)"
-      subtext: "stammgelände, Wienandsbau (Z9)"
-      subtext_bold: 0980@0509
-    - id: 8120.EG.001
+      name: "5510.EG.027 (\u0019Physik\u0017-Praktikum)"
+      subtext: "garching, MW"
+      subtext_bold: MW 0027@5510
+    - id: 5510.EG.028
       type: room
-      name: 8120.EG.001 (Hörsaal im Galileo)
-      subtext: "garching, Galileo"
-      subtext_bold: Hörsaal@8120
-    - id: 8120.01.101
+      name: "5510.EG.028 (\u0019Physik\u0017-Praktikum)"
+      subtext: "garching, MW"
+      subtext_bold: MW 0028@5510
+    - id: 3505.EG.027
       type: room
-      name: 8120.01.101 (Audimax im Galileo)
-      subtext: "garching, Galileo"
-      subtext_bold: Audimax@8120
-    - id: 0101.02.179
+      name: "3505.EG.027 (Ausbildungslabor,  biologisch-pysikalisch)"
+      subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
+      subtext_bold: 00.450@3505
+    - id: 0102.U1.216D
       type: room
-      name: 0101.02.179 (Wilhelm-Nusselt-Hörsaal)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1179@0101
-    - id: 0101.02.189
+      name: "0102.U1.\u00192\u001716D (Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, N2"
+      subtext_bold: N-1216D@0102
+    - id: 0102.U1.216E
       type: room
-      name: 0101.02.189 (Hans-Piloty-Hörsaal)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1189@0101
-    - id: 0101.02.190
+      name: "0102.U1.\u00192\u001716E (Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, N2"
+      subtext_bold: N-1216E@0102
+    - id: 0102.U1.216F
       type: room
-      name: 0101.02.190 (Hans-Heinrich-Meinke-Hörsaal)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1190@0101
-  n_visible: 9
+      name: "0102.U1.\u00192\u001716F (Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, N2"
+      subtext_bold: N-1216F@0102
+    - id: 0102.U1.216G
+      type: room
+      name: "0102.U1.\u00192\u001716G (Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, N2"
+      subtext_bold: N-1216G@0102
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
-  entries:
-    - id: "0109"
-      type: building
-      name: "Reflexionsarmer \u0019Raum\u0017 (N9)"
-      subtext: Gebäude
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

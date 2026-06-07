@@ -1,19 +1,47 @@
 ---
-source: src/search_executor/mod.rs
-description: ""
+source: server/src/search_executor/mod.rs
+description: "Regression: #1868 - POIs were silently dropped from search results"
 expression: actual
-info: "'26m@5510' should get '5510.EG.026M' in 1 results"
+info: "'Validierungsautomat' should get 'validierungsautomat-1' in 1 results # Regression: #1868 - POIs were silently dropped from search results"
 ---
-- facet: rooms
+- facet: pois
   entries:
-    - id: 5510.EG.026M
-      type: room
-      name: "\u00195510\u0017.EG.026M (School Office Finanzen)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: MW 0026M@5510
-  n_visible: 1
+    - id: validierungsautomat-1
+      type: poi
+      name: "\u0019Validierungsautomat\u0017 1 (Physik)"
+      subtext: ""
+      subtext_bold: ""
+    - id: validierungsautomat-2
+      type: poi
+      name: "\u0019Validierungsautomat\u0017 2 (MW)"
+      subtext: ""
+      subtext_bold: ""
+    - id: validierungsautomat-3
+      type: poi
+      name: "\u0019Validierungsautomat\u0017 3 (School of Life Sciences Poststelle)"
+      subtext: ""
+      subtext_bold: ""
+    - id: validierungsautomat-4
+      type: poi
+      name: "\u0019Validierungsautomat\u0017 4 (Zentralgelände)"
+      subtext: ""
+      subtext_bold: ""
+    - id: validierungsautomat-5
+      type: poi
+      name: "\u0019Validierungsautomat\u0017 5 (MI)"
+      subtext: ""
+      subtext_bold: ""
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

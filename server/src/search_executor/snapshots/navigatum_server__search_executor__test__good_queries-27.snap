@@ -1,63 +1,78 @@
 ---
-source: src/search_executor/mod.rs
-description: ""
+source: server/src/search_executor/mod.rs
+description: Not sure about target here
 expression: actual
-info: "'C.3202' should get '5140.01.202' in 1 results"
-snapshot_kind: text
+info: "'1010 znn' should get '5115.01.010' in 1 results # Not sure about target here"
 ---
 - facet: rooms
   entries:
-    - id: 5140.01.202
+    - id: 5115.01.010
       type: room
-      name: 5140.01.202 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3202@5140
-      parsed_id: "\u0019C.3202\u0017 Physik I Container"
-    - id: 1551.01.051
+      name: 5115.01.010 (Elt. Transport)
+      subtext: "garching, ZNN"
+      subtext_bold: 1.010@5115
+    - id: 5510.01.010
       type: room
-      name: "1551.01.051 (Hörsaal \u0019C\u0017)"
-      subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
-      subtext_bold: 51.1.51@1551
-    - id: 1551.EG.051
+      name: 5510.01.010 (Seminarraum)
+      subtext: "garching, MW"
+      subtext_bold: 1010@5510
+      parsed_id: "MW \u00191010\u0017"
+    - id: 0510.01.010
       type: room
-      name: "1551.EG.051 (Hörsaal \u0019C\u0017)"
-      subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
-      subtext_bold: 51.0.51@1551
-    - id: 1910.EG.050C
+      name: 0510.01.010 (Küche)
+      subtext: "stammgelände, Z10"
+      subtext_bold: 1010@0510
+      parsed_id: "\u00191010\u0017 Z10"
+    - id: 2906.01.010
       type: room
-      name: 1910.EG.050C (Hörsaal)
-      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
-      subtext_bold: C.0.50@1910
-    - id: 5140.01.201
+      name: 2906.01.010 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1010@2906
+      parsed_id: "\u00191010\u0017 Karlstraße 45/47"
+    - id: 5433.01.010
       type: room
-      name: 5140.01.201 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3201@5140
-    - id: 5140.01.203
+      name: 5433.01.010 (Büro)
+      subtext: "garching, ECM"
+      subtext_bold: 1010@5433
+      parsed_id: "\u00191010\u0017 ECM"
+    - id: 0202.U1.010
       type: room
-      name: 5140.01.203 (Tutorraum)
-      subtext: "garching, Physik I Container"
-      subtext_bold: C.3203@5140
-    - id: 1910.EG.022B
+      name: 0202.U1.010 (Lager)
+      subtext: "stammgelände, S2"
+      subtext_bold: "-1010@0202"
+    - id: 0401.U1.010
       type: room
-      name: 1910.EG.022B (Seminarraum)
-      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
-      subtext_bold: B.0.22@1910
-  n_visible: 7
+      name: 0401.U1.010 (Archiv)
+      subtext: "stammgelände, SW1"
+      subtext_bold: "-1010@0401"
+    - id: 2906.U1.010
+      type: room
+      name: 2906.U1.010 (Trafostation)
+      subtext: Karlstraße 45/47
+      subtext_bold: "-1010@2906"
+    - id: 5413.EG.010
+      type: room
+      name: 5413.EG.010 (Hausanschluss)
+      subtext: "garching, Bayerisches NMR-Zentrum"
+      subtext_bold: 1010@5413
+      parsed_id: "\u00191010\u0017 Bayerisches NMR-Zentrum"
+    - id: 5414.01.010
+      type: room
+      name: 5414.01.010 (Lager)
+      subtext: "garching, ZEI"
+      subtext_bold: 1010@5414
+      parsed_id: "\u00191010\u0017 ZEI"
+  n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
-  entries:
-    - id: "2940"
-      type: building
-      name: "Campus \u0019C\u0017, Georg-Brauchle-Ring 56/58"
-      subtext: Gebäudeteil
-    - id: "2911"
-      type: building
-      name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, Sprachenzentrum / Alumni & Career"
-      subtext: Gebäude
-    - id: "1910"
-      type: building
-      name: "Bildungscampus \u0019C\u0017, Weipertstr. 8-10"
-      subtext: Gebäude
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

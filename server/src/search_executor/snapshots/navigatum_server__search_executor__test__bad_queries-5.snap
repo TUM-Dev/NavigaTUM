@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "uses 'str.' instead of 'straße'"
 expression: actual
 info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 'straße'"
@@ -58,7 +58,15 @@ info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 's
       subtext_bold: 2013@2906
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
