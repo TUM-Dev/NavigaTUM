@@ -64,6 +64,14 @@ pub(super) fn rebuild_highlighted_name(
 }
 
 fn span_matches_query(span: &str, query_lower: &str, query_tokens: &[&str]) -> bool {
+    // Issue #513 is about numeric/alphanumeric IDs being typo-tolerated and
+    // shown as if exact. Spans without digits are almost always legitimate
+    // text matches (synonyms like `tb` -> `Bibliothek`, typos like `pyhsik` ->
+    // `Physik`, prefix matches like `PH` -> `Physik`) where the highlight is
+    // user-helpful even if not strictly verbatim.
+    if !span.chars().any(|c| c.is_ascii_digit()) {
+        return true;
+    }
     let span_lower = span.to_lowercase();
     if query_lower.contains(&span_lower) {
         return true;
@@ -100,6 +108,21 @@ mod tests {
         }];
         let out = rebuild_highlighted_name(raw, &matches, "PH 5101 PH5101", "<em>", "</em>");
         assert_eq!(out, "<em>Physik</em>");
+    }
+
+    #[test]
+    fn alphabetic_synonym_match_keeps_highlight() {
+        // `tb` is configured as a synonym for `Bibliothek` in
+        // server/src/setup/search_synonyms.yaml. The expanded match is
+        // legitimate and the highlight communicates that fact.
+        let raw = "Bibliothek";
+        let matches = vec![MatchRange {
+            start: 0,
+            length: 10,
+            indices: None,
+        }];
+        let out = rebuild_highlighted_name(raw, &matches, "tb innenstadt", "<em>", "</em>");
+        assert_eq!(out, "<em>Bibliothek</em>");
     }
 
     #[test]
