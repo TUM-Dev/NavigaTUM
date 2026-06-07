@@ -37,8 +37,8 @@ export function thumbCropRect(width: number, height: number, offset: number): Th
 }
 
 /**
- * Renders the offset crop to a 256×256 `image/webp` blob URL — the same dimensions the pipeline
- * emits — so the live map marker shows exactly what will be generated. The caller owns revoking the
+ * Renders the offset crop to a 256×256 `image/webp` blob URL - the same dimensions the pipeline
+ * emits - so the live map marker shows exactly what will be generated. The caller owns revoking the
  * returned URL.
  */
 export function cropToThumbBlobUrl(
