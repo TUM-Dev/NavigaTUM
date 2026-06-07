@@ -38,12 +38,13 @@ const { t, locale } = useI18n({ useScope: "local" });
 const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
 // The detail page passes the entity type so the back-link can target the canonical /{type}/{id}
-// directly. Absent or non-routable (e.g. an older link) falls back to /view/{id}, which redirects.
+// directly. If the type is absent or non-routable (e.g. an older link), we have no canonical route,
+// so the back-link is omitted rather than pointing at a non-canonical /view/{id}.
 const coming_from_type = computed<string>(() => firstOrDefault(route.query.coming_from_type, ""));
 const comingFromTo = computed<string>(() =>
   isRoutableEntityType(coming_from_type.value)
     ? entityPath(coming_from.value, coming_from_type.value)
-    : `/view/${coming_from.value}`
+    : ""
 );
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
@@ -249,7 +250,7 @@ function handleSelectItinerary(itineraryIndex: number) {
     </div>
     <div class="bg-zinc-100 dark:bg-zinc-800 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
-        v-if="coming_from"
+        v-if="coming_from && comingFromTo"
         :to="comingFromTo"
         property="item"
         class="focusable text-blue-400 dark:text-blue-500 rounded-md pb-2 hover:text-blue-500 dark:hover:text-blue-400 hover:underline"

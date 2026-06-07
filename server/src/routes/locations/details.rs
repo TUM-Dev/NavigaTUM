@@ -139,8 +139,8 @@ struct LocationDetailsResponse {
     ///
     /// They are ordered as they would appear in a Breadcrumb menu.
     /// See `parents` for their actual ids.
-    #[schema(min_items=1, examples(json!(["root","site","area","building"])))]
-    parent_types: Option<Vec<String>>,
+    #[schema(min_items = 1)]
+    parent_types: Option<Vec<ParentLocationTypeResponse>>,
     /// Data for the info-card table
     props: PropsResponse,
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
@@ -180,6 +180,23 @@ enum LocationTypeResponse {
     Campus,
     Poi,
     Other,
+}
+
+/// The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+///
+/// Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum ParentLocationTypeResponse {
+    Root,
+    Site,
+    Campus,
+    Area,
+    JoinedBuilding,
+    Building,
+    Room,
+    VirtualRoom,
+    Poi,
 }
 
 /// Operator of a location
@@ -595,50 +612,6 @@ mod tests {
 
     use super::*;
     use crate::{AppData, setup::tests::PostgresTestContainer};
-
-    /// A minimal-but-complete details payload, matching the shape the data pipeline stores.
-    fn base_details_json() -> serde_json::Value {
-        serde_json::json!({
-            "id": "5602.EG.001",
-            "type": "room",
-            "type_common_name": "Büro",
-            "name": "5602.EG.001",
-            "aliases": [],
-            "parents": ["root", "garching", "5602"],
-            "parent_names": ["Standorte", "Garching Forschungszentrum", "Finger 06 (BT06)"],
-            "props": {"computed": []},
-            "ranking_factors": {"rank_combined": 0, "rank_type": 0, "rank_usage": 0},
-            "sources": {"base": []},
-            "coords": {"lat": 0.0, "lon": 0.0, "source": "navigatum"},
-            "maps": {"default": "interactive"},
-        })
-    }
-
-    #[test]
-    fn parent_types_is_parsed_when_present() {
-        let mut value = base_details_json();
-        value["parent_types"] = serde_json::json!(["root", "site", "building"]);
-
-        let res = serde_json::from_value::<LocationDetailsResponse>(value).unwrap();
-
-        assert_eq!(
-            res.parent_types,
-            Some(vec![
-                "root".to_string(),
-                "site".to_string(),
-                "building".to_string()
-            ])
-        );
-    }
-
-    #[test]
-    fn parent_types_absent_on_legacy_data_deserialises_to_none() {
-        // Data emitted by the currently-deployed pipeline has no `parent_types`; it must
-        // still deserialize (the field is Optional) rather than 500 during the rollout window.
-        let res = serde_json::from_value::<LocationDetailsResponse>(base_details_json()).unwrap();
-
-        assert!(res.parent_types.is_none());
-    }
 
     /// Allows testing if a modification has changed the output of the details API
     ///

@@ -606,15 +606,10 @@ export type components = {
       /**
        * @description The types of the parents.
        *
-       * They are ordered as they would appear in a Breadcrumb menu, parallel to `parents`
-       * and `parent_names`. The client uses each type to build the canonical `/{type}/{id}`
-       * breadcrumb link without a per-id round-trip. The synthetic `root` ancestor reports
-       * the type `root`.
-       *
-       * Optional so the server still deserializes data emitted by an older pipeline (where
-       * this field is absent) during the rollout window before the data job repopulates the CDN.
+       * They are ordered as they would appear in a Breadcrumb menu.
+       * See `parents` for their actual ids.
        */
-      readonly parent_types?: readonly [string, ...string[]] | null;
+      readonly parent_types?: readonly components["schemas"]["ParentLocationTypeResponse"][] | null;
       /**
        * @description The ids of the parents.
        *
@@ -1125,6 +1120,22 @@ export type components = {
        */
       readonly default?: number | null;
     };
+    /**
+     * @description The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+     *
+     * Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+     * @enum {string}
+     */
+    readonly ParentLocationTypeResponse:
+      | "root"
+      | "site"
+      | "campus"
+      | "area"
+      | "joined_building"
+      | "building"
+      | "room"
+      | "virtual_room"
+      | "poi";
     readonly PlaceResponse: {
       /** @description Alerts for this stop. */
       readonly alerts?: readonly components["schemas"]["AlertResponse"][];

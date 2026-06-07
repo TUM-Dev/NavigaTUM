@@ -1585,12 +1585,7 @@ components:
             - array
             - "null"
           items:
-            type: string
-            examples:
-              - - root
-                - site
-                - area
-                - building
+            $ref: '#/components/schemas/ParentLocationTypeResponse'
           description: |-
             The types of the parents.
 
@@ -2393,6 +2388,22 @@ components:
             - We suggest, you don't show a map by default.
             - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
           example: 0
+    ParentLocationTypeResponse:
+      type: string
+      description: |-
+        The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+
+        Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+      enum:
+        - root
+        - site
+        - campus
+        - area
+        - joined_building
+        - building
+        - room
+        - virtual_room
+        - poi
     PlaceResponse:
       type: object
       required:
