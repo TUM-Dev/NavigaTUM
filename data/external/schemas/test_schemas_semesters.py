@@ -3,8 +3,9 @@ from itertools import pairwise
 import dataframely as dy
 import polars as pl
 import pytest
+from processors.semester_block_expander import Semester
 
-from external.loaders.semesters import load_semester_frame, load_semesters
+from external.loaders.semesters import load_semester
 from external.schemas._drift_gate import assert_satisfies_schema
 from external.schemas.semesters import SemesterSchema
 
@@ -30,12 +31,15 @@ def _row_with(**overrides: object) -> pl.DataFrame:
 
 def test_committed_semesters_csv_satisfies_schema() -> None:
     """The committed `semesters.csv` must satisfy `SemesterSchema` (drift gate)."""
-    assert_satisfies_schema(SemesterSchema, load_semester_frame())
+    assert_satisfies_schema(SemesterSchema, load_semester())
 
 
 def test_committed_semesters_are_chronological_and_disjoint() -> None:
     """Successive semesters must not overlap, so a given day maps to at most one semester."""
-    semesters = sorted(load_semesters(), key=lambda semester: semester.start)
+    semesters = sorted(
+        (Semester.from_row(row) for row in load_semester().iter_rows(named=True)),
+        key=lambda semester: semester.start,
+    )
     for earlier, later in pairwise(semesters):
         assert earlier.end < later.start, f"{earlier.key} overlaps {later.key}"
 

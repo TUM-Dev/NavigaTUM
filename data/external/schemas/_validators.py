@@ -10,8 +10,8 @@ each schema and drifting apart.
 import polars as pl
 
 _ISO_DATE_REGEX = r"^\d{4}-\d{2}-\d{2}$"
-# The `lecture:`/`break:` macro prefix. `semester_block_expander` reuses this to find and
-# expand the macros, so the detection here and the expansion there cannot drift apart.
+# `lecture:`/`break:` macro prefix; `semester_block_expander` reuses this so detection and
+# expansion can't drift apart.
 MACRO_REGEX = r"(?i)\b(lecture|break)\s*:"
 
 

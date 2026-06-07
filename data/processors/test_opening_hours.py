@@ -5,7 +5,7 @@ import orjson
 import polars as pl
 import pytest
 from external.loaders.opening_hours import load_opening_hours
-from external.loaders.semesters import load_semesters
+from external.loaders.semesters import load_semester
 from external.schemas.opening_hours import OpeningHoursSchema
 
 from processors.df_utils import unflatten_row
@@ -131,7 +131,8 @@ def test_committed_schedules_expand_to_valid_plain_osm() -> None:
     output is checked as valid OSM (the compile run itself carries no parser).
     """
     entries = pl.DataFrame({"id": list(load_opening_hours()["id"]), "type": "building"})
-    df = merge_opening_hours(entries, semesters=load_semesters())
+    semesters = [Semester.from_row(row) for row in load_semester().iter_rows(named=True)]
+    df = merge_opening_hours(entries, semesters=semesters)
 
     payloads = [orjson.loads(value) for value in df["opening_hours_json"] if value is not None]
     assert payloads, "expected at least one committed schedule"

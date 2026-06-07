@@ -1,7 +1,7 @@
 import orjson
 import polars as pl
 from external.loaders.opening_hours import load_opening_hours
-from external.loaders.semesters import load_semesters
+from external.loaders.semesters import load_semester
 
 from processors.semester_block_expander import Semester, contains_macro, expand_semester_blocks
 
@@ -20,12 +20,12 @@ def merge_opening_hours(
     Attach opening-hours schedules to their entries as an `opening_hours_json` payload.
 
     `lecture:`/`break:` macros are expanded against `semesters` into plain OSM
-    before the payload is built, so downstream only ever sees standard OSM. Both
-    `schedules` and `semesters` are injectable for tests; they default to the
-    validated CSV fixtures.
+    before the payload is built, so downstream only sees standard OSM. `schedules`
+    and `semesters` are injectable for tests; both default to the validated CSV.
     """
     schedules = load_opening_hours() if schedules is None else schedules
-    semesters = load_semesters() if semesters is None else semesters
+    if semesters is None:
+        semesters = [Semester.from_row(row) for row in load_semester().iter_rows(named=True)]
 
     unknown = set(schedules["id"]) - set(df["id"])
     if unknown:
@@ -42,7 +42,7 @@ def merge_opening_hours(
                 f"check the semester list covers its macros: {row['opening_hours']!r}"
             )
         payload = {key: row[column] for column, key in _REQUIRED_KEYS.items()}
-        payload["osm"] = osm  # the expanded, macro-free schedule, not the raw on-disk string.
+        payload["osm"] = osm  # expanded, macro-free - not the raw on-disk string.
         payload.update({key: row[key] for key in _OPTIONAL_KEYS if row[key] is not None})
         payloads.append({"id": row["id"], "opening_hours_json": orjson.dumps(payload).decode()})
 

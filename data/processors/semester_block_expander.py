@@ -1,15 +1,10 @@
 """
-The one piece of TUM-specific grammar layered on top of OSM `opening_hours`.
+The only place the `lecture:`/`break:` opening-hours macro dialect exists.
 
-A schedule may prefix a rule block with `lecture:` (applies during the lecture
-period, Vorlesungszeit) or `break:` (applies during the semester break,
-vorlesungsfreie Zeit). :func:`expand_semester_blocks` rewrites those prefixes
-into plain OSM date ranges given an explicit semester list, so everything
-downstream of the compile step sees standard OSM and no parser needs to know
-about the macro dialect.
-
-This module is the *only* place the macro dialect exists; keep it isolated so any
-OSM parser stays swappable.
+A schedule may prefix a rule block with `lecture:` (Vorlesungszeit) or `break:`
+(vorlesungsfreie Zeit). `expand_semester_blocks` rewrites those into plain OSM
+date ranges from an explicit semester list, so everything downstream sees
+standard OSM. Keep the dialect isolated here so any OSM parser stays swappable.
 """
 
 import re
@@ -19,9 +14,7 @@ from datetime import date, timedelta
 
 from external.schemas._validators import MACRO_REGEX
 
-# Detects whether a schedule carries any macro at all; shares `MACRO_REGEX` with the
-# on-disk `OpeningHoursSchema` rule so detection and expansion cannot drift. A plain-OSM
-# schedule that matches nothing here is returned untouched.
+# Shares `MACRO_REGEX` with the on-disk schema rule so detection and expansion can't drift.
 _MACRO_RE = re.compile(MACRO_REGEX)
 # A single rule block's macro prefix and its OSM body.
 _BLOCK_PREFIX_RE = re.compile(r"^(lecture|break)\s*:\s*(.*)$", re.IGNORECASE | re.DOTALL)
@@ -34,9 +27,8 @@ class Semester:
     """
     One academic semester: a calendar span containing a lecture sub-period.
 
-    The break (vorlesungsfreie Zeit) is the remainder of the calendar span
-    outside `[lectures_from, lectures_until]` - both the run-up before lectures
-    and the tail after them.
+    The break (vorlesungsfreie Zeit) is the calendar span outside
+    `[lectures_from, lectures_until]` - the run-up before lectures and the tail after.
     """
 
     key: str
@@ -64,12 +56,11 @@ def contains_macro(schedule: str) -> bool:
 
 def expand_semester_blocks(schedule: str, semesters: Sequence[Semester]) -> str:
     """
-    Expand `lecture:`/`break:` blocks in `schedule` into plain OSM date ranges.
+    Expand `lecture:`/`break:` blocks into plain OSM date ranges, one per semester.
 
-    Pure: the result depends only on the arguments. A schedule with no macros is
-    returned verbatim. Macro blocks are emitted once per semester (ordered by
-    lecture start); an empty macro body (e.g. a bare `lecture:`) contributes no
-    rule. Plain-OSM blocks interleaved with macros are kept in place and apply
+    Ordered by lecture start, and pure. A schedule with no macros is returned
+    verbatim; an empty macro body (e.g. a bare `lecture:`) contributes no rule;
+    plain-OSM blocks interleaved with macros are kept in place and apply
     unconditionally.
     """
     if not contains_macro(schedule):
@@ -87,7 +78,7 @@ def expand_semester_blocks(schedule: str, semesters: Sequence[Semester]) -> str:
             continue
         kind, body = match.group(1).lower(), match.group(2).strip()
         if not body:
-            continue  # an empty macro block (e.g. `lecture:`) states nothing.
+            continue  # a bare `lecture:` states nothing.
         for semester in ordered:
             rules.extend(f"{date_range} {body}" for date_range in _macro_ranges(kind, semester))
     return "; ".join(rules)
@@ -97,9 +88,8 @@ def _macro_ranges(kind: str, semester: Semester) -> list[str]:
     """OSM date ranges a `lecture:`/`break:` block maps to for one semester."""
     if kind == "lecture":
         return [_osm_range(semester.lectures_from, semester.lectures_until)]
-    # `break:` is the non-lecture remainder of the semester calendar: the run-up
-    # before lectures and the tail after them. Either can be empty when a bound
-    # coincides with the lecture period.
+    # `break:` is the non-lecture remainder: the run-up before lectures and the tail
+    # after. Either is empty when a bound coincides with the lecture period.
     ranges: list[str] = []
     if semester.start < semester.lectures_from:
         ranges.append(_osm_range(semester.start, semester.lectures_from - timedelta(days=1)))
@@ -119,7 +109,7 @@ def _osm_date(day: date) -> str:
 
 
 def _as_date(value: object) -> date:
-    """Narrow a `SemesterSchema` cell to `date` (it always is; this keeps the type checker honest)."""
+    """Narrow a `SemesterSchema` cell to `date` for the type checker (it always is)."""
     if not isinstance(value, date):
         raise TypeError(f"expected a date, got {type(value).__name__}: {value!r}")
     return value

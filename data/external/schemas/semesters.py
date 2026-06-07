@@ -6,11 +6,9 @@ class SemesterSchema(dy.Schema):
     """
     One academic semester, used to expand `lecture:`/`break:` opening-hours macros.
 
-    In this slice the rows come from a committed fixture
-    (`data/sources/semesters.csv`); the live CAMPUSonline `semester` API source is
-    a separate slice. `key` (e.g. `2025S`) is the primary key. Dates are real
-    `Date` columns - these never reach a client, so there is no locale concern,
-    and the expander wants `date` arithmetic.
+    Rows come from the committed `data/sources/semesters.csv`. `key` (e.g. `2025S`)
+    is the primary key. Dates are real `Date` columns (never client-facing, so no
+    locale concern) because the expander does `date` arithmetic on them.
     """
 
     key = dy.String(nullable=False, primary_key=True)
