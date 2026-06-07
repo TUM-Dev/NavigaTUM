@@ -1,6 +1,6 @@
 <script setup lang="ts">
-defineProps<{ id: string }>();
 const model = defineModel<boolean>();
+defineProps<{ id: string }>();
 </script>
 
 <template>

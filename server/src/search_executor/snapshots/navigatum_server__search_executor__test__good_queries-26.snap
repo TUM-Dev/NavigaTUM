@@ -1,70 +1,85 @@
 ---
-source: src/search_executor/mod.rs
-description: "seminar room, should be preferred over other rooms"
+source: server/src/search_executor/mod.rs
+description: ""
 expression: actual
-info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be preferred over other rooms"
+info: "'C.3202' should get '5140.01.202' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5111.01.116
+    - id: 5140.01.202
       type: room
-      name: 5111.01.116 (Seminarraum)
-      subtext: "garching, Siedlungswasserwirtschaft"
-      subtext_bold: 1116@5111
-      parsed_id: "\u00191116\u0017 Siedlungswasserwirtschaft"
-    - id: 2910.02.255
+      name: 5140.01.202 (Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3202@5140
+      parsed_id: "\u0019C.3202\u0017 Physik I Container"
+    - id: 1551.01.051
       type: room
-      name: "2910.02.255 (Büro (gem. Nutzung \u00191116\u0017010400 + \u00191116\u0017010500))"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: B.255@2910
-    - id: 0401.01.116
+      name: "1551.01.051 (Hörsaal \u0019C\u0017)"
+      subtext: "mri, Bau 551"
+      subtext_bold: 51.1.51@1551
+    - id: 1551.EG.051
       type: room
-      name: 0401.01.116 (Büro)
-      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
-      subtext_bold: 1116@0401
-      parsed_id: "\u00191116\u0017 Richard…. 18 (SW1)"
-    - id: 0205.01.116
+      name: "1551.EG.051 (Hörsaal \u0019C\u0017)"
+      subtext: "mri, Bau 551"
+      subtext_bold: 51.0.51@1551
+    - id: 1910.EG.050C
       type: room
-      name: 0205.01.116 (Lager)
-      subtext: "stammgelände, Arcisstr. 19 (S5)"
-      subtext_bold: 1116@0205
-      parsed_id: "\u00191116\u0017 Arcisstr. 19 (S5)"
-    - id: 5111.U1.116
+      name: 1910.EG.050C (Hörsaal)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: C.0.50@1910
+    - id: 5140.01.201
       type: room
-      name: 5111.U1.116 (Glas u. brennbare Stoffe)
-      subtext: "garching, Siedlungswasserwirtschaft"
-      subtext_bold: "-1116@5111"
-    - id: 5401.EG.116A
+      name: 5140.01.201 (Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3201@5140
+    - id: 5140.01.203
       type: room
-      name: 5401.EG.116A (Heizraum)
-      subtext: "garching, Chemie"
-      subtext_bold: 11160@5401
-      parsed_id: "CH \u00191116\u00170"
-    - id: 5401.EG.116B
+      name: 5140.01.203 (Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3203@5140
+    - id: 1910.EG.022B
       type: room
-      name: 5401.EG.116B (Flur)
-      subtext: "garching, Chemie"
-      subtext_bold: 11165@5401
-      parsed_id: "CH \u00191116\u00175"
-    - id: 5401.EG.116C
+      name: 1910.EG.022B (Seminarraum)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: B.0.22@1910
+    - id: 1910.EG.023B
       type: room
-      name: 5401.EG.116C (Flur)
-      subtext: "garching, Chemie"
-      subtext_bold: 11166@5401
-      parsed_id: "CH \u00191116\u00176"
-    - id: 0101.01.116
+      name: 1910.EG.023B (Seminarraum)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: B.0.23@1910
+    - id: 1910.EG.043B
       type: room
-      name: 0101.01.116 (Drucker)
-      subtext: "stammgelände, U-Trakt (N1)"
-      subtext_bold: N1116@0101
-    - id: 2315.01.116
+      name: 1910.EG.043B (Seminarraum)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: B.0.43@1910
+    - id: 1910.EG.044B
       type: room
-      name: 2315.01.116 (Biochemisches Labor)
-      subtext: "campus-im-olympiapark-sz, Präventionszentrum"
-      subtext_bold: 15116@2315
-  n_visible: 10
+      name: 1910.EG.044B (Seminarraum)
+      subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
+      subtext_bold: B.0.44@1910
+  n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: buildings
+  entries:
+    - id: "1910"
+      type: building
+      name: "Bildungscampus \u0019C\u0017, Weipertstr. 8-10"
+      subtext: Gebäude
+    - id: "2940"
+      type: building
+      name: "Campus \u0019C\u0017, Georg-Brauchle-Ring 56/58"
+      subtext: Gebäudeteil
+    - id: "2911"
+      type: building
+      name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, Sprachenzentrum / Alumni & Career"
+      subtext: Gebäude
+  n_visible: 3
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

@@ -56,7 +56,10 @@ impl FacetFilter {
 const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 
 #[derive(Deserialize, Default, Clone)]
-#[allow(dead_code)]
+#[expect(
+    dead_code,
+    reason = "some deserialized fields are not read yet but document the meilisearch document schema"
+)]
 pub struct MSHit {
     ms_id: String,
     pub room_code: String,
@@ -72,8 +75,10 @@ pub struct MSHit {
     usage: Option<String>,
     rank: i32,
 }
-// Debug intentionally shows only the human-meaningful fields for log readability.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally shows only the human-meaningful fields for log readability"
+)]
 impl Debug for MSHit {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("MSHit")
@@ -174,6 +179,7 @@ impl GeoEntryQuery {
             .with_highlight_pre_tag(&self.formatting_config.highlighting.pre)
             .with_highlight_post_tag(&self.formatting_config.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
+            .with_show_matches_position(true)
             .build()
     }
 }
@@ -190,8 +196,10 @@ fn compose_filter(facet_filter: &str, user_filter: &str) -> String {
     }
 }
 
-// Debug intentionally elides the meilisearch client; only request shape matters in logs.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally elides the meilisearch client; only request shape matters in logs"
+)]
 impl Debug for GeoEntryQuery {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("GeoEntryQuery");

@@ -35,14 +35,14 @@ class ImageSource(PydanticConfiguration):
     offsets: ImageOffset = Field(default_factory=ImageOffset)
 
     @classmethod
-    def load_all(cls) -> dict[str, list["ImageSource"]]:
+    def load_all(cls) -> dict[str, list[ImageSource]]:
         """Load the image sources from the img-sources.yaml file"""
         with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
             raw: dict[str, dict[int, dict[str, Any]]] = yaml.safe_load(file.read())
             image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
         for key in image_sources:
             if not isinstance(key, str):
-                raise ValueError(
+                raise TypeError(
                     f"Key '{key}' form `img-sources.yaml` is not a string. "
                     "This is not allowed, as for integers leading zeros are silently ignored.",
                 )
@@ -110,12 +110,12 @@ def parse_image_filename(image_name: str) -> tuple[str, int]:
     try:
         _id = parts[0]
         _index = int(parts[1])
-        return _id, _index
     except Exception as error:
         raise RuntimeError(f"Error: failed to parse image file name '{image_name}'") from error
+    return _id, _index
 
 
-def _add_source_info(fname, source_data):
+def _add_source_info(fname: str, source_data: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
     _id, _index = parse_image_filename(fname)
 
     required_fields = ["author", "license"]
@@ -124,7 +124,7 @@ def _add_source_info(fname, source_data):
             _logger.warning(f"No {field} information for image '{fname}', it will not be used")
             return None
 
-    def _parse(obj):
+    def _parse(obj: str | dict[str, Any]) -> dict[str, Any]:
         return {"text": obj, "url": None} if isinstance(obj, str) else obj
 
     return {
@@ -135,7 +135,7 @@ def _add_source_info(fname, source_data):
 
 
 class Resizer:
-    def __init__(self, source: Path):
+    def __init__(self, source: Path) -> None:
         self.source = source
         self.img = Image.open(source)
 
@@ -211,9 +211,9 @@ def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
         resizer.resize_to_max_size(IMAGE_BASE_PATH / "lg" / order.source.name, 3840)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
         resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "header" / order.source.name, (512, 210), order.offsets.header)
-    # pylint: disable-next=broad-exception-caught
-    except Exception as error:
-        _logger.error(error)  # otherwise we would not see if an error occurs
+    except Exception:
+        # Resize is a per-image batch task: log and skip rather than abort the whole batch.
+        _logger.exception("image resize failed")
 
 
 def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:
@@ -228,7 +228,7 @@ def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
     _logger.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT_FILE_PATH.is_file():
-        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore
+        return orjson.loads(HASH_LUT_FILE_PATH.read_bytes())  # type: ignore[no-any-return]
     return {}
 
 

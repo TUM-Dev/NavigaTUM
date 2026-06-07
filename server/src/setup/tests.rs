@@ -1,8 +1,9 @@
-// This module exposes test fixtures (testcontainer setup) consumed only from
-// `#[cfg(test)]` blocks in other modules. Production-code lints (panic, unwrap,
-// absolute_paths) are intentionally relaxed for the same reasons they're
-// relaxed inside per-file `mod tests` blocks.
-#![allow(clippy::unwrap_used, clippy::panic, clippy::absolute_paths)]
+#![allow(
+    clippy::unwrap_used,
+    clippy::panic,
+    clippy::absolute_paths,
+    reason = "test fixtures (testcontainer setup) consumed only from #[cfg(test)] blocks; production-code lints are relaxed for the same reasons as in per-file `mod tests` blocks"
+)]
 
 use meilisearch_sdk::client::Client;
 use testcontainers::{ContainerAsync, ImageExt as _};

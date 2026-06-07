@@ -10,22 +10,22 @@ function _allowHighlighting(text: string): string {
   return opt.replaceAll("\x19", "<b class='text-blue-500'>").replaceAll("\x17", "</b>");
 }
 
-export type SectionFacet = {
+export interface SectionFacet {
   facet: "sites" | "buildings" | "rooms" | "pois";
   name: string;
   entries: EntryFacet[];
   estimatedTotalHits: number;
   expanded: boolean;
   n_visible: number;
-};
-type EntryFacet = {
+}
+interface EntryFacet {
   id: string;
   name: string;
   type: string;
   subtext: string;
   subtext_bold: string | null;
   parsed_id: string | null;
-};
+}
 
 export function extractFacets(
   data: SearchResponse,

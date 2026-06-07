@@ -1,5 +1,6 @@
 ---
 source: server/src/search_executor/mod.rs
+assertion_line: 562
 description: "Query: MW1801"
 expression: results.0
 info: highlighting=<em>
@@ -9,37 +10,37 @@ info: highlighting=<em>
     - id: 5508.02.801
       type: room
       name: 5508.02.801 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 1801@5508
     - id: 5510.02.001
       type: room
       name: 5510.02.001 (<em>MW</em> 2001 Rudolf-Diesel-Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 2001@5510
     - id: 5502.01.250
       type: room
       name: 5502.01.250 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 1250@5502
     - id: 5502.EG.250
       type: room
       name: 5502.EG.250 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 0250@5502
     - id: 5503.EG.350
       type: room
       name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 0350@5503
     - id: 5506.EG.608M
       type: room
       name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 0608M@5506
     - id: 5510.EG.001
       type: room
       name: 5510.EG.001 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 0001@5510
     - id: 5539.EG.001A
       type: room
@@ -62,7 +63,7 @@ info: highlighting=<em>
   entries:
     - id: mw
       type: joined_building
-      name: Maschinenwesen (<em>MW</em>)
+      name: Maschinenwesen
       subtext: Gebäudekomplex
     - id: "5506"
       type: building

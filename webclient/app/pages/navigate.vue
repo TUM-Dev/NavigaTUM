@@ -7,8 +7,8 @@ import type { components, operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { firstOrDefault } from "~/composables/common";
-
 import type { TimeSelection } from "~/types/navigation";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 // Utility function to parse coordinate IDs and convert to coordinate objects
 function parseCoordinateId(value: string): { lat: number; lon: number } | string {
@@ -37,6 +37,13 @@ const runtimeConfig = useRuntimeConfig();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences } = useUserPreferences();
 const coming_from = computed<string>(() => firstOrDefault(route.query.coming_from, ""));
+// Only a routable type produces a canonical back-link; otherwise omit it (never a /view/{id}).
+const comingFromTo = computed(() => {
+  const type = firstOrDefault(route.query.coming_from_type, "");
+  return coming_from.value && isRoutableEntityType(type)
+    ? entityPath(coming_from.value, type)
+    : undefined;
+});
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));
 const mode = useRouteQuery<RequestQuery["route_costing"]>(
@@ -201,7 +208,6 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
 }
 
 function handleSelectLeg(itineraryIndex: number, legIndex: number) {
-  console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
   if (data.value?.router === "motis" && indoorMap.value) {
     // If selecting a different itinerary, redraw the route
     if (selectedItineraryIndex.value !== itineraryIndex) {
@@ -222,7 +228,6 @@ function handleSelectLeg(itineraryIndex: number, legIndex: number) {
 }
 
 function handleSelectItinerary(itineraryIndex: number) {
-  console.log("Selected itinerary:", itineraryIndex);
   if (data.value?.router === "motis" && indoorMap.value && data.value.itineraries[itineraryIndex]) {
     selectedItineraryIndex.value = itineraryIndex;
     indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
@@ -241,8 +246,8 @@ function handleSelectItinerary(itineraryIndex: number) {
     </div>
     <div class="bg-zinc-100 dark:bg-zinc-800 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">
       <NuxtLinkLocale
-        v-if="coming_from"
-        :to="'/view/' + coming_from"
+        v-if="comingFromTo"
+        :to="comingFromTo"
         property="item"
         class="focusable text-blue-400 dark:text-blue-500 rounded-md pb-2 hover:text-blue-500 dark:hover:text-blue-400 hover:underline"
       >

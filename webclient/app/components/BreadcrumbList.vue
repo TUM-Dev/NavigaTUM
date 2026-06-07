@@ -1,5 +1,9 @@
 <script setup lang="ts">
-type Item = { to: string; name: string };
+// `to` optional: items without a route render as plain text.
+interface Item {
+  to?: string;
+  name: string;
+}
 const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
   class: "",
 });
@@ -12,10 +16,11 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
     class="flex flex-row flex-wrap gap-2 text-sm"
     :class="props.class"
   >
-    <template v-for="(item, i) in props.items" :key="item.to">
+    <template v-for="(item, i) in props.items" :key="i">
       <span v-if="i > 0" aria-hidden="true" class="text-zinc-500 dark:text-zinc-400">/</span>
       <li property="itemListElement" typeof="ListItem">
         <NuxtLinkLocale
+          v-if="item.to"
           :to="item.to"
           property="item"
           typeof="WebPage"
@@ -31,6 +36,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
         >
           <span property="name">{{ item.name }}</span>
         </NuxtLinkLocale>
+        <span v-else property="name" class="text-zinc-500 dark:text-zinc-400">{{ item.name }}</span>
         <meta property="position" :content="`${i + 1}`" />
       </li>
     </template>

@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 
-#[allow(dead_code)] // used for testing out the repo pattern
+#[expect(dead_code, reason = "used for testing out the repo pattern")]
 #[derive(Debug)]
 pub struct Location {
     pub last_calendar_scrape_at: Option<DateTime<Utc>>,
@@ -45,7 +45,6 @@ impl Location {
     }
 }
 
-#[allow(dead_code)] // used for testing out the repo pattern
 #[derive(Debug, Clone)]
 pub struct LocationKeyAlias {
     pub key: String,

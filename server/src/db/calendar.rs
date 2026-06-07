@@ -34,8 +34,10 @@ impl CalendarLocation {
         Ok(LimitedVec(res))
     }
 }
-// Debug intentionally elides last_modified_at and aliased keys for log readability.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally elides last_modified_at and aliased keys for log readability"
+)]
 impl Debug for CalendarLocation {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("CalendarLocation");

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { mdiArrowRight } from "@mdi/js";
+import type { NuxtError } from "#app";
 
-const props = defineProps({
-  error: Object,
-});
+// url is set by Nuxt at runtime but missing from NuxtError.
+const props = defineProps<{
+  error?: NuxtError & { url?: string };
+}>();
 
 const is404 = computed(() => props.error?.statusCode === 404);
 

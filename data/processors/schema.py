@@ -87,7 +87,7 @@ class LocationSchema(dy.Schema):
 
     # --- Late-stage ---
     arch_name = dy.String()
-    aliases_json = dy.String()
+    aliases = dy.List(inner=dy.String())
     imgs_json = dy.String()
     type_common_name = dy.String()
     type_common_name_de = dy.String()

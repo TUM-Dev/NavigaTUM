@@ -1,3 +1,4 @@
+import csv
 import logging
 from concurrent.futures import Future, ThreadPoolExecutor
 from datetime import datetime
@@ -6,6 +7,8 @@ from typing import Any
 
 import polars as pl
 import processors.areatree.process as areatree
+import yaml
+from external.loaders.opening_hours import load_opening_hours
 from processors import (
     aliases,
     coords,
@@ -20,6 +23,7 @@ from processors import (
     sections,
     sitemap,
     structure,
+    studierendenwerk,
     tumonline,
 )
 from processors.df_utils import ensure_columns
@@ -86,7 +90,7 @@ _ALL_NULLABLE_COLUMNS: dict[str, pl.DataType] = {
     "ranking_rank_custom": pl.Int64(),
     "ranking_rank_combined": pl.Int64(),
     "arch_name": pl.Utf8(),
-    "aliases_json": pl.Utf8(),
+    "aliases": pl.List(pl.Utf8()),
     "imgs_json": pl.Utf8(),
     "type_common_name": pl.Utf8(),
     "type_common_name_de": pl.Utf8(),
@@ -182,22 +186,23 @@ def _run_pipeline(
     _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
-    # Fails the build if a schedule targets an unknown entry id.
-    df = opening_hours.merge_opening_hours(df)
+    # Hand-authored schedules win over scraped mensa hours on an id collision.
+    schedules = pl.concat([load_opening_hours(), studierendenwerk.mensa_opening_hours()], how="vertical").unique(
+        subset="id", keep="first", maintain_order=True
+    )
+    # Expands lecture:/break: macros; fails the build on an unknown id or a schedule
+    # that does not reduce to plain OSM.
+    df = opening_hours.merge_opening_hours(df, schedules=schedules)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.
     comment_ids: set[str] = set()
     if merge.COMMENTS_CSV.exists():
-        import csv as csv_mod
-
         with merge.COMMENTS_CSV.open() as f:
-            comment_ids.update(row["id"] for row in csv_mod.DictReader(f))
+            comment_ids.update(row["id"] for row in csv.DictReader(f))
     if merge.LINKS_YAML.exists():
-        import yaml as yaml_mod
-
         with merge.LINKS_YAML.open() as f:
-            links_data = yaml_mod.safe_load(f) or {}
+            links_data = yaml.safe_load(f) or {}
         comment_ids.update(str(k) for k in links_data)
     if comment_ids:
         df = df.with_columns(
@@ -261,7 +266,7 @@ def _run_pipeline(
     lf = search.add_ranking_combined(lf)
 
     _logger.info("-- 98 Aliases: extract aliases")
-    lf = aliases.add_aliases(lf)
+    lf = aliases.add_aliases(lf, aliases.building_short_name_lookup(df))
 
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")

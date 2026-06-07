@@ -8,7 +8,7 @@ info: parsed_id=roomfinder
   entries:
     - id: "5601"
       type: building
-      name: Magistrale / Foyer (BT01)
+      name: Magistrale / Foyer
       subtext: Gebäudeteil
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"

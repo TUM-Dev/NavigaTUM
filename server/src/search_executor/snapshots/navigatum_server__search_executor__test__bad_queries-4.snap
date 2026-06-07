@@ -1,11 +1,10 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "Note: It is not really in Arcisstr., just close"
 expression: actual
 info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not really in Arcisstr., just close"
-snapshot_kind: text
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
     - id: "4113"
       type: building
@@ -17,9 +16,13 @@ snapshot_kind: text
       subtext: Gebäude
     - id: "0201"
       type: building
-      name: "\u0019StudiTUM\u0017 Innenstadt (S1)"
+      name: "Gabelsbergerstr. 43, \u0019StudiTUM\u0017"
       subtext: Gebäude
-  n_visible: 3
+    - id: "2535"
+      type: building
+      name: "\u0019StudiTUM\u0017 am TUM-Klinikum"
+      subtext: Gebäude
+  n_visible: 4
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
@@ -28,35 +31,38 @@ snapshot_kind: text
       name: 4113.01.105 (Hörsaal 4 (WZWH04))
       subtext: "weihenstephan, StudiTUM"
       subtext_bold: O1 5@4113
-    - id: 0201.01.004
+    - id: 2535.01.001
       type: room
-      name: 0201.01.004 (Besprechungsraum Studentische Vertretung / SV)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.04@0201
-    - id: 0201.01.001
+      name: 2535.01.001 (Studentischer Arbeitsraum)
+      subtext: "mri, StudiTUM"
+      subtext_bold: 35.1.1@2535
+    - id: 2535.01.002
       type: room
-      name: 0201.01.001 (Stillarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.01@0201
-    - id: 0201.01.002
+      name: 2535.01.002 (Studentischer Arbeitsraum)
+      subtext: "mri, StudiTUM"
+      subtext_bold: 35.1.2@2535
+    - id: 2535.01.003
       type: room
-      name: 0201.01.002 (Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.02@0201
-    - id: 0201.01.003
+      name: 2535.01.003 (Studentischer Arbeitsraum)
+      subtext: "mri, StudiTUM"
+      subtext_bold: 35.1.3@2535
+    - id: 2535.02.001
       type: room
-      name: 0201.01.003 (Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.03@0201
-    - id: 0201.01.007
+      name: 2535.02.001 (Studentischer Arbeitsraum)
+      subtext: "mri, StudiTUM"
+      subtext_bold: 35.2.1@2535
+    - id: 2535.02.002
       type: room
-      name: 0201.01.007 (Stud.arbeit)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.07@0201
-    - id: 0201.01.008
-      type: room
-      name: 0201.01.008 (Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.08@0201
-  n_visible: 7
+      name: 2535.02.002 (Studentischer Arbeitsraum)
+      subtext: "mri, StudiTUM"
+      subtext_bold: 35.2.2@2535
+  n_visible: 6
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

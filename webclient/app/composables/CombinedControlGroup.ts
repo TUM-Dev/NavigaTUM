@@ -23,9 +23,9 @@ export class CombinedControlGroup extends Evented implements IControl {
 
       // Extract buttons from the control's container and add to our wrapper
       const buttons = ctrlContainer.querySelectorAll("button");
-      buttons.forEach((button) => {
+      for (const button of buttons) {
         this._container.appendChild(button);
-      });
+      }
     }
 
     return this._container;

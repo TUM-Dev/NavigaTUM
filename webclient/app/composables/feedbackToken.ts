@@ -36,16 +36,9 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
     fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/get_token`, {
       method: "POST",
     })
-      .then((r) => {
+      .then(async (r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
-          r.json()
-            .then((j: TokenResponse) => {
-              token.value = j;
-            })
-            .catch((r) => {
-              error.value.message = t("error.token_req_failed");
-              console.error(r);
-            });
+          token.value = (await r.json()) as TokenResponse;
         } else if (r.status === TokenStatus.TOO_MANY_REQUESTS) {
           error.value.message = t("error.too_many_requests");
           error.value.blockSend = true;

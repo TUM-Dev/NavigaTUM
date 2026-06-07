@@ -5,9 +5,9 @@ import { mdiUnfoldMoreHorizontal } from "@mdi/js";
 interface Props {
   label?: string;
 }
+const model = defineModel<string>({ required: true });
 
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const model = defineModel<string>({ required: true });
 </script>
 
 <template>

@@ -3,10 +3,10 @@ import { mdiMagnify, mdiMapMarker, mdiOfficeBuilding, mdiOfficeBuildingOutline }
 import type { components } from "~/api_types/index.js";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
-type ResultEntryItem = {
+interface ResultEntryItem {
   type: ResultEntry["type"];
   parsed_id: ResultEntry["parsed_id"];
-};
+}
 defineProps<{ item: ResultEntryItem }>();
 </script>
 

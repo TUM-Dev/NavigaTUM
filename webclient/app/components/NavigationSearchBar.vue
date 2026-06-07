@@ -116,8 +116,6 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "ArrowDown":
-      console.log(highlighted.value);
-      console.log(visibleElements.value);
       if (visibleElements.value.length === 0) {
         e.preventDefault();
         break;
@@ -128,8 +126,6 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "ArrowUp":
-      console.log(highlighted.value);
-      console.log(visibleElements.value);
       if (visibleElements.value.length === 0) {
         e.preventDefault();
         break;
@@ -144,15 +140,15 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "Enter":
-      if (highlighted.value !== undefined) {
+      if (highlighted.value === undefined) {
+        query.value = "";
+        selected.value = "";
+      } else {
         e.preventDefault();
         const visible = visibleElements.value[highlighted.value];
         if (visible) {
           select(visible);
         }
-      } else {
-        query.value = "";
-        selected.value = "";
       }
       break;
     default:

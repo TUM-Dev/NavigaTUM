@@ -1,9 +1,8 @@
-// Tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded
-// by the 512×512 tile size and the small POSSIBLE_INDEX_RANGE.
 #![allow(
     clippy::cast_possible_truncation,
     clippy::cast_sign_loss,
-    clippy::cast_possible_wrap
+    clippy::cast_possible_wrap,
+    reason = "tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded by the 512×512 tile size and the small POSSIBLE_INDEX_RANGE"
 )]
 
 use std::f64::consts::PI;
@@ -134,13 +133,14 @@ fn is_on_image(
 }
 
 #[cfg(test)]
-#[allow(
-    clippy::unwrap_used,
-    clippy::panic,
-    clippy::panic_in_result_fn,
-    clippy::float_cmp
-)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::float_cmp,
+        reason = "tests assert via panic/unwrap and compare exact float coordinates"
+    )]
     use pretty_assertions::assert_eq;
 
     use super::*;

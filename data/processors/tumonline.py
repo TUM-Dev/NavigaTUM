@@ -284,7 +284,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
                 "parents": building_parents[b_id] + [b_id],
                 "tumonline_data_json": to_json_or_none(tumonline_data),
                 "props_ids_roomcode": room_code,
-                "props_ids_arch_name": room["arch_name"] if room["arch_name"] else None,
+                "props_ids_arch_name": room["arch_name"] or None,
                 "props_address_street": room["address_street"],
                 "props_address_plz_place": f"{room['address_zip_code']} {room['address_place']}",
                 "props_address_source": "tumonline",

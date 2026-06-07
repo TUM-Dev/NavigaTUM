@@ -6,7 +6,11 @@ import orjson
 import polars as pl
 import xxhash
 import yaml
+from external.loaders.events import load_events
+from external.loaders.tumonline_orgs import load_tumonline_orgs
 from external.models.common import PydanticConfiguration
+from external.schemas.events import EventsSchema
+from external.schemas.tumonline_orgs import TumonlineOrgsSchema
 from utils import TranslatableStr
 from utils import TranslatableStr as _
 
@@ -40,7 +44,7 @@ def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str |
         return None
     value = _de(value)
     if not isinstance(value, str):
-        raise ValueError(f"Expected str, got {type(value)}")
+        raise TypeError(f"Expected str, got {type(value)}")
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
@@ -104,6 +108,7 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "name": _de(entry["name"]),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
+                "aliases": entry.get("aliases", []),
                 "type": entry["type"],
                 "type_common_name": _de(entry["type_common_name"]),
                 "facet": {
@@ -183,11 +188,15 @@ def export_for_api(data: dict[str, Any]) -> None:
     df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=3)
 
 
-def extract_exported_item(data, entry):
+def extract_exported_item(data: dict[str, Any], entry: dict[str, Any]) -> dict[str, Any]:
     """Extract the item that will be finally exported to the api"""
     parent_names = [data[p]["name"] if p != "root" else _("Standorte", "Sites") for p in entry["parents"]]
+    # Parallel to `parents`/`parent_names`: each parent's type lets the client build the canonical
+    # /{type}/{id} breadcrumb link without a per-id round-trip. `root` is synthetic (no data entry).
+    parent_types = [data[p]["type"] if p != "root" else "root" for p in entry["parents"]]
     result = {
         "parent_names": parent_names,
+        "parent_types": parent_types,
         **entry,
     }
     if "children" in result:
@@ -261,9 +270,6 @@ def export_known_usages(df: pl.DataFrame) -> None:
 
 def export_tumonline_orgs_parquet() -> None:
     """Build the bilingual TUMonline orgs frame and write tumonline_orgs.parquet."""
-    from external.loaders.tumonline_orgs import load_tumonline_orgs
-    from external.schemas.tumonline_orgs import TumonlineOrgsSchema
-
     TumonlineOrgsSchema.write_parquet(load_tumonline_orgs(), OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
 
 
@@ -276,7 +282,4 @@ def export_events_parquet() -> None:
     datetime serialization specifics. EventsSchema enforces the RFC 3339 shape
     and `ends_at >= starts_at` (matching the DB CHECK constraint).
     """
-    from external.loaders.events import load_events
-    from external.schemas.events import EventsSchema
-
     EventsSchema.write_parquet(load_events(), OUTPUT_DIR_PATH / "events.parquet")

@@ -1,9 +1,8 @@
 import logging
 import re
-from typing import Any, TypedDict
 
 # python 3.11 feature => move to typing when 3.11 is mainstream
-from typing_extensions import NotRequired
+from typing import Any, NotRequired, TypedDict
 
 _logger = logging.getLogger(__name__)
 

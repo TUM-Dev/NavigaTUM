@@ -1,6 +1,7 @@
-// Image-coordinate math: u32→i32 conversions are bounded by image dimensions
-// and intentionally narrow.
-#![allow(clippy::cast_possible_wrap)]
+#![allow(
+    clippy::cast_possible_wrap,
+    reason = "image-coordinate math: u32→i32 conversions are bounded by image dimensions and intentionally narrow"
+)]
 
 use ab_glyph::{FontArc, PxScale};
 use image::Rgba;
@@ -27,8 +28,10 @@ pub struct OverlayText {
     font: &'static FontArc,
 }
 
-// Debug intentionally omits the font handle.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally omits the font handle"
+)]
 impl fmt::Debug for OverlayText {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("OverlayText")

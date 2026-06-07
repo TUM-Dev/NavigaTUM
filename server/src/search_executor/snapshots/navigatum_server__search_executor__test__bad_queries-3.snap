@@ -1,22 +1,22 @@
 ---
-source: src/search_executor/mod.rs
-description: ""
+source: server/src/search_executor/mod.rs
+description: "Note: Interims iV and interims I can be matched here"
 expression: actual
-info: "'interims I' should get '5620' in 1 results"
+info: "'interims I' should get '5620' in 2 results # Note: Interims iV and interims I can be matched here"
 ---
-- facet: sites_buildings
+- facet: sites
   entries:
     - id: garching-interims
       type: area
       name: "\u0019Interimshörsäle\u0017"
       subtext: Gebiet / Gruppe von Gebäuden
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries:
     - id: "5417"
       type: building
-      name: "\u0019Interim\u0017 Gebäude NAT / OCS"
-      subtext: Gebäude
-    - id: "5620"
-      type: building
-      name: "\u0019Interimshörsäle\u0017 \u0019I\u0017"
+      name: "\u0019Interims\u0017 COS / \u0019Interims\u0017 NAT"
       subtext: Gebäude
     - id: "5416"
       type: building
@@ -26,20 +26,14 @@ info: "'interims I' should get '5620' in 1 results"
       type: building
       name: "\u0019Interims\u0017-Tentomax MW"
       subtext: Gebäude
-  n_visible: 5
+    - id: "5620"
+      type: building
+      name: "\u0019Interims\u0017-Audimax"
+      subtext: Gebäude
+  n_visible: 4
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 5620.01.101
-      type: room
-      name: "5620.01.101 (Hörsaal 1,  \"\u0019Interims\u0017 \u0019I\u0017\")"
-      subtext: "garching, Interims I"
-      subtext_bold: 101@5620
-    - id: 5620.01.102
-      type: room
-      name: "5620.01.102 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017\")"
-      subtext: "garching, Interims I"
-      subtext_bold: 102@5620
     - id: 5416.01.003
       type: room
       name: "5416.01.003 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017I\")"
@@ -47,13 +41,27 @@ info: "'interims I' should get '5620' in 1 results"
       subtext_bold: 003@5416
     - id: 5416.01.004
       type: room
-      name: "5416.01.004 (Hörsaal 1,  Jürgen-Manchot-Hörsaal)"
+      name: "5416.01.004 (Hörsaal 1,  Jürgen-Manchot \"\u0019Interims\u0017 \u0019I\u0017I\")"
       subtext: "garching, Interims II"
       subtext_bold: 004@5416
+    - id: 5620.01.101
+      type: room
+      name: "5620.01.101 (Hörsaal 1,  \"\u0019Interims\u0017 \u0019I\u0017\")"
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 101@5620
+    - id: 5620.01.102
+      type: room
+      name: "5620.01.102 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017\")"
+      subtext: "garching, Interims-Audimax"
+      subtext_bold: 102@5620
     - id: 5539.EG.001A
       type: room
       name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
       subtext: "garching, Interims III"
       subtext_bold: 0.001A@5539
   n_visible: 5
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

@@ -4,6 +4,7 @@ import {
   FullscreenControl,
   GeolocateControl,
   type MapGeoJSONFeature,
+  type IControl,
   Map as MapLibreMap,
   Marker,
   NavigationControl,
@@ -65,8 +66,8 @@ function loadInteractiveMap() {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-legacy-map .maplibregl-canvas")) nextTick(doMapUpdate);
-  else doMapUpdate();
+  if (document.querySelector("#interactive-legacy-map .maplibregl-canvas")) doMapUpdate();
+  else nextTick(doMapUpdate);
 }
 
 function createMarker(hueRotation = 0) {
@@ -256,7 +257,7 @@ function initMap(containerId: string): MapLibreMap {
     map.addControl(fullscreenCtl, "top-right");
 
     // controls
-    const controls = [];
+    const controls: IControl[] = [];
     if (!isMobile.value) {
       controls.push(
         new NavigationControl({

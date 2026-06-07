@@ -4,20 +4,22 @@ import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import type { components } from "~/api_types";
 
 type ImageInfoResponse = components["schemas"]["ImageInfoResponse"];
-const props = defineProps<{ imgs: readonly ImageInfoResponse[] }>();
-const { t } = useI18n({ useScope: "local" });
-const runtimeConfig = useRuntimeConfig();
 
 const shownImage = defineModel<ImageInfoResponse>("shown_image");
+
 const slideshowOpen = defineModel<boolean>("slideshow_open", {
   required: true,
 });
 
-type OnSlideData = {
+const props = defineProps<{ imgs: readonly ImageInfoResponse[] }>();
+const { t } = useI18n({ useScope: "local" });
+const runtimeConfig = useRuntimeConfig();
+
+interface OnSlideData {
   currentSlideIndex: number;
   prevSlideIndex: number;
   slidesCount: number;
-};
+}
 
 function onSlide(slide: unknown): void {
   // destructured here to make ts happy

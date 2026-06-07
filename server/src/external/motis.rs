@@ -17,7 +17,10 @@ impl Default for MotisWrapper {
 }
 
 impl MotisWrapper {
-    #[expect(clippy::too_many_arguments)]
+    #[expect(
+        clippy::too_many_arguments,
+        reason = "a routing query naturally takes many independent parameters (from, to, time, modes, …)"
+    )]
     pub async fn route(
         &self,
         from: &str,

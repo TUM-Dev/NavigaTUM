@@ -1,12 +1,12 @@
-type KnownUsage = {
+interface KnownUsage {
   usage_id: number;
   name_de: string;
   name_en: string;
   din_277: string;
   occurrences: number;
-};
+}
 
-export type UsageOption = {
+export interface UsageOption {
   /** numeric primary key matching `usages_tumonline.csv`; required when submitting an addition. */
   usage_id: number;
   /** slug used in the meilisearch index (lowercased, German name with umlauts preserved) */
@@ -18,7 +18,7 @@ export type UsageOption = {
   /** DIN 277 classification, e.g. "NF2.3" */
   din: string;
   occurrences: number;
-};
+}
 
 function slugify(value: string): string {
   return value

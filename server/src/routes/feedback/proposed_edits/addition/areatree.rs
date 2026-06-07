@@ -3,6 +3,8 @@
 //! semantics are intentionally not re-implemented.
 use std::str::FromStr as _;
 
+use anyhow::Context as _;
+
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, strum::IntoStaticStr, strum::EnumString, strum::Display,
 )]
@@ -108,21 +110,17 @@ struct ParsedLine {
 }
 
 fn strip_comment_and_trailing_ws(line: &str) -> &str {
-    let no_comment = match line.find('#') {
-        Some(i) => &line[..i],
-        None => line,
-    };
+    let no_comment = line.split_once('#').map_or(line, |(before, _)| before);
     no_comment.trim_end()
 }
 
 fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
     let parts: Vec<&str> = content.split(':').collect();
-    if parts.len() != 3 {
+    let [building_ids, _names, internal_id_raw] = parts.as_slice() else {
         anyhow::bail!("expected 3 ':'-separated parts");
-    }
-    let building_ids = parts[0].trim();
-    let _names = parts[1].trim();
-    let internal_id_raw = parts[2].trim();
+    };
+    let building_ids = building_ids.trim();
+    let internal_id_raw = internal_id_raw.trim();
 
     // Building prefix(es). Strip leading "-" data-quality marker.
     let bp_part = building_ids.trim_start_matches('-');
@@ -135,24 +133,25 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
     };
 
     // Internal id parsing: <id>[,<visible_id>][[<type>]]
-    let (internal_no_type, kind_override) =
-        if let Some(open) = internal_id_raw.find('[') {
-            let inner = internal_id_raw
-                .get(open + 1..)
-                .and_then(|s| s.strip_suffix(']'))
-                .ok_or_else(|| anyhow::anyhow!("malformed [type] in '{internal_id_raw}'"))?;
-            if inner.contains(',') {
-                anyhow::bail!("type comes after visible_ids: '{internal_id_raw}'");
-            }
-            (
-                internal_id_raw[..open].trim_end(),
-                Some(AreatreeKind::from_str(inner.trim()).map_err(|_| {
-                    anyhow::anyhow!("unknown areatree node type `{}`", inner.trim())
-                })?),
-            )
-        } else {
-            (internal_id_raw, None)
-        };
+    let (internal_no_type, kind_override) = if let Some((before, after)) =
+        internal_id_raw.split_once('[')
+    {
+        let inner = after
+            .strip_suffix(']')
+            .ok_or_else(|| anyhow::anyhow!("malformed [type] in '{internal_id_raw}'"))?;
+        if inner.contains(',') {
+            anyhow::bail!("type comes after visible_ids: '{internal_id_raw}'");
+        }
+        (
+            before.trim_end(),
+            Some(
+                AreatreeKind::from_str(inner.trim())
+                    .with_context(|| format!("unknown areatree node type `{}`", inner.trim()))?,
+            ),
+        )
+    } else {
+        (internal_id_raw, None)
+    };
 
     let (id, visible_id) = if internal_no_type.contains(',') {
         let mut split = internal_no_type.split(',');
@@ -172,21 +171,16 @@ fn parse_line(content: &str) -> anyhow::Result<ParsedLine> {
         (id, Some(vid))
     } else if !internal_no_type.is_empty() {
         (internal_no_type.to_string(), None)
-    } else if b_prefixes.len() == 1 {
-        (b_prefixes[0].clone(), None)
+    } else if let [only] = b_prefixes.as_slice() {
+        (only.clone(), None)
     } else {
         anyhow::bail!("no id provided");
     };
 
     let kind = match kind_override {
         Some(k) => k,
-        None => {
-            if b_prefixes.len() == 1 && b_prefixes[0] == id {
-                AreatreeKind::Building
-            } else {
-                AreatreeKind::Area
-            }
-        }
+        None if matches!(b_prefixes.as_slice(), [only] if *only == id) => AreatreeKind::Building,
+        None => AreatreeKind::Area,
     };
 
     Ok(ParsedLine {
@@ -217,7 +211,7 @@ pub fn format_line(
 
     // Omit the explicit `[type]` bracket when the kind matches what the line shape implies,
     // so the output stays consistent with hand-edited entries.
-    let inferred_kind = if b_prefixes.len() == 1 && b_prefixes[0] == id {
+    let inferred_kind = if matches!(b_prefixes, [only] if only.as_str() == id) {
         AreatreeKind::Building
     } else {
         AreatreeKind::Area
@@ -303,8 +297,15 @@ fn last_subtree_lineno(index: &AreatreeIndex, parent_id: &str) -> Option<usize> 
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
+    use std::fs;
+
     use insta::assert_snapshot;
     use rstest::rstest;
 
@@ -453,7 +454,7 @@ mod tests {
         ];
         let content = candidate_paths
             .iter()
-            .find_map(|p| std::fs::read_to_string(p).ok())
+            .find_map(|p| fs::read_to_string(p).ok())
             .expect("config.areatree must be reachable for this integration check");
         let idx = AreatreeIndex::parse(&content).expect("real areatree must parse");
         assert!(

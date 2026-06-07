@@ -86,9 +86,8 @@ onMounted(async () => {
   };
 
   // The map element should be visible when initializing
-  if (!document.querySelector("#interactive-indoor-map .maplibregl-canvas"))
-    await nextTick(doMapUpdate);
-  else await doMapUpdate();
+  if (document.querySelector("#interactive-indoor-map .maplibregl-canvas")) await doMapUpdate();
+  else await nextTick(doMapUpdate);
 });
 
 function createMarker(hueRotation = 0): HTMLDivElement {
@@ -105,7 +104,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
   return markerDiv;
 }
 
-async function initMap(containerId: string): Promise<MapLibreMap> {
+function initMap(containerId: string): MapLibreMap {
   const map = new MapLibreMap({
     container: containerId,
     // Reflect the viewport in the URL hash so the map state is deep-linkable.
@@ -409,7 +408,6 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
     console.error("tried to fly to point but map has not loaded yet.. wtf??");
     return;
   }
-  console.log("zooming to", { lat, lon });
   // below function zooms exactly to the values.
   // adding a bit of padding looks nicer
   const paddingLat = (lat[1] - lat[0]) * 0.1;

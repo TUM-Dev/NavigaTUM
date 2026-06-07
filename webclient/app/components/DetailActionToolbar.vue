@@ -1,11 +1,11 @@
 <script setup lang="ts">
-type ActionBase = {
+interface ActionBase {
   key: string;
   icon: string;
   label: string;
   shortLabel: string;
   visible?: boolean;
-};
+}
 export type DetailAction = ActionBase &
   ({ href: string; onClick?: never } | { onClick: () => void; href?: never });
 

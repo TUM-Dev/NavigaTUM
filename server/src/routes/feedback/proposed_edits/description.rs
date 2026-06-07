@@ -34,15 +34,13 @@ impl Description {
             if self.title.is_empty() {
                 self.title = format!("{amount} {category_name} {edits}");
             } else {
-                write!(self.title, " and {amount} {category_name} {edits}")
-                    .expect("writing to a String is infallible");
+                write!(self.title, " and {amount} {category_name} {edits}")?;
             }
 
             writeln!(
                 self.body,
                 "\nThe following {category_name} edits were made:"
-            )
-            .expect("writing to a String is infallible");
+            )?;
 
             self.body += "| entry | edit |\n";
             self.body += "| ---   | ---  |\n";
@@ -53,8 +51,7 @@ impl Description {
                 writeln!(
                     self.body,
                     "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
-                )
-                .expect("writing to a String is infallible");
+                )?;
             }
         }
         Ok(())
@@ -84,11 +81,9 @@ impl Description {
             if self.title.is_empty() {
                 self.title = format!("{n} {kind} {plural}");
             } else {
-                write!(self.title, " and {n} {kind} {plural}")
-                    .expect("writing to a String is infallible");
+                write!(self.title, " and {n} {kind} {plural}")?;
             }
-            writeln!(self.body, "\nThe following {kind} additions were made:")
-                .expect("writing to a String is infallible");
+            writeln!(self.body, "\nThe following {kind} additions were made:")?;
 
             // Building summaries are multi-line GeoJSON, which doesn't fit in a table cell.
             let use_blocks = kind == "building";
@@ -105,8 +100,7 @@ impl Description {
                     writeln!(
                         self.body,
                         "- [`{key}`](https://nav.tum.de/view/{key}):\n\n{indented}"
-                    )
-                    .expect("writing to a String is infallible");
+                    )?;
                 }
             } else {
                 self.body += "| entry | addition |\n";
@@ -118,8 +112,7 @@ impl Description {
                     writeln!(
                         self.body,
                         "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
-                    )
-                    .expect("writing to a String is infallible");
+                    )?;
                 }
             }
         }
@@ -139,15 +132,13 @@ impl Description {
             if self.title.is_empty() {
                 self.title = format!("{amount} {category_name} {edits}");
             } else {
-                write!(self.title, " and {amount} {category_name} {edits}")
-                    .expect("writing to a String is infallible");
+                write!(self.title, " and {amount} {category_name} {edits}")?;
             }
 
             writeln!(
                 self.body,
                 "\nThe following {category_name} edits were made:"
-            )
-            .expect("writing to a String is infallible");
+            )?;
 
             for (key, value) in set {
                 let result = value
@@ -161,8 +152,7 @@ impl Description {
                 writeln!(
                     self.body,
                     "- [`{key}`](https://nav.tum.de/view/{key}):\n\n{indented_result}"
-                )
-                .expect("writing to a String is infallible");
+                )?;
             }
         }
         Ok(())
@@ -170,13 +160,14 @@ impl Description {
 }
 
 #[cfg(test)]
-#[allow(
-    clippy::unwrap_used,
-    clippy::panic,
-    clippy::panic_in_result_fn,
-    clippy::zero_sized_map_values
-)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::zero_sized_map_values,
+        reason = "tests assert via panic/unwrap and use zero-sized test edits"
+    )]
     use std::collections::HashMap;
     use std::path::Path;
 

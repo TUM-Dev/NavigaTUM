@@ -7,12 +7,12 @@ export interface Props {
   disableClose?: boolean;
   class?: string;
 }
+const isOpen = defineModel<boolean>({ required: true });
 
 const props = withDefaults(defineProps<Props>(), {
   class: "",
 });
 const emit = defineEmits(["close"]);
-const isOpen = defineModel<boolean>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
 

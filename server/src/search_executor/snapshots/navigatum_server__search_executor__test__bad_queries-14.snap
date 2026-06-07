@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "there are two basic lab course rooms, this is one of them"
 expression: actual
 info: "'praktikumsraum mi' should get '5604.EG.038' in 2 results # there are two basic lab course rooms, this is one of them"
@@ -58,7 +58,15 @@ info: "'praktikumsraum mi' should get '5604.EG.038' in 2 results # there are two
       subtext_bold: 01.08.020@5608
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

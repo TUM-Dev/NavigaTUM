@@ -120,8 +120,10 @@ export function occupancyPercent(occupancy: IrisOccupancy): number {
  * Iris returns a timezone-less local-time string; a regex extraction avoids the engine-dependent
  * parsing of `new Date(...)` for that format. The raw value is returned when no time is found.
  */
+const TIME_OF_DAY_RE = /(\d{1,2}):(\d{2})/;
+
 export function bookedUntilTime(raw: string): string {
-  const match = raw.match(/(\d{1,2}):(\d{2})/);
+  const match = raw.match(TIME_OF_DAY_RE);
   if (!match) return raw;
   const [, hours = "", minutes = ""] = match;
   return `${hours.padStart(2, "0")}:${minutes}`;

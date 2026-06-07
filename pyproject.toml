@@ -40,9 +40,6 @@ dev = [
 [tool.uv]
 package = false
 
-[tool.bandit]
-skips = ["B101"]
-
 [tool.mypy]
 python_version = "3.14"
 ignore_missing_imports = true
@@ -103,7 +100,7 @@ exclude = [
 ]
 line-length = 120
 indent-width = 4
-target-version = "py310"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = [
@@ -112,28 +109,41 @@ select = [
   # ruff-specific, pyupgrade
   "RUF", "UP",
   # bug catchers
+  "A",     # flake8-builtins (shadowing `id`, `type`, `list`, …)
   "B",     # flake8-bugbear (mutable defaults, zip-without-strict, …)
+  "BLE",   # blind `except Exception` / bare `except`
   "DTZ",   # naive datetime usage
+  "PGH",   # pygrep-hooks (blanket noqa, type: ignore, eval, …)
   "PYI",   # type-stub issues
+  "S",     # flake8-bandit (security; replaces the bandit pre-commit hook)
   "YTT",   # sys.version misuse
   # imports
   "I",     # isort (sort imports)
   "ICN",   # canonical aliases (np, pd, pl, …)
   "TID",   # tidy-imports (no relative, no banned)
   "FA",    # `from __future__ import annotations` where it helps
+  "INP",   # implicit-namespace-package (a dir without `__init__.py`)
   # logging
   "LOG",   # mis-use of the `logging` stdlib module
   "G",     # logging format (G004 disabled below)
   # naming
   "N",     # pep8-naming
+  # type annotations
+  "ANN",   # flake8-annotations (functions must declare argument & return types; ANN401 relaxed below)
+  # pylint subsets - errors, warnings, conventions; PLR (refactor) stays out (complexity overlaps C90, magic-values too noisy)
+  "PLE",   # pylint errors
+  "PLW",   # pylint warnings
+  "PLC",   # pylint conventions (import-outside-top-level, …)
   # comprehensions, performance, simplification
   "C4",    # flake8-comprehensions
+  "FURB",  # refurb-style modernizations
   "PERF",  # micro-perf foot-guns
   "SIM",   # flake8-simplify
   "PIE",   # misc lints
   "FLY",   # static `str.join` → f-string
   "RET",   # branches around `return`
   "RSE",   # `raise Exception()` → `raise Exception`
+  "TRY",   # tryceratops (exception-handling antipatterns)
   # paths / fs / exec
   "PTH",   # prefer pathlib over os.path
   "EXE",   # executable shebang sanity
@@ -141,6 +151,9 @@ select = [
   "ARG",   # unused arguments
   "FBT",   # boolean-trap (positional bools)
   "PT",    # pytest style
+  "SLF",   # private member access across modules
+  "SLOT",  # `__slots__` correctness on subclasses
+  "T10",   # leftover `breakpoint()` / `pdb` calls
   "T20",   # leftover prints
   # numpy / type-checking placement
   "NPY",   # numpy-specific
@@ -154,8 +167,11 @@ ignore = [
   "TD", # too many todos/fixmes
 
   #### rules
+  "ANN401", # `Any` is legitimate at the orjson/yaml/`*args` boundaries; require *an* annotation, not a specific type
   "SIM108", # ternary operator should be used without a concearn for the code complexity
   "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
+  "S101", # `assert` is used as a runtime guard in CLI/scraping code; this matched bandit's prior `B101` skip
+  "TRY003", # long messages on vanilla exceptions; switching every site to a custom class isn't worth it for a batch pipeline
   "TC001", # runtime imports in TYPE_CHECKING - pydantic/dataframely need the symbols at runtime
   "TC002",
   "TC003",
@@ -202,6 +218,10 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # pytest activates fixtures via parameter name; the body may not reference them.
 "**/test_*.py" = ["ARG001", "ARG002"]
 "**/tests/**" = ["ARG001", "ARG002"]
+# Root entry scripts, deliberately not a package: importing them relies on `data/` being
+# the path root, which adding an `__init__.py` (INP001's fix) would break.
+"data/compile.py" = ["INP001"]
+"data/utils.py" = ["INP001"]
 
 [tool.ruff.lint.pep8-naming]
 # `dataframely` rules and pydantic validators receive the class as first argument.

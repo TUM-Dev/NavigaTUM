@@ -44,7 +44,7 @@ def load_yaml(path: Path) -> Any:
     yaml_data = add_translatable_str(yaml_data)
 
     if not isinstance(yaml_data, dict):
-        raise RuntimeError(f"Error: root node expected to be an object in file '{path}'")
+        raise TypeError(f"Error: root node expected to be an object in file '{path}'")
 
     # If the key of a root element is only numeric with 4 digits,
     # we assume it is a building id (which needs to be converted to string)
@@ -230,9 +230,7 @@ def add_links(df: pl.DataFrame) -> pl.DataFrame:
     if not LINKS_YAML.exists():
         raise FileNotFoundError(f"Required source file not found: {LINKS_YAML}")
     with LINKS_YAML.open(encoding="utf-8") as f:
-        import yaml as yaml_mod
-
-        links_data = yaml_mod.safe_load(f)
+        links_data = yaml.safe_load(f)
     if not links_data:
         return df
 
