@@ -11,6 +11,7 @@ use crate::routes::search::{FormattingConfig, Limits};
 use crate::search_executor::parser::ParsedQuery;
 
 mod formatter;
+mod highlight;
 mod lexer;
 mod merger;
 mod parser;
@@ -138,7 +139,7 @@ pub async fn do_geoentry_search(
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q);
 
-    let query = parsed_input
+    let meili_query = parsed_input
         .tokens
         .clone()
         .into_iter()
@@ -148,20 +149,26 @@ pub async fn do_geoentry_search(
         })
         .collect::<Vec<String>>()
         .join(" ");
-    let mut query = GeoEntryQuery::from((client, query, &limits, &formatting_config));
+    let mut request =
+        GeoEntryQuery::from((client, meili_query.clone(), &limits, &formatting_config));
     for sort in &sorting {
-        query.with_sorting(sort);
+        request.with_sorting(sort);
     }
     if !filter.is_empty() {
-        query.with_filtering(&filter);
+        request.with_filtering(&filter);
     }
 
-    let response = match query.execute().await {
+    let response = match request.execute().await {
         Ok(response) => response,
         Err(e) => {
             error!(error = ?e, "Error searching for results");
             return LimitedVec(vec![]);
         }
+    };
+    let highlight_ctx = highlight::HighlightContext {
+        query: &meili_query,
+        pre: &formatting_config.highlighting.pre,
+        post: &formatting_config.highlighting.post,
     };
     let merger::MergedSections {
         sites: section_sites,
@@ -173,6 +180,7 @@ pub async fn do_geoentry_search(
         &limits,
         &response.hits,
         response.facet_distribution.as_ref(),
+        &highlight_ctx,
     );
     let visitor = formatter::RoomVisitor::from((parsed_input, formatting_config));
     section_rooms

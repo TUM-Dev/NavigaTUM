@@ -1,5 +1,6 @@
 ---
 source: server/src/search_executor/mod.rs
+assertion_line: 784
 description: "Query: 1010 znn"
 expression: results_full.0
 info: cropping=full

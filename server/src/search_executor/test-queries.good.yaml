@@ -110,3 +110,13 @@
 - target: validierungsautomat-1
   query: Validierungsautomat
   comment: 'Regression: #1868 - POIs were silently dropped from search results'
+# typo-tolerance highlighting regression (#513)
+- target: 5510.01.010
+  query: 5510.01.234
+  among: 10
+  comment: >-
+    Reporter's scenario from #513: typing a non-existent room id should
+    surface helpful near-misses (here `5510.01.0XX` rooms) - that is the
+    desired UX. The snapshot also documents the fix: matched segments
+    `5510` and `01` keep their highlight tags while the typo-tolerated
+    third segment is rendered without tags.

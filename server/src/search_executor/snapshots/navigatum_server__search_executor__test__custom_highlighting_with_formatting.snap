@@ -1,5 +1,6 @@
 ---
 source: server/src/search_executor/mod.rs
+assertion_line: 562
 description: "Query: MW1801"
 expression: results.0
 info: highlighting=<em>
