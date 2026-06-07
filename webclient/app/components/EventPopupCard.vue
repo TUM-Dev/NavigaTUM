@@ -43,9 +43,9 @@ const timeRange = computed(() => {
     month: isDe ? "long" : "short",
   });
   if (berlinDateKey(start) === berlinDateKey(end)) {
-    return `${date.format(start)}, ${time.format(start)}–${time.format(end)}`;
+    return `${date.format(start)}, ${time.format(start)}-${time.format(end)}`;
   }
-  return `${date.format(start)}, ${time.format(start)} – ${date.format(end)}, ${time.format(end)}`;
+  return `${date.format(start)}, ${time.format(start)} - ${date.format(end)}, ${time.format(end)}`;
 });
 
 const badge = computed(() => {
@@ -109,12 +109,12 @@ const imageSrc = computed(() => `${runtimeConfig.public.cdnURL}${props.imagePath
 
 <i18n lang="yaml">
 de:
-  image_alt: "Bild zur Veranstaltung „{0}“"
+  image_alt: "Bild zur Veranstaltung „{0}""
   open_org: "Veranstalter '{0}' auf NavigaTUM öffnen"
   badge_now: "Gerade aktiv"
   badge_soon: "Beginnt bald"
 en:
-  image_alt: "Photo for the event ‘{0}’"
+  image_alt: "Photo for the event '{0}'"
   open_org: "Open organiser '{0}' on NavigaTUM"
   badge_now: "Happening now"
   badge_soon: "Starting soon"
