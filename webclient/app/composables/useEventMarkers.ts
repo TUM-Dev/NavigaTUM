@@ -120,7 +120,7 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
             "icon-anchor": "center",
           },
           paint: {
-            "icon-opacity": ["interpolate", ["linear"], ["zoom"], 9, 0, 13, 1],
+            "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 17, 1],
           },
         });
       }
