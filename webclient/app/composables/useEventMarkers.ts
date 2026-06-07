@@ -1,82 +1,94 @@
-import type { Map as MapLibreMap, MapSourceDataEvent } from "maplibre-gl";
-import { Marker } from "maplibre-gl";
+import type {
+  Map as MapLibreMap,
+  MapStyleImageMissingEvent,
+} from "maplibre-gl";
 import type { MaybeRefOrGetter } from "vue";
 
 const SOURCE_ID = "events_active";
-// MapLibre's SourceCache only fetches tiles for sources referenced by at least one layer,
-// so a fully-transparent backing layer rides along just to drive tile loading. The actual
-// query goes through `querySourceFeatures`, which ignores styling.
-const BACKING_LAYER_ID = "events_active-backing";
+const LAYER_ID = "events_active-symbols";
+// Symbol images get registered under `event-<feature-id>`; the layer's `icon-image` expression
+// builds the same name from each feature, so MapLibre asks for the right one via
+// `styleimagemissing` whenever a new event scrolls into view.
+const IMAGE_PREFIX = "event-";
+const IMAGE_PX = 64;
 
-// Markers render via this class; the .event-marker styles live on the consuming map component
-// alongside the other map CSS.
-function createMarkerElement(image: string, name: string): HTMLElement {
-  const wrapper = document.createElement("div");
-  wrapper.className = "event-marker";
-  wrapper.title = name;
-  if (!image) return wrapper;
-  const img = document.createElement("img");
-  img.src = image;
-  img.alt = name;
-  img.loading = "lazy";
-  img.decoding = "async";
-  img.draggable = false;
-  img.addEventListener("error", () => img.remove(), { once: true });
-  wrapper.appendChild(img);
-  return wrapper;
+/**
+ * Loads `url` and rasterises it as a circular sprite ready for `map.addImage`.
+ * The circular crop is baked in so the symbol layer can render the image directly.
+ */
+async function rasteriseCircular(url: string): Promise<ImageData | null> {
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.src = url;
+  try {
+    await img.decode();
+  } catch {
+    return null;
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = IMAGE_PX;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  const radius = IMAGE_PX / 2;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(radius, radius, radius - 2, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+  // cover-fit: scale shorter side to image edge.
+  const ratio = Math.max(IMAGE_PX / img.naturalWidth, IMAGE_PX / img.naturalHeight);
+  const drawW = img.naturalWidth * ratio;
+  const drawH = img.naturalHeight * ratio;
+  ctx.drawImage(img, (IMAGE_PX - drawW) / 2, (IMAGE_PX - drawH) / 2, drawW, drawH);
+  ctx.restore();
+  // White ring around the photo, drawn after the clip is released.
+  ctx.beginPath();
+  ctx.arc(radius, radius, radius - 2, 0, Math.PI * 2);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  return ctx.getImageData(0, 0, IMAGE_PX, IMAGE_PX);
 }
 
 /**
  * Renders the Martin `events_active` vector source as photo markers on the given map.
  *
- * `querySourceFeatures` is used (not `queryRenderedFeatures`) so we never need a visible
- * styling layer just to keep the features queryable.
+ * Markers ride on a native MapLibre symbol layer, so scaling and fade with zoom come from
+ * `interpolate-zoom` expressions and rendering stays on the GPU. Per-event photos are
+ * registered on demand via `styleimagemissing`.
  */
 export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>): void {
   const { public: publicConfig } = useRuntimeConfig();
-  const markers = new Map<string, Marker>();
-
-  const sync = (target: MapLibreMap) => {
-    if (!target.getSource(SOURCE_ID)) return;
-    const seen = new Set<string>();
-    for (const feature of target.querySourceFeatures(SOURCE_ID, { sourceLayer: SOURCE_ID })) {
-      if (feature.id === undefined) continue;
-      if (feature.geometry.type !== "Point") continue;
-      const [lon, lat] = feature.geometry.coordinates;
-      if (typeof lon !== "number" || typeof lat !== "number") continue;
-      const id = String(feature.id);
-      // Tiles overlap on boundaries, so the same feature can come back several times.
-      if (seen.has(id)) continue;
-      seen.add(id);
-      const existing = markers.get(id);
-      if (existing) {
-        existing.setLngLat([lon, lat]);
-        continue;
-      }
-      const props = feature.properties ?? {};
-      const rawImage = typeof props.image === "string" ? props.image : "";
-      const name = typeof props.name === "string" ? props.name : "";
-      const image = rawImage ? `${publicConfig.cdnURL}${rawImage}` : "";
-      const marker = new Marker({ element: createMarkerElement(image, name) }).setLngLat([lon, lat]);
-      marker.addTo(target);
-      markers.set(id, marker);
-    }
-    for (const [id, marker] of markers) {
-      if (seen.has(id)) continue;
-      marker.remove();
-      markers.delete(id);
-    }
-  };
+  // Tracks images we've already kicked off loading for so concurrent missing-image events
+  // don't double-fetch the same URL.
+  const pending = new Set<string>();
+  const registered = new Set<string>();
 
   watchEffect((onCleanup) => {
     const target = toValue(map);
     if (!target) return;
 
-    const onSourceData = (event: MapSourceDataEvent) => {
-      if (event.sourceId !== SOURCE_ID || !event.isSourceLoaded) return;
-      sync(target);
+    const onStyleImageMissing = async (event: MapStyleImageMissingEvent) => {
+      const name = event.id;
+      if (!name.startsWith(IMAGE_PREFIX) || pending.has(name) || target.hasImage(name)) return;
+      pending.add(name);
+      try {
+        const id = name.slice(IMAGE_PREFIX.length);
+        const features = target.querySourceFeatures(SOURCE_ID, { sourceLayer: SOURCE_ID });
+        const feature = features.find((f) => String(f.id) === id);
+        const rawImage =
+          feature && typeof feature.properties?.image === "string"
+            ? feature.properties.image
+            : "";
+        if (!rawImage) return;
+        const imageData = await rasteriseCircular(`${publicConfig.cdnURL}${rawImage}`);
+        if (!imageData || target.hasImage(name)) return;
+        target.addImage(name, imageData);
+        registered.add(name);
+      } finally {
+        pending.delete(name);
+      }
     };
-    const onMoveEnd = () => sync(target);
 
     const attach = () => {
       if (!target.getSource(SOURCE_ID)) {
@@ -85,28 +97,47 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
           url: `https://nav.tum.de/martin/${SOURCE_ID}`,
         });
       }
-      if (!target.getLayer(BACKING_LAYER_ID)) {
+      if (!target.getLayer(LAYER_ID)) {
         target.addLayer({
-          id: BACKING_LAYER_ID,
-          type: "circle",
+          id: LAYER_ID,
+          type: "symbol",
           source: SOURCE_ID,
           "source-layer": SOURCE_ID,
-          paint: { "circle-opacity": 0, "circle-stroke-opacity": 0 },
+          layout: {
+            "icon-image": ["concat", IMAGE_PREFIX, ["to-string", ["id"]]],
+            "icon-size": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              11,
+              0.3,
+              17,
+              0.7,
+              20,
+              1.0,
+            ],
+            "icon-allow-overlap": true,
+            "icon-anchor": "center",
+          },
+          paint: {
+            "icon-opacity": ["interpolate", ["linear"], ["zoom"], 9, 0, 13, 1],
+          },
         });
       }
-      target.on("sourcedata", onSourceData);
-      target.on("moveend", onMoveEnd);
+      target.on("styleimagemissing", onStyleImageMissing);
     };
     if (target.loaded()) attach();
     else target.once("load", attach);
 
     onCleanup(() => {
-      for (const marker of markers.values()) marker.remove();
-      markers.clear();
-      target.off("sourcedata", onSourceData);
-      target.off("moveend", onMoveEnd);
-      if (target.getLayer(BACKING_LAYER_ID)) target.removeLayer(BACKING_LAYER_ID);
+      target.off("styleimagemissing", onStyleImageMissing);
+      if (target.getLayer(LAYER_ID)) target.removeLayer(LAYER_ID);
       if (target.getSource(SOURCE_ID)) target.removeSource(SOURCE_ID);
+      for (const name of registered) {
+        if (target.hasImage(name)) target.removeImage(name);
+      }
+      registered.clear();
+      pending.clear();
     });
   });
 }

@@ -251,26 +251,6 @@ onMounted(async () => {
   }
 }
 
-.event-marker {
-  width: 40px;
-  height: 40px;
-  border-radius: 9999px;
-  overflow: hidden;
-  border: 2px solid var(--color-blue-500);
-  background-color: var(--color-blue-500);
-  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
-  cursor: pointer;
-
-  & img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* photos must not be inverted by nightwind in dark mode */
-    filter: none !important;
-  }
-}
-
 .maplibregl-ctrl-group {
   border-radius: 2px !important;
 }
