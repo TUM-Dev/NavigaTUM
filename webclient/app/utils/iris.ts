@@ -104,9 +104,13 @@ export function parseIrisRooms(json: unknown): IrisRoom[] {
   return rooms;
 }
 
-/** Keep only the rooms Iris attributes to `buildingId`. */
-export function roomsForBuilding(rooms: readonly IrisRoom[], buildingId: string): IrisRoom[] {
-  return rooms.filter((room) => room.buildingId === buildingId);
+/** A joined building (e.g. MI) passes every covered finger id, so its page unions them. */
+export function roomsForBuildings(
+  rooms: readonly IrisRoom[],
+  buildingIds: readonly string[]
+): IrisRoom[] {
+  const wanted = new Set(buildingIds);
+  return rooms.filter((room) => wanted.has(room.buildingId));
 }
 
 /** The integer occupancy percentage (`0`..`100`) to display for a WAAS room. */

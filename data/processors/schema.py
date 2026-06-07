@@ -115,7 +115,7 @@ class LocationSchema(dy.Schema):
     external_data_json = dy.String()
 
     # --- Studentische Vertretung IRIS learning-room coverage ---
-    has_iris_coverage = dy.Bool(nullable=False)
+    iris_coverage_building_ids = dy.List(inner=dy.String(), nullable=False)
 
     @dy.rule()
     def type_is_valid(cls) -> pl.Expr:

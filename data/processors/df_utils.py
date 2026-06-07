@@ -278,9 +278,8 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         props["generic"] = orjson.loads(generic_json)
     if comment_de := row.get("props_comment_de"):
         props["comment"] = {"en": row.get("props_comment_en", ""), "de": comment_de}
-    # Absent reads as "no coverage" on the info card; we only emit when present.
-    if row.get("has_iris_coverage"):
-        props["has_iris_coverage"] = True
+    if iris_coverage_building_ids := row.get("iris_coverage_building_ids"):
+        props["iris_coverage_building_ids"] = iris_coverage_building_ids
 
     if props:
         result["props"] = props

@@ -32,23 +32,36 @@ def derive_coverage_building_ids(iris_rooms: pl.DataFrame, navigatum_arch_names:
 
 def add_iris_coverage(df: pl.DataFrame, *, rooms: pl.DataFrame | None = None) -> pl.DataFrame:
     """
-    Add the non-nullable `has_iris_coverage` flag to every entry.
+    Add the non-nullable `iris_coverage_building_ids` list to every entry.
 
-    The roster comes from the committed scrape; on the first build (before any scrape) it is
-    empty, so nothing is marked. Only building/area entries can match (their `id` equals the
-    building id), so rooms get `False`.
+    A container (area, campus, the MI `joined_building`, …) inherits the coverage of its descendant
+    buildings via `children_flat`, so the aggregate page can offer the learning-room view too.
+
+    On the first build there is no scrape yet, so every list comes out empty.
     """
     if rooms is None:
         rooms = _load_stored_rooms()
     arch_names = set(df.get_column("arch_name").drop_nulls().to_list())
     building_ids = derive_coverage_building_ids(rooms, arch_names)
     _logger.info("Iris learning-room coverage derived for %d building(s)", len(building_ids))
-    return df.with_columns(pl.col("id").is_in(list(building_ids)).alias("has_iris_coverage"))
+
+    # children_flat is null for leaves, so coalesce before concatenating.
+    candidates = pl.concat_list(
+        pl.col("id"),
+        pl.col("children_flat").fill_null(pl.lit([], dtype=pl.List(pl.Utf8))),
+    )
+    coverage = (
+        candidates.list.eval(pl.element().filter(pl.element().is_in(list(building_ids))))
+        .list.unique()
+        .list.sort()
+        .alias("iris_coverage_building_ids")
+    )
+    return df.with_columns(coverage)
 
 
 def _load_stored_rooms() -> pl.DataFrame:
     try:
         return load_iris_rooms()
     except FileNotFoundError:
-        _logger.warning("No stored Iris roster yet; has_iris_coverage will be empty this build")
+        _logger.warning("No stored Iris roster yet; iris_coverage_building_ids will be empty this build")
         return pl.DataFrame(schema=IrisRoomsSchema.to_polars_schema())
