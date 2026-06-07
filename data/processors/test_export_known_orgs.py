@@ -4,8 +4,8 @@ from external.loaders.tumonline_orgs import load_tumonline_orgs
 from processors.export import OUTPUT_DIR_PATH, export_known_orgs
 
 
-def test_export_known_orgs_writes_picker_fields_sorted_by_name() -> None:
-    """`known_orgs.json` lists every org with exactly the picker fields, sorted by `name_de`."""
+def test_export_known_orgs_writes_picker_fields_sorted_by_code() -> None:
+    """`known_orgs.json` lists every org with exactly the picker fields, sorted by `code`."""
     export_known_orgs()
 
     raw = (OUTPUT_DIR_PATH / "known_orgs.json").read_bytes()
@@ -23,5 +23,5 @@ def test_export_known_orgs_writes_picker_fields_sorted_by_name() -> None:
         assert org["name_de"], "German name is required for display and filtering"
         assert org["name_en"], "English name is required for display and filtering"
 
-    names = [org["name_de"] for org in orgs]
-    assert names == sorted(names), "deterministic default order for the combobox"
+    codes = [org["code"] for org in orgs]
+    assert codes == sorted(codes), "deterministic default order for the combobox"
