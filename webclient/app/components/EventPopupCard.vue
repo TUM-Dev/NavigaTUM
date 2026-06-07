@@ -109,7 +109,7 @@ const imageSrc = computed(() => `${runtimeConfig.public.cdnURL}${props.imagePath
 
 <i18n lang="yaml">
 de:
-  image_alt: "Bild zur Veranstaltung „{0}""
+  image_alt: "Bild zur Veranstaltung '{0}'"
   open_org: "Veranstalter '{0}' auf NavigaTUM öffnen"
   badge_now: "Gerade aktiv"
   badge_soon: "Beginnt bald"
