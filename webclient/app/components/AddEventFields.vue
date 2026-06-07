@@ -10,6 +10,7 @@ import { mdiCheck, mdiClose, mdiImage, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
+import { cropToThumbBlobUrl } from "~/utils/imageCrop";
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
@@ -41,9 +42,12 @@ const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const fileInput = ref<HTMLInputElement>();
 const isDragOver = ref(false);
 const fileError = ref("");
-// `blob:` URL for the not-yet-uploaded image, used by the live preview marker. Kept local (not in
-// the persisted draft) and revoked on replace/unmount so it never outlives the session.
+// `blob:` URLs kept local (not in the persisted draft) and revoked on replace/unmount so they never
+// outlive the session: `previewUrl` is the full image (the cropper's source); `croppedThumbUrl` is
+// the offset 256² crop fed to the live marker so it matches what the pipeline will render.
 const previewUrl = ref<string | null>(null);
+const croppedThumbUrl = ref<string | null>(null);
+const sourceImage = shallowRef<HTMLImageElement | null>(null);
 
 function bytesFromBase64(base64: string): Uint8Array<ArrayBuffer> {
   const binary = atob(base64);
@@ -59,10 +63,10 @@ async function sha256Hex(bytes: Uint8Array<ArrayBuffer>): Promise<string> {
     .join("");
 }
 
-function measureDimensions(url: string): Promise<{ width: number; height: number }> {
+function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const probe = new Image();
-    probe.onload = () => resolve({ width: probe.naturalWidth, height: probe.naturalHeight });
+    probe.onload = () => resolve(probe);
     probe.onerror = () => reject(new Error("decode failed"));
     probe.src = url;
   });
@@ -71,6 +75,30 @@ function measureDimensions(url: string): Promise<{ width: number; height: number
 function setPreviewUrl(url: string | null): void {
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value);
   previewUrl.value = url;
+}
+function setCroppedThumbUrl(url: string | null): void {
+  if (croppedThumbUrl.value) URL.revokeObjectURL(croppedThumbUrl.value);
+  croppedThumbUrl.value = url;
+}
+
+// Dragging the offset fires this rapidly; a token guards against an earlier crop resolving after a
+// later one and leaving the marker on a stale thumb.
+let thumbToken = 0;
+async function regenerateThumb(): Promise<void> {
+  const img = sourceImage.value;
+  const w = draft.value.image_width;
+  const h = draft.value.image_height;
+  if (!img || !w || !h) {
+    setCroppedThumbUrl(null);
+    return;
+  }
+  const token = ++thumbToken;
+  const url = await cropToThumbBlobUrl(img, w, h, draft.value.image_thumb_offset);
+  if (token !== thumbToken) {
+    if (url) URL.revokeObjectURL(url);
+    return;
+  }
+  setCroppedThumbUrl(url);
 }
 
 async function processFile(file: File): Promise<void> {
@@ -96,9 +124,9 @@ async function processFile(file: File): Promise<void> {
   }
 
   const url = URL.createObjectURL(file);
-  let dimensions: { width: number; height: number };
+  let image: HTMLImageElement;
   try {
-    dimensions = await measureDimensions(url);
+    image = await loadImage(url);
   } catch {
     URL.revokeObjectURL(url);
     fileError.value = t("image_read_error");
@@ -106,11 +134,15 @@ async function processFile(file: File): Promise<void> {
   }
 
   setPreviewUrl(url);
+  sourceImage.value = image;
   draft.value.image = { base64, fileName: file.name || "event-image" };
-  draft.value.image_width = dimensions.width;
-  draft.value.image_height = dimensions.height;
+  draft.value.image_width = image.naturalWidth;
+  draft.value.image_height = image.naturalHeight;
+  // A new image recentres the crop; its offset bounds depend on the new dimensions.
+  draft.value.image_thumb_offset = 0;
   // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs).
   draft.value.id = `event_${await sha256Hex(bytesFromBase64(base64))}`;
+  await regenerateThumb();
 }
 
 function onFileChange(event: Event): void {
@@ -124,17 +156,26 @@ function onDrop(event: DragEvent): void {
 }
 function removeImage(): void {
   setPreviewUrl(null);
+  setCroppedThumbUrl(null);
+  sourceImage.value = null;
   draft.value.image = null;
   draft.value.image_width = null;
   draft.value.image_height = null;
+  draft.value.image_thumb_offset = 0;
   draft.value.id = "";
   fileError.value = "";
   if (fileInput.value) fileInput.value.value = "";
 }
 
-onBeforeUnmount(() => setPreviewUrl(null));
+// Re-crop as the user drags the offset, so the marker preview tracks the selection.
+watch(() => draft.value.image_thumb_offset, regenerateThumb);
 
-const showPreview = computed(() => Boolean(previewUrl.value) && draft.value.coords.picked);
+onBeforeUnmount(() => {
+  setPreviewUrl(null);
+  setCroppedThumbUrl(null);
+});
+
+const showPreview = computed(() => Boolean(croppedThumbUrl.value) && draft.value.coords.picked);
 </script>
 
 <template>
@@ -283,6 +324,16 @@ const showPreview = computed(() => Boolean(previewUrl.value) && draft.value.coor
       <p v-else-if="errorFor('image')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("image") }}</p>
     </div>
 
+    <div v-if="previewUrl && draft.image_width && draft.image_height">
+      <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop") }}</span>
+      <EventImageCropper
+        v-model="draft.image_thumb_offset"
+        :image-url="previewUrl"
+        :width="draft.image_width"
+        :height="draft.image_height"
+      />
+    </div>
+
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div>
         <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-author">
@@ -325,7 +376,7 @@ const showPreview = computed(() => Boolean(previewUrl.value) && draft.value.coor
     <div v-if="showPreview">
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("preview") }}</span>
       <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("preview_help") }}</p>
-      <EventPreviewMap :lat="draft.coords.lat" :lon="draft.coords.lon" :image-url="previewUrl" />
+      <EventPreviewMap :lat="draft.coords.lat" :lon="draft.coords.lon" :image-url="croppedThumbUrl" />
     </div>
   </div>
 </template>
@@ -356,6 +407,7 @@ de:
   image_license: Lizenz
   image_license_placeholder: z.B. CC BY 4.0
   image_license_url: Lizenz-URL (optional)
+  crop: Kartenausschnitt
   preview: Vorschau auf der Karte
   preview_help: So erscheint die Veranstaltung als Foto-Marker.
   error:
@@ -398,6 +450,7 @@ en:
   image_license: License
   image_license_placeholder: e.g. CC BY 4.0
   image_license_url: License URL (optional)
+  crop: Map crop
   preview: Map preview
   preview_help: This is how the event will appear as a photo marker.
   error:

@@ -46,16 +46,36 @@ describe("validateAddition (event)", () => {
     ["missing prefix", { id: "9d02ddd940c43f87" }, "id", "error.event_key_format"],
     ["empty name", { name: "  " }, "name", "error.name_required"],
     ["empty description", { description: "" }, "description", "error.description_required"],
-    ["unpicked coords", { coords: { lat: 0, lon: 0, picked: false } }, "coords.picked", "error.coords_required"],
+    [
+      "unpicked coords",
+      { coords: { lat: 0, lon: 0, picked: false } },
+      "coords.picked",
+      "error.coords_required",
+    ],
     ["no org", { organising_org_id: null }, "organising_org_id", "error.org_required"],
     ["no image", { image: null }, "image", "error.image_required"],
     ["image too small", { image_width: 100, image_height: 100 }, "image", "error.image_too_small"],
-    ["ends before start", { starts_at: wall(3), ends_at: wall(2) }, "ends_at", "error.event_ends_before_start"],
+    [
+      "ends before start",
+      { starts_at: wall(3), ends_at: wall(2) },
+      "ends_at",
+      "error.event_ends_before_start",
+    ],
     ["already ended", { starts_at: wall(-3), ends_at: wall(-2) }, "ends_at", "error.event_ended"],
-    ["too far out", { starts_at: wall(400), ends_at: wall(401) }, "starts_at", "error.event_too_far_out"],
+    [
+      "too far out",
+      { starts_at: wall(400), ends_at: wall(401) },
+      "starts_at",
+      "error.event_too_far_out",
+    ],
     ["too long", { starts_at: wall(2), ends_at: wall(40) }, "ends_at", "error.event_too_long"],
     ["missing author", { image_author: "" }, "image_author", "error.image_author_required"],
-    ["missing license", { image_license_text: "" }, "image_license_text", "error.image_license_required"],
+    [
+      "missing license",
+      { image_license_text: "" },
+      "image_license_text",
+      "error.image_license_required",
+    ],
   ] as const)("rejects %s", (_label, overrides, path, message) => {
     expect(validateAddition(validEvent(overrides))[path]).toBe(message);
   });

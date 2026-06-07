@@ -252,6 +252,8 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
         metadata: {
           author: draft.image_author,
           license: { text: draft.image_license_text, url: draft.image_license_url || null },
+          // Only the thumb crop is rendered for events; omit when centred to keep img-sources.yaml clean.
+          offsets: draft.image_thumb_offset === 0 ? null : { thumb: draft.image_thumb_offset },
         },
       },
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
