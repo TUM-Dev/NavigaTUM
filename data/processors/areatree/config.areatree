@@ -39,7 +39,7 @@
     03:Südostgelände:suedostgelaende
       0305:Barer Straße 21|SO5:0305,so5
     04,2903,291:Südwestgelände:suedwestgelaende
-      0401:Richard-Wagner-Str. 18|SW1):0401,sw1
+      0401:Richard-Wagner-Str. 18|SW1:0401,sw1
       0403:Friedrich Schiedel-Kindergarten|SW3:0403,sw3
       2903:Haus Soller Augustenstr. 44-46:
       2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
@@ -96,7 +96,7 @@
     2107:Institutsgebäude:
     2108:Bunker:
     2109:Tankstelle:
-  23:Campus im Olympiapark|SZ):olympiapark[campus]
+  23:Campus im Olympiapark|SZ:olympiapark[campus]
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
@@ -130,11 +130,11 @@
     2402:Neubau Winzererstr. 45:
   2410:Heßstraße 134, Munich School of Robotics and Machine Intelligence:
   26:Pasing, Franz-Langinger-Straße:pasing[site]
-    2601:Institut für Grundbau und Bodenmechanik (BL. G):
+    2601:Institut für Grundbau und Bodenmechanik|BL. G:
     2602:Institut für Eisenbahn und Landverkehrswesen|BL. E:2602,bl-e
-    2604:Laborbau (BL. L):
-    2605:Verwaltungsbau (BL. V):
-    2607:Fahrzeughalle (BL. F):
+    2604:Laborbau|BL. L:
+    2605:Verwaltungsbau|BL. V:
+    2607:Fahrzeughalle|BL. F:
   :TUM Gebäude in Großhadern:grosshadern
     2801:Marchioninistr. 17 (NR), Großhadern:
   :Deutsches Museum:deutsches-museum
@@ -222,7 +222,7 @@
         4124:Molekulare Biowissenschaften (ZIEL II):
         4126:ZIEL I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
       4128:Trafostation I, Am Löwentor:
-      4130:Trafostation IV|Sprachlabor):
+      4130:Trafostation IV|Sprachlabor:
       :Aquatische Systembiologie:aquatische-systembiologie
         4129:Aquatische Systembiologie, Mühlenweg 22:
         4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
@@ -287,8 +287,8 @@
       4311:Institut Zierplanzenbau:
       4314:Trafostation VII:
       4315,4316:Lagerhalle:wzw-lagerhalle
-        4315:Lagerhalle|Straßenseite):
-        4316:Lagerhalle (Feldseite):
+        4315:Lagerhalle|Straßenseite:
+        4316:Lagerhalle|Feldseite:
       -4319:Trafostation VI:
       4320:Energiezentrale Heizhaus:
       :Gebäudemanagement GM:wzw-gm
@@ -297,7 +297,7 @@
         4323:KFZ Werkstatt:
         4324:Garage / Werkdienstwohnungen:
         4325:Wertstoffhof:
-      :Landesanstalt für Landwirtschaft (LfL):wzw-lfl
+      :Landesanstalt für Landwirtschaft|LfL:wzw-lfl
         4353:Laborgebäude 1:
         4355:Technologie VI:
         4361:Technologie V:
@@ -383,8 +383,8 @@
       5108:Physik II Messbunker UGL,ISL,TOM:5108
       5109:Physik LMU|MAP:5109
       5111:Siedlungswasserwirtschaft:
-      5112:Walter-Schottky-Institut (WSI):
-      5115:Zentrum für Nanotechnologie & -materialien (ZNN):
+      5112:Walter-Schottky-Institut|WSI:
+      5115:Zentrum für Nanotechnologie & -materialien|ZNN:
       5116:Trafostation des ZNN:
       5117:Paula-Hahn-Weinheimerstr. 1:
       :Maier-Leibnitz-Laboratorium (MLL), TUM & LMU:mll
@@ -410,9 +410,9 @@
       5219:Instituts und Verwaltungsgebäude, Personalbetreuung, Immobilien, Zahlstelle:
       -5251:RCM-Abwassergebäude:
       -5252:RCM-Gasversorgungsstation:
-      5257:Werkstatt u. Bürogebäude FRM II (UYW):5257,uyw
+      5257:Werkstatt u. Bürogebäude FRM II|UYW:5257,uyw
     5301:Institut für Advanced Study|IAS:5301,ias
-    5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
+    5302:Centrum Baustoffe und Materialprüfung|CBM:5302,cbm
     5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
     :Chemie:chemie[joined_building]
@@ -427,10 +427,10 @@
       5409:Entsorgungszentrum:5409
       -5410:Katalysezentrum:5410,crc
       5413:Bayerisches NMR-Zentrum:
-    5414:Zentrum für Energie u. Information (ZEI):
+    5414:Zentrum für Energie u. Information|ZEI:
     -5415:Center for Functional Protein Assemblies|CPA:5415,cpa
     5433:Entrepreneurship Centrum|ECM:5433,ecm
-    :Maschinenwesen (MW):mw[joined_building]
+    :Maschinenwesen|MW:mw[joined_building]
       5501:Gebäudeteil 1, Institut für Mechatronik:
       5502:Institut für Werkstoffe und Verarbeitung:5502
       5503:Gebäudeteil 3, Institut für Produktionstechnik:
@@ -452,9 +452,9 @@
     5531:Ingeborg Ortner-Kinderhaus:
     5532:StudiTUM Garching|StudiTUM:5532,studitum-garching
     560,561:Fakultät Mathematik & Informatik (FMI oder MI)|Mathe/Info (MI):mi[joined_building]
-      5601:Magistrale / Foyer (BT01):
-      5602:Hörsaal 1 (BT02):
-      5603:Bibliothek (BT03):
+      5601:Magistrale / Foyer|BT01:
+      5602:Hörsaal 1|BT02:
+      5603:Bibliothek|BT03:
       5604:Gebäudeteil 04|Finger 04:5604,mi04
       5605:Gebäudeteil 05|Finger 05:5605,mi05
       5606:Gebäudeteil 06|Finger 06:5606,mi06
@@ -468,7 +468,7 @@
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering:5701
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching
-    5932:Siemens Technology Center|STC):5932,siemens-garching
+    5932:Siemens Technology Center|STC:5932,siemens-garching
     5933:SAP Labs Munich (AM):5933,sap-garching
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
@@ -481,7 +481,7 @@
       5417:Interims COS / Interims NAT|Interims IV:5417,interims-iv
       5539:Interims-Tentomax MW|Interims III:5539,interims-iii
       5620:Interims-Audimax:5620
-  6:Garching Forschungszentrum|Süd-west):garching-sued-west[site]
+  6:Garching Forschungszentrum|Süd-west:garching-sued-west[site]
     61:Gebäudemanagement / Technischer Betrieb:garching-gebaeudemanagement
       6101:Heizwerk:
       6102:Betriebsgebäude:
@@ -492,7 +492,7 @@
   7:Garching Forschungszentrum (außerhalb):garching-extra
     7894:Newton:
     7895:Pascal Halle:
-    7896:Freisinger Landstraße 50 (MW Halle):
+    7896:Freisinger Landstraße 50|MW Halle:
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
     8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:8101,bc1

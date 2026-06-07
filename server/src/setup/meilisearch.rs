@@ -88,6 +88,7 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "name",
             "arch_name",
             "arch_name_normalised",
+            "aliases",
             "type",
             "type_common_name",
             "parent_building_names",

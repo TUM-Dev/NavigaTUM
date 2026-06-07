@@ -40,7 +40,7 @@ def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str |
         return None
     value = _de(value)
     if not isinstance(value, str):
-        raise ValueError(f"Expected str, got {type(value)}")
+        raise TypeError(f"Expected str, got {type(value)}")
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
@@ -104,6 +104,7 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "name": _de(entry["name"]),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
+                "aliases": entry.get("aliases", []),
                 "type": entry["type"],
                 "type_common_name": _de(entry["type_common_name"]),
                 "facet": {
