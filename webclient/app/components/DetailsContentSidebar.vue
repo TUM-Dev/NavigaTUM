@@ -39,7 +39,8 @@ const breadcrumbItems = computed(() =>
     const id = props.data.parents[i];
     // Index 0 (synthetic `root`) and any missing id link home.
     if (i === 0 || !id) return { name, to: "/" };
-    const type = props.data.parent_types[i];
+    // `?.` is load-bearing: a deployed server / CDN cache that predates this field omits it.
+    const type = props.data.parent_types?.[i];
     return { name, to: type && isRoutableEntityType(type) ? entityPath(id, type) : undefined };
   })
 );
