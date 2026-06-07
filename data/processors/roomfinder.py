@@ -323,7 +323,7 @@ def _find_room_id(
 
 
 class RoomNotFoundError(Exception):
-    def __init__(self, known_issue, message=None):
+    def __init__(self, known_issue: bool, message: str | None = None) -> None:
         self.known_issue = known_issue
         self.message = message
         super().__init__(self.message)

@@ -1,3 +1,4 @@
+import csv
 import logging
 from concurrent.futures import Future, ThreadPoolExecutor
 from datetime import datetime
@@ -6,6 +7,7 @@ from typing import Any
 
 import polars as pl
 import processors.areatree.process as areatree
+import yaml
 from external.loaders.opening_hours import load_opening_hours
 from processors import (
     aliases,
@@ -196,15 +198,11 @@ def _run_pipeline(
     # at step 02, so they don't have NavigaTUM source. Prepend it now.
     comment_ids: set[str] = set()
     if merge.COMMENTS_CSV.exists():
-        import csv as csv_mod
-
         with merge.COMMENTS_CSV.open() as f:
-            comment_ids.update(row["id"] for row in csv_mod.DictReader(f))
+            comment_ids.update(row["id"] for row in csv.DictReader(f))
     if merge.LINKS_YAML.exists():
-        import yaml as yaml_mod
-
         with merge.LINKS_YAML.open() as f:
-            links_data = yaml_mod.safe_load(f) or {}
+            links_data = yaml.safe_load(f) or {}
         comment_ids.update(str(k) for k in links_data)
     if comment_ids:
         df = df.with_columns(
