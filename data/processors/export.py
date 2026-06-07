@@ -104,6 +104,7 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "name": _de(entry["name"]),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
+                "aliases": entry.get("aliases", []),
                 "type": entry["type"],
                 "type_common_name": _de(entry["type_common_name"]),
                 "facet": {
