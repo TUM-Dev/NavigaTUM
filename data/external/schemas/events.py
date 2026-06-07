@@ -7,7 +7,8 @@ import polars as pl
 _ISO8601_TZ_REGEX = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
 
 # Locally-hosted CDN delivery path the photo marker fetches as `${cdnURL}<value>`, not an external URL.
-_LOCAL_IMAGE_REGEX = r"^/cdn/thumb/[A-Za-z0-9.\-]+_[0-9]+\.webp$"
+# The base name may contain underscores (webform submissions are named `event_<hash>`).
+_LOCAL_IMAGE_REGEX = r"^/cdn/thumb/[A-Za-z0-9._\-]+_[0-9]+\.webp$"
 
 
 class EventsSchema(dy.Schema):

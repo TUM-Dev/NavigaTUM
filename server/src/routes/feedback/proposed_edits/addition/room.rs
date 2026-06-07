@@ -223,6 +223,8 @@ mod tests {
             user_added_room_codes: HashSet::new(),
             poi_keys: HashSet::new(),
             usage_ids: HashSet::from([12]),
+            org_ids: HashSet::new(),
+            now: chrono::Utc::now(),
         }
     }
 

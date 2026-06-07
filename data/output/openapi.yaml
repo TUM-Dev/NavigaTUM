@@ -1488,6 +1488,16 @@ components:
                     type: string
                     enum:
                       - poi
+          - allOf:
+              - $ref: '#/components/schemas/NewEvent'
+              - type: object
+                required:
+                  - kind
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - event
       propertyNames:
         type: string
     LimitedHashMap_String_Edit:
@@ -2195,6 +2205,34 @@ components:
           type:
             - string
             - "null"
+    NewEvent:
+      type: object
+      description: A proposed campus event, appended as a row to `data/sources/events.csv`.
+      required:
+        - image
+        - name
+        - description
+        - starts_at
+        - ends_at
+        - coords
+        - organising_org_id
+      properties:
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        description:
+          type: string
+        ends_at:
+          type: string
+        image:
+          $ref: '#/components/schemas/Image'
+        name:
+          type: string
+        organising_org_id:
+          type: integer
+          format: int32
+        starts_at:
+          type: string
+          description: RFC3339 string, to match the CSV/parquet contract.
     NewPoi:
       type: object
       required:

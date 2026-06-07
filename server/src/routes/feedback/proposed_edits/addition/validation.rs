@@ -6,6 +6,7 @@ use std::fs::{self, File};
 use std::io::{BufRead as _, BufReader, ErrorKind};
 use std::path::Path;
 
+use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use thiserror::Error;
 
@@ -36,6 +37,7 @@ pub enum AdditionVariant {
     Room,
     Building,
     Poi,
+    Event,
 }
 
 impl fmt::Display for AdditionVariant {
@@ -88,6 +90,24 @@ pub enum AdditionError {
     BuildingPrefixCollision(String),
     #[error("visible_id `{0}` already used elsewhere in areatree")]
     VisibleIdCollision(String),
+    #[error("description must be non-empty")]
+    BadDescription,
+    #[error("`{field}` is not a valid RFC3339 timestamp: {value}")]
+    BadTimestamp { field: &'static str, value: String },
+    #[error("event ends_at {ends_at} is before starts_at {starts_at}")]
+    EventEndsBeforeStart { starts_at: String, ends_at: String },
+    #[error("event already ended (ends_at {ends_at} is not after now {now})")]
+    EventEnded { ends_at: String, now: String },
+    #[error("event starts more than {max_days} days out (starts_at {starts_at})")]
+    EventStartTooFarOut { starts_at: String, max_days: i64 },
+    #[error("event lasts longer than {max_days} days")]
+    EventTooLong { max_days: i64 },
+    #[error("image could not be decoded: {0}")]
+    BadImage(String),
+    #[error("image is {width}x{height}px, below the {min}px minimum on the shorter edge")]
+    ImageTooSmall { width: u32, height: u32, min: u32 },
+    #[error("organising_org_id {0} is not in orgs-de_tumonline.csv")]
+    UnknownOrgId(i32),
 }
 
 #[derive(Debug)]
@@ -97,6 +117,9 @@ pub struct RepoSnapshot {
     pub user_added_room_codes: HashSet<String>,
     pub poi_keys: HashSet<String>,
     pub usage_ids: HashSet<u32>,
+    pub org_ids: HashSet<i32>,
+    /// Request time, so now-relative addition rules are deterministic per request.
+    pub now: DateTime<Utc>,
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -167,12 +190,25 @@ impl RepoSnapshot {
             .filter_map(|s| s.parse::<u32>().ok())
             .collect();
 
+        let orgs_csv = base_dir
+            .join("data")
+            .join("external")
+            .join("results")
+            .join("orgs-de_tumonline.csv");
+        let org_ids = read_first_column(&orgs_csv)
+            .unwrap_or_default()
+            .into_iter()
+            .filter_map(|s| s.parse::<i32>().ok())
+            .collect();
+
         Ok(Self {
             areatree,
             tumonline_room_codes,
             user_added_room_codes,
             poi_keys,
             usage_ids,
+            org_ids,
+            now: Utc::now(),
         })
     }
 }
@@ -227,6 +263,11 @@ mod tests {
         )
         .unwrap();
         fs::write(
+            ext.join("orgs-de_tumonline.csv"),
+            "org_id,code,name,path\n1,TU00000,Technische Universität München,TUM\n51897,SV,Studentische Vertretung,TUM/SV\n",
+        )
+        .unwrap();
+        fs::write(
             sources.join("21_pois.yaml"),
             "validierungsautomat-1:\n  parent: \"5101.EG.917\"\n  name: \"V1\"\n  usage: { name: V }\n",
         )
@@ -248,6 +289,8 @@ mod tests {
         assert!(snap.tumonline_room_codes.contains("0101.01.101A"));
         assert!(snap.usage_ids.contains(&12));
         assert!(snap.usage_ids.contains(&1));
+        assert!(snap.org_ids.contains(&51897));
+        assert!(snap.org_ids.contains(&1));
         assert!(snap.poi_keys.contains("validierungsautomat-1"));
         assert!(snap.user_added_room_codes.contains("5117.EG.999"));
     }

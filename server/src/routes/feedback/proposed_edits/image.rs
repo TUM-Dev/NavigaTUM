@@ -120,6 +120,12 @@ impl Image {
             .count();
         Ok(image_dir.join(format!("{safe_key}_{next_free_slot}.webp")))
     }
+    /// Pixel dimensions of the upload, before any resize.
+    pub(super) fn decoded_dimensions(&self) -> anyhow::Result<(u32, u32)> {
+        let bytes = BASE64_STANDARD.decode(&self.content)?;
+        let image = load_from_memory(&bytes)?;
+        Ok((image.width(), image.height()))
+    }
     fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
         let image = load_from_memory(&bytes)?;
