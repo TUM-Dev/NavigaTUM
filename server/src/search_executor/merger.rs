@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use meilisearch_sdk::search::SearchResult;
 
 use super::ResultFacet;
+use super::highlight::{HighlightContext, highlighted_name_for_hit};
 use crate::external::meilisearch::{
     BUILDING_FACET, FACET_FIELD, MSHit, POI_FACET, ROOM_FACET, SITE_FACET,
 };
@@ -18,11 +19,12 @@ pub(super) struct MergedSections {
     pub(super) facet_order: Vec<ResultFacet>,
 }
 
-#[tracing::instrument(skip(hits, facet_distribution))]
+#[tracing::instrument(skip(hits, facet_distribution, highlight))]
 pub(super) fn merge_search_results(
     limits: &Limits,
     hits: &[SearchResult<MSHit>],
     facet_distribution: Option<&HashMap<String, HashMap<String, usize>>>,
+    highlight: &HighlightContext<'_>,
 ) -> MergedSections {
     let totals = facet_totals(facet_distribution);
 
@@ -69,10 +71,14 @@ pub(super) fn merge_search_results(
         }
 
         match facet {
-            ResultFacet::Sites => sites.entries.push(make_building_like_entry(hit)),
-            ResultFacet::Buildings => buildings.entries.push(make_building_like_entry(hit)),
-            ResultFacet::Rooms => rooms.entries.push(make_room_like_entry(hit)),
-            ResultFacet::Pois => pois.entries.push(make_room_like_entry(hit)),
+            ResultFacet::Sites => sites.entries.push(make_building_like_entry(hit, highlight)),
+            ResultFacet::Buildings => {
+                buildings
+                    .entries
+                    .push(make_building_like_entry(hit, highlight));
+            }
+            ResultFacet::Rooms => rooms.entries.push(make_room_like_entry(hit, highlight)),
+            ResultFacet::Pois => pois.entries.push(make_room_like_entry(hit, highlight)),
             ResultFacet::Addresses => {}
         }
     }
@@ -125,9 +131,12 @@ fn empty_section(facet: ResultFacet, estimated_total_hits: usize) -> super::Resu
     }
 }
 
-fn make_building_like_entry(hit: &SearchResult<MSHit>) -> super::ResultEntry {
+fn make_building_like_entry(
+    hit: &SearchResult<MSHit>,
+    highlight: &HighlightContext<'_>,
+) -> super::ResultEntry {
     let result = hit.result.clone();
-    let name = extract_formatted_name(hit).unwrap_or_else(|| result.name.clone());
+    let name = highlighted_name_for_hit(hit, highlight);
     super::ResultEntry {
         id: result.room_code.clone(),
         r#type: result.r#type.clone(),
@@ -139,9 +148,12 @@ fn make_building_like_entry(hit: &SearchResult<MSHit>) -> super::ResultEntry {
     }
 }
 
-fn make_room_like_entry(hit: &SearchResult<MSHit>) -> super::ResultEntry {
+fn make_room_like_entry(
+    hit: &SearchResult<MSHit>,
+    highlight: &HighlightContext<'_>,
+) -> super::ResultEntry {
     let result = hit.result.clone();
-    let name = extract_formatted_name(hit).unwrap_or_else(|| result.name.clone());
+    let name = highlighted_name_for_hit(hit, highlight);
     super::ResultEntry {
         id: result.room_code.clone(),
         r#type: result.r#type.clone(),
@@ -170,14 +182,4 @@ fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) 
         rooms: facet.get(ROOM_FACET).copied().unwrap_or(0),
         pois: facet.get(POI_FACET).copied().unwrap_or(0),
     }
-}
-
-fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
-    Some(
-        hit.formatted_result
-            .as_ref()?
-            .get("name")?
-            .as_str()?
-            .to_string(),
-    )
 }

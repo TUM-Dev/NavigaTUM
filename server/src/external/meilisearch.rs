@@ -174,6 +174,7 @@ impl GeoEntryQuery {
             .with_highlight_pre_tag(&self.formatting_config.highlighting.pre)
             .with_highlight_post_tag(&self.formatting_config.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
+            .with_show_matches_position(true)
             .build()
     }
 }
