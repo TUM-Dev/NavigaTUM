@@ -1,42 +1,36 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: "'5604.02.033' is a valid result before the two lab course rooms"
 expression: actual
 info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' is a valid result before the two lab course rooms"
-snapshot_kind: text
 ---
 - facet: rooms
   entries:
     - id: 4124.EG.320
       type: room
       name: "4124.EG.320 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
-      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
+      subtext: "weihenstephan, Molekulare Biowissenschaften (ZIEL II)"
       subtext_bold: E/3.20@4124
     - id: 4124.EG.321
       type: room
       name: "4124.EG.321 (L1 \u0019Mi\u0017kroorganismen (\u0019Labor\u0017 \u0019Mi\u0017cro CT))"
-      subtext: "weihenstephan, ZIEL II - Molekulare Biowissenschaften"
+      subtext: "weihenstephan, Molekulare Biowissenschaften (ZIEL II)"
       subtext_bold: E/3.21@4124
     - id: 0104.U1.404
       type: room
       name: "0104.U1.404 (\u0019Mi\u0017krostr. Bauele.-\u0019Labor\u0017)"
-      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext: "stammgelände, N4"
       subtext_bold: N-1404@0104
     - id: 0104.EG.426
       type: room
       name: "0104.EG.426 (\u0019Physiklabor\u0017 \u0019mi\u0017t elektromagnetischer Abschir)"
-      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext: "stammgelände, N4"
       subtext_bold: N0426@0104
     - id: 5501.01.108
       type: room
       name: "5501.01.108 (\u0019Mi\u0017krotechniklabor)"
-      subtext: "garching, Maschinenwesen (MW)"
+      subtext: "garching, MW"
       subtext_bold: 1108@5501
-    - id: 4224.01.156
-      type: room
-      name: "4224.01.156 (\u0019Mi\u0017kroskopierraum S1-Genlabor)"
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 1.56@4224
     - id: 4317.01.121
       type: room
       name: "4317.01.121 (\u0019Mi\u0017kroskopierraum)"
@@ -45,7 +39,7 @@ snapshot_kind: text
     - id: 0103.U1.301
       type: room
       name: "0103.U1.301 (FIB-\u0019Mi\u0017kroskopierraum (Gesperrt))"
-      subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
+      subtext: "stammgelände, N3"
       subtext_bold: "-1301@0103"
     - id: 4217.01.131
       type: room
@@ -57,9 +51,22 @@ snapshot_kind: text
       name: "4218.01.122 (Messraum \u0019Mi\u0017kroskopie, Imaging Unit CALM(gem.Nu)"
       subtext: "weihenstephan, Biologikum Weihenstephan"
       subtext_bold: 122@4218
+    - id: 4218.01.125
+      type: room
+      name: "4218.01.125 (Messraum \u0019Mi\u0017kroskopie,  Imaging Unit CALM (S1, B)"
+      subtext: "weihenstephan, Biologikum Weihenstephan"
+      subtext_bold: 125@4218
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

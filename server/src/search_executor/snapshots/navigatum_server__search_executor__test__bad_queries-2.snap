@@ -1,11 +1,19 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: target is hallucinated as it currently does not exist
 expression: actual
 info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hallucinated as it currently does not exist"
 ---
-- facet: sites_buildings
+- facet: buildings
   entries:
+    - id: "2334"
+      type: building
+      name: "CiO/SG Institute West, \u0019Bibliothek\u0017"
+      subtext: Gebäude
+    - id: "5510"
+      type: building
+      name: "Hörsaal, \u0019Bibliothek\u0017 u. Verwaltungsgebäude"
+      subtext: Gebäudeteil
     - id: "4220"
       type: building
       name: "\u0019Teilbibliothek\u0017 Weihenstephan, Pressestelle Datenverarbeitung"
@@ -14,7 +22,11 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
       type: building
       name: "\u0019Teilbibliothek\u0017 Chemie, Hörsaal (CH1, dunkelgrün)"
       subtext: Gebäudeteil
-  n_visible: 2
+    - id: "5603"
+      type: building
+      name: "\u0019Bibliothek\u0017"
+      subtext: Gebäudeteil
+  n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
@@ -23,40 +35,33 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
       name: 5401.01.101K (Hans-Fischer-Hörsaal)
       subtext: "garching, Chemie"
       subtext_bold: 21010@5401
-    - id: 4220.01.001
+    - id: 5510.02.001
       type: room
-      name: 4220.01.001 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 01@4220
-    - id: 4220.01.002
+      name: 5510.02.001 (MW 2001 Rudolf-Diesel-Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 2001@5510
+    - id: 5510.EG.001
       type: room
-      name: 4220.01.002 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 02@4220
-    - id: 4220.01.003
+      name: 5510.EG.001 (Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 0001@5510
+    - id: 0504.02.418
       type: room
-      name: 4220.01.003 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 03@4220
-    - id: 4220.01.004
+      name: "0504.02.418 (Seminarraum/\u0019Bibliothek\u0017)"
+      subtext: "stammgelände, Z4"
+      subtext_bold: 2418@0504
+    - id: 0104.02.405
       type: room
-      name: 4220.01.004 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 04@4220
-    - id: 4220.01.005
-      type: room
-      name: 4220.01.005 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 05@4220
-    - id: 4220.01.006
-      type: room
-      name: 4220.01.006 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 06@4220
-    - id: 4220.01.007
-      type: room
-      name: 4220.01.007 (Einzelarbeitsraum)
-      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
-      subtext_bold: OG R 07@4220
-  n_visible: 8
+      name: "0104.02.405 (Sem./Prüf./\u0019Bibliothek\u0017)"
+      subtext: "stammgelände, N4"
+      subtext_bold: N2405@0104
+  n_visible: 5
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

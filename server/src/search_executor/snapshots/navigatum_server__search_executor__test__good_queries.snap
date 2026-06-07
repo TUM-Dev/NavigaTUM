@@ -1,10 +1,10 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: ""
 expression: actual
 info: "'hochbrück' should get 'garching-hochbrueck' in 1 results"
 ---
-- facet: sites_buildings
+- facet: sites
   entries:
     - id: garching-hochbrueck
       type: site
@@ -60,4 +60,12 @@ info: "'hochbrück' should get 'garching-hochbrueck' in 1 results"
       subtext: "garching-hochbrück, Business Campus 2"
       subtext_bold: 3.5.02@8102
   n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

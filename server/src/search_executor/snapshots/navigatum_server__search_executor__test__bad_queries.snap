@@ -1,5 +1,5 @@
 ---
-source: src/search_executor/mod.rs
+source: server/src/search_executor/mod.rs
 description: target is hallucinated as it currently does not exist
 expression: actual
 info: "'mathe bib' should get 'mi-bib' in 1 results # target is hallucinated as it currently does not exist"
@@ -58,7 +58,15 @@ info: "'mathe bib' should get 'mi-bib' in 1 results # target is hallucinated as 
       subtext_bold: 01.03.037B@5603
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

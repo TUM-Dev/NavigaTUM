@@ -1,64 +1,86 @@
 ---
-source: src/search_executor/mod.rs
-description: ""
+source: server/src/search_executor/mod.rs
+description: MI Magistrale
 expression: actual
-info: "'5604.00.011' should get '5604.EG.011' in 1 results"
+info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
 ---
 - facet: rooms
   entries:
-    - id: 5604.EG.011
+    - id: 5601.EG.001
       type: room
-      name: "\u00195604\u0017.EG.\u0019011\u0017 (MI Hörsaal 2)"
+      name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 (Magistrale)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.011@5604
-    - id: 5604.EG.034
+      subtext_bold: 00.01.001@5601
+    - id: 5601.EG.010
       type: room
-      name: "\u00195604\u0017.EG.034 (Demonstrationspraktikum)"
+      name: "\u00195601\u0017.\u0019EG\u0017.010 (Pforte)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.034@5604
-    - id: 5604.EG.036
+      subtext_bold: 00.01.010@5601
+    - id: 5601.EG.002
       type: room
-      name: "\u00195604\u0017.EG.036 (Praktikumsraum-Physik)"
+      name: "\u00195601\u0017.\u0019EG\u0017.002 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.036@5604
-    - id: 5604.EG.038
+      subtext_bold: 00.01.002@5601
+    - id: 5601.EG.003
       type: room
-      name: "\u00195604\u0017.EG.038 (Praktikumsraum-Physik)"
+      name: "\u00195601\u0017.\u0019EG\u0017.003 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.038@5604
-    - id: 5604.EG.015
+      subtext_bold: 00.01.003@5601
+    - id: 5601.EG.004
       type: room
-      name: "\u00195604\u0017.EG.015 (WC-Herren)"
+      name: "\u00195601\u0017.\u0019EG\u0017.004 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.015@5604
-    - id: 5604.EG.016A
+      subtext_bold: 00.01.004@5601
+    - id: 5601.EG.005
       type: room
-      name: "\u00195604\u0017.EG.016A (Putzraum)"
+      name: "\u00195601\u0017.\u0019EG\u0017.005 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.016A@5604
-    - id: 5604.EG.019
+      subtext_bold: 00.01.005@5601
+    - id: 5601.EG.008
       type: room
-      name: "\u00195604\u0017.EG.019 (WC-Damen)"
+      name: "\u00195601\u0017.\u0019EG\u0017.008 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.019@5604
-    - id: 5604.EG.013
+      subtext_bold: 00.01.008@5601
+    - id: 5601.EG.009
       type: room
-      name: "\u00195604\u0017.EG.013 (Abstellraum)"
+      name: "\u00195601\u0017.\u0019EG\u0017.009 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.013@5604
-    - id: 5604.EG.016B
+      subtext_bold: 00.01.009@5601
+    - id: 5601.EG.011
       type: room
-      name: "\u00195604\u0017.EG.016B (Heizung/Brauchwassererwärmung)"
+      name: "\u00195601\u0017.\u0019EG\u0017.011 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.016B@5604
-    - id: 5604.EG.018
+      subtext_bold: 00.01.011@5601
+    - id: 5601.EG.012
       type: room
-      name: "\u00195604\u0017.EG.018 (Heizung/Brauchwassererwärmung)"
+      name: "\u00195601\u0017.\u0019EG\u0017.012 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.018@5604
-  n_visible: 10
+      subtext_bold: 00.01.012@5601
+  n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
-- facet: sites_buildings
+- facet: pois
+  entries:
+    - id: validierungsautomat-5
+      type: poi
+      name: Validierungsautomat 5 (MI)
+      subtext: ""
+      subtext_bold: ""
+    - id: validierungsautomat-7
+      type: poi
+      name: Validierungsautomat 7 (MI)
+      subtext: ""
+      subtext_bold: ""
+  n_visible: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries:
+    - id: "5601"
+      type: building
+      name: Magistrale / Foyer
+      subtext: Gebäudeteil
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

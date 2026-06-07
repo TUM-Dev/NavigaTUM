@@ -24,8 +24,6 @@
   query: neue Mensa
 - target: '5140'
   query: Physik Container
-- target: '5115'
-  query: znn
 - target: wzw-ziel
   query: ZIEL
 # room queries
