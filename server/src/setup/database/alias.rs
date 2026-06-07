@@ -10,7 +10,10 @@ use sqlx::{Postgres, Transaction};
 use tracing::error;
 
 #[derive(Debug, Clone)]
-#[allow(clippy::struct_field_names)]
+#[expect(
+    clippy::struct_field_names,
+    reason = "the `alias` field intentionally matches the type name to mirror the data model"
+)]
 pub(super) struct Alias {
     alias: String,
     /// the key is the id of the entry

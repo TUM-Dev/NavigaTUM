@@ -1,9 +1,8 @@
-// Tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded
-// by the OpenStreetMap tile pyramid sizing.
 #![allow(
     clippy::cast_possible_truncation,
     clippy::cast_sign_loss,
-    clippy::cast_possible_wrap
+    clippy::cast_possible_wrap,
+    reason = "tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded by the OpenStreetMap tile pyramid sizing"
 )]
 
 use std::fmt::{self, Display, Formatter};

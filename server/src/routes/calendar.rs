@@ -288,13 +288,15 @@ impl From<String> for EventTypeResponse {
     }
 }
 #[cfg(test)]
-#[allow(
-    clippy::unwrap_used,
-    clippy::panic,
-    clippy::panic_in_result_fn,
-    clippy::absolute_paths
-)]
 mod db_tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::absolute_paths,
+        clippy::unreachable,
+        reason = "tests assert via panic/unwrap, reference absolute fixture paths, and use unreachable!() for exhaustive matches"
+    )]
     use actix_web::App;
     use actix_web::http::header::ContentType;
     use actix_web::test;

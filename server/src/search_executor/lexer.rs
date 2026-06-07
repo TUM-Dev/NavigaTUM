@@ -25,7 +25,7 @@ fn irregular_split(lex: &mut Lexer<Token>) -> (String, String) {
 #[derive(Logos, Debug, PartialEq, Clone)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
-    #[regex("\"[^\"]+\"", | lex | lex.slice()[1..lex.slice().len() - 1].to_string(), priority = 3)]
+    #[regex("\"[^\"]+\"", | lex | lex.slice().trim_matches('"').to_string(), priority = 3)]
     #[regex(r"[^ \t\n\f]+", | lex | lex.slice().to_string(), priority = 1)]
     Text(String),
 

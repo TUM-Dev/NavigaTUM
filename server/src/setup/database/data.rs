@@ -18,8 +18,10 @@ pub(super) struct DelocalisedValues {
     de: Value,
     en: Value,
 }
-// Debug intentionally elides the de/en JSON payloads for log readability.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally elides the de/en JSON payloads for log readability"
+)]
 impl fmt::Debug for DelocalisedValues {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("DelocalisedValues")

@@ -73,10 +73,10 @@ impl<'de> Deserialize<'de> for Coordinate {
             .ok_or(de::Error::custom("expected 'lat,lon'"))?;
         let lat = p1
             .parse::<f64>()
-            .map_err(|_| de::Error::custom("invalid latitude"))?;
+            .map_err(|e| de::Error::custom(format!("invalid latitude: {e}")))?;
         let lon = p2
             .parse::<f64>()
-            .map_err(|_| de::Error::custom("invalid longitude"))?;
+            .map_err(|e| de::Error::custom(format!("invalid longitude: {e}")))?;
         Ok(Self { lat, lon })
     }
 }
@@ -372,9 +372,10 @@ pub async fn route_handler(
             response,
         )))
     } else {
-        // valhalla's API takes f32 coordinates; f64→f32 is acceptable here:
-        // ~7 significant digits is well below the precision routing requires.
-        #[allow(clippy::cast_possible_truncation)]
+        #[expect(
+            clippy::cast_possible_truncation,
+            reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
+        )]
         let routing = data
             .valhalla
             .route(

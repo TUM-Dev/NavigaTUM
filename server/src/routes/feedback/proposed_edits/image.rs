@@ -126,15 +126,26 @@ impl Image {
 
         // we scale down too large images to a max of 4k
         if image.width() > 3840 || image.height() > 3840 {
-            // image dimensions in u32 fit f32 precision (max 4k well under 2^23)
-            #[allow(clippy::cast_precision_loss)]
+            #[expect(
+                clippy::cast_precision_loss,
+                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
+            )]
             let crop_factor = 3840.0 / max(image.width(), image.height()) as f32;
-            #[allow(clippy::cast_precision_loss)]
+            #[expect(
+                clippy::cast_precision_loss,
+                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
+            )]
             let new_width = crop_factor * image.width() as f32;
-            #[allow(clippy::cast_precision_loss)]
+            #[expect(
+                clippy::cast_precision_loss,
+                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
+            )]
             let new_height = crop_factor * image.height() as f32;
-            // resized dimensions are always positive and bounded above by 3840
-            #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+            #[expect(
+                clippy::cast_possible_truncation,
+                clippy::cast_sign_loss,
+                reason = "resized dimensions are always positive and bounded above by 3840"
+            )]
             imageops::resize(
                 &image,
                 new_width as u32,
@@ -174,8 +185,13 @@ impl Debug for Image {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use std::fs;
 
     use pretty_assertions::assert_eq;
