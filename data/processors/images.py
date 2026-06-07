@@ -103,10 +103,15 @@ def add_img(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def parse_image_filename(image_name: str) -> tuple[str, int]:
-    """Parse the filename of an image to get the id and index"""
+    """
+    Parse the filename of an image to get the id and index.
+
+    Only the trailing `_<index>` is split off, so ids may themselves contain
+    underscores (e.g. `event_<hash>` for submitted-event images).
+    """
     if ".webp" not in image_name:
         raise RuntimeError(f"Missing webp for '{image_name}'")
-    parts = image_name.replace(".webp", "").split("_")
+    parts = image_name.replace(".webp", "").rsplit("_", 1)
     try:
         _id = parts[0]
         _index = int(parts[1])

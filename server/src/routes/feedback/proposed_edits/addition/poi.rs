@@ -184,6 +184,8 @@ mod tests {
             user_added_room_codes: HashSet::new(),
             poi_keys: HashSet::from(["existing-poi".to_string()]),
             usage_ids: HashSet::new(),
+            org_ids: HashSet::new(),
+            now: chrono::Utc::now(),
         }
     }
 
