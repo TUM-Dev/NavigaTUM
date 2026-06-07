@@ -24,7 +24,7 @@ def _data() -> dict[str, dict[str, Any]]:
     }
 
 
-def test_parent_types_parallel_array_carries_each_parents_type():
+def test_parent_types_parallel_array_carries_each_parents_type() -> None:
     """`parent_types` mirrors `parents`/`parent_names` so the client can build /{type}/{id} links."""
     data = _data()
     result = extract_exported_item(data, data["mi"])
@@ -32,7 +32,7 @@ def test_parent_types_parallel_array_carries_each_parents_type():
     assert result["parent_types"] == ["root", "site"]
 
 
-def test_parents_and_parent_names_are_unchanged():
+def test_parents_and_parent_names_are_unchanged() -> None:
     """The additive `parent_types` field leaves the existing parallel arrays intact (rollout-safe)."""
     data = _data()
     result = extract_exported_item(data, data["mi"])
@@ -41,7 +41,7 @@ def test_parents_and_parent_names_are_unchanged():
     assert result["parent_names"] == [TranslatableStr("Standorte", "Sites"), TranslatableStr("Garching", "Garching")]
 
 
-def test_root_parent_type_is_synthesised_without_a_data_entry():
+def test_root_parent_type_is_synthesised_without_a_data_entry() -> None:
     """`root` has no real data entry, so its type is supplied directly rather than looked up."""
     data = _data()
     result = extract_exported_item(data, data["garching"])

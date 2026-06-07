@@ -230,9 +230,7 @@ def add_links(df: pl.DataFrame) -> pl.DataFrame:
     if not LINKS_YAML.exists():
         raise FileNotFoundError(f"Required source file not found: {LINKS_YAML}")
     with LINKS_YAML.open(encoding="utf-8") as f:
-        import yaml as yaml_mod
-
-        links_data = yaml_mod.safe_load(f)
+        links_data = yaml.safe_load(f)
     if not links_data:
         return df
 

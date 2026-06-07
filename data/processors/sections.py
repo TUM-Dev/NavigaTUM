@@ -1,6 +1,6 @@
 import logging
 import typing
-from typing import Any
+from typing import Any, TypedDict
 
 import orjson
 import polars as pl
@@ -9,6 +9,25 @@ from utils import TranslatableStr
 _logger = logging.getLogger(__name__)
 
 _ = TranslatableStr
+
+
+class Room(TypedDict):
+    """A room as aggregated into a parent's floor list: its id and TUMonline floor name."""
+
+    id: str
+    floor: str
+
+
+class FloorDetails(TypedDict):
+    """Resolved metadata for one physical floor, serialised into `props_floors_json`."""
+
+    id: int
+    floor: str
+    tumonline: str
+    type: str
+    name: TranslatableStr | str
+    mezzanine_shift: int
+    trivial: bool
 
 
 def extract_tumonline_props(lf: pl.LazyFrame) -> pl.LazyFrame:
@@ -129,7 +148,7 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         if not rooms:
             continue
         generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
-        floor_details = _get_floor_details({"generators": generators}, rooms)
+        floor_details = _get_floor_details(generators, rooms)
         floor_updates[row["parent_id"]] = orjson.dumps(floor_details).decode()
         lookup = {f["tumonline"]: f for f in floor_details}
         for room in rooms:
@@ -150,7 +169,7 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-def _build_sorted_floor_list(room_data):
+def _build_sorted_floor_list(room_data: list[Room]) -> list[str]:
     """Build a physically sorted list of floors (using TUMonline floor names)"""
     floors = {room["floor"] for room in room_data}
 
@@ -175,12 +194,12 @@ def _build_sorted_floor_list(room_data):
     return sorted(floors, key=floor_quantifier)
 
 
-def _get_floor_details(entry, room_data):
+def _get_floor_details(generators: dict[str, Any], room_data: list[Room]) -> list[FloorDetails]:
     """Infer for each floor the metadata and name string"""
     floors = _build_sorted_floor_list(room_data)
-    floors_details = []
+    floors_details: list[FloorDetails] = []
 
-    patches = entry.get("generators", {}).get("floors", {}).get("floor_patches", {})
+    patches = generators.get("floors", {}).get("floor_patches", {})
 
     eg_index = floors.index("EG") if "EG" in floors else 0
     mezzanine_shift = 0
