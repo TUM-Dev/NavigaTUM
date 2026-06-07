@@ -5,13 +5,13 @@ import type { UseShareOptions } from "@vueuse/core";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { components } from "~/api_types";
 
+const open = defineModel<boolean>("open", { required: true });
+
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
   readonly name: string;
   readonly id: string;
 }>();
-
-const open = defineModel<boolean>("open", { required: true });
 
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);

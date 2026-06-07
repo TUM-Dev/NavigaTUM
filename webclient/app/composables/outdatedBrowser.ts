@@ -1,43 +1,47 @@
 type BrowserName = "Opera" | "Edge" | "Chrome" | "Safari" | "Firefox";
-type BrowserInfo = {
+interface BrowserInfo {
   name: BrowserName;
   version: number;
-};
+}
+
+const BROWSER_NAME_REGEX = /(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i;
+const OPERA_OR_EDGE_REGEX = /\b(OPR|Edge)\/(\d+)/;
+const VERSION_OVERRIDE_REGEX = /version\/(\d+)/i;
 
 function extractBrowserInfo(): BrowserInfo {
   const ua = navigator.userAgent;
-  const M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
+  const M = ua.match(BROWSER_NAME_REGEX) || [];
 
   if (M[1] === "Chrome") {
-    const operaOrEdge = ua.match(/\b(OPR|Edge)\/(\d+)/);
+    const operaOrEdge = ua.match(OPERA_OR_EDGE_REGEX);
     if (operaOrEdge != null) {
       const name = (operaOrEdge[1]?.replace("OPR", "Opera") ?? "Edge") as BrowserName;
-      return { name, version: +(operaOrEdge[2] ?? 0) };
+      return { name, version: Number(operaOrEdge[2] ?? 0) };
     }
   }
 
   const match = M[2] ? [M[1], M[2]] : ["Netscape", navigator.appVersion];
 
-  const versionOveride = ua.match(/version\/(\d+)/i);
+  const versionOveride = ua.match(VERSION_OVERRIDE_REGEX);
   if (versionOveride != null) {
     match[1] = versionOveride[1] ?? "0";
   }
 
-  return { name: match[0] as BrowserName, version: +(match[1] ?? 0) };
+  return { name: match[0] as BrowserName, version: Number(match[1] ?? 0) };
 }
 
 function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
   switch (browserName) {
     case "Chrome":
-      return 98 <= browserVersion;
+      return browserVersion >= 98;
     case "Firefox":
-      return 94 <= browserVersion;
+      return browserVersion >= 94;
     case "Edge":
-      return 98 <= browserVersion;
+      return browserVersion >= 98;
     case "Opera":
-      return 84 <= browserVersion;
+      return browserVersion >= 84;
     case "Safari":
-      return 15.3 <= browserVersion;
+      return browserVersion >= 15.3;
     default:
       return false;
   }
@@ -46,7 +50,6 @@ function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
 function shouldWarnForOutdatedBrowser(): boolean {
   const browser = extractBrowserInfo();
   if (isSupportedBrowser(browser.name, browser.version)) return false;
-  console.table(browser);
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
   if (optLastTime === null) return true;
   const lastTime = Number.parseInt(optLastTime, 10);

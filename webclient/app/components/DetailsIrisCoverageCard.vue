@@ -11,12 +11,7 @@ import {
 } from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import { useIrisAvailability } from "~/composables/irisAvailability";
-import {
-  bookedUntilTime,
-  IRIS_SITE_URL,
-  type IrisRoomRow,
-  occupancyPercent,
-} from "~/utils/iris";
+import { bookedUntilTime, IRIS_SITE_URL, type IrisRoomRow, occupancyPercent } from "~/utils/iris";
 
 const props = defineProps<{
   // The NavigaTUM building id whose Iris learning rooms to show. Only passed for entries whose
@@ -52,7 +47,9 @@ const canCollapse = computed(
 const visibleRooms = computed<readonly IrisRoomRow[]>(() => {
   if (!canCollapse.value) return rooms.value;
   // Keep the partially-free rooms on top once expanded so the useful ones stay above the fold.
-  return expanded.value ? [...partiallyFreeRooms.value, ...otherRooms.value] : partiallyFreeRooms.value;
+  return expanded.value
+    ? [...partiallyFreeRooms.value, ...otherRooms.value]
+    : partiallyFreeRooms.value;
 });
 
 function avatarIcon(status: string): string {

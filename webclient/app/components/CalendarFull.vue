@@ -13,13 +13,14 @@ type CalendarResponse =
 type CalendarBody = operations["calendar_handler"]["requestBody"]["content"]["application/json"];
 type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
 
+const earliest_last_sync = defineModel<Date | null>("earliest_last_sync");
+
+const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
+
 const props = defineProps<{ showing: readonly string[] }>();
 defineExpose({ refetchEvents });
 const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
-
-const earliest_last_sync = defineModel<Date | null>("earliest_last_sync");
-const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
 
 interface Color {
   backgroundColor: string;
@@ -83,7 +84,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   });
   extractInfos(data);
 
-  const items = [];
+  const items: EventInput[] = [];
   const show_room_names = Object.keys(data).length > 1;
   for (const [k, v] of Object.entries(data)) {
     items.push(
@@ -152,7 +153,6 @@ const fullCalendarRef = ref<InstanceType<typeof FullCalendar> | null>(null);
 function refetchEvents() {
   const api = fullCalendarRef.value?.getApi();
   if (api) {
-    console.debug("Re-Fetching events");
     api.refetchEvents();
   } else {
     nextTick(refetchEvents);

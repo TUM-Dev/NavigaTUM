@@ -25,10 +25,10 @@ interface LocationPickerEmits {
   cancel: [];
 }
 
-const props = withDefaults(defineProps<LocationPickerProps>(), { zoom: 17 });
 const modalOpen = defineModel<boolean>("open", { required: true });
-const { t } = useI18n({ useScope: "local" });
+const props = withDefaults(defineProps<LocationPickerProps>(), { zoom: 17 });
 const emit = defineEmits<LocationPickerEmits>();
+const { t } = useI18n({ useScope: "local" });
 
 const map = ref<MapLibreMap | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);

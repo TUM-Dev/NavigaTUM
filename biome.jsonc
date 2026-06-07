@@ -43,16 +43,29 @@
     },
     "rules": {
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": "error",
+        "useVueDefineMacrosOrder": "error",
+        "noNestedPromises": "error"
       },
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noConsole": { "level": "error", "options": { "allow": ["error", "warn"] } },
+        "noEvolvingTypes": "error",
+        "useAwait": "error"
+      },
+      "complexity": {
+        "noForEach": "error",
+        "noImplicitCoercions": "error"
+      },
+      "performance": {
+        "useTopLevelRegex": "error",
+        "noAwaitInLoops": "error"
       },
       "correctness": {
         // ! removes code whe need in general !
-        "noUnusedVariables": "off",
+        "noUnusedVariables": "off"
       },
       "style": {
         // ! removes code whe need for the claendar !
@@ -66,11 +79,20 @@
         "noUnusedTemplateLiteral": "error",
         "useNumberNamespace": "error",
         "noInferrableTypes": "error",
-        "noUselessElse": "error"
+        "noUselessElse": "error",
+        "useConsistentTypeDefinitions": "error",
+        "noNegationElse": "error",
+        "noYodaExpression": "error",
+        "useCollapsedIf": "error"
       }
     }
   },
   "overrides": [
+    {
+      // Generated from openapi.yaml via openapi-typescript; don't let lint rules reshape it (e.g. type -> interface).
+      "includes": ["**/app/api_types/**"],
+      "linter": { "enabled": false }
+    },
     {
       "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
       "linter": {

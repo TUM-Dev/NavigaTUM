@@ -39,7 +39,7 @@ const visibleElements = computed<ResultEntry[]>(() => {
 });
 
 const hasNoResults = computed(
-  () => !!data.value && data.value.sections.every((s) => s.estimatedTotalHits === 0)
+  () => data.value?.sections.every((s) => s.estimatedTotalHits === 0) ?? false
 );
 
 function searchFocus(): void {
@@ -135,14 +135,15 @@ function onKeyDown(e: KeyboardEvent): void {
 
     case "Enter":
       e.preventDefault();
-      if (highlighted.value !== undefined) {
+      if (highlighted.value === undefined) searchGo(false);
+      else {
         const entry = visibleElements.value[highlighted.value];
-        if (entry !== undefined) {
-          searchGoTo(entry);
-        } else {
+        if (entry === undefined) {
           searchGo(true);
+        } else {
+          searchGoTo(entry);
         }
-      } else searchGo(false);
+      }
       break;
     default:
       break;

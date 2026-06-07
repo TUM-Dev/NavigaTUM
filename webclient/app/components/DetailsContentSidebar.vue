@@ -123,7 +123,7 @@ const actions = computed<DetailAction[]>(() => [
     icon: mdiCalendarMonth,
     label: t("header.calendar"),
     shortLabel: t("header.calendar_short"),
-    visible: !!props.data.props?.calendar_url,
+    visible: Boolean(props.data.props?.calendar_url),
     onClick: () => {
       calendar.value = [...new Set([...calendar.value, route.params.id?.toString() ?? "404"])];
     },
