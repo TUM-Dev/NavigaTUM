@@ -32,6 +32,8 @@ jobs:
         working-directory: webclient
       - run: pnpm run type-check
         working-directory: webclient
+      - run: pnpm run test
+        working-directory: webclient
   build:
     uses: ./.github/workflows/_docker-build.yml
     with:

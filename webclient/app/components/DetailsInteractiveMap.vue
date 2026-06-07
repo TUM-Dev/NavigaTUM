@@ -21,12 +21,15 @@ const props = defineProps<{
   id: LocationDetailsResponse["id"];
   floors?: LocationDetailsResponse["props"]["floors"];
 }>();
-const map = ref<MapLibreMap | undefined>(undefined);
-const marker = ref<Marker | undefined>(undefined);
-const floorControl = ref<FloorControl>(new FloorControl());
+// `shallowRef`: MapLibre owns its own deep state; Vue must not try to track it reactively.
+const map = shallowRef<MapLibreMap | undefined>(undefined);
+const marker = shallowRef<Marker | undefined>(undefined);
+const floorControl = shallowRef<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
+
+useEventMarkers(map);
 
 const initialLoaded = ref(false);
 
@@ -50,8 +53,7 @@ function loadInteractiveMap() {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
-      // @ts-expect-error somehow this is too deep for typescript
-      _marker.addTo(map.value as MapLibreMap);
+      _marker.addTo(map.value);
       marker.value = _marker;
     }
 

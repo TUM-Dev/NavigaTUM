@@ -41,8 +41,9 @@ const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
   type: LocationDetailsResponse["type"];
 }>();
-const map = ref<MapLibreMap | undefined>(undefined);
-const marker = ref<Marker | undefined>(undefined);
+// `shallowRef`: MapLibre owns its own deep state; Vue must not try to track it reactively.
+const map = shallowRef<MapLibreMap | undefined>(undefined);
+const marker = shallowRef<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
@@ -80,7 +81,7 @@ onMounted(async () => {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
-      _marker.addTo(map.value as MapLibreMap);
+      _marker.addTo(map.value);
       marker.value = _marker;
     }
   };
