@@ -123,7 +123,7 @@ function toEventFeature(feature: MapGeoJSONFeature): EventMarkerFeature | null {
 function createEventMarker(feature: EventMarkerFeature): EventMarkerInstance {
   const element = document.createElement("div");
   // `events_active` stores the CDN-relative delivery path (e.g. /cdn/thumb/<hash>_0.webp); prepend
-  // the configured CDN host here, where the Nuxt runtime config is available — the marker SFC is
+  // the configured CDN host here, where the Nuxt runtime config is available - the marker SFC is
   // mounted standalone via createApp and has no Nuxt context of its own.
   const image = feature.image ? `${runtimeConfig.public.cdnURL}${feature.image}` : "";
   const app = createApp(EventMarker, { image, name: feature.name });
