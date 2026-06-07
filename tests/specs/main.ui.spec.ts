@@ -28,13 +28,13 @@ test.describe("Homepage", () => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
-    
+
     // Initially, search bar should not be focused
     await expect(searchInput).not.toBeFocused();
-    
+
     // Simulate typing a lowercase character
     await page.keyboard.press("a");
-    
+
     // Now search bar should be focused
     await expect(searchInput).toBeFocused();
   });
@@ -43,12 +43,12 @@ test.describe("Homepage", () => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
-    
+
     await expect(searchInput).not.toBeFocused();
-    
+
     // Type Shift+A (uppercase A)
     await page.keyboard.press("A");
-    
+
     await expect(searchInput).toBeFocused();
   });
 
@@ -56,12 +56,12 @@ test.describe("Homepage", () => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
-    
+
     await expect(searchInput).not.toBeFocused();
-    
+
     // Press Tab - should not focus search bar
     await page.keyboard.press("Tab");
-    
+
     await expect(searchInput).not.toBeFocused();
   });
 
@@ -85,13 +85,13 @@ test.describe("Sites Overview", () => {
   test("should navigate to campus details when clicking a campus", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const garchingLink = page.locator('a[href*="/view/garching"]').first();
+    const garchingLink = page.locator('a[href*="/campus/garching"]').first();
     await garchingLink.click();
 
-    // The /view/* link must resolve to the canonical /campus/ path and the
-    // detail page must actually render. Asserting on URL alone - or on text
-    // that also exists on the home page - would not catch #2888, where the
-    // URL changed but the home page never unmounted.
+    // The card links straight to the canonical /campus/ path (no /view/ redirect
+    // round-trip) and the detail page must actually render. Asserting on URL alone
+    // - or on text that also exists on the home page - would not catch #2888, where
+    // the URL changed but the home page never unmounted.
     await expect(page).toHaveURL(/\/campus\/garching/);
     await expect(page.locator("main")).toContainText(/Anzahl Räume/);
     await expect(page.locator("main")).not.toContainText("Stammgelände");
@@ -100,7 +100,7 @@ test.describe("Sites Overview", () => {
   test("should navigate to building details when clicking a building", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const miLink = page.locator('a[href*="/view/mi"]').first();
+    const miLink = page.locator('a[href*="/building/mi"]').first();
     await miLink.click();
 
     await expect(page).toHaveURL(/\/building\/mi/);
@@ -108,15 +108,17 @@ test.describe("Sites Overview", () => {
     await expect(page.locator("main")).not.toContainText("Stammgelände");
   });
 
-  test("should fully mount details after /view redirect (regression #2888)", async ({ page }) => {
-    // Regression: clicking a `/view/{id}` link from the prerendered home page
-    // updated `window.location` but left the home page mounted instead of the
-    // location detail page. Asserting on URL alone - as the previous tests did
-    // - was not enough to catch this. The whole click-then-render flow has to
-    // land on a detail page that no longer contains the home-page sites grid.
+  test("should fully mount details after navigating from the home page (regression #2888)", async ({
+    page,
+  }) => {
+    // Regression: clicking a card link from the prerendered home page updated
+    // `window.location` but left the home page mounted instead of the location
+    // detail page. Asserting on URL alone - as the previous tests did - was not
+    // enough to catch this. The whole click-then-render flow has to land on a
+    // detail page that no longer contains the home-page sites grid.
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const physikLink = page.locator('a[href*="/view/physik"]').first();
+    const physikLink = page.locator('a[href*="/site/physik"]').first();
     await physikLink.click();
 
     await expect(page).toHaveURL(/\/site\/physik/);
