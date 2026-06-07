@@ -8,7 +8,7 @@ use super::Loader;
 pub struct RawEvent {
     name: String,
     description: String,
-    /// Local CDN delivery path of the event image, e.g. `/cdn/thumb/2a2e032bb328fa01_0.webp` — never
+    /// Local CDN delivery path of the event image, e.g. `/cdn/thumb/2a2e032bb328fa01_0.webp` - never
     /// an external URL. The data pipeline (`EventsSchema`) guarantees this shape. It is stored
     /// verbatim, exposed unchanged through the `events_active` view to Martin, and the photo marker
     /// fetches it as `${cdnURL}<image>` (the 256x256 square crop the image pipeline writes to `/cdn`).

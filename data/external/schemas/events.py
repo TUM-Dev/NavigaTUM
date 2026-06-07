@@ -9,7 +9,7 @@ _ISO8601_TZ_REGEX = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{
 # Locally-hosted CDN delivery path, never an external URL. Event images live in the shared repo
 # image tree (`data/sources/img/lg/<id>_<index>.webp`, source/license in `img-sources.yaml`), are
 # resized into `thumb/` by the image pipeline, and ship under `/cdn`. The stored value is the
-# server-relative path the photo marker fetches verbatim as `${cdnURL}<value>` — so the storage
+# server-relative path the photo marker fetches verbatim as `${cdnURL}<value>` - so the storage
 # layout, not the frontend, owns where the image lives. Pinned to `thumb/` (the 256x256 square the
 # marker renders) and to the `<id>_<index>.webp` shape of `parse_image_filename`. The leading
 # `/cdn/` keeps `http(s)://…` external hosts out by construction.
