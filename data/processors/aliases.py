@@ -1,11 +1,5 @@
 import polars as pl
 
-# Walks stop here so geographic short_names ("Garching") never leak into room aliases.
-_BUILDING_LIKE_TYPES = ["building", "joined_building"]
-
-# Descriptive short_names like "Mathe/Info (MI)" would yield nonsensical "Mathe/Info (MI)0001" aliases.
-_CODE_LIKE_SHORT_NAME = r"^[A-Za-z0-9]+$"
-
 
 def building_short_name_lookup(meta: pl.DataFrame) -> pl.DataFrame:
     """
@@ -35,7 +29,7 @@ def building_short_name_lookup(meta: pl.DataFrame) -> pl.DataFrame:
     )
     chains = chains.join(ancestor_attrs, on="ancestor_id", how="left").sort("id", "depth")
 
-    is_building_like = pl.col("ancestor_type").is_in(_BUILDING_LIKE_TYPES).fill_null(value=False)
+    is_building_like = pl.col("ancestor_type").is_in(["building", "joined_building"]).fill_null(value=False)
     is_stop = ((~is_building_like) | pl.col("ancestor_short_name").is_not_null()).cast(pl.Int32)
 
     chains = chains.with_columns(is_stop.cum_sum().over("id").alias("stops_seen"))
@@ -43,7 +37,7 @@ def building_short_name_lookup(meta: pl.DataFrame) -> pl.DataFrame:
 
     return (
         first_stops.filter(
-            is_building_like & pl.col("ancestor_short_name").str.contains(_CODE_LIKE_SHORT_NAME),
+            is_building_like & pl.col("ancestor_short_name").str.contains(r"^[A-Za-z0-9]+$"),
         )
         .select(
             pl.col("id"),
