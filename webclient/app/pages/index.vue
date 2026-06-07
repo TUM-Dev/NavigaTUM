@@ -6,87 +6,102 @@ import {
   mdiChevronUp,
   mdiMapMarker,
 } from "@mdi/js";
-import type { components } from "~/api_types";
+import { entityPath, type RoutableEntityType } from "~/utils/entityPath";
+
+/** A linkable card: its `type` + `id` resolve to a canonical `/{type}/{id}` path via {@link entityPath}. */
+interface OverviewLink {
+  readonly id: string;
+  readonly name: string;
+  readonly type: RoutableEntityType;
+}
 
 /**
  * @description This is a list of all sites, that are available in the system.
  * It is sorted by the number of rooms in the site, descending.
  * The first entry is the site with the most importance
  */
-type SitesOverview = components["schemas"]["RoomsOverviewUsageChildResponse"] & {
+interface SitesOverview {
+  readonly id: string;
+  readonly name: string;
+  /** Absent only for the synthetic "others" grouping, which has no entity page of its own. */
+  readonly type?: RoutableEntityType;
   /**
-   * Format: int64
    * @description A recommendation how many of the entries should be displayed by default.
    * The number is usually from 0-5.
    * More results might be displayed when clicking "expand".
-   * If this field is not present, then all entries are displayed.
-   *
-   * @example 6
    */
   readonly n_visible: number;
   /**
    * @description A select list of buildings, that are in this site.
    * Derived from the areatree.
    */
-  readonly children: readonly components["schemas"]["RoomsOverviewUsageChildResponse"][];
-};
+  readonly children: readonly OverviewLink[];
+}
 
 const { t } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
+// Types mirror the server's canonical `redirect_url` mapping so the helper emits
+// the final `/{type}/{id}` directly (no `/view/{id}` redirect round-trip). The
+// three StudiTUM/RiWa ids use their canonical building ids (`studitum-garching`,
+// `s1`, `riwa1`) rather than the legacy aliases `5532`/`0201`/`2910`, which would
+// 301-redirect to exactly these on a direct hit.
 const sites_overview: readonly SitesOverview[] = [
   {
-    children: [
-      { id: "mi", name: "Mathematik / Informatik" },
-      { id: "mw", name: "Maschinenwesen" },
-      { id: "physik", name: "Physik" },
-      { id: "chemie", name: "Chemie" },
-      { id: "garching-interims", name: "Interimshörsäle" },
-      { id: "5532", name: "StudiTUM Garching" },
-    ],
     id: "garching",
-    n_visible: 4,
     name: "Garching Forschungszentrum",
+    type: "campus",
+    n_visible: 4,
+    children: [
+      { id: "mi", name: "Mathematik / Informatik", type: "joined_building" },
+      { id: "mw", name: "Maschinenwesen", type: "joined_building" },
+      { id: "physik", name: "Physik", type: "area" },
+      { id: "chemie", name: "Chemie", type: "joined_building" },
+      { id: "garching-interims", name: "Interimshörsäle", type: "area" },
+      { id: "studitum-garching", name: "StudiTUM Garching", type: "building" },
+    ],
   },
   {
-    children: [
-      { id: "zentralgelaende", name: "Zentralgelände" },
-      { id: "nordgelaende", name: "Nordgelände" },
-      { id: "suedgelaende", name: "Südgelände" },
-      { id: "suedwestgelaende", name: "Südwestgelände" },
-      { id: "0201", name: "StudiTUM Innenstadt" },
-      { id: "2910", name: "RiWa 1 (HfP, Governance)" },
-    ],
     id: "stammgelaende",
-    n_visible: 3,
     name: "Stammgelände",
-  },
-  {
-    children: [
-      { id: "wzw-berg", name: "Gebiet 4100 Berg" },
-      { id: "wzw-mitte", name: "Gebiet 4200 Mitte" },
-      { id: "wzw-nord", name: "Gebiet 4300 Nord" },
-      { id: "duernast", name: "Dürnast (Versuchsstation)" },
-      { id: "roggenstein", name: "Roggenstein (Versuchsstation)" },
-      { id: "thalhausen", name: "Thalhausen (Versuchsstation)" },
-      { id: "veitshof", name: "Veitshof (Stallungen)" },
-      { id: "viehhausen", name: "Viehhausen (Versuchsstation)" },
-    ],
-    id: "wzw",
+    type: "campus",
     n_visible: 3,
-    name: "Weihenstephan (Freising)",
+    children: [
+      { id: "zentralgelaende", name: "Zentralgelände", type: "area" },
+      { id: "nordgelaende", name: "Nordgelände", type: "area" },
+      { id: "suedgelaende", name: "Südgelände", type: "area" },
+      { id: "suedwestgelaende", name: "Südwestgelände", type: "area" },
+      { id: "s1", name: "StudiTUM Innenstadt", type: "building" },
+      { id: "riwa1", name: "RiWa 1 (HfP, Governance)", type: "building" },
+    ],
   },
   {
+    id: "wzw",
+    name: "Weihenstephan (Freising)",
+    type: "campus",
+    n_visible: 3,
     children: [
-      { id: "mri", name: "MRI Klinikum rechts der Isar" },
-      { id: "olympiapark", name: "Campus im Olympiapark" },
-      { id: "cs", name: "Campus Straubing" },
-      { id: "heilbronn", name: "Heilbronn" },
-      { id: "taufkirchen-ottobrunn", name: "Taufkirchen / Ottobrunn" },
-      { id: "garching-hochbrueck", name: "Garching Hochbrück" },
+      { id: "wzw-berg", name: "Gebiet 4100 Berg", type: "area" },
+      { id: "wzw-mitte", name: "Gebiet 4200 Mitte", type: "area" },
+      { id: "wzw-nord", name: "Gebiet 4300 Nord", type: "area" },
+      { id: "duernast", name: "Dürnast (Versuchsstation)", type: "area" },
+      { id: "roggenstein", name: "Roggenstein (Versuchsstation)", type: "site" },
+      { id: "thalhausen", name: "Thalhausen (Versuchsstation)", type: "site" },
+      { id: "veitshof", name: "Veitshof (Stallungen)", type: "site" },
+      { id: "viehhausen", name: "Viehhausen (Versuchsstation)", type: "site" },
     ],
+  },
+  {
     id: "others",
-    n_visible: 5,
     name: t("sites_overview.others"),
+    n_visible: 5,
+    children: [
+      { id: "mri", name: "MRI Klinikum rechts der Isar", type: "site" },
+      { id: "olympiapark", name: "Campus im Olympiapark", type: "campus" },
+      { id: "cs", name: "Campus Straubing", type: "campus" },
+      { id: "heilbronn", name: "Heilbronn", type: "campus" },
+      { id: "taufkirchen-ottobrunn", name: "Taufkirchen / Ottobrunn", type: "campus" },
+      { id: "garching-hochbrueck", name: "Garching Hochbrück", type: "site" },
+    ],
   },
 ];
 
@@ -118,8 +133,8 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       >
         <div>
           <NuxtLink
-            v-if="site.id !== 'others'"
-            :to="localePath('/view/' + site.id)"
+            v-if="site.type"
+            :to="localePath(entityPath(site.id, site.type))"
             :aria-label="t('show_details_for_campus', [site.name])"
             class="focusable text-zinc-700 dark:text-zinc-200 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500 dark:hover:text-blue-400"
           >
@@ -132,7 +147,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
           <NuxtLink
             v-for="c in site.children.slice(0, openPanels[siteIndex] ? site.children.length : site.n_visible)"
             :key="c.id"
-            :to="localePath('/view/' + c.id)"
+            :to="localePath(entityPath(c.id, c.type))"
             :aria-label="t('show_details_for_building', [c.name])"
             class="focusable text-blue-600 dark:text-blue-300 flex flex-row justify-between rounded !no-underline hover:text-blue-500 dark:hover:text-blue-400"
           >
