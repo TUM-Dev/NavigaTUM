@@ -81,11 +81,3 @@
     '5115' (ZNN) no longer surfaces in the top result for 'znn' as the index
     evolved; recorded as a known non-match rather than chasing live-CDN ranking
     drift.
-# typo-tolerance highlighting regression (#513)
-- target: 5510.01.234
-  query: 5510.01.234
-  comment: >-
-    Reporter's scenario from #513: the queried room id does not exist, but
-    Meilisearch's typo tolerance returns a near-miss. The snapshot must show
-    the typo-matched segment WITHOUT highlight tags - only segments that
-    appear verbatim in the query keep their tags.

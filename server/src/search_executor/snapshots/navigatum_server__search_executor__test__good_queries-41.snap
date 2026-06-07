@@ -1,8 +1,8 @@
 ---
 source: server/src/search_executor/mod.rs
-description: "Reporter's scenario from #513: the queried room id does not exist, but Meilisearch's typo tolerance returns a near-miss. The snapshot must show the typo-matched segment WITHOUT highlight tags - only segments that appear verbatim in the query keep their tags."
+description: "Reporter's scenario from #513: typing a non-existent room id should surface helpful near-misses (here `5510.01.0XX` rooms) - that is the desired UX. The snapshot also documents the fix: matched segments `5510` and `01` keep their highlight tags while the typo-tolerated third segment is rendered without tags."
 expression: actual
-info: "'5510.01.234' should get '5510.01.234' in 1 results # Reporter's scenario from #513: the queried room id does not exist, but Meilisearch's typo tolerance returns a near-miss. The snapshot must show the typo-matched segment WITHOUT highlight tags - only segments that appear verbatim in the query keep their tags."
+info: "'5510.01.234' should get '5510.01.010' in 10 results # Reporter's scenario from #513: typing a non-existent room id should surface helpful near-misses (here `5510.01.0XX` rooms) - that is the desired UX. The snapshot also documents the fix: matched segments `5510` and `01` keep their highlight tags while the typo-tolerated third segment is rendered without tags."
 ---
 - facet: rooms
   entries:
