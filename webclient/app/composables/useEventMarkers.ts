@@ -3,6 +3,10 @@ import { Marker } from "maplibre-gl";
 import type { MaybeRefOrGetter } from "vue";
 
 const SOURCE_ID = "events_active";
+// MapLibre's SourceCache only fetches tiles for sources referenced by at least one layer,
+// so a fully-transparent backing layer rides along just to drive tile loading. The actual
+// query goes through `querySourceFeatures`, which ignores styling.
+const BACKING_LAYER_ID = "events_active-backing";
 
 // Markers render via this class; the .event-marker styles live on the consuming map component
 // alongside the other map CSS.
@@ -81,6 +85,15 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
           url: `https://nav.tum.de/martin/${SOURCE_ID}`,
         });
       }
+      if (!target.getLayer(BACKING_LAYER_ID)) {
+        target.addLayer({
+          id: BACKING_LAYER_ID,
+          type: "circle",
+          source: SOURCE_ID,
+          "source-layer": SOURCE_ID,
+          paint: { "circle-opacity": 0, "circle-stroke-opacity": 0 },
+        });
+      }
       target.on("sourcedata", onSourceData);
       target.on("moveend", onMoveEnd);
     };
@@ -92,6 +105,8 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
       markers.clear();
       target.off("sourcedata", onSourceData);
       target.off("moveend", onMoveEnd);
+      if (target.getLayer(BACKING_LAYER_ID)) target.removeLayer(BACKING_LAYER_ID);
+      if (target.getSource(SOURCE_ID)) target.removeSource(SOURCE_ID);
     });
   });
 }
