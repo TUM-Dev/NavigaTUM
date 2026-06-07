@@ -273,8 +273,6 @@ def export_tumonline_orgs_parquet() -> None:
     TumonlineOrgsSchema.write_parquet(load_tumonline_orgs(), OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
 
 
-
-
 def export_known_orgs() -> None:
     """Export the known TUMonline orgs as json"""
     # `org_id` is the value submitted as `events.organising_org_id`
