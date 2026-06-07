@@ -114,12 +114,10 @@ test.describe("Navigation Page - Map Display", () => {
     page,
   }) => {
     const locationsRequests = trackLocationRequests(page);
-    const routeRequest = page.waitForRequest((req) => req.url().includes("/api/maps/route"), {
-      timeout: 15_000,
-    });
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
-    await routeRequest;
-    // Wait for the map to mount before asserting the resolver stayed silent.
+    // `/navigate` is `swr`-cached, so the route is fetched during SSR - the browser never issues an
+    // `/api/maps/route` request to wait on. Mounting the map runs the single-endpoint resolver's
+    // watcher (it shares `indoorMap`), so once the canvas is visible we can assert it stayed silent.
     await expect(page.locator("canvas").first()).toBeVisible();
     expect(locationsRequests).toEqual([]);
   });
