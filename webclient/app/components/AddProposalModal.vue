@@ -5,8 +5,10 @@ import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
+type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
@@ -290,7 +292,25 @@ async function editExistingEntry() {
   editProposal.value.selected = { id, name: null };
   // Open the edit modal once we land on the entry's detail page.
   editProposal.value.open = true;
-  await navigateTo(localePath(`/view/${id}`));
+  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly
+  // instead of bouncing through the /view/{id} redirect. On any failure (network, unknown type),
+  // fall back to /view/{id}, which the server redirects to the canonical path.
+  let target = `/view/${id}`;
+  try {
+    const res = await fetch(
+      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+      {
+        credentials: "omit",
+      }
+    );
+    if (res.ok) {
+      const details = (await res.json()) as Pick<LocationDetailsResponse, "type">;
+      if (isRoutableEntityType(details.type)) target = entityPath(id, details.type);
+    }
+  } catch {
+    // Network failure: keep the /view/{id} fallback.
+  }
+  await navigateTo(localePath(target));
 }
 provide("addProposal:editExistingEntry", editExistingEntry);
 

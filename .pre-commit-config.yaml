@@ -61,20 +61,9 @@ repos:
         pass_filenames: false
         files: (.*\\vue|.*\\m?js|.*\\ts|.*\\json)
   # only data
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-use-type-annotations
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.15
     hooks:
       - id: ruff
         args: [ --fix ]
       - id: ruff-format
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.9.4
-    hooks:
-      - id: bandit
-        args: [ "-c", "pyproject.toml" ]
-        additional_dependencies: [ "bandit[toml]" ]

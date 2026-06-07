@@ -88,7 +88,7 @@ _ALL_NULLABLE_COLUMNS: dict[str, pl.DataType] = {
     "ranking_rank_custom": pl.Int64(),
     "ranking_rank_combined": pl.Int64(),
     "arch_name": pl.Utf8(),
-    "aliases_json": pl.Utf8(),
+    "aliases": pl.List(pl.Utf8()),
     "imgs_json": pl.Utf8(),
     "type_common_name": pl.Utf8(),
     "type_common_name_de": pl.Utf8(),
@@ -268,7 +268,7 @@ def _run_pipeline(
     lf = search.add_ranking_combined(lf)
 
     _logger.info("-- 98 Aliases: extract aliases")
-    lf = aliases.add_aliases(lf)
+    lf = aliases.add_aliases(lf, aliases.building_short_name_lookup(df))
 
     # Filter root and collect for export
     lf = lf.filter(pl.col("id") != "root")

@@ -129,12 +129,18 @@ struct LocationDetailsResponse {
     /// See `parent_names` for their human names.
     #[schema(min_items=1, examples(json!(["root","garching","mi", "5602"])))]
     parents: Vec<String>,
-    /// The ids of the parents.
+    /// The human names of the parents.
     ///
     /// They are ordered as they would appear in a Breadcrumb menu.
     /// See `parents` for their actual ids.
     #[schema(min_items=1, examples(json!(["Standorte","Garching Forschungszentrum","Fakultät Mathematik & Informatik (FMI oder MI)", "Finger 06 (BT06)"])))]
     parent_names: Vec<String>,
+    /// The types of the parents.
+    ///
+    /// They are ordered as they would appear in a Breadcrumb menu.
+    /// See `parents` for their actual ids.
+    #[schema(min_items = 1)]
+    parent_types: Vec<ParentLocationTypeResponse>,
     /// Data for the info-card table
     props: PropsResponse,
     /// The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
@@ -174,6 +180,23 @@ enum LocationTypeResponse {
     Campus,
     Poi,
     Other,
+}
+
+/// The type of a parent (ancestor) in a location's breadcrumb hierarchy.
+///
+/// Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum ParentLocationTypeResponse {
+    Root,
+    Site,
+    Campus,
+    Area,
+    JoinedBuilding,
+    Building,
+    Room,
+    VirtualRoom,
+    Poi,
 }
 
 /// Operator of a location
