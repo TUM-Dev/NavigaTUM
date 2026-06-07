@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 
 import polars as pl
@@ -75,7 +75,7 @@ def _last_modified_date(response: requests.Response) -> str:
     header = response.headers.get("Last-Modified")
     if header:
         return parsedate_to_datetime(header).date().isoformat()
-    return datetime.now(timezone.utc).date().isoformat()
+    return datetime.now(UTC).date().isoformat()
 
 
 def scrape_studierendenwerk() -> None:
