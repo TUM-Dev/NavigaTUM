@@ -10,6 +10,9 @@ each schema and drifting apart.
 import polars as pl
 
 _ISO_DATE_REGEX = r"^\d{4}-\d{2}-\d{2}$"
+# `lecture:`/`break:` macro prefix; `semester_block_expander` reuses this so detection and
+# expansion can't drift apart.
+MACRO_REGEX = r"(?i)\b(lecture|break)\s*:"
 
 
 def is_iso_date(column: str) -> pl.Expr:
@@ -30,4 +33,4 @@ def opening_hours_non_empty(column: str) -> pl.Expr:
 
 def opening_hours_has_no_macros(column: str) -> pl.Expr:
     """Reject `lecture:`/`break:` macros; only plain OSM is supported."""
-    return ~pl.col(column).str.contains(r"(?i)\b(lecture|break)\s*:")
+    return ~pl.col(column).str.contains(MACRO_REGEX)
