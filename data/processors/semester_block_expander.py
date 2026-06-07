@@ -38,7 +38,7 @@ class Semester:
     end: date
 
     @classmethod
-    def from_row(cls, row: Mapping[str, object]) -> "Semester":
+    def from_row(cls, row: Mapping[str, object]) -> Semester:
         """Build a `Semester` from a validated `SemesterSchema` row (dates are `date` objects)."""
         return cls(
             key=str(row["key"]),
