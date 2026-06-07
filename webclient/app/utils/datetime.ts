@@ -48,7 +48,7 @@ export function berlinWallTimeToRfc3339(wall: string): string | null {
   const hour = wall.slice(11, 13);
   const minute = wall.slice(14, 16);
   // Treat the wall components as if they were UTC to get a first instant, read Berlin's offset
-  // there, then re-read it at the corrected instant (wall − offset) to settle around DST cutovers.
+  // there, then re-read it at the corrected instant (wall - offset) to settle around DST cutovers.
   const wallAsUtcMs = Date.UTC(
     Number(year),
     Number(month) - 1,
