@@ -9,18 +9,18 @@ import {
 import { entityPath, type RoutableEntityType } from "~/utils/entityPath";
 
 /** A linkable card: its `type` + `id` resolve to a canonical `/{type}/{id}` path via {@link entityPath}. */
-type OverviewLink = {
+interface OverviewLink {
   readonly id: string;
   readonly name: string;
   readonly type: RoutableEntityType;
-};
+}
 
 /**
  * @description This is a list of all sites, that are available in the system.
  * It is sorted by the number of rooms in the site, descending.
  * The first entry is the site with the most importance
  */
-type SitesOverview = {
+interface SitesOverview {
   readonly id: string;
   readonly name: string;
   /** Absent only for the synthetic "others" grouping, which has no entity page of its own. */
@@ -36,7 +36,7 @@ type SitesOverview = {
    * Derived from the areatree.
    */
   readonly children: readonly OverviewLink[];
-};
+}
 
 const { t } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
