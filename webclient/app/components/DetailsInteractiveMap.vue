@@ -4,18 +4,14 @@ import {
   FullscreenControl,
   GeolocateControl,
   type IControl,
-  type MapGeoJSONFeature,
   Map as MapLibreMap,
   Marker,
   NavigationControl,
 } from "maplibre-gl";
-import { type App, createApp } from "vue";
 import type { components } from "~/api_types";
-import EventMarker from "~/components/EventMarker.vue";
 import { FloorControl } from "~/composables/FloorControl";
 import { useIsMobile } from "~/composables/useIsMobile";
 import { webglSupport } from "~/composables/webglSupport";
-import { dedupeFeatures, diffMarkers, type MarkerFeature } from "~/utils/eventMarkers";
 import { zoomForLocationType } from "~/utils/map";
 
 const props = defineProps<{
@@ -25,13 +21,15 @@ const props = defineProps<{
   id: LocationDetailsResponse["id"];
   floors?: LocationDetailsResponse["props"]["floors"];
 }>();
-const map = ref<MapLibreMap | undefined>(undefined);
-const marker = ref<Marker | undefined>(undefined);
-const floorControl = ref<FloorControl>(new FloorControl());
+// `shallowRef`: MapLibre owns its own deep state; Vue must not try to track it reactively.
+const map = shallowRef<MapLibreMap | undefined>(undefined);
+const marker = shallowRef<Marker | undefined>(undefined);
+const floorControl = shallowRef<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
-const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
+
+useEventMarkers(map);
 
 const initialLoaded = ref(false);
 
@@ -55,8 +53,7 @@ function loadInteractiveMap() {
     if (map.value !== undefined) {
       const _marker = new Marker({ element: createMarker() });
       _marker.setLngLat([props.coords.lon, props.coords.lat]);
-      // @ts-expect-error somehow this is too deep for typescript
-      _marker.addTo(map.value as MapLibreMap);
+      _marker.addTo(map.value);
       marker.value = _marker;
     }
 
@@ -85,102 +82,6 @@ function createMarker(hueRotation = 0) {
   markerShadow.classList.add("marker-shadow");
   markerDiv.appendChild(markerShadow);
   return markerDiv;
-}
-
-// --- Active-event photo markers ---
-// `events_active` is not part of the basemap style, so we add it at runtime alongside an invisible
-// backing layer that keeps its tiles loaded and features queryable.
-const MARTIN_BASE_URL = "https://nav.tum.de/martin";
-const EVENTS_SOURCE_ID = "events_active";
-const EVENTS_LAYER_ID = "events_active-backing";
-// A defensive ceiling: the view is moderated and viewport-scoped, so this is never expected to hit.
-const MAX_EVENT_MARKERS = 200;
-
-type EventMarkerFeature = MarkerFeature & { image: string; name: string };
-
-// Each marker is a mounted EventMarker app; the app is kept so it can be unmounted on removal.
-interface EventMarkerInstance {
-  marker: Marker;
-  app: App;
-}
-const eventMarkers = new Map<string, EventMarkerInstance>();
-
-function toEventFeature(feature: MapGeoJSONFeature): EventMarkerFeature | null {
-  if (feature.id === undefined) return null;
-  if (feature.geometry.type !== "Point") return null;
-  const [lon, lat] = feature.geometry.coordinates;
-  if (typeof lon !== "number" || typeof lat !== "number") return null;
-  const props = feature.properties ?? {};
-  return {
-    id: String(feature.id),
-    lon,
-    lat,
-    image: typeof props.image === "string" ? props.image : "",
-    name: typeof props.name === "string" ? props.name : "",
-  };
-}
-
-function createEventMarker(feature: EventMarkerFeature): EventMarkerInstance {
-  const element = document.createElement("div");
-  // Prepend the CDN host here: the standalone-mounted marker SFC has no Nuxt context of its own.
-  const image = feature.image ? `${runtimeConfig.public.cdnURL}${feature.image}` : "";
-  const app = createApp(EventMarker, { image, name: feature.name });
-  app.mount(element);
-  const marker = new Marker({ element }).setLngLat([feature.lon, feature.lat]);
-  return { marker, app };
-}
-
-function removeEventMarker(id: string): void {
-  const instance = eventMarkers.get(id);
-  if (!instance) return;
-  instance.marker.remove();
-  instance.app.unmount();
-  eventMarkers.delete(id);
-}
-
-function syncEventMarkers(): void {
-  const currentMap = map.value;
-  if (!currentMap?.getLayer(EVENTS_LAYER_ID)) return;
-
-  const features = dedupeFeatures(
-    currentMap
-      .queryRenderedFeatures({ layers: [EVENTS_LAYER_ID] })
-      .map(toEventFeature)
-      .filter((feature): feature is EventMarkerFeature => feature !== null)
-  );
-  // Sort by id so overlapping markers keep a stable z-order and the cap keeps a stable subset.
-  features.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-  if (features.length > MAX_EVENT_MARKERS) {
-    console.warn(
-      `events_active returned ${features.length} markers; capping at ${MAX_EVENT_MARKERS}`
-    );
-    features.length = MAX_EVENT_MARKERS;
-  }
-
-  const { added, removed, kept } = diffMarkers(features, new Set(eventMarkers.keys()));
-  for (const id of removed) removeEventMarker(id);
-  for (const feature of added) {
-    const instance = createEventMarker(feature);
-    // @ts-expect-error somehow this is too deep for typescript
-    instance.marker.addTo(currentMap);
-    eventMarkers.set(feature.id, instance);
-  }
-  for (const feature of kept) {
-    eventMarkers.get(feature.id)?.marker.setLngLat([feature.lon, feature.lat]);
-  }
-  features.forEach((feature, index) => {
-    const element = eventMarkers.get(feature.id)?.marker.getElement();
-    if (element) element.style.zIndex = String(index);
-  });
-}
-
-function teardownEventMarkers(): void {
-  for (const id of [...eventMarkers.keys()]) removeEventMarker(id);
-  const currentMap = map.value;
-  if (currentMap) {
-    currentMap.off("idle", syncEventMarkers);
-    currentMap.off("moveend", syncEventMarkers);
-  }
 }
 
 function initMap(containerId: string): MapLibreMap {
@@ -246,21 +147,6 @@ function initMap(containerId: string): MapLibreMap {
         floorControl.value.setLevel(availableFloorIds[0] ?? null);
       }
     }
-
-    map.addSource(EVENTS_SOURCE_ID, {
-      type: "vector",
-      url: `${MARTIN_BASE_URL}/${EVENTS_SOURCE_ID}`,
-    });
-    map.addLayer({
-      id: EVENTS_LAYER_ID,
-      type: "circle",
-      source: EVENTS_SOURCE_ID,
-      "source-layer": EVENTS_SOURCE_ID,
-      // Invisible: only here so tiles load and features stay queryable; the markers are the visuals.
-      paint: { "circle-radius": 0, "circle-opacity": 0 },
-    });
-    map.on("idle", syncEventMarkers);
-    map.on("moveend", syncEventMarkers);
   });
 
   map.addControl(floorControl.value, "top-left");
@@ -288,8 +174,6 @@ onMounted(async () => {
   loadInteractiveMap();
   window.scrollTo({ top: 0, behavior: "auto" });
 });
-
-onBeforeUnmount(teardownEventMarkers);
 </script>
 
 <template>
@@ -364,6 +248,26 @@ onBeforeUnmount(teardownEventMarkers);
     height: 24px;
     top: -20px;
     left: -12px;
+  }
+}
+
+.event-marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 2px solid var(--color-blue-500);
+  background-color: var(--color-blue-500);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+  cursor: pointer;
+
+  & img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* photos must not be inverted by nightwind in dark mode */
+    filter: none !important;
   }
 }
 
