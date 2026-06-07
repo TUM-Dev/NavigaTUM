@@ -221,6 +221,7 @@ impl EditRequest {
                 "room" => "rooms",
                 "building" => "buildings",
                 "poi" => "POIs",
+                "event" => "events",
                 _ => "entries",
             };
             let singular = match kind {
@@ -395,6 +396,33 @@ mod tests {
 
     fn coords() -> serde_json::Value {
         serde_json::json!({"lat": 48.262, "lon": 11.668})
+    }
+
+    fn event_addition() -> serde_json::Value {
+        serde_json::json!({
+            "kind": "event",
+            "image": { "content": "AAAA", "metadata": { "author": "Studi", "license": { "text": "CC-BY" } } },
+            "name": "GARNIX Festival",
+            "description": "Open-air student festival.",
+            "starts_at": "2026-06-10T16:00:00+02:00",
+            "ends_at": "2026-06-12T23:00:00+02:00",
+            "coords": coords(),
+            "organising_org_id": 51897
+        })
+    }
+
+    #[test]
+    fn extract_subject_and_labels_for_event() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": { "event_9d02ddd940c43f87": event_addition() },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert_eq!(req.extract_subject(), "add event `event_9d02ddd940c43f87`");
+        let labels = req.extract_labels();
+        assert!(labels.contains(&"addition".to_string()));
+        assert!(labels.contains(&"new-event".to_string()));
     }
 
     #[test]

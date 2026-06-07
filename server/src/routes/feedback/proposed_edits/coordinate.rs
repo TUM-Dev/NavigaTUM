@@ -16,6 +16,13 @@ pub struct Coordinate {
 }
 
 impl Coordinate {
+    pub(super) fn lat(&self) -> f64 {
+        self.lat
+    }
+    pub(super) fn lon(&self) -> f64 {
+        self.lon
+    }
+
     fn get_coordinates_csv_path(base_dir: &Path) -> PathBuf {
         base_dir
             .join("data")

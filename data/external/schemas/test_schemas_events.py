@@ -9,7 +9,7 @@ from external.schemas.events import EventsSchema
 
 def _valid_row() -> dict[str, list[object]]:
     return {
-        "image": ["/cdn/thumb/abc123def4567890_0.webp"],
+        "image": ["/cdn/thumb/event_abc123def4567890_0.webp"],
         "lat": [48.149678],
         "lon": [11.567909],
         "name": ["Sample"],
@@ -31,12 +31,20 @@ def test_events_schema_accepts_minimal_valid_row() -> None:
     EventsSchema.validate(df)
 
 
+def test_events_schema_accepts_event_thumb_name() -> None:
+    """The `event_<hash>` base name (with its underscore) is a valid thumb path."""
+    valid = _valid_row()
+    valid["image"] = ["/cdn/thumb/event_9d02ddd940c43f87_0.webp"]
+    df = pl.DataFrame(valid, schema=EventsSchema.to_polars_schema())
+    EventsSchema.validate(df)
+
+
 @pytest.mark.parametrize(
     "image",
     [
         "https://example.org/i.webp",  # external host
-        "9d02ddd940c43f87_0.webp",  # bare filename, missing the /cdn/thumb/ delivery prefix
-        "/cdn/lg/9d02ddd940c43f87_0.webp",  # wrong size: the marker only renders the thumb crop
+        "event_9d02ddd940c43f87_0.webp",  # bare filename, missing the /cdn/thumb/ delivery prefix
+        "/cdn/lg/event_9d02ddd940c43f87_0.webp",  # wrong size: the marker only renders the thumb crop
     ],
 )
 def test_events_schema_rejects_non_thumb_cdn_paths(image: str) -> None:

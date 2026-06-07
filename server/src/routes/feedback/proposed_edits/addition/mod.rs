@@ -6,11 +6,13 @@ use serde::Deserialize;
 
 pub mod areatree;
 pub mod building;
+pub mod event;
 pub mod poi;
 pub mod room;
 pub mod validation;
 
 use building::NewBuilding;
+use event::NewEvent;
 use poi::NewPoi;
 use room::NewRoom;
 use validation::{AdditionError, RepoSnapshot};
@@ -21,6 +23,7 @@ pub enum Addition {
     Room(NewRoom),
     Building(NewBuilding),
     Poi(NewPoi),
+    Event(NewEvent),
 }
 
 pub trait AppliableAddition {
@@ -35,6 +38,7 @@ impl Addition {
             Self::Room(r) => r,
             Self::Building(b) => b,
             Self::Poi(p) => p,
+            Self::Event(e) => e,
         }
     }
 
@@ -88,5 +92,22 @@ mod tests {
         });
         let a: Addition = serde_json::from_value(json).unwrap();
         assert_eq!(a.kind_label(), "building");
+    }
+
+    #[test]
+    fn deserializes_event_variant() {
+        let png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQAY3Y2wAAAAAElFTkSuQmCC";
+        let json = serde_json::json!({
+            "kind": "event",
+            "image": { "content": png, "metadata": { "author": "Studi", "license": { "text": "CC-BY" } } },
+            "name": "GARNIX Festival",
+            "description": "Open-air student festival.",
+            "starts_at": "2026-06-10T16:00:00+02:00",
+            "ends_at": "2026-06-12T23:00:00+02:00",
+            "coords": {"lat": 48.262908, "lon": 11.669102},
+            "organising_org_id": 51897
+        });
+        let a: Addition = serde_json::from_value(json).unwrap();
+        assert_eq!(a.kind_label(), "event");
     }
 }
