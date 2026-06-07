@@ -110,9 +110,7 @@ test.describe("Navigation Page - Map Display", () => {
     await expect(page).toHaveURL(MI_VIEWPORT);
   });
 
-  test("with both endpoints, fits the route and does not resolve a single endpoint", async ({
-    page,
-  }) => {
+  test("with both endpoints, does not resolve a single endpoint", async ({ page }) => {
     const locationsRequests = trackLocationRequests(page);
     await page.goto("/navigate?from=mi&to=mw&mode=pedestrian", { waitUntil: "domcontentloaded" });
     // `/navigate` is `swr`-cached, so the route is fetched during SSR - the browser never issues an
