@@ -4,12 +4,7 @@ import type {
 } from "maplibre-gl";
 import type { MaybeRefOrGetter } from "vue";
 
-const SOURCE_ID = "events_active";
 const LAYER_ID = "events_active-symbols";
-// Symbol images get registered under `event-<feature-id>`; the layer's `icon-image` expression
-// builds the same name from each feature, so MapLibre asks for the right one via
-// `styleimagemissing` whenever a new event scrolls into view.
-const IMAGE_PREFIX = "event-";
 const IMAGE_PX = 64;
 
 /**
@@ -70,11 +65,13 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
 
     const onStyleImageMissing = async (event: MapStyleImageMissingEvent) => {
       const name = event.id;
-      if (!name.startsWith(IMAGE_PREFIX) || pending.has(name) || target.hasImage(name)) return;
+      if (!name.startsWith("event-") || pending.has(name) || target.hasImage(name)) return;
       pending.add(name);
       try {
-        const id = name.slice(IMAGE_PREFIX.length);
-        const features = target.querySourceFeatures(SOURCE_ID, { sourceLayer: SOURCE_ID });
+        const id = name.slice("event-".length);
+        const features = target.querySourceFeatures("events_active", {
+          sourceLayer: "events_active",
+        });
         const feature = features.find((f) => String(f.id) === id);
         const rawImage =
           feature && typeof feature.properties?.image === "string"
@@ -91,25 +88,30 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
     };
 
     const attach = () => {
-      if (!target.getSource(SOURCE_ID)) {
-        target.addSource(SOURCE_ID, {
+      if (!target.getSource("events_active")) {
+        target.addSource("events_active", {
           type: "vector",
-          url: `https://nav.tum.de/martin/${SOURCE_ID}`,
+          url: "https://nav.tum.de/martin/events_active",
+          // Markers are invisible below zoom 15, so don't ask Martin for tiles below that.
+          minzoom: 15,
         });
       }
       if (!target.getLayer(LAYER_ID)) {
         target.addLayer({
           id: LAYER_ID,
           type: "symbol",
-          source: SOURCE_ID,
-          "source-layer": SOURCE_ID,
+          source: "events_active",
+          "source-layer": "events_active",
+          // The layer-level guard is what actually stops the SourceCache from fetching tiles
+          // at lower zooms; the source `minzoom` only narrows the declared availability range.
+          minzoom: 15,
           layout: {
-            "icon-image": ["concat", IMAGE_PREFIX, ["to-string", ["id"]]],
+            "icon-image": ["concat", "event-", ["to-string", ["id"]]],
             "icon-size": [
               "interpolate",
               ["linear"],
               ["zoom"],
-              11,
+              15,
               0.3,
               17,
               0.7,
@@ -132,7 +134,7 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
     onCleanup(() => {
       target.off("styleimagemissing", onStyleImageMissing);
       if (target.getLayer(LAYER_ID)) target.removeLayer(LAYER_ID);
-      if (target.getSource(SOURCE_ID)) target.removeSource(SOURCE_ID);
+      if (target.getSource("events_active")) target.removeSource("events_active");
       for (const name of registered) {
         if (target.hasImage(name)) target.removeImage(name);
       }
