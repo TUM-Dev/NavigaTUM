@@ -115,7 +115,7 @@ def parse_image_filename(image_name: str) -> tuple[str, int]:
     return _id, _index
 
 
-def _add_source_info(fname, source_data):
+def _add_source_info(fname: str, source_data: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
     _id, _index = parse_image_filename(fname)
 
     required_fields = ["author", "license"]
@@ -124,7 +124,7 @@ def _add_source_info(fname, source_data):
             _logger.warning(f"No {field} information for image '{fname}', it will not be used")
             return None
 
-    def _parse(obj):
+    def _parse(obj: str | dict[str, Any]) -> dict[str, Any]:
         return {"text": obj, "url": None} if isinstance(obj, str) else obj
 
     return {
@@ -135,7 +135,7 @@ def _add_source_info(fname, source_data):
 
 
 class Resizer:
-    def __init__(self, source: Path):
+    def __init__(self, source: Path) -> None:
         self.source = source
         self.img = Image.open(source)
 

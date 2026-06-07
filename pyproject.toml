@@ -122,14 +122,18 @@ select = [
   "ICN",   # canonical aliases (np, pd, pl, …)
   "TID",   # tidy-imports (no relative, no banned)
   "FA",    # `from __future__ import annotations` where it helps
+  "INP",   # implicit-namespace-package (a dir without `__init__.py`)
   # logging
   "LOG",   # mis-use of the `logging` stdlib module
   "G",     # logging format (G004 disabled below)
   # naming
   "N",     # pep8-naming
-  # pylint subsets - errors and warnings only; PLR (refactor) overlaps with C90 which is excluded
+  # type annotations
+  "ANN",   # flake8-annotations (functions must declare argument & return types; ANN401 relaxed below)
+  # pylint subsets - errors, warnings, conventions; PLR (refactor) stays out (complexity overlaps C90, magic-values too noisy)
   "PLE",   # pylint errors
   "PLW",   # pylint warnings
+  "PLC",   # pylint conventions (import-outside-top-level, …)
   # comprehensions, performance, simplification
   "C4",    # flake8-comprehensions
   "FURB",  # refurb-style modernizations
@@ -163,6 +167,7 @@ ignore = [
   "TD", # too many todos/fixmes
 
   #### rules
+  "ANN401", # `Any` is legitimate at the orjson/yaml/`*args` boundaries; require *an* annotation, not a specific type
   "SIM108", # ternary operator should be used without a concearn for the code complexity
   "G004", # f-strings in logging are fine; lazy %-formatting rarely worth the readability cost
   "S101", # `assert` is used as a runtime guard in CLI/scraping code; this matched bandit's prior `B101` skip
@@ -213,6 +218,10 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # pytest activates fixtures via parameter name; the body may not reference them.
 "**/test_*.py" = ["ARG001", "ARG002"]
 "**/tests/**" = ["ARG001", "ARG002"]
+# Root entry scripts, deliberately not a package: importing them relies on `data/` being
+# the path root, which adding an `__init__.py` (INP001's fix) would break.
+"data/compile.py" = ["INP001"]
+"data/utils.py" = ["INP001"]
 
 [tool.ruff.lint.pep8-naming]
 # `dataframely` rules and pydantic validators receive the class as first argument.
