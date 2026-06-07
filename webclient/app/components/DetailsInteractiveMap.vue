@@ -30,6 +30,7 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
+const runtimeConfig = useRuntimeConfig();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 const initialLoaded = ref(false);
@@ -121,7 +122,11 @@ function toEventFeature(feature: MapGeoJSONFeature): EventMarkerFeature | null {
 
 function createEventMarker(feature: EventMarkerFeature): EventMarkerInstance {
   const element = document.createElement("div");
-  const app = createApp(EventMarker, { image: feature.image, name: feature.name });
+  // `events_active` stores the CDN-relative delivery path (e.g. /cdn/thumb/<hash>_0.webp); prepend
+  // the configured CDN host here, where the Nuxt runtime config is available — the marker SFC is
+  // mounted standalone via createApp and has no Nuxt context of its own.
+  const image = feature.image ? `${runtimeConfig.public.cdnURL}${feature.image}` : "";
+  const app = createApp(EventMarker, { image, name: feature.name });
   app.mount(element);
   const marker = new Marker({ element }).setLngLat([feature.lon, feature.lat]);
   return { marker, app };
