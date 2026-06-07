@@ -104,7 +104,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
   >;
   let transitLegs: Array<TransitLeg> = [];
 
-  legs.forEach((leg) => {
+  for (const leg of legs) {
     const newLeg = {
       mode: leg.mode,
       route_short_name: leg.route_short_name,
@@ -122,7 +122,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
     if (!isDuplicate) {
       transitLegs.push(newLeg);
     }
-  });
+  }
 
   return transitLegs;
 };

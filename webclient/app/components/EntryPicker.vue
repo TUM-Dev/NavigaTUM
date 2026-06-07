@@ -7,13 +7,14 @@ type FacetFilter = components["schemas"]["FacetFilter"];
 type SearchResponse = components["schemas"]["SearchResponse"];
 type ResultEntry = components["schemas"]["ResultEntry"];
 
+const selectedId = defineModel<string>("selectedId", { required: true });
+
+const selectedName = defineModel<string>("selectedName", { required: true });
+
 const props = defineProps<{
   allowedTypes: readonly FacetFilter[];
   placeholder?: string;
 }>();
-
-const selectedId = defineModel<string>("selectedId", { required: true });
-const selectedName = defineModel<string>("selectedName", { required: true });
 
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();

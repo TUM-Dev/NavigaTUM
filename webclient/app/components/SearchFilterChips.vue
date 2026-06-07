@@ -16,11 +16,11 @@ import { FACET_OPTIONS, type SearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-type LocationSuggestion = {
+interface LocationSuggestion {
   id: string;
   name: string;
   subtext: string;
-};
+}
 
 const props = defineProps<{
   filters: SearchFilters;

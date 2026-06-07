@@ -208,7 +208,6 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
 }
 
 function handleSelectLeg(itineraryIndex: number, legIndex: number) {
-  console.log("Selected itinerary:", itineraryIndex, "leg:", legIndex);
   if (data.value?.router === "motis" && indoorMap.value) {
     // If selecting a different itinerary, redraw the route
     if (selectedItineraryIndex.value !== itineraryIndex) {
@@ -229,7 +228,6 @@ function handleSelectLeg(itineraryIndex: number, legIndex: number) {
 }
 
 function handleSelectItinerary(itineraryIndex: number) {
-  console.log("Selected itinerary:", itineraryIndex);
   if (data.value?.router === "motis" && indoorMap.value && data.value.itineraries[itineraryIndex]) {
     selectedItineraryIndex.value = itineraryIndex;
     indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);

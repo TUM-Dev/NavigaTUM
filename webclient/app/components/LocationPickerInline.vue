@@ -15,10 +15,11 @@ interface Props {
   initialLon: number;
   zoom?: number;
 }
+const lat = defineModel<number>("lat", { required: true });
+
+const lon = defineModel<number>("lon", { required: true });
 
 const props = withDefaults(defineProps<Props>(), { zoom: 17 });
-const lat = defineModel<number>("lat", { required: true });
-const lon = defineModel<number>("lon", { required: true });
 const { t } = useI18n({ useScope: "local" });
 
 const map = ref<MapLibreMap | undefined>(undefined);

@@ -10,6 +10,8 @@ import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 type FacetFilter = components["schemas"]["FacetFilter"];
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
+const FOUR_DIGIT_PREFIX = /^\d{4}$/;
+
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
@@ -75,7 +77,7 @@ const parentLookupUrl = computed(() => {
   const pid = editProposal.value.pendingAddition.parent_id;
   return pid ? `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(pid)}` : "";
 });
-type ParentDetails = {
+interface ParentDetails {
   id: string;
   coords?: { lat: number; lon: number };
   aliases?: readonly string[];
@@ -88,7 +90,7 @@ type ParentDetails = {
       type: string;
     }[];
   };
-};
+}
 const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.value, {
   immediate: false,
   lazy: true,
@@ -102,18 +104,21 @@ const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.va
 const roomParentPrefix = computed(() => {
   const parentId = editProposal.value.pendingAddition.parent_id.trim();
   if (!parentId) return "";
-  if (/^\d{4}$/.test(parentId)) return parentId;
+  if (FOUR_DIGIT_PREFIX.test(parentId)) return parentId;
   const aliases = parentDetails.value?.aliases ?? [];
-  const numeric = aliases.find((a) => /^\d{4}$/.test(a));
+  const numeric = aliases.find((a) => FOUR_DIGIT_PREFIX.test(a));
   return numeric ?? parentId;
 });
 
 // Floors known on the parent - what the TUMonline room-code uses for the floor segment.
-type ParentFloorOption = { tumonline: string; label: string };
+interface ParentFloorOption {
+  tumonline: string;
+  label: string;
+}
 const parentFloorOptions = computed<ParentFloorOption[]>(() => {
   const floors = parentDetails.value?.props?.floors ?? [];
   return floors
-    .filter((f) => !!f.tumonline)
+    .filter((f) => Boolean(f.tumonline))
     .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
@@ -187,7 +192,7 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       floor_level: draft.floor_level || null,
       // Address omitted on purpose: the server inherits it from the parent building.
       address: null,
-      links: links.length ? links : undefined,
+      links: links.length > 0 ? links : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
   if (draft.kind === "building") {
@@ -222,8 +227,8 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       usage_name: draft.usage_name,
       coords,
       comment,
-      links: links.length ? links : undefined,
-      generic_props: generic_props.length ? generic_props : undefined,
+      links: links.length > 0 ? links : undefined,
+      generic_props: generic_props.length > 0 ? generic_props : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
   return null;

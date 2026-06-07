@@ -6,12 +6,12 @@ interface Props {
   nextPageCursor?: string | null;
   size?: "sm" | "lg";
 }
+const pageCursor = defineModel<string | undefined>("pageCursor", {
+  required: true,
+});
 
 const props = withDefaults(defineProps<Props>(), {
   size: "sm",
-});
-const pageCursor = defineModel<string | undefined>("pageCursor", {
-  required: true,
 });
 
 const { t } = useI18n({ useScope: "local" });

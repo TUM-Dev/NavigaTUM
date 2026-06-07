@@ -5,6 +5,8 @@ import { useFeedbackToken } from "~/composables/feedbackToken";
 
 type EditRequest = components["schemas"]["EditRequest"];
 
+const open = defineModel<boolean>("open", { required: true });
+
 const props = withDefaults(
   defineProps<{
     data: Pick<EditRequest, "additional_context"> & {
@@ -15,8 +17,6 @@ const props = withDefaults(
   }>(),
   { title: "" }
 );
-
-const open = defineModel<boolean>("open", { required: true });
 
 const emit = defineEmits<{
   beforeSubmit: [];
@@ -81,40 +81,33 @@ function _send() {
     },
     body: JSON.stringify(data),
   })
-    .then((r) => {
+    .then(async (r) => {
       loading.value = false;
       if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         token.value = null;
         resetFormData(); // Reset form data only on successful submission
-        r.text().then((url) => {
-          successUrl.value = url;
-        });
+        successUrl.value = await r.text();
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
-        r.text().then((txt) => {
-          error.value.message = `${t("status.server_error")} (${txt})`;
-        });
+        error.value.message = `${t("status.server_error")} (${await r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
         error.value.message = t("error.please_accept_privacy_statement");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        r.text().then((txt) => {
-          error.value.message = `${t("error.send_invalid_token")} (${txt})`;
-        });
+        error.value.message = `${t("error.send_invalid_token")} (${await r.text()})`;
       } else if (r.status === SubmissionStatus.BAD_REQUEST) {
         error.value.message = t("error.bad_request");
       } else if (r.status === SubmissionStatus.UNPROCESSABLE_ENTITY) {
         error.value.message = t("error.validation_failed");
-        r.json()
-          .then((body: unknown) => {
-            if (Array.isArray(body)) {
-              validationFailures.value = (body as Array<{ key: unknown; error: unknown }>)
-                .filter((e) => typeof e?.key === "string" && typeof e?.error === "string")
-                .map((e) => ({ key: String(e.key), error: String(e.error) }));
-            }
-          })
-          .catch(() => {
-            // body wasn't JSON - leave the generic message in place
-          });
+        try {
+          const body: unknown = await r.json();
+          if (Array.isArray(body)) {
+            validationFailures.value = (body as Array<{ key: unknown; error: unknown }>)
+              .filter((e) => typeof e?.key === "string" && typeof e?.error === "string")
+              .map((e) => ({ key: String(e.key), error: String(e.error) }));
+          }
+        } catch {
+          // body wasn't JSON - leave the generic message in place.
+        }
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;

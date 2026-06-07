@@ -1,6 +1,9 @@
 <script setup lang="ts">
 // `to` optional: items without a route render as plain text.
-type Item = { to?: string; name: string };
+interface Item {
+  to?: string;
+  name: string;
+}
 const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), {
   class: "",
 });
