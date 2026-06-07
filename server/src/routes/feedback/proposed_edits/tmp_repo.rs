@@ -63,8 +63,7 @@ impl Worktree {
             if description.title.is_empty() {
                 description.title = format!("{total} property {edits_word}");
             } else {
-                write!(description.title, " and {total} property {edits_word}")
-                    .expect("writing to a String is infallible");
+                write!(description.title, " and {total} property {edits_word}")?;
             }
             description.body += "\nThe following property edits were made:\n";
             description.body += "| entry | edit |\n";
@@ -75,8 +74,7 @@ impl Worktree {
                     writeln!(
                         description.body,
                         "| [`{key}`](https://nav.tum.de/view/{key}) | {result} |"
-                    )
-                    .expect("writing to a String is infallible");
+                    )?;
                 }
             }
         }
@@ -142,23 +140,35 @@ impl Drop for Worktree {
         // Best-effort cleanup - fire and forget.
         tokio::spawn(async move {
             let path_str = dir_path.to_string_lossy().to_string();
-            let _ = Command::new("git")
+            if let Err(e) = Command::new("git")
                 .current_dir(&bare_path)
                 .args(["worktree", "remove", "--force", &path_str])
                 .output()
-                .await;
-            let _ = Command::new("git")
+                .await
+            {
+                debug!(error = ?e, "best-effort worktree removal failed to spawn");
+            }
+            if let Err(e) = Command::new("git")
                 .current_dir(&bare_path)
                 .args(["worktree", "prune"])
                 .output()
-                .await;
+                .await
+            {
+                debug!(error = ?e, "best-effort worktree prune failed to spawn");
+            }
         });
     }
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::let_underscore_must_use,
+        reason = "tests assert via panic/unwrap and ignore best-effort git command results"
+    )]
     use std::fs;
 
     use super::*;

@@ -61,8 +61,8 @@ impl NewBuilding {
         if let Some(ref id) = self.internal_id {
             return Some(id.clone());
         }
-        if self.building_prefixes.len() == 1 {
-            return Some(self.building_prefixes[0].clone());
+        if let [only] = self.building_prefixes.as_slice() {
+            return Some(only.clone());
         }
         None
     }
@@ -183,8 +183,13 @@ impl AppliableAddition for NewBuilding {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use std::collections::HashSet;
     use std::fs;
 

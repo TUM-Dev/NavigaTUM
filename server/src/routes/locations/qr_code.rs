@@ -97,8 +97,14 @@ pub async fn qr_code_handler(
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::indexing_slicing,
+        reason = "tests assert via panic/unwrap and slice known-shape PNG bytes"
+    )]
     use super::*;
 
     #[test]

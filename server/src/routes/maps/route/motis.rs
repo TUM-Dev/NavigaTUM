@@ -263,8 +263,10 @@ fn infer_route_color(value: &Leg) -> (String, String) {
 }
 
 fn infer_mvv_display_name(headsign: &str) -> Option<Color> {
-    // intentionally not collapsed: each line gets its own arm even when colors repeat
-    #[allow(clippy::match_same_arms)]
+    #[expect(
+        clippy::match_same_arms,
+        reason = "each line intentionally gets its own arm even when colors repeat"
+    )]
     match headsign {
         // ubahn colors from https://en.wikipedia.org/wiki/Module:Adjacent_stations/Munich_U-Bahn
         "U1" => Some(Color::from_hex("#52822f")),

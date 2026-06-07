@@ -1,7 +1,7 @@
 use std::env;
 use std::fmt::{self, Debug, Formatter};
 use std::sync::Arc;
-use std::sync::RwLock;
+use std::sync::{PoisonError, RwLock};
 use std::time::{Duration, Instant};
 
 use chrono::{DateTime, Utc};
@@ -20,8 +20,10 @@ pub struct APIRequestor {
     client: reqwest::Client,
     oauth_token: OauthAccessToken,
 }
-// Debug intentionally elides the http client; only token state matters in logs.
-#[allow(clippy::missing_fields_in_debug)]
+#[expect(
+    clippy::missing_fields_in_debug,
+    reason = "Debug intentionally elides the http client; only token state matters in logs"
+)]
 impl Debug for APIRequestor {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let mut base = f.debug_struct("APIRequestor");
@@ -175,7 +177,7 @@ impl OauthAccessToken {
 }
 impl Debug for OauthAccessToken {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let token = self.0.read().expect("not poisoned");
+        let token = self.0.read().unwrap_or_else(PoisonError::into_inner);
         let start_elapsed = token.as_ref().map(|(start, _)| start.elapsed());
         let mut base = f.debug_struct("Token");
         if let Some(start_elapsed) = start_elapsed {

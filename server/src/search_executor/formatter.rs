@@ -143,24 +143,24 @@ impl RoomVisitor {
         // e.g. "560-561 Hauptgebäude der Fakultät für Informatik und Mathematik"
         // becomes "560-561 Hauptgebäude…Mathematik"
         // crop only when explicitly configured (default is Crop)
-        if config.cropping == CroppingMode::Crop && hit.parent_building_names[0].len() > 25 {
-            let pn = hit.parent_building_names[0].as_str();
-            let (first, _) = pn.unicode_truncate(7);
-            let (last, _) = pn.unicode_truncate_start(10);
+        let building_name = hit.parent_building_names.first().map_or("", String::as_str);
+        if config.cropping == CroppingMode::Crop && building_name.len() > 25 {
+            let (first, _) = building_name.unicode_truncate(7);
+            let (last, _) = building_name.unicode_truncate_start(10);
             (None, format!("{arch_id} {first}…{last}"))
+        } else if building_name.is_empty() {
+            (None, arch_id.to_string())
         } else {
-            (
-                None,
-                format!("{} {}", arch_id, hit.parent_building_names[0]),
-            )
+            (None, format!("{arch_id} {building_name}"))
         }
     }
 
     fn generate_subtext(hit: &MSHit) -> String {
-        let building = match hit.parent_building_names.len() {
-            0 => String::new(),
-            _ => hit.parent_building_names[0].clone(),
-        };
+        let building = hit
+            .parent_building_names
+            .first()
+            .cloned()
+            .unwrap_or_default();
 
         match &hit.campus {
             Some(campus) => format!("{campus}, {building}"),

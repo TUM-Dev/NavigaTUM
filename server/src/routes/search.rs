@@ -464,7 +464,10 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
             .body("The query is too long");
     }
     let start_time = Instant::now();
-    let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
+    // Block until initialisation has finished: the maintenance task holds the write lock until
+    // meilisearch is populated, so acquiring (and immediately releasing) the read lock here keeps
+    // us from returning empty results during initialisation.
+    drop(data.meilisearch_initialised.read().await);
 
     let limits = Limits::from(&args);
     let formatting_config = FormattingConfig::from(&args);
@@ -520,8 +523,10 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
 
     let search_results = SearchResponse {
         sections: results_sections,
-        // truncation acceptable: search latency above ~50 days isn't a useful number to report
-        #[allow(clippy::cast_possible_truncation)]
+        #[expect(
+            clippy::cast_possible_truncation,
+            reason = "search latency above ~50 days isn't a useful number to report"
+        )]
         time_ms: start_time.elapsed().as_millis() as u32,
     };
 
@@ -571,8 +576,13 @@ async fn do_geoentry_search(
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use pretty_assertions::assert_eq;
 
     use super::*;

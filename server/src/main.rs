@@ -14,7 +14,7 @@ use sqlx::prelude::*;
 use sqlx::{PgPool, Pool, Postgres};
 use tokio::sync::{Barrier, RwLock};
 use tokio::task::JoinSet;
-use tracing::{debug_span, error, info, subscriber};
+use tracing::{Instrument as _, debug_span, error, info, subscriber};
 use tracing_actix_web::TracingLogger;
 use utoipa::openapi::OpenApi;
 
@@ -164,56 +164,66 @@ async fn run_maintenance_work(
         info!("skipping the database setup as SKIP_MS_SETUP=true");
         initialisation_started.wait().await;
     } else {
-        let _ = debug_span!("updating meilisearch data").enter();
-        let _ = meilisearch_initialised.write().await;
-        initialisation_started.wait().await;
-        let ms_url = env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-        let client = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok())
-            .expect("a valid meilisearch client");
-        setup::meilisearch::setup(&client)
-            .await
-            .expect("meilisearch setup to succeed");
-        setup::meilisearch::load_data(&client)
-            .await
-            .expect("meilisearch initial data load to succeed");
+        async {
+            // Hold the write lock across setup so request handlers block on the read lock
+            // until meilisearch is populated. The barrier below guarantees the write lock is
+            // taken before `main` starts serving, closing the race the barrier exists to prevent.
+            let _meilisearch_guard = meilisearch_initialised.write().await;
+            initialisation_started.wait().await;
+            let ms_url =
+                env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+            let client = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok())
+                .expect("a valid meilisearch client");
+            setup::meilisearch::setup(&client)
+                .await
+                .expect("meilisearch setup to succeed");
+            setup::meilisearch::load_data(&client)
+                .await
+                .expect("meilisearch initial data load to succeed");
+        }
+        .instrument(debug_span!("updating meilisearch data"))
+        .await;
     }
     if env::var("SKIP_DB_SETUP") == Ok("true".to_string()) {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     } else {
-        let _ = debug_span!("updating postgis data").enter();
-        setup::database::setup(&pool)
-            .await
-            .expect("postgis schema setup to succeed");
-        setup::database::load_data(&pool)
-            .await
-            .expect("postgis initial data load to succeed");
-        // Once `de`/`en` are populated, every remaining loader fans out.
-        // The lookup tables FK back to `de`/`en` only, transportation is
-        // FK-isolated, and tumonline_orgs -> events is a self-contained
-        // sequential pair (events.organising_org_id REFERENCES
-        // tumonline_orgs.org_id).
-        let mut loaders = JoinSet::new();
-        loaders.spawn(setup::transportation::setup(pool.clone()));
-        {
-            let p = pool.clone();
-            loaders.spawn(async move {
-                setup::tumonline_orgs::setup(p.clone()).await?;
-                setup::events::setup(p).await
-            });
+        async {
+            setup::database::setup(&pool)
+                .await
+                .expect("postgis schema setup to succeed");
+            setup::database::load_data(&pool)
+                .await
+                .expect("postgis initial data load to succeed");
+            // Once `de`/`en` are populated, every remaining loader fans out.
+            // The lookup tables FK back to `de`/`en` only, transportation is
+            // FK-isolated, and tumonline_orgs -> events is a self-contained
+            // sequential pair (events.organising_org_id REFERENCES
+            // tumonline_orgs.org_id).
+            let mut loaders = JoinSet::new();
+            loaders.spawn(setup::transportation::setup(pool.clone()));
+            {
+                let p = pool.clone();
+                loaders.spawn(async move {
+                    setup::tumonline_orgs::setup(p.clone()).await?;
+                    setup::events::setup(p).await
+                });
+            }
+            loaders.spawn(setup::ranking_factors::setup(pool.clone()));
+            loaders.spawn(setup::operators_de::setup(pool.clone()));
+            loaders.spawn(setup::operators_en::setup(pool.clone()));
+            loaders.spawn(setup::sources::setup(pool.clone()));
+            loaders.spawn(setup::usages::setup(pool.clone()));
+            loaders.spawn(setup::urls_de::setup(pool.clone()));
+            loaders.spawn(setup::urls_en::setup(pool.clone()));
+            loaders.spawn(setup::parents::setup(pool.clone()));
+            loaders.spawn(setup::location_images::setup(pool.clone()));
+            while let Some(res) = loaders.join_next().await {
+                res.expect("loader task to complete")
+                    .expect("loader setup to succeed");
+            }
         }
-        loaders.spawn(setup::ranking_factors::setup(pool.clone()));
-        loaders.spawn(setup::operators_de::setup(pool.clone()));
-        loaders.spawn(setup::operators_en::setup(pool.clone()));
-        loaders.spawn(setup::sources::setup(pool.clone()));
-        loaders.spawn(setup::usages::setup(pool.clone()));
-        loaders.spawn(setup::urls_de::setup(pool.clone()));
-        loaders.spawn(setup::urls_en::setup(pool.clone()));
-        loaders.spawn(setup::parents::setup(pool.clone()));
-        loaders.spawn(setup::location_images::setup(pool.clone()));
-        while let Some(res) = loaders.join_next().await {
-            res.expect("loader task to complete")
-                .expect("loader setup to succeed");
-        }
+        .instrument(debug_span!("updating postgis data"))
+        .await;
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();
@@ -241,9 +251,9 @@ async fn main() -> anyhow::Result<()> {
     let initialisation_started = Arc::new(Barrier::new(2));
     let maintenance_thread = tokio::spawn(run_maintenance_work(
         data.pool.clone(),
-        data.meilisearch_initialised.clone(),
-        initialisation_started.clone(),
-        repo_pool.clone(),
+        Arc::clone(&data.meilisearch_initialised),
+        Arc::clone(&initialisation_started),
+        Arc::clone(&repo_pool),
     ));
 
     let prometheus = build_metrics();

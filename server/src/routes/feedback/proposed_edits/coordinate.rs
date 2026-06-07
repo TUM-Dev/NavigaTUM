@@ -93,8 +93,14 @@ impl AppliableEdit for Coordinate {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        clippy::indexing_slicing,
+        reason = "tests assert via panic/unwrap and index into known-shape JSON fixtures"
+    )]
     use std::fs;
 
     use pretty_assertions::assert_eq;

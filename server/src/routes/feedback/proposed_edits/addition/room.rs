@@ -82,7 +82,10 @@ fn validate_room_code(key: &str) -> Result<&str, AdditionError> {
     if parts.iter().any(|p| p.is_empty()) {
         return Err(AdditionError::BadRoomCode(key.to_string(), "empty segment"));
     }
-    Ok(parts[0])
+    parts
+        .first()
+        .copied()
+        .ok_or_else(|| AdditionError::BadRoomCode(key.to_string(), "missing first segment"))
 }
 
 fn is_arch_name_valid(s: &str) -> bool {
@@ -197,8 +200,13 @@ impl AppliableAddition for NewRoom {
 }
 
 #[cfg(test)]
-#[allow(clippy::unwrap_used, clippy::panic, clippy::panic_in_result_fn)]
 mod tests {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        clippy::panic_in_result_fn,
+        reason = "tests assert via panic/unwrap"
+    )]
     use std::collections::HashSet;
     use std::fs;
 
