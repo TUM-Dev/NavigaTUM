@@ -17,11 +17,14 @@ use meilisearch_sdk::documents::DocumentsQuery;
 use meilisearch_sdk::tasks::Task;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
+use sqlx::types::Json;
 use tokio::time::sleep;
 use tracing::{debug, error, info};
 use xxhash_rust::xxh3::xxh3_64;
 
-use crate::external::meilisearch::{ENTRIES_INDEX, FACET_FIELD, LECTURE_FACET, ROOM_FACET};
+use crate::external::meilisearch::{
+    ENTRIES_INDEX, FACET_FIELD, LECTURE_FACET, ROOM_FACET, UpcomingEvent,
+};
 
 /// How often the lecture facet is re-derived after the initial startup run.
 const REFRESH_INTERVAL: Duration = Duration::from_mins(5);
@@ -47,11 +50,11 @@ pub async fn refresh_lectures(pool: PgPool, client: Client) {
 #[tracing::instrument(skip(pool, client))]
 pub(crate) async fn refresh_once(pool: &PgPool, client: &Client) -> anyhow::Result<()> {
     let groups = aggregate_lectures(pool).await?;
-    let room_parents = fetch_room_parents(client).await?;
+    let room_context = fetch_room_context(client).await?;
 
     let documents: Vec<LectureDocument> = groups
         .iter()
-        .map(|group| LectureDocument::from_group(group, &room_parents))
+        .map(|group| LectureDocument::from_group(group, &room_context))
         .collect();
     let produced_ids: HashSet<String> = documents.iter().map(|d| d.ms_id.clone()).collect();
 
@@ -87,6 +90,17 @@ pub(crate) async fn refresh_once(pool: &PgPool, client: &Client) -> anyhow::Resu
     Ok(())
 }
 
+/// One upcoming occurrence as aggregated from `calendar`.
+///
+/// The room is still only a code here; its display name is resolved against the
+/// geo room documents when the stored [`UpcomingEvent`] is built.
+#[derive(Deserialize)]
+struct UpcomingEventRaw {
+    start_at: DateTime<Utc>,
+    end_at: DateTime<Utc>,
+    room_code: String,
+}
+
 /// One distinct lecture identity, aggregated from upcoming `calendar` rows.
 struct LectureGroup {
     /// Lowercased German title - part of the identity key.
@@ -105,6 +119,10 @@ struct LectureGroup {
     next_occurrence_at: DateTime<Utc>,
     /// Distinct rooms hosting upcoming occurrences of this lecture.
     room_codes: Vec<String>,
+    /// The next occurrences in chronological order, capped at whichever covers
+    /// more events: the next 10 or those within a 14-day window (see
+    /// [`aggregate_lectures`]).
+    upcoming: Json<Vec<UpcomingEventRaw>>,
 }
 
 #[tracing::instrument(skip(pool))]
@@ -114,21 +132,52 @@ async fn aggregate_lectures(pool: &PgPool) -> anyhow::Result<Vec<LectureGroup>> 
     // lowercase fold so scrape-time capitalisation drift does not fork a group.
     // Display titles and `stp_type` are read off the earliest upcoming row so the
     // surfaced text matches what the user is about to attend.
+    //
+    // `upcoming` materialises the per-occurrence rows the expandable lecture row
+    // renders. It is capped at `max(next 10 occurrences, 14-day window)` -
+    // whichever covers more events wins, so a weekly lecture keeps ~10 entries
+    // and a daily tutorial ~14, with a predictable bound on document size. Both
+    // sets are prefixes of the chronological order, so their union is just the
+    // longer prefix: `rn <= 10 OR start_at <= NOW() + 14 days`. `rn = 1` always
+    // passes the filter, so the aggregate is never `NULL`.
     let groups = sqlx::query_as!(
         LectureGroup,
         r#"
+        WITH upcoming AS (
+            SELECT
+                LOWER(title_de)        AS key_title_de,
+                LOWER(title_en)        AS key_title_en,
+                COALESCE(stp_type, '') AS key_stp_type,
+                title_de,
+                title_en,
+                stp_type,
+                start_at,
+                end_at,
+                room_code,
+                ROW_NUMBER() OVER (
+                    PARTITION BY LOWER(title_de), LOWER(title_en), COALESCE(stp_type, '')
+                    ORDER BY start_at, room_code
+                ) AS rn
+            FROM calendar
+            WHERE end_at >= NOW()
+        )
         SELECT
-            LOWER(title_de)                               AS "key_title_de!",
-            LOWER(title_en)                               AS "key_title_en!",
-            COALESCE(stp_type, '')                        AS "key_stp_type!",
+            key_title_de                                  AS "key_title_de!",
+            key_title_en                                  AS "key_title_en!",
+            key_stp_type                                  AS "key_stp_type!",
             (ARRAY_AGG(title_de ORDER BY start_at))[1]    AS "title_de!",
             (ARRAY_AGG(title_en ORDER BY start_at))[1]    AS "title_en!",
             (ARRAY_AGG(stp_type ORDER BY start_at))[1]    AS "stp_type",
             MIN(start_at)                                 AS "next_occurrence_at!",
-            ARRAY_AGG(DISTINCT room_code)                 AS "room_codes!"
-        FROM calendar
-        WHERE end_at >= NOW()
-        GROUP BY LOWER(title_de), LOWER(title_en), COALESCE(stp_type, '')
+            ARRAY_AGG(DISTINCT room_code)                 AS "room_codes!",
+            JSONB_AGG(
+                JSONB_BUILD_OBJECT('start_at', start_at, 'end_at', end_at, 'room_code', room_code)
+                ORDER BY rn
+            ) FILTER (
+                WHERE rn <= 10 OR start_at <= NOW() + INTERVAL '14 days'
+            )                                             AS "upcoming!: Json<Vec<UpcomingEventRaw>>"
+        FROM upcoming
+        GROUP BY key_title_de, key_title_en, key_stp_type
         "#,
     )
     .fetch_all(pool)
@@ -137,45 +186,57 @@ async fn aggregate_lectures(pool: &PgPool) -> anyhow::Result<Vec<LectureGroup>> 
     Ok(groups)
 }
 
-/// Parent context of a single room, harvested from its geo document.
+/// Context of a single room, harvested from its geo document: the display name
+/// surfaced on each upcoming occurrence, plus the parent hierarchy the lecture
+/// inherits for search.
 #[derive(Default)]
-struct RoomParents {
+struct RoomContext {
+    name: String,
     building_names: Vec<String>,
     keywords: Vec<String>,
 }
 
 #[derive(Deserialize)]
-struct RoomParentDoc {
+struct RoomContextDoc {
     room_code: String,
+    #[serde(default)]
+    name: String,
     #[serde(default)]
     parent_building_names: Vec<String>,
     #[serde(default)]
     parent_keywords: Vec<String>,
 }
 
-/// Build a `room_code -> parents` map from the geo room documents already in the
-/// index. This keeps a single source of truth for the parent hierarchy rather
-/// than re-deriving it from Postgres, so lecture rows inherit exactly the
-/// building names and keywords their rooms search by (boosting e.g. "Mathe MW").
+/// Build a `room_code -> context` map from the geo room documents already in the
+/// index. This keeps a single source of truth rather than re-deriving from
+/// Postgres, so lecture rows inherit exactly the building names and keywords
+/// their rooms search by (boosting e.g. "Mathe MW") and reuse the same display
+/// name the room itself surfaces.
 #[tracing::instrument(skip(client))]
-async fn fetch_room_parents(client: &Client) -> anyhow::Result<HashMap<String, RoomParents>> {
+async fn fetch_room_context(client: &Client) -> anyhow::Result<HashMap<String, RoomContext>> {
     let entries = client.index(ENTRIES_INDEX);
     let facet_filter = format!("{FACET_FIELD} = \"{ROOM_FACET}\"");
-    let mut parents = HashMap::new();
+    let mut rooms = HashMap::new();
     let mut offset = 0;
     loop {
         let page = DocumentsQuery::new(&entries)
             .with_filter(&facet_filter)
-            .with_fields(["room_code", "parent_building_names", "parent_keywords"])
+            .with_fields([
+                "room_code",
+                "name",
+                "parent_building_names",
+                "parent_keywords",
+            ])
             .with_limit(PAGE_SIZE)
             .with_offset(offset)
-            .execute::<RoomParentDoc>()
+            .execute::<RoomContextDoc>()
             .await?;
         let returned = page.results.len();
         for doc in page.results {
-            parents.insert(
+            rooms.insert(
                 doc.room_code,
-                RoomParents {
+                RoomContext {
+                    name: doc.name,
                     building_names: doc.parent_building_names,
                     keywords: doc.parent_keywords,
                 },
@@ -187,10 +248,10 @@ async fn fetch_room_parents(client: &Client) -> anyhow::Result<HashMap<String, R
         }
     }
     debug!(
-        cnt = parents.len(),
-        "indexed room parents for lecture derivation"
+        cnt = rooms.len(),
+        "indexed room context for lecture derivation"
     );
-    Ok(parents)
+    Ok(rooms)
 }
 
 /// The set of lecture `ms_id`s currently in the index that were *not* just
@@ -252,11 +313,12 @@ struct LectureDocument {
     parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     next_occurrence_at: DateTime<Utc>,
+    upcoming: Vec<UpcomingEvent>,
 }
 
 impl LectureDocument {
-    fn from_group(group: &LectureGroup, room_parents: &HashMap<String, RoomParents>) -> Self {
-        let (parent_building_names, parent_keywords) = group.parent_context(room_parents);
+    fn from_group(group: &LectureGroup, room_context: &HashMap<String, RoomContext>) -> Self {
+        let (parent_building_names, parent_keywords) = group.parent_context(room_context);
         Self {
             ms_id: group.ms_id(),
             facet: LECTURE_FACET,
@@ -272,6 +334,7 @@ impl LectureDocument {
             parent_building_names,
             parent_keywords,
             next_occurrence_at: group.next_occurrence_at,
+            upcoming: group.upcoming(room_context),
         }
     }
 }
@@ -300,28 +363,51 @@ impl LectureGroup {
     /// upcoming occurrence, de-duplicated while preserving first-seen order.
     fn parent_context(
         &self,
-        room_parents: &HashMap<String, RoomParents>,
+        room_context: &HashMap<String, RoomContext>,
     ) -> (Vec<String>, Vec<String>) {
         let mut building_names = Vec::new();
         let mut keywords = Vec::new();
         let mut seen_names = HashSet::new();
         let mut seen_keywords = HashSet::new();
         for room_code in &self.room_codes {
-            let Some(parents) = room_parents.get(room_code) else {
+            let Some(context) = room_context.get(room_code) else {
                 continue;
             };
-            for name in &parents.building_names {
+            for name in &context.building_names {
                 if seen_names.insert(name.clone()) {
                     building_names.push(name.clone());
                 }
             }
-            for keyword in &parents.keywords {
+            for keyword in &context.keywords {
                 if seen_keywords.insert(keyword.clone()) {
                     keywords.push(keyword.clone());
                 }
             }
         }
         (building_names, keywords)
+    }
+
+    /// The capped, chronologically ordered occurrences with their rooms resolved
+    /// to display names. A room missing from the index (e.g. an online-only
+    /// slot) falls back to its code so the entry stays clickable.
+    fn upcoming(&self, room_context: &HashMap<String, RoomContext>) -> Vec<UpcomingEvent> {
+        self.upcoming
+            .0
+            .iter()
+            .map(|event| {
+                let room_name = room_context
+                    .get(&event.room_code)
+                    .map(|context| context.name.clone())
+                    .filter(|name| !name.is_empty())
+                    .unwrap_or_else(|| event.room_code.clone());
+                UpcomingEvent {
+                    start_at: event.start_at,
+                    end_at: event.end_at,
+                    room_code: event.room_code.clone(),
+                    room_name,
+                }
+            })
+            .collect()
     }
 }
 
@@ -347,6 +433,7 @@ mod test {
             stp_type: stp_type.map(str::to_string),
             next_occurrence_at: DateTime::from_timestamp(0, 0).unwrap(),
             room_codes: vec![],
+            upcoming: Json(vec![]),
         }
     }
 

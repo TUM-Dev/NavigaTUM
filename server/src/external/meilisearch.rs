@@ -105,6 +105,28 @@ pub struct GeoMSHit {
     rank: i32,
 }
 
+/// One upcoming occurrence of a lecture, embedded in the lecture document.
+///
+/// The list lets a client render the expandable lecture row without a second
+/// round-trip: `room_name` is the German display name of `room_code` (mirroring
+/// the monolingual `name` field of the geo documents), and clicking an
+/// occurrence navigates to `/room/<room_code>`.
+#[derive(Deserialize, Serialize, Default, Clone, Debug, utoipa::ToSchema)]
+pub struct UpcomingEvent {
+    /// When the occurrence starts, as an RFC 3339 timestamp.
+    #[schema(example = "2024-10-15T08:00:00Z")]
+    pub start_at: DateTime<Utc>,
+    /// When the occurrence ends, as an RFC 3339 timestamp.
+    #[schema(example = "2024-10-15T10:00:00Z")]
+    pub end_at: DateTime<Utc>,
+    /// The room the occurrence takes place in; navigating to it uses `/room/<room_code>`.
+    #[schema(example = "5606.EG.011")]
+    pub room_code: String,
+    /// The German display name of `room_code`.
+    #[schema(example = "Testhörsaal")]
+    pub room_name: String,
+}
+
 /// A lecture (or tutorial) identity surfaced as the fifth search facet.
 ///
 /// One document per distinct `(title_de, title_en, stp_type)` group, derived
@@ -128,6 +150,9 @@ pub struct LectureMSHit {
     pub title_de: String,
     pub title_en: String,
     pub next_occurrence_at: DateTime<Utc>,
+    /// Upcoming occurrences in chronological order; the first element's
+    /// `start_at` matches `next_occurrence_at`.
+    pub upcoming: Vec<UpcomingEvent>,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     rank: i32,

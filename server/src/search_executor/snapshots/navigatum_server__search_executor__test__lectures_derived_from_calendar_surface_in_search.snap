@@ -12,6 +12,15 @@ expression: results.0
       title_de: Quantenfeldtheorie im Teststand
       title_en: Quantum Field Theory on a Test Bench
       next_occurrence_at: "[next_occurrence_at]"
+      upcoming:
+        - start_at: "[start_at]"
+          end_at: "[end_at]"
+          room_code: 5606.EG.011
+          room_name: Testhörsaal
+        - start_at: "[start_at]"
+          end_at: "[end_at]"
+          room_code: 5606.EG.011
+          room_name: Testhörsaal
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites

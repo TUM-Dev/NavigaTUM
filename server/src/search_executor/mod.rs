@@ -5,7 +5,7 @@ use serde::Serialize;
 use std::fmt::{self, Debug, Formatter};
 use tracing::error;
 
-use crate::external::meilisearch::{GeoEntryQuery, MSHit};
+use crate::external::meilisearch::{GeoEntryQuery, MSHit, UpcomingEvent};
 use crate::external::nominatim::Nominatim;
 use crate::limited::vec::LimitedVec;
 use crate::routes::search::{FormattingConfig, Limits};
@@ -110,6 +110,13 @@ struct ResultEntry {
     /// Only present for entries in the `lectures` section.
     #[schema(example = "2024-10-15T08:00:00Z")]
     next_occurrence_at: Option<DateTime<Utc>>,
+    /// The upcoming occurrences of this lecture, in chronological order.
+    ///
+    /// Only present for entries in the `lectures` section.
+    /// The first element's `start_at` matches `next_occurrence_at`. The list is
+    /// capped at whichever covers more events: the next 10 occurrences or those
+    /// within a 14-day window.
+    upcoming: Option<Vec<UpcomingEvent>>,
 }
 
 #[tracing::instrument]
@@ -828,6 +835,20 @@ mod test {
             "parent_building_names": ["Maschinenwesen (MW)"],
             "parent_keywords": ["mw", "garching"],
             "next_occurrence_at": "2024-10-15T08:00:00Z",
+            "upcoming": [
+                {
+                    "start_at": "2024-10-15T08:00:00Z",
+                    "end_at": "2024-10-15T10:00:00Z",
+                    "room_code": "5606.EG.011",
+                    "room_name": "Testhörsaal",
+                },
+                {
+                    "start_at": "2024-10-22T08:00:00Z",
+                    "end_at": "2024-10-22T10:00:00Z",
+                    "room_code": "5606.EG.011",
+                    "room_name": "Testhörsaal",
+                },
+            ],
         });
         let task = ms
             .client
@@ -877,6 +898,17 @@ mod test {
         );
         // The human `stp_type` label is surfaced as the subtext.
         assert_eq!(top.subtext, "Vorlesung");
+        // The upcoming occurrences ride along, room names resolved, with the
+        // first element's start matching `next_occurrence_at`.
+        let upcoming = top
+            .upcoming
+            .as_ref()
+            .expect("a lecture entry carries its upcoming occurrences");
+        assert_eq!(upcoming.len(), 2);
+        let first = upcoming.first().unwrap();
+        assert_eq!(first.start_at, top.next_occurrence_at.unwrap());
+        assert_eq!(first.room_code, "5606.EG.011");
+        assert_eq!(first.room_name, "Testhörsaal");
 
         insta::with_settings!({
             info => &"q=Navigatumlehre",
@@ -892,6 +924,7 @@ mod test {
     struct IndexedLecture {
         parent_building_names: Vec<String>,
         parent_keywords: Vec<String>,
+        upcoming: Vec<UpcomingEvent>,
     }
 
     /// End-to-end: seed the `calendar` table and a hosting room, run the real
@@ -1029,9 +1062,28 @@ mod test {
         assert_eq!(top.subtext, "Vorlesung");
         // The earliest *future* occurrence wins; the past row is excluded.
         assert_eq!(top.next_occurrence_at, Some(at(3_600)));
+        // Both future occurrences are materialised in chronological order with
+        // the hosting room's display name resolved; the past row is dropped and
+        // the first occurrence agrees with `next_occurrence_at`.
+        let upcoming = top
+            .upcoming
+            .as_ref()
+            .expect("the derived lecture carries its upcoming occurrences");
+        assert_eq!(
+            upcoming.len(),
+            2,
+            "the two future rows surface; the already-ended row is dropped"
+        );
+        let first = upcoming.first().unwrap();
+        assert_eq!(first.start_at, at(3_600));
+        assert_eq!(first.end_at, at(7_200));
+        assert_eq!(first.room_code, room_code);
+        assert_eq!(first.room_name, "Testhörsaal");
+        assert_eq!(upcoming.get(1).unwrap().start_at, at(10_800));
 
         // The stored document inherits the hosting room's parent context, so
-        // queries like "Quantenfeldtheorie PH" can find it.
+        // queries like "Quantenfeldtheorie PH" can find it, and it carries the
+        // same resolved upcoming occurrences.
         let stored = meilisearch_sdk::documents::DocumentsQuery::new(&entries)
             .with_filter("facet = \"lecture\"")
             .execute::<IndexedLecture>()
@@ -1041,6 +1093,8 @@ mod test {
         let stored = stored.results.first().unwrap();
         assert_eq!(stored.parent_building_names, ["Physik (PH)"]);
         assert_eq!(stored.parent_keywords, ["ph", "garching"]);
+        assert_eq!(stored.upcoming.len(), 2);
+        assert_eq!(stored.upcoming.first().unwrap().room_name, "Testhörsaal");
 
         insta::with_settings!({
             description => "a lecture derived from the calendar is returned by search",
@@ -1048,6 +1102,8 @@ mod test {
             insta::assert_yaml_snapshot!(results.0, {
                 ".**.estimatedTotalHits" => "[estimatedTotalHits]",
                 ".**.next_occurrence_at" => "[next_occurrence_at]",
+                ".**.start_at" => "[start_at]",
+                ".**.end_at" => "[end_at]",
             });
         });
 
@@ -1077,5 +1133,151 @@ mod test {
                 .is_none_or(|s| s.entries.is_empty()),
             "the lecture must be gone once its calendar rows are deleted"
         );
+    }
+
+    /// The `upcoming` cap is `max(next 10 occurrences, 14-day window)`: a daily
+    /// tutorial is bounded by the window (~14 entries), a weekly lecture by the
+    /// count (10 entries). This seeds both, derives, and asserts each arm of the
+    /// `max` independently from the stored documents.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    #[expect(
+        clippy::too_many_lines,
+        reason = "one test seeds Postgres + Meilisearch, derives, and asserts both arms of the cap"
+    )]
+    async fn test_lecture_upcoming_capped_at_max_of_top10_and_14day_window() {
+        const DAY: i64 = 24 * 60 * 60;
+
+        /// Only the fields the cap assertions need off the stored document.
+        #[derive(serde::Deserialize)]
+        struct StoredLecture {
+            title_de: String,
+            upcoming: Vec<UpcomingEvent>,
+        }
+
+        let pg = PostgresTestContainer::new().await;
+        let ms = MeiliSearchTestContainer::new().await;
+        let entries = ms.client.index("entries");
+
+        let room_code = "5606.EG.011";
+        let room_data = serde_json::json!({
+            "name": "Testhörsaal",
+            "type": "room",
+            "type_common_name": "Hörsaal",
+            "coords": { "lat": 48.0, "lon": 11.0, "source": "navigatum" },
+        })
+        .to_string();
+        // `calendar.room_code` is a foreign key into `en` (which references `de`).
+        sqlx::query("INSERT INTO de (key, data) VALUES ($1, $2::jsonb)")
+            .bind(room_code)
+            .bind(&room_data)
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+        sqlx::query("INSERT INTO en (key, data) VALUES ($1, $2::jsonb)")
+            .bind(room_code)
+            .bind(&room_data)
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+        entries
+            .add_documents(
+                &[serde_json::json!({
+                    "ms_id": "5606-EG-011",
+                    "facet": "room",
+                    "type": "room",
+                    "room_code": room_code,
+                    "name": "Testhörsaal",
+                    "type_common_name": "Hörsaal",
+                    "rank": 100,
+                })],
+                Some("ms_id"),
+            )
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+
+        let now = Utc::now().timestamp();
+        let mut id = 0;
+        let mut insert = async |title: &str, start_secs: i64| {
+            id += 1;
+            let start = DateTime::from_timestamp(now + start_secs, 0).unwrap();
+            let end = start + chrono::Duration::hours(1);
+            sqlx::query(
+                "INSERT INTO calendar \
+                 (id, room_code, start_at, end_at, title_de, title_en, stp_type, entry_type, detailed_entry_type) \
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+            )
+            .bind(id)
+            .bind(room_code)
+            .bind(start)
+            .bind(end)
+            .bind(title)
+            .bind(title)
+            .bind(Some("Vorlesung"))
+            .bind("lecture")
+            .bind("Vorlesung")
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+        };
+
+        // Daily tutorial: 20 future days. The 14-day window covers days 1..=14
+        // (14 events), beating the top-10, so the cap is the window.
+        for day in 1..=20 {
+            insert("Tägliche Übung", day * DAY).await;
+        }
+        // Weekly lecture: 12 future weeks. The window covers only weeks 1..=2 (2
+        // events), so the top-10 wins and the cap is the count.
+        for week in 1..=12 {
+            insert("Wöchentliche Vorlesung", week * 7 * DAY).await;
+        }
+
+        crate::refresh::lectures::refresh_once(&pg.pool, &ms.client)
+            .await
+            .unwrap();
+
+        let stored = meilisearch_sdk::documents::DocumentsQuery::new(&entries)
+            .with_filter("facet = \"lecture\"")
+            .execute::<StoredLecture>()
+            .await
+            .unwrap()
+            .results;
+        let by_title = |title: &str| {
+            stored
+                .iter()
+                .find(|l| l.title_de == title)
+                .unwrap_or_else(|| panic!("expected a stored lecture titled {title:?}"))
+        };
+
+        let daily = by_title("Tägliche Übung");
+        assert_eq!(
+            daily.upcoming.len(),
+            14,
+            "the daily tutorial is capped by the 14-day window"
+        );
+        let weekly = by_title("Wöchentliche Vorlesung");
+        assert_eq!(
+            weekly.upcoming.len(),
+            10,
+            "the weekly lecture is capped by the next-10 count"
+        );
+
+        // Both are in chronological order with the room name resolved.
+        for lecture in [daily, weekly] {
+            assert!(
+                lecture.upcoming.is_sorted_by_key(|e| e.start_at),
+                "upcoming occurrences must be chronological"
+            );
+            assert!(
+                lecture
+                    .upcoming
+                    .iter()
+                    .all(|e| e.room_name == "Testhörsaal"),
+                "every occurrence resolves its room display name"
+            );
+        }
     }
 }
