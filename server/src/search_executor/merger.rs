@@ -63,9 +63,10 @@ pub(super) fn merge_search_results(
                 ResultFacet::Buildings,
                 make_building_like_entry(geo, hit, highlight),
             ),
-            MSHit::Room(geo) if rooms.entries.len() < limits.rooms_count => {
-                (ResultFacet::Rooms, make_room_like_entry(geo, hit, highlight))
-            }
+            MSHit::Room(geo) if rooms.entries.len() < limits.rooms_count => (
+                ResultFacet::Rooms,
+                make_room_like_entry(geo, hit, highlight),
+            ),
             MSHit::Poi(geo) if pois.entries.len() < limits.pois_count => {
                 (ResultFacet::Pois, make_room_like_entry(geo, hit, highlight))
             }
