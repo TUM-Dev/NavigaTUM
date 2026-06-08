@@ -309,7 +309,7 @@ test.describe("Details Page - Building Overview", () => {
     // view -> building redirect
     await expect(page).toHaveURL("building/5602");
 
-    const roomLink = page.locator('a[href*="/view/5602."]').first();
+    const roomLink = page.locator('a[href*="/room/5602."]').first();
     await expect(roomLink).toBeVisible();
     // await expect(page).toHaveScreenshot();
     await roomLink.click();
