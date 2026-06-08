@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiArrowRightThin, mdiChevronDown, mdiChevronUp, mdiHelpCircle } from "@mdi/js";
+import { mdiArrowRightThin, mdiChevronDown, mdiChevronUp, mdiHelpCircle, mdiOpenInNew } from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import {
@@ -93,7 +93,13 @@ function rowTitle(entry: StopTimeEntry): string {
 
 <template>
   <div v-if="stations.length" class="flex flex-col gap-3 print:!hidden">
-    <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
+    <div class="flex flex-row items-baseline justify-between gap-2">
+      <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
+      <Btn to="https://transitous.org/" variant="link" size="text-xs gap-1 rounded">
+        {{ t("source") }}
+        <MdiIcon :path="mdiOpenInNew" :size="14" class="my-auto" aria-hidden="true" />
+      </Btn>
+    </div>
     <ul class="flex flex-col gap-2">
       <li
         v-for="{ station, state } in visibleStations"
@@ -219,6 +225,7 @@ function rowTitle(entry: StopTimeEntry): string {
 <i18n lang="yaml">
 de:
   title: Öffentlicher Verkehr in der Nähe
+  source: via Transitous
   loading: Lädt Abfahrten…
   error: 'Abfahrten konnten nicht geladen werden: {msg}'
   no_departures: Keine bevorstehenden Abfahrten.
@@ -268,6 +275,7 @@ de:
     other: Sonstiges
 en:
   title: Nearby public transport
+  source: via Transitous
   loading: Loading departures…
   error: 'Could not load departures: {msg}'
   no_departures: No upcoming departures.
