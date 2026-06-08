@@ -12,13 +12,9 @@ from utils import setup_logging
 from external.schemas.ub_tum import UbTumSchema
 from external.scraping_utils import CACHE_PATH
 
-# Index page that lists every Teilbibliothek (English: branch library); the slug between
-# `/en/branch-library-` and the end of the URL keys the branch in the cache
-# (e.g. `mathematics-informatics`).
 INDEX_URL = "https://www.ub.tum.de/en/branch-libraries"
 _BRANCH_HREF_RE = re.compile(r"^/en/branch-library-([a-z0-9-]+)$")
 
-# English weekday label -> OSM abbreviation, in calendar order.
 _WEEKDAYS: list[tuple[str, str]] = [
     ("Monday", "Mo"),
     ("Tuesday", "Tu"),
@@ -32,15 +28,11 @@ _DAY_BY_LABEL: dict[str, tuple[int, str]] = {
     label.lower(): (index, abbreviation) for index, (label, abbreviation) in enumerate(_WEEKDAYS)
 }
 _CLOSED_TOKENS = frozenset({"closed", "geschlossen"})
-# Drupal sometimes substitutes an en-dash or em-dash for the ASCII hyphen-minus in slot
-# ranges; OSM only accepts the ASCII form, so both upstream variants are normalised away.
+# Drupal emits en/em dashes in slot ranges, but OSM only accepts ASCII hyphen.
 _HYPHEN_LIKE = ("\u2013", "\u2014")
 
-# Drupal office_hours `field__label` text -> canonical block shape. A paragraph
-# whose label matches a season-key emits its rules under that semester macro;
-# anything not in the table is treated as a service variant whose label becomes
-# a per-rule trailing OSM comment. "Zeiten" is the Drupal field default and means
-# "year-round, no variant".
+# Drupal `field__label` text mapped to a semester macro.
+# Empty string means "no macro", any label absent from the table is treated as a service variant.
 _SEASON_LABELS: dict[str, str] = {
     "zeiten": "",
     "times": "",
@@ -59,8 +51,6 @@ _logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class ParsedBranchHours:
-    """One UB-TUM branch parsed from its HTML page."""
-
     branch_id: str
     name: str
     opening_hours: str
@@ -68,15 +58,7 @@ class ParsedBranchHours:
 
 
 def parse_branch_page(html: str, *, source_url: str, branch_id: str, name: str) -> ParsedBranchHours:
-    """
-    Parse a `ub.tum.de` branch-library page into one `ParsedBranchHours`.
-
-    Walks every `paragraph--type--oeffnungszeiten` block. The block's `field__label`
-    picks one of three shapes per the `_SEASON_LABELS` table: a default block emits
-    plain rules; a `lecture:`/`break:` season block prefixes each rule with that
-    macro; any other label is treated as a service variant and becomes a per-rule
-    trailing OSM comment (e.g. `Mo-Fr 09:00-20:00 "Pickup of preordered books"`).
-    """
+    """Parse a ub.tum.de branch-library page into one ParsedBranchHours."""
     soup = BeautifulSoup(html, "lxml")
     paragraphs = soup.select("div.paragraph--type--oeffnungszeiten")
     if not paragraphs:
@@ -95,7 +77,6 @@ def parse_branch_page(html: str, *, source_url: str, branch_id: str, name: str) 
 
 
 def _field_label_text(paragraph: Tag) -> str:
-    """Return the `field__label` div text inside an opening-hours paragraph; empty when absent."""
     label = paragraph.select_one("div.field__label")
     return label.get_text(strip=True) if label else ""
 
@@ -105,20 +86,10 @@ def _classify_label(label: str) -> tuple[str, str]:
     key = label.strip().lower()
     if key in _SEASON_LABELS:
         return _SEASON_LABELS[key], ""
-    # Unknown label means this paragraph describes a service variant; the label
-    # itself becomes the per-rule trailing comment so the renderer can group on it.
     return "", label.strip()
 
 
 def _day_slots(paragraph: Tag) -> list[str | None]:
-    """
-    Return the 7 daily slots in calendar order, `None` for a closed day.
-
-    The Drupal office_hours markup emits one `office-hours__item` per weekday with
-    a day-name label span and a slot span; days not present in the markup default
-    to closed. Multiple ranges within a single day collapse to a comma-separated
-    OSM list.
-    """
     slots: list[str | None] = [None] * len(_WEEKDAYS)
     for item in paragraph.select("div.office-hours__item"):
         label_el = item.select_one("span.office-hours__item-label")
@@ -135,7 +106,6 @@ def _day_slots(paragraph: Tag) -> list[str | None]:
 
 
 def _normalize_slot(raw: str) -> str | None:
-    """Normalise a slot cell to an OSM range list, or `None` for a closed day."""
     cleaned = raw
     for dash in _HYPHEN_LIKE:
         cleaned = cleaned.replace(dash, "-")
@@ -147,13 +117,11 @@ def _normalize_slot(raw: str) -> str | None:
 
 
 def _normalize_range(part: str) -> str:
-    """Zero-pad the hour fields in a `H:MM-H:MM` range so the result parses as OSM."""
     start, _, end = part.partition("-")
     return f"{_pad(start)}-{_pad(end)}"
 
 
 def _pad(time: str) -> str:
-    """Zero-pad a `H:MM` time to `HH:MM` (leaves `HH:MM` untouched)."""
     cleaned = time.strip()
     hour, _, minute = cleaned.partition(":")
     return f"{int(hour):02d}:{minute or '00'}"
@@ -161,8 +129,6 @@ def _pad(time: str) -> str:
 
 @dataclass
 class _DayRun:
-    """A run of consecutive weekdays sharing a slot, rendered as one OSM rule."""
-
     first_abbr: str
     last_abbr: str
     last_index: int
@@ -173,7 +139,6 @@ class _DayRun:
 
 
 def _day_runs(slots: list[str | None]) -> list[tuple[str, str]]:
-    """Collapse calendar-ordered slots into `(day_range, slot)` pairs, skipping closed days."""
     runs: list[_DayRun] = []
     for index, (_, abbreviation) in enumerate(_WEEKDAYS):
         slot = slots[index]
@@ -189,7 +154,6 @@ def _day_runs(slots: list[str | None]) -> list[tuple[str, str]]:
 
 
 def _format_rule(day_range: str, slot: str, *, prefix: str, comment: str) -> str:
-    """Format one OSM rule: optional `lecture:`/`break:` prefix, the body, optional trailing comment."""
     body = f"{day_range} {slot}"
     if comment:
         body = f'{body} "{comment}"'
@@ -199,7 +163,6 @@ def _format_rule(day_range: str, slot: str, *, prefix: str, comment: str) -> str
 
 
 def _discover_branches(session: requests.Session) -> list[tuple[str, str]]:
-    """Return `(branch_id, source_url)` pairs from the branch-libraries index."""
     response = session.get(INDEX_URL, timeout=30)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "lxml")
@@ -219,7 +182,6 @@ def _discover_branches(session: requests.Session) -> list[tuple[str, str]]:
 
 
 def _branch_name(html: str, *, fallback: str) -> str:
-    """Pull the per-branch heading as the name; fall back to the slug if absent."""
     soup = BeautifulSoup(html, "lxml")
     heading = soup.select_one("div.views-field-name .field-content")
     if heading is None:
@@ -229,13 +191,8 @@ def _branch_name(html: str, *, fallback: str) -> str:
 
 
 def scrape_ub_tum() -> None:
-    """
-    Write `ub_tum.csv` from the live `ub.tum.de` branch-library pages.
-
-    Refuses to overwrite with an empty roster, so a transient outage or upstream
-    layout change that drops every paragraph leaves the previously scraped data in
-    place rather than wiping coverage (cf. #1087).
-    """
+    """Write ub_tum.csv from the live ub.tum.de branch-library pages."""
+    # Refuse to overwrite with an empty roster on a transient outage or layout change (cf. #1087).
     session = requests.Session()
     today = datetime.now(tz=UTC).date().isoformat()
 

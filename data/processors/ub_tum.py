@@ -17,7 +17,6 @@ _MAPPING_SCHEMA = {"branch_id": pl.Utf8(), "id": pl.Utf8()}
 
 
 def _load_mapping() -> pl.DataFrame:
-    """Load the hand-authored UB-TUM branch-id -> NavigaTUM entry-id mapping."""
     return pl.read_csv(LIBRARY_MAPPING_CSV, schema=_MAPPING_SCHEMA)
 
 
@@ -25,7 +24,7 @@ def _load_stored_branches() -> pl.DataFrame:
     try:
         return load_ub_tum()
     except FileNotFoundError:
-        _logger.warning("No stored UB-TUM scrape yet; no library opening hours will be attached this build")
+        _logger.warning("No stored UB-TUM scrape yet, no library opening hours will be attached this build")
         return pl.DataFrame(schema=UbTumSchema.to_polars_schema())
 
 
@@ -35,14 +34,7 @@ def ub_tum_opening_hours(
     mapping: pl.DataFrame | None = None,
     today: date | None = None,
 ) -> dy.DataFrame[OpeningHoursSchema]:
-    """
-    Map scraped UB-TUM branch hours onto NavigaTUM entry ids as `OpeningHoursSchema` records.
-
-    Branches are matched to entries via `ub_tum_libraries.csv`. A mapped branch absent
-    from the scrape is logged (mapping drift or an upstream rename); an unmapped branch
-    is ignored. Emits a build-time staleness warning per scrape snapshot.
-    `branches`/`mapping`/`today` are injectable for tests.
-    """
+    """Map scraped UB-TUM branch hours onto NavigaTUM entry ids via `ub_tum_libraries.csv`."""
     branches = _load_stored_branches() if branches is None else branches
     mapping = _load_mapping() if mapping is None else mapping
     today = datetime.now(tz=UTC).date() if today is None else today

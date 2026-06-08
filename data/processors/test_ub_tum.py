@@ -11,7 +11,6 @@ from processors.semester_block_expander import Semester
 from processors.ub_tum import ub_tum_opening_hours
 
 _TODAY = date(2026, 6, 8)
-# One semester so the macro expander has a date span to attach to in the merge test.
 _SEMESTERS = [
     Semester(
         key="2026S",
@@ -24,7 +23,6 @@ _SEMESTERS = [
 
 
 def _branches(**overrides: list[object]) -> pl.DataFrame:
-    """Build a two-branch UB-TUM scrape frame matching `UbTumSchema`."""
     row: dict[str, list[object]] = {
         "branch_id": ["mathematics-informatics", "medicine"],
         "name": ["Mathematics & Informatics", "Medicine"],
@@ -46,7 +44,7 @@ def _mapping(branch_ids: list[str], ids: list[str]) -> pl.DataFrame:
 
 
 def test_maps_branch_hours_onto_entry_ids() -> None:
-    """A mapped branch yields an `OpeningHoursSchema` record keyed by the NavigaTUM entry id."""
+    """A mapped branch yields an OpeningHoursSchema record keyed by the NavigaTUM entry id."""
     records = ub_tum_opening_hours(
         branches=_branches(),
         mapping=_mapping(["mathematics-informatics"], ["5603"]),
@@ -63,7 +61,7 @@ def test_maps_branch_hours_onto_entry_ids() -> None:
 
 
 def test_ignores_unmapped_branches() -> None:
-    """A branch present in the scrape but absent from the mapping is dropped."""
+    """A scraped branch absent from the mapping is dropped."""
     records = ub_tum_opening_hours(
         branches=_branches(),
         mapping=_mapping(["mathematics-informatics"], ["5603"]),
@@ -96,7 +94,7 @@ def test_warns_when_scrape_is_stale(caplog: pytest.LogCaptureFixture) -> None:
 
 
 def test_service_variant_rule_survives_merge_grouped_by_comment() -> None:
-    """A trailing-comment service variant lands in `opening_hours_json` so the renderer can group on it."""
+    """A trailing-comment service variant lands in opening_hours_json so the renderer can group on it."""
     branches = _branches(
         opening_hours=[
             'Mo-Fr 08:00-21:00; Mo-Fr 09:00-20:00 "Pickup of preordered books"',
@@ -117,7 +115,7 @@ def test_service_variant_rule_survives_merge_grouped_by_comment() -> None:
 
 
 def test_lecture_break_macros_expand_through_merge() -> None:
-    """`lecture:`/`break:` macros from the scrape expand against the semester list at merge time."""
+    """lecture:/break: macros from the scrape expand against the semester list at merge time."""
     branches = _branches(
         opening_hours=[
             "lecture: Mo-Fr 08:00-24:00; break: Mo-Fr 09:00-20:00",
@@ -134,7 +132,6 @@ def test_lecture_break_macros_expand_through_merge() -> None:
     merged = merge_opening_hours(entries, schedules=records, semesters=_SEMESTERS)
 
     payload = orjson.loads(merged["opening_hours_json"][0])
-    # Expanded: lecture covers Apr 13 -> Jul 19; break covers the run-up (Apr 1-12) and tail (Jul 20-Sep 30).
     assert "2026 Apr 13-2026 Jul 19 Mo-Fr 08:00-24:00" in payload["osm"]
     assert "2026 Apr 01-2026 Apr 12 Mo-Fr 09:00-20:00" in payload["osm"]
     assert "2026 Jul 20-2026 Sep 30 Mo-Fr 09:00-20:00" in payload["osm"]
