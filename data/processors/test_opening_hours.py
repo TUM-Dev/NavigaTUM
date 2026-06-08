@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 
 import opening_hours
 import orjson
@@ -10,6 +11,8 @@ from external.schemas.opening_hours import OpeningHoursSchema
 
 from processors.df_utils import unflatten_row
 from processors.opening_hours import merge_opening_hours
+from processors.opening_hours_state import evaluate_state
+from processors.public_holiday_expander import contains_ph
 from processors.semester_block_expander import Semester, contains_macro
 from processors.studierendenwerk import mensa_opening_hours
 from processors.ub_tum import ub_tum_opening_hours
@@ -125,6 +128,27 @@ def test_merge_raises_when_macros_cannot_be_expanded() -> None:
         merge_opening_hours(_entries(), schedules=schedule, semesters=[])
 
 
+def test_merge_expands_ph_into_dated_holiday_rules() -> None:
+    """A `PH off` schedule lands as plain OSM with the semester's Bavarian holidays baked in as dates."""
+    schedule = _schedule(opening_hours="Mo-Fr 08:00-22:00; PH off")
+    df = merge_opening_hours(_entries(), schedules=schedule, semesters=[_SEMESTER])
+
+    payload = orjson.loads(dict(zip(df["id"], df["opening_hours_json"], strict=True))["5603"])
+    assert not contains_ph(payload["osm"]), payload["osm"]
+    assert opening_hours.validate(payload["osm"])
+    # Fronleichnam (19 Jun 2025, a Thursday) is a Bavaria-only holiday inside _SEMESTER's span.
+    assert "2025 Jun 19 off" in payload["osm"]
+    closed_on_holiday = evaluate_state(payload["osm"], datetime(2025, 6, 19, 10, 0, tzinfo=ZoneInfo("Europe/Berlin")))
+    assert closed_on_holiday.state == "closed"
+
+
+def test_merge_raises_when_ph_cannot_be_expanded() -> None:
+    """A `PH` schedule with no semesters (hence no holiday horizon) must raise, not drop the rule."""
+    schedule = _schedule(opening_hours="Mo-Fr 08:00-22:00; PH off")
+    with pytest.raises(ValueError, match=r"5603.*PH"):
+        merge_opening_hours(_entries(), schedules=schedule, semesters=[])
+
+
 def test_committed_schedules_expand_to_valid_plain_osm() -> None:
     """
     Assert every shipped schedule expands to macro-free OSM that parses.
@@ -143,6 +167,10 @@ def test_committed_schedules_expand_to_valid_plain_osm() -> None:
 
     payloads = [orjson.loads(value) for value in df["opening_hours_json"] if value is not None]
     assert payloads, "expected at least one committed schedule"
+    a_workday_noon = datetime(2026, 6, 8, 12, 0, tzinfo=ZoneInfo("Europe/Berlin"))
     for payload in payloads:
         assert not contains_macro(payload["osm"]), payload["osm"]
+        assert not contains_ph(payload["osm"]), payload["osm"]
         assert opening_hours.validate(payload["osm"]), payload["osm"]
+        # Every shipped schedule must also evaluate to a live state without error.
+        assert evaluate_state(payload["osm"], a_workday_noon).state in {"open", "closed"}

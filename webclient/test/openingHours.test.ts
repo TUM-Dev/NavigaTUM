@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  computeOpeningHoursState,
   type OpeningHoursDay,
   parseOpeningHoursWeek,
   WEEKDAY_KEYS,
@@ -62,5 +63,44 @@ describe("parseOpeningHoursWeek", () => {
 
   it("returns null for a malformed OSM string instead of throwing", async () => {
     expect(await parseOpeningHoursWeek("Mo-Fr 08:00-99:99", WEDNESDAY)).toBeNull();
+  });
+});
+
+describe("computeOpeningHoursState", () => {
+  const WEEKDAYS = "Mo-Fr 08:00-22:00";
+
+  it("reports open with the upcoming closing time during opening hours", async () => {
+    const state = await computeOpeningHoursState(WEEKDAYS, new Date(2026, 5, 8, 10, 0)); // Mon 10:00.
+    expect(state?.open).toBe(true);
+    expect(state?.nextChange?.getTime()).toBe(new Date(2026, 5, 8, 22, 0).getTime());
+  });
+
+  it("reports closed with the next opening time outside opening hours", async () => {
+    const state = await computeOpeningHoursState(WEEKDAYS, new Date(2026, 5, 7, 15, 0)); // Sun 15:00.
+    expect(state?.open).toBe(false);
+    expect(state?.nextChange?.getTime()).toBe(new Date(2026, 5, 8, 8, 0).getTime()); // Mon 08:00.
+  });
+
+  it("treats the closing minute itself as closed", async () => {
+    const state = await computeOpeningHoursState(WEEKDAYS, new Date(2026, 5, 5, 22, 0)); // Fri 22:00.
+    expect(state?.open).toBe(false);
+  });
+
+  it("reports an all-day schedule as open with no upcoming change", async () => {
+    const state = await computeOpeningHoursState("24/7", new Date(2026, 5, 8, 3, 0));
+    expect(state).toEqual({ open: true, nextChange: null });
+  });
+
+  it("honours a baked-in holiday date as closed", async () => {
+    // Holidays reach the client as explicit `<date> off` rules, not `PH`.
+    const osm = `${WEEKDAYS}; 2026 Jan 06 off`;
+    const onHoliday = await computeOpeningHoursState(osm, new Date(2026, 0, 6, 10, 0)); // Tue holiday.
+    const nextDay = await computeOpeningHoursState(osm, new Date(2026, 0, 13, 10, 0)); // ordinary Tue.
+    expect(onHoliday?.open).toBe(false);
+    expect(nextDay?.open).toBe(true);
+  });
+
+  it("returns null for a malformed OSM string instead of throwing", async () => {
+    expect(await computeOpeningHoursState("Mo-Fr 08:00-99:99", new Date(2026, 5, 8))).toBeNull();
   });
 });
