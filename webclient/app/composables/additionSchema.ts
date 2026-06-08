@@ -1,7 +1,7 @@
 // Discriminated-union draft model for the addition-proposal form. Each variant owns only the
 // fields it needs; the per-kind empty(), schema, and build() live next to each other and are
 // reached through `additionRegistry`. Adding a fifth kind means appending one new variant block
-// and one registry entry — no scattered switches elsewhere.
+// and one registry entry - no scattered switches elsewhere.
 //
 // The Zod schemas mirror the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
 
@@ -79,7 +79,7 @@ export interface CoordsDraft {
   picked: boolean;
 }
 
-// `id` and `coords` are present on every variant — including the unset state — so the modal's
+// `id` and `coords` are present on every variant - including the unset state - so the modal's
 // top-level computeds can read them without per-kind narrowing.
 interface DraftBase {
   id: string;
