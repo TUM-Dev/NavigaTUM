@@ -7,7 +7,7 @@ type EditRequestData = Omit<EditRequest, "privacy_checked" | "token" | "edits" |
   additions: NonNullable<EditRequest["additions"]>;
 };
 type BuildingKind = components["schemas"]["BuildingKind"];
-type AdditionKind = "room" | "building" | "poi";
+type AdditionKind = "room" | "building" | "poi" | "event";
 
 interface LinkDraft {
   text_de: string;
@@ -47,6 +47,17 @@ interface AdditionDraft {
   comment_en: string;
   poi_links: LinkDraft[];
   generic_props: GenericPropDraft[];
+  // event-only
+  description: string;
+  starts_at: string;
+  ends_at: string;
+  organising_org_id: number | null;
+  image: { base64: string; fileName: string } | null;
+  image_width: number | null;
+  image_height: number | null;
+  image_thumb_offset: number;
+  image_header_offset: number;
+  image_author: string;
 }
 
 interface PropertyFields {
@@ -127,6 +138,16 @@ function emptyAdditionDraft(): AdditionDraft {
     comment_en: "",
     poi_links: [],
     generic_props: [],
+    description: "",
+    starts_at: "",
+    ends_at: "",
+    organising_org_id: null,
+    image: null,
+    image_width: null,
+    image_height: null,
+    image_thumb_offset: 0,
+    image_header_offset: 0,
+    image_author: "",
   };
 }
 

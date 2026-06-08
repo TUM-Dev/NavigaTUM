@@ -4,7 +4,9 @@ import { mdiOpenInNew } from "@mdi/js";
 const props = defineProps<{
   readonly name: string;
   readonly description: string;
-  readonly imagePath: string;
+  readonly imagePath?: string;
+  /** Pre-resolved image URL (e.g. a local `blob:`) for previewing a not-yet-uploaded image; overrides `imagePath`. */
+  readonly imageSrcOverride?: string | null;
   readonly startsAt: string;
   readonly endsAt: string;
   readonly orgCode: string;
@@ -65,7 +67,9 @@ const badge = computed(() => {
 
 const orgName = computed(() => (locale.value === "de" ? props.orgNameDe : props.orgNameEn));
 
-const imageSrc = computed(() => `${runtimeConfig.public.cdnURL}${props.imagePath}`);
+const imageSrc = computed(
+  () => props.imageSrcOverride ?? `${runtimeConfig.public.cdnURL}${props.imagePath ?? ""}`
+);
 </script>
 
 <template>

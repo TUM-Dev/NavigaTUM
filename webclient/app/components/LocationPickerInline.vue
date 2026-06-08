@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
+import { mdiMapMarkerPlus } from "@mdi/js";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -14,16 +15,22 @@ interface Props {
   initialLat: number;
   initialLon: number;
   zoom?: number;
+  containerClass?: string;
+  awaitingSelection?: boolean;
 }
 const lat = defineModel<number>("lat", { required: true });
 
 const lon = defineModel<number>("lon", { required: true });
 
-const props = withDefaults(defineProps<Props>(), { zoom: 17 });
+const props = withDefaults(defineProps<Props>(), {
+  zoom: 17,
+  containerClass: "aspect-4/3",
+  awaitingSelection: false,
+});
 const { t } = useI18n({ useScope: "local" });
 
-const map = ref<MapLibreMap | undefined>(undefined);
-const marker = ref<Marker | undefined>(undefined);
+const map = shallowRef<MapLibreMap | undefined>(undefined);
+const marker = shallowRef<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
 
@@ -66,14 +73,15 @@ function initMap() {
     );
 
     const draggableMarker = new Marker({ element: createMarker(120), draggable: true });
-    draggableMarker.setLngLat([lon.value, lat.value]).addTo(mapInstance);
+    draggableMarker.setLngLat([lon.value, lat.value]);
+    if (!props.awaitingSelection) draggableMarker.addTo(mapInstance);
     draggableMarker.on("dragend", () => {
       const lngLat = draggableMarker.getLngLat();
       lat.value = lngLat.lat;
       lon.value = lngLat.lng;
     });
     mapInstance.on("click", (e) => {
-      draggableMarker.setLngLat([e.lngLat.lng, e.lngLat.lat]);
+      draggableMarker.setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(mapInstance);
       lat.value = e.lngLat.lat;
       lon.value = e.lngLat.lng;
     });
@@ -99,6 +107,13 @@ watch(
   { immediate: false }
 );
 
+watch(
+  () => props.awaitingSelection,
+  (awaiting) => {
+    if (!awaiting && marker.value && map.value) marker.value.addTo(map.value);
+  }
+);
+
 onMounted(async () => {
   await until(mapContainer).toBeTruthy();
   initMap();
@@ -112,13 +127,26 @@ onUnmounted(() => {
 <template>
   <div class="location-picker">
     <div
-      class="aspect-4/3 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
-      :class="{ 'dark:bg-black bg-white': webglSupport }"
+      class="border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded border"
+      :class="[containerClass, { 'dark:bg-black bg-white': webglSupport }]"
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
       <LazyMapGLNotSupported v-else />
+      <div
+        v-if="awaitingSelection && webglSupport"
+        class="pointer-events-none absolute inset-0 flex items-center justify-center p-3"
+      >
+        <span
+          class="bg-zinc-900/75 text-white flex items-center gap-2 rounded px-3 py-1.5 text-center text-sm font-medium shadow backdrop-blur-sm"
+        >
+          <MdiIcon :path="mdiMapMarkerPlus" :size="18" class="flex-shrink-0" />
+          {{ t("clickMap") }}
+        </span>
+      </div>
     </div>
-    <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
+    <p v-if="!awaitingSelection" class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">
+      {{ t("clickMap") }}
+    </p>
   </div>
 </template>
 

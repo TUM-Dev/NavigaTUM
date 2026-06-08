@@ -10,9 +10,7 @@ const props = withDefaults(
   }>(),
   { level: "default", msg: "", dismissable: false }
 );
-// No `default: () => []`: that would make `useCookie` write the empty array back during SSR, which
-// on `swr`-cached routes bakes a per-user `Set-Cookie` into the shared response (see the rationale
-// in `userPreferences.ts`). The server only reads which toasts were dismissed; the client writes.
+// No `default` factory; see `userPreferences.ts` (avoids per-user `Set-Cookie` on `swr` responses).
 const dismissedToasts = useCookie<string[] | null>("shownToasts");
 const isDismissed = computed(() => dismissedToasts.value?.includes(props.id) ?? false);
 

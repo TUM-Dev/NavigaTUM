@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
-import { useDebounceFn } from "@vueuse/core";
+import { mdiCalendarStar, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { refDebounced } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
+import { wallTimeToRfc3339 } from "~/utils/datetime";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
@@ -22,45 +23,51 @@ const kindOptions: { value: AdditionKind; icon: string }[] = [
   { value: "room", icon: mdiSofa },
   { value: "building", icon: mdiDomain },
   { value: "poi", icon: mdiMapMarker },
+  { value: "event", icon: mdiCalendarStar },
 ];
 const kindIndex = computed(() => {
   const k = editProposal.value.pendingAddition.kind;
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
-// Debounce + verify the id against /api/locations/{id}; 200 means collision, 404 means free.
-const idCheckPending = ref(false);
+// Verify the id against /api/locations/{id}; 200 means collision, 404 means free. Event ids are
+// content-hashed locally and cannot collide with existing entries, so the check is suppressed.
+const trimmedId = computed(() => editProposal.value.pendingAddition.id.trim());
+const debouncedId = refDebounced(trimmedId, 350);
+const fetchingId = ref(false);
 const idCollidesOnServer = ref(false);
-// Counter still needed to invalidate in-flight fetches when the input changes
-// after the debounce already fired; `useDebounceFn` only cancels pending calls.
-let idCheckCounter = 0;
-const runIdCheck = useDebounceFn(async (id: string, ticket: number) => {
-  try {
-    const res = await fetch(
-      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
-      { credentials: "omit" }
-    );
-    if (ticket !== idCheckCounter) return;
-    idCollidesOnServer.value = res.ok;
-  } catch {
-    // Network failure: don't block. The server validates again on submit.
-  } finally {
-    if (ticket === idCheckCounter) idCheckPending.value = false;
-  }
-}, 350);
 watch(
-  () => editProposal.value.pendingAddition.id,
-  (value) => {
-    idCheckCounter++;
+  [debouncedId, () => editProposal.value.pendingAddition.kind],
+  async ([id, kind], _old, onCleanup) => {
     idCollidesOnServer.value = false;
-    const id = value.trim();
-    if (!id) {
-      idCheckPending.value = false;
+    if (!id || kind === "event") {
+      fetchingId.value = false;
       return;
     }
-    idCheckPending.value = true;
-    runIdCheck(id, idCheckCounter);
+    const controller = new AbortController();
+    // `onCleanup` aborts the prior fetch the instant the watched inputs change again, so a slow
+    // response can never settle stale state. Replaces the manual counter the old code used.
+    onCleanup(() => controller.abort());
+    fetchingId.value = true;
+    try {
+      const res = await fetch(
+        `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+        { credentials: "omit", signal: controller.signal }
+      );
+      idCollidesOnServer.value = res.ok;
+    } catch {
+      // Network failure or abort: don't block. The server re-validates on submit.
+    } finally {
+      fetchingId.value = false;
+    }
   }
 );
+// Pending while either the debounce hasn't caught up to the latest keystroke or a fetch is in
+// flight - both transient states map to "checking…" in the UI.
+const idCheckPending = computed(() => {
+  const id = trimmedId.value;
+  if (!id || editProposal.value.pendingAddition.kind === "event") return false;
+  return debouncedId.value !== id || fetchingId.value;
+});
 
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;
@@ -231,6 +238,29 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       generic_props: generic_props.length > 0 ? generic_props : undefined,
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
   }
+  if (draft.kind === "event") {
+    if (!draft.image) return null;
+    return {
+      kind: "event",
+      name: draft.name,
+      description: draft.description,
+      starts_at: wallTimeToRfc3339(draft.starts_at) ?? "",
+      ends_at: wallTimeToRfc3339(draft.ends_at) ?? "",
+      coords,
+      organising_org_id: draft.organising_org_id as number,
+      image: {
+        content: draft.image.base64,
+        metadata: {
+          author: draft.image_author,
+          license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
+          offsets:
+            draft.image_thumb_offset === 0 && draft.image_header_offset === 0
+              ? null
+              : { thumb: draft.image_thumb_offset, header: draft.image_header_offset },
+        },
+      },
+    } as components["schemas"]["LimitedHashMap_String_Addition"][string];
+  }
   return null;
 }
 
@@ -395,7 +425,7 @@ watch(
       </TabGroup>
 
       <template v-if="editProposal.pendingAddition.kind">
-        <div>
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("parent_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -425,8 +455,8 @@ watch(
           </I18nT>
         </div>
 
-        <!-- For buildings the id input lives inside the Identifiers fieldset of AddBuildingFields. -->
-        <div v-if="editProposal.pendingAddition.kind !== 'building'">
+        <!-- Buildings render the id input inside AddBuildingFields; events derive it from the image. -->
+        <div v-if="editProposal.pendingAddition.kind !== 'building' && editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-id">
             {{ t("id_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -495,8 +525,9 @@ watch(
         <AddRoomFields v-if="editProposal.pendingAddition.kind === 'room'" />
         <AddBuildingFields v-if="editProposal.pendingAddition.kind === 'building'" />
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
+        <AddEventFields v-if="editProposal.pendingAddition.kind === 'event'" />
 
-        <div>
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("coords_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -505,6 +536,7 @@ watch(
             v-model:lon="mapLon"
             :initial-lat="mapInitialLat"
             :initial-lon="mapInitialLon"
+            :awaiting-selection="!editProposal.pendingAddition.coords.picked"
           />
           <p v-if="editProposal.pendingAddition.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
             {{ editProposal.pendingAddition.coords.lat.toFixed(5) }},
@@ -516,7 +548,7 @@ watch(
 
     <div class="float-right mt-6 flex flex-row-reverse gap-2">
       <Btn variant="primary" size="md" :disabled="!draftIsReady" @click="commitAddition">{{ t("commit") }}</Btn>
-      <Btn variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
+      <Btn v-if="editProposal.pendingAddition.kind !== 'event'" variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
       <Btn variant="linkButton" size="md" @click="cancelAddition">{{ t("cancel") }}</Btn>
     </div>
   </Modal>
@@ -532,6 +564,7 @@ de:
     room: Raum
     building: Gebäude
     poi: POI
+    event: Veranstaltung
   id_label: ID
   id_hint:
     room_segments: "Setzt sich aus übergeordnetem Gebäude, Stockwerk und Raumnummer zusammen."
@@ -564,6 +597,7 @@ en:
     room: Room
     building: Building
     poi: POI
+    event: Event
   id_label: ID
   id_hint:
     room_segments: "Composed from the parent building, floor and room number."
