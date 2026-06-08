@@ -249,6 +249,10 @@ const actions = computed<DetailAction[]>(() => [
     <div class="flex flex-col gap-6">
       <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview"/>
       <ClientOnly>
+        <LazyDetailsOpeningHoursCard
+          v-if="data.opening_hours"
+          :opening-hours="data.opening_hours"
+        />
         <LazyDetailsNearbyTransportSection :id="data.id"/>
         <LazyDetailsIrisCoverageCard
           v-if="data.props.iris_coverage_building_ids?.length"

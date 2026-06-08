@@ -166,6 +166,39 @@ struct LocationDetailsResponse {
     /// - featured view
     #[serde(default)]
     sections: SectionsResponse,
+    /// Opening hours of this location, when we have a schedule for it.
+    ///
+    /// Omitted for entries without a known schedule (most rooms).
+    opening_hours: Option<OpeningHoursResponse>,
+}
+
+/// Opening hours of a location.
+///
+/// The schedule is a plain OSM [`opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours)
+/// string. Any `lecture:`/`break:` semester macros are already expanded into absolute
+/// date ranges at data-build time, so consumers only ever see standard OSM syntax.
+#[serde_with::skip_serializing_none]
+#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
+struct OpeningHoursResponse {
+    /// Plain OSM `opening_hours` string describing the schedule.
+    #[schema(examples("Mo-Fr 08:00-22:00; Sa 09:00-17:00"))]
+    osm: String,
+    /// Where this schedule was sourced from, shown as the "source" link.
+    #[schema(examples("https://www.ub.tum.de/en/branch-libraries"))]
+    source_url: String,
+    /// `YYYY-MM-DD` date on which this schedule was last confirmed.
+    #[schema(examples("2026-05-01"))]
+    last_update: String,
+    /// `YYYY-MM-DD` date from which this schedule is valid, when bounded.
+    #[schema(examples("2026-04-28"))]
+    valid_from: Option<String>,
+    /// `YYYY-MM-DD` date until which this schedule is valid, when bounded.
+    #[schema(examples("2026-09-30"))]
+    valid_until: Option<String>,
+    /// The service variant this schedule describes, when a location distinguishes
+    /// several (e.g. a separate lending desk).
+    #[schema(examples("Ausleihe"))]
+    service: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
