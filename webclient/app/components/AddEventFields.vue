@@ -24,6 +24,10 @@ function errorFor(path: string): string | null {
 
 // --- Organising org combobox (client-filtered, like the room usage picker) ---
 const knownOrgs = useKnownOrgs();
+// Destructure the fetch state into top-level refs so the template auto-unwraps them (a nested
+// `knownOrgs.pending` would stay a truthy Ref). The list is a required field sourced from a lazy
+// CDN fetch, so the dropdown must tell loading / load-failed / genuinely-empty apart.
+const { pending: orgsLoading, error: orgsError, refresh: reloadOrgs } = knownOrgs;
 const orgQuery = ref("");
 const filteredOrgs = computed<OrgOption[]>(() => knownOrgs.filter(orgQuery.value));
 const orgTruncated = computed(() => filteredOrgs.value.length >= knownOrgs.maxResults);
@@ -91,11 +95,11 @@ function makeCropPreview(target: CropTarget) {
   }
   return { url, set, regenerate };
 }
+// Only the thumb crop is previewed (in the map marker below); the header crop is chosen via its
+// cropper frame alone, so it needs no rendered blob.
 const thumbPreview = makeCropPreview(THUMB_TARGET);
-const headerPreview = makeCropPreview(HEADER_TARGET);
-// Top-level refs so the template auto-unwraps them.
+// Top-level ref so the template auto-unwraps it.
 const thumbUrl = thumbPreview.url;
-const headerUrl = headerPreview.url;
 
 function bytesFromBase64(base64: string): Uint8Array<ArrayBuffer> {
   const binary = atob(base64);
@@ -127,7 +131,6 @@ function setPreviewUrl(url: string | null): void {
 
 function regenerateCrops(): void {
   void thumbPreview.regenerate(draft.value.image_thumb_offset);
-  void headerPreview.regenerate(draft.value.image_header_offset);
 }
 
 async function processFile(file: File): Promise<void> {
@@ -187,7 +190,6 @@ function onDrop(event: DragEvent): void {
 function removeImage(): void {
   setPreviewUrl(null);
   thumbPreview.set(null);
-  headerPreview.set(null);
   sourceImage.value = null;
   draft.value.image = null;
   draft.value.image_width = null;
@@ -203,15 +205,10 @@ watch(
   () => draft.value.image_thumb_offset,
   (o) => thumbPreview.regenerate(o)
 );
-watch(
-  () => draft.value.image_header_offset,
-  (o) => headerPreview.regenerate(o)
-);
 
 onBeforeUnmount(() => {
   setPreviewUrl(null);
   thumbPreview.set(null);
-  headerPreview.set(null);
 });
 
 const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.value.coords.picked);
@@ -297,7 +294,20 @@ const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.valu
             <ComboboxOptions
               class="ring-black/5 dark:ring-white/5 bg-zinc-50 dark:bg-zinc-900 absolute z-30 mt-1 max-h-72 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 focus:outline-none"
             >
-              <p v-if="filteredOrgs.length === 0" class="text-zinc-500 dark:text-zinc-400 px-3 py-2 text-sm">
+              <p v-if="orgsLoading" class="text-zinc-500 dark:text-zinc-400 px-3 py-2 text-sm">
+                {{ t("organising_org_loading") }}
+              </p>
+              <div v-else-if="orgsError" class="px-3 py-2 text-sm">
+                <p class="text-red-700 dark:text-red-200">{{ t("organising_org_load_error") }}</p>
+                <button
+                  type="button"
+                  class="text-blue-600 dark:text-blue-300 mt-1 underline"
+                  @mousedown.prevent="reloadOrgs()"
+                >
+                  {{ t("organising_org_retry") }}
+                </button>
+              </div>
+              <p v-else-if="filteredOrgs.length === 0" class="text-zinc-500 dark:text-zinc-400 px-3 py-2 text-sm">
                 {{ t("organising_org_no_results") }}
               </p>
               <ComboboxOption
@@ -379,7 +389,10 @@ const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.valu
       <p v-else-if="errorFor('image')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("image") }}</p>
     </div>
 
-    <template v-if="previewUrl && draft.image_width && draft.image_height">
+    <div
+      v-if="previewUrl && draft.image_width && draft.image_height"
+      class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-start"
+    >
       <div>
         <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop_thumb") }}</span>
         <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_thumb_help") }}</p>
@@ -402,9 +415,8 @@ const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.valu
           :height="draft.image_height"
           :target="HEADER_TARGET"
         />
-        <img v-if="headerUrl" :src="headerUrl" alt="" class="border-zinc-300 dark:border-zinc-600 mt-2 w-full rounded border" />
       </div>
-    </template>
+    </div>
 
     <div>
       <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-author">
@@ -448,6 +460,9 @@ de:
   organising_org: Veranstaltende Organisation
   organising_org_placeholder: Organisation suchen…
   organising_org_no_results: Keine passende Organisation gefunden
+  organising_org_loading: Organisationen werden geladen…
+  organising_org_load_error: Die Organisationen konnten nicht geladen werden.
+  organising_org_retry: Erneut versuchen
   organising_org_truncated: "Nur die ersten {0} Treffer werden angezeigt - bitte weiter eingrenzen."
   coords: Ort
   image: Bild
@@ -493,6 +508,9 @@ en:
   organising_org: Organising organisation
   organising_org_placeholder: Search for an organisation…
   organising_org_no_results: No matching organisation found
+  organising_org_loading: Loading organisations…
+  organising_org_load_error: The organisations couldn't be loaded.
+  organising_org_retry: Try again
   organising_org_truncated: "Showing the first {0} matches only - keep typing to narrow it down."
   coords: Location
   image: Image
