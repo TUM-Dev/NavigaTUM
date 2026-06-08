@@ -3,12 +3,17 @@ import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiClose } from "@mdi/js";
 import type { Ref } from "vue";
 import type { components } from "~/api_types";
+import type { BuildingDraft } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 
 type BuildingKind = components["schemas"]["BuildingKind"];
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
+
+// The parent only mounts this component when `kind === "building"`, so the narrowing cast is
+// safe and saves every binding from re-checking the discriminant.
+const draft = computed(() => editProposal.value.pendingAddition as BuildingDraft);
 
 // Provided by AddProposalModal so we can render the global id input inline with the other
 // identifier fields without duplicating the validation logic.
@@ -29,8 +34,8 @@ const prefixPickerName = ref("");
 watch(prefixPickerId, (id) => {
   const value = id.trim();
   if (!value) return;
-  if (!editProposal.value.pendingAddition.building_prefixes.includes(value)) {
-    editProposal.value.pendingAddition.building_prefixes.push(value);
+  if (!draft.value.building_prefixes.includes(value)) {
+    draft.value.building_prefixes.push(value);
   }
   prefixPickerId.value = "";
   prefixPickerName.value = "";
@@ -38,21 +43,21 @@ watch(prefixPickerId, (id) => {
 
 function removePrefix(idx: number) {
   // The id-prefix is auto-managed (always == the entry id); only allow removing the extras.
-  if (idx === 0 && editProposal.value.pendingAddition.node_kind !== "building") {
+  if (idx === 0 && draft.value.node_kind !== "building") {
     return;
   }
-  editProposal.value.pendingAddition.building_prefixes.splice(idx, 1);
+  draft.value.building_prefixes.splice(idx, 1);
 }
 
 // Keep the first prefix in sync with the entry id. For `building` kind that's the entire list;
 // for `joined_building`/`area` users add additional prefixes after it.
 watch(
-  [() => editProposal.value.pendingAddition.id, () => editProposal.value.pendingAddition.node_kind],
+  [() => draft.value.id, () => draft.value.node_kind],
   ([id, kind]) => {
     const trimmed = id.trim();
-    const prefixes = editProposal.value.pendingAddition.building_prefixes;
+    const prefixes = draft.value.building_prefixes;
     if (kind === "building") {
-      editProposal.value.pendingAddition.building_prefixes = trimmed ? [trimmed] : [];
+      draft.value.building_prefixes = trimmed ? [trimmed] : [];
       return;
     }
     if (!trimmed) return;
@@ -71,7 +76,7 @@ const kindOptions: { value: BuildingKind; label: string }[] = [
   { value: "area", label: "area" },
 ];
 const nodeKindIndex = computed(() => {
-  const k = editProposal.value.pendingAddition.node_kind;
+  const k = draft.value.node_kind;
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
 </script>
@@ -84,7 +89,7 @@ const nodeKindIndex = computed(() => {
       </label>
       <input
         id="add-building-name"
-        v-model="editProposal.pendingAddition.name"
+        v-model="draft.name"
         type="text"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
       />
@@ -94,7 +99,7 @@ const nodeKindIndex = computed(() => {
       <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-building-short-name">{{ t("short_name") }}</label>
       <input
         id="add-building-short-name"
-        v-model="editProposal.pendingAddition.short_name"
+        v-model="draft.short_name"
         type="text"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
       />
@@ -112,15 +117,15 @@ const nodeKindIndex = computed(() => {
                 'focus:outline-none focus:ring-2 transition-all',
                 nodeKindIndex === kindOptions.indexOf(opt) ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
               ]"
-              @click="editProposal.pendingAddition.node_kind = opt.value"
+              @click="draft.node_kind = opt.value"
             >
               {{ t(`kind.${opt.label}`) }}
             </button>
           </Tab>
         </TabList>
       </TabGroup>
-      <p v-if="editProposal.pendingAddition.node_kind" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
-        {{ t(`node_kind_help.${editProposal.pendingAddition.node_kind}`) }}
+      <p v-if="draft.node_kind" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
+        {{ t(`node_kind_help.${draft.node_kind}`) }}
       </p>
     </div>
 
@@ -160,7 +165,7 @@ const nodeKindIndex = computed(() => {
           </I18nT>
           <input
             id="add-building-id"
-            v-model="editProposal.pendingAddition.id"
+            v-model="draft.id"
             type="text"
             placeholder="5510"
             class="focusable bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -177,15 +182,15 @@ const nodeKindIndex = computed(() => {
 
         <div
           v-if="
-            editProposal.pendingAddition.node_kind === 'joined_building' ||
-            editProposal.pendingAddition.node_kind === 'area'
+            draft.node_kind === 'joined_building' ||
+            draft.node_kind === 'area'
           "
         >
           <label class="text-emerald-700 dark:text-emerald-200 mb-1 block text-xs font-medium" for="add-building-prefixes">
             {{ t("identifiers.prefixes") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">
-            {{ t(`identifiers.prefixes_help.${editProposal.pendingAddition.node_kind}`) }}
+            {{ t(`identifiers.prefixes_help.${draft.node_kind}`) }}
           </p>
           <EntryPicker
             v-model:selected-id="prefixPickerId"
@@ -193,9 +198,9 @@ const nodeKindIndex = computed(() => {
             :allowed-types="['building']"
             :placeholder="t('identifiers.prefix_picker_placeholder')"
           />
-          <div v-if="editProposal.pendingAddition.building_prefixes.length" class="mt-2 flex flex-wrap gap-1">
+          <div v-if="draft.building_prefixes.length" class="mt-2 flex flex-wrap gap-1">
             <span
-              v-for="(prefix, idx) in editProposal.pendingAddition.building_prefixes"
+              v-for="(prefix, idx) in draft.building_prefixes"
               :key="prefix"
               class="bg-emerald-100 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-50 inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs"
               :class="idx === 0 ? 'opacity-70' : ''"
@@ -224,7 +229,7 @@ const nodeKindIndex = computed(() => {
               <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("identifiers.internal_id_help") }}</p>
               <input
                 id="add-building-internal-id"
-                v-model="editProposal.pendingAddition.internal_id"
+                v-model="draft.internal_id"
                 type="text"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
               />
@@ -239,7 +244,7 @@ const nodeKindIndex = computed(() => {
               </I18nT>
               <input
                 id="add-building-visible-id"
-                v-model="editProposal.pendingAddition.visible_id"
+                v-model="draft.visible_id"
                 type="text"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
               />

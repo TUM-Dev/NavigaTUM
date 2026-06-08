@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { until } from "@vueuse/core";
 import { mdiMapMarkerPlus } from "@mdi/js";
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,

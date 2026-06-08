@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { validateAddition } from "../app/composables/additionSchema";
-import { type AdditionDraft, emptyAdditionDraft } from "../app/composables/editProposal";
+import {
+  additionRegistry,
+  buildAddition,
+  type EventDraft,
+  validateAddition,
+} from "../app/composables/additionSchema";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -10,10 +14,9 @@ function wall(offsetDays: number): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-function validEvent(overrides: Partial<AdditionDraft> = {}): AdditionDraft {
+function validEvent(overrides: Partial<EventDraft> = {}): EventDraft {
   return {
-    ...emptyAdditionDraft(),
-    kind: "event",
+    ...additionRegistry.event.empty(),
     id: "event_9d02ddd940c43f87",
     name: "GARNIX Festival",
     description: "Live music, food trucks, and stands.",
@@ -32,6 +35,18 @@ function validEvent(overrides: Partial<AdditionDraft> = {}): AdditionDraft {
 describe("validateAddition (event)", () => {
   it("accepts a well-formed event", () => {
     expect(validateAddition(validEvent())).toEqual({});
+  });
+
+  it("builds the event payload from a valid draft", () => {
+    const built = buildAddition(validEvent());
+    // The build sets the discriminant, threads the image through CC BY 4.0, and renames the
+    // wall-clock times into RFC 3339. Spot-check the shape rather than every field.
+    expect(built).toMatchObject({
+      kind: "event",
+      name: "GARNIX Festival",
+      organising_org_id: 51897,
+      image: { content: "Zm9v" },
+    });
   });
 
   it.each([
