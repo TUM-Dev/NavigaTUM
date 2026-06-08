@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiPlus, mdiTrashCanOutline } from "@mdi/js";
-import { isValidTimeRange, type OpeningHoursDraft } from "~/utils/openingHours";
+import { isValidTimeRange, type OpeningHoursDraft, type OpeningHoursMode } from "~/utils/openingHours";
 
 const draft = defineModel<OpeningHoursDraft>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
+
+const modeOptions: { value: OpeningHoursMode; label: string }[] = [
+  { value: "always", label: "mode_always" },
+  { value: "semester", label: "mode_semester" },
+];
 
 function addHolidayRange() {
   draft.value.holiday.ranges.push({ from: "10:00", to: "14:00" });
@@ -17,16 +23,25 @@ function removeHolidayRange(index: number) {
 <template>
   <div class="space-y-3">
     <!-- Year-round vs. semester-dependent schedule. -->
-    <div class="space-y-1">
-      <label class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
-        <input v-model="draft.mode" type="radio" value="always" class="focusable" />
-        {{ t("mode_always") }}
-      </label>
-      <label class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
-        <input v-model="draft.mode" type="radio" value="semester" class="focusable" />
-        {{ t("mode_semester") }}
-      </label>
-    </div>
+    <TabGroup :selected-index="draft.mode === 'always' ? 0 : 1">
+      <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
+        <Tab v-for="opt in modeOptions" :key="opt.value" as="template">
+          <button
+            type="button"
+            :class="[
+              'w-full rounded-md px-3 py-1.5 text-sm font-medium leading-5 transition-all',
+              'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500 focus:outline-none focus:ring-2',
+              draft.mode === opt.value
+                ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow'
+                : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
+            ]"
+            @click="draft.mode = opt.value"
+          >
+            {{ t(opt.label) }}
+          </button>
+        </Tab>
+      </TabList>
+    </TabGroup>
 
     <WeekScheduleInput v-if="draft.mode === 'always'" v-model:week="draft.always" />
     <SemesterScheduleInput v-else v-model:lecture="draft.lecture" v-model:break="draft.break" />
@@ -100,8 +115,8 @@ function removeHolidayRange(index: number) {
 
 <i18n lang="yaml">
 de:
-  mode_always: Gleiche Zeiten das ganze Jahr
-  mode_semester: Andere Zeiten in der vorlesungsfreien Zeit
+  mode_always: Ganzjährig
+  mode_semester: Nach Vorlesungszeit
   holidays: An Feiertagen
   holiday_unspecified: Keine Angabe
   holiday_closed: Geschlossen
@@ -114,8 +129,8 @@ de:
   source_url: Quelle (URL)
   source_url_help: Link zur offiziellen Seite mit den Öffnungszeiten (z.B. die Instituts- oder Bibliotheksseite).
 en:
-  mode_always: Same hours all year
-  mode_semester: Different hours when there are no lectures
+  mode_always: Year-round
+  mode_semester: By lecture period
   holidays: On public holidays
   holiday_unspecified: Not specified
   holiday_closed: Closed
