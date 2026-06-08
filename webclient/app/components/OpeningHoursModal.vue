@@ -75,7 +75,7 @@ function confirm() {
       <div
         v-for="day in OPENING_HOURS_DAYS"
         :key="day"
-        class="bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 rounded border p-2"
+        class="bg-zinc-100 dark:bg-zinc-800 rounded p-2"
       >
         <div class="flex items-center justify-between">
           <span class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ dayLabels[day] }}</span>
@@ -120,22 +120,18 @@ function confirm() {
 
     <!-- Source URL is required: OpeningHoursSchema rejects a schedule without provenance. -->
     <div class="mt-4">
-      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-source">{{ t("source_url") }}</label>
+      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-source">
+        {{ t("source_url") }} <span class="text-red-600 dark:text-red-300" aria-hidden="true">*</span>
+      </label>
       <input
         id="opening-hours-source"
         v-model="sourceUrl"
         type="url"
+        required
         placeholder="https://"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
       />
       <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("source_url_help") }}</p>
-    </div>
-
-    <div class="mt-4">
-      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1">{{ t("preview") }}</label>
-      <code class="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 block rounded px-2 py-1 text-xs break-all">{{
-        osmPreview || t("preview_empty")
-      }}</code>
     </div>
 
     <div class="flex justify-end pt-4">
@@ -156,8 +152,6 @@ de:
   remove_range: Zeitraum entfernen
   source_url: Quelle (URL)
   source_url_help: Link zur offiziellen Seite mit den Öffnungszeiten (z.B. die Instituts- oder Bibliotheksseite).
-  preview: Vorschau (OSM-Format)
-  preview_empty: Noch keine Öffnungszeiten eingetragen
   save: Speichern
   days:
     Mo: Montag
@@ -178,8 +172,6 @@ en:
   remove_range: Remove time range
   source_url: Source (URL)
   source_url_help: Link to the official page listing the opening hours (e.g. the department or library page).
-  preview: Preview (OSM format)
-  preview_empty: No opening hours entered yet
   save: Save
   days:
     Mo: Monday
