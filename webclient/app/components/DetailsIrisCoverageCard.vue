@@ -178,7 +178,7 @@ function statusAriaLabel(status: string): string {
       variant="linkButton"
       :aria-label="expanded
         ? t('show_less_aria')
-        : t('show_more_aria', { count: hiddenCount, breakdown: hiddenBreakdown })"
+        : t('show_more_aria', { count: hiddenCount, breakdown: hiddenBreakdown }, hiddenCount)"
       @click="toggleExpanded()"
     >
       <template v-if="expanded">
@@ -187,7 +187,7 @@ function statusAriaLabel(status: string): string {
       </template>
       <template v-else>
         <MdiIcon :path="mdiChevronDown" :size="16" class="mt-0.5" />
-        {{ t("show_more", { count: hiddenCount, breakdown: hiddenBreakdown }) }}
+        {{ t("show_more", { count: hiddenCount, breakdown: hiddenBreakdown }, hiddenCount) }}
       </template>
     </Btn>
   </section>
@@ -202,9 +202,9 @@ de:
   occupancy: "{percent}% belegt"
   until: bis {time}
   until_by: "bis {time} · {by}"
-  show_more: "{count} weitere anzeigen ({breakdown})"
+  show_more: "1 weiteren anzeigen ({breakdown}) | {count} weitere anzeigen ({breakdown})"
   show_less: weniger anzeigen
-  show_more_aria: "{count} weitere Räume anzeigen ({breakdown})"
+  show_more_aria: "1 weiteren Raum anzeigen ({breakdown}) | {count} weitere Räume anzeigen ({breakdown})"
   show_less_aria: Liste auf die ersten 8 Räume kürzen
   free_count: "{count} frei"
   occupied_count: "{count} belegt"
@@ -221,9 +221,9 @@ en:
   occupancy: "{percent}% in use"
   until: until {time}
   until_by: "until {time} · {by}"
-  show_more: "Show {count} more ({breakdown})"
+  show_more: "Show 1 more ({breakdown}) | Show {count} more ({breakdown})"
   show_less: show less
-  show_more_aria: "Show {count} more rooms ({breakdown})"
+  show_more_aria: "Show 1 more room ({breakdown}) | Show {count} more rooms ({breakdown})"
   show_less_aria: Collapse list back to the first 8 rooms
   free_count: "{count} free"
   occupied_count: "{count} occupied"
