@@ -52,7 +52,11 @@ export async function parseOpeningHoursWeek(
 
     return WEEKDAY_KEYS.map((key, index): OpeningHoursDay => {
       const dayStart = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + index);
-      const dayEnd = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + index + 1);
+      const dayEnd = new Date(
+        monday.getFullYear(),
+        monday.getMonth(),
+        monday.getDate() + index + 1
+      );
       const intervals: readonly OpenInterval[] = oh.getOpenIntervals(dayStart, dayEnd);
       const ranges = intervals.map(
         ([from, to, , comment]): OpeningHoursRange => ({

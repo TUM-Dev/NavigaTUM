@@ -2340,7 +2340,7 @@ components:
           type: string
           description: '`YYYY-MM-DD` date on which this schedule was last confirmed.'
           examples:
-            - 2026-05-01
+            - "2026-05-01"
         osm:
           type: string
           description: Plain OSM `opening_hours` string describing the schedule.
@@ -2366,14 +2366,14 @@ components:
             - "null"
           description: '`YYYY-MM-DD` date from which this schedule is valid, when bounded.'
           examples:
-            - 2026-04-28
+            - "2026-04-28"
         valid_until:
           type:
             - string
             - "null"
           description: '`YYYY-MM-DD` date until which this schedule is valid, when bounded.'
           examples:
-            - 2026-09-30
+            - "2026-09-30"
     OperatorResponse:
       type: object
       description: Operator of a location

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { type OpeningHoursDay, parseOpeningHoursWeek, WEEKDAY_KEYS } from "../app/utils/openingHours";
+import {
+  type OpeningHoursDay,
+  parseOpeningHoursWeek,
+  WEEKDAY_KEYS,
+} from "../app/utils/openingHours";
 
 // A fixed Wednesday so the Monday-anchored week and the `isToday` flag are deterministic.
 const WEDNESDAY = new Date(2026, 5, 10); // 2026-06-10 is a Wednesday.
@@ -21,7 +25,9 @@ describe("parseOpeningHoursWeek", () => {
   it("parses a single range and leaves uncovered days closed", async () => {
     const week = await parseOpeningHoursWeek("Mo-Fr 08:00-22:00", WEDNESDAY);
     if (!week) throw new Error("expected a parsed week");
-    expect(dayByKey(week, "mo").ranges).toEqual([{ from: "08:00", to: "22:00", comment: undefined }]);
+    expect(dayByKey(week, "mo").ranges).toEqual([
+      { from: "08:00", to: "22:00", comment: undefined },
+    ]);
     // Weekends are not covered by the rule, so they read as closed (no ranges).
     expect(dayByKey(week, "sa").ranges).toEqual([]);
     expect(dayByKey(week, "su").ranges).toEqual([]);

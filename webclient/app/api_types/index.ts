@@ -818,11 +818,6 @@ export type components = {
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
        */
       readonly name: string;
-      /**
-       * @description Opening hours of this location, when we have a schedule for it.
-       *
-       *     Omitted for entries without a known schedule (most rooms).
-       */
       readonly opening_hours?: null | components["schemas"]["OpeningHoursResponse"];
       /**
        * @description The human names of the parents.
@@ -1292,7 +1287,6 @@ export type components = {
       /** Format: int32 */
       readonly thumb?: number | null;
     };
-    /** @description Operator of a location */
     /**
      * @description Opening hours of a location.
      *
@@ -1333,6 +1327,7 @@ export type components = {
        */
       readonly valid_until?: string | null;
     };
+    /** @description Operator of a location */
     readonly OperatorResponse: {
       /**
        * @description designation code of the operator
