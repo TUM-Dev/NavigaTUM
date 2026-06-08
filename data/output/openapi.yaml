@@ -668,6 +668,17 @@ paths:
           schema:
             type: integer
             minimum: 0
+        - name: limit_lectures
+          in: query
+          description: |-
+            Maximum number of lectures to return.
+
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
         - name: limit_all
           in: query
           description: |-
@@ -1267,6 +1278,7 @@ components:
         - building
         - room
         - poi
+        - lecture
     FeaturedOverviewItemResponse:
       type: object
       required:
@@ -2837,6 +2849,16 @@ components:
             Usually contains the context of where this rooms is located in.
             Currently not highlighted.
           example: "5510.03.002 (\x19MW\x17 2001, Empore)"
+        next_occurrence_at:
+          type:
+            - string
+            - "null"
+          format: date-time
+          description: |-
+            The next time this lecture takes place, as an RFC 3339 timestamp.
+
+            Only present for entries in the `lectures` section.
+          example: "2024-10-15T08:00:00Z"
         parsed_id:
           type:
             - string
@@ -2865,6 +2887,24 @@ components:
 
             Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
           example: 3002@5510
+        title_de:
+          type:
+            - string
+            - "null"
+          description: |-
+            The German title of a lecture.
+
+            Only present for entries in the `lectures` section.
+          example: Einführung in die Informatik 1
+        title_en:
+          type:
+            - string
+            - "null"
+          description: |-
+            The English title of a lecture.
+
+            Only present for entries in the `lectures` section.
+          example: Introduction to Informatics 1
         type:
           type: string
           description: the type of the site/building
@@ -2876,6 +2916,7 @@ components:
         - buildings
         - rooms
         - pois
+        - lectures
         - addresses
     ResultsSection:
       type: object

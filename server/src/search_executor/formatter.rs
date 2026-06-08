@@ -2,7 +2,7 @@ use unicode_truncate::UnicodeTruncateStr as _;
 
 use super::ResultEntry;
 use super::parser::{ParsedQuery, TextToken};
-use crate::external::meilisearch::MSHit;
+use crate::external::meilisearch::{GeoMSHit, MSHit};
 use crate::routes::search::{CroppingMode, FormattingConfig, ParsedIdMode};
 
 pub(super) struct RoomVisitor {
@@ -22,19 +22,26 @@ impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
 
 impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
+        // Only geo (room) hits carry the arch-name / parent metadata this
+        // visitor formats. The visitor is only ever run over the rooms
+        // section, so a non-geo hit here would be a bug, but we degrade
+        // gracefully rather than panic.
+        let MSHit::Geo(hit) = &item.hit else {
+            return;
+        };
         match self.config.parsed_id {
             ParsedIdMode::Prefixed => {
-                item.parsed_id = self.parse_room_formats(&item.hit);
+                item.parsed_id = self.parse_room_formats(hit);
             }
             ParsedIdMode::Roomfinder => {
-                item.parsed_id = item.hit.arch_name.clone();
+                item.parsed_id = hit.arch_name.clone();
             }
         }
-        item.subtext = Self::generate_subtext(&item.hit);
+        item.subtext = Self::generate_subtext(hit);
     }
     // Parse the search against some known room formats and improve the
     // results display in this case. Room formats are hardcoded for now.
-    fn parse_room_formats(&self, hit: &MSHit) -> Option<String> {
+    fn parse_room_formats(&self, hit: &GeoMSHit) -> Option<String> {
         let first_token = self.parsed_input.tokens.first()?;
         let archname = hit.arch_name.clone()?;
         match first_token {
@@ -101,7 +108,7 @@ impl RoomVisitor {
     /// Exclude the part after the "@" if it's not in the query and use the
     /// building name instead, because this is probably more helpful
     fn split_prefix_from_arch_building_id<'a>(
-        hit: &MSHit,
+        hit: &GeoMSHit,
         first_token: &str,
         config: &FormattingConfig,
     ) -> (Option<&'a str>, String) {
@@ -155,7 +162,7 @@ impl RoomVisitor {
         }
     }
 
-    fn generate_subtext(hit: &MSHit) -> String {
+    fn generate_subtext(hit: &GeoMSHit) -> String {
         let building = hit
             .parent_building_names
             .first()

@@ -12,14 +12,20 @@ pub(super) fn highlighted_name_for_hit(
     hit: &SearchResult<MSHit>,
     ctx: &HighlightContext<'_>,
 ) -> String {
-    let raw = hit.result.name.clone();
+    let raw = hit.result.name().to_string();
     let Some(positions) = hit.matches_position.as_ref() else {
         return raw;
     };
     let Some(name_matches) = positions.get("name") else {
         return raw;
     };
-    rebuild_highlighted_name(&hit.result.name, name_matches, ctx.query, ctx.pre, ctx.post)
+    rebuild_highlighted_name(
+        hit.result.name(),
+        name_matches,
+        ctx.query,
+        ctx.pre,
+        ctx.post,
+    )
 }
 
 /// Strip highlight tags from spans that Meilisearch only reached via typo

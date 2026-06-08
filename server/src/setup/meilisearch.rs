@@ -71,6 +71,7 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "campus",
             "type",
             "usage",
+            "next_occurrence_at",
         ])
         .with_ranking_rules([
             "words",
@@ -81,7 +82,7 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "sort",
             "exactness",
         ])
-        .with_sortable_attributes(["_geo"])
+        .with_sortable_attributes(["_geo", "next_occurrence_at"])
         .with_searchable_attributes([
             "room_code",
             "room_code_normalised",
@@ -96,6 +97,8 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "usage",
             "address",
             "operator_name",
+            "title_de",
+            "title_en",
         ])
         .with_synonyms(Synonyms::try_load()?.0);
 

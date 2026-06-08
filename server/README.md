@@ -91,7 +91,7 @@ The following files are loaded during server setup:
 | `LOG_LEVEL`                       | [`main`](./main.rs)              | optional                                | Controlls what is being logged (default=`info` in release and `debug` in development mode)             |
 | `GITHUB_TOKEN`                    | [`feedback`](./feeedback/mod.rs) |                                         | A GitHub token with `write` access to `repo`.<br/>This is used to create issues/PRs on the repository. |
 | `JWT_KEY`                         | [`feedback`](./feeedback/mod.rs) |                                         | A key used to sign JWTs.<br/>This is used to authenticate that feedback tokens were given out by us.   |
-| `MIELI_{URL,MASTER_KEY}`          | [`search`](./search/mod.rs)      |                                         | Allows searching via meiliserch                                                                        |
+| `MIELI_{URL,MASTER_KEY}`          | [`search`](./search/mod.rs)      |                                         | Allows searching via meilisearch                                                                       |
 | `CDN_URL`                         | [`setup`](./setup/mod.rs)        | optional (fallback only)                | Fallback URL for downloading data files if not found locally (usually not needed in production)        |
 
 ### Adding Migrations

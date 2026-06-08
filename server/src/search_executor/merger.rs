@@ -5,7 +5,8 @@ use meilisearch_sdk::search::SearchResult;
 use super::ResultFacet;
 use super::highlight::{HighlightContext, highlighted_name_for_hit};
 use crate::external::meilisearch::{
-    BUILDING_FACET, FACET_FIELD, MSHit, POI_FACET, ROOM_FACET, SITE_FACET,
+    BUILDING_FACET, FACET_FIELD, GeoMSHit, LECTURE_FACET, LectureMSHit, MSHit, POI_FACET,
+    ROOM_FACET, SITE_FACET,
 };
 use crate::routes::search::Limits;
 
@@ -14,6 +15,7 @@ pub(super) struct MergedSections {
     pub(super) buildings: super::ResultsSection,
     pub(super) rooms: super::ResultsSection,
     pub(super) pois: super::ResultsSection,
+    pub(super) lectures: super::ResultsSection,
     /// Facets in the order their first hit appeared in the ranked Meilisearch
     /// results. Facets that never received a hit are not included.
     pub(super) facet_order: Vec<ResultFacet>,
@@ -32,7 +34,8 @@ pub(super) fn merge_search_results(
     let mut buildings = empty_section(ResultFacet::Buildings, totals.buildings);
     let mut rooms = empty_section(ResultFacet::Rooms, totals.rooms);
     let mut pois = empty_section(ResultFacet::Pois, totals.pois);
-    let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(4);
+    let mut lectures = empty_section(ResultFacet::Lectures, totals.lectures);
+    let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(5);
 
     // The visible count of any facet that already has hits is frozen the
     // moment a *new* facet's first hit appears in the ranking. This preserves
@@ -42,19 +45,38 @@ pub(super) fn merge_search_results(
         let cap = active_count(&sites)
             + active_count(&buildings)
             + active_count(&rooms)
-            + active_count(&pois);
+            + active_count(&pois)
+            + active_count(&lectures);
         if cap >= limits.total_count {
             break;
         }
 
-        let facet = match hit.result.facet.as_deref() {
-            Some(SITE_FACET) if sites.entries.len() < limits.sites_count => ResultFacet::Sites,
-            Some(BUILDING_FACET) if buildings.entries.len() < limits.buildings_count => {
-                ResultFacet::Buildings
-            }
-            Some(ROOM_FACET) if rooms.entries.len() < limits.rooms_count => ResultFacet::Rooms,
-            Some(POI_FACET) if pois.entries.len() < limits.pois_count => ResultFacet::Pois,
-            _ => continue,
+        // Branch on the hit variant: geo facets and lectures carry disjoint
+        // field sets, so the entry is built from the matched variant directly.
+        let (facet, entry) = match &hit.result {
+            MSHit::Geo(geo) => match geo.facet.as_deref() {
+                Some(SITE_FACET) if sites.entries.len() < limits.sites_count => (
+                    ResultFacet::Sites,
+                    make_building_like_entry(geo, hit, highlight),
+                ),
+                Some(BUILDING_FACET) if buildings.entries.len() < limits.buildings_count => (
+                    ResultFacet::Buildings,
+                    make_building_like_entry(geo, hit, highlight),
+                ),
+                Some(ROOM_FACET) if rooms.entries.len() < limits.rooms_count => (
+                    ResultFacet::Rooms,
+                    make_room_like_entry(geo, hit, highlight),
+                ),
+                Some(POI_FACET) if pois.entries.len() < limits.pois_count => {
+                    (ResultFacet::Pois, make_room_like_entry(geo, hit, highlight))
+                }
+                _ => continue,
+            },
+            MSHit::Lecture(lecture) if lectures.entries.len() < limits.lectures_count => (
+                ResultFacet::Lectures,
+                make_lecture_entry(lecture, hit, highlight),
+            ),
+            MSHit::Lecture(_) => continue,
         };
 
         if !facet_order.contains(&facet) {
@@ -64,6 +86,7 @@ pub(super) fn merge_search_results(
                     ResultFacet::Buildings => freeze_if_first(&mut buildings),
                     ResultFacet::Rooms => freeze_if_first(&mut rooms),
                     ResultFacet::Pois => freeze_if_first(&mut pois),
+                    ResultFacet::Lectures => freeze_if_first(&mut lectures),
                     ResultFacet::Addresses => {}
                 }
             }
@@ -71,14 +94,11 @@ pub(super) fn merge_search_results(
         }
 
         match facet {
-            ResultFacet::Sites => sites.entries.push(make_building_like_entry(hit, highlight)),
-            ResultFacet::Buildings => {
-                buildings
-                    .entries
-                    .push(make_building_like_entry(hit, highlight));
-            }
-            ResultFacet::Rooms => rooms.entries.push(make_room_like_entry(hit, highlight)),
-            ResultFacet::Pois => pois.entries.push(make_room_like_entry(hit, highlight)),
+            ResultFacet::Sites => sites.entries.push(entry),
+            ResultFacet::Buildings => buildings.entries.push(entry),
+            ResultFacet::Rooms => rooms.entries.push(entry),
+            ResultFacet::Pois => pois.entries.push(entry),
+            ResultFacet::Lectures => lectures.entries.push(entry),
             ResultFacet::Addresses => {}
         }
     }
@@ -89,12 +109,14 @@ pub(super) fn merge_search_results(
     finalize_visible(&mut buildings);
     finalize_visible(&mut rooms);
     finalize_visible(&mut pois);
+    finalize_visible(&mut lectures);
 
     MergedSections {
         sites,
         buildings,
         rooms,
         pois,
+        lectures,
         facet_order,
     }
 }
@@ -132,34 +154,58 @@ fn empty_section(facet: ResultFacet, estimated_total_hits: usize) -> super::Resu
 }
 
 fn make_building_like_entry(
+    geo: &GeoMSHit,
     hit: &SearchResult<MSHit>,
     highlight: &HighlightContext<'_>,
 ) -> super::ResultEntry {
-    let result = hit.result.clone();
     let name = highlighted_name_for_hit(hit, highlight);
     super::ResultEntry {
-        id: result.room_code.clone(),
-        r#type: result.r#type.clone(),
-        subtext: result.type_common_name.clone(),
-        hit: result,
+        id: geo.room_code.clone(),
+        r#type: geo.r#type.clone(),
+        subtext: geo.type_common_name.clone(),
+        hit: hit.result.clone(),
         name,
-        subtext_bold: None,
-        parsed_id: None,
+        ..super::ResultEntry::default()
     }
 }
 
 fn make_room_like_entry(
+    geo: &GeoMSHit,
     hit: &SearchResult<MSHit>,
     highlight: &HighlightContext<'_>,
 ) -> super::ResultEntry {
-    let result = hit.result.clone();
     let name = highlighted_name_for_hit(hit, highlight);
     super::ResultEntry {
-        id: result.room_code.clone(),
-        r#type: result.r#type.clone(),
-        subtext_bold: Some(result.arch_name.clone().unwrap_or_default()),
-        hit: result,
+        id: geo.room_code.clone(),
+        r#type: geo.r#type.clone(),
+        subtext_bold: Some(geo.arch_name.clone().unwrap_or_default()),
+        hit: hit.result.clone(),
         name,
+        ..super::ResultEntry::default()
+    }
+}
+
+/// Build a result entry for a lecture hit.
+///
+/// `subtext` carries the human `stp_type` label (consistent with how
+/// building-like entries surface `type_common_name`), while the bilingual
+/// titles and next occurrence are exposed as dedicated fields for clients that
+/// render the richer lecture row.
+fn make_lecture_entry(
+    lecture: &LectureMSHit,
+    hit: &SearchResult<MSHit>,
+    highlight: &HighlightContext<'_>,
+) -> super::ResultEntry {
+    let name = highlighted_name_for_hit(hit, highlight);
+    super::ResultEntry {
+        id: lecture.ms_id.clone(),
+        r#type: lecture.r#type.clone(),
+        subtext: lecture.type_common_name.clone(),
+        name,
+        title_de: Some(lecture.title_de.clone()),
+        title_en: Some(lecture.title_en.clone()),
+        next_occurrence_at: Some(lecture.next_occurrence_at),
+        hit: hit.result.clone(),
         ..super::ResultEntry::default()
     }
 }
@@ -170,6 +216,7 @@ struct FacetTotals {
     buildings: usize,
     rooms: usize,
     pois: usize,
+    lectures: usize,
 }
 
 fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) -> FacetTotals {
@@ -181,5 +228,6 @@ fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) 
         buildings: facet.get(BUILDING_FACET).copied().unwrap_or(0),
         rooms: facet.get(ROOM_FACET).copied().unwrap_or(0),
         pois: facet.get(POI_FACET).copied().unwrap_or(0),
+        lectures: facet.get(LECTURE_FACET).copied().unwrap_or(0),
     }
 }

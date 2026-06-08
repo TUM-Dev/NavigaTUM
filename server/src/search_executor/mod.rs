@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use meilisearch_sdk::client::Client;
 use parser::TextToken;
 use serde::Serialize;
@@ -23,6 +24,7 @@ pub enum ResultFacet {
     Buildings,
     Rooms,
     Pois,
+    Lectures,
     Addresses,
 }
 
@@ -93,6 +95,21 @@ struct ResultEntry {
     /// It will be cropped to a maximum length to not take too much space in UIs.
     /// Supports highlighting.
     parsed_id: Option<String>,
+    /// The German title of a lecture.
+    ///
+    /// Only present for entries in the `lectures` section.
+    #[schema(example = "Einführung in die Informatik 1")]
+    title_de: Option<String>,
+    /// The English title of a lecture.
+    ///
+    /// Only present for entries in the `lectures` section.
+    #[schema(example = "Introduction to Informatics 1")]
+    title_en: Option<String>,
+    /// The next time this lecture takes place, as an RFC 3339 timestamp.
+    ///
+    /// Only present for entries in the `lectures` section.
+    #[schema(example = "2024-10-15T08:00:00Z")]
+    next_occurrence_at: Option<DateTime<Utc>>,
 }
 
 #[tracing::instrument]
@@ -117,8 +134,7 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
                     r#type: r.address_type,
                     name: r.address.road.unwrap_or(r.name),
                     subtext,
-                    subtext_bold: None,
-                    parsed_id: None,
+                    ..ResultEntry::default()
                 }
             })
             .collect(),
@@ -175,6 +191,7 @@ pub async fn do_geoentry_search(
         buildings: section_buildings,
         rooms: mut section_rooms,
         pois: section_pois,
+        lectures: section_lectures,
         facet_order,
     } = merger::merge_search_results(
         &limits,
@@ -196,21 +213,23 @@ pub async fn do_geoentry_search(
     let mut buildings_opt = Some(section_buildings);
     let mut rooms_opt = Some(section_rooms);
     let mut pois_opt = Some(section_pois);
+    let mut lectures_opt = Some(section_lectures);
 
-    let mut sections: Vec<ResultsSection> = Vec::with_capacity(4);
+    let mut sections: Vec<ResultsSection> = Vec::with_capacity(5);
     for facet in &facet_order {
         let taken = match facet {
             ResultFacet::Sites => sites_opt.take(),
             ResultFacet::Buildings => buildings_opt.take(),
             ResultFacet::Rooms => rooms_opt.take(),
             ResultFacet::Pois => pois_opt.take(),
+            ResultFacet::Lectures => lectures_opt.take(),
             ResultFacet::Addresses => None,
         };
         if let Some(s) = taken {
             sections.push(s);
         }
     }
-    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt]
+    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt, lectures_opt]
         .into_iter()
         .flatten()
     {
@@ -784,6 +803,86 @@ mod test {
             description => format!("Query: {query}"),
         }, {
             insta::assert_yaml_snapshot!(results_full.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_lecture_facet_query() {
+        let ms = MeiliSearchTestContainer::new().await;
+
+        // The lecture facet is normally derived from the calendar table by the
+        // refresh task. Here we upsert a single known lecture document directly
+        // so the snapshot is deterministic and independent of live data: the
+        // synthetic title cannot collide with any geo entry, so the query
+        // surfaces only the Lectures section.
+        let lecture = serde_json::json!({
+            "ms_id": "lecture_testfixture0001",
+            "facet": "lecture",
+            "type": "lecture",
+            "type_common_name": "Vorlesung",
+            "title_de": "Grundlagen der Navigatumlehre",
+            "title_en": "Foundations of Navigatum Teaching",
+            "name": "Grundlagen der Navigatumlehre",
+            "rank": 0,
+            "parent_building_names": ["Maschinenwesen (MW)"],
+            "parent_keywords": ["mw", "garching"],
+            "next_occurrence_at": "2024-10-15T08:00:00Z",
+        });
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[lecture], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "lecture document upsert should succeed, got {task:?}"
+        );
+
+        let results = do_geoentry_search(
+            &ms.client,
+            "Navigatumlehre",
+            Limits::default(),
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        let lectures = results
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Lectures))
+            .expect("expected a Lectures section for a lecture-title query");
+        let top = lectures
+            .entries
+            .first()
+            .expect("expected at least one lecture entry");
+        assert_eq!(top.id, "lecture_testfixture0001");
+        assert_eq!(
+            top.title_de.as_deref(),
+            Some("Grundlagen der Navigatumlehre")
+        );
+        assert_eq!(
+            top.title_en.as_deref(),
+            Some("Foundations of Navigatum Teaching")
+        );
+        assert_eq!(
+            top.next_occurrence_at,
+            Some("2024-10-15T08:00:00Z".parse().unwrap())
+        );
+        // The human `stp_type` label is surfaced as the subtext.
+        assert_eq!(top.subtext, "Vorlesung");
+
+        insta::with_settings!({
+            info => &"q=Navigatumlehre",
+            description => "lecture facet returns a bilingual hit with its next occurrence",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
         });
     }
 }

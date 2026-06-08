@@ -53,6 +53,7 @@ actix-web = { version = "4.13.0", default-features = false, features = ["compres
 actix-web-prom = { version = "0.10.0", default-features = false, features = [] }
 anyhow = { version = "1.0.102", features = ["backtrace"] }
 base64 = "0.22.1"
+blake3 = "1.5"
 bytes = "1"
 chroma-forge = "1.0.0"
 chrono = { version = "0.4", default-features = false, features = ["serde"] }
