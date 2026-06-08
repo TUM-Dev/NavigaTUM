@@ -8,249 +8,76 @@ from external.schemas._drift_gate import assert_satisfies_schema
 from external.schemas.ub_tum import UbTumSchema
 from external.scrapers.ub_tum import parse_branch_page
 
+_DAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+
+def _paragraph(label: str, slots: dict[str, str]) -> str:
+    """
+    Build the Drupal `office_hours` markup for one paragraph block.
+
+    `slots` maps `_DAYS` entries to a slot string (e.g. `8:00-24:00` or `Closed`);
+    omitted weekdays render with no row, which the parser treats as closed.
+    """
+    rows = "".join(
+        (
+            f'<div class="office-hours__item">'
+            f'<span class="office-hours__item-label">{day}: </span>'
+            f'<span class="office-hours__item-slots">{slots[day]}</span>'
+            f"</div>"
+        )
+        for day in _DAYS
+        if day in slots
+    )
+    return (
+        f'<div class="paragraph paragraph--type--oeffnungszeiten">'
+        f'<div class="field field--name-field-zeiten field--type-office-hours">'
+        f'<div class="field__label">{label}</div>'
+        f'<div class="field__items"><div class="field__item"><div class="office-hours">{rows}</div></div></div>'
+        f"</div></div>"
+    )
+
+
 # A captured slice of the live `branch-library-mathematics-informatics` page: one
 # `paragraph--type--oeffnungszeiten` block, label `Zeiten`, seven daily slot rows.
-# Trimmed to the markup the parser walks - the rest of the page is irrelevant - so
-# the parser is verified without a network call.
-_MATH_INFO_HTML = """
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Zeiten</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Saturday: </span>
-            <span class="office-hours__item-slots">10:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Sunday: </span>
-            <span class="office-hours__item-slots">10:00-20:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-"""
+_MATH_INFO_HTML = _paragraph(
+    "Zeiten",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "8:00-24:00")
+    | dict.fromkeys(("Saturday", "Sunday"), "10:00-20:00"),
+)
 
 # A closed-weekend page (the shape every branch except math-informatics, weihenstephan,
 # and main-campus currently publishes), used to confirm closed days are dropped from
 # the OSM string rather than emitted as `Sa-Su Closed`.
-_MEDICINE_HTML = """
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Zeiten</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Saturday: </span>
-            <span class="office-hours__item-slots">Closed</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Sunday: </span>
-            <span class="office-hours__item-slots">Closed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-"""
+_MEDICINE_HTML = _paragraph(
+    "Zeiten",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "8:00-21:00")
+    | dict.fromkeys(("Saturday", "Sunday"), "Closed"),
+)
 
 # A synthesised two-paragraph fixture: the shape `ub.tum.de` is expected to publish
 # once it starts distinguishing lecture period from semester break (per #3050). The
 # real branch pages currently publish a single year-round paragraph, so this fixture
 # guards the future state and the macro plumbing it exercises.
-_LECTURE_BREAK_HTML = """
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Lecture period</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">8:00-24:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Saturday: </span>
-            <span class="office-hours__item-slots">10:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Sunday: </span>
-            <span class="office-hours__item-slots">10:00-20:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Semester break</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Saturday: </span>
-            <span class="office-hours__item-slots">10:00-16:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Sunday: </span>
-            <span class="office-hours__item-slots">10:00-16:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-"""
+_LECTURE_BREAK_HTML = _paragraph(
+    "Lecture period",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "8:00-24:00")
+    | dict.fromkeys(("Saturday", "Sunday"), "10:00-20:00"),
+) + _paragraph(
+    "Semester break",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "9:00-20:00")
+    | dict.fromkeys(("Saturday", "Sunday"), "10:00-16:00"),
+)
 
 # A synthesised service-variant fixture: a separate paragraph whose label is not a
 # season key, so the parser must turn it into a per-rule trailing OSM comment that
 # the renderer can group on. Mirrors the medicine-library pickup case in #3050.
-_SERVICE_VARIANT_HTML = """
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Zeiten</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">8:00-21:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="paragraph paragraph--type--oeffnungszeiten">
-  <div class="field field--name-field-zeiten field--type-office-hours">
-    <div class="field__label">Pickup of preordered books</div>
-    <div class="field__items">
-      <div class="field__item">
-        <div class="office-hours">
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Monday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Tuesday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Wednesday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Thursday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-          <div class="office-hours__item">
-            <span class="office-hours__item-label">Friday: </span>
-            <span class="office-hours__item-slots">9:00-20:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-"""
+_SERVICE_VARIANT_HTML = _paragraph(
+    "Zeiten",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "8:00-21:00"),
+) + _paragraph(
+    "Pickup of preordered books",
+    dict.fromkeys(("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), "9:00-20:00"),
+)
 
 
 def _valid_row() -> dict[str, list[object]]:
@@ -310,7 +137,8 @@ def test_parse_branch_page_maps_lecture_and_break_paragraphs_to_macros() -> None
         name="Mathematics & Informatics",
     )
     assert parsed.opening_hours == (
-        "lecture: Mo-Fr 08:00-24:00; lecture: Sa-Su 10:00-20:00; break: Mo-Fr 09:00-20:00; break: Sa-Su 10:00-16:00"
+        "lecture: Mo-Fr 08:00-24:00; lecture: Sa-Su 10:00-20:00; "
+        "break: Mo-Fr 09:00-20:00; break: Sa-Su 10:00-16:00"
     )
 
 
@@ -339,7 +167,7 @@ def test_parse_branch_page_rejects_a_page_without_office_hours() -> None:
 
 def test_parse_branch_page_rejects_a_page_with_only_closed_days() -> None:
     """A paragraph in which every slot is `Closed` must raise rather than emit an empty string."""
-    closed_only = _MEDICINE_HTML.replace("8:00-21:00", "Closed")
+    closed_only = _paragraph("Zeiten", dict.fromkeys(_DAYS, "Closed"))
     with pytest.raises(ValueError, match="no opening-hours rules"):
         parse_branch_page(
             closed_only,
