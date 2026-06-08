@@ -32,6 +32,23 @@ function removeHolidayRange(index: number) {
 
 <template>
   <div class="space-y-3">
+    <!-- Source URL is required: OpeningHoursSchema rejects a schedule without provenance.
+         Kept directly under the section label so it reads as part of this edit. -->
+    <div>
+      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-source">
+        {{ t("source_url") }} <span class="text-red-600 dark:text-red-300" aria-hidden="true">*</span>
+      </label>
+      <input
+        id="opening-hours-source"
+        v-model="draft.sourceUrl"
+        type="url"
+        required
+        placeholder="https://"
+        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
+      />
+      <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("source_url_help") }}</p>
+    </div>
+
     <!-- Year-round vs. semester-dependent schedule. -->
     <TabGroup :selected-index="draft.mode === 'always' ? 0 : 1">
       <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
@@ -113,22 +130,6 @@ function removeHolidayRange(index: number) {
           {{ t("add_range") }}
         </button>
       </div>
-    </div>
-
-    <!-- Source URL is required: OpeningHoursSchema rejects a schedule without provenance. -->
-    <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
-      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-source">
-        {{ t("source_url") }} <span class="text-red-600 dark:text-red-300" aria-hidden="true">*</span>
-      </label>
-      <input
-        id="opening-hours-source"
-        v-model="draft.sourceUrl"
-        type="url"
-        required
-        placeholder="https://"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
-      />
-      <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("source_url_help") }}</p>
     </div>
   </div>
 </template>
