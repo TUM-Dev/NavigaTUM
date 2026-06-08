@@ -1,9 +1,9 @@
 import logging
 from pathlib import Path
-from typing import Any
 
 import orjson
 import polars as pl
+from pipeline_types import FlatRow
 from utils import TranslatableStr as _
 
 from processors import merge
@@ -24,7 +24,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
     # Build parent lookup: id -> parents list
     parent_lookup = dict(zip(df["id"].to_list(), df["parents"].to_list(), strict=True))
 
-    new_rows: list[dict[str, Any]] = []
+    new_rows: list[FlatRow] = []
     for _id, poi in poi_data.items():
         if _id in existing_ids:
             raise ValueError(f"The id '{_id}' is already used, cannot use it for a new POI")
@@ -44,7 +44,7 @@ def merge_poi(df: pl.DataFrame) -> pl.DataFrame:
         for link in links:
             link["text"] = _(link["text"])
 
-        row: dict[str, Any] = {
+        row: FlatRow = {
             "id": _id,
             "type": "poi",
             "parents": parents,

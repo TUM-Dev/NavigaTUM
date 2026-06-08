@@ -1,7 +1,6 @@
-from typing import Any
-
 import orjson
 import polars as pl
+from pipeline_types import Entry, FlatRow, Json
 from utils import TranslatableStr
 
 _DEFAULT_DTYPE: pl.DataType = pl.Utf8()
@@ -22,7 +21,7 @@ def ensure_columns(df: pl.DataFrame, columns: dict[str, pl.DataType]) -> pl.Data
     return df
 
 
-def translatable_to_columns(field: str, value: Any) -> dict[str, str | None]:
+def translatable_to_columns(field: str, value: Json) -> dict[str, str | None]:
     """Split a TranslatableStr or plain string into ``{field}_de`` / ``{field}_en`` columns."""
     if value is None:
         return {f"{field}_de": None, f"{field}_en": None}
@@ -35,16 +34,16 @@ def translatable_to_columns(field: str, value: Any) -> dict[str, str | None]:
     return {f"{field}_de": str(value), f"{field}_en": str(value)}
 
 
-def to_json_or_none(value: Any) -> str | None:
+def to_json_or_none(value: Json) -> str | None:
     """``orjson.dumps`` ``value`` to a string, passing ``None`` through unchanged."""
     if value is None:
         return None
     return orjson.dumps(value).decode()
 
 
-def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
+def flatten_entry(entry_id: str, entry: Entry) -> FlatRow:
     """Convert a legacy nested dict entry into a flat column dict for DataFrame insertion."""
-    row: dict[str, Any] = {"id": entry_id}
+    row: FlatRow = {"id": entry_id}
 
     row["type"] = entry.get("type")
 
@@ -184,16 +183,16 @@ def flatten_entry(entry_id: str, entry: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
-def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
+def unflatten_row(row: FlatRow) -> Entry:
     """Reconstruct the nested API dict from flat DataFrame columns."""
     name_de = row.get("name_de") or row.get("name")
     name_en = row.get("name_en")
     if name_de and name_en and name_de != name_en:
-        name_val: Any = {"en": name_en, "de": name_de}
+        name_val: Json = {"en": name_en, "de": name_de}
     else:
         name_val = name_de
 
-    result: dict[str, Any] = {
+    result: Entry = {
         "id": row["id"],
         "type": row["type"],
         "name": name_val,
@@ -220,8 +219,8 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         if accuracy := row.get("coords_accuracy"):
             result["coords"]["accuracy"] = accuracy
 
-    props: dict[str, Any] = {}
-    ids: dict[str, Any] = {}
+    props: Entry = {}
+    ids: Entry = {}
     if b_id := row.get("props_ids_b_id"):
         ids["b_id"] = b_id
     if roomcode := row.get("props_ids_roomcode"):
@@ -231,7 +230,7 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if ids:
         props["ids"] = ids
 
-    address: dict[str, Any] = {}
+    address: Entry = {}
     if street := row.get("props_address_street"):
         address["street"] = street
     if plz_place := row.get("props_address_plz_place"):
@@ -241,7 +240,7 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if address:
         props["address"] = address
 
-    stats: dict[str, Any] = {}
+    stats: Entry = {}
     for key in [
         "n_rooms",
         "n_rooms_reg",
@@ -285,7 +284,7 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
         result["props"] = props
 
     if row.get("usage_name_de") or row.get("usage_din_277"):
-        usage: dict[str, Any] = {}
+        usage: Entry = {}
         if name_de := row.get("usage_name_de"):
             usage["name"] = {"en": row.get("usage_name_en"), "de": name_de}
         if din_277 := row.get("usage_din_277"):
@@ -296,7 +295,7 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
             usage["din277_name"] = din277_name
         result["usage"] = usage
 
-    ranking: dict[str, Any] = {}
+    ranking: Entry = {}
     for key in ["rank_type", "rank_usage", "rank_boost", "rank_custom", "rank_combined"]:
         if (rank := row.get(f"ranking_{key}")) is not None:
             ranking[key] = rank
@@ -333,7 +332,7 @@ def unflatten_row(row: dict[str, Any]) -> dict[str, Any]:
     if rooms_overview_json := row.get("sections_rooms_overview_json"):
         result.setdefault("sections", {})["rooms_overview"] = orjson.loads(rooms_overview_json)
 
-    sources: dict[str, Any] = {}
+    sources: Entry = {}
     if sources_base_json := row.get("sources_base_json"):
         sources["base"] = orjson.loads(sources_base_json)
     if sources_patched := row.get("sources_patched"):

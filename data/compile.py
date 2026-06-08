@@ -3,12 +3,12 @@ import logging
 from concurrent.futures import Future, ThreadPoolExecutor
 from datetime import datetime
 from multiprocessing import Process
-from typing import Any
 
 import polars as pl
 import processors.areatree.process as areatree
 import yaml
 from external.loaders.opening_hours import load_opening_hours
+from pipeline_types import Entry
 from processors import (
     aliases,
     coords,
@@ -139,7 +139,7 @@ def main() -> None:
 def _run_pipeline(
     *,
     resizer: Process,
-    fut_old_data: Future[list[Any]],
+    fut_old_data: Future[list[Entry]],
     fut_old_sitemaps: Future[SimplifiedSitemaps],
     fut_web_sitemap: Future[dict[str, datetime]],
 ) -> None:

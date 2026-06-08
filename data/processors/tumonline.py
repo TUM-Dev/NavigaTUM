@@ -2,12 +2,12 @@ import logging
 import re
 import string
 from pathlib import Path
-from typing import Any
 
 import orjson
 import polars as pl
 import yaml
 from external.loaders.tumonline import load_buildings, load_orgs, load_rooms, load_usages
+from pipeline_types import FlatRow, Json
 from utils import TranslatableStr as _
 
 from processors.df_utils import ensure_column, ensure_columns, to_json_or_none, translatable_to_columns
@@ -79,7 +79,7 @@ def merge_tumonline_buildings(df: pl.DataFrame) -> pl.DataFrame:
     Returns a new DataFrame with tumonline building data merged in.
     """
     error = False
-    buildings_rows: list[dict[str, Any]] = []
+    buildings_rows: list[FlatRow] = []
     for building in load_buildings().iter_rows(named=True):
         b_id = building["building_key"]
         b_name = " ".join(building["name"].split()).strip()
@@ -236,7 +236,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
         for brow in df.filter(pl.col("type").is_in(_BUILDING_TYPES)).select("id", "parents").iter_rows(named=True)
     }
 
-    candidate_rows: list[dict[str, Any]] = []
+    candidate_rows: list[FlatRow] = []
     missing_buildings: dict[str, int] = {}
 
     for room_code, room in rooms.items():
@@ -358,7 +358,7 @@ def merge_tumonline_rooms(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def _addition_to_row(addition: dict[str, Any]) -> dict[str, Any]:
+def _addition_to_row(addition: dict[str, Json]) -> FlatRow:
     """Reshape an ``additions:`` entry to match the row layout returned by ``load_rooms``."""
     address = addition.get("address") or {}
     seats = addition.get("seats") or {}
@@ -384,13 +384,13 @@ def _addition_to_row(addition: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
+def _clean_tumonline_rooms() -> dict[str, FlatRow]:
     """
     Apply some known corrections / patches on the TUMonline room data.
 
     It also searches for inconsistencies not yet patched
     """
-    rooms: dict[str, dict[str, Any]] = {row["room_key"]: row for row in load_rooms().iter_rows(named=True)}
+    rooms: dict[str, FlatRow] = {row["room_key"]: row for row in load_rooms().iter_rows(named=True)}
 
     with (SOURCES_PATH / "15_patches-rooms_tumonline.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
@@ -466,11 +466,11 @@ def _clean_tumonline_rooms() -> dict[str, dict[str, Any]]:
 
 
 def _infer_arch_name(
-    room: dict[str, Any],
+    room: FlatRow,
     arch_name_parts: tuple[str, str],
     used_arch_names: dict[str, tuple[str, str, str]],
     roomcode_parts: tuple[str, str, str],
-    rooms: dict[str, dict[str, Any]],
+    rooms: dict[str, FlatRow],
 ) -> None:
     """Infer the arch name and other related properties"""
     # Some rooms don't have an arch_name. The value is then usually just like "@1234".
@@ -528,7 +528,7 @@ def _infer_arch_name(
         room["patched"] = True
 
 
-def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: dict[str, Any]) -> None:
+def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: FlatRow) -> None:
     """
     Deduces the alt_name from the roomname
 
