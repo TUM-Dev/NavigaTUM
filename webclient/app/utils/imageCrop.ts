@@ -92,17 +92,17 @@ export function cropRect(
 }
 
 /**
- * Renders the offset crop at the target's pixel dimensions as an `image/webp` blob URL - the same
- * output the pipeline produces - so the form can preview exactly what will be generated. The caller
- * owns revoking the returned URL.
+ * Renders the offset crop at the target's pixel dimensions as an `image/webp` blob - the same
+ * output the pipeline produces - so the form can preview exactly what will be generated. Pair with
+ * `useObjectUrl` so the URL's lifetime tracks the blob without manual revoke bookkeeping.
  */
-export function cropToBlobUrl(
-  image: HTMLImageElement,
+export function cropToBlob(
+  image: CanvasImageSource,
   width: number,
   height: number,
   target: CropTarget,
   offset: number
-): Promise<string | null> {
+): Promise<Blob | null> {
   const rect = cropRect(width, height, target, offset);
   const canvas = document.createElement("canvas");
   canvas.width = target.width;
@@ -110,7 +110,5 @@ export function cropToBlobUrl(
   const ctx = canvas.getContext("2d");
   if (!ctx) return Promise.resolve(null);
   ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height, 0, 0, target.width, target.height);
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob ? URL.createObjectURL(blob) : null), "image/webp", 0.9);
-  });
+  return new Promise((resolve) => canvas.toBlob(resolve, "image/webp", 0.9));
 }

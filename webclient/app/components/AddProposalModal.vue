@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiCalendarStar, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
-import { useDebounceFn } from "@vueuse/core";
+import { refDebounced } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
@@ -29,40 +29,45 @@ const kindIndex = computed(() => {
   const k = editProposal.value.pendingAddition.kind;
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
-// Debounce + verify the id against /api/locations/{id}; 200 means collision, 404 means free.
-const idCheckPending = ref(false);
+// Verify the id against /api/locations/{id}; 200 means collision, 404 means free. Event ids are
+// content-hashed locally and cannot collide with existing entries, so the check is suppressed.
+const trimmedId = computed(() => editProposal.value.pendingAddition.id.trim());
+const debouncedId = refDebounced(trimmedId, 350);
+const fetchingId = ref(false);
 const idCollidesOnServer = ref(false);
-// Counter still needed to invalidate in-flight fetches when the input changes
-// after the debounce already fired; `useDebounceFn` only cancels pending calls.
-let idCheckCounter = 0;
-const runIdCheck = useDebounceFn(async (id: string, ticket: number) => {
-  try {
-    const res = await fetch(
-      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
-      { credentials: "omit" }
-    );
-    if (ticket !== idCheckCounter) return;
-    idCollidesOnServer.value = res.ok;
-  } catch {
-    // Network failure: don't block. The server validates again on submit.
-  } finally {
-    if (ticket === idCheckCounter) idCheckPending.value = false;
-  }
-}, 350);
 watch(
-  () => editProposal.value.pendingAddition.id,
-  (value) => {
-    idCheckCounter++;
+  [debouncedId, () => editProposal.value.pendingAddition.kind],
+  async ([id, kind], _old, onCleanup) => {
     idCollidesOnServer.value = false;
-    const id = value.trim();
-    if (!id || editProposal.value.pendingAddition.kind === "event") {
-      idCheckPending.value = false;
+    if (!id || kind === "event") {
+      fetchingId.value = false;
       return;
     }
-    idCheckPending.value = true;
-    runIdCheck(id, idCheckCounter);
+    const controller = new AbortController();
+    // `onCleanup` aborts the prior fetch the instant the watched inputs change again, so a slow
+    // response can never settle stale state. Replaces the manual counter the old code used.
+    onCleanup(() => controller.abort());
+    fetchingId.value = true;
+    try {
+      const res = await fetch(
+        `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+        { credentials: "omit", signal: controller.signal }
+      );
+      idCollidesOnServer.value = res.ok;
+    } catch {
+      // Network failure or abort: don't block. The server re-validates on submit.
+    } finally {
+      fetchingId.value = false;
+    }
   }
 );
+// Pending while either the debounce hasn't caught up to the latest keystroke or a fetch is in
+// flight - both transient states map to "checking…" in the UI.
+const idCheckPending = computed(() => {
+  const id = trimmedId.value;
+  if (!id || editProposal.value.pendingAddition.kind === "event") return false;
+  return debouncedId.value !== id || fetchingId.value;
+});
 
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;

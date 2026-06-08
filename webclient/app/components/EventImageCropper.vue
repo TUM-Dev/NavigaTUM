@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useEventListener } from "@vueuse/core";
 import {
   type CropTarget,
   clampCropOffset,
@@ -9,7 +10,9 @@ import {
 
 const offset = defineModel<number>({ required: true });
 const props = defineProps<{
-  imageUrl: string;
+  // Undefined upstream is guarded by `v-if="previewUrl"` at the parent's call site; widening the
+  // type here just keeps that template strict-typeable.
+  imageUrl: string | undefined;
   width: number;
   height: number;
   target: CropTarget;
@@ -34,35 +37,38 @@ const frame = computed(() => {
   };
 });
 
-let dragStart: { pointer: number; offset: number; axisPx: number } | null = null;
+interface DragStart {
+  pointer: number;
+  offset: number;
+  axisPx: number;
+}
+// shallowRef rather than a `let`: an outside-component cancellation (e.g. parent unmount mid-drag)
+// only needs to null this for the global listeners below to short-circuit.
+const dragStart = shallowRef<DragStart | null>(null);
 
 function onPointerDown(event: PointerEvent): void {
   if (fixed.value || !imageEl.value) return;
   const box = imageEl.value.getBoundingClientRect();
-  dragStart = {
+  dragStart.value = {
     pointer: isHorizontal.value ? event.clientX : event.clientY,
     offset: offset.value,
     axisPx: isHorizontal.value ? box.width : box.height,
   };
-  window.addEventListener("pointermove", onPointerMove);
-  window.addEventListener("pointerup", onPointerUp);
 }
 
-function onPointerMove(event: PointerEvent): void {
-  if (!dragStart) return;
-  const moved = (isHorizontal.value ? event.clientX : event.clientY) - dragStart.pointer;
+// Window-scoped listeners ride the component's effect scope, so `onBeforeUnmount` cleanup is
+// implicit; gating on `dragStart.value` makes the always-bound move handler a no-op when idle.
+useEventListener(window, "pointermove", (event: PointerEvent) => {
+  const start = dragStart.value;
+  if (!start) return;
+  const moved = (isHorizontal.value ? event.clientX : event.clientY) - start.pointer;
   const sourceAxis = isHorizontal.value ? props.width : props.height;
-  const delta = (moved / dragStart.axisPx) * sourceAxis;
-  offset.value = clampCropOffset(props.width, props.height, props.target, dragStart.offset + delta);
-}
-
-function onPointerUp(): void {
-  dragStart = null;
-  window.removeEventListener("pointermove", onPointerMove);
-  window.removeEventListener("pointerup", onPointerUp);
-}
-
-onBeforeUnmount(onPointerUp);
+  const delta = (moved / start.axisPx) * sourceAxis;
+  offset.value = clampCropOffset(props.width, props.height, props.target, start.offset + delta);
+});
+useEventListener(window, "pointerup", () => {
+  dragStart.value = null;
+});
 </script>
 
 <template>

@@ -7,12 +7,13 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal } from "@mdi/js";
+import { useDropZone, useFileDialog, useObjectUrl } from "@vueuse/core";
+import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
-import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
 import { wallTimeToRfc3339 } from "~/utils/datetime";
-import { type CropTarget, cropToBlobUrl, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
+import { cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
@@ -55,70 +56,47 @@ const mapLon = computed({
 
 const VALID_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
-const fileInput = ref<HTMLInputElement>();
-const isDragOver = ref(false);
 const fileError = ref("");
-const previewUrl = ref<string | null>(null);
-const sourceImage = shallowRef<HTMLImageElement | null>(null);
 
-function makeCropPreview(target: CropTarget) {
-  const url = ref<string | null>(null);
-  let token = 0;
-  function set(next: string | null): void {
-    if (url.value) URL.revokeObjectURL(url.value);
-    url.value = next;
+// `useObjectUrl` owns the URL lifetime: it issues one when the source File/Blob changes and revokes
+// the old one on the next change or on unmount, so the manual createObjectURL/revoke bookkeeping
+// drops away. The bitmap is decoded once via `createImageBitmap` so canvas crops don't have to wait
+// on a hidden <img> probe to fire `onload`.
+const sourceFile = shallowRef<File | null>(null);
+const sourceBitmap = shallowRef<ImageBitmap | null>(null);
+const previewUrl = useObjectUrl(sourceFile);
+
+// Thumb blob feeds the map-marker preview; useObjectUrl keeps its URL synced to the blob's lifetime.
+// The header crop is offset-only - its preview lives inside EventImageCropper, so no blob here.
+const thumbBlob = shallowRef<Blob | null>(null);
+const thumbUrl = useObjectUrl(thumbBlob);
+
+// `onCleanup` cancels the previous run so a slow encode never overwrites a newer offset - this is
+// what the old `makeCropPreview` race-token bookkeeping was emulating.
+watchEffect(async (onCleanup) => {
+  const img = sourceBitmap.value;
+  const w = draft.value.image_width;
+  const h = draft.value.image_height;
+  const offset = draft.value.image_thumb_offset;
+  if (!img || !w || !h) {
+    thumbBlob.value = null;
+    return;
   }
-  async function regenerate(offset: number): Promise<void> {
-    const img = sourceImage.value;
-    const w = draft.value.image_width;
-    const h = draft.value.image_height;
-    if (!img || !w || !h) {
-      set(null);
-      return;
-    }
-    const ticket = ++token;
-    const next = await cropToBlobUrl(img, w, h, target, offset);
-    if (ticket !== token) {
-      if (next) URL.revokeObjectURL(next);
-      return;
-    }
-    set(next);
-  }
-  return { url, set, regenerate };
-}
-const thumbPreview = makeCropPreview(THUMB_TARGET);
-const thumbUrl = thumbPreview.url;
-
-function bytesFromBase64(base64: string): Uint8Array<ArrayBuffer> {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
-}
-
-async function sha256Hex(bytes: Uint8Array<ArrayBuffer>): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const probe = new Image();
-    probe.onload = () => resolve(probe);
-    probe.onerror = () => reject(new Error("decode failed"));
-    probe.src = url;
+  let cancelled = false;
+  onCleanup(() => {
+    cancelled = true;
   });
-}
+  const blob = await cropToBlob(img, w, h, THUMB_TARGET, offset);
+  if (!cancelled) thumbBlob.value = blob;
+});
 
-function setPreviewUrl(url: string | null): void {
-  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value);
-  previewUrl.value = url;
-}
-
-function regenerateCrops(): void {
-  void thumbPreview.regenerate(draft.value.image_thumb_offset);
+function fileToBase64(file: File): Promise<string | null> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(((reader.result as string) ?? "").split(",")[1] ?? null);
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
 }
 
 async function processFile(file: File): Promise<void> {
@@ -131,53 +109,60 @@ async function processFile(file: File): Promise<void> {
     fileError.value = t("image_too_large");
     return;
   }
-
-  const base64 = await new Promise<string | null>((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => resolve(((e.target?.result as string) ?? "").split(",")[1] ?? null);
-    reader.onerror = () => resolve(null);
-    reader.readAsDataURL(file);
-  });
-  if (!base64) {
-    fileError.value = t("image_read_error");
-    return;
-  }
-
-  const url = URL.createObjectURL(file);
-  let image: HTMLImageElement;
+  let bitmap: ImageBitmap;
   try {
-    image = await loadImage(url);
+    bitmap = await createImageBitmap(file);
   } catch {
-    URL.revokeObjectURL(url);
     fileError.value = t("image_read_error");
     return;
   }
+  const [base64, buffer] = await Promise.all([fileToBase64(file), file.arrayBuffer()]);
+  if (!base64) {
+    bitmap.close();
+    fileError.value = t("image_read_error");
+    return;
+  }
+  // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs). The full
+  // sha256 is overkill for a filename; 16 hex chars (64 bits) keep collisions negligible yet tidy.
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", buffer));
+  const hash = Array.from(digest, (b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .slice(0, 16);
 
-  setPreviewUrl(url);
-  sourceImage.value = image;
+  sourceBitmap.value?.close();
+  sourceBitmap.value = bitmap;
+  sourceFile.value = file;
   draft.value.image = { base64, fileName: file.name || "event-image" };
-  draft.value.image_width = image.naturalWidth;
-  draft.value.image_height = image.naturalHeight;
+  draft.value.image_width = bitmap.width;
+  draft.value.image_height = bitmap.height;
+  // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  const hash = await sha256Hex(bytesFromBase64(base64));
-  draft.value.id = `event_${hash.slice(0, 16)}`;
-  regenerateCrops();
+  draft.value.id = `event_${hash}`;
 }
 
-function onFileChange(event: Event): void {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) void processFile(file);
-}
-function onDrop(event: DragEvent): void {
-  isDragOver.value = false;
-  const file = event.dataTransfer?.files?.[0];
-  if (file) void processFile(file);
-}
+const {
+  open: openFileDialog,
+  onChange: onFileDialogChange,
+  reset: resetFileDialog,
+} = useFileDialog({ accept: "image/*", multiple: false });
+onFileDialogChange((files) => {
+  const f = files?.[0];
+  if (f) void processFile(f);
+});
+
+const dropArea = ref<HTMLElement>();
+const { isOverDropZone } = useDropZone(dropArea, {
+  onDrop: (files) => {
+    const f = files?.[0];
+    if (f) void processFile(f);
+  },
+});
+
 function removeImage(): void {
-  setPreviewUrl(null);
-  thumbPreview.set(null);
-  sourceImage.value = null;
+  sourceBitmap.value?.close();
+  sourceBitmap.value = null;
+  sourceFile.value = null;
   draft.value.image = null;
   draft.value.image_width = null;
   draft.value.image_height = null;
@@ -185,20 +170,15 @@ function removeImage(): void {
   draft.value.image_header_offset = 0;
   draft.value.id = "";
   fileError.value = "";
-  if (fileInput.value) fileInput.value.value = "";
+  resetFileDialog();
 }
 
-watch(
-  () => draft.value.image_thumb_offset,
-  (o) => thumbPreview.regenerate(o)
-);
-
-onBeforeUnmount(() => {
-  setPreviewUrl(null);
-  thumbPreview.set(null);
+// Release the bitmap's GPU/CPU buffers promptly; useObjectUrl handles the URL revokes itself.
+onScopeDispose(() => {
+  sourceBitmap.value?.close();
 });
 
-const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.value.coords.picked);
+const showPreview = computed(() => Boolean(thumbUrl.value) && draft.value.coords.picked);
 
 const previewEvent = computed<EventPreviewPopup | null>(() => {
   const org = selectedOrg.value;
@@ -362,19 +342,16 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
     <div>
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("image") }} <span class="text-red-700 dark:text-red-200">*</span></span>
       <div
+        ref="dropArea"
         class="cursor-pointer rounded border-2 border-dashed p-4 text-center text-sm transition-colors"
         :class="[
-          isDragOver
+          isOverDropZone
             ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900'
             : 'border-zinc-300 dark:border-zinc-600 hover:border-blue-400 dark:hover:border-blue-500',
           errorFor('image') ? 'border-red-500 dark:border-red-400' : '',
         ]"
-        @click="fileInput?.click()"
-        @dragover.prevent="isDragOver = true"
-        @dragleave.prevent="isDragOver = false"
-        @drop.prevent="onDrop"
+        @click="openFileDialog()"
       >
-        <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="onFileChange" />
         <template v-if="draft.image">
           <p class="text-blue-700 dark:text-blue-200 font-medium">{{ draft.image.fileName }}</p>
           <p v-if="draft.image_width && draft.image_height" class="text-zinc-500 dark:text-zinc-400 text-xs">
