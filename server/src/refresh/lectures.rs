@@ -361,21 +361,39 @@ mod test {
         assert_eq!(id.len(), "lecture_".len() + 16);
 
         // Case drift in the display titles must not fork the identity.
-        assert_eq!(a.ms_id(), group("ANALYSIS 1", "CALCULUS 1", Some("Vorlesung")).ms_id());
+        assert_eq!(
+            a.ms_id(),
+            group("ANALYSIS 1", "CALCULUS 1", Some("Vorlesung")).ms_id()
+        );
 
         // Each of the three key components changes the id.
-        assert_ne!(a.ms_id(), group("Analysis 2", "Calculus 1", Some("Vorlesung")).ms_id());
-        assert_ne!(a.ms_id(), group("Analysis 1", "Calculus 2", Some("Vorlesung")).ms_id());
-        assert_ne!(a.ms_id(), group("Analysis 1", "Calculus 1", Some("Übung")).ms_id());
+        assert_ne!(
+            a.ms_id(),
+            group("Analysis 2", "Calculus 1", Some("Vorlesung")).ms_id()
+        );
+        assert_ne!(
+            a.ms_id(),
+            group("Analysis 1", "Calculus 2", Some("Vorlesung")).ms_id()
+        );
+        assert_ne!(
+            a.ms_id(),
+            group("Analysis 1", "Calculus 1", Some("Übung")).ms_id()
+        );
 
         // An absent `stp_type` folds to "" and must not collide with a real one.
-        assert_ne!(group("X", "Y", None).ms_id(), group("X", "Y", Some("Vorlesung")).ms_id());
+        assert_ne!(
+            group("X", "Y", None).ms_id(),
+            group("X", "Y", Some("Vorlesung")).ms_id()
+        );
     }
 
     #[test]
     fn ms_id_delimiter_prevents_concatenation_collisions() {
         // Without the unit-separator delimiter, ("ab", "x") and ("a", "bx")
         // would hash the same byte stream. The delimiter keeps them distinct.
-        assert_ne!(group("ab", "x", None).ms_id(), group("a", "bx", None).ms_id());
+        assert_ne!(
+            group("ab", "x", None).ms_id(),
+            group("a", "bx", None).ms_id()
+        );
     }
 }

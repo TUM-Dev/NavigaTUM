@@ -1018,7 +1018,10 @@ mod test {
         );
         let top = lectures.entries.first().unwrap();
         assert!(top.id.starts_with("lecture_"), "got id {}", top.id);
-        assert_eq!(top.title_de.as_deref(), Some("Quantenfeldtheorie im Teststand"));
+        assert_eq!(
+            top.title_de.as_deref(),
+            Some("Quantenfeldtheorie im Teststand")
+        );
         assert_eq!(
             top.title_en.as_deref(),
             Some("Quantum Field Theory on a Test Bench")
