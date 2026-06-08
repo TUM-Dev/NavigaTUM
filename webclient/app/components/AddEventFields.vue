@@ -9,7 +9,11 @@ import {
 import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { useDropZone, useFileDialog, useObjectUrl } from "@vueuse/core";
 import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
-import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
+import {
+  type AdditionFieldErrors,
+  type EventDraft,
+  validateAddition,
+} from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
 import { wallTimeToRfc3339 } from "~/utils/datetime";
@@ -18,7 +22,9 @@ import { cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 
-const draft = computed(() => editProposal.value.pendingAddition);
+// The parent only mounts this component when `kind === "event"`, so the narrowing cast is safe
+// and saves every binding from re-checking the discriminant.
+const draft = computed(() => editProposal.value.pendingAddition as EventDraft);
 const fieldErrors = computed<AdditionFieldErrors>(() => validateAddition(draft.value));
 function errorFor(path: string): string | null {
   const key = fieldErrors.value[path];
