@@ -154,6 +154,13 @@ export function activeWeeks(draft: OpeningHoursDraft): WeekSchedule[] {
   return draft.mode === "always" ? [draft.always] : [draft.lecture, draft.break];
 }
 
+// `open` on holidays must list at least one valid range. An empty selection is
+// ambiguous (closed? 24/7?), so callers surface it as incomplete rather than
+// silently emitting no `PH` rule.
+export function holidayHoursMissing(draft: OpeningHoursDraft): boolean {
+  return draft.holiday.mode === "open" && osmRangeList(draft.holiday.ranges) === "";
+}
+
 export function draftHasInvalidRange(draft: OpeningHoursDraft): boolean {
   const weekInvalid = activeWeeks(draft).some((week) =>
     OPENING_HOURS_DAYS.some((day) => week[day].some((range) => !isValidTimeRange(range)))

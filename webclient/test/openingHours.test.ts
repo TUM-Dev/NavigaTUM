@@ -6,6 +6,7 @@ import {
   emptyOpeningHoursDraft,
   emptyWeekSchedule,
   hasWeeklyHours,
+  holidayHoursMissing,
   isValidTimeRange,
   scopeOsmRules,
   type WeekSchedule,
@@ -181,6 +182,15 @@ describe("buildDraftOpeningHours", () => {
     draft.holiday.mode = "open";
     draft.holiday.ranges = [{ from: "10:00", to: "14:00" }];
     expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH 10:00-14:00");
+  });
+
+  it("requires at least one range when holidays are open", () => {
+    const draft = emptyOpeningHoursDraft();
+    expect(holidayHoursMissing(draft)).toBe(false); // default closed
+    draft.holiday.mode = "open";
+    expect(holidayHoursMissing(draft)).toBe(true); // open, no ranges
+    draft.holiday.ranges = [{ from: "10:00", to: "14:00" }];
+    expect(holidayHoursMissing(draft)).toBe(false);
   });
 
   it("flags an invalid holiday range only when holidays are open", () => {

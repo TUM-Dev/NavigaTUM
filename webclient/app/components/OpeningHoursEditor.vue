@@ -25,6 +25,17 @@ const holidayOptions: { value: HolidayMode; label: string }[] = [
 function addHolidayRange() {
   draft.value.holiday.ranges.push({ from: "10:00", to: "14:00" });
 }
+
+// Switching to "open" with no hours is ambiguous, so seed a range the moment the
+// user picks it - they immediately see (and can adjust) a concrete time.
+watch(
+  () => draft.value.holiday.mode,
+  (mode) => {
+    if (mode === "open" && draft.value.holiday.ranges.length === 0) {
+      addHolidayRange();
+    }
+  }
+);
 function removeHolidayRange(index: number) {
   draft.value.holiday.ranges.splice(index, 1);
 }
