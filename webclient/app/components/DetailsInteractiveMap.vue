@@ -221,6 +221,7 @@ onMounted(async () => {
           :name="activeEvent.name"
           :description="activeEvent.description"
           :image-path="activeEvent.imagePath"
+          :image-author="activeEvent.imageAuthor"
           :starts-at="activeEvent.startsAt"
           :ends-at="activeEvent.endsAt"
           :org-code="activeEvent.orgCode"

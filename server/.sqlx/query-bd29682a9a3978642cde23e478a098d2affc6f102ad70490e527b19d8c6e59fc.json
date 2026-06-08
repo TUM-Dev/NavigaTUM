@@ -1,10 +1,11 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO events(name, description, image, coordinate, starts_at, ends_at, organising_org_id) VALUES ($1, $2, $3, POINT($4, $5), $6, $7, $8)",
+  "query": "INSERT INTO events(name, description, image, image_author, coordinate, starts_at, ends_at, organising_org_id) VALUES ($1, $2, $3, $4, POINT($5, $6), $7, $8, $9)",
   "describe": {
     "columns": [],
     "parameters": {
       "Left": [
+        "Text",
         "Text",
         "Text",
         "Text",
@@ -17,5 +18,5 @@
     },
     "nullable": []
   },
-  "hash": "75fc6e03d6c726e27a979a03372940e19568016519452d7a176fee2782cff937"
+  "hash": "bd29682a9a3978642cde23e478a098d2affc6f102ad70490e527b19d8c6e59fc"
 }

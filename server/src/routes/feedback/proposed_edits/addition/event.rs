@@ -133,6 +133,7 @@ impl NewEvent {
             &self.ends_at,
             &self.description,
             &self.organising_org_id.to_string(),
+            self.image.author(),
         ])?;
         writer.flush()?;
         Ok(())
@@ -374,7 +375,7 @@ mod tests {
         fs::write(sources.join("img").join("img-sources.yaml"), "{}\n").unwrap();
         fs::write(
             sources.join("events.csv"),
-            "event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id\n",
+            "event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id,event_image_author\n",
         )
         .unwrap();
 
@@ -389,8 +390,8 @@ mod tests {
 
         let csv = fs::read_to_string(sources.join("events.csv")).unwrap();
         assert_snapshot!(csv, @r#"
-        event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id
-        /cdn/thumb/event_9d02ddd940c43f87_0.webp,48.262908,11.669102,GARNIX Festival,2026-06-10T16:00:00+02:00,2026-06-12T23:00:00+02:00,"Live music, food trucks, and stands.",51897
+        event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id,event_image_author
+        /cdn/thumb/event_9d02ddd940c43f87_0.webp,48.262908,11.669102,GARNIX Festival,2026-06-10T16:00:00+02:00,2026-06-12T23:00:00+02:00,"Live music, food trucks, and stands.",51897,Studi
         "#);
 
         let yaml = fs::read_to_string(sources.join("img").join("img-sources.yaml")).unwrap();

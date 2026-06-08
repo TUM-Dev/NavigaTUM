@@ -18,6 +18,7 @@ _CSV_RENAME = {
     "event_datetime_end_at": "ends_at",
     "event_description": "description",
     "event_organising_org_id": "organising_org_id",
+    "event_image_author": "image_author",
 }
 
 

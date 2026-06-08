@@ -11,6 +11,7 @@ export interface EventPreviewPopup {
   readonly orgNameDe: string;
   readonly orgNameEn: string;
   readonly imageSrc: string;
+  readonly imageAuthor: string;
 }
 
 const props = defineProps<{
@@ -149,6 +150,7 @@ onBeforeUnmount(() => {
           :name="popup.name"
           :description="popup.description"
           :image-src-override="popup.imageSrc"
+          :image-author="popup.imageAuthor"
           :starts-at="popup.startsAt"
           :ends-at="popup.endsAt"
           :org-code="popup.orgCode"
