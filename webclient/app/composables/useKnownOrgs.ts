@@ -14,6 +14,10 @@ export interface OrgOption {
   label: string;
   /** the other-language name, used for searching */
   altLabel: string;
+  /** raw German name, kept so the event popup can switch language independently of the picker's locale. */
+  nameDe: string;
+  /** raw English name, kept so the event popup can switch language independently of the picker's locale. */
+  nameEn: string;
 }
 
 // The org tree has ~2.3k entries; rendering them all into the combobox on an empty query is
@@ -42,6 +46,8 @@ export function useKnownOrgs() {
       code: o.code,
       label: isDe ? o.name_de : o.name_en,
       altLabel: isDe ? o.name_en : o.name_de,
+      nameDe: o.name_de,
+      nameEn: o.name_en,
     }));
   });
 

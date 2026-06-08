@@ -10,6 +10,8 @@ import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal }
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
+import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
+import { wallTimeToRfc3339 } from "~/utils/datetime";
 import { type CropTarget, cropToBlobUrl, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
 const editProposal = useEditProposal();
@@ -212,6 +214,27 @@ onBeforeUnmount(() => {
 });
 
 const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.value.coords.picked);
+
+// The full event popup card, shown in the preview once every field it renders is filled. The popup
+// formats RFC3339 instants, so convert the wall-clock inputs here; a null conversion (or any missing
+// field) collapses to marker-only. The image is the not-yet-uploaded source blob, cover-fit by the
+// card exactly as the CDN image will be.
+const previewEvent = computed<EventPreviewPopup | null>(() => {
+  const org = selectedOrg.value;
+  const startsAt = wallTimeToRfc3339(draft.value.starts_at);
+  const endsAt = wallTimeToRfc3339(draft.value.ends_at);
+  if (!org || !startsAt || !endsAt || !draft.value.name || !previewUrl.value) return null;
+  return {
+    name: draft.value.name,
+    description: draft.value.description,
+    startsAt,
+    endsAt,
+    orgCode: org.code,
+    orgNameDe: org.nameDe,
+    orgNameEn: org.nameEn,
+    imageSrc: previewUrl.value,
+  };
+});
 </script>
 
 <template>
@@ -442,7 +465,12 @@ const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.valu
     <div v-if="showPreview">
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("preview") }}</span>
       <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("preview_help") }}</p>
-      <EventPreviewMap :lat="draft.coords.lat" :lon="draft.coords.lon" :image-url="thumbUrl" />
+      <EventPreviewMap
+        :lat="draft.coords.lat"
+        :lon="draft.coords.lon"
+        :image-url="thumbUrl"
+        :popup="previewEvent"
+      />
     </div>
   </div>
 </template>
@@ -481,7 +509,7 @@ de:
   crop_header: Header-Ausschnitt
   crop_header_help: Breiter Ausschnitt (512×210) für die Kopfzeile.
   preview: Vorschau auf der Karte
-  preview_help: So erscheint die Veranstaltung als Foto-Marker.
+  preview_help: So erscheint die Veranstaltung auf der Karte – als Foto-Marker mit Popup.
   error:
     name_required: Bitte gib einen Namen an.
     name_too_long: Der Name ist zu lang (max. 200 Zeichen).
@@ -529,7 +557,7 @@ en:
   crop_header: Header crop
   crop_header_help: Wide crop (512×210) used for the page header.
   preview: Map preview
-  preview_help: This is how the event will appear as a photo marker.
+  preview_help: This is how the event will appear on the map - as a photo marker with its popup.
   error:
     name_required: Please enter a name.
     name_too_long: The name is too long (max 200 characters).
