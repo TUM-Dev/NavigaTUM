@@ -26,6 +26,9 @@ from processors import (
     studierendenwerk,
     tumonline,
 )
+from processors import (
+    ub_tum as ub_tum_processor,
+)
 from processors.df_utils import ensure_columns
 from processors.exports import location_images as location_images_export
 from processors.exports import operators as operators_export
@@ -186,10 +189,11 @@ def _run_pipeline(
     _logger.info("-- 22 Decomposed overrides (comments, links, opening hours)")
     df = merge.add_comments(df)
     df = merge.add_links(df)
-    # Hand-authored schedules win over scraped mensa hours on an id collision.
-    schedules = pl.concat([load_opening_hours(), studierendenwerk.mensa_opening_hours()], how="vertical").unique(
-        subset="id", keep="first", maintain_order=True
-    )
+    # Hand-authored schedules win over scraped mensa/library hours on an id collision.
+    schedules = pl.concat(
+        [load_opening_hours(), studierendenwerk.mensa_opening_hours(), ub_tum_processor.ub_tum_opening_hours()],
+        how="vertical",
+    ).unique(subset="id", keep="first", maintain_order=True)
     # Expands lecture:/break: macros; fails the build on an unknown id or a schedule
     # that does not reduce to plain OSM.
     df = opening_hours.merge_opening_hours(df, schedules=schedules)
