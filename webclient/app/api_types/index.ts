@@ -563,6 +563,10 @@ export type components = {
             /** @enum {string} */
             readonly kind: "poi";
           },
+          components["schemas"]["NewEvent"] & {
+            /** @enum {string} */
+            readonly kind: "event";
+          },
         ]
       >;
     };
@@ -1008,6 +1012,18 @@ export type components = {
       readonly parent_id: string;
       readonly short_name?: string | null;
       readonly visible_id?: string | null;
+    };
+    /** @description A proposed campus event, appended as a row to `data/sources/events.csv`. */
+    readonly NewEvent: {
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly description: string;
+      readonly ends_at: string;
+      readonly image: components["schemas"]["Image"];
+      readonly name: string;
+      /** Format: int32 */
+      readonly organising_org_id: number;
+      /** @description RFC3339 string, to match the CSV/parquet contract. */
+      readonly starts_at: string;
     };
     readonly NewPoi: {
       readonly comment?: null | components["schemas"]["TranslatableStr"];

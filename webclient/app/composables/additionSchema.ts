@@ -1,24 +1,19 @@
-// Zod schemas for the "propose a new entry" forms. These intentionally mirror the Rust validators
-// in `server/src/routes/feedback/proposed_edits/addition/{room,building,poi}.rs`. Whenever the
-// backend rules change, update both - the matching `case` in each Rust validator's rstest table
-// is the source of truth.
+// Mirrors the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
 import { z } from "zod";
 import type { AdditionDraft } from "~/composables/editProposal";
+import { wallTimeToRfc3339 } from "~/utils/datetime";
 
-// Shared with `MAX_NAME_LEN` in the backend (room.rs / building.rs / poi.rs).
 const MAX_NAME_LEN = 200;
-// Shared with `MAX_KEY_LEN` in poi.rs.
 const MAX_POI_KEY_LEN = 64;
+const MIN_IMAGE_DIM = 256;
+const MAX_HORIZON_DAYS = 365;
+const MAX_DURATION_DAYS = 30;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-// `is_allowed_roomcode_char` in room.rs (mirrored from `ALLOWED_ROOMCODE_CHARS` in
-// `data/processors/tumonline.py`).
 const ROOM_KEY_RE = /^[A-Za-z0-9.-]+$/;
-
-// `is_arch_name_valid` in room.rs.
 const ARCH_NAME_RE = /^[A-Za-z0-9._-]+@\d{4}$/;
-
-// `is_valid_poi_key` in poi.rs: first char ascii-lowercase or digit; rest [a-z0-9_-].
 const POI_KEY_RE = /^[a-z0-9][a-z0-9_-]*$/;
+const EVENT_KEY_RE = /^event_[0-9a-f]{1,64}$/;
 
 const BUILDING_PREFIX_RE = /^\d{4}$/;
 
@@ -99,17 +94,94 @@ const newPoiSchema = z.object({
   coords: coordsSchema,
 });
 
+export const eventKeySchema = z
+  .string()
+  .min(1, "error.id_required")
+  .refine((k) => EVENT_KEY_RE.test(k), "error.event_key_format");
+
+const newEventSchema = z
+  .object({
+    kind: z.literal("event"),
+    id: eventKeySchema,
+    name: z
+      .string()
+      .max(MAX_NAME_LEN, "error.name_too_long")
+      .refine((s) => s.trim().length > 0, "error.name_required"),
+    description: z.string().refine((s) => s.trim().length > 0, "error.description_required"),
+    coords: coordsSchema,
+    organising_org_id: z.number({ message: "error.org_required" }).int().positive(),
+    image: z.object({ base64: z.string() }).nullable(),
+    starts_at: z.string(),
+    ends_at: z.string(),
+    image_width: z.number().nullable(),
+    image_height: z.number().nullable(),
+    image_author: z.string(),
+  })
+  .superRefine((draft, ctx) => {
+    const startRfc = wallTimeToRfc3339(draft.starts_at);
+    const endRfc = wallTimeToRfc3339(draft.ends_at);
+    if (startRfc === null) {
+      ctx.addIssue({ code: "custom", path: ["starts_at"], message: "error.starts_at_required" });
+    }
+    if (endRfc === null) {
+      ctx.addIssue({ code: "custom", path: ["ends_at"], message: "error.ends_at_required" });
+    }
+    if (startRfc !== null && endRfc !== null) {
+      const start = Date.parse(startRfc);
+      const end = Date.parse(endRfc);
+      const now = Date.now();
+      if (end < start) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["ends_at"],
+          message: "error.event_ends_before_start",
+        });
+      } else if (end <= now) {
+        ctx.addIssue({ code: "custom", path: ["ends_at"], message: "error.event_ended" });
+      }
+      if (start > now + MAX_HORIZON_DAYS * DAY_MS) {
+        ctx.addIssue({ code: "custom", path: ["starts_at"], message: "error.event_too_far_out" });
+      }
+      if (end - start > MAX_DURATION_DAYS * DAY_MS) {
+        ctx.addIssue({ code: "custom", path: ["ends_at"], message: "error.event_too_long" });
+      }
+    }
+    if (!draft.image?.base64) {
+      ctx.addIssue({ code: "custom", path: ["image"], message: "error.image_required" });
+    } else if (
+      draft.image_width !== null &&
+      draft.image_height !== null &&
+      Math.min(draft.image_width, draft.image_height) < MIN_IMAGE_DIM
+    ) {
+      ctx.addIssue({ code: "custom", path: ["image"], message: "error.image_too_small" });
+    }
+    if (!draft.image_author.trim()) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["image_author"],
+        message: "error.image_author_required",
+      });
+    }
+  });
+
 export type AdditionFieldErrors = Partial<Record<string, string>>;
+
+function schemaForKind(kind: NonNullable<AdditionDraft["kind"]>) {
+  switch (kind) {
+    case "room":
+      return newRoomSchema;
+    case "building":
+      return newBuildingSchema;
+    case "poi":
+      return newPoiSchema;
+    case "event":
+      return newEventSchema;
+  }
+}
 
 export function validateAddition(draft: AdditionDraft): AdditionFieldErrors {
   if (!draft.kind) return {};
-  const schema =
-    draft.kind === "room"
-      ? newRoomSchema
-      : draft.kind === "building"
-        ? newBuildingSchema
-        : newPoiSchema;
-  const result = schema.safeParse(draft);
+  const result = schemaForKind(draft.kind).safeParse(draft);
   if (result.success) return {};
   const errors: AdditionFieldErrors = {};
   for (const issue of result.error.issues) {
@@ -121,11 +193,5 @@ export function validateAddition(draft: AdditionDraft): AdditionFieldErrors {
 
 export function isAdditionValid(draft: AdditionDraft): boolean {
   if (!draft.kind) return false;
-  const schema =
-    draft.kind === "room"
-      ? newRoomSchema
-      : draft.kind === "building"
-        ? newBuildingSchema
-        : newPoiSchema;
-  return schema.safeParse(draft).success;
+  return schemaForKind(draft.kind).safeParse(draft).success;
 }
