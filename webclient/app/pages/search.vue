@@ -100,7 +100,6 @@ useSeoMeta({
               category: 'search',
               subject: '',
               body: '',
-              deletion_requested: false,
             };
           }
         "

@@ -12,6 +12,5 @@ export const useFeedback = () =>
       category: "general",
       subject: "",
       body: "",
-      deletion_requested: false,
     },
   }));

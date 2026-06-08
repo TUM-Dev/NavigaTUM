@@ -55,7 +55,6 @@ ${error}
 
 In case you have trouble replicating this bug, my environment is PLEASE_INSERT_YOUR_BROWSER_HERE.
 I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
-                      deletion_requested: false,
                     };
                   }
                 "

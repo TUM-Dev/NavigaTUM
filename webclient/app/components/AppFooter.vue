@@ -49,7 +49,6 @@ const navigation = computed(() => [
                   category: 'general',
                   subject: '',
                   body: '',
-                  deletion_requested: false,
                 };
               }
             "

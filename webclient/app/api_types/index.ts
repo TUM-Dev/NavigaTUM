@@ -1507,14 +1507,6 @@ export type components = {
       /** @description The category of the feedback. */
       readonly category?: components["schemas"]["FeedbackCategory"];
       /**
-       * @description Whether the user has requested to delete the issue.
-       *
-       *     This flag means:
-       *     - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-       *     - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-       */
-      readonly deletion_requested: boolean;
-      /**
        * @description Whether the user has checked the privacy-checkbox.
        *
        *     We are posting the feedback publicly on GitHub (not a EU-Company).

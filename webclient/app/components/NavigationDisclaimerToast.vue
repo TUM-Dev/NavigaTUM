@@ -25,7 +25,6 @@ const { t } = useI18n({ useScope: "local" });
             category: 'navigation',
             subject: `navigation from \`${selectedFrom}\` to \`${selectedTo}\``,
             body: !!comingFrom ? t('got_here_and_found_issues', [comingFrom]) : t('found_issues'),
-            deletion_requested: false,
           };
         }
       "
