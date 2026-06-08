@@ -19,6 +19,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use tokio::time::sleep;
 use tracing::{debug, error, info};
+use xxhash_rust::xxh3::xxh3_64;
 
 use crate::external::meilisearch::{ENTRIES_INDEX, FACET_FIELD, LECTURE_FACET, ROOM_FACET};
 
@@ -291,7 +292,7 @@ impl LectureGroup {
         );
         // xxh3 is a 64-bit digest, so this is always 16 hex chars - ample to
         // keep lecture identities collision-free.
-        let hash = xxhash_rust::xxh3::xxh3_64(key.as_bytes());
+        let hash = xxh3_64(key.as_bytes());
         format!("lecture_{hash:016x}")
     }
 
