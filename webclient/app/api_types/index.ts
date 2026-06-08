@@ -1289,6 +1289,30 @@ export type components = {
       readonly thumb?: number | null;
     };
     /**
+     * @description A correction to an entry's opening hours.
+     *
+     *     Routes into the data pipeline's canonical `opening_hours.csv` (one schedule
+     *     per entry id) rather than a runtime override, so an accepted fix flows back
+     *     to source. The client's day/time builder assembles `opening_hours` into a
+     *     plain OSM `opening_hours` string; `last_update` is stamped server-side so the
+     *     provenance date can't be spoofed, and the optional `valid_from`/`valid_until`/
+     *     `service` columns are left to maintainers (preserved on update, empty on
+     *     insert).
+     */
+    readonly OpeningHoursEdit: {
+      /**
+       * @description OSM `opening_hours` string assembled by the client's day/time builder.
+       * @example Mo-Fr 08:00-20:00; Sa 09:00-14:00
+       */
+      readonly opening_hours: string;
+      /**
+       * Format: uri
+       * @description Absolute http(s) URL documenting the schedule (e.g. the official department page).
+       * @example https://www.ub.tum.de/oeffnungszeiten
+       */
+      readonly source_url: string;
+    };
+    /**
      * @description Opening hours of a location.
      *
      *     The schedule is a plain OSM [`opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours)
@@ -1534,20 +1558,6 @@ export type components = {
        * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
        */
       readonly token: string;
-    };
-    /** @description A correction to an entry's opening hours. */
-    readonly OpeningHoursEdit: {
-      /**
-       * @description OSM `opening_hours` string assembled by the client's day/time builder.
-       * @example Mo-Fr 08:00-20:00; Sa 09:00-14:00
-       */
-      readonly opening_hours: string;
-      /**
-       * Format: uri
-       * @description Absolute http(s) URL documenting the schedule (e.g. the official department page).
-       * @example https://www.ub.tum.de/oeffnungszeiten
-       */
-      readonly source_url: string;
     };
     readonly Property: {
       readonly text: string;

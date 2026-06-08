@@ -8,8 +8,24 @@ export function useWeekdayLabels() {
   const { t } = useI18n({
     useScope: "local",
     messages: {
-      de: { Mo: "Montag", Tu: "Dienstag", We: "Mittwoch", Th: "Donnerstag", Fr: "Freitag", Sa: "Samstag", Su: "Sonntag" },
-      en: { Mo: "Monday", Tu: "Tuesday", We: "Wednesday", Th: "Thursday", Fr: "Friday", Sa: "Saturday", Su: "Sunday" },
+      de: {
+        Mo: "Montag",
+        Tu: "Dienstag",
+        We: "Mittwoch",
+        Th: "Donnerstag",
+        Fr: "Freitag",
+        Sa: "Samstag",
+        Su: "Sonntag",
+      },
+      en: {
+        Mo: "Monday",
+        Tu: "Tuesday",
+        We: "Wednesday",
+        Th: "Thursday",
+        Fr: "Friday",
+        Sa: "Saturday",
+        Su: "Sunday",
+      },
     },
   });
   return computed<Record<OpeningHoursWeekday, string>>(() => ({
