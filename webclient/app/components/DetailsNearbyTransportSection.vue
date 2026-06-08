@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { mdiArrowRightThin, mdiChevronDown, mdiChevronUp, mdiHelpCircle, mdiOpenInNew } from "@mdi/js";
+import {
+  mdiArrowRightThin,
+  mdiChevronDown,
+  mdiChevronUp,
+  mdiHelpCircle,
+  mdiOpenInNew,
+} from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import {
