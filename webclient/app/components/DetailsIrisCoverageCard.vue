@@ -172,7 +172,7 @@ function statusAriaLabel(status: string): string {
     <Btn
       v-if="canCollapse"
       variant="linkButton"
-      :aria-label="expanded ? t('show_less_aria') : t('show_more_aria', { count: otherRooms.length })"
+      :aria-label="expanded ? t('show_less_aria') : t('show_more_aria', otherRooms.length)"
       @click="toggleExpanded()"
     >
       <template v-if="expanded">
@@ -181,7 +181,7 @@ function statusAriaLabel(status: string): string {
       </template>
       <template v-else>
         <MdiIcon :path="mdiChevronDown" :size="16" class="mt-0.5" />
-        {{ t("show_more", { count: otherRooms.length }) }}
+        {{ t("show_more", otherRooms.length) }}
       </template>
     </Btn>
   </section>
@@ -196,9 +196,9 @@ de:
   occupancy: "{percent}% belegt"
   until: bis {time}
   until_by: "bis {time} · {by}"
-  show_more: "alle anzeigen ({count} weitere)"
+  show_more: "alle anzeigen (1 weiteren) | alle anzeigen ({count} weitere)"
   show_less: weniger anzeigen
-  show_more_aria: "alle Räume anzeigen, einschließlich {count} weiterer belegter oder unbekannter Räume"
+  show_more_aria: "alle Räume anzeigen, einschließlich 1 weiteren belegten oder unbekannten Raumes | alle Räume anzeigen, einschließlich {count} weiterer belegter oder unbekannter Räume"
   show_less_aria: nur (teilweise) freie Räume anzeigen
   status:
     frei: frei
@@ -213,9 +213,9 @@ en:
   occupancy: "{percent}% in use"
   until: until {time}
   until_by: "until {time} · {by}"
-  show_more: "show all ({count} more)"
+  show_more: "show all (1 more) | show all ({count} more)"
   show_less: show less
-  show_more_aria: "show all rooms, including {count} more booked or unknown rooms"
+  show_more_aria: "show all rooms, including 1 more booked or unknown room | show all rooms, including {count} more booked or unknown rooms"
   show_less_aria: show only (partially) free rooms
   status:
     frei: free
