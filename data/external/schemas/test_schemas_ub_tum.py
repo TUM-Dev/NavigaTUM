@@ -137,8 +137,7 @@ def test_parse_branch_page_maps_lecture_and_break_paragraphs_to_macros() -> None
         name="Mathematics & Informatics",
     )
     assert parsed.opening_hours == (
-        "lecture: Mo-Fr 08:00-24:00; lecture: Sa-Su 10:00-20:00; "
-        "break: Mo-Fr 09:00-20:00; break: Sa-Su 10:00-16:00"
+        "lecture: Mo-Fr 08:00-24:00; lecture: Sa-Su 10:00-20:00; break: Mo-Fr 09:00-20:00; break: Sa-Su 10:00-16:00"
     )
 
 
