@@ -26,7 +26,9 @@ impl RoomVisitor {
         // visitor formats. The visitor is only ever run over the rooms
         // section, so a non-geo hit here would be a bug, but we degrade
         // gracefully rather than panic.
-        let MSHit::Geo(hit) = &item.hit else {
+        let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) =
+            &item.hit
+        else {
             return;
         };
         match self.config.parsed_id {

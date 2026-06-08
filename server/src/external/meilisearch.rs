@@ -8,8 +8,7 @@ use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{
     FederatedMultiSearchResponse, FederationOptions, MergeFacets, SearchQuery, Selectors,
 };
-use serde::de::Error as _;
-use serde::{Deserialize, Deserializer, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::routes::search::{FormattingConfig, Limits};
 
@@ -70,21 +69,27 @@ const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 /// A single hit from the `entries` index.
 ///
 /// The index mixes geo-entries (sites, buildings, rooms, POIs) with lectures.
-/// They share an index but not a shape, so the hit is modelled as an enum
-/// discriminated on the `facet` field: `facet = "lecture"` deserialises into
-/// [`LectureMSHit`], everything else into [`GeoMSHit`]. Consumers branch on the
-/// variant rather than reaching for fields that only one shape carries.
-#[derive(Clone)]
+/// They share an index but not a shape, so the hit is an enum internally tagged
+/// on the `facet` field: serde dispatches each facet value to its variant - the
+/// four geo facets reuse [`GeoMSHit`], `lecture` peels off into [`LectureMSHit`].
+/// Consumers branch on the variant rather than reaching for fields that only one
+/// shape carries.
+#[derive(Deserialize, Clone)]
+#[serde(tag = "facet", rename_all = "snake_case")]
 pub enum MSHit {
-    Geo(GeoMSHit),
+    Site(GeoMSHit),
+    Building(GeoMSHit),
+    Room(GeoMSHit),
+    Poi(GeoMSHit),
     Lecture(LectureMSHit),
 }
 
-#[derive(Default, Clone)]
-#[expect(
-    dead_code,
-    reason = "some deserialized fields are not read yet but document the meilisearch document schema"
-)]
+// The `facet` field is consumed as the enum tag, so it is absent here. Fields
+// beyond those the merger/formatter read document the meilisearch document
+// schema; `#[serde(default)]` keeps them populated and tolerates docs that
+// predate a field.
+#[derive(Deserialize, Default, Clone)]
+#[serde(default)]
 pub struct GeoMSHit {
     ms_id: String,
     pub room_code: String,
@@ -92,7 +97,6 @@ pub struct GeoMSHit {
     pub arch_name: Option<String>,
     pub r#type: String,
     pub type_common_name: String,
-    pub facet: Option<String>,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     pub campus: Option<String>,
@@ -105,7 +109,11 @@ pub struct GeoMSHit {
 ///
 /// One document per distinct `(title_de, title_en, stp_type)` group, derived
 /// from upcoming `calendar` rows by the [`crate::refresh::lectures`] task.
-#[derive(Default, Clone)]
+///
+/// Every field is required: the refresh task always writes the full shape, so a
+/// missing field signals index corruption and should fail the deserialize loudly
+/// rather than be papered over with a default.
+#[derive(Deserialize, Default, Clone)]
 #[expect(
     dead_code,
     reason = "some deserialized fields are not read yet but document the meilisearch document schema"
@@ -127,93 +135,18 @@ pub struct LectureMSHit {
 
 impl Default for MSHit {
     fn default() -> Self {
-        Self::Geo(GeoMSHit::default())
+        Self::Room(GeoMSHit::default())
     }
 }
 
 impl MSHit {
-    /// The raw `facet` value backing this hit, used by the merger to bucket it.
-    #[must_use]
-    pub fn facet(&self) -> Option<&str> {
-        match self {
-            Self::Geo(geo) => geo.facet.as_deref(),
-            Self::Lecture(_) => Some(LECTURE_FACET),
-        }
-    }
-
-    /// The display name, regardless of variant. Both shapes carry a `name`
+    /// The display name, regardless of variant. Every variant carries a `name`
     /// (lectures mirror `title_de` into it), so highlighting works uniformly.
     #[must_use]
     pub fn name(&self) -> &str {
         match self {
-            Self::Geo(geo) => &geo.name,
+            Self::Site(geo) | Self::Building(geo) | Self::Room(geo) | Self::Poi(geo) => &geo.name,
             Self::Lecture(lecture) => &lecture.name,
-        }
-    }
-}
-
-/// Superset of the fields either variant can carry. Deserialising into one flat
-/// struct (rather than `#[serde(tag = ...)]`) lets the four geo facet values all
-/// fold into [`GeoMSHit`] while `"lecture"` peels off into [`LectureMSHit`].
-#[derive(Deserialize, Default)]
-#[serde(default)]
-struct MSHitRaw {
-    ms_id: String,
-    room_code: String,
-    name: String,
-    arch_name: Option<String>,
-    r#type: String,
-    type_common_name: String,
-    facet: Option<String>,
-    parent_building_names: Vec<String>,
-    parent_keywords: Vec<String>,
-    campus: Option<String>,
-    address: Option<String>,
-    usage: Option<String>,
-    rank: i32,
-    title_de: String,
-    title_en: String,
-    next_occurrence_at: Option<DateTime<Utc>>,
-}
-
-impl<'de> Deserialize<'de> for MSHit {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let raw = MSHitRaw::deserialize(deserializer)?;
-        if raw.facet.as_deref() == Some(LECTURE_FACET) {
-            let next_occurrence_at = raw
-                .next_occurrence_at
-                .ok_or_else(|| D::Error::missing_field("next_occurrence_at"))?;
-            Ok(Self::Lecture(LectureMSHit {
-                ms_id: raw.ms_id,
-                name: raw.name,
-                r#type: raw.r#type,
-                type_common_name: raw.type_common_name,
-                title_de: raw.title_de,
-                title_en: raw.title_en,
-                next_occurrence_at,
-                parent_building_names: raw.parent_building_names,
-                parent_keywords: raw.parent_keywords,
-                rank: raw.rank,
-            }))
-        } else {
-            Ok(Self::Geo(GeoMSHit {
-                ms_id: raw.ms_id,
-                room_code: raw.room_code,
-                name: raw.name,
-                arch_name: raw.arch_name,
-                r#type: raw.r#type,
-                type_common_name: raw.type_common_name,
-                facet: raw.facet,
-                parent_building_names: raw.parent_building_names,
-                parent_keywords: raw.parent_keywords,
-                campus: raw.campus,
-                address: raw.address,
-                usage: raw.usage,
-                rank: raw.rank,
-            }))
         }
     }
 }
@@ -222,7 +155,7 @@ impl<'de> Deserialize<'de> for MSHit {
 impl Debug for MSHit {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Geo(geo) => f
+            Self::Site(geo) | Self::Building(geo) | Self::Room(geo) | Self::Poi(geo) => f
                 .debug_struct("MSHit::Geo")
                 .field("room_code", &geo.room_code)
                 .field("name", &geo.name)

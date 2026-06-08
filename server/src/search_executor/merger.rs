@@ -51,32 +51,29 @@ pub(super) fn merge_search_results(
             break;
         }
 
-        // Branch on the hit variant: geo facets and lectures carry disjoint
-        // field sets, so the entry is built from the matched variant directly.
+        // Each facet is its own hit variant, so the bucket is the variant. The
+        // guard skips a hit whose section is already full; the catch-all then
+        // drops it (`continue`) without ending the over-fetched ranking early.
         let (facet, entry) = match &hit.result {
-            MSHit::Geo(geo) => match geo.facet.as_deref() {
-                Some(SITE_FACET) if sites.entries.len() < limits.sites_count => (
-                    ResultFacet::Sites,
-                    make_building_like_entry(geo, hit, highlight),
-                ),
-                Some(BUILDING_FACET) if buildings.entries.len() < limits.buildings_count => (
-                    ResultFacet::Buildings,
-                    make_building_like_entry(geo, hit, highlight),
-                ),
-                Some(ROOM_FACET) if rooms.entries.len() < limits.rooms_count => (
-                    ResultFacet::Rooms,
-                    make_room_like_entry(geo, hit, highlight),
-                ),
-                Some(POI_FACET) if pois.entries.len() < limits.pois_count => {
-                    (ResultFacet::Pois, make_room_like_entry(geo, hit, highlight))
-                }
-                _ => continue,
-            },
+            MSHit::Site(geo) if sites.entries.len() < limits.sites_count => (
+                ResultFacet::Sites,
+                make_building_like_entry(geo, hit, highlight),
+            ),
+            MSHit::Building(geo) if buildings.entries.len() < limits.buildings_count => (
+                ResultFacet::Buildings,
+                make_building_like_entry(geo, hit, highlight),
+            ),
+            MSHit::Room(geo) if rooms.entries.len() < limits.rooms_count => {
+                (ResultFacet::Rooms, make_room_like_entry(geo, hit, highlight))
+            }
+            MSHit::Poi(geo) if pois.entries.len() < limits.pois_count => {
+                (ResultFacet::Pois, make_room_like_entry(geo, hit, highlight))
+            }
             MSHit::Lecture(lecture) if lectures.entries.len() < limits.lectures_count => (
                 ResultFacet::Lectures,
                 make_lecture_entry(lecture, hit, highlight),
             ),
-            MSHit::Lecture(_) => continue,
+            _ => continue,
         };
 
         if !facet_order.contains(&facet) {
