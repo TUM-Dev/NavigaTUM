@@ -88,6 +88,10 @@ const { data, status, error } = await useFetch<NavigationResponse>(
   }
 );
 
+// Narrow the routing response to the Motis variant once, so Motis-only UI
+// (pagination, itinerary results) reads its fields without re-checking `router`.
+const motisData = computed(() => (data.value?.router === "motis" ? data.value : undefined));
+
 watch(
   [data, indoorMap],
   ([newData, newMap]) => {
@@ -271,9 +275,9 @@ function handleSelectItinerary(itineraryIndex: number) {
           <div class="flex items-center justify-between mb-3">
             <NavigationTimeSelector v-model:time-selection="timeSelection" />
             <MotisPaginationControls
-              v-if="data?.previous_page_cursor || data?.next_page_cursor"
-              :previous-page-cursor="data.previous_page_cursor"
-              :next-page-cursor="data.next_page_cursor"
+              v-if="motisData && (motisData.previous_page_cursor || motisData.next_page_cursor)"
+              :previous-page-cursor="motisData.previous_page_cursor"
+              :next-page-cursor="motisData.next_page_cursor"
               v-model:page-cursor="motisPageCursor"
               size="sm"
             />
@@ -287,8 +291,8 @@ function handleSelectItinerary(itineraryIndex: number) {
         @select-maneuver="handleSelectManeuver"
       />
       <MotisNavigationRoutingResults
-        v-else-if="status === 'success' && data?.router === 'motis'"
-        :data="data"
+        v-else-if="status === 'success' && motisData"
+        :data="motisData"
         v-model:page-cursor="motisPageCursor"
         @select-leg="handleSelectLeg"
         @select-itinerary="handleSelectItinerary"

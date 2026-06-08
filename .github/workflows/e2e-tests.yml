@@ -34,7 +34,19 @@ jobs:
         with: { persist-credentials: false }
 
       - name: Setup | Pull Docker images
-        run: docker compose pull
+        # registry-1.docker.io occasionally times out mid-pull; retry to avoid a flake on transient
+        # connection drops. `until` keeps `set -e` happy because failures in the condition aren't fatal.
+        run: |
+          attempt=1
+          until docker compose pull; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::docker compose pull failed after $attempt attempts"
+              exit 1
+            fi
+            echo "::warning::docker compose pull attempt $attempt failed, retrying in 15s"
+            sleep 15
+            attempt=$((attempt + 1))
+          done
       - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build server webclient
 
@@ -142,7 +154,17 @@ jobs:
         with: { persist-credentials: false }
 
       - name: Setup | Pull Docker images
-        run: docker compose pull
+        run: |
+          attempt=1
+          until docker compose pull; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::docker compose pull failed after $attempt attempts"
+              exit 1
+            fi
+            echo "::warning::docker compose pull attempt $attempt failed, retrying in 15s"
+            sleep 15
+            attempt=$((attempt + 1))
+          done
       - name: Setup | Build Docker images
         run: docker compose -f compose.local.yml build
 
