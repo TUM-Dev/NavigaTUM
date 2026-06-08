@@ -4,9 +4,17 @@ import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import {
+  buildVisibleSearchEntries,
+  collapsedHighlightTarget,
+  collapsedUpwardHighlightTarget,
+  LECTURE_EVENT_NAV_CAP,
+  type VisibleSearchEntry,
+} from "~/utils/lectureRow";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 type ResultEntry = components["schemas"]["ResultEntry"];
+type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
   required: true,
@@ -24,18 +32,105 @@ const highlighted = ref<number | undefined>(undefined);
 // `n_visible < entries.length` when a lower-priority facet appears; the
 // "show hidden" button on each such section toggles its slot here.
 const expandedFacets = ref<Set<string>>(new Set());
+// Sticky for the dropdown session so ArrowUp back into a lecture doesn't
+// recollapse it and shift every downstream highlight index.
+const expandedLectures = ref<Set<string>>(new Set());
+const lectureShowAll = ref<Set<string>>(new Set());
 
-const visibleElements = computed<ResultEntry[]>(() => {
-  if (!data.value) return [] as ResultEntry[];
+const visibleElements = computed<VisibleSearchEntry[]>(() => {
+  if (!data.value) return [];
+  return buildVisibleSearchEntries(data.value.sections, {
+    expandedFacets: expandedFacets.value,
+    expandedLectures: expandedLectures.value,
+    lectureShowAll: lectureShowAll.value,
+  });
+});
 
-  const visible: ResultEntry[] = [] as ResultEntry[];
-  for (const section of data.value.sections) {
-    const cap = expandedFacets.value.has(section.facet)
-      ? Number.POSITIVE_INFINITY
-      : section.n_visible;
-    visible.push(...section.entries.slice(0, cap));
+function resultHighlighted(entry: ResultEntry): boolean {
+  if (highlighted.value === undefined) return false;
+  const current = visibleElements.value[highlighted.value];
+  return current?.kind === "result" && current.entry.id === entry.id;
+}
+
+function lectureHighlightedEventIndex(entry: ResultEntry): number | null {
+  if (highlighted.value === undefined) return null;
+  const current = visibleElements.value[highlighted.value];
+  if (current?.kind === "event" && current.lectureId === entry.id) {
+    return current.eventIndex;
   }
-  return visible;
+  return null;
+}
+
+function lectureShowMoreHighlighted(entry: ResultEntry): boolean {
+  if (highlighted.value === undefined) return false;
+  const current = visibleElements.value[highlighted.value];
+  return current?.kind === "show_more_events" && current.lectureId === entry.id;
+}
+
+function lectureVisibleEventCount(entry: ResultEntry): number | null {
+  if (entry.type !== "lecture") return null;
+  // Uncontrolled mode (mouse click on the header): let the row render its
+  // full list rather than the keyboard-nav cap.
+  if (!expandedLectures.value.has(entry.id)) return null;
+  const total = entry.upcoming?.length ?? 0;
+  if (lectureShowAll.value.has(entry.id)) return total;
+  return Math.min(LECTURE_EVENT_NAV_CAP, total);
+}
+
+function lectureShowMoreVisible(entry: ResultEntry): boolean {
+  if (entry.type !== "lecture") return false;
+  if (!expandedLectures.value.has(entry.id)) return false;
+  if (lectureShowAll.value.has(entry.id)) return false;
+  const total = entry.upcoming?.length ?? 0;
+  return total > LECTURE_EVENT_NAV_CAP;
+}
+
+function expandHighlightedLecture(): void {
+  if (highlighted.value === undefined) return;
+  const current = visibleElements.value[highlighted.value];
+  if (current?.kind !== "result") return;
+  if (current.entry.type !== "lecture") return;
+  if (expandedLectures.value.has(current.entry.id)) return;
+  expandedLectures.value = new Set([...expandedLectures.value, current.entry.id]);
+}
+
+function revealMoreEvents(lectureId: string): void {
+  if (lectureShowAll.value.has(lectureId)) return;
+  lectureShowAll.value = new Set([...lectureShowAll.value, lectureId]);
+}
+
+function collapseLecturePastShowMore(lectureId: string): void {
+  if (highlighted.value === undefined) return;
+  const target = collapsedHighlightTarget(visibleElements.value, highlighted.value, lectureId);
+  if (expandedLectures.value.has(lectureId)) {
+    const next = new Set(expandedLectures.value);
+    next.delete(lectureId);
+    expandedLectures.value = next;
+  }
+  highlighted.value = target;
+}
+
+function collapseLectureOverTheTop(lectureId: string): void {
+  if (highlighted.value === undefined) return;
+  const oldIdx = highlighted.value;
+  if (expandedLectures.value.has(lectureId)) {
+    const next = new Set(expandedLectures.value);
+    next.delete(lectureId);
+    expandedLectures.value = next;
+  }
+  // Recompute against the post-collapse list so a wrap lands on the new tail.
+  highlighted.value = collapsedUpwardHighlightTarget(oldIdx, visibleElements.value.length);
+}
+
+watch(query, () => {
+  expandedLectures.value = new Set();
+  lectureShowAll.value = new Set();
+  highlighted.value = undefined;
+});
+watch(searchBarFocused, (focused) => {
+  if (focused) return;
+  expandedLectures.value = new Set();
+  lectureShowAll.value = new Set();
 });
 
 const hasNoResults = computed(
@@ -82,8 +177,28 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
 }
 
 async function searchGoTo(entry: ResultEntry): Promise<void> {
+  // Lectures have no entity page; jump to the next occurrence's room instead.
+  if (entry.type === "lecture") {
+    const room = entry.upcoming?.[0]?.room_code;
+    if (!room) {
+      await searchGo(false);
+      return;
+    }
+    await navigateTo(localePath(entityPath(room, "room")));
+    searchBarFocused.value = false;
+    query.value = "";
+    document.getElementById("search")?.blur();
+    return;
+  }
   if (!isRoutableEntityType(entry.type)) return;
   await navigateTo(localePath(entityPath(entry.id, entry.type)));
+  searchBarFocused.value = false;
+  query.value = "";
+  document.getElementById("search")?.blur();
+}
+
+async function goToEvent(event: UpcomingEvent): Promise<void> {
+  await navigateTo(localePath(entityPath(event.room_code, "room")));
   searchBarFocused.value = false;
   query.value = "";
   document.getElementById("search")?.blur();
@@ -108,21 +223,54 @@ function onKeyDown(e: KeyboardEvent): void {
       closeSearchBar();
       break;
 
-    case "ArrowDown":
-      if (highlighted.value === undefined) {
-        highlighted.value = 0;
-        e.preventDefault();
+    case "ArrowDown": {
+      e.preventDefault();
+      if (visibleElements.value.length === 0) break;
+      const current =
+        highlighted.value === undefined ? undefined : visibleElements.value[highlighted.value];
+      if (current?.kind === "show_more_events") {
+        const collapsedId = current.lectureId;
+        collapseLecturePastShowMore(collapsedId);
+        // Don't re-expand if wrap landed back on the same lecture's header.
+        const newCurrent =
+          highlighted.value === undefined ? undefined : visibleElements.value[highlighted.value];
+        const sameLecture =
+          newCurrent?.kind === "result" &&
+          newCurrent.entry.type === "lecture" &&
+          newCurrent.entry.id === collapsedId;
+        if (!sameLecture) expandHighlightedLecture();
         break;
       }
-
-      highlighted.value = (highlighted.value + 1) % visibleElements.value.length;
-      e.preventDefault();
+      highlighted.value =
+        highlighted.value === undefined
+          ? 0
+          : (highlighted.value + 1) % visibleElements.value.length;
+      expandHighlightedLecture();
       break;
+    }
 
-    case "ArrowUp":
+    case "ArrowUp": {
+      e.preventDefault();
       if (visibleElements.value.length === 0) {
         highlighted.value = undefined;
-        e.preventDefault();
+        break;
+      }
+      const current =
+        highlighted.value === undefined ? undefined : visibleElements.value[highlighted.value];
+      if (
+        current?.kind === "result" &&
+        current.entry.type === "lecture" &&
+        expandedLectures.value.has(current.entry.id)
+      ) {
+        const collapsedId = current.entry.id;
+        collapseLectureOverTheTop(collapsedId);
+        const newCurrent =
+          highlighted.value === undefined ? undefined : visibleElements.value[highlighted.value];
+        const sameLecture =
+          newCurrent?.kind === "result" &&
+          newCurrent.entry.type === "lecture" &&
+          newCurrent.entry.id === collapsedId;
+        if (!sameLecture) expandHighlightedLecture();
         break;
       }
       if (highlighted.value === 0 || highlighted.value === undefined) {
@@ -130,18 +278,26 @@ function onKeyDown(e: KeyboardEvent): void {
       } else {
         highlighted.value -= 1;
       }
-      e.preventDefault();
+      expandHighlightedLecture();
       break;
+    }
 
     case "Enter":
       e.preventDefault();
-      if (highlighted.value === undefined) searchGo(false);
-      else {
+      if (highlighted.value === undefined) {
+        searchGo(false);
+        break;
+      }
+      {
         const entry = visibleElements.value[highlighted.value];
         if (entry === undefined) {
           searchGo(true);
+        } else if (entry.kind === "result") {
+          searchGoTo(entry.entry);
+        } else if (entry.kind === "event") {
+          goToEvent(entry.event);
         } else {
-          searchGoTo(entry);
+          revealMoreEvents(entry.lectureId);
         }
       }
       break;
@@ -270,11 +426,17 @@ const { data, error } = useFetch<SearchResponse>(url, {
           <template v-for="(e, i) in s.entries" :key="e.id">
             <SearchResultItemLink
               v-if="expandedFacets.has(s.facet) || i < s.n_visible"
-              :highlighted="e.id === visibleElements[highlighted ?? -1]?.id"
+              :highlighted="resultHighlighted(e)"
               :item="e"
+              :lecture-expanded="e.type === 'lecture' ? expandedLectures.has(e.id) : null"
+              :lecture-visible-event-count="lectureVisibleEventCount(e)"
+              :lecture-highlighted-event-index="lectureHighlightedEventIndex(e)"
+              :lecture-show-more-visible="lectureShowMoreVisible(e)"
+              :lecture-show-more-highlighted="lectureShowMoreHighlighted(e)"
               @click="searchBarFocused = false"
               @mousedown="keep_focus = true"
               @mouseover="highlighted = undefined"
+              @show-more="revealMoreEvents(e.id)"
             />
           </template>
           <li class="-mt-2">
@@ -314,6 +476,7 @@ de:
     rooms: Räume
     pois: POIs
     addresses: Adressen
+    lectures: Vorlesungen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
   no_results:
@@ -338,6 +501,7 @@ en:
     rooms: Rooms
     pois: POIs
     addresses: Addresses
+    lectures: Lectures
   results: 1 result | {count} results
   approx_results: approx. {count} results
   no_results:

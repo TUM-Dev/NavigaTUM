@@ -4,11 +4,11 @@ import { allValues, firstOrDefault } from "~/composables/common";
 type FilterKind = "in" | "usage" | "type" | "near";
 type ListKind = "in" | "usage" | "type";
 
-// The backend's `facet` field already buckets indexed types into these four
+// The backend's `facet` field already buckets indexed types into these five
 // categories; the frontend uses them directly as the user-facing taxonomy.
 // Subtypes (`virtual_room`, `joined_building`, `campus`, `area`) are an
 // internal detail of the data pipeline and not surfaced to users.
-export const FACET_OPTIONS = ["site", "building", "room", "poi"] as const;
+export const FACET_OPTIONS = ["site", "building", "room", "poi", "lecture"] as const;
 export type Facet = (typeof FACET_OPTIONS)[number];
 
 export interface SearchFilters {

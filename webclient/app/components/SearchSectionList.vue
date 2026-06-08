@@ -12,6 +12,7 @@ const props = defineProps<{
   queryLimitBuildings: number;
   queryLimitRooms: number;
   queryLimitPois: number;
+  queryLimitLectures: number;
 }>();
 const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
@@ -21,6 +22,7 @@ const SITE_BUMP = 20;
 const BUILDING_BUMP = 20;
 const ROOM_BUMP = 50;
 const POI_BUMP = 20;
+const LECTURE_BUMP = 20;
 
 const hasNoResults = computed(() => props.data.sections.every((s) => s.estimatedTotalHits === 0));
 
@@ -33,6 +35,7 @@ function viewMoreQuery(facet: string) {
     limit_buildings: props.queryLimitBuildings + (facet === "buildings" ? BUILDING_BUMP : 0),
     limit_rooms: props.queryLimitRooms + (facet === "rooms" ? ROOM_BUMP : 0),
     limit_pois: props.queryLimitPois + (facet === "pois" ? POI_BUMP : 0),
+    limit_lectures: props.queryLimitLectures + (facet === "lectures" ? LECTURE_BUMP : 0),
     ...filters.buildQueryObject(),
   };
 }
@@ -83,6 +86,7 @@ de:
     buildings: Gebäude
     rooms: Räume
     pois: POIs
+    lectures: Vorlesungen
   view_more: mehr anzeigen
   approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
@@ -97,6 +101,7 @@ en:
     buildings: Buildings
     rooms: Rooms
     pois: POIs
+    lectures: Lectures
   view_more: view more
   approx_results: approx. {count} results, please narrow the search further
   results: 1 result | {count} results

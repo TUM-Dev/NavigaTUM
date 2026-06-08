@@ -431,6 +431,7 @@ de:
     building: Gebäude
     site: Gelände / Campus
     poi: Ort (POI)
+    lecture: Vorlesung
 en:
   filter: Filter
   type: Type
@@ -452,4 +453,5 @@ en:
     building: Building
     site: Site / Campus
     poi: Point of Interest
+    lecture: Lecture
 </i18n>

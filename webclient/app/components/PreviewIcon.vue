@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { mdiMagnify, mdiMapMarker, mdiOfficeBuilding, mdiOfficeBuildingOutline } from "@mdi/js";
+import {
+  mdiMagnify,
+  mdiMapMarker,
+  mdiOfficeBuilding,
+  mdiOfficeBuildingOutline,
+  mdiSchool,
+} from "@mdi/js";
 import type { components } from "~/api_types/index.js";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
@@ -21,6 +27,12 @@ defineProps<{ item: ResultEntryItem }>();
         :path="mdiOfficeBuildingOutline"
         :size="20"
         v-if="item.type === 'building'"
+        class="mx-auto md:!w-6 md:!h-6"
+      />
+      <MdiIcon
+        :path="mdiSchool"
+        :size="20"
+        v-else-if="item.type === 'lecture'"
         class="mx-auto md:!w-6 md:!h-6"
       />
       <MdiIcon :path="mdiOfficeBuilding" :size="20" v-else class="mx-auto md:!w-6 md:!h-6" />
