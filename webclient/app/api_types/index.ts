@@ -3,169 +3,314 @@
  * Do not make direct changes to the file.
  */
 
-/** OneOf type helpers */
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
-type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-type OneOf<T extends any[]> = T extends [infer Only]
-  ? Only
-  : T extends [infer A, infer B, ...infer Rest]
-    ? OneOf<[XOR<A, B>, ...Rest]>
-    : never;
-
 export type paths = {
-  "/api/calendar": {
+  readonly "/api/calendar": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly get?: never;
+    readonly put?: never;
     /**
      * Retrieve Calendar Entries
      * @description Retrieves calendar entries for specific `ids` within the requested time span.
-     * The time span is defined by the `start_after` and `end_before` query parameters.
-     * Ensure to provide valid date-time formats for these parameters.
+     *     The time span is defined by the `start_after` and `end_before` query parameters.
+     *     Ensure to provide valid date-time formats for these parameters.
      *
-     * If successful, returns additional entries in the requested time span.
+     *     If successful, returns additional entries in the requested time span.
      */
-    post: operations["calendar_handler"];
+    readonly post: operations["calendar_handler"];
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/feedback/feedback": {
+  readonly "/api/feedback/feedback": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly get?: never;
+    readonly put?: never;
     /**
      * Post feedback
      * @description ***Do not abuse this endpoint.***
      *
-     * This posts the actual feedback to GitHub and returns the GitHub link.
-     * This API will create issues instead of pull-requests
-     * => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
+     *     This posts the actual feedback to GitHub and returns the GitHub link.
+     *     This API will create issues instead of pull-requests
+     *     => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
      *
-     * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+     *     For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
      *
-     * # Note
+     *     # Note
      *
-     * Tokens are only used if we return a 201 Created response.
-     * Otherwise, they are still valid
+     *     Tokens are only used if we return a 201 Created response.
+     *     Otherwise, they are still valid
      */
-    post: operations["send_feedback"];
+    readonly post: operations["send_feedback"];
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/feedback/get_token": {
+  readonly "/api/feedback/get_token": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly get?: never;
+    readonly put?: never;
     /**
      * Get a feedback-token
      * @description ***Do not abuse this endpoint.***
      *
-     * This returns a JWT token usable for submitting feedback.
-     * You should request a token, ***if (and only if) a user is on a feedback page***
+     *     This returns a JWT token usable for submitting feedback.
+     *     You should request a token, ***if (and only if) a user is on a feedback page***
      *
-     * As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
-     * To post feedback, you will need this token.
+     *     As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
+     *     To post feedback, you will need this token.
      *
-     * Tokens gain validity after 5s, and are invalid after 12h of being issued.
-     * They are not refreshable, and are only valid for one usage.
+     *     Tokens gain validity after 5s, and are invalid after 12h of being issued.
+     *     They are not refreshable, and are only valid for one usage.
      *
-     * # Note:
+     *     # Note:
      *
-     * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
+     *     Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
      */
-    post: operations["get_token"];
+    readonly post: operations["get_token"];
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/feedback/propose_edits": {
+  readonly "/api/feedback/propose_edits": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly get?: never;
+    readonly put?: never;
     /**
      * Post Edit-Requests
      * @description ***Do not abuse this endpoint.***
      *
-     * This posts the actual feedback to GitHub and returns the github link.
-     * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-     * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
+     *     This posts the actual feedback to GitHub and returns the github link.
+     *     This API will create pull-requests instead of issues => only a subset of feedback is allowed.
+     *     For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
      *
-     * # Note:
+     *     # Note:
      *
-     * Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+     *     Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
      */
-    post: operations["propose_edits"];
+    readonly post: operations["propose_edits"];
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/locations/{id}": {
+  readonly "/api/locations/{id}": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Get entry-details
      * @description This returns the full data available for the entry (room/building).
      *
-     * This is more data, that should be supplied once a user clicks on an entry.
-     * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
-     * The data can be up to 50kB (using gzip) or 200kB unzipped.
-     * More about this data format is described in the NavigaTUM-data documentation
+     *     This is more data, that should be supplied once a user clicks on an entry.
+     *     Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
+     *     The data can be up to 50kB (using gzip) or 200kB unzipped.
+     *     More about this data format is described in the NavigaTUM-data documentation
      */
-    get: operations["get_handler"];
+    readonly get: operations["get_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/locations/{id}/nearby": {
+  readonly "/api/locations/{id}/nearby": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Get the nearby items
      * @description Shows nearby POIs like public transport stations
      */
-    get: operations["nearby_handler"];
+    readonly get: operations["nearby_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/locations/{id}/preview": {
+  readonly "/api/locations/{id}/preview": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Get a entry-preview
      * @description This returns a 1200x630px preview for the location (room/building/..).
      *
-     * This is usefully for implementing custom `OpenGraph` images for detail previews.
+     *     This is usefully for implementing custom `OpenGraph` images for detail previews.
      */
-    get: operations["maps_handler"];
+    readonly get: operations["maps_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/locations/{id}/qr-code": {
+  readonly "/api/locations/{id}/qr-code": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Get a QR code for a location
      * @description This returns a QR code image (PNG) that links to the location's detail page.
-     * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
+     *     The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
      */
-    get: operations["qr_code_handler"];
+    readonly get: operations["qr_code_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/maps/route": {
+  readonly "/api/maps/route": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Routing requests
      * @description **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
      *
-     * The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
-     * The costing is fine-tuned by the server side accordingly.
+     *     The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
+     *     The costing is fine-tuned by the server side accordingly.
      *
-     * Internally, this endpoint relies on
-     * - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
-     * - our database to resolve ids.
+     *     Internally, this endpoint relies on
+     *     - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
+     *     - our database to resolve ids.
      *
-     *   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
-     *   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
+     *       You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
+     *       **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
      *
-     * **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
-     * - [OpenTripPlanner2](https://www.opentripplanner.org/) or
-     * - [Motis](https://github.com/motis-project/motis)
+     *     **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
+     *     - [OpenTripPlanner2](https://www.opentripplanner.org/) or
+     *     - [Motis](https://github.com/motis-project/motis)
      */
-    get: operations["route_handler"];
+    readonly get: operations["route_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/openapi.json": {
+  readonly "/api/openapi.json": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Openapi service definition
      * @description Usefull for consuming in external openapi tooling
      */
-    get: operations["openapi_doc"];
+    readonly get: operations["openapi_doc"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/search": {
+  readonly "/api/search": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * Search entries
      * @description This endpoint is designed to support search-as-you-type results.
      *
-     * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+     *     Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
      *
-     * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
-     * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
+     *     Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+     *     (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+     *     Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
      */
-    get: operations["search_handler"];
+    readonly get: operations["search_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
-  "/api/status": {
+  readonly "/api/status": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     /**
      * API healthcheck
      * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage.
-     * **Should never happen.**
+     *     **Should never happen.**
      */
-    get: operations["health_status_handler"];
+    readonly get: operations["health_status_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
   };
 };
-
 export type webhooks = Record<string, never>;
-
 export type components = {
   schemas: {
     /** @enum {string} */
@@ -199,38 +344,38 @@ export type components = {
       readonly cause?: null | components["schemas"]["AlertCauseResponse"];
       /**
        * @description Description of the cause of the alert that allows for
-       *  agency-specific language; more specific than the Cause.
+       *      agency-specific language; more specific than the Cause.
        */
       readonly cause_detail?: string | null;
       /**
        * @description Description for the alert.
-       * This plain-text string will be formatted as the body of the alert
-       *  (or shown on an explicit "expand" request by the user).
-       *  The information in the description should add to the information of
-       *  the header.
+       *     This plain-text string will be formatted as the body of the alert
+       *      (or shown on an explicit "expand" request by the user).
+       *      The information in the description should add to the information of
+       *      the header.
        */
       readonly description_text: string;
       readonly effect?: null | components["schemas"]["AlertEffectResponse"];
       /**
        * @description Description of the effect of the alert that allows for
-       *  agency-specific language; more specific than the Effect.
+       *      agency-specific language; more specific than the Effect.
        */
       readonly effect_detail?: string | null;
       /**
        * @description Header for the alert. This plain-text string will be highlighted,
-       *  for example in boldface.
+       *      for example in boldface.
        */
       readonly header_text: string;
       /**
        * @description Text describing the appearance of the linked image in the image
-       *  field (e.g., in case the image can't be displayed or the
-       *  user can't see the image for accessibility reasons). See the
-       *  HTML spec for alt image text.
+       *      field (e.g., in case the image can't be displayed or the
+       *      user can't see the image for accessibility reasons). See the
+       *      HTML spec for alt image text.
        */
       readonly image_alternative_text?: string | null;
       /**
        * @description IANA media type as to specify the type of image to be displayed. The
-       *  type must start with "image/"
+       *      type must start with "image/"
        */
       readonly image_media_type?: string | null;
       /** @description String containing an URL linking to an image. */
@@ -245,23 +390,27 @@ export type components = {
       /**
        * Format: date-time
        * @description The last allowed time the calendar would like to display
+       * @example 2039-01-19T03:14:07+01:00
+       * @example 2042-01-07T00:00:00 UTC
        */
       readonly end_before: string;
       /**
        * @description ids you want the calendars for
        *
-       * Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
+       *     Limit of max. 10 ids is arbitraryly chosen, if you need this limit increased, please contact us
        * @example [
-       *   "5605.EG.011",
-       *   "5510.02.001",
-       *   "5606.EG.036",
-       *   "5304"
-       * ]
+       *       "5605.EG.011",
+       *       "5510.02.001",
+       *       "5606.EG.036",
+       *       "5304"
+       *     ]
        */
       readonly ids: readonly string[];
       /**
        * Format: date-time
        * @description The first allowed time the calendar would like to display
+       * @example 2039-01-19T03:14:07+01:00
+       * @example 2042-01-07T00:00:00 UTC
        */
       readonly start_after: string;
     };
@@ -283,41 +432,66 @@ export type components = {
       readonly n_visible: number;
     };
     readonly CalendarLocationResponse: {
-      /** @description Link to the calendar of the room */
+      /**
+       * @description Link to the calendar of the room
+       * @example https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+       * @example https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+       */
       readonly calendar_url?: string | null;
       /**
        * @description Structured, globaly unique room code
        *
-       * Included to enable multi-room calendars.
-       * Format: BUILDING.LEVEL.NUMBER
+       *     Included to enable multi-room calendars.
+       *     Format: BUILDING.LEVEL.NUMBER
+       * @example 5602.EG.001
+       * @example 5121.EG.003
        */
       readonly key: string;
       /**
        * Format: date-time
        * @description last time the calendar was scraped for this room
+       * @example 2039-01-19T03:14:07+01:00
+       * @example 2042-01-07T00:00:00 UTC
        */
       readonly last_calendar_scrape_at: string;
-      /** @description name of the entry in a human-readable form */
+      /**
+       * @description name of the entry in a human-readable form
+       * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
+       * @example 5121.EG.003 (Computerraum)
+       */
       readonly name: string;
       /**
        * @description type of the entry
        *
-       * TODO document as a n enum with the following choices:
-       * - `room`
-       * - `building`
-       * - `joined_building`
-       * - `area`
-       * - `site`
-       * - `campus`
-       * - `poi`
+       *     TODO document as a n enum with the following choices:
+       *     - `room`
+       *     - `building`
+       *     - `joined_building`
+       *     - `area`
+       *     - `site`
+       *     - `campus`
+       *     - `poi`
+       * @example room
+       * @example building
+       * @example joined_building
+       * @example area
+       * @example site
+       * @example campus
+       * @example poi
        */
       readonly type: string;
-      /** @description Type of the entry in a human-readable form */
+      /**
+       * @description Type of the entry in a human-readable form
+       * @example Serverraum
+       * @example Büro
+       */
       readonly type_common_name: string;
     };
     readonly ComputedPropResponse: {
       readonly extra?: null | components["schemas"]["ExtraComputedPropResponse"];
+      /** @example Raumkennung */
       readonly name: string;
+      /** @example 5602.EG.001 */
       readonly text: string;
     };
     readonly Coordinate: {
@@ -377,7 +551,7 @@ export type components = {
       /**
        * @description Additional context for the edit.
        *
-       * Will be displayed in the discription field of the PR
+       *     Will be displayed in the discription field of the PR
        * @example I have a picture of the room, please add it to the roomfinder
        */
       readonly additional_context: string;
@@ -388,8 +562,8 @@ export type components = {
       /**
        * @description Whether the user has checked the privacy-checkbox.
        *
-       * We are posting the feedback publicly on GitHub (not a EU-Company).
-       * **You MUST also include such a checkmark.**
+       *     We are posting the feedback publicly on GitHub (not a EU-Company).
+       *     **You MUST also include such a checkmark.**
        */
       readonly privacy_checked: boolean;
       /**
@@ -399,56 +573,76 @@ export type components = {
       readonly token: string;
     };
     readonly EventResponse: {
-      /** @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?) */
+      /**
+       * @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
+       * @example Abhaltung
+       */
       readonly detailed_entry_type: string;
       /**
        * Format: date-time
        * @description end of the entry
+       * @example 2019-01-01T00:00:00
        */
       readonly end_at: string;
       /**
        * @description What this calendar entry means.
        *
-       * Each of these should be displayed in a different color
+       *     Each of these should be displayed in a different color
        */
       readonly entry_type: components["schemas"]["EventTypeResponse"];
       /**
        * Format: int32
        * @description ID of the calendar entry used in `TUMonline` internally
+       * @example 6424
        */
       readonly id: number;
       /**
        * @description Structured, globaly unique room code
        *
-       * Included to enable multi-room calendars.
-       * Format: BUILDING.LEVEL.NUMBER
+       *     Included to enable multi-room calendars.
+       *     Format: BUILDING.LEVEL.NUMBER
+       * @example 5602.EG.001
+       * @example 5121.EG.003
        */
       readonly room_code: string;
       /**
        * Format: date-time
        * @description start of the entry
+       * @example 2018-01-01T00:00:00
        */
       readonly start_at: string;
-      /** @description Lecture-type */
+      /**
+       * @description Lecture-type
+       * @example Vorlesung mit Zentralübung
+       */
       readonly stp_type?: string | null;
-      /** @description German title of the Entry */
+      /**
+       * @description German title of the Entry
+       * @example Quantenteleportation
+       */
       readonly title_de: string;
-      /** @description English title of the Entry */
+      /**
+       * @description English title of the Entry
+       * @example Quantum teleportation
+       */
       readonly title_en: string;
     };
     /** @enum {string} */
     readonly EventTypeResponse: "lecture" | "exercise" | "exam" | "barred" | "other";
     readonly ExtraComputedPropResponse: {
+      /** @example for exams: 102 in tight, 71 in wide, 49 in corona */
       readonly body: string;
+      /** @example data based on a Survey of chimneysweeps */
       readonly footer?: string | null;
+      /** @example Genauere Angaben */
       readonly header?: string | null;
     };
     /**
      * @description Allowlisted values for the `?type=` query parameter.
      *
-     * Modeled as an enum so `serde` rejects unknown values with a 400 instead of
-     * silently dropping them, and so the `OpenAPI` schema advertises the exact set
-     * of accepted values.
+     *     Modeled as an enum so `serde` rejects unknown values with a 400 instead of
+     *     silently dropping them, and so the `OpenAPI` schema advertises the exact set
+     *     of accepted values.
      * @enum {string}
      */
     readonly FacetFilter: "site" | "building" | "room" | "poi";
@@ -479,19 +673,39 @@ export type components = {
        * Format: int32
        * @description Virtual ID for sorting
        *
-       * `0` represents the ground floor.
-       * Numbers above/below represent where they are relative to the ground floor
+       *     `0` represents the ground floor.
+       *     Numbers above/below represent where they are relative to the ground floor
        *
-       * **WARNING**:
-       * This ID is not guaranteed to be stable.
-       * Not across buildings, nor within a building.
+       *     **WARNING**:
+       *     This ID is not guaranteed to be stable.
+       *     Not across buildings, nor within a building.
+       * @example -1
+       * @example 0
+       * @example 1
+       * @example 2
+       * @example 3
        */
       readonly id: number;
-      /** @description Longer name of the floor */
+      /**
+       * @description Longer name of the floor
+       * @example 1st basement floor
+       * @example Ground floor
+       * @example 1st mezzanine, above ground floor
+       */
       readonly name: string;
-      /** @description Short name of the floor */
+      /**
+       * @description Short name of the floor
+       * @example -1
+       * @example 0
+       * @example Z1
+       */
       readonly short_name: string;
-      /** @description How `TUMonline` names the floor */
+      /**
+       * @description How `TUMonline` names the floor
+       * @example U1
+       * @example EG
+       * @example Z1
+       */
       readonly tumonline: string;
       /** @description Type of floor */
       readonly type: components["schemas"]["FloorType"];
@@ -513,7 +727,8 @@ export type components = {
       readonly license: components["schemas"]["PossibleURLRefResponse"];
       /**
        * @description The name of the image file.
-       * consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
+       *     consists of {`building_id`}_{`image_id}.webp`, where `image_id` is a counter starting at 0
+       * @example mi_0.webp
        */
       readonly name: string;
     };
@@ -549,25 +764,26 @@ export type components = {
       readonly transfer_count: number;
     };
     readonly LimitedHashMap_String_Addition: {
-      [key: string]: OneOf<
-        [
-          components["schemas"]["NewRoom"] & {
+      readonly [key: string]:
+        | (components["schemas"]["NewRoom"] & {
             /** @enum {string} */
             readonly kind: "room";
-          },
-          components["schemas"]["NewBuilding"] & {
+          })
+        | (components["schemas"]["NewBuilding"] & {
             /** @enum {string} */
             readonly kind: "building";
-          },
-          components["schemas"]["NewPoi"] & {
+          })
+        | (components["schemas"]["NewPoi"] & {
             /** @enum {string} */
             readonly kind: "poi";
-          },
-        ]
-      >;
+          })
+        | (components["schemas"]["NewEvent"] & {
+            /** @enum {string} */
+            readonly kind: "event";
+          });
     };
     readonly LimitedHashMap_String_Edit: {
-      [key: string]: {
+      readonly [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
         readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
@@ -577,70 +793,80 @@ export type components = {
       /**
        * @description A list of alternative ids for this entry.
        *
-       * Not to be confused with
-       * - `id` which is the unique identifier or
-       * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+       *     Not to be confused with
+       *     - `id` which is the unique identifier or
+       *     - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
        */
       readonly aliases: readonly string[];
       /** @description Coordinate of the location */
       readonly coords: components["schemas"]["CoordinateResponse"];
-      /** @description The id, that was requested */
+      /**
+       * @description The id, that was requested
+       * @example 5606.EG.036
+       */
       readonly id: string;
       /**
        * @description The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
        *
-       * TODO: Sometimes missing, sometimes not.. so weird..
+       *     TODO: Sometimes missing, sometimes not.. so weird..
        */
       readonly imgs?: readonly components["schemas"]["ImageInfoResponse"][] | null;
       /** @description Print or overlay maps for said location */
       readonly maps: components["schemas"]["MapsResponse"];
-      /** @description The name of the entry in a human-readable form */
+      /**
+       * @description The name of the entry in a human-readable form
+       * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
+       */
       readonly name: string;
       /**
        * @description The human names of the parents.
        *
-       * They are ordered as they would appear in a Breadcrumb menu.
-       * See `parents` for their actual ids.
+       *     They are ordered as they would appear in a Breadcrumb menu.
+       *     See `parents` for their actual ids.
        */
-      readonly parent_names: readonly [string, ...string[]];
+      readonly parent_names: [string, ...string[]];
       /**
        * @description The types of the parents.
        *
-       * They are ordered as they would appear in a Breadcrumb menu.
-       * See `parents` for their actual ids.
+       *     They are ordered as they would appear in a Breadcrumb menu.
+       *     See `parents` for their actual ids.
        */
-      readonly parent_types: readonly [
+      readonly parent_types: [
         components["schemas"]["ParentLocationTypeResponse"],
         ...components["schemas"]["ParentLocationTypeResponse"][],
       ];
       /**
        * @description The ids of the parents.
        *
-       * They are ordered as they would appear in a Breadcrumb menu.
-       * See `parent_names` for their human names.
+       *     They are ordered as they would appear in a Breadcrumb menu.
+       *     See `parent_names` for their human names.
        */
-      readonly parents: readonly [string, ...string[]];
+      readonly parents: [string, ...string[]];
       /** @description Data for the info-card table */
       readonly props: components["schemas"]["PropsResponse"];
       readonly ranking_factors: components["schemas"]["RankingFactorsResponse"];
       /**
        * @description The url, this item should be displayed at.
        *
-       * Present on both redirects and normal entries, to allow for the common /view/:id path
+       *     Present on both redirects and normal entries, to allow for the common /view/:id path
+       * @example /room/5606.EG.036
        */
       readonly redirect_url?: string;
       /**
        * @description Information for different sections on the page like the
-       * - buildings overview,
-       * - rooms overview and
-       * - featured view
+       *     - buildings overview,
+       *     - rooms overview and
+       *     - featured view
        */
       readonly sections?: components["schemas"]["SectionsResponse"];
       /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
       readonly sources: components["schemas"]["SourcesResponse"];
       /** @description The type of the entry */
       readonly type: components["schemas"]["LocationTypeResponse"];
-      /** @description The type of the entry in a human-readable form */
+      /**
+       * @description The type of the entry in a human-readable form
+       * @example Büro
+       */
       readonly type_common_name: string;
     };
     readonly LocationEventsResponse: {
@@ -661,7 +887,8 @@ export type components = {
       /**
        * @description Written arrive time instruction
        *
-       * Typically used with a transit maneuver
+       *     Typically used with a transit maneuver
+       * @example Arrive: 8:10 AM at 34 St - Herald Sq
        */
       readonly arrive_instruction?: string | null;
       /**
@@ -671,14 +898,15 @@ export type components = {
       readonly begin_shape_index: number;
       /**
        * @description When present, these are the street names at the beginning (transition point) of the
-       * nonobvious maneuver (if they are different from the names that are consistent along the
-       * entire nonobvious maneuver)
+       *     nonobvious maneuver (if they are different from the names that are consistent along the
+       *     entire nonobvious maneuver)
        */
       readonly begin_street_names?: readonly string[] | null;
       /**
        * @description Written depart time instruction
        *
-       * Typically used with a transit maneuver
+       *     Typically used with a transit maneuver
+       * @example Depart: 8:04 AM from 8 St - NYU
        */
       readonly depart_instruction?: string | null;
       /**
@@ -701,7 +929,7 @@ export type components = {
       readonly length_meters: number;
       /**
        * @description `true` if the maneuver is unpaved or rough pavement, or has any portions that have rough
-       * pavement
+       *     pavement
        */
       readonly rough?: boolean | null;
       /**
@@ -727,28 +955,37 @@ export type components = {
       /**
        * @description Text suitable for use as a verbal arrive time instruction
        *
-       * Typically used with a transit maneuver
+       *     Typically used with a transit maneuver
+       * @example Arrive at 8:10 AM at 34 St - Herald Sq
        */
       readonly verbal_arrive_instruction?: string | null;
       /**
        * @description Text suitable for use as a verbal depart time instruction
        *
-       * Typically used with a transit maneuver
+       *     Typically used with a transit maneuver
+       * @example Depart at 8:04 AM from 8 St - NYU
        */
       readonly verbal_depart_instruction?: string | null;
       /**
        * @description `true` if `verbal_pre_transition_instruction` has been appended with
-       * the verbal instruction of the next maneuver
+       *     the verbal instruction of the next maneuver
        */
       readonly verbal_multi_cue?: boolean | null;
-      /** @description Text suitable for use as a verbal message immediately after the maneuver transition */
+      /**
+       * @description Text suitable for use as a verbal message immediately after the maneuver transition
+       * @example Continue on U.S. 2 22 for 3.9 miles
+       */
       readonly verbal_post_transition_instruction?: string | null;
-      /** @description Text suitable for use as a verbal message immediately prior to the maneuver transition */
+      /**
+       * @description Text suitable for use as a verbal message immediately prior to the maneuver transition
+       * @example Turn right onto North Prince Street, U.S. 2 22
+       */
       readonly verbal_pre_transition_instruction?: string | null;
       /**
        * @description Text suitable for use as a verbal alert in a navigation application
        *
-       * The transition alert instruction will prepare the user for the forthcoming transition
+       *     The transition alert instruction will prepare the user for the forthcoming transition
+       * @example Turn right onto North Prince Street
        */
       readonly verbal_transition_alert_instruction?: string | null;
     };
@@ -854,17 +1091,17 @@ export type components = {
        * Format: int64
        * @description Leg duration in seconds
        *
-       * If leg is footpath:
-       *   The footpath duration is derived from the default footpath
-       *   duration using the query parameters `transferTimeFactor` and
-       *   `additionalTransferTime` as follows:
-       *   `leg.duration = defaultDuration * transferTimeFactor +
-       *  additionalTransferTime.`  In case the defaultDuration is
-       *  needed, it can be calculated by  `defaultDuration =
-       *  (leg.duration - additionalTransferTime) / transferTimeFactor`.
-       *   Note that the default values are `transferTimeFactor = 1` and
-       *   `additionalTransferTime = 0` in case they are not explicitly
-       *   provided in the query.
+       *     If leg is footpath:
+       *       The footpath duration is derived from the default footpath
+       *       duration using the query parameters `transferTimeFactor` and
+       *       `additionalTransferTime` as follows:
+       *       `leg.duration = defaultDuration * transferTimeFactor +
+       *      additionalTransferTime.`  In case the defaultDuration is
+       *      needed, it can be calculated by  `defaultDuration =
+       *      (leg.duration - additionalTransferTime) / transferTimeFactor`.
+       *       Note that the default values are `transferTimeFactor = 1` and
+       *       `additionalTransferTime = 0` in case they are not explicitly
+       *       provided in the query.
        */
       readonly duration: number;
       /**
@@ -875,18 +1112,18 @@ export type components = {
       readonly from: components["schemas"]["PlaceResponse"];
       /**
        * @description For transit legs, the headsign of the bus or train being used.
-       * For non-transit legs, null
+       *     For non-transit legs, null
        */
       readonly headsign?: string | null;
       /**
        * @description For transit legs, if the rider should stay on the vehicle as it
-       *  changes route names.
+       *      changes route names.
        */
       readonly interline_with_previous_leg?: boolean | null;
       /**
        * @description For transit legs, intermediate stops between the Place where the leg
-       *  originates and the Place where the leg ends. For non-transit
-       *  legs, null.
+       *      originates and the Place where the leg ends. For non-transit
+       *      legs, null.
        */
       readonly intermediate_stops?: readonly components["schemas"]["PlaceResponse"][];
       /** @description Polyline geometry (precision 6) of the leg. */
@@ -898,45 +1135,45 @@ export type components = {
       /**
        * @description Route color designation that matches public facing material.
        *
-       * Implementations should default to white (FFFFFF) when omitted or left empty.
-       * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
+       *     Implementations should default to white (FFFFFF) when omitted or left empty.
+       *     The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
        */
       readonly route_color: string;
       /**
        * @description Short name of a route.
        *
-       * Often a short, abstract identifier (e.g., "32", "100X", "Green") that riders use to identify a route
+       *     Often a short, abstract identifier (e.g., "32", "100X", "Green") that riders use to identify a route
        */
       readonly route_short_name?: string | null;
       /**
        * @description Legible color to use for text drawn against a background of `route_color`.
        *
-       * Implementations should default to black (000000) when omitted or left empty.
-       * The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
+       *     Implementations should default to black (000000) when omitted or left empty.
+       *     The color difference between `route_color` and `route_text_color` should provide sufficient contrast when viewed on a black and white screen.
        */
       readonly route_text_color: string;
       /**
        * Format: int64
        * @description Indicates the type of transportation used on a route.
        *
-       * According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
+       *     According to <https://gtfs.org/reference/static/#routestxt> `route_type` Valid options are:
        *
-       * -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
-       * -  1: Subway, Metro. Any underground rail system within a metropolitan area.
-       * -  2: Rail. Used for intercity or long-distance travel.
-       * -  3: Bus. Used for short- and long-distance bus routes.
-       * -  4: Ferry. Used for short- and long-distance boat service.
-       * -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
-       * -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
-       * -  7: Funicular. Any rail system designed for steep inclines.
-       * - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
-       * - 12: Monorail. Railway in which the track consists of a single rail or a beam.
+       *     -  0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+       *     -  1: Subway, Metro. Any underground rail system within a metropolitan area.
+       *     -  2: Rail. Used for intercity or long-distance travel.
+       *     -  3: Bus. Used for short- and long-distance bus routes.
+       *     -  4: Ferry. Used for short- and long-distance boat service.
+       *     -  5: Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle (e.g., cable car in San Francisco).
+       *     -  6: Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.
+       *     -  7: Funicular. Any rail system designed for steep inclines.
+       *     - 11: Trolleybus. Electric buses that draw power from overhead wires using poles.
+       *     - 12: Monorail. Railway in which the track consists of a single rail or a beam.
        */
       readonly route_type?: number | null;
       /**
        * @description Whether this leg was originally scheduled to run or is an additional
-       *  service.
-       *  Scheduled times will equal realtime times in this case.
+       *      service.
+       *      Scheduled times will equal realtime times in this case.
        */
       readonly scheduled: boolean;
       /**
@@ -958,7 +1195,7 @@ export type components = {
       readonly start_time: string;
       /**
        * @description A series of turn by turn instructions
-       * used for walking, biking and driving.
+       *     used for walking, biking and driving.
        */
       readonly steps?: readonly components["schemas"]["StepInstructionResponse"][];
       readonly to: components["schemas"]["PlaceResponse"];
@@ -969,10 +1206,10 @@ export type components = {
       /**
        * @description Direct trips by `WALK`, `BIKE`, `CAR`, etc. without time-dependency.
        *
-       *  The starting time (`arriveBy=false`) / arrival time
-       *  (`arriveBy=true`) is always the queried `time` parameter (set to
-       *  "now" if not set). But all `direct` connections are meant
-       *  to be independent of absolute times.
+       *      The starting time (`arriveBy=false`) / arrival time
+       *      (`arriveBy=true`) is always the queried `time` parameter (set to
+       *      "now" if not set). But all `direct` connections are meant
+       *      to be independent of absolute times.
        */
       readonly direct: readonly components["schemas"]["ItineraryResponse"][];
       /** @description list of itineraries */
@@ -980,19 +1217,19 @@ export type components = {
       /**
        * @description Use the cursor to get the next page of results.
        *
-       * Insert the cursor
-       *  into the request and post it to get the next page.
-       *  The next page is a set of itineraries departing AFTER the last
-       *  itinerary in this result.
+       *     Insert the cursor
+       *      into the request and post it to get the next page.
+       *      The next page is a set of itineraries departing AFTER the last
+       *      itinerary in this result.
        */
       readonly next_page_cursor: string;
       /**
        * @description Use the cursor to get the previous page of results. Insert the
-       *  cursor into the request and post it to get the previous page.
-       *  The previous page is a set of itineraries departing BEFORE the first
-       *  itinerary in the result for a depart after search. When using the
-       *  default sort order the previous set of itineraries is inserted
-       *  before the current result.
+       *      cursor into the request and post it to get the previous page.
+       *      The previous page is a set of itineraries departing BEFORE the first
+       *      itinerary in the result for a depart after search. When using the
+       *      default sort order the previous set of itineraries is inserted
+       *      before the current result.
        */
       readonly previous_page_cursor: string;
     };
@@ -1008,6 +1245,18 @@ export type components = {
       readonly parent_id: string;
       readonly short_name?: string | null;
       readonly visible_id?: string | null;
+    };
+    /** @description A proposed campus event, appended as a row to `data/sources/events.csv`. */
+    readonly NewEvent: {
+      readonly coords: components["schemas"]["Coordinate"];
+      readonly description: string;
+      readonly ends_at: string;
+      readonly image: components["schemas"]["Image"];
+      readonly name: string;
+      /** Format: int32 */
+      readonly organising_org_id: number;
+      /** @description RFC3339 string, to match the CSV/parquet contract. */
+      readonly starts_at: string;
     };
     readonly NewPoi: {
       readonly comment?: null | components["schemas"]["TranslatableStr"];
@@ -1039,49 +1288,57 @@ export type components = {
     };
     /** @description Operator of a location */
     readonly OperatorResponse: {
-      /** @description designation code of the operator */
+      /**
+       * @description designation code of the operator
+       * @example TUS7000
+       */
       readonly code: string;
       /**
        * Format: int32
        * @description ID of the operator
+       * @example 51901
        */
       readonly id: number;
       /**
        * @description The full name of the operator (localized). Null for organisations that
-       *  are no longer active (e.g. id=38698), but where the operator has not been
-       * updated in `TUMonline`.
+       *      are no longer active (e.g. id=38698), but where the operator has not been
+       *     updated in `TUMonline`.
+       * @example TUM School of Social Sciences and Technology
        */
       readonly name: string;
-      /** @description Link to the operator */
+      /**
+       * @description Link to the operator
+       * @example https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
+       */
       readonly url: string;
     };
     readonly OverlayMapEntryResponse: {
       /**
        * @description Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
        * @example [
-       *   [
-       *     11.666739,
-       *     48.263478
-       *   ],
-       *   [
-       *     11.669666,
-       *     48.263125
-       *   ],
-       *   [
-       *     11.669222,
-       *     48.261585
-       *   ],
-       *   [
-       *     11.666331,
-       *     48.261929
-       *   ]
-       * ]
+       *       [
+       *         11.666739,
+       *         48.263478
+       *       ],
+       *       [
+       *         11.669666,
+       *         48.263125
+       *       ],
+       *       [
+       *         11.669222,
+       *         48.261585
+       *       ],
+       *       [
+       *         11.666331,
+       *         48.261929
+       *       ]
+       *     ]
        */
-      readonly coordinates: readonly [
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
+      readonly coordinates: [
+        (readonly [number, number])[],
+        (readonly [number, number])[],
+        (readonly [number, number])[],
+        (readonly [number, number])[],
       ];
       /**
        * @description filename of the map
@@ -1091,8 +1348,8 @@ export type components = {
       /**
        * @description Floor of the Map.
        *
-       * Should be used for display to the user in selectors.
-       * Matches the floor part of the `TUMonline` roomcode.
+       *     Should be used for display to the user in selectors.
+       *     Matches the floor part of the `TUMonline` roomcode.
        * @example EG
        */
       readonly floor: string;
@@ -1100,8 +1357,8 @@ export type components = {
        * Format: int32
        * @description Machine-readable floor-id of the map.
        *
-       * Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
-       * It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
+       *     Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
+       *     It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
        * @example 0
        */
       readonly id: number;
@@ -1116,9 +1373,9 @@ export type components = {
       /**
        * Format: int32
        * @description The floor-id of the map, that should be shown as a default.
-       * null means:
-       * - We suggest, you don't show a map by default.
-       * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+       *     null means:
+       *     - We suggest, you don't show a map by default.
+       *     - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
        * @example 0
        */
       readonly default?: number | null;
@@ -1126,7 +1383,7 @@ export type components = {
     /**
      * @description The type of a parent (ancestor) in a location's breadcrumb hierarchy.
      *
-     * Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
+     *     Mirrors a location's `type`, plus the synthetic `root` ancestor at the top of every chain.
      * @enum {string}
      */
     readonly ParentLocationTypeResponse:
@@ -1178,13 +1435,13 @@ export type components = {
       readonly scheduled_track?: string | null;
       /**
        * @description The ID of the stop. This is often something that users don't care
-       *  about.
+       *      about.
        */
       readonly stop_id?: string | null;
       /**
        * @description The current track/platform information, updated with real-time
-       *  updates if available. Can be missing if neither real-time
-       *  updates nor the schedule timetable contains track information.
+       *      updates if available. Can be missing if neither real-time
+       *      updates nor the schedule timetable contains track information.
        */
       readonly track?: string | null;
       readonly vertex_type?: null | components["schemas"]["VertexTypeResponse"];
@@ -1202,7 +1459,7 @@ export type components = {
       /**
        * @description The body/description of the feedback
        *
-       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       *     Controll characters will be stripped, too long input truncated and newlines made to render in markdown
        * @example A clear description what happened where and how we should improve it
        */
       readonly body: string;
@@ -1211,22 +1468,22 @@ export type components = {
       /**
        * @description Whether the user has requested to delete the issue.
        *
-       * This flag means:
-       * - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-       * - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
+       *     This flag means:
+       *     - If the user has requested to delete the issue, we will delete it from GitHub after processing it
+       *     - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
        */
       readonly deletion_requested: boolean;
       /**
        * @description Whether the user has checked the privacy-checkbox.
        *
-       * We are posting the feedback publicly on GitHub (not a EU-Company).
-       * **You MUST also include such a checkmark.**
+       *     We are posting the feedback publicly on GitHub (not a EU-Company).
+       *     **You MUST also include such a checkmark.**
        */
       readonly privacy_checked: boolean;
       /**
        * @description The subject/title of the feedback
        *
-       * Controll characters will be stripped, too long input truncated and newlines made to render in markdown
+       *     Controll characters will be stripped, too long input truncated and newlines made to render in markdown
        * @example A catchy title
        */
       readonly subject: string;
@@ -1240,58 +1497,59 @@ export type components = {
       readonly text: string;
       readonly url?: string | null;
     };
-    readonly PropertyEdit: OneOf<
-      [
-        {
+    readonly PropertyEdit:
+      | {
           readonly name?: string | null;
           readonly short_name?: string | null;
           /** @enum {string} */
           readonly type: "name";
-        },
-        {
+        }
+      | {
           readonly din_277?: string | null;
           readonly din_277_desc?: string | null;
           readonly name_de: string;
           readonly name_en: string;
           /** @enum {string} */
           readonly type: "usage";
-        },
-        {
+        }
+      | {
           readonly text_de: string;
           readonly text_en: string;
           /** @enum {string} */
           readonly type: "link";
           readonly url: string;
-        },
-      ]
-    >;
+        };
     /** @description Data for the info-card table */
     readonly PropsResponse: {
-      /** @description Link to the calendar of the room */
+      /**
+       * @description Link to the calendar of the room
+       * @example https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+       * @example https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
+       */
       readonly calendar_url?: string | null;
       /**
        * @description A comment to show to an entry.
        *
-       * It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
+       *     It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
        */
       readonly comment?: string;
       readonly computed: readonly components["schemas"]["ComputedPropResponse"][];
       /**
        * @description A sorted (lowest floor first) list of floors
        *
-       * For buildings, this may contain multiple floors while rooms usually only have one floor.
-       * POIs inherit floors from their immediate parent: a single floor when parented to a room,
-       * or the full building list when parented to a building.
+       *     For buildings, this may contain multiple floors while rooms usually only have one floor.
+       *     POIs inherit floors from their immediate parent: a single floor when parented to a room,
+       *     or the full building list when parented to a building.
        */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
       /**
        * @description Building ids whose Studentische Vertretung IRIS learning rooms fall under this entry.
        *
-       * A covered building lists itself.
-       * An ancestor container (area, campus, or a joined building such as MI) lists every covered building among its descendants.
-       * Derived at data-build time by matching the Studentische Vertretung IRIS room roster against our aliases.
-       * When non-empty, the page can offer a learning-room availability view without a second request.
-       * Empty (and omitted) for entries without coverage.
+       *     A covered building lists itself.
+       *     An ancestor container (area, campus, or a joined building such as MI) lists every covered building among its descendants.
+       *     Derived at data-build time by matching the Studentische Vertretung IRIS room roster against our aliases.
+       *     When non-empty, the page can offer a learning-room availability view without a second request.
+       *     Empty (and omitted) for entries without coverage.
        */
       readonly iris_coverage_building_ids?: readonly string[];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
@@ -1322,12 +1580,12 @@ export type components = {
       readonly form_factor?: null | components["schemas"]["RentalFormFactorResponse"];
       /**
        * @description Name of the station where the vehicle is picked up (empty for free
-       *  floating vehicles)
+       *      floating vehicles)
        */
       readonly from_station_name?: string | null;
       /**
        * @description Rental URI for Android (deep link to the specific station or
-       *  vehicle)
+       *      vehicle)
        */
       readonly rental_uri_android?: string | null;
       /** @description Rental URI for iOS (deep link to the specific station or vehicle) */
@@ -1342,7 +1600,7 @@ export type components = {
       readonly system_name?: string | null;
       /**
        * @description Name of the station where the vehicle is returned (empty for free
-       *  floating vehicles)
+       *      floating vehicles)
        */
       readonly to_station_name?: string | null;
       /** @description URL of the vehicle share system */
@@ -1357,32 +1615,32 @@ export type components = {
       /**
        * @description Subtext to show below the search result.
        *
-       * Usually contains the context of where this rooms is located in.
-       * Currently not highlighted.
+       *     Usually contains the context of where this rooms is located in.
+       *     Currently not highlighted.
        * @example 5510.03.002 (MW 2001, Empore)
        */
       readonly name: string;
       /**
        * @description This is an optional feature, that is only supported for some rooms.
        *
-       * It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
-       * See the image below for an example.
-       * It will be cropped to a maximum length to not take too much space in UIs.
-       * Supports highlighting.
+       *     It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+       *     See the image below for an example.
+       *     It will be cropped to a maximum length to not take too much space in UIs.
+       *     Supports highlighting.
        */
       readonly parsed_id?: string | null;
       /**
        * @description Subtext to show below the search result.
        *
-       * Usually contains the context of where this rooms is located in.
-       * Currently not highlighted.
+       *     Usually contains the context of where this rooms is located in.
+       *     Currently not highlighted.
        * @example Maschinenwesen (MW)
        */
       readonly subtext: string;
       /**
        * @description Subtext to show below the search (by default in bold and after the non-bold subtext).
        *
-       * Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+       *     Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
        * @example 3002@5510
        */
       readonly subtext_bold?: string | null;
@@ -1406,8 +1664,8 @@ export type components = {
       /**
        * @description A recommendation how many of the entries should be displayed by default.
        *
-       * The number is usually from `0`..`5`.
-       * More results might be displayed when clicking "expand".
+       *     The number is usually from `0`..`5`.
+       *     More results might be displayed when clicking "expand".
        * @example 4
        */
       readonly n_visible: number;
@@ -1456,7 +1714,10 @@ export type components = {
     };
     readonly RoomfinderMapResponse: {
       readonly available: readonly components["schemas"]["RoomfinderMapEntryResponse"][];
-      /** @description The id of the map, that should be shown as a default */
+      /**
+       * @description The id of the map, that should be shown as a default
+       * @example rf142
+       */
       readonly default: string;
     };
     readonly RoomsOverviewResponse: {
@@ -1472,18 +1733,15 @@ export type components = {
       readonly count: number;
       readonly name: string;
     };
-    readonly RoutingResponse: OneOf<
-      [
-        components["schemas"]["ValhallaRoutingResponse"] & {
+    readonly RoutingResponse:
+      | (components["schemas"]["ValhallaRoutingResponse"] & {
           /** @enum {string} */
           readonly router: "valhalla";
-        },
-        components["schemas"]["MotisRoutingResponse"] & {
+        })
+      | (components["schemas"]["MotisRoutingResponse"] & {
           /** @enum {string} */
           readonly router: "motis";
-        },
-      ]
-    >;
+        });
     /** @description Returned search results by this */
     readonly SearchResponse: {
       readonly sections: readonly components["schemas"]["ResultsSection"][];
@@ -1491,9 +1749,9 @@ export type components = {
        * Format: int32
        * @description Time the search took in the server side, not including network delay
        *
-       * Maximum as timeout.
-       * other timeouts (browser, your client) may be smaller.
-       * Expected average is `10`..`50` for uncached, regular requests.
+       *     Maximum as timeout.
+       *     other timeouts (browser, your client) may be smaller.
+       *     Expected average is `10`..`50` for uncached, regular requests.
        * @example 8
        */
       readonly time_ms: number;
@@ -1529,21 +1787,21 @@ export type components = {
       readonly base: readonly components["schemas"]["SourceResponse"][];
       /**
        * @description Was this entry patched by us? (e.g. to fix a typo in the name/...)
-       * If so, we should not display the source, as it is not the original source.
+       *     If so, we should not display the source, as it is not the original source.
        */
       readonly patched?: boolean | null;
     };
     readonly StepInstructionResponse: {
       /**
        * @description Experimental. Indicates whether access to this part of the route is
-       * restricted.
-       * See: <https://wiki.openstreetmap.org/wiki/Conditional_restrictions>
+       *     restricted.
+       *     See: <https://wiki.openstreetmap.org/wiki/Conditional_restrictions>
        */
       readonly access_restriction?: string | null;
       /**
        * @description Not implemented!
-       * This step is on an open area, such as a plaza or train platform,
-       * and thus the directions should say something like "cross"
+       *     This step is on an open area, such as a plaza or train platform,
+       *     and thus the directions should say something like "cross"
        */
       readonly area: boolean;
       /** Format: double */
@@ -1560,7 +1818,7 @@ export type components = {
       readonly elevation_up?: number | null;
       /**
        * @description Not implemented!
-       * When exiting a highway or traffic circle, the exit name/number.
+       *     When exiting a highway or traffic circle, the exit name/number.
        */
       readonly exit: string;
       /** Format: double */
@@ -1575,7 +1833,7 @@ export type components = {
       readonly relative_direction: components["schemas"]["DirectionResponse"];
       /**
        * @description Indicates whether or not a street changes direction at an
-       *  intersection.
+       *      intersection.
        */
       readonly stay_on: boolean;
       /** @description The name of the street. */
@@ -1584,7 +1842,7 @@ export type components = {
       readonly to_level: number;
       /**
        * @description Indicates that a fee must be paid by general traffic to use a road,
-       *  road bridge or road tunnel.
+       *      road bridge or road tunnel.
        */
       readonly toll?: boolean | null;
     };
@@ -1650,43 +1908,72 @@ export type components = {
        * Format: int32
        * @description The numeric color value associated with a transit route
        *
-       * The value for yellow would be `16567306`
+       *     The value for yellow would be `16567306`
+       * @example 16567306
        */
       readonly color: number;
-      /** @description The description of the transit route */
+      /**
+       * @description The description of the transit route
+       * @example Trains operate from Ditmars Boulevard, Queens, to Stillwell Avenue, Brooklyn, at all times
+       *     N trains in Manhattan operate along Broadway and across the Manhattan Bridge to and from Brooklyn.
+       *     Trains in Brooklyn operate along 4th Avenue, then through Borough Park to Gravesend.
+       *     Trains typically operate local in Queens, and either express or local in Manhattan and Brooklyn,
+       *     depending on the time. Late night trains operate via Whitehall Street, Manhattan.
+       *     Late night service is local
+       */
       readonly description: string;
-      /** @description The sign on a public transport vehicle that identifies the route destination to passengers */
+      /**
+       * @description The sign on a public transport vehicle that identifies the route destination to passengers
+       * @example ASTORIA - DITMARS BLVD
+       */
       readonly headsign: string;
-      /** @description Long name describing the transit route */
+      /**
+       * @description Long name describing the transit route
+       * @example Broadway Express
+       */
       readonly long_name: string;
       /**
        * @description Global transit route identifier
        *
-       * **Tipp:** you use these as feed-ids in transitland.
-       * Example: <https://www.transit.land/feeds/f-9q9-bart>
+       *     **Tipp:** you use these as feed-ids in transitland.
+       *     Example: <https://www.transit.land/feeds/f-9q9-bart>
+       * @example f-9q9-bart
+       * @example f-zeus~schwäbisch~gmünd~gbfs
        */
       readonly onestop_id: string;
       /**
        * @description Operator/agency name
        *
-       * Short name is used over long name
+       *     Short name is used over long name
+       * @example BART
+       * @example King County Marine Division
+       * @example Münchner Verkehrs- und Tarifverbund (MVV)
        */
       readonly operator_name: string;
       /**
        * @description Global operator/agency identifier
        *
-       * **Tipp:** you use these as feed-ids in transitland.
-       * Example: <https://www.transit.land/feeds/o-u281z9-mvv>
+       *     **Tipp:** you use these as feed-ids in transitland.
+       *     Example: <https://www.transit.land/feeds/o-u281z9-mvv>
+       * @example o-u281z9-mvv
        */
       readonly operator_onestop_id: string;
-      /** @description Operator/agency URL */
+      /**
+       * @description Operator/agency URL
+       * @example http://web.mta.info/
+       * @example http://www.mvv-muenchen.de/
+       */
       readonly operator_url: string;
-      /** @description Short name describing the transit route */
+      /**
+       * @description Short name describing the transit route
+       * @example N
+       */
       readonly short_name: string;
       /**
        * @description The numeric text color value associated with a transit route
        *
-       * The value for black would be `0`
+       *     The value for black would be `0`
+       * @example 0
        */
       readonly text_color: string;
       /** @description A list of the stops/stations associated with a specific transit route */
@@ -1719,7 +2006,10 @@ export type components = {
        * @example 48.26244490906312
        */
       readonly lon: number;
-      /** @description Name of the stop or station */
+      /**
+       * @description Name of the stop or station
+       * @example 14 St - Union Sq
+       */
       readonly name: string;
       readonly type: components["schemas"]["TransitStopTypeResponse"];
     };
@@ -1751,11 +2041,11 @@ export type components = {
       readonly lon: number;
       /**
        * @description Transport modes served at this station, as reported by motis.
-       * Unknown / future motis values are normalised to `other`.
+       *     Unknown / future motis values are normalised to `other`.
        * @example [
-       *   "bus",
-       *   "subway"
-       * ]
+       *       "bus",
+       *       "subway"
+       *     ]
        */
       readonly modes: readonly components["schemas"]["ModeResponse"][];
       /**
@@ -1780,9 +2070,9 @@ export type components = {
       /**
        * @description A trip contains one (or more) legs.
        *
-       * A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
+       *     A leg is created when routing stops, which currently only happens at the ends (`from`, `to`).
        */
-      readonly legs: readonly [components["schemas"]["ValhallaLegResponse"]];
+      readonly legs: [components["schemas"]["ValhallaLegResponse"]];
       /** @description Trip summary */
       readonly summary: components["schemas"]["SummaryResponse"];
     };
@@ -1795,592 +2085,687 @@ export type components = {
   headers: never;
   pathItems: never;
 };
-
 export type $defs = Record<string, never>;
-
-export type external = Record<string, never>;
-
-export type operations = {
-  /**
-   * Retrieve Calendar Entries
-   * @description Retrieves calendar entries for specific `ids` within the requested time span.
-   * The time span is defined by the `start_after` and `end_before` query parameters.
-   * Ensure to provide valid date-time formats for these parameters.
-   *
-   * If successful, returns additional entries in the requested time span.
-   */
-  calendar_handler: {
+export interface operations {
+  readonly calendar_handler: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     readonly requestBody: {
       readonly content: {
         readonly "application/json": components["schemas"]["Arguments"];
       };
     };
-    responses: {
+    readonly responses: {
       /** @description **Entries of the calendar** in the requested time span */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": {
-            [key: string]: components["schemas"]["LocationEventsResponse"];
+            readonly [key: string]: components["schemas"]["LocationEventsResponse"];
           };
         };
       };
       /** @description **Bad Request.** Not all fields in the body are present as defined above */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message */
           readonly "text/plain": string;
         };
       };
       /** @description **Not found.** The requested location does not have a calendar */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
       /** @description **Not Ready.** please retry later */
-      503: {
+      readonly 503: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Waiting for first sync with TUMonline */
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Post feedback
-   * @description ***Do not abuse this endpoint.***
-   *
-   * This posts the actual feedback to GitHub and returns the GitHub link.
-   * This API will create issues instead of pull-requests
-   * => all feedback is allowed, but [`/api/feedback/propose_edits`](#tag/feedback/operation/propose_edits) is preferred, if it can be posted there.
-   *
-   * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
-   *
-   * # Note
-   *
-   * Tokens are only used if we return a 201 Created response.
-   * Otherwise, they are still valid
-   */
-  send_feedback: {
+  readonly send_feedback: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     readonly requestBody: {
       readonly content: {
         readonly "application/json": components["schemas"]["PostFeedbackRequest"];
       };
     };
-    responses: {
+    readonly responses: {
       /** @description The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue. */
-      201: {
+      readonly 201: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example https://github.com/TUM-Dev/navigatum/issues/9 */
           readonly "text/plain": string;
         };
       };
       /** @description **Bad Request.** Not all fields in the body are present as defined above */
-      400: {
-        content: never;
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /**
        * @description **Forbidden.** Causes are (delivered via the body):
        *
-       * - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-       * - `Token not old enough, please wait`: Tokens are only valid after 10s.
-       * - `Token expired`: Tokens are only valid for 12h.
-       * - `Token already used`: Tokens are non reusable/refreshable single-use items.
+       *     - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+       *     - `Token not old enough, please wait`: Tokens are only valid after 10s.
+       *     - `Token expired`: Tokens are only valid for 12h.
+       *     - `Token already used`: Tokens are non reusable/refreshable single-use items.
        */
-      403: {
+      readonly 403: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "text/plain": string;
         };
       };
       /** @description **Unprocessable Entity.** Subject or body missing or too short. */
-      422: {
-        content: never;
+      readonly 422: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be `true` */
-      451: {
-        content: never;
+      readonly 451: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later */
-      500: {
-        content: never;
+      readonly 500: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
-      503: {
-        content: never;
+      readonly 503: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
-  /**
-   * Get a feedback-token
-   * @description ***Do not abuse this endpoint.***
-   *
-   * This returns a JWT token usable for submitting feedback.
-   * You should request a token, ***if (and only if) a user is on a feedback page***
-   *
-   * As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
-   * To post feedback, you will need this token.
-   *
-   * Tokens gain validity after 5s, and are invalid after 12h of being issued.
-   * They are not refreshable, and are only valid for one usage.
-   *
-   * # Note:
-   *
-   * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
-   */
-  get_token: {
-    responses: {
+  readonly get_token: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description **Created** a usable token */
-      201: {
+      readonly 201: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": components["schemas"]["TokenResponse"];
         };
       };
       /** @description **Too many requests.** We are rate-limiting everyone's requests, please try again later. */
-      429: {
-        content: never;
+      readonly 429: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
-      503: {
-        content: never;
+      readonly 503: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
-  /**
-   * Post Edit-Requests
-   * @description ***Do not abuse this endpoint.***
-   *
-   * This posts the actual feedback to GitHub and returns the github link.
-   * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-   * For this Endpoint to work, you need to generate a token via the [`/api/feedback/get_token`](#tag/feedback/operation/get_token) endpoint.
-   *
-   * # Note:
-   *
-   * Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-   */
-  propose_edits: {
+  readonly propose_edits: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
     readonly requestBody: {
       readonly content: {
         readonly "application/json": components["schemas"]["EditRequest"];
       };
     };
-    responses: {
+    readonly responses: {
       /** @description The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue. */
-      201: {
+      readonly 201: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example https://github.com/TUM-Dev/navigatum/issues/9 */
           readonly "text/plain": string;
         };
       };
       /** @description **Bad Request.** Not all fields in the body are present as defined above */
-      400: {
-        content: never;
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /**
        * @description **Forbidden.** Causes are (delivered via the body):
        *
-       * - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-       * - `Token not old enough, please wait`: Tokens are only valid after 10s.
-       * - `Token expired`: Tokens are only valid for 12h.
-       * - `Token already used`: Tokens are non reusable/refreshable single-use items.
+       *     - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+       *     - `Token not old enough, please wait`: Tokens are only valid after 10s.
+       *     - `Token expired`: Tokens are only valid for 12h.
+       *     - `Token already used`: Tokens are non reusable/refreshable single-use items.
        */
-      403: {
-        content: never;
+      readonly 403: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Unprocessable Entity.** Subject or body missing or too short. */
-      422: {
-        content: never;
+      readonly 422: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true */
-      451: {
-        content: never;
+      readonly 451: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description **Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later. */
-      500: {
-        content: never;
+      readonly 500: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
       /** @description Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later. */
-      503: {
-        content: never;
+      readonly 503: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
-  /**
-   * Get entry-details
-   * @description This returns the full data available for the entry (room/building).
-   *
-   * This is more data, that should be supplied once a user clicks on an entry.
-   * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
-   * The data can be up to 50kB (using gzip) or 200kB unzipped.
-   * More about this data format is described in the NavigaTUM-data documentation
-   */
-  get_handler: {
-    parameters: {
-      query?: {
+  readonly get_handler: {
+    readonly parameters: {
+      readonly query?: {
         /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
-        lang?: "de" | "en";
+        readonly lang?: "de" | "en";
       };
-      path: {
+      readonly header?: never;
+      readonly path: {
         /** @description ID of the location */
-        id: string;
+        readonly id: string;
       };
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description **Details** about the **location** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": components["schemas"]["LocationDetailsResponse"];
         };
       };
       /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Invalid ID */
           readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Get the nearby items
-   * @description Shows nearby POIs like public transport stations
-   */
-  nearby_handler: {
-    parameters: {
-      path: {
+  readonly nearby_handler: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path: {
         /** @description ID of a location */
-        id: string;
+        readonly id: string;
       };
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description Things **nearby to the location** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
         };
       };
       /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Invalid ID */
           readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Get a entry-preview
-   * @description This returns a 1200x630px preview for the location (room/building/..).
-   *
-   * This is usefully for implementing custom `OpenGraph` images for detail previews.
-   */
-  maps_handler: {
-    parameters: {
-      query?: {
-        lang?: "de" | "en";
-        format?: "open_graph" | "square";
+  readonly maps_handler: {
+    readonly parameters: {
+      readonly query?: {
+        readonly lang?: "de" | "en";
+        readonly format?: "open_graph" | "square";
       };
-      path: {
-        id: string;
+      readonly header?: never;
+      readonly path: {
+        readonly id: string;
       };
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description **Preview image** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "image/png": unknown;
         };
       };
       /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Invalid ID */
           readonly "text/plain": string;
         };
       };
       /** @description **Not found.** Make sure that requested item exists */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Get a QR code for a location
-   * @description This returns a QR code image (PNG) that links to the location's detail page.
-   * The QR code uses TUM blue (#0065bd) as foreground color with white background and rounded corners.
-   */
-  qr_code_handler: {
-    parameters: {
-      path: {
-        id: string;
+  readonly qr_code_handler: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path: {
+        readonly id: string;
       };
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description **QR code image** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "image/png": unknown;
         };
       };
       /** @description **Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Invalid ID */
           readonly "text/plain": string;
         };
       };
       /** @description **Internal server error** */
-      500: {
+      readonly 500: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Routing requests
-   * @description **API IS EXPERIMENTAL AND ACTIVELY SUBJECT TO CHANGE**
-   *
-   * The user specifies using provided origin (`from`) and destination (`to`) locations and a transport mode (`route_costing`) to tune their routing between the two locations.
-   * The costing is fine-tuned by the server side accordingly.
-   *
-   * Internally, this endpoint relies on
-   * - [Valhalla](https://github.com/valhalla/valhalla) for routing for route calculation
-   * - our database to resolve ids.
-   *
-   *   You will need to look the ids up via [`/api/search`](#tag/locations/operation/search_handler) beforehand.
-   *   **Note:** [`/api/search`](#tag/locations/operation/search_handler) does support both university internal routing and external addressing.
-   *
-   * **In the future (i.e. public transit routing currently is not implemented)**, it will als rely on either
-   * - [OpenTripPlanner2](https://www.opentripplanner.org/) or
-   * - [Motis](https://github.com/motis-project/motis)
-   */
-  route_handler: {
-    parameters: {
-      query: {
-        lang?: "de" | "en";
+  readonly route_handler: {
+    readonly parameters: {
+      readonly query: {
+        readonly lang?: "de" | "en";
         /** @description Start of the route */
-        from: components["schemas"]["Coordinate"] | string;
+        readonly from: components["schemas"]["Coordinate"] | string;
         /** @description Destination of the route */
-        to: components["schemas"]["Coordinate"] | string;
+        readonly to: components["schemas"]["Coordinate"] | string;
         /**
          * @description Transport mode the user wants to use
          *
-         * If not specified, the default is based on how far the destinations are apart and requested time.
+         *     If not specified, the default is based on how far the destinations are apart and requested time.
          */
-        route_costing?: null | ("pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit");
+        readonly route_costing?:
+          | null
+          | ("pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit");
         /** @description Does the user have specific walking restrictions? */
-        pedestrian_type?: "standard" | "blind" | "wheelchair";
+        readonly pedestrian_type?: "standard" | "blind" | "wheelchair";
         /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
-        ptw_type?: "motorcycle" | "moped";
+        readonly ptw_type?: "motorcycle" | "moped";
         /** @description Which kind of bicycle do you ride? */
-        bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
+        readonly bicycle_type?: "road" | "hybrid" | "cross" | "mountain";
         /**
          * @description Cursor position for pagination
-         * Only avaliable for some costings
+         *     Only avaliable for some costings
          */
-        page_cursor?: string | null;
+        readonly page_cursor?: string | null;
         /**
          * @description Time for the route (ISO 8601 format)
-         * Used with `arrive_by` to determine if this is departure or arrival time
+         *     Used with `arrive_by` to determine if this is departure or arrival time
          */
-        time?: string | null;
+        readonly time?: string | null;
         /** @description Whether the time parameter represents arrival time (true) or departure time (false/not set) */
-        arrive_by?: boolean;
+        readonly arrive_by?: boolean;
       };
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description **Routing solution** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": components["schemas"]["RoutingResponse"];
         };
       };
       /** @description **Not found.** The requested location does not exist */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * Openapi service definition
-   * @description Usefull for consuming in external openapi tooling
-   */
-  openapi_doc: {
-    responses: {
+  readonly openapi_doc: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description The openapi definition */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": unknown;
         };
       };
     };
   };
-  /**
-   * Search entries
-   * @description This endpoint is designed to support search-as-you-type results.
-   *
-   * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
-   *
-   * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
-   * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
-   */
-  search_handler: {
-    parameters: {
-      query: {
+  readonly search_handler: {
+    readonly parameters: {
+      readonly query: {
         /**
          * @description string you want to search for.
          *
-         * The amounts returned can be controlled using the `limit_*` parameters.
-         * Use `in`, `usage`, `type`, and `near` query parameters for filtering.
+         *     The amounts returned can be controlled using the `limit_*` parameters.
+         *     Use `in`, `usage`, `type`, and `near` query parameters for filtering.
          */
-        q: string;
+        readonly q: string;
         /**
          * @description Filter by parent (building, campus, etc.).
          *
-         * Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
+         *     Can be repeated for multiple values (e.g. `&in=garching&in=5304`).
          */
-        in?: readonly string[];
+        readonly in?: readonly string[];
         /**
          * @description Filter by usage type (e.g. `wc`, `büro`).
          *
-         * Can be repeated for multiple values.
+         *     Can be repeated for multiple values.
          */
-        usage?: readonly string[];
+        readonly usage?: readonly string[];
         /**
          * @description Filter by facet.
          *
-         * Can be repeated for multiple values. Unknown values cause a `400`.
+         *     Can be repeated for multiple values. Unknown values cause a `400`.
          */
-        type?: readonly components["schemas"]["FacetFilter"][];
+        readonly type?: readonly components["schemas"]["FacetFilter"][];
         /** @description Sort results by distance to a coordinate (`lat,lon`). */
-        near?: string;
+        readonly near?: string;
         /**
          * @description Include adresses in the saerch
          *
-         * Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
-         * Only activate this when you really need it.
+         *     Be aware that Nominatim (which we use to do this search) is really slow (~100ms).
+         *     Only activate this when you really need it.
          */
-        search_addresses?: boolean;
+        readonly search_addresses?: boolean;
         /**
          * @description Maximum number of sites (campus / site / area) to return.
          *
-         * Clamped to `0`..`1000`.
-         * If this is a problem for you, please open an issue.
+         *     Clamped to `0`..`1000`.
+         *     If this is a problem for you, please open an issue.
          */
-        limit_sites?: number;
+        readonly limit_sites?: number;
         /**
          * @description Maximum number of buildings to return.
          *
-         * Clamped to `0`..`1000`.
-         * If this is a problem for you, please open an issue.
+         *     Clamped to `0`..`1000`.
+         *     If this is a problem for you, please open an issue.
          */
-        limit_buildings?: number;
+        readonly limit_buildings?: number;
         /**
          * @description Maximum number of rooms to return.
          *
-         * Clamped to `0`..`1000`.
-         * If this is an problem for you, please open an issue.
+         *     Clamped to `0`..`1000`.
+         *     If this is an problem for you, please open an issue.
          */
-        limit_rooms?: number;
+        readonly limit_rooms?: number;
         /**
          * @description Maximum number of POIs (points of interest) to return.
          *
-         * Clamped to `0`..`1000`.
-         * If this is a problem for you, please open an issue.
+         *     Clamped to `0`..`1000`.
+         *     If this is a problem for you, please open an issue.
          */
-        limit_pois?: number;
+        readonly limit_pois?: number;
         /**
          * @description Maximum number of results to return.
          *
-         * Clamped to `1`..`1000`.
-         * If this is an problem for you, please open an issue.
+         *     Clamped to `1`..`1000`.
+         *     If this is an problem for you, please open an issue.
          */
-        limit_all?: number;
+        readonly limit_all?: number;
         /**
          * @description string to include in front of highlighted sequences.
          *
-         * If this and `post_highlight` are empty, highlighting is disabled.
-         * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+         *     If this and `post_highlight` are empty, highlighting is disabled.
+         *     For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        pre_highlight?: string;
+        readonly pre_highlight?: string;
         /**
          * @description string to include after the highlighted sequences.
          *
-         * If this and `pre_highlight` are empty, highlighting is disabled.
-         * For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+         *     If this and `pre_highlight` are empty, highlighting is disabled.
+         *     For background on the default values, please see [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
          */
-        post_highlight?: string;
+        readonly post_highlight?: string;
         /**
          * @description How to handle cropping of long building names in `parsed_id`.
          *
-         * - `crop` (default): crop long names (> 25 chars) with an ellipsis.
-         * - `full`: never crop; always show full building names.
+         *     - `crop` (default): crop long names (> 25 chars) with an ellipsis.
+         *     - `full`: never crop; always show full building names.
          */
-        cropping?: "crop" | "full";
+        readonly cropping?: "crop" | "full";
         /**
          * @description How to format `parsed_id` for rooms.
          *
-         * - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
-         * - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
+         *     - `prefixed` (default): add common building prefixes (e.g. `MW 1801`).
+         *     - `roomfinder`: return room codes in Roomfinder format (`archname@building_id`).
          */
-        parsed_id?: "prefixed" | "roomfinder";
+        readonly parsed_id?: "prefixed" | "roomfinder";
       };
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
     };
-    responses: {
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description Search entries */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "application/json": components["schemas"]["SearchResponse"];
         };
       };
       /** @description **Bad Request.** Not all fields in the body are present as defined above */
-      400: {
+      readonly 400: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Query deserialize error: invalid digit found in string */
           readonly "text/plain": string;
         };
       };
       /** @description **Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this. */
-      404: {
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /** @example Not found */
           readonly "text/plain": string;
         };
       };
       /** @description **URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
-      414: {
+      readonly 414: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
           readonly "text/plain": string;
         };
       };
     };
   };
-  /**
-   * API healthcheck
-   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage.
-   * **Should never happen.**
-   */
-  health_status_handler: {
-    responses: {
+  readonly health_status_handler: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    readonly requestBody?: never;
+    readonly responses: {
       /** @description API is **healthy** */
-      200: {
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /**
+           * @example healthy
+           *     source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
+           */
           readonly "text/plain": string;
         };
       };
       /** @description API is **NOT healthy** */
-      503: {
+      readonly 503: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
         content: {
+          /**
+           * @example unhealthy
+           *     source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
+           */
           readonly "text/plain": string;
         };
       };
     };
   };
-};
+}
