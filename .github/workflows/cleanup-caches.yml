@@ -1,0 +1,22 @@
+name: Cleanup caches
+
+# A PR's caches are scoped to its own ref and unreadable by other PRs, so delete them when it closes.
+# Fork PRs have a read-only pull_request token, so pull_request_target is needed for actions:write.
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers] never checks out or runs PR code; only deletes this PR's caches
+    types: [ closed ]
+
+permissions: {}
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete caches scoped to the closed PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR_REF: refs/pull/${{ github.event.pull_request.number }}/merge
+        run: gh cache delete --all --ref "$PR_REF" --succeed-on-no-caches
