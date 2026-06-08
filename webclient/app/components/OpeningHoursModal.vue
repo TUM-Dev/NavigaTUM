@@ -77,7 +77,7 @@ function confirm() {
         :key="day"
         class="bg-zinc-100 dark:bg-zinc-800 rounded p-2"
       >
-        <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
           <span class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ dayLabels[day] }}</span>
           <button
             type="button"
@@ -108,7 +108,7 @@ function confirm() {
           <span v-if="!isValidTimeRange(range)" class="text-red-600 dark:text-red-300 text-xs">{{ t("invalid_range") }}</span>
           <button
             type="button"
-            class="focusable text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 ms-auto rounded-sm"
+            class="focusable text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 rounded-sm"
             :aria-label="t('remove_range')"
             @click="removeRange(day, index)"
           >
