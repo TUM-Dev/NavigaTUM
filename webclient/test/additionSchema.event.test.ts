@@ -4,9 +4,6 @@ import { type AdditionDraft, emptyAdditionDraft } from "../app/composables/editP
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// A `datetime-local` wall string `now + offsetDays`. Built from the machine's local clock; the
-// schema reads it as Europe/Berlin, but every threshold here is days wide, so the <=2h tz skew is
-// irrelevant.
 function wall(offsetDays: number): string {
   const d = new Date(Date.now() + offsetDays * DAY_MS);
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -37,8 +34,6 @@ describe("validateAddition (event)", () => {
     expect(validateAddition(validEvent())).toEqual({});
   });
 
-  // Mirrors the `validate_failure_cases` rstest table in
-  // `server/src/routes/feedback/proposed_edits/addition/event.rs`.
   it.each([
     ["bad key", { id: "event_NOTHEX" }, "id", "error.event_key_format"],
     ["missing prefix", { id: "9d02ddd940c43f87" }, "id", "error.event_key_format"],

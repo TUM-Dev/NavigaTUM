@@ -55,8 +55,6 @@ watch(
     idCheckCounter++;
     idCollidesOnServer.value = false;
     const id = value.trim();
-    // Events aren't locations, and their id is a content hash derived from the image rather than
-    // typed, so the `/api/locations/{id}` collision check doesn't apply.
     if (!id || editProposal.value.pendingAddition.kind === "event") {
       idCheckPending.value = false;
       return;
@@ -241,8 +239,6 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       kind: "event",
       name: draft.name,
       description: draft.description,
-      // The form holds Europe/Berlin wall-clock; stamp the offset for the RFC3339 server contract.
-      // `newEventSchema` already rejected unconvertible values, so the `?? ""` fallback is unreachable.
       starts_at: wallTimeToRfc3339(draft.starts_at) ?? "",
       ends_at: wallTimeToRfc3339(draft.ends_at) ?? "",
       coords,
@@ -251,10 +247,7 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
         content: draft.image.base64,
         metadata: {
           author: draft.image_author,
-          // Uploads are published under CC BY 4.0; the uploader attests by submitting (matches the
-          // "Suggest a new Image" flow), so the license isn't a form field.
           license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
-          // Omit offsets entirely when both crops are centred, to keep img-sources.yaml clean.
           offsets:
             draft.image_thumb_offset === 0 && draft.image_header_offset === 0
               ? null
@@ -427,7 +420,6 @@ watch(
       </TabGroup>
 
       <template v-if="editProposal.pendingAddition.kind">
-        <!-- Events have no parent entry; their place on the map is the picked coordinate alone. -->
         <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("parent_label") }} <span class="text-red-700 dark:text-red-200">*</span>
@@ -530,8 +522,6 @@ watch(
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
         <AddEventFields v-if="editProposal.pendingAddition.kind === 'event'" />
 
-        <!-- Events render their own coordinate picker inside AddEventFields, above the image, so the
-             picker and the marker preview aren't two maps stacked together. -->
         <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("coords_label") }} <span class="text-red-700 dark:text-red-200">*</span>
@@ -553,7 +543,6 @@ watch(
 
     <div class="float-right mt-6 flex flex-row-reverse gap-2">
       <Btn variant="primary" size="md" :disabled="!draftIsReady" @click="commitAddition">{{ t("commit") }}</Btn>
-      <!-- Events carry their image inline in the addition, so the separate image-upload step doesn't apply. -->
       <Btn v-if="editProposal.pendingAddition.kind !== 'event'" variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
       <Btn variant="linkButton" size="md" @click="cancelAddition">{{ t("cancel") }}</Btn>
     </div>

@@ -1,8 +1,4 @@
-// Mirrors `Resizer.resize_to_fixed_size` in `data/processors/images.py`: a crop of the target's
-// aspect ratio is taken from the source and slid along the over-long axis by an integer `offset` of
-// source pixels (`offsets.thumb` / `offsets.header` in `img-sources.yaml`). `offset = 0` centres it.
-// The pipeline emits a 256² thumb and a 512×210 header; these helpers reproduce that crop so the
-// submission form can pick each offset with a faithful preview.
+// Mirrors `Resizer.resize_to_fixed_size` in `data/processors/images.py`.
 
 export interface CropTarget {
   width: number;
@@ -27,17 +23,13 @@ interface CropGeometry {
   height: number;
 }
 
-// The crop rectangle's size and the axis it travels along, before the offset is applied. Matches the
-// `int(new_width / 2)` truncation the pipeline uses, so the dimensions are even.
 function cropGeometry(width: number, height: number, target: CropTarget): CropGeometry {
   const targetAspect = target.width / target.height;
   const sourceAspect = width / height;
   if (targetAspect < sourceAspect) {
-    // Source is wider than the target: crop the width, keep full height, slide horizontally.
     return { axis: "horizontal", width: 2 * Math.floor((targetAspect * height) / 2), height };
   }
   if (targetAspect > sourceAspect) {
-    // Source is taller than the target: crop the height, keep full width, slide vertically.
     return { axis: "vertical", width, height: 2 * Math.floor(width / targetAspect / 2) };
   }
   return { axis: "none", width, height };

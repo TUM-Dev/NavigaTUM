@@ -1,33 +1,18 @@
-// Zod schemas for the "propose a new entry" forms. These intentionally mirror the Rust validators
-// in `server/src/routes/feedback/proposed_edits/addition/{room,building,poi,event}.rs`. Whenever the
-// backend rules change, update both - the matching `case` in each Rust validator's rstest table
-// is the source of truth.
+// Mirrors the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
 import { z } from "zod";
 import type { AdditionDraft } from "~/composables/editProposal";
 import { wallTimeToRfc3339 } from "~/utils/datetime";
 
-// Shared with `MAX_NAME_LEN` in the backend (room.rs / building.rs / poi.rs / event.rs).
 const MAX_NAME_LEN = 200;
-// Shared with `MAX_KEY_LEN` in poi.rs.
 const MAX_POI_KEY_LEN = 64;
-// Mirrors the constants in event.rs.
 const MIN_IMAGE_DIM = 256;
 const MAX_HORIZON_DAYS = 365;
 const MAX_DURATION_DAYS = 30;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// `is_allowed_roomcode_char` in room.rs (mirrored from `ALLOWED_ROOMCODE_CHARS` in
-// `data/processors/tumonline.py`).
 const ROOM_KEY_RE = /^[A-Za-z0-9.-]+$/;
-
-// `is_arch_name_valid` in room.rs.
 const ARCH_NAME_RE = /^[A-Za-z0-9._-]+@\d{4}$/;
-
-// `is_valid_poi_key` in poi.rs: first char ascii-lowercase or digit; rest [a-z0-9_-].
 const POI_KEY_RE = /^[a-z0-9][a-z0-9_-]*$/;
-
-// `is_valid_event_key` in event.rs: the `event_` prefix followed by 1-64 lowercase hex chars (a
-// truncated content hash). The webclient derives this key from the image, so it is never typed.
 const EVENT_KEY_RE = /^event_[0-9a-f]{1,64}$/;
 
 const BUILDING_PREFIX_RE = /^\d{4}$/;
@@ -126,8 +111,6 @@ const newEventSchema = z
     coords: coordsSchema,
     organising_org_id: z.number({ message: "error.org_required" }).int().positive(),
     image: z.object({ base64: z.string() }).nullable(),
-    // Validated in the superRefine below (temporal rules / min-dimension), but declared here so the
-    // refinement can read them off the parsed draft.
     starts_at: z.string(),
     ends_at: z.string(),
     image_width: z.number().nullable(),
@@ -135,8 +118,6 @@ const newEventSchema = z
     image_author: z.string(),
   })
   .superRefine((draft, ctx) => {
-    // Temporal rules mirror `NewEvent::validate_temporal` in event.rs. Both ends are picked as
-    // zoneless wall-clock and only become RFC3339 here, so we validate the converted instants.
     const startRfc = wallTimeToRfc3339(draft.starts_at);
     const endRfc = wallTimeToRfc3339(draft.ends_at);
     if (startRfc === null) {
@@ -168,7 +149,6 @@ const newEventSchema = z
     if (!draft.image?.base64) {
       ctx.addIssue({ code: "custom", path: ["image"], message: "error.image_required" });
     } else if (
-      // Minimum-dimension check for instant feedback; the server re-decodes and re-checks the bytes.
       draft.image_width !== null &&
       draft.image_height !== null &&
       Math.min(draft.image_width, draft.image_height) < MIN_IMAGE_DIM

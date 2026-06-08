@@ -15,12 +15,7 @@ interface Props {
   initialLat: number;
   initialLon: number;
   zoom?: number;
-  /** Sizing class for the map container; override to make the map shorter than the default 4:3. */
   containerClass?: string;
-  /**
-   * No location has been chosen yet, so the initial coordinate is only a default. Withholds the pin
-   * (an already-shown pin reads as "already set") and overlays a call-to-action until the first pick.
-   */
   awaitingSelection?: boolean;
 }
 const lat = defineModel<number>("lat", { required: true });
@@ -34,8 +29,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const { t } = useI18n({ useScope: "local" });
 
-// `shallowRef`: MapLibre owns its own deep state; Vue must not deeply unwrap/track it (the unwrapped
-// type also stops being assignable where the raw `Map`/`Marker` is expected, e.g. `Marker.addTo`).
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
@@ -81,7 +74,6 @@ function initMap() {
 
     const draggableMarker = new Marker({ element: createMarker(120), draggable: true });
     draggableMarker.setLngLat([lon.value, lat.value]);
-    // Withhold the pin until the first pick so an unset default doesn't read as a chosen location.
     if (!props.awaitingSelection) draggableMarker.addTo(mapInstance);
     draggableMarker.on("dragend", () => {
       const lngLat = draggableMarker.getLngLat();
@@ -115,8 +107,6 @@ watch(
   { immediate: false }
 );
 
-// A pick made elsewhere (e.g. prefilled from a parent entry) also resolves the awaiting state, so
-// surface the pin then too.
 watch(
   () => props.awaitingSelection,
   (awaiting) => {

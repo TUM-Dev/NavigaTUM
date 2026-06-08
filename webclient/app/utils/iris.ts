@@ -104,7 +104,7 @@ export function parseIrisRooms(json: unknown): IrisRoom[] {
   return rooms;
 }
 
-/** A joined building (e.g. MI) passes every covered finger id, so its page unions them. */
+/** Keep only the rooms Iris attributes to one of `buildingIds`. */
 export function roomsForBuildings(
   rooms: readonly IrisRoom[],
   buildingIds: readonly string[]

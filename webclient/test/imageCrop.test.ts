@@ -43,8 +43,6 @@ describe("thumb crop (256×256 square target)", () => {
 });
 
 describe("header crop (512×210 banner target)", () => {
-  // A 1000×1000 source is taller than the 512:210 banner, so the crop keeps full width and slides
-  // vertically. Banner height = round(1000 * 210/512) = 410 (even via the floor-of-half).
   it("crops the height of a square source and slides vertically", () => {
     expect(cropAxis(1000, 1000, HEADER_TARGET)).toBe("vertical");
     const rect = cropRect(1000, 1000, HEADER_TARGET, 0);
@@ -55,7 +53,6 @@ describe("header crop (512×210 banner target)", () => {
   });
 
   it("crops the width of an ultra-wide source and slides horizontally", () => {
-    // 4000×500 is wider than 512:210; banner width = 500 * 512/210 ≈ 1218 → even 1218.
     expect(cropAxis(4000, 500, HEADER_TARGET)).toBe("horizontal");
     const rect = cropRect(4000, 500, HEADER_TARGET, 0);
     expect(rect.height).toBe(500);

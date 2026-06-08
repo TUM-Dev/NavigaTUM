@@ -47,10 +47,7 @@ interface AdditionDraft {
   comment_en: string;
   poi_links: LinkDraft[];
   generic_props: GenericPropDraft[];
-  // event-only (`name` is shared). The image rides inline in the addition rather than as a separate
-  // edit, so its bytes, author, and chosen crop offsets live here. The license is fixed to CC BY 4.0
-  // (set at submit time). `starts_at`/`ends_at` hold the `datetime-local` wall value, converted to
-  // RFC3339 at submit time.
+  // event-only
   description: string;
   starts_at: string;
   ends_at: string;

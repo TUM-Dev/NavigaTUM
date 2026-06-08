@@ -131,7 +131,6 @@ describe("roomsForBuildings", () => {
 
   it("unions rooms across several buildings (a joined building's fingers)", () => {
     const rooms = parseIrisRooms(IRIS_FIXTURE);
-    // A joined building passes every covered child id; the union spans all of them.
     expect(roomsForBuildings(rooms, ["5504", "8102"]).map((r) => r.buildingId)).toEqual([
       "5504",
       "8102",

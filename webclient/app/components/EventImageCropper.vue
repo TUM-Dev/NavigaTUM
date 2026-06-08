@@ -7,9 +7,6 @@ import {
   cropRect,
 } from "~/utils/imageCrop";
 
-// Lets the user choose an `offsets.*` value (see `data/processors/images.py`): a crop of the
-// target's aspect ratio slides along the over-long axis. The draggable frame shows what's kept; a
-// source that already matches the target aspect has nothing to choose.
 const offset = defineModel<number>({ required: true });
 const props = defineProps<{
   imageUrl: string;
@@ -27,7 +24,6 @@ const isHorizontal = computed(() => axis.value === "horizontal");
 
 const imageEl = ref<HTMLImageElement>();
 
-// The crop rectangle expressed as percentages of the displayed image, for the overlay frame.
 const frame = computed(() => {
   const rect = cropRect(props.width, props.height, props.target, offset.value);
   return {
@@ -55,7 +51,6 @@ function onPointerDown(event: PointerEvent): void {
 function onPointerMove(event: PointerEvent): void {
   if (!dragStart) return;
   const moved = (isHorizontal.value ? event.clientX : event.clientY) - dragStart.pointer;
-  // Convert the on-screen drag into source pixels via the displayed-axis length.
   const sourceAxis = isHorizontal.value ? props.width : props.height;
   const delta = (moved / dragStart.axisPx) * sourceAxis;
   offset.value = clampCropOffset(props.width, props.height, props.target, dragStart.offset + delta);
@@ -80,7 +75,6 @@ onBeforeUnmount(onPointerUp);
         draggable="false"
         class="block w-full"
       />
-      <!-- The frame's outward box-shadow dims everything outside the kept region. -->
       <div
         v-if="!fixed"
         class="absolute touch-none rounded-sm ring-2 ring-white/90 shadow-[0_0_0_9999px_rgba(0,0,0,0.45)]"

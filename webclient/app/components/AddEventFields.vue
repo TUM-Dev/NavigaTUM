@@ -24,11 +24,7 @@ function errorFor(path: string): string | null {
   return key ? t(key) : null;
 }
 
-// --- Organising org combobox (client-filtered, like the room usage picker) ---
 const knownOrgs = useKnownOrgs();
-// Destructure the fetch state into top-level refs so the template auto-unwraps them (a nested
-// `knownOrgs.pending` would stay a truthy Ref). The list is a required field sourced from a lazy
-// CDN fetch, so the dropdown must tell loading / load-failed / genuinely-empty apart.
 const { pending: orgsLoading, error: orgsError, refresh: reloadOrgs } = knownOrgs;
 const orgQuery = ref("");
 const filteredOrgs = computed<OrgOption[]>(() => knownOrgs.filter(orgQuery.value));
@@ -40,7 +36,6 @@ const selectedOrg = computed<OrgOption | null>({
   },
 });
 
-// --- Coordinates. Events have no parent to centre on, so default to TUM main campus. ---
 const DEFAULT_LAT = 48.149;
 const DEFAULT_LON = 11.568;
 const mapLat = computed({
@@ -58,20 +53,14 @@ const mapLon = computed({
   },
 });
 
-// --- Image upload ---
 const VALID_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const fileInput = ref<HTMLInputElement>();
 const isDragOver = ref(false);
 const fileError = ref("");
-// `blob:` URLs kept local (not in the persisted draft) and revoked on replace/unmount so they never
-// outlive the session. `previewUrl` is the full image (the croppers' source); each crop preview
-// renders the offset thumb/header exactly as the pipeline will.
 const previewUrl = ref<string | null>(null);
 const sourceImage = shallowRef<HTMLImageElement | null>(null);
 
-// A rendered preview of one crop target, regenerated as its offset changes. A token guards against
-// an earlier crop resolving after a later one and leaving a stale image.
 function makeCropPreview(target: CropTarget) {
   const url = ref<string | null>(null);
   let token = 0;
@@ -97,10 +86,7 @@ function makeCropPreview(target: CropTarget) {
   }
   return { url, set, regenerate };
 }
-// Only the thumb crop is previewed (in the map marker below); the header crop is chosen via its
-// cropper frame alone, so it needs no rendered blob.
 const thumbPreview = makeCropPreview(THUMB_TARGET);
-// Top-level ref so the template auto-unwraps it.
 const thumbUrl = thumbPreview.url;
 
 function bytesFromBase64(base64: string): Uint8Array<ArrayBuffer> {
@@ -172,11 +158,8 @@ async function processFile(file: File): Promise<void> {
   draft.value.image = { base64, fileName: file.name || "event-image" };
   draft.value.image_width = image.naturalWidth;
   draft.value.image_height = image.naturalHeight;
-  // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs). The full
-  // sha256 is overkill for a filename; 16 hex chars (64 bits) keep collisions negligible yet tidy.
   const hash = await sha256Hex(bytesFromBase64(base64));
   draft.value.id = `event_${hash.slice(0, 16)}`;
   regenerateCrops();
@@ -217,10 +200,6 @@ onBeforeUnmount(() => {
 
 const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.value.coords.picked);
 
-// The full event popup card, shown in the preview once every field it renders is filled. The popup
-// formats RFC3339 instants, so convert the wall-clock inputs here; a null conversion (or any missing
-// field) collapses to marker-only. The image is the not-yet-uploaded source blob, cover-fit by the
-// card exactly as the CDN image will be.
 const previewEvent = computed<EventPreviewPopup | null>(() => {
   const org = selectedOrg.value;
   const startsAt = wallTimeToRfc3339(draft.value.starts_at);

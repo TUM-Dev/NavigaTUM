@@ -14,8 +14,6 @@ import { useIrisAvailability } from "~/composables/irisAvailability";
 import { bookedUntilTime, IRIS_SITE_URL, type IrisRoomRow, occupancyPercent } from "~/utils/iris";
 
 const props = defineProps<{
-  // A joined building (e.g. MI) passes every covered finger id, not just its own.
-  // The parent renders this only when non-empty, so an uncovered page issues no Iris request.
   readonly buildingIds: readonly string[];
 }>();
 

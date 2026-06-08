@@ -6,22 +6,14 @@ interface KnownOrg {
 }
 
 export interface OrgOption {
-  /** numeric primary key submitted as `events.organising_org_id`; required for an event addition. */
   org_id: number;
-  /** TUMonline org code, the disambiguator for the ~100 orgs that share a localized name. */
   code: string;
-  /** localized display name */
   label: string;
-  /** the other-language name, used for searching */
   altLabel: string;
-  /** raw German name, kept so the event popup can switch language independently of the picker's locale. */
   nameDe: string;
-  /** raw English name, kept so the event popup can switch language independently of the picker's locale. */
   nameEn: string;
 }
 
-// The org tree has ~2.3k entries; rendering them all into the combobox on an empty query is
-// needless. Cap the visible matches and let the user narrow by typing.
 const MAX_RESULTS = 50;
 
 export function useKnownOrgs() {

@@ -2,8 +2,6 @@
 import { Map as MapLibreMap, Marker } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 
-// Everything the event popup card needs, pre-resolved (times as RFC3339, image as a local `blob:`),
-// so the preview renders the exact `EventPopupCard` the live map shows on a marker click.
 export interface EventPreviewPopup {
   readonly name: string;
   readonly description: string;
@@ -15,29 +13,21 @@ export interface EventPreviewPopup {
   readonly imageSrc: string;
 }
 
-// Live preview of the event's #3136 photo marker at the picked coordinate, from the not-yet-uploaded
-// image. A plain DOM marker re-creates the circular look of the `events_active` symbol layer, since
-// the uncommitted event isn't in the Martin vector source. When `popup` is set, the real card is
-// shown above the marker exactly as the live map renders it on click.
 const props = defineProps<{
   lat: number;
   lon: number;
-  imageUrl: string | null;
+  imageUrl: string | null | undefined;
   popup?: EventPreviewPopup | null;
 }>();
 
 const PREVIEW_ZOOM = 17;
-// The card grows upward from the marker; biasing the map's focal point down by this many pixels keeps
-// the whole card inside the (taller) preview frame.
 const POPUP_TOP_PADDING = 260;
 
 const mapContainer = ref<HTMLElement>();
-// `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const markerImg = shallowRef<HTMLImageElement | undefined>(undefined);
 const loaded = ref(false);
-// Screen-space position of the marker, kept in sync so the card overlay tracks it as the map moves.
 const markerPos = shallowRef<{ x: number; y: number } | null>(null);
 
 function createMarkerElement(): HTMLElement {
@@ -86,8 +76,6 @@ function projectMarker(): void {
   markerPos.value = { x, y };
 }
 
-// Bias the focal point down when the card is shown so it fits above the marker; recentre to keep the
-// marker glued to its coordinate under the new padding.
 function applyPadding(): void {
   const target = map.value;
   if (!target) return;
@@ -114,11 +102,9 @@ onMounted(() => {
     projectMarker();
   });
   instance.on("move", projectMarker);
-  // Toggling the popup changes the container height; reproject once MapLibre's ResizeObserver settles.
   instance.on("resize", projectMarker);
 });
 
-// Follow coordinate edits without animating, so the marker stays glued to the picked spot.
 watch(
   () => [props.lat, props.lon] as const,
   ([lat, lon]) => {
@@ -131,9 +117,6 @@ watch(() => props.imageUrl, syncMarker);
 watch(
   () => Boolean(props.popup),
   async () => {
-    // The container height changes with the popup. Let the DOM apply it, force MapLibre to read the
-    // new size, then re-bias and reproject - otherwise the card anchors against the stale height and
-    // lands above the frame, where `overflow-hidden` clips it out of sight.
     await nextTick();
     map.value?.resize();
     applyPadding();
@@ -156,7 +139,6 @@ onBeforeUnmount(() => {
     <div v-if="webglSupport && !loaded" class="absolute inset-0 flex items-center justify-center">
       <Spinner class="h-8 w-8 text-blue-500 dark:text-blue-400" />
     </div>
-    <!-- Non-interactive: this is a visual preview, so the card's org link must not navigate away and discard the draft. -->
     <div
       v-if="popup && markerPos && loaded"
       class="pointer-events-none absolute z-20"
