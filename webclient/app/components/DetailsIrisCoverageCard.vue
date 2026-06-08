@@ -27,27 +27,36 @@ const { rooms, loading } = useIrisAvailability(() => props.buildingIds, cardEl);
 // loading so its element can be observed and the fetch can start when it scrolls into view.
 const visible = computed(() => loading.value || rooms.value.length > 0);
 
-// The default view shows rooms a student could plausibly grab now: fully free (`frei`) and
-// sensor-based (`WAAS`) rooms whose avatar colour already encodes how full they are. Booked
-// (`belegt`) and unknown-status rooms hide behind the expand toggle so the sidebar stays scannable.
+// Fully free (`frei`) and sensor-based (`WAAS`) rooms are the ones a student could plausibly grab
+// now; their avatar colour already encodes how full WAAS rooms are. Booked (`belegt`) and unknown
+// rooms get grouped under "occupied" for the hidden-tail breakdown.
 function isPartiallyFree(room: IrisRoomRow): boolean {
   return room.status === "frei" || room.status === "WAAS";
 }
 
-const partiallyFreeRooms = computed(() => rooms.value.filter(isPartiallyFree));
-const otherRooms = computed(() => rooms.value.filter((room) => !isPartiallyFree(room)));
+const INITIAL_VISIBLE = 8;
 const [expanded, toggleExpanded] = useToggle(false);
-// If every room is booked/unknown, defaulting to the partial-free filter would render an empty
-// list. In that case there is no useful "show all" to expand to, so just show every room.
-const canCollapse = computed(
-  () => partiallyFreeRooms.value.length > 0 && otherRooms.value.length > 0
+
+// Keep partially-free rooms above the fold so the cap surfaces the most useful ones first.
+const sortedRooms = computed<readonly IrisRoomRow[]>(() => [
+  ...rooms.value.filter(isPartiallyFree),
+  ...rooms.value.filter((room) => !isPartiallyFree(room)),
+]);
+const visibleRooms = computed<readonly IrisRoomRow[]>(() =>
+  expanded.value ? sortedRooms.value : sortedRooms.value.slice(0, INITIAL_VISIBLE)
 );
-const visibleRooms = computed<readonly IrisRoomRow[]>(() => {
-  if (!canCollapse.value) return rooms.value;
-  // Keep the partially-free rooms on top once expanded so the useful ones stay above the fold.
-  return expanded.value
-    ? [...partiallyFreeRooms.value, ...otherRooms.value]
-    : partiallyFreeRooms.value;
+const hiddenRooms = computed(() => sortedRooms.value.slice(INITIAL_VISIBLE));
+const hiddenCount = computed(() => hiddenRooms.value.length);
+const hiddenFreeCount = computed(() => hiddenRooms.value.filter(isPartiallyFree).length);
+const hiddenOccupiedCount = computed(() => hiddenCount.value - hiddenFreeCount.value);
+// Only include buckets that have hidden entries so a one-bucket tail reads naturally
+// ("9 frei") instead of "(9 frei, 0 belegt)".
+const hiddenBreakdown = computed(() => {
+  const parts: string[] = [];
+  if (hiddenFreeCount.value > 0) parts.push(t("free_count", { count: hiddenFreeCount.value }));
+  if (hiddenOccupiedCount.value > 0)
+    parts.push(t("occupied_count", { count: hiddenOccupiedCount.value }));
+  return parts.join(", ");
 });
 
 function avatarIcon(status: string): string {
@@ -165,9 +174,11 @@ function statusAriaLabel(status: string): string {
       </NuxtLinkLocale>
     </div>
     <Btn
-      v-if="canCollapse"
+      v-if="hiddenCount > 0"
       variant="linkButton"
-      :aria-label="expanded ? t('show_less_aria') : t('show_more_aria', otherRooms.length)"
+      :aria-label="expanded
+        ? t('show_less_aria')
+        : t('show_more_aria', { count: hiddenCount, breakdown: hiddenBreakdown }, hiddenCount)"
       @click="toggleExpanded()"
     >
       <template v-if="expanded">
@@ -176,7 +187,7 @@ function statusAriaLabel(status: string): string {
       </template>
       <template v-else>
         <MdiIcon :path="mdiChevronDown" :size="16" class="mt-0.5" />
-        {{ t("show_more", otherRooms.length) }}
+        {{ t("show_more", { count: hiddenCount, breakdown: hiddenBreakdown }, hiddenCount) }}
       </template>
     </Btn>
   </section>
@@ -191,10 +202,12 @@ de:
   occupancy: "{percent}% belegt"
   until: bis {time}
   until_by: "bis {time} · {by}"
-  show_more: "alle anzeigen (1 weiteren) | alle anzeigen ({count} weitere)"
+  show_more: "1 weiteren anzeigen ({breakdown}) | {count} weitere anzeigen ({breakdown})"
   show_less: weniger anzeigen
-  show_more_aria: "alle Räume anzeigen, einschließlich 1 weiteren belegten oder unbekannten Raumes | alle Räume anzeigen, einschließlich {count} weiterer belegter oder unbekannter Räume"
-  show_less_aria: nur (teilweise) freie Räume anzeigen
+  show_more_aria: "1 weiteren Raum anzeigen ({breakdown}) | {count} weitere Räume anzeigen ({breakdown})"
+  show_less_aria: Liste auf die ersten 8 Räume kürzen
+  free_count: "{count} frei"
+  occupied_count: "{count} belegt"
   status:
     frei: frei
     belegt: belegt
@@ -208,10 +221,12 @@ en:
   occupancy: "{percent}% in use"
   until: until {time}
   until_by: "until {time} · {by}"
-  show_more: "show all (1 more) | show all ({count} more)"
+  show_more: "Show 1 more ({breakdown}) | Show {count} more ({breakdown})"
   show_less: show less
-  show_more_aria: "show all rooms, including 1 more booked or unknown room | show all rooms, including {count} more booked or unknown rooms"
-  show_less_aria: show only (partially) free rooms
+  show_more_aria: "Show 1 more room ({breakdown}) | Show {count} more rooms ({breakdown})"
+  show_less_aria: Collapse list back to the first 8 rooms
+  free_count: "{count} free"
+  occupied_count: "{count} occupied"
   status:
     frei: free
     belegt: booked
