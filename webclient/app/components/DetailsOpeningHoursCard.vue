@@ -34,7 +34,7 @@ const today = computed<OpeningHoursDay | null>(
 const [expanded, toggleExpanded] = useToggle(false);
 
 function formatRanges(ranges: readonly OpeningHoursRange[]): string {
-  return ranges.map((range) => `${range.from}–${range.to}`).join(", ");
+  return ranges.map((range) => `${range.from}-${range.to}`).join(", ");
 }
 
 const lastUpdated = computed(() => formatIsoDate(props.openingHours.last_update));
