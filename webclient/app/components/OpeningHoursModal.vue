@@ -98,7 +98,7 @@ function confirm() {
             :aria-label="t('from')"
             class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
           />
-          <span class="text-zinc-500 dark:text-zinc-400 text-sm">–</span>
+          <span class="text-zinc-500 dark:text-zinc-400 text-sm">-</span>
           <input
             v-model="range.to"
             type="time"
