@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
-import { useDebounceFn } from "@vueuse/core";
+import { mdiCalendarStar, mdiDomain, mdiMapMarker, mdiSofa } from "@mdi/js";
+import { refDebounced } from "@vueuse/core";
 import type { components } from "~/api_types";
-import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
-import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
+import {
+  type AdditionDraft,
+  type AdditionFieldErrors,
+  type AdditionKind,
+  additionRegistry,
+  buildAddition,
+  emptyAdditionDraft,
+  validateAddition,
+} from "~/composables/additionSchema";
+import { useEditProposal } from "~/composables/editProposal";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
@@ -22,59 +30,116 @@ const kindOptions: { value: AdditionKind; icon: string }[] = [
   { value: "room", icon: mdiSofa },
   { value: "building", icon: mdiDomain },
   { value: "poi", icon: mdiMapMarker },
+  { value: "event", icon: mdiCalendarStar },
 ];
 const kindIndex = computed(() => {
   const k = editProposal.value.pendingAddition.kind;
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
-// Debounce + verify the id against /api/locations/{id}; 200 means collision, 404 means free.
-const idCheckPending = ref(false);
-const idCollidesOnServer = ref(false);
-// Counter still needed to invalidate in-flight fetches when the input changes
-// after the debounce already fired; `useDebounceFn` only cancels pending calls.
-let idCheckCounter = 0;
-const runIdCheck = useDebounceFn(async (id: string, ticket: number) => {
-  try {
-    const res = await fetch(
-      `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
-      { credentials: "omit" }
-    );
-    if (ticket !== idCheckCounter) return;
-    idCollidesOnServer.value = res.ok;
-  } catch {
-    // Network failure: don't block. The server validates again on submit.
-  } finally {
-    if (ticket === idCheckCounter) idCheckPending.value = false;
+
+// Switching the tab swaps the whole draft for the new variant's empty seed.
+// Coords and parent carry across so the user doesn't lose state they already picked.
+function pickKind(k: AdditionKind) {
+  const previous = editProposal.value.pendingAddition;
+  if (previous.kind === k) return;
+  const fresh = additionRegistry[k].empty();
+  fresh.coords = { ...previous.coords };
+  if (previous.kind !== null && previous.kind !== "event" && fresh.kind !== "event") {
+    fresh.parent_id = previous.parent_id;
+    fresh.parent_name = previous.parent_name;
   }
-}, 350);
+  editProposal.value.pendingAddition = fresh;
+}
+
+// Verify the id against /api/locations/{id}.
+// 200 means collision, 404 means free.
+// Event ids are content hashed locally and cannot collide, so the check is suppressed for them.
+const trimmedId = computed(() => editProposal.value.pendingAddition.id.trim());
+const debouncedId = refDebounced(trimmedId, 350);
+const fetchingId = ref(false);
+const idCollidesOnServer = ref(false);
 watch(
-  () => editProposal.value.pendingAddition.id,
-  (value) => {
-    idCheckCounter++;
+  [debouncedId, () => editProposal.value.pendingAddition.kind],
+  async ([id, kind], _old, onCleanup) => {
     idCollidesOnServer.value = false;
-    const id = value.trim();
-    if (!id) {
-      idCheckPending.value = false;
+    if (!id || kind === "event") {
+      fetchingId.value = false;
       return;
     }
-    idCheckPending.value = true;
-    runIdCheck(id, idCheckCounter);
+    const controller = new AbortController();
+    // `onCleanup` aborts the prior fetch the instant the watched inputs change again.
+    // A slow response can never settle stale state.
+    onCleanup(() => controller.abort());
+    fetchingId.value = true;
+    try {
+      const res = await fetch(
+        `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(id)}`,
+        { credentials: "omit", signal: controller.signal }
+      );
+      idCollidesOnServer.value = res.ok;
+    } catch {
+      // Network failure or abort: don't block.
+      // The server re-validates on submit.
+    } finally {
+      fetchingId.value = false;
+    }
   }
 );
+// Pending while the debounce hasn't caught up to the latest keystroke, or a fetch is in flight.
+// Both transient states map to "checking…" in the UI.
+const idCheckPending = computed(() => {
+  const id = trimmedId.value;
+  if (!id || editProposal.value.pendingAddition.kind === "event") return false;
+  return debouncedId.value !== id || fetchingId.value;
+});
 
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;
   if (kind === "room") return ["building"];
-  // POIs may live inside a site/area or directly inside a building (e.g. a cafeteria);
-  // buildings are parented under sites/areas only.
+  // POIs may live inside a site, area, or directly inside a building like a cafeteria.
+  // Buildings are parented under sites or areas only.
   if (kind === "poi") return ["site", "building"];
   return ["site"];
 });
 
-// When the user picks a parent, fetch its details so we can pre-fill the map centre + auto-mark
-// coords as ready (saving a click; the user can still drag to refine).
+// Writable computeds let v-models bind to per-kind fields without narrowing in the template.
+// Setters are inert on variants that don't carry the field.
+// The matching UI block is hidden in that case.
+const parentId = computed({
+  get: () => {
+    const a = editProposal.value.pendingAddition;
+    return a.kind !== null && a.kind !== "event" ? a.parent_id : "";
+  },
+  set: (v: string) => {
+    const a = editProposal.value.pendingAddition;
+    if (a.kind !== null && a.kind !== "event") a.parent_id = v;
+  },
+});
+const parentName = computed({
+  get: () => {
+    const a = editProposal.value.pendingAddition;
+    return a.kind !== null && a.kind !== "event" ? a.parent_name : "";
+  },
+  set: (v: string) => {
+    const a = editProposal.value.pendingAddition;
+    if (a.kind !== null && a.kind !== "event") a.parent_name = v;
+  },
+});
+const roomAltName = computed({
+  get: () => {
+    const a = editProposal.value.pendingAddition;
+    return a.kind === "room" ? a.alt_name : "";
+  },
+  set: (v: string) => {
+    const a = editProposal.value.pendingAddition;
+    if (a.kind === "room") a.alt_name = v;
+  },
+});
+
+// When the user picks a parent, fetch its details to pre-fill the map centre.
+// We auto-mark coords as ready so the user saves a click and can still drag to refine.
 const parentLookupUrl = computed(() => {
-  const pid = editProposal.value.pendingAddition.parent_id;
+  const pid = parentId.value;
   return pid ? `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(pid)}` : "";
 });
 interface ParentDetails {
@@ -96,21 +161,24 @@ const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.va
   lazy: true,
   dedupe: "cancel",
   credentials: "omit",
-  watch: [() => editProposal.value.pendingAddition.parent_id],
+  watch: [parentId],
 });
 
-// The room-code prefix isn't always the entry id (joined buildings have textual ids like `mi`,
-// while their TUMonline code is e.g. `5510`). Pick the first 4-digit alias as the prefix.
+// The room code prefix isn't always the entry id.
+// Joined buildings have textual ids like `mi`, while their TUMonline code is e.g. `5510`.
+// Pick the first 4 digit alias as the prefix.
 const roomParentPrefix = computed(() => {
-  const parentId = editProposal.value.pendingAddition.parent_id.trim();
-  if (!parentId) return "";
-  if (FOUR_DIGIT_PREFIX.test(parentId)) return parentId;
+  const a = editProposal.value.pendingAddition;
+  if (a.kind !== "room") return "";
+  const pid = a.parent_id.trim();
+  if (!pid) return "";
+  if (FOUR_DIGIT_PREFIX.test(pid)) return pid;
   const aliases = parentDetails.value?.aliases ?? [];
-  const numeric = aliases.find((a) => FOUR_DIGIT_PREFIX.test(a));
-  return numeric ?? parentId;
+  const numeric = aliases.find((alias) => FOUR_DIGIT_PREFIX.test(alias));
+  return numeric ?? pid;
 });
 
-// Floors known on the parent - what the TUMonline room-code uses for the floor segment.
+// Floors known on the parent, used by the TUMonline room code as its floor segment.
 interface ParentFloorOption {
   tumonline: string;
   label: string;
@@ -122,9 +190,9 @@ const parentFloorOptions = computed<ParentFloorOption[]>(() => {
     .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
-// Room IDs follow PARENT.FLOOR.NUMBER. The parent segment is auto-filled and disabled so users
-// can't desync it from the chosen parent; floor and number flow through the Zod schema like any
-// other field once we compose the id.
+// Room ids follow PARENT.FLOOR.NUMBER.
+// The parent segment is auto filled and disabled so users can't desync it from the chosen parent.
+// Floor and number flow through the Zod schema like any other field once we compose the id.
 const roomFloorSegment = ref("");
 const roomNumberSegment = ref("");
 const composedRoomId = computed(() => {
@@ -139,8 +207,8 @@ watch([composedRoomId, () => editProposal.value.pendingAddition.kind], ([id, kin
   if (editProposal.value.pendingAddition.id === id) return;
   editProposal.value.pendingAddition.id = id;
 });
-// Reset the local segment refs when the kind changes or the draft id is cleared (commit/cancel
-// replace `pendingAddition` with `emptyAdditionDraft()`).
+// Reset the local segment refs when the kind changes or the draft id is cleared.
+// Commit and cancel both replace `pendingAddition` with `emptyAdditionDraft()`.
 watch(
   [() => editProposal.value.pendingAddition.kind, () => editProposal.value.pendingAddition.id],
   ([kind, id]) => {
@@ -165,78 +233,16 @@ const draftIsReady = computed(() => {
   return Object.keys(fieldErrors.value).length === 0;
 });
 
-function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"][string] | null {
-  const draft = editProposal.value.pendingAddition;
-  const coords = { lat: draft.coords.lat, lon: draft.coords.lon };
-  if (draft.kind === "room") {
-    const seats =
-      draft.seats.sitting !== null ||
-      draft.seats.standing !== null ||
-      draft.seats.wheelchair !== null
-        ? {
-            sitting: draft.seats.sitting,
-            standing: draft.seats.standing,
-            wheelchair: draft.seats.wheelchair,
-          }
-        : null;
-    const links = draft.room_links.filter((l) => l.url.trim());
-    return {
-      kind: "room",
-      parent_building_id: draft.parent_id,
-      alt_name: draft.alt_name,
-      arch_name: draft.arch_name,
-      usage_id: draft.usage_id as number,
-      coords,
-      seats,
-      floor_type: draft.floor_type || null,
-      floor_level: draft.floor_level || null,
-      // Address omitted on purpose: the server inherits it from the parent building.
-      address: null,
-      links: links.length > 0 ? links : undefined,
-    } as components["schemas"]["LimitedHashMap_String_Addition"][string];
-  }
-  if (draft.kind === "building") {
-    if (!draft.node_kind) return null;
-    return {
-      kind: "building",
-      parent_id: draft.parent_id,
-      name: draft.name,
-      short_name: draft.short_name || null,
-      node_kind: draft.node_kind,
-      building_prefixes: [...draft.building_prefixes],
-      internal_id: draft.internal_id || null,
-      visible_id: draft.visible_id || null,
-      coords,
-    } as components["schemas"]["LimitedHashMap_String_Addition"][string];
-  }
-  if (draft.kind === "poi") {
-    const links = draft.poi_links
-      .filter((l) => l.url.trim())
-      .map((l) => ({ url: l.url, text: { de: l.text_de, en: l.text_en } }));
-    const generic_props = draft.generic_props
-      .filter((p) => p.name_de.trim() || p.name_en.trim() || p.text.trim())
-      .map((p) => ({ name: { de: p.name_de, en: p.name_en }, text: p.text }));
-    const comment =
-      draft.comment_de.trim() || draft.comment_en.trim()
-        ? { de: draft.comment_de, en: draft.comment_en }
-        : null;
-    return {
-      kind: "poi",
-      parent: draft.parent_id,
-      name: draft.name,
-      usage_name: draft.usage_name,
-      coords,
-      comment,
-      links: links.length > 0 ? links : undefined,
-      generic_props: generic_props.length > 0 ? generic_props : undefined,
-    } as components["schemas"]["LimitedHashMap_String_Addition"][string];
-  }
-  return null;
+function displayNameOf(draft: AdditionDraft): string {
+  if (draft.kind === null) return "";
+  if (draft.kind === "room") return draft.alt_name;
+  return draft.name;
 }
 
 function commitDraft(): { id: string; displayName: string } | null {
   localError.value = "";
-  const id = editProposal.value.pendingAddition.id.trim();
+  const draft = editProposal.value.pendingAddition;
+  const id = draft.id.trim();
   if (!id) {
     localError.value = t("error.id_required");
     return null;
@@ -249,16 +255,15 @@ function commitDraft(): { id: string; displayName: string } | null {
     localError.value = t("error.id_exists_on_server");
     return null;
   }
-  const addition = buildAddition();
+  const addition = buildAddition(draft);
   if (!addition) {
     localError.value = t("error.incomplete");
     return null;
   }
-  const draft = editProposal.value.pendingAddition;
-  // Best display name we have for the just-added entry, used by the image-upload flow.
-  const displayName = (draft.kind === "room" ? draft.alt_name : draft.name) || id;
-  // The OpenAPI types are readonly; round-trip through JSON to land on a mutable structural
-  // clone matching the LimitedHashMap value type expected by `data.additions`.
+  // Best display name we have for the freshly added entry, used by the image upload flow.
+  const displayName = displayNameOf(draft) || id;
+  // The OpenAPI types are readonly.
+  // Round trip through JSON to land on a mutable clone matching the LimitedHashMap value type.
   editProposal.value.data.additions[id] = JSON.parse(JSON.stringify(addition));
   editProposal.value.pendingAddition = emptyAdditionDraft();
   return { id, displayName };
@@ -266,7 +271,8 @@ function commitDraft(): { id: string; displayName: string } | null {
 
 function commitAddition() {
   if (!commitDraft()) return;
-  // Hand back to the Propose Changes modal - submission/privacy/send live there.
+  // Hand back to the Propose Changes modal.
+  // Submission, privacy, and send all live there.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
 }
@@ -274,8 +280,9 @@ function commitAddition() {
 function commitAndAddImage() {
   const result = commitDraft();
   if (!result) return;
-  // Point the existing image-upload flow at the just-added entry. The server applies additions
-  // before edits in a single request, so an image edit keyed by this id resolves correctly.
+  // Point the existing image upload flow at the freshly added entry.
+  // The server applies additions before edits in a single request.
+  // So an image edit keyed by this id resolves correctly.
   editProposal.value.selected = { id: result.id, name: result.displayName };
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
@@ -297,9 +304,9 @@ async function editExistingEntry() {
   editProposal.value.selected = { id, name: null };
   // Open the edit modal once we land on the entry's detail page.
   editProposal.value.open = true;
-  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly
-  // instead of bouncing through the /view/{id} redirect. On any failure (network, unknown type),
-  // fall back to /view/{id}, which the server redirects to the canonical path.
+  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly.
+  // Otherwise we bounce through the /view/{id} redirect.
+  // On any failure we fall back to /view/{id}, which the server redirects to the canonical path.
   let target = `/view/${id}`;
   try {
     const res = await fetch(
@@ -319,8 +326,9 @@ async function editExistingEntry() {
 }
 provide("addProposal:editExistingEntry", editExistingEntry);
 
-// Coordinate model for the inline picker. Centred on TUM main campus until the user picks a parent
-// (then the map recenters on the parent) or moves the marker themselves.
+// Coordinate model for the inline picker.
+// Centred on TUM main campus until the user picks a parent or moves the marker themselves.
+// Picking a parent recenters the map on the parent's coords.
 const mapInitialLat = ref(48.149);
 const mapInitialLon = ref(11.568);
 
@@ -350,8 +358,8 @@ const mapLon = computed({
   },
 });
 
-// Share id-validation state with per-kind sub-components (e.g. AddBuildingFields renders the id
-// input itself inside its Identifiers fieldset).
+// Share id validation state with per kind sub components.
+// AddBuildingFields, for example, renders the id input itself inside its Identifiers fieldset.
 provide("addProposal:idValidation", {
   pending: idCheckPending,
   collides: idCollidesOnServer,
@@ -383,7 +391,7 @@ watch(
                 'focus:outline-none focus:ring-2 transition-all',
                 kindIndex === kindOptions.indexOf(opt) ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
               ]"
-              @click="editProposal.pendingAddition.kind = opt.value"
+              @click="pickKind(opt.value)"
             >
               <div class="flex items-center justify-center gap-2">
                 <MdiIcon :path="opt.icon" :size="16" />
@@ -395,26 +403,27 @@ watch(
       </TabGroup>
 
       <template v-if="editProposal.pendingAddition.kind">
-        <div>
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("parent_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <EntryPicker
-            v-model:selected-id="editProposal.pendingAddition.parent_id"
-            v-model:selected-name="editProposal.pendingAddition.parent_name"
+            v-model:selected-id="parentId"
+            v-model:selected-name="parentName"
             :allowed-types="allowedParentTypes"
             :placeholder="t('parent_placeholder')"
           />
         </div>
 
-        <!-- Room name comes between parent and id so the user works top-down: where → what's it called → its id. -->
+        <!-- Room name sits between parent and id so the user works top down. -->
+        <!-- The flow reads as where, then what's it called, then its id. -->
         <div v-if="editProposal.pendingAddition.kind === 'room'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-room-alt-name">
             {{ t("alt_name") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
           <input
             id="add-room-alt-name"
-            v-model="editProposal.pendingAddition.alt_name"
+            v-model="roomAltName"
             type="text"
             class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
           />
@@ -425,8 +434,9 @@ watch(
           </I18nT>
         </div>
 
-        <!-- For buildings the id input lives inside the Identifiers fieldset of AddBuildingFields. -->
-        <div v-if="editProposal.pendingAddition.kind !== 'building'">
+        <!-- Buildings render the id input inside AddBuildingFields. -->
+        <!-- Events derive their id from the image. -->
+        <div v-if="editProposal.pendingAddition.kind !== 'building' && editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-id">
             {{ t("id_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -495,8 +505,9 @@ watch(
         <AddRoomFields v-if="editProposal.pendingAddition.kind === 'room'" />
         <AddBuildingFields v-if="editProposal.pendingAddition.kind === 'building'" />
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
+        <AddEventFields v-if="editProposal.pendingAddition.kind === 'event'" />
 
-        <div>
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("coords_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>
@@ -505,6 +516,7 @@ watch(
             v-model:lon="mapLon"
             :initial-lat="mapInitialLat"
             :initial-lon="mapInitialLon"
+            :awaiting-selection="!editProposal.pendingAddition.coords.picked"
           />
           <p v-if="editProposal.pendingAddition.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
             {{ editProposal.pendingAddition.coords.lat.toFixed(5) }},
@@ -516,7 +528,7 @@ watch(
 
     <div class="float-right mt-6 flex flex-row-reverse gap-2">
       <Btn variant="primary" size="md" :disabled="!draftIsReady" @click="commitAddition">{{ t("commit") }}</Btn>
-      <Btn variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
+      <Btn v-if="editProposal.pendingAddition.kind !== 'event'" variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
       <Btn variant="linkButton" size="md" @click="cancelAddition">{{ t("cancel") }}</Btn>
     </div>
   </Modal>
@@ -532,6 +544,7 @@ de:
     room: Raum
     building: Gebäude
     poi: POI
+    event: Veranstaltung
   id_label: ID
   id_hint:
     room_segments: "Setzt sich aus übergeordnetem Gebäude, Stockwerk und Raumnummer zusammen."
@@ -564,6 +577,7 @@ en:
     room: Room
     building: Building
     poi: POI
+    event: Event
   id_label: ID
   id_hint:
     room_segments: "Composed from the parent building, floor and room number."

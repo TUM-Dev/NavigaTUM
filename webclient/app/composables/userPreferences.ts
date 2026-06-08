@@ -16,11 +16,8 @@ const defaultPreferences: UserRoutingPreferences = {
 };
 
 export const useUserPreferences = () => {
-  // No `default` factory: that would make `useCookie` write the default back during SSR, and on
-  // `swr`-cached routes (see `routeRules` in `nuxt.config.ts`) that bakes a per-user `Set-Cookie`
-  // into the shared response - leaking values across visitors and crashing Nitro with "Cannot
-  // append headers after they are sent to the client". The defaults are merged in app code instead,
-  // so the server only ever reads this cookie and the client is the sole writer.
+  // A `default` factory would write the default back during SSR, baking a per-user `Set-Cookie`
+  // into `swr`-cached shared responses (see PR #3147). Merge defaults client-side instead.
   const stored = useCookie<Partial<UserRoutingPreferences> | null>("user-routing-preferences", {
     sameSite: "lax",
     secure: import.meta.env.PROD,

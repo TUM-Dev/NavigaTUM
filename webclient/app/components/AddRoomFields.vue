@@ -8,6 +8,7 @@ import {
 } from "@headlessui/vue";
 import { mdiCheck, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import type { components } from "~/api_types";
+import type { RoomDraft } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type UsageOption, useKnownUsages } from "~/composables/knownUsages";
 
@@ -27,15 +28,19 @@ const floorTypeOptions: readonly FloorType[] = [
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 
+// The parent only mounts this component when `kind === "room"`, so the narrowing cast is safe
+// and saves every binding from re-checking the discriminant.
+const draft = computed(() => editProposal.value.pendingAddition as RoomDraft);
+
 const knownUsages = useKnownUsages();
 
 const usageQuery = ref("");
 const filteredUsages = computed<UsageOption[]>(() => knownUsages.filter(usageQuery.value));
 
 const selectedUsage = computed<UsageOption | null>({
-  get: () => knownUsages.byId(editProposal.value.pendingAddition.usage_id),
+  get: () => knownUsages.byId(draft.value.usage_id),
   set: (u) => {
-    editProposal.value.pendingAddition.usage_id = u?.usage_id ?? null;
+    draft.value.usage_id = u?.usage_id ?? null;
   },
 });
 </script>
@@ -48,7 +53,7 @@ const selectedUsage = computed<UsageOption | null>({
       </label>
       <input
         id="add-room-arch-name"
-        v-model="editProposal.pendingAddition.arch_name"
+        v-model="draft.arch_name"
         type="text"
         placeholder="003@5510"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -120,7 +125,7 @@ const selectedUsage = computed<UsageOption | null>({
               <label class="text-zinc-500 dark:text-zinc-400 block text-xs" for="add-room-floor-type">{{ t("floor.type") }}</label>
               <select
                 id="add-room-floor-type"
-                v-model="editProposal.pendingAddition.floor_type"
+                v-model="draft.floor_type"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
               >
                 <option value="">-</option>
@@ -131,7 +136,7 @@ const selectedUsage = computed<UsageOption | null>({
               <label class="text-zinc-500 dark:text-zinc-400 block text-xs" for="add-room-floor-level">{{ t("floor.level") }}</label>
               <input
                 id="add-room-floor-level"
-                v-model="editProposal.pendingAddition.floor_level"
+                v-model="draft.floor_level"
                 type="text"
                 placeholder="EG, 01, U1, …"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -147,7 +152,7 @@ const selectedUsage = computed<UsageOption | null>({
               <label class="text-zinc-500 dark:text-zinc-400 block text-xs" for="add-room-seats-sit">{{ t("seats_sitting") }}</label>
               <input
                 id="add-room-seats-sit"
-                v-model.number="editProposal.pendingAddition.seats.sitting"
+                v-model.number="draft.seats.sitting"
                 type="number"
                 min="0"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -157,7 +162,7 @@ const selectedUsage = computed<UsageOption | null>({
               <label class="text-zinc-500 dark:text-zinc-400 block text-xs" for="add-room-seats-stand">{{ t("seats_standing") }}</label>
               <input
                 id="add-room-seats-stand"
-                v-model.number="editProposal.pendingAddition.seats.standing"
+                v-model.number="draft.seats.standing"
                 type="number"
                 min="0"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -167,7 +172,7 @@ const selectedUsage = computed<UsageOption | null>({
               <label class="text-zinc-500 dark:text-zinc-400 block text-xs" for="add-room-seats-wheel">{{ t("seats_wheelchair") }}</label>
               <input
                 id="add-room-seats-wheel"
-                v-model.number="editProposal.pendingAddition.seats.wheelchair"
+                v-model.number="draft.seats.wheelchair"
                 type="number"
                 min="0"
                 class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
@@ -178,7 +183,7 @@ const selectedUsage = computed<UsageOption | null>({
 
         <div>
           <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("links") }}</span>
-          <LinkRowEditor v-model="editProposal.pendingAddition.room_links" />
+          <LinkRowEditor v-model="draft.room_links" />
         </div>
       </div>
     </details>

@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { mdiClose, mdiPlus } from "@mdi/js";
+import type { PoiDraft } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 
+// The parent only mounts this component when `kind === "poi"`, so the narrowing cast is safe
+// and saves every binding from re-checking the discriminant.
+const draft = computed(() => editProposal.value.pendingAddition as PoiDraft);
+
 function addProp() {
-  editProposal.value.pendingAddition.generic_props.push({ name_de: "", name_en: "", text: "" });
+  draft.value.generic_props.push({ name_de: "", name_en: "", text: "" });
 }
 function removeProp(idx: number) {
-  editProposal.value.pendingAddition.generic_props.splice(idx, 1);
+  draft.value.generic_props.splice(idx, 1);
 }
 </script>
 
@@ -21,7 +26,7 @@ function removeProp(idx: number) {
       </label>
       <input
         id="add-poi-name"
-        v-model="editProposal.pendingAddition.name"
+        v-model="draft.name"
         type="text"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
       />
@@ -33,7 +38,7 @@ function removeProp(idx: number) {
       </label>
       <input
         id="add-poi-usage"
-        v-model="editProposal.pendingAddition.usage_name"
+        v-model="draft.usage_name"
         type="text"
         class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
       />
@@ -51,13 +56,13 @@ function removeProp(idx: number) {
           <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("comment") }}</span>
           <div class="space-y-2">
             <textarea
-              v-model="editProposal.pendingAddition.comment_de"
+              v-model="draft.comment_de"
               :placeholder="t('comment_de')"
               rows="2"
               class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full resize-y rounded border px-2 py-1 text-sm"
             />
             <textarea
-              v-model="editProposal.pendingAddition.comment_en"
+              v-model="draft.comment_en"
               :placeholder="t('comment_en')"
               rows="2"
               class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full resize-y rounded border px-2 py-1 text-sm"
@@ -67,13 +72,13 @@ function removeProp(idx: number) {
 
         <div>
           <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("links") }}</span>
-          <LinkRowEditor v-model="editProposal.pendingAddition.poi_links" />
+          <LinkRowEditor v-model="draft.poi_links" />
         </div>
 
         <div>
           <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("generic_props") }}</span>
           <p class="text-zinc-500 dark:text-zinc-400 mb-2 text-xs">{{ t("generic_props_help") }}</p>
-          <div v-for="(prop, idx) in editProposal.pendingAddition.generic_props" :key="idx" class="mb-2 flex items-start gap-2">
+          <div v-for="(prop, idx) in draft.generic_props" :key="idx" class="mb-2 flex items-start gap-2">
             <div class="flex-grow space-y-1">
               <div class="grid grid-cols-2 gap-1">
                 <input

@@ -11,6 +11,8 @@ from external.schemas.opening_hours import OpeningHoursSchema
 from processors.df_utils import unflatten_row
 from processors.opening_hours import merge_opening_hours
 from processors.semester_block_expander import Semester, contains_macro
+from processors.studierendenwerk import mensa_opening_hours
+from processors.ub_tum import ub_tum_opening_hours
 
 # A single fixed semester keeps the macro-expansion tests independent of the committed CSV.
 _SEMESTER = Semester("2025S", date(2025, 4, 1), date(2025, 4, 22), date(2025, 8, 2), date(2025, 9, 30))
@@ -125,14 +127,19 @@ def test_merge_raises_when_macros_cannot_be_expanded() -> None:
 
 def test_committed_schedules_expand_to_valid_plain_osm() -> None:
     """
-    Assert every committed schedule expands to macro-free OSM that parses.
+    Assert every shipped schedule expands to macro-free OSM that parses.
 
-    Expanded against the committed semester list, this is the only place the pipeline
-    output is checked as valid OSM (the compile run itself carries no parser).
+    Concatenates the same hand-authored / mensa / UB-TUM sources as `compile.py`, so
+    this is the single guard that everything reaching `opening_hours_json` is valid
+    plain OSM (the compile run itself carries no parser).
     """
-    entries = pl.DataFrame({"id": list(load_opening_hours()["id"]), "type": "building"})
+    schedules = pl.concat(
+        [load_opening_hours(), mensa_opening_hours(), ub_tum_opening_hours()],
+        how="vertical",
+    ).unique(subset="id", keep="first", maintain_order=True)
+    entries = pl.DataFrame({"id": list(schedules["id"]), "type": ["building"] * schedules.height})
     semesters = [Semester.from_row(row) for row in load_semester().iter_rows(named=True)]
-    df = merge_opening_hours(entries, semesters=semesters)
+    df = merge_opening_hours(entries, schedules=schedules, semesters=semesters)
 
     payloads = [orjson.loads(value) for value in df["opening_hours_json"] if value is not None]
     assert payloads, "expected at least one committed schedule"
