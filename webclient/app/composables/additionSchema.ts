@@ -1,9 +1,5 @@
-// Discriminated-union draft model for the addition-proposal form. Each variant owns only the
-// fields it needs; the per-kind empty(), schema, and build() live next to each other and are
-// reached through `additionRegistry`. Adding a fifth kind means appending one new variant block
-// and one registry entry - no scattered switches elsewhere.
-//
-// The Zod schemas mirror the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
+// Mirrors the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
+// Adding a kind means appending one variant block and one `additionRegistry` row.
 
 import { z } from "zod";
 import type { components } from "~/api_types";
@@ -25,7 +21,6 @@ const POI_KEY_RE = /^[a-z0-9][a-z0-9_-]*$/;
 const EVENT_KEY_RE = /^event_[0-9a-f]{1,64}$/;
 const BUILDING_PREFIX_RE = /^\d{4}$/;
 
-// Shared sub-shapes.
 const coordsSchema = z.object({
   lat: z.number(),
   lon: z.number(),
@@ -59,8 +54,6 @@ export const buildingPrefixSchema = z
   .string()
   .refine((p) => BUILDING_PREFIX_RE.test(p), "error.building_prefix_format");
 
-// === Shared draft sub-shapes ===
-
 export interface LinkDraft {
   text_de: string;
   text_en: string;
@@ -79,8 +72,7 @@ export interface CoordsDraft {
   picked: boolean;
 }
 
-// `id` and `coords` are present on every variant - including the unset state - so the modal's
-// top-level computeds can read them without per-kind narrowing.
+// `id` and `coords` live on every variant so the modal can read them without narrowing.
 interface DraftBase {
   id: string;
   coords: CoordsDraft;
@@ -90,13 +82,9 @@ function freshCoords(): CoordsDraft {
   return { lat: 0, lon: 0, picked: false };
 }
 
-// === Unset state (no kind picked yet) ===
-
 export interface NoKindDraft extends DraftBase {
   kind: null;
 }
-
-// === Variant: room ===
 
 export interface RoomDraft extends DraftBase {
   kind: "room";
@@ -148,7 +136,8 @@ function buildRoom(draft: RoomDraft): Addition {
         }
       : null;
   const links = draft.room_links.filter((l) => l.url.trim());
-  // The schema guarantees `usage_id` is set; the cast keeps the build signature non-nullable.
+  // The schema guarantees `usage_id` is set.
+  // Cast keeps the build signature non-nullable.
   return {
     kind: "room",
     parent_building_id: draft.parent_id,
@@ -159,13 +148,12 @@ function buildRoom(draft: RoomDraft): Addition {
     seats,
     floor_type: draft.floor_type || null,
     floor_level: draft.floor_level || null,
-    // Address omitted on purpose: the server inherits it from the parent building.
+    // Address is omitted on purpose.
+    // The server inherits it from the parent building.
     address: null,
     links: links.length > 0 ? links : undefined,
   } as Addition;
 }
-
-// === Variant: building ===
 
 export interface BuildingDraft extends DraftBase {
   kind: "building";
@@ -240,8 +228,6 @@ function buildBuilding(draft: BuildingDraft): Addition {
   } as Addition;
 }
 
-// === Variant: POI ===
-
 export interface PoiDraft extends DraftBase {
   kind: "poi";
   parent_id: string;
@@ -301,8 +287,6 @@ function buildPoi(draft: PoiDraft): Addition {
     generic_props: generic_props.length > 0 ? generic_props : undefined,
   } as Addition;
 }
-
-// === Variant: event ===
 
 export interface EventDraft extends DraftBase {
   kind: "event";
@@ -428,8 +412,6 @@ function buildEvent(draft: EventDraft): Addition {
   } as Addition;
 }
 
-// === Discriminated union and registry ===
-
 export type AdditionKind = "room" | "building" | "poi" | "event";
 export type AdditionDraft = NoKindDraft | RoomDraft | BuildingDraft | PoiDraft | EventDraft;
 
@@ -439,8 +421,6 @@ interface AdditionRegistryEntry<K extends AdditionKind> {
   build(draft: Extract<AdditionDraft, { kind: K }>): Addition;
 }
 
-// One row per kind: the empty seed, the Zod schema, and the per-variant build. Adding a fifth
-// kind means appending one variant block above and one row here.
 export const additionRegistry: { readonly [K in AdditionKind]: AdditionRegistryEntry<K> } = {
   room: { empty: emptyRoom, schema: roomSchema, build: buildRoom },
   building: { empty: emptyBuilding, schema: buildingSchema, build: buildBuilding },
@@ -473,7 +453,7 @@ export function isAdditionValid(draft: AdditionDraft): boolean {
 
 export function buildAddition(draft: AdditionDraft): Addition | null {
   if (draft.kind === null) return null;
-  // The cast bridges the two correlated unions (`draft` and the registry entry): TS can't see
-  // that the kind discriminant lines them up, but the registry's per-K typing guarantees it.
+  // TS can't see that `draft` and the registry entry share their kind discriminant.
+  // The registry's per-kind typing guarantees the cast is sound.
   return (additionRegistry[draft.kind].build as (d: AdditionDraft) => Addition)(draft);
 }

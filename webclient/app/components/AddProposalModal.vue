@@ -37,9 +37,8 @@ const kindIndex = computed(() => {
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
 
-// Switching the kind tab swaps the whole draft for the new variant's empty(), so each variant
-// carries only its own fields. Coords (and parent, when both variants have one) are carried
-// across so the user doesn't lose state they already picked.
+// Switching the tab swaps the whole draft for the new variant's empty seed.
+// Coords and parent carry across so the user doesn't lose state they already picked.
 function pickKind(k: AdditionKind) {
   const previous = editProposal.value.pendingAddition;
   if (previous.kind === k) return;
@@ -52,8 +51,9 @@ function pickKind(k: AdditionKind) {
   editProposal.value.pendingAddition = fresh;
 }
 
-// Verify the id against /api/locations/{id}; 200 means collision, 404 means free. Event ids are
-// content-hashed locally and cannot collide with existing entries, so the check is suppressed.
+// Verify the id against /api/locations/{id}.
+// 200 means collision, 404 means free.
+// Event ids are content hashed locally and cannot collide, so the check is suppressed for them.
 const trimmedId = computed(() => editProposal.value.pendingAddition.id.trim());
 const debouncedId = refDebounced(trimmedId, 350);
 const fetchingId = ref(false);
@@ -67,8 +67,8 @@ watch(
       return;
     }
     const controller = new AbortController();
-    // `onCleanup` aborts the prior fetch the instant the watched inputs change again, so a slow
-    // response can never settle stale state. Replaces the manual counter the old code used.
+    // `onCleanup` aborts the prior fetch the instant the watched inputs change again.
+    // A slow response can never settle stale state.
     onCleanup(() => controller.abort());
     fetchingId.value = true;
     try {
@@ -78,14 +78,15 @@ watch(
       );
       idCollidesOnServer.value = res.ok;
     } catch {
-      // Network failure or abort: don't block. The server re-validates on submit.
+      // Network failure or abort: don't block.
+      // The server re-validates on submit.
     } finally {
       fetchingId.value = false;
     }
   }
 );
-// Pending while either the debounce hasn't caught up to the latest keystroke or a fetch is in
-// flight - both transient states map to "checking…" in the UI.
+// Pending while the debounce hasn't caught up to the latest keystroke, or a fetch is in flight.
+// Both transient states map to "checking…" in the UI.
 const idCheckPending = computed(() => {
   const id = trimmedId.value;
   if (!id || editProposal.value.pendingAddition.kind === "event") return false;
@@ -95,15 +96,15 @@ const idCheckPending = computed(() => {
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;
   if (kind === "room") return ["building"];
-  // POIs may live inside a site/area or directly inside a building (e.g. a cafeteria);
-  // buildings are parented under sites/areas only.
+  // POIs may live inside a site, area, or directly inside a building like a cafeteria.
+  // Buildings are parented under sites or areas only.
   if (kind === "poi") return ["site", "building"];
   return ["site"];
 });
 
-// Writable computeds bridge kind-specific fields to the template so v-models don't have to
-// narrow the discriminated union themselves. The setters are inert when the current variant
-// doesn't carry the field; the matching UI block is hidden in that case.
+// Writable computeds let v-models bind to per-kind fields without narrowing in the template.
+// Setters are inert on variants that don't carry the field.
+// The matching UI block is hidden in that case.
 const parentId = computed({
   get: () => {
     const a = editProposal.value.pendingAddition;
@@ -135,8 +136,8 @@ const roomAltName = computed({
   },
 });
 
-// When the user picks a parent, fetch its details so we can pre-fill the map centre + auto-mark
-// coords as ready (saving a click; the user can still drag to refine).
+// When the user picks a parent, fetch its details to pre-fill the map centre.
+// We auto-mark coords as ready so the user saves a click and can still drag to refine.
 const parentLookupUrl = computed(() => {
   const pid = parentId.value;
   return pid ? `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(pid)}` : "";
@@ -163,8 +164,9 @@ const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.va
   watch: [parentId],
 });
 
-// The room-code prefix isn't always the entry id (joined buildings have textual ids like `mi`,
-// while their TUMonline code is e.g. `5510`). Pick the first 4-digit alias as the prefix.
+// The room code prefix isn't always the entry id.
+// Joined buildings have textual ids like `mi`, while their TUMonline code is e.g. `5510`.
+// Pick the first 4 digit alias as the prefix.
 const roomParentPrefix = computed(() => {
   const a = editProposal.value.pendingAddition;
   if (a.kind !== "room") return "";
@@ -176,7 +178,7 @@ const roomParentPrefix = computed(() => {
   return numeric ?? pid;
 });
 
-// Floors known on the parent - what the TUMonline room-code uses for the floor segment.
+// Floors known on the parent, used by the TUMonline room code as its floor segment.
 interface ParentFloorOption {
   tumonline: string;
   label: string;
@@ -188,9 +190,9 @@ const parentFloorOptions = computed<ParentFloorOption[]>(() => {
     .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
-// Room IDs follow PARENT.FLOOR.NUMBER. The parent segment is auto-filled and disabled so users
-// can't desync it from the chosen parent; floor and number flow through the Zod schema like any
-// other field once we compose the id.
+// Room ids follow PARENT.FLOOR.NUMBER.
+// The parent segment is auto filled and disabled so users can't desync it from the chosen parent.
+// Floor and number flow through the Zod schema like any other field once we compose the id.
 const roomFloorSegment = ref("");
 const roomNumberSegment = ref("");
 const composedRoomId = computed(() => {
@@ -205,8 +207,8 @@ watch([composedRoomId, () => editProposal.value.pendingAddition.kind], ([id, kin
   if (editProposal.value.pendingAddition.id === id) return;
   editProposal.value.pendingAddition.id = id;
 });
-// Reset the local segment refs when the kind changes or the draft id is cleared (commit/cancel
-// replace `pendingAddition` with `emptyAdditionDraft()`).
+// Reset the local segment refs when the kind changes or the draft id is cleared.
+// Commit and cancel both replace `pendingAddition` with `emptyAdditionDraft()`.
 watch(
   [() => editProposal.value.pendingAddition.kind, () => editProposal.value.pendingAddition.id],
   ([kind, id]) => {
@@ -258,10 +260,10 @@ function commitDraft(): { id: string; displayName: string } | null {
     localError.value = t("error.incomplete");
     return null;
   }
-  // Best display name we have for the just-added entry, used by the image-upload flow.
+  // Best display name we have for the freshly added entry, used by the image upload flow.
   const displayName = displayNameOf(draft) || id;
-  // The OpenAPI types are readonly; round-trip through JSON to land on a mutable structural
-  // clone matching the LimitedHashMap value type expected by `data.additions`.
+  // The OpenAPI types are readonly.
+  // Round trip through JSON to land on a mutable clone matching the LimitedHashMap value type.
   editProposal.value.data.additions[id] = JSON.parse(JSON.stringify(addition));
   editProposal.value.pendingAddition = emptyAdditionDraft();
   return { id, displayName };
@@ -269,7 +271,8 @@ function commitDraft(): { id: string; displayName: string } | null {
 
 function commitAddition() {
   if (!commitDraft()) return;
-  // Hand back to the Propose Changes modal - submission/privacy/send live there.
+  // Hand back to the Propose Changes modal.
+  // Submission, privacy, and send all live there.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
 }
@@ -277,8 +280,9 @@ function commitAddition() {
 function commitAndAddImage() {
   const result = commitDraft();
   if (!result) return;
-  // Point the existing image-upload flow at the just-added entry. The server applies additions
-  // before edits in a single request, so an image edit keyed by this id resolves correctly.
+  // Point the existing image upload flow at the freshly added entry.
+  // The server applies additions before edits in a single request.
+  // So an image edit keyed by this id resolves correctly.
   editProposal.value.selected = { id: result.id, name: result.displayName };
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
@@ -300,9 +304,9 @@ async function editExistingEntry() {
   editProposal.value.selected = { id, name: null };
   // Open the edit modal once we land on the entry's detail page.
   editProposal.value.open = true;
-  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly
-  // instead of bouncing through the /view/{id} redirect. On any failure (network, unknown type),
-  // fall back to /view/{id}, which the server redirects to the canonical path.
+  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly.
+  // Otherwise we bounce through the /view/{id} redirect.
+  // On any failure we fall back to /view/{id}, which the server redirects to the canonical path.
   let target = `/view/${id}`;
   try {
     const res = await fetch(
@@ -322,8 +326,9 @@ async function editExistingEntry() {
 }
 provide("addProposal:editExistingEntry", editExistingEntry);
 
-// Coordinate model for the inline picker. Centred on TUM main campus until the user picks a parent
-// (then the map recenters on the parent) or moves the marker themselves.
+// Coordinate model for the inline picker.
+// Centred on TUM main campus until the user picks a parent or moves the marker themselves.
+// Picking a parent recenters the map on the parent's coords.
 const mapInitialLat = ref(48.149);
 const mapInitialLon = ref(11.568);
 
@@ -353,8 +358,8 @@ const mapLon = computed({
   },
 });
 
-// Share id-validation state with per-kind sub-components (e.g. AddBuildingFields renders the id
-// input itself inside its Identifiers fieldset).
+// Share id validation state with per kind sub components.
+// AddBuildingFields, for example, renders the id input itself inside its Identifiers fieldset.
 provide("addProposal:idValidation", {
   pending: idCheckPending,
   collides: idCollidesOnServer,
@@ -410,7 +415,8 @@ watch(
           />
         </div>
 
-        <!-- Room name comes between parent and id so the user works top-down: where → what's it called → its id. -->
+        <!-- Room name sits between parent and id so the user works top down. -->
+        <!-- The flow reads as where, then what's it called, then its id. -->
         <div v-if="editProposal.pendingAddition.kind === 'room'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-room-alt-name">
             {{ t("alt_name") }} <span class="text-red-700 dark:text-red-200">*</span>
@@ -428,7 +434,8 @@ watch(
           </I18nT>
         </div>
 
-        <!-- Buildings render the id input inside AddBuildingFields; events derive it from the image. -->
+        <!-- Buildings render the id input inside AddBuildingFields. -->
+        <!-- Events derive their id from the image. -->
         <div v-if="editProposal.pendingAddition.kind !== 'building' && editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-id">
             {{ t("id_label") }} <span class="text-red-700 dark:text-red-200">*</span>

@@ -1,7 +1,3 @@
-// Per-variant coverage for the addition-proposal registry. Each kind walks the
-// empty -> validate -> build path: the empty seed must be rejected, a known-good draft must
-// pass and produce the expected payload, and the obvious failing fields keep their messages.
-
 import { describe, expect, it } from "vitest";
 import {
   type AdditionDraft,
@@ -67,8 +63,8 @@ describe("emptyAdditionDraft", () => {
   it("treats the kind-less draft as not valid but produces no field errors", () => {
     const draft: AdditionDraft = emptyAdditionDraft();
     expect(isAdditionValid(draft)).toBe(false);
-    // No kind means no schema to surface field-level errors against - the UI gates this state
-    // with the kind-picker, not with an inline error.
+    // No kind means no schema to surface field errors against.
+    // The UI gates this state with the kind picker, not with an inline error.
     expect(validateAddition(draft)).toEqual({});
     expect(buildAddition(draft)).toBeNull();
   });
