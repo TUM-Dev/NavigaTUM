@@ -90,9 +90,13 @@ const suggestEdit = () => {
     floor: floorIds[0] ?? null,
   };
 
-  const fields = emptyPropertyFields();
-  editProposal.value.propertyFields = { ...fields, name: props.data.name };
-  editProposal.value.originalPropertyFields = { ...fields, name: props.data.name };
+  // Start the name field empty rather than pre-filling `props.data.name`: that
+  // is the decorated display name (`{id} ({name})`), not a curated name, so
+  // pre-filling it would launder the generated string back into names.csv on
+  // save. The current display name is offered as a read-only placeholder for
+  // context, and a name edit is only sent once the user actually types one.
+  editProposal.value.propertyFields = emptyPropertyFields();
+  editProposal.value.originalPropertyFields = emptyPropertyFields();
 
   editProposal.value.open = true;
 };

@@ -2,6 +2,29 @@ use std::fs::{self, File};
 use std::io::{self, BufWriter, Write};
 use std::path::Path;
 
+/// A single column's value in an upsert.
+pub(super) enum Field {
+    /// Overwrite the column with this value.
+    Set(String),
+    /// Keep the existing row's value, or empty when inserting a new row. This
+    /// lets an edit refresh only the columns it owns without clobbering a
+    /// curated sibling column it was never given a value for.
+    Keep,
+}
+
+/// Upsert a single row into a sorted-by-id CSV, keyed by its first column.
+///
+/// Full-overwrite variant: every column in `new_fields` is set. See
+/// [`apply_csv_upsert_fields`] for the per-column semantics shared by both.
+pub(super) fn apply_csv_upsert(
+    key: &str,
+    csv_file: &Path,
+    new_fields: &[String],
+) -> anyhow::Result<()> {
+    let fields: Vec<Field> = new_fields.iter().map(|f| Field::Set(f.clone())).collect();
+    apply_csv_upsert_fields(key, csv_file, &fields)
+}
+
 /// Upsert a single row into a sorted-by-id CSV, keyed by its first column.
 ///
 /// The file is rewritten with `new_fields` inserted (or replacing the existing
@@ -9,12 +32,13 @@ use std::path::Path;
 /// data pipeline keeps its source CSVs diff-friendly. `new_fields` only needs to
 /// cover the leading columns the edit owns; any trailing columns the schema
 /// defines are padded empty on insert and **preserved** from the existing row on
-/// update, so an edit can refresh part of a record without dropping curated
-/// optional fields.
-pub(super) fn apply_csv_upsert(
+/// update. A [`Field::Keep`] column is likewise preserved from the existing row,
+/// so an edit can refresh part of a record without dropping curated fields it
+/// did not mean to touch.
+pub(super) fn apply_csv_upsert_fields(
     key: &str,
     csv_file: &Path,
-    new_fields: &[String],
+    new_fields: &[Field],
 ) -> anyhow::Result<()> {
     let temp_file = csv_file.with_extension("tmp");
 
@@ -45,14 +69,8 @@ pub(super) fn apply_csv_upsert(
             let existing_key = record.get(0).unwrap_or("");
 
             if !wrote_edit && existing_key >= key {
-                let extras: Option<Vec<String>> = (existing_key == key).then(|| {
-                    record
-                        .iter()
-                        .skip(new_fields.len())
-                        .map(ToString::to_string)
-                        .collect()
-                });
-                write_padded_row(&mut writer, new_fields, col_count, extras.as_deref())?;
+                let existing = (existing_key == key).then_some(&record);
+                write_row(&mut writer, new_fields, col_count, existing)?;
                 wrote_edit = true;
                 if existing_key == key {
                     continue;
@@ -68,7 +86,7 @@ pub(super) fn apply_csv_upsert(
         }
 
         if !wrote_edit {
-            write_padded_row(&mut writer, new_fields, col_count, None)?;
+            write_row(&mut writer, new_fields, col_count, None)?;
         }
     }
 
@@ -76,25 +94,24 @@ pub(super) fn apply_csv_upsert(
     Ok(())
 }
 
-fn write_padded_row<W: Write>(
+fn write_row<W: Write>(
     writer: &mut W,
-    new_fields: &[String],
+    new_fields: &[Field],
     col_count: usize,
-    extras: Option<&[String]>,
+    existing: Option<&csv::StringRecord>,
 ) -> io::Result<()> {
-    let mut fields: Vec<String> = new_fields.iter().map(|f| csv_escape(f)).collect();
-    let known = new_fields.len();
-    if col_count > known {
-        let trailing = col_count - known;
-        if let Some(ex) = extras {
-            for i in 0..trailing {
-                fields.push(ex.get(i).map(|s| csv_escape(s)).unwrap_or_default());
-            }
-        } else {
-            for _ in 0..trailing {
-                fields.push(String::new());
-            }
-        }
+    let mut fields: Vec<String> = Vec::with_capacity(col_count);
+    for i in 0..col_count {
+        let value = match new_fields.get(i) {
+            Some(Field::Set(v)) => csv_escape(v),
+            // Columns the edit does not own (`Keep`, or beyond `new_fields`) keep
+            // the existing row's value, or are padded empty when inserting.
+            Some(Field::Keep) | None => existing
+                .and_then(|r| r.get(i))
+                .map(csv_escape)
+                .unwrap_or_default(),
+        };
+        fields.push(value);
     }
     writeln!(writer, "{}", fields.join(","))
 }

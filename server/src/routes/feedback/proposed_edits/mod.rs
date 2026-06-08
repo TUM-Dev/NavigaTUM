@@ -72,13 +72,13 @@ pub struct EditRequest {
 
 pub enum ApplyError {
     // Split out from `Other` so the handler can return a structured 422 with a per-key error
-    // list instead of a generic 500.
-    AdditionValidation(Vec<AdditionValidationFailure>),
+    // list instead of a generic 500. Covers both addition and property-edit validation.
+    Validation(Vec<ValidationFailure>),
     Other(anyhow::Error),
 }
 
 #[derive(Debug, serde::Serialize)]
-pub struct AdditionValidationFailure {
+pub struct ValidationFailure {
     pub key: String,
     pub error: String,
 }
@@ -110,15 +110,33 @@ impl EditRequest {
             let mut failures = Vec::new();
             for (key, addition) in &self.additions.0 {
                 if let Err(e) = addition.validate(key, &snap) {
-                    failures.push(AdditionValidationFailure {
+                    failures.push(ValidationFailure {
                         key: key.clone(),
                         error: e.to_string(),
                     });
                 }
             }
             if !failures.is_empty() {
-                return Err(ApplyError::AdditionValidation(failures));
+                return Err(ApplyError::Validation(failures));
             }
+        }
+
+        // Reject property edits whose name looks like a pipeline-generated display
+        // string before any writes, so a stale or third-party client cannot
+        // launder a `{id} (...)` value into the curated names.csv (#3181).
+        let mut property_failures = Vec::new();
+        for (key, edit) in &self.edits.0 {
+            for property in edit.properties.iter().flatten() {
+                if let Err(e) = property.validate(key) {
+                    property_failures.push(ValidationFailure {
+                        key: key.clone(),
+                        error: e.to_string(),
+                    });
+                }
+            }
+        }
+        if !property_failures.is_empty() {
+            return Err(ApplyError::Validation(property_failures));
         }
 
         let desc = worktree.apply_and_gen_description(self, branch_name)?;
@@ -386,8 +404,8 @@ pub async fn propose_edits(
                     .await
             }
         }
-        Err(ApplyError::AdditionValidation(failures)) => {
-            info!(?failures, "addition validation failed");
+        Err(ApplyError::Validation(failures)) => {
+            info!(?failures, "edit validation failed");
             HttpResponse::UnprocessableEntity()
                 .content_type("application/json")
                 .body(serde_json::to_string(&failures).unwrap_or_else(|_| "[]".to_string()))

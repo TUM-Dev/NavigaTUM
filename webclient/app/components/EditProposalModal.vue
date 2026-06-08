@@ -405,6 +405,7 @@ function getEditTypeDisplay(roomId: string): string {
                 id="edit-name"
                 v-model="editProposal.propertyFields.name"
                 type="text"
+                :placeholder="editProposal.selected.name ?? ''"
                 class="focusable input-field rounded border px-2 py-1 w-full text-sm"
               />
               <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_name_help") }}</p>
@@ -578,7 +579,7 @@ de:
   opening_hours_source_required: Bitte gib eine Quelle (URL) für die Öffnungszeiten an.
   opening_hours_invalid_range: Bitte korrigiere die ungültigen Zeiträume (Ende muss nach dem Anfang liegen).
   field_name: Name
-  field_name_help: Der vollständige Name, wie er auf der Detailseite angezeigt wird (z.B. „Hörsaal 1 Friedrich L. Bauer")
+  field_name_help: Nur der Name des Raums, ohne die Raumnummer (z.B. „Hörsaal 1 Friedrich L. Bauer"). Leer lassen, um den aktuellen Namen zu behalten.
   field_short_name: Kurzname
   field_short_name_help: Der Kurzname wird in Suchergebnissen angezeigt (z.B. „Hörsaal 1" oder „5602.EG.001")
   field_category: Kategorie
@@ -625,7 +626,7 @@ en:
   opening_hours_source_required: Please provide a source (URL) for the opening hours.
   opening_hours_invalid_range: Please fix the invalid time ranges (the end must be after the start).
   field_name: Name
-  field_name_help: The full name shown on the detail page (e.g. "Lecture Hall 1 Friedrich L. Bauer")
+  field_name_help: Only the room's name, without its room number (e.g. "Lecture Hall 1 Friedrich L. Bauer"). Leave empty to keep the current name.
   field_short_name: Short name
   field_short_name_help: The short name is shown in search results (e.g. "Lecture Hall 1" or "5602.EG.001")
   field_category: Category

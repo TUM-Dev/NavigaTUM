@@ -1,11 +1,20 @@
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::path::{Path, PathBuf};
+use std::sync::LazyLock;
 
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 
 use super::AppliableEdit;
-use super::csv_edit::apply_csv_upsert;
+use super::csv_edit::{Field, apply_csv_upsert, apply_csv_upsert_fields};
+
+/// The data pipeline renders entries without a curated name as `{id} ({type})`
+/// (e.g. `0507.01.767 (Besprechungsraum)`). A human name never starts with a
+/// room/building code followed by ` (`, so this pattern reliably flags a
+/// generated display name that leaked back through the edit form (#3181).
+static GENERATED_NAME_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^[0-9][0-9A-Za-z@.]*\s+\(").expect("valid static regex"));
 
 #[derive(Deserialize, Debug, Clone, utoipa::ToSchema)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -40,20 +49,56 @@ impl PropertyEdit {
     fn usages_csv_path(base_dir: &Path) -> PathBuf {
         base_dir.join("data").join("sources").join("usages.csv")
     }
+
+    /// Reject values that would launder a pipeline-generated display string back
+    /// into the curated source CSVs. Run before any writes so a stale or
+    /// third-party client cannot poison `names.csv` even though the webform no
+    /// longer pre-fills the editable name field with the decorated display name.
+    pub(super) fn validate(&self, key: &str) -> anyhow::Result<()> {
+        if let Self::Name {
+            name: Some(name), ..
+        } = self
+        {
+            let name = name.trim();
+            if name.starts_with(&format!("{key} (")) || GENERATED_NAME_RE.is_match(name) {
+                anyhow::bail!(
+                    "the name {name:?} looks like an auto-generated display name (`<id> (<type>)`), not a human-entered name; refusing to launder it into names.csv"
+                );
+            }
+        }
+        Ok(())
+    }
 }
 
 impl AppliableEdit for PropertyEdit {
     fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
         match self {
             Self::Name { name, short_name } => {
-                let name_val = name.as_deref().unwrap_or("");
-                let short_val = short_name.as_deref().unwrap_or("");
-                apply_csv_upsert(
+                // `None` (and a blank string) means "leave this column untouched"
+                // rather than "set it empty", so editing only the short name does
+                // not wipe a curated name, and vice versa.
+                let name = name.as_deref().map(str::trim).filter(|n| !n.is_empty());
+                let short_name = short_name.as_deref();
+                apply_csv_upsert_fields(
                     key,
                     &Self::names_csv_path(base_dir),
-                    &[key.to_string(), name_val.to_string(), short_val.to_string()],
+                    &[
+                        Field::Set(key.to_string()),
+                        name.map_or(Field::Keep, |n| Field::Set(n.to_string())),
+                        short_name.map_or(Field::Keep, |s| Field::Set(s.to_string())),
+                    ],
                 )?;
-                Ok(format!("name: `{name_val}`, short_name: `{short_val}`"))
+                let mut parts = Vec::new();
+                if let Some(name) = name {
+                    parts.push(format!("name: `{name}`"));
+                }
+                if let Some(short_name) = short_name {
+                    parts.push(format!("short_name: `{short_name}`"));
+                }
+                if parts.is_empty() {
+                    anyhow::bail!("a name property edit must change the name or the short name");
+                }
+                Ok(parts.join(", "))
             }
             Self::Usage {
                 name_de,
@@ -174,6 +219,91 @@ mod tests {
         beta,Beta,,
         zulu,Z,,
         ");
+    }
+
+    #[test]
+    fn test_short_name_only_edit_keeps_existing_name() {
+        // Regression for #3181: editing only the short name must not wipe the
+        // curated name (a `None` name means "leave untouched", not "set empty").
+        let (dir, sources_dir) = setup();
+        fs::write(
+            sources_dir.join("names.csv"),
+            format!("{NAMES_HEADER}\nalpha,Besprechungsraum,,1951\n"),
+        )
+        .unwrap();
+
+        let edit = PropertyEdit::Name {
+            name: None,
+            short_name: Some("BR".to_string()),
+        };
+        let desc = edit.apply("alpha", dir.path(), "branch").unwrap();
+        assert_snapshot!(desc, @"short_name: `BR`");
+        assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r"
+        id,name,short_name,arch_name
+        alpha,Besprechungsraum,BR,1951
+        ");
+    }
+
+    #[test]
+    fn test_name_only_edit_keeps_existing_short_name() {
+        let (dir, sources_dir) = setup();
+        fs::write(
+            sources_dir.join("names.csv"),
+            format!("{NAMES_HEADER}\nalpha,Old,SN,1951\n"),
+        )
+        .unwrap();
+
+        let edit = PropertyEdit::Name {
+            name: Some("New".to_string()),
+            short_name: None,
+        };
+        let desc = edit.apply("alpha", dir.path(), "branch").unwrap();
+        assert_snapshot!(desc, @"name: `New`");
+        assert_snapshot!(fs::read_to_string(sources_dir.join("names.csv")).unwrap(), @r"
+        id,name,short_name,arch_name
+        alpha,New,SN,1951
+        ");
+    }
+
+    #[test]
+    fn test_validate_rejects_generated_display_name() {
+        // The exact #3181 payload: the entry's own decorated display name.
+        let edit = PropertyEdit::Name {
+            name: Some("0507.01.767 (Besprechungsraum)".to_string()),
+            short_name: None,
+        };
+        let err = edit.validate("0507.01.767").unwrap_err();
+        assert!(err.to_string().contains("auto-generated display name"), "{err}");
+    }
+
+    #[test]
+    fn test_validate_rejects_mangled_id_prefix() {
+        // The user tweaked the id prefix the form offered them (767 -> 765); the
+        // result still looks like a generated `<id> (...)` string, not a name.
+        let edit = PropertyEdit::Name {
+            name: Some("0507.01.765 (Besprechungsraum)".to_string()),
+            short_name: None,
+        };
+        assert!(edit.validate("0507.01.767").is_err());
+    }
+
+    #[test]
+    fn test_validate_accepts_human_name() {
+        let edit = PropertyEdit::Name {
+            name: Some("Besprechungsraum Studentische Vertretung / SV".to_string()),
+            short_name: Some("SV".to_string()),
+        };
+        assert!(edit.validate("0206.EG.003").is_ok());
+    }
+
+    #[test]
+    fn test_validate_ignores_absent_name() {
+        // A short-name-only edit carries no name and must pass validation.
+        let edit = PropertyEdit::Name {
+            name: None,
+            short_name: Some("SV".to_string()),
+        };
+        assert!(edit.validate("0206.EG.003").is_ok());
     }
 
     #[test]
