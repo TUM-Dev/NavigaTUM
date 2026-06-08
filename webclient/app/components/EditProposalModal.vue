@@ -2,6 +2,15 @@
 import type { components } from "~/api_types";
 import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
+import {
+  buildOsmOpeningHours,
+  emptyWeekSchedule,
+  isValidTimeRange,
+  OPENING_HOURS_DAYS,
+  type WeekSchedule,
+} from "~/utils/openingHours";
+
+const HTTP_URL_RE = /^https?:\/\//;
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
@@ -23,16 +32,57 @@ function switchToFeedback() {
 }
 
 const propertiesModalOpen = ref(false);
-const openingHoursModalOpen = ref(false);
 
-function onOpeningHoursConfirmed(payload: { opening_hours: string; source_url: string }) {
+// Opening-hours edit lives inside the properties modal; its draft is committed
+// together with the other property edits on save.
+const openingHoursWeek = ref<WeekSchedule>(emptyWeekSchedule());
+const openingHoursSourceUrl = ref("");
+const openingHoursError = ref<"" | "source" | "range">("");
+
+function resetOpeningHoursDraft() {
+  openingHoursWeek.value = emptyWeekSchedule();
+  openingHoursSourceUrl.value = "";
+  openingHoursError.value = "";
+}
+
+// Returns false when a half-finished schedule must block the modal from closing.
+function injectOpeningHours(): boolean {
   const roomId = editProposal.value.selected?.id;
-  if (!roomId) return;
+  if (!roomId) return true;
 
+  // A backwards range would be silently dropped by the assembler, so surface it instead.
+  const hasInvalidRange = OPENING_HOURS_DAYS.some((day) =>
+    openingHoursWeek.value[day].some((range) => !isValidTimeRange(range))
+  );
+  if (hasInvalidRange) {
+    openingHoursError.value = "range";
+    return false;
+  }
+
+  const osm = buildOsmOpeningHours(openingHoursWeek.value);
+  if (!osm) {
+    openingHoursError.value = "";
+    return true;
+  }
+
+  const url = openingHoursSourceUrl.value;
+  if (!HTTP_URL_RE.test(url) || !URL.canParse(url)) {
+    openingHoursError.value = "source";
+    return false;
+  }
+
+  openingHoursError.value = "";
   if (!editProposal.value.data.edits[roomId]) {
     editProposal.value.data.edits[roomId] = emptyRoomEdit();
   }
-  editProposal.value.data.edits[roomId].opening_hours = payload;
+  editProposal.value.data.edits[roomId].opening_hours = { opening_hours: osm, source_url: url };
+  return true;
+}
+
+function savePropertiesAndClose() {
+  injectPropertyEdits();
+  if (!injectOpeningHours()) return;
+  propertiesModalOpen.value = false;
 }
 
 const osmEditUrl = computed(() => {
@@ -156,6 +206,7 @@ watch(
       propertiesModalOpen.value = false;
       editProposal.value.propertyFields = emptyPropertyFields();
       editProposal.value.originalPropertyFields = emptyPropertyFields();
+      resetOpeningHoursDraft();
     }
   }
 );
@@ -316,13 +367,6 @@ function getEditTypeDisplay(roomId: string): string {
             </div>
           </Btn>
 
-          <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (openingHoursModalOpen = true)">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("opening_hours_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("opening_hours_desc") }}</span>
-            </div>
-          </Btn>
-
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
             <div class="flex flex-col items-start">
               <span class="font-medium">{{ t("propose_addition_title") }}</span>
@@ -340,9 +384,6 @@ function getEditTypeDisplay(roomId: string): string {
           @cancel="cancelImageMetadata"
           @file-selected="handleFileSelected"
         />
-
-        <!-- Opening Hours Modal -->
-        <OpeningHoursModal v-model:open="openingHoursModalOpen" @confirm="onOpeningHoursConfirmed" />
 
         <!-- Location Picker Modal -->
         <LocationPickerModal
@@ -434,9 +475,21 @@ function getEditTypeDisplay(roomId: string): string {
                 </div>
               </div>
             </div>
+
+            <!-- Opening hours -->
+            <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
+              <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-2">{{ t("opening_hours_title") }}</label>
+              <OpeningHoursEditor v-model:week="openingHoursWeek" v-model:source-url="openingHoursSourceUrl" />
+              <p v-if="openingHoursError === 'source'" class="text-red-600 dark:text-red-300 text-xs mt-2">
+                {{ t("opening_hours_source_required") }}
+              </p>
+              <p v-else-if="openingHoursError === 'range'" class="text-red-600 dark:text-red-300 text-xs mt-2">
+                {{ t("opening_hours_invalid_range") }}
+              </p>
+            </div>
           </div>
           <div class="flex justify-end pt-4">
-            <Btn variant="primary" size="md" @click="injectPropertyEdits(); propertiesModalOpen = false">{{ t("save") }}</Btn>
+            <Btn variant="primary" size="md" @click="savePropertiesAndClose">{{ t("save") }}</Btn>
           </div>
         </Modal>
       </div>
@@ -506,8 +559,9 @@ de:
   properties: Eigenschaften
   properties_title: Eigenschaften bearbeiten
   properties_desc: Name, Kategorie oder Links dieses Raums ändern
-  opening_hours_title: Öffnungszeiten korrigieren
-  opening_hours_desc: Öffnungszeiten dieses Eintrags strukturiert vorschlagen
+  opening_hours_title: Öffnungszeiten
+  opening_hours_source_required: Bitte gib eine Quelle (URL) für die Öffnungszeiten an.
+  opening_hours_invalid_range: Bitte korrigiere die ungültigen Zeiträume (Ende muss nach dem Anfang liegen).
   field_name: Name
   field_name_help: Der vollständige Name, wie er auf der Detailseite angezeigt wird (z.B. „Hörsaal 1 Friedrich L. Bauer")
   field_short_name: Kurzname
@@ -549,8 +603,9 @@ en:
   properties: Properties
   properties_title: Edit properties
   properties_desc: Change the name, category, or links of this room
-  opening_hours_title: Correct opening hours
-  opening_hours_desc: Propose this entry's opening hours in a structured form
+  opening_hours_title: Opening hours
+  opening_hours_source_required: Please provide a source (URL) for the opening hours.
+  opening_hours_invalid_range: Please fix the invalid time ranges (the end must be after the start).
   field_name: Name
   field_name_help: The full name shown on the detail page (e.g. "Lecture Hall 1 Friedrich L. Bauer")
   field_short_name: Short name
