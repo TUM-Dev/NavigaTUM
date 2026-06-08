@@ -71,3 +71,29 @@ export async function parseOpeningHoursWeek(
     return null;
   }
 }
+
+/** The live open/closed verdict of a schedule at one instant. */
+export interface OpeningHoursLiveState {
+  readonly open: boolean;
+  /** When the current state ends; `null` when it never changes (`24/7`, or never opens again). */
+  readonly nextChange: Date | null;
+}
+
+/**
+ * Evaluate whether a schedule is open at `now` and when that state next changes. Holidays are
+ * already baked into the OSM string as explicit dates by the pipeline, so no holiday context is
+ * needed here. Returns `null` when the string cannot be parsed, mirroring `parseOpeningHoursWeek`.
+ */
+export async function computeOpeningHoursState(
+  osm: string,
+  now: Date
+): Promise<OpeningHoursLiveState | null> {
+  try {
+    const { default: OpeningHours } = await import("opening_hours");
+    // `null` for the same reason as in `parseOpeningHoursWeek`: the ESM build omits the `mode` enum.
+    const oh = new OpeningHours(osm, null);
+    return { open: oh.getState(now), nextChange: oh.getNextChange(now) ?? null };
+  } catch {
+    return null;
+  }
+}
