@@ -203,6 +203,7 @@ fn make_lecture_entry(
         title_de: Some(lecture.title_de.clone()),
         title_en: Some(lecture.title_en.clone()),
         next_occurrence_at: Some(lecture.next_occurrence_at),
+        upcoming: Some(lecture.upcoming.clone()),
         hit: hit.result.clone(),
         ..super::ResultEntry::default()
     }

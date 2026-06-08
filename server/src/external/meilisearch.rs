@@ -66,6 +66,16 @@ impl FacetFilter {
 /// Empirical; revisit if facet-starvation shows up in metrics.
 const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 
+/// Per-query federation weight for the lecture facet. Meilisearch multiplies
+/// each hit's `_rankingScore` by its query weight before merging the federated
+/// results, so a value below `1.0` softly demotes lecture hits beneath
+/// equally-strong geo matches: a same-strength title match on a lecture loses
+/// to a same-strength match on a room or building. It is a soft constraint, not
+/// a hard pin - an exact-title lecture match can still outrank a weak room
+/// match. Empirical; revisit if snapshots show the deprioritisation is too
+/// aggressive or too weak.
+const LECTURE_FEDERATION_WEIGHT: f32 = 0.5;
+
 /// A single hit from the `entries` index.
 ///
 /// The index mixes geo-entries (sites, buildings, rooms, POIs) with lectures.
@@ -105,6 +115,28 @@ pub struct GeoMSHit {
     rank: i32,
 }
 
+/// One upcoming occurrence of a lecture, embedded in the lecture document.
+///
+/// The list lets a client render the expandable lecture row without a second
+/// round-trip: `room_name` is the German display name of `room_code` (mirroring
+/// the monolingual `name` field of the geo documents), and clicking an
+/// occurrence navigates to `/room/<room_code>`.
+#[derive(Deserialize, Serialize, Default, Clone, Debug, utoipa::ToSchema)]
+pub struct UpcomingEvent {
+    /// When the occurrence starts, as an RFC 3339 timestamp.
+    #[schema(example = "2024-10-15T08:00:00Z")]
+    pub start_at: DateTime<Utc>,
+    /// When the occurrence ends, as an RFC 3339 timestamp.
+    #[schema(example = "2024-10-15T10:00:00Z")]
+    pub end_at: DateTime<Utc>,
+    /// The room the occurrence takes place in; navigating to it uses `/room/<room_code>`.
+    #[schema(example = "5606.EG.011")]
+    pub room_code: String,
+    /// The German display name of `room_code`.
+    #[schema(example = "Testhörsaal")]
+    pub room_name: String,
+}
+
 /// A lecture (or tutorial) identity surfaced as the fifth search facet.
 ///
 /// One document per distinct `(title_de, title_en, stp_type)` group, derived
@@ -128,6 +160,9 @@ pub struct LectureMSHit {
     pub title_de: String,
     pub title_en: String,
     pub next_occurrence_at: DateTime<Utc>,
+    /// Upcoming occurrences in chronological order; the first element's
+    /// `start_at` matches `next_occurrence_at`.
+    pub upcoming: Vec<UpcomingEvent>,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     rank: i32,
@@ -227,9 +262,18 @@ impl GeoEntryQuery {
         let mut facets_by_index = HashMap::new();
         facets_by_index.insert(ENTRIES_INDEX.to_string(), vec![FACET_FIELD.to_string()]);
 
+        // `per_facet_filters` is built from `FACETS`, so zipping recovers each
+        // filter's facet. The lecture query carries a sub-unit federation weight
+        // so its hits are demoted relative to the geo facets when Meilisearch
+        // merges the five result sets by weighted `_rankingScore`.
         let mut multi = self.client.multi_search();
-        for filter in &per_facet_filters {
-            multi.with_search_query(self.facet_query(&entries, filter, &sorting));
+        for (facet, filter) in FACETS.iter().zip(&per_facet_filters) {
+            let query = self.facet_query(&entries, filter, &sorting);
+            if *facet == LECTURE_FACET {
+                multi.with_search_query_and_weight(query, LECTURE_FEDERATION_WEIGHT);
+            } else {
+                multi.with_search_query(query);
+            }
         }
         multi
             .with_federation(FederationOptions {

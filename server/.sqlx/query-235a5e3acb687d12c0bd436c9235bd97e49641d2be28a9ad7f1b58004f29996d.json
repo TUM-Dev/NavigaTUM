@@ -1,0 +1,68 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        WITH upcoming AS (\n            SELECT\n                LOWER(title_de)        AS key_title_de,\n                LOWER(title_en)        AS key_title_en,\n                COALESCE(stp_type, '') AS key_stp_type,\n                title_de,\n                title_en,\n                stp_type,\n                start_at,\n                end_at,\n                room_code,\n                ROW_NUMBER() OVER (\n                    PARTITION BY LOWER(title_de), LOWER(title_en), COALESCE(stp_type, '')\n                    ORDER BY start_at, room_code\n                ) AS rn\n            FROM calendar\n            WHERE end_at >= NOW()\n        )\n        SELECT\n            key_title_de                                  AS \"key_title_de!\",\n            key_title_en                                  AS \"key_title_en!\",\n            key_stp_type                                  AS \"key_stp_type!\",\n            (ARRAY_AGG(title_de ORDER BY start_at))[1]    AS \"title_de!\",\n            (ARRAY_AGG(title_en ORDER BY start_at))[1]    AS \"title_en!\",\n            (ARRAY_AGG(stp_type ORDER BY start_at))[1]    AS \"stp_type\",\n            MIN(start_at)                                 AS \"next_occurrence_at!\",\n            ARRAY_AGG(DISTINCT room_code)                 AS \"room_codes!\",\n            JSONB_AGG(\n                JSONB_BUILD_OBJECT('start_at', start_at, 'end_at', end_at, 'room_code', room_code)\n                ORDER BY rn\n            ) FILTER (\n                WHERE rn <= 10 OR start_at <= NOW() + INTERVAL '14 days'\n            )                                             AS \"upcoming!: Json<Vec<UpcomingEventRaw>>\"\n        FROM upcoming\n        GROUP BY key_title_de, key_title_en, key_stp_type\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "key_title_de!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "key_title_en!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "key_stp_type!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "title_de!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "title_en!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "stp_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "next_occurrence_at!",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "room_codes!",
+        "type_info": "VarcharArray"
+      },
+      {
+        "ordinal": 8,
+        "name": "upcoming!: Json<Vec<UpcomingEventRaw>>",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "235a5e3acb687d12c0bd436c9235bd97e49641d2be28a9ad7f1b58004f29996d"
+}

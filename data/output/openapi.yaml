@@ -3007,6 +3007,19 @@ components:
           type: string
           description: the type of the site/building
           example: room
+        upcoming:
+          type:
+            - array
+            - "null"
+          items:
+            $ref: '#/components/schemas/UpcomingEvent'
+          description: |-
+            The upcoming occurrences of this lecture, in chronological order.
+
+            Only present for entries in the `lectures` section.
+            The first element's `start_at` matches `next_occurrence_at`. The list is
+            capped at whichever covers more events: the next 10 occurrences or those
+            within a 14-day window.
     ResultFacet:
       type: string
       enum:
@@ -3643,6 +3656,39 @@ components:
           type:
             - string
             - "null"
+    UpcomingEvent:
+      type: object
+      description: |-
+        One upcoming occurrence of a lecture, embedded in the lecture document.
+
+        The list lets a client render the expandable lecture row without a second
+        round-trip: `room_name` is the German display name of `room_code` (mirroring
+        the monolingual `name` field of the geo documents), and clicking an
+        occurrence navigates to `/room/<room_code>`.
+      required:
+        - start_at
+        - end_at
+        - room_code
+        - room_name
+      properties:
+        end_at:
+          type: string
+          format: date-time
+          description: When the occurrence ends, as an RFC 3339 timestamp.
+          example: "2024-10-15T10:00:00Z"
+        room_code:
+          type: string
+          description: The room the occurrence takes place in; navigating to it uses `/room/<room_code>`.
+          example: 5606.EG.011
+        room_name:
+          type: string
+          description: The German display name of `room_code`.
+          example: Testhörsaal
+        start_at:
+          type: string
+          format: date-time
+          description: When the occurrence starts, as an RFC 3339 timestamp.
+          example: "2024-10-15T08:00:00Z"
     ValhallaLegResponse:
       type: object
       required:
