@@ -251,9 +251,14 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
         content: draft.image.base64,
         metadata: {
           author: draft.image_author,
-          license: { text: draft.image_license_text, url: draft.image_license_url || null },
-          // Only the thumb crop is rendered for events; omit when centred to keep img-sources.yaml clean.
-          offsets: draft.image_thumb_offset === 0 ? null : { thumb: draft.image_thumb_offset },
+          // Uploads are published under CC BY 4.0; the uploader attests by submitting (matches the
+          // "Suggest a new Image" flow), so the license isn't a form field.
+          license: { text: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
+          // Omit offsets entirely when both crops are centred, to keep img-sources.yaml clean.
+          offsets:
+            draft.image_thumb_offset === 0 && draft.image_header_offset === 0
+              ? null
+              : { thumb: draft.image_thumb_offset, header: draft.image_header_offset },
         },
       },
     } as components["schemas"]["LimitedHashMap_String_Addition"][string];
@@ -525,7 +530,9 @@ watch(
         <AddPoiFields v-if="editProposal.pendingAddition.kind === 'poi'" />
         <AddEventFields v-if="editProposal.pendingAddition.kind === 'event'" />
 
-        <div>
+        <!-- Events render their own coordinate picker inside AddEventFields, above the image, so the
+             picker and the marker preview aren't two maps stacked together. -->
+        <div v-if="editProposal.pendingAddition.kind !== 'event'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
             {{ t("coords_label") }} <span class="text-red-700 dark:text-red-200">*</span>
           </label>

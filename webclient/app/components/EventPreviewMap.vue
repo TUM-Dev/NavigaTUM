@@ -2,10 +2,9 @@
 import { Map as MapLibreMap, Marker } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 
-// Live preview of how the proposed event will show up as a #3136 photo marker, rendered from the
-// not-yet-uploaded image (a local `blob:` URL) at the picked coordinate. Marker-only on purpose -
-// the popup card is a separate concern - so this re-creates the circular white-ringed look of the
-// `events_active` symbol layer with a plain DOM marker instead of the Martin vector source.
+// Live preview of the event's #3136 photo marker at the picked coordinate, from the not-yet-uploaded
+// image. A plain DOM marker re-creates the circular look of the `events_active` symbol layer, since
+// the uncommitted event isn't in the Martin vector source.
 const props = defineProps<{
   lat: number;
   lon: number;
@@ -77,8 +76,7 @@ onMounted(() => {
   });
 });
 
-// Track live coordinate edits (e.g. dragging the picker) without animating, so the marker stays
-// glued to the chosen spot.
+// Follow coordinate edits without animating, so the marker stays glued to the picked spot.
 watch(
   () => [props.lat, props.lon] as const,
   ([lat, lon]) => {
@@ -95,7 +93,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="aspect-4/3 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded border">
+  <div class="h-40 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded border">
     <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
     <LazyMapGLNotSupported v-else />
     <div v-if="webglSupport && !loaded" class="absolute inset-0 flex items-center justify-center">

@@ -124,7 +124,6 @@ const newEventSchema = z
       .refine((s) => s.trim().length > 0, "error.name_required"),
     description: z.string().refine((s) => s.trim().length > 0, "error.description_required"),
     coords: coordsSchema,
-    // Events have no parent entry; their place on the map is the picked coordinate alone.
     organising_org_id: z.number({ message: "error.org_required" }).int().positive(),
     image: z.object({ base64: z.string() }).nullable(),
     // Validated in the superRefine below (temporal rules / min-dimension), but declared here so the
@@ -134,7 +133,6 @@ const newEventSchema = z
     image_width: z.number().nullable(),
     image_height: z.number().nullable(),
     image_author: z.string(),
-    image_license_text: z.string(),
   })
   .superRefine((draft, ctx) => {
     // Temporal rules mirror `NewEvent::validate_temporal` in event.rs. Both ends are entered as
@@ -182,13 +180,6 @@ const newEventSchema = z
         code: "custom",
         path: ["image_author"],
         message: "error.image_author_required",
-      });
-    }
-    if (!draft.image_license_text.trim()) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["image_license_text"],
-        message: "error.image_license_required",
       });
     }
   });

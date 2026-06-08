@@ -28,8 +28,6 @@ function validEvent(overrides: Partial<AdditionDraft> = {}): AdditionDraft {
     image_width: 300,
     image_height: 300,
     image_author: "Studi",
-    image_license_text: "CC BY 4.0",
-    image_license_url: "",
     ...overrides,
   };
 }
@@ -70,12 +68,6 @@ describe("validateAddition (event)", () => {
     ],
     ["too long", { starts_at: wall(2), ends_at: wall(40) }, "ends_at", "error.event_too_long"],
     ["missing author", { image_author: "" }, "image_author", "error.image_author_required"],
-    [
-      "missing license",
-      { image_license_text: "" },
-      "image_license_text",
-      "error.image_license_required",
-    ],
   ] as const)("rejects %s", (_label, overrides, path, message) => {
     expect(validateAddition(validEvent(overrides))[path]).toBe(message);
   });

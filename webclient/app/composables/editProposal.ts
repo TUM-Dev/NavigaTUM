@@ -47,12 +47,10 @@ interface AdditionDraft {
   comment_en: string;
   poi_links: LinkDraft[];
   generic_props: GenericPropDraft[];
-  // event-only. `name` (shared) carries the event title; `description` is single-language and
-  // rendered verbatim. `starts_at`/`ends_at` hold the `datetime-local` wall value (Europe/Berlin),
-  // converted to RFC3339 only at submit time. The image rides inline in the addition (unlike the
-  // separate image edit used for room/building/poi), so its bytes + author/license live here, and
-  // `image_width`/`image_height` back the client-side minimum-dimension check, and
-  // `image_thumb_offset` is the chosen `offsets.thumb` (source-pixel slide of the square thumb crop).
+  // event-only (`name` is shared). The image rides inline in the addition rather than as a separate
+  // edit, so its bytes, author, and chosen crop offsets live here. The license is fixed to CC BY 4.0
+  // (set at submit time). `starts_at`/`ends_at` hold the `datetime-local` wall value, converted to
+  // RFC3339 at submit time.
   description: string;
   starts_at: string;
   ends_at: string;
@@ -61,9 +59,8 @@ interface AdditionDraft {
   image_width: number | null;
   image_height: number | null;
   image_thumb_offset: number;
+  image_header_offset: number;
   image_author: string;
-  image_license_text: string;
-  image_license_url: string;
 }
 
 interface PropertyFields {
@@ -152,9 +149,8 @@ function emptyAdditionDraft(): AdditionDraft {
     image_width: null,
     image_height: null,
     image_thumb_offset: 0,
+    image_header_offset: 0,
     image_author: "",
-    image_license_text: "CC BY 4.0",
-    image_license_url: "https://creativecommons.org/licenses/by/4.0/",
   };
 }
 

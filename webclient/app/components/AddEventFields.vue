@@ -6,19 +6,17 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
-import { mdiCheck, mdiClose, mdiImage, mdiUnfoldMoreHorizontal } from "@mdi/js";
+import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
-import { cropToThumbBlobUrl } from "~/utils/imageCrop";
+import { type CropTarget, cropToBlobUrl, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 
 const draft = computed(() => editProposal.value.pendingAddition);
 const fieldErrors = computed<AdditionFieldErrors>(() => validateAddition(draft.value));
-// Only surface a field's error once the user has touched the form enough for it to be actionable;
-// the disabled submit button already blocks an empty form, so eager red text would just be noise.
 function errorFor(path: string): string | null {
   const key = fieldErrors.value[path];
   return key ? t(key) : null;
@@ -36,6 +34,24 @@ const selectedOrg = computed<OrgOption | null>({
   },
 });
 
+// --- Coordinates. Events have no parent to centre on, so default to TUM main campus. ---
+const DEFAULT_LAT = 48.149;
+const DEFAULT_LON = 11.568;
+const mapLat = computed({
+  get: () => draft.value.coords.lat || DEFAULT_LAT,
+  set: (v: number) => {
+    draft.value.coords.lat = v;
+    draft.value.coords.picked = true;
+  },
+});
+const mapLon = computed({
+  get: () => draft.value.coords.lon || DEFAULT_LON,
+  set: (v: number) => {
+    draft.value.coords.lon = v;
+    draft.value.coords.picked = true;
+  },
+});
+
 // --- Image upload ---
 const VALID_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -43,11 +59,43 @@ const fileInput = ref<HTMLInputElement>();
 const isDragOver = ref(false);
 const fileError = ref("");
 // `blob:` URLs kept local (not in the persisted draft) and revoked on replace/unmount so they never
-// outlive the session: `previewUrl` is the full image (the cropper's source); `croppedThumbUrl` is
-// the offset 256² crop fed to the live marker so it matches what the pipeline will render.
+// outlive the session. `previewUrl` is the full image (the croppers' source); each crop preview
+// renders the offset thumb/header exactly as the pipeline will.
 const previewUrl = ref<string | null>(null);
-const croppedThumbUrl = ref<string | null>(null);
 const sourceImage = shallowRef<HTMLImageElement | null>(null);
+
+// A rendered preview of one crop target, regenerated as its offset changes. A token guards against
+// an earlier crop resolving after a later one and leaving a stale image.
+function makeCropPreview(target: CropTarget) {
+  const url = ref<string | null>(null);
+  let token = 0;
+  function set(next: string | null): void {
+    if (url.value) URL.revokeObjectURL(url.value);
+    url.value = next;
+  }
+  async function regenerate(offset: number): Promise<void> {
+    const img = sourceImage.value;
+    const w = draft.value.image_width;
+    const h = draft.value.image_height;
+    if (!img || !w || !h) {
+      set(null);
+      return;
+    }
+    const ticket = ++token;
+    const next = await cropToBlobUrl(img, w, h, target, offset);
+    if (ticket !== token) {
+      if (next) URL.revokeObjectURL(next);
+      return;
+    }
+    set(next);
+  }
+  return { url, set, regenerate };
+}
+const thumbPreview = makeCropPreview(THUMB_TARGET);
+const headerPreview = makeCropPreview(HEADER_TARGET);
+// Top-level refs so the template auto-unwraps them.
+const thumbUrl = thumbPreview.url;
+const headerUrl = headerPreview.url;
 
 function bytesFromBase64(base64: string): Uint8Array<ArrayBuffer> {
   const binary = atob(base64);
@@ -76,29 +124,10 @@ function setPreviewUrl(url: string | null): void {
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value);
   previewUrl.value = url;
 }
-function setCroppedThumbUrl(url: string | null): void {
-  if (croppedThumbUrl.value) URL.revokeObjectURL(croppedThumbUrl.value);
-  croppedThumbUrl.value = url;
-}
 
-// Dragging the offset fires this rapidly; a token guards against an earlier crop resolving after a
-// later one and leaving the marker on a stale thumb.
-let thumbToken = 0;
-async function regenerateThumb(): Promise<void> {
-  const img = sourceImage.value;
-  const w = draft.value.image_width;
-  const h = draft.value.image_height;
-  if (!img || !w || !h) {
-    setCroppedThumbUrl(null);
-    return;
-  }
-  const token = ++thumbToken;
-  const url = await cropToThumbBlobUrl(img, w, h, draft.value.image_thumb_offset);
-  if (token !== thumbToken) {
-    if (url) URL.revokeObjectURL(url);
-    return;
-  }
-  setCroppedThumbUrl(url);
+function regenerateCrops(): void {
+  void thumbPreview.regenerate(draft.value.image_thumb_offset);
+  void headerPreview.regenerate(draft.value.image_header_offset);
 }
 
 async function processFile(file: File): Promise<void> {
@@ -138,11 +167,12 @@ async function processFile(file: File): Promise<void> {
   draft.value.image = { base64, fileName: file.name || "event-image" };
   draft.value.image_width = image.naturalWidth;
   draft.value.image_height = image.naturalHeight;
-  // A new image recentres the crop; its offset bounds depend on the new dimensions.
+  // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
+  draft.value.image_header_offset = 0;
   // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs).
   draft.value.id = `event_${await sha256Hex(bytesFromBase64(base64))}`;
-  await regenerateThumb();
+  regenerateCrops();
 }
 
 function onFileChange(event: Event): void {
@@ -156,26 +186,35 @@ function onDrop(event: DragEvent): void {
 }
 function removeImage(): void {
   setPreviewUrl(null);
-  setCroppedThumbUrl(null);
+  thumbPreview.set(null);
+  headerPreview.set(null);
   sourceImage.value = null;
   draft.value.image = null;
   draft.value.image_width = null;
   draft.value.image_height = null;
   draft.value.image_thumb_offset = 0;
+  draft.value.image_header_offset = 0;
   draft.value.id = "";
   fileError.value = "";
   if (fileInput.value) fileInput.value.value = "";
 }
 
-// Re-crop as the user drags the offset, so the marker preview tracks the selection.
-watch(() => draft.value.image_thumb_offset, regenerateThumb);
+watch(
+  () => draft.value.image_thumb_offset,
+  (o) => thumbPreview.regenerate(o)
+);
+watch(
+  () => draft.value.image_header_offset,
+  (o) => headerPreview.regenerate(o)
+);
 
 onBeforeUnmount(() => {
   setPreviewUrl(null);
-  setCroppedThumbUrl(null);
+  thumbPreview.set(null);
+  headerPreview.set(null);
 });
 
-const showPreview = computed(() => Boolean(croppedThumbUrl.value) && draft.value.coords.picked);
+const showPreview = computed(() => Boolean(thumbPreview.url.value) && draft.value.coords.picked);
 </script>
 
 <template>
@@ -290,6 +329,22 @@ const showPreview = computed(() => Boolean(croppedThumbUrl.value) && draft.value
     </div>
 
     <div>
+      <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">
+        {{ t("coords") }} <span class="text-red-700 dark:text-red-200">*</span>
+      </label>
+      <LocationPickerInline
+        v-model:lat="mapLat"
+        v-model:lon="mapLon"
+        :initial-lat="mapLat"
+        :initial-lon="mapLon"
+        container-class="h-44"
+      />
+      <p v-if="draft.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
+        {{ draft.coords.lat.toFixed(5) }}, {{ draft.coords.lon.toFixed(5) }}
+      </p>
+    </div>
+
+    <div>
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("image") }} <span class="text-red-700 dark:text-red-200">*</span></span>
       <div
         class="cursor-pointer rounded-lg border-2 border-dashed p-4 text-center text-sm transition-colors"
@@ -324,59 +379,58 @@ const showPreview = computed(() => Boolean(croppedThumbUrl.value) && draft.value
       <p v-else-if="errorFor('image')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("image") }}</p>
     </div>
 
-    <div v-if="previewUrl && draft.image_width && draft.image_height">
-      <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop") }}</span>
-      <EventImageCropper
-        v-model="draft.image_thumb_offset"
-        :image-url="previewUrl"
-        :width="draft.image_width"
-        :height="draft.image_height"
+    <template v-if="previewUrl && draft.image_width && draft.image_height">
+      <div>
+        <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop_thumb") }}</span>
+        <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_thumb_help") }}</p>
+        <EventImageCropper
+          v-model="draft.image_thumb_offset"
+          :image-url="previewUrl"
+          :width="draft.image_width"
+          :height="draft.image_height"
+          :target="THUMB_TARGET"
+        />
+      </div>
+
+      <div>
+        <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop_header") }}</span>
+        <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_header_help") }}</p>
+        <EventImageCropper
+          v-model="draft.image_header_offset"
+          :image-url="previewUrl"
+          :width="draft.image_width"
+          :height="draft.image_height"
+          :target="HEADER_TARGET"
+        />
+        <img v-if="headerUrl" :src="headerUrl" alt="" class="border-zinc-300 dark:border-zinc-600 mt-2 w-full rounded border" />
+      </div>
+    </template>
+
+    <div>
+      <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-author">
+        {{ t("image_author") }} <span class="text-red-700 dark:text-red-200">*</span>
+      </label>
+      <input
+        id="add-event-image-author"
+        v-model="draft.image_author"
+        type="text"
+        :placeholder="t('image_author_placeholder')"
+        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <div class="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-700 flex items-start gap-2 rounded-lg border p-3">
+      <MdiIcon :path="mdiInformation" :size="18" class="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
       <div>
-        <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-author">
-          {{ t("image_author") }} <span class="text-red-700 dark:text-red-200">*</span>
-        </label>
-        <input
-          id="add-event-image-author"
-          v-model="draft.image_author"
-          type="text"
-          :placeholder="t('image_author_placeholder')"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
-        />
+        <p class="text-blue-800 dark:text-blue-100 text-sm font-medium">{{ t("license_info_title") }}</p>
+        <p class="text-blue-700 dark:text-blue-200 mt-0.5 text-xs">{{ t("license_info_description") }}</p>
       </div>
-      <div>
-        <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-license">
-          {{ t("image_license") }} <span class="text-red-700 dark:text-red-200">*</span>
-        </label>
-        <input
-          id="add-event-image-license"
-          v-model="draft.image_license_text"
-          type="text"
-          :placeholder="t('image_license_placeholder')"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
-        />
-      </div>
-    </div>
-    <div>
-      <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-image-license-url">
-        {{ t("image_license_url") }}
-      </label>
-      <input
-        id="add-event-image-license-url"
-        v-model="draft.image_license_url"
-        type="url"
-        placeholder="https://"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
-      />
     </div>
 
     <div v-if="showPreview">
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("preview") }}</span>
       <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("preview_help") }}</p>
-      <EventPreviewMap :lat="draft.coords.lat" :lon="draft.coords.lon" :image-url="croppedThumbUrl" />
+      <EventPreviewMap :lat="draft.coords.lat" :lon="draft.coords.lon" :image-url="thumbUrl" />
     </div>
   </div>
 </template>
@@ -395,6 +449,7 @@ de:
   organising_org_placeholder: Organisation suchen…
   organising_org_no_results: Keine passende Organisation gefunden
   organising_org_truncated: "Nur die ersten {0} Treffer werden angezeigt - bitte weiter eingrenzen."
+  coords: Ort
   image: Bild
   image_drop: Bild hierher ziehen oder klicken
   image_hint: JPG, PNG, GIF oder WebP, mind. 256px, max. 10MB
@@ -404,10 +459,12 @@ de:
   image_read_error: Das Bild konnte nicht gelesen werden.
   image_author: Urheber:in des Bildes
   image_author_placeholder: z.B. Studentische Vertretung TUM
-  image_license: Lizenz
-  image_license_placeholder: z.B. CC BY 4.0
-  image_license_url: Lizenz-URL (optional)
-  crop: Kartenausschnitt
+  license_info_title: CC BY 4.0 - Frei zu verwenden mit Namensnennung
+  license_info_description: Alle hochgeladenen Bilder werden unter der CC BY 4.0 Lizenz veröffentlicht. Das bedeutet, jeder kann das Bild verwenden, solange du als Urheber:in genannt wirst.
+  crop_thumb: Marker-Ausschnitt
+  crop_thumb_help: Quadratischer Ausschnitt für den Foto-Marker auf der Karte.
+  crop_header: Header-Ausschnitt
+  crop_header_help: Breiter Ausschnitt (512×210) für die Kopfzeile.
   preview: Vorschau auf der Karte
   preview_help: So erscheint die Veranstaltung als Foto-Marker.
   error:
@@ -424,7 +481,6 @@ de:
     image_required: Bitte lade ein Bild hoch.
     image_too_small: Das Bild muss mindestens 256px auf der kürzeren Seite haben.
     image_author_required: Bitte gib die Urheber:in des Bildes an.
-    image_license_required: Bitte gib die Lizenz des Bildes an.
 en:
   name: Name
   name_placeholder: e.g. GARNIX Festival
@@ -438,6 +494,7 @@ en:
   organising_org_placeholder: Search for an organisation…
   organising_org_no_results: No matching organisation found
   organising_org_truncated: "Showing the first {0} matches only - keep typing to narrow it down."
+  coords: Location
   image: Image
   image_drop: Drop an image here or click to browse
   image_hint: JPG, PNG, GIF or WebP, at least 256px, max 10MB
@@ -447,10 +504,12 @@ en:
   image_read_error: The image could not be read.
   image_author: Image author
   image_author_placeholder: e.g. Studentische Vertretung TUM
-  image_license: License
-  image_license_placeholder: e.g. CC BY 4.0
-  image_license_url: License URL (optional)
-  crop: Map crop
+  license_info_title: CC BY 4.0 - Free to use with attribution
+  license_info_description: All uploaded images are published under the CC BY 4.0 license. This means anyone can use the image as long as they credit you as the author.
+  crop_thumb: Marker crop
+  crop_thumb_help: Square crop used for the photo marker on the map.
+  crop_header: Header crop
+  crop_header_help: Wide crop (512×210) used for the page header.
   preview: Map preview
   preview_help: This is how the event will appear as a photo marker.
   error:
@@ -467,5 +526,4 @@ en:
     image_required: Please upload an image.
     image_too_small: The image must be at least 256px on its shorter edge.
     image_author_required: Please enter the image author.
-    image_license_required: Please enter the image license.
 </i18n>

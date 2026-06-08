@@ -1,41 +1,65 @@
 import { describe, expect, it } from "vitest";
-import { clampThumbOffset, thumbCropRect, thumbOffsetBounds } from "../app/utils/imageCrop";
+import {
+  clampCropOffset,
+  cropAxis,
+  cropOffsetBounds,
+  cropRect,
+  HEADER_TARGET,
+  THUMB_TARGET,
+} from "../app/utils/imageCrop";
 
-describe("thumbOffsetBounds", () => {
-  it("is half the difference of the axes", () => {
-    expect(thumbOffsetBounds(800, 600).max).toBe(100);
-    expect(thumbOffsetBounds(600, 800).max).toBe(100);
+describe("thumb crop (256×256 square target)", () => {
+  it("bounds are half the difference of the axes", () => {
+    expect(cropOffsetBounds(800, 600, THUMB_TARGET).max).toBe(100);
+    expect(cropOffsetBounds(600, 800, THUMB_TARGET).max).toBe(100);
+    expect(cropOffsetBounds(500, 500, THUMB_TARGET).max).toBe(0);
   });
-  it("is zero for a square image", () => {
-    expect(thumbOffsetBounds(500, 500).max).toBe(0);
-  });
-});
 
-describe("clampThumbOffset", () => {
-  it("clamps to the valid range and rounds", () => {
-    expect(clampThumbOffset(800, 600, 999)).toBe(100);
-    expect(clampThumbOffset(800, 600, -999)).toBe(-100);
-    expect(clampThumbOffset(800, 600, 12.6)).toBe(13);
+  it("slides a landscape crop horizontally", () => {
+    expect(cropAxis(800, 600, THUMB_TARGET)).toBe("horizontal");
+    expect(cropRect(800, 600, THUMB_TARGET, 0)).toEqual({ x: 100, y: 0, width: 600, height: 600 });
+    expect(cropRect(800, 600, THUMB_TARGET, 50)).toEqual({ x: 150, y: 0, width: 600, height: 600 });
   });
-});
 
-describe("thumbCropRect", () => {
-  it("centres a landscape crop at offset 0", () => {
-    // 800×600 → 600² square centred horizontally: x = 400 - 300 = 100.
-    expect(thumbCropRect(800, 600, 0)).toEqual({ x: 100, y: 0, size: 600 });
+  it("slides a portrait crop vertically", () => {
+    expect(cropAxis(600, 800, THUMB_TARGET)).toBe("vertical");
+    expect(cropRect(600, 800, THUMB_TARGET, 40)).toEqual({ x: 0, y: 140, width: 600, height: 600 });
   });
-  it("slides a landscape crop horizontally with the offset", () => {
-    expect(thumbCropRect(800, 600, 50)).toEqual({ x: 150, y: 0, size: 600 });
-    expect(thumbCropRect(800, 600, -50)).toEqual({ x: 50, y: 0, size: 600 });
-  });
-  it("centres a portrait crop and slides it vertically", () => {
-    expect(thumbCropRect(600, 800, 0)).toEqual({ x: 0, y: 100, size: 600 });
-    expect(thumbCropRect(600, 800, 40)).toEqual({ x: 0, y: 140, size: 600 });
-  });
+
   it("clamps an out-of-range offset to keep the crop inside the image", () => {
-    expect(thumbCropRect(800, 600, 9999)).toEqual({ x: 200, y: 0, size: 600 });
+    expect(clampCropOffset(800, 600, THUMB_TARGET, 9999)).toBe(100);
+    expect(cropRect(800, 600, THUMB_TARGET, 9999)).toEqual({
+      x: 200,
+      y: 0,
+      width: 600,
+      height: 600,
+    });
   });
+
   it("uses the whole square image regardless of offset", () => {
-    expect(thumbCropRect(500, 500, 30)).toEqual({ x: 0, y: 0, size: 500 });
+    expect(cropAxis(500, 500, THUMB_TARGET)).toBe("none");
+    expect(cropRect(500, 500, THUMB_TARGET, 30)).toEqual({ x: 0, y: 0, width: 500, height: 500 });
+  });
+});
+
+describe("header crop (512×210 banner target)", () => {
+  // A 1000×1000 source is taller than the 512:210 banner, so the crop keeps full width and slides
+  // vertically. Banner height = round(1000 * 210/512) = 410 (even via the floor-of-half).
+  it("crops the height of a square source and slides vertically", () => {
+    expect(cropAxis(1000, 1000, HEADER_TARGET)).toBe("vertical");
+    const rect = cropRect(1000, 1000, HEADER_TARGET, 0);
+    expect(rect.width).toBe(1000);
+    expect(rect.height).toBe(410);
+    expect(rect.x).toBe(0);
+    expect(rect.y).toBe(295);
+  });
+
+  it("crops the width of an ultra-wide source and slides horizontally", () => {
+    // 4000×500 is wider than 512:210; banner width = 500 * 512/210 ≈ 1218 → even 1218.
+    expect(cropAxis(4000, 500, HEADER_TARGET)).toBe("horizontal");
+    const rect = cropRect(4000, 500, HEADER_TARGET, 0);
+    expect(rect.height).toBe(500);
+    expect(rect.width).toBe(1218);
+    expect(rect.y).toBe(0);
   });
 });

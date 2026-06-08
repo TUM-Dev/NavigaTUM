@@ -14,12 +14,14 @@ interface Props {
   initialLat: number;
   initialLon: number;
   zoom?: number;
+  /** Sizing class for the map container; override to make the map shorter than the default 4:3. */
+  containerClass?: string;
 }
 const lat = defineModel<number>("lat", { required: true });
 
 const lon = defineModel<number>("lon", { required: true });
 
-const props = withDefaults(defineProps<Props>(), { zoom: 17 });
+const props = withDefaults(defineProps<Props>(), { zoom: 17, containerClass: "aspect-4/3" });
 const { t } = useI18n({ useScope: "local" });
 
 const map = ref<MapLibreMap | undefined>(undefined);
@@ -112,8 +114,8 @@ onUnmounted(() => {
 <template>
   <div class="location-picker">
     <div
-      class="aspect-4/3 border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
-      :class="{ 'dark:bg-black bg-white': webglSupport }"
+      class="border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
+      :class="[containerClass, { 'dark:bg-black bg-white': webglSupport }]"
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
       <LazyMapGLNotSupported v-else />
