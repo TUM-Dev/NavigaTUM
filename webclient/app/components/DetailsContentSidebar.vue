@@ -34,16 +34,16 @@ const navigationEnabled = computed(() => props.data.coords.accuracy !== "buildin
 const shareModalOpen = ref(false);
 
 // Only ancestors with a routable type get a canonical /{type}/{id} link; the rest render as plain text.
-const breadcrumbItems = computed(() =>
-  props.data.parent_names.map((name, i) => {
+// The current entity is appended as the `current` item so the trail is complete for screen readers.
+const breadcrumbItems = computed(() => [
+  ...props.data.parent_names.map((name, i) => {
     const id = props.data.parents[i];
-    // Index 0 (synthetic `root`) and any missing id link home.
     if (i === 0 || !id) return { name, to: "/" };
-    // `?.` is load-bearing: a deployed server / CDN cache that predates this field omits it.
     const type = props.data.parent_types?.[i];
     return { name, to: type && isRoutableEntityType(type) ? entityPath(id, type) : undefined };
-  })
-);
+  }),
+  { name: props.data.name, current: true },
+]);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const {

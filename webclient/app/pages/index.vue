@@ -186,8 +186,8 @@ de:
   more_aria: mehr Gebäude anzeigen
   overview_map: Übersichtskarte
   sites: Standorte
-  show_details_for_campus: show the details for the campus '{0}'
-  show_details_for_building: show the details for the building '{0}'
+  show_details_for_campus: Details für den Campus '{0}' anzeigen
+  show_details_for_building: Details für das Gebäude '{0}' anzeigen
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
   sites_overview:
     others: Sonstige

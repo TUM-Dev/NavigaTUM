@@ -44,7 +44,7 @@ async function updateLocale(value: "de" | "en") {
       @click="isOpen = true"
     >
       <span class="absolute -inset-1.5" />
-      <span class="sr-only">Open preferences menu</span>
+      <span class="sr-only">{{ t("open") }}</span>
       <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900 dark:text-zinc-50" />
     </button>
 
@@ -264,6 +264,7 @@ async function updateLocale(value: "de" | "en") {
 <i18n lang="yaml">
 de:
   preferences: Präferenzen
+  open: Einstellungsmenü öffnen
   language: Sprache
   theme: Design
   theme.system: System
@@ -293,6 +294,7 @@ de:
   ptw.moped: Moped
 en:
   preferences: Preferences
+  open: Open preferences menu
   language: Language
   theme: Theme
   theme.system: System
