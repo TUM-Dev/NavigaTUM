@@ -60,6 +60,7 @@ plugins = [
 
 follow_imports = "silent"
 disallow_any_generics = true
+disallow_any_explicit = true
 check_untyped_defs = true
 
 [tool.pydantic-mypy]
@@ -222,6 +223,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # the path root, which adding an `__init__.py` (INP001's fix) would break.
 "data/compile.py" = ["INP001"]
 "data/utils.py" = ["INP001"]
+"data/pipeline_types.py" = ["INP001"]
 
 [tool.ruff.lint.pep8-naming]
 # `dataframely` rules and pydantic validators receive the class as first argument.

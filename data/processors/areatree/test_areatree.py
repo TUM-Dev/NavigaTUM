@@ -1,7 +1,8 @@
 import logging
 import tempfile
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any
+from typing import IO
 
 import pytest
 from external.loaders.tumonline import load_buildings
@@ -32,7 +33,7 @@ def test_extract_names_without_short_name() -> None:
     assert _extract_names(names) == expected_output
 
 
-def test_extract_names_with_long_short_name(caplog: Any) -> None:
+def test_extract_names_with_long_short_name(caplog: pytest.LogCaptureFixture) -> None:
     """If the short name is longer than 20 chars, a warning is raised"""
     names = ["Mechanical Engineering", "ThisIsAVeryLongNameForAShortName"]
     expected_output = {"name": "Mechanical Engineering", "short_name": "ThisIsAVeryLongNameForAShortName"}
@@ -118,7 +119,7 @@ def test_id_not_inferable() -> None:
 
 
 @pytest.fixture
-def areatree_tempfile() -> Any:
+def areatree_tempfile() -> Iterator[IO[str]]:
     """Bind AREATREE_FILE to a writable temp file; restore the original on teardown."""
     original = areatree.process.AREATREE_FILE
     with tempfile.NamedTemporaryFile(mode="w+") as file:
@@ -127,12 +128,12 @@ def areatree_tempfile() -> Any:
     areatree.process.AREATREE_FILE = original
 
 
-def test_empty_file(areatree_tempfile: Any) -> None:
+def test_empty_file(areatree_tempfile: IO[str]) -> None:
     """Empty file returns empty list"""
     assert not list(_areatree_lines())
 
 
-def test_comment_lines(areatree_tempfile: Any) -> None:
+def test_comment_lines(areatree_tempfile: IO[str]) -> None:
     """Comment lines are removed"""
     areatree_tempfile.write("line1\n")
     areatree_tempfile.write("\n")  # Empty line
@@ -142,7 +143,7 @@ def test_comment_lines(areatree_tempfile: Any) -> None:
     assert list(_areatree_lines()) == ["line1", "line2"]
 
 
-def test_inline_comments(areatree_tempfile: Any) -> None:
+def test_inline_comments(areatree_tempfile: IO[str]) -> None:
     """Inline comments are removed"""
     areatree_tempfile.write("line1#comment1\n")
     areatree_tempfile.write("line2#comment2 # comment 3\n")
@@ -150,7 +151,7 @@ def test_inline_comments(areatree_tempfile: Any) -> None:
     assert list(_areatree_lines()) == ["line1", "line2"]
 
 
-def test_file_preserves_indentation(areatree_tempfile: Any) -> None:
+def test_file_preserves_indentation(areatree_tempfile: IO[str]) -> None:
     """Indentation is preserved"""
     areatree_tempfile.write("  line1  \n")
     areatree_tempfile.write(" line2\n")

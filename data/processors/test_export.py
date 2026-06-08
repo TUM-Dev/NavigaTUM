@@ -1,11 +1,10 @@
-from typing import Any
-
+from pipeline_types import Entry
 from utils import TranslatableStr
 
 from processors.export import extract_exported_item
 
 
-def _data() -> dict[str, dict[str, Any]]:
+def _data() -> dict[str, Entry]:
     """Build a minimal ancestor chain root -> garching -> mi, keyed by id as the pipeline keys it."""
     return {
         "root": {"id": "root", "type": "root", "name": TranslatableStr("Standorte", "Sites"), "parents": []},

@@ -2,9 +2,9 @@ import logging
 import os
 from math import acos, cos, radians, sin
 from pathlib import Path
-from typing import Any
 
 from PIL import Image
+from pipeline_types import Json
 from ruamel.yaml import YAML
 
 yaml = YAML(typ="rt")
@@ -73,7 +73,7 @@ class TranslatableStr(dict[str, str]):
             return TranslatableStr(other + self["de"], other + self["en"])
         raise ValueError(f"{other} + {self} is not implmented")
 
-    def format(self, *args: Any, **kwargs: Any) -> TranslatableStr:
+    def format(self, *args: Json, **kwargs: Json) -> TranslatableStr:
         """Apply the format-method to the contained data, as if the class itsself was a string."""
         self["de"] = self["de"].format(*args, **kwargs)
         self["en"] = self["en"].format(*args, **kwargs)

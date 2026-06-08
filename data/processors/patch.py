@@ -2,7 +2,9 @@ import logging
 import re
 
 # python 3.11 feature => move to typing when 3.11 is mainstream
-from typing import Any, NotRequired, TypedDict
+from typing import NotRequired, TypedDict
+
+from pipeline_types import Entry
 
 _logger = logging.getLogger(__name__)
 
@@ -13,7 +15,7 @@ class Patch(TypedDict):
     arch_name: NotRequired[str]
 
 
-def apply_roomcode_patch(objects: dict[str, dict[str, Any]], patches: list[Patch]) -> None:
+def apply_roomcode_patch(objects: dict[str, Entry], patches: list[Patch]) -> None:
     """
     Apply patches to objects.
 

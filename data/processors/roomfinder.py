@@ -1,13 +1,13 @@
 import logging
 import re
 from pathlib import Path
-from typing import Any
 
 import orjson
 import polars as pl
 import yaml
 from external.loaders.roomfinder import load_buildings as load_rf_buildings
 from external.loaders.roomfinder import load_rooms as load_rf_rooms
+from pipeline_types import FlatRow, Json
 
 from processors.df_utils import ensure_column
 
@@ -138,7 +138,7 @@ def _rf_source_json(r_id: str) -> str:
     ).decode()
 
 
-def _rf_data_json(room: dict[str, Any]) -> str:
+def _rf_data_json(room: FlatRow) -> str:
     return orjson.dumps(
         {
             "r_alias": room["r_alias"],
@@ -170,12 +170,10 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
     )
 
     # Minimal id lookup for parent resolution and current-name reads.
-    id_lookup: dict[str, dict[str, Any]] = {
-        row["id"]: row for row in df.select("id", "parents", "name").iter_rows(named=True)
-    }
+    id_lookup: dict[str, FlatRow] = {row["id"]: row for row in df.select("id", "parents", "name").iter_rows(named=True)}
 
-    updates: dict[str, dict[str, Any]] = {}
-    new_rows: list[dict[str, Any]] = []
+    updates: dict[str, FlatRow] = {}
+    new_rows: list[FlatRow] = []
 
     for room in load_rf_rooms().iter_rows(named=True):
         try:
@@ -291,7 +289,7 @@ def merge_roomfinder_rooms(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def _find_room_id(
-    room: dict[str, Any], id_lookup: dict[str, Any], arch_name_lookup: dict[str, str], patches: dict[str, Any]
+    room: FlatRow, id_lookup: dict[str, FlatRow], arch_name_lookup: dict[str, str], patches: dict[str, Json]
 ) -> str | None:
     if room["r_id"] in patches["ignore"]:
         return None
