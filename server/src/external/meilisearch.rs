@@ -66,6 +66,16 @@ impl FacetFilter {
 /// Empirical; revisit if facet-starvation shows up in metrics.
 const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 
+/// Per-query federation weight for the lecture facet. Meilisearch multiplies
+/// each hit's `_rankingScore` by its query weight before merging the federated
+/// results, so a value below `1.0` softly demotes lecture hits beneath
+/// equally-strong geo matches: a same-strength title match on a lecture loses
+/// to a same-strength match on a room or building. It is a soft constraint, not
+/// a hard pin - an exact-title lecture match can still outrank a weak room
+/// match. Empirical; revisit if snapshots show the deprioritisation is too
+/// aggressive or too weak.
+const LECTURE_FEDERATION_WEIGHT: f32 = 0.5;
+
 /// A single hit from the `entries` index.
 ///
 /// The index mixes geo-entries (sites, buildings, rooms, POIs) with lectures.
@@ -252,9 +262,18 @@ impl GeoEntryQuery {
         let mut facets_by_index = HashMap::new();
         facets_by_index.insert(ENTRIES_INDEX.to_string(), vec![FACET_FIELD.to_string()]);
 
+        // `per_facet_filters` is built from `FACETS`, so zipping recovers each
+        // filter's facet. The lecture query carries a sub-unit federation weight
+        // so its hits are demoted relative to the geo facets when Meilisearch
+        // merges the five result sets by weighted `_rankingScore`.
         let mut multi = self.client.multi_search();
-        for filter in &per_facet_filters {
-            multi.with_search_query(self.facet_query(&entries, filter, &sorting));
+        for (facet, filter) in FACETS.iter().zip(&per_facet_filters) {
+            let query = self.facet_query(&entries, filter, &sorting);
+            if *facet == LECTURE_FACET {
+                multi.with_search_query_and_weight(query, LECTURE_FEDERATION_WEIGHT);
+            } else {
+                multi.with_search_query(query);
+            }
         }
         multi
             .with_federation(FederationOptions {

@@ -1,0 +1,37 @@
+---
+source: server/src/search_executor/mod.rs
+description: the 0.5 federation weight demotes the lecture below an equally-strong building match
+expression: results.0
+info: q=Quantenrobotik Praktikum
+---
+- facet: buildings
+  entries:
+    - id: QRZ
+      type: building
+      name: "\u0019Quantenrobotik\u0017"
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
+  entries:
+    - id: lecture_testfixture0001
+      type: lecture
+      name: "\u0019Quantenrobotik\u0017 \u0019Praktikum\u0017"
+      subtext: Vorlesung
+      title_de: Quantenrobotik Praktikum
+      title_en: Quantum Robotics Lab
+      next_occurrence_at: "2024-10-15T08:00:00Z"
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

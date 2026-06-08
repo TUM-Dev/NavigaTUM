@@ -918,6 +918,94 @@ mod test {
         });
     }
 
+    /// A lecture and a building whose names share query tokens, where the
+    /// lecture is the *stronger* raw match (it matches both query tokens, the
+    /// building only one). The 0.5 federation weight still demotes the lecture
+    /// beneath the building, so the Buildings section ranks above the Lectures
+    /// section in the merged output. Without the weight the lecture's higher raw
+    /// score surfaces it first - so the test fails if the weight is dropped.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_lecture_deprioritised_below_geo_on_shared_tokens() {
+        let ms = MeiliSearchTestContainer::new().await;
+
+        // The building matches one query token; the lecture matches both, so its
+        // raw `_rankingScore` is the higher of the two. The federation weight is
+        // what tips the merged ranking back in the building's favour - this makes
+        // the test fail (lecture on top) if the weight is ever dropped, rather
+        // than passing on an incidental query-order tie-break.
+        let building = serde_json::json!({
+            "ms_id": "building_testfixture0001",
+            "facet": "building",
+            "type": "building",
+            "room_code": "QRZ",
+            "name": "Quantenrobotik",
+            "type_common_name": "Gebäude",
+            "rank": 100,
+            "parent_building_names": [],
+            "parent_keywords": ["qrz", "garching"],
+        });
+        let lecture = serde_json::json!({
+            "ms_id": "lecture_testfixture0001",
+            "facet": "lecture",
+            "type": "lecture",
+            "type_common_name": "Vorlesung",
+            "title_de": "Quantenrobotik Praktikum",
+            "title_en": "Quantum Robotics Lab",
+            "name": "Quantenrobotik Praktikum",
+            "rank": 100,
+            "parent_building_names": [],
+            "parent_keywords": ["garching"],
+            "next_occurrence_at": "2024-10-15T08:00:00Z",
+        });
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[building, lecture], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "fixture upsert should succeed, got {task:?}"
+        );
+
+        let results = do_geoentry_search(
+            &ms.client,
+            "Quantenrobotik Praktikum",
+            Limits::default(),
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        let position = |facet: ResultFacet| {
+            results
+                .0
+                .iter()
+                .position(|s| s.facet == facet && !s.entries.is_empty())
+        };
+        let buildings_at = position(ResultFacet::Buildings)
+            .expect("expected a non-empty Buildings section for the shared-token query");
+        let lectures_at = position(ResultFacet::Lectures)
+            .expect("expected a non-empty Lectures section for the shared-token query");
+        assert!(
+            buildings_at < lectures_at,
+            "the building must rank above the demoted lecture, \
+             got buildings at {buildings_at} and lectures at {lectures_at}"
+        );
+
+        insta::with_settings!({
+            info => &"q=Quantenrobotik Praktikum",
+            description => "the 0.5 federation weight demotes the lecture below a building even when the lecture is the stronger raw match",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+    }
+
     /// Subset of a stored lecture document, used to assert the room-parent
     /// enrichment landed in the index.
     #[derive(serde::Deserialize)]
