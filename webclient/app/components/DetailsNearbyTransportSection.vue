@@ -128,7 +128,7 @@ function rowTitle(entry: StopTimeEntry): string {
               v-for="mode in station.modes"
               :key="mode"
               :mode="mode"
-              transparent
+              variant="mode-colored"
               :title="modeLabel(mode)"
             />
             <MdiIcon
