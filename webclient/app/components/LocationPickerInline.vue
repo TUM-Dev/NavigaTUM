@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
+import { mdiMapMarkerPlus } from "@mdi/js";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -16,16 +17,27 @@ interface Props {
   zoom?: number;
   /** Sizing class for the map container; override to make the map shorter than the default 4:3. */
   containerClass?: string;
+  /**
+   * No location has been chosen yet, so the initial coordinate is only a default. Withholds the pin
+   * (an already-shown pin reads as "already set") and overlays a call-to-action until the first pick.
+   */
+  awaitingSelection?: boolean;
 }
 const lat = defineModel<number>("lat", { required: true });
 
 const lon = defineModel<number>("lon", { required: true });
 
-const props = withDefaults(defineProps<Props>(), { zoom: 17, containerClass: "aspect-4/3" });
+const props = withDefaults(defineProps<Props>(), {
+  zoom: 17,
+  containerClass: "aspect-4/3",
+  awaitingSelection: false,
+});
 const { t } = useI18n({ useScope: "local" });
 
-const map = ref<MapLibreMap | undefined>(undefined);
-const marker = ref<Marker | undefined>(undefined);
+// `shallowRef`: MapLibre owns its own deep state; Vue must not deeply unwrap/track it (the unwrapped
+// type also stops being assignable where the raw `Map`/`Marker` is expected, e.g. `Marker.addTo`).
+const map = shallowRef<MapLibreMap | undefined>(undefined);
+const marker = shallowRef<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
 
@@ -68,14 +80,16 @@ function initMap() {
     );
 
     const draggableMarker = new Marker({ element: createMarker(120), draggable: true });
-    draggableMarker.setLngLat([lon.value, lat.value]).addTo(mapInstance);
+    draggableMarker.setLngLat([lon.value, lat.value]);
+    // Withhold the pin until the first pick so an unset default doesn't read as a chosen location.
+    if (!props.awaitingSelection) draggableMarker.addTo(mapInstance);
     draggableMarker.on("dragend", () => {
       const lngLat = draggableMarker.getLngLat();
       lat.value = lngLat.lat;
       lon.value = lngLat.lng;
     });
     mapInstance.on("click", (e) => {
-      draggableMarker.setLngLat([e.lngLat.lng, e.lngLat.lat]);
+      draggableMarker.setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(mapInstance);
       lat.value = e.lngLat.lat;
       lon.value = e.lngLat.lng;
     });
@@ -101,6 +115,15 @@ watch(
   { immediate: false }
 );
 
+// A pick made elsewhere (e.g. prefilled from a parent entry) also resolves the awaiting state, so
+// surface the pin then too.
+watch(
+  () => props.awaitingSelection,
+  (awaiting) => {
+    if (!awaiting && marker.value && map.value) marker.value.addTo(map.value);
+  }
+);
+
 onMounted(async () => {
   await until(mapContainer).toBeTruthy();
   initMap();
@@ -119,8 +142,21 @@ onUnmounted(() => {
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
       <LazyMapGLNotSupported v-else />
+      <div
+        v-if="awaitingSelection && webglSupport"
+        class="pointer-events-none absolute inset-0 flex items-center justify-center p-3"
+      >
+        <span
+          class="bg-zinc-900/75 text-white flex items-center gap-2 rounded-full px-4 py-2 text-center text-sm font-medium shadow-lg backdrop-blur-sm"
+        >
+          <MdiIcon :path="mdiMapMarkerPlus" :size="18" class="flex-shrink-0" />
+          {{ t("clickMap") }}
+        </span>
+      </div>
     </div>
-    <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">{{ t("clickMap") }}</p>
+    <p v-if="!awaitingSelection" class="text-zinc-500 dark:text-zinc-400 mt-1 text-center text-xs">
+      {{ t("clickMap") }}
+    </p>
   </div>
 </template>
 

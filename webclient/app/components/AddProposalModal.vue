@@ -541,6 +541,7 @@ watch(
             v-model:lon="mapLon"
             :initial-lat="mapInitialLat"
             :initial-lon="mapInitialLon"
+            :awaiting-selection="!editProposal.pendingAddition.coords.picked"
           />
           <p v-if="editProposal.pendingAddition.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
             {{ editProposal.pendingAddition.coords.lat.toFixed(5) }},

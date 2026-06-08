@@ -504,6 +504,7 @@ de:
     room: Raum
     building: Gebäude
     poi: POI
+    event: Veranstaltung
   room_edits: Raum-Änderungen
   coordinate: Koordinaten
   image: Bild
@@ -543,6 +544,7 @@ en:
     room: Room
     building: Building
     poi: POI
+    event: Event
   room_edits: Room Edits
   coordinate: Coordinate
   image: Image

@@ -175,8 +175,10 @@ async function processFile(file: File): Promise<void> {
   // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs).
-  draft.value.id = `event_${await sha256Hex(bytesFromBase64(base64))}`;
+  // Content-addressed key, matching `event_{hash(img)}` consumed by the server (event.rs). The full
+  // sha256 is overkill for a filename; 16 hex chars (64 bits) keep collisions negligible yet tidy.
+  const hash = await sha256Hex(bytesFromBase64(base64));
+  draft.value.id = `event_${hash.slice(0, 16)}`;
   regenerateCrops();
 }
 
@@ -370,6 +372,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         v-model:lon="mapLon"
         :initial-lat="mapLat"
         :initial-lon="mapLon"
+        :awaiting-selection="!draft.coords.picked"
         container-class="h-44"
       />
       <p v-if="draft.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
