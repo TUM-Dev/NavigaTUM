@@ -5,21 +5,21 @@ import {
   useTimeoutPoll,
 } from "@vueuse/core";
 import { useIrisSnapshot } from "~/composables/irisSnapshot";
-import { buildRoomRows, type IrisRoomRow, roomsForBuilding } from "~/utils/iris";
+import { buildRoomRows, type IrisRoomRow, roomsForBuildings } from "~/utils/iris";
 
 // Iris recomputes room status roughly once a minute, so polling faster would only repeat work.
 const POLL_INTERVAL_MS = 60_000;
 
 /**
- * Drive the live Iris learning-room availability for one building.
+ * Drive the live Iris learning-room availability for one or more buildings.
  *
- * Builds on {@link useIrisSnapshot} for the browser-side roster fetch, filters it to the building,
+ * Builds on {@link useIrisSnapshot} for the browser-side roster fetch, filters it to the buildings,
  * resolves each room's `raum_nr_architekt` to a NavigaTUM room via the alias lookup (caching results,
  * omitting misses), and refreshes every {@link POLL_INTERVAL_MS} while the card is both on-screen and
  * in a foreground tab. Every fetch degrades silently: a failed poll keeps the last good snapshot.
  */
 export function useIrisAvailability(
-  buildingId: MaybeRefOrGetter<string>,
+  buildingIds: MaybeRefOrGetter<readonly string[]>,
   target: MaybeRefOrGetter<HTMLElement | null | undefined>
 ) {
   const { locale } = useI18n();
@@ -69,7 +69,7 @@ export function useIrisAvailability(
     resolveBatch?.abort();
     const controller = new AbortController();
     resolveBatch = controller;
-    const buildingRooms = roomsForBuilding(all, toValue(buildingId));
+    const buildingRooms = roomsForBuildings(all, toValue(buildingIds));
     await Promise.all(buildingRooms.map((room) => resolveAlias(room.archName, controller.signal)));
     if (controller.signal.aborted) return;
 

@@ -5,7 +5,7 @@ import {
   isKnownStatus,
   occupancyPercent,
   parseIrisRooms,
-  roomsForBuilding,
+  roomsForBuildings,
 } from "../app/utils/iris";
 
 // A small slice of a real `GET https://iris.asta.tum.de/api/` response, covering each status and
@@ -119,14 +119,25 @@ describe("parseIrisRooms", () => {
   });
 });
 
-describe("roomsForBuilding", () => {
-  it("keeps only the rooms Iris attributes to the building", () => {
+describe("roomsForBuildings", () => {
+  it("keeps only the rooms Iris attributes to the buildings", () => {
     const rooms = parseIrisRooms(IRIS_FIXTURE);
-    expect(roomsForBuilding(rooms, "8102").map((r) => r.archName)).toEqual([
+    expect(roomsForBuildings(rooms, ["8102"]).map((r) => r.archName)).toEqual([
       "BC2 0.01.18@8102",
       "0.01.19@8102",
     ]);
-    expect(roomsForBuilding(rooms, "0000")).toEqual([]);
+    expect(roomsForBuildings(rooms, ["0000"])).toEqual([]);
+  });
+
+  it("unions rooms across several buildings (a joined building's fingers)", () => {
+    const rooms = parseIrisRooms(IRIS_FIXTURE);
+    // A joined building passes every covered child id; the union spans all of them.
+    expect(roomsForBuildings(rooms, ["5504", "8102"]).map((r) => r.buildingId)).toEqual([
+      "5504",
+      "8102",
+      "8102",
+    ]);
+    expect(roomsForBuildings(rooms, [])).toEqual([]);
   });
 });
 

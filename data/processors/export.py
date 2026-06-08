@@ -213,7 +213,7 @@ def extract_exported_item(data: dict[str, Any], entry: dict[str, Any]) -> dict[s
             "calendar_url",
             "tumonline_room_nr",
             "operator",
-            "has_iris_coverage",
+            "iris_coverage_building_ids",
         }
         to_delete = [e for e in result["props"] if e not in prop_keys_to_keep]
         for k in to_delete:

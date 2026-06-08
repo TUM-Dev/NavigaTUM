@@ -1285,13 +1285,15 @@ export type components = {
        */
       readonly floors?: readonly components["schemas"]["FloorResponse"][];
       /**
-       * @description Whether this building/area has Studentische Vertretung IRIS learning-room coverage.
+       * @description Building ids whose Studentische Vertretung IRIS learning rooms fall under this entry.
        *
+       * A covered building lists itself.
+       * An ancestor container (area, campus, or a joined building such as MI) lists every covered building among its descendants.
        * Derived at data-build time by matching the Studentische Vertretung IRIS room roster against our aliases.
-       * When `true`, the page can offer a learning-room availability view without a second request.
-       * Absent (rather than `false`) for entries without coverage.
+       * When non-empty, the page can offer a learning-room availability view without a second request.
+       * Empty (and omitted) for entries without coverage.
        */
-      readonly has_iris_coverage?: boolean;
+      readonly iris_coverage_building_ids?: readonly string[];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
       readonly operator?: null | components["schemas"]["OperatorResponse"];
     };

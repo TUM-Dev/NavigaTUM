@@ -14,15 +14,15 @@ import { useIrisAvailability } from "~/composables/irisAvailability";
 import { bookedUntilTime, IRIS_SITE_URL, type IrisRoomRow, occupancyPercent } from "~/utils/iris";
 
 const props = defineProps<{
-  // The NavigaTUM building id whose Iris learning rooms to show. Only passed for entries whose
-  // build-time `has_iris_coverage` signal is true, so the parent gates the browser-side fetch.
-  readonly buildingId: string;
+  // A joined building (e.g. MI) passes every covered finger id, not just its own.
+  // The parent renders this only when non-empty, so an uncovered page issues no Iris request.
+  readonly buildingIds: readonly string[];
 }>();
 
 const { t } = useI18n({ useScope: "local" });
 
 const cardEl = ref<HTMLElement | null>(null);
-const { rooms, loading } = useIrisAvailability(() => props.buildingId, cardEl);
+const { rooms, loading } = useIrisAvailability(() => props.buildingIds, cardEl);
 
 // Hide once the first snapshot settled with nothing to show (a failed first load, or no room that
 // resolved to a NavigaTUM page) - that is the silent-degradation path. The card stays mounted while

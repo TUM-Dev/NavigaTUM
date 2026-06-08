@@ -56,27 +56,45 @@ def test_building_in_iris_without_alias_match_is_warned_as_coverage_gap(caplog: 
 
 
 def _sample_entries() -> pl.DataFrame:
-    """Build a tiny entry frame: a covered building, one of its rooms, and an unrelated building."""
+    """
+    Build a tiny entry frame mirroring the MI shape.
+
+    The `mi` joined_building has child building `5606` (holding a room) and an empty sibling `5607`.
+    `0001` is an unrelated building.
+    `children_flat` is null for leaves, matching the left-join in `structure.add_children_properties`.
+    """
     return pl.DataFrame(
         {
-            "id": ["5606", "5606.EG.011", "0001"],
-            "type": ["building", "room", "building"],
-            "arch_name": ["@5606", "01.06.011@5606", "@0001"],
+            "id": ["mi", "5606", "5607", "5606.EG.011", "0001"],
+            "type": ["joined_building", "building", "building", "room", "building"],
+            "arch_name": [None, "@5606", "@5607", "01.06.011@5606", "@0001"],
+            "children_flat": [["5606", "5607", "5606.EG.011"], None, None, None, None],
         }
     )
 
 
-def test_add_coverage_marks_only_matched_buildings() -> None:
-    """add_iris_coverage flags the matched building, leaving its rooms and other buildings False."""
+def test_add_coverage_lists_matched_buildings_and_propagates_to_joined_building() -> None:
+    """
+    The matched building lists itself and its joined_building parent inherits it.
+
+    Regression for the MI bug, where `mi` stayed empty although child `5606` has a learning room.
+    Empty siblings, rooms, and unrelated buildings stay empty.
+    """
     df = add_iris_coverage(_sample_entries(), rooms=_rooms("01.06.011@5606"))
 
-    coverage = dict(zip(df["id"], df["has_iris_coverage"], strict=True))
-    assert coverage == {"5606": True, "5606.EG.011": False, "0001": False}
+    coverage = dict(zip(df["id"].to_list(), df["iris_coverage_building_ids"].to_list(), strict=True))
+    assert coverage == {
+        "mi": ["5606"],
+        "5606": ["5606"],
+        "5607": [],
+        "5606.EG.011": [],
+        "0001": [],
+    }
 
 
 def test_add_coverage_with_no_rooms_marks_nothing() -> None:
-    """First build (no scraped roster) marks no coverage and produces a non-null column."""
+    """First build (no scraped roster) lists no coverage and produces a non-null column."""
     df = add_iris_coverage(_sample_entries(), rooms=_rooms())
 
-    assert df["has_iris_coverage"].to_list() == [False, False, False]
-    assert df["has_iris_coverage"].null_count() == 0
+    assert df["iris_coverage_building_ids"].to_list() == [[], [], [], [], []]
+    assert df["iris_coverage_building_ids"].null_count() == 0
