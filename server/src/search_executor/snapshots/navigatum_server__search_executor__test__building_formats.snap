@@ -1,6 +1,5 @@
 ---
 source: server/src/search_executor/mod.rs
-assertion_line: 667
 description: "Query: MW1801"
 expression: results_prefixed.0
 info: parsed_id=prefixed
@@ -88,6 +87,10 @@ info: parsed_id=prefixed
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

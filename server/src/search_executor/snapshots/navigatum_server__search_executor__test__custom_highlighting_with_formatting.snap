@@ -1,6 +1,5 @@
 ---
 source: server/src/search_executor/mod.rs
-assertion_line: 562
 description: "Query: MW1801"
 expression: results.0
 info: highlighting=<em>
@@ -88,6 +87,10 @@ info: highlighting=<em>
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

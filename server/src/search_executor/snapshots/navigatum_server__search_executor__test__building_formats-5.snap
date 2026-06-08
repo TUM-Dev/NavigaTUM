@@ -69,3 +69,7 @@ info: parsed_id=prefixed
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
