@@ -33,6 +33,15 @@ const dayLabels = computed<Record<OpeningHoursDay, string>>(() => ({
   <div class="space-y-1">
     <div v-for="day in OPENING_HOURS_DAYS" :key="day" class="flex items-start gap-2">
       <span class="w-24 shrink-0 pt-1.5 text-sm text-zinc-900 dark:text-zinc-50">{{ dayLabels[day] }}</span>
+      <button
+        type="button"
+        class="focusable text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 shrink-0 rounded-sm pt-1"
+        :aria-label="t('add_range')"
+        :title="t('add_range')"
+        @click="addRange(day)"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24"><path :d="mdiPlus" fill="currentColor" /></svg>
+      </button>
       <div class="flex flex-1 flex-wrap items-center gap-x-2 gap-y-1 pt-1">
         <span v-if="!week[day].length" class="text-zinc-400 dark:text-zinc-500 inline-flex items-center gap-1 text-xs">
           <svg class="h-3.5 w-3.5" viewBox="0 0 24 24"><path :d="mdiDoorClosedLock" fill="currentColor" /></svg>
@@ -63,15 +72,6 @@ const dayLabels = computed<Record<OpeningHoursDay, string>>(() => ({
           <span v-if="!isValidTimeRange(range)" class="text-red-600 dark:text-red-300 text-xs">{{ t("invalid_range") }}</span>
         </div>
       </div>
-      <button
-        type="button"
-        class="focusable text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 shrink-0 rounded-sm pt-1"
-        :aria-label="t('add_range')"
-        :title="t('add_range')"
-        @click="addRange(day)"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24"><path :d="mdiPlus" fill="currentColor" /></svg>
-      </button>
     </div>
   </div>
 </template>
