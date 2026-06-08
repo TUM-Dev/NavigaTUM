@@ -4,7 +4,7 @@
 // is the source of truth.
 import { z } from "zod";
 import type { AdditionDraft } from "~/composables/editProposal";
-import { berlinWallTimeToRfc3339 } from "~/utils/datetime";
+import { wallTimeToRfc3339 } from "~/utils/datetime";
 
 // Shared with `MAX_NAME_LEN` in the backend (room.rs / building.rs / poi.rs / event.rs).
 const MAX_NAME_LEN = 200;
@@ -135,10 +135,10 @@ const newEventSchema = z
     image_author: z.string(),
   })
   .superRefine((draft, ctx) => {
-    // Temporal rules mirror `NewEvent::validate_temporal` in event.rs. Both ends are entered as
-    // Europe/Berlin wall-clock and only become RFC3339 here, so we validate the converted instants.
-    const startRfc = berlinWallTimeToRfc3339(draft.starts_at);
-    const endRfc = berlinWallTimeToRfc3339(draft.ends_at);
+    // Temporal rules mirror `NewEvent::validate_temporal` in event.rs. Both ends are picked as
+    // zoneless wall-clock and only become RFC3339 here, so we validate the converted instants.
+    const startRfc = wallTimeToRfc3339(draft.starts_at);
+    const endRfc = wallTimeToRfc3339(draft.ends_at);
     if (startRfc === null) {
       ctx.addIssue({ code: "custom", path: ["starts_at"], message: "error.starts_at_required" });
     }

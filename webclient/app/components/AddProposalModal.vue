@@ -5,7 +5,7 @@ import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
 import { type AdditionFieldErrors, validateAddition } from "~/composables/additionSchema";
 import { type AdditionKind, emptyAdditionDraft, useEditProposal } from "~/composables/editProposal";
-import { berlinWallTimeToRfc3339 } from "~/utils/datetime";
+import { wallTimeToRfc3339 } from "~/utils/datetime";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
@@ -243,8 +243,8 @@ function buildAddition(): components["schemas"]["LimitedHashMap_String_Addition"
       description: draft.description,
       // The form holds Europe/Berlin wall-clock; stamp the offset for the RFC3339 server contract.
       // `newEventSchema` already rejected unconvertible values, so the `?? ""` fallback is unreachable.
-      starts_at: berlinWallTimeToRfc3339(draft.starts_at) ?? "",
-      ends_at: berlinWallTimeToRfc3339(draft.ends_at) ?? "",
+      starts_at: wallTimeToRfc3339(draft.starts_at) ?? "",
+      ends_at: wallTimeToRfc3339(draft.ends_at) ?? "",
       coords,
       organising_org_id: draft.organising_org_id as number,
       image: {
