@@ -29,16 +29,7 @@ function removeHolidayRange(index: number) {
     </div>
 
     <WeekScheduleInput v-if="draft.mode === 'always'" v-model:week="draft.always" />
-    <template v-else>
-      <div>
-        <p class="text-zinc-500 dark:text-zinc-400 text-xs font-medium mb-1">{{ t("lecture_period") }}</p>
-        <WeekScheduleInput v-model:week="draft.lecture" />
-      </div>
-      <div>
-        <p class="text-zinc-500 dark:text-zinc-400 text-xs font-medium mb-1">{{ t("break_period") }}</p>
-        <WeekScheduleInput v-model:week="draft.break" />
-      </div>
-    </template>
+    <SemesterScheduleInput v-else v-model:lecture="draft.lecture" v-model:break="draft.break" />
 
     <!-- Public holidays (OSM `PH`). -->
     <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
@@ -111,8 +102,6 @@ function removeHolidayRange(index: number) {
 de:
   mode_always: Gleiche Zeiten das ganze Jahr
   mode_semester: Andere Zeiten in der vorlesungsfreien Zeit
-  lecture_period: Vorlesungszeit
-  break_period: Vorlesungsfreie Zeit
   holidays: An Feiertagen
   holiday_unspecified: Keine Angabe
   holiday_closed: Geschlossen
@@ -127,8 +116,6 @@ de:
 en:
   mode_always: Same hours all year
   mode_semester: Different hours when there are no lectures
-  lecture_period: Lecture period
-  break_period: Lecture-free period
   holidays: On public holidays
   holiday_unspecified: Not specified
   holiday_closed: Closed
