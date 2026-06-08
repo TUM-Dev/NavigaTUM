@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import type { OpeningHoursDraft, OpeningHoursMode } from "~/utils/openingHours";
+import type { OpeningHoursDraft, OpeningHoursMode } from "~/utils/openingHoursEditor";
 
 const draft = defineModel<OpeningHoursDraft>({ required: true });
 

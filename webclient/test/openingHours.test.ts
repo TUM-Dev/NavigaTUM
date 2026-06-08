@@ -1,191 +1,66 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildDraftOpeningHours,
-  buildOsmOpeningHours,
-  draftHasInvalidRange,
-  emptyOpeningHoursDraft,
-  emptyWeekSchedule,
-  hasWeeklyHours,
-  isValidTimeRange,
-  scopeOsmRules,
-  type WeekSchedule,
+  type OpeningHoursDay,
+  parseOpeningHoursWeek,
+  WEEKDAY_KEYS,
 } from "../app/utils/openingHours";
 
-function week(partial: Partial<WeekSchedule>): WeekSchedule {
-  return { ...emptyWeekSchedule(), ...partial };
+// A fixed Wednesday so the Monday-anchored week and the `isToday` flag are deterministic.
+const WEDNESDAY = new Date(2026, 5, 10); // 2026-06-10 is a Wednesday.
+
+function dayByKey(week: readonly OpeningHoursDay[], key: string): OpeningHoursDay {
+  const day = week.find((d) => d.key === key);
+  if (!day) throw new Error(`missing day ${key}`);
+  return day;
 }
 
-describe("isValidTimeRange", () => {
-  it("accepts a well-formed range", () => {
-    expect(isValidTimeRange({ from: "08:00", to: "20:00" })).toBe(true);
-  });
-  it("rejects a backwards range", () => {
-    expect(isValidTimeRange({ from: "20:00", to: "08:00" })).toBe(false);
-  });
-  it("rejects an equal range", () => {
-    expect(isValidTimeRange({ from: "08:00", to: "08:00" })).toBe(false);
-  });
-  it("rejects malformed times", () => {
-    expect(isValidTimeRange({ from: "8:00", to: "20:00" })).toBe(false);
-    expect(isValidTimeRange({ from: "08:00", to: "24:00" })).toBe(false);
-    expect(isValidTimeRange({ from: "", to: "20:00" })).toBe(false);
-  });
-});
-
-describe("buildOsmOpeningHours", () => {
-  it("returns an empty string when nothing is open", () => {
-    expect(buildOsmOpeningHours(emptyWeekSchedule())).toBe("");
+describe("parseOpeningHoursWeek", () => {
+  it("returns the seven Monday-first weekdays with today flagged", async () => {
+    const week = await parseOpeningHoursWeek("Mo-Fr 08:00-22:00", WEDNESDAY);
+    expect(week).not.toBeNull();
+    expect(week?.map((d) => d.key)).toEqual([...WEEKDAY_KEYS]);
+    expect(week?.filter((d) => d.isToday).map((d) => d.key)).toEqual(["we"]);
   });
 
-  it("collapses consecutive identical days into a range", () => {
-    const w = week({
-      Mo: [{ from: "08:00", to: "20:00" }],
-      Tu: [{ from: "08:00", to: "20:00" }],
-      We: [{ from: "08:00", to: "20:00" }],
-      Th: [{ from: "08:00", to: "20:00" }],
-      Fr: [{ from: "08:00", to: "20:00" }],
-    });
-    expect(buildOsmOpeningHours(w)).toBe("Mo-Fr 08:00-20:00");
+  it("parses a single range and leaves uncovered days closed", async () => {
+    const week = await parseOpeningHoursWeek("Mo-Fr 08:00-22:00", WEDNESDAY);
+    if (!week) throw new Error("expected a parsed week");
+    expect(dayByKey(week, "mo").ranges).toEqual([
+      { from: "08:00", to: "22:00", comment: undefined },
+    ]);
+    // Weekends are not covered by the rule, so they read as closed (no ranges).
+    expect(dayByKey(week, "sa").ranges).toEqual([]);
+    expect(dayByKey(week, "su").ranges).toEqual([]);
   });
 
-  it("emits distinct rules and omits closed days", () => {
-    const w = week({
-      Mo: [{ from: "08:00", to: "20:00" }],
-      Tu: [{ from: "08:00", to: "20:00" }],
-      Fr: [{ from: "08:00", to: "20:00" }],
-      Sa: [{ from: "09:00", to: "14:00" }],
-    });
-    // We/Th are closed, so the Mo-Tu run breaks before Fr.
-    expect(buildOsmOpeningHours(w)).toBe("Mo-Tu 08:00-20:00; Fr 08:00-20:00; Sa 09:00-14:00");
+  it("parses multiple ranges in a single day", async () => {
+    const week = await parseOpeningHoursWeek("Mo 08:00-12:00,13:00-17:00", WEDNESDAY);
+    if (!week) throw new Error("expected a parsed week");
+    expect(dayByKey(week, "mo").ranges.map((r) => `${r.from}-${r.to}`)).toEqual([
+      "08:00-12:00",
+      "13:00-17:00",
+    ]);
   });
 
-  it("renders a single open day without a range dash", () => {
-    expect(buildOsmOpeningHours(week({ We: [{ from: "10:00", to: "12:00" }] }))).toBe(
-      "We 10:00-12:00"
-    );
+  it("renders an all-day rule as 00:00-24:00 rather than 00:00-00:00", async () => {
+    const week = await parseOpeningHoursWeek("24/7", WEDNESDAY);
+    if (!week) throw new Error("expected a parsed week");
+    for (const day of week) {
+      expect(day.ranges).toEqual([{ from: "00:00", to: "24:00", comment: undefined }]);
+    }
   });
 
-  it("joins multiple ranges in one day, sorted and comma-separated", () => {
-    const w = week({
-      Mo: [
-        { from: "13:00", to: "17:00" },
-        { from: "08:00", to: "12:00" },
-      ],
-    });
-    expect(buildOsmOpeningHours(w)).toBe("Mo 08:00-12:00,13:00-17:00");
+  it("expands a semester-style date range into the matching week only", async () => {
+    const osm = "2026 Jun 08-2026 Jun 12 Mo-Fr 09:00-18:00";
+    const inRange = await parseOpeningHoursWeek(osm, WEDNESDAY);
+    const outOfRange = await parseOpeningHoursWeek(osm, new Date(2026, 6, 1)); // a July week.
+    expect(dayByKey(inRange ?? [], "we").ranges).toEqual([
+      { from: "09:00", to: "18:00", comment: undefined },
+    ]);
+    expect((outOfRange ?? []).every((d) => d.ranges.length === 0)).toBe(true);
   });
 
-  it("does not collapse days whose range sets differ", () => {
-    const w = week({
-      Mo: [{ from: "08:00", to: "12:00" }],
-      Tu: [
-        { from: "08:00", to: "12:00" },
-        { from: "13:00", to: "17:00" },
-      ],
-    });
-    expect(buildOsmOpeningHours(w)).toBe("Mo 08:00-12:00; Tu 08:00-12:00,13:00-17:00");
-  });
-
-  it("drops invalid and duplicate ranges before assembling", () => {
-    const w = week({
-      Mo: [
-        { from: "08:00", to: "20:00" },
-        { from: "08:00", to: "20:00" }, // duplicate
-        { from: "21:00", to: "19:00" }, // backwards, dropped
-      ],
-    });
-    expect(buildOsmOpeningHours(w)).toBe("Mo 08:00-20:00");
-  });
-});
-
-describe("scopeOsmRules", () => {
-  it("prefixes every rule individually", () => {
-    expect(scopeOsmRules("Mo-Fr 08:00-20:00; Sa 09:00-14:00", "lecture")).toBe(
-      "lecture: Mo-Fr 08:00-20:00; lecture: Sa 09:00-14:00"
-    );
-  });
-  it("returns an empty string unchanged", () => {
-    expect(scopeOsmRules("", "break")).toBe("");
-  });
-});
-
-describe("opening-hours draft", () => {
-  it("defaults holidays to closed (no PH ranges)", () => {
-    expect(emptyOpeningHoursDraft().holiday).toEqual([]);
-  });
-
-  it("reports weekly hours only for the active mode", () => {
-    const draft = emptyOpeningHoursDraft();
-    expect(hasWeeklyHours(draft)).toBe(false); // default PH off is not weekly hours
-    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }]; // inactive while mode is "always"
-    expect(hasWeeklyHours(draft)).toBe(false);
-    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    expect(hasWeeklyHours(draft)).toBe(true);
-  });
-});
-
-describe("buildDraftOpeningHours", () => {
-  it("emits plain OSM plus the default PH rule in always mode", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    draft.always.Tu = [{ from: "08:00", to: "20:00" }];
-    // The lecture/break drafts are ignored while mode is "always".
-    draft.lecture.Mo = [{ from: "06:00", to: "07:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe("Mo-Tu 08:00-20:00; PH off");
-  });
-
-  it("combines lecture and break schedules with macros in semester mode", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.mode = "semester";
-    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
-    draft.lecture.Tu = [{ from: "08:00", to: "20:00" }];
-    draft.break.Mo = [{ from: "10:00", to: "16:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe(
-      "lecture: Mo-Tu 08:00-20:00; break: Mo 10:00-16:00; PH off"
-    );
-  });
-
-  it("emits only the populated period in semester mode", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.mode = "semester";
-    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH off");
-  });
-
-  it("ignores invalid ranges in inactive periods", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    draft.break.Mo = [{ from: "20:00", to: "08:00" }]; // backwards, but inactive
-    expect(draftHasInvalidRange(draft)).toBe(false);
-    expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00; PH off");
-  });
-
-  it("flags an invalid range in the active period", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.mode = "semester";
-    draft.lecture.Mo = [{ from: "20:00", to: "08:00" }];
-    expect(draftHasInvalidRange(draft)).toBe(true);
-  });
-
-  it("appends PH off when the holiday row is empty", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00; PH off");
-  });
-
-  it("appends PH hours when the holiday row has hours", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.mode = "semester";
-    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
-    draft.holiday = [{ from: "10:00", to: "14:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH 10:00-14:00");
-  });
-
-  it("flags an invalid holiday range", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    expect(draftHasInvalidRange(draft)).toBe(false);
-    draft.holiday = [{ from: "14:00", to: "10:00" }];
-    expect(draftHasInvalidRange(draft)).toBe(true);
+  it("returns null for a malformed OSM string instead of throwing", async () => {
+    expect(await parseOpeningHoursWeek("Mo-Fr 08:00-99:99", WEDNESDAY)).toBeNull();
   });
 });

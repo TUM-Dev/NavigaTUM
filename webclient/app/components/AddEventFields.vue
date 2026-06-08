@@ -200,6 +200,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
     orgNameDe: org.nameDe,
     orgNameEn: org.nameEn,
     imageSrc: previewUrl.value,
+    imageAuthor: draft.value.image_author,
   };
 });
 </script>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {
   OPENING_HOURS_DAYS,
-  type OpeningHoursDay,
+  type OpeningHoursWeekday,
   type TimeRange,
   type WeekSchedule,
-} from "~/utils/openingHours";
+} from "~/utils/openingHoursEditor";
 
 const lecture = defineModel<WeekSchedule>("lecture", { required: true });
 const breakWeek = defineModel<WeekSchedule>("break", { required: true });
@@ -15,7 +15,7 @@ defineProps<{ holidayLabel: string }>();
 
 const { t } = useI18n({ useScope: "local" });
 
-const dayLabels = computed<Record<OpeningHoursDay, string>>(() => ({
+const dayLabels = computed<Record<OpeningHoursWeekday, string>>(() => ({
   Mo: t("days.Mo"),
   Tu: t("days.Tu"),
   We: t("days.We"),

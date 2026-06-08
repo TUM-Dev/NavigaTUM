@@ -8,7 +8,7 @@ import {
   emptyOpeningHoursDraft,
   hasWeeklyHours,
   type OpeningHoursDraft,
-} from "~/utils/openingHours";
+} from "~/utils/openingHoursEditor";
 
 const HTTP_URL_RE = /^https?:\/\//;
 

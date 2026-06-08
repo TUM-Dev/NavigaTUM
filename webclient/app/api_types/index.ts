@@ -819,6 +819,7 @@ export type components = {
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
        */
       readonly name: string;
+      readonly opening_hours?: null | components["schemas"]["OpeningHoursResponse"];
       /**
        * @description The human names of the parents.
        *
@@ -1286,6 +1287,46 @@ export type components = {
       readonly header?: number | null;
       /** Format: int32 */
       readonly thumb?: number | null;
+    };
+    /**
+     * @description Opening hours of a location.
+     *
+     *     The schedule is a plain OSM [`opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours)
+     *     string. Any `lecture:`/`break:` semester macros are already expanded into absolute
+     *     date ranges at data-build time, so consumers only ever see standard OSM syntax.
+     */
+    readonly OpeningHoursResponse: {
+      /**
+       * @description `YYYY-MM-DD` date on which this schedule was last confirmed.
+       * @example 2026-05-01
+       */
+      readonly last_update: string;
+      /**
+       * @description Plain OSM `opening_hours` string describing the schedule.
+       * @example Mo-Fr 08:00-22:00; Sa 09:00-17:00
+       */
+      readonly osm: string;
+      /**
+       * @description The service variant this schedule describes, when a location distinguishes
+       *     several (e.g. a separate lending desk).
+       * @example Ausleihe
+       */
+      readonly service?: string | null;
+      /**
+       * @description Where this schedule was sourced from, shown as the "source" link.
+       * @example https://www.ub.tum.de/en/branch-libraries
+       */
+      readonly source_url: string;
+      /**
+       * @description `YYYY-MM-DD` date from which this schedule is valid, when bounded.
+       * @example 2026-04-28
+       */
+      readonly valid_from?: string | null;
+      /**
+       * @description `YYYY-MM-DD` date until which this schedule is valid, when bounded.
+       * @example 2026-09-30
+       */
+      readonly valid_until?: string | null;
     };
     /** @description Operator of a location */
     readonly OperatorResponse: {

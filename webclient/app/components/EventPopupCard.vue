@@ -7,6 +7,7 @@ const props = defineProps<{
   readonly imagePath?: string;
   /** Pre-resolved image URL (e.g. a local `blob:`) for previewing a not-yet-uploaded image; overrides `imagePath`. */
   readonly imageSrcOverride?: string | null;
+  readonly imageAuthor: string;
   readonly startsAt: string;
   readonly endsAt: string;
   readonly orgCode: string;
@@ -76,13 +77,28 @@ const imageSrc = computed(
   <article
     class="bg-white text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100 w-72 max-w-full overflow-hidden rounded-sm shadow-lg"
   >
-    <figure class="bg-zinc-200 dark:bg-zinc-700 aspect-video">
+    <figure class="bg-zinc-200 dark:bg-zinc-700">
       <img
         :src="imageSrc"
         :alt="t('image_alt', [props.name])"
         loading="lazy"
-        class="block h-full w-full object-cover"
+        class="block aspect-video h-auto w-full object-cover"
       />
+      <figcaption
+        v-if="props.imageAuthor"
+        class="text-zinc-500 dark:text-zinc-400 px-2.5 pt-1.5 text-xs"
+      >
+        {{ t("photo_by") }}: <span>{{ props.imageAuthor }}</span>
+        •
+        <NuxtLink
+          to="https://creativecommons.org/licenses/by/4.0/"
+          target="_blank"
+          external
+          class="focusable hover:underline"
+        >
+          CC BY 4.0
+        </NuxtLink>
+      </figcaption>
     </figure>
     <div class="p-2.5">
       <header class="mb-2 flex flex-wrap items-start justify-between gap-2">
@@ -117,9 +133,11 @@ de:
   open_org: "Veranstalter '{0}' auf NavigaTUM öffnen"
   badge_now: "Gerade aktiv"
   badge_soon: "Beginnt bald"
+  photo_by: "Foto"
 en:
   image_alt: "Photo for the event '{0}'"
   open_org: "Open organiser '{0}' on NavigaTUM"
   badge_now: "Happening now"
   badge_soon: "Starting soon"
+  photo_by: "Photo"
 </i18n>

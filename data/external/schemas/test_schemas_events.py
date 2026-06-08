@@ -17,7 +17,17 @@ def _valid_row() -> dict[str, list[object]]:
         "ends_at": ["2026-06-15T18:00:00+02:00"],
         "description": ["x"],
         "organising_org_id": [14146],
+        "image_author": ["Studi"],
     }
+
+
+def test_events_schema_rejects_blank_image_author() -> None:
+    """CC-BY enforcement: a blank or whitespace-only `image_author` must fail validation."""
+    invalid = _valid_row()
+    invalid["image_author"] = ["   "]
+    df = pl.DataFrame(invalid, schema=EventsSchema.to_polars_schema())
+    with pytest.raises(dy.exc.ValidationError):
+        EventsSchema.validate(df)
 
 
 def test_committed_events_csv_satisfies_schema() -> None:

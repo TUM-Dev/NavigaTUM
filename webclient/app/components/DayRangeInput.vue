@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiDoorClosedLock, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
-import { isValidTimeRange, type TimeRange } from "~/utils/openingHours";
+import { isValidTimeRange, type TimeRange } from "~/utils/openingHoursEditor";
 
 const ranges = defineModel<TimeRange[]>("ranges", { required: true });
 
