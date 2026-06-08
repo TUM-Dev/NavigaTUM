@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { OPENING_HOURS_DAYS, type OpeningHoursDay, type WeekSchedule } from "~/utils/openingHours";
+import {
+  OPENING_HOURS_DAYS,
+  type OpeningHoursDay,
+  type TimeRange,
+  type WeekSchedule,
+} from "~/utils/openingHours";
 
 const lecture = defineModel<WeekSchedule>("lecture", { required: true });
 const breakWeek = defineModel<WeekSchedule>("break", { required: true });
+// Public holidays (`PH`) are not semester-dependent, so the row spans both columns.
+const holiday = defineModel<TimeRange[]>("holiday", { required: true });
+
+defineProps<{ holidayLabel: string }>();
 
 const { t } = useI18n({ useScope: "local" });
 
@@ -29,6 +38,9 @@ const dayLabels = computed<Record<OpeningHoursDay, string>>(() => ({
       <DayRangeInput v-model:ranges="lecture[day]" class="pt-1" />
       <DayRangeInput v-model:ranges="breakWeek[day]" class="pt-1" />
     </template>
+
+    <span class="pt-1.5 text-sm text-zinc-900 dark:text-zinc-50">{{ holidayLabel }}</span>
+    <DayRangeInput v-model:ranges="holiday" class="col-span-2 pt-1" />
   </div>
 </template>
 

@@ -54,16 +54,21 @@ const modeOptions: { value: OpeningHoursMode; label: string }[] = [
       </TabList>
     </TabGroup>
 
-    <div class="space-y-1">
-      <WeekScheduleInput v-if="draft.mode === 'always'" v-model:week="draft.always" />
-      <SemesterScheduleInput v-else v-model:lecture="draft.lecture" v-model:break="draft.break" />
-
-      <!-- Public holidays (OSM `PH`) as an extra weekday row: empty means closed. -->
-      <div class="flex items-start gap-2">
-        <span class="w-24 shrink-0 pt-1.5 text-sm text-zinc-900 dark:text-zinc-50">{{ t("holidays") }}</span>
-        <DayRangeInput v-model:ranges="draft.holiday" class="flex-1 pt-1" />
-      </div>
-    </div>
+    <!-- Public holidays (OSM `PH`) render as an extra weekday row inside the
+         schedule, so the row lines up with the weekdays in either layout. -->
+    <WeekScheduleInput
+      v-if="draft.mode === 'always'"
+      v-model:week="draft.always"
+      v-model:holiday="draft.holiday"
+      :holiday-label="t('holidays')"
+    />
+    <SemesterScheduleInput
+      v-else
+      v-model:lecture="draft.lecture"
+      v-model:break="draft.break"
+      v-model:holiday="draft.holiday"
+      :holiday-label="t('holidays')"
+    />
   </div>
 </template>
 
