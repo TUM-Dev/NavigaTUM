@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // `to` optional: items without a route render as plain text.
-// `current` marks the entity the user is on: rendered visually hidden so the trail is complete for
-// screen readers without duplicating the page heading.
+// `current` is rendered visually hidden so screen readers get the full trail without echoing the `<h1>`.
 interface Item {
   to?: string;
   name: string;

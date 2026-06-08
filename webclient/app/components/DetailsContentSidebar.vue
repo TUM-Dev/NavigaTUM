@@ -34,8 +34,7 @@ const navigationEnabled = computed(() => props.data.coords.accuracy !== "buildin
 const shareModalOpen = ref(false);
 
 // Only ancestors with a routable type get a canonical /{type}/{id} link; the rest render as plain text.
-// The current entity is appended as a visually-hidden final item so screen readers receive the full
-// trail (the visible `<h1>` below carries the page title for sighted users).
+// The current entity is appended as the `current` item so the trail is complete for screen readers.
 const breadcrumbItems = computed(() => [
   ...props.data.parent_names.map((name, i) => {
     const id = props.data.parents[i];
