@@ -22,11 +22,17 @@ class EventsSchema(dy.Schema):
     ends_at = dy.String(nullable=False)
     description = dy.String(nullable=False)
     organising_org_id = dy.Int32(nullable=False)
+    image_author = dy.String(nullable=False)
 
     @dy.rule()
     def name_non_empty(cls) -> pl.Expr:
         """`name` must be a non-empty string after trimming."""
         return pl.col("name").str.strip_chars().str.len_chars() > 0
+
+    @dy.rule()
+    def image_author_non_empty(cls) -> pl.Expr:
+        """`image_author` must be a non-empty string after trimming - CC-BY requires attribution."""
+        return pl.col("image_author").str.strip_chars().str.len_chars() > 0
 
     @dy.rule()
     def image_is_local_cdn_path(cls) -> pl.Expr:

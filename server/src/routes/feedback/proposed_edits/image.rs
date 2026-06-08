@@ -120,6 +120,10 @@ impl Image {
             .count();
         Ok(image_dir.join(format!("{safe_key}_{next_free_slot}.webp")))
     }
+    /// Author the submitter named for this image, as it was committed to img-sources.yaml.
+    pub(super) fn author(&self) -> &str {
+        &self.metadata.author
+    }
     /// Pixel dimensions of the upload, before any resize.
     pub(super) fn decoded_dimensions(&self) -> anyhow::Result<(u32, u32)> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;

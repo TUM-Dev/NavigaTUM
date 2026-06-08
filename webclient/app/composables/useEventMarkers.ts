@@ -49,6 +49,7 @@ export interface EventPopupProps {
   readonly name: string;
   readonly description: string;
   readonly imagePath: string;
+  readonly imageAuthor: string;
   readonly startsAt: string;
   readonly endsAt: string;
   readonly orgCode: string;
@@ -75,6 +76,7 @@ function readPopupProps(feature: GeoJSONFeature): EventPopupProps | null {
     name: asString(p.name),
     description: asString(p.description),
     imagePath: asString(p.image),
+    imageAuthor: asString(p.image_author),
     startsAt: asString(p.starts_at),
     endsAt: asString(p.ends_at),
     orgCode: asString(p.organising_org_code),

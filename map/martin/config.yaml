@@ -38,6 +38,7 @@ postgres:
         name: text
         description: text
         image: text
+        image_author: text
         starts_at: timestamptz
         ends_at: timestamptz
         organising_org_id: int4
