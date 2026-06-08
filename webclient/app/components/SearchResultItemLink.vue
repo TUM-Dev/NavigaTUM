@@ -5,25 +5,11 @@ import { type EntityPath, entityPath, isRoutableEntityType } from "~/utils/entit
 
 type ResultEntry = components["schemas"]["ResultEntry"];
 
-const props = withDefaults(
-  defineProps<{
-    item: ResultEntry;
-    highlighted: boolean;
-    lectureExpanded?: boolean | null;
-    lectureVisibleEventCount?: number | null;
-    lectureHighlightedEventIndex?: number | null;
-    lectureShowMoreVisible?: boolean;
-    lectureShowMoreHighlighted?: boolean;
-  }>(),
-  {
-    lectureExpanded: null,
-    lectureVisibleEventCount: null,
-    lectureHighlightedEventIndex: null,
-    lectureShowMoreVisible: false,
-    lectureShowMoreHighlighted: false,
-  }
-);
-const emit = defineEmits(["click", "mousedown", "mouseover", "showMore", "toggle"]);
+const props = defineProps<{
+  item: ResultEntry;
+  highlighted: boolean;
+}>();
+const emit = defineEmits(["click", "mouseover"]);
 
 const isLecture = computed(() => props.item.type === "lecture");
 
@@ -40,16 +26,8 @@ const to = computed<EntityPath | null>(() =>
     v-if="isLecture"
     :item="item"
     :highlighted="highlighted"
-    :expanded="lectureExpanded"
-    :visible-event-count="lectureVisibleEventCount"
-    :highlighted-event-index="lectureHighlightedEventIndex"
-    :show-more-visible="lectureShowMoreVisible"
-    :show-more-highlighted="lectureShowMoreHighlighted"
     @click="() => emit('click')"
-    @mousedown="() => emit('mousedown')"
     @mouseover="() => emit('mouseover')"
-    @show-more="() => emit('showMore')"
-    @toggle="() => emit('toggle')"
   />
   <li
     v-else
@@ -60,7 +38,6 @@ const to = computed<EntityPath | null>(() =>
       :to="to"
       class="focusable"
       @click="() => emit('click')"
-      @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
     >
       <SearchResultItem :item="item" :highlighted="highlighted" />

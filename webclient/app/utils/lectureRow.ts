@@ -1,4 +1,4 @@
-import { type ComputedRef, computed, type Ref, readonly, ref } from "vue";
+import { type ComputedRef, computed, type InjectionKey, type Ref, readonly, ref } from "vue";
 import type { components } from "~/api_types/index.js";
 import { type EntityPath, entityPath } from "~/utils/entityPath";
 
@@ -194,3 +194,18 @@ export function toggleLectureFromMouse(
   }
   return { expandedLectures, lectureShowAll };
 }
+
+// Controller injected from AppSearchBar so LectureSearchResultRow can read its
+// own slot by id instead of having five lecture props drilled through
+// SearchResultItemLink. The /search page provides no controller; the row falls
+// back to its own useLectureRowExpansion in that case.
+export interface LectureNavController {
+  expanded(id: string): boolean;
+  showAll(id: string): boolean;
+  highlightedEventIndex(id: string): number | null;
+  showMoreHighlighted(id: string): boolean;
+  toggle(id: string): void;
+  revealMore(id: string): void;
+}
+
+export const LectureNavKey: InjectionKey<LectureNavController> = Symbol("LectureNav");

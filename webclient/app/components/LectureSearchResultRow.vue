@@ -4,64 +4,53 @@ import type { components } from "~/api_types/index.js";
 import SearchResultItem from "~/components/SearchResultItem.vue";
 import {
   formatUpcoming,
+  LECTURE_EVENT_NAV_CAP,
   type LectureLocale,
+  LectureNavKey,
   lectureEventPath,
   useLectureRowExpansion,
 } from "~/utils/lectureRow";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
 
-// Controlled props (expanded, visibleEventCount, …) drive the row from the
-// dropdown's keyboard nav. When omitted the row falls back to its own toggle.
-const props = withDefaults(
-  defineProps<{
-    item: ResultEntry;
-    highlighted: boolean;
-    expanded?: boolean | null;
-    visibleEventCount?: number | null;
-    highlightedEventIndex?: number | null;
-    showMoreVisible?: boolean;
-    showMoreHighlighted?: boolean;
-  }>(),
-  {
-    expanded: null,
-    visibleEventCount: null,
-    highlightedEventIndex: null,
-    showMoreVisible: false,
-    showMoreHighlighted: false,
-  }
-);
+const props = defineProps<{
+  item: ResultEntry;
+  highlighted: boolean;
+}>();
 
 // Explicit emits suppress Vue's fallthrough binding on the <li> root so the
 // parent's @click doesn't fire when the user only toggles the row open.
 const emit = defineEmits<{
   (e: "click"): void;
-  (e: "mousedown"): void;
   (e: "mouseover"): void;
-  (e: "showMore"): void;
-  (e: "toggle"): void;
 }>();
 
 const { t, locale } = useI18n({ useScope: "local" });
+// Controlled when AppSearchBar provides a LectureNavController; uncontrolled on
+// /search where each row owns its own toggle.
+const nav = inject(LectureNavKey, null);
 const row = useLectureRowExpansion();
 
 const localeKey = computed<LectureLocale>(() => (locale.value === "de" ? "de" : "en"));
 const events = computed(() => props.item.upcoming ?? []);
-// Controlled when the parent passes a boolean `expanded` (AppSearchBar's
-// dropdown owns the truth), uncontrolled when `expanded` is null (the
-// /search page, where each row drives its own toggle).
-const isControlled = computed(() => props.expanded !== null);
-const isExpanded = computed(() =>
-  isControlled.value ? Boolean(props.expanded) : row.expanded.value
-);
+const isExpanded = computed(() => (nav ? nav.expanded(props.item.id) : row.expanded.value));
 const visibleEvents = computed(() => {
-  const cap = props.visibleEventCount;
-  if (cap === null || cap === undefined) return events.value;
-  return events.value.slice(0, Math.max(0, cap));
+  if (!nav) return events.value;
+  if (!nav.expanded(props.item.id)) return [];
+  if (nav.showAll(props.item.id)) return events.value;
+  return events.value.slice(0, LECTURE_EVENT_NAV_CAP);
 });
+const showMoreVisible = computed(() => {
+  if (!nav) return false;
+  if (!nav.expanded(props.item.id)) return false;
+  if (nav.showAll(props.item.id)) return false;
+  return events.value.length > LECTURE_EVENT_NAV_CAP;
+});
+const highlightedEventIndex = computed(() => nav?.highlightedEventIndex(props.item.id) ?? null);
+const showMoreHighlighted = computed(() => nav?.showMoreHighlighted(props.item.id) ?? false);
 
 function handleHeaderActivate(): void {
-  if (isControlled.value) emit("toggle");
+  if (nav) nav.toggle(props.item.id);
   else row.toggle();
 }
 
@@ -86,7 +75,6 @@ function onHeaderKeydown(e: KeyboardEvent) {
       :aria-expanded="isExpanded"
       :aria-label="isExpanded ? t('collapse') : t('expand')"
       @click="handleHeaderActivate"
-      @mousedown="emit('mousedown')"
       @keydown="onHeaderKeydown"
     >
       <!-- Highlight bg lives on the button so it spans the chevron column. -->
@@ -107,7 +95,6 @@ function onHeaderKeydown(e: KeyboardEvent) {
           class="focusable text-zinc-700 dark:text-zinc-200 flex items-center gap-2 rounded-sm px-1 py-1 hover:bg-blue-100 dark:hover:bg-blue-800"
           :class="{ 'bg-blue-200 dark:bg-blue-700': highlightedEventIndex === idx }"
           @click="emit('click')"
-          @mousedown="emit('mousedown')"
         >
           <MdiIcon :path="mdiMapMarker" :size="16" class="text-zinc-400 dark:text-zinc-500 shrink-0" />
           <time :datetime="event.start_at" class="text-sm">{{ formatUpcoming(event, localeKey) }}</time>
@@ -120,8 +107,7 @@ function onHeaderKeydown(e: KeyboardEvent) {
           type="button"
           class="focusable text-zinc-600 dark:text-zinc-300 flex w-full items-center gap-2 rounded-sm px-1 py-1 text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-800"
           :class="{ 'bg-blue-200 dark:bg-blue-700': showMoreHighlighted }"
-          @click="emit('showMore')"
-          @mousedown="emit('mousedown')"
+          @click="nav?.revealMore(item.id)"
         >
           <MdiIcon :path="mdiDotsHorizontal" :size="16" class="text-zinc-400 dark:text-zinc-500 shrink-0" />
           <span>{{ t("show_more_events") }}</span>
