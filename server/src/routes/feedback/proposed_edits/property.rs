@@ -273,7 +273,10 @@ mod tests {
             short_name: None,
         };
         let err = edit.validate("0507.01.767").unwrap_err();
-        assert!(err.to_string().contains("auto-generated display name"), "{err}");
+        assert!(
+            err.to_string().contains("auto-generated display name"),
+            "{err}"
+        );
     }
 
     #[test]
