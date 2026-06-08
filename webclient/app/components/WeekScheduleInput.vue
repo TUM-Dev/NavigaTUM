@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  OPENING_HOURS_DAYS,
-  type OpeningHoursWeekday,
-  type TimeRange,
-  type WeekSchedule,
-} from "~/utils/openingHoursEditor";
+import { OPENING_HOURS_DAYS, type TimeRange, type WeekSchedule } from "~/utils/openingHoursEditor";
 
 const week = defineModel<WeekSchedule>("week", { required: true });
 // Public holidays (`PH`) render as an extra row, in line with the weekdays.
@@ -12,17 +7,7 @@ const holiday = defineModel<TimeRange[]>("holiday", { required: true });
 
 defineProps<{ holidayLabel: string }>();
 
-const { t } = useI18n({ useScope: "local" });
-
-const dayLabels = computed<Record<OpeningHoursWeekday, string>>(() => ({
-  Mo: t("days.Mo"),
-  Tu: t("days.Tu"),
-  We: t("days.We"),
-  Th: t("days.Th"),
-  Fr: t("days.Fr"),
-  Sa: t("days.Sa"),
-  Su: t("days.Su"),
-}));
+const dayLabels = useWeekdayLabels();
 </script>
 
 <template>
@@ -37,24 +22,3 @@ const dayLabels = computed<Record<OpeningHoursWeekday, string>>(() => ({
     </div>
   </div>
 </template>
-
-<i18n lang="yaml">
-de:
-  days:
-    Mo: Montag
-    Tu: Dienstag
-    We: Mittwoch
-    Th: Donnerstag
-    Fr: Freitag
-    Sa: Samstag
-    Su: Sonntag
-en:
-  days:
-    Mo: Monday
-    Tu: Tuesday
-    We: Wednesday
-    Th: Thursday
-    Fr: Friday
-    Sa: Saturday
-    Su: Sunday
-</i18n>

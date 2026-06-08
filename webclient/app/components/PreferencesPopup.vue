@@ -58,52 +58,28 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="colorMode.preference === 'system' ? 0 : colorMode.preference === 'light' ? 1 : 2">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="colorMode.preference = 'system'"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="colorMode.preference = 'system'">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMonitor" :size="16" />
                       {{ t("theme.system") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="colorMode.preference = 'light'"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="colorMode.preference = 'light'">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWhiteBalanceSunny" :size="16" />
                       {{ t("theme.light") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="colorMode.preference = 'dark'"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="colorMode.preference = 'dark'">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMoonWaningCrescent" :size="16" />
                       {{ t("theme.dark") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>
@@ -115,30 +91,14 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="locale === 'de' ? 0 : 1">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="locale = 'de'"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="locale = 'de'">
                     Deutsch
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="locale = 'en'"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="locale = 'en'">
                     English
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>
@@ -151,84 +111,44 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="['pedestrian', 'bicycle', 'motorcycle', 'car', 'public_transit'].indexOf(preferences.route_costing)">
               <TabList class="flex flex-wrap gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-2">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('route_costing', 'pedestrian')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-4 py-3" @click="updatePreference('route_costing', 'pedestrian')">
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiWalk" :size="20" />
                       {{ t("transport.pedestrian") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('route_costing', 'bicycle')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-4 py-3" @click="updatePreference('route_costing', 'bicycle')">
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiBike" :size="20" />
                       {{ t("transport.bicycle") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('route_costing', 'motorcycle')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-4 py-3" @click="updatePreference('route_costing', 'motorcycle')">
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiMotorbike" :size="20" />
                       {{ t("transport.motorcycle") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('route_costing', 'car')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-4 py-3" @click="updatePreference('route_costing', 'car')">
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiCar" :size="20" />
                       {{ t("transport.car") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-4 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('route_costing', 'public_transit')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-4 py-3" @click="updatePreference('route_costing', 'public_transit')">
                     <div class="flex items-center gap-2">
                       <MdiIcon :path="mdiBus" :size="20" />
                       {{ t("transport.publicTransit") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>
@@ -241,52 +161,28 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="preferences.pedestrian_type === 'blind' ? 2 : preferences.pedestrian_type === 'wheelchair' ? 1 : 0">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('pedestrian_type', 'standard')"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="updatePreference('pedestrian_type', 'standard')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiAccountMultiple" :size="16" />
                       {{ t("pedestrian.standard") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('pedestrian_type', 'wheelchair')"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="updatePreference('pedestrian_type', 'wheelchair')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiWheelchairAccessibility" :size="16" />
                       {{ t("pedestrian.wheelchair") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('pedestrian_type', 'blind')"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="updatePreference('pedestrian_type', 'blind')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiEye" :size="16" />
                       {{ t("pedestrian.blind") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>
@@ -299,68 +195,36 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="['hybrid', 'road', 'cross', 'mountain'].indexOf(preferences.bicycle_type || 'hybrid')">
               <TabList class="grid grid-cols-4 gap-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-2">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('bicycle_type', 'hybrid')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-3 py-3" @click="updatePreference('bicycle_type', 'hybrid')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiBike" :size="16" />
                       {{ t("bicycle.hybrid") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('bicycle_type', 'road')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-3 py-3" @click="updatePreference('bicycle_type', 'road')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiSpeedometer" :size="16" />
                       {{ t("bicycle.road") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('bicycle_type', 'cross')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-3 py-3" @click="updatePreference('bicycle_type', 'cross')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiRoadVariant" :size="16" />
                       {{ t("bicycle.cross") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'rounded-md px-3 py-3 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('bicycle_type', 'mountain')"
-                  >
+                  <SegmentedTab :selected="selected" class="px-3 py-3" @click="updatePreference('bicycle_type', 'mountain')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiImageFilterHdr" :size="16" />
                       {{ t("bicycle.mountain") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>
@@ -373,36 +237,20 @@ async function updateLocale(value: "de" | "en") {
             <TabGroup :default-index="['motorcycle', 'moped'].indexOf(preferences.ptw_type || 'motorcycle')">
               <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('ptw_type', 'motorcycle')"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="updatePreference('ptw_type', 'motorcycle')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiMotorbike" :size="16" />
                       {{ t("ptw.motorcycle") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
                 <Tab as="template" v-slot="{ selected }">
-                  <button
-                    :class="[
-                      'w-full rounded-md py-3 px-4 text-sm font-medium leading-5',
-                      'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                      'focus:outline-none focus:ring-2 transition-all',
-                      selected ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-                    ]"
-                    @click="updatePreference('ptw_type', 'moped')"
-                  >
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="updatePreference('ptw_type', 'moped')">
                     <div class="flex items-center justify-center gap-2">
                       <MdiIcon :path="mdiBike" :size="16" />
                       {{ t("ptw.moped") }}
                     </div>
-                  </button>
+                  </SegmentedTab>
                 </Tab>
               </TabList>
             </TabGroup>

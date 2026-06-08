@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  OPENING_HOURS_DAYS,
-  type OpeningHoursWeekday,
-  type TimeRange,
-  type WeekSchedule,
-} from "~/utils/openingHoursEditor";
+import { OPENING_HOURS_DAYS, type TimeRange, type WeekSchedule } from "~/utils/openingHoursEditor";
 
 const lecture = defineModel<WeekSchedule>("lecture", { required: true });
 const breakWeek = defineModel<WeekSchedule>("break", { required: true });
@@ -15,15 +10,7 @@ defineProps<{ holidayLabel: string }>();
 
 const { t } = useI18n({ useScope: "local" });
 
-const dayLabels = computed<Record<OpeningHoursWeekday, string>>(() => ({
-  Mo: t("days.Mo"),
-  Tu: t("days.Tu"),
-  We: t("days.We"),
-  Th: t("days.Th"),
-  Fr: t("days.Fr"),
-  Sa: t("days.Sa"),
-  Su: t("days.Su"),
-}));
+const dayLabels = useWeekdayLabels();
 </script>
 
 <template>
@@ -48,23 +35,7 @@ const dayLabels = computed<Record<OpeningHoursWeekday, string>>(() => ({
 de:
   lecture_period: Vorlesungszeit
   break_period: Vorlesungsfreie Zeit
-  days:
-    Mo: Montag
-    Tu: Dienstag
-    We: Mittwoch
-    Th: Donnerstag
-    Fr: Freitag
-    Sa: Samstag
-    Su: Sonntag
 en:
   lecture_period: Lecture period
   break_period: Lecture-free period
-  days:
-    Mo: Monday
-    Tu: Tuesday
-    We: Wednesday
-    Th: Thursday
-    Fr: Friday
-    Sa: Saturday
-    Su: Sunday
 </i18n>

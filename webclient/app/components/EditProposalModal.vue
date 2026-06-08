@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mdiImagePlus, mdiMapMarkerAlert, mdiMapMarkerPlus, mdiMapPlus, mdiPencil } from "@mdi/js";
 import type { components } from "~/api_types";
 import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
@@ -10,7 +11,14 @@ import {
   type OpeningHoursDraft,
 } from "~/utils/openingHoursEditor";
 
-const HTTP_URL_RE = /^https?:\/\//;
+// Source and link URLs must be real http(s) URLs. `URL.canParse` alone also
+// accepts file:, data:, mailto:, etc., so the scheme is checked against the
+// parsed protocol (which also normalises case, e.g. `HTTP://`).
+function isHttpUrl(value: string): boolean {
+  if (!URL.canParse(value)) return false;
+  const { protocol } = new URL(value);
+  return protocol === "http:" || protocol === "https:";
+}
 
 type PropertyEdit = components["schemas"]["PropertyEdit"];
 
@@ -63,7 +71,7 @@ function injectOpeningHours(): boolean {
   const osm = buildDraftOpeningHours(openingHoursDraft.value);
 
   const url = openingHoursDraft.value.sourceUrl;
-  if (!HTTP_URL_RE.test(url) || !URL.canParse(url)) {
+  if (!isHttpUrl(url)) {
     openingHoursError.value = "source";
     return false;
   }
@@ -164,12 +172,7 @@ function buildPropertyEdits(): PropertyEdit[] {
   }
 
   // Link added?
-  if (
-    fields.linkUrl &&
-    (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) &&
-    (fields.linkUrl.startsWith("http://") || fields.linkUrl.startsWith("https://")) &&
-    (fields.linkTextDe || fields.linkTextEn)
-  ) {
+  if (isHttpUrl(fields.linkUrl) && (fields.linkTextDe || fields.linkTextEn)) {
     edits.push({
       type: "link",
       text_de: fields.linkTextDe || fields.linkTextEn,
@@ -309,65 +312,58 @@ function getEditTypeDisplay(roomId: string): string {
 <template>
   <TokenBasedEditProposalModal v-if="editProposal" v-model:open="editProposal.open" :data="editProposal.data" :title="t('title')">
     <template #modal>
-      <!-- What would you like to change? -->
-      <div class="flex flex-col">
-        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="edit-context">
-          {{ t("additional_context") }}
-        </label>
-        <textarea
-          id="edit-context"
-          v-model="editProposal.data.additional_context"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 resize-y rounded border px-2 py-1"
-          :placeholder="t('additional_context_placeholder')"
-          rows="3"
-        />
-        <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("additional_context_help") }}</p>
-        <button
-          type="button"
-          class="focusable text-zinc-500 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-300 mt-1 self-start rounded-sm text-xs underline"
-          @click="switchToFeedback"
-        >
-          {{ t("report_problem_instead") }}
-        </button>
-      </div>
-
-      <!-- Other Changes Section -->
-      <div class="pt-4">
+      <!-- The structured edit affordances are the primary way to submit a change, so they lead the modal. -->
+      <div>
         <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold mb-3 block">{{ t("other_changes") }}</label>
 
         <div class="space-y-2">
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("suggest_image_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("suggest_image_desc") }}</span>
+            <div class="flex items-start gap-3">
+              <MdiIcon :path="mdiImagePlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("suggest_image_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("suggest_image_desc") }}</span>
+              </div>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startLocationEdit">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
+            <div class="flex items-start gap-3">
+              <MdiIcon :path="mdiMapMarkerAlert" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
+              </div>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
+            <div class="flex items-start gap-3">
+              <MdiIcon :path="mdiMapPlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
+              </div>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (propertiesModalOpen = true)">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("properties_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("properties_desc") }}</span>
+            <div class="flex items-start gap-3">
+              <MdiIcon :path="mdiPencil" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("properties_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("properties_desc") }}</span>
+              </div>
             </div>
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
-            <div class="flex flex-col items-start">
-              <span class="font-medium">{{ t("propose_addition_title") }}</span>
-              <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
+            <div class="flex items-start gap-3">
+              <MdiIcon :path="mdiMapMarkerPlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("propose_addition_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
+              </div>
             </div>
           </Btn>
         </div>
@@ -409,7 +405,7 @@ function getEditTypeDisplay(roomId: string): string {
                 id="edit-name"
                 v-model="editProposal.propertyFields.name"
                 type="text"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
+                class="focusable input-field rounded border px-2 py-1 w-full text-sm"
               />
               <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_name_help") }}</p>
             </div>
@@ -421,7 +417,7 @@ function getEditTypeDisplay(roomId: string): string {
                 id="edit-short-name"
                 v-model="editProposal.propertyFields.shortName"
                 type="text"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
+                class="focusable input-field rounded border px-2 py-1 w-full text-sm"
               />
               <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">{{ t("field_short_name_help") }}</p>
             </div>
@@ -432,7 +428,7 @@ function getEditTypeDisplay(roomId: string): string {
               <select
                 id="edit-category"
                 v-model="selectedCategory"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
+                class="focusable input-field rounded border px-2 py-1 w-full text-sm"
               >
                 <option value="">-</option>
                 <option v-for="opt in categoryOptions" :key="opt.value" :value="opt.value">
@@ -451,7 +447,7 @@ function getEditTypeDisplay(roomId: string): string {
                     v-model="editProposal.propertyFields.linkUrl"
                     type="url"
                     placeholder="https://"
-                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable input-field rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
@@ -459,7 +455,7 @@ function getEditTypeDisplay(roomId: string): string {
                   <input
                     v-model="editProposal.propertyFields.linkTextDe"
                     type="text"
-                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable input-field rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
                 <div class="flex items-center gap-2">
@@ -467,7 +463,7 @@ function getEditTypeDisplay(roomId: string): string {
                   <input
                     v-model="editProposal.propertyFields.linkTextEn"
                     type="text"
-                    class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 flex-1 text-sm"
+                    class="focusable input-field rounded border px-2 py-1 flex-1 text-sm"
                   />
                 </div>
               </div>
@@ -489,6 +485,28 @@ function getEditTypeDisplay(roomId: string): string {
             <Btn variant="primary" size="md" @click="savePropertiesAndClose">{{ t("save") }}</Btn>
           </div>
         </Modal>
+      </div>
+
+      <!-- Optional free-text context, plus the "report a problem" escape hatch for users who cannot name the fix. -->
+      <div class="flex flex-col pt-4">
+        <label class="text-zinc-600 dark:text-zinc-300 text-sm font-semibold" for="edit-context">
+          {{ t("additional_context") }}
+        </label>
+        <textarea
+          id="edit-context"
+          v-model="editProposal.data.additional_context"
+          class="focusable input-field resize-y rounded border px-2 py-1"
+          :placeholder="t('additional_context_placeholder')"
+          rows="3"
+        />
+        <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("additional_context_help") }}</p>
+        <button
+          type="button"
+          class="focusable text-zinc-500 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-300 mt-1 self-start rounded-sm text-xs underline"
+          @click="switchToFeedback"
+        >
+          {{ t("report_problem_instead") }}
+        </button>
       </div>
 
       <!-- Current Edits -->
@@ -548,11 +566,11 @@ function getEditTypeDisplay(roomId: string): string {
 <i18n lang="yaml">
 de:
   title: Änderungen vorschlagen
-  additional_context: Was möchtest du ändern?
+  additional_context: Zusätzlicher Kontext (optional)
   additional_context_placeholder: "Beschreibe was falsch ist oder verbessert werden sollte:\n- Falsche Rauminformationen (Name, Beschreibung, Öffnungszeiten)\n- Fehlende oder veraltete Details\n- Andere Korrekturen oder Verbesserungen"
-  additional_context_help: Beschreibe hier alle Probleme oder Verbesserungsvorschläge.
+  additional_context_help: Ergänze alles, was uns hilft, deinen Vorschlag zu verstehen.
   report_problem_instead: Du kennst die Lösung nicht? Melde einfach ein Problem.
-  other_changes: Weitere Änderungen
+  other_changes: Was möchtest du ändern?
   properties: Eigenschaften
   properties_title: Eigenschaften bearbeiten
   properties_desc: Name, Kategorie oder Links dieses Raums ändern
@@ -592,11 +610,11 @@ de:
   success_this_pr: diesem GitHub Pull Request
 en:
   title: Propose Changes
-  additional_context: What would you like to change?
+  additional_context: Additional context (optional)
   additional_context_placeholder: "Describe what's wrong or needs improvement:\n- Incorrect room information (name, description, hours)\n- Missing or outdated details\n- Other corrections or improvements"
-  additional_context_help: Describe any issues or improvement suggestions here.
+  additional_context_help: Add anything that helps us understand your suggestion.
   report_problem_instead: Don't know the fix? Just report a problem.
-  other_changes: Other changes
+  other_changes: What would you like to change?
   properties: Properties
   properties_title: Edit properties
   properties_desc: Change the name, category, or links of this room

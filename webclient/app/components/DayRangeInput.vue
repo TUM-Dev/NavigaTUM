@@ -23,10 +23,10 @@ function removeRange(index: number) {
       :title="t('add_range')"
       @click="addRange"
     >
-      <svg class="h-5 w-5" viewBox="0 0 24 24"><path :d="mdiPlus" fill="currentColor" /></svg>
+      <MdiIcon :path="mdiPlus" :size="20" />
     </button>
     <span v-if="!ranges.length" class="text-zinc-400 dark:text-zinc-500 inline-flex items-center gap-1 text-xs">
-      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24"><path :d="mdiDoorClosedLock" fill="currentColor" /></svg>
+      <MdiIcon :path="mdiDoorClosedLock" :size="14" />
       {{ t("closed") }}
     </span>
     <div v-for="(range, index) in ranges" :key="index" class="flex items-center gap-1">
@@ -34,14 +34,14 @@ function removeRange(index: number) {
         v-model="range.from"
         type="time"
         :aria-label="t('from')"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-1.5 py-0.5 text-sm"
+        class="focusable input-field rounded border px-1.5 py-0.5 text-sm"
       />
       <span class="text-zinc-500 dark:text-zinc-400 text-sm">-</span>
       <input
         v-model="range.to"
         type="time"
         :aria-label="t('to')"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-1.5 py-0.5 text-sm"
+        class="focusable input-field rounded border px-1.5 py-0.5 text-sm"
       />
       <button
         type="button"
@@ -49,7 +49,7 @@ function removeRange(index: number) {
         :aria-label="t('remove_range')"
         @click="removeRange(index)"
       >
-        <svg class="h-4 w-4" viewBox="0 0 24 24"><path :d="mdiTrashCanOutline" fill="currentColor" /></svg>
+        <MdiIcon :path="mdiTrashCanOutline" :size="16" />
       </button>
       <span v-if="!isValidTimeRange(range)" class="text-red-600 dark:text-red-300 text-xs">{{ t("invalid_range") }}</span>
     </div>

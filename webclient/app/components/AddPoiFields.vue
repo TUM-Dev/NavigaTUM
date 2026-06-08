@@ -28,7 +28,7 @@ function removeProp(idx: number) {
         id="add-poi-name"
         v-model="draft.name"
         type="text"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 
@@ -40,7 +40,7 @@ function removeProp(idx: number) {
         id="add-poi-usage"
         v-model="draft.usage_name"
         type="text"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
       <I18nT keypath="short_description_help" tag="p" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
         <template #ex1><code class="font-mono">{{ t("short_description_help_ex1") }}</code></template>
@@ -59,13 +59,13 @@ function removeProp(idx: number) {
               v-model="draft.comment_de"
               :placeholder="t('comment_de')"
               rows="2"
-              class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full resize-y rounded border px-2 py-1 text-sm"
+              class="focusable input-field w-full resize-y rounded border px-2 py-1 text-sm"
             />
             <textarea
               v-model="draft.comment_en"
               :placeholder="t('comment_en')"
               rows="2"
-              class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full resize-y rounded border px-2 py-1 text-sm"
+              class="focusable input-field w-full resize-y rounded border px-2 py-1 text-sm"
             />
           </div>
         </div>
@@ -85,20 +85,20 @@ function removeProp(idx: number) {
                   v-model="prop.name_de"
                   type="text"
                   :placeholder="t('prop_name_de')"
-                  class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
+                  class="focusable input-field rounded border px-2 py-1 text-sm"
                 />
                 <input
                   v-model="prop.name_en"
                   type="text"
                   :placeholder="t('prop_name_en')"
-                  class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
+                  class="focusable input-field rounded border px-2 py-1 text-sm"
                 />
               </div>
               <input
                 v-model="prop.text"
                 type="text"
                 :placeholder="t('prop_text')"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
             <button type="button" class="focusable mt-1 rounded-sm" :title="t('remove_prop')" @click="removeProp(idx)">
