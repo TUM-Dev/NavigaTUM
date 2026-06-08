@@ -509,7 +509,7 @@ de:
   crop_header: Header-Ausschnitt
   crop_header_help: Breiter Ausschnitt (512×210) für die Kopfzeile.
   preview: Vorschau auf der Karte
-  preview_help: So erscheint die Veranstaltung auf der Karte – als Foto-Marker mit Popup.
+  preview_help: So erscheint die Veranstaltung auf der Karte - als Foto-Marker mit Popup.
   error:
     name_required: Bitte gib einen Namen an.
     name_too_long: Der Name ist zu lang (max. 200 Zeichen).
