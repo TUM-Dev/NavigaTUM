@@ -6,7 +6,6 @@ import {
   emptyOpeningHoursDraft,
   emptyWeekSchedule,
   hasWeeklyHours,
-  holidayHoursMissing,
   isValidTimeRange,
   scopeOsmRules,
   type WeekSchedule,
@@ -111,8 +110,8 @@ describe("scopeOsmRules", () => {
 });
 
 describe("opening-hours draft", () => {
-  it("defaults holidays to closed", () => {
-    expect(emptyOpeningHoursDraft().holiday.mode).toBe("closed");
+  it("defaults holidays to closed (no PH ranges)", () => {
+    expect(emptyOpeningHoursDraft().holiday).toEqual([]);
   });
 
   it("reports weekly hours only for the active mode", () => {
@@ -168,37 +167,25 @@ describe("buildDraftOpeningHours", () => {
     expect(draftHasInvalidRange(draft)).toBe(true);
   });
 
-  it("appends PH off for holidays closed", () => {
+  it("appends PH off when the holiday row is empty", () => {
     const draft = emptyOpeningHoursDraft();
     draft.always.Mo = [{ from: "08:00", to: "20:00" }];
-    expect(draft.holiday.mode).toBe("closed"); // the default
     expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00; PH off");
   });
 
-  it("appends PH hours for holidays open", () => {
+  it("appends PH hours when the holiday row has hours", () => {
     const draft = emptyOpeningHoursDraft();
     draft.mode = "semester";
     draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
-    draft.holiday.mode = "open";
-    draft.holiday.ranges = [{ from: "10:00", to: "14:00" }];
+    draft.holiday = [{ from: "10:00", to: "14:00" }];
     expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH 10:00-14:00");
   });
 
-  it("requires at least one range when holidays are open", () => {
+  it("flags an invalid holiday range", () => {
     const draft = emptyOpeningHoursDraft();
-    expect(holidayHoursMissing(draft)).toBe(false); // default closed
-    draft.holiday.mode = "open";
-    expect(holidayHoursMissing(draft)).toBe(true); // open, no ranges
-    draft.holiday.ranges = [{ from: "10:00", to: "14:00" }];
-    expect(holidayHoursMissing(draft)).toBe(false);
-  });
-
-  it("flags an invalid holiday range only when holidays are open", () => {
-    const draft = emptyOpeningHoursDraft();
-    draft.holiday.mode = "closed";
-    draft.holiday.ranges = [{ from: "14:00", to: "10:00" }];
-    expect(draftHasInvalidRange(draft)).toBe(false); // ranges ignored unless open
-    draft.holiday.mode = "open";
+    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
+    expect(draftHasInvalidRange(draft)).toBe(false);
+    draft.holiday = [{ from: "14:00", to: "10:00" }];
     expect(draftHasInvalidRange(draft)).toBe(true);
   });
 });

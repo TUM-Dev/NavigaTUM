@@ -7,7 +7,6 @@ import {
   draftHasInvalidRange,
   emptyOpeningHoursDraft,
   hasWeeklyHours,
-  holidayHoursMissing,
   type OpeningHoursDraft,
 } from "~/utils/openingHours";
 
@@ -37,7 +36,7 @@ const propertiesModalOpen = ref(false);
 // Opening-hours edit lives inside the properties modal; its draft is committed
 // together with the other property edits on save.
 const openingHoursDraft = ref<OpeningHoursDraft>(emptyOpeningHoursDraft());
-const openingHoursError = ref<"" | "source" | "range" | "holiday">("");
+const openingHoursError = ref<"" | "source" | "range">("");
 
 function resetOpeningHoursDraft() {
   openingHoursDraft.value = emptyOpeningHoursDraft();
@@ -60,11 +59,6 @@ function injectOpeningHours(): boolean {
   if (!hasWeeklyHours(openingHoursDraft.value)) {
     openingHoursError.value = "";
     return true;
-  }
-  // "Open on holidays" without any hours is ambiguous - force a concrete range.
-  if (holidayHoursMissing(openingHoursDraft.value)) {
-    openingHoursError.value = "holiday";
-    return false;
   }
   const osm = buildDraftOpeningHours(openingHoursDraft.value);
 
@@ -489,9 +483,6 @@ function getEditTypeDisplay(roomId: string): string {
               <p v-else-if="openingHoursError === 'range'" class="text-red-600 dark:text-red-300 text-xs mt-2">
                 {{ t("opening_hours_invalid_range") }}
               </p>
-              <p v-else-if="openingHoursError === 'holiday'" class="text-red-600 dark:text-red-300 text-xs mt-2">
-                {{ t("opening_hours_holiday_hours_required") }}
-              </p>
             </div>
           </div>
           <div class="flex justify-end pt-4">
@@ -568,7 +559,6 @@ de:
   opening_hours_title: Öffnungszeiten
   opening_hours_source_required: Bitte gib eine Quelle (URL) für die Öffnungszeiten an.
   opening_hours_invalid_range: Bitte korrigiere die ungültigen Zeiträume (Ende muss nach dem Anfang liegen).
-  opening_hours_holiday_hours_required: Bitte gib die Öffnungszeiten an Feiertagen an oder wähle „Geschlossen“.
   field_name: Name
   field_name_help: Der vollständige Name, wie er auf der Detailseite angezeigt wird (z.B. „Hörsaal 1 Friedrich L. Bauer")
   field_short_name: Kurzname
@@ -613,7 +603,6 @@ en:
   opening_hours_title: Opening hours
   opening_hours_source_required: Please provide a source (URL) for the opening hours.
   opening_hours_invalid_range: Please fix the invalid time ranges (the end must be after the start).
-  opening_hours_holiday_hours_required: Please add the opening hours for public holidays, or choose “Closed”.
   field_name: Name
   field_name_help: The full name shown on the detail page (e.g. "Lecture Hall 1 Friedrich L. Bauer")
   field_short_name: Short name

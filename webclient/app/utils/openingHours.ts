@@ -102,20 +102,13 @@ export function scopeOsmRules(plainOsm: string, prefix: SchedulePrefix): string 
 // lecture-free-period schedules, emitted with `lecture:`/`break:` macros.
 export type OpeningHoursMode = "always" | "semester";
 
-// Public-holiday (`PH`) handling. `closed` emits `PH off`; `open` emits `PH <hours>`.
-export type HolidayMode = "closed" | "open";
-
-export interface HolidaySchedule {
-  mode: HolidayMode;
-  ranges: TimeRange[];
-}
-
 export interface OpeningHoursDraft {
   mode: OpeningHoursMode;
   always: WeekSchedule;
   lecture: WeekSchedule;
   break: WeekSchedule;
-  holiday: HolidaySchedule;
+  // Public holidays (`PH`), treated like an extra weekday: empty means closed.
+  holiday: TimeRange[];
   sourceUrl: string;
 }
 
@@ -125,8 +118,7 @@ export function emptyOpeningHoursDraft(): OpeningHoursDraft {
     always: emptyWeekSchedule(),
     lecture: emptyWeekSchedule(),
     break: emptyWeekSchedule(),
-    // Most facilities are shut on public holidays, so default to closed.
-    holiday: { mode: "closed", ranges: [] },
+    holiday: [],
     sourceUrl: "",
   };
 }
@@ -138,14 +130,11 @@ export function hasWeeklyHours(draft: OpeningHoursDraft): boolean {
   return activeWeeks(draft).some((week) => buildOsmOpeningHours(week) !== "");
 }
 
-// The OSM `PH` rule for the holiday selection. `open` without any valid hours
-// states nothing and yields `""`; otherwise the facility is closed on holidays.
-export function buildHolidayRule(holiday: HolidaySchedule): string {
-  if (holiday.mode === "open") {
-    const hours = osmRangeList(holiday.ranges);
-    return hours ? `PH ${hours}` : "";
-  }
-  return "PH off";
+// The OSM `PH` rule. Mirrors a weekday: hours when open, `PH off` when the
+// holiday row is left empty (most facilities are shut on public holidays).
+export function buildPublicHolidayRule(ranges: TimeRange[]): string {
+  const hours = osmRangeList(ranges);
+  return hours ? `PH ${hours}` : "PH off";
 }
 
 // The week schedules that actually contribute for the chosen mode; the others
@@ -154,19 +143,11 @@ export function activeWeeks(draft: OpeningHoursDraft): WeekSchedule[] {
   return draft.mode === "always" ? [draft.always] : [draft.lecture, draft.break];
 }
 
-// `open` on holidays must list at least one valid range. An empty selection is
-// ambiguous (closed? 24/7?), so callers surface it as incomplete rather than
-// silently emitting no `PH` rule.
-export function holidayHoursMissing(draft: OpeningHoursDraft): boolean {
-  return draft.holiday.mode === "open" && osmRangeList(draft.holiday.ranges) === "";
-}
-
 export function draftHasInvalidRange(draft: OpeningHoursDraft): boolean {
   const weekInvalid = activeWeeks(draft).some((week) =>
     OPENING_HOURS_DAYS.some((day) => week[day].some((range) => !isValidTimeRange(range)))
   );
-  const holidayInvalid =
-    draft.holiday.mode === "open" && draft.holiday.ranges.some((range) => !isValidTimeRange(range));
+  const holidayInvalid = draft.holiday.some((range) => !isValidTimeRange(range));
   return weekInvalid || holidayInvalid;
 }
 
@@ -190,7 +171,7 @@ export function buildDraftOpeningHours(draft: OpeningHoursDraft): string {
           .join("; ");
 
   const rules = base ? [base] : [];
-  const holiday = buildHolidayRule(draft.holiday);
+  const holiday = buildPublicHolidayRule(draft.holiday);
   if (holiday) rules.push(holiday);
   return rules.join("; ");
 }
