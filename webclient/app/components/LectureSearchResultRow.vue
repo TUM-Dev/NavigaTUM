@@ -18,16 +18,14 @@ const props = defineProps<{
   highlighted: boolean;
 }>();
 
-// Explicit emits suppress Vue's fallthrough binding on the <li> root so the
-// parent's @click doesn't fire when the user only toggles the row open.
+// Declared so a header toggle does not bubble as a row-level @click.
 const emit = defineEmits<{
   (e: "click"): void;
   (e: "mouseover"): void;
 }>();
 
 const { t, locale } = useI18n({ useScope: "local" });
-// Controlled when AppSearchBar provides a LectureNavController; uncontrolled on
-// /search where each row owns its own toggle.
+// Controlled by AppSearchBar's nav when present; uncontrolled on /search.
 const nav = inject(LectureNavKey, null);
 const row = useLectureRowExpansion();
 

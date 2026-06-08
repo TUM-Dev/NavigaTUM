@@ -12,16 +12,9 @@ import {
 
 type ResultsSection = components["schemas"]["ResultsSection"];
 
-// Keyboard-navigable dropdown state for AppSearchBar. Owns the four ref Sets
-// that drive the flattened visibleElements list, plus the per-key actions
-// (ArrowDown / ArrowUp) whose ordering is subtle - re-expand on landing, but
-// not when the wrap brings us back to the same lecture's header. The
-// LectureNavController is exposed so AppSearchBar can `provide()` it to the
-// LectureSearchResultRow descendants without prop-drilling.
 export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSection[] | undefined>) {
   const expandedFacets = ref<Set<string>>(new Set());
-  // Sticky for the dropdown session so ArrowUp back into a lecture doesn't
-  // recollapse it and shift every downstream highlight index.
+  // Session-sticky so an ArrowUp wrap back into a lecture does not collapse it.
   const expandedLectures = ref<Set<string>>(new Set());
   const lectureShowAll = ref<Set<string>>(new Set());
   const highlighted = ref<number | undefined>(undefined);
@@ -163,9 +156,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
       );
       expandedLectures.value = new Set(next.expandedLectures);
       lectureShowAll.value = new Set(next.lectureShowAll);
-      // Snap keyboard state to the just-toggled row so ArrowDown picks up
-      // where the mouse left off; visibleElements has recomputed against the
-      // new sets by the time we read it here.
+      // Anchor the keyboard cursor on the toggled row for the next ArrowDown.
       const headerIdx = findLectureHeaderIndex(visibleElements.value, id);
       highlighted.value = headerIdx >= 0 ? headerIdx : undefined;
     },

@@ -20,10 +20,6 @@ const route = useRoute();
 const router = useRouter();
 const filters = useStagedSearchFilters();
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
-// One source of truth for "dropdown stays open": any descendant (input, filter
-// chip, sort popover, "show hidden" button, …) holding focus keeps it open;
-// focus leaving the wrapper closes it. Mirrored into the searchBarFocused
-// v-model so parent layouts that dim off it keep working.
 const searchWrapper = ref<HTMLElement | null>(null);
 const searchInput = useTemplateRef<HTMLTextAreaElement>("searchInput");
 const { focused: wrapperFocused } = useFocusWithin(searchWrapper);
@@ -91,9 +87,7 @@ async function goToEvent(event: UpcomingEvent): Promise<void> {
 }
 
 function closeSearchBar(): void {
-  // Escape may fire with focus on any child (filter chip, sort popover, …),
-  // not just the textarea, so blur the active descendant rather than the input
-  // specifically - that's what useFocusWithin needs to flip the panel shut.
+  // Blur whichever descendant holds focus so useFocusWithin flips shut.
   const active = document.activeElement;
   if (active instanceof HTMLElement && searchWrapper.value?.contains(active)) {
     active.blur();

@@ -121,14 +121,13 @@ describe("formatUpcoming", () => {
 
   it("renders both date and time on each side when the event crosses Berlin midnight", () => {
     const event: UpcomingEvent = {
-      // 2026-10-15 is still CEST in Berlin (DST ends 2026-10-25), so UTC -> Berlin = +2h.
-      start_at: "2026-10-15T20:30:00Z", // 22:30 Berlin, Oct 15
-      end_at: "2026-10-15T22:30:00Z", // 00:30 Berlin, Oct 16
+      // CEST until 2026-10-25, so UTC + 2h yields 22:30 → 00:30 Berlin.
+      start_at: "2026-10-15T20:30:00Z",
+      end_at: "2026-10-15T22:30:00Z",
       room_code: "5606.EG.011",
       room_name: "Testhörsaal",
     };
     const formatted = formatUpcoming(event, "en");
-    // Two day labels and an explicit ` - ` separator distinguish cross-day from the same-day form.
     expect(formatted).toContain(" - ");
     expect(formatted).toMatch(CROSS_DAY_RE);
   });
@@ -352,10 +351,8 @@ describe("collapsedHighlightTarget", () => {
       expandedLectures: new Set(["lA"]),
       lectureShowAll: new Set(),
     });
-    // [r1, r2, lA-header, e0, e1, e2, show-more, p1]; show-more sits at idx 6.
+    // [r1, r2, lA-header, e0, e1, e2, show-more, p1]; collapsing lA lands at p1's slot (3).
     expect(flat[6]?.kind).toBe("show_more_events");
-    // Header is at 2, so post-collapse the highlight should land at idx 3 -
-    // which in the new flat list is where p1 will sit.
     expect(collapsedHighlightTarget(flat, 6, "lA")).toBe(3);
   });
 
@@ -387,18 +384,14 @@ describe("collapsedHighlightTarget", () => {
 
 describe("collapsedUpwardHighlightTarget", () => {
   it("steps one slot above the header when it wasn't at the top", () => {
-    // Header at idx 3 in a list of pre-collapse length 8 (body of size 4).
-    // Post-collapse length doesn't matter here - the slot above is untouched.
     expect(collapsedUpwardHighlightTarget(3, 4)).toBe(2);
   });
 
   it("wraps to the post-collapse tail when the header was the first entry", () => {
-    // Header at idx 0; post-collapse list has 3 entries → wrap to 2.
     expect(collapsedUpwardHighlightTarget(0, 3)).toBe(2);
   });
 
   it("returns 0 for a single-lecture-only list (wrap onto itself)", () => {
-    // Pre-collapse: just header + body; post-collapse: only header remains.
     expect(collapsedUpwardHighlightTarget(0, 1)).toBe(0);
   });
 
@@ -408,9 +401,6 @@ describe("collapsedUpwardHighlightTarget", () => {
 });
 
 describe("toggleLectureFromMouse", () => {
-  // Mouse-click expansion is the user's "scan this whole lecture" intent, so
-  // it must flip both gates - distinct from the keyboard's expandedLectures-
-  // only flow which caps at LECTURE_EVENT_NAV_CAP + show-more.
   it("adds the id to both expandedLectures and lectureShowAll when not yet expanded", () => {
     const before = {
       expandedFacets: new Set<string>(),
@@ -433,9 +423,6 @@ describe("toggleLectureFromMouse", () => {
     expect(after.lectureShowAll).toEqual(new Set());
   });
 
-  // A keyboard-expanded lecture has expandedLectures.has(id) === true but
-  // lectureShowAll.has(id) === false. A mouse "toggle" on this row is read as
-  // "collapse it" (expandedLectures already has the id) and must drop both.
   it("treats expandedLectures presence as the expansion gate and clears both on toggle", () => {
     const before = {
       expandedFacets: new Set<string>(),

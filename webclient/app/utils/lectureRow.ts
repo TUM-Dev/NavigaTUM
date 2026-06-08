@@ -82,8 +82,7 @@ export function useLectureRowExpansion(initial = false): LectureRowExpansion {
   };
 }
 
-// Cap on per-lecture events surfaced to keyboard nav before the show-more stop
-// appears. Keeps weekly-recurring lectures from drowning the dropdown.
+// Per-lecture event cap before the show-more stop; keeps recurring lectures from drowning the dropdown.
 export const LECTURE_EVENT_NAV_CAP = 3;
 
 export type VisibleSearchEntry =
@@ -175,9 +174,7 @@ export interface MouseToggleResult {
   readonly lectureShowAll: ReadonlySet<string>;
 }
 
-// Mouse click signals "show me everything for this lecture", so expansion
-// flips both gates - distinct from the keyboard's cap-then-show-more
-// progression which only sets expandedLectures.
+// Mouse expansion flips both gates; the keyboard path opts into the full list separately via revealMore.
 export function toggleLectureFromMouse(
   state: LectureExpansionState,
   lectureId: string
@@ -195,10 +192,7 @@ export function toggleLectureFromMouse(
   return { expandedLectures, lectureShowAll };
 }
 
-// Controller injected from AppSearchBar so LectureSearchResultRow can read its
-// own slot by id instead of having five lecture props drilled through
-// SearchResultItemLink. The /search page provides no controller; the row falls
-// back to its own useLectureRowExpansion in that case.
+// Provided by AppSearchBar so rows can read their own slot without prop-drilling; absent on /search.
 export interface LectureNavController {
   expanded(id: string): boolean;
   showAll(id: string): boolean;
