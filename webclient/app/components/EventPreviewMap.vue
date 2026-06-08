@@ -132,7 +132,7 @@ watch(
   () => Boolean(props.popup),
   async () => {
     // The container height changes with the popup. Let the DOM apply it, force MapLibre to read the
-    // new size, then re-bias and reproject — otherwise the card anchors against the stale height and
+    // new size, then re-bias and reproject - otherwise the card anchors against the stale height and
     // lands above the frame, where `overflow-hidden` clips it out of sight.
     await nextTick();
     map.value?.resize();
