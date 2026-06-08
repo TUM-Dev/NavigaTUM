@@ -1,4 +1,5 @@
 import re
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +22,38 @@ def _orjson_default(o: Any) -> Any:
     if isinstance(o, PydanticConfiguration):
         return o.model_dump()
     raise TypeError(f"Object of type {type(o)} is not JSON serializable")
+
+
+class SearchFacet(StrEnum):
+    """
+    The search facet a location is bucketed into by the search API.
+
+    The closed set the server's `facet` field is matched against. Location types
+    not listed here (the synthetic `root` node) have no facet and are not
+    locatable results, so they are skipped at export rather than indexed.
+    """
+
+    SITE = "site"
+    BUILDING = "building"
+    ROOM = "room"
+    POI = "poi"
+
+
+# Location `type` -> the search facet it surfaces under.
+_TYPE_TO_FACET: dict[str, SearchFacet] = {
+    "site": SearchFacet.SITE,
+    "campus": SearchFacet.SITE,
+    "area": SearchFacet.SITE,
+    "joined_building": SearchFacet.BUILDING,
+    "building": SearchFacet.BUILDING,
+    "room": SearchFacet.ROOM,
+    "virtual_room": SearchFacet.ROOM,
+    "poi": SearchFacet.POI,
+}
+# Types that deliberately carry no search facet and are excluded from the index.
+# Only the synthetic tree root - everything else must map to a facet, so an
+# unmapped type is a bug (a new type was added without deciding how it searches).
+_NON_SEARCHABLE_TYPES: frozenset[str] = frozenset({"root"})
 
 
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
@@ -70,6 +103,15 @@ def export_for_search(data: dict[str, Any]) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
+        facet = _TYPE_TO_FACET.get(entry["type"])
+        if facet is None:
+            if entry["type"] in _NON_SEARCHABLE_TYPES:
+                # The synthetic `root` node is not a locatable result.
+                continue
+            raise ValueError(
+                f"location {_id!r} has type {entry['type']!r}, which maps to no search facet; "
+                f"add it to _TYPE_TO_FACET or _NON_SEARCHABLE_TYPES",
+            )
         building_parents_index = len(entry["parents"])
         if entry["type"] in {"room", "virtual_room"}:
             for i, parent in enumerate(entry["parents"]):
@@ -111,16 +153,7 @@ def export_for_search(data: dict[str, Any]) -> None:
                 "aliases": entry.get("aliases", []),
                 "type": entry["type"],
                 "type_common_name": _de(entry["type_common_name"]),
-                "facet": {
-                    "site": "site",
-                    "campus": "site",
-                    "area": "site",
-                    "joined_building": "building",
-                    "building": "building",
-                    "room": "room",
-                    "virtual_room": "room",
-                    "poi": "poi",
-                }.get(entry["type"]),
+                "facet": facet.value,
                 "operator_name": _de(entry.get("props", {}).get("operator", {}).get("name", None)),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
