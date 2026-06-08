@@ -126,9 +126,17 @@ export function emptyOpeningHoursDraft(): OpeningHoursDraft {
     always: emptyWeekSchedule(),
     lecture: emptyWeekSchedule(),
     break: emptyWeekSchedule(),
-    holiday: { mode: "unspecified", ranges: [] },
+    // Most facilities are shut on public holidays, so default to closed.
+    holiday: { mode: "closed", ranges: [] },
     sourceUrl: "",
   };
+}
+
+// Whether the draft states any regular weekly hours. The holiday rule only
+// augments a weekly schedule, so a bare `PH off` default must not count as a
+// schedule worth submitting on its own.
+export function hasWeeklyHours(draft: OpeningHoursDraft): boolean {
+  return activeWeeks(draft).some((week) => buildOsmOpeningHours(week) !== "");
 }
 
 // The OSM `PH` rule for the holiday selection, or `""` when unspecified (or

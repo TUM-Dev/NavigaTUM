@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import { mdiPlus, mdiTrashCanOutline } from "@mdi/js";
-import { isValidTimeRange, type OpeningHoursDraft, type OpeningHoursMode } from "~/utils/openingHours";
+import {
+  type HolidayMode,
+  isValidTimeRange,
+  type OpeningHoursDraft,
+  type OpeningHoursMode,
+} from "~/utils/openingHours";
 
 const draft = defineModel<OpeningHoursDraft>({ required: true });
 
@@ -10,6 +15,12 @@ const { t } = useI18n({ useScope: "local" });
 const modeOptions: { value: OpeningHoursMode; label: string }[] = [
   { value: "always", label: "mode_always" },
   { value: "semester", label: "mode_semester" },
+];
+
+const holidayOptions: { value: HolidayMode; label: string }[] = [
+  { value: "unspecified", label: "holiday_unspecified" },
+  { value: "closed", label: "holiday_closed" },
+  { value: "open", label: "holiday_open" },
 ];
 
 function addHolidayRange() {
@@ -48,16 +59,26 @@ function removeHolidayRange(index: number) {
 
     <!-- Public holidays (OSM `PH`). -->
     <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
-      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-holiday">{{ t("holidays") }}</label>
-      <select
-        id="opening-hours-holiday"
-        v-model="draft.holiday.mode"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 w-full text-sm"
-      >
-        <option value="unspecified">{{ t("holiday_unspecified") }}</option>
-        <option value="closed">{{ t("holiday_closed") }}</option>
-        <option value="open">{{ t("holiday_open") }}</option>
-      </select>
+      <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1">{{ t("holidays") }}</label>
+      <TabGroup :selected-index="holidayOptions.findIndex((o) => o.value === draft.holiday.mode)">
+        <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
+          <Tab v-for="opt in holidayOptions" :key="opt.value" as="template">
+            <button
+              type="button"
+              :class="[
+                'w-full rounded-md px-3 py-1.5 text-sm font-medium leading-5 transition-all',
+                'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500 focus:outline-none focus:ring-2',
+                draft.holiday.mode === opt.value
+                  ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow'
+                  : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
+              ]"
+              @click="draft.holiday.mode = opt.value"
+            >
+              {{ t(opt.label) }}
+            </button>
+          </Tab>
+        </TabList>
+      </TabGroup>
 
       <div v-if="draft.holiday.mode === 'open'" class="mt-2 flex flex-wrap items-center gap-2">
         <div v-for="(range, index) in draft.holiday.ranges" :key="index" class="flex items-center gap-1">

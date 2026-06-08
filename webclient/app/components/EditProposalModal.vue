@@ -6,6 +6,7 @@ import {
   buildDraftOpeningHours,
   draftHasInvalidRange,
   emptyOpeningHoursDraft,
+  hasWeeklyHours,
   type OpeningHoursDraft,
 } from "~/utils/openingHours";
 
@@ -53,11 +54,13 @@ function injectOpeningHours(): boolean {
     return false;
   }
 
-  const osm = buildDraftOpeningHours(openingHoursDraft.value);
-  if (!osm) {
+  // Holidays alone (the default `PH off`) are not a schedule worth submitting -
+  // only commit once regular weekly hours have actually been entered.
+  if (!hasWeeklyHours(openingHoursDraft.value)) {
     openingHoursError.value = "";
     return true;
   }
+  const osm = buildDraftOpeningHours(openingHoursDraft.value);
 
   const url = openingHoursDraft.value.sourceUrl;
   if (!HTTP_URL_RE.test(url) || !URL.canParse(url)) {
