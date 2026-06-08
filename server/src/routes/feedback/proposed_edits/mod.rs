@@ -17,14 +17,17 @@ use crate::limited::hash_map::LimitedHashMap;
 use super::proposed_edits::addition::Addition;
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
+use super::proposed_edits::opening_hours::OpeningHoursEdit;
 use super::proposed_edits::property::PropertyEdit;
 use super::tokens::RecordedTokens;
 use crate::external::github::GitHub;
 
 pub(crate) mod addition;
 mod coordinate;
+mod csv_edit;
 mod description;
 mod image;
+mod opening_hours;
 mod property;
 pub(crate) mod repo_pool;
 mod tmp_repo;
@@ -36,6 +39,7 @@ struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
     properties: Option<Vec<PropertyEdit>>,
+    opening_hours: Option<OpeningHoursEdit>,
 }
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String>;
@@ -153,6 +157,14 @@ impl EditRequest {
         {
             labels.push("property".to_string());
         }
+        if self
+            .edits
+            .0
+            .iter()
+            .any(|(_, edit)| edit.opening_hours.is_some())
+        {
+            labels.push("opening_hours".to_string());
+        }
         if !self.additions.0.is_empty() {
             labels.push("addition".to_string());
         }
@@ -207,6 +219,15 @@ impl EditRequest {
         if property_count > 0 {
             let edits = if property_count == 1 { "edit" } else { "edits" };
             parts.push(format!("{property_count} property {edits}"));
+        }
+        let opening_hours_edits = self.edits_for(|edit| edit.opening_hours);
+        match opening_hours_edits.len() {
+            0 => {}
+            1..=5 => parts.push(format!(
+                "opening-hours edit for `{}`",
+                opening_hours_edits.keys().sorted().join("`, `")
+            )),
+            cs => parts.push(format!("edited {cs} opening-hours schedules")),
         }
 
         let mut keys_by_kind: BTreeMap<&'static str, Vec<&str>> = BTreeMap::new();
@@ -497,6 +518,28 @@ mod tests {
         assert!(labels.contains(&"new-room".to_string()));
         assert!(labels.contains(&"new-poi".to_string()));
         assert!(!labels.contains(&"new-building".to_string()));
+    }
+
+    #[test]
+    fn extract_subject_and_labels_for_opening_hours() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "5304.EG.001": {
+                    "opening_hours": {
+                        "opening_hours": "Mo-Fr 08:00-20:00",
+                        "source_url": "https://www.ub.tum.de/oeffnungszeiten"
+                    }
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert_eq!(
+            req.extract_subject(),
+            "opening-hours edit for `5304.EG.001`"
+        );
+        assert!(req.extract_labels().contains(&"opening_hours".to_string()));
     }
 
     #[test]

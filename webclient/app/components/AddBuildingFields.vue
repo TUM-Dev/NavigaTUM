@@ -91,7 +91,7 @@ const nodeKindIndex = computed(() => {
         id="add-building-name"
         v-model="draft.name"
         type="text"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 
@@ -101,7 +101,7 @@ const nodeKindIndex = computed(() => {
         id="add-building-short-name"
         v-model="draft.short_name"
         type="text"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 
@@ -110,17 +110,9 @@ const nodeKindIndex = computed(() => {
       <TabGroup :selected-index="nodeKindIndex < 0 ? 0 : nodeKindIndex" :default-index="0">
         <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
           <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
-            <button
-              :class="[
-                'w-full rounded-md py-2 px-3 text-sm font-medium leading-5',
-                'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                'focus:outline-none focus:ring-2 transition-all',
-                nodeKindIndex === kindOptions.indexOf(opt) ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-              ]"
-              @click="draft.node_kind = opt.value"
-            >
+            <SegmentedTab :selected="nodeKindIndex === kindOptions.indexOf(opt)" class="w-full px-3 py-2" @click="draft.node_kind = opt.value">
               {{ t(`kind.${opt.label}`) }}
-            </button>
+            </SegmentedTab>
           </Tab>
         </TabList>
       </TabGroup>
@@ -231,7 +223,7 @@ const nodeKindIndex = computed(() => {
                 id="add-building-internal-id"
                 v-model="draft.internal_id"
                 type="text"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
 
@@ -246,7 +238,7 @@ const nodeKindIndex = computed(() => {
                 id="add-building-visible-id"
                 v-model="draft.visible_id"
                 type="text"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
           </div>

@@ -1513,6 +1513,10 @@ components:
             oneOf:
               - type: "null"
               - $ref: '#/components/schemas/Image'
+          opening_hours:
+            oneOf:
+              - type: "null"
+              - $ref: '#/components/schemas/OpeningHoursEdit'
           properties:
             type:
               - array
@@ -2323,6 +2327,31 @@ components:
             - integer
             - "null"
           format: int32
+    OpeningHoursEdit:
+      type: object
+      description: |-
+        A correction to an entry's opening hours.
+
+        Routes into the data pipeline's canonical `opening_hours.csv` (one schedule
+        per entry id) rather than a runtime override, so an accepted fix flows back
+        to source. The client's day/time builder assembles `opening_hours` into a
+        plain OSM `opening_hours` string; `last_update` is stamped server-side so the
+        provenance date can't be spoofed, and the optional `valid_from`/`valid_until`/
+        `service` columns are left to maintainers (preserved on update, empty on
+        insert).
+      required:
+        - opening_hours
+        - source_url
+      properties:
+        opening_hours:
+          type: string
+          description: OSM `opening_hours` string assembled by the client's day/time builder.
+          example: Mo-Fr 08:00-20:00; Sa 09:00-14:00
+        source_url:
+          type: string
+          format: uri
+          description: Absolute http(s) URL documenting the schedule (e.g. the official department page).
+          example: https://www.ub.tum.de/oeffnungszeiten
     OpeningHoursResponse:
       type: object
       description: |-

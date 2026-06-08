@@ -216,7 +216,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         v-model="draft.name"
         type="text"
         :placeholder="t('name_placeholder')"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 
@@ -229,7 +229,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         v-model="draft.description"
         rows="3"
         :placeholder="t('description_placeholder')"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full resize-y rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full resize-y rounded border px-2 py-1 text-sm"
       />
       <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">{{ t("description_help") }}</p>
     </div>
@@ -416,7 +416,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         v-model="draft.image_author"
         type="text"
         :placeholder="t('image_author_placeholder')"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
     </div>
 

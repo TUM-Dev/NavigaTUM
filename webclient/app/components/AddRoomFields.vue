@@ -56,7 +56,7 @@ const selectedUsage = computed<UsageOption | null>({
         v-model="draft.arch_name"
         type="text"
         placeholder="003@5510"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
       />
       <I18nT keypath="arch_name_help" tag="p" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
         <template #ex1><code class="font-mono">MW2001</code></template>
@@ -126,7 +126,7 @@ const selectedUsage = computed<UsageOption | null>({
               <select
                 id="add-room-floor-type"
                 v-model="draft.floor_type"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               >
                 <option value="">-</option>
                 <option v-for="ft in floorTypeOptions" :key="ft" :value="ft">{{ t(`floor.type_options.${ft}`) }}</option>
@@ -139,7 +139,7 @@ const selectedUsage = computed<UsageOption | null>({
                 v-model="draft.floor_level"
                 type="text"
                 placeholder="EG, 01, U1, …"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
           </div>
@@ -155,7 +155,7 @@ const selectedUsage = computed<UsageOption | null>({
                 v-model.number="draft.seats.sitting"
                 type="number"
                 min="0"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
             <div>
@@ -165,7 +165,7 @@ const selectedUsage = computed<UsageOption | null>({
                 v-model.number="draft.seats.standing"
                 type="number"
                 min="0"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
             <div>
@@ -175,7 +175,7 @@ const selectedUsage = computed<UsageOption | null>({
                 v-model.number="draft.seats.wheelchair"
                 type="number"
                 min="0"
-                class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+                class="focusable input-field w-full rounded border px-2 py-1 text-sm"
               />
             </div>
           </div>

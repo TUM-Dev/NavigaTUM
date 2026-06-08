@@ -44,6 +44,13 @@ impl Worktree {
         )?;
         let image_edits = edits.edits_for(|edit| edit.image);
         description.apply_set("image", image_edits, self.dir.path(), branch_name)?;
+        let opening_hours_edits = edits.edits_for(|edit| edit.opening_hours);
+        description.apply_set(
+            "opening hours",
+            opening_hours_edits,
+            self.dir.path(),
+            branch_name,
+        )?;
 
         // Apply property edits - each entry can have multiple property edits
         let property_edits: Vec<(&str, &[super::property::PropertyEdit])> = edits
