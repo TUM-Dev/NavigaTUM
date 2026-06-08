@@ -2612,7 +2612,6 @@ components:
         - subject
         - body
         - privacy_checked
-        - deletion_requested
       properties:
         body:
           type: string
@@ -2626,14 +2625,6 @@ components:
         category:
           $ref: '#/components/schemas/FeedbackCategory'
           description: The category of the feedback.
-        deletion_requested:
-          type: boolean
-          description: |-
-            Whether the user has requested to delete the issue.
-
-            This flag means:
-            - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-            - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
         privacy_checked:
           type: boolean
           description: |-

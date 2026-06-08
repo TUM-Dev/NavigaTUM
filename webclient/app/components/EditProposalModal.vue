@@ -18,7 +18,6 @@ function switchToFeedback() {
     category: "entry",
     subject: `[${id}]: `,
     body: "",
-    deletion_requested: false,
   };
 }
 

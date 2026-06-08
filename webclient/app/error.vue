@@ -49,7 +49,6 @@ useSeoMeta({
                   category: 'bug',
                   subject: `404 on \`${currentPath}\``,
                   body: t('got_here'),
-                  deletion_requested: false,
                 };
               }
             "
