@@ -2,6 +2,7 @@
 import { mdiChevronDown, mdiChevronRight, mdiChevronUp, mdiOfficeBuilding } from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
+import { entityPath } from "~/utils/entityPath";
 
 type BuildingsOverviewResponse = components["schemas"]["BuildingsOverviewResponse"];
 
@@ -22,7 +23,7 @@ const runtimeConfig = useRuntimeConfig();
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <NuxtLinkLocale
           v-if="i < props.buildings.n_visible || buildingsExpanded"
-          :to="'/view/' + b.id"
+          :to="entityPath(b.id, b.type)"
           class="focusable border-zinc-200 dark:border-zinc-700 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100 dark:hover:bg-zinc-800"
           :aria-label="t('show_details_for', [b.name])"
         >

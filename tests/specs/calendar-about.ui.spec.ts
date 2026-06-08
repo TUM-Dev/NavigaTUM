@@ -92,7 +92,7 @@ test.describe("Calendar Page - Actions", () => {
     const heading = page.getByRole("heading", { name: "Kalender" }).first();
     await expect(heading).toBeVisible({ timeout: 10000 });
 
-    const backLink = page.locator('a[href*="/view/5602"]').first();
+    const backLink = page.locator('a[href*="/room/5602."]').first();
     await expect(backLink).toBeVisible();
   });
 });

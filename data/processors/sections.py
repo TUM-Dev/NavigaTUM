@@ -535,6 +535,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
             b_overview["entries"].append(
                 {
                     "id": child_id,
+                    "type": child["type"],
                     "name": child.get("short_name") or child["name"],
                     "subtext": subtext,
                     "thumb": imgs[0]["name"] if imgs else None,

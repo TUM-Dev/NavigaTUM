@@ -3,6 +3,7 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 import { mdiCheck, mdiFilter, mdiMagnify, mdiMapMarker, mdiUnfoldMoreHorizontal } from "@mdi/js";
 import { useVirtualList } from "@vueuse/core";
 import type { components } from "~/api_types";
+import { entityPath } from "~/utils/entityPath";
 
 type RoomsOverviewResponse = components["schemas"]["RoomsOverviewResponse"];
 type RoomsOverviewUsageChildResponse = components["schemas"]["RoomsOverviewUsageChildResponse"];
@@ -165,7 +166,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
             <NuxtLinkLocale
               v-for="(room, index) in list"
               :key="index"
-              :to="`/view/${room.data.id}`"
+              :to="entityPath(room.data.id, 'room')"
               class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white dark:hover:text-black hover:bg-blue-500 dark:hover:bg-blue-400"
             >
               <MdiIcon :path="mdiMapMarker" :size="16" class="my-auto" aria-hidden="true" />
