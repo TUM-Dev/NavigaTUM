@@ -77,12 +77,12 @@ de:
   mode_always: Ganzjährig
   mode_semester: Nach Vorlesungszeit
   holidays: Feiertage
-  source_url: Quelle (URL)
+  source_url: Quelle
   source_url_help: Link zur offiziellen Seite mit den Öffnungszeiten (z.B. die Instituts- oder Bibliotheksseite).
 en:
   mode_always: Year-round
   mode_semester: By lecture period
   holidays: Holidays
-  source_url: Source (URL)
+  source_url: Source
   source_url_help: Link to the official page listing the opening hours (e.g. the department or library page).
 </i18n>

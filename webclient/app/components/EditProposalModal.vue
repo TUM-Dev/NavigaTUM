@@ -195,7 +195,7 @@ function injectPropertyEdits() {
   editProposal.value.data.edits[roomId].properties = propertyEdits;
 }
 
-// Watch for submission - inject property edits when the modal data changes
+// Reset the property and opening-hours drafts whenever the proposal modal closes.
 watch(
   () => editProposal.value.open,
   (isOpen) => {

@@ -53,8 +53,8 @@ export function osmRangeList(ranges: readonly TimeRange[]): string {
  *
  * Days that share identical hours are collapsed into a single `Mo-Fr 08:00-20:00`
  * rule; days with no valid ranges are treated as closed and omitted entirely
- * (their absence is what marks them closed in OSM). Returns `""` when nothing is
- * open, which callers use to keep the submit action disabled.
+ * (their absence is what marks them closed in OSM). Returns `""` when every day
+ * is closed, which `hasWeeklyHours` reads as "no weekly schedule to submit".
  */
 export function buildOsmOpeningHours(week: WeekSchedule): string {
   const perDay = OPENING_HOURS_DAYS.map((day) => osmRangeList(week[day]));
@@ -155,9 +155,9 @@ export function draftHasInvalidRange(draft: OpeningHoursDraft): boolean {
  * Assemble a draft into the final OSM `opening_hours` string.
  *
  * `always` mode emits plain OSM; `semester` mode prefixes each schedule with the
- * `lecture:`/`break:` macros the pipeline expands against the semester list. A
- * public-holiday (`PH`) rule, when set, is appended unconditionally. Returns `""`
- * when nothing is stated.
+ * `lecture:`/`break:` macros the pipeline expands against the semester list. The
+ * public-holiday (`PH`) rule is always appended, defaulting to `PH off`, so the
+ * result is never empty - callers gate submission on `hasWeeklyHours` instead.
  */
 export function buildDraftOpeningHours(draft: OpeningHoursDraft): string {
   const base =
