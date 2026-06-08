@@ -957,6 +957,14 @@ mod test {
             "parent_building_names": [],
             "parent_keywords": ["garching"],
             "next_occurrence_at": "2024-10-15T08:00:00Z",
+            "upcoming": [
+                {
+                    "start_at": "2024-10-15T08:00:00Z",
+                    "end_at": "2024-10-15T10:00:00Z",
+                    "room_code": "5606.EG.011",
+                    "room_name": "Testhörsaal",
+                },
+            ],
         });
         let task = ms
             .client
