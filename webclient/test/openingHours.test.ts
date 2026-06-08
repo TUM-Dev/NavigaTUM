@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildDraftOpeningHours,
   buildOsmOpeningHours,
+  draftHasInvalidRange,
+  emptyOpeningHoursDraft,
   emptyWeekSchedule,
   isValidTimeRange,
+  scopeOsmRules,
   type WeekSchedule,
 } from "../app/utils/openingHours";
 
@@ -90,5 +94,90 @@ describe("buildOsmOpeningHours", () => {
       ],
     });
     expect(buildOsmOpeningHours(w)).toBe("Mo 08:00-20:00");
+  });
+});
+
+describe("scopeOsmRules", () => {
+  it("prefixes every rule individually", () => {
+    expect(scopeOsmRules("Mo-Fr 08:00-20:00; Sa 09:00-14:00", "lecture")).toBe(
+      "lecture: Mo-Fr 08:00-20:00; lecture: Sa 09:00-14:00"
+    );
+  });
+  it("returns an empty string unchanged", () => {
+    expect(scopeOsmRules("", "break")).toBe("");
+  });
+});
+
+describe("buildDraftOpeningHours", () => {
+  it("emits plain OSM in always mode", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
+    draft.always.Tu = [{ from: "08:00", to: "20:00" }];
+    // The lecture/break drafts are ignored while mode is "always".
+    draft.lecture.Mo = [{ from: "06:00", to: "07:00" }];
+    expect(buildDraftOpeningHours(draft)).toBe("Mo-Tu 08:00-20:00");
+  });
+
+  it("combines lecture and break schedules with macros in semester mode", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.mode = "semester";
+    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
+    draft.lecture.Tu = [{ from: "08:00", to: "20:00" }];
+    draft.break.Mo = [{ from: "10:00", to: "16:00" }];
+    expect(buildDraftOpeningHours(draft)).toBe(
+      "lecture: Mo-Tu 08:00-20:00; break: Mo 10:00-16:00"
+    );
+  });
+
+  it("emits only the populated period in semester mode", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.mode = "semester";
+    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
+    expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00");
+  });
+
+  it("ignores invalid ranges in inactive periods", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
+    draft.break.Mo = [{ from: "20:00", to: "08:00" }]; // backwards, but inactive
+    expect(draftHasInvalidRange(draft)).toBe(false);
+    expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00");
+  });
+
+  it("flags an invalid range in the active period", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.mode = "semester";
+    draft.lecture.Mo = [{ from: "20:00", to: "08:00" }];
+    expect(draftHasInvalidRange(draft)).toBe(true);
+  });
+
+  it("appends PH off for holidays closed", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
+    draft.holiday.mode = "closed";
+    expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00; PH off");
+  });
+
+  it("appends PH hours for holidays open", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.mode = "semester";
+    draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
+    draft.holiday.mode = "open";
+    draft.holiday.ranges = [{ from: "10:00", to: "14:00" }];
+    expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH 10:00-14:00");
+  });
+
+  it("omits the PH rule when holidays are unspecified", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.always.Mo = [{ from: "08:00", to: "20:00" }];
+    expect(buildDraftOpeningHours(draft)).toBe("Mo 08:00-20:00");
+  });
+
+  it("flags an invalid holiday range only when holidays are open", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.holiday.ranges = [{ from: "14:00", to: "10:00" }];
+    expect(draftHasInvalidRange(draft)).toBe(false); // mode still unspecified
+    draft.holiday.mode = "open";
+    expect(draftHasInvalidRange(draft)).toBe(true);
   });
 });

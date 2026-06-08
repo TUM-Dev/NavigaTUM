@@ -32,9 +32,10 @@ export function isValidTimeRange(range: TimeRange): boolean {
   return TIME_RE.test(range.from) && TIME_RE.test(range.to) && range.from < range.to;
 }
 
-// Drop invalid ranges, deduplicate, and sort so a day's hours are deterministic
-// regardless of the order the user entered them.
-function normalizeDayRanges(ranges: readonly TimeRange[]): string[] {
+// Drop invalid ranges, deduplicate, and sort so the hours are deterministic
+// regardless of the order the user entered them, then join as one OSM time
+// selector (e.g. `08:00-12:00,13:00-17:00`). Empty when nothing is valid.
+export function osmRangeList(ranges: readonly TimeRange[]): string {
   const seen = new Set<string>();
   const out: string[] = [];
   for (const range of ranges) {
@@ -44,7 +45,7 @@ function normalizeDayRanges(ranges: readonly TimeRange[]): string[] {
     seen.add(osm);
     out.push(osm);
   }
-  return out.sort();
+  return out.sort().join(",");
 }
 
 /**
@@ -56,7 +57,7 @@ function normalizeDayRanges(ranges: readonly TimeRange[]): string[] {
  * open, which callers use to keep the submit action disabled.
  */
 export function buildOsmOpeningHours(week: WeekSchedule): string {
-  const perDay = OPENING_HOURS_DAYS.map((day) => normalizeDayRanges(week[day]).join(","));
+  const perDay = OPENING_HOURS_DAYS.map((day) => osmRangeList(week[day]));
 
   const rules: string[] = [];
   let runStart = 0;
@@ -78,5 +79,105 @@ export function buildOsmOpeningHours(week: WeekSchedule): string {
     runStart = runEnd + 1;
   }
 
+  return rules.join("; ");
+}
+
+// The semester-macro prefixes the data pipeline understands: `lecture:`
+// (Vorlesungszeit) and `break:` (vorlesungsfreie Zeit). See the pipeline's
+// `semester_block_expander`, which rewrites these into plain OSM date ranges.
+export type SchedulePrefix = "lecture" | "break";
+
+// Prefix every `;`-separated rule of a plain OSM string with a semester macro.
+// Each rule needs its own prefix because `;` is also the macro-block separator,
+// so `lecture: Mo-Fr 08:00; Sa 09:00` would only scope the first rule.
+export function scopeOsmRules(plainOsm: string, prefix: SchedulePrefix): string {
+  if (!plainOsm) return "";
+  return plainOsm
+    .split("; ")
+    .map((rule) => `${prefix}: ${rule}`)
+    .join("; ");
+}
+
+// `always`: one schedule year-round. `semester`: distinct lecture-period and
+// lecture-free-period schedules, emitted with `lecture:`/`break:` macros.
+export type OpeningHoursMode = "always" | "semester";
+
+// Public-holiday (`PH`) handling. `unspecified` emits no rule (we make no claim);
+// `closed` emits `PH off`; `open` emits `PH <hours>`.
+export type HolidayMode = "unspecified" | "closed" | "open";
+
+export interface HolidaySchedule {
+  mode: HolidayMode;
+  ranges: TimeRange[];
+}
+
+export interface OpeningHoursDraft {
+  mode: OpeningHoursMode;
+  always: WeekSchedule;
+  lecture: WeekSchedule;
+  break: WeekSchedule;
+  holiday: HolidaySchedule;
+  sourceUrl: string;
+}
+
+export function emptyOpeningHoursDraft(): OpeningHoursDraft {
+  return {
+    mode: "always",
+    always: emptyWeekSchedule(),
+    lecture: emptyWeekSchedule(),
+    break: emptyWeekSchedule(),
+    holiday: { mode: "unspecified", ranges: [] },
+    sourceUrl: "",
+  };
+}
+
+// The OSM `PH` rule for the holiday selection, or `""` when unspecified (or
+// `open` without any valid hours, which states nothing).
+export function buildHolidayRule(holiday: HolidaySchedule): string {
+  if (holiday.mode === "closed") return "PH off";
+  if (holiday.mode === "open") {
+    const hours = osmRangeList(holiday.ranges);
+    return hours ? `PH ${hours}` : "";
+  }
+  return "";
+}
+
+// The week schedules that actually contribute for the chosen mode; the others
+// are kept as drafts but ignored, so toggling modes never loses what was typed.
+export function activeWeeks(draft: OpeningHoursDraft): WeekSchedule[] {
+  return draft.mode === "always" ? [draft.always] : [draft.lecture, draft.break];
+}
+
+export function draftHasInvalidRange(draft: OpeningHoursDraft): boolean {
+  const weekInvalid = activeWeeks(draft).some((week) =>
+    OPENING_HOURS_DAYS.some((day) => week[day].some((range) => !isValidTimeRange(range)))
+  );
+  const holidayInvalid =
+    draft.holiday.mode === "open" && draft.holiday.ranges.some((range) => !isValidTimeRange(range));
+  return weekInvalid || holidayInvalid;
+}
+
+/**
+ * Assemble a draft into the final OSM `opening_hours` string.
+ *
+ * `always` mode emits plain OSM; `semester` mode prefixes each schedule with the
+ * `lecture:`/`break:` macros the pipeline expands against the semester list. A
+ * public-holiday (`PH`) rule, when set, is appended unconditionally. Returns `""`
+ * when nothing is stated.
+ */
+export function buildDraftOpeningHours(draft: OpeningHoursDraft): string {
+  const base =
+    draft.mode === "always"
+      ? buildOsmOpeningHours(draft.always)
+      : [
+          scopeOsmRules(buildOsmOpeningHours(draft.lecture), "lecture"),
+          scopeOsmRules(buildOsmOpeningHours(draft.break), "break"),
+        ]
+          .filter(Boolean)
+          .join("; ");
+
+  const rules = base ? [base] : [];
+  const holiday = buildHolidayRule(draft.holiday);
+  if (holiday) rules.push(holiday);
   return rules.join("; ");
 }

@@ -3,11 +3,10 @@ import type { components } from "~/api_types";
 import { emptyPropertyFields, emptyRoomEdit, useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 import {
-  buildOsmOpeningHours,
-  emptyWeekSchedule,
-  isValidTimeRange,
-  OPENING_HOURS_DAYS,
-  type WeekSchedule,
+  buildDraftOpeningHours,
+  draftHasInvalidRange,
+  emptyOpeningHoursDraft,
+  type OpeningHoursDraft,
 } from "~/utils/openingHours";
 
 const HTTP_URL_RE = /^https?:\/\//;
@@ -35,13 +34,11 @@ const propertiesModalOpen = ref(false);
 
 // Opening-hours edit lives inside the properties modal; its draft is committed
 // together with the other property edits on save.
-const openingHoursWeek = ref<WeekSchedule>(emptyWeekSchedule());
-const openingHoursSourceUrl = ref("");
+const openingHoursDraft = ref<OpeningHoursDraft>(emptyOpeningHoursDraft());
 const openingHoursError = ref<"" | "source" | "range">("");
 
 function resetOpeningHoursDraft() {
-  openingHoursWeek.value = emptyWeekSchedule();
-  openingHoursSourceUrl.value = "";
+  openingHoursDraft.value = emptyOpeningHoursDraft();
   openingHoursError.value = "";
 }
 
@@ -51,21 +48,18 @@ function injectOpeningHours(): boolean {
   if (!roomId) return true;
 
   // A backwards range would be silently dropped by the assembler, so surface it instead.
-  const hasInvalidRange = OPENING_HOURS_DAYS.some((day) =>
-    openingHoursWeek.value[day].some((range) => !isValidTimeRange(range))
-  );
-  if (hasInvalidRange) {
+  if (draftHasInvalidRange(openingHoursDraft.value)) {
     openingHoursError.value = "range";
     return false;
   }
 
-  const osm = buildOsmOpeningHours(openingHoursWeek.value);
+  const osm = buildDraftOpeningHours(openingHoursDraft.value);
   if (!osm) {
     openingHoursError.value = "";
     return true;
   }
 
-  const url = openingHoursSourceUrl.value;
+  const url = openingHoursDraft.value.sourceUrl;
   if (!HTTP_URL_RE.test(url) || !URL.canParse(url)) {
     openingHoursError.value = "source";
     return false;
@@ -479,7 +473,7 @@ function getEditTypeDisplay(roomId: string): string {
             <!-- Opening hours -->
             <div class="border-t border-zinc-200 dark:border-zinc-700 pt-3">
               <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-2">{{ t("opening_hours_title") }}</label>
-              <OpeningHoursEditor v-model:week="openingHoursWeek" v-model:source-url="openingHoursSourceUrl" />
+              <OpeningHoursEditor v-model="openingHoursDraft" />
               <p v-if="openingHoursError === 'source'" class="text-red-600 dark:text-red-300 text-xs mt-2">
                 {{ t("opening_hours_source_required") }}
               </p>
