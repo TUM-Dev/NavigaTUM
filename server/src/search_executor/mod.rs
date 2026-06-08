@@ -251,7 +251,7 @@ mod test {
 
     use super::*;
     use crate::routes::search::{CroppingMode, Highlighting, ParsedIdMode};
-    use crate::setup::tests::MeiliSearchTestContainer;
+    use crate::setup::tests::{MeiliSearchTestContainer, PostgresTestContainer};
 
     #[derive(serde::Deserialize)]
     struct TestQuery {
@@ -884,5 +884,195 @@ mod test {
         }, {
             insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
         });
+    }
+
+    /// Subset of a stored lecture document, used to assert the room-parent
+    /// enrichment landed in the index.
+    #[derive(serde::Deserialize)]
+    struct IndexedLecture {
+        parent_building_names: Vec<String>,
+        parent_keywords: Vec<String>,
+    }
+
+    /// End-to-end: seed the `calendar` table and a hosting room, run the real
+    /// derivation task, and confirm the lecture it produces is searchable. This
+    /// is the one test that exercises the actual pipeline (the SQL aggregation,
+    /// the stable `ms_id`, the room-parent enrichment, and the stale cleanup)
+    /// rather than a hand-injected document.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    #[expect(
+        clippy::too_many_lines,
+        reason = "one end-to-end test seeds Postgres + Meilisearch, derives, and asserts across the whole pipeline"
+    )]
+    async fn test_lectures_derived_from_calendar_surface_in_search() {
+        async fn insert_event(
+            pool: &sqlx::PgPool,
+            room_code: &str,
+            id: i32,
+            start: DateTime<Utc>,
+            end: DateTime<Utc>,
+        ) {
+            // Same title/stp_type across rows so they collapse to one identity.
+            sqlx::query(
+                "INSERT INTO calendar \
+                 (id, room_code, start_at, end_at, title_de, title_en, stp_type, entry_type, detailed_entry_type) \
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+            )
+            .bind(id)
+            .bind(room_code)
+            .bind(start)
+            .bind(end)
+            .bind("Quantenfeldtheorie im Teststand")
+            .bind("Quantum Field Theory on a Test Bench")
+            .bind(Some("Vorlesung"))
+            .bind("lecture")
+            .bind("Vorlesung")
+            .execute(pool)
+            .await
+            .unwrap();
+        }
+
+        let pg = PostgresTestContainer::new().await;
+        let ms = MeiliSearchTestContainer::new().await;
+        let entries = ms.client.index("entries");
+
+        // `calendar.room_code` is a foreign key into `en` (which references `de`),
+        // so the hosting room must exist in both before any calendar row can.
+        // `name`/`type`/`lat`/`lon` are columns generated from `data`, so only
+        // `key` and `data` are insertable - mirroring the real loader.
+        let room_code = "5606.EG.011";
+        let room_data = serde_json::json!({
+            "name": "Testhörsaal",
+            "type": "room",
+            "type_common_name": "Hörsaal",
+            "coords": { "lat": 48.0, "lon": 11.0, "source": "navigatum" },
+        })
+        .to_string();
+        sqlx::query("INSERT INTO de (key, data) VALUES ($1, $2::jsonb)")
+            .bind(room_code)
+            .bind(&room_data)
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+        sqlx::query("INSERT INTO en (key, data) VALUES ($1, $2::jsonb)")
+            .bind(room_code)
+            .bind(&room_data)
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+
+        // The geo room document the lecture inherits its parent context from.
+        // Its name cannot collide with the lecture title, so it never shows up
+        // in the lecture-title query and the snapshot stays deterministic.
+        let room_doc = serde_json::json!({
+            "ms_id": "5606-EG-011",
+            "facet": "room",
+            "type": "room",
+            "room_code": room_code,
+            "name": "Testhörsaal",
+            "type_common_name": "Hörsaal",
+            "rank": 100,
+            "parent_building_names": ["Physik (PH)"],
+            "parent_keywords": ["ph", "garching"],
+        });
+        entries
+            .add_documents(&[room_doc], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+
+        let now = Utc::now().timestamp();
+        let at = |secs: i64| DateTime::from_timestamp(now + secs, 0).unwrap();
+        // Two future occurrences (the earliest at +1h) and one already-ended row
+        // that the `end_at >= NOW()` filter must drop from `next_occurrence_at`.
+        insert_event(&pg.pool, room_code, 1, at(3_600), at(7_200)).await;
+        insert_event(&pg.pool, room_code, 2, at(10_800), at(14_400)).await;
+        insert_event(&pg.pool, room_code, 3, at(-7_200), at(-3_600)).await;
+
+        crate::refresh::lectures::refresh_once(&pg.pool, &ms.client)
+            .await
+            .unwrap();
+
+        let results = do_geoentry_search(
+            &ms.client,
+            "Quantenfeldtheorie",
+            Limits::default(),
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        let lectures = results
+            .0
+            .iter()
+            .find(|s| matches!(s.facet, ResultFacet::Lectures))
+            .expect("the derived lecture should surface in a Lectures section");
+        assert_eq!(
+            lectures.entries.len(),
+            1,
+            "the two future occurrences collapse into one lecture identity"
+        );
+        let top = lectures.entries.first().unwrap();
+        assert!(top.id.starts_with("lecture_"), "got id {}", top.id);
+        assert_eq!(top.title_de.as_deref(), Some("Quantenfeldtheorie im Teststand"));
+        assert_eq!(
+            top.title_en.as_deref(),
+            Some("Quantum Field Theory on a Test Bench")
+        );
+        assert_eq!(top.subtext, "Vorlesung");
+        // The earliest *future* occurrence wins; the past row is excluded.
+        assert_eq!(top.next_occurrence_at, Some(at(3_600)));
+
+        // The stored document inherits the hosting room's parent context, so
+        // queries like "Quantenfeldtheorie PH" can find it.
+        let stored = meilisearch_sdk::documents::DocumentsQuery::new(&entries)
+            .with_filter("facet = \"lecture\"")
+            .execute::<IndexedLecture>()
+            .await
+            .unwrap();
+        assert_eq!(stored.results.len(), 1);
+        let stored = stored.results.first().unwrap();
+        assert_eq!(stored.parent_building_names, ["Physik (PH)"]);
+        assert_eq!(stored.parent_keywords, ["ph", "garching"]);
+
+        insta::with_settings!({
+            description => "a lecture derived from the calendar is returned by search",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, {
+                ".**.estimatedTotalHits" => "[estimatedTotalHits]",
+                ".**.next_occurrence_at" => "[next_occurrence_at]",
+            });
+        });
+
+        // Stale cleanup: once the calendar rows are gone, the next derivation
+        // must delete the now-orphaned lecture document from the index.
+        sqlx::query("DELETE FROM calendar")
+            .execute(&pg.pool)
+            .await
+            .unwrap();
+        crate::refresh::lectures::refresh_once(&pg.pool, &ms.client)
+            .await
+            .unwrap();
+        let after = do_geoentry_search(
+            &ms.client,
+            "Quantenfeldtheorie",
+            Limits::default(),
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+        assert!(
+            after
+                .0
+                .iter()
+                .find(|s| matches!(s.facet, ResultFacet::Lectures))
+                .is_none_or(|s| s.entries.is_empty()),
+            "the lecture must be gone once its calendar rows are deleted"
+        );
     }
 }

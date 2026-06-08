@@ -44,7 +44,7 @@ pub async fn refresh_lectures(pool: PgPool, client: Client) {
 }
 
 #[tracing::instrument(skip(pool, client))]
-async fn refresh_once(pool: &PgPool, client: &Client) -> anyhow::Result<()> {
+pub(crate) async fn refresh_once(pool: &PgPool, client: &Client) -> anyhow::Result<()> {
     let groups = aggregate_lectures(pool).await?;
     let room_parents = fetch_room_parents(client).await?;
 
@@ -324,5 +324,58 @@ impl LectureGroup {
             }
         }
         (building_names, keywords)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    #![allow(
+        clippy::unwrap_used,
+        clippy::panic,
+        reason = "tests assert via panic/unwrap"
+    )]
+    use super::*;
+
+    /// A group whose identity key is derived from the (case-folded) titles and
+    /// `stp_type`, exactly as [`aggregate_lectures`] produces it. The display
+    /// fields and `next_occurrence_at` are irrelevant to the id.
+    fn group(title_de: &str, title_en: &str, stp_type: Option<&str>) -> LectureGroup {
+        LectureGroup {
+            key_title_de: title_de.to_lowercase(),
+            key_title_en: title_en.to_lowercase(),
+            key_stp_type: stp_type.unwrap_or_default().to_string(),
+            title_de: title_de.to_string(),
+            title_en: title_en.to_string(),
+            stp_type: stp_type.map(str::to_string),
+            next_occurrence_at: DateTime::from_timestamp(0, 0).unwrap(),
+            room_codes: vec![],
+        }
+    }
+
+    #[test]
+    fn ms_id_is_prefixed_stable_and_identity_scoped() {
+        let a = group("Analysis 1", "Calculus 1", Some("Vorlesung"));
+
+        let id = a.ms_id();
+        assert!(id.starts_with("lecture_"), "got {id}");
+        assert_eq!(id.len(), "lecture_".len() + 16);
+
+        // Case drift in the display titles must not fork the identity.
+        assert_eq!(a.ms_id(), group("ANALYSIS 1", "CALCULUS 1", Some("Vorlesung")).ms_id());
+
+        // Each of the three key components changes the id.
+        assert_ne!(a.ms_id(), group("Analysis 2", "Calculus 1", Some("Vorlesung")).ms_id());
+        assert_ne!(a.ms_id(), group("Analysis 1", "Calculus 2", Some("Vorlesung")).ms_id());
+        assert_ne!(a.ms_id(), group("Analysis 1", "Calculus 1", Some("Übung")).ms_id());
+
+        // An absent `stp_type` folds to "" and must not collide with a real one.
+        assert_ne!(group("X", "Y", None).ms_id(), group("X", "Y", Some("Vorlesung")).ms_id());
+    }
+
+    #[test]
+    fn ms_id_delimiter_prevents_concatenation_collisions() {
+        // Without the unit-separator delimiter, ("ab", "x") and ("a", "bx")
+        // would hash the same byte stream. The delimiter keeps them distinct.
+        assert_ne!(group("ab", "x", None).ms_id(), group("a", "bx", None).ms_id());
     }
 }
