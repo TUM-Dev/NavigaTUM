@@ -102,9 +102,8 @@ export function scopeOsmRules(plainOsm: string, prefix: SchedulePrefix): string 
 // lecture-free-period schedules, emitted with `lecture:`/`break:` macros.
 export type OpeningHoursMode = "always" | "semester";
 
-// Public-holiday (`PH`) handling. `unspecified` emits no rule (we make no claim);
-// `closed` emits `PH off`; `open` emits `PH <hours>`.
-export type HolidayMode = "unspecified" | "closed" | "open";
+// Public-holiday (`PH`) handling. `closed` emits `PH off`; `open` emits `PH <hours>`.
+export type HolidayMode = "closed" | "open";
 
 export interface HolidaySchedule {
   mode: HolidayMode;
@@ -139,15 +138,14 @@ export function hasWeeklyHours(draft: OpeningHoursDraft): boolean {
   return activeWeeks(draft).some((week) => buildOsmOpeningHours(week) !== "");
 }
 
-// The OSM `PH` rule for the holiday selection, or `""` when unspecified (or
-// `open` without any valid hours, which states nothing).
+// The OSM `PH` rule for the holiday selection. `open` without any valid hours
+// states nothing and yields `""`; otherwise the facility is closed on holidays.
 export function buildHolidayRule(holiday: HolidaySchedule): string {
-  if (holiday.mode === "closed") return "PH off";
   if (holiday.mode === "open") {
     const hours = osmRangeList(holiday.ranges);
     return hours ? `PH ${hours}` : "";
   }
-  return "";
+  return "PH off";
 }
 
 // The week schedules that actually contribute for the chosen mode; the others

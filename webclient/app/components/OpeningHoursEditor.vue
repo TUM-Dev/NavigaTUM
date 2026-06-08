@@ -18,7 +18,6 @@ const modeOptions: { value: OpeningHoursMode; label: string }[] = [
 ];
 
 const holidayOptions: { value: HolidayMode; label: string }[] = [
-  { value: "unspecified", label: "holiday_unspecified" },
   { value: "closed", label: "holiday_closed" },
   { value: "open", label: "holiday_open" },
 ];
@@ -139,7 +138,6 @@ de:
   mode_always: Ganzjährig
   mode_semester: Nach Vorlesungszeit
   holidays: An Feiertagen
-  holiday_unspecified: Keine Angabe
   holiday_closed: Geschlossen
   holiday_open: Geöffnet
   add_range: Zeitraum hinzufügen
@@ -153,7 +151,6 @@ en:
   mode_always: Year-round
   mode_semester: By lecture period
   holidays: On public holidays
-  holiday_unspecified: Not specified
   holiday_closed: Closed
   holiday_open: Open
   add_range: Add time range
