@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { mdiClose, mdiFileCheck, mdiImage, mdiInformation } from "@mdi/js";
+import { useObjectUrl } from "@vueuse/core";
 import type { DeepWritable } from "ts-essentials";
 import type { components } from "~/api_types";
+import { HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
 type ImageMetadata = components["schemas"]["ImageMetadata"];
 
@@ -47,6 +49,64 @@ watch(
   },
   { immediate: true }
 );
+
+// Crop selection. The thumb (256×256) and header (512×210) renders are centre-cropped in the data
+// pipeline unless the submitter nudges these offsets - the same machinery the event form uses.
+const thumbOffset = ref(0);
+const headerOffset = ref(0);
+const imageWidth = ref<number | null>(null);
+const imageHeight = ref<number | null>(null);
+// The cropper renders the picked image; decode it from the base64 the parent already holds so the
+// modal stays self-contained whether opened fresh or reopened with a file still selected.
+const previewSource = shallowRef<Blob | null>(null);
+const previewUrl = useObjectUrl(previewSource);
+
+watch(
+  () => props.selectedFile,
+  async (file) => {
+    // A new (or cleared) image recentres both crops; their offset bounds depend on its dimensions.
+    thumbOffset.value = 0;
+    headerOffset.value = 0;
+    if (!file) {
+      imageWidth.value = null;
+      imageHeight.value = null;
+      previewSource.value = null;
+      return;
+    }
+    const bytes = Uint8Array.from(atob(file.base64), (c) => c.charCodeAt(0));
+    const blob = new Blob([bytes]);
+    let bitmap: ImageBitmap;
+    try {
+      bitmap = await createImageBitmap(blob);
+    } catch {
+      imageWidth.value = null;
+      imageHeight.value = null;
+      previewSource.value = null;
+      return;
+    }
+    // A newer file may have arrived while decoding; drop this stale result if so.
+    if (props.selectedFile !== file) {
+      bitmap.close();
+      return;
+    }
+    imageWidth.value = bitmap.width;
+    imageHeight.value = bitmap.height;
+    bitmap.close();
+    previewSource.value = blob;
+  },
+  { immediate: true }
+);
+
+function confirmUpload(): void {
+  emit("confirm", {
+    ...localMetadata.value,
+    // Mirrors `additionSchema.buildEvent`: omit offsets entirely when the crops stay centred.
+    offsets:
+      thumbOffset.value === 0 && headerOffset.value === 0
+        ? null
+        : { thumb: thumbOffset.value, header: headerOffset.value },
+  });
+}
 
 // File upload handlers
 function handleFileSelect(event: Event) {
@@ -185,6 +245,20 @@ function processFile(file: File) {
         </div>
       </div>
 
+      <!-- Crop selection -->
+      <div v-if="previewUrl && imageWidth && imageHeight" class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-start">
+        <div>
+          <span class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-1">{{ t("crop_thumb") }}</span>
+          <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_thumb_help") }}</p>
+          <ImageCropper v-model="thumbOffset" :image-url="previewUrl" :width="imageWidth" :height="imageHeight" :target="THUMB_TARGET" />
+        </div>
+        <div>
+          <span class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-1">{{ t("crop_header") }}</span>
+          <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_header_help") }}</p>
+          <ImageCropper v-model="headerOffset" :image-url="previewUrl" :width="imageWidth" :height="imageHeight" :target="HEADER_TARGET" />
+        </div>
+      </div>
+
       <!-- Author -->
       <div>
         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-1"> {{ t("image_author") }} <span class="text-red-500 dark:text-red-400">*</span> </label>
@@ -215,7 +289,7 @@ function processFile(file: File) {
       <Btn variant="secondary" @click="emit('cancel')">
         {{ t("cancel") }}
       </Btn>
-      <Btn variant="primary" @click="emit('confirm', localMetadata)" :disabled="!localMetadata.author || !props.selectedFile">
+      <Btn variant="primary" @click="confirmUpload" :disabled="!localMetadata.author || !props.selectedFile">
         {{ t("confirm") }}
       </Btn>
     </div>
@@ -240,6 +314,10 @@ de:
   image_author_placeholder: Wer hat dieses Bild erstellt?
   license_info_title: CC BY 4.0 - Frei zu verwenden mit Namensnennung
   license_info_description: Alle hochgeladenen Bilder werden unter der CC BY 4.0 Lizenz veröffentlicht. Das bedeutet, jeder kann das Bild verwenden, solange du als Autor genannt wirst.
+  crop_thumb: Quadratischer Ausschnitt
+  crop_thumb_help: Quadratischer Ausschnitt (256×256) für Vorschaubilder.
+  crop_header: Header-Ausschnitt
+  crop_header_help: Breiter Ausschnitt (512×210) für die Kopfzeile der Detailseite.
   confirm: Bild hinzufügen
   cancel: Abbrechen
 en:
@@ -259,6 +337,10 @@ en:
   image_author_placeholder: Who created this image?
   license_info_title: CC BY 4.0 - Free to use with attribution
   license_info_description: All uploaded images are published under the CC BY 4.0 license. This means anyone can use the image as long as they credit you as the author.
+  crop_thumb: Square crop
+  crop_thumb_help: Square crop (256×256) used for thumbnails.
+  crop_header: Header crop
+  crop_header_help: Wide crop (512×210) used for the detail page header.
   confirm: Add image
   cancel: Cancel
 </i18n>

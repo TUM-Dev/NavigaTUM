@@ -73,7 +73,7 @@ const sourceBitmap = shallowRef<ImageBitmap | null>(null);
 const previewUrl = useObjectUrl(sourceFile);
 
 // Thumb blob feeds the map-marker preview; useObjectUrl keeps its URL synced to the blob's lifetime.
-// The header crop is offset-only - its preview lives inside EventImageCropper, so no blob here.
+// The header crop is offset-only - its preview lives inside ImageCropper, so no blob here.
 const thumbBlob = shallowRef<Blob | null>(null);
 const thumbUrl = useObjectUrl(thumbBlob);
 
@@ -385,7 +385,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
       <div>
         <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop_thumb") }}</span>
         <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_thumb_help") }}</p>
-        <EventImageCropper
+        <ImageCropper
           v-model="draft.image_thumb_offset"
           :image-url="previewUrl"
           :width="draft.image_width"
@@ -397,7 +397,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
       <div>
         <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("crop_header") }}</span>
         <p class="text-zinc-500 dark:text-zinc-400 mb-1 text-xs">{{ t("crop_header_help") }}</p>
-        <EventImageCropper
+        <ImageCropper
           v-model="draft.image_header_offset"
           :image-url="previewUrl"
           :width="draft.image_width"
