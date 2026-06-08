@@ -57,8 +57,9 @@ jobs:
         id: push
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
-          provenance: mode=max
-          sbom: true
+          # Attestations only matter for images published from main.
+          provenance: ${{ github.event_name == 'push' && 'mode=max' || 'false' }}
+          sbom: ${{ github.event_name == 'push' }}
           context: ${{ inputs.context }} # zizmor: ignore[template-injection]
           push: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
           file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
@@ -67,8 +68,9 @@ jobs:
           build-args: |
             GIT_COMMIT_SHA=${{ github.sha }}
             GIT_COMMIT_MESSAGE="${github.event.head_commit.message//\n/}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=min
+          # GHCR cache is shared across branches and free for public repos, unlike the 10GB Actions cache.
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: ${{ github.event_name == 'push' && format('type=registry,ref={0}/{1}:buildcache,mode=max', env.REGISTRY, env.IMAGE_NAME) || '' }}
       - name: Attest
         if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
