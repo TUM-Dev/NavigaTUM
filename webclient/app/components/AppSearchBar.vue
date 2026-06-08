@@ -306,7 +306,7 @@ de:
     placeholder: Suche
     aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
     aria-searchlabel: Suchfeld
-    action: Go
+    action: Los
   show_hidden: +{count} ausgeblendet
   sections:
     sites: Standorte

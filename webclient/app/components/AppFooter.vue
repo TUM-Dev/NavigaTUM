@@ -110,7 +110,7 @@ de:
   sourcecode:
     text: Source Code
   theme: Theme
-  tum_logo_alt: The Logo of the Technical University Munich
+  tum_logo_alt: Das Logo der Technischen Universität München
   madewithlove: Made with {heart} by OpenSource {'@'} TUM e.V.
 en:
   about:
@@ -133,6 +133,6 @@ en:
   sourcecode:
     text: Source Code
   theme: Theme
-  tum_logo_alt: Das Logo der Technischen Universität München
+  tum_logo_alt: The logo of the Technical University of Munich
   madewithlove: Made with {heart} by OpenSource {'@'} TUM e.V.
 </i18n>
