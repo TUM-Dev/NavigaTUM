@@ -25,10 +25,15 @@ import {
 import type { components } from "~/api_types";
 
 type ModeResponse = components["schemas"]["ModeResponse"];
-const props = defineProps<{
-  mode: ModeResponse;
-  transparent?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    mode: ModeResponse;
+    // `pill`: blue rounded badge. `inherit`: transparent, takes the surrounding
+    // contrast color via `currentColor`. `mode-colored`: transparent, tinted per mode.
+    variant?: "pill" | "inherit" | "mode-colored";
+  }>(),
+  { variant: "pill" }
+);
 
 // Color encodes the mode so users can tell `mdiTrain` instances apart in
 // the station-header strip (where no route badge is nearby to disambiguate).
@@ -57,17 +62,18 @@ const MODE_COLOR: Partial<Record<ModeResponse, string>> = {
 };
 
 const modeColorClass = computed(() => MODE_COLOR[props.mode] ?? "text-zinc-900 dark:text-zinc-50");
+
+const variantClass = computed(() => {
+  if (props.variant === "pill")
+    return "bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 h-8 w-8 rounded-full";
+  if (props.variant === "mode-colored") return modeColorClass.value;
+  // "inherit": no text-* class, so the icon takes the surrounding contrast color.
+  return "";
+});
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center text-xs font-medium"
-    :class="
-      transparent
-        ? modeColorClass
-        : 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 h-8 w-8 rounded-full'
-    "
-  >
+  <div class="flex items-center justify-center text-xs font-medium" :class="variantClass">
     <!-- Walking -->
     <MdiIcon v-if="mode === 'walk'" :path="mdiWalk" :size="18" />
 
