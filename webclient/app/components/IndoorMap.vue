@@ -8,8 +8,6 @@ import {
   Marker,
   NavigationControl,
 } from "maplibre-gl";
-import type { IndoorMapOptions } from "maplibre-gl-indoor";
-import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { useIsMobile } from "~/composables/useIsMobile";
@@ -45,7 +43,6 @@ const props = defineProps<{
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
-const runtimeConfig = useRuntimeConfig();
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
 const fullscreenContainerEl = ref<HTMLElement | null>(null);
 // Maplibre bug: the map doesn't update to the new size when changing between
@@ -351,18 +348,6 @@ function initMap(containerId: string): MapLibreMap {
 
     afterLoaded.value();
   });
-
-  const indoorOptions = {
-    showFeaturesWithEmptyLevel: false,
-  } as IndoorMapOptions;
-  const mapServerHandler = MapServerHandler.manage(
-    `${runtimeConfig.public.apiURL}/api/maps/indoor`,
-    map,
-    indoorOptions
-  );
-
-  // Add the specific control
-  mapServerHandler.map.addControl(new IndoorControl(), "bottom-left");
 
   return map;
 }

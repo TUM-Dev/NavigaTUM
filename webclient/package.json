@@ -30,7 +30,6 @@
 		"@vueuse/router": "14.3.0",
 		"better-sqlite3": "12.10.0",
 		"maplibre-gl": "5.24.0",
-		"maplibre-gl-indoor": "0.0.22",
 		"nuxt": "4.4.7",
 		"opening_hours": "^3.13.0",
 		"prom-client": "^15.1.3",
