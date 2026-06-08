@@ -52,7 +52,7 @@ chrono = { workspace=true, default-features = false, features = ["serde"] }
 meilisearch-sdk.workspace = true
 logos.workspace=true
 regex.workspace=true
-blake3.workspace=true
+xxhash-rust.workspace=true
 
 # web access
 oauth2 = { workspace=true, default-features = false }

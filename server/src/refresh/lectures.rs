@@ -278,24 +278,21 @@ impl LectureDocument {
 impl LectureGroup {
     /// Stable, identity-preserving document id derived from the group key.
     ///
-    /// A `blake3` hash of the key (truncated to 16 hex chars) keeps the same
-    /// lecture mapped to the same `ms_id` across ticks, which is what lets the
-    /// upsert update in place and the stale-cleanup target only real removals.
+    /// An `xxh3` hash of the key keeps the same lecture mapped to the same
+    /// `ms_id` across ticks, which is what lets the upsert update in place and
+    /// the stale-cleanup target only real removals. The id is not security
+    /// sensitive, so a fast non-cryptographic hash is the right tool.
     fn ms_id(&self) -> String {
-        let mut hasher = blake3::Hasher::new();
         // Unit-separator delimiters keep the three components unambiguous so two
         // different keys cannot hash to the same digest by concatenation.
-        hasher.update(self.key_title_de.as_bytes());
-        hasher.update(b"\x1f");
-        hasher.update(self.key_title_en.as_bytes());
-        hasher.update(b"\x1f");
-        hasher.update(self.key_stp_type.as_bytes());
-        let hash = hasher.finalize().to_hex();
-        // `to_hex` is ASCII, so this 16-char prefix is 64 bits of the digest -
-        // ample to keep lecture identities collision-free. `chars().take` avoids
-        // slicing into the middle of a (here impossible) multi-byte char.
-        let prefix: String = hash.chars().take(16).collect();
-        format!("lecture_{prefix}")
+        let key = format!(
+            "{}\x1f{}\x1f{}",
+            self.key_title_de, self.key_title_en, self.key_stp_type
+        );
+        // xxh3 is a 64-bit digest, so this is always 16 hex chars - ample to
+        // keep lecture identities collision-free.
+        let hash = xxhash_rust::xxh3::xxh3_64(key.as_bytes());
+        format!("lecture_{hash:016x}")
     }
 
     /// Union of the parent building names and keywords of every room hosting an
