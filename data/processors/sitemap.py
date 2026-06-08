@@ -2,12 +2,13 @@ import logging
 import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Literal, TypedDict
+from typing import Literal, TypedDict
 
 import backoff
 import orjson
 import requests
 from defusedxml import ElementTree as defusedET
+from pipeline_types import Entry
 
 _logger = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ WEB_SITEMAP_URL = "https://nav.tum.de/sitemap-webclient.xml"
 
 def generate_sitemap(
     *,
-    old_data: list[Any],
+    old_data: list[Entry],
     old_sitemaps: SimplifiedSitemaps,
     web_sitemap: dict[str, datetime],
 ) -> None:
@@ -52,7 +53,7 @@ def generate_sitemap(
     """
     # Re-parsing the output file instead of using the in-memory data, because the export
     # doesn't include all fields and this guarantees the same types (no numpy floats).
-    new_data: list[Any] = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
+    new_data: list[Entry] = orjson.loads((OUTPUT_DIR_PATH / "api_data.json").read_bytes())
 
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
@@ -62,7 +63,7 @@ def generate_sitemap(
     _write_sitemapindex_xml(OUTPUT_DIR_PATH / "sitemap.xml", sitemaps, web_sitemap)
 
 
-def fetch_old_data() -> list[Any]:
+def fetch_old_data() -> list[Entry]:
     """Download the previously-published api_data.json. Safe to call from a worker thread."""
     try:
         return _download_old_data()
@@ -80,7 +81,7 @@ def fetch_online_sitemaps() -> SimplifiedSitemaps:
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
-def _download_old_data() -> list[Any]:
+def _download_old_data() -> list[Entry]:
     """Download the currently online data from the server"""
     req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
     if req.status_code != 200:
@@ -92,7 +93,7 @@ def _download_old_data() -> list[Any]:
     return old_data  # type: ignore[no-any-return]
 
 
-def _extract_sitemap_data(new_data: list[Any], old_data: list[Any], old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
+def _extract_sitemap_data(new_data: list[Entry], old_data: list[Entry], old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
     """
     Extract sitemap data.
 

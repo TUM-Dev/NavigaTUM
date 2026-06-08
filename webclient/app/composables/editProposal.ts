@@ -95,7 +95,7 @@ export const useEditProposal = () =>
   }));
 
 function emptyRoomEdit() {
-  return { coordinate: null, image: null, properties: null };
+  return { coordinate: null, image: null, properties: null, opening_hours: null };
 }
 
 export type { PropertyFields };

@@ -1,9 +1,10 @@
 import logging
 import typing
-from typing import Any, TypedDict
+from typing import TypedDict
 
 import orjson
 import polars as pl
+from pipeline_types import Entry, FlatRow, Json
 from utils import TranslatableStr
 
 _logger = logging.getLogger(__name__)
@@ -194,7 +195,7 @@ def _build_sorted_floor_list(room_data: list[Room]) -> list[str]:
     return sorted(floors, key=floor_quantifier)
 
 
-def _get_floor_details(generators: dict[str, Any], room_data: list[Room]) -> list[FloorDetails]:
+def _get_floor_details(generators: dict[str, Json], room_data: list[Room]) -> list[FloorDetails]:
     """Infer for each floor the metadata and name string"""
     floors = _build_sorted_floor_list(room_data)
     floors_details: list[FloorDetails] = []
@@ -303,7 +304,7 @@ _COMPUTE_PROPS_INPUT_COLS = (
 )
 
 
-def _compute_props_json(row: dict[str, Any]) -> str:
+def _compute_props_json(row: FlatRow) -> str:
     props = _reconstruct_props(row)
     computed = _gen_computed_props(row["id"], row, props) if props else []
 
@@ -334,9 +335,9 @@ def compute_props(df: pl.DataFrame) -> pl.DataFrame:
     )
 
 
-def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
+def _reconstruct_props(row: FlatRow) -> Entry:
     """Reconstruct a nested props dict from flat DataFrame columns for use by helper functions."""
-    props: dict[str, Any] = {}
+    props: Entry = {}
 
     # ids
     ids = {}
@@ -385,7 +386,7 @@ def _reconstruct_props(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def _append_if_present(
-    props: dict[str, Any],
+    props: Entry,
     computed_results: list[dict[TranslatableStr, TranslatableStr | str]],
     key: str,
     human_name: TranslatableStr,
@@ -397,7 +398,7 @@ def _append_if_present(
 def _gen_computed_props(
     _id: str,
     entry: dict[str, str],
-    props: dict[str, Any],
+    props: Entry,
 ) -> list[dict[TranslatableStr | str, TranslatableStr | str]]:
     computed: list[dict[TranslatableStr, TranslatableStr | str]] = []
     if "ids" in props:
@@ -415,7 +416,7 @@ def _gen_computed_props(
             computed.append({_("Stockwerk"): floor_name})
         else:
             computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor_name + ")"})
-    b_prefix_raw: Any = entry.get("b_prefix_list") or entry.get("b_prefix")
+    b_prefix_raw: Json = entry.get("b_prefix_list") or entry.get("b_prefix")
     if b_prefix_raw and b_prefix_raw != _id:
         if isinstance(b_prefix_raw, list):
             b_prefix_vals = b_prefix_raw
@@ -493,7 +494,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
         ).iter_rows(named=True)
     }
 
-    def _build_overview(row: dict[str, Any]) -> str:
+    def _build_overview(row: FlatRow) -> str:
         _id = row["id"]
         generators = orjson.loads(row["generators_json"]) if row["generators_json"] else {}
         options = generators.get("buildings_overview", {"n_visible": 6, "list_start": []})
@@ -509,7 +510,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
         )
 
         merged_ids = options["list_start"] + [b["id"] for b in buildings if b["id"] not in options["list_start"]]
-        b_overview: dict[str, Any] = {"n_visible": options["n_visible"], "entries": []}
+        b_overview: dict[str, Json] = {"n_visible": options["n_visible"], "entries": []}
         for child_id in merged_ids:
             child = lookup.get(child_id)
             if child is None:
@@ -534,6 +535,7 @@ def generate_buildings_overview(df: pl.DataFrame) -> pl.DataFrame:
             b_overview["entries"].append(
                 {
                     "id": child_id,
+                    "type": child["type"],
                     "name": child.get("short_name") or child["name"],
                     "subtext": subtext,
                     "thumb": imgs[0]["name"] if imgs else None,
@@ -583,7 +585,7 @@ def generate_rooms_overview(df: pl.DataFrame) -> pl.DataFrame:
         .iter_rows(named=True)
     }
 
-    def _build_overview(row: dict[str, Any]) -> str:
+    def _build_overview(row: FlatRow) -> str:
         rooms_by_usage: dict[TranslatableStr, list[dict[str, str]]] = {}
         for child_id in row["children_flat"] or []:
             child = rooms_lookup.get(child_id)

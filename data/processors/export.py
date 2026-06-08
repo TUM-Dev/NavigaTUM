@@ -1,7 +1,6 @@
 import re
 from enum import StrEnum
 from pathlib import Path
-from typing import Any
 
 import orjson
 import polars as pl
@@ -12,13 +11,14 @@ from external.loaders.tumonline_orgs import load_tumonline_orgs
 from external.models.common import PydanticConfiguration
 from external.schemas.events import EventsSchema
 from external.schemas.tumonline_orgs import TumonlineOrgsSchema
+from pipeline_types import Entry, Json
 from utils import TranslatableStr
 from utils import TranslatableStr as _
 
 from processors.df_utils import unflatten_row
 
 
-def _orjson_default(o: Any) -> Any:
+def _orjson_default(o: Json) -> Json:
     if isinstance(o, PydanticConfiguration):
         return o.model_dump()
     raise TypeError(f"Object of type {type(o)} is not JSON serializable")
@@ -64,14 +64,14 @@ _REMOVED_NAMES_RE = re.compile(rb"bestelmeyer|gustav[ -]+niemann|prandtl|messers
 _ALLOWED_VARIATION_RE = re.compile(rb"prandtl[ -]+str", re.IGNORECASE)
 
 
-def _de(value: Any) -> Any:
+def _de(value: Json) -> Json:
     """Pick the German variant from a TranslatableStr-shaped dict; pass-through otherwise."""
     if isinstance(value, dict) and value.keys() <= {"de", "en"}:
         return value.get("de", value.get("en", {}))
     return value
 
 
-def maybe_slugify(value: str | None | TranslatableStr | dict[str, Any]) -> str | None:
+def maybe_slugify(value: str | None | TranslatableStr | dict[str, Json]) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
@@ -90,7 +90,7 @@ def normalise_id(_id: str) -> str | None:
     return ".".join(parts)
 
 
-def reconstruct_data(df: pl.DataFrame) -> dict[str, Any]:
+def reconstruct_data(df: pl.DataFrame) -> dict[str, Entry]:
     """Reconstruct nested data dict from flat DataFrame (shared by search and API export)."""
     data = {}
     for row in df.to_dicts():
@@ -99,7 +99,7 @@ def reconstruct_data(df: pl.DataFrame) -> dict[str, Any]:
     return data
 
 
-def export_for_search(data: dict[str, Any]) -> None:
+def export_for_search(data: dict[str, Entry]) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
@@ -173,7 +173,7 @@ def export_for_search(data: dict[str, Any]) -> None:
     search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=3)
 
 
-def extract_parent_building_names(data: dict[str, Any], parents: list[str], building_parents_index: int) -> list[str]:
+def extract_parent_building_names(data: dict[str, Entry], parents: list[str], building_parents_index: int) -> list[str]:
     """Extract the parents building names from the data"""
     # For rooms, the (joined_)building parents are extra to put more emphasis on them.
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
@@ -206,7 +206,7 @@ def export_for_status() -> None:
     df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=3)
 
 
-def export_for_api(data: dict[str, Any]) -> None:
+def export_for_api(data: dict[str, Entry]) -> None:
     """Add some more information about parents to the data and export for the /locations/:id api"""
     export_data = []
     for entry in data.values():
@@ -221,7 +221,7 @@ def export_for_api(data: dict[str, Any]) -> None:
     df.write_parquet(OUTPUT_DIR_PATH / "alias_data.parquet", use_pyarrow=True, compression_level=3)
 
 
-def extract_exported_item(data: dict[str, Any], entry: dict[str, Any]) -> dict[str, Any]:
+def extract_exported_item(data: dict[str, Entry], entry: Entry) -> Entry:
     """Extract the item that will be finally exported to the api"""
     parent_names = [data[p]["name"] if p != "root" else _("Standorte", "Sites") for p in entry["parents"]]
     # Parallel to `parents`/`parent_names`: each parent's type lets the client build the canonical

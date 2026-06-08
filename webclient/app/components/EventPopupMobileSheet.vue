@@ -35,6 +35,7 @@ const open = computed<boolean>({
         :name="props.event.name"
         :description="props.event.description"
         :image-path="props.event.imagePath"
+        :image-author="props.event.imageAuthor"
         :starts-at="props.event.startsAt"
         :ends-at="props.event.endsAt"
         :org-code="props.event.orgCode"

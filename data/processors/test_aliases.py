@@ -1,13 +1,13 @@
 import json
-from typing import Any
 
 import polars as pl
+from pipeline_types import FlatRow
 
 from processors.aliases import add_aliases, building_short_name_lookup
 from processors.df_utils import unflatten_row
 
 
-def _meta(rows: list[dict[str, Any]]) -> pl.DataFrame:
+def _meta(rows: list[FlatRow]) -> pl.DataFrame:
     """Build the (id, type, short_name, parents) frame the lookup consumes."""
     return pl.DataFrame(rows, infer_schema_length=None)
 

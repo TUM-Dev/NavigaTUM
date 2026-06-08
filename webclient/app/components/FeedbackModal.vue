@@ -3,7 +3,6 @@ import { useEditProposal } from "~/composables/editProposal";
 import { useFeedback } from "~/composables/feedback";
 
 const { t } = useI18n({ useScope: "local" });
-const deleteIssueRequested = ref(false);
 const feedback = useFeedback();
 const editProposal = useEditProposal();
 const route = useRoute();
@@ -66,8 +65,6 @@ function switchToEditProposal() {
         />
         <p class="text-zinc-500 dark:text-zinc-400 text-xs">{{ t("helptext." + feedback.data.category) }}</p>
       </div>
-
-      <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
     </template>
     <template #success="{ successUrl }">
       <p>{{ t("success.thank_you") }}</p>
@@ -83,7 +80,6 @@ function switchToEditProposal() {
 <i18n lang="yaml">
 de:
   category: Feedback-Kategorie
-  delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.
   helptext:
     bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
     entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
@@ -111,7 +107,6 @@ de:
     navigation: Navigation
 en:
   category: Feedback category
-  delete: Delete this GitHub issue when resolved.
   helptext:
     bug: Which bug did you find? Where did you find it? Please provide a detailed description.
     entry: Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?

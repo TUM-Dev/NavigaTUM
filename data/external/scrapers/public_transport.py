@@ -5,11 +5,11 @@ import math
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import backoff
 import polars as pl
 import requests
+from pipeline_types import FlatRow, Json
 from utils import setup_logging
 
 from external.schemas.public_transport import TRANSPORT_MODES, StationsSchema
@@ -120,7 +120,7 @@ def cluster_bboxes(coords: pl.DataFrame) -> list[Bbox]:
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=3)
-def _fetch_stops(session: requests.Session, bbox: Bbox) -> list[dict[str, Any]]:
+def _fetch_stops(session: requests.Session, bbox: Bbox) -> list[dict[str, Json]]:
     response = session.get(STOPS_ENDPOINT, params=bbox.as_query(), timeout=30)
     response.raise_for_status()
     payload = response.json()
@@ -129,7 +129,7 @@ def _fetch_stops(session: requests.Session, bbox: Bbox) -> list[dict[str, Any]]:
     return payload
 
 
-def _normalise_modes(raw: list[Any] | None) -> list[str]:
+def _normalise_modes(raw: list[Json] | None) -> list[str]:
     """Lowercase + dedupe motis mode strings; unknown values fold to `other`."""
     if not raw:
         return []
@@ -147,7 +147,7 @@ def _normalise_modes(raw: list[Any] | None) -> list[str]:
     return out
 
 
-def _stops_to_rows(stops: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _stops_to_rows(stops: list[dict[str, Json]]) -> list[FlatRow]:
     """Flatten motis stops into row dicts; no station-level folding yet."""
     rows = []
     for stop in stops:
@@ -199,7 +199,7 @@ def scrape_stations() -> None:
     bboxes = cluster_bboxes(coords)
     _logger.info(f"Discovered {len(bboxes)} geographic clusters from {coords.height} TUM coordinates")
 
-    all_rows: list[dict[str, Any]] = []
+    all_rows: list[FlatRow] = []
     with requests.Session() as session:
         for i, bbox in enumerate(bboxes):
             if i > 0:

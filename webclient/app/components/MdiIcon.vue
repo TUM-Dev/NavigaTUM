@@ -15,6 +15,8 @@ const props = withDefaults(defineProps<Props>(), {
     :height="props.size"
     viewBox="0 0 24 24"
     class="inline-block"
+    aria-hidden="true"
+    focusable="false"
   >
     <path fill="currentColor" :d="props.path" />
   </svg>

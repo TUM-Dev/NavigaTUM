@@ -425,7 +425,20 @@ export type components = {
       readonly subtext: string;
       /** @description The thumbnail for the building */
       readonly thumb?: string | null;
+      /** @description The type of the entry, used to build its canonical `/{type}/{id}` route. */
+      readonly type: components["schemas"]["BuildingsOverviewItemTypeResponse"];
     };
+    /**
+     * @description The type of a building-overview child.
+     *
+     *     A strict subset of [`LocationTypeResponse`]: the overview only ever lists the
+     *     container types whose `subtext` the data pipeline knows how to render
+     *     (`generate_buildings_overview` in `data/processors/sections.py`). Modelling it
+     *     separately lets clients build the canonical `/{type}/{id}` route without a
+     *     non-routable fallback.
+     * @enum {string}
+     */
+    readonly BuildingsOverviewItemTypeResponse: "building" | "joined_building" | "area" | "site";
     readonly BuildingsOverviewResponse: {
       readonly entries: readonly components["schemas"]["BuildingsOverviewItemResponse"][];
       /** Format: int32 */
@@ -786,6 +799,7 @@ export type components = {
       readonly [key: string]: {
         readonly coordinate?: null | components["schemas"]["Coordinate"];
         readonly image?: null | components["schemas"]["Image"];
+        readonly opening_hours?: null | components["schemas"]["OpeningHoursEdit"];
         readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
       };
     };
@@ -818,6 +832,7 @@ export type components = {
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
        */
       readonly name: string;
+      readonly opening_hours?: null | components["schemas"]["OpeningHoursResponse"];
       /**
        * @description The human names of the parents.
        *
@@ -1286,6 +1301,70 @@ export type components = {
       /** Format: int32 */
       readonly thumb?: number | null;
     };
+    /**
+     * @description A correction to an entry's opening hours.
+     *
+     *     Routes into the data pipeline's canonical `opening_hours.csv` (one schedule
+     *     per entry id) rather than a runtime override, so an accepted fix flows back
+     *     to source. The client's day/time builder assembles `opening_hours` into a
+     *     plain OSM `opening_hours` string; `last_update` is stamped server-side so the
+     *     provenance date can't be spoofed, and the optional `valid_from`/`valid_until`/
+     *     `service` columns are left to maintainers (preserved on update, empty on
+     *     insert).
+     */
+    readonly OpeningHoursEdit: {
+      /**
+       * @description OSM `opening_hours` string assembled by the client's day/time builder.
+       * @example Mo-Fr 08:00-20:00; Sa 09:00-14:00
+       */
+      readonly opening_hours: string;
+      /**
+       * Format: uri
+       * @description Absolute http(s) URL documenting the schedule (e.g. the official department page).
+       * @example https://www.ub.tum.de/oeffnungszeiten
+       */
+      readonly source_url: string;
+    };
+    /**
+     * @description Opening hours of a location.
+     *
+     *     The schedule is a plain OSM [`opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours)
+     *     string. Any `lecture:`/`break:` semester macros are already expanded into absolute
+     *     date ranges at data-build time, so consumers only ever see standard OSM syntax.
+     */
+    readonly OpeningHoursResponse: {
+      /**
+       * @description `YYYY-MM-DD` date on which this schedule was last confirmed.
+       * @example 2026-05-01
+       */
+      readonly last_update: string;
+      /**
+       * @description Plain OSM `opening_hours` string describing the schedule.
+       * @example Mo-Fr 08:00-22:00; Sa 09:00-17:00
+       */
+      readonly osm: string;
+      /**
+       * @description The service variant this schedule describes, when a location distinguishes
+       *     several (e.g. a separate lending desk).
+       * @example Ausleihe
+       */
+      readonly service?: string | null;
+      /**
+       * @description Where this schedule was sourced from, shown as the "source" link.
+       * @example https://www.ub.tum.de/en/branch-libraries
+       */
+      readonly source_url: string;
+      /**
+       * @description `YYYY-MM-DD` date from which this schedule is valid, when bounded.
+       * @example 2026-04-28
+       */
+      readonly valid_from?: string | null;
+      /**
+       * @description `YYYY-MM-DD` date until which this schedule is valid, when bounded.
+       * @example 2026-09-30
+       */
+      readonly valid_until?: string | null;
+    };
     /** @description Operator of a location */
     readonly OperatorResponse: {
       /**
@@ -1465,14 +1544,6 @@ export type components = {
       readonly body: string;
       /** @description The category of the feedback. */
       readonly category?: components["schemas"]["FeedbackCategory"];
-      /**
-       * @description Whether the user has requested to delete the issue.
-       *
-       *     This flag means:
-       *     - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-       *     - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-       */
-      readonly deletion_requested: boolean;
       /**
        * @description Whether the user has checked the privacy-checkbox.
        *

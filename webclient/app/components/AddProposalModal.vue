@@ -384,20 +384,12 @@ watch(
       <TabGroup :selected-index="kindIndex < 0 ? 0 : kindIndex" :default-index="0">
         <TabList class="bg-zinc-100 dark:bg-zinc-800 flex space-x-1 rounded-lg p-1">
           <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
-            <button
-              :class="[
-                'w-full rounded-md py-2.5 px-3 text-sm font-medium leading-5',
-                'ring-white/60 dark:ring-black/60 ring-offset-2 ring-offset-blue-400 dark:ring-offset-blue-500',
-                'focus:outline-none focus:ring-2 transition-all',
-                kindIndex === kindOptions.indexOf(opt) ? 'bg-white dark:bg-black text-zinc-700 dark:text-zinc-200 shadow' : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/[0.12] dark:hover:bg-black/[0.12] hover:text-zinc-700 dark:hover:text-zinc-200',
-              ]"
-              @click="pickKind(opt.value)"
-            >
+            <SegmentedTab :selected="kindIndex === kindOptions.indexOf(opt)" class="w-full px-3 py-2.5" @click="pickKind(opt.value)">
               <div class="flex items-center justify-center gap-2">
-                <MdiIcon :path="opt.icon" :size="16" />
+                <MdiIcon :path="opt.icon" :size="16" class="hidden md:block" />
                 {{ t(`kind.${opt.value}`) }}
               </div>
-            </button>
+            </SegmentedTab>
           </Tab>
         </TabList>
       </TabGroup>
@@ -425,7 +417,7 @@ watch(
             id="add-room-alt-name"
             v-model="roomAltName"
             type="text"
-            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+            class="focusable input-field w-full rounded border px-2 py-1 text-sm"
           />
           <I18nT keypath="alt_name_help" tag="p" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
             <template #example>

@@ -21,20 +21,20 @@ function removeLink(idx: number) {
           v-model="link.url"
           type="url"
           placeholder="https://"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+          class="focusable input-field w-full rounded border px-2 py-1 text-sm"
         />
         <div class="grid grid-cols-2 gap-1">
           <input
             v-model="link.text_de"
             type="text"
             :placeholder="t('text_de')"
-            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
+            class="focusable input-field rounded border px-2 py-1 text-sm"
           />
           <input
             v-model="link.text_en"
             type="text"
             :placeholder="t('text_en')"
-            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
+            class="focusable input-field rounded border px-2 py-1 text-sm"
           />
         </div>
       </div>

@@ -184,60 +184,28 @@ function sendForm() {
       <slot name="modal" />
       <div class="mt-6">
         <Checkbox id="privacy-checked" v-model="privacyChecked">
-          <template #default>
-            <I18nT tag="p" keypath="public.agreement" class="font-bold">
-              <template #github_project_issues>
-                <NuxtLink
-                  tabindex="1"
-                  class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
-                  to="https://github.com/TUM-Dev/navigatum/issues"
-                  target="_blank"
-                  external
-                >
-                  {{ t("public.github_project_issues") }}
-                </NuxtLink>
-              </template>
-            </I18nT>
-          </template>
-          <template #helptext>
-            <p>
-              <I18nT tag="span" keypath="public.disclaimer">
-                <template #github_site_policy>
-                  <NuxtLink
-                    tabindex="1"
-                    class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
-                    to="https://docs.github.com/en/github/site-policy"
-                    target="_blank"
-                    external
-                  >
-                    {{ t("public.github_site_policy") }}
-                  </NuxtLink>
-                </template>
-              </I18nT>
-              {{ t("public.processing_based_on_gdpr") }}
-            </p>
-            <p>
-              {{ t("public.right_to_information") }}
-              {{ t("public.right_of_appeal") }}
-            </p>
-            <p>
-              <I18nT keypath="public.objection_instruction" tag="span">
-                <template #imprint>
-                  <NuxtLinkLocale tabindex="1" to="/about/impressum" class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline">
-                    {{ t("public.imprint") }}
-                  </NuxtLinkLocale>
-                </template>
-              </I18nT>
-              <br />
-              <I18nT keypath="public.question_contact">
-                <template #datenschutz>
-                  <NuxtLink tabindex="1" class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline" to="https://datenschutz.tum.de" target="_blank" external
-                    >datenschutz.tum.de
-                  </NuxtLink>
-                </template>
-              </I18nT>
-            </p>
-          </template>
+          <I18nT tag="span" keypath="public.consent">
+            <template #github>
+              <NuxtLink
+                tabindex="1"
+                class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
+                to="https://github.com/TUM-Dev/NavigaTUM"
+                target="_blank"
+                external
+              >
+                GitHub
+              </NuxtLink>
+            </template>
+            <template #privacy_policy>
+              <NuxtLink
+                tabindex="1"
+                :to="t('public.privacy_policy_url')"
+                class="text-blue-600 dark:text-blue-300 visited:text-blue-600 dark:visited:text-blue-300 hover:underline"
+              >
+                {{ t("public.privacy_policy") }}
+              </NuxtLink>
+            </template>
+          </I18nT>
         </Checkbox>
       </div>
     </div>
@@ -295,16 +263,9 @@ de:
   validation_failures:
     title: "Folgende Einträge konnten nicht angelegt werden:"
   public:
-    agreement: Meine Änderungsvorschläge dürfen anonym, aber öffentlich zugänglich auf der {github_project_issues} gespeichert werden.
-    disclaimer: Mit der Nutzung dieses Formulars stimmst du explizit den {github_site_policy} sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
-    github_project_issues: GitHub Projektseite
-    github_site_policy: Nutzungsbedingungen und Datenschutzbestimmungen von GitHub
-    imprint: Impressum gelisteten Kontaktmöglichkeiten
-    objection_instruction: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen Optionen aus unserem {imprint}.
-    processing_based_on_gdpr: Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
-    question_contact: Bei Fragen kannst du dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten ({datenschutz}) wenden.
-    right_of_appeal: Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
-    right_to_information: Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
+    consent: Ich verstehe, dass mein Änderungsvorschlag auf {github} veröffentlicht und gemäß der {privacy_policy} verarbeitet wird. Mit dem Absenden dieses Formulars willige ich in diese Verarbeitung ein.
+    privacy_policy: Datenschutzerklärung
+    privacy_policy_url: /about/datenschutz
   sending: Wird gesendet
   try_again_later: Bitte versuche es später noch einmal
   send: Senden
@@ -331,16 +292,9 @@ en:
   validation_failures:
     title: "These entries could not be created:"
   public:
-    agreement: My edit proposal data may be stored anonymously but publicly accessible on the {github_project_issues}.
-    disclaimer: By using this edit proposal form, you explicitly agree to the {github_site_policy} as well as a possible transfer of the data outside the European Union.
-    github_project_issues: GitHub project page
-    github_site_policy: terms of use and privacy policy of GitHub
-    imprint: contact options listed in our imprint
-    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other other options from the {imprint}.
-    processing_based_on_gdpr: The processing is based on Art. 6 para. 1 lit. a DSGVO.
-    question_contact: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer ({datenschutz}).
-    right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
-    right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
+    consent: I understand that my edit proposal will be published on {github} and processed in accordance with the {privacy_policy}. By submitting this form, I consent to this processing.
+    privacy_policy: Privacy Policy
+    privacy_policy_url: /en/about/privacy
   sending: Sending
   try_again_later: Please try again later
   send: Send

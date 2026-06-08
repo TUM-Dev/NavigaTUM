@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Any
 
 import orjson
 import polars as pl
 import yaml
+from pipeline_types import Entry, FlatRow, Json
 from utils import TranslatableStr
 
 from processors.df_utils import flatten_entry
@@ -18,14 +18,14 @@ USAGES_CSV = SOURCES_PATH / "usages.csv"
 LINKS_YAML = SOURCES_PATH / "links.yaml"
 
 
-def load_yaml(path: Path) -> Any:
+def load_yaml(path: Path) -> Json:
     """
     Merge yaml data at path on top of the given data.
 
     This operates on the data dict directly without creating a copy.
     """
 
-    def add_translatable_str(value: str | list[Any] | dict[str, Any]) -> Any:
+    def add_translatable_str(value: str | list[Json] | dict[str, Json]) -> Json:
         """Recursively change all {de: ..., en:...] to a TranslatableStr"""
         if isinstance(value, bool | float | int | str) or value is None:
             return value
@@ -121,7 +121,7 @@ def _apply_patch_df(df: pl.DataFrame, patch_df: pl.DataFrame) -> pl.DataFrame:
     return result.drop(drop_cols)
 
 
-def _yaml_to_patch_df(yaml_data: dict[str, dict[str, Any]]) -> pl.DataFrame:
+def _yaml_to_patch_df(yaml_data: dict[str, Entry]) -> pl.DataFrame:
     """Convert a YAML dict of {id: entry_dict} to a flat DataFrame using flatten_entry."""
     rows = []
     for entry_id, entry in yaml_data.items():
@@ -178,7 +178,7 @@ def add_names(df: pl.DataFrame) -> pl.DataFrame:
     # Build a patch DataFrame with the right column names
     rows = []
     for row in names_df.iter_rows(named=True):
-        flat: dict[str, Any] = {"id": row["id"]}
+        flat: FlatRow = {"id": row["id"]}
         name = row.get("name")
         if name:
             flat["name"] = name

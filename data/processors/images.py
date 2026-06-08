@@ -5,7 +5,7 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, NamedTuple
+from typing import NamedTuple
 
 import orjson
 import polars as pl
@@ -13,6 +13,7 @@ import utils
 import yaml
 from external.models.common import PydanticConfiguration
 from PIL import Image
+from pipeline_types import Json
 from pydantic import Field
 from pydantic.networks import HttpUrl
 
@@ -38,7 +39,7 @@ class ImageSource(PydanticConfiguration):
     def load_all(cls) -> dict[str, list[ImageSource]]:
         """Load the image sources from the img-sources.yaml file"""
         with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
-            raw: dict[str, dict[int, dict[str, Any]]] = yaml.safe_load(file.read())
+            raw: dict[str, dict[int, dict[str, Json]]] = yaml.safe_load(file.read())
             image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
         for key in image_sources:
             if not isinstance(key, str):
@@ -120,7 +121,7 @@ def parse_image_filename(image_name: str) -> tuple[str, int]:
     return _id, _index
 
 
-def _add_source_info(fname: str, source_data: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
+def _add_source_info(fname: str, source_data: dict[int, dict[str, Json]]) -> dict[str, Json] | None:
     _id, _index = parse_image_filename(fname)
 
     required_fields = ["author", "license"]
@@ -129,7 +130,7 @@ def _add_source_info(fname: str, source_data: dict[int, dict[str, Any]]) -> dict
             _logger.warning(f"No {field} information for image '{fname}', it will not be used")
             return None
 
-    def _parse(obj: str | dict[str, Any]) -> dict[str, Any]:
+    def _parse(obj: str | dict[str, Json]) -> dict[str, Json]:
         return {"text": obj, "url": None} if isinstance(obj, str) else obj
 
     return {

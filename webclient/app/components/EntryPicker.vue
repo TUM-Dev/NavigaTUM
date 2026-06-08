@@ -127,7 +127,7 @@ function onKeydown(e: KeyboardEvent) {
         id="entry-picker-input"
         v-model="query"
         type="text"
-        class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 w-full rounded border px-2 py-1 text-sm"
+        class="focusable input-field w-full rounded border px-2 py-1 text-sm"
         :placeholder="placeholder || t('placeholder')"
         @focus="open = true"
         @blur="onBlur"

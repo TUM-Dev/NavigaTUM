@@ -152,7 +152,7 @@ test.describe("Language Switching", () => {
   test("should switch between German and English", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
-    const settingsButton = page.getByRole("button", { name: "Open preferences menu" });
+    const settingsButton = page.locator("#preferences");
     await expect(settingsButton).toBeVisible();
     await settingsButton.first().click();
 

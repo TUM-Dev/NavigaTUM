@@ -70,12 +70,6 @@ pub struct PostFeedbackRequest {
     /// We are posting the feedback publicly on GitHub (not a EU-Company).
     /// **You MUST also include such a checkmark.**
     privacy_checked: bool,
-    /// Whether the user has requested to delete the issue.
-    ///
-    /// This flag means:
-    /// - If the user has requested to delete the issue, we will delete it from GitHub after processing it
-    /// - If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-    deletion_requested: bool,
 }
 
 /// Post feedback
@@ -126,16 +120,8 @@ pub async fn send_feedback(
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     }
 
+    let labels = vec!["webform".to_string(), req_data.category.to_string()];
     GitHub::default()
-        .open_issue(&req_data.subject, &req_data.body, parse_labels(&req_data.0))
+        .open_issue(&req_data.subject, &req_data.body, labels)
         .await
-}
-
-fn parse_labels(req_data: &PostFeedbackRequest) -> Vec<String> {
-    let mut labels = vec!["webform".to_string()];
-    if req_data.deletion_requested {
-        labels.push("delete-after-processing".to_string());
-    }
-    labels.push(req_data.category.to_string());
-    labels
 }

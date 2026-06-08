@@ -1,11 +1,11 @@
 use std::collections::BTreeMap;
-use std::fs::{self, File};
-use std::io::{self, BufWriter, Write};
+use std::fs::File;
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
 
 use super::AppliableEdit;
+use super::csv_edit::apply_csv_upsert;
 
 #[derive(Deserialize, Debug, Clone, utoipa::ToSchema)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -40,104 +40,6 @@ impl PropertyEdit {
     fn usages_csv_path(base_dir: &Path) -> PathBuf {
         base_dir.join("data").join("sources").join("usages.csv")
     }
-
-    fn apply_csv_edit(
-        key: &str,
-        base_dir: &Path,
-        csv_path_fn: fn(&Path) -> PathBuf,
-        new_fields: &[String],
-    ) -> anyhow::Result<()> {
-        let csv_file = csv_path_fn(base_dir);
-        let temp_file = csv_file.with_extension("tmp");
-
-        let mut reader = csv::ReaderBuilder::new()
-            .has_headers(true)
-            .flexible(true)
-            .from_path(&csv_file)?;
-        let header: Vec<String> = reader.headers()?.iter().map(ToString::to_string).collect();
-        let col_count = header.len();
-
-        {
-            let output = File::create(&temp_file)?;
-            let mut writer = BufWriter::new(output);
-            writeln!(
-                writer,
-                "{}",
-                header
-                    .iter()
-                    .map(|h| csv_escape(h))
-                    .collect::<Vec<_>>()
-                    .join(",")
-            )?;
-
-            let mut wrote_edit = false;
-
-            for record in reader.records() {
-                let record = record?;
-                let existing_key = record.get(0).unwrap_or("");
-
-                if !wrote_edit && existing_key >= key {
-                    let extras: Option<Vec<String>> = (existing_key == key).then(|| {
-                        record
-                            .iter()
-                            .skip(new_fields.len())
-                            .map(ToString::to_string)
-                            .collect()
-                    });
-                    write_padded_row(&mut writer, new_fields, col_count, extras.as_deref())?;
-                    wrote_edit = true;
-                    if existing_key == key {
-                        continue;
-                    }
-                }
-                if existing_key != key {
-                    writeln!(
-                        writer,
-                        "{}",
-                        record.iter().map(csv_escape).collect::<Vec<_>>().join(",")
-                    )?;
-                }
-            }
-
-            if !wrote_edit {
-                write_padded_row(&mut writer, new_fields, col_count, None)?;
-            }
-        }
-
-        fs::rename(&temp_file, &csv_file)?;
-        Ok(())
-    }
-}
-
-fn write_padded_row<W: Write>(
-    writer: &mut W,
-    new_fields: &[String],
-    col_count: usize,
-    extras: Option<&[String]>,
-) -> io::Result<()> {
-    let mut fields: Vec<String> = new_fields.iter().map(|f| csv_escape(f)).collect();
-    let known = new_fields.len();
-    if col_count > known {
-        let trailing = col_count - known;
-        if let Some(ex) = extras {
-            for i in 0..trailing {
-                fields.push(ex.get(i).map(|s| csv_escape(s)).unwrap_or_default());
-            }
-        } else {
-            for _ in 0..trailing {
-                fields.push(String::new());
-            }
-        }
-    }
-    writeln!(writer, "{}", fields.join(","))
-}
-
-fn csv_escape(s: &str) -> String {
-    if s.contains(',') || s.contains('"') || s.contains('\n') {
-        format!("\"{}\"", s.replace('"', "\"\""))
-    } else {
-        s.to_string()
-    }
 }
 
 impl AppliableEdit for PropertyEdit {
@@ -146,10 +48,9 @@ impl AppliableEdit for PropertyEdit {
             Self::Name { name, short_name } => {
                 let name_val = name.as_deref().unwrap_or("");
                 let short_val = short_name.as_deref().unwrap_or("");
-                Self::apply_csv_edit(
+                apply_csv_upsert(
                     key,
-                    base_dir,
-                    Self::names_csv_path,
+                    &Self::names_csv_path(base_dir),
                     &[key.to_string(), name_val.to_string(), short_val.to_string()],
                 )?;
                 Ok(format!("name: `{name_val}`, short_name: `{short_val}`"))
@@ -162,10 +63,9 @@ impl AppliableEdit for PropertyEdit {
             } => {
                 let din = din_277.as_deref().unwrap_or("");
                 let din_desc = din_277_desc.as_deref().unwrap_or("");
-                Self::apply_csv_edit(
+                apply_csv_upsert(
                     key,
-                    base_dir,
-                    Self::usages_csv_path,
+                    &Self::usages_csv_path(base_dir),
                     &[
                         key.to_string(),
                         name_de.clone(),

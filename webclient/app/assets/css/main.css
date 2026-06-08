@@ -34,6 +34,13 @@ body {
   @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus-visible:outline-0;
 }
 
+/* Shared colour surface for form inputs (text/number/time fields, textareas).
+   Layout (rounded, border width, sizing) and `focusable` stay in the markup
+   since they vary per field and are also used by non-input containers. */
+.input-field {
+  @apply bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50;
+}
+
 /* Nuxt Content prose typography for /about/* pages.
    Lives here (not in the page's scoped style) because v4's Vite plugin does
    not process @apply inside Vue <style lang="postcss"> blocks. */

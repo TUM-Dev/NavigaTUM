@@ -166,6 +166,39 @@ struct LocationDetailsResponse {
     /// - featured view
     #[serde(default)]
     sections: SectionsResponse,
+    /// Opening hours of this location, when we have a schedule for it.
+    ///
+    /// Omitted for entries without a known schedule (most rooms).
+    opening_hours: Option<OpeningHoursResponse>,
+}
+
+/// Opening hours of a location.
+///
+/// The schedule is a plain OSM [`opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours)
+/// string. Any `lecture:`/`break:` semester macros are already expanded into absolute
+/// date ranges at data-build time, so consumers only ever see standard OSM syntax.
+#[serde_with::skip_serializing_none]
+#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
+struct OpeningHoursResponse {
+    /// Plain OSM `opening_hours` string describing the schedule.
+    #[schema(examples("Mo-Fr 08:00-22:00; Sa 09:00-17:00"))]
+    osm: String,
+    /// Where this schedule was sourced from, shown as the "source" link.
+    #[schema(examples("https://www.ub.tum.de/en/branch-libraries"))]
+    source_url: String,
+    /// `YYYY-MM-DD` date on which this schedule was last confirmed.
+    #[schema(examples("2026-05-01"))]
+    last_update: String,
+    /// `YYYY-MM-DD` date from which this schedule is valid, when bounded.
+    #[schema(examples("2026-04-28"))]
+    valid_from: Option<String>,
+    /// `YYYY-MM-DD` date until which this schedule is valid, when bounded.
+    #[schema(examples("2026-09-30"))]
+    valid_until: Option<String>,
+    /// The service variant this schedule describes, when a location distinguishes
+    /// several (e.g. a separate lending desk).
+    #[schema(examples("Ausleihe"))]
+    service: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
@@ -230,10 +263,29 @@ struct SectionsResponse {
     featured_overview: Option<FeaturedOverviewResponse>,
 }
 
+/// The type of a building-overview child.
+///
+/// A strict subset of [`LocationTypeResponse`]: the overview only ever lists the
+/// container types whose `subtext` the data pipeline knows how to render
+/// (`generate_buildings_overview` in `data/processors/sections.py`). Modelling it
+/// separately lets clients build the canonical `/{type}/{id}` route without a
+/// non-routable fallback.
+#[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+enum BuildingsOverviewItemTypeResponse {
+    #[default]
+    Building,
+    JoinedBuilding,
+    Area,
+    Site,
+}
+
 #[derive(Deserialize, Serialize, Debug, Default, utoipa::ToSchema)]
 struct BuildingsOverviewItemResponse {
     /// The id of the entry
     id: String,
+    /// The type of the entry, used to build its canonical `/{type}/{id}` route.
+    r#type: BuildingsOverviewItemTypeResponse,
     /// Human display name
     name: String,
     /// What should be displayed below this Building
@@ -686,5 +738,39 @@ mod tests {
         settings.bind(|| {
             insta::assert_json_snapshot!(key.clone(), body_value, {".hash" => 0});
         });
+    }
+
+    #[test]
+    fn building_overview_entry_round_trips_type() {
+        let entry: BuildingsOverviewItemResponse = serde_json::from_value(serde_json::json!({
+            "id": "5510",
+            "type": "area",
+            "name": "Stammgelände",
+            "subtext": "12 Gebäude, 345 Räume",
+            "thumb": null,
+        }))
+        .unwrap();
+
+        assert!(matches!(
+            entry.r#type,
+            BuildingsOverviewItemTypeResponse::Area
+        ));
+        assert_eq!(serde_json::to_value(&entry).unwrap()["type"], "area");
+    }
+
+    #[test]
+    fn building_overview_entry_rejects_non_container_type() {
+        // The overview only lists container types; a leaf type like `room` is not a valid
+        // entry, so the strict enum rejects it rather than silently routing it wrong.
+        let parsed: Result<BuildingsOverviewItemResponse, _> =
+            serde_json::from_value(serde_json::json!({
+                "id": "5510.01.250",
+                "type": "room",
+                "name": "Seminarraum",
+                "subtext": "",
+                "thumb": null,
+            }));
+
+        assert!(parsed.is_err());
     }
 }
