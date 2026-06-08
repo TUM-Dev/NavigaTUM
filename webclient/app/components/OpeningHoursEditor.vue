@@ -125,6 +125,7 @@ function removeHolidayRange(index: number) {
             class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-1.5 py-0.5 text-sm"
           />
           <button
+            v-if="draft.holiday.ranges.length > 1"
             type="button"
             class="focusable text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 rounded-sm"
             :aria-label="t('remove_range')"
