@@ -23,7 +23,7 @@ const props = withDefaults(
     lectureShowMoreHighlighted: false,
   }
 );
-const emit = defineEmits(["click", "mousedown", "mouseover", "showMore"]);
+const emit = defineEmits(["click", "mousedown", "mouseover", "showMore", "toggle"]);
 
 const isLecture = computed(() => props.item.type === "lecture");
 
@@ -49,6 +49,7 @@ const to = computed<EntityPath | null>(() =>
     @mousedown="() => emit('mousedown')"
     @mouseover="() => emit('mouseover')"
     @show-more="() => emit('showMore')"
+    @toggle="() => emit('toggle')"
   />
   <li
     v-else

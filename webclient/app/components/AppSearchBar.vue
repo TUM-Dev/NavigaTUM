@@ -8,7 +8,9 @@ import {
   buildVisibleSearchEntries,
   collapsedHighlightTarget,
   collapsedUpwardHighlightTarget,
+  findLectureHeaderIndex,
   LECTURE_EVENT_NAV_CAP,
+  toggleLectureFromMouse,
   type VisibleSearchEntry,
 } from "~/utils/lectureRow";
 
@@ -120,6 +122,25 @@ function collapseLectureOverTheTop(lectureId: string): void {
   }
   // Recompute against the post-collapse list so a wrap lands on the new tail.
   highlighted.value = collapsedUpwardHighlightTarget(oldIdx, visibleElements.value.length);
+}
+
+function onLectureToggle(entry: ResultEntry): void {
+  if (entry.type !== "lecture") return;
+  const next = toggleLectureFromMouse(
+    {
+      expandedFacets: expandedFacets.value,
+      expandedLectures: expandedLectures.value,
+      lectureShowAll: lectureShowAll.value,
+    },
+    entry.id
+  );
+  expandedLectures.value = new Set(next.expandedLectures);
+  lectureShowAll.value = new Set(next.lectureShowAll);
+  // Snap keyboard state to the just-toggled row so ArrowDown picks up where
+  // the mouse left off; visibleElements has already recomputed against the
+  // new sets by the time we read it here.
+  const headerIdx = findLectureHeaderIndex(visibleElements.value, entry.id);
+  highlighted.value = headerIdx >= 0 ? headerIdx : undefined;
 }
 
 watch(query, () => {
@@ -437,6 +458,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
               @mousedown="keep_focus = true"
               @mouseover="highlighted = undefined"
               @show-more="revealMoreEvents(e.id)"
+              @toggle="onLectureToggle(e)"
             />
           </template>
           <li class="-mt-2">
