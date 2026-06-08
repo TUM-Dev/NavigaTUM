@@ -137,7 +137,7 @@ onUnmounted(() => {
 <template>
   <div class="location-picker">
     <div
-      class="border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded-lg border"
+      class="border-zinc-300 dark:border-zinc-600 relative overflow-hidden rounded border"
       :class="[containerClass, { 'dark:bg-black bg-white': webglSupport }]"
     >
       <div v-if="webglSupport" ref="mapContainer" class="absolute inset-0 h-full w-full" />
@@ -147,7 +147,7 @@ onUnmounted(() => {
         class="pointer-events-none absolute inset-0 flex items-center justify-center p-3"
       >
         <span
-          class="bg-zinc-900/75 text-white flex items-center gap-2 rounded-full px-4 py-2 text-center text-sm font-medium shadow-lg backdrop-blur-sm"
+          class="bg-zinc-900/75 text-white flex items-center gap-2 rounded px-3 py-1.5 text-center text-sm font-medium shadow backdrop-blur-sm"
         >
           <MdiIcon :path="mdiMapMarkerPlus" :size="18" class="flex-shrink-0" />
           {{ t("clickMap") }}

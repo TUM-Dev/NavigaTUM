@@ -383,7 +383,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
     <div>
       <span class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium">{{ t("image") }} <span class="text-red-700 dark:text-red-200">*</span></span>
       <div
-        class="cursor-pointer rounded-lg border-2 border-dashed p-4 text-center text-sm transition-colors"
+        class="cursor-pointer rounded border-2 border-dashed p-4 text-center text-sm transition-colors"
         :class="[
           isDragOver
             ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900'
@@ -457,7 +457,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
       />
     </div>
 
-    <div class="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-700 flex items-start gap-2 rounded-lg border p-3">
+    <div class="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-700 flex items-start gap-2 rounded border p-3">
       <MdiIcon :path="mdiInformation" :size="18" class="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
       <div>
         <p class="text-blue-800 dark:text-blue-100 text-sm font-medium">{{ t("license_info_title") }}</p>
