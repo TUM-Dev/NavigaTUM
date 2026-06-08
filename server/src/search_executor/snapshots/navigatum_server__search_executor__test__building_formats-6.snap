@@ -78,3 +78,7 @@ info: parsed_id=roomfinder
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -1,0 +1,32 @@
+---
+source: server/src/search_executor/mod.rs
+description: a lecture derived from the calendar is returned by search
+expression: results.0
+---
+- facet: lectures
+  entries:
+    - id: lecture_db2d1afb6ae25e08
+      type: lecture
+      name: "\u0019Quantenfeldtheorie\u0017 im Teststand"
+      subtext: Vorlesung
+      title_de: Quantenfeldtheorie im Teststand
+      title_en: Quantum Field Theory on a Test Bench
+      next_occurrence_at: "[next_occurrence_at]"
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

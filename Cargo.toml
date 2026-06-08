@@ -102,6 +102,7 @@ utoipa = { version = "5.4.0", features = ["chrono", "actix_extras", "url"] }
 utoipa-actix-web = "0.1.2"
 utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
 valhalla-client = { version = "0.5.0", default-features = false }
+xxhash-rust = { version = "0.8.15", features = ["xxh3"] }
 
 [profile.release]
 strip = false

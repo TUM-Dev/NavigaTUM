@@ -160,10 +160,8 @@ async fn run_maintenance_work(
     initialisation_started: Arc<Barrier>,
     repo_pool: Arc<feedback::proposed_edits::repo_pool::RepoPool>,
 ) {
-    if env::var("SKIP_MS_SETUP") == Ok("true".to_string()) {
-        info!("skipping the database setup as SKIP_MS_SETUP=true");
-        initialisation_started.wait().await;
-    } else {
+    let meilisearch_enabled = env::var("SKIP_MS_SETUP") != Ok("true".to_string());
+    if meilisearch_enabled {
         async {
             // Hold the write lock across setup so request handlers block on the read lock
             // until meilisearch is populated. The barrier below guarantees the write lock is
@@ -183,6 +181,9 @@ async fn run_maintenance_work(
         }
         .instrument(debug_span!("updating meilisearch data"))
         .await;
+    } else {
+        info!("skipping the meilisearch setup as SKIP_MS_SETUP=true");
+        initialisation_started.wait().await;
     }
     if env::var("SKIP_DB_SETUP") == Ok("true".to_string()) {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
@@ -228,6 +229,18 @@ async fn run_maintenance_work(
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();
     set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
+    // The lecture facet is derived from the (continuously scraped) calendar, so
+    // it only makes sense when Meilisearch is the destination. It builds its own
+    // client because the setup client above is scoped to initial loading.
+    if meilisearch_enabled {
+        let lecture_pool = pool.clone();
+        let ms_url = env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+        let lecture_client = Client::new(ms_url, env::var("MEILI_MASTER_KEY").ok())
+            .expect("a valid meilisearch client");
+        set.spawn(async move {
+            refresh::lectures::refresh_lectures(lecture_pool, lecture_client).await;
+        });
+    }
     set.join_all().await;
 
     // Warm up the bare repo for edit proposals after all other setup is done.

@@ -3133,6 +3133,7 @@ dependencies = [
  "utoipa-actix-web",
  "utoipa-redoc",
  "valhalla-client",
+ "xxhash-rust",
 ]
 
 [[package]]

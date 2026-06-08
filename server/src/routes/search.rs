@@ -127,6 +127,13 @@ pub struct SearchQueryArgs {
     #[schema(default = 5, maximum = 1000, minimum = 0)]
     limit_pois: Option<usize>,
 
+    /// Maximum number of lectures to return.
+    ///
+    /// Clamped to `0`..`1000`.
+    /// If this is a problem for you, please open an issue.
+    #[schema(default = 5, maximum = 1000, minimum = 0)]
+    limit_lectures: Option<usize>,
+
     /// Maximum number of results to return.
     ///
     /// Clamped to `1`..`1000`.
@@ -223,6 +230,9 @@ impl Debug for SearchResponse {
                 ResultFacet::Pois => {
                     base.field("pois", section);
                 }
+                ResultFacet::Lectures => {
+                    base.field("lectures", section);
+                }
                 ResultFacet::Addresses => {
                     base.field("addresses", section);
                 }
@@ -239,6 +249,7 @@ pub struct Limits {
     pub buildings_count: usize,
     pub rooms_count: usize,
     pub pois_count: usize,
+    pub lectures_count: usize,
     pub total_count: usize,
 }
 
@@ -250,6 +261,7 @@ impl Limits {
             .saturating_add(self.buildings_count)
             .saturating_add(self.rooms_count)
             .saturating_add(self.pois_count)
+            .saturating_add(self.lectures_count)
     }
 }
 
@@ -260,6 +272,7 @@ impl Debug for Limits {
             .field("buildings", &self.buildings_count)
             .field("rooms", &self.rooms_count)
             .field("pois", &self.pois_count)
+            .field("lectures", &self.lectures_count)
             .field("total", &self.total_count)
             .finish()
     }
@@ -273,6 +286,7 @@ impl Default for Limits {
             buildings_count: 5,
             rooms_count: 10,
             pois_count: 5,
+            lectures_count: 5,
         }
     }
 }
@@ -298,6 +312,11 @@ impl From<&SearchQueryArgs> for Limits {
                 .min(total_count),
             pois_count: args
                 .limit_pois
+                .unwrap_or(5)
+                .clamp(0, 1_000)
+                .min(total_count),
+            lectures_count: args
+                .limit_lectures
                 .unwrap_or(5)
                 .clamp(0, 1_000)
                 .min(total_count),
@@ -597,11 +616,13 @@ mod tests {
         assert!(limits.buildings_count <= 1_000);
         assert!(limits.rooms_count <= 1_000);
         assert!(limits.pois_count <= 1_000);
+        assert!(limits.lectures_count <= 1_000);
 
         assert!(limits.sites_count <= limits.total_count);
         assert!(limits.buildings_count <= limits.total_count);
         assert!(limits.rooms_count <= limits.total_count);
         assert!(limits.pois_count <= limits.total_count);
+        assert!(limits.lectures_count <= limits.total_count);
     }
 
     #[test]
@@ -612,6 +633,7 @@ mod tests {
         assert_eq!(limits.buildings_count, 5);
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.pois_count, 5);
+        assert_eq!(limits.lectures_count, 5);
         assert_limits_invariants(&limits);
     }
 
@@ -623,6 +645,7 @@ mod tests {
             limit_rooms: Some(usize::MAX),
             limit_buildings: Some(usize::MAX),
             limit_pois: Some(usize::MAX),
+            limit_lectures: Some(usize::MAX),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -632,6 +655,7 @@ mod tests {
         assert_eq!(limits.rooms_count, 1_000);
         assert_eq!(limits.buildings_count, 1_000);
         assert_eq!(limits.pois_count, 1_000);
+        assert_eq!(limits.lectures_count, 1_000);
         assert_limits_invariants(&limits);
     }
 
@@ -643,6 +667,7 @@ mod tests {
             limit_rooms: Some(100),
             limit_buildings: Some(100),
             limit_pois: Some(100),
+            limit_lectures: Some(100),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -652,6 +677,7 @@ mod tests {
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.buildings_count, 10);
         assert_eq!(limits.pois_count, 10);
+        assert_eq!(limits.lectures_count, 10);
         assert_limits_invariants(&limits);
     }
 
@@ -663,6 +689,7 @@ mod tests {
             limit_rooms: Some(0),
             limit_buildings: Some(0),
             limit_pois: Some(0),
+            limit_lectures: Some(0),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -672,6 +699,7 @@ mod tests {
         assert_eq!(limits.rooms_count, 0);
         assert_eq!(limits.buildings_count, 0);
         assert_eq!(limits.pois_count, 0);
+        assert_eq!(limits.lectures_count, 0);
         assert_limits_invariants(&limits);
     }
 
@@ -682,9 +710,10 @@ mod tests {
             buildings_count: 2,
             rooms_count: 3,
             pois_count: 4,
+            lectures_count: 5,
             total_count: 100,
         };
-        assert_eq!(limits.per_facet_total(), 10);
+        assert_eq!(limits.per_facet_total(), 15);
     }
 
     #[test]

@@ -1,0 +1,33 @@
+---
+source: server/src/search_executor/mod.rs
+description: lecture facet returns a bilingual hit with its next occurrence
+expression: results.0
+info: q=Navigatumlehre
+---
+- facet: lectures
+  entries:
+    - id: lecture_testfixture0001
+      type: lecture
+      name: "Grundlagen der \u0019Navigatumlehre\u0017"
+      subtext: Vorlesung
+      title_de: Grundlagen der Navigatumlehre
+      title_en: Foundations of Navigatum Teaching
+      next_occurrence_at: "2024-10-15T08:00:00Z"
+  n_visible: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::fmt::{self, Debug, Formatter};
 
+use chrono::{DateTime, Utc};
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
@@ -17,10 +18,18 @@ pub(crate) const SITE_FACET: &str = "site";
 pub(crate) const BUILDING_FACET: &str = "building";
 pub(crate) const ROOM_FACET: &str = "room";
 pub(crate) const POI_FACET: &str = "poi";
+pub(crate) const LECTURE_FACET: &str = "lecture";
 /// Ordered list of facets the search federates over. Order is the priority
 /// used by the merger when distributing the over-fetched federation budget
-/// across facet caps.
-pub(crate) const FACETS: &[&str] = &[SITE_FACET, BUILDING_FACET, ROOM_FACET, POI_FACET];
+/// across facet caps. Lectures trail the geo facets so a course title only
+/// surfaces once the geo entries it competes with have had their say.
+pub(crate) const FACETS: &[&str] = &[
+    SITE_FACET,
+    BUILDING_FACET,
+    ROOM_FACET,
+    POI_FACET,
+    LECTURE_FACET,
+];
 
 /// Allowlisted values for the `?type=` query parameter.
 ///
@@ -34,6 +43,7 @@ pub enum FacetFilter {
     Building,
     Room,
     Poi,
+    Lecture,
 }
 
 impl FacetFilter {
@@ -44,6 +54,7 @@ impl FacetFilter {
             Self::Building => BUILDING_FACET,
             Self::Room => ROOM_FACET,
             Self::Poi => POI_FACET,
+            Self::Lecture => LECTURE_FACET,
         }
     }
 }
@@ -55,19 +66,37 @@ impl FacetFilter {
 /// Empirical; revisit if facet-starvation shows up in metrics.
 const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 
+/// A single hit from the `entries` index.
+///
+/// The index mixes geo-entries (sites, buildings, rooms, POIs) with lectures.
+/// They share an index but not a shape, so the hit is an enum internally tagged
+/// on the `facet` field: serde dispatches each facet value to its variant - the
+/// four geo facets reuse [`GeoMSHit`], `lecture` peels off into [`LectureMSHit`].
+/// Consumers branch on the variant rather than reaching for fields that only one
+/// shape carries.
+#[derive(Deserialize, Clone)]
+#[serde(tag = "facet", rename_all = "snake_case")]
+pub enum MSHit {
+    Site(GeoMSHit),
+    Building(GeoMSHit),
+    Room(GeoMSHit),
+    Poi(GeoMSHit),
+    Lecture(LectureMSHit),
+}
+
+// The `facet` field is consumed as the enum tag, so it is absent here. Fields
+// beyond those the merger/formatter read document the meilisearch document
+// schema; `#[serde(default)]` keeps them populated and tolerates docs that
+// predate a field.
 #[derive(Deserialize, Default, Clone)]
-#[expect(
-    dead_code,
-    reason = "some deserialized fields are not read yet but document the meilisearch document schema"
-)]
-pub struct MSHit {
+#[serde(default)]
+pub struct GeoMSHit {
     ms_id: String,
     pub room_code: String,
     pub name: String,
     pub arch_name: Option<String>,
     pub r#type: String,
     pub type_common_name: String,
-    pub facet: Option<String>,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,
     pub campus: Option<String>,
@@ -75,16 +104,67 @@ pub struct MSHit {
     usage: Option<String>,
     rank: i32,
 }
+
+/// A lecture (or tutorial) identity surfaced as the fifth search facet.
+///
+/// One document per distinct `(title_de, title_en, stp_type)` group, derived
+/// from upcoming `calendar` rows by the [`crate::refresh::lectures`] task.
+///
+/// Every field is required: the refresh task always writes the full shape, so a
+/// missing field signals index corruption and should fail the deserialize loudly
+/// rather than be papered over with a default.
+#[derive(Deserialize, Default, Clone)]
 #[expect(
-    clippy::missing_fields_in_debug,
-    reason = "Debug intentionally shows only the human-meaningful fields for log readability"
+    dead_code,
+    reason = "some deserialized fields are not read yet but document the meilisearch document schema"
 )]
+pub struct LectureMSHit {
+    pub ms_id: String,
+    /// Mirrors `title_de` for compatibility with the monolingual `name` field.
+    pub name: String,
+    pub r#type: String,
+    /// Human label of the `TUMonline` `stp_type` (e.g. "Vorlesung").
+    pub type_common_name: String,
+    pub title_de: String,
+    pub title_en: String,
+    pub next_occurrence_at: DateTime<Utc>,
+    pub parent_building_names: Vec<String>,
+    parent_keywords: Vec<String>,
+    rank: i32,
+}
+
+impl Default for MSHit {
+    fn default() -> Self {
+        Self::Room(GeoMSHit::default())
+    }
+}
+
+impl MSHit {
+    /// The display name, regardless of variant. Every variant carries a `name`
+    /// (lectures mirror `title_de` into it), so highlighting works uniformly.
+    #[must_use]
+    pub fn name(&self) -> &str {
+        match self {
+            Self::Site(geo) | Self::Building(geo) | Self::Room(geo) | Self::Poi(geo) => &geo.name,
+            Self::Lecture(lecture) => &lecture.name,
+        }
+    }
+}
+
+// Debug intentionally shows only the human-meaningful fields for log readability.
 impl Debug for MSHit {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        f.debug_struct("MSHit")
-            .field("room_code", &self.room_code)
-            .field("name", &self.name)
-            .finish()
+        match self {
+            Self::Site(geo) | Self::Building(geo) | Self::Room(geo) | Self::Poi(geo) => f
+                .debug_struct("MSHit::Geo")
+                .field("room_code", &geo.room_code)
+                .field("name", &geo.name)
+                .finish(),
+            Self::Lecture(lecture) => f
+                .debug_struct("MSHit::Lecture")
+                .field("title_de", &lecture.title_de)
+                .finish(),
+        }
     }
 }
 

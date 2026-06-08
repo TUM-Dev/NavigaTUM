@@ -1,6 +1,5 @@
 ---
 source: server/src/search_executor/mod.rs
-assertion_line: 676
 description: "Query: MW1801"
 expression: results_roomfinder.0
 info: parsed_id=roomfinder
@@ -98,6 +97,10 @@ info: parsed_id=roomfinder
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"

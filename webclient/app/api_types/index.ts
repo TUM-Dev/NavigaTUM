@@ -658,7 +658,7 @@ export type components = {
      *     of accepted values.
      * @enum {string}
      */
-    readonly FacetFilter: "site" | "building" | "room" | "poi";
+    readonly FacetFilter: "site" | "building" | "room" | "poi" | "lecture";
     readonly FeaturedOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -1692,6 +1692,14 @@ export type components = {
        */
       readonly name: string;
       /**
+       * Format: date-time
+       * @description The next time this lecture takes place, as an RFC 3339 timestamp.
+       *
+       *     Only present for entries in the `lectures` section.
+       * @example 2024-10-15T08:00:00Z
+       */
+      readonly next_occurrence_at?: string | null;
+      /**
        * @description This is an optional feature, that is only supported for some rooms.
        *
        *     It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
@@ -1716,13 +1724,27 @@ export type components = {
        */
       readonly subtext_bold?: string | null;
       /**
+       * @description The German title of a lecture.
+       *
+       *     Only present for entries in the `lectures` section.
+       * @example Einführung in die Informatik 1
+       */
+      readonly title_de?: string | null;
+      /**
+       * @description The English title of a lecture.
+       *
+       *     Only present for entries in the `lectures` section.
+       * @example Introduction to Informatics 1
+       */
+      readonly title_en?: string | null;
+      /**
        * @description the type of the site/building
        * @example room
        */
       readonly type: string;
     };
     /** @enum {string} */
-    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "addresses";
+    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "lectures" | "addresses";
     readonly ResultsSection: {
       readonly entries: readonly components["schemas"]["ResultEntry"][];
       /**
@@ -2720,6 +2742,13 @@ export interface operations {
          *     If this is a problem for you, please open an issue.
          */
         readonly limit_pois?: number;
+        /**
+         * @description Maximum number of lectures to return.
+         *
+         *     Clamped to `0`..`1000`.
+         *     If this is a problem for you, please open an issue.
+         */
+        readonly limit_lectures?: number;
         /**
          * @description Maximum number of results to return.
          *

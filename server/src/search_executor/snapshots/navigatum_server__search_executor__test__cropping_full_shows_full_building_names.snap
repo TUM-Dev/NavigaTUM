@@ -75,3 +75,7 @@ info: cropping=crop
   entries: []
   n_visible: 0
   estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
