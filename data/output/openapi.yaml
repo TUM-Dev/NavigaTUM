@@ -935,12 +935,16 @@ components:
       type: object
       required:
         - id
+        - type
         - name
         - subtext
       properties:
         id:
           type: string
           description: The id of the entry
+        type:
+          $ref: '#/components/schemas/BuildingsOverviewItemTypeResponse'
+          description: The type of the entry, used to build its canonical `/{type}/{id}` route.
         name:
           type: string
           description: Human display name
@@ -952,6 +956,21 @@ components:
             - string
             - "null"
           description: The thumbnail for the building
+    BuildingsOverviewItemTypeResponse:
+      type: string
+      description: |-
+        The type of a building-overview child.
+
+        A strict subset of `LocationTypeResponse`: the overview only ever lists the
+        container types whose `subtext` the data pipeline knows how to render
+        (`generate_buildings_overview` in `data/processors/sections.py`). Modelling it
+        separately lets clients build the canonical `/{type}/{id}` route without a
+        non-routable fallback.
+      enum:
+        - building
+        - joined_building
+        - area
+        - site
     BuildingsOverviewResponse:
       type: object
       required:

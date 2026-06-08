@@ -3,6 +3,7 @@ import { mdiCalendar, mdiPlusCircle } from "@mdi/js";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import { useCalendar } from "~/composables/calendar";
+import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"];
@@ -70,7 +71,13 @@ async function addLocation() {
         }"
       />
       <div class="text-zinc-600 dark:text-zinc-300 flex flex-col gap-1">
-        <NuxtLinkLocale class="line-clamp-1 hover:underline" :to="'/view/' + key">{{ location.name }}</NuxtLinkLocale>
+        <NuxtLinkLocale
+          v-if="isRoutableEntityType(location.type)"
+          class="line-clamp-1 hover:underline"
+          :to="entityPath(key, location.type)"
+          >{{ location.name }}</NuxtLinkLocale
+        >
+        <span v-else class="line-clamp-1">{{ location.name }}</span>
         <small>
           {{ location.type_common_name }}
         </small>

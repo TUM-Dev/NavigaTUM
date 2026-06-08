@@ -419,6 +419,8 @@ export type components = {
     readonly BuildingsOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
+      /** @description The type of the entry, used to build its canonical `/{type}/{id}` route. */
+      readonly type: components["schemas"]["BuildingsOverviewItemTypeResponse"];
       /** @description Human display name */
       readonly name: string;
       /** @description What should be displayed below this Building */
@@ -426,6 +428,16 @@ export type components = {
       /** @description The thumbnail for the building */
       readonly thumb?: string | null;
     };
+    /**
+     * @description The type of a building-overview child.
+     *
+     *     A strict subset of `LocationTypeResponse`: the overview only ever lists the
+     *     container types whose `subtext` the data pipeline knows how to render
+     *     (`generate_buildings_overview` in `data/processors/sections.py`). Modelling it
+     *     separately lets clients build the canonical `/{type}/{id}` route without a
+     *     non-routable fallback.
+     */
+    readonly BuildingsOverviewItemTypeResponse: "building" | "joined_building" | "area" | "site";
     readonly BuildingsOverviewResponse: {
       readonly entries: readonly components["schemas"]["BuildingsOverviewItemResponse"][];
       /** Format: int32 */
