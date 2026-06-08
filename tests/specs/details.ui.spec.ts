@@ -337,10 +337,12 @@ test.describe("Details Page - Breadcrumbs", () => {
 
     await expect(breadcrumbs).toBeVisible();
 
+    // 4 ancestors + the current room appended as an aria-current item.
     const items = breadcrumbs.locator('li[typeof="ListItem"]');
-    await expect(items).toHaveCount(4);
+    await expect(items).toHaveCount(5);
+    await expect(items.nth(4).locator('[aria-current="page"]')).toHaveCount(1);
 
-    // Assert last breadcrumb label (current context)
+    // Assert immediate parent (building) breadcrumb label.
     await expect(items.nth(3)).toContainText("Hörsaal 1");
 
     // Click parent (building) breadcrumb.
