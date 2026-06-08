@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { mdiChevronDown, mdiOpenInNew } from "@mdi/js";
+import { mdiChevronDown, mdiClockCheckOutline, mdiClockRemoveOutline, mdiOpenInNew } from "@mdi/js";
 import { useToggle } from "@vueuse/core";
 import type { components } from "~/api_types";
 import {
+  computeOpeningHoursState,
   type OpeningHoursDay,
+  type OpeningHoursLiveState,
   type OpeningHoursRange,
   parseOpeningHoursWeek,
+  WEEKDAY_KEYS,
 } from "~/utils/openingHours";
 
 type OpeningHoursResponse = components["schemas"]["OpeningHoursResponse"];
@@ -19,22 +22,65 @@ const { t, locale } = useI18n({ useScope: "local" });
 // `undefined` while parsing, `null` once it has failed.
 const week = ref<readonly OpeningHoursDay[] | null | undefined>(undefined);
 const parseFailed = computed(() => week.value === null);
+const liveState = ref<OpeningHoursLiveState | null | undefined>(undefined);
+// The instant the week and live state were evaluated at; the live hint is relative to it.
+const evaluatedAt = ref<Date | null>(null);
 
-async function refreshWeek(): Promise<void> {
-  week.value = await parseOpeningHoursWeek(props.openingHours.osm, new Date());
+async function refresh(): Promise<void> {
+  const now = new Date();
+  const [parsedWeek, state] = await Promise.all([
+    parseOpeningHoursWeek(props.openingHours.osm, now),
+    computeOpeningHoursState(props.openingHours.osm, now),
+  ]);
+  week.value = parsedWeek;
+  liveState.value = state;
+  evaluatedAt.value = now;
 }
 
-onMounted(refreshWeek);
-watch(() => props.openingHours.osm, refreshWeek);
+onMounted(refresh);
+watch(() => props.openingHours.osm, refresh);
 
 const today = computed<OpeningHoursDay | null>(
   () => week.value?.find((day) => day.isToday) ?? null
 );
 
+// Below this many minutes to closing, surface a "closes in X minutes" hint instead of the time.
+const CLOSES_SOON_MINUTES = 60;
+
+// The live indicator's `open` flag and localized detail line, or `null` while loading or unparsable.
+const liveStatus = computed<{ open: boolean; detail: string | null } | null>(() => {
+  const state = liveState.value;
+  const now = evaluatedAt.value;
+  if (!state || !now) return null;
+  if (state.open) {
+    if (!state.nextChange) return { open: true, detail: null };
+    const minutes = Math.ceil((state.nextChange.getTime() - now.getTime()) / 60_000);
+    if (minutes <= CLOSES_SOON_MINUTES) return { open: true, detail: t("closes_in", minutes) };
+    return { open: true, detail: t("closes_at", { time: formatTime(state.nextChange) }) };
+  }
+  if (!state.nextChange) return { open: false, detail: null };
+  if (isSameDay(state.nextChange, now))
+    return { open: false, detail: t("opens_at", { time: formatTime(state.nextChange) }) };
+  const day = t(`day.${WEEKDAY_KEYS[(state.nextChange.getDay() + 6) % 7]}`);
+  return { open: false, detail: t("opens_on", { day, time: formatTime(state.nextChange) }) };
+});
+
 const [expanded, toggleExpanded] = useToggle(false);
 
 function formatRanges(ranges: readonly OpeningHoursRange[]): string {
   return ranges.map((range) => `${range.from}-${range.to}`).join(", ");
+}
+
+function formatTime(date: Date): string {
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
+function isSameDay(a: Date, b: Date): boolean {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 
 const lastUpdated = computed(() => formatIsoDate(props.openingHours.last_update));
@@ -65,6 +111,20 @@ function formatIsoDate(iso: string): string {
         <MdiIcon :path="mdiOpenInNew" :size="14" class="my-auto" aria-hidden="true" />
       </Btn>
     </div>
+
+    <p v-if="liveStatus" class="flex items-center gap-1.5 text-sm">
+      <MdiIcon
+        :path="liveStatus.open ? mdiClockCheckOutline : mdiClockRemoveOutline"
+        :size="18"
+        class="shrink-0"
+        :class="liveStatus.open ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'"
+        aria-hidden="true"
+      />
+      <span class="text-zinc-800 dark:text-zinc-100 font-medium">
+        {{ liveStatus.open ? t("open_now") : t("closed_now") }}
+      </span>
+      <span v-if="liveStatus.detail" class="text-zinc-500 dark:text-zinc-400">{{ liveStatus.detail }}</span>
+    </p>
 
     <p
       v-if="parseFailed"
@@ -135,6 +195,12 @@ de:
   source: Quelle
   today: Heute
   closed: geschlossen
+  open_now: Geöffnet
+  closed_now: Geschlossen
+  closes_in: "schließt in einer Minute | schließt in {count} Minuten"
+  closes_at: "schließt um {time}"
+  opens_at: "öffnet um {time}"
+  opens_on: "öffnet {day} um {time}"
   last_updated: "zuletzt aktualisiert am {date}"
   valid_until: "gültig bis {date}"
   day:
@@ -150,6 +216,12 @@ en:
   source: Source
   today: Today
   closed: closed
+  open_now: Open
+  closed_now: Closed
+  closes_in: "closes in one minute | closes in {count} minutes"
+  closes_at: "closes at {time}"
+  opens_at: "opens at {time}"
+  opens_on: "opens {day} at {time}"
   last_updated: "last updated on {date}"
   valid_until: "valid until {date}"
   day:

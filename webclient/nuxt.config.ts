@@ -16,6 +16,22 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/content",
     "@nuxt/image",
+    // @nuxtjs/mdc (pulled in by @nuxt/content) seeds optimizeDeps.include with
+    // nested `@nuxtjs/mdc > <pkg>` hints that Vite 8 cannot resolve, emitting a
+    // noisy "Unresolvable optimizeDeps.include entries" warning on every cold
+    // start. Those are pre-bundling perf hints only - module resolution at
+    // import time is unaffected, so dropping the unresolvable ones is a no-op
+    // beyond silencing the warning. Listed last so this runs after mdc pushes
+    // them.
+    (_options, nuxt) => {
+      nuxt.hook("vite:extendConfig", (config) => {
+        if (config.optimizeDeps?.include) {
+          config.optimizeDeps.include = config.optimizeDeps.include.filter(
+            (entry) => !entry.startsWith("@nuxtjs/mdc > ")
+          );
+        }
+      });
+    },
   ],
   css: ["~/assets/css/main.css"],
   app: {

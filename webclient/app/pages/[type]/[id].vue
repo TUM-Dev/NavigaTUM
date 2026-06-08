@@ -4,11 +4,11 @@ import type { components } from "~/api_types";
 import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
 import { useEditProposal } from "~/composables/editProposal";
 
-const VALID_VIEW_RE = /^(campus|site|building|room|poi)$/;
+const VALID_TYPE_RE = /^(campus|site|building|room|poi)$/;
 
 definePageMeta({
   validate(route) {
-    return VALID_VIEW_RE.test(route.params.view as string);
+    return VALID_TYPE_RE.test(route.params.type as string);
   },
   layout: "fullscreen",
 });
