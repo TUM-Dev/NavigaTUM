@@ -26,6 +26,7 @@ const { t } = useI18n({ useScope: "local" });
 const editProposal = useEditProposal();
 const feedback = useFeedback();
 const route = useRoute();
+const isMobile = useIsMobile();
 
 function switchToFeedback() {
   const id = editProposal.value.selected?.id ?? (route.params.id as string);
@@ -93,7 +94,7 @@ function savePropertiesAndClose() {
 const osmEditUrl = computed(() => {
   const lat = editProposal.value.locationPicker.lat;
   const lon = editProposal.value.locationPicker.lon;
-  return `https://www.openstreetmap.org/edit#map=19/${lat}/${lon}`;
+  return `https://www.openstreetmap.org/fixthemap?lat=${lat}&lon=${lon}&zoom=19`;
 });
 
 // Known usages for category dropdown - cached across modal opens
@@ -331,7 +332,7 @@ function getEditTypeDisplay(roomId: string): string {
             <div class="flex items-center gap-3">
               <MdiIcon :path="mdiMapMarkerAlert" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
-                <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
+                <span class="font-medium">{{ isMobile ? t("room_position_wrong_title_short") : t("room_position_wrong_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
               </div>
             </div>
@@ -351,7 +352,7 @@ function getEditTypeDisplay(roomId: string): string {
             <div class="flex items-center gap-3">
               <MdiIcon :path="mdiMapPlus" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
-                <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
+                <span class="font-medium">{{ isMobile ? t("map_missing_roads_title_short") : t("map_missing_roads_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
               </div>
             </div>
@@ -361,7 +362,7 @@ function getEditTypeDisplay(roomId: string): string {
             <div class="flex items-center gap-3">
               <MdiIcon :path="mdiMapMarkerPlus" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
-                <span class="font-medium">{{ t("propose_addition_title") }}</span>
+                <span class="font-medium">{{ isMobile ? t("propose_addition_title_short") : t("propose_addition_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
               </div>
             </div>
@@ -587,10 +588,13 @@ de:
   suggest_image_title: Bild hinzufügen
   suggest_image_desc: Ein Foto vom Raum, Gebäude oder Standort hinzufügen
   room_position_wrong_title: Raum ist falsch positioniert
+  room_position_wrong_title_short: Falsche Position
   room_position_wrong_desc: Position dieses Raums in Navigatum korrigieren
-  map_missing_roads_title: Wege/Gebäude fehlen auf der Karte
+  map_missing_roads_title: Andere Details fehlen auf der Karte
+  map_missing_roads_title_short: Fehlt auf der Karte
   map_missing_roads_desc: Fehlende Wege oder Gebäude direkt in OpenStreetMap hinzufügen
   propose_addition_title: Raum, Gebäude oder POI fehlt
+  propose_addition_title_short: Neuer Eintrag
   propose_addition_desc: Einen neuen Eintrag strukturiert vorschlagen
   pending_additions: Neue Einträge in dieser Anfrage
   kind:
@@ -631,10 +635,13 @@ en:
   suggest_image_title: Add image
   suggest_image_desc: Add a photo of the room, building, or location
   room_position_wrong_title: Room is positioned incorrectly
+  room_position_wrong_title_short: Wrong position
   room_position_wrong_desc: Correct this room's position in Navigatum
-  map_missing_roads_title: Other details (paths, vegetation) missing from map
+  map_missing_roads_title: Other details missing from map
+  map_missing_roads_title_short: Missing on map
   map_missing_roads_desc: Add missing paths or buildings directly in OpenStreetMap
   propose_addition_title: Missing a room, building, or POI?
+  propose_addition_title_short: Add new entry
   propose_addition_desc: Propose a new entry in a structured form
   pending_additions: New entries in this request
   kind:

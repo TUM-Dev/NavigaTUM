@@ -386,7 +386,7 @@ watch(
           <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <SegmentedTab :selected="kindIndex === kindOptions.indexOf(opt)" class="w-full px-3 py-2.5" @click="pickKind(opt.value)">
               <div class="flex items-center justify-center gap-2">
-                <MdiIcon :path="opt.icon" :size="16" />
+                <MdiIcon :path="opt.icon" :size="16" class="hidden md:block" />
                 {{ t(`kind.${opt.value}`) }}
               </div>
             </SegmentedTab>
