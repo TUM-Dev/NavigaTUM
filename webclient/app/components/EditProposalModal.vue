@@ -318,8 +318,8 @@ function getEditTypeDisplay(roomId: string): string {
 
         <div class="space-y-2">
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (editProposal.imageUpload.open = true)">
-            <div class="flex items-start gap-3">
-              <MdiIcon :path="mdiImagePlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+            <div class="flex items-center gap-3">
+              <MdiIcon :path="mdiImagePlus" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
                 <span class="font-medium">{{ t("suggest_image_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("suggest_image_desc") }}</span>
@@ -328,8 +328,8 @@ function getEditTypeDisplay(roomId: string): string {
           </Btn>
 
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="startLocationEdit">
-            <div class="flex items-start gap-3">
-              <MdiIcon :path="mdiMapMarkerAlert" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+            <div class="flex items-center gap-3">
+              <MdiIcon :path="mdiMapMarkerAlert" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
                 <span class="font-medium">{{ t("room_position_wrong_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("room_position_wrong_desc") }}</span>
@@ -337,19 +337,9 @@ function getEditTypeDisplay(roomId: string): string {
             </div>
           </Btn>
 
-          <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
-            <div class="flex items-start gap-3">
-              <MdiIcon :path="mdiMapPlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
-              <div class="flex flex-col items-start">
-                <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
-                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
-              </div>
-            </div>
-          </Btn>
-
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="() => (propertiesModalOpen = true)">
-            <div class="flex items-start gap-3">
-              <MdiIcon :path="mdiPencil" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+            <div class="flex items-center gap-3">
+              <MdiIcon :path="mdiPencil" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
                 <span class="font-medium">{{ t("properties_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("properties_desc") }}</span>
@@ -357,9 +347,19 @@ function getEditTypeDisplay(roomId: string): string {
             </div>
           </Btn>
 
+          <Btn variant="secondary" size="md" class="w-full justify-start text-left" :to="osmEditUrl" target="_blank">
+            <div class="flex items-center gap-3">
+              <MdiIcon :path="mdiMapPlus" :size="24" class="shrink-0" aria-hidden="true" />
+              <div class="flex flex-col items-start">
+                <span class="font-medium">{{ t("map_missing_roads_title") }}</span>
+                <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("map_missing_roads_desc") }}</span>
+              </div>
+            </div>
+          </Btn>
+
           <Btn variant="secondary" size="md" class="w-full justify-start text-left" @click="switchToAddProposal">
-            <div class="flex items-start gap-3">
-              <MdiIcon :path="mdiMapMarkerPlus" :size="24" class="mt-0.5 shrink-0" aria-hidden="true" />
+            <div class="flex items-center gap-3">
+              <MdiIcon :path="mdiMapMarkerPlus" :size="24" class="shrink-0" aria-hidden="true" />
               <div class="flex flex-col items-start">
                 <span class="font-medium">{{ t("propose_addition_title") }}</span>
                 <span class="text-xs text-zinc-200 dark:text-zinc-700 font-normal">{{ t("propose_addition_desc") }}</span>
@@ -573,7 +573,7 @@ de:
   other_changes: Was möchtest du ändern?
   properties: Eigenschaften
   properties_title: Eigenschaften bearbeiten
-  properties_desc: Name, Kategorie oder Links dieses Raums ändern
+  properties_desc: Name, Kategorie, Links oder Öffnungszeiten dieses Raums ändern
   opening_hours_title: Öffnungszeiten
   opening_hours_source_required: Bitte gib eine Quelle (URL) für die Öffnungszeiten an.
   opening_hours_invalid_range: Bitte korrigiere die ungültigen Zeiträume (Ende muss nach dem Anfang liegen).
@@ -617,7 +617,7 @@ en:
   other_changes: What would you like to change?
   properties: Properties
   properties_title: Edit properties
-  properties_desc: Change the name, category, or links of this room
+  properties_desc: Change the name, category, links, or opening hours of this room
   opening_hours_title: Opening hours
   opening_hours_source_required: Please provide a source (URL) for the opening hours.
   opening_hours_invalid_range: Please fix the invalid time ranges (the end must be after the start).
