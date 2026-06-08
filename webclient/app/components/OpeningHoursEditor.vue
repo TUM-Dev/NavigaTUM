@@ -31,50 +31,49 @@ const dayLabels = computed<Record<OpeningHoursDay, string>>(() => ({
 </script>
 
 <template>
-  <div class="space-y-2">
-    <div v-for="day in OPENING_HOURS_DAYS" :key="day" class="bg-zinc-100 dark:bg-zinc-800 rounded p-2">
-      <div class="flex items-center gap-3">
-        <span class="font-medium text-sm text-zinc-900 dark:text-zinc-50">{{ dayLabels[day] }}</span>
-        <button
-          type="button"
-          class="focusable text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 inline-flex items-center gap-1 rounded-sm text-xs"
-          @click="addRange(day)"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 24 24"><path :d="mdiPlus" fill="currentColor" /></svg>
-          {{ t("add_range") }}
-        </button>
+  <div class="space-y-1">
+    <div v-for="day in OPENING_HOURS_DAYS" :key="day" class="flex items-start gap-2">
+      <span class="w-24 shrink-0 pt-1.5 text-sm text-zinc-900 dark:text-zinc-50">{{ dayLabels[day] }}</span>
+      <div class="flex flex-1 flex-wrap items-center gap-x-2 gap-y-1 pt-1">
+        <span v-if="!week[day].length" class="text-zinc-400 dark:text-zinc-500 text-xs">{{ t("closed") }}</span>
+        <div v-for="(range, index) in week[day]" :key="index" class="flex items-center gap-1">
+          <input
+            v-model="range.from"
+            type="time"
+            :aria-label="t('from')"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-1.5 py-0.5 text-sm"
+          />
+          <span class="text-zinc-500 dark:text-zinc-400 text-sm">-</span>
+          <input
+            v-model="range.to"
+            type="time"
+            :aria-label="t('to')"
+            class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-1.5 py-0.5 text-sm"
+          />
+          <button
+            type="button"
+            class="focusable text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 rounded-sm"
+            :aria-label="t('remove_range')"
+            @click="removeRange(day, index)"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24"><path :d="mdiTrashCanOutline" fill="currentColor" /></svg>
+          </button>
+          <span v-if="!isValidTimeRange(range)" class="text-red-600 dark:text-red-300 text-xs">{{ t("invalid_range") }}</span>
+        </div>
       </div>
-
-      <p v-if="!week[day].length" class="text-zinc-400 dark:text-zinc-500 text-xs mt-1">{{ t("closed") }}</p>
-
-      <div v-for="(range, index) in week[day]" :key="index" class="mt-2 flex items-center gap-2">
-        <input
-          v-model="range.from"
-          type="time"
-          :aria-label="t('from')"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
-        />
-        <span class="text-zinc-500 dark:text-zinc-400 text-sm">-</span>
-        <input
-          v-model="range.to"
-          type="time"
-          :aria-label="t('to')"
-          class="focusable bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 text-zinc-900 dark:text-zinc-50 rounded border px-2 py-1 text-sm"
-        />
-        <span v-if="!isValidTimeRange(range)" class="text-red-600 dark:text-red-300 text-xs">{{ t("invalid_range") }}</span>
-        <button
-          type="button"
-          class="focusable text-red-600 dark:text-red-300 hover:text-red-800 dark:hover:text-red-100 rounded-sm"
-          :aria-label="t('remove_range')"
-          @click="removeRange(day, index)"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 24 24"><path :d="mdiTrashCanOutline" fill="currentColor" /></svg>
-        </button>
-      </div>
+      <button
+        type="button"
+        class="focusable text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 shrink-0 rounded-sm pt-1"
+        :aria-label="t('add_range')"
+        :title="t('add_range')"
+        @click="addRange(day)"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24"><path :d="mdiPlus" fill="currentColor" /></svg>
+      </button>
     </div>
 
     <!-- Source URL is required: OpeningHoursSchema rejects a schedule without provenance. -->
-    <div class="pt-1">
+    <div class="pt-2">
       <label class="text-zinc-500 dark:text-zinc-400 text-xs font-medium block mb-1" for="opening-hours-source">
         {{ t("source_url") }} <span class="text-red-600 dark:text-red-300" aria-hidden="true">*</span>
       </label>
