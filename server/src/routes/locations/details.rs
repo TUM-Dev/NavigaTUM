@@ -751,7 +751,10 @@ mod tests {
         }))
         .unwrap();
 
-        assert!(matches!(entry.r#type, BuildingsOverviewItemTypeResponse::Area));
+        assert!(matches!(
+            entry.r#type,
+            BuildingsOverviewItemTypeResponse::Area
+        ));
         assert_eq!(serde_json::to_value(&entry).unwrap()["type"], "area");
     }
 
