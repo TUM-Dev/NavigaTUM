@@ -1742,6 +1742,15 @@ export type components = {
        * @example room
        */
       readonly type: string;
+      /**
+       * @description The upcoming occurrences of this lecture, in chronological order.
+       *
+       *     Only present for entries in the `lectures` section.
+       *     The first element's `start_at` matches `next_occurrence_at`. The list is
+       *     capped at whichever covers more events: the next 10 occurrences or those
+       *     within a 14-day window.
+       */
+      readonly upcoming?: readonly components["schemas"]["UpcomingEvent"][] | null;
     };
     /** @enum {string} */
     readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "lectures" | "addresses";
@@ -2153,6 +2162,38 @@ export type components = {
     readonly URLRefResponse: {
       readonly text: string;
       readonly url?: string | null;
+    };
+    /**
+     * @description One upcoming occurrence of a lecture, embedded in the lecture document.
+     *
+     *     The list lets a client render the expandable lecture row without a second
+     *     round-trip: `room_name` is the German display name of `room_code` (mirroring
+     *     the monolingual `name` field of the geo documents), and clicking an
+     *     occurrence navigates to `/room/<room_code>`.
+     */
+    readonly UpcomingEvent: {
+      /**
+       * Format: date-time
+       * @description When the occurrence ends, as an RFC 3339 timestamp.
+       * @example 2024-10-15T10:00:00Z
+       */
+      readonly end_at: string;
+      /**
+       * @description The room the occurrence takes place in; navigating to it uses `/room/<room_code>`.
+       * @example 5606.EG.011
+       */
+      readonly room_code: string;
+      /**
+       * @description The German display name of `room_code`.
+       * @example Testhörsaal
+       */
+      readonly room_name: string;
+      /**
+       * Format: date-time
+       * @description When the occurrence starts, as an RFC 3339 timestamp.
+       * @example 2024-10-15T08:00:00Z
+       */
+      readonly start_at: string;
     };
     readonly ValhallaLegResponse: {
       readonly maneuvers: readonly components["schemas"]["ManeuverResponse"][];
