@@ -520,14 +520,14 @@ mod test {
         );
 
         // Compare deterministically by sorting by `id` so ranking changes don't flap.
-        let mut ids_cropped: Vec<(&str, Option<&str>)> =rooms_with_crop
+        let mut ids_cropped: Vec<(&str, Option<&str>)> = rooms_with_crop
             .entries
             .iter()
             .map(|e| (e.id(), e.parsed_id()))
             .collect();
         ids_cropped.sort_by(|a, b| a.0.cmp(b.0));
 
-        let mut ids_full: Vec<(&str, Option<&str>)> =rooms_without_crop
+        let mut ids_full: Vec<(&str, Option<&str>)> = rooms_without_crop
             .entries
             .iter()
             .map(|e| (e.id(), e.parsed_id()))
@@ -859,14 +859,14 @@ mod test {
         );
 
         // Deterministic comparison: sort by id and compare overlapping entries.
-        let mut cropped: Vec<(&str, Option<&str>)> =rooms_cropped
+        let mut cropped: Vec<(&str, Option<&str>)> = rooms_cropped
             .entries
             .iter()
             .map(|e| (e.id(), e.parsed_id()))
             .collect();
         cropped.sort_by(|a, b| a.0.cmp(b.0));
 
-        let mut full: Vec<(&str, Option<&str>)> =rooms_full
+        let mut full: Vec<(&str, Option<&str>)> = rooms_full
             .entries
             .iter()
             .map(|e| (e.id(), e.parsed_id()))
