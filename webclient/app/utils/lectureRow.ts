@@ -8,6 +8,13 @@ type ResultsSection = components["schemas"]["ResultsSection"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 
 /**
+ * The discriminator the search API groups result sections by (plural, and
+ * includes `addresses`). Distinct from the singular filter taxonomy `Facet`
+ * in `searchFilters.ts`.
+ */
+export type ResultsSectionFacet = ResultsSection["facet"];
+
+/**
  * A single search entry tagged with the `kind` implied by its section's facet.
  *
  * The API groups entries into sections and discriminates on the section's
@@ -21,6 +28,9 @@ export type SearchResultEntry =
 
 /** The lecture variant of a tagged search entry. */
 export type LectureResultEntry = Extract<SearchResultEntry, { kind: "lecture" }>;
+
+/** The location variant of a tagged search entry. */
+export type LocationResultEntry = Extract<SearchResultEntry, { kind: "location" }>;
 
 /** Tag a section's entries with the `kind` implied by its facet. */
 export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] {
@@ -112,7 +122,7 @@ export function useLectureRowExpansion(initial = false): LectureRowExpansion {
 export const LECTURE_EVENT_NAV_CAP = 3;
 
 export type VisibleSearchEntry =
-  | { readonly kind: "result"; readonly sectionFacet: string; readonly entry: SearchResultEntry }
+  | { readonly kind: "result"; readonly sectionFacet: ResultsSectionFacet; readonly entry: SearchResultEntry }
   | {
       readonly kind: "event";
       readonly lectureId: string;
@@ -122,7 +132,7 @@ export type VisibleSearchEntry =
   | { readonly kind: "show_more_events"; readonly lectureId: string; readonly hiddenCount: number };
 
 export interface LectureExpansionState {
-  readonly expandedFacets: ReadonlySet<string>;
+  readonly expandedFacets: ReadonlySet<ResultsSectionFacet>;
   readonly expandedLectures: ReadonlySet<string>;
   readonly lectureShowAll: ReadonlySet<string>;
 }

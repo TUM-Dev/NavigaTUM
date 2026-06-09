@@ -5,6 +5,7 @@ import {
   collapsedHighlightTarget,
   collapsedUpwardHighlightTarget,
   findLectureHeaderIndex,
+  type ResultsSectionFacet,
   type LectureNavController,
   toggleLectureFromMouse,
   type VisibleSearchEntry,
@@ -13,7 +14,7 @@ import {
 type ResultsSection = components["schemas"]["ResultsSection"];
 
 export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSection[] | undefined>) {
-  const expandedFacets = ref<Set<string>>(new Set());
+  const expandedFacets = ref<Set<ResultsSectionFacet>>(new Set());
   // Session-sticky so an ArrowUp wrap back into a lecture does not collapse it.
   const expandedLectures = ref<Set<string>>(new Set());
   const lectureShowAll = ref<Set<string>>(new Set());
@@ -118,7 +119,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
     expandHighlightedLecture();
   }
 
-  function expandFacet(facet: string): void {
+  function expandFacet(facet: ResultsSectionFacet): void {
     expandedFacets.value = new Set([...expandedFacets.value, facet]);
   }
 

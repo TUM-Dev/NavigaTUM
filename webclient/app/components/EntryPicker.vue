@@ -147,7 +147,7 @@ function onKeydown(e: KeyboardEvent) {
           @mousedown.prevent="selectEntry(entry)"
           @mouseenter="highlighted = idx"
         >
-          <SearchResultItem :item="entry" :highlighted="idx === highlighted" />
+          <SearchResultContent :item="entry" :highlighted="idx === highlighted" />
         </button>
       </div>
       <p v-else-if="open && query.length > 0 && debounced.length < 2" class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">
