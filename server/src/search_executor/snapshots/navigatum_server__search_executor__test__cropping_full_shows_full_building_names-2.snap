@@ -6,53 +6,63 @@ info: cropping=full
 ---
 - facet: rooms
   entries:
-    - id: 0104.U1.406
+    - kind: location
+      id: 0104.U1.406
       type: room
       name: 0104.U1.406 (Physikal. Versuchslabor)
       subtext: "stammgelände, N4"
       subtext_bold: N-1406@0104
       parsed_id: "\u0019N-1406\u0017 N4"
-    - id: 0104.01.406
+    - kind: location
+      id: 0104.01.406
       type: room
       name: 0104.01.406 (Studentenarb. m. DV)
       subtext: "stammgelände, N4"
       subtext_bold: N1406@0104
-    - id: 0103.U1.311
+    - kind: location
+      id: 0103.U1.311
       type: room
       name: 0103.U1.311 (Praktikum/Umbau)
       subtext: "stammgelände, N3"
       subtext_bold: N-1311@0103
-    - id: 0108.U1.806A
+    - kind: location
+      id: 0108.U1.806A
       type: room
       name: 0108.U1.806A (Experimenteller Raum)
       subtext: "stammgelände, N8"
       subtext_bold: N-1806A@0108
-    - id: 0108.U1.806B
+    - kind: location
+      id: 0108.U1.806B
       type: room
       name: 0108.U1.806B (Experimenteller Raum)
       subtext: "stammgelände, N8"
       subtext_bold: N-1806B@0108
-    - id: 0108.U1.825
+    - kind: location
+      id: 0108.U1.825
       type: room
       name: 0108.U1.825 (Experimenteller Raum)
       subtext: "stammgelände, N8"
       subtext_bold: N-1825@0108
-    - id: 0108.U1.825A
+    - kind: location
+      id: 0108.U1.825A
       type: room
       name: 0108.U1.825A (Experimenteller Raum)
       subtext: "stammgelände, N8"
       subtext_bold: N-1825A@0108
-    - id: 9201.EG.005
+    - kind: location
+      id: 9201.EG.005
       type: room
       name: 9201.EG.005 (Seminarraum 2)
       subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
       subtext_bold: EG-05@9201
-    - id: 9201.EG.006
+    - kind: location
+      id: 9201.EG.006
       type: room
       name: 9201.EG.006 (Seminarraum 1)
       subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
       subtext_bold: EG-06@9201
-    - id: 5406.03.621D
+    - kind: location
+      id: 5406.03.621D
       type: room
       name: 5406.03.621D (Seminarraum)
       subtext: "garching, Chemie"
@@ -61,7 +71,8 @@ info: cropping=full
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - id: "9201"
+    - kind: location
+      id: "9201"
       type: building
       name: "TUM FZ Friedrich \u0019N\u0017. Schwarz Berchtesgaden"
       subtext: Gebäude

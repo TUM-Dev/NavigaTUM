@@ -6,52 +6,62 @@ info: "'ssz' should get '0501.EG.144' in 1 results # main room called 'service d
 ---
 - facet: rooms
   entries:
-    - id: 0501.EG.144A
+    - kind: location
+      id: 0501.EG.144A
       type: room
       name: "0501.EG.144A (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144A@0501
-    - id: 0501.EG.144B
+    - kind: location
+      id: 0501.EG.144B
       type: room
       name: "0501.EG.144B (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144B@0501
-    - id: 0501.EG.144C
+    - kind: location
+      id: 0501.EG.144C
       type: room
       name: "0501.EG.144C (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144C@0501
-    - id: 0501.EG.144D
+    - kind: location
+      id: 0501.EG.144D
       type: room
       name: "0501.EG.144D (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144D@0501
-    - id: 0501.EG.144E
+    - kind: location
+      id: 0501.EG.144E
       type: room
       name: "0501.EG.144E (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144E@0501
-    - id: 0501.EG.144F
+    - kind: location
+      id: 0501.EG.144F
       type: room
       name: "0501.EG.144F (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144F@0501
-    - id: 0501.EG.144G
+    - kind: location
+      id: 0501.EG.144G
       type: room
       name: "0501.EG.144G (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144G@0501
-    - id: 0501.EG.144H
+    - kind: location
+      id: 0501.EG.144H
       type: room
       name: "0501.EG.144H (\u0019SSZ\u0017 Info)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0144H@0501
-    - id: 0501.EG.148
+    - kind: location
+      id: 0501.EG.148
       type: room
       name: "0501.EG.148 (Teeküche \u0019SSZ\u0017)"
       subtext: "stammgelände, Institutsbau"
       subtext_bold: 0148@0501
-    - id: 0505.EG.561
+    - kind: location
+      id: 0505.EG.561
       type: room
       name: "0505.EG.561 (Sekretariat \u0019SSZ\u0017/HR S+L / Recht)"
       subtext: "stammgelände, Z5"

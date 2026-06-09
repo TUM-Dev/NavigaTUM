@@ -22,24 +22,32 @@ impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
 
 impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
+        // The visitor is only ever run over the rooms section, so a lecture
+        // entry here would be a bug, but we degrade gracefully rather than panic.
+        let ResultEntry::Location {
+            hit,
+            parsed_id,
+            subtext,
+            ..
+        } = item
+        else {
+            return;
+        };
         // Only geo (room) hits carry the arch-name / parent metadata this
-        // visitor formats. The visitor is only ever run over the rooms
-        // section, so a non-geo hit here would be a bug, but we degrade
-        // gracefully rather than panic.
-        let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) =
-            &item.hit
+        // visitor formats.
+        let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) = &**hit
         else {
             return;
         };
         match self.config.parsed_id {
             ParsedIdMode::Prefixed => {
-                item.parsed_id = self.parse_room_formats(hit);
+                *parsed_id = self.parse_room_formats(hit);
             }
             ParsedIdMode::Roomfinder => {
-                item.parsed_id = hit.arch_name.clone();
+                parsed_id.clone_from(&hit.arch_name);
             }
         }
-        item.subtext = Self::generate_subtext(hit);
+        *subtext = Self::generate_subtext(hit);
     }
     // Parse the search against some known room formats and improve the
     // results display in this case. Room formats are hardcoded for now.

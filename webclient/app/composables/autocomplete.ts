@@ -42,14 +42,20 @@ export function extractFacets(
     ) {
       continue;
     }
-    const entries: EntryFacet[] = section.entries.map((entry) => ({
-      id: entry.id,
-      name: _allowHighlighting(entry.name),
-      type: entry.type,
-      subtext: entry.subtext,
-      subtext_bold: _allowHighlighting(entry.subtext_bold || ""),
-      parsed_id: _allowHighlighting(entry.parsed_id || ""),
-    }));
+    const entries: EntryFacet[] = [];
+    for (const entry of section.entries) {
+      // The geo facets never carry lectures, so every entry is a location;
+      // the guard narrows the union to the variant holding subtext_bold/parsed_id.
+      if (entry.kind !== "location") continue;
+      entries.push({
+        id: entry.id,
+        name: _allowHighlighting(entry.name),
+        type: entry.type,
+        subtext: entry.subtext,
+        subtext_bold: _allowHighlighting(entry.subtext_bold || ""),
+        parsed_id: _allowHighlighting(entry.parsed_id || ""),
+      });
+    }
     sections.push({
       facet: section.facet,
       name: labels[section.facet],

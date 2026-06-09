@@ -6,27 +6,32 @@ info: "'Validierungsautomat' should get 'validierungsautomat-1' in 1 results # R
 ---
 - facet: pois
   entries:
-    - id: validierungsautomat-1
+    - kind: location
+      id: validierungsautomat-1
       type: poi
       name: "\u0019Validierungsautomat\u0017 1 (Physik)"
       subtext: ""
       subtext_bold: ""
-    - id: validierungsautomat-2
+    - kind: location
+      id: validierungsautomat-2
       type: poi
       name: "\u0019Validierungsautomat\u0017 2 (MW)"
       subtext: ""
       subtext_bold: ""
-    - id: validierungsautomat-3
+    - kind: location
+      id: validierungsautomat-3
       type: poi
       name: "\u0019Validierungsautomat\u0017 3 (School of Life Sciences Poststelle)"
       subtext: ""
       subtext_bold: ""
-    - id: validierungsautomat-4
+    - kind: location
+      id: validierungsautomat-4
       type: poi
       name: "\u0019Validierungsautomat\u0017 4 (Zentralgelände)"
       subtext: ""
       subtext_bold: ""
-    - id: validierungsautomat-5
+    - kind: location
+      id: validierungsautomat-5
       type: poi
       name: "\u0019Validierungsautomat\u0017 5 (MI)"
       subtext: ""

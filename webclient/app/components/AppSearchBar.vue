@@ -63,8 +63,8 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
 
 async function searchGoTo(entry: ResultEntry): Promise<void> {
   // Lectures have no entity page; jump to the next occurrence's room instead.
-  if (entry.type === "lecture") {
-    const room = entry.upcoming?.[0]?.room_code;
+  if (entry.kind === "lecture") {
+    const room = entry.upcoming[0]?.room_code;
     if (!room) {
       await searchGo(false);
       return;

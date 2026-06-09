@@ -6,23 +6,28 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
 ---
 - facet: buildings
   entries:
-    - id: "2334"
+    - kind: location
+      id: "2334"
       type: building
       name: "CiO/SG Institute West, \u0019Bibliothek\u0017"
       subtext: Gebäude
-    - id: "5510"
+    - kind: location
+      id: "5510"
       type: building
       name: "Hörsaal, \u0019Bibliothek\u0017 u. Verwaltungsgebäude"
       subtext: Gebäudeteil
-    - id: "4220"
+    - kind: location
+      id: "4220"
       type: building
       name: "\u0019Teilbibliothek\u0017 Weihenstephan, Pressestelle Datenverarbeitung"
       subtext: Gebäude
-    - id: "5401"
+    - kind: location
+      id: "5401"
       type: building
       name: "\u0019Teilbibliothek\u0017 Chemie, Hörsaal (CH1, dunkelgrün)"
       subtext: Gebäudeteil
-    - id: "5603"
+    - kind: location
+      id: "5603"
       type: building
       name: "\u0019Bibliothek\u0017"
       subtext: Gebäudeteil
@@ -30,27 +35,32 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 5401.01.101K
+    - kind: location
+      id: 5401.01.101K
       type: room
       name: 5401.01.101K (Hans-Fischer-Hörsaal)
       subtext: "garching, Chemie"
       subtext_bold: 21010@5401
-    - id: 5510.02.001
+    - kind: location
+      id: 5510.02.001
       type: room
       name: 5510.02.001 (MW 2001 Rudolf-Diesel-Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 2001@5510
-    - id: 5510.EG.001
+    - kind: location
+      id: 5510.EG.001
       type: room
       name: 5510.EG.001 (Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0001@5510
-    - id: 0504.02.418
+    - kind: location
+      id: 0504.02.418
       type: room
       name: "0504.02.418 (Seminarraum/\u0019Bibliothek\u0017)"
       subtext: "stammgelände, Z4"
       subtext_bold: 2418@0504
-    - id: 0104.02.405
+    - kind: location
+      id: 0104.02.405
       type: room
       name: "0104.02.405 (Sem./Prüf./\u0019Bibliothek\u0017)"
       subtext: "stammgelände, N4"

@@ -6,7 +6,8 @@ info: q=Navigatumlehre
 ---
 - facet: lectures
   entries:
-    - id: lecture_testfixture0001
+    - kind: lecture
+      id: lecture_testfixture0001
       type: lecture
       name: "Grundlagen der \u0019Navigatumlehre\u0017"
       subtext: Vorlesung

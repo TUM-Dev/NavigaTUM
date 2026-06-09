@@ -157,13 +157,14 @@ fn make_building_like_entry(
     highlight: &HighlightContext<'_>,
 ) -> super::ResultEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::ResultEntry::Location {
         id: geo.room_code.clone(),
         r#type: geo.r#type.clone(),
         subtext: geo.type_common_name.clone(),
-        hit: hit.result.clone(),
+        hit: Box::new(hit.result.clone()),
         name,
-        ..super::ResultEntry::default()
+        subtext_bold: None,
+        parsed_id: None,
     }
 }
 
@@ -173,13 +174,14 @@ fn make_room_like_entry(
     highlight: &HighlightContext<'_>,
 ) -> super::ResultEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::ResultEntry::Location {
         id: geo.room_code.clone(),
         r#type: geo.r#type.clone(),
+        subtext: String::new(),
         subtext_bold: Some(geo.arch_name.clone().unwrap_or_default()),
-        hit: hit.result.clone(),
+        hit: Box::new(hit.result.clone()),
         name,
-        ..super::ResultEntry::default()
+        parsed_id: None,
     }
 }
 
@@ -195,17 +197,15 @@ fn make_lecture_entry(
     highlight: &HighlightContext<'_>,
 ) -> super::ResultEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::ResultEntry::Lecture {
         id: lecture.ms_id.clone(),
         r#type: lecture.r#type.clone(),
         subtext: lecture.type_common_name.clone(),
         name,
-        title_de: Some(lecture.title_de.clone()),
-        title_en: Some(lecture.title_en.clone()),
-        next_occurrence_at: Some(lecture.next_occurrence_at),
-        upcoming: Some(lecture.upcoming.clone()),
-        hit: hit.result.clone(),
-        ..super::ResultEntry::default()
+        title_de: lecture.title_de.clone(),
+        title_en: lecture.title_en.clone(),
+        next_occurrence_at: lecture.next_occurrence_at,
+        upcoming: lecture.upcoming.clone(),
     }
 }
 

@@ -6,19 +6,23 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
 ---
 - facet: buildings
   entries:
-    - id: "4113"
+    - kind: location
+      id: "4113"
       type: building
       name: "\u0019StudiTUM\u0017 Weihenstephan"
       subtext: Gebäude
-    - id: "5532"
+    - kind: location
+      id: "5532"
       type: building
       name: "\u0019StudiTUM\u0017 Garching"
       subtext: Gebäude
-    - id: "0201"
+    - kind: location
+      id: "0201"
       type: building
       name: "Gabelsbergerstr. 43, \u0019StudiTUM\u0017"
       subtext: Gebäude
-    - id: "2535"
+    - kind: location
+      id: "2535"
       type: building
       name: "\u0019StudiTUM\u0017 am TUM-Klinikum"
       subtext: Gebäude
@@ -26,32 +30,38 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 4113.01.105
+    - kind: location
+      id: 4113.01.105
       type: room
       name: 4113.01.105 (Hörsaal 4 (WZWH04))
       subtext: "weihenstephan, StudiTUM"
       subtext_bold: O1 5@4113
-    - id: 2535.01.001
+    - kind: location
+      id: 2535.01.001
       type: room
       name: 2535.01.001 (Studentischer Arbeitsraum)
       subtext: "mri, StudiTUM"
       subtext_bold: 35.1.1@2535
-    - id: 2535.01.002
+    - kind: location
+      id: 2535.01.002
       type: room
       name: 2535.01.002 (Studentischer Arbeitsraum)
       subtext: "mri, StudiTUM"
       subtext_bold: 35.1.2@2535
-    - id: 2535.01.003
+    - kind: location
+      id: 2535.01.003
       type: room
       name: 2535.01.003 (Studentischer Arbeitsraum)
       subtext: "mri, StudiTUM"
       subtext_bold: 35.1.3@2535
-    - id: 2535.02.001
+    - kind: location
+      id: 2535.02.001
       type: room
       name: 2535.02.001 (Studentischer Arbeitsraum)
       subtext: "mri, StudiTUM"
       subtext_bold: 35.2.1@2535
-    - id: 2535.02.002
+    - kind: location
+      id: 2535.02.002
       type: room
       name: 2535.02.002 (Studentischer Arbeitsraum)
       subtext: "mri, StudiTUM"

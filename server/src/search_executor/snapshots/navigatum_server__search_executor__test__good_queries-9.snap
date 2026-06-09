@@ -6,19 +6,23 @@ info: "'Physik Container' should get '5140' in 1 results"
 ---
 - facet: buildings
   entries:
-    - id: "5140"
+    - kind: location
+      id: "5140"
       type: building
       name: "\u0019Physik\u0017 I \u0019Container\u0017"
       subtext: Gebäude
-    - id: "5124"
+    - kind: location
+      id: "5124"
       type: building
       name: "WSI \u0019Container\u0017"
       subtext: Gebäude
-    - id: "5131"
+    - kind: location
+      id: "5131"
       type: building
       name: "FRM-Poststelle (\u0019Container\u0017)"
       subtext: Gebäude
-    - id: "5160"
+    - kind: location
+      id: "5160"
       type: building
       name: "UCN-Testanlage (\u0019Container\u0017)"
       subtext: Gebäude
@@ -26,32 +30,38 @@ info: "'Physik Container' should get '5140' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - id: 5140.01.201
+    - kind: location
+      id: 5140.01.201
       type: room
       name: 5140.01.201 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
-    - id: 5140.01.202
+    - kind: location
+      id: 5140.01.202
       type: room
       name: 5140.01.202 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3202@5140
-    - id: 5140.01.203
+    - kind: location
+      id: 5140.01.203
       type: room
       name: 5140.01.203 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3203@5140
-    - id: 5140.01.204
+    - kind: location
+      id: 5140.01.204
       type: room
       name: 5140.01.204 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3204@5140
-    - id: 5140.01.205
+    - kind: location
+      id: 5140.01.205
       type: room
       name: 5140.01.205 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3205@5140
-    - id: 5140.01.206
+    - kind: location
+      id: 5140.01.206
       type: room
       name: 5140.01.206 (CIP-Raum)
       subtext: "garching, Physik I Container"

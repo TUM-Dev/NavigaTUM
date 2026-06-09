@@ -4,22 +4,22 @@ import { type EntityPath, entityPath } from "~/utils/entityPath";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
+/** The lecture variant of the search result union, keyed by `kind: "lecture"`. */
+export type LectureResultEntry = Extract<ResultEntry, { kind: "lecture" }>;
 
 // TUM lectures are scheduled in Europe/Berlin regardless of the visitor's zone.
 const TZ = "Europe/Berlin";
 
 export type LectureLocale = "de" | "en";
 
-export function lectureTitle(entry: ResultEntry, locale: LectureLocale): string {
+export function lectureTitle(entry: LectureResultEntry, locale: LectureLocale): string {
   const preferred = locale === "de" ? entry.title_de : entry.title_en;
   const fallback = locale === "de" ? entry.title_en : entry.title_de;
-  return preferred?.trim() || fallback?.trim() || entry.name;
+  return preferred.trim() || fallback.trim() || entry.name;
 }
 
-export function firstUpcoming(entry: ResultEntry): UpcomingEvent | null {
-  const list = entry.upcoming;
-  if (!list || list.length === 0) return null;
-  return list[0] ?? null;
+export function firstUpcoming(entry: LectureResultEntry): UpcomingEvent | null {
+  return entry.upcoming[0] ?? null;
 }
 
 export function lectureEventPath(event: Pick<UpcomingEvent, "room_code">): EntityPath {
@@ -120,10 +120,10 @@ export function buildVisibleSearchEntries(
     const sectionEntries = section.entries.slice(0, sectionCap);
     for (const entry of sectionEntries) {
       out.push({ kind: "result", sectionFacet: section.facet, entry });
-      if (entry.type !== "lecture") continue;
+      if (entry.kind !== "lecture") continue;
       if (!state.expandedLectures.has(entry.id)) continue;
 
-      const events = entry.upcoming ?? [];
+      const events = entry.upcoming;
       const cap = state.lectureShowAll.has(entry.id) ? events.length : eventNavCap;
       const visibleEvents = events.slice(0, cap);
       for (let i = 0; i < visibleEvents.length; i++) {
@@ -146,7 +146,7 @@ export function findLectureHeaderIndex(
 ): number {
   return visibleElements.findIndex(
     (entry) =>
-      entry.kind === "result" && entry.entry.type === "lecture" && entry.entry.id === lectureId
+      entry.kind === "result" && entry.entry.kind === "lecture" && entry.entry.id === lectureId
   );
 }
 

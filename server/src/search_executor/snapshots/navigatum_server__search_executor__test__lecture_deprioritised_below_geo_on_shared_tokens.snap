@@ -1,12 +1,13 @@
 ---
 source: server/src/search_executor/mod.rs
-description: the 0.5 federation weight demotes the lecture below an equally-strong building match
+description: the 0.5 federation weight demotes the lecture below a building even when the lecture is the stronger raw match
 expression: results.0
 info: q=Quantenrobotik Praktikum
 ---
 - facet: buildings
   entries:
-    - id: QRZ
+    - kind: location
+      id: QRZ
       type: building
       name: "\u0019Quantenrobotik\u0017"
       subtext: Gebäude
@@ -14,7 +15,8 @@ info: q=Quantenrobotik Praktikum
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: lectures
   entries:
-    - id: lecture_testfixture0001
+    - kind: lecture
+      id: lecture_testfixture0001
       type: lecture
       name: "\u0019Quantenrobotik\u0017 \u0019Praktikum\u0017"
       subtext: Vorlesung

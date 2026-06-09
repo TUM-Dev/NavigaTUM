@@ -60,63 +60,150 @@ impl Debug for ResultsSection {
     }
 }
 
-#[serde_with::skip_serializing_none]
-#[derive(Serialize, Default, Debug, Clone, utoipa::ToSchema)]
-struct ResultEntry {
-    #[serde(skip)]
-    hit: MSHit,
-    /// The id of the location
-    #[schema(example = "5510.03.002")]
-    id: String,
-    /// the type of the site/building
-    #[schema(example = "room")]
-    r#type: String,
-    /// Subtext to show below the search result.
-    ///
-    /// Usually contains the context of where this rooms is located in.
-    /// Currently not highlighted.
-    #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
-    name: String,
-    /// Subtext to show below the search result.
-    ///
-    /// Usually contains the context of where this rooms is located in.
-    /// Currently not highlighted.
-    #[schema(example = "Maschinenwesen (MW)")]
-    subtext: String,
-    /// Subtext to show below the search (by default in bold and after the non-bold subtext).
-    ///
-    /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
-    #[schema(example = "3002@5510")]
-    subtext_bold: Option<String>,
-    /// This is an optional feature, that is only supported for some rooms.
-    ///
-    /// It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
-    /// See the image below for an example.
-    /// It will be cropped to a maximum length to not take too much space in UIs.
-    /// Supports highlighting.
-    parsed_id: Option<String>,
-    /// The German title of a lecture.
-    ///
-    /// Only present for entries in the `lectures` section.
-    #[schema(example = "Einführung in die Informatik 1")]
-    title_de: Option<String>,
-    /// The English title of a lecture.
-    ///
-    /// Only present for entries in the `lectures` section.
-    #[schema(example = "Introduction to Informatics 1")]
-    title_en: Option<String>,
-    /// The next time this lecture takes place, as an RFC 3339 timestamp.
-    ///
-    /// Only present for entries in the `lectures` section.
-    #[schema(example = "2024-10-15T08:00:00Z")]
-    next_occurrence_at: Option<DateTime<Utc>>,
-    /// The upcoming occurrences of this lecture, in chronological order.
-    ///
-    /// Only present for entries in the `lectures` section.
-    /// The first element's `start_at` matches `next_occurrence_at`. The list is
-    /// capped at whichever covers more events: the next 10 occurrences or those
-    /// within a 14-day window.
-    upcoming: Option<Vec<UpcomingEvent>>,
+/// A single search result.
+///
+/// The `entries` index mixes location-like hits (sites, buildings, rooms, POIs,
+/// and Nominatim addresses) with lectures, which share an id/name/subtext header
+/// but diverge in their tail: only locations carry the room-id formatting fields,
+/// only lectures carry the bilingual titles and upcoming occurrences. The two are
+/// modeled as a discriminated union keyed by `kind` so a consumer narrows once on
+/// the discriminator and then sees exactly the fields its variant carries -
+/// instead of every field being optional and the invariant living in prose.
+#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+enum ResultEntry {
+    /// A location-like result: a site, building, room, POI, or address.
+    Location {
+        /// The originating meilisearch hit, kept around so the room formatter can
+        /// enrich `parsed_id`/`subtext` after merging. Never serialized. Boxed to
+        /// keep this variant from dwarfing the lecture one (the hit is bulky and
+        /// out-of-band).
+        #[serde(skip)]
+        hit: Box<MSHit>,
+        /// The id of the location
+        #[schema(example = "5510.03.002")]
+        id: String,
+        /// the type of the site/building
+        #[schema(example = "room")]
+        r#type: String,
+        /// The display name of the result. Supports highlighting.
+        #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
+        name: String,
+        /// Subtext to show below the search result.
+        ///
+        /// Usually contains the context of where this rooms is located in.
+        /// Currently not highlighted.
+        #[schema(example = "Maschinenwesen (MW)")]
+        subtext: String,
+        /// Subtext to show below the search (by default in bold and after the non-bold subtext).
+        ///
+        /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+        #[serde(skip_serializing_if = "Option::is_none")]
+        #[schema(example = "3002@5510")]
+        subtext_bold: Option<String>,
+        /// This is an optional feature, that is only supported for some rooms.
+        ///
+        /// It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+        /// See the image below for an example.
+        /// It will be cropped to a maximum length to not take too much space in UIs.
+        /// Supports highlighting.
+        #[serde(skip_serializing_if = "Option::is_none")]
+        parsed_id: Option<String>,
+    },
+    /// A lecture result, carrying its bilingual titles and upcoming occurrences.
+    Lecture {
+        /// The id of the lecture
+        #[schema(example = "lecture_5f2c…")]
+        id: String,
+        /// the type of the result; always `lecture` for this variant
+        #[schema(example = "lecture")]
+        r#type: String,
+        /// The display name of the result. Supports highlighting.
+        #[schema(example = "Einführung in die Informatik 1")]
+        name: String,
+        /// Subtext to show below the search result.
+        ///
+        /// Carries the human `stp_type` label (e.g. "Vorlesung").
+        #[schema(example = "Vorlesung")]
+        subtext: String,
+        /// The German title of the lecture.
+        #[schema(example = "Einführung in die Informatik 1")]
+        title_de: String,
+        /// The English title of the lecture.
+        #[schema(example = "Introduction to Informatics 1")]
+        title_en: String,
+        /// The next time this lecture takes place, as an RFC 3339 timestamp.
+        #[schema(example = "2024-10-15T08:00:00Z")]
+        next_occurrence_at: DateTime<Utc>,
+        /// The upcoming occurrences of this lecture, in chronological order.
+        ///
+        /// The first element's `start_at` matches `next_occurrence_at`. The list is
+        /// capped at whichever covers more events: the next 10 occurrences or those
+        /// within a 14-day window.
+        upcoming: Vec<UpcomingEvent>,
+    },
+}
+
+/// Field accessors used by the search tests, which assert against entries
+/// without caring which variant they landed in. Production code matches on the
+/// variant directly, so these are test-only.
+#[cfg(test)]
+impl ResultEntry {
+    /// The id of the result, regardless of variant.
+    fn id(&self) -> &str {
+        match self {
+            Self::Location { id, .. } | Self::Lecture { id, .. } => id,
+        }
+    }
+    /// The display name of the result, regardless of variant.
+    fn name(&self) -> &str {
+        match self {
+            Self::Location { name, .. } | Self::Lecture { name, .. } => name,
+        }
+    }
+    /// The subtext of the result, regardless of variant.
+    fn subtext(&self) -> &str {
+        match self {
+            Self::Location { subtext, .. } | Self::Lecture { subtext, .. } => subtext,
+        }
+    }
+    /// The formatted room id, present only on location variants that carry one.
+    fn parsed_id(&self) -> Option<&str> {
+        match self {
+            Self::Location { parsed_id, .. } => parsed_id.as_deref(),
+            Self::Lecture { .. } => None,
+        }
+    }
+    /// The German lecture title, present only on the lecture variant.
+    fn title_de(&self) -> Option<&str> {
+        match self {
+            Self::Lecture { title_de, .. } => Some(title_de),
+            Self::Location { .. } => None,
+        }
+    }
+    /// The English lecture title, present only on the lecture variant.
+    fn title_en(&self) -> Option<&str> {
+        match self {
+            Self::Lecture { title_en, .. } => Some(title_en),
+            Self::Location { .. } => None,
+        }
+    }
+    /// The next occurrence of the lecture, present only on the lecture variant.
+    fn next_occurrence_at(&self) -> Option<DateTime<Utc>> {
+        match self {
+            Self::Lecture {
+                next_occurrence_at, ..
+            } => Some(*next_occurrence_at),
+            Self::Location { .. } => None,
+        }
+    }
+    /// The upcoming occurrences of the lecture, present only on the lecture variant.
+    fn upcoming(&self) -> Option<&[UpcomingEvent]> {
+        match self {
+            Self::Lecture { upcoming, .. } => Some(upcoming),
+            Self::Location { .. } => None,
+        }
+    }
 }
 
 #[tracing::instrument]
@@ -135,13 +222,14 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
             .into_iter()
             .map(|r| {
                 let subtext = r.address.serialise();
-                ResultEntry {
-                    hit: MSHit::default(),
+                ResultEntry::Location {
+                    hit: Box::new(MSHit::default()),
                     id: format!("osm_{}", r.osm_id),
                     r#type: r.address_type,
                     name: r.address.road.unwrap_or(r.name),
                     subtext,
-                    ..ResultEntry::default()
+                    subtext_bold: None,
+                    parsed_id: None,
                 }
             })
             .collect(),
@@ -278,7 +366,7 @@ mod test {
         fn actual_matches_among(&self, actual: &[ResultsSection]) -> bool {
             let among = self.among.unwrap_or(1);
             let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
-            acceptable_range.any(|r| r.id == self.target)
+            acceptable_range.any(|r| r.id() == self.target)
         }
         async fn search(&self, client: &Client) -> Vec<ResultsSection> {
             do_geoentry_search(
@@ -432,19 +520,19 @@ mod test {
         );
 
         // Compare deterministically by sorting by `id` so ranking changes don't flap.
-        let mut ids_cropped: Vec<(String, Option<String>)> = rooms_with_crop
+        let mut ids_cropped: Vec<(&str, Option<&str>)> =rooms_with_crop
             .entries
             .iter()
-            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .map(|e| (e.id(), e.parsed_id()))
             .collect();
-        ids_cropped.sort_by(|a, b| a.0.cmp(&b.0));
+        ids_cropped.sort_by(|a, b| a.0.cmp(b.0));
 
-        let mut ids_full: Vec<(String, Option<String>)> = rooms_without_crop
+        let mut ids_full: Vec<(&str, Option<&str>)> =rooms_without_crop
             .entries
             .iter()
-            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .map(|e| (e.id(), e.parsed_id()))
             .collect();
-        ids_full.sort_by(|a, b| a.0.cmp(&b.0));
+        ids_full.sort_by(|a, b| a.0.cmp(b.0));
 
         // For the same `id`, `cropping=FULL` must not produce a shorter `parsed_id` than `cropping=CROP`.
         for ((id_c, pid_c), (id_f, pid_f)) in ids_cropped.iter().zip(ids_full.iter()) {
@@ -510,8 +598,7 @@ mod test {
 
         for entry in &room_section.entries {
             let pid = entry
-                .parsed_id
-                .as_ref()
+                .parsed_id()
                 .expect("Expected parsed_id to be present in Roomfinder mode");
 
             assert!(
@@ -569,11 +656,10 @@ mod test {
 
         let has_custom_highlighting = room_section.entries.iter().any(|e| {
             let in_parsed_id = e
-                .parsed_id
-                .as_ref()
+                .parsed_id()
                 .is_some_and(|p| p.contains("<em>") || p.contains("</em>"));
 
-            let in_name = e.name.contains("<em>") || e.name.contains("</em>");
+            let in_name = e.name().contains("<em>") || e.name().contains("</em>");
 
             in_parsed_id || in_name
         });
@@ -656,7 +742,7 @@ mod test {
             // (it depends on query parsing and hit metadata). But if it *is* present, it must not
             // look like a raw Roomfinder arch name (arch_id@building_id).
             for entry in &rooms_prefixed.entries {
-                if let Some(pid) = entry.parsed_id.as_ref() {
+                if let Some(pid) = entry.parsed_id() {
                     assert!(
                         !pid.contains('@'),
                         "Expected prefixed parsed_id to not contain '@' for query '{query}', got: {pid}"
@@ -680,7 +766,7 @@ mod test {
             let has_raw_archname_format = rooms_roomfinder
                 .entries
                 .iter()
-                .any(|e| e.parsed_id.as_ref().is_some_and(|p| p.contains('@')));
+                .any(|e| e.parsed_id().is_some_and(|p| p.contains('@')));
 
             assert!(
                 has_raw_archname_format,
@@ -773,19 +859,19 @@ mod test {
         );
 
         // Deterministic comparison: sort by id and compare overlapping entries.
-        let mut cropped: Vec<(String, Option<String>)> = rooms_cropped
+        let mut cropped: Vec<(&str, Option<&str>)> =rooms_cropped
             .entries
             .iter()
-            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .map(|e| (e.id(), e.parsed_id()))
             .collect();
-        cropped.sort_by(|a, b| a.0.cmp(&b.0));
+        cropped.sort_by(|a, b| a.0.cmp(b.0));
 
-        let mut full: Vec<(String, Option<String>)> = rooms_full
+        let mut full: Vec<(&str, Option<&str>)> =rooms_full
             .entries
             .iter()
-            .map(|e| (e.id.clone(), e.parsed_id.clone()))
+            .map(|e| (e.id(), e.parsed_id()))
             .collect();
-        full.sort_by(|a, b| a.0.cmp(&b.0));
+        full.sort_by(|a, b| a.0.cmp(b.0));
 
         // Assert FULL is never shorter than CROP for the same `id`.
         for ((id_c, pid_c), (id_f, pid_f)) in cropped.iter().zip(full.iter()) {
@@ -883,30 +969,23 @@ mod test {
             .entries
             .first()
             .expect("expected at least one lecture entry");
-        assert_eq!(top.id, "lecture_testfixture0001");
+        assert_eq!(top.id(), "lecture_testfixture0001");
+        assert_eq!(top.title_de(), Some("Grundlagen der Navigatumlehre"));
+        assert_eq!(top.title_en(), Some("Foundations of Navigatum Teaching"));
         assert_eq!(
-            top.title_de.as_deref(),
-            Some("Grundlagen der Navigatumlehre")
-        );
-        assert_eq!(
-            top.title_en.as_deref(),
-            Some("Foundations of Navigatum Teaching")
-        );
-        assert_eq!(
-            top.next_occurrence_at,
+            top.next_occurrence_at(),
             Some("2024-10-15T08:00:00Z".parse().unwrap())
         );
         // The human `stp_type` label is surfaced as the subtext.
-        assert_eq!(top.subtext, "Vorlesung");
+        assert_eq!(top.subtext(), "Vorlesung");
         // The upcoming occurrences ride along, room names resolved, with the
         // first element's start matching `next_occurrence_at`.
         let upcoming = top
-            .upcoming
-            .as_ref()
+            .upcoming()
             .expect("a lecture entry carries its upcoming occurrences");
         assert_eq!(upcoming.len(), 2);
         let first = upcoming.first().unwrap();
-        assert_eq!(first.start_at, top.next_occurrence_at.unwrap());
+        assert_eq!(first.start_at, top.next_occurrence_at().unwrap());
         assert_eq!(first.room_code, "5606.EG.011");
         assert_eq!(first.room_name, "Testhörsaal");
 
@@ -1146,24 +1225,17 @@ mod test {
             "the two future occurrences collapse into one lecture identity"
         );
         let top = lectures.entries.first().unwrap();
-        assert!(top.id.starts_with("lecture_"), "got id {}", top.id);
-        assert_eq!(
-            top.title_de.as_deref(),
-            Some("Quantenfeldtheorie im Teststand")
-        );
-        assert_eq!(
-            top.title_en.as_deref(),
-            Some("Quantum Field Theory on a Test Bench")
-        );
-        assert_eq!(top.subtext, "Vorlesung");
+        assert!(top.id().starts_with("lecture_"), "got id {}", top.id());
+        assert_eq!(top.title_de(), Some("Quantenfeldtheorie im Teststand"));
+        assert_eq!(top.title_en(), Some("Quantum Field Theory on a Test Bench"));
+        assert_eq!(top.subtext(), "Vorlesung");
         // The earliest *future* occurrence wins; the past row is excluded.
-        assert_eq!(top.next_occurrence_at, Some(at(3_600)));
+        assert_eq!(top.next_occurrence_at(), Some(at(3_600)));
         // Both future occurrences are materialised in chronological order with
         // the hosting room's display name resolved; the past row is dropped and
         // the first occurrence agrees with `next_occurrence_at`.
         let upcoming = top
-            .upcoming
-            .as_ref()
+            .upcoming()
             .expect("the derived lecture carries its upcoming occurrences");
         assert_eq!(
             upcoming.len(),

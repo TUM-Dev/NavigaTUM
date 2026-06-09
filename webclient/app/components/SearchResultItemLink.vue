@@ -11,8 +11,6 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["click", "mouseover"]);
 
-const isLecture = computed(() => props.item.type === "lecture");
-
 // Entity results link to their canonical /{type}/{id} path. Non-routable results
 // (e.g. Nominatim addresses, only surfaced on the navigate page) have no entity
 // route and render as a plain, non-navigable row.
@@ -23,7 +21,7 @@ const to = computed<EntityPath | null>(() =>
 
 <template>
   <LectureSearchResultRow
-    v-if="isLecture"
+    v-if="item.kind === 'lecture'"
     :item="item"
     :highlighted="highlighted"
     @click="() => emit('click')"

@@ -6,12 +6,13 @@ import {
   mdiOfficeBuildingOutline,
   mdiSchool,
 } from "@mdi/js";
-import type { components } from "~/api_types/index.js";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
+// The icon keys off the opaque `type` string and whether a `parsed_id` matched;
+// it is fed a small projection rather than a full search result, so it stays
+// decoupled from the result union's variants.
 interface ResultEntryItem {
-  type: ResultEntry["type"];
-  parsed_id: ResultEntry["parsed_id"];
+  type: string;
+  parsed_id?: string | null;
 }
 defineProps<{ item: ResultEntryItem }>();
 </script>

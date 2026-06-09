@@ -6,23 +6,28 @@ info: "'wzw' should get 'wzw' in 1 results"
 ---
 - facet: sites
   entries:
-    - id: wzw
+    - kind: location
+      id: wzw
       type: campus
       name: Campus Weihenstephan (Freising)
       subtext: Campus
-    - id: wzw-extern
+    - kind: location
+      id: wzw-extern
       type: area
       name: School of of Life Sciences Außenstellen
       subtext: Gebiet / Gruppe von Gebäuden
-    - id: wzw-berg
+    - kind: location
+      id: wzw-berg
       type: area
       name: Gebiet 4100 Berg
       subtext: Gebiet / Gruppe von Gebäuden
-    - id: wzw-mitte
+    - kind: location
+      id: wzw-mitte
       type: area
       name: Gebiet 4200 Mitte
       subtext: Gebiet / Gruppe von Gebäuden
-    - id: wzw-nord
+    - kind: location
+      id: wzw-nord
       type: area
       name: Gebiet 4300 Nord / Hochfeld
       subtext: Gebiet / Gruppe von Gebäuden
@@ -30,23 +35,28 @@ info: "'wzw' should get 'wzw' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - id: "4277"
+    - kind: location
+      id: "4277"
       type: building
       name: Forstwissenschaften
       subtext: Gebäude
-    - id: "4224"
+    - kind: location
+      id: "4224"
       type: building
       name: ZIEL IV - Biowissenschaften
       subtext: Gebäude
-    - id: "4101"
+    - kind: location
+      id: "4101"
       type: building
       name: Verwaltung / BLQ Brau- und Lebensmittelqualität
       subtext: Gebäude
-    - id: "4213"
+    - kind: location
+      id: "4213"
       type: building
       name: Lebensmitteltechnikum
       subtext: Gebäude
-    - id: "4217"
+    - kind: location
+      id: "4217"
       type: building
       name: Pflanzenproduktion 1
       subtext: Gebäude

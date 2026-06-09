@@ -6,7 +6,8 @@ info: "'26m@5510' should get '5510.EG.026M' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 5510.EG.026M
+    - kind: location
+      id: 5510.EG.026M
       type: room
       name: "\u00195510\u0017.EG.026M (School Office Finanzen)"
       subtext: "garching, MW"

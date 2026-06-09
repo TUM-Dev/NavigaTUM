@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { mdiChevronDown, mdiChevronRight, mdiDotsHorizontal, mdiMapMarker } from "@mdi/js";
-import type { components } from "~/api_types/index.js";
 import SearchResultItem from "~/components/SearchResultItem.vue";
 import {
   formatUpcoming,
   LECTURE_EVENT_NAV_CAP,
   type LectureLocale,
   LectureNavKey,
+  type LectureResultEntry,
   lectureEventPath,
   useLectureRowExpansion,
 } from "~/utils/lectureRow";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
-
 const props = defineProps<{
-  item: ResultEntry;
+  item: LectureResultEntry;
   highlighted: boolean;
 }>();
 
@@ -30,7 +28,7 @@ const nav = inject(LectureNavKey, null);
 const row = useLectureRowExpansion();
 
 const localeKey = computed<LectureLocale>(() => (locale.value === "de" ? "de" : "en"));
-const events = computed(() => props.item.upcoming ?? []);
+const events = computed(() => props.item.upcoming);
 const isExpanded = computed(() => (nav ? nav.expanded(props.item.id) : row.expanded.value));
 const visibleEvents = computed(() => {
   if (!nav) return events.value;
