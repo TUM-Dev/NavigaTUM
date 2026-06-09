@@ -6,63 +6,53 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5140.01.202
+    - id: 5140.01.202
       type: room
       name: 5140.01.202 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3202@5140
       parsed_id: "\u0019C.3202\u0017 Physik I Container"
-    - kind: location
-      id: 1551.01.051
+    - id: 1551.01.051
       type: room
       name: "1551.01.051 (Hörsaal \u0019C\u0017)"
       subtext: "mri, Bau 551"
       subtext_bold: 51.1.51@1551
-    - kind: location
-      id: 1551.EG.051
+    - id: 1551.EG.051
       type: room
       name: "1551.EG.051 (Hörsaal \u0019C\u0017)"
       subtext: "mri, Bau 551"
       subtext_bold: 51.0.51@1551
-    - kind: location
-      id: 1910.EG.050C
+    - id: 1910.EG.050C
       type: room
       name: 1910.EG.050C (Hörsaal)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
       subtext_bold: C.0.50@1910
-    - kind: location
-      id: 5140.01.201
+    - id: 5140.01.201
       type: room
       name: 5140.01.201 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
-    - kind: location
-      id: 5140.01.203
+    - id: 5140.01.203
       type: room
       name: 5140.01.203 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3203@5140
-    - kind: location
-      id: 1910.EG.022B
+    - id: 1910.EG.022B
       type: room
       name: 1910.EG.022B (Seminarraum)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
       subtext_bold: B.0.22@1910
-    - kind: location
-      id: 1910.EG.023B
+    - id: 1910.EG.023B
       type: room
       name: 1910.EG.023B (Seminarraum)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
       subtext_bold: B.0.23@1910
-    - kind: location
-      id: 1910.EG.043B
+    - id: 1910.EG.043B
       type: room
       name: 1910.EG.043B (Seminarraum)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
       subtext_bold: B.0.43@1910
-    - kind: location
-      id: 1910.EG.044B
+    - id: 1910.EG.044B
       type: room
       name: 1910.EG.044B (Seminarraum)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
@@ -71,18 +61,15 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - kind: location
-      id: "1910"
+    - id: "1910"
       type: building
       name: "Bildungscampus \u0019C\u0017, Weipertstr. 8-10"
       subtext: Gebäude
-    - kind: location
-      id: "2940"
+    - id: "2940"
       type: building
       name: "Campus \u0019C\u0017, Georg-Brauchle-Ring 56/58"
       subtext: Gebäudeteil
-    - kind: location
-      id: "2911"
+    - id: "2911"
       type: building
       name: "Richard-Wagner-Str. 3 / Haus \u0019C\u0017, Sprachenzentrum / Alumni & Career"
       subtext: Gebäude

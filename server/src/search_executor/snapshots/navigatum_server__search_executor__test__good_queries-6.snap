@@ -6,8 +6,7 @@ info: "'Interims 2' should get '5416' in 1 results"
 ---
 - facet: buildings
   entries:
-    - kind: location
-      id: "5416"
+    - id: "5416"
       type: building
       name: "\u0019Interimshörsäle\u0017 \u0019II\u0017, Jürgen Manchot-Hörsaalgebäude"
       subtext: Gebäude
@@ -15,56 +14,47 @@ info: "'Interims 2' should get '5416' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - kind: location
-      id: 5416.01.003
+    - id: 5416.01.003
       type: room
       name: "5416.01.003 (Hörsaal \u00192\u0017,  \"\u0019Interims\u0017 \u0019II\u0017\")"
       subtext: "garching, Interims II"
       subtext_bold: 003@5416
-    - kind: location
-      id: 5416.01.004
+    - id: 5416.01.004
       type: room
       name: "5416.01.004 (Hörsaal 1,  Jürgen-Manchot \"\u0019Interims\u0017 \u0019II\u0017\")"
       subtext: "garching, Interims II"
       subtext_bold: 004@5416
-    - kind: location
-      id: 5620.01.102
+    - id: 5620.01.102
       type: room
       name: "5620.01.102 (Hörsaal \u00192\u0017,  \"\u0019Interims\u0017 I\")"
       subtext: "garching, Interims-Audimax"
       subtext_bold: 102@5620
-    - kind: location
-      id: 5539.EG.002
+    - id: 5539.EG.002
       type: room
       name: "5539.EG.002 (Hörsaal \u00192\u0017,  \"Zelt\")"
       subtext: "garching, Interims III"
       subtext_bold: 0.002@5539
-    - kind: location
-      id: 5416.EG.010
+    - id: 5416.EG.010
       type: room
       name: 5416.EG.010 (IT/Audio)
       subtext: "garching, Interims II"
       subtext_bold: 010@5416
-    - kind: location
-      id: 5417.01.002
+    - id: 5417.01.002
       type: room
       name: 5417.01.002 (Microbial Lab S1)
       subtext: "garching, Interims IV"
       subtext_bold: 01.5417.002@5417
-    - kind: location
-      id: 5416.EG.005
+    - id: 5416.EG.005
       type: room
       name: 5416.EG.005 (WC-Vorraum Damen u. Herren)
       subtext: "garching, Interims II"
       subtext_bold: 005@5416
-    - kind: location
-      id: 5416.EG.006
+    - id: 5416.EG.006
       type: room
       name: 5416.EG.006 (WC-Herren)
       subtext: "garching, Interims II"
       subtext_bold: 006@5416
-    - kind: location
-      id: 5416.EG.007
+    - id: 5416.EG.007
       type: room
       name: 5416.EG.007 (WC-Barrierefrei)
       subtext: "garching, Interims II"

@@ -6,62 +6,52 @@ info: "'019 lmu' should get '5123.EG.019' in 1 results"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5123.EG.019
+    - id: 5123.EG.019
       type: room
       name: "5123.EG.\u0019019\u0017 (\u0019LMU\u0017 Hörsaal im Physik Werkstattgebäude)"
       subtext: "garching, Physik Werkstattgebäude LMU"
       subtext_bold: 019@5123
-    - kind: location
-      id: 5120.EG.019
+    - id: 5120.EG.019
       type: room
       name: "5120.EG.\u0019019\u0017 (Elektrolabor)"
       subtext: "garching, Physik Beschleuniger LMU"
       subtext_bold: 019@5120
-    - kind: location
-      id: 5109.EG.019
+    - id: 5109.EG.019
       type: room
       name: "5109.EG.\u0019019\u0017 (Kernphysiklabor)"
       subtext: "garching, MAP"
       subtext_bold: 019@5109
-    - kind: location
-      id: 5109.01.019
+    - id: 5109.01.019
       type: room
       name: "5109.01.\u0019019\u0017 (Büro)"
       subtext: "garching, MAP"
       subtext_bold: 019@5109
-    - kind: location
-      id: 5109.03.019
+    - id: 5109.03.019
       type: room
       name: "5109.03.\u0019019\u0017 (Büro)"
       subtext: "garching, MAP"
       subtext_bold: 019@5109
-    - kind: location
-      id: 5123.U1.019
+    - id: 5123.U1.019
       type: room
       name: "5123.U1.\u0019019\u0017 (Abwasseraufbereitung/-beseitigung)"
       subtext: "garching, Physik Werkstattgebäude LMU"
       subtext_bold: 019@5123
-    - kind: location
-      id: 8111.EG.019
+    - id: 8111.EG.019
       type: room
       name: "8111.EG.\u0019019\u0017 (Praktikumsraum)"
       subtext: "garching-hochbrück, Schleißheimerstr. 90a"
       subtext_bold: 0.019@8111
-    - kind: location
-      id: 1548.01.019
+    - id: 1548.01.019
       type: room
       name: "1548.01.\u0019019\u0017 (Seminarraum)"
       subtext: "mri, Bau 548"
       subtext_bold: 48.1.19@1548
-    - kind: location
-      id: 1713.U2.019
+    - id: 1713.U2.019
       type: room
       name: "1713.U2.\u0019019\u0017 (Intensiv)"
       subtext: "mri, Bau 713"
       subtext_bold: 713.02.19@1713
-    - kind: location
-      id: 4220.01.019
+    - id: 4220.01.019
       type: room
       name: "4220.01.\u0019019\u0017 (Gruppenarbeitsraum)"
       subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"

@@ -5,8 +5,7 @@ expression: results.0
 ---
 - facet: lectures
   entries:
-    - kind: lecture
-      id: lecture_db2d1afb6ae25e08
+    - id: lecture_db2d1afb6ae25e08
       type: lecture
       name: "\u0019Quantenfeldtheorie\u0017 im Teststand"
       subtext: Vorlesung

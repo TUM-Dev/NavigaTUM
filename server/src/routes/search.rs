@@ -217,7 +217,7 @@ impl Debug for SearchResponse {
         let mut base = f.debug_struct("SearchResponse");
         base.field("time_ms", &self.time_ms);
         for section in &self.sections {
-            match section.facet {
+            match section.facet() {
                 ResultFacet::Sites => {
                     base.field("sites", section);
                 }

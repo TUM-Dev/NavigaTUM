@@ -6,62 +6,52 @@ info: "'Raum 0337 mw' should get '5503.EG.337' in 1 results"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5503.EG.337
+    - id: 5503.EG.337
       type: room
       name: 5503.EG.337 (Seminarraum)
       subtext: "garching, MW"
       subtext_bold: 0337@5503
-    - kind: location
-      id: 0503.EG.337
+    - id: 0503.EG.337
       type: room
       name: 0503.EG.337 (Büro)
       subtext: "stammgelände, Z3"
       subtext_bold: 0337@0503
-    - kind: location
-      id: 2334.EG.128
+    - id: 2334.EG.128
       type: room
       name: 2334.EG.128 ((34.0.337) Büro)
       subtext: "sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 00.2334.128@2334
-    - kind: location
-      id: 0509.EG.980
+    - id: 0509.EG.980
       type: room
       name: "0509.EG.980 (Audimax, Werner-von-Siemens-Hörsaal)"
       subtext: "stammgelände, Wienandsbau"
       subtext_bold: 0980@0509
-    - kind: location
-      id: 8120.EG.001
+    - id: 8120.EG.001
       type: room
       name: 8120.EG.001 (Hörsaal im Galileo)
       subtext: "garching, Galileo"
       subtext_bold: Hörsaal@8120
-    - kind: location
-      id: 8120.01.101
+    - id: 8120.01.101
       type: room
       name: 8120.01.101 (Audimax im Galileo)
       subtext: "garching, Galileo"
       subtext_bold: Audimax@8120
-    - kind: location
-      id: 0101.02.179
+    - id: 0101.02.179
       type: room
       name: 0101.02.179 (Wilhelm-Nusselt-Hörsaal)
       subtext: "stammgelände, N1"
       subtext_bold: N1179@0101
-    - kind: location
-      id: 0101.02.189
+    - id: 0101.02.189
       type: room
       name: 0101.02.189 (Hans-Piloty-Hörsaal)
       subtext: "stammgelände, N1"
       subtext_bold: N1189@0101
-    - kind: location
-      id: 0101.02.190
+    - id: 0101.02.190
       type: room
       name: 0101.02.190 (Hans-Heinrich-Meinke-Hörsaal)
       subtext: "stammgelände, N1"
       subtext_bold: N1190@0101
-    - kind: location
-      id: 0101.Z1.070
+    - id: 0101.Z1.070
       type: room
       name: 0101.Z1.070 (Lothar-Rohde-Hörsaal)
       subtext: "stammgelände, N1"
@@ -70,8 +60,7 @@ info: "'Raum 0337 mw' should get '5503.EG.337' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - kind: location
-      id: "0109"
+    - id: "0109"
       type: building
       name: "Reflexionsarmer \u0019Raum\u0017"
       subtext: Gebäude

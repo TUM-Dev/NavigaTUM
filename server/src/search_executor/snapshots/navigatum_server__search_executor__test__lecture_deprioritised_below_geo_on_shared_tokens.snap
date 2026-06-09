@@ -6,8 +6,7 @@ info: q=Quantenrobotik Praktikum
 ---
 - facet: buildings
   entries:
-    - kind: location
-      id: QRZ
+    - id: QRZ
       type: building
       name: "\u0019Quantenrobotik\u0017"
       subtext: Gebäude
@@ -15,8 +14,7 @@ info: q=Quantenrobotik Praktikum
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: lectures
   entries:
-    - kind: lecture
-      id: lecture_testfixture0001
+    - id: lecture_testfixture0001
       type: lecture
       name: "\u0019Quantenrobotik\u0017 \u0019Praktikum\u0017"
       subtext: Vorlesung

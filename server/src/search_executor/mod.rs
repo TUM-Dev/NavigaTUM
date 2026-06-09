@@ -17,8 +17,10 @@ mod lexer;
 mod merger;
 mod parser;
 
-#[derive(Serialize, Clone, Copy, utoipa::ToSchema, Debug, PartialEq, Eq)]
-#[serde(rename_all = "snake_case")]
+/// The facet a [`ResultsSection`] groups - its identity in the merge ordering
+/// and the discriminator serialized as the section's `facet` tag. Internal; the
+/// wire form is generated from the [`ResultsSection`] variants.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ResultFacet {
     Sites,
     Buildings,
@@ -28,11 +30,87 @@ pub enum ResultFacet {
     Addresses,
 }
 
+/// A location-like search result: a site, building, room, POI, or address.
+///
+/// Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
+/// make sense for locations; lectures use [`LectureEntry`] instead.
+#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
+pub struct LocationEntry {
+    /// The originating meilisearch hit, kept around so the room formatter can
+    /// enrich `parsed_id`/`subtext` after merging. Never serialized. Boxed to
+    /// keep this struct from dwarfing the lecture one (the hit is bulky and
+    /// out-of-band).
+    #[serde(skip)]
+    hit: Box<MSHit>,
+    /// The id of the location
+    #[schema(example = "5510.03.002")]
+    id: String,
+    /// the type of the site/building
+    #[schema(example = "room")]
+    r#type: String,
+    /// The display name of the result. Supports highlighting.
+    #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
+    name: String,
+    /// Subtext to show below the search result.
+    ///
+    /// Usually contains the context of where this rooms is located in.
+    /// Currently not highlighted.
+    #[schema(example = "Maschinenwesen (MW)")]
+    subtext: String,
+    /// Subtext to show below the search (by default in bold and after the non-bold subtext).
+    ///
+    /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[schema(example = "3002@5510")]
+    subtext_bold: Option<String>,
+    /// This is an optional feature, that is only supported for some rooms.
+    ///
+    /// It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+    /// See the image below for an example.
+    /// It will be cropped to a maximum length to not take too much space in UIs.
+    /// Supports highlighting.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parsed_id: Option<String>,
+}
+
+/// A lecture search result, carrying its bilingual titles and upcoming occurrences.
+#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
+pub struct LectureEntry {
+    /// The id of the lecture
+    #[schema(example = "lecture_5f2c…")]
+    id: String,
+    /// the type of the result; always `lecture` for this variant
+    #[schema(example = "lecture")]
+    r#type: String,
+    /// The display name of the result. Supports highlighting.
+    #[schema(example = "Einführung in die Informatik 1")]
+    name: String,
+    /// Subtext to show below the search result.
+    ///
+    /// Carries the human `stp_type` label (e.g. "Vorlesung").
+    #[schema(example = "Vorlesung")]
+    subtext: String,
+    /// The German title of the lecture.
+    #[schema(example = "Einführung in die Informatik 1")]
+    title_de: String,
+    /// The English title of the lecture.
+    #[schema(example = "Introduction to Informatics 1")]
+    title_en: String,
+    /// The next time this lecture takes place, as an RFC 3339 timestamp.
+    #[schema(example = "2024-10-15T08:00:00Z")]
+    next_occurrence_at: DateTime<Utc>,
+    /// The upcoming occurrences of this lecture, in chronological order.
+    ///
+    /// The first element's `start_at` matches `next_occurrence_at`. The list is
+    /// capped at whichever covers more events: the next 10 occurrences or those
+    /// within a 14-day window.
+    upcoming: Vec<UpcomingEvent>,
+}
+
+/// A section of location-like results (sites, buildings, rooms, POIs, addresses).
 #[derive(Serialize, Clone, utoipa::ToSchema)]
-pub struct ResultsSection {
-    /// These indicate the type of item this represents
-    pub(crate) facet: ResultFacet,
-    entries: Vec<ResultEntry>,
+pub struct LocationSection {
+    entries: Vec<LocationEntry>,
     /// A recommendation how many of the entries should be displayed by default.
     ///
     /// The number is usually from `0`..`5`.
@@ -45,163 +123,131 @@ pub struct ResultsSection {
     estimated_total_hits: usize,
 }
 
+/// A section of lecture results.
+#[derive(Serialize, Clone, utoipa::ToSchema)]
+pub struct LectureSection {
+    entries: Vec<LectureEntry>,
+    /// A recommendation how many of the entries should be displayed by default.
+    ///
+    /// The number is usually from `0`..`5`.
+    /// More results might be displayed when clicking "expand".
+    #[schema(example = 4)]
+    n_visible: usize,
+    /// The estimated (not exact) number of hits for that query
+    #[serde(rename = "estimatedTotalHits")]
+    #[schema(example = 6)]
+    estimated_total_hits: usize,
+}
+
+/// One section of search results, grouped by facet.
+///
+/// The `facet` is the discriminator: the five location facets (sites, buildings,
+/// rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
+/// room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
+/// with their bilingual titles and upcoming occurrences. Tagging the section by
+/// `facet` means a consumer narrows once on the discriminator it already needs
+/// for the section header and then sees exactly the entry shape that facet
+/// carries - instead of a redundant per-entry `kind` repeated on every hit.
+#[derive(Serialize, Clone, utoipa::ToSchema)]
+#[serde(tag = "facet", rename_all = "snake_case")]
+pub enum ResultsSection {
+    Sites(LocationSection),
+    Buildings(LocationSection),
+    Rooms(LocationSection),
+    Pois(LocationSection),
+    Addresses(LocationSection),
+    Lectures(LectureSection),
+}
+
+impl ResultsSection {
+    /// The facet this section groups.
+    pub(crate) fn facet(&self) -> ResultFacet {
+        match self {
+            Self::Sites(_) => ResultFacet::Sites,
+            Self::Buildings(_) => ResultFacet::Buildings,
+            Self::Rooms(_) => ResultFacet::Rooms,
+            Self::Pois(_) => ResultFacet::Pois,
+            Self::Addresses(_) => ResultFacet::Addresses,
+            Self::Lectures(_) => ResultFacet::Lectures,
+        }
+    }
+}
+
 impl Debug for ResultsSection {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let mut base = f.debug_set();
-        for i in 0..=3 {
-            if let Some(e) = self.entries.get(i) {
-                base.entry(e);
-            }
+        match self {
+            Self::Sites(b)
+            | Self::Buildings(b)
+            | Self::Rooms(b)
+            | Self::Pois(b)
+            | Self::Addresses(b) => f
+                .debug_tuple(&format!("{:?}", self.facet()))
+                .field(&TruncatedEntries(&b.entries))
+                .finish(),
+            Self::Lectures(b) => f
+                .debug_tuple("Lectures")
+                .field(&TruncatedEntries(&b.entries))
+                .finish(),
         }
-        if self.entries.len() > 3 {
+    }
+}
+
+/// Renders at most the first four entries of a section, eliding the tail, to
+/// keep `Debug` output (used in tracing) from dumping large result sets.
+struct TruncatedEntries<'a, E>(&'a [E]);
+
+impl<E: Debug> Debug for TruncatedEntries<'_, E> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let mut base = f.debug_set();
+        for entry in self.0.iter().take(4) {
+            base.entry(entry);
+        }
+        if self.0.len() > 3 {
             base.entry(&"...");
         }
         base.finish()
     }
 }
 
-/// A single search result.
-///
-/// The `entries` index mixes location-like hits (sites, buildings, rooms, POIs,
-/// and Nominatim addresses) with lectures, which share an id/name/subtext header
-/// but diverge in their tail: only locations carry the room-id formatting fields,
-/// only lectures carry the bilingual titles and upcoming occurrences. The two are
-/// modeled as a discriminated union keyed by `kind` so a consumer narrows once on
-/// the discriminator and then sees exactly the fields its variant carries -
-/// instead of every field being optional and the invariant living in prose.
-#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
-#[serde(tag = "kind", rename_all = "snake_case")]
-enum ResultEntry {
-    /// A location-like result: a site, building, room, POI, or address.
-    Location {
-        /// The originating meilisearch hit, kept around so the room formatter can
-        /// enrich `parsed_id`/`subtext` after merging. Never serialized. Boxed to
-        /// keep this variant from dwarfing the lecture one (the hit is bulky and
-        /// out-of-band).
-        #[serde(skip)]
-        hit: Box<MSHit>,
-        /// The id of the location
-        #[schema(example = "5510.03.002")]
-        id: String,
-        /// the type of the site/building
-        #[schema(example = "room")]
-        r#type: String,
-        /// The display name of the result. Supports highlighting.
-        #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
-        name: String,
-        /// Subtext to show below the search result.
-        ///
-        /// Usually contains the context of where this rooms is located in.
-        /// Currently not highlighted.
-        #[schema(example = "Maschinenwesen (MW)")]
-        subtext: String,
-        /// Subtext to show below the search (by default in bold and after the non-bold subtext).
-        ///
-        /// Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
-        #[serde(skip_serializing_if = "Option::is_none")]
-        #[schema(example = "3002@5510")]
-        subtext_bold: Option<String>,
-        /// This is an optional feature, that is only supported for some rooms.
-        ///
-        /// It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
-        /// See the image below for an example.
-        /// It will be cropped to a maximum length to not take too much space in UIs.
-        /// Supports highlighting.
-        #[serde(skip_serializing_if = "Option::is_none")]
-        parsed_id: Option<String>,
-    },
-    /// A lecture result, carrying its bilingual titles and upcoming occurrences.
-    Lecture {
-        /// The id of the lecture
-        #[schema(example = "lecture_5f2c…")]
-        id: String,
-        /// the type of the result; always `lecture` for this variant
-        #[schema(example = "lecture")]
-        r#type: String,
-        /// The display name of the result. Supports highlighting.
-        #[schema(example = "Einführung in die Informatik 1")]
-        name: String,
-        /// Subtext to show below the search result.
-        ///
-        /// Carries the human `stp_type` label (e.g. "Vorlesung").
-        #[schema(example = "Vorlesung")]
-        subtext: String,
-        /// The German title of the lecture.
-        #[schema(example = "Einführung in die Informatik 1")]
-        title_de: String,
-        /// The English title of the lecture.
-        #[schema(example = "Introduction to Informatics 1")]
-        title_en: String,
-        /// The next time this lecture takes place, as an RFC 3339 timestamp.
-        #[schema(example = "2024-10-15T08:00:00Z")]
-        next_occurrence_at: DateTime<Utc>,
-        /// The upcoming occurrences of this lecture, in chronological order.
-        ///
-        /// The first element's `start_at` matches `next_occurrence_at`. The list is
-        /// capped at whichever covers more events: the next 10 occurrences or those
-        /// within a 14-day window.
-        upcoming: Vec<UpcomingEvent>,
-    },
-}
-
-/// Field accessors used by the search tests, which assert against entries
-/// without caring which variant they landed in. Production code matches on the
-/// variant directly, so these are test-only.
+/// Section accessors used by the search tests, which reach for a particular
+/// facet's section and its concretely-typed entries. Production code matches on
+/// the variant directly, so these are test-only.
 #[cfg(test)]
-impl ResultEntry {
-    /// The id of the result, regardless of variant.
-    fn id(&self) -> &str {
+impl ResultsSection {
+    /// The rooms section's body, if this is the rooms section.
+    fn rooms(&self) -> Option<&LocationSection> {
         match self {
-            Self::Location { id, .. } | Self::Lecture { id, .. } => id,
+            Self::Rooms(s) => Some(s),
+            _ => None,
         }
     }
-    /// The display name of the result, regardless of variant.
-    fn name(&self) -> &str {
+    /// The lectures section's body, if this is the lectures section.
+    fn lectures(&self) -> Option<&LectureSection> {
         match self {
-            Self::Location { name, .. } | Self::Lecture { name, .. } => name,
+            Self::Lectures(s) => Some(s),
+            _ => None,
         }
     }
-    /// The subtext of the result, regardless of variant.
-    fn subtext(&self) -> &str {
+    /// Whether this section has no entries.
+    fn is_empty(&self) -> bool {
         match self {
-            Self::Location { subtext, .. } | Self::Lecture { subtext, .. } => subtext,
+            Self::Sites(b)
+            | Self::Buildings(b)
+            | Self::Rooms(b)
+            | Self::Pois(b)
+            | Self::Addresses(b) => b.entries.is_empty(),
+            Self::Lectures(b) => b.entries.is_empty(),
         }
     }
-    /// The formatted room id, present only on location variants that carry one.
-    fn parsed_id(&self) -> Option<&str> {
+    /// The ids of every entry in this section, regardless of facet.
+    fn entry_ids(&self) -> Vec<&str> {
         match self {
-            Self::Location { parsed_id, .. } => parsed_id.as_deref(),
-            Self::Lecture { .. } => None,
-        }
-    }
-    /// The German lecture title, present only on the lecture variant.
-    fn title_de(&self) -> Option<&str> {
-        match self {
-            Self::Lecture { title_de, .. } => Some(title_de),
-            Self::Location { .. } => None,
-        }
-    }
-    /// The English lecture title, present only on the lecture variant.
-    fn title_en(&self) -> Option<&str> {
-        match self {
-            Self::Lecture { title_en, .. } => Some(title_en),
-            Self::Location { .. } => None,
-        }
-    }
-    /// The next occurrence of the lecture, present only on the lecture variant.
-    fn next_occurrence_at(&self) -> Option<DateTime<Utc>> {
-        match self {
-            Self::Lecture {
-                next_occurrence_at, ..
-            } => Some(*next_occurrence_at),
-            Self::Location { .. } => None,
-        }
-    }
-    /// The upcoming occurrences of the lecture, present only on the lecture variant.
-    fn upcoming(&self) -> Option<&[UpcomingEvent]> {
-        match self {
-            Self::Lecture { upcoming, .. } => Some(upcoming),
-            Self::Location { .. } => None,
+            Self::Sites(b)
+            | Self::Buildings(b)
+            | Self::Rooms(b)
+            | Self::Pois(b)
+            | Self::Addresses(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
+            Self::Lectures(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
         }
     }
 }
@@ -216,13 +262,12 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
         }
     };
     let num_results = results.len();
-    let section = ResultsSection {
-        facet: ResultFacet::Addresses,
+    let section = ResultsSection::Addresses(LocationSection {
         entries: results
             .into_iter()
             .map(|r| {
                 let subtext = r.address.serialise();
-                ResultEntry::Location {
+                LocationEntry {
                     hit: Box::new(MSHit::default()),
                     id: format!("osm_{}", r.osm_id),
                     r#type: r.address_type,
@@ -235,7 +280,7 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
             .collect(),
         n_visible: num_results.min(15),
         estimated_total_hits: num_results,
-    };
+    });
     LimitedVec::from(vec![section])
 }
 
@@ -304,11 +349,11 @@ pub async fn do_geoentry_search(
     // ranked Meilisearch hits (so a facet whose top hit is more relevant
     // ranks above one whose top hit is weaker). Empty sections trail at the
     // end so the caller can still observe `estimated_total_hits`.
-    let mut sites_opt = Some(section_sites);
-    let mut buildings_opt = Some(section_buildings);
-    let mut rooms_opt = Some(section_rooms);
-    let mut pois_opt = Some(section_pois);
-    let mut lectures_opt = Some(section_lectures);
+    let mut sites_opt = Some(ResultsSection::Sites(section_sites));
+    let mut buildings_opt = Some(ResultsSection::Buildings(section_buildings));
+    let mut rooms_opt = Some(ResultsSection::Rooms(section_rooms));
+    let mut pois_opt = Some(ResultsSection::Pois(section_pois));
+    let mut lectures_opt = Some(ResultsSection::Lectures(section_lectures));
 
     let mut sections: Vec<ResultsSection> = Vec::with_capacity(5);
     for facet in &facet_order {
@@ -365,8 +410,11 @@ mod test {
         }
         fn actual_matches_among(&self, actual: &[ResultsSection]) -> bool {
             let among = self.among.unwrap_or(1);
-            let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
-            acceptable_range.any(|r| r.id() == self.target)
+            let mut acceptable_range = actual
+                .iter()
+                .flat_map(ResultsSection::entry_ids)
+                .take(among);
+            acceptable_range.any(|id| id == self.target.as_str())
         }
         async fn search(&self, client: &Client) -> Vec<ResultsSection> {
             do_geoentry_search(
@@ -501,13 +549,13 @@ mod test {
         let rooms_with_crop = results_cropping
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for cropping=CROP test query");
 
         let rooms_without_crop = results_no_cropping
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for cropping=FULL test query");
 
         assert!(
@@ -523,14 +571,14 @@ mod test {
         let mut ids_cropped: Vec<(&str, Option<&str>)> = rooms_with_crop
             .entries
             .iter()
-            .map(|e| (e.id(), e.parsed_id()))
+            .map(|e| (e.id.as_str(), e.parsed_id.as_deref()))
             .collect();
         ids_cropped.sort_by(|a, b| a.0.cmp(b.0));
 
         let mut ids_full: Vec<(&str, Option<&str>)> = rooms_without_crop
             .entries
             .iter()
-            .map(|e| (e.id(), e.parsed_id()))
+            .map(|e| (e.id.as_str(), e.parsed_id.as_deref()))
             .collect();
         ids_full.sort_by(|a, b| a.0.cmp(b.0));
 
@@ -588,7 +636,7 @@ mod test {
         let room_section = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for Roomfinder mode test");
 
         assert!(
@@ -598,7 +646,8 @@ mod test {
 
         for entry in &room_section.entries {
             let pid = entry
-                .parsed_id()
+                .parsed_id
+                .as_deref()
                 .expect("Expected parsed_id to be present in Roomfinder mode");
 
             assert!(
@@ -646,7 +695,7 @@ mod test {
         let room_section = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for highlighting test");
 
         assert!(
@@ -656,10 +705,11 @@ mod test {
 
         let has_custom_highlighting = room_section.entries.iter().any(|e| {
             let in_parsed_id = e
-                .parsed_id()
+                .parsed_id
+                .as_deref()
                 .is_some_and(|p| p.contains("<em>") || p.contains("</em>"));
 
-            let in_name = e.name().contains("<em>") || e.name().contains("</em>");
+            let in_name = e.name.contains("<em>") || e.name.contains("</em>");
 
             in_parsed_id || in_name
         });
@@ -730,7 +780,7 @@ mod test {
             let rooms_prefixed = results_prefixed
                 .0
                 .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Rooms))
+                .find_map(ResultsSection::rooms)
                 .expect("Expected a Rooms section for prefixed mode");
 
             assert!(
@@ -742,7 +792,7 @@ mod test {
             // (it depends on query parsing and hit metadata). But if it *is* present, it must not
             // look like a raw Roomfinder arch name (arch_id@building_id).
             for entry in &rooms_prefixed.entries {
-                if let Some(pid) = entry.parsed_id() {
+                if let Some(pid) = entry.parsed_id.as_deref() {
                     assert!(
                         !pid.contains('@'),
                         "Expected prefixed parsed_id to not contain '@' for query '{query}', got: {pid}"
@@ -753,7 +803,7 @@ mod test {
             let rooms_roomfinder = results_roomfinder
                 .0
                 .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Rooms))
+                .find_map(ResultsSection::rooms)
                 .expect("Expected a Rooms section for roomfinder mode");
 
             assert!(
@@ -766,7 +816,7 @@ mod test {
             let has_raw_archname_format = rooms_roomfinder
                 .entries
                 .iter()
-                .any(|e| e.parsed_id().is_some_and(|p| p.contains('@')));
+                .any(|e| e.parsed_id.as_deref().is_some_and(|p| p.contains('@')));
 
             assert!(
                 has_raw_archname_format,
@@ -840,13 +890,13 @@ mod test {
         let rooms_cropped = results_cropped
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for cropping=CROP");
 
         let rooms_full = results_full
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Rooms))
+            .find_map(ResultsSection::rooms)
             .expect("Expected a Rooms section for cropping=FULL");
 
         assert!(
@@ -862,14 +912,14 @@ mod test {
         let mut cropped: Vec<(&str, Option<&str>)> = rooms_cropped
             .entries
             .iter()
-            .map(|e| (e.id(), e.parsed_id()))
+            .map(|e| (e.id.as_str(), e.parsed_id.as_deref()))
             .collect();
         cropped.sort_by(|a, b| a.0.cmp(b.0));
 
         let mut full: Vec<(&str, Option<&str>)> = rooms_full
             .entries
             .iter()
-            .map(|e| (e.id(), e.parsed_id()))
+            .map(|e| (e.id.as_str(), e.parsed_id.as_deref()))
             .collect();
         full.sort_by(|a, b| a.0.cmp(b.0));
 
@@ -963,29 +1013,27 @@ mod test {
         let lectures = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Lectures))
+            .find_map(ResultsSection::lectures)
             .expect("expected a Lectures section for a lecture-title query");
         let top = lectures
             .entries
             .first()
             .expect("expected at least one lecture entry");
-        assert_eq!(top.id(), "lecture_testfixture0001");
-        assert_eq!(top.title_de(), Some("Grundlagen der Navigatumlehre"));
-        assert_eq!(top.title_en(), Some("Foundations of Navigatum Teaching"));
+        assert_eq!(top.id, "lecture_testfixture0001");
+        assert_eq!(top.title_de, "Grundlagen der Navigatumlehre");
+        assert_eq!(top.title_en, "Foundations of Navigatum Teaching");
         assert_eq!(
-            top.next_occurrence_at(),
-            Some("2024-10-15T08:00:00Z".parse().unwrap())
+            top.next_occurrence_at,
+            "2024-10-15T08:00:00Z".parse::<DateTime<Utc>>().unwrap()
         );
         // The human `stp_type` label is surfaced as the subtext.
-        assert_eq!(top.subtext(), "Vorlesung");
+        assert_eq!(top.subtext, "Vorlesung");
         // The upcoming occurrences ride along, room names resolved, with the
         // first element's start matching `next_occurrence_at`.
-        let upcoming = top
-            .upcoming()
-            .expect("a lecture entry carries its upcoming occurrences");
+        let upcoming = &top.upcoming;
         assert_eq!(upcoming.len(), 2);
         let first = upcoming.first().unwrap();
-        assert_eq!(first.start_at, top.next_occurrence_at().unwrap());
+        assert_eq!(first.start_at, top.next_occurrence_at);
         assert_eq!(first.room_code, "5606.EG.011");
         assert_eq!(first.room_name, "Testhörsaal");
 
@@ -1073,7 +1121,7 @@ mod test {
             results
                 .0
                 .iter()
-                .position(|s| s.facet == facet && !s.entries.is_empty())
+                .position(|s| s.facet() == facet && !s.is_empty())
         };
         let buildings_at = position(ResultFacet::Buildings)
             .expect("expected a non-empty Buildings section for the shared-token query");
@@ -1217,7 +1265,7 @@ mod test {
         let lectures = results
             .0
             .iter()
-            .find(|s| matches!(s.facet, ResultFacet::Lectures))
+            .find_map(ResultsSection::lectures)
             .expect("the derived lecture should surface in a Lectures section");
         assert_eq!(
             lectures.entries.len(),
@@ -1225,18 +1273,16 @@ mod test {
             "the two future occurrences collapse into one lecture identity"
         );
         let top = lectures.entries.first().unwrap();
-        assert!(top.id().starts_with("lecture_"), "got id {}", top.id());
-        assert_eq!(top.title_de(), Some("Quantenfeldtheorie im Teststand"));
-        assert_eq!(top.title_en(), Some("Quantum Field Theory on a Test Bench"));
-        assert_eq!(top.subtext(), "Vorlesung");
+        assert!(top.id.starts_with("lecture_"), "got id {}", top.id);
+        assert_eq!(top.title_de, "Quantenfeldtheorie im Teststand");
+        assert_eq!(top.title_en, "Quantum Field Theory on a Test Bench");
+        assert_eq!(top.subtext, "Vorlesung");
         // The earliest *future* occurrence wins; the past row is excluded.
-        assert_eq!(top.next_occurrence_at(), Some(at(3_600)));
+        assert_eq!(top.next_occurrence_at, at(3_600));
         // Both future occurrences are materialised in chronological order with
         // the hosting room's display name resolved; the past row is dropped and
         // the first occurrence agrees with `next_occurrence_at`.
-        let upcoming = top
-            .upcoming()
-            .expect("the derived lecture carries its upcoming occurrences");
+        let upcoming = &top.upcoming;
         assert_eq!(
             upcoming.len(),
             2,
@@ -1297,7 +1343,7 @@ mod test {
             after
                 .0
                 .iter()
-                .find(|s| matches!(s.facet, ResultFacet::Lectures))
+                .find_map(ResultsSection::lectures)
                 .is_none_or(|s| s.entries.is_empty()),
             "the lecture must be gone once its calendar rows are deleted"
         );

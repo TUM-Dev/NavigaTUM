@@ -6,68 +6,58 @@ info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be pr
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5111.01.116
+    - id: 5111.01.116
       type: room
       name: 5111.01.116 (Seminarraum)
       subtext: "garching, Siedlungswasserwirtschaft"
       subtext_bold: 1116@5111
       parsed_id: "\u00191116\u0017 Siedlungswasserwirtschaft"
-    - kind: location
-      id: 2910.02.255
+    - id: 2910.02.255
       type: room
       name: "2910.02.255 (Büro (gem. Nutzung \u00191116\u0017010400 + \u00191116\u0017010500))"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: B.255@2910
-    - kind: location
-      id: 0401.01.116
+    - id: 0401.01.116
       type: room
       name: 0401.01.116 (Büro)
       subtext: "stammgelände, SW1"
       subtext_bold: 1116@0401
       parsed_id: "\u00191116\u0017 SW1"
-    - kind: location
-      id: 0205.01.116
+    - id: 0205.01.116
       type: room
       name: 0205.01.116 (Lager)
       subtext: "stammgelände, S5"
       subtext_bold: 1116@0205
       parsed_id: "\u00191116\u0017 S5"
-    - kind: location
-      id: 5111.U1.116
+    - id: 5111.U1.116
       type: room
       name: 5111.U1.116 (Glas u. brennbare Stoffe)
       subtext: "garching, Siedlungswasserwirtschaft"
       subtext_bold: "-1116@5111"
-    - kind: location
-      id: 5401.EG.116A
+    - id: 5401.EG.116A
       type: room
       name: 5401.EG.116A (Heizraum)
       subtext: "garching, Chemie"
       subtext_bold: 11160@5401
       parsed_id: "CH \u00191116\u00170"
-    - kind: location
-      id: 5401.EG.116B
+    - id: 5401.EG.116B
       type: room
       name: 5401.EG.116B (Flur)
       subtext: "garching, Chemie"
       subtext_bold: 11165@5401
       parsed_id: "CH \u00191116\u00175"
-    - kind: location
-      id: 5401.EG.116C
+    - id: 5401.EG.116C
       type: room
       name: 5401.EG.116C (Flur)
       subtext: "garching, Chemie"
       subtext_bold: 11166@5401
       parsed_id: "CH \u00191116\u00176"
-    - kind: location
-      id: 0101.01.116
+    - id: 0101.01.116
       type: room
       name: 0101.01.116 (Drucker)
       subtext: "stammgelände, N1"
       subtext_bold: N1116@0101
-    - kind: location
-      id: 2315.01.116
+    - id: 2315.01.116
       type: room
       name: 2315.01.116 (Biochemisches Labor)
       subtext: "sz, Präventionszentrum"

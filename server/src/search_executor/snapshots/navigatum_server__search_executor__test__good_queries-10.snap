@@ -6,8 +6,7 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
 ---
 - facet: sites
   entries:
-    - kind: location
-      id: wzw-ziel
+    - id: wzw-ziel
       type: area
       name: "\u0019ZIEL\u0017 - Institute for Food & Health"
       subtext: Gebiet / Gruppe von Gebäuden
@@ -15,18 +14,15 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - kind: location
-      id: "4224"
+    - id: "4224"
       type: building
       name: "\u0019ZIEL\u0017 IV - Biowissenschaften"
       subtext: Gebäude
-    - kind: location
-      id: "4124"
+    - id: "4124"
       type: building
       name: "Molekulare Biowissenschaften (\u0019ZIEL\u0017 II)"
       subtext: Gebäude
-    - kind: location
-      id: "4126"
+    - id: "4126"
       type: building
       name: "\u0019ZIEL\u0017 I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext: Gebäude
@@ -34,38 +30,32 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - kind: location
-      id: 4126.01.609B
+    - id: 4126.01.609B
       type: room
       name: 4126.01.609B (Seminarraum 14 (WZWS14))
       subtext: "weihenstephan, ZIEL I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext_bold: O.09 a/b@4126
-    - kind: location
-      id: 4126.U1.610B
+    - id: 4126.U1.610B
       type: room
       name: 4126.U1.610B (Seminarraum (gem. Nutzung 1124302030;11243)
       subtext: "weihenstephan, ZIEL I - Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext_bold: U 10/2@4126
-    - kind: location
-      id: 4224.01.148
+    - id: 4224.01.148
       type: room
       name: 4224.01.148 (Seminarraum 51 (WZWS51))
       subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
       subtext_bold: 1.48@4224
-    - kind: location
-      id: 4224.02.234
+    - id: 4224.02.234
       type: room
       name: 4224.02.234 (Seminarraum 52 (WZWS52) (gem. Nutzung))
       subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
       subtext_bold: 2.34@4224
-    - kind: location
-      id: 4224.02.298
+    - id: 4224.02.298
       type: room
       name: 4224.02.298 (Seminarraum 53 (WZWS53))
       subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
       subtext_bold: 2.98@4224
-    - kind: location
-      id: 4224.EG.001
+    - id: 4224.EG.001
       type: room
       name: 4224.EG.001 (Studienraum)
       subtext: "weihenstephan, ZIEL IV - Biowissenschaften"

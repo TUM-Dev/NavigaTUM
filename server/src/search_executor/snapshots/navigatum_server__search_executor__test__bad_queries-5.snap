@@ -6,62 +6,52 @@ info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 's
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 2906.01.025
+    - id: 2906.01.025
       type: room
       name: 2906.01.025 (Karlstraße-Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 1025@2906
-    - kind: location
-      id: 2906.02.026
+    - id: 2906.02.026
       type: room
       name: 2906.02.026 (Karlstraße-Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 2026@2906
-    - kind: location
-      id: 2906.03.001
+    - id: 2906.03.001
       type: room
       name: 2906.03.001 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 3001@2906
-    - kind: location
-      id: 2906.04.002
+    - id: 2906.04.002
       type: room
       name: 2906.04.002 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 4002@2906
-    - kind: location
-      id: 2906.04.004
+    - id: 2906.04.004
       type: room
       name: 2906.04.004 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 4004@2906
-    - kind: location
-      id: 2906.04.006
+    - id: 2906.04.006
       type: room
       name: 2906.04.006 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 4006@2906
-    - kind: location
-      id: 2906.04.010
+    - id: 2906.04.010
       type: room
       name: 2906.04.010 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 4010@2906
-    - kind: location
-      id: 2906.05.001
+    - id: 2906.05.001
       type: room
       name: 2906.05.001 (Unterrichtsraum)
       subtext: Karlstraße 45/47
       subtext_bold: 5001@2906
-    - kind: location
-      id: 2906.DG.009
+    - id: 2906.DG.009
       type: room
       name: 2906.DG.009 (Seminarraum)
       subtext: Karlstraße 45/47
       subtext_bold: 6009@2906
-    - kind: location
-      id: 2906.02.013
+    - id: 2906.02.013
       type: room
       name: 2906.02.013 (Elektroniklabor)
       subtext: Karlstraße 45/47

@@ -44,9 +44,8 @@ export function extractFacets(
     }
     const entries: EntryFacet[] = [];
     for (const entry of section.entries) {
-      // The geo facets never carry lectures, so every entry is a location;
-      // the guard narrows the union to the variant holding subtext_bold/parsed_id.
-      if (entry.kind !== "location") continue;
+      // Narrowing `section.facet` to a geo facet above already types every
+      // entry as a `LocationEntry` carrying subtext_bold/parsed_id.
       entries.push({
         id: entry.id,
         name: _allowHighlighting(entry.name),

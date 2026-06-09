@@ -6,8 +6,7 @@ info: "'znn' should get '5115' in 1 results # '5115' (ZNN) no longer surfaces in
 ---
 - facet: buildings
   entries:
-    - kind: location
-      id: "5116"
+    - id: "5116"
       type: building
       name: "Trafostation des \u0019ZNN\u0017"
       subtext: Gebäude
@@ -15,56 +14,47 @@ info: "'znn' should get '5115' in 1 results # '5115' (ZNN) no longer surfaces in
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - kind: location
-      id: 5115.EG.001
+    - id: 5115.EG.001
       type: room
       name: 5115.EG.001 (Seminarraum)
       subtext: "garching, ZNN"
       subtext_bold: 0.001@5115
-    - kind: location
-      id: 5115.01.008
+    - id: 5115.01.008
       type: room
       name: 5115.01.008 (Kopierraum)
       subtext: "garching, ZNN"
       subtext_bold: 1.008@5115
-    - kind: location
-      id: 5115.01.011
+    - id: 5115.01.011
       type: room
       name: 5115.01.011 (Chemie Labor)
       subtext: "garching, ZNN"
       subtext_bold: 1.011@5115
-    - kind: location
-      id: 5115.01.011A
+    - id: 5115.01.011A
       type: room
       name: 5115.01.011A (Chemie Labor)
       subtext: "garching, ZNN"
       subtext_bold: 1.011A@5115
-    - kind: location
-      id: 5115.01.019
+    - id: 5115.01.019
       type: room
       name: 5115.01.019 (Spektroskopie)
       subtext: "garching, ZNN"
       subtext_bold: 1.019@5115
-    - kind: location
-      id: 5115.01.020
+    - id: 5115.01.020
       type: room
       name: 5115.01.020 (Spektroskopie)
       subtext: "garching, ZNN"
       subtext_bold: 1.020@5115
-    - kind: location
-      id: 5115.01.021
+    - id: 5115.01.021
       type: room
       name: 5115.01.021 (Spektroskopie)
       subtext: "garching, ZNN"
       subtext_bold: 1.021@5115
-    - kind: location
-      id: 5115.01.022
+    - id: 5115.01.022
       type: room
       name: 5115.01.022 (Technik)
       subtext: "garching, ZNN"
       subtext_bold: 1.022@5115
-    - kind: location
-      id: 5115.02.008
+    - id: 5115.02.008
       type: room
       name: 5115.02.008 (Kopierraum)
       subtext: "garching, ZNN"

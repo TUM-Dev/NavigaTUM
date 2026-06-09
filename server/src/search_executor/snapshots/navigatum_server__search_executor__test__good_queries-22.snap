@@ -6,8 +6,7 @@ info: "'mössbauer' should get '5101.EG.501' in 1 results"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5101.EG.501
+    - id: 5101.EG.501
       type: room
       name: "5101.EG.501 (Rudolf-\u0019Mößbauer\u0017-Hörsaal)"
       subtext: "garching, Physik I"

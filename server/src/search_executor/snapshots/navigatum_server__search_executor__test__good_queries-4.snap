@@ -6,8 +6,7 @@ info: "'5301' should get '5301' in 1 results"
 ---
 - facet: buildings
   entries:
-    - kind: location
-      id: "5301"
+    - id: "5301"
       type: building
       name: Institut für Advanced Study
       subtext: Gebäude
@@ -15,56 +14,47 @@ info: "'5301' should get '5301' in 1 results"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - kind: location
-      id: 5301.EG.001
+    - id: 5301.EG.001
       type: room
       name: "\u00195301\u0017.EG.001 (Auditorium)"
       subtext: "garching, IAS"
       subtext_bold: 0.001@5301
-    - kind: location
-      id: 5301.02.022
+    - id: 5301.02.022
       type: room
       name: "\u00195301\u0017.02.022 (Zeitschriften/Lesesaal)"
       subtext: "garching, IAS"
       subtext_bold: 2.022@5301
-    - kind: location
-      id: 5301.01.033
+    - id: 5301.01.033
       type: room
       name: "\u00195301\u0017.01.033 (Drucker)"
       subtext: "garching, IAS"
       subtext_bold: 1.033@5301
-    - kind: location
-      id: 5301.02.033
+    - id: 5301.02.033
       type: room
       name: "\u00195301\u0017.02.033 (Drucker)"
       subtext: "garching, IAS"
       subtext_bold: 2.033@5301
-    - kind: location
-      id: 5301.03.033
+    - id: 5301.03.033
       type: room
       name: "\u00195301\u0017.03.033 (Drucker)"
       subtext: "garching, IAS"
       subtext_bold: 3.033@5301
-    - kind: location
-      id: 5301.01.001
+    - id: 5301.01.001
       type: room
       name: "\u00195301\u0017.01.001 (Großraumbüro)"
       subtext: "garching, IAS"
       subtext_bold: 1.001@5301
-    - kind: location
-      id: 5301.01.004
+    - id: 5301.01.004
       type: room
       name: "\u00195301\u0017.01.004 (Büro)"
       subtext: "garching, IAS"
       subtext_bold: 1.004@5301
-    - kind: location
-      id: 5301.01.005
+    - id: 5301.01.005
       type: room
       name: "\u00195301\u0017.01.005 (Büro)"
       subtext: "garching, IAS"
       subtext_bold: 1.005@5301
-    - kind: location
-      id: 5301.01.006
+    - id: 5301.01.006
       type: room
       name: "\u00195301\u0017.01.006 (Büro)"
       subtext: "garching, IAS"

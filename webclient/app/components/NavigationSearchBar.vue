@@ -3,6 +3,7 @@ import { mdiCrosshairsGps, mdiMagnify } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
+import { tagSectionEntries } from "~/utils/lectureRow";
 
 type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
@@ -268,7 +269,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
           <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
         </div>
 
-        <template v-for="(e, i) in s.entries" :key="e.id">
+        <template v-for="(e, i) in tagSectionEntries(s)" :key="e.id">
           <SearchResultItem
             v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"

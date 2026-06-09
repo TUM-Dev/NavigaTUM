@@ -1485,6 +1485,87 @@ components:
           type: integer
           format: int64
           description: The number of transfers this trip has.
+    LectureEntry:
+      type: object
+      description: A lecture search result, carrying its bilingual titles and upcoming occurrences.
+      required:
+        - id
+        - type
+        - name
+        - subtext
+        - title_de
+        - title_en
+        - next_occurrence_at
+        - upcoming
+      properties:
+        id:
+          type: string
+          description: The id of the lecture
+          example: lecture_5f2c…
+        name:
+          type: string
+          description: The display name of the result. Supports highlighting.
+          example: Einführung in die Informatik 1
+        next_occurrence_at:
+          type: string
+          format: date-time
+          description: The next time this lecture takes place, as an RFC 3339 timestamp.
+          example: "2024-10-15T08:00:00Z"
+        subtext:
+          type: string
+          description: |-
+            Subtext to show below the search result.
+
+            Carries the human `stp_type` label (e.g. "Vorlesung").
+          example: Vorlesung
+        title_de:
+          type: string
+          description: The German title of the lecture.
+          example: Einführung in die Informatik 1
+        title_en:
+          type: string
+          description: The English title of the lecture.
+          example: Introduction to Informatics 1
+        type:
+          type: string
+          description: the type of the result; always `lecture` for this variant
+          example: lecture
+        upcoming:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpcomingEvent'
+          description: |-
+            The upcoming occurrences of this lecture, in chronological order.
+
+            The first element's `start_at` matches `next_occurrence_at`. The list is
+            capped at whichever covers more events: the next 10 occurrences or those
+            within a 14-day window.
+    LectureSection:
+      type: object
+      description: A section of lecture results.
+      required:
+        - entries
+        - n_visible
+        - estimatedTotalHits
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LectureEntry'
+        estimatedTotalHits:
+          type: integer
+          description: The estimated (not exact) number of hits for that query
+          example: 6
+          minimum: 0
+        n_visible:
+          type: integer
+          description: |-
+            A recommendation how many of the entries should be displayed by default.
+
+            The number is usually from `0`..`5`.
+            More results might be displayed when clicking "expand".
+          example: 4
+          minimum: 0
     LimitedHashMap_String_Addition:
       type: object
       additionalProperties:
@@ -1690,6 +1771,59 @@ components:
           description: The type of the entry in a human-readable form
           examples:
             - Büro
+    LocationEntry:
+      type: object
+      description: |-
+        A location-like search result: a site, building, room, POI, or address.
+
+        Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
+        make sense for locations; lectures use [`LectureEntry`] instead.
+      required:
+        - id
+        - type
+        - name
+        - subtext
+      properties:
+        id:
+          type: string
+          description: The id of the location
+          example: 5510.03.002
+        name:
+          type: string
+          description: The display name of the result. Supports highlighting.
+          example: "5510.03.002 (\x19MW\x17 2001, Empore)"
+        parsed_id:
+          type:
+            - string
+            - "null"
+          description: |-
+            This is an optional feature, that is only supported for some rooms.
+
+            It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+            See the image below for an example.
+            It will be cropped to a maximum length to not take too much space in UIs.
+            Supports highlighting.
+        subtext:
+          type: string
+          description: |-
+            Subtext to show below the search result.
+
+            Usually contains the context of where this rooms is located in.
+            Currently not highlighted.
+          example: Maschinenwesen (MW)
+        subtext_bold:
+          type:
+            - string
+            - "null"
+          description: |-
+            Subtext to show below the search (by default in bold and after the non-bold subtext).
+
+            Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+          example: 3002@5510
+        type:
+          type: string
+          description: the type of the site/building
+          example: room
     LocationEventsResponse:
       type: object
       required:
@@ -1702,6 +1836,32 @@ components:
             $ref: '#/components/schemas/EventResponse'
         location:
           $ref: '#/components/schemas/CalendarLocationResponse'
+    LocationSection:
+      type: object
+      description: A section of location-like results (sites, buildings, rooms, POIs, addresses).
+      required:
+        - entries
+        - n_visible
+        - estimatedTotalHits
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationEntry'
+        estimatedTotalHits:
+          type: integer
+          description: The estimated (not exact) number of hits for that query
+          example: 6
+          minimum: 0
+        n_visible:
+          type: integer
+          description: |-
+            A recommendation how many of the entries should be displayed by default.
+
+            The number is usually from `0`..`5`.
+            More results might be displayed when clicking "expand".
+          example: 4
+          minimum: 0
     LocationTypeResponse:
       type: string
       enum:
@@ -2927,168 +3087,78 @@ components:
             - string
             - "null"
           description: URL of the vehicle share system
-    ResultEntry:
-      oneOf:
-        - type: object
-          description: 'A location-like result: a site, building, room, POI, or address.'
-          required:
-            - id
-            - type
-            - name
-            - subtext
-            - kind
-          properties:
-            id:
-              type: string
-              description: The id of the location
-              example: 5510.03.002
-            kind:
-              type: string
-              enum:
-                - location
-            name:
-              type: string
-              description: The display name of the result. Supports highlighting.
-              example: "5510.03.002 (\x19MW\x17 2001, Empore)"
-            parsed_id:
-              type:
-                - string
-                - "null"
-              description: |-
-                This is an optional feature, that is only supported for some rooms.
-
-                It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
-                See the image below for an example.
-                It will be cropped to a maximum length to not take too much space in UIs.
-                Supports highlighting.
-            subtext:
-              type: string
-              description: |-
-                Subtext to show below the search result.
-
-                Usually contains the context of where this rooms is located in.
-                Currently not highlighted.
-              example: Maschinenwesen (MW)
-            subtext_bold:
-              type:
-                - string
-                - "null"
-              description: |-
-                Subtext to show below the search (by default in bold and after the non-bold subtext).
-
-                Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
-              example: 3002@5510
-            type:
-              type: string
-              description: the type of the site/building
-              example: room
-        - type: object
-          description: A lecture result, carrying its bilingual titles and upcoming occurrences.
-          required:
-            - id
-            - type
-            - name
-            - subtext
-            - title_de
-            - title_en
-            - next_occurrence_at
-            - upcoming
-            - kind
-          properties:
-            id:
-              type: string
-              description: The id of the lecture
-              example: lecture_5f2c…
-            kind:
-              type: string
-              enum:
-                - lecture
-            name:
-              type: string
-              description: The display name of the result. Supports highlighting.
-              example: Einführung in die Informatik 1
-            next_occurrence_at:
-              type: string
-              format: date-time
-              description: The next time this lecture takes place, as an RFC 3339 timestamp.
-              example: "2024-10-15T08:00:00Z"
-            subtext:
-              type: string
-              description: |-
-                Subtext to show below the search result.
-
-                Carries the human `stp_type` label (e.g. "Vorlesung").
-              example: Vorlesung
-            title_de:
-              type: string
-              description: The German title of the lecture.
-              example: Einführung in die Informatik 1
-            title_en:
-              type: string
-              description: The English title of the lecture.
-              example: Introduction to Informatics 1
-            type:
-              type: string
-              description: the type of the result; always `lecture` for this variant
-              example: lecture
-            upcoming:
-              type: array
-              items:
-                $ref: '#/components/schemas/UpcomingEvent'
-              description: |-
-                The upcoming occurrences of this lecture, in chronological order.
-
-                The first element's `start_at` matches `next_occurrence_at`. The list is
-                capped at whichever covers more events: the next 10 occurrences or those
-                within a 14-day window.
-      description: |-
-        A single search result.
-
-        The `entries` index mixes location-like hits (sites, buildings, rooms, POIs,
-        and Nominatim addresses) with lectures, which share an id/name/subtext header
-        but diverge in their tail: only locations carry the room-id formatting fields,
-        only lectures carry the bilingual titles and upcoming occurrences. The two are
-        modeled as a discriminated union keyed by `kind` so a consumer narrows once on
-        the discriminator and then sees exactly the fields its variant carries -
-        instead of every field being optional and the invariant living in prose.
-    ResultFacet:
-      type: string
-      enum:
-        - sites
-        - buildings
-        - rooms
-        - pois
-        - lectures
-        - addresses
     ResultsSection:
-      type: object
-      required:
-        - facet
-        - entries
-        - n_visible
-        - estimatedTotalHits
-      properties:
-        entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResultEntry'
-        estimatedTotalHits:
-          type: integer
-          description: The estimated (not exact) number of hits for that query
-          example: 6
-          minimum: 0
-        facet:
-          $ref: '#/components/schemas/ResultFacet'
-          description: These indicate the type of item this represents
-        n_visible:
-          type: integer
-          description: |-
-            A recommendation how many of the entries should be displayed by default.
+      oneOf:
+        - allOf:
+            - $ref: '#/components/schemas/LocationSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - sites
+        - allOf:
+            - $ref: '#/components/schemas/LocationSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - buildings
+        - allOf:
+            - $ref: '#/components/schemas/LocationSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - rooms
+        - allOf:
+            - $ref: '#/components/schemas/LocationSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - pois
+        - allOf:
+            - $ref: '#/components/schemas/LocationSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - addresses
+        - allOf:
+            - $ref: '#/components/schemas/LectureSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - lectures
+      description: |-
+        One section of search results, grouped by facet.
 
-            The number is usually from `0`..`5`.
-            More results might be displayed when clicking "expand".
-          example: 4
-          minimum: 0
+        The `facet` is the discriminator: the five location facets (sites, buildings,
+        rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
+        room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
+        with their bilingual titles and upcoming occurrences. Tagging the section by
+        `facet` means a consumer narrows once on the discriminator it already needs
+        for the section header and then sees exactly the entry shape that facet
+        carries - instead of a redundant per-entry `kind` repeated on every hit.
     RoomAddress:
       type: object
       required:

@@ -6,62 +6,52 @@ info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5101.EG.502
+    - id: 5101.EG.502
       type: room
       name: "5101.EG.502 (\u0019Physik\u0017 \u0019Hörsaal\u0017 \u00192\u0017)"
       subtext: "garching, Physik I"
       subtext_bold: 2502@5101
-    - kind: location
-      id: 5101.EG.503
+    - id: 5101.EG.503
       type: room
       name: "5101.EG.503 (\u0019Physik\u0017 \u0019Hörsaal\u0017 3)"
       subtext: "garching, Physik I"
       subtext_bold: 2503@5101
-    - kind: location
-      id: 5101.EG.501
+    - id: 5101.EG.501
       type: room
       name: "5101.EG.501 (Rudolf-Mößbauer-\u0019Hörsaal\u0017)"
       subtext: "garching, Physik I"
       subtext_bold: 2501@5101
-    - kind: location
-      id: 5510.EG.027
+    - id: 5510.EG.027
       type: room
       name: "5510.EG.027 (\u0019Physik\u0017-Praktikum)"
       subtext: "garching, MW"
       subtext_bold: MW 0027@5510
-    - kind: location
-      id: 5510.EG.028
+    - id: 5510.EG.028
       type: room
       name: "5510.EG.028 (\u0019Physik\u0017-Praktikum)"
       subtext: "garching, MW"
       subtext_bold: MW 0028@5510
-    - kind: location
-      id: 3505.EG.027
+    - id: 3505.EG.027
       type: room
       name: "3505.EG.027 (Ausbildungslabor,  biologisch-pysikalisch)"
       subtext: "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, Hörsaal und Forschungsgebäude (Uferstraße 53)"
       subtext_bold: 00.450@3505
-    - kind: location
-      id: 0102.U1.216D
+    - id: 0102.U1.216D
       type: room
       name: "0102.U1.\u00192\u001716D (Versuchsraum \u0019HS\u0017/NS)"
       subtext: "stammgelände, N2"
       subtext_bold: N-1216D@0102
-    - kind: location
-      id: 0102.U1.216E
+    - id: 0102.U1.216E
       type: room
       name: "0102.U1.\u00192\u001716E (Versuchsraum \u0019HS\u0017/NS)"
       subtext: "stammgelände, N2"
       subtext_bold: N-1216E@0102
-    - kind: location
-      id: 0102.U1.216F
+    - id: 0102.U1.216F
       type: room
       name: "0102.U1.\u00192\u001716F (Versuchsraum \u0019HS\u0017/NS)"
       subtext: "stammgelände, N2"
       subtext_bold: N-1216F@0102
-    - kind: location
-      id: 0102.U1.216G
+    - id: 0102.U1.216G
       type: room
       name: "0102.U1.\u00192\u001716G (Versuchsraum \u0019HS\u0017/NS)"
       subtext: "stammgelände, N2"

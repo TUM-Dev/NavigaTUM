@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { components } from "~/api_types/index.js";
 import LectureSearchResultRow from "~/components/LectureSearchResultRow.vue";
 import { type EntityPath, entityPath, isRoutableEntityType } from "~/utils/entityPath";
-
-type ResultEntry = components["schemas"]["ResultEntry"];
+import type { SearchResultEntry } from "~/utils/lectureRow";
 
 const props = defineProps<{
-  item: ResultEntry;
+  item: SearchResultEntry;
   highlighted: boolean;
 }>();
 const emit = defineEmits(["click", "mouseover"]);

@@ -16,7 +16,9 @@ import {
   type VisibleSearchEntry,
 } from "../app/utils/lectureRow";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
+// Entries are now grouped by section facet rather than carrying a per-entry
+// discriminator; the helpers below build the two concrete entry shapes.
+type ResultEntry = components["schemas"]["LocationEntry"] | components["schemas"]["LectureEntry"];
 type ResultsSection = components["schemas"]["ResultsSection"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 

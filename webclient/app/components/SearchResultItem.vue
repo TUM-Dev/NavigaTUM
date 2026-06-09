@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { mdiChevronRight } from "@mdi/js";
-import type { components } from "~/api_types/index.js";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import {
   firstUpcoming,
   formatUpcoming,
   type LectureLocale,
   lectureTitle,
+  type SearchResultEntry,
 } from "~/utils/lectureRow";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
-
 const props = defineProps<{
-  item: ResultEntry;
+  item: SearchResultEntry;
   highlighted: boolean;
 }>();
 

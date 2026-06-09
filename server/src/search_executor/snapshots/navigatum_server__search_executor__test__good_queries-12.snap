@@ -6,62 +6,52 @@ info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5601.EG.001
+    - id: 5601.EG.001
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 (Magistrale)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.001@5601
-    - kind: location
-      id: 5601.EG.010
+    - id: 5601.EG.010
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.010 (Pforte)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.010@5601
-    - kind: location
-      id: 5601.EG.002
+    - id: 5601.EG.002
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.002 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.002@5601
-    - kind: location
-      id: 5601.EG.003
+    - id: 5601.EG.003
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.003 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.003@5601
-    - kind: location
-      id: 5601.EG.004
+    - id: 5601.EG.004
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.004 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.004@5601
-    - kind: location
-      id: 5601.EG.005
+    - id: 5601.EG.005
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.005 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.005@5601
-    - kind: location
-      id: 5601.EG.008
+    - id: 5601.EG.008
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.008 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.008@5601
-    - kind: location
-      id: 5601.EG.009
+    - id: 5601.EG.009
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.009 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.009@5601
-    - kind: location
-      id: 5601.EG.011
+    - id: 5601.EG.011
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.011 (Windfang)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.01.011@5601
-    - kind: location
-      id: 5601.EG.012
+    - id: 5601.EG.012
       type: room
       name: "\u00195601\u0017.\u0019EG\u0017.012 (Gang,  Weg im Freien)"
       subtext: "garching, Mathe/Info (MI)"
@@ -70,14 +60,12 @@ info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: pois
   entries:
-    - kind: location
-      id: validierungsautomat-5
+    - id: validierungsautomat-5
       type: poi
       name: Validierungsautomat 5 (MI)
       subtext: ""
       subtext_bold: ""
-    - kind: location
-      id: validierungsautomat-7
+    - id: validierungsautomat-7
       type: poi
       name: Validierungsautomat 7 (MI)
       subtext: ""
@@ -86,8 +74,7 @@ info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - kind: location
-      id: "5601"
+    - id: "5601"
       type: building
       name: Magistrale / Foyer
       subtext: Gebäudeteil

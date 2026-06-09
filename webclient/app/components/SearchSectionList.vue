@@ -3,6 +3,7 @@ import { mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useSearchFilters } from "~/composables/searchFilters";
+import { tagSectionEntries } from "~/utils/lectureRow";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -60,7 +61,7 @@ function viewMoreQuery(facet: string) {
     <div v-for="s in data.sections" :key="s.facet">
       <section v-if="s.entries.length" class="flex flex-col gap-2">
         <h2 class="text-md text-zinc-500 dark:text-zinc-400 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
-        <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
+        <ul v-for="(e, i) in tagSectionEntries(s)" :key="e.id" class="flex flex-col gap-3">
           <SearchResultItemLink v-if="i < s.n_visible" :highlighted="false" :item="e" />
         </ul>
         <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 dark:text-zinc-400 text-sm">

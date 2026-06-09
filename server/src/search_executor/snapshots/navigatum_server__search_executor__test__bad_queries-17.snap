@@ -6,40 +6,34 @@ info: "'2119' should get '0101.02.119' in 4 results # The architects name is a N
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5101.EG.119
+    - id: 5101.EG.119
       type: room
       name: 5101.EG.119 (Physiklabor (einfach))
       subtext: "garching, Physik I"
       subtext_bold: 2119@5101
       parsed_id: "PH \u00192119\u0017"
-    - kind: location
-      id: 5413.01.119
+    - id: 5413.01.119
       type: room
       name: 5413.01.119 (Kopierer)
       subtext: "garching, Bayerisches NMR-Zentrum"
       subtext_bold: 2119@5413
       parsed_id: "\u00192119\u0017 Bayerisches NMR-Zentrum"
-    - kind: location
-      id: 4111.02.119
+    - id: 4111.02.119
       type: room
       name: 4111.02.119 (Empfang)
       subtext: "weihenstephan, Forschungsbrauerei Weihenstephan mit Nebengebäude"
       subtext_bold: 2.24@4111
-    - kind: location
-      id: 8101.02.119
+    - id: 8101.02.119
       type: room
       name: 8101.02.119 (Büro)
       subtext: "garching-hochbrück, Business Campus 1"
       subtext_bold: 2.01.19@8101
-    - kind: location
-      id: 0101.02.119
+    - id: 0101.02.119
       type: room
       name: 0101.02.119 (Büro)
       subtext: "stammgelände, N1"
       subtext_bold: N2119@0101
-    - kind: location
-      id: 4277.02.119
+    - id: 4277.02.119
       type: room
       name: 4277.02.119 (Tiersammlungen)
       subtext: "weihenstephan, Forstwissenschaften"

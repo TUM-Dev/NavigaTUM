@@ -6,8 +6,7 @@ info: "'interims I' should get '5620' in 2 results # Note: Interims iV and inter
 ---
 - facet: sites
   entries:
-    - kind: location
-      id: garching-interims
+    - id: garching-interims
       type: area
       name: "\u0019Interimshörsäle\u0017"
       subtext: Gebiet / Gruppe von Gebäuden
@@ -15,23 +14,19 @@ info: "'interims I' should get '5620' in 2 results # Note: Interims iV and inter
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
   entries:
-    - kind: location
-      id: "5417"
+    - id: "5417"
       type: building
       name: "\u0019Interims\u0017 COS / \u0019Interims\u0017 NAT"
       subtext: Gebäude
-    - kind: location
-      id: "5416"
+    - id: "5416"
       type: building
       name: "\u0019Interimshörsäle\u0017 \u0019I\u0017I, Jürgen Manchot-Hörsaalgebäude"
       subtext: Gebäude
-    - kind: location
-      id: "5539"
+    - id: "5539"
       type: building
       name: "\u0019Interims\u0017-Tentomax MW"
       subtext: Gebäude
-    - kind: location
-      id: "5620"
+    - id: "5620"
       type: building
       name: "\u0019Interims\u0017-Audimax"
       subtext: Gebäude
@@ -39,32 +34,27 @@ info: "'interims I' should get '5620' in 2 results # Note: Interims iV and inter
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
-    - kind: location
-      id: 5416.01.003
+    - id: 5416.01.003
       type: room
       name: "5416.01.003 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017I\")"
       subtext: "garching, Interims II"
       subtext_bold: 003@5416
-    - kind: location
-      id: 5416.01.004
+    - id: 5416.01.004
       type: room
       name: "5416.01.004 (Hörsaal 1,  Jürgen-Manchot \"\u0019Interims\u0017 \u0019I\u0017I\")"
       subtext: "garching, Interims II"
       subtext_bold: 004@5416
-    - kind: location
-      id: 5620.01.101
+    - id: 5620.01.101
       type: room
       name: "5620.01.101 (Hörsaal 1,  \"\u0019Interims\u0017 \u0019I\u0017\")"
       subtext: "garching, Interims-Audimax"
       subtext_bold: 101@5620
-    - kind: location
-      id: 5620.01.102
+    - id: 5620.01.102
       type: room
       name: "5620.01.102 (Hörsaal 2,  \"\u0019Interims\u0017 \u0019I\u0017\")"
       subtext: "garching, Interims-Audimax"
       subtext_bold: 102@5620
-    - kind: location
-      id: 5539.EG.001A
+    - id: 5539.EG.001A
       type: room
       name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
       subtext: "garching, Interims III"

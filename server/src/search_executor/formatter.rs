@@ -1,6 +1,6 @@
 use unicode_truncate::UnicodeTruncateStr as _;
 
-use super::ResultEntry;
+use super::LocationEntry;
 use super::parser::{ParsedQuery, TextToken};
 use crate::external::meilisearch::{GeoMSHit, MSHit};
 use crate::routes::search::{CroppingMode, FormattingConfig, ParsedIdMode};
@@ -21,33 +21,23 @@ impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
 }
 
 impl RoomVisitor {
-    pub(super) fn visit(&self, item: &mut ResultEntry) {
-        // The visitor is only ever run over the rooms section, so a lecture
-        // entry here would be a bug, but we degrade gracefully rather than panic.
-        let ResultEntry::Location {
-            hit,
-            parsed_id,
-            subtext,
-            ..
-        } = item
-        else {
-            return;
-        };
+    pub(super) fn visit(&self, item: &mut LocationEntry) {
         // Only geo (room) hits carry the arch-name / parent metadata this
         // visitor formats.
-        let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) = &**hit
+        let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) =
+            &*item.hit
         else {
             return;
         };
         match self.config.parsed_id {
             ParsedIdMode::Prefixed => {
-                *parsed_id = self.parse_room_formats(hit);
+                item.parsed_id = self.parse_room_formats(hit);
             }
             ParsedIdMode::Roomfinder => {
-                parsed_id.clone_from(&hit.arch_name);
+                item.parsed_id.clone_from(&hit.arch_name);
             }
         }
-        *subtext = Self::generate_subtext(hit);
+        item.subtext = Self::generate_subtext(hit);
     }
     // Parse the search against some known room formats and improve the
     // results display in this case. Room formats are hardcoded for now.

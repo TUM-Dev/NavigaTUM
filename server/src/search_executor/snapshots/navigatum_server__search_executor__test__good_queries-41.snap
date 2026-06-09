@@ -6,62 +6,52 @@ info: "'5510.01.234' should get '5510.01.010' in 10 results # Reporter's scenari
 ---
 - facet: rooms
   entries:
-    - kind: location
-      id: 5510.01.010
+    - id: 5510.01.010
       type: room
       name: "\u00195510\u0017.\u001901\u0017.010 (Seminarraum)"
       subtext: "garching, MW"
       subtext_bold: 1010@5510
-    - kind: location
-      id: 5510.01.050
+    - id: 5510.01.050
       type: room
       name: "\u00195510\u0017.\u001901\u0017.050 (Johann-Bauschinger-Zeichensaal)"
       subtext: "garching, MW"
       subtext_bold: 1050@5510
-    - kind: location
-      id: 5510.01.025H
+    - id: 5510.01.025H
       type: room
       name: "\u00195510\u0017.\u001901\u0017.025H (Lesesaal/Monographien)"
       subtext: "garching, MW"
       subtext_bold: 1025H@5510
-    - kind: location
-      id: 5510.01.011
+    - id: 5510.01.011
       type: room
       name: "\u00195510\u0017.\u001901\u0017.011 (Dozentenzimmer)"
       subtext: "garching, MW"
       subtext_bold: 1011@5510
-    - kind: location
-      id: 5510.01.012
+    - id: 5510.01.012
       type: room
       name: "\u00195510\u0017.\u001901\u0017.012 (Büro)"
       subtext: "garching, MW"
       subtext_bold: 1012@5510
-    - kind: location
-      id: 5510.01.013
+    - id: 5510.01.013
       type: room
       name: "\u00195510\u0017.\u001901\u0017.013 (Büro)"
       subtext: "garching, MW"
       subtext_bold: 1013@5510
-    - kind: location
-      id: 5510.01.014
+    - id: 5510.01.014
       type: room
       name: "\u00195510\u0017.\u001901\u0017.014 (Sozialraum)"
       subtext: "garching, MW"
       subtext_bold: 1014@5510
-    - kind: location
-      id: 5510.01.014M
+    - id: 5510.01.014M
       type: room
       name: "\u00195510\u0017.\u001901\u0017.014M (WC-Damen)"
       subtext: "garching, MW"
       subtext_bold: 1014M@5510
-    - kind: location
-      id: 5510.01.014N
+    - id: 5510.01.014N
       type: room
       name: "\u00195510\u0017.\u001901\u0017.014N (WC-Herren)"
       subtext: "garching, MW"
       subtext_bold: 1014N@5510
-    - kind: location
-      id: 5510.01.015
+    - id: 5510.01.015
       type: room
       name: "\u00195510\u0017.\u001901\u0017.015 (Büro)"
       subtext: "garching, MW"
