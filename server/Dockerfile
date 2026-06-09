@@ -53,6 +53,10 @@ ENV     USER=root
 ENV     RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-fuse-ld=mold"
 # since our builds are from-scratch, we don't need incremental compliation here
 ENV     CARGO_INCREMENTAL=0
+# crates.io downloads occasionally drop mid-transfer on CI runners ("unexpected
+# eof while reading"), failing the whole image build. Cargo's default of 3
+# retries is not enough under that flakiness, so retry harder.
+ENV     CARGO_NET_RETRY=10
 # added in the build
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
