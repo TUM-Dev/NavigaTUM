@@ -5,6 +5,7 @@ import {
   mdiChevronRight,
   mdiChevronUp,
   mdiMapMarker,
+  mdiMapSearchOutline,
 } from "@mdi/js";
 import { entityPath, type RoutableEntityType } from "~/utils/entityPath";
 
@@ -176,6 +177,20 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       </div>
     </div>
   </div>
+  <NuxtLink
+    :to="localePath('/map')"
+    :aria-label="t('explore_map_aria')"
+    class="focusable border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 mt-4 flex flex-row items-center justify-between gap-4 rounded-lg border-2 p-5 !no-underline hover:text-blue-500 dark:hover:text-blue-400"
+  >
+    <div class="flex flex-row items-center gap-3">
+      <MdiIcon :path="mdiMapSearchOutline" :size="28" class="shrink-0" />
+      <div class="flex flex-col">
+        <span class="text-md font-semibold">{{ t("explore_map") }}</span>
+        <span class="text-zinc-500 dark:text-zinc-400 text-sm">{{ t("explore_map_subtitle") }}</span>
+      </div>
+    </div>
+    <MdiIcon :path="mdiArrowRight" :size="24" class="my-auto hidden h-6 w-6 shrink-0 md:block" />
+  </NuxtLink>
 </template>
 
 <i18n lang="yaml">
@@ -189,6 +204,9 @@ de:
   show_details_for_campus: Details für den Campus '{0}' anzeigen
   show_details_for_building: Details für das Gebäude '{0}' anzeigen
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
+  explore_map: Karte erkunden
+  explore_map_subtitle: Stöbere auf der Karte und blende Ebenen wie Toiletten und Duschen ein.
+  explore_map_aria: Die interaktive Karte erkunden
   sites_overview:
     others: Sonstige
 en:
@@ -201,6 +219,9 @@ en:
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
   description: Find rooms, buildings and other places at TUM with excellence. A modern alternative to RoomFinder, developed by students.
+  explore_map: Explore the map
+  explore_map_subtitle: Browse the map and toggle layers such as toilets and showers.
+  explore_map_aria: Explore the interactive map
   sites_overview:
     others: Others
 </i18n>

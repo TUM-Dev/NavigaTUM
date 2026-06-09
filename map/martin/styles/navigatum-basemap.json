@@ -5372,7 +5372,12 @@
       "type": "symbol",
       "source": "indoor",
       "minzoom": 17,
-      "filter": ["all"],
+      "filter": [
+        "all",
+        ["!=", ["get", "indoor"], "toilet"],
+        ["!=", ["get", "indoor"], "shower"],
+        ["!=", ["get", "indoor"], "elevator"]
+      ],
       "layout": {
         "text-allow-overlap": {
           "stops": [
@@ -5510,6 +5515,85 @@
         ]
       },
       "source-layer": "indoor_pois"
+    },
+    {
+      "id": "indoor-toilets",
+      "type": "symbol",
+      "source": "indoor",
+      "source-layer": "indoor_pois",
+      "minzoom": 17,
+      "filter": ["==", ["get", "indoor"], "toilet"],
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "point",
+        "symbol-sort-key": ["get", "area"],
+        "icon-optional": false,
+        "icon-allow-overlap": false,
+        "icon-overlap": "never",
+        "icon-image": [
+          "case",
+          ["get", "is_male_toilet"],
+          "toilet_male",
+          ["get", "is_female_toilet"],
+          "toilet_female",
+          "toilet"
+        ],
+        "icon-size": {
+          "stops": [[17, 0.5], [22, 6]],
+          "base": 2
+        }
+      },
+      "paint": {
+        "icon-color": "#9B468D"
+      }
+    },
+    {
+      "id": "indoor-showers",
+      "type": "symbol",
+      "source": "indoor",
+      "source-layer": "indoor_pois",
+      "minzoom": 17,
+      "filter": ["==", ["get", "indoor"], "shower"],
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "point",
+        "symbol-sort-key": ["get", "area"],
+        "icon-optional": false,
+        "icon-allow-overlap": false,
+        "icon-overlap": "never",
+        "icon-image": "noun-shower-51",
+        "icon-size": {
+          "stops": [[17, 0.5], [22, 6]],
+          "base": 2
+        }
+      },
+      "paint": {
+        "icon-color": "#573FDE"
+      }
+    },
+    {
+      "id": "indoor-elevators",
+      "type": "symbol",
+      "source": "indoor",
+      "source-layer": "indoor_pois",
+      "minzoom": 17,
+      "filter": ["==", ["get", "indoor"], "elevator"],
+      "layout": {
+        "visibility": "visible",
+        "symbol-placement": "point",
+        "symbol-sort-key": ["get", "area"],
+        "icon-optional": false,
+        "icon-allow-overlap": false,
+        "icon-overlap": "never",
+        "icon-image": "elevator",
+        "icon-size": {
+          "stops": [[17, 0.5], [22, 6]],
+          "base": 2
+        }
+      },
+      "paint": {
+        "icon-color": "#072140"
+      }
     },
     {
       "id": "indoorsteps-white-base",

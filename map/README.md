@@ -170,3 +170,33 @@ To run tests, we recommend downloading the jar file from the [Planetiler release
 ```bash
 java -jar planetiler.jar verify ./map/planetiler/shortbread_custom.yml --watch
 ```
+
+## Indoor data (osm2pgsql)
+
+The indoor overlay is a separate pipeline from the planetiler basemap above. `osm2pgsql` reads the
+OpenStreetMap extract through [`osm2pgsql/style.lua`](./osm2pgsql/style.lua) into Postgres tables
+(`rooms`, `pois`, `doors`, `indoor_ways`), which [martin](./martin) then serves as the `indoor_*`
+vector layers (see `server/migrations` for the tile functions). It is wired up in
+[`compose.data.yml`](/compose.data.yml).
+
+Every poi row carries an `indoor` discriminator (`toilet`, `shower`, `elevator`, `auditorium`,
+`room`, …) instead of a separate category column. POIs are ingested from all three OSM geometries:
+
+- **ways and relations** contribute a label point (pole of inaccessibility, or centroid for
+  elevators).
+- **nodes** contribute a point with a synthesized `area` of `0`. A bare `amenity=toilets` /
+  `amenity=shower` node (no `room=` tag) is normalized to `indoor='toilet'` / `'shower'`, but only
+  when it carries indoor context (an `indoor=*` or `level=*` tag) so stray outdoor amenities are
+  not pulled in.
+
+The `pois` table uses `any` ids (`osm_type` + `osm_id`) rather than an area table, because the area
+id type cannot store node ids.
+
+### Browse layers on `/map`
+
+[`navigatum-basemap.json`](./martin/styles/navigatum-basemap.json) splits the icon pois into
+per-category symbol layers — `indoor-toilets`, `indoor-showers`, and `indoor-elevators` — all
+visible by default at `minzoom: 17`. The label pois (rooms, auditoriums, …) stay on `indoor-pois`.
+The webclient `/map` page toggles the visibility of these split layers; its `LAYER_REGISTRY`
+(`webclient/app/composables/mapLayers.ts`) groups toilets and showers into the "WCs" overlay. A new
+browse layer is one more `LayerDef` plus one more split style layer.

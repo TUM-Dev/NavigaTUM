@@ -43,23 +43,29 @@ tables.rooms =
       }
     )
 tables.pois =
-    osm2pgsql.define_area_table(
-      "pois",
+    osm2pgsql.define_table(
       {
-        { column = "indoor",               type = "text",    not_null = true },
-        { column = "ref",                  type = "text" },
-        { column = "name",                 type = "text" },
-        { column = "students_have_access", type = "boolean", not_null = true },
-        { column = "is_male_toilet",       type = "boolean", not_null = true },
-        { column = "is_female_toilet",     type = "boolean", not_null = true },
-        { column = "is_unisex_toilet",     type = "boolean", not_null = true },
-        { column = "is_wheelchair_toilet", type = "boolean", not_null = true },
-        { column = "is_shower",            type = "boolean", not_null = true },
-        { column = "area",                 type = "real",    not_null = true },
-        { column = "level_min",            type = "real",    not_null = true },
-        { column = "level_max",            type = "real",    not_null = true },
-        -- why can this not be a point???
-        { column = "geom",                 type = "point",   not_null = true }
+        name = "pois",
+        -- `any` ids (osm_type + osm_id) let nodes, ways, and relations share one table.
+        -- The `area` id type a `define_area_table` would give us rejects node inserts, but
+        -- bare `amenity=toilets`/`shower` points are node geometry, so we need node ids here.
+        ids = { type = "any", id_column = "osm_id", type_column = "osm_type" },
+        columns = {
+          { column = "indoor",               type = "text",    not_null = true },
+          { column = "ref",                  type = "text" },
+          { column = "name",                 type = "text" },
+          { column = "students_have_access", type = "boolean", not_null = true },
+          { column = "is_male_toilet",       type = "boolean", not_null = true },
+          { column = "is_female_toilet",     type = "boolean", not_null = true },
+          { column = "is_unisex_toilet",     type = "boolean", not_null = true },
+          { column = "is_wheelchair_toilet", type = "boolean", not_null = true },
+          { column = "is_shower",            type = "boolean", not_null = true },
+          { column = "area",                 type = "real",    not_null = true },
+          { column = "level_min",            type = "real",    not_null = true },
+          { column = "level_max",            type = "real",    not_null = true },
+          -- a point is all we render; the geometry is reduced to one before insertion.
+          { column = "geom",                 type = "point",   not_null = true }
+        }
       }
     )
 
@@ -272,6 +278,18 @@ function osm2pgsql.process_node(object)
   if clean_tags_indoor(object.tags) then
     return
   end
+  -- A bare `amenity=toilets`/`shower` node has no `room=` tag, so it arrives as the inferred
+  -- indoor='yes'. Normalise it into the poi space so node-geometry toilets and showers render
+  -- as the same icons as their room= counterparts. Ways and relations are intentionally left
+  -- alone (they reach the poi space via the `room=` smudging in clean_tags_indoor). The guard
+  -- in clean_tags_indoor (indoor or level required) keeps stray outdoor amenity nodes out.
+  if object.tags.indoor ~= "toilet" and object.tags.indoor ~= "shower" then
+    if object.tags.amenity == "toilet" or object.tags.amenity == "toilets" then
+      object.tags.indoor = "toilet"
+    elseif object.tags.amenity == "shower" or object.tags.amenity == "showers" then
+      object.tags.indoor = "shower"
+    end
+  end
   if object.tags.indoor == "door" then
     -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
@@ -289,6 +307,27 @@ function osm2pgsql.process_node(object)
       tables.doors:insert(
         {
           width_cm = object.tags.width,
+          level_min = level.min,
+          level_max = level.max,
+          geom = object:as_point()
+        }
+      )
+    end
+  elseif object.tags.indoor == "toilet" or object.tags.indoor == "shower" then
+    -- Node-geometry toilets/showers (e.g. a bare `amenity=toilets` point) carry no area,
+    -- so we synthesize `area = 0`; the poi icon does not depend on it. We never carry
+    -- `name`/`ref` for these POIs — they render as icons only, like their room= counterparts.
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
+      tables.pois:insert(
+        {
+          indoor = object.tags.indoor,
+          students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+          is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
+          is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
+          is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+          is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+          is_shower = object.tags.indoor == "shower",
+          area = 0,
           level_min = level.min,
           level_max = level.max,
           geom = object:as_point()
