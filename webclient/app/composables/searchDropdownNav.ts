@@ -36,7 +36,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
   function expandHighlightedLecture(): void {
     const current = highlightedEntry.value;
     if (current?.kind !== "result") return;
-    if (current.entry.type !== "lecture") return;
+    if (current.entry.kind !== "lecture") return;
     if (expandedLectures.value.has(current.entry.id)) return;
     expandedLectures.value = new Set([...expandedLectures.value, current.entry.id]);
   }
@@ -79,7 +79,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
       const newCurrent = highlightedEntry.value;
       const sameLecture =
         newCurrent?.kind === "result" &&
-        newCurrent.entry.type === "lecture" &&
+        newCurrent.entry.kind === "lecture" &&
         newCurrent.entry.id === collapsedId;
       if (!sameLecture) expandHighlightedLecture();
       return;
@@ -97,7 +97,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
     const current = highlightedEntry.value;
     if (
       current?.kind === "result" &&
-      current.entry.type === "lecture" &&
+      current.entry.kind === "lecture" &&
       expandedLectures.value.has(current.entry.id)
     ) {
       const collapsedId = current.entry.id;
@@ -105,7 +105,7 @@ export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSecti
       const newCurrent = highlightedEntry.value;
       const sameLecture =
         newCurrent?.kind === "result" &&
-        newCurrent.entry.type === "lecture" &&
+        newCurrent.entry.kind === "lecture" &&
         newCurrent.entry.id === collapsedId;
       if (!sameLecture) expandHighlightedLecture();
       return;

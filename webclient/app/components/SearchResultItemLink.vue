@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { components } from "~/api_types/index.js";
 import LectureSearchResultRow from "~/components/LectureSearchResultRow.vue";
 import { type EntityPath, entityPath, isRoutableEntityType } from "~/utils/entityPath";
-
-type ResultEntry = components["schemas"]["ResultEntry"];
+import type { SearchResultEntry } from "~/utils/lectureRow";
 
 const props = defineProps<{
-  item: ResultEntry;
+  item: SearchResultEntry;
   highlighted: boolean;
 }>();
 const emit = defineEmits(["click", "mouseover"]);
-
-const isLecture = computed(() => props.item.type === "lecture");
 
 // Entity results link to their canonical /{type}/{id} path. Non-routable results
 // (e.g. Nominatim addresses, only surfaced on the navigate page) have no entity
@@ -23,7 +19,7 @@ const to = computed<EntityPath | null>(() =>
 
 <template>
   <LectureSearchResultRow
-    v-if="isLecture"
+    v-if="item.kind === 'lecture'"
     :item="item"
     :highlighted="highlighted"
     @click="() => emit('click')"

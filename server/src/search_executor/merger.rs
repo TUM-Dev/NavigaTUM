@@ -11,14 +11,47 @@ use crate::external::meilisearch::{
 use crate::routes::search::Limits;
 
 pub(super) struct MergedSections {
-    pub(super) sites: super::ResultsSection,
-    pub(super) buildings: super::ResultsSection,
-    pub(super) rooms: super::ResultsSection,
-    pub(super) pois: super::ResultsSection,
-    pub(super) lectures: super::ResultsSection,
+    pub(super) sites: super::LocationSection,
+    pub(super) buildings: super::LocationSection,
+    pub(super) rooms: super::LocationSection,
+    pub(super) pois: super::LocationSection,
+    pub(super) lectures: super::LectureSection,
     /// Facets in the order their first hit appeared in the ranked Meilisearch
     /// results. Facets that never received a hit are not included.
     pub(super) facet_order: Vec<ResultFacet>,
+}
+
+/// Shared handle over a section body's visible-count bookkeeping, so the
+/// freeze/finalize helpers work uniformly across the location and lecture
+/// section types.
+trait SectionVisibility {
+    fn entries_len(&self) -> usize;
+    fn n_visible(&self) -> usize;
+    fn set_n_visible(&mut self, n: usize);
+}
+
+impl SectionVisibility for super::LocationSection {
+    fn entries_len(&self) -> usize {
+        self.entries.len()
+    }
+    fn n_visible(&self) -> usize {
+        self.n_visible
+    }
+    fn set_n_visible(&mut self, n: usize) {
+        self.n_visible = n;
+    }
+}
+
+impl SectionVisibility for super::LectureSection {
+    fn entries_len(&self) -> usize {
+        self.entries.len()
+    }
+    fn n_visible(&self) -> usize {
+        self.n_visible
+    }
+    fn set_n_visible(&mut self, n: usize) {
+        self.n_visible = n;
+    }
 }
 
 #[tracing::instrument(skip(hits, facet_distribution, highlight))]
@@ -30,11 +63,15 @@ pub(super) fn merge_search_results(
 ) -> MergedSections {
     let totals = facet_totals(facet_distribution);
 
-    let mut sites = empty_section(ResultFacet::Sites, totals.sites);
-    let mut buildings = empty_section(ResultFacet::Buildings, totals.buildings);
-    let mut rooms = empty_section(ResultFacet::Rooms, totals.rooms);
-    let mut pois = empty_section(ResultFacet::Pois, totals.pois);
-    let mut lectures = empty_section(ResultFacet::Lectures, totals.lectures);
+    let mut sites = empty_location_section(totals.sites);
+    let mut buildings = empty_location_section(totals.buildings);
+    let mut rooms = empty_location_section(totals.rooms);
+    let mut pois = empty_location_section(totals.pois);
+    let mut lectures = super::LectureSection {
+        entries: Vec::new(),
+        n_visible: 0,
+        estimated_total_hits: totals.lectures,
+    };
     let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(5);
 
     // The visible count of any facet that already has hits is frozen the
@@ -51,29 +88,41 @@ pub(super) fn merge_search_results(
             break;
         }
 
-        // Each facet is its own hit variant, so the bucket is the variant. The
+        // Each facet is its own hit variant, so the bucket is the variant, and
+        // the entry is pushed straight into its concretely-typed section. The
         // guard skips a hit whose section is already full; the catch-all then
         // drops it (`continue`) without ending the over-fetched ranking early.
-        let (facet, entry) = match &hit.result {
-            MSHit::Site(geo) if sites.entries.len() < limits.sites_count => (
-                ResultFacet::Sites,
-                make_building_like_entry(geo, hit, highlight),
-            ),
-            MSHit::Building(geo) if buildings.entries.len() < limits.buildings_count => (
-                ResultFacet::Buildings,
-                make_building_like_entry(geo, hit, highlight),
-            ),
-            MSHit::Room(geo) if rooms.entries.len() < limits.rooms_count => (
-                ResultFacet::Rooms,
-                make_room_like_entry(geo, hit, highlight),
-            ),
-            MSHit::Poi(geo) if pois.entries.len() < limits.pois_count => {
-                (ResultFacet::Pois, make_room_like_entry(geo, hit, highlight))
+        // Pushing before the freeze bookkeeping is sound: freezing only touches
+        // *prior* facets, never the one this hit lands in.
+        let facet = match &hit.result {
+            MSHit::Site(geo) if sites.entries.len() < limits.sites_count => {
+                sites
+                    .entries
+                    .push(make_building_like_entry(geo, hit, highlight));
+                ResultFacet::Sites
             }
-            MSHit::Lecture(lecture) if lectures.entries.len() < limits.lectures_count => (
-                ResultFacet::Lectures,
-                make_lecture_entry(lecture, hit, highlight),
-            ),
+            MSHit::Building(geo) if buildings.entries.len() < limits.buildings_count => {
+                buildings
+                    .entries
+                    .push(make_building_like_entry(geo, hit, highlight));
+                ResultFacet::Buildings
+            }
+            MSHit::Room(geo) if rooms.entries.len() < limits.rooms_count => {
+                rooms
+                    .entries
+                    .push(make_room_like_entry(geo, hit, highlight));
+                ResultFacet::Rooms
+            }
+            MSHit::Poi(geo) if pois.entries.len() < limits.pois_count => {
+                pois.entries.push(make_room_like_entry(geo, hit, highlight));
+                ResultFacet::Pois
+            }
+            MSHit::Lecture(lecture) if lectures.entries.len() < limits.lectures_count => {
+                lectures
+                    .entries
+                    .push(make_lecture_entry(lecture, hit, highlight));
+                ResultFacet::Lectures
+            }
             _ => continue,
         };
 
@@ -89,15 +138,6 @@ pub(super) fn merge_search_results(
                 }
             }
             facet_order.push(facet);
-        }
-
-        match facet {
-            ResultFacet::Sites => sites.entries.push(entry),
-            ResultFacet::Buildings => buildings.entries.push(entry),
-            ResultFacet::Rooms => rooms.entries.push(entry),
-            ResultFacet::Pois => pois.entries.push(entry),
-            ResultFacet::Lectures => lectures.entries.push(entry),
-            ResultFacet::Addresses => {}
         }
     }
 
@@ -122,29 +162,28 @@ pub(super) fn merge_search_results(
 /// Freeze the visible count of a higher-priority section the first time a
 /// lower-priority hit lands. No-op if the section is empty (it stays at 0)
 /// or already frozen.
-fn freeze_if_first(section: &mut super::ResultsSection) {
-    if section.n_visible == 0 && !section.entries.is_empty() {
-        section.n_visible = section.entries.len();
+fn freeze_if_first<S: SectionVisibility>(section: &mut S) {
+    if section.n_visible() == 0 && section.entries_len() > 0 {
+        section.set_n_visible(section.entries_len());
     }
 }
 
-fn finalize_visible(section: &mut super::ResultsSection) {
-    if section.n_visible == 0 {
-        section.n_visible = section.entries.len();
+fn finalize_visible<S: SectionVisibility>(section: &mut S) {
+    if section.n_visible() == 0 {
+        section.set_n_visible(section.entries_len());
     }
 }
 
-fn active_count(section: &super::ResultsSection) -> usize {
-    if section.n_visible == 0 {
-        section.entries.len()
+fn active_count<S: SectionVisibility>(section: &S) -> usize {
+    if section.n_visible() == 0 {
+        section.entries_len()
     } else {
-        section.n_visible
+        section.n_visible()
     }
 }
 
-fn empty_section(facet: ResultFacet, estimated_total_hits: usize) -> super::ResultsSection {
-    super::ResultsSection {
-        facet,
+fn empty_location_section(estimated_total_hits: usize) -> super::LocationSection {
+    super::LocationSection {
         entries: Vec::new(),
         n_visible: 0,
         estimated_total_hits,
@@ -155,15 +194,16 @@ fn make_building_like_entry(
     geo: &GeoMSHit,
     hit: &SearchResult<MSHit>,
     highlight: &HighlightContext<'_>,
-) -> super::ResultEntry {
+) -> super::LocationEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::LocationEntry {
         id: geo.room_code.clone(),
         r#type: geo.r#type.clone(),
         subtext: geo.type_common_name.clone(),
-        hit: hit.result.clone(),
+        hit: Box::new(hit.result.clone()),
         name,
-        ..super::ResultEntry::default()
+        subtext_bold: None,
+        parsed_id: None,
     }
 }
 
@@ -171,15 +211,16 @@ fn make_room_like_entry(
     geo: &GeoMSHit,
     hit: &SearchResult<MSHit>,
     highlight: &HighlightContext<'_>,
-) -> super::ResultEntry {
+) -> super::LocationEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::LocationEntry {
         id: geo.room_code.clone(),
         r#type: geo.r#type.clone(),
+        subtext: String::new(),
         subtext_bold: Some(geo.arch_name.clone().unwrap_or_default()),
-        hit: hit.result.clone(),
+        hit: Box::new(hit.result.clone()),
         name,
-        ..super::ResultEntry::default()
+        parsed_id: None,
     }
 }
 
@@ -193,19 +234,17 @@ fn make_lecture_entry(
     lecture: &LectureMSHit,
     hit: &SearchResult<MSHit>,
     highlight: &HighlightContext<'_>,
-) -> super::ResultEntry {
+) -> super::LectureEntry {
     let name = highlighted_name_for_hit(hit, highlight);
-    super::ResultEntry {
+    super::LectureEntry {
         id: lecture.ms_id.clone(),
         r#type: lecture.r#type.clone(),
         subtext: lecture.type_common_name.clone(),
         name,
-        title_de: Some(lecture.title_de.clone()),
-        title_en: Some(lecture.title_en.clone()),
-        next_occurrence_at: Some(lecture.next_occurrence_at),
-        upcoming: Some(lecture.upcoming.clone()),
-        hit: hit.result.clone(),
-        ..super::ResultEntry::default()
+        title_de: lecture.title_de.clone(),
+        title_en: lecture.title_en.clone(),
+        next_occurrence_at: lecture.next_occurrence_at,
+        upcoming: lecture.upcoming.clone(),
     }
 }
 

@@ -1,6 +1,6 @@
 use unicode_truncate::UnicodeTruncateStr as _;
 
-use super::ResultEntry;
+use super::LocationEntry;
 use super::parser::{ParsedQuery, TextToken};
 use crate::external::meilisearch::{GeoMSHit, MSHit};
 use crate::routes::search::{CroppingMode, FormattingConfig, ParsedIdMode};
@@ -21,13 +21,11 @@ impl From<(ParsedQuery, FormattingConfig)> for RoomVisitor {
 }
 
 impl RoomVisitor {
-    pub(super) fn visit(&self, item: &mut ResultEntry) {
+    pub(super) fn visit(&self, item: &mut LocationEntry) {
         // Only geo (room) hits carry the arch-name / parent metadata this
-        // visitor formats. The visitor is only ever run over the rooms
-        // section, so a non-geo hit here would be a bug, but we degrade
-        // gracefully rather than panic.
+        // visitor formats.
         let (MSHit::Site(hit) | MSHit::Building(hit) | MSHit::Room(hit) | MSHit::Poi(hit)) =
-            &item.hit
+            &*item.hit
         else {
             return;
         };
@@ -36,7 +34,7 @@ impl RoomVisitor {
                 item.parsed_id = self.parse_room_formats(hit);
             }
             ParsedIdMode::Roomfinder => {
-                item.parsed_id = hit.arch_name.clone();
+                item.parsed_id.clone_from(&hit.arch_name);
             }
         }
         item.subtext = Self::generate_subtext(hit);

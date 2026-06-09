@@ -776,6 +776,72 @@ export type components = {
        */
       readonly transfer_count: number;
     };
+    /** @description A lecture search result, carrying its bilingual titles and upcoming occurrences. */
+    readonly LectureEntry: {
+      /**
+       * @description The id of the lecture
+       * @example lecture_5f2c…
+       */
+      readonly id: string;
+      /**
+       * @description The display name of the result. Supports highlighting.
+       * @example Einführung in die Informatik 1
+       */
+      readonly name: string;
+      /**
+       * Format: date-time
+       * @description The next time this lecture takes place, as an RFC 3339 timestamp.
+       * @example 2024-10-15T08:00:00Z
+       */
+      readonly next_occurrence_at: string;
+      /**
+       * @description Subtext to show below the search result.
+       *
+       *     Carries the human `stp_type` label (e.g. "Vorlesung").
+       * @example Vorlesung
+       */
+      readonly subtext: string;
+      /**
+       * @description The German title of the lecture.
+       * @example Einführung in die Informatik 1
+       */
+      readonly title_de: string;
+      /**
+       * @description The English title of the lecture.
+       * @example Introduction to Informatics 1
+       */
+      readonly title_en: string;
+      /**
+       * @description the type of the result; always `lecture` for this variant
+       * @example lecture
+       */
+      readonly type: string;
+      /**
+       * @description The upcoming occurrences of this lecture, in chronological order.
+       *
+       *     The first element's `start_at` matches `next_occurrence_at`. The list is
+       *     capped at whichever covers more events: the next 10 occurrences or those
+       *     within a 14-day window.
+       */
+      readonly upcoming: readonly components["schemas"]["UpcomingEvent"][];
+    };
+    /** @description A section of lecture results. */
+    readonly LectureSection: {
+      readonly entries: readonly components["schemas"]["LectureEntry"][];
+      /**
+       * @description The estimated (not exact) number of hits for that query
+       * @example 6
+       */
+      readonly estimatedTotalHits: number;
+      /**
+       * @description A recommendation how many of the entries should be displayed by default.
+       *
+       *     The number is usually from `0`..`5`.
+       *     More results might be displayed when clicking "expand".
+       * @example 4
+       */
+      readonly n_visible: number;
+    };
     readonly LimitedHashMap_String_Addition: {
       readonly [key: string]:
         | (components["schemas"]["NewRoom"] & {
@@ -884,9 +950,73 @@ export type components = {
        */
       readonly type_common_name: string;
     };
+    /**
+     * @description A location-like search result: a site, building, room, POI, or address.
+     *
+     *     Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
+     *     make sense for locations; lectures use [`LectureEntry`] instead.
+     */
+    readonly LocationEntry: {
+      /**
+       * @description The id of the location
+       * @example 5510.03.002
+       */
+      readonly id: string;
+      /**
+       * @description The display name of the result. Supports highlighting.
+       * @example 5510.03.002 (MW 2001, Empore)
+       */
+      readonly name: string;
+      /**
+       * @description This is an optional feature, that is only supported for some rooms.
+       *
+       *     It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
+       *     See the image below for an example.
+       *     It will be cropped to a maximum length to not take too much space in UIs.
+       *     Supports highlighting.
+       */
+      readonly parsed_id?: string | null;
+      /**
+       * @description Subtext to show below the search result.
+       *
+       *     Usually contains the context of where this rooms is located in.
+       *     Currently not highlighted.
+       * @example Maschinenwesen (MW)
+       */
+      readonly subtext: string;
+      /**
+       * @description Subtext to show below the search (by default in bold and after the non-bold subtext).
+       *
+       *     Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
+       * @example 3002@5510
+       */
+      readonly subtext_bold?: string | null;
+      /**
+       * @description the type of the site/building
+       * @example room
+       */
+      readonly type: string;
+    };
     readonly LocationEventsResponse: {
       readonly events: readonly components["schemas"]["EventResponse"][];
       readonly location: components["schemas"]["CalendarLocationResponse"];
+    };
+    /** @description A section of location-like results (sites, buildings, rooms, POIs, addresses). */
+    readonly LocationSection: {
+      readonly entries: readonly components["schemas"]["LocationEntry"][];
+      /**
+       * @description The estimated (not exact) number of hits for that query
+       * @example 6
+       */
+      readonly estimatedTotalHits: number;
+      /**
+       * @description A recommendation how many of the entries should be displayed by default.
+       *
+       *     The number is usually from `0`..`5`.
+       *     More results might be displayed when clicking "expand".
+       * @example 4
+       */
+      readonly n_visible: number;
     };
     /** @enum {string} */
     readonly LocationTypeResponse:
@@ -1677,101 +1807,42 @@ export type components = {
       /** @description URL of the vehicle share system */
       readonly url?: string | null;
     };
-    readonly ResultEntry: {
-      /**
-       * @description The id of the location
-       * @example 5510.03.002
-       */
-      readonly id: string;
-      /**
-       * @description Subtext to show below the search result.
-       *
-       *     Usually contains the context of where this rooms is located in.
-       *     Currently not highlighted.
-       * @example 5510.03.002 (MW 2001, Empore)
-       */
-      readonly name: string;
-      /**
-       * Format: date-time
-       * @description The next time this lecture takes place, as an RFC 3339 timestamp.
-       *
-       *     Only present for entries in the `lectures` section.
-       * @example 2024-10-15T08:00:00Z
-       */
-      readonly next_occurrence_at?: string | null;
-      /**
-       * @description This is an optional feature, that is only supported for some rooms.
-       *
-       *     It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used.
-       *     See the image below for an example.
-       *     It will be cropped to a maximum length to not take too much space in UIs.
-       *     Supports highlighting.
-       */
-      readonly parsed_id?: string | null;
-      /**
-       * @description Subtext to show below the search result.
-       *
-       *     Usually contains the context of where this rooms is located in.
-       *     Currently not highlighted.
-       * @example Maschinenwesen (MW)
-       */
-      readonly subtext: string;
-      /**
-       * @description Subtext to show below the search (by default in bold and after the non-bold subtext).
-       *
-       *     Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
-       * @example 3002@5510
-       */
-      readonly subtext_bold?: string | null;
-      /**
-       * @description The German title of a lecture.
-       *
-       *     Only present for entries in the `lectures` section.
-       * @example Einführung in die Informatik 1
-       */
-      readonly title_de?: string | null;
-      /**
-       * @description The English title of a lecture.
-       *
-       *     Only present for entries in the `lectures` section.
-       * @example Introduction to Informatics 1
-       */
-      readonly title_en?: string | null;
-      /**
-       * @description the type of the site/building
-       * @example room
-       */
-      readonly type: string;
-      /**
-       * @description The upcoming occurrences of this lecture, in chronological order.
-       *
-       *     Only present for entries in the `lectures` section.
-       *     The first element's `start_at` matches `next_occurrence_at`. The list is
-       *     capped at whichever covers more events: the next 10 occurrences or those
-       *     within a 14-day window.
-       */
-      readonly upcoming?: readonly components["schemas"]["UpcomingEvent"][] | null;
-    };
-    /** @enum {string} */
-    readonly ResultFacet: "sites" | "buildings" | "rooms" | "pois" | "lectures" | "addresses";
-    readonly ResultsSection: {
-      readonly entries: readonly components["schemas"]["ResultEntry"][];
-      /**
-       * @description The estimated (not exact) number of hits for that query
-       * @example 6
-       */
-      readonly estimatedTotalHits: number;
-      /** @description These indicate the type of item this represents */
-      readonly facet: components["schemas"]["ResultFacet"];
-      /**
-       * @description A recommendation how many of the entries should be displayed by default.
-       *
-       *     The number is usually from `0`..`5`.
-       *     More results might be displayed when clicking "expand".
-       * @example 4
-       */
-      readonly n_visible: number;
-    };
+    /**
+     * @description One section of search results, grouped by facet.
+     *
+     *     The `facet` is the discriminator: the five location facets (sites, buildings,
+     *     rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
+     *     room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
+     *     with their bilingual titles and upcoming occurrences. Tagging the section by
+     *     `facet` means a consumer narrows once on the discriminator it already needs
+     *     for the section header and then sees exactly the entry shape that facet
+     *     carries - instead of a redundant per-entry `kind` repeated on every hit.
+     */
+    readonly ResultsSection:
+      | (components["schemas"]["LocationSection"] & {
+          /** @enum {string} */
+          readonly facet: "sites";
+        })
+      | (components["schemas"]["LocationSection"] & {
+          /** @enum {string} */
+          readonly facet: "buildings";
+        })
+      | (components["schemas"]["LocationSection"] & {
+          /** @enum {string} */
+          readonly facet: "rooms";
+        })
+      | (components["schemas"]["LocationSection"] & {
+          /** @enum {string} */
+          readonly facet: "pois";
+        })
+      | (components["schemas"]["LocationSection"] & {
+          /** @enum {string} */
+          readonly facet: "addresses";
+        })
+      | (components["schemas"]["LectureSection"] & {
+          /** @enum {string} */
+          readonly facet: "lectures";
+        });
     readonly RoomAddress: {
       readonly place: string;
       readonly street: string;

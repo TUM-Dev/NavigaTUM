@@ -5,10 +5,9 @@ import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
 import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
-import { LectureNavKey } from "~/utils/lectureRow";
+import { LectureNavKey, type SearchResultEntry, tagSectionEntries } from "~/utils/lectureRow";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
-type ResultEntry = components["schemas"]["ResultEntry"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
@@ -38,7 +37,7 @@ watch(searchBarFocused, (focused) => {
   if (!focused) nav.clearLectureExpansion();
 });
 
-function resultHighlighted(entry: ResultEntry): boolean {
+function resultHighlighted(entry: SearchResultEntry): boolean {
   const current = highlightedEntry.value;
   return current?.kind === "result" && current.entry.id === entry.id;
 }
@@ -61,10 +60,10 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
   searchInput.value?.blur();
 }
 
-async function searchGoTo(entry: ResultEntry): Promise<void> {
+async function searchGoTo(entry: SearchResultEntry): Promise<void> {
   // Lectures have no entity page; jump to the next occurrence's room instead.
-  if (entry.type === "lecture") {
-    const room = entry.upcoming?.[0]?.room_code;
+  if (entry.kind === "lecture") {
+    const room = entry.upcoming[0]?.room_code;
     if (!room) {
       await searchGo(false);
       return;
@@ -243,7 +242,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
                 <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
               </div>
 
-              <template v-for="(e, i) in s.entries" :key="e.id">
+              <template v-for="(e, i) in tagSectionEntries(s)" :key="e.id">
                 <SearchResultItemLink
                   v-if="expandedFacets.has(s.facet) || i < s.n_visible"
                   :highlighted="resultHighlighted(e)"

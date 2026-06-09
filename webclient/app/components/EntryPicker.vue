@@ -2,10 +2,10 @@
 import { mdiClose } from "@mdi/js";
 import { useDebounceFn } from "@vueuse/core";
 import type { components } from "~/api_types";
+import { type SearchResultEntry, tagSectionEntries } from "~/utils/lectureRow";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
 type SearchResponse = components["schemas"]["SearchResponse"];
-type ResultEntry = components["schemas"]["ResultEntry"];
 
 const selectedId = defineModel<string>("selectedId", { required: true });
 
@@ -58,18 +58,18 @@ watch(searchUrl, async (url) => {
   }
 });
 
-const entries = computed<ResultEntry[]>(() => {
+const entries = computed<SearchResultEntry[]>(() => {
   if (!debounced.value) return [];
   const sections = searchResults.value?.sections;
   if (!sections) return [];
-  return sections.flatMap((s) => s.entries);
+  return sections.flatMap((s) => tagSectionEntries(s));
 });
 
 watch(entries, () => {
   highlighted.value = entries.value.length > 0 ? 0 : -1;
 });
 
-function selectEntry(entry: ResultEntry) {
+function selectEntry(entry: SearchResultEntry) {
   selectedId.value = entry.id;
   selectedName.value = entry.name;
   query.value = "";

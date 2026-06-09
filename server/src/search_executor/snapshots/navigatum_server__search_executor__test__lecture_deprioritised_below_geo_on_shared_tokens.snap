@@ -1,6 +1,6 @@
 ---
 source: server/src/search_executor/mod.rs
-description: the 0.5 federation weight demotes the lecture below an equally-strong building match
+description: the 0.5 federation weight demotes the lecture below a building even when the lecture is the stronger raw match
 expression: results.0
 info: q=Quantenrobotik Praktikum
 ---

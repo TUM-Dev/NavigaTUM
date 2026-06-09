@@ -1,28 +1,26 @@
 <script setup lang="ts">
 import { mdiChevronRight } from "@mdi/js";
-import type { components } from "~/api_types/index.js";
 import PreviewIcon from "~/components/PreviewIcon.vue";
 import {
   firstUpcoming,
   formatUpcoming,
   type LectureLocale,
   lectureTitle,
+  type SearchResultEntry,
 } from "~/utils/lectureRow";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
-
 const props = defineProps<{
-  item: ResultEntry;
+  item: SearchResultEntry;
   highlighted: boolean;
 }>();
 
 const { t, locale } = useI18n({ useScope: "local" });
 const localeKey = computed<LectureLocale>(() => (locale.value === "de" ? "de" : "en"));
 const lectureTitleText = computed(() =>
-  props.item.type === "lecture" ? lectureTitle(props.item, localeKey.value) : ""
+  props.item.kind === "lecture" ? lectureTitle(props.item, localeKey.value) : ""
 );
 const lectureFirst = computed(() =>
-  props.item.type === "lecture" ? firstUpcoming(props.item) : null
+  props.item.kind === "lecture" ? firstUpcoming(props.item) : null
 );
 const lectureMeta = computed(() => {
   const event = lectureFirst.value;
@@ -39,7 +37,7 @@ const lectureMeta = computed(() => {
   <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4" :class="{ 'bg-blue-200 dark:bg-blue-700': highlighted }">
     <PreviewIcon :item="{ type: item.type, parsed_id: undefined }" />
     <div class="text-zinc-600 dark:text-zinc-300 flex flex-1 flex-col gap-0.5">
-      <template v-if="item.type === 'lecture'">
+      <template v-if="item.kind === 'lecture'">
         <span class="text-zinc-900 dark:text-zinc-50 line-clamp-1 font-medium">{{ lectureTitleText }}</span>
         <small v-if="lectureMeta" class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
           <time :datetime="lectureMeta.startAt">{{ lectureMeta.when }}</time>

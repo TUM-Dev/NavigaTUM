@@ -2,21 +2,47 @@ import { type ComputedRef, computed, type InjectionKey, type Ref, readonly, ref 
 import type { components } from "~/api_types/index.js";
 import { type EntityPath, entityPath } from "~/utils/entityPath";
 
-type ResultEntry = components["schemas"]["ResultEntry"];
+type LocationEntry = components["schemas"]["LocationEntry"];
+type LectureEntry = components["schemas"]["LectureEntry"];
+type ResultsSection = components["schemas"]["ResultsSection"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
+
+/**
+ * A single search entry tagged with the `kind` implied by its section's facet.
+ *
+ * The API groups entries into sections and discriminates on the section's
+ * `facet`, not on a per-entry field. We re-attach a `kind` here so a row stays
+ * self-describing once it is detached from its section (flattened into the
+ * keyboard-navigation list, passed to a row component, ...).
+ */
+export type SearchResultEntry =
+  | ({ readonly kind: "location" } & LocationEntry)
+  | ({ readonly kind: "lecture" } & LectureEntry);
+
+/** The lecture variant of a tagged search entry. */
+export type LectureResultEntry = Extract<SearchResultEntry, { kind: "lecture" }>;
+
+/** Tag a section's entries with the `kind` implied by its facet. */
+export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] {
+  if (section.facet === "lectures") {
+    return section.entries.map((entry) => ({ kind: "lecture", ...entry }));
+  }
+  return section.entries.map((entry) => ({ kind: "location", ...entry }));
+}
 
 // TUM lectures are scheduled in Europe/Berlin regardless of the visitor's zone.
 const TZ = "Europe/Berlin";
 
 export type LectureLocale = "de" | "en";
 
-export function lectureTitle(entry: ResultEntry, locale: LectureLocale): string {
+export function lectureTitle(entry: LectureResultEntry, locale: LectureLocale): string {
   const preferred = locale === "de" ? entry.title_de : entry.title_en;
   const fallback = locale === "de" ? entry.title_en : entry.title_de;
-  return preferred?.trim() || fallback?.trim() || entry.name;
+  // Titles are non-null over the wire, but stay defensive against empty/missing.
+  return (preferred || "").trim() || (fallback || "").trim() || entry.name;
 }
 
-export function firstUpcoming(entry: ResultEntry): UpcomingEvent | null {
+export function firstUpcoming(entry: LectureResultEntry): UpcomingEvent | null {
   const list = entry.upcoming;
   if (!list || list.length === 0) return null;
   return list[0] ?? null;
@@ -86,7 +112,7 @@ export function useLectureRowExpansion(initial = false): LectureRowExpansion {
 export const LECTURE_EVENT_NAV_CAP = 3;
 
 export type VisibleSearchEntry =
-  | { readonly kind: "result"; readonly sectionFacet: string; readonly entry: ResultEntry }
+  | { readonly kind: "result"; readonly sectionFacet: string; readonly entry: SearchResultEntry }
   | {
       readonly kind: "event";
       readonly lectureId: string;
@@ -101,14 +127,8 @@ export interface LectureExpansionState {
   readonly lectureShowAll: ReadonlySet<string>;
 }
 
-interface SectionLike {
-  readonly facet: string;
-  readonly entries: readonly ResultEntry[];
-  readonly n_visible: number;
-}
-
 export function buildVisibleSearchEntries(
-  sections: readonly SectionLike[],
+  sections: readonly ResultsSection[],
   state: LectureExpansionState,
   eventNavCap: number = LECTURE_EVENT_NAV_CAP
 ): VisibleSearchEntry[] {
@@ -117,13 +137,13 @@ export function buildVisibleSearchEntries(
     const sectionCap = state.expandedFacets.has(section.facet)
       ? Number.POSITIVE_INFINITY
       : section.n_visible;
-    const sectionEntries = section.entries.slice(0, sectionCap);
+    const sectionEntries = tagSectionEntries(section).slice(0, sectionCap);
     for (const entry of sectionEntries) {
       out.push({ kind: "result", sectionFacet: section.facet, entry });
-      if (entry.type !== "lecture") continue;
+      if (entry.kind !== "lecture") continue;
       if (!state.expandedLectures.has(entry.id)) continue;
 
-      const events = entry.upcoming ?? [];
+      const events = entry.upcoming;
       const cap = state.lectureShowAll.has(entry.id) ? events.length : eventNavCap;
       const visibleEvents = events.slice(0, cap);
       for (let i = 0; i < visibleEvents.length; i++) {
@@ -146,7 +166,7 @@ export function findLectureHeaderIndex(
 ): number {
   return visibleElements.findIndex(
     (entry) =>
-      entry.kind === "result" && entry.entry.type === "lecture" && entry.entry.id === lectureId
+      entry.kind === "result" && entry.entry.kind === "lecture" && entry.entry.id === lectureId
   );
 }
 

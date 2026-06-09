@@ -42,14 +42,19 @@ export function extractFacets(
     ) {
       continue;
     }
-    const entries: EntryFacet[] = section.entries.map((entry) => ({
-      id: entry.id,
-      name: _allowHighlighting(entry.name),
-      type: entry.type,
-      subtext: entry.subtext,
-      subtext_bold: _allowHighlighting(entry.subtext_bold || ""),
-      parsed_id: _allowHighlighting(entry.parsed_id || ""),
-    }));
+    const entries: EntryFacet[] = [];
+    for (const entry of section.entries) {
+      // Narrowing `section.facet` to a geo facet above already types every
+      // entry as a `LocationEntry` carrying subtext_bold/parsed_id.
+      entries.push({
+        id: entry.id,
+        name: _allowHighlighting(entry.name),
+        type: entry.type,
+        subtext: entry.subtext,
+        subtext_bold: _allowHighlighting(entry.subtext_bold || ""),
+        parsed_id: _allowHighlighting(entry.parsed_id || ""),
+      });
+    }
     sections.push({
       facet: section.facet,
       name: labels[section.facet],
