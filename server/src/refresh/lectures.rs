@@ -302,7 +302,6 @@ async fn stale_lecture_ids(
 struct LectureDocument {
     ms_id: String,
     facet: &'static str,
-    r#type: &'static str,
     type_common_name: String,
     title_de: String,
     title_en: String,
@@ -322,7 +321,6 @@ impl LectureDocument {
         Self {
             ms_id: group.ms_id(),
             facet: LECTURE_FACET,
-            r#type: LECTURE_FACET,
             type_common_name: group
                 .stp_type
                 .clone()
