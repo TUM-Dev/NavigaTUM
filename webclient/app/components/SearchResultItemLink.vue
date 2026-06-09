@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { components } from "~/api_types/index.js";
+import LectureSearchResultRow from "~/components/LectureSearchResultRow.vue";
 import { type EntityPath, entityPath, isRoutableEntityType } from "~/utils/entityPath";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
@@ -8,7 +9,9 @@ const props = defineProps<{
   item: ResultEntry;
   highlighted: boolean;
 }>();
-const emit = defineEmits(["click", "mousedown", "mouseover"]);
+const emit = defineEmits(["click", "mouseover"]);
+
+const isLecture = computed(() => props.item.type === "lecture");
 
 // Entity results link to their canonical /{type}/{id} path. Non-routable results
 // (e.g. Nominatim addresses, only surfaced on the navigate page) have no entity
@@ -19,13 +22,22 @@ const to = computed<EntityPath | null>(() =>
 </script>
 
 <template>
-  <li class="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 rounded-sm border hover:bg-blue-100 dark:hover:bg-blue-800">
+  <LectureSearchResultRow
+    v-if="isLecture"
+    :item="item"
+    :highlighted="highlighted"
+    @click="() => emit('click')"
+    @mouseover="() => emit('mouseover')"
+  />
+  <li
+    v-else
+    class="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 rounded-sm border hover:bg-blue-100 dark:hover:bg-blue-800"
+  >
     <NuxtLinkLocale
       v-if="to"
       :to="to"
       class="focusable"
       @click="() => emit('click')"
-      @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
     >
       <SearchResultItem :item="item" :highlighted="highlighted" />

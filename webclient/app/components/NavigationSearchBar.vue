@@ -314,6 +314,7 @@ de:
     rooms: Räume
     pois: POIs
     addresses: Adressen
+    lectures: Vorlesungen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
   error:
@@ -346,6 +347,7 @@ en:
     rooms: Rooms
     pois: POIs
     addresses: Addresses
+    lectures: Lectures
   results: 1 result | {count} results
   approx_results: approx. {count} results
   error:

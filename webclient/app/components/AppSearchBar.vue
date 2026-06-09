@@ -2,11 +2,14 @@
 import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
+import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { LectureNavKey } from "~/utils/lectureRow";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 type ResultEntry = components["schemas"]["ResultEntry"];
+type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 
 const searchBarFocused = defineModel<boolean>("searchBarFocused", {
   required: true,
@@ -16,55 +19,33 @@ const localePath = useLocalePath();
 const route = useRoute();
 const router = useRouter();
 const filters = useStagedSearchFilters();
-const keep_focus = ref(false);
-const interacting_with_panel = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
-const highlighted = ref<number | undefined>(undefined);
-// Per-facet expand state. Sites/buildings/rooms can freeze with
-// `n_visible < entries.length` when a lower-priority facet appears; the
-// "show hidden" button on each such section toggles its slot here.
-const expandedFacets = ref<Set<string>>(new Set());
+const searchWrapper = ref<HTMLElement | null>(null);
+const searchInput = useTemplateRef<HTMLTextAreaElement>("searchInput");
+const { focused: wrapperFocused } = useFocusWithin(searchWrapper);
 
-const visibleElements = computed<ResultEntry[]>(() => {
-  if (!data.value) return [] as ResultEntry[];
+const sections = computed(() => data.value?.sections);
+const nav = useSearchDropdownNav(sections);
+const { expandedFacets, highlighted, highlightedEntry, lectureNav } = nav;
+provide(LectureNavKey, lectureNav);
 
-  const visible: ResultEntry[] = [] as ResultEntry[];
-  for (const section of data.value.sections) {
-    const cap = expandedFacets.value.has(section.facet)
-      ? Number.POSITIVE_INFINITY
-      : section.n_visible;
-    visible.push(...section.entries.slice(0, cap));
-  }
-  return visible;
+watch(wrapperFocused, (isFocused) => {
+  searchBarFocused.value = isFocused;
+  if (isFocused) highlighted.value = undefined;
 });
+watch(query, () => nav.resetAll());
+watch(searchBarFocused, (focused) => {
+  if (!focused) nav.clearLectureExpansion();
+});
+
+function resultHighlighted(entry: ResultEntry): boolean {
+  const current = highlightedEntry.value;
+  return current?.kind === "result" && current.entry.id === entry.id;
+}
 
 const hasNoResults = computed(
   () => data.value?.sections.every((s) => s.estimatedTotalHits === 0) ?? false
 );
-
-function searchFocus(): void {
-  searchBarFocused.value = true;
-  highlighted.value = undefined;
-}
-
-function searchBlur(): void {
-  if (interacting_with_panel.value) {
-    // Mouse interaction inside the dropdown panel (filters, sort, popovers, inputs):
-    // keep the dropdown open but let focus stay on whatever the user clicked.
-    interacting_with_panel.value = false;
-    return;
-  }
-  if (keep_focus.value) {
-    setTimeout(() => {
-      // This is relevant if the call is delayed and focused has
-      // already been disabled e.g. when clicking on an entry.
-      if (searchBarFocused.value) document.getElementById("search")?.focus();
-    }, 0);
-    keep_focus.value = false;
-  } else {
-    searchBarFocused.value = false;
-  }
-}
 
 async function searchGo(cleanQuery: boolean): Promise<void> {
   if (query.value.length === 0) return;
@@ -74,28 +55,43 @@ async function searchGo(cleanQuery: boolean): Promise<void> {
     query: { q: query.value, ...filters.buildQueryObject() },
   });
   await navigateTo(target.fullPath);
-  searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
   }
-  document.getElementById("search")?.blur();
+  searchInput.value?.blur();
 }
 
 async function searchGoTo(entry: ResultEntry): Promise<void> {
+  // Lectures have no entity page; jump to the next occurrence's room instead.
+  if (entry.type === "lecture") {
+    const room = entry.upcoming?.[0]?.room_code;
+    if (!room) {
+      await searchGo(false);
+      return;
+    }
+    await navigateTo(localePath(entityPath(room, "room")));
+    query.value = "";
+    searchInput.value?.blur();
+    return;
+  }
   if (!isRoutableEntityType(entry.type)) return;
   await navigateTo(localePath(entityPath(entry.id, entry.type)));
-  searchBarFocused.value = false;
   query.value = "";
-  document.getElementById("search")?.blur();
+  searchInput.value?.blur();
+}
+
+async function goToEvent(event: UpcomingEvent): Promise<void> {
+  await navigateTo(localePath(entityPath(event.room_code, "room")));
+  query.value = "";
+  searchInput.value?.blur();
 }
 
 function closeSearchBar(): void {
-  // Force-close even if a child (filter chip, sort popover, …) flipped the keep-focus flags;
-  // ESC is the user's "I'm done" signal and should always tear the panel down.
-  keep_focus.value = false;
-  interacting_with_panel.value = false;
-  searchBarFocused.value = false;
-  document.getElementById("search")?.blur();
+  // Blur whichever descendant holds focus so useFocusWithin flips shut.
+  const active = document.activeElement;
+  if (active instanceof HTMLElement && searchWrapper.value?.contains(active)) {
+    active.blur();
+  }
 }
 
 onKeyStroke("Escape", () => {
@@ -107,44 +103,28 @@ function onKeyDown(e: KeyboardEvent): void {
     case "Escape":
       closeSearchBar();
       break;
-
     case "ArrowDown":
-      if (highlighted.value === undefined) {
-        highlighted.value = 0;
-        e.preventDefault();
-        break;
-      }
-
-      highlighted.value = (highlighted.value + 1) % visibleElements.value.length;
       e.preventDefault();
+      nav.arrowDown();
       break;
-
     case "ArrowUp":
-      if (visibleElements.value.length === 0) {
-        highlighted.value = undefined;
-        e.preventDefault();
-        break;
-      }
-      if (highlighted.value === 0 || highlighted.value === undefined) {
-        highlighted.value = visibleElements.value.length - 1;
+      e.preventDefault();
+      nav.arrowUp();
+      break;
+    case "Enter": {
+      e.preventDefault();
+      const entry = highlightedEntry.value;
+      if (!entry) {
+        searchGo(false);
+      } else if (entry.kind === "result") {
+        searchGoTo(entry.entry);
+      } else if (entry.kind === "event") {
+        goToEvent(entry.event);
       } else {
-        highlighted.value -= 1;
-      }
-      e.preventDefault();
-      break;
-
-    case "Enter":
-      e.preventDefault();
-      if (highlighted.value === undefined) searchGo(false);
-      else {
-        const entry = visibleElements.value[highlighted.value];
-        if (entry === undefined) {
-          searchGo(true);
-        } else {
-          searchGoTo(entry);
-        }
+        nav.revealMoreEvents(entry.lectureId);
       }
       break;
+    }
     default:
       break;
   }
@@ -171,133 +151,127 @@ const { data, error } = useFetch<SearchResponse>(url, {
 </script>
 
 <template>
-  <form action="/search" autocomplete="off" method="GET" role="search" class="flex flex-row" @submit="searchGo(false)">
-    <div
-      class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600 dark:focus-within:outline-blue-300"
-    >
-      <textarea
-        id="search"
-        v-model="query"
-        cols="1"
-        rows="1"
-        :title="t('input.aria-searchlabel')"
-        aria-autocomplete="both"
-        aria-haspopup="false"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-        maxlength="2048"
-        name="q"
-        type="text"
-        class="text-zinc-800 dark:text-zinc-100 flex-grow resize-none bg-transparent py-2.5 pe-5 ps-3 font-semibold placeholder:text-zinc-800 dark:placeholder:text-zinc-100 focus-within:placeholder:text-zinc-500 dark:focus-within:placeholder:text-zinc-400 placeholder:font-normal focus:outline-0"
-        :placeholder="t('input.placeholder')"
-        :aria-label="t('input.aria-searchlabel')"
-        @focus="searchFocus"
-        @blur="searchBlur"
-        @keydown="onKeyDown"
-      />
-    </div>
-    <button
-      type="submit"
-      class="bg-blue-500 dark:bg-blue-400 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 dark:hover:bg-blue-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-300"
-      :aria-label="t('input.aria-actionlabel')"
-      :title="t('input.action')"
-    >
-      <MdiIcon :path="mdiMagnify" :size="28" class="text-zinc-100 dark:text-zinc-800 my-auto" />
-    </button>
-  </form>
-  <!-- Autocomplete -->
-  <ClientOnly>
-    <div
-      v-if="searchBarFocused && query.length !== 0"
-      class="shadow-4xl bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 absolute inset-x-0 top-3 mt-16 flex max-h-[calc(100vh-80px)] flex-col gap-4 overflow-auto border p-3.5 shadow-zinc-700/30 dark:shadow-zinc-200/30 md:inset-x-auto md:-ms-2 md:me-3 md:max-w-xl md:rounded-sm"
-    >
+  <div ref="searchWrapper" class="contents">
+    <form action="/search" autocomplete="off" method="GET" role="search" class="flex flex-row" @submit="searchGo(false)">
       <div
-        class="flex flex-wrap items-center gap-2"
-        @mousedown.capture="interacting_with_panel = true"
+        class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600 dark:focus-within:outline-blue-300"
       >
-        <SearchFilterChips :filters="filters" />
-        <div class="ms-auto">
-          <SearchSortControl :filters="filters" />
-        </div>
+        <textarea
+          id="search"
+          ref="searchInput"
+          v-model="query"
+          cols="1"
+          rows="1"
+          :title="t('input.aria-searchlabel')"
+          aria-autocomplete="both"
+          aria-haspopup="false"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+          maxlength="2048"
+          name="q"
+          type="text"
+          class="text-zinc-800 dark:text-zinc-100 flex-grow resize-none bg-transparent py-2.5 pe-5 ps-3 font-semibold placeholder:text-zinc-800 dark:placeholder:text-zinc-100 focus-within:placeholder:text-zinc-500 dark:focus-within:placeholder:text-zinc-400 placeholder:font-normal focus:outline-0"
+          :placeholder="t('input.placeholder')"
+          :aria-label="t('input.aria-searchlabel')"
+          @keydown="onKeyDown"
+        />
       </div>
-      <Toast v-if="error" id="search-error" level="error">
-        <p class="text-md font-bold">{{ t("error.header") }}</p>
-        <p class="text-sm">
-          {{ t("error.reason") }}:<br />
-          <code
-            class="text-red-900 dark:text-red-50 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-900/20"
-          >
-            {{ error }}
-          </code>
-        </p>
-        <p class="text-sm">{{ t("error.call_to_action") }}</p>
-      </Toast>
-      <template v-if="data">
-        <div
-          v-if="hasNoResults"
-          role="status"
-          class="flex flex-col items-center gap-1 px-2 py-6 text-center"
-        >
-          <MdiIcon :path="mdiMagnifyClose" :size="32" class="text-zinc-400 dark:text-zinc-500" />
-          <p class="text-zinc-800 dark:text-zinc-100 text-sm font-semibold">{{ t("no_results.title") }}</p>
-          <p class="text-zinc-500 dark:text-zinc-400 text-xs">
-            {{ filters.hasActiveFilters.value ? t("no_results.hint_filtered") : t("no_results.hint") }}
-          </p>
-          <Btn
-            v-if="filters.hasActiveFilters.value"
-            variant="linkButton"
-            size="sm"
-            @mousedown="keep_focus = true"
-            @click="filters.clearAll()"
-          >
-            {{ t("no_results.clear_filters") }}
-          </Btn>
+      <button
+        type="submit"
+        class="bg-blue-500 dark:bg-blue-400 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 dark:hover:bg-blue-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-300"
+        :aria-label="t('input.aria-actionlabel')"
+        :title="t('input.action')"
+      >
+        <MdiIcon :path="mdiMagnify" :size="28" class="text-zinc-100 dark:text-zinc-800 my-auto" />
+      </button>
+    </form>
+    <!-- Autocomplete -->
+    <ClientOnly>
+      <div
+        v-if="searchBarFocused && query.length !== 0"
+        class="shadow-4xl bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 absolute inset-x-0 top-3 mt-16 flex max-h-[calc(100vh-80px)] flex-col gap-4 overflow-auto border p-3.5 shadow-zinc-700/30 dark:shadow-zinc-200/30 md:inset-x-auto md:-ms-2 md:me-3 md:max-w-xl md:rounded-sm"
+      >
+        <div class="flex flex-wrap items-center gap-2">
+          <SearchFilterChips :filters="filters" />
+          <div class="ms-auto">
+            <SearchSortControl :filters="filters" />
+          </div>
         </div>
-        <ul
-          v-for="s in data.sections"
-          v-else
-          v-cloak
-          :key="s.facet"
-          class="flex flex-col gap-2"
-        >
-          <template v-if="s.estimatedTotalHits > 0">
-            <div class="flex items-center">
-              <span class="text-md text-zinc-800 dark:text-zinc-100 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-              <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
-            </div>
-
-          <template v-for="(e, i) in s.entries" :key="e.id">
-            <SearchResultItemLink
-              v-if="expandedFacets.has(s.facet) || i < s.n_visible"
-              :highlighted="e.id === visibleElements[highlighted ?? -1]?.id"
-              :item="e"
-              @click="searchBarFocused = false"
-              @mousedown="keep_focus = true"
-              @mouseover="highlighted = undefined"
-            />
-          </template>
-          <li class="-mt-2">
+        <Toast v-if="error" id="search-error" level="error">
+          <p class="text-md font-bold">{{ t("error.header") }}</p>
+          <p class="text-sm">
+            {{ t("error.reason") }}:<br />
+            <code
+              class="text-red-900 dark:text-red-50 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-900/20"
+            >
+              {{ error }}
+            </code>
+          </p>
+          <p class="text-sm">{{ t("error.call_to_action") }}</p>
+        </Toast>
+        <template v-if="data">
+          <div
+            v-if="hasNoResults"
+            role="status"
+            class="flex flex-col items-center gap-1 px-2 py-6 text-center"
+          >
+            <MdiIcon :path="mdiMagnifyClose" :size="32" class="text-zinc-400 dark:text-zinc-500" />
+            <p class="text-zinc-800 dark:text-zinc-100 text-sm font-semibold">{{ t("no_results.title") }}</p>
+            <p class="text-zinc-500 dark:text-zinc-400 text-xs">
+              {{ filters.hasActiveFilters.value ? t("no_results.hint_filtered") : t("no_results.hint") }}
+            </p>
             <Btn
-              v-if="!expandedFacets.has(s.facet) && s.n_visible < s.entries.length"
+              v-if="filters.hasActiveFilters.value"
               variant="linkButton"
               size="sm"
-              @mousedown="keep_focus = true"
-              @click="expandedFacets = new Set([...expandedFacets, s.facet])"
+              @click="filters.clearAll()"
             >
-              {{ t("show_hidden", s.entries.length - s.n_visible) }}
+              {{ t("no_results.clear_filters") }}
             </Btn>
-            <span class="text-zinc-400 dark:text-zinc-500 text-sm">
-              {{
-                s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
-              }}
-            </span>
-          </li>
-          </template>
-        </ul>
-      </template>
-    </div>
-  </ClientOnly>
+          </div>
+          <ul
+            v-for="s in data.sections"
+            v-else
+            v-cloak
+            :key="s.facet"
+            class="flex flex-col gap-2"
+          >
+            <template v-if="s.estimatedTotalHits > 0">
+              <div class="flex items-center">
+                <span class="text-md text-zinc-800 dark:text-zinc-100 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+                <div class="border-zinc-800 dark:border-zinc-100 flex-grow border-t" />
+              </div>
+
+              <template v-for="(e, i) in s.entries" :key="e.id">
+                <SearchResultItemLink
+                  v-if="expandedFacets.has(s.facet) || i < s.n_visible"
+                  :highlighted="resultHighlighted(e)"
+                  :item="e"
+                  @mouseover="highlighted = undefined"
+                />
+              </template>
+              <li class="-mt-2">
+                <Btn
+                  v-if="!expandedFacets.has(s.facet) && s.n_visible < s.entries.length"
+                  variant="linkButton"
+                  size="sm"
+                  @click="nav.expandFacet(s.facet)"
+                >
+                  {{ t("show_hidden", s.entries.length - s.n_visible) }}
+                </Btn>
+                <span class="text-zinc-400 dark:text-zinc-500 text-sm">
+                  {{
+                    s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
+                  }}
+                </span>
+              </li>
+            </template>
+          </ul>
+        </template>
+      </div>
+    </ClientOnly>
+  </div>
 </template>
 
 <i18n lang="yaml">
@@ -314,6 +288,7 @@ de:
     rooms: Räume
     pois: POIs
     addresses: Adressen
+    lectures: Vorlesungen
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
   no_results:
@@ -338,6 +313,7 @@ en:
     rooms: Rooms
     pois: POIs
     addresses: Addresses
+    lectures: Lectures
   results: 1 result | {count} results
   approx_results: approx. {count} results
   no_results:

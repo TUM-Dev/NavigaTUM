@@ -25,12 +25,16 @@ const query_limit_rooms = computed<number>(() =>
 const query_limit_pois = computed<number>(() =>
   Number.parseInt(firstOrDefault(route.query.limit_pois, "10"), 10)
 );
+const query_limit_lectures = computed<number>(() =>
+  Number.parseInt(firstOrDefault(route.query.limit_lectures, "10"), 10)
+);
 const query_limit_all = computed<number>(
   () =>
     query_limit_sites.value +
     query_limit_buildings.value +
     query_limit_rooms.value +
-    query_limit_pois.value
+    query_limit_pois.value +
+    query_limit_lectures.value
 );
 const apiUrl = computed(() => {
   const params = new URLSearchParams();
@@ -39,6 +43,7 @@ const apiUrl = computed(() => {
   params.append("limit_buildings", query_limit_buildings.value.toString());
   params.append("limit_rooms", query_limit_rooms.value.toString());
   params.append("limit_pois", query_limit_pois.value.toString());
+  params.append("limit_lectures", query_limit_lectures.value.toString());
   params.append("limit_all", query_limit_all.value.toString());
   params.append("lang", locale.value);
   params.append("pre_highlight", "<b class='text-blue'>");
@@ -120,6 +125,7 @@ useSeoMeta({
         :query-limit-buildings="query_limit_buildings"
         :query-limit-rooms="query_limit_rooms"
         :query-limit-pois="query_limit_pois"
+        :query-limit-lectures="query_limit_lectures"
       />
     </ClientOnly>
   </div>
@@ -133,6 +139,7 @@ de:
     rooms: Räume
     pois: POIs
     addresses: Adressen
+    lectures: Vorlesungen
     and: und
     nothing_found: Es konnten keine Ergebnisse gefunden werden.
     of_which_visible: davon sichtbar
@@ -149,6 +156,7 @@ en:
     rooms: Rooms
     pois: POIs
     addresses: Addresses
+    lectures: Lectures
     and: and
     nothing_found: No results could be found.
     of_which_visible: of them visible
