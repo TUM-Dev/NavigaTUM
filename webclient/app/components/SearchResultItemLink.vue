@@ -14,9 +14,7 @@ const emit = defineEmits(["click", "mouseover"]);
 // route and render as a plain, non-navigable row.
 const to = computed<EntityPath | null>(() => {
   if (props.item.kind === "lecture") return null;
-  return isRoutableEntityType(props.item.type)
-    ? entityPath(props.item.id, props.item.type)
-    : null;
+  return isRoutableEntityType(props.item.type) ? entityPath(props.item.id, props.item.type) : null;
 });
 </script>
 
