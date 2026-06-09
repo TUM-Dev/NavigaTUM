@@ -270,7 +270,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         </div>
 
         <template v-for="(e, i) in tagSectionEntries(s)" :key="e.id">
-          <SearchResultItem
+          <SearchResultContent
             v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"

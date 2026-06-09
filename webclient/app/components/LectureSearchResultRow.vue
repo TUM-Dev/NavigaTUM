@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiChevronDown, mdiChevronRight, mdiDotsHorizontal, mdiMapMarker } from "@mdi/js";
-import SearchResultItem from "~/components/SearchResultItem.vue";
+import LectureResultContent from "~/components/LectureResultContent.vue";
 import {
   formatUpcoming,
   LECTURE_EVENT_NAV_CAP,
@@ -74,7 +74,7 @@ function onHeaderKeydown(e: KeyboardEvent) {
       @keydown="onHeaderKeydown"
     >
       <!-- Highlight bg lives on the button so it spans the chevron column. -->
-      <SearchResultItem :item="item" :highlighted="false" />
+      <LectureResultContent :item="item" :highlighted="false" />
       <MdiIcon
         :path="isExpanded ? mdiChevronDown : mdiChevronRight"
         :size="20"

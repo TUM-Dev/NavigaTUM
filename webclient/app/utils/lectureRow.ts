@@ -22,6 +22,9 @@ export type SearchResultEntry =
 /** The lecture variant of a tagged search entry. */
 export type LectureResultEntry = Extract<SearchResultEntry, { kind: "lecture" }>;
 
+/** The location variant of a tagged search entry. */
+export type LocationResultEntry = Extract<SearchResultEntry, { kind: "location" }>;
+
 /** Tag a section's entries with the `kind` implied by its facet. */
 export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] {
   if (section.facet === "lectures") {
