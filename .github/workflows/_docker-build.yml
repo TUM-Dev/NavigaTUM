@@ -21,7 +21,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/navigatum-${{ inputs.image_suffix }}
+  IMAGE_NAME: tum-dev/navigatum-${{ inputs.image_suffix }}
 
 jobs:
   build:
