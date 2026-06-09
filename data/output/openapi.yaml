@@ -1490,7 +1490,6 @@ components:
       description: A lecture search result, carrying its bilingual titles and upcoming occurrences.
       required:
         - id
-        - type
         - name
         - subtext
         - title_de
@@ -1526,10 +1525,6 @@ components:
           type: string
           description: The English title of the lecture.
           example: Introduction to Informatics 1
-        type:
-          type: string
-          description: the type of the result; always `lecture` for this variant
-          example: lecture
         upcoming:
           type: array
           items:

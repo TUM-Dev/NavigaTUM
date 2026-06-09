@@ -12,9 +12,12 @@ const emit = defineEmits(["click", "mouseover"]);
 // Entity results link to their canonical /{type}/{id} path. Non-routable results
 // (e.g. Nominatim addresses, only surfaced on the navigate page) have no entity
 // route and render as a plain, non-navigable row.
-const to = computed<EntityPath | null>(() =>
-  isRoutableEntityType(props.item.type) ? entityPath(props.item.id, props.item.type) : null
-);
+const to = computed<EntityPath | null>(() => {
+  if (props.item.kind === "lecture") return null;
+  return isRoutableEntityType(props.item.type)
+    ? entityPath(props.item.id, props.item.type)
+    : null;
+});
 </script>
 
 <template>

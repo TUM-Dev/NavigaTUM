@@ -14,7 +14,7 @@ type LocationEntry = components["schemas"]["LocationEntry"];
 // string selects the building/room/POI icon.
 interface ResultEntryItem {
   kind?: "location" | "lecture";
-  type: LocationEntry["type"];
+  type?: LocationEntry["type"];
   parsed_id?: LocationEntry["parsed_id"];
 }
 defineProps<{ item: ResultEntryItem }>();

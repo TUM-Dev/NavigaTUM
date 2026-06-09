@@ -812,11 +812,6 @@ export type components = {
        */
       readonly title_en: string;
       /**
-       * @description the type of the result; always `lecture` for this variant
-       * @example lecture
-       */
-      readonly type: string;
-      /**
        * @description The upcoming occurrences of this lecture, in chronological order.
        *
        *     The first element's `start_at` matches `next_occurrence_at`. The list is

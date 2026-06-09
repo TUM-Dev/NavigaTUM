@@ -154,7 +154,6 @@ pub struct LectureMSHit {
     pub ms_id: String,
     /// Mirrors `title_de` for compatibility with the monolingual `name` field.
     pub name: String,
-    pub r#type: String,
     /// Human label of the `TUMonline` `stp_type` (e.g. "Vorlesung").
     pub type_common_name: String,
     pub title_de: String,

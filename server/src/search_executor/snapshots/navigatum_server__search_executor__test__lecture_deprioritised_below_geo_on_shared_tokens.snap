@@ -15,7 +15,6 @@ info: q=Quantenrobotik Praktikum
 - facet: lectures
   entries:
     - id: lecture_testfixture0001
-      type: lecture
       name: "\u0019Quantenrobotik\u0017 \u0019Praktikum\u0017"
       subtext: Vorlesung
       title_de: Quantenrobotik Praktikum

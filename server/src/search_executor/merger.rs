@@ -238,7 +238,6 @@ fn make_lecture_entry(
     let name = highlighted_name_for_hit(hit, highlight);
     super::LectureEntry {
         id: lecture.ms_id.clone(),
-        r#type: lecture.r#type.clone(),
         subtext: lecture.type_common_name.clone(),
         name,
         title_de: lecture.title_de.clone(),
