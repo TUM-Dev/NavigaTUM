@@ -26,6 +26,28 @@ export interface SearchFilters {
   setNear: (enabled: boolean) => void;
 }
 
+// The full set of filter values at one instant. Mutations are expressed as a
+// partial snapshot handed to the backing store's `commit`.
+interface FilterSnapshot {
+  in: readonly string[];
+  usage: readonly string[];
+  type: readonly string[];
+  near: string;
+}
+
+// The only real difference between the page and the dropdown is where filter
+// state lives and how it is written: the page backs it by the URL (mutations go
+// through the router), the dropdown stages it in local refs until submit. A
+// backing exposes the four reactive values plus a `commit` that persists a
+// partial update; the mutator logic on top is identical for both.
+interface FilterBacking {
+  inFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
+  usageFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
+  typeFilter: Readonly<Ref<readonly string[]>> | ComputedRef<readonly string[]>;
+  nearFilter: Readonly<Ref<string>> | ComputedRef<string>;
+  commit: (next: Partial<FilterSnapshot>) => void;
+}
+
 function activateNearFilter(setter: (coords: string) => void) {
   const geo = useSharedGeolocation();
   if (geo.value.userLocation) {
@@ -45,109 +67,82 @@ function activateNearFilter(setter: (coords: string) => void) {
   }
 }
 
-function makeShared(values: {
-  inFilter: ComputedRef<string[]> | Ref<string[]>;
-  usageFilter: ComputedRef<string[]> | Ref<string[]>;
-  typeFilter: ComputedRef<string[]> | Ref<string[]>;
-  nearFilter: ComputedRef<string> | Ref<string>;
-}): Pick<SearchFilters, "hasActiveFilters" | "buildQueryObject" | "appendToParams"> {
+function makeFilters(backing: FilterBacking): SearchFilters {
+  const { inFilter, usageFilter, typeFilter, nearFilter, commit } = backing;
+
   const hasActiveFilters = computed(
     () =>
-      values.inFilter.value.length > 0 ||
-      values.usageFilter.value.length > 0 ||
-      values.typeFilter.value.length > 0 ||
-      values.nearFilter.value !== ""
+      inFilter.value.length > 0 ||
+      usageFilter.value.length > 0 ||
+      typeFilter.value.length > 0 ||
+      nearFilter.value !== ""
   );
 
   function buildQueryObject(): Record<string, string | string[]> {
     const obj: Record<string, string | string[]> = {};
-    if (values.inFilter.value.length) obj.in = [...values.inFilter.value];
-    if (values.usageFilter.value.length) obj.usage = [...values.usageFilter.value];
-    if (values.typeFilter.value.length) obj.type = [...values.typeFilter.value];
-    if (values.nearFilter.value) obj.near = values.nearFilter.value;
+    if (inFilter.value.length) obj.in = [...inFilter.value];
+    if (usageFilter.value.length) obj.usage = [...usageFilter.value];
+    if (typeFilter.value.length) obj.type = [...typeFilter.value];
+    if (nearFilter.value) obj.near = nearFilter.value;
     return obj;
   }
 
   function appendToParams(params: URLSearchParams) {
-    for (const v of values.inFilter.value) params.append("in", v);
-    for (const v of values.usageFilter.value) params.append("usage", v);
-    for (const v of values.typeFilter.value) params.append("type", v);
-    if (values.nearFilter.value) params.append("near", values.nearFilter.value);
+    for (const v of inFilter.value) params.append("in", v);
+    for (const v of usageFilter.value) params.append("usage", v);
+    for (const v of typeFilter.value) params.append("type", v);
+    if (nearFilter.value) params.append("near", nearFilter.value);
   }
 
-  return { hasActiveFilters, buildQueryObject, appendToParams };
-}
-
-export function useSearchFilters(): SearchFilters {
-  const route = useRoute();
-  const router = useRouter();
-
-  const inFilter = computed(() => allValues(route.query.in ?? []));
-  const usageFilter = computed(() => allValues(route.query.usage ?? []));
-  const typeFilter = computed(() => allValues(route.query.type ?? []));
-  const nearFilter = computed(() => firstOrDefault(route.query.near, ""));
-
-  const shared = makeShared({ inFilter, usageFilter, typeFilter, nearFilter });
-
-  function replaceQuery(updates: Record<string, string | string[] | undefined>) {
-    const current: Record<string, string | string[] | undefined> = {
-      q: route.query.q as string | undefined,
-      limit_sites: route.query.limit_sites as string | undefined,
-      limit_buildings: route.query.limit_buildings as string | undefined,
-      limit_rooms: route.query.limit_rooms as string | undefined,
-      limit_pois: route.query.limit_pois as string | undefined,
-      limit_all: route.query.limit_all as string | undefined,
-      ...shared.buildQueryObject(),
-      ...updates,
-    };
-    for (const key of Object.keys(current)) {
-      if (current[key] === undefined) delete current[key];
-    }
-    router.replace({ query: current });
+  function listFor(kind: ListKind): readonly string[] {
+    if (kind === "in") return inFilter.value;
+    if (kind === "usage") return usageFilter.value;
+    return typeFilter.value;
   }
 
-  function listFor(kind: ListKind): string[] {
-    if (kind === "in") return [...inFilter.value];
-    if (kind === "usage") return [...usageFilter.value];
-    return [...typeFilter.value];
+  function commitList(kind: ListKind, list: string[]) {
+    if (kind === "in") commit({ in: list });
+    else if (kind === "usage") commit({ usage: list });
+    else commit({ type: list });
   }
 
   function removeFilter(kind: FilterKind, value?: string) {
     if (kind === "near") {
-      replaceQuery({ near: undefined });
+      commit({ near: "" });
       return;
     }
     if (!value) return;
-    const current = listFor(kind);
+    const current = [...listFor(kind)];
     const idx = current.indexOf(value);
-    if (idx !== -1) current.splice(idx, 1);
-    replaceQuery({ [kind]: current.length ? current : undefined });
+    if (idx === -1) return;
+    current.splice(idx, 1);
+    commitList(kind, current);
   }
 
   function clearAll() {
-    replaceQuery({ in: undefined, usage: undefined, type: undefined, near: undefined });
+    commit({ in: [], usage: [], type: [], near: "" });
   }
 
   function toggleFilterValue(kind: "type" | "usage", value: string) {
-    const current = listFor(kind);
+    const current = [...listFor(kind)];
     const idx = current.indexOf(value);
     if (idx === -1) current.push(value);
     else current.splice(idx, 1);
-    replaceQuery({ [kind]: current.length ? current : undefined });
+    commitList(kind, current);
   }
 
   function addInFilter(value: string) {
     if (inFilter.value.includes(value)) return;
-    replaceQuery({ in: [...inFilter.value, value] });
+    commit({ in: [...inFilter.value, value] });
   }
 
   function setNear(enabled: boolean) {
     if (!enabled) {
-      if (nearFilter.value) replaceQuery({ near: undefined });
+      if (nearFilter.value) commit({ near: "" });
       return;
     }
     if (nearFilter.value) return;
-    activateNearFilter((coords) => replaceQuery({ near: coords }));
+    activateNearFilter((coords) => commit({ near: coords }));
   }
 
   return {
@@ -155,7 +150,9 @@ export function useSearchFilters(): SearchFilters {
     usageFilter,
     typeFilter,
     nearFilter,
-    ...shared,
+    hasActiveFilters,
+    buildQueryObject,
+    appendToParams,
     removeFilter,
     clearAll,
     toggleFilterValue,
@@ -164,14 +161,51 @@ export function useSearchFilters(): SearchFilters {
   };
 }
 
-export function useStagedSearchFilters(): SearchFilters {
+// Page filters: state is the URL, so every mutation rewrites the query. Unrelated
+// params (`q`, the `limit_*` knobs) are preserved verbatim; only the four filter
+// keys are owned here, and empty ones drop out of the URL.
+function urlBacking(): FilterBacking {
   const route = useRoute();
+  const router = useRouter();
+
+  const inFilter = computed(() => allValues(route.query.in ?? []));
+  const usageFilter = computed(() => allValues(route.query.usage ?? []));
+  const typeFilter = computed(() => allValues(route.query.type ?? []));
+  const nearFilter = computed(() => firstOrDefault(route.query.near, ""));
+
+  function commit(next: Partial<FilterSnapshot>) {
+    const snapshot: FilterSnapshot = {
+      in: next.in ?? inFilter.value,
+      usage: next.usage ?? usageFilter.value,
+      type: next.type ?? typeFilter.value,
+      near: next.near ?? nearFilter.value,
+    };
+    const query = { ...route.query };
+    delete query.in;
+    delete query.usage;
+    delete query.type;
+    delete query.near;
+    if (snapshot.in.length) query.in = [...snapshot.in];
+    if (snapshot.usage.length) query.usage = [...snapshot.usage];
+    if (snapshot.type.length) query.type = [...snapshot.type];
+    if (snapshot.near) query.near = snapshot.near;
+    router.replace({ query });
+  }
+
+  return { inFilter, usageFilter, typeFilter, nearFilter, commit };
+}
+
+// Dropdown filters: state is staged in local refs that the caller commits to the
+// URL on submit. The URL is still authoritative, so re-sync whenever it changes
+// out from under us (e.g., a chip toggled on the /search page).
+function localBacking(): FilterBacking {
+  const route = useRoute();
+
   const inFilter = ref<string[]>(allValues(route.query.in ?? []));
   const usageFilter = ref<string[]>(allValues(route.query.usage ?? []));
   const typeFilter = ref<string[]>(allValues(route.query.type ?? []));
   const nearFilter = ref<string>(firstOrDefault(route.query.near, ""));
 
-  // Re-sync when the URL changes (e.g., user toggles a chip on the /search page)
   watch(
     () => route.query,
     (q) => {
@@ -182,74 +216,20 @@ export function useStagedSearchFilters(): SearchFilters {
     }
   );
 
-  const shared = makeShared({ inFilter, usageFilter, typeFilter, nearFilter });
-
-  function listRef(kind: ListKind): Ref<string[]> {
-    if (kind === "in") return inFilter;
-    if (kind === "usage") return usageFilter;
-    return typeFilter;
+  function commit(next: Partial<FilterSnapshot>) {
+    if (next.in !== undefined) inFilter.value = [...next.in];
+    if (next.usage !== undefined) usageFilter.value = [...next.usage];
+    if (next.type !== undefined) typeFilter.value = [...next.type];
+    if (next.near !== undefined) nearFilter.value = next.near;
   }
 
-  function removeFilter(kind: FilterKind, value?: string) {
-    if (kind === "near") {
-      nearFilter.value = "";
-      return;
-    }
-    if (!value) return;
-    const list = listRef(kind);
-    const idx = list.value.indexOf(value);
-    if (idx !== -1) {
-      const next = [...list.value];
-      next.splice(idx, 1);
-      list.value = next;
-    }
-  }
+  return { inFilter, usageFilter, typeFilter, nearFilter, commit };
+}
 
-  function clearAll() {
-    inFilter.value = [];
-    usageFilter.value = [];
-    typeFilter.value = [];
-    nearFilter.value = "";
-  }
+export function useSearchFilters(): SearchFilters {
+  return makeFilters(urlBacking());
+}
 
-  function toggleFilterValue(kind: "type" | "usage", value: string) {
-    const list = listRef(kind);
-    const idx = list.value.indexOf(value);
-    if (idx === -1) {
-      list.value = [...list.value, value];
-    } else {
-      const next = [...list.value];
-      next.splice(idx, 1);
-      list.value = next;
-    }
-  }
-
-  function addInFilter(value: string) {
-    if (inFilter.value.includes(value)) return;
-    inFilter.value = [...inFilter.value, value];
-  }
-
-  function setNear(enabled: boolean) {
-    if (!enabled) {
-      nearFilter.value = "";
-      return;
-    }
-    if (nearFilter.value) return;
-    activateNearFilter((coords) => {
-      nearFilter.value = coords;
-    });
-  }
-
-  return {
-    inFilter,
-    usageFilter,
-    typeFilter,
-    nearFilter,
-    ...shared,
-    removeFilter,
-    clearAll,
-    toggleFilterValue,
-    addInFilter,
-    setNear,
-  };
+export function useStagedSearchFilters(): SearchFilters {
+  return makeFilters(localBacking());
 }
