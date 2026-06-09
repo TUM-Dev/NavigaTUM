@@ -79,9 +79,6 @@ pub struct LectureEntry {
     /// The id of the lecture
     #[schema(example = "lecture_5f2c…")]
     id: String,
-    /// the type of the result; always `lecture` for this variant
-    #[schema(example = "lecture")]
-    r#type: String,
     /// The display name of the result. Supports highlighting.
     #[schema(example = "Einführung in die Informatik 1")]
     name: String,
@@ -962,7 +959,6 @@ mod test {
         let lecture = serde_json::json!({
             "ms_id": "lecture_testfixture0001",
             "facet": "lecture",
-            "type": "lecture",
             "type_common_name": "Vorlesung",
             "title_de": "Grundlagen der Navigatumlehre",
             "title_en": "Foundations of Navigatum Teaching",
@@ -1075,7 +1071,6 @@ mod test {
         let lecture = serde_json::json!({
             "ms_id": "lecture_testfixture0001",
             "facet": "lecture",
-            "type": "lecture",
             "type_common_name": "Vorlesung",
             "title_de": "Quantenrobotik Praktikum",
             "title_en": "Quantum Robotics Lab",

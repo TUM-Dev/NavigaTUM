@@ -7,7 +7,6 @@ info: q=Navigatumlehre
 - facet: lectures
   entries:
     - id: lecture_testfixture0001
-      type: lecture
       name: "Grundlagen der \u0019Navigatumlehre\u0017"
       subtext: Vorlesung
       title_de: Grundlagen der Navigatumlehre

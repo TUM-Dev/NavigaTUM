@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
-import SearchResultItemLink from "~/components/SearchResultItemLink.vue";
+import SearchResultRow from "~/components/SearchResultRow.vue";
 import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
@@ -243,7 +243,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
               </div>
 
               <template v-for="(e, i) in tagSectionEntries(s)" :key="e.id">
-                <SearchResultItemLink
+                <SearchResultRow
                   v-if="expandedFacets.has(s.facet) || i < s.n_visible"
                   :highlighted="resultHighlighted(e)"
                   :item="e"

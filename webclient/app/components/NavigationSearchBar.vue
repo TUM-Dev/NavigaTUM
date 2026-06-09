@@ -3,7 +3,7 @@ import { mdiCrosshairsGps, mdiMagnify } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
-import { tagSectionEntries } from "~/utils/lectureRow";
+import { type ResultsSectionFacet, tagSectionEntries } from "~/utils/lectureRow";
 
 type SearchResponse = operations["search_handler"]["responses"][200]["content"]["application/json"];
 
@@ -68,7 +68,7 @@ const selected = useRouteQuery<string>(props.queryId, "", {
 const highlighted = ref<number>(0);
 // Per-facet expand state (sites/buildings/rooms can freeze with
 // `n_visible < entries.length`).
-const expandedFacets = ref<Set<string>>(new Set());
+const expandedFacets = ref<Set<ResultsSectionFacet>>(new Set());
 
 const visibleElements = computed<string[]>(() => {
   if (!data.value) return [];
@@ -270,7 +270,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
         </div>
 
         <template v-for="(e, i) in tagSectionEntries(s)" :key="e.id">
-          <SearchResultItem
+          <SearchResultContent
             v-if="expandedFacets.has(s.facet) || i < s.n_visible"
             :highlighted="e.id === visibleElements[highlighted ?? -1]"
             :item="e"
