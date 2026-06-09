@@ -8,18 +8,21 @@ import {
   firstUpcoming,
   formatUpcoming,
   LECTURE_EVENT_NAV_CAP,
+  type LectureExpansionState,
   lectureEventPath,
   lectureTitle,
   toggleLectureFromMouse,
   useLectureRowExpansion,
+  type VisibleSearchEntry,
 } from "../app/utils/lectureRow";
 
 type ResultEntry = components["schemas"]["ResultEntry"];
+type ResultsSection = components["schemas"]["ResultsSection"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
 
-const GERMAN_SAME_DAY_RE = /Do\.?, 15\. Oktober, 08:00-10:00/;
-const ENGLISH_SAME_DAY_RE = /Thu 15 Oct, 08:00-10:00/;
-const CROSS_DAY_RE = /15 Oct.*22:30.*16 Oct.*00:30/;
+const SAME_DAY_DE_RE = /Do\.?, 15\. Oktober, 08:00-10:00/;
+const SAME_DAY_EN_RE = /Thu 15 Oct, 08:00-10:00/;
+const CROSS_MIDNIGHT_RE = /15 Oct.*22:30.*16 Oct.*00:30/;
 
 function makeLecture(overrides: Partial<ResultEntry> = {}): ResultEntry {
   return {
@@ -38,12 +41,55 @@ function makeLecture(overrides: Partial<ResultEntry> = {}): ResultEntry {
         room_name: "Testhörsaal",
       },
       {
-        start_at: "2026-10-22T07:00:00Z", // CET kicks in after 2026-10-26; here still CEST
+        start_at: "2026-10-22T07:00:00Z", // CET kicks in after 2026-10-26; here still CEST.
         end_at: "2026-10-22T09:00:00Z",
         room_code: "5606.EG.011",
         room_name: "Testhörsaal",
       },
     ],
+    ...overrides,
+  };
+}
+
+function room(id: string): ResultEntry {
+  return { id, type: "room", name: id, subtext: "" };
+}
+
+function events(n: number): UpcomingEvent[] {
+  const list: UpcomingEvent[] = [];
+  for (let i = 0; i < n; i++) {
+    const day = (15 + i).toString().padStart(2, "0");
+    list.push({
+      start_at: `2026-10-${day}T06:00:00Z`,
+      end_at: `2026-10-${day}T08:00:00Z`,
+      room_code: "5606.EG.011",
+      room_name: "Testhörsaal",
+    });
+  }
+  return list;
+}
+
+function lecture(id: string, eventCount: number): ResultEntry {
+  return {
+    id,
+    type: "lecture",
+    name: id,
+    subtext: "",
+    title_de: id,
+    title_en: id,
+    upcoming: events(eventCount),
+  };
+}
+
+function section(facet: string, entries: ResultEntry[], n_visible: number): ResultsSection {
+  return { facet, entries, estimatedTotalHits: entries.length, n_visible };
+}
+
+function state(overrides: Partial<LectureExpansionState> = {}): LectureExpansionState {
+  return {
+    expandedFacets: new Set(),
+    expandedLectures: new Set(),
+    lectureShowAll: new Set(),
     ...overrides,
   };
 }
@@ -56,11 +102,12 @@ describe("lectureTitle", () => {
   });
 
   it("falls back to the other locale when the preferred one is missing", () => {
-    const onlyGerman = makeLecture({ title_en: null });
-    expect(lectureTitle(onlyGerman, "en")).toBe("Einführung in die Informatik 1");
-
-    const onlyEnglish = makeLecture({ title_de: null });
-    expect(lectureTitle(onlyEnglish, "de")).toBe("Introduction to Informatics 1");
+    expect(lectureTitle(makeLecture({ title_en: null }), "en")).toBe(
+      "Einführung in die Informatik 1"
+    );
+    expect(lectureTitle(makeLecture({ title_de: null }), "de")).toBe(
+      "Introduction to Informatics 1"
+    );
   });
 
   it("falls back to `name` when both titles are absent (defensive)", () => {
@@ -71,8 +118,7 @@ describe("lectureTitle", () => {
 
 describe("firstUpcoming", () => {
   it("returns the first event when `upcoming` is populated", () => {
-    const event = firstUpcoming(makeLecture());
-    expect(event?.room_code).toBe("5606.EG.011");
+    expect(firstUpcoming(makeLecture())?.room_code).toBe("5606.EG.011");
   });
 
   it("returns null when `upcoming` is empty or absent", () => {
@@ -83,8 +129,7 @@ describe("firstUpcoming", () => {
 
 describe("lectureEventPath", () => {
   it("routes to /room/<room_code>", () => {
-    const event: Pick<UpcomingEvent, "room_code"> = { room_code: "5606.EG.011" };
-    expect(lectureEventPath(event)).toBe("/room/5606.EG.011");
+    expect(lectureEventPath({ room_code: "5606.EG.011" })).toBe("/room/5606.EG.011");
   });
 });
 
@@ -98,30 +143,23 @@ describe("formatUpcoming", () => {
     process.env.TZ = original;
   });
 
-  it("emits a German same-day weekday + month-day + HH:MM range", () => {
-    const event: UpcomingEvent = {
-      start_at: "2026-10-15T06:00:00Z",
-      end_at: "2026-10-15T08:00:00Z",
-      room_code: "5606.EG.011",
-      room_name: "Testhörsaal",
-    };
-    const formatted = formatUpcoming(event, "de");
-    expect(formatted).toMatch(GERMAN_SAME_DAY_RE);
-  });
+  const sameDayEvent: UpcomingEvent = {
+    start_at: "2026-10-15T06:00:00Z",
+    end_at: "2026-10-15T08:00:00Z",
+    room_code: "5606.EG.011",
+    room_name: "Testhörsaal",
+  };
 
-  it("emits an English same-day short-month + HH:MM range", () => {
-    const event: UpcomingEvent = {
-      start_at: "2026-10-15T06:00:00Z",
-      end_at: "2026-10-15T08:00:00Z",
-      room_code: "5606.EG.011",
-      room_name: "Testhörsaal",
-    };
-    expect(formatUpcoming(event, "en")).toMatch(ENGLISH_SAME_DAY_RE);
+  it.each([
+    ["de", SAME_DAY_DE_RE],
+    ["en", SAME_DAY_EN_RE],
+  ] as const)("emits the localised same-day range for %s", (locale, expected) => {
+    expect(formatUpcoming(sameDayEvent, locale)).toMatch(expected);
   });
 
   it("renders both date and time on each side when the event crosses Berlin midnight", () => {
+    // CEST until 2026-10-25, so UTC + 2h yields 22:30 → 00:30 Berlin.
     const event: UpcomingEvent = {
-      // CEST until 2026-10-25, so UTC + 2h yields 22:30 → 00:30 Berlin.
       start_at: "2026-10-15T20:30:00Z",
       end_at: "2026-10-15T22:30:00Z",
       room_code: "5606.EG.011",
@@ -129,7 +167,7 @@ describe("formatUpcoming", () => {
     };
     const formatted = formatUpcoming(event, "en");
     expect(formatted).toContain(" - ");
-    expect(formatted).toMatch(CROSS_DAY_RE);
+    expect(formatted).toMatch(CROSS_MIDNIGHT_RE);
   });
 });
 
@@ -159,90 +197,38 @@ describe("useLectureRowExpansion", () => {
 });
 
 describe("buildVisibleSearchEntries", () => {
-  type ResultsSection = components["schemas"]["ResultsSection"];
-
-  function room(id: string): ResultEntry {
-    return {
-      id,
-      type: "room",
-      name: id,
-      subtext: "",
-    };
+  function ids(out: readonly VisibleSearchEntry[]): readonly string[] {
+    return out.map((e) => (e.kind === "result" ? e.entry.id : e.kind));
   }
-
-  function events(n: number): UpcomingEvent[] {
-    const list: UpcomingEvent[] = [];
-    for (let i = 0; i < n; i++) {
-      list.push({
-        start_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T06:00:00Z`,
-        end_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T08:00:00Z`,
-        room_code: "5606.EG.011",
-        room_name: "Testhörsaal",
-      });
-    }
-    return list;
-  }
-
-  function lecture(id: string, eventCount: number): ResultEntry {
-    return {
-      id,
-      type: "lecture",
-      name: id,
-      subtext: "",
-      title_de: id,
-      title_en: id,
-      upcoming: events(eventCount),
-    };
-  }
-
-  function section(facet: string, entries: ResultEntry[], n_visible: number): ResultsSection {
-    return { facet, entries, estimatedTotalHits: entries.length, n_visible };
-  }
-
-  const emptyState = {
-    expandedFacets: new Set<string>(),
-    expandedLectures: new Set<string>(),
-    lectureShowAll: new Set<string>(),
-  };
 
   it("flattens non-lecture sections respecting n_visible", () => {
-    const sections: ResultsSection[] = [section("rooms", [room("r1"), room("r2"), room("r3")], 2)];
-    const out = buildVisibleSearchEntries(sections, emptyState);
-    expect(out.map((e) => (e.kind === "result" ? e.entry.id : e.kind))).toEqual(["r1", "r2"]);
+    const sections = [section("rooms", [room("r1"), room("r2"), room("r3")], 2)];
+    expect(ids(buildVisibleSearchEntries(sections, state()))).toEqual(["r1", "r2"]);
   });
 
   it("respects expandedFacets to lift the section cap", () => {
-    const sections: ResultsSection[] = [section("rooms", [room("r1"), room("r2"), room("r3")], 2)];
-    const out = buildVisibleSearchEntries(sections, {
-      ...emptyState,
-      expandedFacets: new Set(["rooms"]),
-    });
-    expect(out.map((e) => (e.kind === "result" ? e.entry.id : e.kind))).toEqual(["r1", "r2", "r3"]);
+    const sections = [section("rooms", [room("r1"), room("r2"), room("r3")], 2)];
+    const out = buildVisibleSearchEntries(sections, state({ expandedFacets: new Set(["rooms"]) }));
+    expect(ids(out)).toEqual(["r1", "r2", "r3"]);
   });
 
   it("emits only the lecture header when expandedLectures does not contain its id", () => {
-    const sections: ResultsSection[] = [section("lectures", [lecture("l1", 5)], 1)];
-    const out = buildVisibleSearchEntries(sections, emptyState);
+    const sections = [section("lectures", [lecture("l1", 5)], 1)];
+    const out = buildVisibleSearchEntries(sections, state());
     expect(out).toHaveLength(1);
     expect(out[0]?.kind).toBe("result");
   });
 
   it("emits all events with no show-more when total events <= cap", () => {
-    const sections: ResultsSection[] = [section("lectures", [lecture("l1", 3)], 1)];
-    const out = buildVisibleSearchEntries(sections, {
-      ...emptyState,
-      expandedLectures: new Set(["l1"]),
-    });
+    const sections = [section("lectures", [lecture("l1", 3)], 1)];
+    const out = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["l1"]) }));
     expect(out.map((e) => e.kind)).toEqual(["result", "event", "event", "event"]);
   });
 
   it("caps events at LECTURE_EVENT_NAV_CAP and emits a show-more sentinel with the hidden count", () => {
-    const sections: ResultsSection[] = [section("lectures", [lecture("l1", 7)], 1)];
-    const out = buildVisibleSearchEntries(sections, {
-      ...emptyState,
-      expandedLectures: new Set(["l1"]),
-    });
-    // header + 3 events + show-more
+    const sections = [section("lectures", [lecture("l1", 7)], 1)];
+    const out = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["l1"]) }));
+    // header + 3 events + show-more.
     expect(out).toHaveLength(LECTURE_EVENT_NAV_CAP + 2);
     expect(out.at(-1)).toEqual({
       kind: "show_more_events",
@@ -252,105 +238,50 @@ describe("buildVisibleSearchEntries", () => {
   });
 
   it("drops the show-more sentinel once lectureShowAll opts into the full list", () => {
-    const sections: ResultsSection[] = [section("lectures", [lecture("l1", 7)], 1)];
-    const out = buildVisibleSearchEntries(sections, {
-      ...emptyState,
-      expandedLectures: new Set(["l1"]),
-      lectureShowAll: new Set(["l1"]),
-    });
+    const sections = [section("lectures", [lecture("l1", 7)], 1)];
+    const out = buildVisibleSearchEntries(
+      sections,
+      state({
+        expandedLectures: new Set(["l1"]),
+        lectureShowAll: new Set(["l1"]),
+      })
+    );
     expect(out).toHaveLength(1 + 7);
     expect(out.every((e) => e.kind !== "show_more_events")).toBe(true);
   });
 
   it("indexes events from zero against the lecture's own occurrence list", () => {
-    const sections: ResultsSection[] = [section("lectures", [lecture("l1", 5)], 1)];
-    const out = buildVisibleSearchEntries(sections, {
-      ...emptyState,
-      expandedLectures: new Set(["l1"]),
-    });
+    const sections = [section("lectures", [lecture("l1", 5)], 1)];
+    const out = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["l1"]) }));
     const eventEntries = out.filter((e) => e.kind === "event");
     expect(eventEntries.map((e) => (e.kind === "event" ? e.eventIndex : -1))).toEqual([0, 1, 2]);
   });
 });
 
 describe("findLectureHeaderIndex", () => {
-  function section(facet: string, entries: ResultEntry[], n_visible: number) {
-    return { facet, entries, estimatedTotalHits: entries.length, n_visible };
-  }
-
-  function room(id: string): ResultEntry {
-    return { id, type: "room", name: id, subtext: "" };
-  }
-
-  function lecture(id: string, eventCount: number): ResultEntry {
-    const upcoming: UpcomingEvent[] = [];
-    for (let i = 0; i < eventCount; i++) {
-      upcoming.push({
-        start_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T06:00:00Z`,
-        end_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T08:00:00Z`,
-        room_code: "5606.EG.011",
-        room_name: "Testhörsaal",
-      });
-    }
-    return { id, type: "lecture", name: id, subtext: "", title_de: id, title_en: id, upcoming };
-  }
-
   it("returns the index of the lecture's header in the flattened list", () => {
     const sections = [
       section("rooms", [room("r1"), room("r2")], 2),
       section("lectures", [lecture("lA", 7)], 1),
     ];
-    const flat = buildVisibleSearchEntries(sections, {
-      expandedFacets: new Set(),
-      expandedLectures: new Set(["lA"]),
-      lectureShowAll: new Set(),
-    });
+    const flat = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["lA"]) }));
     expect(findLectureHeaderIndex(flat, "lA")).toBe(2);
   });
 
   it("returns -1 when no header matches the lecture id", () => {
-    const flat = buildVisibleSearchEntries([section("rooms", [room("r1")], 1)], {
-      expandedFacets: new Set(),
-      expandedLectures: new Set(),
-      lectureShowAll: new Set(),
-    });
+    const flat = buildVisibleSearchEntries([section("rooms", [room("r1")], 1)], state());
     expect(findLectureHeaderIndex(flat, "missing")).toBe(-1);
   });
 });
 
 describe("collapsedHighlightTarget", () => {
-  function section(facet: string, entries: ResultEntry[], n_visible: number) {
-    return { facet, entries, estimatedTotalHits: entries.length, n_visible };
-  }
-
-  function room(id: string): ResultEntry {
-    return { id, type: "room", name: id, subtext: "" };
-  }
-
-  function lecture(id: string, eventCount: number): ResultEntry {
-    const upcoming: UpcomingEvent[] = [];
-    for (let i = 0; i < eventCount; i++) {
-      upcoming.push({
-        start_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T06:00:00Z`,
-        end_at: `2026-10-${(15 + i).toString().padStart(2, "0")}T08:00:00Z`,
-        room_code: "5606.EG.011",
-        room_name: "Testhörsaal",
-      });
-    }
-    return { id, type: "lecture", name: id, subtext: "", title_de: id, title_en: id, upcoming };
-  }
-
   it("targets the slot right after the lecture header when entries follow the body", () => {
     const sections = [
       section("rooms", [room("r1"), room("r2")], 2),
       section("lectures", [lecture("lA", 7)], 1),
       section("pois", [room("p1")], 1),
     ];
-    const flat = buildVisibleSearchEntries(sections, {
-      expandedFacets: new Set(),
-      expandedLectures: new Set(["lA"]),
-      lectureShowAll: new Set(),
-    });
+    const flat = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["lA"]) }));
     // [r1, r2, lA-header, e0, e1, e2, show-more, p1]; collapsing lA lands at p1's slot (3).
     expect(flat[6]?.kind).toBe("show_more_events");
     expect(collapsedHighlightTarget(flat, 6, "lA")).toBe(3);
@@ -361,23 +292,14 @@ describe("collapsedHighlightTarget", () => {
       section("rooms", [room("r1")], 1),
       section("lectures", [lecture("lA", 7)], 1),
     ];
-    const flat = buildVisibleSearchEntries(sections, {
-      expandedFacets: new Set(),
-      expandedLectures: new Set(["lA"]),
-      lectureShowAll: new Set(),
-    });
+    const flat = buildVisibleSearchEntries(sections, state({ expandedLectures: new Set(["lA"]) }));
     // [r1, lA-header, e0, e1, e2, show-more]; show-more at the tail, idx 5.
     expect(flat.length - 1).toBe(5);
     expect(collapsedHighlightTarget(flat, 5, "lA")).toBe(0);
   });
 
   it("falls back to 0 when the header cannot be located (defensive)", () => {
-    const sections = [section("rooms", [room("r1")], 1)];
-    const flat = buildVisibleSearchEntries(sections, {
-      expandedFacets: new Set(),
-      expandedLectures: new Set(),
-      lectureShowAll: new Set(),
-    });
+    const flat = buildVisibleSearchEntries([section("rooms", [room("r1")], 1)], state());
     expect(collapsedHighlightTarget(flat, 0, "missing")).toBe(0);
   });
 });
@@ -402,45 +324,34 @@ describe("collapsedUpwardHighlightTarget", () => {
 
 describe("toggleLectureFromMouse", () => {
   it("adds the id to both expandedLectures and lectureShowAll when not yet expanded", () => {
-    const before = {
-      expandedFacets: new Set<string>(),
-      expandedLectures: new Set<string>(),
-      lectureShowAll: new Set<string>(),
-    };
-    const after = toggleLectureFromMouse(before, "lA");
+    const after = toggleLectureFromMouse(state(), "lA");
     expect(after.expandedLectures).toEqual(new Set(["lA"]));
     expect(after.lectureShowAll).toEqual(new Set(["lA"]));
   });
 
   it("removes the id from both sets when collapsing a mouse-expanded lecture", () => {
-    const before = {
-      expandedFacets: new Set<string>(),
-      expandedLectures: new Set(["lA"]),
-      lectureShowAll: new Set(["lA"]),
-    };
-    const after = toggleLectureFromMouse(before, "lA");
+    const after = toggleLectureFromMouse(
+      state({ expandedLectures: new Set(["lA"]), lectureShowAll: new Set(["lA"]) }),
+      "lA"
+    );
     expect(after.expandedLectures).toEqual(new Set());
     expect(after.lectureShowAll).toEqual(new Set());
   });
 
   it("treats expandedLectures presence as the expansion gate and clears both on toggle", () => {
-    const before = {
-      expandedFacets: new Set<string>(),
-      expandedLectures: new Set(["lA"]),
-      lectureShowAll: new Set<string>(),
-    };
-    const after = toggleLectureFromMouse(before, "lA");
+    const after = toggleLectureFromMouse(state({ expandedLectures: new Set(["lA"]) }), "lA");
     expect(after.expandedLectures).toEqual(new Set());
     expect(after.lectureShowAll).toEqual(new Set());
   });
 
   it("leaves unrelated lecture ids untouched in both sets", () => {
-    const before = {
-      expandedFacets: new Set<string>(),
-      expandedLectures: new Set(["lA", "lB"]),
-      lectureShowAll: new Set(["lB"]),
-    };
-    const after = toggleLectureFromMouse(before, "lA");
+    const after = toggleLectureFromMouse(
+      state({
+        expandedLectures: new Set(["lA", "lB"]),
+        lectureShowAll: new Set(["lB"]),
+      }),
+      "lA"
+    );
     expect(after.expandedLectures).toEqual(new Set(["lB"]));
     expect(after.lectureShowAll).toEqual(new Set(["lB"]));
   });
@@ -448,12 +359,10 @@ describe("toggleLectureFromMouse", () => {
   it("does not mutate the input sets (returns fresh sets)", () => {
     const inExpanded = new Set<string>();
     const inShowAll = new Set<string>();
-    const before = {
-      expandedFacets: new Set<string>(),
-      expandedLectures: inExpanded,
-      lectureShowAll: inShowAll,
-    };
-    toggleLectureFromMouse(before, "lA");
+    toggleLectureFromMouse(
+      state({ expandedLectures: inExpanded, lectureShowAll: inShowAll }),
+      "lA"
+    );
     expect(inExpanded.size).toBe(0);
     expect(inShowAll.size).toBe(0);
   });
