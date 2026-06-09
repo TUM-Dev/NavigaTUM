@@ -22,6 +22,11 @@
   },
   "packageRules": [
     {
+      "matchManagers": ["npm"],
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
+    },
+    {
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "groupName": "github-actions",
