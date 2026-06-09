@@ -38,6 +38,14 @@ jobs:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
+      # `github.repository_owner` keeps its original casing (TUM-Dev), but OCI registry
+      # references must be lowercase. metadata-action lowercases the build tags itself,
+      # yet the cache and attestation refs below consume IMAGE_NAME verbatim, so normalise
+      # it once here for every consumer.
+      - name: Normalise the image name to lowercase
+        run: echo "IMAGE_NAME=${IMAGE_NAME,,}" >> "$GITHUB_ENV"
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
       - name: Log in to the Container registry
         if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
