@@ -35,7 +35,7 @@ const lectureMeta = computed(() => {
 
 <template>
   <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4" :class="{ 'bg-blue-200 dark:bg-blue-700': highlighted }">
-    <PreviewIcon :item="{ type: item.type, parsed_id: undefined }" />
+    <PreviewIcon :item="{ kind: item.kind, type: item.type, parsed_id: undefined }" />
     <div class="text-zinc-600 dark:text-zinc-300 flex flex-1 flex-col gap-0.5">
       <template v-if="item.kind === 'lecture'">
         <span class="text-zinc-900 dark:text-zinc-50 line-clamp-1 font-medium">{{ lectureTitleText }}</span>
