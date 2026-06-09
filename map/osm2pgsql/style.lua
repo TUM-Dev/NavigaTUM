@@ -316,7 +316,7 @@ function osm2pgsql.process_node(object)
   elseif object.tags.indoor == "toilet" or object.tags.indoor == "shower" then
     -- Node-geometry toilets/showers (e.g. a bare `amenity=toilets` point) carry no area,
     -- so we synthesize `area = 0`; the poi icon does not depend on it. We never carry
-    -- `name`/`ref` for these POIs — they render as icons only, like their room= counterparts.
+    -- `name`/`ref` for these POIs - they render as icons only, like their room= counterparts.
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
       tables.pois:insert(
         {

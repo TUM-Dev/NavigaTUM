@@ -6,7 +6,7 @@ import { expect, type Page, test } from "@playwright/test";
 // panel, and zoom-driven hint all render.
 const EMPTY_STYLE = { version: 8, sources: {}, layers: [] };
 
-// Garching centroid — the page's default center, so a feature placed here lands at canvas center.
+// Garching centroid - the page's default center, so a feature placed here lands at canvas center.
 const CENTER: [number, number] = [11.670099, 48.266921];
 
 // A style carrying a single clickable `indoor-toilets` feature. The page wires its popup click

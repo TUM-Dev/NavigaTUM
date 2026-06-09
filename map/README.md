@@ -195,7 +195,7 @@ id type cannot store node ids.
 ### Browse layers on `/map`
 
 [`navigatum-basemap.json`](./martin/styles/navigatum-basemap.json) splits the icon pois into
-per-category symbol layers — `indoor-toilets`, `indoor-showers`, and `indoor-elevators` — all
+per-category symbol layers - `indoor-toilets`, `indoor-showers`, and `indoor-elevators` - all
 visible by default at `minzoom: 17`. The label pois (rooms, auditoriums, …) stay on `indoor-pois`.
 The webclient `/map` page toggles the visibility of these split layers; its `LAYER_REGISTRY`
 (`webclient/app/composables/mapLayers.ts`) groups toilets and showers into the "WCs" overlay. A new
