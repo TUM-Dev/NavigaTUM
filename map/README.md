@@ -170,3 +170,33 @@ To run tests, we recommend downloading the jar file from the [Planetiler release
 ```bash
 java -jar planetiler.jar verify ./map/planetiler/shortbread_custom.yml --watch
 ```
+
+## Indoor data (osm2pgsql)
+
+The indoor overlay is a separate pipeline from the planetiler basemap above. `osm2pgsql` reads the
+OpenStreetMap extract through [`osm2pgsql/style.lua`](./osm2pgsql/style.lua) into Postgres tables
+(`rooms`, `pois`, `doors`, `indoor_ways`), which [martin](./martin) then serves as the `indoor_*`
+vector layers (see `server/migrations` for the tile functions). It is wired up in
+[`compose.data.yml`](/compose.data.yml).
+
+Every poi row carries an `indoor` discriminator (`toilet`, `shower`, `elevator`, `auditorium`,
+`room`, …) instead of a separate category column. POIs are ingested from all three OSM geometries:
+
+- **ways and relations** contribute a label point (pole of inaccessibility, or centroid for
+  elevators).
+- **nodes** contribute a point with a synthesized `area` of `0`. A bare `amenity=toilets` /
+  `amenity=shower` node (no `room=` tag) is normalized to `indoor='toilet'` / `'shower'`, but only
+  when it carries indoor context (an `indoor=*` or `level=*` tag) so stray outdoor amenities are
+  not pulled in.
+
+The `pois` table uses `any` ids (`osm_type` + `osm_id`) rather than an area table, because the area
+id type cannot store node ids.
+
+### Filtering on `/map`
+
+The webclient `/map` page does not change the shared style. Its filter panel highlights a category
+by dimming everything else: selecting the "WCs" filter fades the non-matching POI icons, labels, and
+room fills (via runtime `setPaintProperty`) while keeping `indoor='toilet'`/`'shower'` features
+vibrant. The filters live in `FILTER_REGISTRY` (`webclient/app/composables/mapLayers.ts`); each maps
+to the `indoor` values it keeps vibrant, so a new filter is one more `FilterDef`. Because this reads
+the existing `indoor_pois` source, it needs no style or tile-server change to ship.

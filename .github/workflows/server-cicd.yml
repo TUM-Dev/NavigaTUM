@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with: {persist-credentials: false}
       - name: Install cargo-shear
-        uses: taiki-e/install-action@0631aa6515c7d545823c67cfae7ef4fc7f490154 # v2.81.8
+        uses: taiki-e/install-action@fd2f5e3d644b484055ebf4268f474c565f148f25 # v2.81.9
         with:
           tool: cargo-shear
       
@@ -48,9 +48,15 @@ jobs:
       - run: cargo test --no-run --locked
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          # See server/Dockerfile — disabling HTTP/2 multiplexing avoids the
+          # framing-layer flake when cargo refreshes the registry.
+          CARGO_HTTP_MULTIPLEXING: false
       - run: cargo test -- --nocapture --quiet
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
   linting:
     runs-on: ubuntu-latest
     permissions:
@@ -67,6 +73,8 @@ jobs:
       - run: cargo clippy -- -D warnings
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
   build:
     uses: ./.github/workflows/_docker-build.yml
     with:

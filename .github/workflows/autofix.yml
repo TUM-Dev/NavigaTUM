@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with: {persist-credentials: false}
       - name: Install cargo-insta
-        uses: taiki-e/install-action@0631aa6515c7d545823c67cfae7ef4fc7f490154 # v2.81.8
+        uses: taiki-e/install-action@fd2f5e3d644b484055ebf4268f474c565f148f25 # v2.81.9
         with:
           tool: cargo-insta
       - name: Update server snapshots
@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with: {persist-credentials: false}
       - name: Install cargo-sort
-        uses: taiki-e/install-action@0631aa6515c7d545823c67cfae7ef4fc7f490154 # v2.81.8
+        uses: taiki-e/install-action@fd2f5e3d644b484055ebf4268f474c565f148f25 # v2.81.9
         with:
           tool: cargo-sort
       - name: Sort Cargo.toml
@@ -180,12 +180,18 @@ jobs:
         run: cargo build
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          # See server/Dockerfile for context — HTTP/2 framing errors against
+          # crates.io are the dominant CI flake.
+          CARGO_HTTP_MULTIPLEXING: false
 
       - name: Run | Start server in background
         working-directory: server
         run: cargo run &
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
           SKIP_MS_SETUP: true
           SKIP_DB_SETUP: true
           POSTGRES_USER: postgres
