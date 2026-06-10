@@ -33,17 +33,21 @@ useSeoMeta({
 
 const GARCHING_CENTER: [number, number] = [11.670099, 48.266921];
 const INITIAL_ZOOM = 17;
-// Opacity the non-matching map content fades to while a filter is active.
+// Opacity the non-matching indoor content fades to while a filter is active.
 const DIM = 0.2;
-// The combined POI layer that carries the toilet/shower icons (and other POIs we dim per-feature).
+// Translucent white wash over the basemap; lighter than the indoor dim so it reads as "a bit".
+const BASEMAP_SCRIM = "rgba(255, 255, 255, 0.45)";
+const SCRIM_LAYER = "filter-basemap-dim";
+// The combined POI layer whose markers open a popup.
 const POI_LAYER = "indoor-pois";
-// Other indoor content faded as a whole while a filter is active.
-const DIM_TARGETS: ReadonlyArray<{ id: string; prop: string }> = [
-  { id: "indoor-pois", prop: "text-opacity" },
-  { id: "indoor-rooms", prop: "fill-opacity" },
-  { id: "poi-indoor", prop: "icon-opacity" },
-  { id: "poi-indoor", prop: "text-opacity" },
-];
+// Indoor layers carrying an `indoor` field: keep the filter's values vibrant, dim the rest
+// per-feature (so e.g. the toilet room fill stays its bathroom colour while other rooms fade).
+const PER_FEATURE_TARGETS = [
+  { id: "indoor-pois", prop: "icon-opacity", type: "symbol" },
+  { id: "indoor-rooms", prop: "fill-opacity", type: "fill" },
+] as const;
+// Indoor content with no per-feature meaning: dim wholesale while a filter is active.
+const FLAT_TARGETS = [{ id: "indoor-pois", prop: "text-opacity", type: "symbol" }] as const;
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
@@ -86,6 +90,11 @@ function rememberPaint(m: MapLibreMap, id: string, prop: string): void {
   if (!originalPaint.has(key)) originalPaint.set(key, m.getPaintProperty(id, prop) ?? 1);
 }
 
+/** The id of the lowest indoor-source layer, used to slot the basemap scrim just beneath it. */
+function firstIndoorLayerId(m: MapLibreMap): string | undefined {
+  return m.getStyle().layers.find((l) => "source" in l && l.source === "indoor")?.id;
+}
+
 /** Highlight the active filters by dimming everything else; restore the original paint when none. */
 function applyFilterDim(): void {
   const m = map.value;
@@ -93,20 +102,32 @@ function applyFilterDim(): void {
   const vibrant = vibrantIndoorValues();
   const active = vibrant.length > 0;
 
-  // Fade the non-matching POI icons in place (a data-driven opacity keeps the matches vibrant).
-  if (m.getLayer(POI_LAYER)?.type === "symbol") {
-    rememberPaint(m, POI_LAYER, "icon-opacity");
-    m.setPaintProperty(
-      POI_LAYER,
-      "icon-opacity",
-      active
-        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], 1, DIM]
-        : originalPaint.get(`${POI_LAYER}::icon-opacity`)
+  // Fade the whole basemap a little with one scrim slotted beneath the indoor layers.
+  const scrim = m.getLayer(SCRIM_LAYER);
+  if (active && !scrim) {
+    m.addLayer(
+      { id: SCRIM_LAYER, type: "background", paint: { "background-color": BASEMAP_SCRIM } },
+      firstIndoorLayerId(m)
     );
+  } else if (!active && scrim) {
+    m.removeLayer(SCRIM_LAYER);
   }
 
-  for (const { id, prop } of DIM_TARGETS) {
-    if (!m.getLayer(id)) continue;
+  // Fade non-matching indoor features in place, keeping the filter's values at their original paint.
+  for (const { id, prop, type } of PER_FEATURE_TARGETS) {
+    if (m.getLayer(id)?.type !== type) continue;
+    rememberPaint(m, id, prop);
+    const original = originalPaint.get(`${id}::${prop}`);
+    m.setPaintProperty(
+      id,
+      prop,
+      active
+        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], original ?? 1, DIM]
+        : original
+    );
+  }
+  for (const { id, prop, type } of FLAT_TARGETS) {
+    if (m.getLayer(id)?.type !== type) continue;
     rememberPaint(m, id, prop);
     m.setPaintProperty(id, prop, active ? DIM : originalPaint.get(`${id}::${prop}`));
   }
