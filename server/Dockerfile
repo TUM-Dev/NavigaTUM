@@ -90,7 +90,7 @@ RUN     if [ $PROFILE == "release" ]; then \
 
 
 # RUN
-FROM alpine:3.23 AS production-stage
+FROM alpine:3.24 AS production-stage
 
 # Copy all static files from the data image (images, maps, sitemaps, data files)
 COPY    --from=data-stage /app/output/ /cdn
