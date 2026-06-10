@@ -48,9 +48,15 @@ jobs:
       - run: cargo test --no-run --locked
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          # See server/Dockerfile — disabling HTTP/2 multiplexing avoids the
+          # framing-layer flake when cargo refreshes the registry.
+          CARGO_HTTP_MULTIPLEXING: false
       - run: cargo test -- --nocapture --quiet
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
   linting:
     runs-on: ubuntu-latest
     permissions:
@@ -67,6 +73,8 @@ jobs:
       - run: cargo clippy -- -D warnings
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
   build:
     uses: ./.github/workflows/_docker-build.yml
     with:

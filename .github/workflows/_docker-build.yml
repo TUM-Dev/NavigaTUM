@@ -52,6 +52,23 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Pre-pull buildkit image with retry
+        # setup-buildx-action launches a docker-container builder that pulls
+        # moby/buildkit:buildx-stable-1 from Docker Hub once, without retry.
+        # When registry-1.docker.io rate-limits or times out, the whole build
+        # fails before we ever invoke cargo. Pre-pulling with retry isolates
+        # that transient failure mode from the actual build.
+        run: |
+          attempt=1
+          until docker pull moby/buildkit:buildx-stable-1; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::docker pull moby/buildkit failed after $attempt attempts"
+              exit 1
+            fi
+            echo "::warning::buildkit pull attempt $attempt failed, retrying in 15s"
+            sleep 15
+            attempt=$((attempt + 1))
+          done
       - uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
       - name: Build and push Docker image
         id: push

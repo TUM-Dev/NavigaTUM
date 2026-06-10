@@ -57,6 +57,11 @@ ENV     CARGO_INCREMENTAL=0
 # eof while reading"), failing the whole image build. Cargo's default of 3
 # retries is not enough under that flakiness, so retry harder.
 ENV     CARGO_NET_RETRY=10
+# HTTP/2 multiplexing pools many crate downloads onto a single connection, so a
+# single libcurl framing error (CURLE_HTTP2 / "Send failure: Connection reset by
+# peer") tears down every in-flight transfer and CARGO_NET_RETRY can't recover.
+# Forcing HTTP/1.1 trades parallelism for one independent connection per crate.
+ENV     CARGO_HTTP_MULTIPLEXING=false
 # added in the build
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
