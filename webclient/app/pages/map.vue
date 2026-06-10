@@ -186,6 +186,17 @@ function initMap(): MapLibreMap {
     );
     m.addControl(new FullscreenControl(), "top-right");
     m.addControl(floorControl, "top-right");
+
+    // Drop the legacy raster floor-plan overlays; the browse view shows only the vector indoor
+    // data. FloorControl's getLayer guards then skip them while still swapping the vector source
+    // per floor.
+    for (const layer of m.getStyle().layers) {
+      if (!layer.id.startsWith("indoor-raster-floor-")) continue;
+      const source = "source" in layer ? layer.source : undefined;
+      m.removeLayer(layer.id);
+      if (typeof source === "string" && m.getSource(source)) m.removeSource(source);
+    }
+
     // Ground floor by default.
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
