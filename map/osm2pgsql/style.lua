@@ -46,9 +46,8 @@ tables.pois =
     osm2pgsql.define_table(
       {
         name = "pois",
-        -- `any` ids (osm_type + osm_id) let nodes, ways, and relations share one table.
-        -- The `area` id type a `define_area_table` would give us rejects node inserts, but
-        -- bare `amenity=toilets`/`shower` points are node geometry, so we need node ids here.
+        -- `any` ids (osm_type + osm_id) so nodes can share this table: the `area` id type a
+        -- `define_area_table` gives rejects node inserts, but bare amenity=toilets points are nodes.
         ids = { type = "any", id_column = "osm_id", type_column = "osm_type" },
         columns = {
           { column = "indoor",               type = "text",    not_null = true },
@@ -278,11 +277,9 @@ function osm2pgsql.process_node(object)
   if clean_tags_indoor(object.tags) then
     return
   end
-  -- A bare `amenity=toilets`/`shower` node has no `room=` tag, so it arrives as the inferred
-  -- indoor='yes'. Normalise it into the poi space so node-geometry toilets and showers render
-  -- as the same icons as their room= counterparts. Ways and relations are intentionally left
-  -- alone (they reach the poi space via the `room=` smudging in clean_tags_indoor). The guard
-  -- in clean_tags_indoor (indoor or level required) keeps stray outdoor amenity nodes out.
+  -- Bare amenity=toilets/shower nodes lack a room= tag, so normalise them into the poi space
+  -- here (nodes only; ways/relations get smudged in clean_tags_indoor). The indoor-or-level
+  -- guard there keeps context-less outdoor amenities out.
   if object.tags.indoor ~= "toilet" and object.tags.indoor ~= "shower" then
     if object.tags.amenity == "toilet" or object.tags.amenity == "toilets" then
       object.tags.indoor = "toilet"
@@ -314,9 +311,8 @@ function osm2pgsql.process_node(object)
       )
     end
   elseif object.tags.indoor == "toilet" or object.tags.indoor == "shower" then
-    -- Node-geometry toilets/showers (e.g. a bare `amenity=toilets` point) carry no area,
-    -- so we synthesize `area = 0`; the poi icon does not depend on it. We never carry
-    -- `name`/`ref` for these POIs - they render as icons only, like their room= counterparts.
+    -- Point geometry has no area, so synthesize `area = 0` (the icon does not use it). No
+    -- name/ref: these render as icons only.
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
       tables.pois:insert(
         {

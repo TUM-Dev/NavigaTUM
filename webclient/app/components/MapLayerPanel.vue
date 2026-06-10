@@ -4,11 +4,9 @@ import type { LayerDef } from "~/composables/mapLayers";
 
 const props = defineProps<{
   layers: readonly LayerDef[];
-  /** Currently enabled layer ids; the parent reassigns the Set so identity changes drive reactivity. */
+  // Reassigned wholesale by the parent so identity changes drive reactivity.
   enabled: Set<string>;
-  /** Whether the layer list is collapsed (peek-only on mobile, header-only on desktop). */
   collapsed: boolean;
-  /** Live map zoom, to decide whether a layer's "zoom in" hint applies. */
   zoom: number;
 }>();
 const emit = defineEmits<{

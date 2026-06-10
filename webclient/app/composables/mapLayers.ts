@@ -1,12 +1,6 @@
 import { mdiToilet } from "@mdi/js";
 
-/**
- * A toggleable map overlay on the `/map` browse page.
- *
- * The registry is a small static list, deliberately not server- or config-driven: a new
- * layer is one more `LayerDef` plus one more split style layer (see `indoor-toilets` and
- * friends in `map/martin/styles/navigatum-basemap.json`).
- */
+/** A toggleable overlay on the `/map` page. A new layer = one `LayerDef` + one split style layer. */
 export interface LayerDef {
   /** Stable key used in the `?layers=` query and in `localStorage`. */
   readonly id: string;
@@ -25,7 +19,6 @@ export const LAYER_REGISTRY = [
     id: "wcs",
     labelKey: "layers.wcs",
     icon: mdiToilet,
-    // Toilets and showers are toggled together as one "WCs" overlay.
     styleLayerIds: ["indoor-toilets", "indoor-showers"],
     hintBelowZoom: 17,
   },
@@ -38,11 +31,8 @@ export const LEVEL_QUERY_PARAM = "level";
 export const ENABLED_LAYERS_STORAGE_KEY = "map:enabledLayers";
 export const PANEL_COLLAPSED_STORAGE_KEY = "map:panelCollapsed";
 
-/**
- * Selectable floor levels, ground floor first. Mirrors the `id`s of `FLOOR_LEVELS` in
- * `FloorControl.ts`; kept as a plain list here so this module stays free of the maplibre
- * import (which cannot load under the node test environment).
- */
+// Mirrors the `FLOOR_LEVELS` ids in `FloorControl.ts`, duplicated to keep this module free of the
+// maplibre import (which fails to load under the node test environment).
 export const SELECTABLE_LEVELS: readonly number[] = [6, 5, 4, 3, 2, 1, 0, -1];
 export const DEFAULT_LEVEL = 0;
 

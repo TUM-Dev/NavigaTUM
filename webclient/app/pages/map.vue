@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { until } from "@vueuse/core";
 import type { MapGeoJSONFeature, MapLayerMouseEvent } from "maplibre-gl";
 import {
   FullscreenControl,
@@ -30,20 +31,20 @@ useSeoMeta({
   description: () => t("description"),
 });
 
-// Garching is the densest indoor-mapped campus, so it best demonstrates the WC layer on first load.
 const GARCHING_CENTER: [number, number] = [11.670099, 48.266921];
 const INITIAL_ZOOM = 17;
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const poiPopup = shallowRef<Popup | undefined>(undefined);
+const mapContainer = ref<HTMLElement | undefined>(undefined);
 const initialLoaded = ref(false);
 const currentZoom = ref(INITIAL_ZOOM);
-// Reassigned (never mutated in place) so the panel's `Set` prop changes identity and re-renders.
+// Reassigned wholesale so the panel's `Set` prop changes identity.
 const enabledLayers = ref<Set<string>>(new Set(LAYER_REGISTRY.map((l) => l.id)));
 const panelCollapsed = ref(false);
 
-// Every style-layer id any overlay manages; also the layers whose markers open a popup.
+// Style-layer ids whose markers open a popup.
 const allStyleLayerIds = LAYER_REGISTRY.flatMap((l) => l.styleLayerIds);
 
 /** Read a query value as a single string, distinguishing "absent" (null) from "present but empty" (""). */
@@ -83,7 +84,7 @@ function toggleLayer(id: string): void {
 watch(enabledLayers, (layers) => {
   const serialized = serializeEnabledLayers(layers);
   localStorage.setItem(ENABLED_LAYERS_STORAGE_KEY, serialized);
-  // Always reflect the exact selection (empty included) so an "all off" deep link survives a reload.
+  // Reflect the exact selection (empty too) so an all-off deep link survives a reload.
   setQueryParam(LAYERS_QUERY_PARAM, serialized);
   applyLayerVisibility();
 });
@@ -101,8 +102,6 @@ function buildPopupContent(feature: MapGeoJSONFeature, lng: number, lat: number)
   const isShower = props.indoor === "shower";
 
   const root = document.createElement("div");
-  // Colours live in the `.maplibregl-popup-content` style rule below, not in nightwind-inverted
-  // utility classes, so the text stays dark on the popup's (always white) background in dark mode.
   root.className = "flex flex-col gap-1 text-sm";
 
   const title = document.createElement("p");
@@ -126,7 +125,7 @@ function buildPopupContent(feature: MapGeoJSONFeature, lng: number, lat: number)
     if (truthy(props.is_wheelchair_toilet)) addRow(t("wheelchair_accessible"));
   }
 
-  // Location-only deep link into the OSM editor (no element id is carried through the tiles).
+  // Location-only OSM edit link; no element id flows through the tiles.
   const edit = document.createElement("a");
   edit.href = `https://www.openstreetmap.org/edit#map=21/${lat.toFixed(7)}/${lng.toFixed(7)}`;
   edit.target = "_blank";
@@ -142,7 +141,7 @@ function openPoiPopup(event: MapLayerMouseEvent): void {
   const feature = event.features?.[0];
   if (!m || !feature) return;
 
-  // Anchor the popup (and the OSM edit link) on the marker's own coordinates, not the click point.
+  // Anchor on the marker's coordinates, not the click point.
   const [lng, lat] =
     feature.geometry.type === "Point"
       ? (feature.geometry.coordinates as [number, number])
@@ -156,10 +155,10 @@ function openPoiPopup(event: MapLayerMouseEvent): void {
 }
 
 function initMap(): MapLibreMap {
-  // Created here (not at setup) because its constructor touches `document`, which is absent on the server.
+  // Not at setup: its constructor touches `document`, absent on the server.
   const floorControl = new FloorControl();
   const m = new MapLibreMap({
-    container: "map-browse",
+    container: mapContainer.value as HTMLElement,
     // Reflect the viewport in the URL hash so the map state is deep-linkable.
     hash: true,
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: false },
@@ -175,7 +174,7 @@ function initMap(): MapLibreMap {
 
   m.on("load", () => {
     initialLoaded.value = true;
-    // The hash may have set a zoom before `load`, before any `zoom` event fired, so seed it here.
+    // Seed from the hash-set zoom; `load` can precede the first `zoom` event.
     currentZoom.value = m.getZoom();
     m.addControl(new NavigationControl({ showCompass: false }), "top-right");
     m.addControl(
@@ -187,7 +186,7 @@ function initMap(): MapLibreMap {
     );
     m.addControl(new FullscreenControl(), "top-right");
     m.addControl(floorControl, "top-right");
-    // Browse the ground floor by default, matching the tile source's default level.
+    // Ground floor by default.
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
     applyLayerVisibility();
@@ -210,13 +209,15 @@ function initMap(): MapLibreMap {
   return m;
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (!webglSupport) return;
   enabledLayers.value = resolveEnabledLayers({
     urlParam: queryString(LAYERS_QUERY_PARAM),
     stored: localStorage.getItem(ENABLED_LAYERS_STORAGE_KEY),
   });
   panelCollapsed.value = localStorage.getItem(PANEL_COLLAPSED_STORAGE_KEY) === "1";
+  // <ClientOnly> mounts its slot after this hook fires, so wait for the container to exist.
+  await until(mapContainer).toBeTruthy();
   map.value = initMap();
 });
 
@@ -233,7 +234,7 @@ onBeforeUnmount(() => {
         <div v-if="!initialLoaded" class="absolute inset-0 z-10 flex items-center justify-center">
           <Spinner class="h-12 w-12 text-blue-500 dark:text-blue-400" />
         </div>
-        <div id="map-browse" class="h-full w-full" />
+        <div id="map-browse" ref="mapContainer" class="h-full w-full" />
         <MapLayerPanel
           :layers="LAYER_REGISTRY"
           :enabled="enabledLayers"
@@ -280,8 +281,7 @@ en:
 <style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";
 
-/* The popup keeps MapLibre's white background in both themes, so pin dark text and a blue link
-   with raw CSS rather than nightwind-inverted utility classes on the elements. */
+/* Popup stays white in both themes; pin dark text + blue link so nightwind cannot invert them. */
 .maplibregl-popup-content {
   background: var(--color-white);
   color: var(--color-zinc-800);
