@@ -19,7 +19,11 @@ const title = computed(() => lectureTitle(props.item, localeKey.value));
 const meta = computed(() => {
   const event = firstUpcoming(props.item);
   if (!event) return null;
-  return { when: formatUpcoming(event, localeKey.value), room: event.room_name, startAt: event.start_at };
+  return {
+    when: formatUpcoming(event, localeKey.value),
+    room: event.room_name,
+    startAt: event.start_at,
+  };
 });
 </script>
 

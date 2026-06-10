@@ -180,12 +180,18 @@ jobs:
         run: cargo build
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          # See server/Dockerfile for context — HTTP/2 framing errors against
+          # crates.io are the dominant CI flake.
+          CARGO_HTTP_MULTIPLEXING: false
 
       - name: Run | Start server in background
         working-directory: server
         run: cargo run &
         env:
           CARGO_INCREMENTAL: 0
+          CARGO_NET_RETRY: 10
+          CARGO_HTTP_MULTIPLEXING: false
           SKIP_MS_SETUP: true
           SKIP_DB_SETUP: true
           POSTGRES_USER: postgres
