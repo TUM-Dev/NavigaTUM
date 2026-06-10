@@ -5,8 +5,8 @@ import {
   collapsedHighlightTarget,
   collapsedUpwardHighlightTarget,
   findLectureHeaderIndex,
-  type ResultsSectionFacet,
   type LectureNavController,
+  type ResultsSectionFacet,
   toggleLectureFromMouse,
   type VisibleSearchEntry,
 } from "~/utils/lectureRow";

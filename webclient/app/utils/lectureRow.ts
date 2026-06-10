@@ -122,7 +122,11 @@ export function useLectureRowExpansion(initial = false): LectureRowExpansion {
 export const LECTURE_EVENT_NAV_CAP = 3;
 
 export type VisibleSearchEntry =
-  | { readonly kind: "result"; readonly sectionFacet: ResultsSectionFacet; readonly entry: SearchResultEntry }
+  | {
+      readonly kind: "result";
+      readonly sectionFacet: ResultsSectionFacet;
+      readonly entry: SearchResultEntry;
+    }
   | {
       readonly kind: "event";
       readonly lectureId: string;
