@@ -9,9 +9,9 @@ const EMPTY_STYLE = { version: 8, sources: {}, layers: [] };
 // Garching centroid - the page's default center, so a feature placed here lands at canvas center.
 const CENTER: [number, number] = [11.670099, 48.266921];
 
-// A style carrying a single clickable `indoor-toilets` feature. The page wires its popup click
-// handler to that layer id, so this deterministically drives the popup without live data. A
-// `circle` layer needs no sprite to be clickable, unlike the real `symbol` icon layer.
+// A style carrying a single clickable toilet in the `indoor-pois` layer the page wires its popup
+// handler to, so this deterministically drives the popup without live data. A `circle` layer
+// needs no sprite to be clickable, unlike the real `symbol` icon layer.
 const STYLE_WITH_TOILET = {
   version: 8,
   sources: {
@@ -30,7 +30,7 @@ const STYLE_WITH_TOILET = {
     },
   },
   layers: [
-    { id: "indoor-toilets", type: "circle", source: "test-pois", paint: { "circle-radius": 24 } },
+    { id: "indoor-pois", type: "circle", source: "test-pois", paint: { "circle-radius": 24 } },
   ],
 };
 
@@ -41,44 +41,40 @@ async function stubBasemap(page: Page, style: object): Promise<void> {
 }
 
 test.describe("Browse map (/map)", () => {
-  test("loads with the layer panel and WCs enabled by default", async ({ page }) => {
+  test("loads with the filter panel and no filter active by default", async ({ page }) => {
     await stubBasemap(page, EMPTY_STYLE);
     await page.goto("/map", { waitUntil: "networkidle" });
 
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
 
-    const panel = page.getByRole("region", { name: "Ebenen" });
+    const panel = page.getByRole("region", { name: "Filter" });
     await expect(panel).toBeVisible();
 
     const wcs = page.getByRole("checkbox", { name: "Toiletten & Duschen" });
-    await expect(wcs).toBeChecked();
-    // The default selection is reflected into the URL so deep links round-trip.
-    await expect(page).toHaveURL(/[?&]layers=wcs/);
+    await expect(wcs).not.toBeChecked();
+    await expect(page).not.toHaveURL(/[?&]filter=wcs/);
   });
 
-  test("toggling WCs flips the checkbox and the ?layers= query", async ({ page }) => {
+  test("toggling WCs flips the checkbox and the ?filter= query", async ({ page }) => {
     await stubBasemap(page, EMPTY_STYLE);
     await page.goto("/map", { waitUntil: "networkidle" });
 
     const wcs = page.getByRole("checkbox", { name: "Toiletten & Duschen" });
-    await expect(wcs).toBeChecked();
+    await wcs.check();
+    await expect(page).toHaveURL(/[?&]filter=wcs/);
 
     await wcs.uncheck();
     await expect(wcs).not.toBeChecked();
-    // An explicit empty value (not an absent key) so an "all off" state survives a reload.
-    await expect(page).toHaveURL(/[?&]layers=(?:#|&|$)/);
-
-    await wcs.check();
-    await expect(page).toHaveURL(/[?&]layers=wcs/);
+    await expect(page).not.toHaveURL(/[?&]filter=wcs/);
   });
 
-  test("shows a zoom-in hint only below zoom 17", async ({ page }) => {
+  test("shows a zoom-in hint only below zoom 17 while the filter is active", async ({ page }) => {
     await stubBasemap(page, EMPTY_STYLE);
 
-    await page.goto("/map#15/48.2669/11.6701", { waitUntil: "networkidle" });
+    await page.goto("/map?filter=wcs#15/48.2669/11.6701", { waitUntil: "networkidle" });
     await expect(page.getByText(/Hineinzoomen/)).toBeVisible();
 
-    await page.goto("/map#18/48.2669/11.6701", { waitUntil: "networkidle" });
+    await page.goto("/map?filter=wcs#18/48.2669/11.6701", { waitUntil: "networkidle" });
     await expect(page.getByText(/Hineinzoomen/)).toHaveCount(0);
   });
 
@@ -89,17 +85,15 @@ test.describe("Browse map (/map)", () => {
     const wcs = page.getByRole("checkbox", { name: "Toiletten & Duschen" });
     await expect(wcs).toBeVisible();
 
-    await page.getByRole("button", { name: "Ebenen" }).click();
+    await page.getByRole("button", { name: "Filter" }).click();
     await expect(wcs).toBeHidden();
 
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByRole("region", { name: "Ebenen" })).toBeVisible();
+    await expect(page.getByRole("region", { name: "Filter" })).toBeVisible();
     await expect(page.getByRole("checkbox", { name: "Toiletten & Duschen" })).toBeHidden();
   });
 
-  test("clicking a toilet marker opens a popup with attributes and an OSM edit link", async ({
-    page,
-  }) => {
+  test("clicking a toilet opens a popup with attributes and an OSM edit link", async ({ page }) => {
     await stubBasemap(page, STYLE_WITH_TOILET);
     await page.goto("/map", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();

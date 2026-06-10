@@ -10,14 +10,14 @@ import {
 } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import {
-  ENABLED_LAYERS_STORAGE_KEY,
-  LAYER_REGISTRY,
-  LAYERS_QUERY_PARAM,
+  ACTIVE_FILTERS_STORAGE_KEY,
+  FILTER_QUERY_PARAM,
+  FILTER_REGISTRY,
   LEVEL_QUERY_PARAM,
   PANEL_COLLAPSED_STORAGE_KEY,
-  resolveEnabledLayers,
+  resolveActiveFilters,
   resolveLevel,
-  serializeEnabledLayers,
+  serializeFilters,
 } from "~/composables/mapLayers";
 import { webglSupport } from "~/composables/webglSupport";
 
@@ -33,6 +33,17 @@ useSeoMeta({
 
 const GARCHING_CENTER: [number, number] = [11.670099, 48.266921];
 const INITIAL_ZOOM = 17;
+// Opacity the non-matching map content fades to while a filter is active.
+const DIM = 0.2;
+// The combined POI layer that carries the toilet/shower icons (and other POIs we dim per-feature).
+const POI_LAYER = "indoor-pois";
+// Other indoor content faded as a whole while a filter is active.
+const DIM_TARGETS: ReadonlyArray<{ id: string; prop: string }> = [
+  { id: "indoor-pois", prop: "text-opacity" },
+  { id: "indoor-rooms", prop: "fill-opacity" },
+  { id: "poi-indoor", prop: "icon-opacity" },
+  { id: "poi-indoor", prop: "text-opacity" },
+];
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
@@ -41,11 +52,11 @@ const mapContainer = ref<HTMLElement | undefined>(undefined);
 const initialLoaded = ref(false);
 const currentZoom = ref(INITIAL_ZOOM);
 // Reassigned wholesale so the panel's `Set` prop changes identity.
-const enabledLayers = ref<Set<string>>(new Set(LAYER_REGISTRY.map((l) => l.id)));
+const activeFilters = ref<Set<string>>(new Set());
 const panelCollapsed = ref(false);
 
-// Style-layer ids whose markers open a popup.
-const allStyleLayerIds = LAYER_REGISTRY.flatMap((l) => l.styleLayerIds);
+// Original paint values captured before the first dim, so toggling a filter off restores them.
+const originalPaint = new Map<string, unknown>();
 
 /** Read a query value as a single string, distinguishing "absent" (null) from "present but empty" (""). */
 function queryString(key: string): string | null {
@@ -63,30 +74,57 @@ function setQueryParam(key: string, value: string | null): void {
   window.history.replaceState(window.history.state, "", url.toString());
 }
 
-function applyLayerVisibility(): void {
+/** The `indoor` values the active filters keep vibrant. */
+function vibrantIndoorValues(): string[] {
+  return FILTER_REGISTRY.filter((f) => activeFilters.value.has(f.id)).flatMap((f) => [
+    ...f.indoorValues,
+  ]);
+}
+
+function rememberPaint(m: MapLibreMap, id: string, prop: string): void {
+  const key = `${id}::${prop}`;
+  if (!originalPaint.has(key)) originalPaint.set(key, m.getPaintProperty(id, prop) ?? 1);
+}
+
+/** Highlight the active filters by dimming everything else; restore the original paint when none. */
+function applyFilterDim(): void {
   const m = map.value;
   if (!m) return;
-  for (const layer of LAYER_REGISTRY) {
-    const visibility = enabledLayers.value.has(layer.id) ? "visible" : "none";
-    for (const styleLayerId of layer.styleLayerIds) {
-      if (m.getLayer(styleLayerId)) m.setLayoutProperty(styleLayerId, "visibility", visibility);
-    }
+  const vibrant = vibrantIndoorValues();
+  const active = vibrant.length > 0;
+
+  // Fade the non-matching POI icons in place (a data-driven opacity keeps the matches vibrant).
+  if (m.getLayer(POI_LAYER)?.type === "symbol") {
+    rememberPaint(m, POI_LAYER, "icon-opacity");
+    m.setPaintProperty(
+      POI_LAYER,
+      "icon-opacity",
+      active
+        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], 1, DIM]
+        : originalPaint.get(`${POI_LAYER}::icon-opacity`)
+    );
+  }
+
+  for (const { id, prop } of DIM_TARGETS) {
+    if (!m.getLayer(id)) continue;
+    rememberPaint(m, id, prop);
+    m.setPaintProperty(id, prop, active ? DIM : originalPaint.get(`${id}::${prop}`));
   }
 }
 
-function toggleLayer(id: string): void {
-  const next = new Set(enabledLayers.value);
+function toggleFilter(id: string): void {
+  const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
   else next.add(id);
-  enabledLayers.value = next;
+  activeFilters.value = next;
 }
 
-watch(enabledLayers, (layers) => {
-  const serialized = serializeEnabledLayers(layers);
-  localStorage.setItem(ENABLED_LAYERS_STORAGE_KEY, serialized);
-  // Reflect the exact selection (empty too) so an all-off deep link survives a reload.
-  setQueryParam(LAYERS_QUERY_PARAM, serialized);
-  applyLayerVisibility();
+watch(activeFilters, (filters) => {
+  const serialized = serializeFilters(filters);
+  localStorage.setItem(ACTIVE_FILTERS_STORAGE_KEY, serialized);
+  // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
+  setQueryParam(FILTER_QUERY_PARAM, serialized || null);
+  applyFilterDim();
 });
 
 watch(panelCollapsed, (collapsed) => {
@@ -140,6 +178,9 @@ function openPoiPopup(event: MapLayerMouseEvent): void {
   const m = map.value;
   const feature = event.features?.[0];
   if (!m || !feature) return;
+  // Only toilets and showers carry a popup; other POIs in the shared layer are not interactive.
+  const indoor = feature.properties?.indoor;
+  if (indoor !== "toilet" && indoor !== "shower") return;
 
   // Anchor on the marker's coordinates, not the click point.
   const [lng, lat] =
@@ -187,9 +228,8 @@ function initMap(): MapLibreMap {
     m.addControl(new FullscreenControl(), "top-right");
     m.addControl(floorControl, "top-right");
 
-    // Drop the legacy raster floor-plan overlays; the browse view shows only the vector indoor
-    // data. FloorControl's getLayer guards then skip them while still swapping the vector source
-    // per floor.
+    // Drop the legacy raster floor-plan overlays; they sit above the POIs and would hide them.
+    // FloorControl's getLayer guards then skip them while still swapping the vector source per floor.
     for (const layer of m.getStyle().layers) {
       if (!layer.id.startsWith("indoor-raster-floor-")) continue;
       const source = "source" in layer ? layer.source : undefined;
@@ -200,17 +240,15 @@ function initMap(): MapLibreMap {
     // Ground floor by default.
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
-    applyLayerVisibility();
+    applyFilterDim();
 
-    for (const styleLayerId of allStyleLayerIds) {
-      m.on("click", styleLayerId, openPoiPopup);
-      m.on("mouseenter", styleLayerId, () => {
-        m.getCanvas().style.cursor = "pointer";
-      });
-      m.on("mouseleave", styleLayerId, () => {
-        m.getCanvas().style.cursor = "";
-      });
-    }
+    m.on("click", POI_LAYER, openPoiPopup);
+    m.on("mouseenter", POI_LAYER, () => {
+      m.getCanvas().style.cursor = "pointer";
+    });
+    m.on("mouseleave", POI_LAYER, () => {
+      m.getCanvas().style.cursor = "";
+    });
   });
 
   floorControl.on("level-changed", (event: { level: number | null }) => {
@@ -222,9 +260,9 @@ function initMap(): MapLibreMap {
 
 onMounted(async () => {
   if (!webglSupport) return;
-  enabledLayers.value = resolveEnabledLayers({
-    urlParam: queryString(LAYERS_QUERY_PARAM),
-    stored: localStorage.getItem(ENABLED_LAYERS_STORAGE_KEY),
+  activeFilters.value = resolveActiveFilters({
+    urlParam: queryString(FILTER_QUERY_PARAM),
+    stored: localStorage.getItem(ACTIVE_FILTERS_STORAGE_KEY),
   });
   panelCollapsed.value = localStorage.getItem(PANEL_COLLAPSED_STORAGE_KEY) === "1";
   // <ClientOnly> mounts its slot after this hook fires, so wait for the container to exist.
@@ -247,11 +285,11 @@ onBeforeUnmount(() => {
         </div>
         <div id="map-browse" ref="mapContainer" class="h-full w-full" />
         <MapLayerPanel
-          :layers="LAYER_REGISTRY"
-          :enabled="enabledLayers"
+          :filters="FILTER_REGISTRY"
+          :active="activeFilters"
           :collapsed="panelCollapsed"
           :zoom="currentZoom"
-          @toggle="toggleLayer"
+          @toggle="toggleFilter"
           @update:collapsed="(v) => (panelCollapsed = v)"
         />
       </template>
@@ -263,7 +301,7 @@ onBeforeUnmount(() => {
 <i18n lang="yaml">
 de:
   title: Karte
-  description: Durchsuche die TUM-Karte und blende Ebenen wie Toiletten und Duschen ein.
+  description: Durchsuche die TUM-Karte und filtere nach Orten wie Toiletten und Duschen.
   edit_in_osm: In OpenStreetMap bearbeiten
   wheelchair_accessible: Rollstuhlgerecht
   poi:
@@ -276,7 +314,7 @@ de:
     unisex: Unisex
 en:
   title: Map
-  description: Browse the TUM map and toggle layers such as toilets and showers.
+  description: Browse the TUM map and filter for places such as toilets and showers.
   edit_in_osm: Edit in OpenStreetMap
   wheelchair_accessible: Wheelchair accessible
   poi:

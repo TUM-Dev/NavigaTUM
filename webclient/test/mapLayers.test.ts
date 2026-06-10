@@ -1,97 +1,99 @@
 import { describe, expect, it } from "vitest";
 import {
-  LAYER_REGISTRY,
-  type LayerDef,
-  parseEnabledLayers,
+  FILTER_REGISTRY,
+  type FilterDef,
+  parseFilters,
   parseLevel,
-  resolveEnabledLayers,
+  resolveActiveFilters,
   resolveLevel,
-  serializeEnabledLayers,
+  serializeFilters,
 } from "../app/composables/mapLayers";
 
-// A two-layer registry to exercise ordering, unknown-id rejection, and multi-select without
+// A two-filter registry to exercise ordering, unknown-id rejection, and multi-select without
 // depending on the shipped registry only carrying WCs.
-const REGISTRY: readonly LayerDef[] = [
-  { id: "wcs", labelKey: "layers.wcs", icon: "M0", styleLayerIds: ["a", "b"], hintBelowZoom: 17 },
+const REGISTRY: readonly FilterDef[] = [
+  {
+    id: "wcs",
+    labelKey: "filters.wcs",
+    icon: "M0",
+    indoorValues: ["toilet", "shower"],
+    hintBelowZoom: 17,
+  },
   {
     id: "elevators",
-    labelKey: "layers.elevators",
+    labelKey: "filters.elevators",
     icon: "M1",
-    styleLayerIds: ["c"],
+    indoorValues: ["elevator"],
     hintBelowZoom: 17,
   },
 ];
 
-describe("parseEnabledLayers", () => {
+describe("parseFilters", () => {
   it("keeps known ids and drops unknown ones", () => {
-    expect(parseEnabledLayers("wcs,bogus,elevators", REGISTRY)).toEqual(
-      new Set(["wcs", "elevators"])
-    );
+    expect(parseFilters("wcs,bogus,elevators", REGISTRY)).toEqual(new Set(["wcs", "elevators"]));
   });
 
   it("trims whitespace and de-duplicates", () => {
-    expect(parseEnabledLayers(" wcs , wcs ", REGISTRY)).toEqual(new Set(["wcs"]));
+    expect(parseFilters(" wcs , wcs ", REGISTRY)).toEqual(new Set(["wcs"]));
   });
 
-  it("treats an empty, whitespace-only, or nullish value as no layers", () => {
+  it("treats an empty, whitespace-only, or nullish value as no filters", () => {
     for (const input of ["", "   ", null, undefined]) {
-      expect(parseEnabledLayers(input, REGISTRY)).toEqual(new Set());
+      expect(parseFilters(input, REGISTRY)).toEqual(new Set());
     }
   });
 
-  it("recognises the shipped WCs layer by default", () => {
-    expect(parseEnabledLayers("wcs")).toEqual(new Set(["wcs"]));
+  it("recognises the shipped WCs filter by default", () => {
+    expect(parseFilters("wcs")).toEqual(new Set(["wcs"]));
   });
 });
 
-describe("serializeEnabledLayers", () => {
+describe("serializeFilters", () => {
   it("emits ids in registry order regardless of input order", () => {
-    expect(serializeEnabledLayers(["elevators", "wcs"], REGISTRY)).toBe("wcs,elevators");
+    expect(serializeFilters(["elevators", "wcs"], REGISTRY)).toBe("wcs,elevators");
   });
 
-  it("round-trips through parseEnabledLayers", () => {
-    const set = parseEnabledLayers("elevators,wcs", REGISTRY);
-    expect(parseEnabledLayers(serializeEnabledLayers(set, REGISTRY), REGISTRY)).toEqual(set);
+  it("round-trips through parseFilters", () => {
+    const set = parseFilters("elevators,wcs", REGISTRY);
+    expect(parseFilters(serializeFilters(set, REGISTRY), REGISTRY)).toEqual(set);
   });
 
   it("serialises nothing for an empty selection", () => {
-    expect(serializeEnabledLayers([], REGISTRY)).toBe("");
+    expect(serializeFilters([], REGISTRY)).toBe("");
   });
 });
 
-describe("resolveEnabledLayers precedence (URL > localStorage > default)", () => {
+describe("resolveActiveFilters precedence (URL > localStorage > default)", () => {
   it("uses the URL when present, ignoring localStorage", () => {
     expect(
-      resolveEnabledLayers({ urlParam: "wcs", stored: "elevators", registry: REGISTRY })
+      resolveActiveFilters({ urlParam: "wcs", stored: "elevators", registry: REGISTRY })
     ).toEqual(new Set(["wcs"]));
   });
 
-  it("honours an explicit empty URL value as all-off, beating the default", () => {
-    expect(resolveEnabledLayers({ urlParam: "", stored: "wcs", registry: REGISTRY })).toEqual(
+  it("honours an explicit empty URL value as none active, beating localStorage", () => {
+    expect(resolveActiveFilters({ urlParam: "", stored: "wcs", registry: REGISTRY })).toEqual(
       new Set()
     );
   });
 
   it("falls back to localStorage when the URL is absent", () => {
     expect(
-      resolveEnabledLayers({ urlParam: null, stored: "elevators", registry: REGISTRY })
+      resolveActiveFilters({ urlParam: null, stored: "elevators", registry: REGISTRY })
     ).toEqual(new Set(["elevators"]));
   });
 
-  it("honours an explicit empty stored value as all-off", () => {
-    expect(resolveEnabledLayers({ urlParam: null, stored: "", registry: REGISTRY })).toEqual(
+  it("defaults to no filter active when neither URL nor localStorage is set", () => {
+    expect(resolveActiveFilters({ urlParam: null, stored: null, registry: REGISTRY })).toEqual(
       new Set()
     );
+    expect(resolveActiveFilters({})).toEqual(new Set());
   });
+});
 
-  it("defaults to every overlay on when neither URL nor localStorage is set", () => {
-    expect(resolveEnabledLayers({ urlParam: null, stored: null, registry: REGISTRY })).toEqual(
-      new Set(["wcs", "elevators"])
-    );
-  });
-
-  it("defaults to WCs on for the shipped registry", () => {
-    expect(resolveEnabledLayers({})).toEqual(new Set(LAYER_REGISTRY.map((l) => l.id)));
+describe("the shipped registry", () => {
+  it("highlights toilets and showers under the WCs filter", () => {
+    const wcs = FILTER_REGISTRY.find((f) => f.id === "wcs");
+    expect(wcs?.indoorValues).toEqual(["toilet", "shower"]);
   });
 });
 

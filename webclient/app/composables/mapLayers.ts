@@ -1,34 +1,34 @@
 import { mdiToilet } from "@mdi/js";
 
-/** A toggleable overlay on the `/map` page. A new layer = one `LayerDef` + one split style layer. */
-export interface LayerDef {
-  /** Stable key used in the `?layers=` query and in `localStorage`. */
+/** A map filter that highlights one category by dimming everything else. */
+export interface FilterDef {
+  /** Stable key used in the `?filter=` query and in `localStorage`. */
   readonly id: string;
   /** i18n key (local scope of the `/map` page) for the panel label. */
   readonly labelKey: string;
   /** MDI path rendered as the panel icon. */
   readonly icon: string;
-  /** MapLibre style-layer ids whose `visibility` this overlay flips. */
-  readonly styleLayerIds: readonly string[];
+  /** The `indoor` property values this filter keeps vibrant. */
+  readonly indoorValues: readonly string[];
   /** Below this zoom the data is not in the tiles yet, so we show a "zoom in" hint. */
   readonly hintBelowZoom: number;
 }
 
-export const LAYER_REGISTRY = [
+export const FILTER_REGISTRY = [
   {
     id: "wcs",
-    labelKey: "layers.wcs",
+    labelKey: "filters.wcs",
     icon: mdiToilet,
-    styleLayerIds: ["indoor-toilets", "indoor-showers"],
+    indoorValues: ["toilet", "shower"],
     hintBelowZoom: 17,
   },
-] as const satisfies readonly LayerDef[];
+] as const satisfies readonly FilterDef[];
 
-export type LayerId = (typeof LAYER_REGISTRY)[number]["id"];
+export type FilterId = (typeof FILTER_REGISTRY)[number]["id"];
 
-export const LAYERS_QUERY_PARAM = "layers";
+export const FILTER_QUERY_PARAM = "filter";
 export const LEVEL_QUERY_PARAM = "level";
-export const ENABLED_LAYERS_STORAGE_KEY = "map:enabledLayers";
+export const ACTIVE_FILTERS_STORAGE_KEY = "map:activeFilters";
 export const PANEL_COLLAPSED_STORAGE_KEY = "map:panelCollapsed";
 
 // Mirrors the `FLOOR_LEVELS` ids in `FloorControl.ts`, duplicated to keep this module free of the
@@ -37,51 +37,50 @@ export const SELECTABLE_LEVELS: readonly number[] = [6, 5, 4, 3, 2, 1, 0, -1];
 export const DEFAULT_LEVEL = 0;
 
 /**
- * Parse a comma-separated `?layers=` value into the set of enabled layer ids, dropping
- * anything not in the registry. An empty or whitespace-only value yields an empty set
- * (every overlay off), which is distinct from the value being absent entirely.
+ * Parse a comma-separated `?filter=` value into the set of active filter ids, dropping anything
+ * not in the registry. An empty or whitespace-only value yields an empty set, which is distinct
+ * from the value being absent entirely.
  */
-export function parseEnabledLayers(
+export function parseFilters(
   param: string | null | undefined,
-  registry: readonly LayerDef[] = LAYER_REGISTRY
+  registry: readonly FilterDef[] = FILTER_REGISTRY
 ): Set<string> {
-  const known = new Set(registry.map((layer) => layer.id));
-  const enabled = new Set<string>();
+  const known = new Set(registry.map((f) => f.id));
+  const active = new Set<string>();
   for (const raw of (param ?? "").split(",")) {
     const id = raw.trim();
-    if (id && known.has(id)) enabled.add(id);
+    if (id && known.has(id)) active.add(id);
   }
-  return enabled;
+  return active;
 }
 
-/** Serialise enabled layer ids back into a stable, registry-ordered `?layers=` value. */
-export function serializeEnabledLayers(
-  enabled: Iterable<string>,
-  registry: readonly LayerDef[] = LAYER_REGISTRY
+/** Serialise active filter ids back into a stable, registry-ordered `?filter=` value. */
+export function serializeFilters(
+  active: Iterable<string>,
+  registry: readonly FilterDef[] = FILTER_REGISTRY
 ): string {
-  const set = enabled instanceof Set ? enabled : new Set(enabled);
+  const set = active instanceof Set ? active : new Set(active);
   return registry
-    .map((layer) => layer.id)
+    .map((f) => f.id)
     .filter((id) => set.has(id))
     .join(",");
 }
 
 /**
- * Resolve which overlays start enabled, honouring precedence: an explicit `?layers=` in the
- * URL wins (even when it selects nothing, so an "all off" deep link survives a reload), then
- * `localStorage`, then the default of every registry overlay on.
+ * Resolve which filters start active, honouring precedence: an explicit `?filter=` in the URL
+ * wins (even when empty, so a deep link survives a reload), then `localStorage`, then the default
+ * of no filter active.
  */
-export function resolveEnabledLayers(opts: {
+export function resolveActiveFilters(opts: {
   urlParam?: string | null;
   stored?: string | null;
-  registry?: readonly LayerDef[];
+  registry?: readonly FilterDef[];
 }): Set<string> {
-  const registry = opts.registry ?? LAYER_REGISTRY;
+  const registry = opts.registry ?? FILTER_REGISTRY;
   if (opts.urlParam !== undefined && opts.urlParam !== null)
-    return parseEnabledLayers(opts.urlParam, registry);
-  if (opts.stored !== undefined && opts.stored !== null)
-    return parseEnabledLayers(opts.stored, registry);
-  return new Set(registry.map((layer) => layer.id));
+    return parseFilters(opts.urlParam, registry);
+  if (opts.stored !== undefined && opts.stored !== null) return parseFilters(opts.stored, registry);
+  return new Set();
 }
 
 /** Parse a `?level=` value into a known integer floor, or `null` when absent or invalid. */

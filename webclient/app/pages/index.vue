@@ -205,7 +205,7 @@ de:
   show_details_for_building: Details für das Gebäude '{0}' anzeigen
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
   explore_map: Karte erkunden
-  explore_map_subtitle: Stöbere auf der Karte und blende Ebenen wie Toiletten und Duschen ein.
+  explore_map_subtitle: Stöbere auf der Karte und filtere nach Orten wie Toiletten und Duschen.
   explore_map_aria: Die interaktive Karte erkunden
   sites_overview:
     others: Sonstige
@@ -220,7 +220,7 @@ en:
   show_details_for_building: show the details for the building '{0}'
   description: Find rooms, buildings and other places at TUM with excellence. A modern alternative to RoomFinder, developed by students.
   explore_map: Explore the map
-  explore_map_subtitle: Browse the map and toggle layers such as toilets and showers.
+  explore_map_subtitle: Browse the map and filter for places such as toilets and showers.
   explore_map_aria: Explore the interactive map
   sites_overview:
     others: Others

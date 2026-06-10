@@ -192,11 +192,11 @@ Every poi row carries an `indoor` discriminator (`toilet`, `shower`, `elevator`,
 The `pois` table uses `any` ids (`osm_type` + `osm_id`) rather than an area table, because the area
 id type cannot store node ids.
 
-### Browse layers on `/map`
+### Filtering on `/map`
 
-[`navigatum-basemap.json`](./martin/styles/navigatum-basemap.json) splits the icon pois into
-per-category symbol layers - `indoor-toilets`, `indoor-showers`, and `indoor-elevators` - all
-visible by default at `minzoom: 17`. The label pois (rooms, auditoriums, …) stay on `indoor-pois`.
-The webclient `/map` page toggles the visibility of these split layers; its `LAYER_REGISTRY`
-(`webclient/app/composables/mapLayers.ts`) groups toilets and showers into the "WCs" overlay. A new
-browse layer is one more `LayerDef` plus one more split style layer.
+The webclient `/map` page does not change the shared style. Its filter panel highlights a category
+by dimming everything else: selecting the "WCs" filter fades the non-matching POI icons, labels, and
+room fills (via runtime `setPaintProperty`) while keeping `indoor='toilet'`/`'shower'` features
+vibrant. The filters live in `FILTER_REGISTRY` (`webclient/app/composables/mapLayers.ts`); each maps
+to the `indoor` values it keeps vibrant, so a new filter is one more `FilterDef`. Because this reads
+the existing `indoor_pois` source, it needs no style or tile-server change to ship.
