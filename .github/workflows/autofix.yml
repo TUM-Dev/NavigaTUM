@@ -181,7 +181,7 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           CARGO_NET_RETRY: 10
-          # See server/Dockerfile for context — HTTP/2 framing errors against
+          # See server/Dockerfile for context - HTTP/2 framing errors against
           # crates.io are the dominant CI flake.
           CARGO_HTTP_MULTIPLEXING: false
 
