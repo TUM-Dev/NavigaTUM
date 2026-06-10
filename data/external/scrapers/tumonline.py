@@ -101,21 +101,18 @@ def scrape_rooms() -> None:
     df = pl.DataFrame(rows, schema=RoomsSchema.to_polars_schema()).sort("room_key")
     # TUMonline occasionally returns the same room twice in the payload (same
     # `tumonline_id`) and, more rarely, two genuinely different rooms sharing
-    # the same `room_code` (different `tumonline_id`s — see e.g. 0103.Z1.302).
+    # the same `room_code` (different `tumonline_id`s - see e.g. 0103.Z1.302).
     # `RoomsSchema` marks `room_key` as the primary key and downstream code
     # keys dictionaries by it, so duplicates must be collapsed before we
-    # commit the CSV. `keep="last"` is opinionated — it loses one of two
-    # conflicting rooms — but it's deterministic and matches the existing
+    # commit the CSV. `keep="last"` is opinionated - it loses one of two
+    # conflicting rooms - but it's deterministic and matches the existing
     # main most of the time. Conflicts are logged so they're visible.
     dup_keys = (
-        df.group_by("room_key")
-        .agg(pl.col("tumonline_id").unique().alias("ids"))
-        .filter(pl.col("ids").list.len() > 1)
+        df.group_by("room_key").agg(pl.col("tumonline_id").unique().alias("ids")).filter(pl.col("ids").list.len() > 1)
     )
     for row in dup_keys.iter_rows(named=True):
         _logger.warning(
-            "TUMonline returned conflicting rooms for room_code %r "
-            "(tumonline_ids %s); keeping last occurrence.",
+            "TUMonline returned conflicting rooms for room_code %r (tumonline_ids %s); keeping last occurrence.",
             row["room_key"],
             sorted(row["ids"]),
         )
