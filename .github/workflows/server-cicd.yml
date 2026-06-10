@@ -49,7 +49,7 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           CARGO_NET_RETRY: 10
-          # See server/Dockerfile — disabling HTTP/2 multiplexing avoids the
+          # See server/Dockerfile - disabling HTTP/2 multiplexing avoids the
           # framing-layer flake when cargo refreshes the registry.
           CARGO_HTTP_MULTIPLEXING: false
       - run: cargo test -- --nocapture --quiet
