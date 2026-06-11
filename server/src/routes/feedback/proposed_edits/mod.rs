@@ -20,7 +20,7 @@ use super::proposed_edits::image::Image;
 use super::proposed_edits::opening_hours::OpeningHoursEdit;
 use super::proposed_edits::property::PropertyEdit;
 use super::tokens::RecordedTokens;
-use crate::external::github::GitHub;
+use crate::external::github::{GitHub, PrCreated};
 
 pub(crate) mod addition;
 mod coordinate;
@@ -151,6 +151,32 @@ impl EditRequest {
             .into_iter()
             .filter_map(|(k, edit)| extractor(edit).map(|coord| (k, coord)))
             .collect()
+    }
+
+    /// True iff every payload in this request is a coordinate edit —
+    /// at least one coordinate edit, no other edit kinds, no additions.
+    ///
+    /// Used to gate auto-merge: maintainers asked for coordinate-only PRs to merge
+    /// without review because they're low-risk spot fixes, but any mix-in (image,
+    /// property, `opening_hours`, or a new room/POI/event) brings the PR back into
+    /// the manual-review bucket.
+    pub(super) fn is_pure_coordinate_edit(&self) -> bool {
+        if !self.additions.0.is_empty() {
+            return false;
+        }
+        let mut has_coord = false;
+        for edit in self.edits.0.values() {
+            if edit.image.is_some()
+                || edit.opening_hours.is_some()
+                || edit.properties.as_ref().is_some_and(|p| !p.is_empty())
+            {
+                return false;
+            }
+            if edit.coordinate.is_some() {
+                has_coord = true;
+            }
+        }
+        has_coord
     }
 
     pub(super) fn extract_labels(&self) -> Vec<String> {
@@ -286,6 +312,45 @@ impl EditRequest {
     }
 }
 
+/// Enable squash auto-merge on a freshly-opened pure-coordinate PR.
+/// Best-effort: failures here only mean the PR will sit waiting for a manual merge.
+#[tracing::instrument(skip(created))]
+async fn enable_auto_merge_for_pure_coord(created: &PrCreated) {
+    if let Err(e) = GitHub::default()
+        .enable_auto_merge_squash(&created.node_id)
+        .await
+    {
+        error!(
+            error = ?e,
+            pr_number = created.number,
+            "Failed to enable auto-merge on pure-coordinate PR"
+        );
+    }
+}
+
+/// Take an in-progress batch PR off auto-merge after a non-coordinate edit lands in it.
+/// Logged at `warn!` on failure: an undiscovered failure here could leave a mixed batch
+/// PR auto-merging once CI passes, which is the exact scenario this gate is supposed to prevent.
+/// (The most common cause is "auto-merge was never enabled," which is a benign no-op but still
+/// worth surfacing so operators can tune the gate if the warnings are dominated by that case.)
+#[tracing::instrument]
+async fn disable_auto_merge_on_mixed_batch(pr_number: u64) {
+    match GitHub::default().pr_node_id(pr_number).await {
+        Ok(node_id) => {
+            if let Err(e) = GitHub::default().disable_auto_merge(&node_id).await {
+                tracing::warn!(
+                    error = ?e,
+                    %pr_number,
+                    "disable_auto_merge failed; mixed batch PR may still auto-merge if it was previously enabled"
+                );
+            }
+        }
+        Err(e) => {
+            error!(error = ?e, %pr_number, "Failed to fetch node_id for batch PR");
+        }
+    }
+}
+
 /// Post Edit-Requests
 ///
 /// ***Do not abuse this endpoint.***
@@ -381,6 +446,12 @@ pub async fn propose_edits(
                     error!(error = ?e, "Failed to update batch PR metadata");
                 }
 
+                // A non-coordinate edit landing on an in-progress batch invalidates the
+                // pure-coordinate auto-merge invariant.
+                if !req_data.is_pure_coordinate_edit() {
+                    disable_auto_merge_on_mixed_batch(pr_number).await;
+                }
+
                 let pr_url = format!("https://github.com/TUM-Dev/NavigaTUM/pull/{pr_number}");
                 HttpResponse::Created()
                     .content_type("text/plain")
@@ -394,7 +465,7 @@ pub async fn propose_edits(
                 let subject = req_data.extract_subject();
                 let title = format!("chore(data): {subject}");
 
-                GitHub::default()
+                match GitHub::default()
                     .open_pr(
                         branch_to_use,
                         &title,
@@ -402,6 +473,17 @@ pub async fn propose_edits(
                         labels,
                     )
                     .await
+                {
+                    Ok(created) => {
+                        if req_data.is_pure_coordinate_edit() {
+                            enable_auto_merge_for_pure_coord(&created).await;
+                        }
+                        HttpResponse::Created()
+                            .content_type("text/plain")
+                            .body(created.html_url)
+                    }
+                    Err(resp) => resp,
+                }
             }
         }
         Err(ApplyError::Validation(failures)) => {
@@ -558,6 +640,149 @@ mod tests {
             "opening-hours edit for `5304.EG.001`"
         );
         assert!(req.extract_labels().contains(&"opening_hours".to_string()));
+    }
+
+    #[test]
+    fn pure_coordinate_single_edit() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}}
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn pure_coordinate_multiple_keys() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}},
+                "0102": {"coordinate": {"lat": 2.0, "lon": 2.0}}
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn not_pure_coordinate_with_image() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}},
+                "0102": {
+                    "image": {
+                        "content": "AAAA",
+                        "metadata": { "author": "Studi", "license": { "text": "CC-BY" } }
+                    }
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(!req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn not_pure_coordinate_with_addition() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}}
+            },
+            "additions": {
+                "5117.EG.103": {
+                    "kind": "room",
+                    "parent_building_id": "5117",
+                    "alt_name": "A",
+                    "arch_name": "EG103@5117",
+                    "usage_id": 12,
+                    "coords": coords()
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(!req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn not_pure_coordinate_with_opening_hours() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {"coordinate": {"lat": 1.0, "lon": 1.0}},
+                "5304.EG.001": {
+                    "opening_hours": {
+                        "opening_hours": "Mo-Fr 08:00-20:00",
+                        "source_url": "https://www.ub.tum.de/oeffnungszeiten"
+                    }
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(!req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn not_pure_coordinate_with_property() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {
+                    "coordinate": {"lat": 1.0, "lon": 1.0},
+                    "properties": [{
+                        "type": "name",
+                        "name": "Test Room",
+                        "short_name": null
+                    }]
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(!req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn not_pure_coordinate_without_any_coordinate() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "5304.EG.001": {
+                    "opening_hours": {
+                        "opening_hours": "Mo-Fr 08:00-20:00",
+                        "source_url": "https://www.ub.tum.de/oeffnungszeiten"
+                    }
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(!req.is_pure_coordinate_edit());
+    }
+
+    #[test]
+    fn pure_coordinate_with_empty_properties_vec() {
+        // properties: Some(vec![]) shouldn't disqualify — only non-empty does.
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "edits": {
+                "0101": {
+                    "coordinate": {"lat": 1.0, "lon": 1.0},
+                    "properties": []
+                }
+            },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        assert!(req.is_pure_coordinate_edit());
     }
 
     #[test]

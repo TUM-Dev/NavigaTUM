@@ -10,6 +10,17 @@ use tracing::error;
 static FEEDBACK_NEWLINE_RE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"[ \t]*\n").expect("static regex must compile at startup"));
 
+/// Identifiers for a freshly-opened pull request.
+///
+/// `node_id` is the GraphQL global ID, required by mutations like
+/// `enablePullRequestAutoMerge` that don't accept the REST `number`.
+#[derive(Debug)]
+pub struct PrCreated {
+    pub number: u64,
+    pub node_id: String,
+    pub html_url: String,
+}
+
 #[derive(Debug)]
 pub struct GitHub {
     octocrab: Option<Octocrab>,
@@ -78,15 +89,15 @@ impl GitHub {
         title: &str,
         description: &str,
         labels: Vec<String>,
-    ) -> HttpResponse {
+    ) -> Result<PrCreated, HttpResponse> {
         let Some(octocrab) = self.octocrab else {
-            return HttpResponse::InternalServerError()
+            return Err(HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed to create a pull request, please try again later");
+                .body("Failed to create a pull request, please try again later"));
         };
 
         // create the PR
-        let pr_number = match octocrab
+        let (pr_number, node_id) = match octocrab
             .pulls("TUM-Dev", "NavigaTUM")
             .create(title, branch, "main")
             .body(description)
@@ -95,20 +106,20 @@ impl GitHub {
             .await
         {
             Ok(pr) => {
-                if let Some(n) = pr.number {
-                    n
+                if let (Some(n), Some(id)) = (pr.number, pr.node_id) {
+                    (n, id)
                 } else {
-                    error!("GitHub returned a created PR without a number");
-                    return HttpResponse::InternalServerError()
+                    error!("GitHub returned a created PR without a number or node_id");
+                    return Err(HttpResponse::InternalServerError()
                         .content_type("text/plain")
-                        .body("Failed to create a pull request, please try again later");
+                        .body("Failed to create a pull request, please try again later"));
                 }
             }
             Err(e) => {
                 error!(error = ?e, "Error creating pull request");
-                return HttpResponse::InternalServerError()
+                return Err(HttpResponse::InternalServerError()
                     .content_type("text/plain")
-                    .body("Failed to create a pull request, please try again later");
+                    .body("Failed to create a pull request, please try again later"));
             }
         };
 
@@ -122,16 +133,82 @@ impl GitHub {
             .await;
 
         match resp {
-            Ok(issue) => HttpResponse::Created()
-                .content_type("text/plain")
-                .body(issue.html_url.to_string()),
+            Ok(issue) => Ok(PrCreated {
+                number: pr_number,
+                node_id,
+                html_url: issue.html_url.to_string(),
+            }),
             Err(e) => {
                 error!(error = ?e, "Error updating PR");
-                HttpResponse::InternalServerError()
+                Err(HttpResponse::InternalServerError()
                     .content_type("text/plain")
-                    .body("Failed to create a pull request, please try again later")
+                    .body("Failed to create a pull request, please try again later"))
             }
         }
+    }
+
+    /// Look up a pull request's GraphQL global ID (`node_id`) by REST number.
+    ///
+    /// Needed to feed `enablePullRequestAutoMerge` / `disablePullRequestAutoMerge`,
+    /// which only accept GraphQL IDs.
+    #[tracing::instrument]
+    pub async fn pr_node_id(self, pr_number: u64) -> anyhow::Result<String> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let pr = octocrab
+            .pulls("TUM-Dev", "NavigaTUM")
+            .get(pr_number)
+            .await?;
+
+        pr.node_id
+            .ok_or_else(|| anyhow::anyhow!("GitHub returned PR #{pr_number} without a node_id"))
+    }
+
+    /// Enable squash auto-merge on a PR. Idempotent failures (already enabled) bubble up as `Err`.
+    ///
+    /// The repo only allows squash merges (`allow_squash_merge: true`, the others false),
+    /// so the merge method is hardcoded.
+    #[tracing::instrument]
+    pub async fn enable_auto_merge_squash(self, pr_node_id: &str) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let query = "mutation($prId: ID!) { \
+            enablePullRequestAutoMerge(input: { pullRequestId: $prId, mergeMethod: SQUASH }) { \
+                clientMutationId \
+            } \
+        }";
+        let _: serde_json::Value = octocrab
+            .graphql(&serde_json::json!({
+                "query": query,
+                "variables": { "prId": pr_node_id },
+            }))
+            .await?;
+        Ok(())
+    }
+
+    /// Disable auto-merge on a PR. Returns `Err` if it wasn't enabled (caller may ignore).
+    #[tracing::instrument]
+    pub async fn disable_auto_merge(self, pr_node_id: &str) -> anyhow::Result<()> {
+        let Some(octocrab) = self.octocrab else {
+            anyhow::bail!("GitHub client not initialized");
+        };
+
+        let query = "mutation($prId: ID!) { \
+            disablePullRequestAutoMerge(input: { pullRequestId: $prId }) { \
+                clientMutationId \
+            } \
+        }";
+        let _: serde_json::Value = octocrab
+            .graphql(&serde_json::json!({
+                "query": query,
+                "variables": { "prId": pr_node_id },
+            }))
+            .await?;
+        Ok(())
     }
 
     /// Remove all returns a string, which has
