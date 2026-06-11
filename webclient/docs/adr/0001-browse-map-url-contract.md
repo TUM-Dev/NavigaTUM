@@ -1,6 +1,6 @@
 # `/map` URL contract: viewport + filter, no identity
 
-The Browse map's URL is **MapLibre `#zoom/lat/lng` hash + `?filter=` + `?level=`** — no `focus_id`, no entity identity. Bridges from search and detail pages encode the parent Entity's `coords` directly in the hash, so links are resolvable client-side from data the source page already has. Identity is the detail page's job (`/{type}/{id}`); the Browse map stays a stateless explore surface.
+The Browse map's URL is **MapLibre `#zoom/lat/lng` hash + `?filter=` + `?level=`** - no `focus_id`, no entity identity. Bridges from search and detail pages encode the parent Entity's `coords` directly in the hash, so links are resolvable client-side from data the source page already has. Identity is the detail page's job (`/{type}/{id}`); the Browse map stays a stateless explore surface.
 
 ## Considered options
 
