@@ -234,9 +234,11 @@ function displayNameOf(draft: AdditionDraft): string {
 
 type Addition = ReturnType<typeof buildAddition>;
 
-function validateAndBuild():
-  | { id: string; displayName: string; addition: NonNullable<Addition> }
-  | null {
+function validateAndBuild(): {
+  id: string;
+  displayName: string;
+  addition: NonNullable<Addition>;
+} | null {
   localError.value = "";
   const draft = editProposal.value.pendingAddition;
   const id = draft.id.trim();

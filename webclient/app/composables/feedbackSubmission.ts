@@ -45,8 +45,7 @@ const MESSAGES = {
           "Vorschläge senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.",
         feedback_not_configured:
           "Das Senden von Vorschlägen ist auf dem Server aktuell nicht konfiguriert.",
-        token_unexpected_status:
-          "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: ",
+        token_unexpected_status: "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: ",
         token_req_failed:
           "Unerwarteter Fehler beim Laden des Bearbeitungsformulars. Das Senden von Vorschlägen ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.",
       },
@@ -66,8 +65,7 @@ const MESSAGES = {
         server_error: "Server Error",
         too_many_requests:
           "Sending proposals is currently not possible due to rate-limiting. Please try again in a while or send a mail.",
-        feedback_not_configured:
-          "Sending proposals is currently not configured on the server.",
+        feedback_not_configured: "Sending proposals is currently not configured on the server.",
         token_unexpected_status: "Unexpected status code when retrieving a feedback token",
         token_req_failed:
           "Unexpected error when loading the edit proposal form. Sending proposals is currently probably not possible. Please send a mail instead.",
@@ -82,9 +80,9 @@ export function useFeedbackSubmission() {
   i18n.mergeLocaleMessage("de", MESSAGES.de);
   i18n.mergeLocaleMessage("en", MESSAGES.en);
   const t = (key: string) => i18n.t(`feedbackSubmission.${key}`);
-  const { error: tokenError, token } = useFeedbackToken(
-    ((key: string) => t(key)) as ReturnType<typeof useI18n>["t"]
-  );
+  const { error: tokenError, token } = useFeedbackToken(((key: string) => t(key)) as ReturnType<
+    typeof useI18n
+  >["t"]);
   const runtimeConfig = useRuntimeConfig();
 
   const submitting = ref(false);
