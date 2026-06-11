@@ -1,9 +1,12 @@
 <script setup lang="ts">
+type ConsentKind = "proposal" | "feedback";
+
 withDefaults(
   defineProps<{
     id?: string;
+    kind?: ConsentKind;
   }>(),
-  { id: "feedback-privacy-checked" }
+  { id: "feedback-privacy-checked", kind: "proposal" }
 );
 
 const checked = defineModel<boolean>({ required: true });
@@ -12,7 +15,7 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <Checkbox :id="id" v-model="checked">
-    <I18nT tag="span" keypath="consent">
+    <I18nT tag="span" :keypath="`consent.${kind}`">
       <template #github>
         <NuxtLink
           tabindex="1"
@@ -39,11 +42,15 @@ const { t } = useI18n({ useScope: "local" });
 
 <i18n lang="yaml">
 de:
-  consent: Ich verstehe, dass mein Vorschlag auf {github} veröffentlicht und gemäß der {privacy_policy} verarbeitet wird. Mit dem Absenden dieses Formulars willige ich in diese Verarbeitung ein.
+  consent:
+    proposal: Ich verstehe, dass mein Vorschlag auf {github} veröffentlicht und gemäß der {privacy_policy} verarbeitet wird. Mit dem Absenden dieses Formulars willige ich in diese Verarbeitung ein.
+    feedback: Ich verstehe, dass mein Feedback auf {github} veröffentlicht und gemäß der {privacy_policy} verarbeitet wird. Mit dem Absenden dieses Formulars willige ich in diese Verarbeitung ein.
   privacy_policy: Datenschutzerklärung
   privacy_policy_url: /about/datenschutz
 en:
-  consent: I understand that my proposal will be published on {github} and processed in accordance with the {privacy_policy}. By submitting this form, I consent to this processing.
+  consent:
+    proposal: I understand that my proposal will be published on {github} and processed in accordance with the {privacy_policy}. By submitting this form, I consent to this processing.
+    feedback: I understand that my feedback will be published on {github} and processed in accordance with the {privacy_policy}. By submitting this form, I consent to this processing.
   privacy_policy: Privacy Policy
   privacy_policy_url: /en/about/privacy
 </i18n>

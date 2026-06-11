@@ -50,8 +50,6 @@ const kindIndex = computed(() => {
   return k ? kindOptions.findIndex((o) => o.value === k) : -1;
 });
 
-// Switching the tab swaps the whole draft for the new variant's empty seed.
-// Coords and parent carry across so the user doesn't lose state they already picked.
 function pickKind(k: AdditionKind) {
   const previous = editProposal.value.pendingAddition;
   if (previous.kind === k) return;
@@ -64,9 +62,7 @@ function pickKind(k: AdditionKind) {
   editProposal.value.pendingAddition = fresh;
 }
 
-// Verify the id against /api/locations/{id}.
-// 200 means collision, 404 means free.
-// Event ids are content hashed locally and cannot collide, so the check is suppressed for them.
+// Event ids are content-hashed client-side and cannot collide, so they skip the collision check.
 const trimmedId = computed(() => editProposal.value.pendingAddition.id.trim());
 const debouncedId = refDebounced(trimmedId, 350);
 const fetchingId = ref(false);
@@ -80,8 +76,6 @@ watch(
       return;
     }
     const controller = new AbortController();
-    // `onCleanup` aborts the prior fetch the instant the watched inputs change again.
-    // A slow response can never settle stale state.
     onCleanup(() => controller.abort());
     fetchingId.value = true;
     try {
@@ -91,8 +85,7 @@ watch(
       );
       idCollidesOnServer.value = res.ok;
     } catch {
-      // Network failure or abort: don't block.
-      // The server re-validates on submit.
+      // Network failure or abort: don't block; the server re-validates on submit.
     } finally {
       fetchingId.value = false;
     }
@@ -107,15 +100,12 @@ const idCheckPending = computed(() => {
 const allowedParentTypes = computed<readonly FacetFilter[]>(() => {
   const kind = editProposal.value.pendingAddition.kind;
   if (kind === "room") return ["building"];
-  // POIs may live inside a site, area, or directly inside a building like a cafeteria.
-  // Buildings are parented under sites or areas only.
+  // POIs may sit inside a site, area, or directly inside a building (e.g. a cafeteria); buildings only inside sites/areas.
   if (kind === "poi") return ["site", "building"];
   return ["site"];
 });
 
-// Writable computeds let v-models bind to per-kind fields without narrowing in the template.
-// Setters are inert on variants that don't carry the field.
-// The matching UI block is hidden in that case.
+// Setters are inert on variants without the field; the matching UI block is also hidden in that case.
 const parentId = computed({
   get: () => {
     const a = editProposal.value.pendingAddition;
@@ -147,8 +137,6 @@ const roomAltName = computed({
   },
 });
 
-// When the user picks a parent, fetch its details to pre-fill the map centre.
-// We auto-mark coords as ready so the user saves a click and can still drag to refine.
 const parentLookupUrl = computed(() => {
   const pid = parentId.value;
   return pid ? `${runtimeConfig.public.apiURL}/api/locations/${encodeURIComponent(pid)}` : "";
@@ -175,9 +163,7 @@ const { data: parentDetails } = useFetch<ParentDetails>(() => parentLookupUrl.va
   watch: [parentId],
 });
 
-// The room code prefix isn't always the entry id.
-// Joined buildings have textual ids like `mi`, while their TUMonline code is e.g. `5510`.
-// Pick the first 4 digit alias as the prefix.
+// Joined buildings have textual ids like `mi` while their TUMonline code is e.g. `5510`; pick the first 4-digit alias as the prefix.
 const roomParentPrefix = computed(() => {
   const a = editProposal.value.pendingAddition;
   if (a.kind !== "room") return "";
@@ -189,7 +175,6 @@ const roomParentPrefix = computed(() => {
   return numeric ?? pid;
 });
 
-// Floors known on the parent, used by the TUMonline room code as its floor segment.
 interface ParentFloorOption {
   tumonline: string;
   label: string;
@@ -201,9 +186,7 @@ const parentFloorOptions = computed<ParentFloorOption[]>(() => {
     .map((f) => ({ tumonline: f.tumonline, label: `${f.tumonline} - ${f.short_name || f.name}` }));
 });
 
-// Room ids follow PARENT.FLOOR.NUMBER.
-// The parent segment is auto filled and disabled so users can't desync it from the chosen parent.
-// Floor and number flow through the Zod schema like any other field once we compose the id.
+// Room ids follow PARENT.FLOOR.NUMBER; the parent segment is auto-filled and disabled so it can't desync from the chosen parent.
 const roomFloorSegment = ref("");
 const roomNumberSegment = ref("");
 const composedRoomId = computed(() => {
@@ -280,8 +263,7 @@ function validateAndBuild():
 function commitDraft(): { id: string; displayName: string } | null {
   const built = validateAndBuild();
   if (!built) return null;
-  // OpenAPI types are readonly; round-trip through JSON for a DeepWritable clone to match the LimitedHashMap value type.
-  editProposal.value.data.additions[built.id] = JSON.parse(JSON.stringify(built.addition));
+  editProposal.value.data.additions[built.id] = built.addition;
   editProposal.value.pendingAddition = emptyAdditionDraft();
   return { id: built.id, displayName: built.displayName };
 }
@@ -305,9 +287,7 @@ function commitAddition() {
 function commitAndAddImage() {
   const result = commitDraft();
   if (!result) return;
-  // Point the existing image upload flow at the freshly added entry.
-  // The server applies additions before edits in a single request.
-  // So an image edit keyed by this id resolves correctly.
+  // The server applies additions before edits in a single request, so an image edit keyed by this id resolves to the freshly-added entry.
   editProposal.value.selected = { id: result.id, name: result.displayName };
   emit("commit-with-image");
 }
@@ -323,12 +303,9 @@ async function editExistingEntry() {
   if (!id) return;
   editProposal.value.pendingAddition = emptyAdditionDraft();
   editProposal.value.selected = { id, name: null };
-  // Open the edit modal once we land on the entry's detail page.
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
-  // Resolve the entity's type up front so we land on its canonical /{type}/{id} path directly.
-  // Otherwise we bounce through the /view/{id} redirect.
-  // On any failure we fall back to /view/{id}, which the server redirects to the canonical path.
+  // Resolve the type up front to land on the canonical /{type}/{id} directly; on failure /view/{id} still redirects.
   let target = `/view/${id}`;
   try {
     const res = await fetch(
@@ -342,15 +319,13 @@ async function editExistingEntry() {
       if (isRoutableEntityType(details.type)) target = entityPath(id, details.type);
     }
   } catch {
-    // Network failure: keep the /view/{id} fallback.
+    // Keep the /view/{id} fallback on network failure.
   }
   await navigateTo(localePath(target));
 }
 provide("addProposal:editExistingEntry", editExistingEntry);
 
-// Coordinate model for the inline picker.
-// Centred on TUM main campus until the user picks a parent or moves the marker themselves.
-// Picking a parent recenters the map on the parent's coords.
+// Default to TUM main campus until the user picks a parent or moves the marker.
 const mapInitialLat = ref(48.149);
 const mapInitialLon = ref(11.568);
 
@@ -380,15 +355,13 @@ const mapLon = computed({
   },
 });
 
-// Share id validation state with per kind sub components.
-// AddBuildingFields, for example, renders the id input itself inside its Identifiers fieldset.
+// Sub-components (e.g. AddBuildingFields) render their own id input and need the validation state.
 provide("addProposal:idValidation", {
   pending: idCheckPending,
   collides: idCollidesOnServer,
 });
 
-// Seed at setup so SSR and the initial client render see the right kind; doing
-// this in onMounted flashes the default tab and kind-gated elements.
+// Seed at setup so SSR and the initial client render see the right kind; onMounted would flash the default tab.
 editProposal.value.pendingAddition = props.initialDraft ?? emptyAdditionDraft();
 localError.value = "";
 onBeforeUnmount(() => {
@@ -430,8 +403,6 @@ onBeforeUnmount(() => {
           />
         </div>
 
-        <!-- Room name sits between parent and id so the user works top down. -->
-        <!-- The flow reads as where, then what's it called, then its id. -->
         <div v-if="editProposal.pendingAddition.kind === 'room'">
           <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-room-alt-name">
             {{ t("alt_name") }} <span class="text-red-700 dark:text-red-200">*</span>

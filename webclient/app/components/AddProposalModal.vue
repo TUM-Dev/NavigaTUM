@@ -4,8 +4,6 @@ import { useEditProposal } from "~/composables/editProposal";
 const editProposal = useEditProposal();
 const { t } = useI18n({ useScope: "local" });
 
-// Commit, commit-with-image and cancel all hand control back to the Propose Changes modal.
-// Submission, privacy, and send all live there.
 function handleCommit() {
   editProposal.value.addOpen = false;
   editProposal.value.open = true;
