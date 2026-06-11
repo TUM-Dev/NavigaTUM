@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Map as MapLibreMap, Marker } from "maplibre-gl";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 
 export interface EventPreviewPopup {
   readonly name: string;
@@ -30,6 +30,7 @@ const marker = shallowRef<Marker | undefined>(undefined);
 const markerImg = shallowRef<HTMLImageElement | undefined>(undefined);
 const loaded = ref(false);
 const markerPos = shallowRef<{ x: number; y: number } | null>(null);
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 function createMarkerElement(): HTMLElement {
   const el = document.createElement("div");
@@ -86,7 +87,7 @@ function applyPadding(): void {
 }
 
 onMounted(() => {
-  if (!webglSupport || !mapContainer.value) return;
+  if (!webglSupport.value || !mapContainer.value) return;
   const instance = new MapLibreMap({
     container: mapContainer.value,
     style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
@@ -95,6 +96,7 @@ onMounted(() => {
     attributionControl: false,
     validateStyle: import.meta.env.DEV,
   });
+  attachWebglGuard(instance);
   map.value = instance;
   instance.on("load", () => {
     loaded.value = true;

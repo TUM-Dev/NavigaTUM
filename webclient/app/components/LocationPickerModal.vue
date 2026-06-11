@@ -9,7 +9,7 @@ import {
 } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import { useIsMobile } from "~/composables/useIsMobile";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
   initialLat: number;
@@ -36,6 +36,7 @@ const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMapLoaded = ref(false);
 const isMobile = useIsMobile();
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 const coordinates = ref({
   lat: props.initialLat,
@@ -57,7 +58,7 @@ function createMarker(hueRotation = 120) {
 }
 
 function initMap() {
-  if (!webglSupport || !mapContainer.value) return;
+  if (!webglSupport.value || !mapContainer.value) return;
 
   const mapInstance = new MapLibreMap({
     container: mapContainer.value,
@@ -70,6 +71,7 @@ function initMap() {
     center: [coordinates.value.lon, coordinates.value.lat],
     zoom: props.zoom,
   });
+  attachWebglGuard(mapInstance);
 
   mapInstance.on("load", () => {
     isMapLoaded.value = true;

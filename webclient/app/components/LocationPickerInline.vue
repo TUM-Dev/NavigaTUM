@@ -9,7 +9,7 @@ import {
   NavigationControl,
 } from "maplibre-gl";
 import { useIsMobile } from "~/composables/useIsMobile";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 
 interface Props {
   initialLat: number;
@@ -33,6 +33,7 @@ const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 function createMarker(hueRotation = 120) {
   const markerDiv = document.createElement("div");
@@ -49,7 +50,7 @@ function createMarker(hueRotation = 120) {
 }
 
 function initMap() {
-  if (!webglSupport || !mapContainer.value) return;
+  if (!webglSupport.value || !mapContainer.value) return;
   const mapInstance = new MapLibreMap({
     container: mapContainer.value,
     hash: false,
@@ -58,6 +59,7 @@ function initMap() {
     center: [props.initialLon, props.initialLat],
     zoom: props.zoom,
   });
+  attachWebglGuard(mapInstance);
 
   mapInstance.on("load", () => {
     mapInstance.addControl(new NavigationControl({}), "top-left");

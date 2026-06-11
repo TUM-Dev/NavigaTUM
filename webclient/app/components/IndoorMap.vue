@@ -11,7 +11,7 @@ import {
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { useIsMobile } from "~/composables/useIsMobile";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
@@ -45,6 +45,7 @@ const marker = shallowRef<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
 const fullscreenContainerEl = ref<HTMLElement | null>(null);
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 // Maplibre bug: the map doesn't update to the new size when changing between
 // fullscreen in the mobile version.
 useResizeObserver(fullscreenContainerEl, () => {
@@ -60,7 +61,7 @@ const highlightedLegIndex = ref<number | null>(null);
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 onMounted(async () => {
-  if (!webglSupport) return;
+  if (!webglSupport.value) return;
 
   const doMapUpdate = async () => {
     // The map might or might not be initialized depending on the type
@@ -124,6 +125,7 @@ function initMap(containerId: string): MapLibreMap {
     center: [11.670099, 48.266921],
     zoom: zoom.value,
   });
+  attachWebglGuard(map);
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
