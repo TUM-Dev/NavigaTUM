@@ -28,7 +28,10 @@ function slugify(value: string): string {
 }
 
 export function useKnownUsages() {
-  const { locale } = useI18n();
+  // Explicit global scope so we don't collide with the consuming component's
+  // own `useI18n({useScope: "local"})` (the bare call would default to 'local'
+  // when the consumer has an <i18n> block).
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 
   const { data, pending, error, refresh } = useFetch<KnownUsage[]>(

@@ -22,7 +22,10 @@ export function useIrisAvailability(
   buildingIds: MaybeRefOrGetter<readonly string[]>,
   target: MaybeRefOrGetter<HTMLElement | null | undefined>
 ) {
-  const { locale } = useI18n();
+  // Explicit global scope: the bare useI18n() call defaults to 'local' when the
+  // consuming component has an <i18n> block, which then double-registers a
+  // local Composer and triggers vue-i18n's duplicate-call warning.
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
   const snapshot = useIrisSnapshot();
 

@@ -20,7 +20,10 @@ const FETCH_KEY = "known-orgs";
 const FETCH_PATH = "/cdn/known_orgs.json";
 
 export function useKnownOrgs() {
-  const { locale } = useI18n();
+  // Explicit global scope so we don't collide with the consuming component's
+  // own `useI18n({useScope: "local"})` (the bare call would default to 'local'
+  // when the consumer has an <i18n> block).
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 
   const handle = useFetch<KnownOrg[]>(`${runtimeConfig.public.cdnURL}${FETCH_PATH}`, {

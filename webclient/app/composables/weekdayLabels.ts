@@ -1,40 +1,53 @@
 import type { OpeningHoursWeekday } from "~/utils/openingHoursEditor";
 
-// Localized weekday names for the opening-hours schedule editors, in one place
-// so WeekScheduleInput and SemesterScheduleInput never drift apart. Uses its own
-// local i18n scope (the same mechanism an SFC `<i18n>` block compiles to), so the
-// labels track the active locale without polluting the global message catalog.
-export function useWeekdayLabels() {
-  const { t } = useI18n({
-    useScope: "local",
-    messages: {
-      de: {
-        Mo: "Montag",
-        Tu: "Dienstag",
-        We: "Mittwoch",
-        Th: "Donnerstag",
-        Fr: "Freitag",
-        Sa: "Samstag",
-        Su: "Sonntag",
-      },
-      en: {
-        Mo: "Monday",
-        Tu: "Tuesday",
-        We: "Wednesday",
-        Th: "Thursday",
-        Fr: "Friday",
-        Sa: "Saturday",
-        Su: "Sunday",
-      },
+// Localized weekday names for the opening-hours schedule editors, kept in one
+// place so WeekScheduleInput and SemesterScheduleInput never drift apart.
+// Messages are merged into the global i18n catalog under a `weekdayLabels.*`
+// namespace so calling this composable from a component that already opens its
+// own `useI18n({useScope: "local"})` doesn't trip vue-i18n's duplicate-call
+// warning (which only fires for repeat *local*-scope calls).
+const MESSAGES = {
+  de: {
+    weekdayLabels: {
+      Mo: "Montag",
+      Tu: "Dienstag",
+      We: "Mittwoch",
+      Th: "Donnerstag",
+      Fr: "Freitag",
+      Sa: "Samstag",
+      Su: "Sonntag",
     },
-  });
+  },
+  en: {
+    weekdayLabels: {
+      Mo: "Monday",
+      Tu: "Tuesday",
+      We: "Wednesday",
+      Th: "Thursday",
+      Fr: "Friday",
+      Sa: "Saturday",
+      Su: "Sunday",
+    },
+  },
+} as const;
+
+let messagesMerged = false;
+
+export function useWeekdayLabels() {
+  const i18n = useI18n({ useScope: "global" });
+  if (!messagesMerged) {
+    i18n.mergeLocaleMessage("de", MESSAGES.de);
+    i18n.mergeLocaleMessage("en", MESSAGES.en);
+    messagesMerged = true;
+  }
+  const tt = (k: OpeningHoursWeekday) => i18n.t(`weekdayLabels.${k}`);
   return computed<Record<OpeningHoursWeekday, string>>(() => ({
-    Mo: t("Mo"),
-    Tu: t("Tu"),
-    We: t("We"),
-    Th: t("Th"),
-    Fr: t("Fr"),
-    Sa: t("Sa"),
-    Su: t("Su"),
+    Mo: tt("Mo"),
+    Tu: tt("Tu"),
+    We: tt("We"),
+    Th: tt("Th"),
+    Fr: tt("Fr"),
+    Sa: tt("Sa"),
+    Su: tt("Su"),
   }));
 }

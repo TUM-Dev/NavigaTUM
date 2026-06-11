@@ -6,7 +6,7 @@ import type { components } from "~/api_types";
 import { wallTimeToRfc3339 } from "~/utils/datetime";
 
 type BuildingKind = components["schemas"]["BuildingKind"];
-type Addition = components["schemas"]["LimitedHashMap_String_Addition"][string];
+export type Addition = components["schemas"]["LimitedHashMap_String_Addition"][string];
 
 const MAX_NAME_LEN = 200;
 const MAX_POI_KEY_LEN = 64;

@@ -18,12 +18,19 @@ import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
 type FacetFilter = components["schemas"]["FacetFilter"];
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
-const props = defineProps<{
-  // Seed the draft on mount instead of starting empty. Used by the full-page
-  // /feedback/new flow to hydrate from URL query parameters so links can pin a
-  // specific kind (and event organisation).
-  initialDraft?: AdditionDraft;
-}>();
+const props = withDefaults(
+  defineProps<{
+    // Seed the draft on mount instead of starting empty. Used by the full-page
+    // /feedback/new flow to hydrate from URL query parameters so links can pin a
+    // specific kind (and event organisation).
+    initialDraft?: AdditionDraft;
+    // Hide the form's own action row (cancel / "Add entry" / "…and add an image").
+    // The /feedback/new page renders its own privacy + Send affordance below the
+    // form, so the two-step modal flow doesn't apply there.
+    embedded?: boolean;
+  }>(),
+  { embedded: false }
+);
 const emit = defineEmits<{
   commit: [];
   "commit-with-image": [];
@@ -251,7 +258,16 @@ function displayNameOf(draft: AdditionDraft): string {
   return draft.name;
 }
 
-function commitDraft(): { id: string; displayName: string } | null {
+type Addition = ReturnType<typeof buildAddition>;
+
+// Validates the current draft and returns the structured addition without mutating
+// shared state. Callers that want the modal's "queue then submit" flow then push
+// the result into editProposal.data.additions (see commitDraft); callers that
+// submit directly (the /feedback/new page) post the result and only clear the
+// draft on success.
+function validateAndBuild():
+  | { id: string; displayName: string; addition: NonNullable<Addition> }
+  | null {
   localError.value = "";
   const draft = editProposal.value.pendingAddition;
   const id = draft.id.trim();
@@ -272,14 +288,33 @@ function commitDraft(): { id: string; displayName: string } | null {
     localError.value = t("error.incomplete");
     return null;
   }
-  // Best display name we have for the freshly added entry, used by the image upload flow.
-  const displayName = displayNameOf(draft) || id;
+  return { id, addition, displayName: displayNameOf(draft) || id };
+}
+
+function commitDraft(): { id: string; displayName: string } | null {
+  const built = validateAndBuild();
+  if (!built) return null;
   // The OpenAPI types are readonly.
   // Round trip through JSON to land on a mutable clone matching the LimitedHashMap value type.
-  editProposal.value.data.additions[id] = JSON.parse(JSON.stringify(addition));
+  editProposal.value.data.additions[built.id] = JSON.parse(JSON.stringify(built.addition));
   editProposal.value.pendingAddition = emptyAdditionDraft();
-  return { id, displayName };
+  return { id: built.id, displayName: built.displayName };
 }
+
+function clearPending() {
+  editProposal.value.pendingAddition = emptyAdditionDraft();
+  localError.value = "";
+}
+
+defineExpose({
+  // Validate the draft and return the structured addition without writing to
+  // editProposal.data.additions. Page-embedded callers POST this directly and
+  // only call clearPending() after a 201.
+  validateAndBuild,
+  clearPending,
+  // Reactive validity signal so the parent can pre-disable a Send button.
+  draftIsReady,
+});
 
 function commitAddition() {
   if (!commitDraft()) return;
@@ -371,15 +406,13 @@ provide("addProposal:idValidation", {
   collides: idCollidesOnServer,
 });
 
-// Seed the draft on mount. When a parent supplies `initialDraft` (e.g. the
-// /feedback/new page deriving a seed from URL params) we use that, so a fresh
-// link load pre-selects the right tab/fields without flashing the empty state.
-// Otherwise we clear any half-finished entry from a previous session
-// (modal close or page navigation).
-onMounted(() => {
-  editProposal.value.pendingAddition = props.initialDraft ?? emptyAdditionDraft();
-  localError.value = "";
-});
+// Seed the draft at setup so SSR and the initial client render already see the
+// right kind. Doing this in onMounted instead would flash the empty (room) tab
+// and render kind-gated elements like the "commit with image" button before
+// hydration corrects them. Also clears any half-finished entry left over from a
+// previous session (modal close or page navigation).
+editProposal.value.pendingAddition = props.initialDraft ?? emptyAdditionDraft();
+localError.value = "";
 onBeforeUnmount(() => {
   editProposal.value.pendingAddition = emptyAdditionDraft();
   localError.value = "";
@@ -396,7 +429,9 @@ onBeforeUnmount(() => {
           <Tab v-for="opt in kindOptions" :key="opt.value" as="template">
             <SegmentedTab :selected="kindIndex === kindOptions.indexOf(opt)" class="w-full px-3 py-2.5" @click="pickKind(opt.value)">
               <div class="flex items-center justify-center gap-2">
-                <MdiIcon :path="opt.icon" :size="16" class="hidden md:block" />
+                <span class="hidden md:inline-flex">
+                  <MdiIcon :path="opt.icon" :size="16" />
+                </span>
                 {{ t(`kind.${opt.value}`) }}
               </div>
             </SegmentedTab>
@@ -528,7 +563,7 @@ onBeforeUnmount(() => {
       </template>
     </div>
 
-    <div class="float-right mt-6 flex flex-row-reverse gap-2">
+    <div v-if="!props.embedded" class="float-right mt-6 flex flex-row-reverse gap-2">
       <Btn variant="primary" size="md" :disabled="!draftIsReady" @click="commitAddition">{{ t("commit") }}</Btn>
       <Btn v-if="editProposal.pendingAddition.kind !== 'event'" variant="secondary" size="md" :disabled="!draftIsReady" @click="commitAndAddImage">{{ t("commit_with_image") }}</Btn>
       <Btn variant="linkButton" size="md" @click="cancelAddition">{{ t("cancel") }}</Btn>
@@ -545,7 +580,7 @@ de:
     room: Raum
     building: Gebäude
     poi: POI
-    event: Veranstaltung
+    event: Event
   id_label: ID
   id_hint:
     room_segments: "Setzt sich aus übergeordnetem Gebäude, Stockwerk und Raumnummer zusammen."
