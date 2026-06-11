@@ -2,11 +2,11 @@ import type { components } from "~/api_types";
 import { useFeedbackToken } from "~/composables/feedbackToken";
 
 type EditRequest = components["schemas"]["EditRequest"];
-type SubmittableEdits = {
+interface SubmittableEdits {
   additional_context?: string;
   edits: NonNullable<EditRequest["edits"]>;
   additions: NonNullable<EditRequest["additions"]>;
-};
+}
 
 export interface ValidationFailure {
   key: string;

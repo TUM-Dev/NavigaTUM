@@ -73,8 +73,8 @@ watch(
     const next: LocationQueryRaw = { ...route.query };
     if (kind) next.kind = kind;
     else delete next.kind;
-    if (orgId !== null) next.org = String(orgId);
-    else delete next.org;
+    if (orgId === null) delete next.org;
+    else next.org = String(orgId);
     const currentKind = firstOrDefault(route.query.kind, "");
     const currentOrg = firstOrDefault(route.query.org, "");
     if ((next.kind ?? "") === currentKind && (next.org ?? "") === currentOrg) return;

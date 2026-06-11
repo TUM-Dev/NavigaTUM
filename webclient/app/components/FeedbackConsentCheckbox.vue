@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type ConsentKind = "proposal" | "feedback";
 
+const checked = defineModel<boolean>({ required: true });
 withDefaults(
   defineProps<{
     id?: string;
@@ -9,7 +10,6 @@ withDefaults(
   { id: "feedback-privacy-checked", kind: "proposal" }
 );
 
-const checked = defineModel<boolean>({ required: true });
 const { t } = useI18n({ useScope: "local" });
 </script>
 
