@@ -7,6 +7,7 @@ import {
   additionRegistry,
   emptyAdditionDraft,
 } from "~/composables/additionSchema";
+import { firstOrDefault } from "~/composables/common";
 import { useFeedbackSubmission } from "~/composables/feedbackSubmission";
 import { useKnownOrgs } from "~/composables/useKnownOrgs";
 
@@ -21,25 +22,21 @@ useSeoMeta({
   description: () => t("description"),
 });
 
-const KINDS = ["room", "building", "poi", "event"] as const satisfies readonly AdditionKind[];
-
-function parseKind(value: unknown): AdditionKind | null {
-  if (typeof value !== "string") return null;
-  return (KINDS as readonly string[]).includes(value) ? (value as AdditionKind) : null;
+function parseKind(value: string): AdditionKind | null {
+  return value in additionRegistry ? (value as AdditionKind) : null;
 }
 
-function parsePositiveInt(value: unknown): number | null {
-  if (typeof value !== "string") return null;
+function parsePositiveInt(value: string): number | null {
   const n = Number.parseInt(value, 10);
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
 function draftFromQuery(): AdditionDraft {
-  const kind = parseKind(route.query.kind);
+  const kind = parseKind(firstOrDefault(route.query.kind, ""));
   if (!kind) return emptyAdditionDraft();
   if (kind === "event") {
     const draft = additionRegistry.event.empty();
-    const orgId = parsePositiveInt(route.query.org);
+    const orgId = parsePositiveInt(firstOrDefault(route.query.org, ""));
     if (orgId !== null) draft.organising_org_id = orgId;
     return draft;
   }
@@ -78,7 +75,9 @@ watch(
     else delete next.kind;
     if (orgId !== null) next.org = String(orgId);
     else delete next.org;
-    if (next.kind === route.query.kind && next.org === route.query.org) return;
+    const currentKind = firstOrDefault(route.query.kind, "");
+    const currentOrg = firstOrDefault(route.query.org, "");
+    if ((next.kind ?? "") === currentKind && (next.org ?? "") === currentOrg) return;
     router.replace({ query: next });
   }
 );

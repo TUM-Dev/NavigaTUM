@@ -98,8 +98,6 @@ watch(
     }
   }
 );
-// Pending while the debounce hasn't caught up to the latest keystroke, or a fetch is in flight.
-// Both transient states map to "checking…" in the UI.
 const idCheckPending = computed(() => {
   const id = trimmedId.value;
   if (!id || editProposal.value.pendingAddition.kind === "event") return false;
@@ -220,8 +218,7 @@ watch([composedRoomId, () => editProposal.value.pendingAddition.kind], ([id, kin
   if (editProposal.value.pendingAddition.id === id) return;
   editProposal.value.pendingAddition.id = id;
 });
-// Reset the local segment refs when the kind changes or the draft id is cleared.
-// Commit and cancel both replace `pendingAddition` with `emptyAdditionDraft()`.
+// Commit and cancel both replace `pendingAddition` with `emptyAdditionDraft()`, so the segment refs need to follow.
 watch(
   [() => editProposal.value.pendingAddition.kind, () => editProposal.value.pendingAddition.id],
   ([kind, id]) => {
@@ -283,8 +280,7 @@ function validateAndBuild():
 function commitDraft(): { id: string; displayName: string } | null {
   const built = validateAndBuild();
   if (!built) return null;
-  // The OpenAPI types are readonly.
-  // Round trip through JSON to land on a mutable clone matching the LimitedHashMap value type.
+  // OpenAPI types are readonly; round-trip through JSON for a DeepWritable clone to match the LimitedHashMap value type.
   editProposal.value.data.additions[built.id] = JSON.parse(JSON.stringify(built.addition));
   editProposal.value.pendingAddition = emptyAdditionDraft();
   return { id: built.id, displayName: built.displayName };

@@ -76,15 +76,11 @@ const MESSAGES = {
   },
 } as const;
 
-let messagesMerged = false;
-
 export function useFeedbackSubmission() {
   const i18n = useI18n({ useScope: "global" });
-  if (!messagesMerged) {
-    i18n.mergeLocaleMessage("de", MESSAGES.de);
-    i18n.mergeLocaleMessage("en", MESSAGES.en);
-    messagesMerged = true;
-  }
+  // mergeLocaleMessage is idempotent; on SSR the i18n instance is per-request, so a module-level guard would silently skip subsequent requests.
+  i18n.mergeLocaleMessage("de", MESSAGES.de);
+  i18n.mergeLocaleMessage("en", MESSAGES.en);
   const t = (key: string) => i18n.t(`feedbackSubmission.${key}`);
   const { error: tokenError, token } = useFeedbackToken(
     ((key: string) => t(key)) as ReturnType<typeof useI18n>["t"]
@@ -190,7 +186,5 @@ export function useFeedbackSubmission() {
     successUrl,
     validationFailures,
     blockedByToken,
-    tokenError,
-    token,
   };
 }

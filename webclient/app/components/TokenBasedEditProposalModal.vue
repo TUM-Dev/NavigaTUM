@@ -37,7 +37,6 @@ function closeForm() {
 }
 
 function resetFormData() {
-  // Reset form data after successful submission
   editProposal.value.data.additional_context = "";
   editProposal.value.data.edits = {};
   editProposal.value.data.additions = {};
