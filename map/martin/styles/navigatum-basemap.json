@@ -5446,7 +5446,7 @@
           "toilet_female",
           ["get", "is_unisex_toilet"],
           "toilet",
-          ["get", "is_shower"],
+          ["==", ["get", "indoor"], "shower"],
           "noun-shower-51",
           ""
         ],
