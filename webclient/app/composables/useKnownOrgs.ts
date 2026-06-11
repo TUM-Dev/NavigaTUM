@@ -16,19 +16,20 @@ export interface OrgOption {
 
 const MAX_RESULTS = 50;
 
+const FETCH_KEY = "known-orgs";
+const FETCH_PATH = "/cdn/known_orgs.json";
+
 export function useKnownOrgs() {
   const { locale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
 
-  const { data, pending, error, refresh } = useFetch<KnownOrg[]>(
-    `${runtimeConfig.public.cdnURL}/cdn/known_orgs.json`,
-    {
-      key: "known-orgs",
-      server: true,
-      lazy: true,
-      default: () => [],
-    }
-  );
+  const handle = useFetch<KnownOrg[]>(`${runtimeConfig.public.cdnURL}${FETCH_PATH}`, {
+    key: FETCH_KEY,
+    server: true,
+    lazy: true,
+    default: () => [],
+  });
+  const { data, pending, error, refresh } = handle;
 
   const options = computed<OrgOption[]>(() => {
     const isDe = locale.value === "de";
@@ -69,5 +70,8 @@ export function useKnownOrgs() {
     byId,
     filter,
     maxResults: MAX_RESULTS,
+    // Awaitable underlying fetch. Resolves once the orgs CDN has settled, useful
+    // at page setup so byId() can resolve a pre-set selection on first render.
+    ready: () => handle,
   };
 }
