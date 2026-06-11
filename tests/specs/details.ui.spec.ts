@@ -25,7 +25,7 @@ test.describe("Details Page - Interactive Map", () => {
   test("should display interactive map with controls", async ({ page }) => {
     // The interactive map fetches its style from the production Martin
     // tileserver. When that endpoint is unavailable (intermittent 404s),
-    // MapLibre never fires `load`, so the navigation/fullscreen controls
+    // MapLibre never fires `load`, so the navigation controls
     // are never added and the test fails for an upstream reason. Stub the
     // style with a minimal valid maplibre style so the controls render
     // regardless of the upstream tileserver state.
@@ -48,9 +48,7 @@ test.describe("Details Page - Interactive Map", () => {
     await expect(mapCanvas).toHaveCount(1);
     await expect(mapCanvas).toBeVisible();
 
-    const fullScreenButton = page.getByRole("button", { name: "Enter fullscreen" });
-    await expect(fullScreenButton).toBeVisible();
-    await expect(fullScreenButton).toHaveCount(1);
+    await expect(page.getByRole("button", { name: "Enter fullscreen" })).toHaveCount(0);
 
     const zoomInButton = page.getByRole("button", { name: "Zoom in" });
     await expect(zoomInButton).toBeVisible();

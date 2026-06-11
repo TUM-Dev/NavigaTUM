@@ -6,13 +6,7 @@ import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
 } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  NavigationControl,
-  Popup,
-} from "maplibre-gl";
+import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
@@ -356,7 +350,6 @@ function initMap(): MapLibreMap {
       }),
       "top-right"
     );
-    m.addControl(new FullscreenControl(), "top-right");
     m.addControl(floorControl, "top-right");
 
     // Drop the legacy raster floor-plan overlays; they sit above the POIs and would hide them.

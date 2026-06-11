@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import { useResizeObserver } from "@vueuse/core";
 import type { GeoJSONSource } from "maplibre-gl";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { components } from "~/api_types";
 import { useSharedGeolocation } from "~/composables/geolocation";
-import { useIsMobile } from "~/composables/useIsMobile";
 import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 import {
@@ -44,17 +36,10 @@ const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
-const fullscreenContainerEl = ref<HTMLElement | null>(null);
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
-// Maplibre bug: the map doesn't update to the new size when changing between
-// fullscreen in the mobile version.
-useResizeObserver(fullscreenContainerEl, () => {
-  map.value?.resize();
-});
 
 // Geolocation state
 const geolocationState = useSharedGeolocation();
-const isMobileQuery = useIsMobile();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
@@ -133,48 +118,6 @@ function initMap(containerId: string): MapLibreMap {
   // succeeded.
   map.on("load", () => {
     map.addControl(new NavigationControl({}), "top-left");
-
-    // (Browser) Fullscreen is enabled only on mobile, on desktop the map
-    // is maximized instead. This is determined once to select the correct
-    // container to maximize, and then remains unchanged even if the browser
-    // is resized (not relevant for users but for developers).
-    const isMobile = isMobileQuery.value;
-    const fullscreenContainer = isMobile
-      ? document.getElementById("interactive-indoor-map")
-      : document.getElementById("interactive-indoor-map-container");
-    const fullscreenCtl = new FullscreenControl({
-      container: fullscreenContainer as HTMLElement,
-    });
-    // "Backup" the maplibregl default fullscreen handler
-    const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
-    fullscreenCtl._onClickFullscreen = () => {
-      if (isMobile) defaultOnClickFullscreen();
-      else {
-        if (fullscreenCtl._container.classList.contains("maximize")) {
-          fullscreenCtl._container.classList.remove("maximize");
-          document.body.classList.remove("overflow-y-hidden");
-          fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
-        } else {
-          fullscreenCtl._container.classList.add("maximize");
-          fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
-          document.body.classList.add("overflow-y-hidden");
-          window.scrollTo({ top: 0, behavior: "auto" });
-        }
-
-        fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen
-          ? "Exit fullscreen"
-          : "Enter fullscreen";
-        fullscreenCtl._map.resize();
-      }
-    };
-    map.addControl(fullscreenCtl);
-    if (isMobile) {
-      fullscreenContainerEl.value = fullscreenCtl._container;
-    }
 
     const location = new GeolocateControl({
       positionOptions: {
@@ -583,14 +526,6 @@ defineExpose({
 
   > div {
     padding-bottom: 0;
-  }
-
-  &.maximize {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    height: calc(100vh - 150px);
-    z-index: 1000;
   }
 }
 

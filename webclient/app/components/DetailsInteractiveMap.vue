@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
 import {
-  FullscreenControl,
   GeolocateControl,
   type IControl,
   Map as MapLibreMap,
@@ -118,9 +117,6 @@ function initMap(containerId: string): MapLibreMap {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    const fullscreenCtl = new FullscreenControl();
-    map.addControl(fullscreenCtl, "top-right");
-
     // controls
     const controls: IControl[] = [];
     if (!isMobile.value) {
@@ -217,20 +213,6 @@ onMounted(async () => {
   > div {
     padding-bottom: 75%; /* 4:3 aspect ratio */
   }
-
-  &.maximize {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
-    z-index: 1000;
-
-    > div {
-      padding-bottom: 0;
-      height: 100%;
-    }
-  }
 }
 
 .marker {
@@ -321,7 +303,7 @@ onMounted(async () => {
 
     & #floor-list {
       display: inline-block;
-      width: calc(100% - 29px);
+      width: calc(100% - var(--map-ctrl-button-size));
     }
 
     & button {
