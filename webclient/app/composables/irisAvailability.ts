@@ -22,7 +22,7 @@ export function useIrisAvailability(
   buildingIds: MaybeRefOrGetter<readonly string[]>,
   target: MaybeRefOrGetter<HTMLElement | null | undefined>
 ) {
-  const { locale } = useI18n();
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
   const snapshot = useIrisSnapshot();
 

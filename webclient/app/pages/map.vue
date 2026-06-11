@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { until, useIntervalFn } from "@vueuse/core";
-import type { FilterSpecification, MapGeoJSONFeature, MapLayerMouseEvent } from "maplibre-gl";
+import type {
+  AllPaintProperties,
+  FilterSpecification,
+  MapGeoJSONFeature,
+  MapLayerMouseEvent,
+} from "maplibre-gl";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -28,7 +33,7 @@ import {
   serializeFilters,
 } from "~/composables/mapLayers";
 import { useEventPopup } from "~/composables/useEventMarkers";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 
 definePageMeta({ layout: "navigation" });
 
@@ -49,19 +54,28 @@ const BASEMAP_SCRIM = "rgba(255, 255, 255, 0.45)";
 const SCRIM_LAYER = "filter-basemap-dim";
 // The combined POI layer whose markers open a popup.
 const POI_LAYER = "indoor-pois";
+// MapLibre v6 tightened {set,get}PaintProperty signatures: the property name must be a literal
+// key of AllPaintProperties, and the value matches that key's spec. The three opacity props
+// below all resolve to DataDrivenPropertyValueSpecification<number>.
+type OpacityProp = "icon-opacity" | "fill-opacity" | "text-opacity";
+type OpacityValue = AllPaintProperties[OpacityProp];
+
 // Indoor layers carrying an `indoor` field: keep the filter's values vibrant, dim the rest
 // per-feature (so e.g. the toilet room fill stays its bathroom colour while other rooms fade).
 const PER_FEATURE_TARGETS = [
   { id: "indoor-pois", prop: "icon-opacity", type: "symbol" },
   { id: "indoor-rooms", prop: "fill-opacity", type: "fill" },
-] as const;
+] as const satisfies readonly { readonly id: string; readonly prop: OpacityProp; readonly type: string }[];
 // Indoor content with no per-feature meaning: dim wholesale while a filter is active.
-const FLAT_TARGETS = [{ id: "indoor-pois", prop: "text-opacity", type: "symbol" }] as const;
+const FLAT_TARGETS = [
+  { id: "indoor-pois", prop: "text-opacity", type: "symbol" },
+] as const satisfies readonly { readonly id: string; readonly prop: OpacityProp; readonly type: string }[];
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const poiPopup = shallowRef<Popup | undefined>(undefined);
 const mapContainer = ref<HTMLElement | undefined>(undefined);
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const initialLoaded = ref(false);
 const currentZoom = ref(INITIAL_ZOOM);
 // Reassigned wholesale so the panel's `Set` prop changes identity.
@@ -72,7 +86,7 @@ const eventsWindow = ref<EventsWindow>(DEFAULT_EVENTS_WINDOW);
 const { activeEvent, markerScreenPos, closeActiveEvent } = useEventPopup(map, EVENTS_STYLE_LAYER);
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
-const originalPaint = new Map<string, unknown>();
+const originalPaint = new Map<string, OpacityValue | undefined>();
 
 /** Read a query value as a single string, distinguishing "absent" (null) from "present but empty" (""). */
 function queryString(key: string): string | null {
@@ -97,7 +111,7 @@ function vibrantIndoorValues(): string[] {
   );
 }
 
-function rememberPaint(m: MapLibreMap, id: string, prop: string): void {
+function rememberPaint(m: MapLibreMap, id: string, prop: OpacityProp): void {
   const key = `${id}::${prop}`;
   if (!originalPaint.has(key)) originalPaint.set(key, m.getPaintProperty(id, prop) ?? 1);
 }
@@ -130,11 +144,15 @@ function applyFilterDim(): void {
     if (m.getLayer(id)?.type !== type) continue;
     rememberPaint(m, id, prop);
     const original = originalPaint.get(`${id}::${prop}`);
+    // The case-expression branch must be a concrete expression/literal - v6 rejects the legacy
+    // `{ stops: ... }` form here. Our basemap publishes these as plain numbers, so fall back to 1
+    // when the original is anything else.
+    const vibrantValue = typeof original === "number" ? original : 1;
     m.setPaintProperty(
       id,
       prop,
       active
-        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], original ?? 1, DIM]
+        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], vibrantValue, DIM]
         : original
     );
   }
@@ -276,6 +294,7 @@ function initMap(): MapLibreMap {
     zoom: INITIAL_ZOOM,
     validateStyle: import.meta.env.DEV,
   });
+  attachWebglGuard(m);
 
   m.on("zoom", () => {
     currentZoom.value = m.getZoom();
@@ -329,7 +348,7 @@ function initMap(): MapLibreMap {
 }
 
 onMounted(async () => {
-  if (!webglSupport) return;
+  if (!webglSupport.value) return;
   activeFilters.value = resolveActiveFilters({
     urlParam: queryString(FILTER_QUERY_PARAM),
     stored: localStorage.getItem(ACTIVE_FILTERS_STORAGE_KEY),

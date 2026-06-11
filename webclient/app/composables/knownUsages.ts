@@ -28,7 +28,7 @@ function slugify(value: string): string {
 }
 
 export function useKnownUsages() {
-  const { locale } = useI18n();
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 
   const { data, pending, error, refresh } = useFetch<KnownUsage[]>(

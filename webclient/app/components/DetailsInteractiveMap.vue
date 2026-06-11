@@ -11,7 +11,7 @@ import {
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { useIsMobile } from "~/composables/useIsMobile";
-import { webglSupport } from "~/composables/webglSupport";
+import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 
 const props = defineProps<{
@@ -27,6 +27,7 @@ const marker = shallowRef<Marker | undefined>(undefined);
 const floorControl = shallowRef<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMobile = useIsMobile();
+const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map);
@@ -36,7 +37,7 @@ const initialLoaded = ref(false);
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 function loadInteractiveMap() {
-  if (!webglSupport) return;
+  if (!webglSupport.value) return;
 
   const doMapUpdate = () => {
     // The map might or might not be initialized depending on the type
@@ -108,6 +109,7 @@ function initMap(containerId: string): MapLibreMap {
     validateStyle: import.meta.env.DEV,
     maplibreLogo: true,
   });
+  attachWebglGuard(map);
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
