@@ -6,7 +6,7 @@ import { useTemplateRef } from "vue";
 import type { components, operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
-import { firstOrDefault } from "~/composables/common";
+import { clientOnlyRetries, firstOrDefault } from "~/composables/common";
 import type { TimeSelection } from "~/types/navigation";
 import { entityPath, isEntityType } from "~/utils/entityPath";
 
@@ -80,7 +80,7 @@ const { data, status, error } = await useFetch<NavigationResponse>(
     })),
     dedupe: "defer",
     credentials: "omit",
-    retry: 10,
+    retry: clientOnlyRetries(10),
     retryDelay: 1000,
     key: "navigation",
   }

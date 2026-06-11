@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 import SearchSectionList from "~/components/SearchSectionList.vue";
-import { firstOrDefault } from "~/composables/common";
+import { clientOnlyRetries, firstOrDefault } from "~/composables/common";
 import { categoriesForQuery } from "~/composables/mapLayers";
 import { useSearchFilters } from "~/composables/searchFilters";
 
@@ -57,7 +57,7 @@ const apiUrl = computed(() => {
 const { data } = useFetch<SearchResponse>(apiUrl, {
   dedupe: "cancel",
   credentials: "omit",
-  retry: 120,
+  retry: clientOnlyRetries(120),
   retryDelay: 1000,
 });
 const description = computed(() => {

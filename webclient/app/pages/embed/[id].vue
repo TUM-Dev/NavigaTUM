@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { mdiOpenInNew } from "@mdi/js";
 import type { components } from "~/api_types";
+import { clientOnlyRetries } from "~/composables/common";
 
 definePageMeta({
   layout: "embed",
@@ -19,7 +20,7 @@ const url = computed(
 const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
-  retry: 120,
+  retry: clientOnlyRetries(120),
   retryDelay: 1000,
 });
 

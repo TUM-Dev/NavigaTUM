@@ -2,6 +2,7 @@
 import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultRow from "~/components/SearchResultRow.vue";
+import { clientOnlyRetries } from "~/composables/common";
 import { categoriesForQuery, FILTER_QUERY_PARAM, type FilterId } from "~/composables/mapLayers";
 import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
@@ -166,7 +167,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
   lazy: true,
   dedupe: "cancel",
   credentials: "omit",
-  retry: 120,
+  retry: clientOnlyRetries(120),
   retryDelay: 1000,
 });
 </script>
