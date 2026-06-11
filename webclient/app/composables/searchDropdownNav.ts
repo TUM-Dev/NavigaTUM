@@ -1,5 +1,6 @@
 import type { ComputedRef } from "vue";
 import type { components } from "~/api_types";
+import type { FilterId } from "~/composables/mapLayers";
 import {
   buildVisibleSearchEntries,
   collapsedHighlightTarget,
@@ -13,22 +14,29 @@ import {
 
 type ResultsSection = components["schemas"]["ResultsSection"];
 
-export function useSearchDropdownNav(sections: ComputedRef<readonly ResultsSection[] | undefined>) {
+export function useSearchDropdownNav(
+  sections: ComputedRef<readonly ResultsSection[] | undefined>,
+  shortcutCategories?: ComputedRef<readonly FilterId[]>
+) {
   const expandedFacets = ref<Set<ResultsSectionFacet>>(new Set());
   // Session-sticky so an ArrowUp wrap back into a lecture does not collapse it.
   const expandedLectures = ref<Set<string>>(new Set());
   const lectureShowAll = ref<Set<string>>(new Set());
   const highlighted = ref<number | undefined>(undefined);
 
-  const visibleElements = computed<VisibleSearchEntry[]>(() =>
-    sections.value
+  // Category shortcuts render above all sections, so they prepend in the same order here.
+  const visibleElements = computed<VisibleSearchEntry[]>(() => [
+    ...(shortcutCategories?.value ?? []).map(
+      (category): VisibleSearchEntry => ({ kind: "category_shortcut", category })
+    ),
+    ...(sections.value
       ? buildVisibleSearchEntries(sections.value, {
           expandedFacets: expandedFacets.value,
           expandedLectures: expandedLectures.value,
           lectureShowAll: lectureShowAll.value,
         })
-      : []
-  );
+      : []),
+  ]);
 
   const highlightedEntry = computed<VisibleSearchEntry | undefined>(() =>
     highlighted.value === undefined ? undefined : visibleElements.value[highlighted.value]

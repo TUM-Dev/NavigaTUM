@@ -9,6 +9,11 @@ interface FilterDefBase {
   readonly icon: string;
   /** Below this zoom the data is not in the tiles yet, so we show a "zoom in" hint. */
   readonly hintBelowZoom: number;
+  /**
+   * Lowercase query tokens that surface this Category as a search shortcut. Intentionally broad:
+   * synonyms and common misspellings in both languages, so the shortcut fires on natural queries.
+   */
+  readonly keywords: readonly string[];
 }
 
 /** A map filter that highlights one indoor category by dimming everything else. */
@@ -44,6 +49,27 @@ export const FILTER_REGISTRY = [
     icon: mdiToilet,
     indoorValues: WCS_INDOOR_VALUES,
     hintBelowZoom: 17,
+    keywords: [
+      "toilet",
+      "toilets",
+      "toliet",
+      "toilette",
+      "toiletten",
+      "toillette",
+      "wc",
+      "wcs",
+      "klo",
+      "klos",
+      "restroom",
+      "restrooms",
+      "loo",
+      "bathroom",
+      "bathrooms",
+      "dusche",
+      "duschen",
+      "shower",
+      "showers",
+    ],
   },
   {
     id: EVENTS_FILTER_ID,
@@ -52,6 +78,7 @@ export const FILTER_REGISTRY = [
     icon: mdiCalendarStar,
     styleLayers: [EVENTS_STYLE_LAYER],
     hintBelowZoom: 13,
+    keywords: ["event", "events", "veranstaltung", "veranstaltungen"],
   },
 ] as const satisfies readonly FilterDef[];
 
@@ -61,6 +88,18 @@ export type FilterId = (typeof FILTER_REGISTRY)[number]["id"];
 // matches the sanitary names of that closed usage set (TUMonline names plus their
 // `data/translations.yaml` English forms; user-added rooms hyphenate, e.g. "WC-Damen").
 const WCS_TYPE_COMMON_NAME = /^WC([ -]|$)|^(Dusche|Shower)$/;
+
+const QUERY_TOKEN_SEPARATOR = /\s+/;
+
+/**
+ * The Categories whose keyword list contains one of the query's whitespace-separated tokens, in
+ * registry order. Tokens match exactly after case-folding: substring matching would collide with
+ * room-code prefixes such as "GWC 101".
+ */
+export function categoriesForQuery(query: string): FilterId[] {
+  const tokens = new Set(query.trim().toLowerCase().split(QUERY_TOKEN_SEPARATOR));
+  return FILTER_REGISTRY.filter((f) => f.keywords.some((k) => tokens.has(k))).map((f) => f.id);
+}
 
 /** Map an Entity to the Category it belongs to, or `null` when it belongs to none. */
 export function categoryForEntity(entity: {

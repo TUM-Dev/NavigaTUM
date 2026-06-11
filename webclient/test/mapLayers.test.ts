@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  categoriesForQuery,
   categoryForEntity,
   eventsWindowFilter,
   FILTER_REGISTRY,
@@ -26,6 +27,7 @@ const REGISTRY: readonly FilterDef[] = [
     icon: "M0",
     indoorValues: ["toilet", "shower"],
     hintBelowZoom: 17,
+    keywords: ["wc", "toilet"],
   },
   {
     id: "elevators",
@@ -34,6 +36,7 @@ const REGISTRY: readonly FilterDef[] = [
     icon: "M1",
     indoorValues: ["elevator"],
     hintBelowZoom: 17,
+    keywords: ["elevator", "aufzug"],
   },
 ];
 
@@ -250,6 +253,30 @@ describe("resolveLevel", () => {
     for (const input of ["7", "abc", "", null, undefined]) {
       expect(resolveLevel(input)).toBe(0);
     }
+  });
+});
+
+describe("categoriesForQuery", () => {
+  it("fires on natural queries against the shipped registry", () => {
+    for (const query of ["toilets", "Klo", "find toilet", "WC", "toliet", "nearest restroom"]) {
+      expect(categoriesForQuery(query)).toEqual(["wcs"]);
+    }
+  });
+
+  it("requires exact token equality, not substrings", () => {
+    for (const query of ["GWC 101", "wcs-something", "toilettenpapier", "showering"]) {
+      expect(categoriesForQuery(query)).toEqual([]);
+    }
+  });
+
+  it("returns nothing for empty or whitespace-only queries", () => {
+    expect(categoriesForQuery("")).toEqual([]);
+    expect(categoriesForQuery("   ")).toEqual([]);
+  });
+
+  it("returns multiple matches in registry order regardless of token order", () => {
+    expect(categoriesForQuery("veranstaltung toilette")).toEqual(["wcs", "events"]);
+    expect(categoriesForQuery("toilette veranstaltung")).toEqual(["wcs", "events"]);
   });
 });
 
