@@ -8,6 +8,7 @@ type BuildingsOverviewResponse = components["schemas"]["BuildingsOverviewRespons
 
 const props = defineProps<{
   readonly buildings?: BuildingsOverviewResponse | null;
+  readonly browseMapUrl: string;
 }>();
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
@@ -17,8 +18,10 @@ const runtimeConfig = useRuntimeConfig();
 
 <template>
   <section v-if="props.buildings" class="print:!hidden">
-    <h2 class="text-zinc-800 dark:text-zinc-100 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
-    <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <MdiIcon :path="mdiArrowRight" :size="16" /></NuxtLinkLocale> -->
+    <div class="flex flex-row items-baseline justify-between gap-2 pb-3">
+      <h2 class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</h2>
+      <MapBridgeLink :to="props.browseMapUrl">{{ t("view_on_map") }}</MapBridgeLink>
+    </div>
     <div class="text-zinc-600 dark:text-zinc-300 grid grid-cols-1 gap-3 lg:grid-cols-2">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <NuxtLinkLocale
@@ -79,6 +82,7 @@ de:
   thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
   title: Gebäude / Gebiete
   show_details_for: Details für das Gebäude '{0}' anzeigen
+  view_on_map: Auf der Karte anzeigen
 en:
   default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
   less: less
@@ -88,4 +92,5 @@ en:
   thumbnail_preview: Thumbnail, showing a preview of the building
   title: Buildings / Areas
   show_details_for: show the details for the building '{0}'
+  view_on_map: View on map
 </i18n>

@@ -10,6 +10,7 @@ type RoomsOverviewUsageChildResponse = components["schemas"]["RoomsOverviewUsage
 
 const props = defineProps<{
   readonly rooms?: RoomsOverviewResponse | null;
+  readonly browseMapUrl: string;
 }>();
 
 const { t } = useI18n({ useScope: "local" });
@@ -54,7 +55,10 @@ const { list, containerProps, wrapperProps } = useVirtualList<RoomsOverviewUsage
     v-if="props.rooms?.usages"
     class="flex flex-col gap-3 print:!hidden"
   >
-    <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
+    <div class="flex flex-row items-baseline justify-between gap-2">
+      <p class="text-zinc-800 dark:text-zinc-100 text-lg font-semibold">{{ t("title") }}</p>
+      <MapBridgeLink :to="props.browseMapUrl">{{ t("view_on_map") }}</MapBridgeLink>
+    </div>
     <div class="flex flex-col gap-2">
       <Listbox v-model="selectedUsage" as="div" class="relative z-10">
         <ListboxButton
@@ -207,6 +211,7 @@ de:
   rooms: 1 Raum | {count} Räume
   title: Räume
   search_rooms_of_building: durchsucht Räume des Gebäudes
+  view_on_map: Auf der Karte anzeigen
 en:
   any_usage: any usage
   filter_by_usage: filter by usage
@@ -217,4 +222,5 @@ en:
   rooms: 1 room | {count} rooms
   title: Rooms
   search_rooms_of_building: searches rooms of the building
+  view_on_map: View on map
 </i18n>

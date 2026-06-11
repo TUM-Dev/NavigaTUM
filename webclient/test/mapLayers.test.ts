@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  categoryForEntity,
   eventsWindowFilter,
   FILTER_REGISTRY,
   type FilterDef,
@@ -248,6 +249,49 @@ describe("resolveLevel", () => {
   it("defaults to the ground floor when the value is unusable", () => {
     for (const input of ["7", "abc", "", null, undefined]) {
       expect(resolveLevel(input)).toBe(0);
+    }
+  });
+});
+
+describe("categoryForEntity", () => {
+  it("maps sanitary usage names to the WCs Category in both locales", () => {
+    for (const name of [
+      "WC",
+      "WC Herren",
+      "WC Men",
+      "WC Damen",
+      "WC Women",
+      "WC Barrierefrei",
+      "WC Barrier-free",
+      "WC Vorraum",
+      "WC Anteroom",
+      "WC-Damen",
+      "Dusche",
+      "Shower",
+    ]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBe("wcs");
+    }
+  });
+
+  it("accepts poi-typed entities as Category members", () => {
+    expect(categoryForEntity({ type: "poi", type_common_name: "Dusche" })).toBe("wcs");
+  });
+
+  it("maps non-sanitary usages to no Category", () => {
+    for (const name of ["Büro", "Office", "Seminarraum", "Validierungsautomat", "Waschraum"]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBeNull();
+    }
+  });
+
+  it("rejects usage names that merely contain a sanitary term", () => {
+    for (const name of ["WCetera", "Vorraum WC", "Duschen", "Showers"]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBeNull();
+    }
+  });
+
+  it("never maps container types, whatever their common name", () => {
+    for (const type of ["building", "joined_building", "site", "campus", "area"]) {
+      expect(categoryForEntity({ type, type_common_name: "WC" })).toBeNull();
     }
   });
 });
