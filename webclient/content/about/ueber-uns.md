@@ -5,52 +5,52 @@ description: NavigaTUM ist ein von Studierenden für Studierende entwickeltes Op
 
 # Über NavigaTUM
 
-NavigaTUM ist ein von Studierenden für Studierende entwickeltes Tool, um sich bei der [TUM](https://tum.de) zurechtzufinden.
-Du kannst gerne selbst mitmachen, [der Code ist Open Source verfügbar](https://github.com/TUM-Dev/navigatum) und wir freuen uns über neue Mitwirkende.
+NavigaTUM hilft dir, Räume, Gebäude und Standorte der [TUM](https://tum.de) zu finden - in München, Garching, Weihenstephan, Heilbronn und Straubing.
+Das Projekt ist [Open Source](https://github.com/TUM-Dev/NavigaTUM) und wird von Studierenden für Studierende entwickelt.
+Es funktioniert ohne Login, ohne Werbung und ohne Tracking.
+Dahinter steht keine offizielle Stelle der TUM, sondern eine Gruppe Freiwilliger des [OpenSource @ TUM e.V.](https://tum.dev) - und vielleicht bald auch du.
 
-## Datenquellen
+## Woher die Daten kommen
 
-Die Daten in NavigaTUM sollten möglichst umfangreich, aktuell und hilfreich sein.
-Deswegen verwendet NavigaTUM neben eigenen Daten auch Daten aus externen Quellen,
-insbesondere [TUMonline](https://campus.tum.de) und dem
-TUM [Roomfinder](https://portal.mytum.de/campus/roomfinder).
+Gute Navigation steht und fällt mit guten Daten.
+Deswegen kombinieren wir mehrere Quellen.
+Die Grundlage liefert [TUMonline](https://campus.tum.de): Gebäude, Räume, Organisationen und Kalendereinträge.
+Wir übernehmen diese Daten regelmäßig automatisiert.
+Dabei strukturieren wir sie teilweise um (etwa bei Gebäudekomplexen) und korrigieren Fehler.
+Den alten TUM Roomfinder haben wir abgelöst.
+Seine Lagepläne und Raum-Metadaten leben bei uns als Archivbestand weiter.
+Vieles pflegen wir von Hand nach: Koordinaten, Namen, das Suchranking, Öffnungszeiten mit Quellenangabe je Eintrag und einige selbst gezeichnete Lagepläne.
+Hinweise aus der Community helfen dabei oft.
 
-Eine Übersicht woher welche Daten stammen findest du hier:
+Das Rückgrat unserer Karte ist [OpenStreetMap](https://www.openstreetmap.org).
+Gebäudeumrisse, Innenraumdaten, Points of Interest und viele Öffnungszeiten stammen aus OSM.
+Das ist keine Einbahnstraße: Was wir vor Ort verbessern, tragen wir in OSM ein.
+Davon profitieren auch alle anderen Karten.
+Kartendaten © OpenStreetMap-Mitwirkende.
 
-- **Standorte:** Die Standorte wurden von NavigaTUM selbst gesammelt und gruppiert aus der Liste von Gebäuden. Zusätzlich Quellen:
-  - [Offizielle Standortübersicht der TUM](https://www.tum.de/die-tum/die-universitaet/standorte)
-  - [Standortübersicht der MPI](https://mpi.fs.tum.de/neu-an-der-tum/standorte/)
-- **Gebäude:** Die Liste an Gebäude stammt aus der gesammelten Liste von Gebäuden in TUMonline, sowie der Gebäudeauswahl im Roomfinder. Allerdings verwendet NavigaTUM zum Teil andere Namen oder eine andere Struktur (z.B. bei Gebäudekomplexen). Weitere Informationen zu den Gebäuden wurden evtl. übernommen aus:
-  - Für alle: [Open Street Map](https://www.openstreetmap.org)
-  - Stammgelände: [Karte Stammgelände](https://portal.mytum.de/campus/stammgelaende/TUM_Campus_Muenchen_klein)
-  - Klinkikum rechts der Isar (MRI):
-    - [Karte MRI](https://portal.mytum.de/campus/rechts_der_isar/mri)
-    - [MRI Lageplan I](https://www.mri.tum.de/lageplaene-und-wegweiser)
-    - [MRI Lageplan II](http://www.imi-muenchen.de/fileadmin/user_upload/pdf/MRI_Lageplan.pdf)
-    - [Anfahrt Frauenklinik](http://www.frauenklinik.med.tum.de/inhalt/anfahrt)
-    - [Wegweiser für Patienten](https://www.mri.tum.de/sites/default/files/seiten/wegweiser_patienten_ambulant_20200312_web.pdf)
-  - Olympia: [Karte Olympiapark](https://portal.mytum.de/campus/olympiapark/olympiapark)
-  - Pasing: [Standort Pasing](https://www.bgu.tum.de/gb/ueber-uns/standort-muenchen-pasing/)
-  - Heilbronn:
-    - [Bildungscampus Heilbronn](https://bildungscampus.hn/ueber-uns/leben-am-campus)
-    - [TUM Heilbronn](https://www.wi.tum.de/tum-campus-heilbronn/welcome-tum-campus-heilbronn/)
-  - Straubing:
-    - [Campus Straubing](https://www.cs.tum.de/campus-straubing/campus/?lang=en)
-    - [Anfahrt und Lageplan Straubing](https://www.cs.tum.de/campus-straubing/anfahrt-und-lageplan/)
-    - [Karte Straubing](https://www.cs.tum.de/wp-content/uploads/2020/01/200127_TUM_Plan_Straubing_WEB.png)
-  - Wissenschaftszentrum Weihenstephan:
-    - [Lageplan Lehrräume](https://www.wzw.tum.de/fileadmin/lageplan/SoLS-Plan-Lehrraume.jpg)
-    - [Campusplan Weihenstephan](https://www.gm.wzw.tum.de/en/campusplan-stand-oktober-2019/)
-    - [Versuchsstationen](https://www.wzw.tum.de/?id=239)
-  - Garching:
-    - [Karte Garching I](https://portal.mytum.de/campus/garching/TUM_Campus_Garching_web)
-    - [Karte Garching II](https://www.forschung-garching.tum.de/fileadmin/w00btp/www/00_Startseite_normal/161015_KarteGarchingKomplett_RGB.pdf)
-    - [Gebäudeplan MW](https://www.mw.tum.de/fileadmin/w00btx/mw/Fakultaet/Anfahrt/Lageplan_Gebaeude_MW.pdf)
-    - [Gebäudeplan Physik](https://www.ph.tum.de/about/visit/TUM_Physik_Orientierungsplan.pdf)
-    - [Gebäudeplan Chemie](https://www.ch.tum.de/fileadmin/tuchfak/www/Lageplan/Infoblatt_2020-06.pdf)
-- **Räume:** Die Räume wurden großteils aus TUMonline übernommen und ggf. mit Informationen aus dem Roomfinder ergänzt. Ausnahmen sind spezielle Räume oder Bereiche wie Teilbibliotheken.
-  - [Teilbibliotheken](https://www.ub.tum.de/teilbibliotheken)
-- **Bilder:** Die Bilder wurden unabhängig der sonstigen Daten gesammelt und den Einträgen zugeordnet.
-- **Öffentliche Verkehrsmittel:** Stationen und Fahrpläne stammen vom MVV
-  - [Stationen](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/opendata/index.html)
-  - [Fahrpläne](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/homepage-services/index.html)
+Einige Inhalte sind live.
+Haltestellen und Abfahrten kommen vom community-betriebenen ÖPNV-Projekt [Transitous](https://transitous.org).
+Die aktuelle Lernraum-Verfügbarkeit liefert [IRIS](https://iris.asta.tum.de), die Lernraum-Anzeige der Studentischen Vertretung.
+Speisepläne und Mensa-Öffnungszeiten kommen von der [eat-api](https://github.com/TUM-Dev/eat-api), aufbereitet aus den Daten des Studierendenwerks.
+Die Informationen zu den Teilbibliotheken stammen von der [TUM Universitätsbibliothek](https://www.ub.tum.de/teilbibliotheken).
+
+## Bilder
+
+Die Fotos von Gebäuden und Räumen stammen aus der Community.
+Zu jedem Bild speichern wir, wer es aufgenommen hat und unter welcher Lizenz es steht (zum Beispiel CC0 oder CC BY).
+Beides kannst du dir direkt am Bild anzeigen lassen.
+Du warst mit der Kamera unterwegs?
+Über den Bearbeiten-Knopf auf jeder Detailseite kannst du eigene Fotos beisteuern.
+
+## Mitmachen
+
+NavigaTUM lebt davon, dass Leute Fehler melden und Lücken füllen.
+Am meisten hilfst du uns mit direkten Korrekturen.
+Falsche Koordinaten oder Namen kannst du auf jeder Detailseite bearbeiten.
+Fehlende Einträge kannst du [vorschlagen](/propose).
+Aus deinem Vorschlag wird automatisch ein Pull Request, den wir oft direkt übernehmen können.
+Für alles andere gibt es das Feedback-Formular auf jeder Seite.
+Daraus entsteht ein öffentliches Issue [auf GitHub](https://github.com/TUM-Dev/NavigaTUM/issues), dessen Bearbeitung du nachverfolgen kannst.
+Wer lieber an der Karte arbeitet, trägt fehlende Details direkt in [OpenStreetMap](https://www.openstreetmap.org) ein.
+Sie erscheinen automatisch auch bei uns.
+Und der Code ist [Open Source](https://github.com/TUM-Dev/NavigaTUM) - wir freuen uns über neue Mitwirkende.
