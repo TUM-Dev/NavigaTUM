@@ -1,5 +1,6 @@
 import { type ComputedRef, computed, type InjectionKey, type Ref, readonly, ref } from "vue";
 import type { components } from "~/api_types/index.js";
+import type { FilterId } from "~/composables/mapLayers";
 import { type EntityPath, entityPath } from "~/utils/entityPath";
 
 type LocationEntry = components["schemas"]["LocationEntry"];
@@ -130,6 +131,7 @@ export function useLectureRowExpansion(initial = false): LectureRowExpansion {
 export const LECTURE_EVENT_NAV_CAP = 3;
 
 export type VisibleSearchEntry =
+  | { readonly kind: "category_shortcut"; readonly category: FilterId }
   | {
       readonly kind: "result";
       readonly sectionFacet: ResultsSectionFacet;

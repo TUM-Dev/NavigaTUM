@@ -455,3 +455,64 @@ test.describe("Search Filters - API parameter passthrough", () => {
     });
   }
 });
+
+test.describe("Search - Category shortcut", () => {
+  // /map pulls its style from the production Martin tileserver; stub it so the tests
+  // exercise our navigation rather than live tiles.
+  const stubBasemap = async (page: import("@playwright/test").Page) => {
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+  };
+  const SHORTCUT_LABEL = "Toiletten & Duschen auf der Karte erkunden";
+
+  test("typing toilets in the top bar surfaces the shortcut into the filtered map", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("toilets");
+
+    const shortcut = page.getByRole("link", { name: SHORTCUT_LABEL });
+    await expect(shortcut).toBeVisible();
+    await shortcut.click();
+
+    await expect(page).toHaveURL(/\/map\?filter=wcs/);
+    await expect(page.getByRole("checkbox", { name: "Toiletten & Duschen" })).toBeChecked();
+  });
+
+  test("the shortcut participates in the keyboard highlight cursor", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("klo");
+    await expect(page.getByRole("link", { name: SHORTCUT_LABEL })).toBeVisible();
+
+    // The shortcut sits above all sections, so the first ArrowDown lands on it.
+    await searchInput.press("ArrowDown");
+    await searchInput.press("Enter");
+
+    await expect(page).toHaveURL(/\/map\?filter=wcs/);
+  });
+
+  test("the /search page renders the shortcut above all sections", async ({ page }) => {
+    await page.goto("/search?q=toilette", { waitUntil: "networkidle" });
+
+    const shortcut = page.getByRole("link", { name: SHORTCUT_LABEL });
+    await expect(shortcut).toBeVisible();
+  });
+
+  test("room-code-like queries surface no shortcut", async ({ page }) => {
+    await page.goto("/search?q=GWC 101", { waitUntil: "networkidle" });
+
+    await expect(page.getByRole("link", { name: SHORTCUT_LABEL })).toHaveCount(0);
+  });
+});

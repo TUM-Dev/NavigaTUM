@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  categoriesForQuery,
+  categoryForEntity,
   eventsWindowFilter,
   FILTER_REGISTRY,
   type FilterDef,
@@ -25,6 +27,7 @@ const REGISTRY: readonly FilterDef[] = [
     icon: "M0",
     indoorValues: ["toilet", "shower"],
     hintBelowZoom: 17,
+    keywords: ["wc", "toilet"],
   },
   {
     id: "elevators",
@@ -33,6 +36,7 @@ const REGISTRY: readonly FilterDef[] = [
     icon: "M1",
     indoorValues: ["elevator"],
     hintBelowZoom: 17,
+    keywords: ["elevator", "aufzug"],
   },
 ];
 
@@ -248,6 +252,73 @@ describe("resolveLevel", () => {
   it("defaults to the ground floor when the value is unusable", () => {
     for (const input of ["7", "abc", "", null, undefined]) {
       expect(resolveLevel(input)).toBe(0);
+    }
+  });
+});
+
+describe("categoriesForQuery", () => {
+  it("fires on natural queries against the shipped registry", () => {
+    for (const query of ["toilets", "Klo", "find toilet", "WC", "toliet", "nearest restroom"]) {
+      expect(categoriesForQuery(query)).toEqual(["wcs"]);
+    }
+  });
+
+  it("requires exact token equality, not substrings", () => {
+    for (const query of ["GWC 101", "wcs-something", "toilettenpapier", "showering"]) {
+      expect(categoriesForQuery(query)).toEqual([]);
+    }
+  });
+
+  it("returns nothing for empty or whitespace-only queries", () => {
+    expect(categoriesForQuery("")).toEqual([]);
+    expect(categoriesForQuery("   ")).toEqual([]);
+  });
+
+  it("returns multiple matches in registry order regardless of token order", () => {
+    expect(categoriesForQuery("veranstaltung toilette")).toEqual(["wcs", "events"]);
+    expect(categoriesForQuery("toilette veranstaltung")).toEqual(["wcs", "events"]);
+  });
+});
+
+describe("categoryForEntity", () => {
+  it("maps sanitary usage names to the WCs Category in both locales", () => {
+    for (const name of [
+      "WC",
+      "WC Herren",
+      "WC Men",
+      "WC Damen",
+      "WC Women",
+      "WC Barrierefrei",
+      "WC Barrier-free",
+      "WC Vorraum",
+      "WC Anteroom",
+      "WC-Damen",
+      "Dusche",
+      "Shower",
+    ]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBe("wcs");
+    }
+  });
+
+  it("accepts poi-typed entities as Category members", () => {
+    expect(categoryForEntity({ type: "poi", type_common_name: "Dusche" })).toBe("wcs");
+  });
+
+  it("maps non-sanitary usages to no Category", () => {
+    for (const name of ["Büro", "Office", "Seminarraum", "Validierungsautomat", "Waschraum"]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBeNull();
+    }
+  });
+
+  it("rejects usage names that merely contain a sanitary term", () => {
+    for (const name of ["WCetera", "Vorraum WC", "Duschen", "Showers"]) {
+      expect(categoryForEntity({ type: "room", type_common_name: name })).toBeNull();
+    }
+  });
+
+  it("never maps container types, whatever their common name", () => {
+    for (const type of ["building", "joined_building", "site", "campus", "area"]) {
+      expect(categoryForEntity({ type, type_common_name: "WC" })).toBeNull();
     }
   });
 });

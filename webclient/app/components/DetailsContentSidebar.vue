@@ -12,7 +12,9 @@ import { useClipboard } from "@vueuse/core";
 import type { components } from "~/api_types";
 import type { DetailAction } from "~/components/DetailActionToolbar.vue";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
+import { categoryForEntity, FILTER_QUERY_PARAM } from "~/composables/mapLayers";
 import { entityPath, isEntityType } from "~/utils/entityPath";
+import { browseMapUrl } from "~/utils/map";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
@@ -30,6 +32,9 @@ const editProposal = useEditProposal();
 const calendar = useCalendar();
 
 const navigationEnabled = computed(() => props.data.coords.accuracy !== "building");
+
+const category = computed(() => categoryForEntity(props.data));
+const exploreHereUrl = computed(() => browseMapUrl(props.data.coords, props.data.type));
 
 const shareModalOpen = ref(false);
 
@@ -214,8 +219,11 @@ const actions = computed<DetailAction[]>(() => [
     </div>
 
     <!-- Type -->
-    <div class="flex flex-wrap items-center gap-y-2 mb-3">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
       <span class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">{{ data.type_common_name }}</span>
+      <MapBridgeLink v-if="category" :to="`/map?${FILTER_QUERY_PARAM}=${category}`">
+        {{ t(`category_bridge.${category}`) }}
+      </MapBridgeLink>
     </div>
 
     <ShareModal v-model:open="shareModalOpen" :coords="data.coords" :name="data.name" :id="data.id"/>
@@ -251,7 +259,7 @@ const actions = computed<DetailAction[]>(() => [
 
     <!-- Extra Sections -->
     <div class="flex flex-col gap-6">
-      <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview"/>
+      <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" :browse-map-url="exploreHereUrl"/>
       <ClientOnly>
         <LazyDetailsOpeningHoursCard
           v-if="data.opening_hours"
@@ -266,7 +274,7 @@ const actions = computed<DetailAction[]>(() => [
           v-if="data.props.iris_coverage_building_ids?.length"
           :building-ids="data.props.iris_coverage_building_ids"
         />
-        <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview"/>
+        <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" :browse-map-url="exploreHereUrl"/>
       </ClientOnly>
       <DetailsSources
         :coords="data.coords"
@@ -281,6 +289,8 @@ const actions = computed<DetailAction[]>(() => [
 <i18n lang="yaml">
 de:
   image_alt: Header-Bild, zeigt das Gebäude
+  category_bridge:
+    wcs: Alle Toiletten auf der Karte anzeigen
   header:
     calendar: Kalender öffnen
     calendar_short: Kalender
@@ -297,6 +307,8 @@ de:
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
 en:
   image_alt: Header image, showing the building
+  category_bridge:
+    wcs: Show all toilets on the map
   header:
     calendar: Open calendar
     calendar_short: Calendar

@@ -411,3 +411,51 @@ test.describe("Details Page - SEO and Meta", () => {
     expect(ogTitle || description).toBeTruthy();
   });
 });
+
+test.describe("Details Page - Browse map bridges", () => {
+  // /map pulls its style from the production Martin tileserver; stub it so the tests
+  // exercise our navigation rather than live tiles.
+  const stubBasemap = async (page: import("@playwright/test").Page) => {
+    await page.route(
+      "https://nav.tum.de/martin/style/navigatum-basemap.json",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ version: 8, sources: {}, layers: [] }),
+        });
+      },
+    );
+  };
+
+  test("a toilet room offers the Category bridge into the filtered Browse map", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/5606.EG.015", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("room/5606.EG.015");
+
+    const bridge = page.getByRole("link", { name: "Alle Toiletten auf der Karte anzeigen" });
+    await expect(bridge).toBeVisible();
+    await bridge.click();
+    await expect(page).toHaveURL(/\/map\?filter=wcs/);
+  });
+
+  test("a non-sanitary room offers no Category bridge", async ({ page }) => {
+    await page.goto("/view/5602.EG.001", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("room/5602.EG.001");
+
+    await expect(
+      page.getByRole("link", { name: "Alle Toiletten auf der Karte anzeigen" }),
+    ).toHaveCount(0);
+  });
+
+  test("a building's rooms listing offers the Explore-here bridge framed on the building", async ({ page }) => {
+    await stubBasemap(page);
+    await page.goto("/view/5606", { waitUntil: "networkidle" });
+    await expect(page).toHaveURL("building/mi06");
+
+    const bridge = page.getByRole("link", { name: "Auf der Karte anzeigen" });
+    await expect(bridge).toBeVisible();
+    await bridge.click();
+    await expect(page).toHaveURL(/\/map#17\/48\.\d+\/11\.\d+$/);
+  });
+});
