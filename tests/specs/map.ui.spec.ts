@@ -92,6 +92,21 @@ function styleWithEvent(feature: object) {
 }
 
 test.describe("Browse map (/map)", () => {
+  // MapLibre GL v6 loads `maplibre-gl-worker.mjs` via `new URL('./...', import.meta.url)`,
+  // a pattern Vite/Rollup cannot statically detect; without an explicit `setWorkerUrl()` the
+  // asset is never emitted and the worker fetch 404s, leaving the map without tiles.
+  test("loads its WebWorker without a 404", async ({ page }) => {
+    const failures: string[] = [];
+    page.on("requestfailed", (req) => {
+      if (req.url().includes("maplibre-gl-worker")) failures.push(req.url());
+    });
+    await stubBasemap(page, EMPTY_STYLE);
+    await page.goto("/map", { waitUntil: "networkidle" });
+
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    expect(failures, `maplibre worker fetch failed: ${failures.join(", ")}`).toEqual([]);
+  });
+
   test("loads with the filter panel and no filter active by default", async ({ page }) => {
     await stubBasemap(page, EMPTY_STYLE);
     await page.goto("/map", { waitUntil: "networkidle" });
