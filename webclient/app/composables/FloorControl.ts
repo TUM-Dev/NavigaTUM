@@ -6,6 +6,9 @@ interface FloorLevel {
   readonly label: string;
 }
 
+// Mirrors `--map-ctrl-button-size` in assets/css/main.css.
+const CTRL_BUTTON_PX = 48;
+
 // All available floor levels globally
 export const FLOOR_LEVELS: readonly FloorLevel[] = [
   { id: 6, label: "6" },
@@ -214,9 +217,8 @@ export class FloorControl extends Evented implements IControl {
       document.querySelector(".maplibregl-ctrl-bottom-left")?.clientHeight || 0;
     const floorCtrlHeight = document.querySelector(".floor-ctrl")?.clientHeight || 0;
 
-    // The buttons have a height of 29px
     const availableHeight = mapHeight - topCtrlHeight - bottomCtrlHeight + floorCtrlHeight;
-    const requiredHeight = 29 * n;
+    const requiredHeight = CTRL_BUTTON_PX * n;
 
     // 3 or fewer buttons can always be displayed in reduced layout.
     // Also, if the control takes only a small amount of space, it is always open.
@@ -227,9 +229,9 @@ export class FloorControl extends Evented implements IControl {
     } else {
       this.container.classList.remove("reduced");
 
-      // 25px = 10px reserved for top/bottom margin + 5px between control groups
-      // 29px = additional height from the open/collapse button
-      if (availableHeight - (requiredHeight + 29) > 25) {
+      // 25px = 10px reserved for top/bottom margin + 5px between control groups;
+      // one extra button height for the open/collapse button.
+      if (availableHeight - (requiredHeight + CTRL_BUTTON_PX) > 25) {
         // Enough vertical space: auto-expand on larger devices unless the user has
         // explicitly collapsed the widget via the toggle button.
         this.container.classList.remove("horizontal");

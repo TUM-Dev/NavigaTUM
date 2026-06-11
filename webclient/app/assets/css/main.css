@@ -91,3 +91,20 @@ body {
     min-width: 0;
   }
 }
+
+/* MapLibre's 29px control buttons are too easy to miss; 48px is the minimum
+   recommended touch-target size. FloorControl.ts mirrors this value.
+   Scoped under .maplibregl-control-container to outrank maplibre-gl.css, which
+   the map components import after this sheet. The root's .maplibregl-map class
+   cannot serve as the scope: Vue class bindings on the container wipe
+   externally-added classes. */
+:root {
+  --map-ctrl-button-size: 48px;
+}
+.maplibregl-control-container .maplibregl-ctrl-group button {
+  width: var(--map-ctrl-button-size);
+  height: var(--map-ctrl-button-size);
+}
+.maplibregl-control-container .maplibregl-ctrl button .maplibregl-ctrl-icon {
+  background-size: contain;
+}

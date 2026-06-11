@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
+import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
-import { useIsMobile } from "~/composables/useIsMobile";
 import { useWebglGuard } from "~/composables/webglSupport";
 
 interface LocationPickerProps {
@@ -35,7 +28,6 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const mapContainer = ref<HTMLElement>();
 const isMapLoaded = ref(false);
-const isMobile = useIsMobile();
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 const coordinates = ref({
@@ -78,14 +70,6 @@ function initMap() {
 
     // Add navigation controls
     mapInstance.addControl(new NavigationControl({}), "top-left");
-
-    // Add fullscreen control for mobile
-    if (isMobile.value) {
-      const fullscreenCtl = new FullscreenControl({
-        container: mapContainer.value as HTMLElement,
-      });
-      mapInstance.addControl(fullscreenCtl);
-    }
 
     // Add location control
     const location = new GeolocateControl({
@@ -309,7 +293,7 @@ defineExpose({
 
       & #floor-list {
         display: inline-block;
-        width: calc(100% - 29px);
+        width: calc(100% - var(--map-ctrl-button-size));
       }
 
       & button {

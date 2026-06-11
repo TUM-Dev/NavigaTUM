@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { mdiMapMarkerPlus } from "@mdi/js";
 import { until } from "@vueuse/core";
-import {
-  FullscreenControl,
-  GeolocateControl,
-  Map as MapLibreMap,
-  Marker,
-  NavigationControl,
-} from "maplibre-gl";
-import { useIsMobile } from "~/composables/useIsMobile";
+import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import { useWebglGuard } from "~/composables/webglSupport";
 
 interface Props {
@@ -32,7 +25,6 @@ const { t } = useI18n({ useScope: "local" });
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const mapContainer = ref<HTMLElement>();
-const isMobile = useIsMobile();
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 function createMarker(hueRotation = 120) {
@@ -63,10 +55,6 @@ function initMap() {
 
   mapInstance.on("load", () => {
     mapInstance.addControl(new NavigationControl({}), "top-left");
-    if (isMobile.value) {
-      const fullscreenCtl = new FullscreenControl({ container: mapContainer.value as HTMLElement });
-      mapInstance.addControl(fullscreenCtl);
-    }
     mapInstance.addControl(
       new GeolocateControl({
         positionOptions: { enableHighAccuracy: true },
