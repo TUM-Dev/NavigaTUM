@@ -45,10 +45,12 @@ Du warst mit der Kamera unterwegs?
 ## Mitmachen
 
 NavigaTUM lebt davon, dass Leute Fehler melden und Lücken füllen.
-Der einfachste Weg ist das Feedback-Formular auf jeder Seite.
-Daraus entsteht ein öffentliches Issue [auf GitHub](https://github.com/TUM-Dev/NavigaTUM/issues), dessen Bearbeitung du nachverfolgen kannst.
-Falsche Koordinaten oder Namen kannst du direkt auf der Detailseite bearbeiten.
+Am meisten hilfst du uns mit direkten Korrekturen.
+Falsche Koordinaten oder Namen kannst du auf jeder Detailseite bearbeiten.
 Fehlende Einträge kannst du [vorschlagen](/propose).
+Aus deinem Vorschlag wird automatisch ein Pull Request, den wir oft direkt übernehmen können.
+Für alles andere gibt es das Feedback-Formular auf jeder Seite.
+Daraus entsteht ein öffentliches Issue [auf GitHub](https://github.com/TUM-Dev/NavigaTUM/issues), dessen Bearbeitung du nachverfolgen kannst.
 Wer lieber an der Karte arbeitet, trägt fehlende Details direkt in [OpenStreetMap](https://www.openstreetmap.org) ein.
 Sie erscheinen automatisch auch bei uns.
 Und der Code ist [Open Source](https://github.com/TUM-Dev/NavigaTUM) - wir freuen uns über neue Mitwirkende.

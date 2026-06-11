@@ -45,10 +45,12 @@ You can contribute your own photos via the edit button on every detail page.
 ## How to contribute
 
 NavigaTUM thrives on people reporting errors and filling gaps.
-The easiest way is the feedback form on every page.
-It creates a public issue [on GitHub](https://github.com/TUM-Dev/NavigaTUM/issues) whose progress you can follow.
-You can fix wrong coordinates or names directly on the detail page.
+Direct corrections help us the most.
+You can fix wrong coordinates or names on every detail page.
 Missing entries can be [proposed](/en/propose).
+Your proposal automatically becomes a pull request, which we can often merge as-is.
+For everything else, there is the feedback form on every page.
+It creates a public issue [on GitHub](https://github.com/TUM-Dev/NavigaTUM/issues) whose progress you can follow.
 If you prefer working on the map, add missing details directly to [OpenStreetMap](https://www.openstreetmap.org).
 They automatically show up here as well.
 And the code is [open source](https://github.com/TUM-Dev/NavigaTUM) - we are happy to welcome new contributors.
