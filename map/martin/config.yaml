@@ -45,6 +45,10 @@ postgres:
         organising_org_code: text
         organising_org_name_de: text
         organising_org_name_en: text
+        # Epoch seconds for the /map time-window filter; the timestamptz columns render
+        # as session-timezone text in tiles, which style expressions cannot compare.
+        starts_at_epoch: int8
+        ends_at_epoch: int8
   functions:
       indoor_rooms:
         schema: public

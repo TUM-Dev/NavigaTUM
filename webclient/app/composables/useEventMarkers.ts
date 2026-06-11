@@ -87,26 +87,20 @@ function readPopupProps(feature: GeoJSONFeature): EventPopupProps | null {
 }
 
 /**
- * Renders the Martin `events_active` vector source as photo markers on the given map and exposes
- * the currently active event plus its projected screen position. The host component is responsible
- * for rendering the card (as a positioned overlay on desktop, or as a fullscreen sheet on mobile),
- * which keeps the Vue lifecycle entirely in Vue's hands - no DOM hand-off to MapLibre, no detached
- * subtrees that survive a popup close.
- *
- * Markers ride on a native MapLibre symbol layer, so scaling and fade with zoom come from
- * `interpolate-zoom` expressions and rendering stays on the GPU. Per-event photos are
- * registered on demand via `styleimagemissing`.
+ * Wires the event popup onto an existing symbol layer fed by the Martin `events_active` source:
+ * clicking a marker exposes its `EventPopupProps` plus the marker's projected screen position,
+ * hovering sets the cursor and a name tooltip. The host component is responsible for rendering
+ * the card (e.g. via `EventPopupOverlay`), which keeps the Vue lifecycle entirely in Vue's hands -
+ * no DOM hand-off to MapLibre, no detached subtrees that survive a popup close.
  */
-export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>): {
+export function useEventPopup(
+  map: MaybeRefOrGetter<MapLibreMap | undefined>,
+  layerId: string
+): {
   readonly activeEvent: Ref<EventPopupProps | null>;
   readonly markerScreenPos: Ref<ScreenPos | null>;
   closeActiveEvent: () => void;
 } {
-  const { public: publicConfig } = useRuntimeConfig();
-  // Tracks images we've already kicked off loading for so concurrent missing-image events
-  // don't double-fetch the same URL.
-  const pending = new Set<string>();
-  const registered = new Set<string>();
   const activeEvent = shallowRef<EventPopupProps | null>(null);
   const markerScreenPos = shallowRef<ScreenPos | null>(null);
 
@@ -129,6 +123,70 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
       markerScreenPos.value = { x, y };
     };
 
+    const onMarkerClick = (event: { features?: GeoJSONFeature[] }) => {
+      const feature = event.features?.[0];
+      if (!feature) return;
+      const next = readPopupProps(feature);
+      if (!next) return;
+      activeEvent.value = next;
+      projectActiveMarker();
+    };
+
+    const onMarkerEnter = (event: { features?: GeoJSONFeature[] }) => {
+      target.getCanvas().style.cursor = "pointer";
+      const name = asString(event.features?.[0]?.properties?.name);
+      if (name) target.getCanvasContainer().title = name;
+    };
+    const onMarkerLeave = () => {
+      target.getCanvas().style.cursor = "";
+      target.getCanvasContainer().title = "";
+    };
+
+    const attach = () => {
+      target.on("click", layerId, onMarkerClick);
+      target.on("mouseenter", layerId, onMarkerEnter);
+      target.on("mouseleave", layerId, onMarkerLeave);
+      target.on("move", projectActiveMarker);
+    };
+    if (target.loaded()) attach();
+    else target.once("load", attach);
+
+    onCleanup(() => {
+      target.off("load", attach);
+      target.off("click", layerId, onMarkerClick);
+      target.off("mouseenter", layerId, onMarkerEnter);
+      target.off("mouseleave", layerId, onMarkerLeave);
+      target.off("move", projectActiveMarker);
+      closeActiveEvent();
+    });
+  });
+
+  return { activeEvent, markerScreenPos, closeActiveEvent };
+}
+
+/**
+ * Renders the Martin `events_active` vector source as photo markers on the given map and exposes
+ * the currently active event plus its projected screen position via `useEventPopup`.
+ *
+ * Markers ride on a native MapLibre symbol layer, so scaling and fade with zoom come from
+ * `interpolate-zoom` expressions and rendering stays on the GPU. Per-event photos are
+ * registered on demand via `styleimagemissing`.
+ */
+export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>): {
+  readonly activeEvent: Ref<EventPopupProps | null>;
+  readonly markerScreenPos: Ref<ScreenPos | null>;
+  closeActiveEvent: () => void;
+} {
+  const { public: publicConfig } = useRuntimeConfig();
+  // Tracks images we've already kicked off loading for so concurrent missing-image events
+  // don't double-fetch the same URL.
+  const pending = new Set<string>();
+  const registered = new Set<string>();
+
+  watchEffect((onCleanup) => {
+    const target = toValue(map);
+    if (!target) return;
+
     const onStyleImageMissing = async (event: MapStyleImageMissingEvent) => {
       const name = event.id;
       if (!name.startsWith("event-") || pending.has(name) || target.hasImage(name)) return;
@@ -149,25 +207,6 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
       } finally {
         pending.delete(name);
       }
-    };
-
-    const onMarkerClick = (event: { features?: GeoJSONFeature[] }) => {
-      const feature = event.features?.[0];
-      if (!feature) return;
-      const next = readPopupProps(feature);
-      if (!next) return;
-      activeEvent.value = next;
-      projectActiveMarker();
-    };
-
-    const onMarkerEnter = (event: { features?: GeoJSONFeature[] }) => {
-      target.getCanvas().style.cursor = "pointer";
-      const name = asString(event.features?.[0]?.properties?.name);
-      if (name) target.getCanvasContainer().title = name;
-    };
-    const onMarkerLeave = () => {
-      target.getCanvas().style.cursor = "";
-      target.getCanvasContainer().title = "";
     };
 
     const attach = () => {
@@ -200,22 +239,13 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
         });
       }
       target.on("styleimagemissing", onStyleImageMissing);
-      target.on("click", LAYER_ID, onMarkerClick);
-      target.on("mouseenter", LAYER_ID, onMarkerEnter);
-      target.on("mouseleave", LAYER_ID, onMarkerLeave);
-      target.on("move", projectActiveMarker);
     };
     if (target.loaded()) attach();
     else target.once("load", attach);
 
     onCleanup(() => {
+      target.off("load", attach);
       target.off("styleimagemissing", onStyleImageMissing);
-      target.off("click", LAYER_ID, onMarkerClick);
-      target.off("mouseenter", LAYER_ID, onMarkerEnter);
-      target.off("mouseleave", LAYER_ID, onMarkerLeave);
-      target.off("move", projectActiveMarker);
-      activeEvent.value = null;
-      markerScreenPos.value = null;
       if (target.getLayer(LAYER_ID)) target.removeLayer(LAYER_ID);
       if (target.getSource("events_active")) target.removeSource("events_active");
       for (const name of registered) {
@@ -226,5 +256,5 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
     });
   });
 
-  return { activeEvent, markerScreenPos, closeActiveEvent };
+  return useEventPopup(map, LAYER_ID);
 }
