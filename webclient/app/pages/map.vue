@@ -65,11 +65,19 @@ type OpacityValue = AllPaintProperties[OpacityProp];
 const PER_FEATURE_TARGETS = [
   { id: "indoor-pois", prop: "icon-opacity", type: "symbol" },
   { id: "indoor-rooms", prop: "fill-opacity", type: "fill" },
-] as const satisfies readonly { readonly id: string; readonly prop: OpacityProp; readonly type: string }[];
+] as const satisfies readonly {
+  readonly id: string;
+  readonly prop: OpacityProp;
+  readonly type: string;
+}[];
 // Indoor content with no per-feature meaning: dim wholesale while a filter is active.
 const FLAT_TARGETS = [
   { id: "indoor-pois", prop: "text-opacity", type: "symbol" },
-] as const satisfies readonly { readonly id: string; readonly prop: OpacityProp; readonly type: string }[];
+] as const satisfies readonly {
+  readonly id: string;
+  readonly prop: OpacityProp;
+  readonly type: string;
+}[];
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);

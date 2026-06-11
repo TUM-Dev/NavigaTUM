@@ -144,7 +144,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium]
-        subsystem: [main, search, navigation, details, calendar-about]
+        subsystem: [main, search, navigation, details, calendar-about, map]
 
     steps:
       - uses: BRAINSia/free-disk-space@7048ffbf50819342ac964ef3998a51c2564a8a75 # v2.1.3

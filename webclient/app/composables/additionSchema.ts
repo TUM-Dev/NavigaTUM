@@ -8,7 +8,9 @@ import { wallTimeToRfc3339 } from "~/utils/datetime";
 
 type BuildingKind = components["schemas"]["BuildingKind"];
 // openapi-typescript marks everything readonly, but the builders below produce fresh literals destined for the writable EditRequest map.
-export type Addition = DeepWritable<components["schemas"]["LimitedHashMap_String_Addition"][string]>;
+export type Addition = DeepWritable<
+  components["schemas"]["LimitedHashMap_String_Addition"][string]
+>;
 
 const MAX_NAME_LEN = 200;
 const MAX_POI_KEY_LEN = 64;
