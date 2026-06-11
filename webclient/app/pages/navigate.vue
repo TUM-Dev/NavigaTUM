@@ -8,7 +8,7 @@ import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { firstOrDefault } from "~/composables/common";
 import type { TimeSelection } from "~/types/navigation";
-import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { entityPath, isEntityType } from "~/utils/entityPath";
 
 // Utility function to parse coordinate IDs and convert to coordinate objects
 function parseCoordinateId(value: string): { lat: number; lon: number } | string {
@@ -40,9 +40,7 @@ const coming_from = computed<string>(() => firstOrDefault(route.query.coming_fro
 // Only a routable type produces a canonical back-link; otherwise omit it (never a /view/{id}).
 const comingFromTo = computed(() => {
   const type = firstOrDefault(route.query.coming_from_type, "");
-  return coming_from.value && isRoutableEntityType(type)
-    ? entityPath(coming_from.value, type)
-    : undefined;
+  return coming_from.value && isEntityType(type) ? entityPath(coming_from.value, type) : undefined;
 });
 const selected_from = computed<string>(() => firstOrDefault(route.query.from, ""));
 const selected_to = computed<string>(() => firstOrDefault(route.query.to, ""));

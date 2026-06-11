@@ -13,7 +13,7 @@ import type { components } from "~/api_types";
 import type { DetailAction } from "~/components/DetailActionToolbar.vue";
 import { emptyPropertyFields, useEditProposal } from "~/composables/editProposal";
 import { categoryForEntity, FILTER_QUERY_PARAM } from "~/composables/mapLayers";
-import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { entityPath, isEntityType } from "~/utils/entityPath";
 import { browseMapUrl } from "~/utils/map";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -45,7 +45,7 @@ const breadcrumbItems = computed(() => [
     const id = props.data.parents[i];
     if (i === 0 || !id) return { name, to: "/" };
     const type = props.data.parent_types?.[i];
-    return { name, to: type && isRoutableEntityType(type) ? entityPath(id, type) : undefined };
+    return { name, to: type && isEntityType(type) ? entityPath(id, type) : undefined };
   }),
   { name: props.data.name, current: true },
 ]);

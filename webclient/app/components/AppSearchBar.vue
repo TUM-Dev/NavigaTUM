@@ -5,7 +5,7 @@ import SearchResultRow from "~/components/SearchResultRow.vue";
 import { categoriesForQuery, FILTER_QUERY_PARAM, type FilterId } from "~/composables/mapLayers";
 import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
-import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { entityPath } from "~/utils/entityPath";
 import { LectureNavKey, type SearchResultEntry, tagSectionEntries } from "~/utils/lectureRow";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
@@ -80,7 +80,8 @@ async function searchGoTo(entry: SearchResultEntry): Promise<void> {
     searchInput.value?.blur();
     return;
   }
-  if (!isRoutableEntityType(entry.type)) return;
+  // Addresses have no entity page to jump to.
+  if (entry.kind === "address") return;
   await navigateTo(localePath(entityPath(entry.id, entry.type)));
   query.value = "";
   searchInput.value?.blur();

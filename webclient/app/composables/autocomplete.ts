@@ -1,6 +1,7 @@
 import type { components } from "~/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
+type LocationEntry = components["schemas"]["LocationEntry"];
 
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
@@ -21,7 +22,7 @@ export interface SectionFacet {
 interface EntryFacet {
   id: string;
   name: string;
-  type: string;
+  type: LocationEntry["type"];
   subtext: string;
   subtext_bold: string | null;
   parsed_id: string | null;

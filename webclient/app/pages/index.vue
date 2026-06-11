@@ -7,13 +7,13 @@ import {
   mdiMapMarker,
   mdiMapSearchOutline,
 } from "@mdi/js";
-import { entityPath, type RoutableEntityType } from "~/utils/entityPath";
+import { type EntityType, entityPath } from "~/utils/entityPath";
 
 /** A linkable card: its `type` + `id` resolve to a canonical `/{type}/{id}` path via {@link entityPath}. */
 interface OverviewLink {
   readonly id: string;
   readonly name: string;
-  readonly type: RoutableEntityType;
+  readonly type: EntityType;
 }
 
 /**
@@ -25,7 +25,7 @@ interface SitesOverview {
   readonly id: string;
   readonly name: string;
   /** Absent only for the synthetic "others" grouping, which has no entity page of its own. */
-  readonly type?: RoutableEntityType;
+  readonly type?: EntityType;
   /**
    * @description A recommendation how many of the entries should be displayed by default.
    * The number is usually from 0-5.

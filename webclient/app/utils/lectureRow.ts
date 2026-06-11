@@ -4,6 +4,7 @@ import type { FilterId } from "~/composables/mapLayers";
 import { type EntityPath, entityPath } from "~/utils/entityPath";
 
 type LocationEntry = components["schemas"]["LocationEntry"];
+type AddressEntry = components["schemas"]["AddressEntry"];
 type LectureEntry = components["schemas"]["LectureEntry"];
 type ResultsSection = components["schemas"]["ResultsSection"];
 type UpcomingEvent = components["schemas"]["UpcomingEvent"];
@@ -25,6 +26,7 @@ export type ResultsSectionFacet = ResultsSection["facet"];
  */
 export type SearchResultEntry =
   | ({ readonly kind: "location" } & LocationEntry)
+  | ({ readonly kind: "address" } & AddressEntry)
   | ({ readonly kind: "lecture" } & LectureEntry);
 
 /** The lecture variant of a tagged search entry. */
@@ -33,10 +35,16 @@ export type LectureResultEntry = Extract<SearchResultEntry, { kind: "lecture" }>
 /** The location variant of a tagged search entry. */
 export type LocationResultEntry = Extract<SearchResultEntry, { kind: "location" }>;
 
+/** The Nominatim-address variant of a tagged search entry. */
+export type AddressResultEntry = Extract<SearchResultEntry, { kind: "address" }>;
+
 /** Tag a section's entries with the `kind` implied by its facet. */
 export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] {
   if (section.facet === "lectures") {
     return section.entries.map((entry) => ({ kind: "lecture", ...entry }));
+  }
+  if (section.facet === "addresses") {
+    return section.entries.map((entry) => ({ kind: "address", ...entry }));
   }
   return section.entries.map((entry) => ({ kind: "location", ...entry }));
 }

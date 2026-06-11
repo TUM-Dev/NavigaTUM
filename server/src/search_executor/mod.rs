@@ -5,7 +5,7 @@ use serde::Serialize;
 use std::fmt::{self, Debug, Formatter};
 use tracing::error;
 
-use crate::external::meilisearch::{GeoEntryQuery, MSHit, UpcomingEvent};
+use crate::external::meilisearch::{GeoEntryQuery, LocationEntryType, MSHit, UpcomingEvent};
 use crate::external::nominatim::Nominatim;
 use crate::limited::vec::LimitedVec;
 use crate::routes::search::{FormattingConfig, Limits};
@@ -30,10 +30,11 @@ pub enum ResultFacet {
     Addresses,
 }
 
-/// A location-like search result: a site, building, room, POI, or address.
+/// A `NavigaTUM` entity search result: a site, building, room, or POI.
 ///
 /// Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
-/// make sense for locations; lectures use [`LectureEntry`] instead.
+/// make sense for locations; lectures use [`LectureEntry`] and Nominatim
+/// addresses use [`AddressEntry`] instead.
 #[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
 pub struct LocationEntry {
     /// The originating meilisearch hit, kept around so the room formatter can
@@ -45,9 +46,8 @@ pub struct LocationEntry {
     /// The id of the location
     #[schema(example = "5510.03.002")]
     id: String,
-    /// the type of the site/building
-    #[schema(example = "room")]
-    r#type: String,
+    /// The type of the entity, resolving to its canonical `/{type}/{id}` route.
+    r#type: LocationEntryType,
     /// The display name of the result. Supports highlighting.
     #[schema(example = "5510.03.002 (\x19MW\x17 2001, Empore)")]
     name: String,
@@ -104,7 +104,30 @@ pub struct LectureEntry {
     upcoming: Vec<UpcomingEvent>,
 }
 
-/// A section of location-like results (sites, buildings, rooms, POIs, addresses).
+/// A Nominatim address search result.
+///
+/// Unlike a [`LocationEntry`], an address is not a `NavigaTUM` entity: it has no
+/// canonical `/{type}/{id}` route, and its `addresstype` is an open Nominatim
+/// vocabulary rather than the closed [`LocationEntryType`] set.
+#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
+pub struct AddressEntry {
+    /// The id of the address, derived from the OSM id.
+    #[schema(example = "osm_182663548")]
+    id: String,
+    /// The raw Nominatim `addresstype` (e.g. `road` or `suburb`).
+    #[schema(example = "road")]
+    addresstype: String,
+    /// The display name of the result.
+    #[schema(example = "Boltzmannstraße")]
+    name: String,
+    /// Subtext to show below the search result.
+    ///
+    /// Contains the serialised address.
+    #[schema(example = "Boltzmannstraße, Garching bei München")]
+    subtext: String,
+}
+
+/// A section of `NavigaTUM` entity results (sites, buildings, rooms, POIs).
 #[derive(Serialize, Clone, utoipa::ToSchema)]
 pub struct LocationSection {
     entries: Vec<LocationEntry>,
@@ -136,15 +159,32 @@ pub struct LectureSection {
     estimated_total_hits: usize,
 }
 
+/// A section of Nominatim address results.
+#[derive(Serialize, Clone, utoipa::ToSchema)]
+pub struct AddressSection {
+    entries: Vec<AddressEntry>,
+    /// A recommendation how many of the entries should be displayed by default.
+    ///
+    /// The number is usually from `0`..`5`.
+    /// More results might be displayed when clicking "expand".
+    #[schema(example = 4)]
+    n_visible: usize,
+    /// The estimated (not exact) number of hits for that query
+    #[serde(rename = "estimatedTotalHits")]
+    #[schema(example = 6)]
+    estimated_total_hits: usize,
+}
+
 /// One section of search results, grouped by facet.
 ///
-/// The `facet` is the discriminator: the five location facets (sites, buildings,
-/// rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
-/// room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
-/// with their bilingual titles and upcoming occurrences. Tagging the section by
-/// `facet` means a consumer narrows once on the discriminator it already needs
-/// for the section header and then sees exactly the entry shape that facet
-/// carries - instead of a redundant per-entry `kind` repeated on every hit.
+/// The `facet` is the discriminator: the four entity facets (sites, buildings,
+/// rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
+/// the addresses facet carries [`AddressEntry`]s with their open Nominatim
+/// `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
+/// bilingual titles and upcoming occurrences. Tagging the section by `facet`
+/// means a consumer narrows once on the discriminator it already needs for the
+/// section header and then sees exactly the entry shape that facet carries -
+/// instead of a redundant per-entry `kind` repeated on every hit.
 #[derive(Serialize, Clone, utoipa::ToSchema)]
 #[serde(tag = "facet", rename_all = "snake_case")]
 pub enum ResultsSection {
@@ -152,7 +192,7 @@ pub enum ResultsSection {
     Buildings(LocationSection),
     Rooms(LocationSection),
     Pois(LocationSection),
-    Addresses(LocationSection),
+    Addresses(AddressSection),
     Lectures(LectureSection),
 }
 
@@ -173,12 +213,12 @@ impl ResultsSection {
 impl Debug for ResultsSection {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Sites(b)
-            | Self::Buildings(b)
-            | Self::Rooms(b)
-            | Self::Pois(b)
-            | Self::Addresses(b) => f
+            Self::Sites(b) | Self::Buildings(b) | Self::Rooms(b) | Self::Pois(b) => f
                 .debug_tuple(&format!("{:?}", self.facet()))
+                .field(&TruncatedEntries(&b.entries))
+                .finish(),
+            Self::Addresses(b) => f
+                .debug_tuple("Addresses")
                 .field(&TruncatedEntries(&b.entries))
                 .finish(),
             Self::Lectures(b) => f
@@ -228,22 +268,20 @@ impl ResultsSection {
     /// Whether this section has no entries.
     fn is_empty(&self) -> bool {
         match self {
-            Self::Sites(b)
-            | Self::Buildings(b)
-            | Self::Rooms(b)
-            | Self::Pois(b)
-            | Self::Addresses(b) => b.entries.is_empty(),
+            Self::Sites(b) | Self::Buildings(b) | Self::Rooms(b) | Self::Pois(b) => {
+                b.entries.is_empty()
+            }
+            Self::Addresses(b) => b.entries.is_empty(),
             Self::Lectures(b) => b.entries.is_empty(),
         }
     }
     /// The ids of every entry in this section, regardless of facet.
     fn entry_ids(&self) -> Vec<&str> {
         match self {
-            Self::Sites(b)
-            | Self::Buildings(b)
-            | Self::Rooms(b)
-            | Self::Pois(b)
-            | Self::Addresses(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
+            Self::Sites(b) | Self::Buildings(b) | Self::Rooms(b) | Self::Pois(b) => {
+                b.entries.iter().map(|e| e.id.as_str()).collect()
+            }
+            Self::Addresses(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
             Self::Lectures(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
         }
     }
@@ -259,19 +297,16 @@ pub async fn address_search(q: &str) -> LimitedVec<ResultsSection> {
         }
     };
     let num_results = results.len();
-    let section = ResultsSection::Addresses(LocationSection {
+    let section = ResultsSection::Addresses(AddressSection {
         entries: results
             .into_iter()
             .map(|r| {
                 let subtext = r.address.serialise();
-                LocationEntry {
-                    hit: Box::new(MSHit::default()),
+                AddressEntry {
                     id: format!("osm_{}", r.osm_id),
-                    r#type: r.address_type,
+                    addresstype: r.address_type,
                     name: r.address.road.unwrap_or(r.name),
                     subtext,
-                    subtext_bold: None,
-                    parsed_id: None,
                 }
             })
             .collect(),

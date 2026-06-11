@@ -793,6 +793,65 @@ paths:
                 source_code: https://github.com/TUM-Dev/navigatum/tree/{hash}
 components:
   schemas:
+    AddressEntry:
+      type: object
+      description: |-
+        A Nominatim address search result.
+
+        Unlike a [`LocationEntry`], an address is not a `NavigaTUM` entity: it has no
+        canonical `/{type}/{id}` route, and its `addresstype` is an open Nominatim
+        vocabulary rather than the closed [`LocationEntryType`] set.
+      required:
+        - id
+        - addresstype
+        - name
+        - subtext
+      properties:
+        addresstype:
+          type: string
+          description: The raw Nominatim `addresstype` (e.g. `road` or `suburb`).
+          example: road
+        id:
+          type: string
+          description: The id of the address, derived from the OSM id.
+          example: osm_182663548
+        name:
+          type: string
+          description: The display name of the result.
+          example: Boltzmannstraße
+        subtext:
+          type: string
+          description: |-
+            Subtext to show below the search result.
+
+            Contains the serialised address.
+          example: Boltzmannstraße, Garching bei München
+    AddressSection:
+      type: object
+      description: A section of Nominatim address results.
+      required:
+        - entries
+        - n_visible
+        - estimatedTotalHits
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressEntry'
+        estimatedTotalHits:
+          type: integer
+          description: The estimated (not exact) number of hits for that query
+          example: 6
+          minimum: 0
+        n_visible:
+          type: integer
+          description: |-
+            A recommendation how many of the entries should be displayed by default.
+
+            The number is usually from `0`..`5`.
+            More results might be displayed when clicking "expand".
+          example: 4
+          minimum: 0
     AlertCauseResponse:
       type: string
       enum:
@@ -1778,10 +1837,11 @@ components:
     LocationEntry:
       type: object
       description: |-
-        A location-like search result: a site, building, room, POI, or address.
+        A `NavigaTUM` entity search result: a site, building, room, or POI.
 
         Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
-        make sense for locations; lectures use [`LectureEntry`] instead.
+        make sense for locations; lectures use [`LectureEntry`] and Nominatim
+        addresses use [`AddressEntry`] instead.
       required:
         - id
         - type
@@ -1825,9 +1885,25 @@ components:
             Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.
           example: 3002@5510
         type:
-          type: string
-          description: the type of the site/building
-          example: room
+          $ref: '#/components/schemas/LocationEntryType'
+          description: The type of the entity, resolving to its canonical `/{type}/{id}` route.
+    LocationEntryType:
+      type: string
+      description: |-
+        The type of a `NavigaTUM` entity surfaced as a search result.
+
+        The closed set of location types the data pipeline exports (`valid_types`
+        in `data/processors/schema.py`, minus the synthetic, non-searchable
+        `root`). Every variant resolves to a canonical `/{type}/{id}` route.
+      enum:
+        - site
+        - campus
+        - area
+        - joined_building
+        - building
+        - room
+        - virtual_room
+        - poi
     LocationEventsResponse:
       type: object
       required:
@@ -1842,7 +1918,7 @@ components:
           $ref: '#/components/schemas/CalendarLocationResponse'
     LocationSection:
       type: object
-      description: A section of location-like results (sites, buildings, rooms, POIs, addresses).
+      description: A section of `NavigaTUM` entity results (sites, buildings, rooms, POIs).
       required:
         - entries
         - n_visible
@@ -3267,7 +3343,7 @@ components:
                   enum:
                     - pois
         - allOf:
-            - $ref: '#/components/schemas/LocationSection'
+            - $ref: '#/components/schemas/AddressSection'
             - type: object
               required:
                 - facet
@@ -3289,13 +3365,14 @@ components:
       description: |-
         One section of search results, grouped by facet.
 
-        The `facet` is the discriminator: the five location facets (sites, buildings,
-        rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
-        room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
-        with their bilingual titles and upcoming occurrences. Tagging the section by
-        `facet` means a consumer narrows once on the discriminator it already needs
-        for the section header and then sees exactly the entry shape that facet
-        carries - instead of a redundant per-entry `kind` repeated on every hit.
+        The `facet` is the discriminator: the four entity facets (sites, buildings,
+        rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
+        the addresses facet carries [`AddressEntry`]s with their open Nominatim
+        `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
+        bilingual titles and upcoming occurrences. Tagging the section by `facet`
+        means a consumer narrows once on the discriminator it already needs for the
+        section header and then sees exactly the entry shape that facet carries -
+        instead of a redundant per-entry `kind` repeated on every hit.
     RoomAddress:
       type: object
       required:

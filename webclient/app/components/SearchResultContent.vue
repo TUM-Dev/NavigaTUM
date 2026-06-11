@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component } from "vue";
+import AddressResultContent from "~/components/AddressResultContent.vue";
 import LectureResultContent from "~/components/LectureResultContent.vue";
 import LocationResultContent from "~/components/LocationResultContent.vue";
 import type { SearchResultEntry } from "~/utils/lectureRow";
@@ -12,6 +13,7 @@ defineProps<{
 // `Record<kind, …>` (not `satisfies`); see SearchResultRow.vue.
 const CONTENT_BY_KIND: Record<SearchResultEntry["kind"], Component> = {
   location: LocationResultContent,
+  address: AddressResultContent,
   lecture: LectureResultContent,
 };
 </script>

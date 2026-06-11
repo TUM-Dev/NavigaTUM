@@ -1,5 +1,10 @@
-/** Entity types that resolve to a type-specific canonical route. */
-export const ROUTABLE_ENTITY_TYPES = [
+import type { components } from "~/api_types";
+
+/** The API's closed entity-type union. Every entity type has a canonical route. */
+export type EntityType = components["schemas"]["LocationEntryType"];
+
+// Runtime mirror of `EntityType` for narrowing opaque strings.
+const ENTITY_TYPES = [
   "campus",
   "site",
   "area",
@@ -8,19 +13,14 @@ export const ROUTABLE_ENTITY_TYPES = [
   "room",
   "virtual_room",
   "poi",
-] as const;
-
-export type RoutableEntityType = (typeof ROUTABLE_ENTITY_TYPES)[number];
+] as const satisfies readonly EntityType[];
 
 /**
- * Narrows an opaque API `type` string to a routable entity type.
- *
- * Search results carry `type` as a bare `string` because address results use a
- * Nominatim `addresstype` (e.g. `road`) that has no canonical entity route. Gate
- * {@link entityPath} on this so non-routable results render without an entity link.
+ * Narrows an opaque `type` string (the calendar API, breadcrumb `parent_types`
+ * with their synthetic `root`, URL query parameters) to an entity type.
  */
-export function isRoutableEntityType(type: string): type is RoutableEntityType {
-  return (ROUTABLE_ENTITY_TYPES as readonly string[]).includes(type);
+export function isEntityType(type: string): type is EntityType {
+  return (ENTITY_TYPES as readonly string[]).includes(type);
 }
 
 /** A canonical, un-localized in-app entity path. */
@@ -32,15 +32,15 @@ export type EntityPath =
   | `/poi/${string}`;
 
 /**
- * Canonical, un-localized in-app path for a routable entity (e.g. `/building/5510`).
+ * Canonical, un-localized in-app path for an entity (e.g. `/building/5510`).
  *
  * Mirrors the server's `redirect_url` mapping (`LocationKeyAlias::redirect_exact_match`
- * in `server/src/db/location.rs`) - keep the two in sync. The `type` is the strict
- * routable set so a typo or an unhandled new type fails to type-check rather than
- * silently falling back; callers holding an opaque API string narrow with
- * {@link isRoutableEntityType} first.
+ * in `server/src/db/location.rs`) - keep the two in sync. The `type` is the closed
+ * union so a typo or an unhandled new type fails to type-check rather than
+ * silently falling back; callers holding an opaque string narrow with
+ * {@link isEntityType} first.
  */
-export function entityPath(id: string, type: RoutableEntityType): EntityPath {
+export function entityPath(id: string, type: EntityType): EntityPath {
   switch (type) {
     case "campus":
       return `/campus/${id}`;
