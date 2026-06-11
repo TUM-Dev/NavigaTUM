@@ -37,7 +37,7 @@ import {
 import { useEventPopup } from "~/composables/useEventMarkers";
 import { useWebglGuard } from "~/composables/webglSupport";
 
-definePageMeta({ layout: "navigation" });
+definePageMeta({ layout: "browse-map" });
 
 const { t } = useI18n({ useScope: "local" });
 const route = useRoute();
