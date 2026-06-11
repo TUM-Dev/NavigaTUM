@@ -8,3 +8,11 @@ export function zoomForLocationType(type: LocationType | undefined): number {
   if (type === "room") return 18;
   return 16;
 }
+
+/** Deep link to the Browse map, framed via the MapLibre `#zoom/lat/lng` hash so `/map` needs no API call. */
+export function browseMapUrl(
+  coords: { readonly lat: number; readonly lon: number },
+  type: LocationType | undefined
+): string {
+  return `/map#${zoomForLocationType(type)}/${coords.lat.toFixed(5)}/${coords.lon.toFixed(5)}`;
+}

@@ -57,6 +57,21 @@ export const FILTER_REGISTRY = [
 
 export type FilterId = (typeof FILTER_REGISTRY)[number]["id"];
 
+// The details API exposes usage only as the localized `type_common_name`, so WCs membership
+// matches the sanitary names of that closed usage set (TUMonline names plus their
+// `data/translations.yaml` English forms; user-added rooms hyphenate, e.g. "WC-Damen").
+const WCS_TYPE_COMMON_NAME = /^WC([ -]|$)|^(Dusche|Shower)$/;
+
+/** Map an Entity to the Category it belongs to, or `null` when it belongs to none. */
+export function categoryForEntity(entity: {
+  readonly type: string;
+  readonly type_common_name: string;
+}): FilterId | null {
+  if (entity.type !== "room" && entity.type !== "poi") return null;
+  if (WCS_TYPE_COMMON_NAME.test(entity.type_common_name)) return WCS_FILTER_ID;
+  return null;
+}
+
 export const FILTER_QUERY_PARAM = "filter";
 export const LEVEL_QUERY_PARAM = "level";
 export const ACTIVE_FILTERS_STORAGE_KEY = "map:activeFilters";
