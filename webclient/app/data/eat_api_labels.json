@@ -1,0 +1,143 @@
+[
+  {
+    "enum_name": "GLUTEN",
+    "text": { "DE": "Gluten", "EN": "gluten-containing cereals" },
+    "abbreviation": "Gl"
+  },
+  { "enum_name": "WHEAT", "text": { "DE": "Weizen", "EN": "wheat" }, "abbreviation": "GlW" },
+  { "enum_name": "RYE", "text": { "DE": "Roggen", "EN": "rye" }, "abbreviation": "GlR" },
+  { "enum_name": "BARLEY", "text": { "DE": "Gerste", "EN": "barley" }, "abbreviation": "GlG" },
+  { "enum_name": "OAT", "text": { "DE": "Hafer", "EN": "oat" }, "abbreviation": "GlH" },
+  { "enum_name": "SPELT", "text": { "DE": "Dinkel", "EN": "spelt" }, "abbreviation": "GlD" },
+  {
+    "enum_name": "HYBRIDS",
+    "text": { "DE": "Hybridstämme", "EN": "hybrid strains" },
+    "abbreviation": "GlHy"
+  },
+  {
+    "enum_name": "SHELLFISH",
+    "text": { "DE": "Krebstiere", "EN": "shellfish" },
+    "abbreviation": "Kr"
+  },
+  { "enum_name": "CHICKEN_EGGS", "text": { "DE": "Eier", "EN": "egg" }, "abbreviation": "Ei" },
+  { "enum_name": "FISH", "text": { "DE": "Fisch", "EN": "fish" }, "abbreviation": "Fi" },
+  { "enum_name": "PEANUTS", "text": { "DE": "Erdnüsse", "EN": "peanut" }, "abbreviation": "Er" },
+  { "enum_name": "SOY", "text": { "DE": "Soja", "EN": "soy" }, "abbreviation": "So" },
+  { "enum_name": "MILK", "text": { "DE": "Milch", "EN": "milk" }, "abbreviation": "Mi" },
+  { "enum_name": "LACTOSE", "text": { "DE": "Laktose", "EN": "lactose" }, "abbreviation": "La" },
+  { "enum_name": "ALMONDS", "text": { "DE": "Mandeln", "EN": "almonds" }, "abbreviation": "ScM" },
+  {
+    "enum_name": "HAZELNUTS",
+    "text": { "DE": "Haselnüsse", "EN": "hazelnuts" },
+    "abbreviation": "ScH"
+  },
+  { "enum_name": "WALNUTS", "text": { "DE": "Walnüsse", "EN": "walnuts" }, "abbreviation": "ScW" },
+  {
+    "enum_name": "CASHEWS",
+    "text": { "DE": "Cashewnüsse", "EN": "cashews" },
+    "abbreviation": "ScC"
+  },
+  { "enum_name": "PECAN", "text": { "DE": "Pekannüsse", "EN": "pecans" }, "abbreviation": "ScP" },
+  {
+    "enum_name": "PISTACHIOS",
+    "text": { "DE": "Pistazien", "EN": "pistachios" },
+    "abbreviation": "ScPi"
+  },
+  {
+    "enum_name": "MACADAMIA",
+    "text": { "DE": "Macadamianüsse", "EN": "macadamias" },
+    "abbreviation": "ScMa"
+  },
+  { "enum_name": "CELERY", "text": { "DE": "Sellerie", "EN": "celery" }, "abbreviation": "Sl" },
+  { "enum_name": "MUSTARD", "text": { "DE": "Senf", "EN": "mustard" }, "abbreviation": "Sf" },
+  { "enum_name": "SESAME", "text": { "DE": "Sesam", "EN": "sesame" }, "abbreviation": "Se" },
+  {
+    "enum_name": "SULPHURS",
+    "text": { "DE": "Schwefeldioxid", "EN": "sulphurs" },
+    "abbreviation": "Su"
+  },
+  { "enum_name": "SULFITES", "text": { "DE": "Sulfite", "EN": "sulfites" }, "abbreviation": "Sw" },
+  { "enum_name": "LUPIN", "text": { "DE": "Lupine", "EN": "lupin" }, "abbreviation": "Lu" },
+  {
+    "enum_name": "MOLLUSCS",
+    "text": { "DE": "Weichtiere", "EN": "molluscs" },
+    "abbreviation": "Wt"
+  },
+  {
+    "enum_name": "SHELL_FRUITS",
+    "text": { "DE": "Schalenfrüchte", "EN": "shell fruits" },
+    "abbreviation": "Sc"
+  },
+  {
+    "enum_name": "BAVARIA",
+    "text": { "DE": "Zertifizierte Qualität Bayern", "EN": "Certified quality Bavaria" },
+    "abbreviation": "GQB"
+  },
+  {
+    "enum_name": "MSC",
+    "text": { "DE": "Marine Stewardship Council", "EN": "Marine Stewardship Council" },
+    "abbreviation": "MSC"
+  },
+  {
+    "enum_name": "DYESTUFF",
+    "text": { "DE": "Farbstoffe", "EN": "dyestuff" },
+    "abbreviation": "1"
+  },
+  {
+    "enum_name": "PRESERVATIVES",
+    "text": { "DE": "Konservierungsstoffe", "EN": "preservatives" },
+    "abbreviation": "2"
+  },
+  {
+    "enum_name": "ANTIOXIDANTS",
+    "text": { "DE": "Antioxidantien", "EN": "antioxidants" },
+    "abbreviation": "3"
+  },
+  {
+    "enum_name": "FLAVOR_ENHANCER",
+    "text": { "DE": "Geschmacksverstärker", "EN": "flavor enhancer" },
+    "abbreviation": "4"
+  },
+  { "enum_name": "WAXED", "text": { "DE": "Gewachst", "EN": "waxed" }, "abbreviation": "5" },
+  {
+    "enum_name": "PHOSPHATES",
+    "text": { "DE": "Phosphate", "EN": "phosphates" },
+    "abbreviation": "6"
+  },
+  {
+    "enum_name": "SWEETENERS",
+    "text": { "DE": "Süßungsmittel", "EN": "sweeteners" },
+    "abbreviation": "7"
+  },
+  {
+    "enum_name": "PHENYLALANINE",
+    "text": { "DE": "Phenylalanin", "EN": "with a source of phenylalanine" },
+    "abbreviation": "8"
+  },
+  {
+    "enum_name": "COCOA_CONTAINING_GREASE",
+    "text": { "DE": "Kakaohaltiges Fett", "EN": "cocoa-containing grease" },
+    "abbreviation": "9"
+  },
+  { "enum_name": "GELATIN", "text": { "DE": "Gelatine", "EN": "gelatin" }, "abbreviation": "Ge" },
+  { "enum_name": "ALCOHOL", "text": { "DE": "Alkohol", "EN": "alcohol" }, "abbreviation": "Al" },
+  { "enum_name": "PORK", "text": { "DE": "Schweinefleisch", "EN": "pork" }, "abbreviation": "S" },
+  { "enum_name": "BEEF", "text": { "DE": "Rinderfleisch", "EN": "beef" }, "abbreviation": "R" },
+  { "enum_name": "VEAL", "text": { "DE": "Kalbsfleisch", "EN": "veal" }, "abbreviation": "Ka" },
+  {
+    "enum_name": "WILD_MEAT",
+    "text": { "DE": "Wildfleisch", "EN": "wild meat" },
+    "abbreviation": "Wi"
+  },
+  { "enum_name": "LAMB", "text": { "DE": "Lammfleisch", "EN": "lamb" }, "abbreviation": "Lm" },
+  { "enum_name": "GARLIC", "text": { "DE": "Knoblauch", "EN": "garlic" }, "abbreviation": "Kn" },
+  { "enum_name": "POULTRY", "text": { "DE": "Geflügel", "EN": "poultry" }, "abbreviation": "Ge" },
+  { "enum_name": "CEREAL", "text": { "DE": "Getreide", "EN": "cereal" }, "abbreviation": "Ce" },
+  { "enum_name": "MEAT", "text": { "DE": "Fleisch", "EN": "meat" }, "abbreviation": "F" },
+  { "enum_name": "VEGAN", "text": { "DE": "Vegan", "EN": "vegan" }, "abbreviation": "Vn" },
+  {
+    "enum_name": "VEGETARIAN",
+    "text": { "DE": "Vegetarisch", "EN": "vegetarian" },
+    "abbreviation": "Vg"
+  }
+]

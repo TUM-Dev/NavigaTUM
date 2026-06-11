@@ -888,6 +888,7 @@ export type components = {
       readonly imgs?: readonly components["schemas"]["ImageInfoResponse"][] | null;
       /** @description Print or overlay maps for said location */
       readonly maps: components["schemas"]["MapsResponse"];
+      readonly mensa_menu?: null | components["schemas"]["MensaMenuResponse"];
       /**
        * @description The name of the entry in a human-readable form
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
@@ -1180,6 +1181,100 @@ export type components = {
       readonly default: components["schemas"]["DefaultMapsResponse"];
       readonly overlays?: null | components["schemas"]["OverlayMapsResponse"];
       readonly roomfinder?: null | components["schemas"]["RoomfinderMapResponse"];
+    };
+    /** @description One day in a [`MensaMenuResponse`]. */
+    readonly MensaMenuDayResponse: {
+      /**
+       * @description `YYYY-MM-DD` calendar date of the day.
+       * @example 2026-06-10
+       */
+      readonly date: string;
+      /** @description Dishes served on this day, in the upstream serving order. */
+      readonly dishes: readonly components["schemas"]["MensaMenuDishResponse"][];
+    };
+    /** @description One dish on one day of a [`MensaMenuResponse`]. */
+    readonly MensaMenuDishResponse: {
+      /**
+       * @description Short category label upstream uses to group the dish (`Pasta`, `Suppe`, `Studitopf`, ...).
+       *
+       *     Omitted when upstream did not classify the dish.
+       * @example Pasta
+       */
+      readonly dish_type?: string | null;
+      /**
+       * @description Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
+       *
+       *     The client maps them to localized text via its own label dictionary so prices and
+       *     labels stay in sync without a server round-trip on language change.
+       * @example [
+       *       "GLUTEN",
+       *       "LACTOSE"
+       *     ]
+       */
+      readonly labels: readonly string[];
+      /**
+       * @description Dish title in the upstream language (German).
+       * @example Pasta Emiliana mit (Vorder-)Schinken und Erbsen
+       */
+      readonly name: string;
+      /** @description Prices keyed by role. A role is omitted when upstream priced the dish only for some. */
+      readonly prices: components["schemas"]["MensaMenuPricesResponse"];
+    };
+    /**
+     * @description One role's price for a dish.
+     *
+     *     `price_per_unit` and `unit` are upstream-optional because flat-rate dishes (e.g. a fixed
+     *     `1.00 €` Studitopf) carry only a `base_price`.
+     */
+    readonly MensaMenuPriceResponse: {
+      /**
+       * Format: double
+       * @description Flat amount in Euros charged before any unit upcharge.
+       * @example 1
+       */
+      readonly base_price: number;
+      /**
+       * Format: double
+       * @description Additional amount in Euros charged per `unit` (e.g. per 100g).
+       * @example 0.9
+       */
+      readonly price_per_unit?: number | null;
+      /**
+       * @description Unit the `price_per_unit` is charged against (e.g. `100g`).
+       * @example 100g
+       */
+      readonly unit?: string | null;
+    };
+    /**
+     * @description Per-role price block for a [`MensaMenuDishResponse`].
+     *
+     *     Each field is `None` when upstream did not price the dish for that role.
+     */
+    readonly MensaMenuPricesResponse: {
+      readonly guests?: null | components["schemas"]["MensaMenuPriceResponse"];
+      readonly staff?: null | components["schemas"]["MensaMenuPriceResponse"];
+      readonly students?: null | components["schemas"]["MensaMenuPriceResponse"];
+    };
+    /**
+     * @description Weekly canteen menu sourced from the TUM-Dev eat-api feed.
+     *
+     *     `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
+     *     visitor still sees Monday. Closed days are simply absent rather than represented as
+     *     empty entries.
+     */
+    readonly MensaMenuResponse: {
+      /** @description Per-day dish lists in calendar order; only days with at least one dish are present. */
+      readonly days: readonly components["schemas"]["MensaMenuDayResponse"][];
+      /**
+       * @description `YYYY-MM-DD` date the feed snapshot was last confirmed (the upstream `Last-Modified`).
+       * @example 2026-06-05
+       */
+      readonly last_update: string;
+      /**
+       * @description Where the menu was sourced from; shown as the "source" link on the card.
+       * @example https://tum-dev.github.io/eat-api/#!/de/mensa-garching
+       */
+      readonly source_url: string;
     };
     /** @enum {string} */
     readonly ModeResponse:
