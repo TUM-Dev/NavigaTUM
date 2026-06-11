@@ -5,7 +5,11 @@ import polars as pl
 import pytest
 
 from external.schemas.eat_api_menus import EatApiMenuSchema
-from external.scrapers.eat_api_menus import _iso_weeks, _rows_for_week
+from external.scrapers.eat_api_menus import (
+    _EatApiWeek,
+    _iso_weeks,
+    _rows_for_week,
+)
 
 
 def _valid_row() -> dict[str, list[object]]:
@@ -122,7 +126,7 @@ def test_iso_weeks_returns_requested_count_in_order() -> None:
 
 def test_rows_for_week_flattens_dishes_preserving_order() -> None:
     """Dishes flatten in upstream order; `position` is the source index within the day."""
-    payload = {
+    payload: _EatApiWeek = {
         "days": [
             {
                 "date": "2026-06-10",
@@ -151,7 +155,7 @@ def test_rows_for_week_flattens_dishes_preserving_order() -> None:
 
 def test_rows_for_week_skips_dishes_without_a_name() -> None:
     """A blank `name` is never a real dish; we drop it rather than pollute the schema."""
-    payload = {
+    payload: _EatApiWeek = {
         "days": [
             {
                 "date": "2026-06-10",
@@ -168,4 +172,5 @@ def test_rows_for_week_skips_dishes_without_a_name() -> None:
 
 def test_rows_for_week_handles_missing_days_block() -> None:
     """An eat-api response with no `days` (e.g. a closed-week stub) yields no rows, no error."""
-    assert _rows_for_week("mensa-garching", {}, last_update="2026-06-05") == []
+    empty: _EatApiWeek = {"days": []}
+    assert _rows_for_week("mensa-garching", empty, last_update="2026-06-05") == []

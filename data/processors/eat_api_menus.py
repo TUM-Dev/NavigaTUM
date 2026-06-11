@@ -28,7 +28,7 @@ def _load_stored_menus() -> pl.DataFrame:
         return pl.DataFrame(schema=EatApiMenuSchema.to_polars_schema())
 
 
-def _build_payload(rows: list[dict]) -> dict:
+def _build_payload(rows: list[dict[str, object]]) -> dict[str, object]:
     """
     Re-nest a sorted slice of dish rows for one canteen into a `MenuResponse`-shaped payload.
 
@@ -36,19 +36,21 @@ def _build_payload(rows: list[dict]) -> dict:
     order. `source_url`/`last_update` are taken from the latest row, mirroring opening-hours
     behaviour when several scraper snapshots land in the same build.
     """
-    days: list[dict] = []
-    current_day: dict | None = None
+    days: list[dict[str, object]] = []
+    current_day: dict[str, object] | None = None
     for row in rows:
         if current_day is None or current_day["date"] != row["date"]:
             current_day = {"date": row["date"], "dishes": []}
             days.append(current_day)
-        dish: dict = {
+        dish: dict[str, object] = {
             "name": row["name"],
-            "prices": orjson.loads(row["prices_json"]),
-            "labels": orjson.loads(row["labels_json"]),
+            "prices": orjson.loads(str(row["prices_json"])),
+            "labels": orjson.loads(str(row["labels_json"])),
         }
         if row["dish_type"]:
             dish["dish_type"] = row["dish_type"]
+        # `current_day["dishes"]` was built as a list above; help mypy see that.
+        assert isinstance(current_day["dishes"], list)
         current_day["dishes"].append(dish)
     return {
         "source_url": rows[-1]["source_url"],

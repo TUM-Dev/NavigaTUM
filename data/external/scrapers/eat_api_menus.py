@@ -3,6 +3,7 @@ import logging
 from datetime import UTC, date, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
+from typing import NotRequired, TypedDict
 
 import orjson
 import polars as pl
@@ -11,6 +12,37 @@ from utils import setup_logging
 
 from external.schemas.eat_api_menus import EatApiMenuSchema
 from external.scraping_utils import CACHE_PATH
+
+
+class _EatApiPrice(TypedDict, total=False):
+    """One role's price block as eat-api emits it; every key is upstream-optional."""
+
+    base_price: float
+    price_per_unit: float
+    unit: str
+
+
+class _EatApiDish(TypedDict):
+    """Single dish in eat-api's weekly JSON. `dish_type` is upstream-optional."""
+
+    name: str
+    dish_type: NotRequired[str | None]
+    prices: dict[str, _EatApiPrice]
+    labels: list[str]
+
+
+class _EatApiDay(TypedDict):
+    """One calendar day's dishes in eat-api's weekly JSON."""
+
+    date: str
+    dishes: list[_EatApiDish]
+
+
+class _EatApiWeek(TypedDict):
+    """Top-level weekly payload eat-api publishes per canteen."""
+
+    days: list[_EatApiDay]
+
 
 # eat-api stores one JSON per ISO week per canteen; we fetch the current and next ISO weeks so
 # a Friday visitor still sees Monday. Going further out yields stale 404s on most canteens.
@@ -52,7 +84,7 @@ def _last_modified_date(response: requests.Response, fallback: date) -> str:
     return fallback.isoformat()
 
 
-def _fetch_week(canteen_id: str, year: int, week: int) -> tuple[dict | None, str | None]:
+def _fetch_week(canteen_id: str, year: int, week: int) -> tuple[_EatApiWeek | None, str | None]:
     """
     Fetch one week's menu for a canteen. Returns `(payload, last_modified_iso)`.
 
@@ -69,7 +101,7 @@ def _fetch_week(canteen_id: str, year: int, week: int) -> tuple[dict | None, str
 
 def _rows_for_week(
     canteen_id: str,
-    payload: dict,
+    payload: _EatApiWeek,
     last_update: str,
 ) -> list[dict[str, object]]:
     """Flatten one week's payload into `EatApiMenuSchema` rows in serving order."""
