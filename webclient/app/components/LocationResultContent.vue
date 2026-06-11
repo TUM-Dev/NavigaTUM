@@ -9,8 +9,12 @@ const props = defineProps<{
 }>();
 
 // Only room | virtual_room | poi carry a `parsed_id` chevron and a bold subtext.
-const ROOM_LIKE_TYPES = ["room", "virtual_room", "poi"];
-const isRoomLike = computed(() => ROOM_LIKE_TYPES.includes(props.item.type));
+const ROOM_LIKE_TYPES: ReadonlySet<LocationResultEntry["type"]> = new Set([
+  "room",
+  "virtual_room",
+  "poi",
+]);
+const isRoomLike = computed(() => ROOM_LIKE_TYPES.has(props.item.type));
 const parsedId = computed(() => (isRoomLike.value ? props.item.parsed_id : null) || null);
 const subtextBold = computed(() => (isRoomLike.value ? props.item.subtext_bold : null) || null);
 </script>

@@ -1,26 +1,37 @@
-/** Entity types that resolve to a type-specific canonical route. */
-export const ROUTABLE_ENTITY_TYPES = [
-  "campus",
-  "site",
-  "area",
-  "building",
-  "joined_building",
-  "room",
-  "virtual_room",
-  "poi",
-] as const;
-
-export type RoutableEntityType = (typeof ROUTABLE_ENTITY_TYPES)[number];
+import type { components } from "~/api_types";
 
 /**
- * Narrows an opaque API `type` string to a routable entity type.
+ * Entity types that resolve to a type-specific canonical route.
  *
- * Search results carry `type` as a bare `string` because address results use a
- * Nominatim `addresstype` (e.g. `road`) that has no canonical entity route. Gate
- * {@link entityPath} on this so non-routable results render without an entity link.
+ * Aliases the API's closed `LocationEntryType` union: every `NavigaTUM` entity
+ * type is routable. A type added on the server therefore fails to compile in
+ * {@link entityPath} (and in the record below) until its route is decided.
+ */
+export type RoutableEntityType = components["schemas"]["LocationEntryType"];
+
+// `Record` over the union so this list cannot drift from the API: a missing or
+// extraneous key is a compile error.
+const ROUTABLE_ENTITY_TYPES: Record<RoutableEntityType, true> = {
+  campus: true,
+  site: true,
+  area: true,
+  building: true,
+  joined_building: true,
+  room: true,
+  virtual_room: true,
+  poi: true,
+};
+
+/**
+ * Narrows an opaque `type` string to a routable entity type.
+ *
+ * Search results carry the closed `LocationEntryType` union and no longer need
+ * this guard. It remains for the API surfaces that are still stringly typed
+ * (e.g. the calendar API, breadcrumb `parent_types` with their synthetic
+ * `root`) and for runtime inputs like URL query parameters.
  */
 export function isRoutableEntityType(type: string): type is RoutableEntityType {
-  return (ROUTABLE_ENTITY_TYPES as readonly string[]).includes(type);
+  return Object.hasOwn(ROUTABLE_ENTITY_TYPES, type);
 }
 
 /** A canonical, un-localized in-app entity path. */

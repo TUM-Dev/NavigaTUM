@@ -313,6 +313,56 @@ export type paths = {
 export type webhooks = Record<string, never>;
 export type components = {
   schemas: {
+    /**
+     * @description A Nominatim address search result.
+     *
+     *     Unlike a [`LocationEntry`], an address is not a `NavigaTUM` entity: it has no
+     *     canonical `/{type}/{id}` route, and its `addresstype` is an open Nominatim
+     *     vocabulary rather than the closed [`LocationEntryType`] set.
+     */
+    readonly AddressEntry: {
+      /**
+       * @description The raw Nominatim `addresstype` (e.g. `road` or `suburb`).
+       *
+       *     An open vocabulary controlled by Nominatim, *not* a [`LocationEntryType`].
+       * @example road
+       */
+      readonly addresstype: string;
+      /**
+       * @description The id of the address, derived from the OSM id.
+       * @example osm_182663548
+       */
+      readonly id: string;
+      /**
+       * @description The display name of the result.
+       * @example Boltzmannstraße
+       */
+      readonly name: string;
+      /**
+       * @description Subtext to show below the search result.
+       *
+       *     Contains the serialised address.
+       * @example Boltzmannstraße, Garching bei München
+       */
+      readonly subtext: string;
+    };
+    /** @description A section of Nominatim address results. */
+    readonly AddressSection: {
+      readonly entries: readonly components["schemas"]["AddressEntry"][];
+      /**
+       * @description The estimated (not exact) number of hits for that query
+       * @example 6
+       */
+      readonly estimatedTotalHits: number;
+      /**
+       * @description A recommendation how many of the entries should be displayed by default.
+       *
+       *     The number is usually from `0`..`5`.
+       *     More results might be displayed when clicking "expand".
+       * @example 4
+       */
+      readonly n_visible: number;
+    };
     /** @enum {string} */
     readonly AlertCauseResponse:
       | "unknown_cause"
@@ -947,10 +997,11 @@ export type components = {
       readonly type_common_name: string;
     };
     /**
-     * @description A location-like search result: a site, building, room, POI, or address.
+     * @description A `NavigaTUM` entity search result: a site, building, room, or POI.
      *
      *     Carries the room-id formatting fields (`parsed_id`/`subtext_bold`) that only
-     *     make sense for locations; lectures use [`LectureEntry`] instead.
+     *     make sense for locations; lectures use [`LectureEntry`] and Nominatim
+     *     addresses use [`AddressEntry`] instead.
      */
     readonly LocationEntry: {
       /**
@@ -987,17 +1038,33 @@ export type components = {
        * @example 3002@5510
        */
       readonly subtext_bold?: string | null;
-      /**
-       * @description the type of the site/building
-       * @example room
-       */
-      readonly type: string;
+      /** @description The type of the entity, resolving to its canonical `/{type}/{id}` route. */
+      readonly type: components["schemas"]["LocationEntryType"];
     };
+    /**
+     * @description The type of a `NavigaTUM` entity surfaced as a search result.
+     *
+     *     The closed set of location types the data pipeline exports (`valid_types`
+     *     in `data/processors/schema.py`, minus the synthetic, non-searchable
+     *     `root`). Every variant resolves to a canonical `/{type}/{id}` route.
+     *     Nominatim address results are *not* part of this set; they carry their
+     *     open `addresstype` on the dedicated `AddressEntry` shape instead.
+     * @enum {string}
+     */
+    readonly LocationEntryType:
+      | "site"
+      | "campus"
+      | "area"
+      | "joined_building"
+      | "building"
+      | "room"
+      | "virtual_room"
+      | "poi";
     readonly LocationEventsResponse: {
       readonly events: readonly components["schemas"]["EventResponse"][];
       readonly location: components["schemas"]["CalendarLocationResponse"];
     };
-    /** @description A section of location-like results (sites, buildings, rooms, POIs, addresses). */
+    /** @description A section of `NavigaTUM` entity results (sites, buildings, rooms, POIs). */
     readonly LocationSection: {
       readonly entries: readonly components["schemas"]["LocationEntry"][];
       /**
@@ -1896,13 +1963,14 @@ export type components = {
     /**
      * @description One section of search results, grouped by facet.
      *
-     *     The `facet` is the discriminator: the five location facets (sites, buildings,
-     *     rooms, POIs, and Nominatim addresses) carry [`LocationEntry`]s with the
-     *     room-id formatting fields, while the lectures facet carries [`LectureEntry`]s
-     *     with their bilingual titles and upcoming occurrences. Tagging the section by
-     *     `facet` means a consumer narrows once on the discriminator it already needs
-     *     for the section header and then sees exactly the entry shape that facet
-     *     carries - instead of a redundant per-entry `kind` repeated on every hit.
+     *     The `facet` is the discriminator: the four entity facets (sites, buildings,
+     *     rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
+     *     the addresses facet carries [`AddressEntry`]s with their open Nominatim
+     *     `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
+     *     bilingual titles and upcoming occurrences. Tagging the section by `facet`
+     *     means a consumer narrows once on the discriminator it already needs for the
+     *     section header and then sees exactly the entry shape that facet carries -
+     *     instead of a redundant per-entry `kind` repeated on every hit.
      */
     readonly ResultsSection:
       | (components["schemas"]["LocationSection"] & {
@@ -1921,7 +1989,7 @@ export type components = {
           /** @enum {string} */
           readonly facet: "pois";
         })
-      | (components["schemas"]["LocationSection"] & {
+      | (components["schemas"]["AddressSection"] & {
           /** @enum {string} */
           readonly facet: "addresses";
         })

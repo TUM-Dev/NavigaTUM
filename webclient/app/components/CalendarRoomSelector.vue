@@ -64,9 +64,12 @@ async function addLocation() {
       :key="key"
       class="flex min-w-64 gap-1 rounded-md px-2 md:gap-3 md:px-4"
     >
+      <!-- The calendar API's `type` is an open string; narrow it so non-entity
+           values fall back to the generic icon instead of leaking through. -->
       <PreviewIcon
         :item="{
-          type: location.type,
+          kind: 'location',
+          type: isRoutableEntityType(location.type) ? location.type : undefined,
           parsed_id: 'parsed_id' in location ? (location.parsed_id as string) : undefined,
         }"
       />

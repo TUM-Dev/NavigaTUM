@@ -198,7 +198,7 @@ fn make_building_like_entry(
     let name = highlighted_name_for_hit(hit, highlight);
     super::LocationEntry {
         id: geo.room_code.clone(),
-        r#type: geo.r#type.clone(),
+        r#type: geo.r#type,
         subtext: geo.type_common_name.clone(),
         hit: Box::new(hit.result.clone()),
         name,
@@ -215,7 +215,7 @@ fn make_room_like_entry(
     let name = highlighted_name_for_hit(hit, highlight);
     super::LocationEntry {
         id: geo.room_code.clone(),
-        r#type: geo.r#type.clone(),
+        r#type: geo.r#type,
         subtext: String::new(),
         subtext_bold: Some(geo.arch_name.clone().unwrap_or_default()),
         hit: Box::new(hit.result.clone()),

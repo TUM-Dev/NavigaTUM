@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LocationResultContent from "~/components/LocationResultContent.vue";
-import { type EntityPath, entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { type EntityPath, entityPath } from "~/utils/entityPath";
 import type { LocationResultEntry } from "~/utils/lectureRow";
 
 const props = defineProps<{
@@ -12,12 +12,10 @@ const emit = defineEmits<{
   (e: "mouseover"): void;
 }>();
 
-// Routable entities link to their canonical /{type}/{id} path. Non-routable results
-// (e.g. Nominatim addresses, only surfaced on the navigate page) have no entity
-// route and render as a plain, non-navigable row.
-const to = computed<EntityPath | null>(() =>
-  isRoutableEntityType(props.item.type) ? entityPath(props.item.id, props.item.type) : null
-);
+// Every entity type is routable, so a location row always links to its
+// canonical /{type}/{id} path; non-routable Nominatim addresses are a separate
+// `kind` rendered by AddressResultRow.
+const to = computed<EntityPath>(() => entityPath(props.item.id, props.item.type));
 </script>
 
 <template>
@@ -25,7 +23,6 @@ const to = computed<EntityPath | null>(() =>
     class="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 rounded-sm border hover:bg-blue-100 dark:hover:bg-blue-800"
   >
     <NuxtLinkLocale
-      v-if="to"
       :to="to"
       class="focusable"
       @click="() => emit('click')"
@@ -33,6 +30,5 @@ const to = computed<EntityPath | null>(() =>
     >
       <LocationResultContent :item="item" :highlighted="highlighted" />
     </NuxtLinkLocale>
-    <LocationResultContent v-else :item="item" :highlighted="highlighted" />
   </li>
 </template>

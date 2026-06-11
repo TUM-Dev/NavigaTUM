@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component } from "vue";
+import AddressResultRow from "~/components/AddressResultRow.vue";
 import LectureSearchResultRow from "~/components/LectureSearchResultRow.vue";
 import LocationResultRow from "~/components/LocationResultRow.vue";
 import type { SearchResultEntry } from "~/utils/lectureRow";
@@ -18,6 +19,7 @@ defineEmits<{
 // not intersect the variants' incompatible prop types.
 const ROW_BY_KIND: Record<SearchResultEntry["kind"], Component> = {
   location: LocationResultRow,
+  address: AddressResultRow,
   lecture: LectureSearchResultRow,
 };
 </script>

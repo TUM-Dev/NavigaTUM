@@ -76,6 +76,29 @@ const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 /// aggressive or too weak.
 const LECTURE_FEDERATION_WEIGHT: f32 = 0.5;
 
+/// The type of a `NavigaTUM` entity surfaced as a search result.
+///
+/// The closed set of location types the data pipeline exports (`valid_types`
+/// in `data/processors/schema.py`, minus the synthetic, non-searchable
+/// `root`). Every variant resolves to a canonical `/{type}/{id}` route.
+/// Nominatim address results are *not* part of this set; they carry their
+/// open `addresstype` on the dedicated `AddressEntry` shape instead.
+#[derive(Serialize, Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum LocationEntryType {
+    Site,
+    Campus,
+    Area,
+    JoinedBuilding,
+    Building,
+    // The default only applies to index documents predating the `type` field
+    // (see the `#[serde(default)]` on `GeoMSHit`) and mirrors `MSHit::default`.
+    #[default]
+    Room,
+    VirtualRoom,
+    Poi,
+}
+
 /// A single hit from the `entries` index.
 ///
 /// The index mixes geo-entries (sites, buildings, rooms, POIs) with lectures.
@@ -105,7 +128,7 @@ pub struct GeoMSHit {
     pub room_code: String,
     pub name: String,
     pub arch_name: Option<String>,
-    pub r#type: String,
+    pub r#type: LocationEntryType,
     pub type_common_name: String,
     pub parent_building_names: Vec<String>,
     parent_keywords: Vec<String>,

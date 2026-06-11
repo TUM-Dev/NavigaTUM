@@ -16,7 +16,7 @@ _Avoid_: "item", "result".
 **Category**: a class of Entities exposed as a Browse-map filter. Defined in `FILTER_REGISTRY` (`composables/mapLayers.ts`).
 _Avoid_: "type" - `type` is the API entity discriminator.
 
-**Address result**: Nominatim hit in the `addresses` search section. Not an Entity (no id, no detail page).
+**Address result**: Nominatim hit in the `addresses` search section, an `AddressEntry` over the wire. Not an Entity (no detail page); carries an open Nominatim `addresstype`, not the closed entity `type`.
 
 **Category bridge**: inline link on a detail page whose Entity has a Category → `/map?filter=<id>`.
 
