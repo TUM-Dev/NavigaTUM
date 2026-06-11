@@ -27,10 +27,18 @@ import {
   FILTER_REGISTRY,
   LEVEL_QUERY_PARAM,
   PANEL_COLLAPSED_STORAGE_KEY,
+  parseWcsGender,
+  parseWcsWheelchair,
   resolveActiveFilters,
   resolveEventsWindow,
   resolveLevel,
   serializeFilters,
+  WCS_FILTER_ID,
+  WCS_GENDER_QUERY_PARAM,
+  WCS_GENDERS,
+  WCS_WHEELCHAIR_QUERY_PARAM,
+  type WcsGender,
+  wcsAttributeFilter,
 } from "~/composables/mapLayers";
 import { useEventPopup } from "~/composables/useEventMarkers";
 import { useWebglGuard } from "~/composables/webglSupport";
@@ -90,11 +98,17 @@ const currentZoom = ref(INITIAL_ZOOM);
 const activeFilters = ref<Set<string>>(new Set());
 const panelCollapsed = ref(false);
 const eventsWindow = ref<EventsWindow>(DEFAULT_EVENTS_WINDOW);
+const wcsWheelchair = ref(false);
+// `null` selects all genders, i.e. no gender condition.
+const wcsGender = ref<WcsGender | null>(null);
 
 const { activeEvent, markerScreenPos, closeActiveEvent } = useEventPopup(map, EVENTS_STYLE_LAYER);
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
 const originalPaint = new Map<string, OpacityValue | undefined>();
+// The POI layer's own style filter, captured before the first attribute filter so clearing the
+// attributes restores it. `undefined` = not captured yet; `null` = the layer had no filter.
+let originalPoiFilter: FilterSpecification | null | undefined;
 
 /** Read a query value as a single string, distinguishing "absent" (null) from "present but empty" (""). */
 function queryString(key: string): string | null {
@@ -192,6 +206,20 @@ function applyEventsFilter(): void {
   m.setFilter(EVENTS_STYLE_LAYER, filter as FilterSpecification);
 }
 
+/**
+ * Hide the WC markers not matching the selected attributes while the WCs filter is active;
+ * restore the layer's own filter when it is not (or when no attribute is selected).
+ */
+function applyWcsAttributeFilter(): void {
+  const m = map.value;
+  if (!m?.getLayer(POI_LAYER)) return;
+  if (originalPoiFilter === undefined) originalPoiFilter = m.getFilter(POI_LAYER) ?? null;
+  const expr = activeFilters.value.has(WCS_FILTER_ID)
+    ? wcsAttributeFilter({ wheelchair: wcsWheelchair.value, gender: wcsGender.value })
+    : null;
+  m.setFilter(POI_LAYER, (expr as FilterSpecification | null) ?? originalPoiFilter);
+}
+
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -206,6 +234,7 @@ watch(activeFilters, (filters) => {
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
   applyOverlayVisibility();
+  applyWcsAttributeFilter();
   // The popup belongs to the events layer; it must not outlive the layer being switched off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
@@ -215,6 +244,13 @@ watch(eventsWindow, (window) => {
   setQueryParam(EVENTS_WINDOW_QUERY_PARAM, window === DEFAULT_EVENTS_WINDOW ? null : window);
   applyEventsFilter();
   closeActiveEvent();
+});
+
+watch([wcsWheelchair, wcsGender], ([wheelchair, gender]) => {
+  // Drop each param at its "no condition" default, so a bare /map URL stays clean.
+  setQueryParam(WCS_WHEELCHAIR_QUERY_PARAM, wheelchair ? "true" : null);
+  setQueryParam(WCS_GENDER_QUERY_PARAM, gender);
+  applyWcsAttributeFilter();
 });
 
 // The window filter compares against the clock at evaluation time; re-evaluate it periodically so
@@ -338,6 +374,7 @@ function initMap(): MapLibreMap {
     applyFilterDim();
     applyOverlayVisibility();
     applyEventsFilter();
+    applyWcsAttributeFilter();
 
     m.on("click", POI_LAYER, openPoiPopup);
     m.on("mouseenter", POI_LAYER, () => {
@@ -362,6 +399,8 @@ onMounted(async () => {
     stored: localStorage.getItem(ACTIVE_FILTERS_STORAGE_KEY),
   });
   eventsWindow.value = resolveEventsWindow(queryString(EVENTS_WINDOW_QUERY_PARAM));
+  wcsWheelchair.value = parseWcsWheelchair(queryString(WCS_WHEELCHAIR_QUERY_PARAM));
+  wcsGender.value = parseWcsGender(queryString(WCS_GENDER_QUERY_PARAM));
   panelCollapsed.value = localStorage.getItem(PANEL_COLLAPSED_STORAGE_KEY) === "1";
   // <ClientOnly> mounts its slot after this hook fires, so wait for the container to exist.
   await until(mapContainer).toBeTruthy();
@@ -390,6 +429,38 @@ onBeforeUnmount(() => {
           @toggle="toggleFilter"
           @update:collapsed="(v) => (panelCollapsed = v)"
         >
+          <template #filter-wcs>
+            <fieldset class="px-2 pb-1">
+              <legend class="sr-only">{{ t("wcs_filters.legend") }}</legend>
+              <div class="flex flex-col gap-1 ps-7">
+                <label
+                  class="text-zinc-600 dark:text-zinc-300 flex cursor-pointer items-center gap-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    class="h-3.5 w-3.5 accent-blue-600 dark:accent-blue-400"
+                    :checked="wcsWheelchair"
+                    @change="wcsWheelchair = !wcsWheelchair"
+                  />
+                  {{ t("wcs_filters.wheelchair") }}
+                </label>
+                <label
+                  v-for="gender in [null, ...WCS_GENDERS]"
+                  :key="gender ?? 'all'"
+                  class="text-zinc-600 dark:text-zinc-300 flex cursor-pointer items-center gap-2 text-sm"
+                >
+                  <input
+                    type="radio"
+                    name="wcs-gender"
+                    class="h-3.5 w-3.5 accent-blue-600 dark:accent-blue-400"
+                    :checked="wcsGender === gender"
+                    @change="wcsGender = gender"
+                  />
+                  {{ gender === null ? t("wcs_filters.all_genders") : t(`gender.${gender}`) }}
+                </label>
+              </div>
+            </fieldset>
+          </template>
           <template #filter-events>
             <fieldset class="px-2 pb-1">
               <legend class="sr-only">{{ t("events_window.legend") }}</legend>
@@ -431,6 +502,10 @@ de:
     legend: Zeitfenster für Veranstaltungen
     now: Gerade aktiv
     24h: Nächste 24 Stunden
+  wcs_filters:
+    legend: Filter für Toiletten & Duschen
+    wheelchair: Nur rollstuhlgerecht
+    all_genders: Alle Geschlechter
   edit_in_osm: In OpenStreetMap bearbeiten
   wheelchair_accessible: Rollstuhlgerecht
   poi:
@@ -448,6 +523,10 @@ en:
     legend: Time window for events
     now: Happening now
     24h: Next 24 hours
+  wcs_filters:
+    legend: Filters for toilets & showers
+    wheelchair: Wheelchair-accessible only
+    all_genders: All genders
   edit_in_osm: Edit in OpenStreetMap
   wheelchair_accessible: Wheelchair accessible
   poi:

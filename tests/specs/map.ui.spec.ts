@@ -12,27 +12,39 @@ const CENTER: [number, number] = [11.670099, 48.266921];
 // A style carrying a single clickable toilet in the `indoor-pois` layer the page wires its popup
 // handler to, so this deterministically drives the popup without live data. A `circle` layer
 // needs no sprite to be clickable, unlike the real `symbol` icon layer.
-const STYLE_WITH_TOILET = {
-  version: 8,
-  sources: {
-    "test-pois": {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            properties: { indoor: "toilet", is_male_toilet: true, is_wheelchair_toilet: true },
-            geometry: { type: "Point", coordinates: CENTER },
-          },
-        ],
+function styleWithToilet(flags: Record<string, boolean>) {
+  const allFlags = {
+    is_male_toilet: false,
+    is_female_toilet: false,
+    is_unisex_toilet: false,
+    is_wheelchair_toilet: false,
+    is_shower: false,
+    ...flags,
+  };
+  return {
+    version: 8,
+    sources: {
+      "test-pois": {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: { indoor: "toilet", ...allFlags },
+              geometry: { type: "Point", coordinates: CENTER },
+            },
+          ],
+        },
       },
     },
-  },
-  layers: [
-    { id: "indoor-pois", type: "circle", source: "test-pois", paint: { "circle-radius": 24 } },
-  ],
-};
+    layers: [
+      { id: "indoor-pois", type: "circle", source: "test-pois", paint: { "circle-radius": 24 } },
+    ],
+  };
+}
+
+const STYLE_WITH_TOILET = styleWithToilet({ is_male_toilet: true, is_wheelchair_toilet: true });
 
 async function stubBasemap(page: Page, style: object): Promise<void> {
   await page.route("https://nav.tum.de/martin/style/navigatum-basemap.json", (route) =>
@@ -240,6 +252,65 @@ test.describe("Browse map (/map)", () => {
 
     await page.getByRole("button", { name: "Veranstaltungsdetails schließen" }).click();
     await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeHidden();
+  });
+
+  test("enabling WCs reveals the attribute filters, which round-trip through the URL", async ({
+    page,
+  }) => {
+    await stubBasemap(page, EMPTY_STYLE);
+    await page.goto("/map", { waitUntil: "networkidle" });
+
+    const wheelchair = page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" });
+    await expect(wheelchair).toBeHidden();
+
+    const wcs = page.getByRole("checkbox", { name: "Toiletten & Duschen" });
+    await wcs.check();
+    await expect(wheelchair).toBeVisible();
+    await expect(page.getByRole("radio", { name: "Alle Geschlechter" })).toBeChecked();
+
+    await wheelchair.check();
+    await expect(page).toHaveURL(/[?&]wcs_wheelchair=true/);
+    await page.getByRole("radio", { name: "Herren" }).check();
+    await expect(page).toHaveURL(/[?&]wcs_gender=male/);
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" })).toBeChecked();
+    await expect(page.getByRole("radio", { name: "Herren" })).toBeChecked();
+
+    await page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" }).uncheck();
+    await page.getByRole("radio", { name: "Alle Geschlechter" }).check();
+    await expect(page).not.toHaveURL(/[?&]wcs_(wheelchair|gender)=/);
+
+    await page.getByRole("checkbox", { name: "Toiletten & Duschen" }).uncheck();
+    await expect(page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" })).toBeHidden();
+  });
+
+  test("the wheelchair-only filter hides non-accessible toilets", async ({ page }) => {
+    await stubBasemap(page, styleWithToilet({ is_male_toilet: true }));
+
+    await page.goto("/map?filter=wcs", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.locator(".maplibregl-popup-content")).toContainText("Toilette");
+
+    await page.goto("/map?filter=wcs&wcs_wheelchair=true", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.locator(".maplibregl-popup-content")).toHaveCount(0);
+  });
+
+  test("the gender filter shows only matching toilets", async ({ page }) => {
+    await stubBasemap(page, styleWithToilet({ is_female_toilet: true }));
+
+    await page.goto("/map?filter=wcs&wcs_gender=male", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.locator(".maplibregl-popup-content")).toHaveCount(0);
+
+    await page.goto("/map?filter=wcs&wcs_gender=female", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.locator(".maplibregl-popup-content")).toContainText("Damen");
   });
 
   test("an event starting in three hours only appears in the 24h window", async ({ page }) => {

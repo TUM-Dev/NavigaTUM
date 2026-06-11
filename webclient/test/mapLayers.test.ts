@@ -6,10 +6,13 @@ import {
   parseEventsWindow,
   parseFilters,
   parseLevel,
+  parseWcsGender,
+  parseWcsWheelchair,
   resolveActiveFilters,
   resolveEventsWindow,
   resolveLevel,
   serializeFilters,
+  wcsAttributeFilter,
 } from "../app/composables/mapLayers";
 
 // A two-filter registry to exercise ordering, unknown-id rejection, and multi-select without
@@ -154,6 +157,67 @@ describe("eventsWindowFilter", () => {
   it("truncates sub-second clocks towards the past so boundary events stay visible", () => {
     const [, [, , latestStart]] = eventsWindowFilter("now", NOW_MS + 999);
     expect(latestStart).toBe(NOW_S);
+  });
+});
+
+describe("parseWcsGender", () => {
+  it("accepts the three known genders", () => {
+    expect(parseWcsGender("male")).toBe("male");
+    expect(parseWcsGender("female")).toBe("female");
+    expect(parseWcsGender("unisex")).toBe("unisex");
+  });
+
+  it("rejects unknown, empty, and absent values", () => {
+    for (const input of ["MALE", "diverse", "", null, undefined]) {
+      expect(parseWcsGender(input)).toBeNull();
+    }
+  });
+});
+
+describe("parseWcsWheelchair", () => {
+  it("enables only on the literal 'true'", () => {
+    expect(parseWcsWheelchair("true")).toBe(true);
+    for (const input of ["TRUE", "1", "yes", "false", "", null, undefined]) {
+      expect(parseWcsWheelchair(input)).toBe(false);
+    }
+  });
+});
+
+describe("wcsAttributeFilter", () => {
+  const PASS_NON_WCS = ["!", ["in", ["get", "indoor"], ["literal", ["toilet", "shower"]]]];
+
+  it("returns null when no attribute is selected, so the layer filter gets restored", () => {
+    expect(wcsAttributeFilter({ wheelchair: false, gender: null })).toBeNull();
+  });
+
+  it("requires the wheelchair flag for WC features only", () => {
+    expect(wcsAttributeFilter({ wheelchair: true, gender: null })).toEqual([
+      "any",
+      PASS_NON_WCS,
+      ["all", ["get", "is_wheelchair_toilet"]],
+    ]);
+  });
+
+  it("maps each gender onto its tile flag", () => {
+    for (const [gender, flag] of [
+      ["male", "is_male_toilet"],
+      ["female", "is_female_toilet"],
+      ["unisex", "is_unisex_toilet"],
+    ] as const) {
+      expect(wcsAttributeFilter({ wheelchair: false, gender })).toEqual([
+        "any",
+        PASS_NON_WCS,
+        ["all", ["get", flag]],
+      ]);
+    }
+  });
+
+  it("requires every selected attribute when combined", () => {
+    expect(wcsAttributeFilter({ wheelchair: true, gender: "female" })).toEqual([
+      "any",
+      PASS_NON_WCS,
+      ["all", ["get", "is_wheelchair_toilet"], ["get", "is_female_toilet"]],
+    ]);
   });
 });
 
