@@ -1,26 +1,53 @@
-import { mdiToilet } from "@mdi/js";
+import { mdiCalendarStar, mdiToilet } from "@mdi/js";
 
-/** A map filter that highlights one category by dimming everything else. */
-export interface FilterDef {
+interface FilterDefBase {
   /** Stable key used in the `?filter=` query and in `localStorage`. */
   readonly id: string;
-  /** i18n key (local scope of the `/map` page) for the panel label. */
+  /** i18n key (local scope of the `MapLayerPanel`) for the panel label. */
   readonly labelKey: string;
   /** MDI path rendered as the panel icon. */
   readonly icon: string;
-  /** The `indoor` property values this filter keeps vibrant. */
-  readonly indoorValues: readonly string[];
   /** Below this zoom the data is not in the tiles yet, so we show a "zoom in" hint. */
   readonly hintBelowZoom: number;
 }
 
+/** A map filter that highlights one indoor category by dimming everything else. */
+export interface IndoorFilterDef extends FilterDefBase {
+  readonly kind: "indoor";
+  /** The `indoor` property values this filter keeps vibrant. */
+  readonly indoorValues: readonly string[];
+}
+
+/** A map filter that toggles the visibility of dedicated basemap-style layers. */
+export interface OverlayFilterDef extends FilterDefBase {
+  readonly kind: "overlay";
+  /** The basemap-style layer ids this filter shows while active (they default to hidden). */
+  readonly styleLayers: readonly string[];
+}
+
+export type FilterDef = IndoorFilterDef | OverlayFilterDef;
+
+/** The basemap-style layer carrying the event markers. */
+export const EVENTS_STYLE_LAYER = "events";
+/** The events entry in the filter registry; its time window only applies while it is active. */
+export const EVENTS_FILTER_ID = "events";
+
 export const FILTER_REGISTRY = [
   {
     id: "wcs",
+    kind: "indoor",
     labelKey: "filters.wcs",
     icon: mdiToilet,
     indoorValues: ["toilet", "shower"],
     hintBelowZoom: 17,
+  },
+  {
+    id: EVENTS_FILTER_ID,
+    kind: "overlay",
+    labelKey: "filters.events",
+    icon: mdiCalendarStar,
+    styleLayers: [EVENTS_STYLE_LAYER],
+    hintBelowZoom: 13,
   },
 ] as const satisfies readonly FilterDef[];
 
@@ -81,6 +108,50 @@ export function resolveActiveFilters(opts: {
     return parseFilters(opts.urlParam, registry);
   if (opts.stored !== undefined && opts.stored !== null) return parseFilters(opts.stored, registry);
   return new Set();
+}
+
+// The time-window query parameter is namespaced per layer (`events_…`), so further layers can
+// add their own sub-filters without colliding.
+export const EVENTS_WINDOW_QUERY_PARAM = "events_window";
+export const EVENTS_WINDOWS = ["now", "24h"] as const;
+export type EventsWindow = (typeof EVENTS_WINDOWS)[number];
+export const DEFAULT_EVENTS_WINDOW: EventsWindow = "now";
+
+/** Parse a `?events_window=` value, or `null` when absent or not a known window. */
+export function parseEventsWindow(param: string | null | undefined): EventsWindow | null {
+  const window = EVENTS_WINDOWS.find((w) => w === param);
+  return window ?? null;
+}
+
+/** Resolve the initial time window, defaulting to "happening now" when unusable. */
+export function resolveEventsWindow(param: string | null | undefined): EventsWindow {
+  return parseEventsWindow(param) ?? DEFAULT_EVENTS_WINDOW;
+}
+
+/**
+ * JSON shape of a MapLibre filter expression, kept structural so this module stays free of the
+ * maplibre import (which fails to load under the node test environment).
+ */
+export type EventsFilterExpression = [
+  "all",
+  ["<=", ["get", string], number],
+  [">=", ["get", string], number],
+];
+
+/**
+ * Style filter keeping the events that overlap the selected window: "now" keeps currently-running
+ * events, "24h" additionally keeps those starting within the next 24 hours. Compares against the
+ * `*_epoch` second-precision properties the `events_active` view bakes into the tiles - their
+ * `timestamptz` siblings render as session-timezone text, which an expression cannot compare.
+ */
+export function eventsWindowFilter(window: EventsWindow, nowMs: number): EventsFilterExpression {
+  const nowSeconds = Math.floor(nowMs / 1000);
+  const latestStart = window === "now" ? nowSeconds : nowSeconds + 24 * 3600;
+  return [
+    "all",
+    ["<=", ["get", "starts_at_epoch"], latestStart],
+    [">=", ["get", "ends_at_epoch"], nowSeconds],
+  ];
 }
 
 /** Parse a `?level=` value into a known integer floor, or `null` when absent or invalid. */

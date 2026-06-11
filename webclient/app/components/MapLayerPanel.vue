@@ -59,6 +59,8 @@ function showHint(filter: FilterDef): boolean {
         <p v-if="showHint(filter)" class="text-zinc-500 dark:text-zinc-400 px-2 pb-1 text-xs">
           {{ t("zoom_hint", { name: t(filter.labelKey) }) }}
         </p>
+        <!-- Per-filter sub-options (e.g. the events time window), owned by the page. -->
+        <slot v-if="active.has(filter.id)" :name="`filter-${filter.id}`" />
       </li>
     </ul>
   </section>
@@ -70,9 +72,11 @@ de:
   zoom_hint: Hineinzoomen, um {name} zu sehen
   filters:
     wcs: Toiletten & Duschen
+    events: Veranstaltungen
 en:
   panel_title: Filter
   zoom_hint: Zoom in to see {name}
   filters:
     wcs: Toilets & showers
+    events: Events
 </i18n>

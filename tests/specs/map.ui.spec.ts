@@ -40,6 +40,57 @@ async function stubBasemap(page: Page, style: object): Promise<void> {
   );
 }
 
+// An event feature shaped like the `events_active` tiles: display strings plus the epoch-second
+// properties the page's time-window filter compares against.
+function eventFeature(name: string, startsInSeconds: number, endsInSeconds: number) {
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const startsAtEpoch = nowSeconds + startsInSeconds;
+  const endsAtEpoch = nowSeconds + endsInSeconds;
+  return {
+    type: "Feature",
+    id: 1,
+    properties: {
+      name,
+      description: "Eine Testveranstaltung.",
+      image: "/cdn/thumb/test.webp",
+      image_author: "Test Author",
+      starts_at: new Date(startsAtEpoch * 1000).toISOString(),
+      ends_at: new Date(endsAtEpoch * 1000).toISOString(),
+      organising_org_id: 1,
+      organising_org_code: "TUTEST",
+      organising_org_name_de: "Lehrstuhl für Tests",
+      organising_org_name_en: "Chair of Testing",
+      starts_at_epoch: startsAtEpoch,
+      ends_at_epoch: endsAtEpoch,
+    },
+    geometry: { type: "Point", coordinates: CENTER },
+  };
+}
+
+// A style carrying one event in the `events` layer the page toggles and filters. Mirrors the real
+// basemap: the layer ships hidden and only `applyOverlayVisibility` reveals it. A `circle` layer
+// needs no sprite to be clickable, unlike the real `symbol` icon layer.
+function styleWithEvent(feature: object) {
+  return {
+    version: 8,
+    sources: {
+      events_active: {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [feature] },
+      },
+    },
+    layers: [
+      {
+        id: "events",
+        type: "circle",
+        source: "events_active",
+        layout: { visibility: "none" },
+        paint: { "circle-radius": 24 },
+      },
+    ],
+  };
+}
+
 test.describe("Browse map (/map)", () => {
   test("loads with the filter panel and no filter active by default", async ({ page }) => {
     await stubBasemap(page, EMPTY_STYLE);
@@ -113,5 +164,82 @@ test.describe("Browse map (/map)", () => {
       "href",
       /openstreetmap\.org\/edit#map=21\/48\.266921\d*\/11\.670099\d*/
     );
+  });
+
+  test("toggling Events flips the ?filter= query and reveals the time-window selector", async ({
+    page,
+  }) => {
+    await stubBasemap(page, EMPTY_STYLE);
+    await page.goto("/map", { waitUntil: "networkidle" });
+
+    const nowRadio = page.getByRole("radio", { name: "Gerade aktiv" });
+    await expect(nowRadio).toBeHidden();
+
+    const events = page.getByRole("checkbox", { name: "Veranstaltungen" });
+    await events.check();
+    await expect(page).toHaveURL(/[?&]filter=events/);
+    await expect(nowRadio).toBeChecked();
+    await expect(page.getByRole("radio", { name: "Nächste 24 Stunden" })).not.toBeChecked();
+
+    await events.uncheck();
+    await expect(page).not.toHaveURL(/[?&]filter=events/);
+    await expect(nowRadio).toBeHidden();
+  });
+
+  test("selecting the 24h window sets ?events_window= and survives a reload", async ({ page }) => {
+    await stubBasemap(page, EMPTY_STYLE);
+    await page.goto("/map?filter=events", { waitUntil: "networkidle" });
+
+    await page.getByRole("radio", { name: "Nächste 24 Stunden" }).check();
+    await expect(page).toHaveURL(/[?&]events_window=24h/);
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByRole("radio", { name: "Nächste 24 Stunden" })).toBeChecked();
+
+    // Back at the "now" default the param is dropped, keeping the URL clean.
+    await page.getByRole("radio", { name: "Gerade aktiv" }).check();
+    await expect(page).not.toHaveURL(/[?&]events_window=/);
+  });
+
+  test("a running event only shows its popup while the Events layer is enabled", async ({
+    page,
+  }) => {
+    // Running right now: started an hour ago, ends in an hour.
+    await stubBasemap(page, styleWithEvent(eventFeature("Sommerfest", -3600, 3600)));
+
+    // Layer disabled: the style ships the events layer hidden, so the click hits nothing.
+    await page.goto("/map", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeHidden();
+
+    // Layer enabled: the marker sits at the default center, i.e. where a default click lands.
+    await page.goto("/map?filter=events", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+
+    await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeVisible();
+    await expect(page.getByText("Lehrstuhl für Tests")).toBeVisible();
+    const orgLink = page.getByRole("link", { name: /Veranstalter 'Lehrstuhl für Tests'/ });
+    await expect(orgLink).toHaveAttribute("href", /\/view\/TUTEST/);
+
+    await page.getByRole("button", { name: "Veranstaltungsdetails schließen" }).click();
+    await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeHidden();
+  });
+
+  test("an event starting in three hours only appears in the 24h window", async ({ page }) => {
+    await stubBasemap(page, styleWithEvent(eventFeature("Hackathon", 3 * 3600, 5 * 3600)));
+
+    // "Happening now" (the default): the future event is filtered out, so the click hits nothing.
+    await page.goto("/map?filter=events", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.getByRole("heading", { name: "Hackathon" })).toBeHidden();
+
+    // "Next 24 hours": the same event renders and carries its popup.
+    await page.goto("/map?filter=events&events_window=24h", { waitUntil: "networkidle" });
+    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.getByRole("heading", { name: "Hackathon" })).toBeVisible();
   });
 });

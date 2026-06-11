@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  eventsWindowFilter,
   FILTER_REGISTRY,
   type FilterDef,
+  parseEventsWindow,
   parseFilters,
   parseLevel,
   resolveActiveFilters,
+  resolveEventsWindow,
   resolveLevel,
   serializeFilters,
 } from "../app/composables/mapLayers";
@@ -14,6 +17,7 @@ import {
 const REGISTRY: readonly FilterDef[] = [
   {
     id: "wcs",
+    kind: "indoor",
     labelKey: "filters.wcs",
     icon: "M0",
     indoorValues: ["toilet", "shower"],
@@ -21,6 +25,7 @@ const REGISTRY: readonly FilterDef[] = [
   },
   {
     id: "elevators",
+    kind: "indoor",
     labelKey: "filters.elevators",
     icon: "M1",
     indoorValues: ["elevator"],
@@ -93,7 +98,62 @@ describe("resolveActiveFilters precedence (URL > localStorage > default)", () =>
 describe("the shipped registry", () => {
   it("highlights toilets and showers under the WCs filter", () => {
     const wcs = FILTER_REGISTRY.find((f) => f.id === "wcs");
-    expect(wcs?.indoorValues).toEqual(["toilet", "shower"]);
+    expect(wcs?.kind).toBe("indoor");
+    expect(wcs?.kind === "indoor" && [...wcs.indoorValues]).toEqual(["toilet", "shower"]);
+  });
+
+  it("toggles the events style layer under the events filter", () => {
+    const events = FILTER_REGISTRY.find((f) => f.id === "events");
+    expect(events?.kind).toBe("overlay");
+    expect(events?.kind === "overlay" && [...events.styleLayers]).toEqual(["events"]);
+  });
+});
+
+describe("parseEventsWindow", () => {
+  it("accepts the two known windows", () => {
+    expect(parseEventsWindow("now")).toBe("now");
+    expect(parseEventsWindow("24h")).toBe("24h");
+  });
+
+  it("rejects unknown, empty, and absent values", () => {
+    for (const input of ["12h", "NOW", "", null, undefined]) {
+      expect(parseEventsWindow(input)).toBeNull();
+    }
+  });
+});
+
+describe("resolveEventsWindow", () => {
+  it("defaults to 'now' when the value is unusable", () => {
+    expect(resolveEventsWindow(null)).toBe("now");
+    expect(resolveEventsWindow("bogus")).toBe("now");
+    expect(resolveEventsWindow("24h")).toBe("24h");
+  });
+});
+
+describe("eventsWindowFilter", () => {
+  // 2026-06-11T12:00:00Z, chosen arbitrarily; the filter only depends on the passed-in clock.
+  const NOW_MS = 1781179200_000;
+  const NOW_S = 1781179200;
+
+  it("keeps only currently-running events for the 'now' window", () => {
+    expect(eventsWindowFilter("now", NOW_MS)).toEqual([
+      "all",
+      ["<=", ["get", "starts_at_epoch"], NOW_S],
+      [">=", ["get", "ends_at_epoch"], NOW_S],
+    ]);
+  });
+
+  it("extends the latest accepted start by 24 hours for the '24h' window", () => {
+    expect(eventsWindowFilter("24h", NOW_MS)).toEqual([
+      "all",
+      ["<=", ["get", "starts_at_epoch"], NOW_S + 24 * 3600],
+      [">=", ["get", "ends_at_epoch"], NOW_S],
+    ]);
+  });
+
+  it("truncates sub-second clocks towards the past so boundary events stay visible", () => {
+    const [, [, , latestStart]] = eventsWindowFilter("now", NOW_MS + 999);
+    expect(latestStart).toBe(NOW_S);
   });
 });
 

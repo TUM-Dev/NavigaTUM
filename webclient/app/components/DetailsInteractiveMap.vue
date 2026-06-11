@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { mdiClose } from "@mdi/js";
-import { onKeyStroke, until } from "@vueuse/core";
+import { until } from "@vueuse/core";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -31,13 +30,7 @@ const isMobile = useIsMobile();
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
-const { t } = useI18n({ useScope: "local" });
-
 const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map);
-
-onKeyStroke("Escape", () => {
-  if (activeEvent.value) closeActiveEvent();
-});
 
 const initialLoaded = ref(false);
 
@@ -205,44 +198,9 @@ onMounted(async () => {
     />
     <LazyMapGLNotSupported v-else />
 
-    <div
-      v-if="!isMobile && activeEvent && markerScreenPos"
-      class="pointer-events-none absolute z-20"
-      :style="{ left: `${markerScreenPos.x}px`, top: `${markerScreenPos.y}px` }"
-    >
-      <div class="pointer-events-auto relative -mt-3 -translate-x-1/2 -translate-y-full">
-        <button
-          type="button"
-          :aria-label="t('close')"
-          class="focusable bg-zinc-900/70 hover:bg-zinc-900/90 text-white absolute end-1.5 top-1.5 z-10 flex h-7 w-7 items-center justify-center rounded-full backdrop-blur-sm"
-          @click="closeActiveEvent"
-        >
-          <MdiIcon :path="mdiClose" :size="14" />
-        </button>
-        <EventPopupCard
-          :name="activeEvent.name"
-          :description="activeEvent.description"
-          :image-path="activeEvent.imagePath"
-          :image-author="activeEvent.imageAuthor"
-          :starts-at="activeEvent.startsAt"
-          :ends-at="activeEvent.endsAt"
-          :org-code="activeEvent.orgCode"
-          :org-name-de="activeEvent.orgNameDe"
-          :org-name-en="activeEvent.orgNameEn"
-        />
-      </div>
-    </div>
-
-    <EventPopupMobileSheet :event="isMobile ? activeEvent : null" @close="closeActiveEvent" />
+    <EventPopupOverlay :event="activeEvent" :screen-pos="markerScreenPos" @close="closeActiveEvent" />
   </div>
 </template>
-
-<i18n lang="yaml">
-de:
-  close: Veranstaltungsdetails schließen
-en:
-  close: Close event details
-</i18n>
 
 <style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";

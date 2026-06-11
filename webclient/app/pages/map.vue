@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { until } from "@vueuse/core";
-import type { AllPaintProperties, MapGeoJSONFeature, MapLayerMouseEvent } from "maplibre-gl";
+import { until, useIntervalFn } from "@vueuse/core";
+import type {
+  AllPaintProperties,
+  FilterSpecification,
+  MapGeoJSONFeature,
+  MapLayerMouseEvent,
+} from "maplibre-gl";
 import {
   FullscreenControl,
   GeolocateControl,
@@ -11,14 +16,23 @@ import {
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
+  DEFAULT_EVENTS_WINDOW,
+  EVENTS_FILTER_ID,
+  EVENTS_STYLE_LAYER,
+  EVENTS_WINDOW_QUERY_PARAM,
+  EVENTS_WINDOWS,
+  type EventsWindow,
+  eventsWindowFilter,
   FILTER_QUERY_PARAM,
   FILTER_REGISTRY,
   LEVEL_QUERY_PARAM,
   PANEL_COLLAPSED_STORAGE_KEY,
   resolveActiveFilters,
+  resolveEventsWindow,
   resolveLevel,
   serializeFilters,
 } from "~/composables/mapLayers";
+import { useEventPopup } from "~/composables/useEventMarkers";
 import { useWebglGuard } from "~/composables/webglSupport";
 
 definePageMeta({ layout: "navigation" });
@@ -67,6 +81,9 @@ const currentZoom = ref(INITIAL_ZOOM);
 // Reassigned wholesale so the panel's `Set` prop changes identity.
 const activeFilters = ref<Set<string>>(new Set());
 const panelCollapsed = ref(false);
+const eventsWindow = ref<EventsWindow>(DEFAULT_EVENTS_WINDOW);
+
+const { activeEvent, markerScreenPos, closeActiveEvent } = useEventPopup(map, EVENTS_STYLE_LAYER);
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
 const originalPaint = new Map<string, OpacityValue | undefined>();
@@ -87,11 +104,11 @@ function setQueryParam(key: string, value: string | null): void {
   window.history.replaceState(window.history.state, "", url.toString());
 }
 
-/** The `indoor` values the active filters keep vibrant. */
+/** The `indoor` values the active indoor filters keep vibrant. */
 function vibrantIndoorValues(): string[] {
-  return FILTER_REGISTRY.filter((f) => activeFilters.value.has(f.id)).flatMap((f) => [
-    ...f.indoorValues,
-  ]);
+  return FILTER_REGISTRY.flatMap((f) =>
+    f.kind === "indoor" && activeFilters.value.has(f.id) ? [...f.indoorValues] : []
+  );
 }
 
 function rememberPaint(m: MapLibreMap, id: string, prop: OpacityProp): void {
@@ -146,6 +163,27 @@ function applyFilterDim(): void {
   }
 }
 
+/** Show the overlay filters' style layers while active; they ship hidden in the basemap style. */
+function applyOverlayVisibility(): void {
+  const m = map.value;
+  if (!m) return;
+  for (const filter of FILTER_REGISTRY) {
+    if (filter.kind !== "overlay") continue;
+    const visibility = activeFilters.value.has(filter.id) ? "visible" : "none";
+    for (const layer of filter.styleLayers) {
+      if (m.getLayer(layer)) m.setLayoutProperty(layer, "visibility", visibility);
+    }
+  }
+}
+
+/** Restrict the events layer to the selected time window, evaluated against the current clock. */
+function applyEventsFilter(): void {
+  const m = map.value;
+  if (!m?.getLayer(EVENTS_STYLE_LAYER)) return;
+  const filter = eventsWindowFilter(eventsWindow.value, Date.now());
+  m.setFilter(EVENTS_STYLE_LAYER, filter as FilterSpecification);
+}
+
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -159,7 +197,21 @@ watch(activeFilters, (filters) => {
   // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
+  applyOverlayVisibility();
+  // The popup belongs to the events layer; it must not outlive the layer being switched off.
+  if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
+
+watch(eventsWindow, (window) => {
+  // Drop the param at the "now" default, so a bare /map URL stays clean.
+  setQueryParam(EVENTS_WINDOW_QUERY_PARAM, window === DEFAULT_EVENTS_WINDOW ? null : window);
+  applyEventsFilter();
+  closeActiveEvent();
+});
+
+// The window filter compares against the clock at evaluation time; re-evaluate it periodically so
+// markers drop off as their events end while the page stays open.
+useIntervalFn(applyEventsFilter, 60_000);
 
 watch(panelCollapsed, (collapsed) => {
   localStorage.setItem(PANEL_COLLAPSED_STORAGE_KEY, collapsed ? "1" : "0");
@@ -276,6 +328,8 @@ function initMap(): MapLibreMap {
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
     applyFilterDim();
+    applyOverlayVisibility();
+    applyEventsFilter();
 
     m.on("click", POI_LAYER, openPoiPopup);
     m.on("mouseenter", POI_LAYER, () => {
@@ -299,6 +353,7 @@ onMounted(async () => {
     urlParam: queryString(FILTER_QUERY_PARAM),
     stored: localStorage.getItem(ACTIVE_FILTERS_STORAGE_KEY),
   });
+  eventsWindow.value = resolveEventsWindow(queryString(EVENTS_WINDOW_QUERY_PARAM));
   panelCollapsed.value = localStorage.getItem(PANEL_COLLAPSED_STORAGE_KEY) === "1";
   // <ClientOnly> mounts its slot after this hook fires, so wait for the container to exist.
   await until(mapContainer).toBeTruthy();
@@ -326,6 +381,33 @@ onBeforeUnmount(() => {
           :zoom="currentZoom"
           @toggle="toggleFilter"
           @update:collapsed="(v) => (panelCollapsed = v)"
+        >
+          <template #filter-events>
+            <fieldset class="px-2 pb-1">
+              <legend class="sr-only">{{ t("events_window.legend") }}</legend>
+              <div class="flex flex-col gap-1 ps-7">
+                <label
+                  v-for="window in EVENTS_WINDOWS"
+                  :key="window"
+                  class="text-zinc-600 dark:text-zinc-300 flex cursor-pointer items-center gap-2 text-sm"
+                >
+                  <input
+                    type="radio"
+                    name="events-window"
+                    class="h-3.5 w-3.5 accent-blue-600 dark:accent-blue-400"
+                    :checked="eventsWindow === window"
+                    @change="eventsWindow = window"
+                  />
+                  {{ t(`events_window.${window}`) }}
+                </label>
+              </div>
+            </fieldset>
+          </template>
+        </MapLayerPanel>
+        <EventPopupOverlay
+          :event="activeEvent"
+          :screen-pos="markerScreenPos"
+          @close="closeActiveEvent"
         />
       </template>
       <MapGLNotSupported v-else />
@@ -336,7 +418,11 @@ onBeforeUnmount(() => {
 <i18n lang="yaml">
 de:
   title: Karte
-  description: Durchsuche die TUM-Karte und filtere nach Orten wie Toiletten und Duschen.
+  description: Durchsuche die TUM-Karte und filtere nach Orten wie Toiletten, Duschen und Veranstaltungen.
+  events_window:
+    legend: Zeitfenster für Veranstaltungen
+    now: Gerade aktiv
+    24h: Nächste 24 Stunden
   edit_in_osm: In OpenStreetMap bearbeiten
   wheelchair_accessible: Rollstuhlgerecht
   poi:
@@ -349,7 +435,11 @@ de:
     unisex: Unisex
 en:
   title: Map
-  description: Browse the TUM map and filter for places such as toilets and showers.
+  description: Browse the TUM map and filter for places such as toilets, showers, and events.
+  events_window:
+    legend: Time window for events
+    now: Happening now
+    24h: Next 24 hours
   edit_in_osm: Edit in OpenStreetMap
   wheelchair_accessible: Wheelchair accessible
   poi:
