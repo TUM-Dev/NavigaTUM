@@ -34,9 +34,6 @@ function parsePositiveInt(value: unknown): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
-// Seed the form from the URL query so a shared link like
-// `/feedback/new?kind=event&org=123` pre-selects the event tab and the
-// organisation without any user interaction.
 function draftFromQuery(): AdditionDraft {
   const kind = parseKind(route.query.kind);
   if (!kind) return emptyAdditionDraft();
@@ -49,19 +46,14 @@ function draftFromQuery(): AdditionDraft {
   return additionRegistry[kind].empty();
 }
 
-// Snapshot the query once at setup time.
-// Subsequent URL changes on this page are emitted by us as the user edits.
 const initialDraft = draftFromQuery();
 
-// When the URL pins an organisation, block setup on the orgs CDN so the
-// Combobox resolves the selection on first render. Other kinds and event
-// without `?org=` skip this and get a non-blocking lazy fetch as before.
+// Wait so the Combobox can resolve the pre-set selection on first render.
 if (initialDraft.kind === "event" && initialDraft.organising_org_id !== null) {
   await useKnownOrgs().ready();
 }
 
-// router.replace fires inside watch callbacks during the unmount lifecycle
-// would race with the outgoing navigation, so gate writes on a mounted flag.
+// router.replace inside a watch during unmount races with the outgoing navigation.
 let pageActive = false;
 onMounted(() => {
   pageActive = true;
@@ -112,7 +104,7 @@ const canSubmit = computed(() => {
 
 async function send() {
   const built = formRef.value?.validateAndBuild();
-  if (!built) return; // the form surfaces its own draft-level error.
+  if (!built) return;
   const ok = await submission.submit(
     { edits: {}, additions: { [built.id]: built.addition } },
     privacyChecked.value

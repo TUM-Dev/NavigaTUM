@@ -20,9 +20,6 @@ const FETCH_KEY = "known-orgs";
 const FETCH_PATH = "/cdn/known_orgs.json";
 
 export function useKnownOrgs() {
-  // Explicit global scope so we don't collide with the consuming component's
-  // own `useI18n({useScope: "local"})` (the bare call would default to 'local'
-  // when the consumer has an <i18n> block).
   const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 
@@ -73,8 +70,6 @@ export function useKnownOrgs() {
     byId,
     filter,
     maxResults: MAX_RESULTS,
-    // Awaitable underlying fetch. Resolves once the orgs CDN has settled, useful
-    // at page setup so byId() can resolve a pre-set selection on first render.
     ready: () => handle,
   };
 }

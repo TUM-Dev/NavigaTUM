@@ -137,9 +137,6 @@ export function isStopCancelled(entry: StopTimeEntry): boolean {
 }
 
 export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
-  // Explicit global scope so we don't collide with the consuming component's
-  // own `useI18n({useScope: "local"})` (the bare call would default to 'local'
-  // when the consumer has an <i18n> block).
   const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 

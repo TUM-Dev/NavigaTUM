@@ -20,13 +20,7 @@ type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 
 const props = withDefaults(
   defineProps<{
-    // Seed the draft on mount instead of starting empty. Used by the full-page
-    // /feedback/new flow to hydrate from URL query parameters so links can pin a
-    // specific kind (and event organisation).
     initialDraft?: AdditionDraft;
-    // Hide the form's own action row (cancel / "Add entry" / "…and add an image").
-    // The /feedback/new page renders its own privacy + Send affordance below the
-    // form, so the two-step modal flow doesn't apply there.
     embedded?: boolean;
   }>(),
   { embedded: false }
@@ -260,11 +254,6 @@ function displayNameOf(draft: AdditionDraft): string {
 
 type Addition = ReturnType<typeof buildAddition>;
 
-// Validates the current draft and returns the structured addition without mutating
-// shared state. Callers that want the modal's "queue then submit" flow then push
-// the result into editProposal.data.additions (see commitDraft); callers that
-// submit directly (the /feedback/new page) post the result and only clear the
-// draft on success.
 function validateAndBuild():
   | { id: string; displayName: string; addition: NonNullable<Addition> }
   | null {
@@ -307,12 +296,8 @@ function clearPending() {
 }
 
 defineExpose({
-  // Validate the draft and return the structured addition without writing to
-  // editProposal.data.additions. Page-embedded callers POST this directly and
-  // only call clearPending() after a 201.
   validateAndBuild,
   clearPending,
-  // Reactive validity signal so the parent can pre-disable a Send button.
   draftIsReady,
 });
 
@@ -406,11 +391,8 @@ provide("addProposal:idValidation", {
   collides: idCollidesOnServer,
 });
 
-// Seed the draft at setup so SSR and the initial client render already see the
-// right kind. Doing this in onMounted instead would flash the empty (room) tab
-// and render kind-gated elements like the "commit with image" button before
-// hydration corrects them. Also clears any half-finished entry left over from a
-// previous session (modal close or page navigation).
+// Seed at setup so SSR and the initial client render see the right kind; doing
+// this in onMounted flashes the default tab and kind-gated elements.
 editProposal.value.pendingAddition = props.initialDraft ?? emptyAdditionDraft();
 localError.value = "";
 onBeforeUnmount(() => {

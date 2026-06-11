@@ -53,10 +53,8 @@ function resetFormData() {
 }
 
 async function sendForm() {
-  // Let the parent inject property edits assembled from sub-forms before we serialize.
   emit("beforeSubmit");
 
-  // Validate the foreign form: require context, edits, or additions.
   const hasContext = editProposal.value.data.additional_context.length >= 10;
   const hasEdits = Object.keys(editProposal.value.data.edits).length > 0;
   const hasAdditions = Object.keys(editProposal.value.data.additions).length > 0;
@@ -76,7 +74,6 @@ async function sendForm() {
   if (ok) {
     resetFormData();
   } else {
-    // Errors scroll the user back to the top of the modal so they don't miss them.
     document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
   }
 }
