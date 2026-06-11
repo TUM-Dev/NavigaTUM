@@ -1206,10 +1206,6 @@ export type components = {
        *
        *     The client maps them to localized text via its own label dictionary so prices and
        *     labels stay in sync without a server round-trip on language change.
-       * @example [
-       *       "GLUTEN",
-       *       "LACTOSE"
-       *     ]
        */
       readonly labels: readonly string[];
       /**

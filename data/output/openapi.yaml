@@ -2151,14 +2151,14 @@ components:
           type: array
           items:
             type: string
+            examples:
+              - - GLUTEN
+                - LACTOSE
           description: |-
             Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
 
             The client maps them to localized text via its own label dictionary so prices and
             labels stay in sync without a server round-trip on language change.
-          examples:
-            - - GLUTEN
-              - LACTOSE
         name:
           type: string
           description: Dish title in the upstream language (German).
@@ -2182,7 +2182,7 @@ components:
           format: double
           description: Flat amount in Euros charged before any unit upcharge.
           examples:
-            - 1.0
+            - 1
         price_per_unit:
           type:
             - number
