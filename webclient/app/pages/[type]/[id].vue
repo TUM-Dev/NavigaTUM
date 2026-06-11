@@ -2,6 +2,7 @@
 import { useSwipe } from "@vueuse/core";
 import type { components } from "~/api_types";
 import DetailsContentSidebar from "~/components/DetailsContentSidebar.vue";
+import { clientOnlyRetries } from "~/composables/common";
 import { useEditProposal } from "~/composables/editProposal";
 
 const VALID_TYPE_RE = /^(campus|site|building|room|poi)$/;
@@ -28,7 +29,7 @@ const url = computed(
 const { data, error } = await useFetch<LocationDetailsResponse, string>(url, {
   dedupe: "cancel",
   credentials: "omit",
-  retry: 120,
+  retry: clientOnlyRetries(120),
   retryDelay: 1000,
 });
 

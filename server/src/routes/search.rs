@@ -12,6 +12,7 @@ use actix_web::{FromRequest, HttpRequest, HttpResponse, get, web};
 use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
 use std::future::{Ready, ready};
+use strum::EnumCount as _;
 use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr as _;
@@ -530,10 +531,11 @@ pub async fn search_handler(data: web::Data<AppData>, args: SearchQueryArgs) -> 
 
     debug!(?results_sections, "searching returned");
 
-    if results_sections.len() > 5 {
+    if results_sections.len() > ResultFacet::COUNT {
         error!(
             returned_section_cnt = results_sections.len(),
-            "searching did not return expected the amount of sections it expected",
+            max_section_cnt = ResultFacet::COUNT,
+            "searching returned more sections than there are facets",
         );
         return HttpResponse::InternalServerError()
             .content_type("text/plain")

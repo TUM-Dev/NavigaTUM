@@ -2,6 +2,7 @@
 import { mdiCrosshairsGps, mdiMagnify } from "@mdi/js";
 import { useRouteQuery } from "@vueuse/router";
 import type { operations } from "~/api_types";
+import { clientOnlyRetries } from "~/composables/common";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { type ResultsSectionFacet, tagSectionEntries } from "~/utils/lectureRow";
 
@@ -171,7 +172,7 @@ const url = computed(() => {
 const { data, error } = await useFetch<SearchResponse>(url, {
   dedupe: "cancel",
   credentials: "omit",
-  retry: 120,
+  retry: clientOnlyRetries(120),
   retryDelay: 1000,
 });
 </script>

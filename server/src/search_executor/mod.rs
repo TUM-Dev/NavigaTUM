@@ -3,6 +3,7 @@ use meilisearch_sdk::client::Client;
 use parser::TextToken;
 use serde::Serialize;
 use std::fmt::{self, Debug, Formatter};
+use strum::EnumCount as _;
 use tracing::error;
 
 use crate::external::meilisearch::{GeoEntryQuery, LocationEntryType, MSHit, UpcomingEvent};
@@ -20,7 +21,7 @@ mod parser;
 /// The facet a [`ResultsSection`] groups - its identity in the merge ordering
 /// and the discriminator serialized as the section's `facet` tag. Internal; the
 /// wire form is generated from the [`ResultsSection`] variants.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, strum::EnumCount)]
 pub enum ResultFacet {
     Sites,
     Buildings,
@@ -387,7 +388,7 @@ pub async fn do_geoentry_search(
     let mut pois_opt = Some(ResultsSection::Pois(section_pois));
     let mut lectures_opt = Some(ResultsSection::Lectures(section_lectures));
 
-    let mut sections: Vec<ResultsSection> = Vec::with_capacity(5);
+    let mut sections: Vec<ResultsSection> = Vec::with_capacity(ResultFacet::COUNT - 1);
     for facet in &facet_order {
         let taken = match facet {
             ResultFacet::Sites => sites_opt.take(),
@@ -420,6 +421,8 @@ mod test {
         reason = "tests assert via panic/unwrap and reference absolute paths to fixtures"
     )]
     use std::fmt::{self, Display, Formatter};
+
+    use strum::EnumCount as _;
 
     use super::*;
     use crate::routes::search::{CroppingMode, Highlighting, ParsedIdMode};
@@ -1040,6 +1043,9 @@ mod test {
             vec![],
         )
         .await;
+
+        // One section per non-address facet; the handler appends the address section.
+        assert_eq!(results.0.len(), ResultFacet::COUNT - 1);
 
         let lectures = results
             .0

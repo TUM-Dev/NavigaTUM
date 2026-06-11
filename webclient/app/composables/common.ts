@@ -13,3 +13,8 @@ export function allValues(value: LocationQueryValue | LocationQueryValue[]): str
   if (Array.isArray(value)) return value.filter((v): v is string => v !== null);
   return [value];
 }
+
+// During SSR, retrying a 5xx would stall the whole page render.
+export function clientOnlyRetries(retries: number): number | false {
+  return import.meta.server ? false : retries;
+}
