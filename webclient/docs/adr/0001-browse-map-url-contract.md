@@ -1,15 +1,3 @@
 # `/map` URL contract: viewport + filter, no identity
 
-The Browse map's URL is **MapLibre `#zoom/lat/lng` hash + `?filter=` + `?level=`** - no `focus_id`, no entity identity. Bridges from search and detail pages encode the parent Entity's `coords` directly in the hash, so links are resolvable client-side from data the source page already has. Identity is the detail page's job (`/{type}/{id}`); the Browse map stays a stateless explore surface.
-
-## Considered options
-
-- **Coords-only** (chosen). No new contract; no API call on Browse-map load; sidesteps the OSM-POI-has-no-NavigaTUM-id problem because we never claim identity here.
-- **`?focus=<id>`**. Adds a server round-trip and a loading state to a page that is currently zero-API-call, and forces an id-space decision (NavigaTUM / OSM / event). Layerable later as an additive enhancement if highlights become wanted.
-- **Hybrid hash + `?focus=`**. Two contracts, marginal benefit while no highlight exists.
-
-## Consequences
-
-- All Browse-map links from elsewhere carry zero identity.
-- A future "highlight this entity" feature is an additive change, not a breaking redesign.
-- POI markers stay coordinate-anchored OSM features.
+`/map` is `#zoom/lat/lng` (MapLibre hash) + `?filter=` + `?level=`. No `focus_id`, no entity id. `/map` is the stateless explore surface; identity belongs to `/{type}/{id}`. Bridges from detail pages already encode the parent Entity's coords client-side, so `/map` makes no API call on load. A `?focus=<id>` resolving to a NavigaTUM id can be added later additively if highlights become wanted - POI markers carry their NavigaTUM id via the OSM `ref:tum` tag, not yet propagated through `style.lua` into the MVT.
