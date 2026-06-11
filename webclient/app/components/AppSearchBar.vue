@@ -2,6 +2,7 @@
 import { mdiMagnify, mdiMagnifyClose } from "@mdi/js";
 import type { components } from "~/api_types";
 import SearchResultRow from "~/components/SearchResultRow.vue";
+import { categoriesForQuery, FILTER_QUERY_PARAM, type FilterId } from "~/composables/mapLayers";
 import { useSearchDropdownNav } from "~/composables/searchDropdownNav";
 import { useStagedSearchFilters } from "~/composables/searchFilters";
 import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
@@ -24,7 +25,8 @@ const searchInput = useTemplateRef<HTMLTextAreaElement>("searchInput");
 const { focused: wrapperFocused } = useFocusWithin(searchWrapper);
 
 const sections = computed(() => data.value?.sections);
-const nav = useSearchDropdownNav(sections);
+const shortcutCategories = computed(() => categoriesForQuery(query.value));
+const nav = useSearchDropdownNav(sections, shortcutCategories);
 const { expandedFacets, highlighted, highlightedEntry, lectureNav } = nav;
 provide(LectureNavKey, lectureNav);
 
@@ -40,6 +42,11 @@ watch(searchBarFocused, (focused) => {
 function resultHighlighted(entry: SearchResultEntry): boolean {
   const current = highlightedEntry.value;
   return current?.kind === "result" && current.entry.id === entry.id;
+}
+
+function shortcutHighlighted(category: FilterId): boolean {
+  const current = highlightedEntry.value;
+  return current?.kind === "category_shortcut" && current.category === category;
 }
 
 const hasNoResults = computed(
@@ -85,6 +92,18 @@ async function goToEvent(event: UpcomingEvent): Promise<void> {
   searchInput.value?.blur();
 }
 
+async function goToCategory(category: FilterId): Promise<void> {
+  await navigateTo({ path: localePath("/map"), query: { [FILTER_QUERY_PARAM]: category } });
+  query.value = "";
+  searchInput.value?.blur();
+}
+
+// The shortcut's own link handles mouse navigation; only reset the bar here.
+function onShortcutFollowed(): void {
+  query.value = "";
+  searchInput.value?.blur();
+}
+
 function closeSearchBar(): void {
   // Blur whichever descendant holds focus so useFocusWithin flips shut.
   const active = document.activeElement;
@@ -115,6 +134,8 @@ function onKeyDown(e: KeyboardEvent): void {
       const entry = highlightedEntry.value;
       if (!entry) {
         searchGo(false);
+      } else if (entry.kind === "category_shortcut") {
+        goToCategory(entry.category);
       } else if (entry.kind === "result") {
         searchGoTo(entry.entry);
       } else if (entry.kind === "event") {
@@ -197,6 +218,16 @@ const { data, error } = useFetch<SearchResponse>(url, {
             <SearchSortControl :filters="filters" />
           </div>
         </div>
+        <ul v-if="shortcutCategories.length" class="flex flex-col gap-2">
+          <SearchCategoryShortcut
+            v-for="category in shortcutCategories"
+            :key="category"
+            :category="category"
+            :highlighted="shortcutHighlighted(category)"
+            @click="onShortcutFollowed"
+            @mouseover="highlighted = undefined"
+          />
+        </ul>
         <Toast v-if="error" id="search-error" level="error">
           <p class="text-md font-bold">{{ t("error.header") }}</p>
           <p class="text-sm">

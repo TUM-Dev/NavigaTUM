@@ -2,6 +2,7 @@
 import type { components } from "~/api_types";
 import SearchSectionList from "~/components/SearchSectionList.vue";
 import { firstOrDefault } from "~/composables/common";
+import { categoriesForQuery } from "~/composables/mapLayers";
 import { useSearchFilters } from "~/composables/searchFilters";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
@@ -13,6 +14,7 @@ const feedback = useFeedback();
 const filters = useSearchFilters();
 
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
+const shortcutCategories = computed(() => categoriesForQuery(query_q.value));
 const query_limit_sites = computed<number>(() =>
   Number.parseInt(firstOrDefault(route.query.limit_sites, "10"), 10)
 );
@@ -118,6 +120,13 @@ useSeoMeta({
         <SearchSortControl :filters="filters" />
       </div>
     </div>
+    <ul v-if="shortcutCategories.length" class="flex flex-col gap-2">
+      <SearchCategoryShortcut
+        v-for="category in shortcutCategories"
+        :key="category"
+        :category="category"
+      />
+    </ul>
     <ClientOnly>
       <SearchSectionList
         :data="data"
