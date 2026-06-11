@@ -217,7 +217,9 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         type="text"
         :placeholder="t('name_placeholder')"
         class="focusable input-field w-full rounded border px-2 py-1 text-sm"
+        :class="errorFor('name') ? '!border-red-500 dark:!border-red-400' : ''"
       />
+      <p v-if="errorFor('name')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("name") }}</p>
     </div>
 
     <div>
@@ -230,7 +232,9 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         rows="3"
         :placeholder="t('description_placeholder')"
         class="focusable input-field w-full resize-y rounded border px-2 py-1 text-sm"
+        :class="errorFor('description') ? '!border-red-500 dark:!border-red-400' : ''"
       />
+      <p v-if="errorFor('description')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("description") }}</p>
       <p class="text-zinc-500 dark:text-zinc-400 mt-1 text-xs">{{ t("description_help") }}</p>
     </div>
 
@@ -327,6 +331,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
           </Transition>
         </div>
       </Combobox>
+      <p v-if="errorFor('organising_org_id')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("organising_org_id") }}</p>
     </div>
 
     <div>
@@ -344,6 +349,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
       <p v-if="draft.coords.picked" class="text-zinc-600 dark:text-zinc-300 mt-1 text-xs">
         {{ draft.coords.lat.toFixed(5) }}, {{ draft.coords.lon.toFixed(5) }}
       </p>
+      <p v-else-if="errorFor('coords.picked')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("coords.picked") }}</p>
     </div>
 
     <div>
@@ -417,7 +423,9 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         type="text"
         :placeholder="t('image_author_placeholder')"
         class="focusable input-field w-full rounded border px-2 py-1 text-sm"
+        :class="errorFor('image_author') ? '!border-red-500 dark:!border-red-400' : ''"
       />
+      <p v-if="errorFor('image_author')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("image_author") }}</p>
     </div>
 
     <div class="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-700 flex items-start gap-2 rounded border p-3">
@@ -487,6 +495,7 @@ de:
     event_too_far_out: Der Beginn liegt mehr als ein Jahr in der Zukunft.
     event_too_long: Die Veranstaltung darf höchstens 30 Tage dauern.
     org_required: Bitte wähle eine Organisation aus.
+    coords_required: Bitte wähle einen Ort auf der Karte aus.
     image_required: Bitte lade ein Bild hoch.
     image_too_small: Das Bild muss mindestens 256px auf der kürzeren Seite haben.
     image_author_required: Bitte gib die Urheber:in des Bildes an.
@@ -535,6 +544,7 @@ en:
     event_too_far_out: The start is more than a year in the future.
     event_too_long: The event may last at most 30 days.
     org_required: Please choose an organisation.
+    coords_required: Please pick a location on the map.
     image_required: Please upload an image.
     image_too_small: The image must be at least 256px on its shorter edge.
     image_author_required: Please enter the image author.

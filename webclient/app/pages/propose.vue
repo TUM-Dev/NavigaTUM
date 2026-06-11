@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { LocationQueryRaw } from "vue-router";
+import AddProposalForm from "~/components/AddProposalForm.vue";
 import {
-  type Addition,
   type AdditionDraft,
   type AdditionKind,
   additionRegistry,
@@ -9,6 +9,7 @@ import {
 } from "~/composables/additionSchema";
 import { firstOrDefault } from "~/composables/common";
 import { useFeedbackSubmission } from "~/composables/feedbackSubmission";
+import { submissionBlock } from "~/composables/submissionGate";
 import { useKnownOrgs } from "~/composables/useKnownOrgs";
 
 const { t } = useI18n({ useScope: "local" });
@@ -82,23 +83,30 @@ watch(
   }
 );
 
-const formRef = ref<{
-  validateAndBuild(): {
-    id: string;
-    displayName: string;
-    addition: NonNullable<Addition>;
-  } | null;
-  clearPending(): void;
-  draftIsReady: { value: boolean };
-} | null>(null);
+const formRef = ref<InstanceType<typeof AddProposalForm> | null>(null);
 
 const privacyChecked = ref(false);
 
-const canSubmit = computed(() => {
-  if (submission.submitting.value || submission.successUrl.value) return false;
-  if (submission.blockedByToken.value) return false;
-  if (!privacyChecked.value) return false;
-  return formRef.value?.draftIsReady.value === true;
+const sendBlock = computed(() =>
+  submissionBlock({
+    submitting: submission.submitting.value,
+    succeeded: Boolean(submission.successUrl.value),
+    blockedByToken: submission.blockedByToken.value,
+    draftReady: formRef.value?.draftIsReady === true,
+    privacyChecked: privacyChecked.value,
+  })
+);
+const canSubmit = computed(() => sendBlock.value === null);
+
+const blockingReason = computed(() => {
+  switch (sendBlock.value) {
+    case "incomplete_fields":
+      return t("blocked_incomplete");
+    case "consent_missing":
+      return t("blocked_consent");
+    default:
+      return null;
+  }
 });
 
 async function send() {
@@ -137,14 +145,19 @@ async function cancel() {
         <FeedbackConsentCheckbox v-model="privacyChecked" />
       </div>
 
-      <div class="float-right mt-6 flex flex-row-reverse gap-2">
-        <FeedbackSubmitButton
-          :submitting="submission.submitting.value"
-          :blocked="submission.blockedByToken.value"
-          :disabled="!canSubmit"
-          @click="send"
-        />
-        <Btn variant="linkButton" size="md" @click="cancel">{{ t("cancel") }}</Btn>
+      <div class="mt-6 flex flex-col items-end gap-2">
+        <p v-if="blockingReason" class="text-amber-700 dark:text-amber-300 text-right text-xs">
+          {{ blockingReason }}
+        </p>
+        <div class="flex flex-row-reverse gap-2">
+          <FeedbackSubmitButton
+            :submitting="submission.submitting.value"
+            :blocked="submission.blockedByToken.value"
+            :disabled="!canSubmit"
+            @click="send"
+          />
+          <Btn variant="linkButton" size="md" @click="cancel">{{ t("cancel") }}</Btn>
+        </div>
       </div>
     </template>
 
@@ -174,6 +187,8 @@ async function cancel() {
 de:
   title: Neuen Eintrag vorschlagen
   description: Schlage einen neuen Raum, ein neues Gebäude, einen POI oder eine Veranstaltung für NavigaTUM vor.
+  blocked_incomplete: Bitte fülle alle hervorgehobenen Pflichtfelder aus, um den Vorschlag zu senden.
+  blocked_consent: Bitte akzeptiere die Datenschutzerklärung, um den Vorschlag zu senden.
   cancel: Abbrechen
   back_home: Zur Startseite
   thank_you: Vielen Dank!
@@ -183,6 +198,8 @@ de:
 en:
   title: Propose a new entry
   description: Propose a new room, building, POI, or event for NavigaTUM.
+  blocked_incomplete: Please complete all highlighted required fields to send the proposal.
+  blocked_consent: Please accept the privacy statement to send the proposal.
   cancel: Cancel
   back_home: Back to home
   thank_you: Thank you!
