@@ -126,7 +126,7 @@ async function cancel() {
 
       <Toast
         v-if="submission.submitError.value"
-        id="feedback-new-error"
+        id="propose-error"
         class="my-4"
         :msg="submission.submitError.value"
         level="error"
