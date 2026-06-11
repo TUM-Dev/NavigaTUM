@@ -1,12 +1,14 @@
 // Mirrors the Rust validators in `server/src/routes/feedback/proposed_edits/addition/`.
 // Adding a kind means appending one variant block and one `additionRegistry` row.
 
+import type { DeepWritable } from "ts-essentials";
 import { z } from "zod";
 import type { components } from "~/api_types";
 import { wallTimeToRfc3339 } from "~/utils/datetime";
 
 type BuildingKind = components["schemas"]["BuildingKind"];
-type Addition = components["schemas"]["LimitedHashMap_String_Addition"][string];
+// openapi-typescript marks everything readonly, but the builders below produce fresh literals destined for the writable EditRequest map.
+export type Addition = DeepWritable<components["schemas"]["LimitedHashMap_String_Addition"][string]>;
 
 const MAX_NAME_LEN = 200;
 const MAX_POI_KEY_LEN = 64;
@@ -136,8 +138,7 @@ function buildRoom(draft: RoomDraft): Addition {
         }
       : null;
   const links = draft.room_links.filter((l) => l.url.trim());
-  // The schema guarantees `usage_id` is set.
-  // Cast keeps the build signature non-nullable.
+  // Schema guarantees `usage_id`; cast keeps the build signature non-nullable.
   return {
     kind: "room",
     parent_building_id: draft.parent_id,
@@ -148,8 +149,7 @@ function buildRoom(draft: RoomDraft): Addition {
     seats,
     floor_type: draft.floor_type || null,
     floor_level: draft.floor_level || null,
-    // Address is omitted on purpose.
-    // The server inherits it from the parent building.
+    // Address is inherited from the parent building on the server.
     address: null,
     links: links.length > 0 ? links : undefined,
   } as Addition;
@@ -453,7 +453,6 @@ export function isAdditionValid(draft: AdditionDraft): boolean {
 
 export function buildAddition(draft: AdditionDraft): Addition | null {
   if (draft.kind === null) return null;
-  // TS can't see that `draft` and the registry entry share their kind discriminant.
-  // The registry's per-kind typing guarantees the cast is sound.
+  // TS can't narrow `draft` against the registry entry by the shared kind discriminant.
   return (additionRegistry[draft.kind].build as (d: AdditionDraft) => Addition)(draft);
 }

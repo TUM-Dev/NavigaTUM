@@ -137,7 +137,7 @@ export function isStopCancelled(entry: StopTimeEntry): boolean {
 }
 
 export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
-  const { locale } = useI18n();
+  const { locale } = useI18n({ useScope: "global" });
   const runtimeConfig = useRuntimeConfig();
 
   const { data } = await useFetch<NearbyLocationsResponse, string>(

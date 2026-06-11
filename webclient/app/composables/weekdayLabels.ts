@@ -1,40 +1,43 @@
 import type { OpeningHoursWeekday } from "~/utils/openingHoursEditor";
 
-// Localized weekday names for the opening-hours schedule editors, in one place
-// so WeekScheduleInput and SemesterScheduleInput never drift apart. Uses its own
-// local i18n scope (the same mechanism an SFC `<i18n>` block compiles to), so the
-// labels track the active locale without polluting the global message catalog.
-export function useWeekdayLabels() {
-  const { t } = useI18n({
-    useScope: "local",
-    messages: {
-      de: {
-        Mo: "Montag",
-        Tu: "Dienstag",
-        We: "Mittwoch",
-        Th: "Donnerstag",
-        Fr: "Freitag",
-        Sa: "Samstag",
-        Su: "Sonntag",
-      },
-      en: {
-        Mo: "Monday",
-        Tu: "Tuesday",
-        We: "Wednesday",
-        Th: "Thursday",
-        Fr: "Friday",
-        Sa: "Saturday",
-        Su: "Sunday",
-      },
+const MESSAGES = {
+  de: {
+    weekdayLabels: {
+      Mo: "Montag",
+      Tu: "Dienstag",
+      We: "Mittwoch",
+      Th: "Donnerstag",
+      Fr: "Freitag",
+      Sa: "Samstag",
+      Su: "Sonntag",
     },
-  });
+  },
+  en: {
+    weekdayLabels: {
+      Mo: "Monday",
+      Tu: "Tuesday",
+      We: "Wednesday",
+      Th: "Thursday",
+      Fr: "Friday",
+      Sa: "Saturday",
+      Su: "Sunday",
+    },
+  },
+} as const;
+
+export function useWeekdayLabels() {
+  const i18n = useI18n({ useScope: "global" });
+  // mergeLocaleMessage is idempotent; on SSR the i18n instance is per-request, so a module-level guard would silently skip subsequent requests.
+  i18n.mergeLocaleMessage("de", MESSAGES.de);
+  i18n.mergeLocaleMessage("en", MESSAGES.en);
+  const tt = (k: OpeningHoursWeekday) => i18n.t(`weekdayLabels.${k}`);
   return computed<Record<OpeningHoursWeekday, string>>(() => ({
-    Mo: t("Mo"),
-    Tu: t("Tu"),
-    We: t("We"),
-    Th: t("Th"),
-    Fr: t("Fr"),
-    Sa: t("Sa"),
-    Su: t("Su"),
+    Mo: tt("Mo"),
+    Tu: tt("Tu"),
+    We: tt("We"),
+    Th: tt("Th"),
+    Fr: tt("Fr"),
+    Sa: tt("Sa"),
+    Su: tt("Su"),
   }));
 }
