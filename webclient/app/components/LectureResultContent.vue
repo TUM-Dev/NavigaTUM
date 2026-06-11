@@ -29,7 +29,7 @@ const meta = computed(() => {
 
 <template>
   <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4" :class="{ 'bg-blue-200 dark:bg-blue-700': highlighted }">
-    <PreviewIcon :item="{ kind: 'lecture' }" />
+    <PreviewIcon :item="item" />
     <div class="text-zinc-600 dark:text-zinc-300 flex flex-1 flex-col gap-0.5">
       <span class="text-zinc-900 dark:text-zinc-50 line-clamp-1 font-medium">{{ title }}</span>
       <small v-if="meta" class="flex flex-wrap items-center gap-x-2 gap-y-0.5">

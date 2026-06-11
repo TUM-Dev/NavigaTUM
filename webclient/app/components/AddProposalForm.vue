@@ -13,7 +13,7 @@ import {
   validateAddition,
 } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
-import { entityPath, isRoutableEntityType } from "~/utils/entityPath";
+import { entityPath, isEntityType } from "~/utils/entityPath";
 
 type FacetFilter = components["schemas"]["FacetFilter"];
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -318,7 +318,7 @@ async function editExistingEntry() {
     );
     if (res.ok) {
       const details = (await res.json()) as Pick<LocationDetailsResponse, "type">;
-      if (isRoutableEntityType(details.type)) target = entityPath(id, details.type);
+      if (isEntityType(details.type)) target = entityPath(id, details.type);
     }
   } catch {
     // Keep the /view/{id} fallback on network failure.

@@ -21,7 +21,7 @@ const subtextBold = computed(() => (isRoomLike.value ? props.item.subtext_bold :
 
 <template>
   <div class="flex gap-1 px-2 py-3 md:gap-3 md:px-4" :class="{ 'bg-blue-200 dark:bg-blue-700': highlighted }">
-    <PreviewIcon :item="{ kind: 'location', type: item.type }" />
+    <PreviewIcon :item="item" />
     <div class="text-zinc-600 dark:text-zinc-300 flex flex-1 flex-col gap-0.5">
       <div class="flex flex-col">
         <div v-if="parsedId" class="flex flex-row items-center">

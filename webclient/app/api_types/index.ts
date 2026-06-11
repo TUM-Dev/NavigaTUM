@@ -323,8 +323,6 @@ export type components = {
     readonly AddressEntry: {
       /**
        * @description The raw Nominatim `addresstype` (e.g. `road` or `suburb`).
-       *
-       *     An open vocabulary controlled by Nominatim, *not* a [`LocationEntryType`].
        * @example road
        */
       readonly addresstype: string;
@@ -1047,8 +1045,6 @@ export type components = {
      *     The closed set of location types the data pipeline exports (`valid_types`
      *     in `data/processors/schema.py`, minus the synthetic, non-searchable
      *     `root`). Every variant resolves to a canonical `/{type}/{id}` route.
-     *     Nominatim address results are *not* part of this set; they carry their
-     *     open `addresstype` on the dedicated `AddressEntry` shape instead.
      * @enum {string}
      */
     readonly LocationEntryType:

@@ -1,37 +1,26 @@
 import type { components } from "~/api_types";
 
-/**
- * Entity types that resolve to a type-specific canonical route.
- *
- * Aliases the API's closed `LocationEntryType` union: every `NavigaTUM` entity
- * type is routable. A type added on the server therefore fails to compile in
- * {@link entityPath} (and in the record below) until its route is decided.
- */
-export type RoutableEntityType = components["schemas"]["LocationEntryType"];
+/** The API's closed entity-type union. Every entity type has a canonical route. */
+export type EntityType = components["schemas"]["LocationEntryType"];
 
-// `Record` over the union so this list cannot drift from the API: a missing or
-// extraneous key is a compile error.
-const ROUTABLE_ENTITY_TYPES: Record<RoutableEntityType, true> = {
-  campus: true,
-  site: true,
-  area: true,
-  building: true,
-  joined_building: true,
-  room: true,
-  virtual_room: true,
-  poi: true,
-};
+// Runtime mirror of `EntityType` for narrowing opaque strings.
+const ENTITY_TYPES = [
+  "campus",
+  "site",
+  "area",
+  "building",
+  "joined_building",
+  "room",
+  "virtual_room",
+  "poi",
+] as const satisfies readonly EntityType[];
 
 /**
- * Narrows an opaque `type` string to a routable entity type.
- *
- * Search results carry the closed `LocationEntryType` union and no longer need
- * this guard. It remains for the API surfaces that are still stringly typed
- * (e.g. the calendar API, breadcrumb `parent_types` with their synthetic
- * `root`) and for runtime inputs like URL query parameters.
+ * Narrows an opaque `type` string (the calendar API, breadcrumb `parent_types`
+ * with their synthetic `root`, URL query parameters) to an entity type.
  */
-export function isRoutableEntityType(type: string): type is RoutableEntityType {
-  return Object.hasOwn(ROUTABLE_ENTITY_TYPES, type);
+export function isEntityType(type: string): type is EntityType {
+  return (ENTITY_TYPES as readonly string[]).includes(type);
 }
 
 /** A canonical, un-localized in-app entity path. */
@@ -43,15 +32,15 @@ export type EntityPath =
   | `/poi/${string}`;
 
 /**
- * Canonical, un-localized in-app path for a routable entity (e.g. `/building/5510`).
+ * Canonical, un-localized in-app path for an entity (e.g. `/building/5510`).
  *
  * Mirrors the server's `redirect_url` mapping (`LocationKeyAlias::redirect_exact_match`
- * in `server/src/db/location.rs`) - keep the two in sync. The `type` is the strict
- * routable set so a typo or an unhandled new type fails to type-check rather than
- * silently falling back; callers holding an opaque API string narrow with
- * {@link isRoutableEntityType} first.
+ * in `server/src/db/location.rs`) - keep the two in sync. The `type` is the closed
+ * union so a typo or an unhandled new type fails to type-check rather than
+ * silently falling back; callers holding an opaque string narrow with
+ * {@link isEntityType} first.
  */
-export function entityPath(id: string, type: RoutableEntityType): EntityPath {
+export function entityPath(id: string, type: EntityType): EntityPath {
   switch (type) {
     case "campus":
       return `/campus/${id}`;

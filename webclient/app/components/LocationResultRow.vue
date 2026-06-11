@@ -12,9 +12,6 @@ const emit = defineEmits<{
   (e: "mouseover"): void;
 }>();
 
-// Every entity type is routable, so a location row always links to its
-// canonical /{type}/{id} path; non-routable Nominatim addresses are a separate
-// `kind` rendered by AddressResultRow.
 const to = computed<EntityPath>(() => entityPath(props.item.id, props.item.type));
 </script>
 

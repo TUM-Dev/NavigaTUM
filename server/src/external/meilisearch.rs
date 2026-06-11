@@ -81,8 +81,6 @@ const LECTURE_FEDERATION_WEIGHT: f32 = 0.5;
 /// The closed set of location types the data pipeline exports (`valid_types`
 /// in `data/processors/schema.py`, minus the synthetic, non-searchable
 /// `root`). Every variant resolves to a canonical `/{type}/{id}` route.
-/// Nominatim address results are *not* part of this set; they carry their
-/// open `addresstype` on the dedicated `AddressEntry` shape instead.
 #[derive(Serialize, Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum LocationEntryType {
@@ -91,8 +89,7 @@ pub enum LocationEntryType {
     Area,
     JoinedBuilding,
     Building,
-    // The default only applies to index documents predating the `type` field
-    // (see the `#[serde(default)]` on `GeoMSHit`) and mirrors `MSHit::default`.
+    // Mirrors `MSHit::default`; only reachable for index documents predating `type`.
     #[default]
     Room,
     VirtualRoom,

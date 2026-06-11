@@ -115,8 +115,6 @@ pub struct AddressEntry {
     #[schema(example = "osm_182663548")]
     id: String,
     /// The raw Nominatim `addresstype` (e.g. `road` or `suburb`).
-    ///
-    /// An open vocabulary controlled by Nominatim, *not* a [`LocationEntryType`].
     #[schema(example = "road")]
     addresstype: String,
     /// The display name of the result.
