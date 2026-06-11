@@ -190,6 +190,21 @@ export function parseWcsWheelchair(param: string | null | undefined): boolean {
 export type JsonExpression = readonly (string | number | boolean | JsonExpression)[];
 
 /**
+ * Per-feature `["get", flag]` predicates for each WC attribute the user selected. A WC feature
+ * "matches" when every returned predicate is truthy on it. Empty when nothing is selected.
+ * Shared between the POI hide-filter and the room background dim so the two stay in lockstep.
+ */
+export function wcsAttributeConditions(opts: {
+  wheelchair: boolean;
+  gender: WcsGender | null;
+}): JsonExpression[] {
+  const conditions: JsonExpression[] = [];
+  if (opts.wheelchair) conditions.push(["get", "is_wheelchair_toilet"]);
+  if (opts.gender) conditions.push(["get", WCS_GENDER_FLAG[opts.gender]]);
+  return conditions;
+}
+
+/**
  * Style filter for the shared indoor-POI layer hiding the WC markers that do not match the
  * selected attributes. Non-WC features (elevators etc.) pass unconditionally; WC features must
  * carry every selected flag. Showers carry no gender or wheelchair flag, so any active attribute
@@ -200,9 +215,7 @@ export function wcsAttributeFilter(opts: {
   wheelchair: boolean;
   gender: WcsGender | null;
 }): JsonExpression | null {
-  const conditions: JsonExpression[] = [];
-  if (opts.wheelchair) conditions.push(["get", "is_wheelchair_toilet"]);
-  if (opts.gender) conditions.push(["get", WCS_GENDER_FLAG[opts.gender]]);
+  const conditions = wcsAttributeConditions(opts);
   if (conditions.length === 0) return null;
   return [
     "any",

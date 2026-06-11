@@ -35,6 +35,12 @@ tables.rooms =
         { column = "indoor",               type = "text",     not_null = true },
         { column = "ref_tum",              type = "text" },
         { column = "students_have_access", type = "boolean",  not_null = true },
+        -- Mirror the WC attribute flags carried on `pois`, so room-fill styling can dim
+        -- non-matching toilet rooms the same way the icon filter hides their POIs.
+        { column = "is_male_toilet",       type = "boolean",  not_null = true },
+        { column = "is_female_toilet",     type = "boolean",  not_null = true },
+        { column = "is_unisex_toilet",     type = "boolean",  not_null = true },
+        { column = "is_wheelchair_toilet", type = "boolean",  not_null = true },
         { column = "level_min",            type = "real",     not_null = true },
         { column = "level_max",            type = "real",     not_null = true },
         -- The type of the `geom` column is `geometry`, because we need to store
@@ -358,6 +364,10 @@ function osm2pgsql.process_way(object)
             indoor = object.tags.indoor,
             ref_tum = object.tags["ref:tum"],
             students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
+            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
+            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
             level_min = level.min,
             level_max = level.max,
             geom = geom
@@ -424,6 +434,11 @@ function osm2pgsql.process_relation(object)
           {
             indoor = object.tags.indoor,
             ref_tum = object.tags["ref:tum"],
+            students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
+            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
+            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
+            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
             level_min = level.min,
             level_max = level.max,
             geom = geom

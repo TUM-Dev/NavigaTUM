@@ -2,6 +2,7 @@
 import { until, useIntervalFn } from "@vueuse/core";
 import type {
   AllPaintProperties,
+  ExpressionSpecification,
   FilterSpecification,
   MapGeoJSONFeature,
   MapLayerMouseEvent,
@@ -19,6 +20,7 @@ import {
   eventsWindowFilter,
   FILTER_QUERY_PARAM,
   FILTER_REGISTRY,
+  type JsonExpression,
   LEVEL_QUERY_PARAM,
   PANEL_COLLAPSED_STORAGE_KEY,
   parseWcsGender,
@@ -32,6 +34,7 @@ import {
   WCS_GENDERS,
   WCS_WHEELCHAIR_QUERY_PARAM,
   type WcsGender,
+  wcsAttributeConditions,
   wcsAttributeFilter,
 } from "~/composables/mapLayers";
 import { useEventPopup } from "~/composables/useEventMarkers";
@@ -155,7 +158,14 @@ function applyFilterDim(): void {
     m.removeLayer(SCRIM_LAYER);
   }
 
-  // Fade non-matching indoor features in place, keeping the filter's values at their original paint.
+  const attributeConditions = activeFilters.value.has(WCS_FILTER_ID)
+    ? wcsAttributeConditions({ wheelchair: wcsWheelchair.value, gender: wcsGender.value })
+    : [];
+  const indoorMatch: JsonExpression = ["in", ["get", "indoor"], ["literal", vibrant]];
+  const vibrantPredicate = (
+    attributeConditions.length === 0 ? indoorMatch : ["all", indoorMatch, ...attributeConditions]
+  ) as ExpressionSpecification;
+
   for (const { id, prop, type } of PER_FEATURE_TARGETS) {
     if (m.getLayer(id)?.type !== type) continue;
     rememberPaint(m, id, prop);
@@ -164,13 +174,7 @@ function applyFilterDim(): void {
     // `{ stops: ... }` form here. Our basemap publishes these as plain numbers, so fall back to 1
     // when the original is anything else.
     const vibrantValue = typeof original === "number" ? original : 1;
-    m.setPaintProperty(
-      id,
-      prop,
-      active
-        ? ["case", ["in", ["get", "indoor"], ["literal", vibrant]], vibrantValue, DIM]
-        : original
-    );
+    m.setPaintProperty(id, prop, active ? ["case", vibrantPredicate, vibrantValue, DIM] : original);
   }
   for (const { id, prop, type } of FLAT_TARGETS) {
     if (m.getLayer(id)?.type !== type) continue;
@@ -245,6 +249,7 @@ watch([wcsWheelchair, wcsGender], ([wheelchair, gender]) => {
   setQueryParam(WCS_WHEELCHAIR_QUERY_PARAM, wheelchair ? "true" : null);
   setQueryParam(WCS_GENDER_QUERY_PARAM, gender);
   applyWcsAttributeFilter();
+  applyFilterDim();
 });
 
 // The window filter compares against the clock at evaluation time; re-evaluate it periodically so
