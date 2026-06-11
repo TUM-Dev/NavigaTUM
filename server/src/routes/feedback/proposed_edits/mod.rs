@@ -153,7 +153,7 @@ impl EditRequest {
             .collect()
     }
 
-    /// True iff every payload in this request is a coordinate edit —
+    /// True iff every payload in this request is a coordinate edit -
     /// at least one coordinate edit, no other edit kinds, no additions.
     ///
     /// Used to gate auto-merge: maintainers asked for coordinate-only PRs to merge
@@ -770,7 +770,7 @@ mod tests {
 
     #[test]
     fn pure_coordinate_with_empty_properties_vec() {
-        // properties: Some(vec![]) shouldn't disqualify — only non-empty does.
+        // properties: Some(vec![]) shouldn't disqualify - only non-empty does.
         let req = req_with_additions(serde_json::json!({
             "token": "x",
             "edits": {
