@@ -31,14 +31,18 @@ export type FilterDef = IndoorFilterDef | OverlayFilterDef;
 export const EVENTS_STYLE_LAYER = "events";
 /** The events entry in the filter registry; its time window only applies while it is active. */
 export const EVENTS_FILTER_ID = "events";
+/** The WCs entry in the filter registry; its attribute filters only apply while it is active. */
+export const WCS_FILTER_ID = "wcs";
+/** The `indoor` values the WCs filter covers, shared with its attribute-filter expression. */
+export const WCS_INDOOR_VALUES = ["toilet", "shower"] as const;
 
 export const FILTER_REGISTRY = [
   {
-    id: "wcs",
+    id: WCS_FILTER_ID,
     kind: "indoor",
     labelKey: "filters.wcs",
     icon: mdiToilet,
-    indoorValues: ["toilet", "shower"],
+    indoorValues: WCS_INDOOR_VALUES,
     hintBelowZoom: 17,
   },
   {
@@ -151,6 +155,59 @@ export function eventsWindowFilter(window: EventsWindow, nowMs: number): EventsF
     "all",
     ["<=", ["get", "starts_at_epoch"], latestStart],
     [">=", ["get", "ends_at_epoch"], nowSeconds],
+  ];
+}
+
+// The WC attribute parameters are namespaced per layer (`wcs_…`), so further layers can add
+// their own sub-filters without colliding.
+export const WCS_WHEELCHAIR_QUERY_PARAM = "wcs_wheelchair";
+export const WCS_GENDER_QUERY_PARAM = "wcs_gender";
+export const WCS_GENDERS = ["male", "female", "unisex"] as const;
+export type WcsGender = (typeof WCS_GENDERS)[number];
+
+/** The tile property carrying each gender's flag. */
+const WCS_GENDER_FLAG = {
+  male: "is_male_toilet",
+  female: "is_female_toilet",
+  unisex: "is_unisex_toilet",
+} as const satisfies Record<WcsGender, string>;
+
+/** Parse a `?wcs_gender=` value, or `null` when absent or not a known gender. */
+export function parseWcsGender(param: string | null | undefined): WcsGender | null {
+  const gender = WCS_GENDERS.find((g) => g === param);
+  return gender ?? null;
+}
+
+/** Parse a `?wcs_wheelchair=` value; only the literal "true" enables the filter. */
+export function parseWcsWheelchair(param: string | null | undefined): boolean {
+  return param === "true";
+}
+
+/**
+ * JSON shape of a MapLibre expression, kept structural so this module stays free of the maplibre
+ * import (which fails to load under the node test environment).
+ */
+export type JsonExpression = readonly (string | number | boolean | JsonExpression)[];
+
+/**
+ * Style filter for the shared indoor-POI layer hiding the WC markers that do not match the
+ * selected attributes. Non-WC features (elevators etc.) pass unconditionally; WC features must
+ * carry every selected flag. Showers carry no gender or wheelchair flag, so any active attribute
+ * filter hides them with the non-matching toilets. Returns `null` when no attribute is selected,
+ * signalling the caller to restore the layer's own filter.
+ */
+export function wcsAttributeFilter(opts: {
+  wheelchair: boolean;
+  gender: WcsGender | null;
+}): JsonExpression | null {
+  const conditions: JsonExpression[] = [];
+  if (opts.wheelchair) conditions.push(["get", "is_wheelchair_toilet"]);
+  if (opts.gender) conditions.push(["get", WCS_GENDER_FLAG[opts.gender]]);
+  if (conditions.length === 0) return null;
+  return [
+    "any",
+    ["!", ["in", ["get", "indoor"], ["literal", [...WCS_INDOOR_VALUES]]]],
+    ["all", ...conditions],
   ];
 }
 
