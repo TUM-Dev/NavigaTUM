@@ -257,6 +257,10 @@ const actions = computed<DetailAction[]>(() => [
           v-if="data.opening_hours"
           :opening-hours="data.opening_hours"
         />
+        <LazyDetailsMensaMenuCard
+          v-if="data.mensa_menu"
+          :menu="data.mensa_menu"
+        />
         <LazyDetailsNearbyTransportSection :id="data.id"/>
         <LazyDetailsIrisCoverageCard
           v-if="data.props.iris_coverage_building_ids?.length"

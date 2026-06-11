@@ -1682,6 +1682,15 @@ components:
         maps:
           $ref: '#/components/schemas/MapsResponse'
           description: Print or overlay maps for said location
+        mensa_menu:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/MensaMenuResponse'
+              description: |-
+                Weekly canteen menu sourced from the eat-api feed.
+
+                Present for the canteens listed in `data/sources/mensa_canteens.csv`; the snapshot
+                covers the current and next ISO week. Omitted for every other entry.
         name:
           type: string
           description: The name of the entry in a human-readable form
@@ -2103,6 +2112,139 @@ components:
           oneOf:
             - type: "null"
             - $ref: '#/components/schemas/RoomfinderMapResponse'
+    MensaMenuDayResponse:
+      type: object
+      description: One day in a [`MensaMenuResponse`].
+      required:
+        - date
+        - dishes
+      properties:
+        date:
+          type: string
+          description: '`YYYY-MM-DD` calendar date of the day.'
+          examples:
+            - "2026-06-10"
+        dishes:
+          type: array
+          items:
+            $ref: '#/components/schemas/MensaMenuDishResponse'
+          description: Dishes served on this day, in the upstream serving order.
+    MensaMenuDishResponse:
+      type: object
+      description: One dish on one day of a [`MensaMenuResponse`].
+      required:
+        - name
+        - prices
+        - labels
+      properties:
+        dish_type:
+          type:
+            - string
+            - "null"
+          description: |-
+            Short category label upstream uses to group the dish (`Pasta`, `Suppe`, `Studitopf`, ...).
+
+            Omitted when upstream did not classify the dish.
+          examples:
+            - Pasta
+        labels:
+          type: array
+          items:
+            type: string
+            examples:
+              - - GLUTEN
+                - LACTOSE
+          description: |-
+            Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
+
+            The client maps them to localized text via its own label dictionary so prices and
+            labels stay in sync without a server round-trip on language change.
+        name:
+          type: string
+          description: Dish title in the upstream language (German).
+          examples:
+            - Pasta Emiliana mit (Vorder-)Schinken und Erbsen
+        prices:
+          $ref: '#/components/schemas/MensaMenuPricesResponse'
+          description: Prices keyed by role. A role is omitted when upstream priced the dish only for some.
+    MensaMenuPriceResponse:
+      type: object
+      description: |-
+        One role's price for a dish.
+
+        `price_per_unit` and `unit` are upstream-optional because flat-rate dishes (e.g. a fixed
+        `1.00 €` Studitopf) carry only a `base_price`.
+      required:
+        - base_price
+      properties:
+        base_price:
+          type: number
+          format: double
+          description: Flat amount in Euros charged before any unit upcharge.
+          examples:
+            - 1
+        price_per_unit:
+          type:
+            - number
+            - "null"
+          format: double
+          description: Additional amount in Euros charged per `unit` (e.g. per 100g).
+          examples:
+            - 0.9
+        unit:
+          type:
+            - string
+            - "null"
+          description: Unit the `price_per_unit` is charged against (e.g. `100g`).
+          examples:
+            - 100g
+    MensaMenuPricesResponse:
+      type: object
+      description: |-
+        Per-role price block for a [`MensaMenuDishResponse`].
+
+        Each field is `None` when upstream did not price the dish for that role.
+      properties:
+        guests:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/MensaMenuPriceResponse'
+        staff:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/MensaMenuPriceResponse'
+        students:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/MensaMenuPriceResponse'
+    MensaMenuResponse:
+      type: object
+      description: |-
+        Weekly canteen menu sourced from the TUM-Dev eat-api feed.
+
+        `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
+        visitor still sees Monday. Closed days are simply absent rather than represented as
+        empty entries.
+      required:
+        - source_url
+        - last_update
+        - days
+      properties:
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/MensaMenuDayResponse'
+          description: Per-day dish lists in calendar order; only days with at least one dish are present.
+        last_update:
+          type: string
+          description: '`YYYY-MM-DD` date the feed snapshot was last confirmed (the upstream `Last-Modified`).'
+          examples:
+            - "2026-06-05"
+        source_url:
+          type: string
+          description: Where the menu was sourced from; shown as the "source" link on the card.
+          examples:
+            - https://tum-dev.github.io/eat-api/#!/de/mensa-garching
     ModeResponse:
       type: string
       enum:
