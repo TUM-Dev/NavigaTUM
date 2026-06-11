@@ -127,7 +127,7 @@ function applyFilterDim(): void {
     if (m.getLayer(id)?.type !== type) continue;
     rememberPaint(m, id, prop);
     const original = originalPaint.get(`${id}::${prop}`);
-    // The case-expression branch must be a concrete expression/literal — v6 rejects the legacy
+    // The case-expression branch must be a concrete expression/literal - v6 rejects the legacy
     // `{ stops: ... }` form here. Our basemap publishes these as plain numbers, so fall back to 1
     // when the original is anything else.
     const vibrantValue = typeof original === "number" ? original : 1;
