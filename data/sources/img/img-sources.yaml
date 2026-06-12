@@ -1093,6 +1093,15 @@ event_17ddb108241f623c:
     offsets:
       header: 257
       thumb: 14
+event_4a3e5d2fd5b338e4:
+  0:
+    author: FSMSE
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -682
+      thumb: -300
 event_5b59a27f8f857441:
   0:
     author: Studiendruck der Fachschaft Maschinenbau e.V. - Abteilung IKOM
