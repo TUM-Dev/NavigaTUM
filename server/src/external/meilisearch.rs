@@ -19,16 +19,19 @@ pub(crate) const BUILDING_FACET: &str = "building";
 pub(crate) const ROOM_FACET: &str = "room";
 pub(crate) const POI_FACET: &str = "poi";
 pub(crate) const LECTURE_FACET: &str = "lecture";
+pub(crate) const EVENT_FACET: &str = "event";
 /// Ordered list of facets the search federates over. Order is the priority
 /// used by the merger when distributing the over-fetched federation budget
 /// across facet caps. Lectures trail the geo facets so a course title only
-/// surfaces once the geo entries it competes with have had their say.
+/// surfaces once the geo entries it competes with have had their say; events
+/// trail last as the only default-disabled facet.
 pub(crate) const FACETS: &[&str] = &[
     SITE_FACET,
     BUILDING_FACET,
     ROOM_FACET,
     POI_FACET,
     LECTURE_FACET,
+    EVENT_FACET,
 ];
 
 /// Allowlisted values for the `?type=` query parameter.
@@ -44,6 +47,8 @@ pub enum FacetFilter {
     Room,
     Poi,
     Lecture,
+    /// Requesting the default-disabled event facet implies enabling it.
+    Event,
 }
 
 impl FacetFilter {
@@ -55,6 +60,7 @@ impl FacetFilter {
             Self::Room => ROOM_FACET,
             Self::Poi => POI_FACET,
             Self::Lecture => LECTURE_FACET,
+            Self::Event => EVENT_FACET,
         }
     }
 }
@@ -75,6 +81,11 @@ const FEDERATION_OVERFETCH_FACTOR: usize = 4;
 /// match. Empirical; revisit if snapshots show the deprioritisation is too
 /// aggressive or too weak.
 const LECTURE_FEDERATION_WEIGHT: f32 = 0.5;
+
+/// Per-query federation weight for the event facet. Same rationale as
+/// [`LECTURE_FEDERATION_WEIGHT`]: an event is a non-geo identity that should
+/// lose against equally-strong location matches, not a hard pin below them.
+const EVENT_FEDERATION_WEIGHT: f32 = 0.5;
 
 /// The type of a `NavigaTUM` entity surfaced as a search result.
 ///
@@ -112,6 +123,7 @@ pub enum MSHit {
     Room(GeoMSHit),
     Poi(GeoMSHit),
     Lecture(LectureMSHit),
+    Event(EventMSHit),
 }
 
 // The `facet` field is consumed as the enum tag, so it is absent here. Fields
@@ -187,6 +199,39 @@ pub struct LectureMSHit {
     rank: i32,
 }
 
+/// Coordinates in Meilisearch's `_geo` document shape (note `lng`, not `lon`).
+#[derive(Deserialize, Clone, Copy)]
+pub struct GeoPoint {
+    pub lat: f64,
+    pub lng: f64,
+}
+
+/// A campus event surfaced as the sixth search facet.
+///
+/// One document per `events.csv` row, exported by the data pipeline into
+/// `search_data.json`. Carries everything a client needs to pre-fill the event
+/// proposal form, so picking a search hit needs no second round-trip.
+///
+/// Every field is required: the pipeline always writes the full shape, so a
+/// missing field signals index corruption and should fail the deserialize loudly
+/// rather than be papered over with a default.
+#[derive(Deserialize, Clone)]
+pub struct EventMSHit {
+    pub ms_id: String,
+    /// The `event_<hash>` identity shared by the CSV row and its key-named images.
+    pub key: String,
+    pub name: String,
+    pub starts_at: DateTime<Utc>,
+    pub ends_at: DateTime<Utc>,
+    pub description: String,
+    pub organising_org_id: i32,
+    /// The `/cdn/thumb/…` delivery path of the event image.
+    pub image: String,
+    pub image_author: String,
+    #[serde(rename = "_geo")]
+    pub coords: GeoPoint,
+}
+
 impl Default for MSHit {
     fn default() -> Self {
         Self::Room(GeoMSHit::default())
@@ -201,6 +246,7 @@ impl MSHit {
         match self {
             Self::Site(geo) | Self::Building(geo) | Self::Room(geo) | Self::Poi(geo) => &geo.name,
             Self::Lecture(lecture) => &lecture.name,
+            Self::Event(event) => &event.name,
         }
     }
 }
@@ -217,6 +263,11 @@ impl Debug for MSHit {
             Self::Lecture(lecture) => f
                 .debug_struct("MSHit::Lecture")
                 .field("title_de", &lecture.title_de)
+                .finish(),
+            Self::Event(event) => f
+                .debug_struct("MSHit::Event")
+                .field("key", &event.key)
+                .field("name", &event.name)
                 .finish(),
         }
     }
@@ -266,9 +317,22 @@ impl GeoEntryQuery {
     pub async fn execute(self) -> Result<FederatedMultiSearchResponse<MSHit>, Error> {
         let entries = self.client.index(ENTRIES_INDEX);
         let sorting: Vec<&str> = self.sorting.iter().map(String::as_str).collect();
-        // One filter per facet, ordered to match `FACETS` so callers can
+        // Editions of a recurring event share a name and tie on every text
+        // ranking rule; sorting the event query by `starts_at` descending
+        // surfaces the newest edition first. The pipeline normalises the field
+        // to UTC, so Meilisearch's lexicographic string sort is chronological.
+        let event_sorting: Vec<&str> = sorting.iter().copied().chain(["starts_at:desc"]).collect();
+        // The event facet is default-disabled: a zero cap drops its query from
+        // the federation entirely, keeping the request (and thus the result
+        // set) identical to one predating the facet.
+        let active_facets: Vec<&str> = FACETS
+            .iter()
+            .copied()
+            .filter(|facet| *facet != EVENT_FACET || self.limits.events_count > 0)
+            .collect();
+        // One filter per facet, ordered to match `active_facets` so callers can
         // reason about per-facet behavior consistently.
-        let per_facet_filters: Vec<String> = FACETS
+        let per_facet_filters: Vec<String> = active_facets
             .iter()
             .map(|f| compose_filter(&facet_eq(f), &self.user_filter))
             .collect();
@@ -281,17 +345,26 @@ impl GeoEntryQuery {
         let mut facets_by_index = HashMap::new();
         facets_by_index.insert(ENTRIES_INDEX.to_string(), vec![FACET_FIELD.to_string()]);
 
-        // `per_facet_filters` is built from `FACETS`, so zipping recovers each
-        // filter's facet. The lecture query carries a sub-unit federation weight
-        // so its hits are demoted relative to the geo facets when Meilisearch
-        // merges the five result sets by weighted `_rankingScore`.
+        // `per_facet_filters` is built from `active_facets`, so zipping recovers
+        // each filter's facet. The lecture and event queries carry a sub-unit
+        // federation weight so their hits are demoted relative to the geo facets
+        // when Meilisearch merges the per-facet result sets by weighted
+        // `_rankingScore`.
         let mut multi = self.client.multi_search();
-        for (facet, filter) in FACETS.iter().zip(&per_facet_filters) {
-            let query = self.facet_query(&entries, filter, &sorting);
-            if *facet == LECTURE_FACET {
-                multi.with_search_query_and_weight(query, LECTURE_FEDERATION_WEIGHT);
-            } else {
-                multi.with_search_query(query);
+        for (facet, filter) in active_facets.iter().zip(&per_facet_filters) {
+            match *facet {
+                LECTURE_FACET => {
+                    let query = self.facet_query(&entries, filter, &sorting);
+                    multi.with_search_query_and_weight(query, LECTURE_FEDERATION_WEIGHT);
+                }
+                EVENT_FACET => {
+                    let query = self.facet_query(&entries, filter, &event_sorting);
+                    multi.with_search_query_and_weight(query, EVENT_FEDERATION_WEIGHT);
+                }
+                _ => {
+                    let query = self.facet_query(&entries, filter, &sorting);
+                    multi.with_search_query(query);
+                }
             }
         }
         multi

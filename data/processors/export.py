@@ -1,7 +1,11 @@
 import re
+from collections.abc import Mapping
+from datetime import UTC, datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import TypedDict
 
+import dataframely as dy
 import orjson
 import polars as pl
 import xxhash
@@ -26,17 +30,20 @@ def _orjson_default(o: Json) -> Json:
 
 class SearchFacet(StrEnum):
     """
-    The search facet a location is bucketed into by the search API.
+    The search facet a document is bucketed into by the search API.
 
-    The closed set the server's `facet` field is matched against. Location types
-    not listed here (the synthetic `root` node) have no facet and are not
-    locatable results, so they are skipped at export rather than indexed.
+    The closed set the server's `facet` field is matched against. Locations map
+    via `_TYPE_TO_FACET`; types not listed there (the synthetic `root` node)
+    have no facet and are not locatable results, so they are skipped at export
+    rather than indexed. Events come from `events.csv` instead of the location
+    tree.
     """
 
     SITE = "site"
     BUILDING = "building"
     ROOM = "room"
     POI = "poi"
+    EVENT = "event"
 
 
 # Location `type` -> the search facet it surfaces under.
@@ -54,6 +61,68 @@ _TYPE_TO_FACET: dict[str, SearchFacet] = {
 # Only the synthetic tree root - everything else must map to a facet, so an
 # unmapped type is a bug (a new type was added without deciding how it searches).
 _NON_SEARCHABLE_TYPES: frozenset[str] = frozenset({"root"})
+
+# The `event_<hash>` identity is the base name of the key-named image files.
+_EVENT_IMAGE_KEY_REGEX = re.compile(r"^/cdn/thumb/(?P<key>.+)_\d+\.webp$")
+
+
+class _GeoPoint(TypedDict):
+    """Meilisearch's `_geo` shape (note `lng`, not `lon`)."""
+
+    lat: float
+    lng: float
+
+
+class EventSearchDocument(TypedDict):
+    """One `events.csv` row as a search document for the `event` facet."""
+
+    ms_id: str
+    facet: str
+    key: str
+    name: str
+    starts_at: str
+    ends_at: str
+    description: str
+    organising_org_id: int
+    image: str
+    image_author: str
+    rank: int
+    _geo: _GeoPoint
+
+
+def _utc_rfc3339(value: str) -> str:
+    """Normalise an RFC 3339 timestamp to second-precision UTC (`…Z`)."""
+    return f"{datetime.fromisoformat(value).astimezone(UTC):%Y-%m-%dT%H:%M:%SZ}"
+
+
+def event_search_documents(events: dy.DataFrame[EventsSchema]) -> list[EventSearchDocument]:
+    """Build one search document per events row for the default-disabled `event` facet."""
+    docs: list[EventSearchDocument] = []
+    for row in events.iter_rows(named=True):
+        match = _EVENT_IMAGE_KEY_REGEX.match(row["image"])
+        if match is None:
+            raise ValueError(f"event image {row['image']!r} does not contain an extractable event key")
+        starts_at = _utc_rfc3339(row["starts_at"])
+        docs.append(
+            {
+                # The date suffix keeps `ms_id` unique against legacy duplicate keys
+                # (same image resubmitted for a new edition before upsert-by-key landed).
+                "ms_id": f"{match['key']}_{starts_at[: len('2026-06-15')]}",
+                "facet": SearchFacet.EVENT.value,
+                "key": match["key"],
+                "name": row["name"],
+                "starts_at": starts_at,
+                "ends_at": _utc_rfc3339(row["ends_at"]),
+                "description": row["description"],
+                "organising_org_id": row["organising_org_id"],
+                "image": row["image"],
+                "image_author": row["image_author"],
+                # Lecture precedent: uniform 0 keeps the `rank:desc` ranking rule neutral.
+                "rank": 0,
+                "_geo": {"lat": row["lat"], "lng": row["lon"]},
+            },
+        )
+    return docs
 
 
 OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
@@ -101,7 +170,7 @@ def reconstruct_data(df: pl.DataFrame) -> dict[str, Entry]:
 
 def export_for_search(data: dict[str, Entry]) -> None:
     """Export a subset of the data for the /search api"""
-    export = []
+    export: list[Mapping[str, Json]] = []
     for _id, entry in data.items():
         facet = _TYPE_TO_FACET.get(entry["type"])
         if facet is None:
@@ -165,6 +234,8 @@ def export_for_search(data: dict[str, Entry]) -> None:
                 **geo,
             },
         )
+
+    export.extend(event_search_documents(load_events()))
 
     search_bytes = orjson.dumps(export)
     _make_sure_is_safe(search_bytes)

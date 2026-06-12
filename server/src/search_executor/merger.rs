@@ -5,8 +5,8 @@ use meilisearch_sdk::search::SearchResult;
 use super::ResultFacet;
 use super::highlight::{HighlightContext, highlighted_name_for_hit};
 use crate::external::meilisearch::{
-    BUILDING_FACET, FACET_FIELD, GeoMSHit, LECTURE_FACET, LectureMSHit, MSHit, POI_FACET,
-    ROOM_FACET, SITE_FACET,
+    BUILDING_FACET, EVENT_FACET, EventMSHit, FACET_FIELD, GeoMSHit, LECTURE_FACET, LectureMSHit,
+    MSHit, POI_FACET, ROOM_FACET, SITE_FACET,
 };
 use crate::routes::search::Limits;
 
@@ -16,6 +16,7 @@ pub(super) struct MergedSections {
     pub(super) rooms: super::LocationSection,
     pub(super) pois: super::LocationSection,
     pub(super) lectures: super::LectureSection,
+    pub(super) events: super::EventSection,
     /// Facets in the order their first hit appeared in the ranked Meilisearch
     /// results. Facets that never received a hit are not included.
     pub(super) facet_order: Vec<ResultFacet>,
@@ -54,6 +55,18 @@ impl SectionVisibility for super::LectureSection {
     }
 }
 
+impl SectionVisibility for super::EventSection {
+    fn entries_len(&self) -> usize {
+        self.entries.len()
+    }
+    fn n_visible(&self) -> usize {
+        self.n_visible
+    }
+    fn set_n_visible(&mut self, n: usize) {
+        self.n_visible = n;
+    }
+}
+
 #[tracing::instrument(skip(hits, facet_distribution, highlight))]
 pub(super) fn merge_search_results(
     limits: &Limits,
@@ -72,7 +85,12 @@ pub(super) fn merge_search_results(
         n_visible: 0,
         estimated_total_hits: totals.lectures,
     };
-    let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(5);
+    let mut events = super::EventSection {
+        entries: Vec::new(),
+        n_visible: 0,
+        estimated_total_hits: totals.events,
+    };
+    let mut facet_order: Vec<ResultFacet> = Vec::with_capacity(6);
 
     // The visible count of any facet that already has hits is frozen the
     // moment a *new* facet's first hit appears in the ranking. This preserves
@@ -83,7 +101,8 @@ pub(super) fn merge_search_results(
             + active_count(&buildings)
             + active_count(&rooms)
             + active_count(&pois)
-            + active_count(&lectures);
+            + active_count(&lectures)
+            + active_count(&events);
         if cap >= limits.total_count {
             break;
         }
@@ -123,6 +142,10 @@ pub(super) fn merge_search_results(
                     .push(make_lecture_entry(lecture, hit, highlight));
                 ResultFacet::Lectures
             }
+            MSHit::Event(event) if events.entries.len() < limits.events_count => {
+                events.entries.push(make_event_entry(event, hit, highlight));
+                ResultFacet::Events
+            }
             _ => continue,
         };
 
@@ -134,6 +157,7 @@ pub(super) fn merge_search_results(
                     ResultFacet::Rooms => freeze_if_first(&mut rooms),
                     ResultFacet::Pois => freeze_if_first(&mut pois),
                     ResultFacet::Lectures => freeze_if_first(&mut lectures),
+                    ResultFacet::Events => freeze_if_first(&mut events),
                     ResultFacet::Addresses => {}
                 }
             }
@@ -148,6 +172,7 @@ pub(super) fn merge_search_results(
     finalize_visible(&mut rooms);
     finalize_visible(&mut pois);
     finalize_visible(&mut lectures);
+    finalize_visible(&mut events);
 
     MergedSections {
         sites,
@@ -155,6 +180,7 @@ pub(super) fn merge_search_results(
         rooms,
         pois,
         lectures,
+        events,
         facet_order,
     }
 }
@@ -247,6 +273,31 @@ fn make_lecture_entry(
     }
 }
 
+/// Build a result entry for an event hit.
+///
+/// Beyond the highlighted `name`, the entry is a 1:1 copy of the stored
+/// document: every field is part of the proposal-form pre-fill payload.
+fn make_event_entry(
+    event: &EventMSHit,
+    hit: &SearchResult<MSHit>,
+    highlight: &HighlightContext<'_>,
+) -> super::EventEntry {
+    let name = highlighted_name_for_hit(hit, highlight);
+    super::EventEntry {
+        id: event.ms_id.clone(),
+        key: event.key.clone(),
+        name,
+        description: event.description.clone(),
+        starts_at: event.starts_at,
+        ends_at: event.ends_at,
+        lat: event.coords.lat,
+        lon: event.coords.lng,
+        organising_org_id: event.organising_org_id,
+        image: event.image.clone(),
+        image_author: event.image_author.clone(),
+    }
+}
+
 #[derive(Default)]
 struct FacetTotals {
     sites: usize,
@@ -254,6 +305,7 @@ struct FacetTotals {
     rooms: usize,
     pois: usize,
     lectures: usize,
+    events: usize,
 }
 
 fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) -> FacetTotals {
@@ -266,5 +318,6 @@ fn facet_totals(distribution: Option<&HashMap<String, HashMap<String, usize>>>) 
         rooms: facet.get(ROOM_FACET).copied().unwrap_or(0),
         pois: facet.get(POI_FACET).copied().unwrap_or(0),
         lectures: facet.get(LECTURE_FACET).copied().unwrap_or(0),
+        events: facet.get(EVENT_FACET).copied().unwrap_or(0),
     }
 }

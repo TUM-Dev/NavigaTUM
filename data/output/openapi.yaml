@@ -624,6 +624,16 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: search_events
+          in: query
+          description: |-
+            Include campus events in the search.
+
+            Most clients don't render events, so this facet is disabled by default.
+            Requesting `type=event` implies enabling it.
+          required: false
+          schema:
+            type: boolean
         - name: limit_sites
           in: query
           description: |-
@@ -673,6 +683,19 @@ paths:
           description: |-
             Maximum number of lectures to return.
 
+            Clamped to `0`..`1000`.
+            If this is a problem for you, please open an issue.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: limit_events
+          in: query
+          description: |-
+            Maximum number of events to return.
+
+            Only has an effect when the event facet is enabled (via `search_events`
+            or `type=event`).
             Clamped to `0`..`1000`.
             If this is a problem for you, please open an issue.
           required: false
@@ -1246,6 +1269,76 @@ components:
           type: string
           description: The JWT token, that can be used to generate feedback
           example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+    EventEntry:
+      type: object
+      description: |-
+        A campus event search result, carrying the full event-proposal pre-fill payload.
+
+        One entry per `events.csv` row (an edition of an event, not an event name):
+        picking one in a client pre-fills the event proposal form without a second
+        round-trip, so every CSV column rides along.
+      required:
+        - id
+        - key
+        - name
+        - description
+        - starts_at
+        - ends_at
+        - lat
+        - lon
+        - organising_org_id
+        - image
+        - image_author
+      properties:
+        description:
+          type: string
+          description: The description of the event.
+          example: Open-air student festival.
+        ends_at:
+          type: string
+          format: date-time
+          description: When the event ends, as an RFC 3339 timestamp.
+          example: "2026-06-19T21:59:00Z"
+        id:
+          type: string
+          description: The id of this edition of the event.
+          example: event_9d02ddd940c43f87_2026-06-15
+        image:
+          type: string
+          description: The `/cdn/thumb/…` delivery path of the event image.
+          example: /cdn/thumb/event_9d02ddd940c43f87_0.webp
+        image_author:
+          type: string
+          description: The author of the event image (CC-BY attribution).
+          example: Studentische Vertretung TUM
+        key:
+          type: string
+          description: The `event_<hash>` identity shared by the `events.csv` row and its key-named images.
+          example: event_9d02ddd940c43f87
+        lat:
+          type: number
+          format: double
+          description: Latitude of the event location.
+          example: 48.262908
+        lon:
+          type: number
+          format: double
+          description: Longitude of the event location.
+          example: 11.669102
+        name:
+          type: string
+          description: The display name of the result. Supports highlighting.
+          example: "\x19GARNIX\x17 Festival"
+        organising_org_id:
+          type: integer
+          format: int32
+          description: The `TUMonline` org id of the organising organisation.
+          example: 51897
+        starts_at:
+          type: string
+          format: date-time
+          description: When the event starts, as an RFC 3339 timestamp.
+          example: "2026-06-15T14:00:00Z"
     EventResponse:
       type: object
       required:
@@ -1314,6 +1407,32 @@ components:
           description: English title of the Entry
           examples:
             - Quantum teleportation
+    EventSection:
+      type: object
+      description: A section of campus event results.
+      required:
+        - entries
+        - n_visible
+        - estimatedTotalHits
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventEntry'
+        estimatedTotalHits:
+          type: integer
+          description: The estimated (not exact) number of hits for that query
+          example: 6
+          minimum: 0
+        n_visible:
+          type: integer
+          description: |-
+            A recommendation how many of the entries should be displayed by default.
+
+            The number is usually from `0`..`5`.
+            More results might be displayed when clicking "expand".
+          example: 4
+          minimum: 0
     EventTypeResponse:
       type: string
       enum:
@@ -1357,6 +1476,7 @@ components:
         - room
         - poi
         - lecture
+        - event
     FeaturedOverviewItemResponse:
       type: object
       required:
@@ -3362,17 +3482,29 @@ components:
                   type: string
                   enum:
                     - lectures
+        - allOf:
+            - $ref: '#/components/schemas/EventSection'
+            - type: object
+              required:
+                - facet
+              properties:
+                facet:
+                  type: string
+                  enum:
+                    - events
       description: |-
         One section of search results, grouped by facet.
 
         The `facet` is the discriminator: the four entity facets (sites, buildings,
         rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
         the addresses facet carries [`AddressEntry`]s with their open Nominatim
-        `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
-        bilingual titles and upcoming occurrences. Tagging the section by `facet`
-        means a consumer narrows once on the discriminator it already needs for the
-        section header and then sees exactly the entry shape that facet carries -
-        instead of a redundant per-entry `kind` repeated on every hit.
+        `addresstype`, the lectures facet carries [`LectureEntry`]s with their
+        bilingual titles and upcoming occurrences, and the events facet carries
+        [`EventEntry`]s with the event-proposal pre-fill payload. Tagging the section
+        by `facet` means a consumer narrows once on the discriminator it already
+        needs for the section header and then sees exactly the entry shape that
+        facet carries - instead of a redundant per-entry `kind` repeated on every
+        hit.
     RoomAddress:
       type: object
       required:

@@ -82,7 +82,7 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "sort",
             "exactness",
         ])
-        .with_sortable_attributes(["_geo", "next_occurrence_at"])
+        .with_sortable_attributes(["_geo", "next_occurrence_at", "starts_at"])
         .with_searchable_attributes([
             "room_code",
             "room_code_normalised",
