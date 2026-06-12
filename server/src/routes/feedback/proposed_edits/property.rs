@@ -3,6 +3,7 @@ use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::sync::LazyLock;
 
+use anyhow::Context as _;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 
@@ -36,10 +37,27 @@ pub enum PropertyEdit {
     },
 }
 
+/// Localized values in `links.yaml` always carry exactly these two languages.
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
+struct Localized {
+    de: String,
+    en: String,
+}
+
+/// `links.yaml` mixes plain strings and `{de, en}` maps for both fields.
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+enum Translatable {
+    Localized(Localized),
+    Plain(String),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
 struct LinkEntry {
-    text: BTreeMap<String, String>,
-    url: String,
+    text: Translatable,
+    url: Translatable,
 }
 
 impl PropertyEdit {
@@ -130,19 +148,23 @@ impl AppliableEdit for PropertyEdit {
             } => {
                 let yaml_path = base_dir.join("data").join("sources").join("links.yaml");
 
+                // A parse failure must abort the edit: falling back to an empty
+                // map here would rewrite the file with only the new link.
                 let mut links: BTreeMap<String, Vec<LinkEntry>> = if yaml_path.exists() {
                     let file = File::open(&yaml_path)?;
-                    serde_yaml::from_reader(file).unwrap_or_default()
+                    serde_yaml::from_reader(file).with_context(|| {
+                        format!("cannot re-serialize {} losslessly", yaml_path.display())
+                    })?
                 } else {
                     BTreeMap::new()
                 };
 
                 let entry = LinkEntry {
-                    text: BTreeMap::from([
-                        ("de".to_string(), text_de.clone()),
-                        ("en".to_string(), text_en.clone()),
-                    ]),
-                    url: url.clone(),
+                    text: Translatable::Localized(Localized {
+                        de: text_de.clone(),
+                        en: text_en.clone(),
+                    }),
+                    url: Translatable::Plain(url.clone()),
                 };
 
                 links.entry(key.to_string()).or_default().push(entry);
@@ -391,7 +413,12 @@ mod tests {
         let (dir, sources_dir) = setup();
         fs::write(
             sources_dir.join("links.yaml"),
-            "room1:\n- text:\n    de: Existing\n    en: Existing\n  url: https://old.com\n",
+            r"room1:
+- text:
+    de: Existing
+    en: Existing
+  url: https://old.com
+",
         )
         .unwrap();
 
@@ -412,6 +439,154 @@ mod tests {
             en: New
           url: https://new.com
         ");
+    }
+
+    #[test]
+    fn test_link_edit_preserves_all_real_world_shapes() {
+        // The curated file mixes plain strings and `{de, en}` maps for both
+        // `text` and `url`; an edit must round-trip every shape losslessly.
+        let (dir, sources_dir) = setup();
+        fs::write(
+            sources_dir.join("links.yaml"),
+            r"'0201':
+- text:
+    de: Über das StudiTUM
+    en: About the StudiTUM
+  url:
+    de: https://www.sv.tum.de/sv/studitum/
+    en: https://www.sv.tum.de/en/sv/projekte/
+0505.03.529A:
+- text:
+    de: Schreib uns doch
+    en: Contact us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+wzw:
+- text: Speiseplan
+  url:
+    de: https://www.wzw.tum.de/index.php?id=33
+    en: https://www.wzw.tum.de/index.php?id=33&L=1
+",
+        )
+        .unwrap();
+
+        let edit = PropertyEdit::Link {
+            text_de: "Homepage".to_string(),
+            text_en: "Homepage".to_string(),
+            url: "https://example.com".to_string(),
+        };
+        edit.apply("0401", dir.path(), "branch").unwrap();
+        assert_snapshot!(fs::read_to_string(sources_dir.join("links.yaml")).unwrap(), @r"
+        '0201':
+        - text:
+            de: Über das StudiTUM
+            en: About the StudiTUM
+          url:
+            de: https://www.sv.tum.de/sv/studitum/
+            en: https://www.sv.tum.de/en/sv/projekte/
+        '0401':
+        - text:
+            de: Homepage
+            en: Homepage
+          url: https://example.com
+        0505.03.529A:
+        - text:
+            de: Schreib uns doch
+            en: Contact us
+          url: https://tum-som.com/contact
+        - text: Events
+          url: https://tum-som.com/events/
+        wzw:
+        - text: Speiseplan
+          url:
+            de: https://www.wzw.tum.de/index.php?id=33
+            en: https://www.wzw.tum.de/index.php?id=33&L=1
+        ");
+    }
+
+    #[test]
+    fn test_link_edit_unparsable_file_aborts_without_wiping() {
+        // A file the model cannot represent must fail the edit, not be
+        // replaced by a file containing only the new link.
+        let (dir, sources_dir) = setup();
+        let unrepresentable = r"room1:
+- text: Homepage
+  url: https://old.com
+  extra: field
+";
+        fs::write(sources_dir.join("links.yaml"), unrepresentable).unwrap();
+
+        let edit = PropertyEdit::Link {
+            text_de: "New".to_string(),
+            text_en: "New".to_string(),
+            url: "https://new.com".to_string(),
+        };
+        let err = edit.apply("room1", dir.path(), "branch").unwrap_err();
+        assert!(err.to_string().contains("losslessly"), "{err}");
+        assert_eq!(
+            fs::read_to_string(sources_dir.join("links.yaml")).unwrap(),
+            unrepresentable
+        );
+    }
+
+    #[test]
+    fn test_link_edit_unknown_language_aborts_without_wiping() {
+        // Localized values are always exactly `{de, en}`; any other language
+        // key is an unrepresentable shape and must abort the edit.
+        let (dir, sources_dir) = setup();
+        let unrepresentable = r"room1:
+- text:
+    de: Startseite
+    en: Homepage
+    fr: Accueil
+  url: https://old.com
+";
+        fs::write(sources_dir.join("links.yaml"), unrepresentable).unwrap();
+
+        let edit = PropertyEdit::Link {
+            text_de: "New".to_string(),
+            text_en: "New".to_string(),
+            url: "https://new.com".to_string(),
+        };
+        let err = edit.apply("room1", dir.path(), "branch").unwrap_err();
+        assert!(err.to_string().contains("losslessly"), "{err}");
+        assert_eq!(
+            fs::read_to_string(sources_dir.join("links.yaml")).unwrap(),
+            unrepresentable
+        );
+    }
+
+    #[test]
+    fn test_link_edit_treats_empty_file_like_missing_file() {
+        // An empty file holds no links that could be lost, so the hard
+        // parse-failure guard must not reject it.
+        let (dir, sources_dir) = setup();
+        fs::write(sources_dir.join("links.yaml"), "").unwrap();
+
+        let edit = PropertyEdit::Link {
+            text_de: "Homepage".to_string(),
+            text_en: "Homepage".to_string(),
+            url: "https://example.com".to_string(),
+        };
+        edit.apply("room1", dir.path(), "branch").unwrap();
+        assert_snapshot!(fs::read_to_string(sources_dir.join("links.yaml")).unwrap(), @r"
+        room1:
+        - text:
+            de: Homepage
+            en: Homepage
+          url: https://example.com
+        ");
+    }
+
+    #[test]
+    fn test_curated_links_yaml_is_representable() {
+        // Canary: if the curated file gains a shape the model cannot
+        // represent, link edits start failing at submit time.
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../data/sources/links.yaml");
+        let links: BTreeMap<String, Vec<LinkEntry>> =
+            serde_yaml::from_reader(File::open(path).unwrap()).unwrap();
+        assert!(!links.is_empty());
     }
 
     #[test]
