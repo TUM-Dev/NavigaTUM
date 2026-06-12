@@ -4,9 +4,10 @@
 import type { DeepWritable } from "ts-essentials";
 import { z } from "zod";
 import type { components } from "~/api_types";
-import { wallTimeToRfc3339 } from "~/utils/datetime";
+import { rfc3339ToWallTime, wallTimeToRfc3339 } from "~/utils/datetime";
 
 type BuildingKind = components["schemas"]["BuildingKind"];
+type EventEntry = components["schemas"]["EventEntry"];
 // openapi-typescript marks everything readonly, but the builders below produce fresh literals destined for the writable EditRequest map.
 export type Addition = DeepWritable<
   components["schemas"]["LimitedHashMap_String_Addition"][string]
@@ -290,6 +291,15 @@ function buildPoi(draft: PoiDraft): Addition {
   } as Addition;
 }
 
+// The search hit a locked draft is based on: its key is the upsert identity,
+// and its name and last-held dates feed the banner.
+export interface EventBasedOn {
+  id: string;
+  name: string;
+  starts_at: string;
+  ends_at: string;
+}
+
 export interface EventDraft extends DraftBase {
   kind: "event";
   name: string;
@@ -303,6 +313,7 @@ export interface EventDraft extends DraftBase {
   image_thumb_offset: number;
   image_header_offset: number;
   image_author: string;
+  based_on: EventBasedOn | null;
 }
 
 function emptyEvent(): EventDraft {
@@ -321,7 +332,32 @@ function emptyEvent(): EventDraft {
     image_thumb_offset: 0,
     image_header_offset: 0,
     image_author: "",
+    based_on: null,
   };
+}
+
+// A fresh locked draft from a picked search hit; the image is fetched separately
+// and rides in through the regular upload path.
+export function eventDraftFromEntry(entry: EventEntry, now: number): EventDraft {
+  const draft = emptyEvent();
+  draft.id = entry.id;
+  draft.based_on = {
+    id: entry.id,
+    name: entry.name,
+    starts_at: entry.starts_at,
+    ends_at: entry.ends_at,
+  };
+  draft.name = entry.name;
+  draft.description = entry.description;
+  draft.organising_org_id = entry.organising_org_id;
+  draft.coords = { lat: entry.lat, lon: entry.lon, picked: true };
+  draft.image_author = entry.image_author;
+  // Past dates fail the server's EventEnded validation; only a still-running edition pre-fills them.
+  if (Date.parse(entry.ends_at) > now) {
+    draft.starts_at = rfc3339ToWallTime(entry.starts_at) ?? "";
+    draft.ends_at = rfc3339ToWallTime(entry.ends_at) ?? "";
+  }
+  return draft;
 }
 
 const eventSchema = z

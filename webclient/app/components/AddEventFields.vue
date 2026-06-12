@@ -6,21 +6,34 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
-import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal } from "@mdi/js";
+import {
+  mdiCheck,
+  mdiClose,
+  mdiImage,
+  mdiInformation,
+  mdiUnfoldMoreHorizontal,
+  mdiUpdate,
+} from "@mdi/js";
 import { useDropZone, useFileDialog, useObjectUrl } from "@vueuse/core";
+import type { components } from "~/api_types";
 import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
 import {
   type AdditionFieldErrors,
+  additionRegistry,
   type EventDraft,
+  eventDraftFromEntry,
   validateAddition,
 } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
-import { wallTimeToRfc3339 } from "~/utils/datetime";
+import { formatEventDateRange, wallTimeToRfc3339 } from "~/utils/datetime";
 import { cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
+type EventEntry = components["schemas"]["EventEntry"];
+
 const editProposal = useEditProposal();
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
+const runtimeConfig = useRuntimeConfig();
 
 // The parent only mounts this component when `kind === "event"`, so the narrowing cast is safe
 // and saves every binding from re-checking the discriminant.
@@ -106,6 +119,9 @@ function fileToBase64(file: File): Promise<string | null> {
 }
 
 async function processFile(file: File): Promise<void> {
+  // Picking or unlinking a based-on event swaps the draft object while the image may
+  // still be decoding; writes must land on the draft this file was selected for.
+  const target = draft.value;
   fileError.value = "";
   if (!VALID_IMAGE_TYPES.includes(file.type)) {
     fileError.value = t("image_invalid_type");
@@ -135,6 +151,10 @@ async function processFile(file: File): Promise<void> {
     .join("")
     .slice(0, 16);
 
+  if (draft.value !== target) {
+    bitmap.close();
+    return;
+  }
   sourceBitmap.value?.close();
   sourceBitmap.value = bitmap;
   sourceFile.value = file;
@@ -144,7 +164,8 @@ async function processFile(file: File): Promise<void> {
   // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  draft.value.id = `event_${hash}`;
+  // In locked update mode the adopted key stays the identity, whatever the image.
+  if (!draft.value.based_on) draft.value.id = `event_${hash}`;
 }
 
 const {
@@ -174,10 +195,54 @@ function removeImage(): void {
   draft.value.image_height = null;
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  draft.value.id = "";
+  draft.value.id = draft.value.based_on?.id ?? "";
   fileError.value = "";
   resetFileDialog();
 }
+
+const prefillError = ref("");
+
+function resetLocalImageState(): void {
+  sourceBitmap.value?.close();
+  sourceBitmap.value = null;
+  sourceFile.value = null;
+  fileError.value = "";
+  prefillError.value = "";
+  resetFileDialog();
+}
+
+async function adoptEvent(entry: EventEntry): Promise<void> {
+  // The picked event becomes the new basis; a half-typed draft is intentionally discarded.
+  resetLocalImageState();
+  editProposal.value.pendingAddition = eventDraftFromEntry(entry, Date.now());
+  try {
+    const res = await fetch(`${runtimeConfig.public.cdnURL}/cdn/lg/${entry.id}_0.webp`, {
+      credentials: "omit",
+    });
+    if (!res.ok) throw new Error(`unexpected status ${res.status}`);
+    const blob = await res.blob();
+    // The user may have unlinked or re-picked while the image was downloading.
+    if (draft.value.based_on?.id !== entry.id) return;
+    await processFile(new File([blob], `${entry.id}_0.webp`, { type: blob.type || "image/webp" }));
+  } catch {
+    if (draft.value.based_on?.id === entry.id) prefillError.value = t("prefill_image_failed");
+  }
+}
+
+function unlinkBasedOn(): void {
+  resetLocalImageState();
+  editProposal.value.pendingAddition = additionRegistry.event.empty();
+}
+
+const basedOnLastHeld = computed(() => {
+  const basedOn = draft.value.based_on;
+  if (!basedOn) return "";
+  return formatEventDateRange(
+    basedOn.starts_at,
+    basedOn.ends_at,
+    locale.value === "de" ? "de" : "en"
+  );
+});
 
 // Release the bitmap's GPU/CPU buffers promptly; useObjectUrl handles the URL revokes itself.
 onScopeDispose(() => {
@@ -207,6 +272,31 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
 
 <template>
   <div class="space-y-3">
+    <div
+      v-if="draft.based_on"
+      class="bg-amber-50 dark:bg-amber-900 border-amber-300 dark:border-amber-600 flex items-start gap-2 rounded border p-3"
+      data-cy="event-update-banner"
+    >
+      <MdiIcon :path="mdiUpdate" :size="18" class="text-amber-600 dark:text-amber-300 mt-0.5 flex-shrink-0" />
+      <div class="flex-grow">
+        <p class="text-amber-900 dark:text-amber-50 text-sm font-medium">{{ t("based_on_title", [draft.based_on.name]) }}</p>
+        <p class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs">{{ t("based_on_last_held", [basedOnLastHeld]) }}</p>
+        <p class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs">{{ t("based_on_help") }}</p>
+        <p v-if="!draft.starts_at && !draft.ends_at" class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs font-medium">
+          {{ t("based_on_dates_cleared") }}
+        </p>
+        <button
+          type="button"
+          class="text-amber-900 dark:text-amber-50 hover:no-underline mt-1 text-xs underline"
+          @click="unlinkBasedOn"
+        >
+          {{ t("based_on_unlink") }}
+        </button>
+      </div>
+    </div>
+    <AddEventSearch v-else @pick="adoptEvent" />
+    <p v-if="prefillError" class="text-red-700 dark:text-red-200 text-xs">{{ prefillError }}</p>
+
     <div>
       <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-name">
         {{ t("name") }} <span class="text-red-700 dark:text-red-200">*</span>
@@ -451,6 +541,12 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
 
 <i18n lang="yaml">
 de:
+  based_on_title: Du aktualisierst "{0}"
+  based_on_last_held: "Zuletzt: {0}"
+  based_on_help: Dein Vorschlag ersetzt die bestehende Veranstaltung. Alle Felder können angepasst werden.
+  based_on_dates_cleared: Die letzte Ausgabe ist vorbei - bitte trage die neuen Termine ein.
+  based_on_unlink: Stattdessen eine neue Veranstaltung vorschlagen
+  prefill_image_failed: Das bisherige Bild konnte nicht geladen werden - bitte lade ein neues hoch.
   name: Name
   name_placeholder: z.B. GARNIX Festival
   description: Beschreibung
@@ -500,6 +596,12 @@ de:
     image_too_small: Das Bild muss mindestens 256px auf der kürzeren Seite haben.
     image_author_required: Bitte gib die Urheber:in des Bildes an.
 en:
+  based_on_title: You are updating "{0}"
+  based_on_last_held: "Last held: {0}"
+  based_on_help: Your proposal replaces the existing event. Every field can still be adjusted.
+  based_on_dates_cleared: The previous edition has ended - please enter the new dates.
+  based_on_unlink: Start a new event instead
+  prefill_image_failed: The existing image could not be loaded - please upload a new one.
   name: Name
   name_placeholder: e.g. GARNIX Festival
   description: Description

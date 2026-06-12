@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
+import type { components } from "../app/api_types";
 import {
   additionRegistry,
   buildAddition,
   type EventDraft,
+  eventDraftFromEntry,
   validateAddition,
 } from "../app/composables/additionSchema";
+import { wallTimeToRfc3339 } from "../app/utils/datetime";
+
+type EventEntry = components["schemas"]["EventEntry"];
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -80,5 +85,78 @@ describe("validateAddition (event)", () => {
     ["missing author", { image_author: "" }, "image_author", "error.image_author_required"],
   ] as const)("rejects %s", (_label, overrides, path, message) => {
     expect(validateAddition(validEvent(overrides))[path]).toBe(message);
+  });
+});
+
+describe("eventDraftFromEntry", () => {
+  const NOW = Date.parse("2026-06-13T12:00:00Z");
+
+  function entry(overrides: Partial<EventEntry> = {}): EventEntry {
+    return {
+      id: "event_4a3e5d2fd5b338e4",
+      name: "GARNIX Festival",
+      description: "Open-air student festival.",
+      starts_at: "2026-06-15T14:00:00Z",
+      ends_at: "2026-06-19T21:59:00Z",
+      lat: 48.262908,
+      lon: 11.669102,
+      organising_org_id: 51897,
+      image: "/cdn/thumb/event_4a3e5d2fd5b338e4_0.webp",
+      image_author: "Studentische Vertretung TUM",
+      ...overrides,
+    };
+  }
+
+  it("adopts the key and pre-fills every text field", () => {
+    const draft = eventDraftFromEntry(entry(), NOW);
+    expect(draft.id).toBe("event_4a3e5d2fd5b338e4");
+    expect(draft.based_on).toEqual({
+      id: "event_4a3e5d2fd5b338e4",
+      name: "GARNIX Festival",
+      starts_at: "2026-06-15T14:00:00Z",
+      ends_at: "2026-06-19T21:59:00Z",
+    });
+    expect(draft.name).toBe("GARNIX Festival");
+    expect(draft.description).toBe("Open-air student festival.");
+    expect(draft.organising_org_id).toBe(51897);
+    expect(draft.coords).toEqual({ lat: 48.262908, lon: 11.669102, picked: true });
+    expect(draft.image_author).toBe("Studentische Vertretung TUM");
+    // The image rides in separately through the upload path.
+    expect(draft.image).toBeNull();
+  });
+
+  it("pre-fills the dates of a not-yet-ended event as the same instants", () => {
+    const draft = eventDraftFromEntry(entry(), NOW);
+    expect(Date.parse(wallTimeToRfc3339(draft.starts_at) ?? "")).toBe(
+      Date.parse("2026-06-15T14:00:00Z")
+    );
+    expect(Date.parse(wallTimeToRfc3339(draft.ends_at) ?? "")).toBe(
+      Date.parse("2026-06-19T21:59:00Z")
+    );
+  });
+
+  it("clears the dates of an already-ended event", () => {
+    const draft = eventDraftFromEntry(
+      entry({ starts_at: "2025-06-15T14:00:00Z", ends_at: "2025-06-19T21:59:00Z" }),
+      NOW
+    );
+    expect(draft.starts_at).toBe("");
+    expect(draft.ends_at).toBe("");
+    // The rest of the pre-fill is unaffected by the date cutoff.
+    expect(draft.name).toBe("GARNIX Festival");
+    expect(draft.based_on?.id).toBe("event_4a3e5d2fd5b338e4");
+  });
+
+  it("validates clean once an image is attached", () => {
+    // `validateAddition` reads the real clock, so the entry's dates must be relative to it.
+    const upcoming = entry({
+      starts_at: new Date(Date.now() + 2 * DAY_MS).toISOString(),
+      ends_at: new Date(Date.now() + 3 * DAY_MS).toISOString(),
+    });
+    const draft = eventDraftFromEntry(upcoming, Date.now());
+    draft.image = { base64: "Zm9v", fileName: "event_4a3e5d2fd5b338e4_0.webp" };
+    draft.image_width = 1448;
+    draft.image_height = 2048;
+    expect(validateAddition(draft)).toEqual({});
   });
 });
