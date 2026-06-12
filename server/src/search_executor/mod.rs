@@ -108,17 +108,15 @@ pub struct LectureEntry {
 
 /// A campus event search result, carrying the full event-proposal pre-fill payload.
 ///
-/// One entry per `events.csv` row (an edition of an event, not an event name):
-/// picking one in a client pre-fills the event proposal form without a second
-/// round-trip, so every CSV column rides along.
+/// One entry per `events.csv` row, identified by the addition key: picking one
+/// in a client pre-fills the event proposal form without a second round-trip,
+/// so every CSV column rides along.
 #[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
 pub struct EventEntry {
-    /// The id of this edition of the event.
-    #[schema(example = "event_9d02ddd940c43f87_2026-06-15")]
-    id: String,
-    /// The `event_<hash>` identity shared by the `events.csv` row and its key-named images.
+    /// The `event_<hash>` addition key - the upsert identity shared by the
+    /// `events.csv` row and its key-named images.
     #[schema(example = "event_9d02ddd940c43f87")]
-    key: String,
+    id: String,
     /// The display name of the result. Supports highlighting.
     #[schema(example = "\x19GARNIX\x17 Festival")]
     name: String,
@@ -1175,9 +1173,8 @@ mod test {
     /// The full document shape the data pipeline exports for one `events.csv` row.
     fn garnix_event_document() -> serde_json::Value {
         serde_json::json!({
-            "ms_id": "event_9d02ddd940c43f87_2026-06-15",
+            "ms_id": "event_9d02ddd940c43f87",
             "facet": "event",
-            "key": "event_9d02ddd940c43f87",
             "name": "GARNIX Festival",
             "starts_at": "2026-06-15T14:00:00Z",
             "ends_at": "2026-06-19T21:59:00Z",
@@ -1235,8 +1232,7 @@ mod test {
             .first()
             .expect("expected at least one event entry");
         // Everything the propose page needs to pre-fill the event form rides along.
-        assert_eq!(top.id, "event_9d02ddd940c43f87_2026-06-15");
-        assert_eq!(top.key, "event_9d02ddd940c43f87");
+        assert_eq!(top.id, "event_9d02ddd940c43f87");
         assert_eq!(top.name, "\u{19}GARNIX\u{17} Festival");
         assert_eq!(top.description, "Open-air student festival.");
         assert_eq!(
@@ -1311,9 +1307,7 @@ mod test {
         );
         for section in &results.0 {
             assert!(
-                !section
-                    .entry_ids()
-                    .contains(&"event_9d02ddd940c43f87_2026-06-15"),
+                !section.entry_ids().contains(&"event_9d02ddd940c43f87"),
                 "event leaked into the {facet:?} section despite the facet being disabled",
                 facet = section.facet()
             );
@@ -1374,10 +1368,7 @@ mod test {
             .find_map(ResultsSection::events)
             .expect("expected an Events section for a type=event query");
         assert_eq!(events.entries.len(), 1);
-        assert_eq!(
-            events.entries.first().unwrap().id,
-            "event_9d02ddd940c43f87_2026-06-15"
-        );
+        assert_eq!(events.entries.first().unwrap().id, "event_9d02ddd940c43f87");
         for section in &results.0 {
             assert!(
                 section.facet() == ResultFacet::Events || section.is_empty(),
@@ -1387,26 +1378,26 @@ mod test {
         }
     }
 
-    /// Editions of a recurring event share a name, so they tie on every text
-    /// ranking rule. The per-query `starts_at:desc` sort breaks the tie in
-    /// favour of the newest edition - the one a proposer wants to start from.
-    /// The older edition is inserted first so that, without the sort, insertion
-    /// order would surface it on top and fail the test.
+    /// Successive editions of a recurring event (submitted with new posters, so
+    /// new keys) share a name and tie on every text ranking rule. The per-query
+    /// `starts_at:desc` sort breaks the tie in favour of the newest edition -
+    /// the one a proposer wants to start from. The older edition is inserted
+    /// first so that, without the sort, insertion order would surface it on top
+    /// and fail the test.
     #[tokio::test]
     #[tracing_test::traced_test]
     async fn test_newest_event_edition_ranks_first() {
         let ms = MeiliSearchTestContainer::new().await;
         let editions = [
             serde_json::json!({
-                "ms_id": "event_9d02ddd940c43f87_2025-06-16",
+                "ms_id": "event_17ddb108241f623c",
                 "facet": "event",
-                "key": "event_9d02ddd940c43f87",
                 "name": "GARNIX Festival",
                 "starts_at": "2025-06-16T14:00:00Z",
                 "ends_at": "2025-06-20T21:59:00Z",
                 "description": "Last year's edition.",
                 "organising_org_id": 51897,
-                "image": "/cdn/thumb/event_9d02ddd940c43f87_0.webp",
+                "image": "/cdn/thumb/event_17ddb108241f623c_0.webp",
                 "image_author": "Studentische Vertretung TUM",
                 "rank": 0,
                 "_geo": {"lat": 48.262908, "lng": 11.669102},
@@ -1449,10 +1440,7 @@ mod test {
         let ids: Vec<&str> = events.entries.iter().map(|e| e.id.as_str()).collect();
         assert_eq!(
             ids,
-            [
-                "event_9d02ddd940c43f87_2026-06-15",
-                "event_9d02ddd940c43f87_2025-06-16",
-            ],
+            ["event_9d02ddd940c43f87", "event_17ddb108241f623c"],
             "the newest edition must rank first"
         );
 

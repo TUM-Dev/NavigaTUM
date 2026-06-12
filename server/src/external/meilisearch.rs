@@ -217,9 +217,8 @@ pub struct GeoPoint {
 /// rather than be papered over with a default.
 #[derive(Deserialize, Clone)]
 pub struct EventMSHit {
-    pub ms_id: String,
     /// The `event_<hash>` identity shared by the CSV row and its key-named images.
-    pub key: String,
+    pub ms_id: String,
     pub name: String,
     pub starts_at: DateTime<Utc>,
     pub ends_at: DateTime<Utc>,
@@ -266,7 +265,7 @@ impl Debug for MSHit {
                 .finish(),
             Self::Event(event) => f
                 .debug_struct("MSHit::Event")
-                .field("key", &event.key)
+                .field("ms_id", &event.ms_id)
                 .field("name", &event.name)
                 .finish(),
         }

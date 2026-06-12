@@ -23,15 +23,14 @@ def _events(rows: list[dict[str, object]]) -> dy.DataFrame[EventsSchema]:
 
 
 def test_each_row_becomes_one_event_document() -> None:
-    """One search document per CSV row, faceted as `event`, with the key-plus-date `ms_id`."""
+    """One search document per CSV row, faceted as `event`, with the addition key as `ms_id`."""
     docs = event_search_documents(_events([{}]))
 
     assert len(docs) == 1
     doc = docs[0]
     assert doc["facet"] == "event"
-    # The `event_<hash>` identity from the image path, plus the UTC start date for
-    # uniqueness against legacy duplicate keys.
-    assert doc["ms_id"] == "event_9d02ddd940c43f87_2026-06-15"
+    # The `event_<hash>` identity from the image path is the document identity.
+    assert doc["ms_id"] == "event_9d02ddd940c43f87"
     assert doc["name"] == "GARNIX Festival"
 
 
@@ -56,7 +55,6 @@ def test_document_carries_the_full_prefill_payload() -> None:
     """Everything a client needs to pre-fill the event proposal form rides along on the document."""
     doc = event_search_documents(_events([{}]))[0]
 
-    assert doc["key"] == "event_9d02ddd940c43f87"
     assert doc["description"] == "Open-air student festival."
     assert doc["organising_org_id"] == 51897
     assert doc["image"] == "/cdn/thumb/event_9d02ddd940c43f87_0.webp"
@@ -66,8 +64,8 @@ def test_document_carries_the_full_prefill_payload() -> None:
     assert doc["rank"] == 0
 
 
-def test_duplicate_keys_across_editions_get_distinct_ms_ids() -> None:
-    """Legacy rows may reuse one key for several editions; the date suffix keeps `ms_id` unique."""
+def test_duplicate_key_rows_collapse_to_one_document() -> None:
+    """Rows sharing a key share an `ms_id`, so Meilisearch keeps only the last - an upsert, not a second hit."""
     docs = event_search_documents(
         _events(
             [
@@ -77,5 +75,4 @@ def test_duplicate_keys_across_editions_get_distinct_ms_ids() -> None:
         ),
     )
 
-    assert docs[0]["key"] == docs[1]["key"]
-    assert docs[0]["ms_id"] != docs[1]["ms_id"]
+    assert docs[0]["ms_id"] == docs[1]["ms_id"]

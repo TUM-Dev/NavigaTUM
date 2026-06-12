@@ -1274,12 +1274,11 @@ components:
       description: |-
         A campus event search result, carrying the full event-proposal pre-fill payload.
 
-        One entry per `events.csv` row (an edition of an event, not an event name):
-        picking one in a client pre-fills the event proposal form without a second
-        round-trip, so every CSV column rides along.
+        One entry per `events.csv` row, identified by the addition key: picking one
+        in a client pre-fills the event proposal form without a second round-trip,
+        so every CSV column rides along.
       required:
         - id
-        - key
         - name
         - description
         - starts_at
@@ -1301,8 +1300,10 @@ components:
           example: "2026-06-19T21:59:00Z"
         id:
           type: string
-          description: The id of this edition of the event.
-          example: event_9d02ddd940c43f87_2026-06-15
+          description: |-
+            The `event_<hash>` addition key - the upsert identity shared by the
+            `events.csv` row and its key-named images.
+          example: event_9d02ddd940c43f87
         image:
           type: string
           description: The `/cdn/thumb/…` delivery path of the event image.
@@ -1311,10 +1312,6 @@ components:
           type: string
           description: The author of the event image (CC-BY attribution).
           example: Studentische Vertretung TUM
-        key:
-          type: string
-          description: The `event_<hash>` identity shared by the `events.csv` row and its key-named images.
-          example: event_9d02ddd940c43f87
         lat:
           type: number
           format: double

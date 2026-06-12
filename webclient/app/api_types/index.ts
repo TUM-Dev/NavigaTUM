@@ -636,9 +636,9 @@ export type components = {
     /**
      * @description A campus event search result, carrying the full event-proposal pre-fill payload.
      *
-     *     One entry per `events.csv` row (an edition of an event, not an event name):
-     *     picking one in a client pre-fills the event proposal form without a second
-     *     round-trip, so every CSV column rides along.
+     *     One entry per `events.csv` row, identified by the addition key: picking one
+     *     in a client pre-fills the event proposal form without a second round-trip,
+     *     so every CSV column rides along.
      */
     readonly EventEntry: {
       /**
@@ -653,8 +653,9 @@ export type components = {
        */
       readonly ends_at: string;
       /**
-       * @description The id of this edition of the event.
-       * @example event_9d02ddd940c43f87_2026-06-15
+       * @description The `event_<hash>` addition key - the upsert identity shared by the
+       *     `events.csv` row and its key-named images.
+       * @example event_9d02ddd940c43f87
        */
       readonly id: string;
       /**
@@ -667,11 +668,6 @@ export type components = {
        * @example Studentische Vertretung TUM
        */
       readonly image_author: string;
-      /**
-       * @description The `event_<hash>` identity shared by the `events.csv` row and its key-named images.
-       * @example event_9d02ddd940c43f87
-       */
-      readonly key: string;
       /**
        * Format: double
        * @description Latitude of the event location.

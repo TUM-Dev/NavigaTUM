@@ -78,7 +78,6 @@ class EventSearchDocument(TypedDict):
 
     ms_id: str
     facet: str
-    key: str
     name: str
     starts_at: str
     ends_at: str
@@ -102,16 +101,14 @@ def event_search_documents(events: dy.DataFrame[EventsSchema]) -> list[EventSear
         match = _EVENT_IMAGE_KEY_REGEX.match(row["image"])
         if match is None:
             raise ValueError(f"event image {row['image']!r} does not contain an extractable event key")
-        starts_at = _utc_rfc3339(row["starts_at"])
         docs.append(
             {
-                # The date suffix keeps `ms_id` unique against legacy duplicate keys
-                # (same image resubmitted for a new edition before upsert-by-key landed).
-                "ms_id": f"{match['key']}_{starts_at[: len('2026-06-15')]}",
+                # The addition key is the event's identity: Meilisearch upserts by `ms_id`,
+                # so a resubmitted key replaces the document instead of adding a second one.
+                "ms_id": match["key"],
                 "facet": SearchFacet.EVENT.value,
-                "key": match["key"],
                 "name": row["name"],
-                "starts_at": starts_at,
+                "starts_at": _utc_rfc3339(row["starts_at"]),
                 "ends_at": _utc_rfc3339(row["ends_at"]),
                 "description": row["description"],
                 "organising_org_id": row["organising_org_id"],

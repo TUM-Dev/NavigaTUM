@@ -285,7 +285,6 @@ fn make_event_entry(
     let name = highlighted_name_for_hit(hit, highlight);
     super::EventEntry {
         id: event.ms_id.clone(),
-        key: event.key.clone(),
         name,
         description: event.description.clone(),
         starts_at: event.starts_at,
