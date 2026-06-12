@@ -1084,6 +1084,12 @@ cs:
       text: ©Andreas Heddergott / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted
     offsets:
       header: 250
+event_005b0898a22b664a:
+  0:
+    author: Studentische Vertretung TUM
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
 event_17ddb108241f623c:
   0:
     author: Studentische Vertretung der TUM
