@@ -633,6 +633,71 @@ export type components = {
        */
       readonly token: string;
     };
+    /**
+     * @description A campus event search result, carrying the full event-proposal pre-fill payload.
+     *
+     *     One entry per `events.csv` row, identified by the addition key: picking one
+     *     in a client pre-fills the event proposal form without a second round-trip,
+     *     so every CSV column rides along.
+     */
+    readonly EventEntry: {
+      /**
+       * @description The description of the event.
+       * @example Open-air student festival.
+       */
+      readonly description: string;
+      /**
+       * Format: date-time
+       * @description When the event ends, as an RFC 3339 timestamp.
+       * @example 2026-06-19T21:59:00Z
+       */
+      readonly ends_at: string;
+      /**
+       * @description The `event_<hash>` addition key - the upsert identity shared by the
+       *     `events.csv` row and its key-named images.
+       * @example event_9d02ddd940c43f87
+       */
+      readonly id: string;
+      /**
+       * @description The `/cdn/thumb/…` delivery path of the event image.
+       * @example /cdn/thumb/event_9d02ddd940c43f87_0.webp
+       */
+      readonly image: string;
+      /**
+       * @description The author of the event image (CC-BY attribution).
+       * @example Studentische Vertretung TUM
+       */
+      readonly image_author: string;
+      /**
+       * Format: double
+       * @description Latitude of the event location.
+       * @example 48.262908
+       */
+      readonly lat: number;
+      /**
+       * Format: double
+       * @description Longitude of the event location.
+       * @example 11.669102
+       */
+      readonly lon: number;
+      /**
+       * @description The display name of the result. Supports highlighting.
+       * @example GARNIX Festival
+       */
+      readonly name: string;
+      /**
+       * Format: int32
+       * @description The `TUMonline` org id of the organising organisation.
+       * @example 51897
+       */
+      readonly organising_org_id: number;
+      /**
+       * Format: date-time
+       * @description When the event starts, as an RFC 3339 timestamp.
+       * @example 2026-06-15T14:00:00Z
+       */
+      readonly starts_at: string;
+    };
     readonly EventResponse: {
       /**
        * @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
@@ -688,6 +753,23 @@ export type components = {
        */
       readonly title_en: string;
     };
+    /** @description A section of campus event results. */
+    readonly EventSection: {
+      readonly entries: readonly components["schemas"]["EventEntry"][];
+      /**
+       * @description The estimated (not exact) number of hits for that query
+       * @example 6
+       */
+      readonly estimatedTotalHits: number;
+      /**
+       * @description A recommendation how many of the entries should be displayed by default.
+       *
+       *     The number is usually from `0`..`5`.
+       *     More results might be displayed when clicking "expand".
+       * @example 4
+       */
+      readonly n_visible: number;
+    };
     /** @enum {string} */
     readonly EventTypeResponse: "lecture" | "exercise" | "exam" | "barred" | "other";
     readonly ExtraComputedPropResponse: {
@@ -706,7 +788,7 @@ export type components = {
      *     of accepted values.
      * @enum {string}
      */
-    readonly FacetFilter: "site" | "building" | "room" | "poi" | "lecture";
+    readonly FacetFilter: "site" | "building" | "room" | "poi" | "lecture" | "event";
     readonly FeaturedOverviewItemResponse: {
       /** @description The id of the entry */
       readonly id: string;
@@ -1965,11 +2047,13 @@ export type components = {
      *     The `facet` is the discriminator: the four entity facets (sites, buildings,
      *     rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
      *     the addresses facet carries [`AddressEntry`]s with their open Nominatim
-     *     `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
-     *     bilingual titles and upcoming occurrences. Tagging the section by `facet`
-     *     means a consumer narrows once on the discriminator it already needs for the
-     *     section header and then sees exactly the entry shape that facet carries -
-     *     instead of a redundant per-entry `kind` repeated on every hit.
+     *     `addresstype`, the lectures facet carries [`LectureEntry`]s with their
+     *     bilingual titles and upcoming occurrences, and the events facet carries
+     *     [`EventEntry`]s with the event-proposal pre-fill payload. Tagging the section
+     *     by `facet` means a consumer narrows once on the discriminator it already
+     *     needs for the section header and then sees exactly the entry shape that
+     *     facet carries - instead of a redundant per-entry `kind` repeated on every
+     *     hit.
      */
     readonly ResultsSection:
       | (components["schemas"]["LocationSection"] & {
@@ -1995,6 +2079,10 @@ export type components = {
       | (components["schemas"]["LectureSection"] & {
           /** @enum {string} */
           readonly facet: "lectures";
+        })
+      | (components["schemas"]["EventSection"] & {
+          /** @enum {string} */
+          readonly facet: "events";
         });
     readonly RoomAddress: {
       readonly place: string;
@@ -2980,6 +3068,13 @@ export interface operations {
          */
         readonly search_addresses?: boolean;
         /**
+         * @description Include campus events in the search.
+         *
+         *     Most clients don't render events, so this facet is disabled by default.
+         *     Requesting `type=event` implies enabling it.
+         */
+        readonly search_events?: boolean;
+        /**
          * @description Maximum number of sites (campus / site / area) to return.
          *
          *     Clamped to `0`..`1000`.
@@ -3014,6 +3109,15 @@ export interface operations {
          *     If this is a problem for you, please open an issue.
          */
         readonly limit_lectures?: number;
+        /**
+         * @description Maximum number of events to return.
+         *
+         *     Only has an effect when the event facet is enabled (via `search_events`
+         *     or `type=event`).
+         *     Clamped to `0`..`1000`.
+         *     If this is a problem for you, please open an issue.
+         */
+        readonly limit_events?: number;
         /**
          * @description Maximum number of results to return.
          *

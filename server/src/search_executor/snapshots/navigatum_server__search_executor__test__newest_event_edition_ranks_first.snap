@@ -1,0 +1,50 @@
+---
+source: server/src/search_executor/mod.rs
+description: same-name editions are sorted by starts_at descending
+expression: results.0
+info: "q=garnix, search_events=true"
+---
+- facet: events
+  entries:
+    - id: event_9d02ddd940c43f87
+      name: "\u0019GARNIX\u0017 Festival"
+      description: Open-air student festival.
+      starts_at: "2026-06-15T14:00:00Z"
+      ends_at: "2026-06-19T21:59:00Z"
+      lat: 48.262908
+      lon: 11.669102
+      organising_org_id: 51897
+      image: /cdn/thumb/event_9d02ddd940c43f87_0.webp
+      image_author: Studentische Vertretung TUM
+    - id: event_17ddb108241f623c
+      name: "\u0019GARNIX\u0017 Festival"
+      description: "Last year's edition."
+      starts_at: "2025-06-16T14:00:00Z"
+      ends_at: "2025-06-20T21:59:00Z"
+      lat: 48.262908
+      lon: 11.669102
+      organising_org_id: 51897
+      image: /cdn/thumb/event_17ddb108241f623c_0.webp
+      image_author: Studentische Vertretung TUM
+  n_visible: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: sites
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: pois
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
+- facet: lectures
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

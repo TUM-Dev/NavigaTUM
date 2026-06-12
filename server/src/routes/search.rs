@@ -100,6 +100,12 @@ pub struct SearchQueryArgs {
     /// Only activate this when you really need it.
     search_addresses: Option<bool>,
 
+    /// Include campus events in the search.
+    ///
+    /// Most clients don't render events, so this facet is disabled by default.
+    /// Requesting `type=event` implies enabling it.
+    search_events: Option<bool>,
+
     /// Maximum number of sites (campus / site / area) to return.
     ///
     /// Clamped to `0`..`1000`.
@@ -134,6 +140,15 @@ pub struct SearchQueryArgs {
     /// If this is a problem for you, please open an issue.
     #[schema(default = 5, maximum = 1000, minimum = 0)]
     limit_lectures: Option<usize>,
+
+    /// Maximum number of events to return.
+    ///
+    /// Only has an effect when the event facet is enabled (via `search_events`
+    /// or `type=event`).
+    /// Clamped to `0`..`1000`.
+    /// If this is a problem for you, please open an issue.
+    #[schema(default = 5, maximum = 1000, minimum = 0)]
+    limit_events: Option<usize>,
 
     /// Maximum number of results to return.
     ///
@@ -234,6 +249,9 @@ impl Debug for SearchResponse {
                 ResultFacet::Lectures => {
                     base.field("lectures", section);
                 }
+                ResultFacet::Events => {
+                    base.field("events", section);
+                }
                 ResultFacet::Addresses => {
                     base.field("addresses", section);
                 }
@@ -251,6 +269,10 @@ pub struct Limits {
     pub rooms_count: usize,
     pub pois_count: usize,
     pub lectures_count: usize,
+    /// `0` encodes "facet disabled": the event facet is default-disabled, so a
+    /// disabled request keeps the federation budget (and thus the result set)
+    /// byte-identical to one predating the facet.
+    pub events_count: usize,
     pub total_count: usize,
 }
 
@@ -263,6 +285,7 @@ impl Limits {
             .saturating_add(self.rooms_count)
             .saturating_add(self.pois_count)
             .saturating_add(self.lectures_count)
+            .saturating_add(self.events_count)
     }
 }
 
@@ -274,6 +297,7 @@ impl Debug for Limits {
             .field("rooms", &self.rooms_count)
             .field("pois", &self.pois_count)
             .field("lectures", &self.lectures_count)
+            .field("events", &self.events_count)
             .field("total", &self.total_count)
             .finish()
     }
@@ -288,6 +312,8 @@ impl Default for Limits {
             rooms_count: 10,
             pois_count: 5,
             lectures_count: 5,
+            // Mirrors the parameterless request: the event facet is default-disabled.
+            events_count: 0,
         }
     }
 }
@@ -295,6 +321,8 @@ impl Default for Limits {
 impl From<&SearchQueryArgs> for Limits {
     fn from(args: &SearchQueryArgs) -> Self {
         let total_count = args.limit_all.unwrap_or(10).clamp(0, 1_000);
+        let events_enabled =
+            args.search_events.unwrap_or(false) || args.filter_type.contains(&FacetFilter::Event);
         Self {
             sites_count: args
                 .limit_sites
@@ -321,6 +349,14 @@ impl From<&SearchQueryArgs> for Limits {
                 .unwrap_or(5)
                 .clamp(0, 1_000)
                 .min(total_count),
+            events_count: if events_enabled {
+                args.limit_events
+                    .unwrap_or(5)
+                    .clamp(0, 1_000)
+                    .min(total_count)
+            } else {
+                0
+            },
             total_count,
         }
     }
@@ -619,12 +655,14 @@ mod tests {
         assert!(limits.rooms_count <= 1_000);
         assert!(limits.pois_count <= 1_000);
         assert!(limits.lectures_count <= 1_000);
+        assert!(limits.events_count <= 1_000);
 
         assert!(limits.sites_count <= limits.total_count);
         assert!(limits.buildings_count <= limits.total_count);
         assert!(limits.rooms_count <= limits.total_count);
         assert!(limits.pois_count <= limits.total_count);
         assert!(limits.lectures_count <= limits.total_count);
+        assert!(limits.events_count <= limits.total_count);
     }
 
     #[test]
@@ -636,6 +674,7 @@ mod tests {
         assert_eq!(limits.rooms_count, 10);
         assert_eq!(limits.pois_count, 5);
         assert_eq!(limits.lectures_count, 5);
+        assert_eq!(limits.events_count, 0);
         assert_limits_invariants(&limits);
     }
 
@@ -648,6 +687,8 @@ mod tests {
             limit_buildings: Some(usize::MAX),
             limit_pois: Some(usize::MAX),
             limit_lectures: Some(usize::MAX),
+            limit_events: Some(usize::MAX),
+            search_events: Some(true),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -658,6 +699,7 @@ mod tests {
         assert_eq!(limits.buildings_count, 1_000);
         assert_eq!(limits.pois_count, 1_000);
         assert_eq!(limits.lectures_count, 1_000);
+        assert_eq!(limits.events_count, 1_000);
         assert_limits_invariants(&limits);
     }
 
@@ -670,6 +712,8 @@ mod tests {
             limit_buildings: Some(100),
             limit_pois: Some(100),
             limit_lectures: Some(100),
+            limit_events: Some(100),
+            search_events: Some(true),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -680,6 +724,7 @@ mod tests {
         assert_eq!(limits.buildings_count, 10);
         assert_eq!(limits.pois_count, 10);
         assert_eq!(limits.lectures_count, 10);
+        assert_eq!(limits.events_count, 10);
         assert_limits_invariants(&limits);
     }
 
@@ -692,6 +737,8 @@ mod tests {
             limit_buildings: Some(0),
             limit_pois: Some(0),
             limit_lectures: Some(0),
+            limit_events: Some(0),
+            search_events: Some(true),
             ..Default::default()
         };
         let limits = Limits::from(&input);
@@ -702,6 +749,7 @@ mod tests {
         assert_eq!(limits.buildings_count, 0);
         assert_eq!(limits.pois_count, 0);
         assert_eq!(limits.lectures_count, 0);
+        assert_eq!(limits.events_count, 0);
         assert_limits_invariants(&limits);
     }
 
@@ -713,9 +761,10 @@ mod tests {
             rooms_count: 3,
             pois_count: 4,
             lectures_count: 5,
+            events_count: 6,
             total_count: 100,
         };
-        assert_eq!(limits.per_facet_total(), 15);
+        assert_eq!(limits.per_facet_total(), 21);
     }
 
     #[test]
@@ -860,9 +909,11 @@ mod tests {
                 FacetFilter::Building,
                 FacetFilter::Room,
                 FacetFilter::Poi,
+                FacetFilter::Lecture,
+                FacetFilter::Event,
             ],
         );
-        insta::assert_snapshot!(filter, @r#"(facet IN ["site", "building", "room", "poi"])"#);
+        insta::assert_snapshot!(filter, @r#"(facet IN ["site", "building", "room", "poi", "lecture", "event"])"#);
     }
 
     #[test]
@@ -890,6 +941,45 @@ mod tests {
         let near = "48.123,11.456".to_string();
         let sorting = build_meilisearch_sorting(Some(&near));
         assert_eq!(sorting, vec!["_geoPoint(48.123,11.456):asc"]);
+    }
+
+    #[test]
+    fn query_accepts_event_facet_type() {
+        let args: SearchQueryArgs = serde_html_form::from_str("q=garnix&type=event").unwrap();
+        assert_eq!(args.filter_type, vec![FacetFilter::Event]);
+    }
+
+    #[test]
+    fn limits_events_are_disabled_by_default() {
+        let args: SearchQueryArgs = serde_html_form::from_str("q=garnix").unwrap();
+        let limits = Limits::from(&args);
+        assert_eq!(limits.events_count, 0);
+    }
+
+    #[test]
+    fn limits_events_enabled_by_search_events_param() {
+        let args: SearchQueryArgs =
+            serde_html_form::from_str("q=garnix&search_events=true").unwrap();
+        let limits = Limits::from(&args);
+        assert_eq!(limits.events_count, 5);
+    }
+
+    #[test]
+    fn limits_event_type_filter_implies_enabling() {
+        let args: SearchQueryArgs = serde_html_form::from_str("q=garnix&type=event").unwrap();
+        let limits = Limits::from(&args);
+        assert_eq!(limits.events_count, 5);
+    }
+
+    #[test]
+    fn limits_limit_events_only_applies_when_enabled() {
+        // Without enabling the facet, the per-facet limit has nothing to limit.
+        let args: SearchQueryArgs = serde_html_form::from_str("q=garnix&limit_events=2").unwrap();
+        assert_eq!(Limits::from(&args).events_count, 0);
+
+        let args: SearchQueryArgs =
+            serde_html_form::from_str("q=garnix&search_events=true&limit_events=2").unwrap();
+        assert_eq!(Limits::from(&args).events_count, 2);
     }
 
     #[test]

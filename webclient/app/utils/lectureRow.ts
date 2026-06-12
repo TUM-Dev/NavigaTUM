@@ -46,6 +46,10 @@ export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] 
   if (section.facet === "addresses") {
     return section.entries.map((entry) => ({ kind: "address", ...entry }));
   }
+  // Events never appear here: this client does not enable the default-off facet (UI lands in #3258).
+  if (section.facet === "events") {
+    return [];
+  }
   return section.entries.map((entry) => ({ kind: "location", ...entry }));
 }
 

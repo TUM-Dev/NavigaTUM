@@ -28,6 +28,7 @@ pub enum ResultFacet {
     Rooms,
     Pois,
     Lectures,
+    Events,
     Addresses,
 }
 
@@ -105,6 +106,46 @@ pub struct LectureEntry {
     upcoming: Vec<UpcomingEvent>,
 }
 
+/// A campus event search result, carrying the full event-proposal pre-fill payload.
+///
+/// One entry per `events.csv` row, identified by the addition key: picking one
+/// in a client pre-fills the event proposal form without a second round-trip,
+/// so every CSV column rides along.
+#[derive(Serialize, Debug, Clone, utoipa::ToSchema)]
+pub struct EventEntry {
+    /// The `event_<hash>` addition key - the upsert identity shared by the
+    /// `events.csv` row and its key-named images.
+    #[schema(example = "event_9d02ddd940c43f87")]
+    id: String,
+    /// The display name of the result. Supports highlighting.
+    #[schema(example = "\x19GARNIX\x17 Festival")]
+    name: String,
+    /// The description of the event.
+    #[schema(example = "Open-air student festival.")]
+    description: String,
+    /// When the event starts, as an RFC 3339 timestamp.
+    #[schema(example = "2026-06-15T14:00:00Z")]
+    starts_at: DateTime<Utc>,
+    /// When the event ends, as an RFC 3339 timestamp.
+    #[schema(example = "2026-06-19T21:59:00Z")]
+    ends_at: DateTime<Utc>,
+    /// Latitude of the event location.
+    #[schema(example = 48.262908)]
+    lat: f64,
+    /// Longitude of the event location.
+    #[schema(example = 11.669102)]
+    lon: f64,
+    /// The `TUMonline` org id of the organising organisation.
+    #[schema(example = 51897)]
+    organising_org_id: i32,
+    /// The `/cdn/thumb/…` delivery path of the event image.
+    #[schema(example = "/cdn/thumb/event_9d02ddd940c43f87_0.webp")]
+    image: String,
+    /// The author of the event image (CC-BY attribution).
+    #[schema(example = "Studentische Vertretung TUM")]
+    image_author: String,
+}
+
 /// A Nominatim address search result.
 ///
 /// Unlike a [`LocationEntry`], an address is not a `NavigaTUM` entity: it has no
@@ -160,6 +201,22 @@ pub struct LectureSection {
     estimated_total_hits: usize,
 }
 
+/// A section of campus event results.
+#[derive(Serialize, Clone, utoipa::ToSchema)]
+pub struct EventSection {
+    entries: Vec<EventEntry>,
+    /// A recommendation how many of the entries should be displayed by default.
+    ///
+    /// The number is usually from `0`..`5`.
+    /// More results might be displayed when clicking "expand".
+    #[schema(example = 4)]
+    n_visible: usize,
+    /// The estimated (not exact) number of hits for that query
+    #[serde(rename = "estimatedTotalHits")]
+    #[schema(example = 6)]
+    estimated_total_hits: usize,
+}
+
 /// A section of Nominatim address results.
 #[derive(Serialize, Clone, utoipa::ToSchema)]
 pub struct AddressSection {
@@ -181,11 +238,13 @@ pub struct AddressSection {
 /// The `facet` is the discriminator: the four entity facets (sites, buildings,
 /// rooms, and POIs) carry [`LocationEntry`]s with the room-id formatting fields,
 /// the addresses facet carries [`AddressEntry`]s with their open Nominatim
-/// `addresstype`, and the lectures facet carries [`LectureEntry`]s with their
-/// bilingual titles and upcoming occurrences. Tagging the section by `facet`
-/// means a consumer narrows once on the discriminator it already needs for the
-/// section header and then sees exactly the entry shape that facet carries -
-/// instead of a redundant per-entry `kind` repeated on every hit.
+/// `addresstype`, the lectures facet carries [`LectureEntry`]s with their
+/// bilingual titles and upcoming occurrences, and the events facet carries
+/// [`EventEntry`]s with the event-proposal pre-fill payload. Tagging the section
+/// by `facet` means a consumer narrows once on the discriminator it already
+/// needs for the section header and then sees exactly the entry shape that
+/// facet carries - instead of a redundant per-entry `kind` repeated on every
+/// hit.
 #[derive(Serialize, Clone, utoipa::ToSchema)]
 #[serde(tag = "facet", rename_all = "snake_case")]
 pub enum ResultsSection {
@@ -195,6 +254,7 @@ pub enum ResultsSection {
     Pois(LocationSection),
     Addresses(AddressSection),
     Lectures(LectureSection),
+    Events(EventSection),
 }
 
 impl ResultsSection {
@@ -207,6 +267,7 @@ impl ResultsSection {
             Self::Pois(_) => ResultFacet::Pois,
             Self::Addresses(_) => ResultFacet::Addresses,
             Self::Lectures(_) => ResultFacet::Lectures,
+            Self::Events(_) => ResultFacet::Events,
         }
     }
 }
@@ -224,6 +285,10 @@ impl Debug for ResultsSection {
                 .finish(),
             Self::Lectures(b) => f
                 .debug_tuple("Lectures")
+                .field(&TruncatedEntries(&b.entries))
+                .finish(),
+            Self::Events(b) => f
+                .debug_tuple("Events")
                 .field(&TruncatedEntries(&b.entries))
                 .finish(),
         }
@@ -266,6 +331,13 @@ impl ResultsSection {
             _ => None,
         }
     }
+    /// The events section's body, if this is the events section.
+    fn events(&self) -> Option<&EventSection> {
+        match self {
+            Self::Events(s) => Some(s),
+            _ => None,
+        }
+    }
     /// Whether this section has no entries.
     fn is_empty(&self) -> bool {
         match self {
@@ -274,6 +346,7 @@ impl ResultsSection {
             }
             Self::Addresses(b) => b.entries.is_empty(),
             Self::Lectures(b) => b.entries.is_empty(),
+            Self::Events(b) => b.entries.is_empty(),
         }
     }
     /// The ids of every entry in this section, regardless of facet.
@@ -284,6 +357,7 @@ impl ResultsSection {
             }
             Self::Addresses(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
             Self::Lectures(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
+            Self::Events(b) => b.entries.iter().map(|e| e.id.as_str()).collect(),
         }
     }
 }
@@ -365,6 +439,7 @@ pub async fn do_geoentry_search(
         rooms: mut section_rooms,
         pois: section_pois,
         lectures: section_lectures,
+        events: section_events,
         facet_order,
     } = merger::merge_search_results(
         &limits,
@@ -387,6 +462,10 @@ pub async fn do_geoentry_search(
     let mut rooms_opt = Some(ResultsSection::Rooms(section_rooms));
     let mut pois_opt = Some(ResultsSection::Pois(section_pois));
     let mut lectures_opt = Some(ResultsSection::Lectures(section_lectures));
+    // Address precedent for a default-disabled facet: the section only exists
+    // when its query ran, so disabled requests keep their pre-facet shape.
+    let mut events_opt =
+        (limits.events_count > 0).then_some(ResultsSection::Events(section_events));
 
     let mut sections: Vec<ResultsSection> = Vec::with_capacity(ResultFacet::COUNT - 1);
     for facet in &facet_order {
@@ -396,15 +475,23 @@ pub async fn do_geoentry_search(
             ResultFacet::Rooms => rooms_opt.take(),
             ResultFacet::Pois => pois_opt.take(),
             ResultFacet::Lectures => lectures_opt.take(),
+            ResultFacet::Events => events_opt.take(),
             ResultFacet::Addresses => None,
         };
         if let Some(s) = taken {
             sections.push(s);
         }
     }
-    for trailing in [sites_opt, buildings_opt, rooms_opt, pois_opt, lectures_opt]
-        .into_iter()
-        .flatten()
+    for trailing in [
+        sites_opt,
+        buildings_opt,
+        rooms_opt,
+        pois_opt,
+        lectures_opt,
+        events_opt,
+    ]
+    .into_iter()
+    .flatten()
     {
         sections.push(trailing);
     }
@@ -1044,8 +1131,9 @@ mod test {
         )
         .await;
 
-        // One section per non-address facet; the handler appends the address section.
-        assert_eq!(results.0.len(), ResultFacet::COUNT - 1);
+        // One section per federated facet, minus events (default-disabled here);
+        // the handler appends the address section.
+        assert_eq!(results.0.len(), ResultFacet::COUNT - 2);
 
         let lectures = results
             .0
@@ -1077,6 +1165,288 @@ mod test {
         insta::with_settings!({
             info => &"q=Navigatumlehre",
             description => "lecture facet returns a bilingual hit with its next occurrence",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+    }
+
+    /// The full document shape the data pipeline exports for one `events.csv` row.
+    fn garnix_event_document() -> serde_json::Value {
+        serde_json::json!({
+            "ms_id": "event_9d02ddd940c43f87",
+            "facet": "event",
+            "name": "GARNIX Festival",
+            "starts_at": "2026-06-15T14:00:00Z",
+            "ends_at": "2026-06-19T21:59:00Z",
+            "description": "Open-air student festival.",
+            "organising_org_id": 51897,
+            "image": "/cdn/thumb/event_9d02ddd940c43f87_0.webp",
+            "image_author": "Studentische Vertretung TUM",
+            "rank": 0,
+            "_geo": {"lat": 48.262908, "lng": 11.669102},
+        })
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_event_facet_returns_the_prefill_payload() {
+        let ms = MeiliSearchTestContainer::new().await;
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[garnix_event_document()], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "event document upsert should succeed, got {task:?}"
+        );
+
+        let limits = Limits {
+            events_count: 5,
+            ..Limits::default()
+        };
+        let results = do_geoentry_search(
+            &ms.client,
+            "garnix",
+            limits,
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        // One section per federated facet incl. events; the handler appends addresses.
+        assert_eq!(results.0.len(), ResultFacet::COUNT - 1);
+
+        let events = results
+            .0
+            .iter()
+            .find_map(ResultsSection::events)
+            .expect("expected an Events section for an event-name query");
+        let top = events
+            .entries
+            .first()
+            .expect("expected at least one event entry");
+        // Everything the propose page needs to pre-fill the event form rides along.
+        assert_eq!(top.id, "event_9d02ddd940c43f87");
+        assert_eq!(top.name, "\u{19}GARNIX\u{17} Festival");
+        assert_eq!(top.description, "Open-air student festival.");
+        assert_eq!(
+            top.starts_at,
+            "2026-06-15T14:00:00Z".parse::<DateTime<Utc>>().unwrap()
+        );
+        assert_eq!(
+            top.ends_at,
+            "2026-06-19T21:59:00Z".parse::<DateTime<Utc>>().unwrap()
+        );
+        assert!((top.lat - 48.262908).abs() < f64::EPSILON);
+        assert!((top.lon - 11.669102).abs() < f64::EPSILON);
+        assert_eq!(top.organising_org_id, 51897);
+        assert_eq!(top.image, "/cdn/thumb/event_9d02ddd940c43f87_0.webp");
+        assert_eq!(top.image_author, "Studentische Vertretung TUM");
+
+        // The event surfaces only in its own section, never in the five geo/lecture ones.
+        for section in &results.0 {
+            if section.facet() != ResultFacet::Events {
+                assert!(
+                    !section.entry_ids().contains(&top.id.as_str()),
+                    "event leaked into the {facet:?} section",
+                    facet = section.facet()
+                );
+            }
+        }
+
+        insta::with_settings!({
+            info => &"q=garnix, search_events=true",
+            description => "the event facet returns the full proposal-form pre-fill payload",
+        }, {
+            insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
+        });
+    }
+
+    /// The event facet is default-disabled: without `search_events=true` or
+    /// `type=event` (both encoded as a non-zero `events_count`), an indexed
+    /// event must be invisible - no events section, no hits in other sections.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_event_facet_is_invisible_unless_enabled() {
+        let ms = MeiliSearchTestContainer::new().await;
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[garnix_event_document()], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "event document upsert should succeed, got {task:?}"
+        );
+
+        let results = do_geoentry_search(
+            &ms.client,
+            "garnix",
+            Limits::default(),
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        // The response keeps its pre-facet shape: the five always-on sections.
+        assert_eq!(results.0.len(), ResultFacet::COUNT - 2);
+        assert!(
+            results.0.iter().find_map(ResultsSection::events).is_none(),
+            "a disabled event facet must not produce an events section"
+        );
+        for section in &results.0 {
+            assert!(
+                !section.entry_ids().contains(&"event_9d02ddd940c43f87"),
+                "event leaked into the {facet:?} section despite the facet being disabled",
+                facet = section.facet()
+            );
+        }
+    }
+
+    /// `?type=event` end-to-end below the handler: `Limits::from` turns the
+    /// filter into a non-zero `events_count` (unit-tested in `routes::search`),
+    /// and the `facet IN ["event"]` user filter built from it must keep every
+    /// other section empty even when a geo entry matches the query.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_event_type_filter_returns_only_events() {
+        let ms = MeiliSearchTestContainer::new().await;
+        // A building sharing the query token, to prove the type filter excludes it.
+        let building = serde_json::json!({
+            "ms_id": "building_testfixture0001",
+            "facet": "building",
+            "type": "building",
+            "room_code": "GRX",
+            "name": "GARNIX Pavillon",
+            "type_common_name": "Gebäude",
+            "rank": 100,
+            "parent_building_names": [],
+            "parent_keywords": ["garching"],
+        });
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[building, garnix_event_document()], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "fixture upsert should succeed, got {task:?}"
+        );
+
+        let limits = Limits {
+            events_count: 5,
+            ..Limits::default()
+        };
+        let results = do_geoentry_search(
+            &ms.client,
+            "garnix",
+            limits,
+            FormattingConfig::default(),
+            r#"(facet IN ["event"])"#.to_string(),
+            vec![],
+        )
+        .await;
+
+        let events = results
+            .0
+            .iter()
+            .find_map(ResultsSection::events)
+            .expect("expected an Events section for a type=event query");
+        assert_eq!(events.entries.len(), 1);
+        assert_eq!(events.entries.first().unwrap().id, "event_9d02ddd940c43f87");
+        for section in &results.0 {
+            assert!(
+                section.facet() == ResultFacet::Events || section.is_empty(),
+                "type=event must keep the {facet:?} section empty",
+                facet = section.facet()
+            );
+        }
+    }
+
+    /// Successive editions of a recurring event (submitted with new posters, so
+    /// new keys) share a name and tie on every text ranking rule. The per-query
+    /// `starts_at:desc` sort breaks the tie in favour of the newest edition -
+    /// the one a proposer wants to start from. The older edition is inserted
+    /// first so that, without the sort, insertion order would surface it on top
+    /// and fail the test.
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_newest_event_edition_ranks_first() {
+        let ms = MeiliSearchTestContainer::new().await;
+        let editions = [
+            serde_json::json!({
+                "ms_id": "event_17ddb108241f623c",
+                "facet": "event",
+                "name": "GARNIX Festival",
+                "starts_at": "2025-06-16T14:00:00Z",
+                "ends_at": "2025-06-20T21:59:00Z",
+                "description": "Last year's edition.",
+                "organising_org_id": 51897,
+                "image": "/cdn/thumb/event_17ddb108241f623c_0.webp",
+                "image_author": "Studentische Vertretung TUM",
+                "rank": 0,
+                "_geo": {"lat": 48.262908, "lng": 11.669102},
+            }),
+            garnix_event_document(),
+        ];
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&editions, Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "event document upsert should succeed, got {task:?}"
+        );
+
+        let limits = Limits {
+            events_count: 5,
+            ..Limits::default()
+        };
+        let results = do_geoentry_search(
+            &ms.client,
+            "garnix",
+            limits,
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        let events = results
+            .0
+            .iter()
+            .find_map(ResultsSection::events)
+            .expect("expected an Events section for an event-name query");
+        let ids: Vec<&str> = events.entries.iter().map(|e| e.id.as_str()).collect();
+        assert_eq!(
+            ids,
+            ["event_9d02ddd940c43f87", "event_17ddb108241f623c"],
+            "the newest edition must rank first"
+        );
+
+        insta::with_settings!({
+            info => &"q=garnix, search_events=true",
+            description => "same-name editions are sorted by starts_at descending",
         }, {
             insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
         });
