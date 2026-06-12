@@ -3,11 +3,6 @@
     de: Homepage
     en: Homepage
   url: https://www.fs.ei.tum.de/
-0104.U1.403:
-- text:
-    de: Homepage
-    en: Homepage
-  url: https://www.fs.ei.tum.de/
 '0201':
 - text:
     de: Über das StudiTUM
@@ -214,3 +209,13 @@ wzw:
   url:
     de: https://www.wzw.tum.de/index.php?id=33
     en: https://www.wzw.tum.de/index.php?id=33&L=1
+0104.U1.403:
+- text:
+    de: https://fsei.de/
+    en: https://fsei.de/en/
+  url: https://fsei.de/
+0104.U1.412:
+- text:
+    de: https://fsei.de/services/skriptenverkauf/
+    en: https://fsei.de/en/services/skriptenverkauf/
+  url: https://fsei.de/services/skriptenverkauf/

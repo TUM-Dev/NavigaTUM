@@ -1,8 +1,9 @@
 id,name_de,name_en,din_277,din_277_desc,din277_name
 0101.02.157,Büro,Office,NF2.1,Büroräume,
+0104.U1.403,Büro,Office,NF2.1,,
 0104.U1.403A,Büro,Office,NF2.1,Büroräume,
-0104.U1.403,Fachschaft EI,Student Council EI,NF2.1,Büroräume,
 0101.EG.128,Fachschaft EI,Student Council EI,NF2.1,Büroräume,
+0104.U1.412,Kiosk,Kiosk,NF4.5,,
 0201.EG.004,WC,WC,NF7.1,Sanitärräume,
 0201.01.005,WC,WC,NF7.1,Sanitärräume,
 0201.03.004,WC,WC,NF7.1,Sanitärräume,
