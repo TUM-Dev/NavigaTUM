@@ -207,7 +207,7 @@ mod tests {
         clippy::panic_in_result_fn,
         reason = "tests assert via panic/unwrap"
     )]
-    use std::collections::HashSet;
+    use std::collections::{HashMap, HashSet};
     use std::fs;
 
     use insta::assert_snapshot;
@@ -224,6 +224,7 @@ mod tests {
             poi_keys: HashSet::new(),
             usage_ids: HashSet::from([12]),
             org_ids: HashSet::new(),
+            event_row_counts: HashMap::new(),
             now: chrono::Utc::now(),
         }
     }

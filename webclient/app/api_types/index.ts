@@ -1540,7 +1540,10 @@ export type components = {
       readonly short_name?: string | null;
       readonly visible_id?: string | null;
     };
-    /** @description A proposed campus event, appended as a row to `data/sources/events.csv`. */
+    /**
+     * @description A proposed campus event, upserted by key into `data/sources/events.csv`: a row whose
+     *     image path derives from the addition key is replaced, otherwise the event is appended.
+     */
     readonly NewEvent: {
       readonly coords: components["schemas"]["Coordinate"];
       readonly description: string;
