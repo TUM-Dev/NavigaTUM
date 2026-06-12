@@ -1,3 +1,214 @@
+0101.EG.128:
+- text:
+    de: Homepage
+    en: Homepage
+  url: https://www.fs.ei.tum.de/
+'0201':
+- text:
+    de: Über das StudiTUM
+    en: About the StudiTUM
+  url:
+    de: https://www.sv.tum.de/sv/studitum/
+    en: https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/
+0201.01.004:
+- text:
+    de: Weitere Informationen
+    en: More informations
+  url: https://www.sv.tum.de/
+'0206':
+- text:
+    de: Speiseplan
+    en: Current menu
+  url:
+    de: https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr
+    en: https://tum-dev.github.io/eat-api/#!/en/mensa-arcisstr
+0206.EG.002:
+- text:
+    de: Weitere Informationen
+    en: More informations
+  url: https://www.sv.tum.de/
+0206.EG.003:
+- text:
+    de: Weitere Informationen
+    en: More informations
+  url: https://www.sv.tum.de/
+0505.03.529A:
+- text:
+    de: Schreib uns doch
+    en: Contat us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+0505.03.572:
+- text:
+    de: Schreib uns doch
+    en: Contat us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+0505.03.574:
+- text:
+    de: Schreib uns doch
+    en: Contat us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+0505.03.576A:
+- text:
+    de: Schreib uns doch
+    en: Contat us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+0505.03.577A:
+- text:
+    de: Schreib uns doch
+    en: Contat us
+  url: https://tum-som.com/contact
+- text: Events
+  url: https://tum-som.com/events/
+'4113':
+- text:
+    de: Über das StudiTUM
+    en: About the StudiTUM
+  url:
+    de: https://www.sv.tum.de/sv/studitum/
+    en: https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/
+4213.01.318:
+- text:
+    de: Weitere Informationen
+    en: More informations
+  url: https://www.tcf.tum.de/facit/baywa-co-working-space/angebot/"
+'4216':
+- text:
+    de: Speiseplan
+    en: Current menu
+  url:
+    de: https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan
+    en: https://tum-dev.github.io/eat-api/#!/en/mensa-weihenstephan
+'4304':
+- text:
+    de: Ökologischer Landbau
+    en: Organic Agriculture (DE)
+  url: https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/
+'5304':
+- text:
+    de: Speiseplan
+    en: Current menu
+  url:
+    de: https://tum-dev.github.io/eat-api/#!/de/mensa-garching
+    en: https://tum-dev.github.io/eat-api/#!/en/mensa-garching
+- text:
+    de: Wie lang ist die Schlange?
+    en: How long is the queue?
+  url: https://mensa.liste.party/
+5506.EG.690C:
+- text:
+    de: Weitere Informationen
+    en: more information
+  url: https://www.akaflieg.vo.tum.de/
+5506.U1.632:
+- text:
+    de: Weitere Informationen
+    en: more information
+  url: https://www.akaflieg.vo.tum.de/
+5510.EG.011M:
+- text:
+    de: Öffnungszeiten & Artikel
+    en: Opening hours & articles
+  url: https://fsmb.de/studierende/skriptenverkauf/
+'5532':
+- text:
+    de: Über das StudiTUM
+    en: About the StudiTUM
+  url:
+    de: https://www.sv.tum.de/sv/studitum/
+    en: https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/
+5532.01.105:
+- text:
+    de: Weitere Informationen
+    en: More informations
+  url: https://www.sv.tum.de/
+5606.EG.039:
+- text:
+    de: Öffnungszeiten & Artikel
+    en: Opening hours & articles
+  url: https://skripten.mpi.fs.tum.de/
+'6202':
+- text:
+    de: Webseite
+    en: Website (DE)
+  url: https://www.hr6.tum.de/feuerwehr/startseite/
+- text:
+    de: 'Notruf: 089 289 112'
+    en: 'Emergency Call: 089 289 112'
+  url: tel:+4989289112
+7894.EG.302:
+- text:
+    de: Homepage
+    en: Homepage
+  url: https://www.tum-venture-labs.de/labs/additive-manufacturing/
+cs:
+- text:
+    de: Über den Campus Straubing
+    en: About the Campus Straubing
+  url:
+    de: https://www.cs.tum.de/campus-straubing/
+    en: https://www.cs.tum.de/campus-straubing/campus/?lang=en
+duernast:
+- text: Gewächshaus-Laborzentrum
+  url:
+    de: https://www.ghl.wzw.tum.de/
+    en: https://www.ghl.wzw.tum.de/en.html
+- text:
+    de: Agrarsystemtechnik
+    en: Agricultural Systems Engineering
+  url:
+    de: https://www.tec.wzw.tum.de/index.php?id=6
+    en: https://www.tec.wzw.tum.de/index.php?id=6&L=1
+- text:
+    de: Ökologischer Landbau
+    en: Organic Agriculture (DE)
+  url: https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/
+garching:
+- text:
+    de: Über den Campus Garching
+    en: About the Campus Garching (DE)
+  url: https://www.forschung-garching.tum.de/
+- text: Campus Tour (YouTube)
+  url: https://www.youtube.com/playlist?list=PLPFs4xTkIH1sPp48qQ0Podcfp_WMG9wpB
+heilbronn:
+- text:
+    de: Über den Campus Heilbronn
+    en: About the Campus Heilbronn
+  url: https://www.mgt.tum.de/campuses/heilbronn/explore-the-campus
+roggenstein:
+- text:
+    de: Offizielle Webseite
+    en: Official website (DE)
+  url: https://www.roggenstein.wzw.tum.de/versuchsstation-roggenstein/
+thalhausen:
+- text:
+    de: Ökologischer Langbau
+    en: Organic Agriculture (DE)
+  url: https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/
+veitshof:
+- text:
+    de: Grünlandlehre
+    en: Grünlandlehre (DE)
+  url: https://www.gruenland.wzw.tum.de/veitshof.html
+viehhausen:
+- text:
+    de: Offizielle Webseite
+    en: Official website (DE)
+  url: https://www.viehhausen.wzw.tum.de/viehhausen/
+wzw:
+- text:
+    de: Über den Campus Weihenstephan
+    en: About the Campus Weihenstephan
+  url:
+    de: https://www.wzw.tum.de/index.php?id=33
+    en: https://www.wzw.tum.de/index.php?id=33&L=1
 0104.U1.403:
 - text:
     de: https://fsei.de/
