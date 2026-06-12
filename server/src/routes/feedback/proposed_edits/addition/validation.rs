@@ -1,6 +1,6 @@
 //! Validates against the cloned `TempRepo` itself, not an in-memory cache, so additions can't
 //! pass validation against state that has already drifted from disk.
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::fs::{self, File};
 use std::io::{BufRead as _, BufReader, ErrorKind};
@@ -11,6 +11,7 @@ use serde::Deserialize;
 use thiserror::Error;
 
 use super::areatree::{AreatreeIndex, AreatreeKind};
+use super::event::event_key_of_image_path;
 
 #[derive(Debug, Clone, Copy, strum::IntoStaticStr)]
 #[strum(serialize_all = "snake_case")]
@@ -108,6 +109,8 @@ pub enum AdditionError {
     ImageTooSmall { width: u32, height: u32, min: u32 },
     #[error("organising_org_id {0} is not in orgs-de_tumonline.csv")]
     UnknownOrgId(i32),
+    #[error("events.csv contains {count} rows for `{key}`; cannot determine which row to replace")]
+    DuplicateEventRows { key: String, count: usize },
 }
 
 #[derive(Debug)]
@@ -118,6 +121,9 @@ pub struct RepoSnapshot {
     pub poi_keys: HashSet<String>,
     pub usage_ids: HashSet<u32>,
     pub org_ids: HashSet<i32>,
+    /// How many `events.csv` rows derive from each event key; an event addition under a key
+    /// with exactly one row is an update, more than one is a validation failure.
+    pub event_row_counts: HashMap<String, usize>,
     /// Request time, so now-relative addition rules are deterministic per request.
     pub now: DateTime<Utc>,
 }
@@ -201,6 +207,23 @@ impl RepoSnapshot {
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
 
+        let events_csv = base_dir.join("data").join("sources").join("events.csv");
+        let event_row_counts = match File::open(&events_csv) {
+            Ok(file) => {
+                let mut counts: HashMap<String, usize> = HashMap::new();
+                // Descriptions span multiple lines, so this needs a real CSV parser.
+                for record in csv::Reader::from_reader(file).into_records() {
+                    let record = record?;
+                    if let Some(key) = record.get(0).and_then(event_key_of_image_path) {
+                        *counts.entry(key.to_string()).or_default() += 1;
+                    }
+                }
+                counts
+            }
+            Err(e) if e.kind() == ErrorKind::NotFound => HashMap::new(),
+            Err(e) => return Err(e.into()),
+        };
+
         Ok(Self {
             areatree,
             tumonline_room_codes,
@@ -208,6 +231,7 @@ impl RepoSnapshot {
             poi_keys,
             usage_ids,
             org_ids,
+            event_row_counts,
             now: Utc::now(),
         })
     }
@@ -293,5 +317,26 @@ mod tests {
         assert!(snap.org_ids.contains(&1));
         assert!(snap.poi_keys.contains("validierungsautomat-1"));
         assert!(snap.user_added_room_codes.contains("5117.EG.999"));
+        // No events.csv in this fixture, so no event rows are counted.
+        assert!(snap.event_row_counts.is_empty());
+    }
+
+    #[test]
+    fn counts_event_rows_by_key() {
+        let dir = build_dir();
+        // The duplicate `event_aaa` rows and the multi-line quoted description are the two
+        // legacy-data shapes the counting has to survive.
+        fs::write(
+            dir.path().join("data").join("sources").join("events.csv"),
+            "event_image,event_lat,event_lon,event_name,event_datetime_start_at,event_datetime_end_at,event_description,event_organising_org_id,event_image_author\n\
+            /cdn/thumb/event_aaa_0.webp,48.1,11.5,A,2026-06-15T16:00:00+02:00,2026-06-16T16:00:00+02:00,\"multi\nline, description\",1,Studi\n\
+            /cdn/thumb/event_aaa_1.webp,48.1,11.5,A again,2026-06-15T16:00:00+02:00,2026-06-16T16:00:00+02:00,duplicate key,1,Studi\n\
+            /cdn/thumb/event_bbb_0.webp,48.2,11.6,B,2026-06-15T16:00:00+02:00,2026-06-16T16:00:00+02:00,single,1,Studi\n",
+        )
+        .unwrap();
+        let snap = RepoSnapshot::load(dir.path()).unwrap();
+        assert_eq!(snap.event_row_counts.get("event_aaa"), Some(&2));
+        assert_eq!(snap.event_row_counts.get("event_bbb"), Some(&1));
+        assert_eq!(snap.event_row_counts.len(), 2);
     }
 }

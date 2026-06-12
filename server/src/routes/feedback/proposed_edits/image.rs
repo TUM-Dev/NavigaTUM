@@ -96,16 +96,58 @@ impl Image {
     fn save_metadata(&self, key: &str, image_dir: &Path) -> anyhow::Result<()> {
         // Sanitize the key to prevent path traversal attacks
         let safe_key = sanitize_key(key)?;
-
+        Self::update_metadata_file(image_dir, |image_sources| {
+            self.apply_metadata_to(safe_key, image_sources);
+        })
+    }
+    fn update_metadata_file(
+        image_dir: &Path,
+        update: impl FnOnce(&mut BTreeMap<String, BTreeMap<u32, ImageMetadata>>),
+    ) -> anyhow::Result<()> {
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
             serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, ImageMetadata>>>(file)?;
-        // add the desired change
-        self.apply_metadata_to(safe_key, &mut image_sources);
-        // save to disk
+        update(&mut image_sources);
         let file = File::create(image_dir.join("img-sources.yaml"))?;
         serde_yaml::to_writer(file, &image_sources)?;
         Ok(())
+    }
+    /// Replaces the key's images instead of appending a slot: slot 0 is overwritten, stray
+    /// higher slots are removed, and the key's img-sources entry is reset to the new metadata.
+    pub(super) fn replace(
+        &self,
+        key: &str,
+        base_dir: &Path,
+        branch: &str,
+    ) -> anyhow::Result<String> {
+        let safe_key = sanitize_key(key)?;
+        let image_dir = base_dir.join("data").join("sources").join("img");
+        let lg_dir = image_dir.join("lg");
+        let filename = format!("{safe_key}_0.webp");
+        let slot_prefix = format!("{safe_key}_");
+        for entry in fs::read_dir(&lg_dir)? {
+            let entry = entry?;
+            if let Some(name) = entry.file_name().to_str()
+                && name.starts_with(&slot_prefix)
+                && name != filename
+            {
+                fs::remove_file(entry.path())?;
+            }
+        }
+        self.save_content(&lg_dir.join(&filename))
+            .inspect_err(|e| error!(?self, error = ?e, "Error replacing image"))?;
+        Self::update_metadata_file(&image_dir, |image_sources| {
+            image_sources.insert(
+                safe_key.to_string(),
+                BTreeMap::from([(0, self.metadata.clone())]),
+            );
+        })?;
+        Ok(Self::summary_markdown(key, branch, &filename))
+    }
+    fn summary_markdown(key: &str, branch: &str, filename: &str) -> String {
+        format!(
+            "![image showing {key}](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename})"
+        )
     }
     fn image_should_be_saved_at(key: &str, image_dir: &Path) -> anyhow::Result<PathBuf> {
         // Sanitize the key to prevent path traversal attacks
@@ -178,9 +220,10 @@ impl AppliableEdit for Image {
         self.save_metadata(key, &image_dir)
             .inspect_err(|e| error!(?self, error = ?e, "Error saving metadata"))?;
 
-        Ok(format!(
-            "![image showing {key}](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename})",
-            filename = target.file_name().unwrap_or_default().to_string_lossy()
+        Ok(Self::summary_markdown(
+            key,
+            branch,
+            &target.file_name().unwrap_or_default().to_string_lossy(),
         ))
     }
 }
