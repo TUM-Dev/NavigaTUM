@@ -48,15 +48,50 @@ describe("buildOsmOpeningHours", () => {
     expect(buildOsmOpeningHours(w)).toBe("Mo-Fr 08:00-20:00");
   });
 
-  it("emits distinct rules and omits closed days", () => {
+  it("groups non-adjacent days with identical hours into one rule", () => {
     const w = week({
       Mo: [{ from: "08:00", to: "20:00" }],
       Tu: [{ from: "08:00", to: "20:00" }],
       Fr: [{ from: "08:00", to: "20:00" }],
       Sa: [{ from: "09:00", to: "14:00" }],
     });
-    // We/Th are closed, so the Mo-Tu run breaks before Fr.
-    expect(buildOsmOpeningHours(w)).toBe("Mo-Tu 08:00-20:00; Fr 08:00-20:00; Sa 09:00-14:00");
+    // We/Th are closed and omitted; Fr joins the Mo,Tu rule as a day-list entry.
+    expect(buildOsmOpeningHours(w)).toBe("Mo,Tu,Fr 08:00-20:00; Sa 09:00-14:00");
+  });
+
+  it("renders a two-day run as a list and three or more as a range", () => {
+    const hours = [{ from: "08:00", to: "18:00" }];
+    // `Mo-Tu` names no day in between, so the dash only starts at three days.
+    expect(buildOsmOpeningHours(week({ Mo: hours, Tu: hours }))).toBe("Mo,Tu 08:00-18:00");
+    expect(buildOsmOpeningHours(week({ Mo: hours, Tu: hours, We: hours }))).toBe(
+      "Mo-We 08:00-18:00"
+    );
+  });
+
+  it("groups lone same-hours days into a day list", () => {
+    const w = week({
+      Tu: [{ from: "13:00", to: "13:30" }],
+      Th: [{ from: "13:00", to: "13:30" }],
+    });
+    expect(buildOsmOpeningHours(w)).toBe("Tu,Th 13:00-13:30");
+  });
+
+  it("mixes a consecutive run and a lone day in one selector", () => {
+    const w = week({
+      Mo: [{ from: "08:00", to: "18:00" }],
+      Tu: [{ from: "08:00", to: "18:00" }],
+      We: [{ from: "08:00", to: "18:00" }],
+      Fr: [{ from: "08:00", to: "18:00" }],
+    });
+    expect(buildOsmOpeningHours(w)).toBe("Mo-We,Fr 08:00-18:00");
+  });
+
+  it("keeps days with different hours in separate rules", () => {
+    const w = week({
+      Tu: [{ from: "13:00", to: "13:30" }],
+      Th: [{ from: "13:00", to: "14:00" }],
+    });
+    expect(buildOsmOpeningHours(w)).toBe("Tu 13:00-13:30; Th 13:00-14:00");
   });
 
   it("renders a single open day without a range dash", () => {
@@ -131,7 +166,7 @@ describe("buildDraftOpeningHours", () => {
     draft.always.Tu = [{ from: "08:00", to: "20:00" }];
     // The lecture/break drafts are ignored while mode is "always".
     draft.lecture.Mo = [{ from: "06:00", to: "07:00" }];
-    expect(buildDraftOpeningHours(draft)).toBe("Mo-Tu 08:00-20:00; PH off");
+    expect(buildDraftOpeningHours(draft)).toBe("Mo,Tu 08:00-20:00; PH off");
   });
 
   it("combines lecture and break schedules with macros in semester mode", () => {
@@ -141,7 +176,7 @@ describe("buildDraftOpeningHours", () => {
     draft.lecture.Tu = [{ from: "08:00", to: "20:00" }];
     draft.break.Mo = [{ from: "10:00", to: "16:00" }];
     expect(buildDraftOpeningHours(draft)).toBe(
-      "lecture: Mo-Tu 08:00-20:00; break: Mo 10:00-16:00; PH off"
+      "lecture: Mo,Tu 08:00-20:00; break: Mo 10:00-16:00; PH off"
     );
   });
 
@@ -150,6 +185,16 @@ describe("buildDraftOpeningHours", () => {
     draft.mode = "semester";
     draft.lecture.Mo = [{ from: "08:00", to: "20:00" }];
     expect(buildDraftOpeningHours(draft)).toBe("lecture: Mo 08:00-20:00; PH off");
+  });
+
+  it("emits one macro prefix for same-hours days in semester mode", () => {
+    const draft = emptyOpeningHoursDraft();
+    draft.mode = "semester";
+    draft.lecture.Tu = [{ from: "13:00", to: "13:30" }];
+    draft.lecture.Th = [{ from: "13:00", to: "13:30" }];
+    // Grouping into a day list keeps this a single rule, so `scopeOsmRules`
+    // does not repeat the `lecture:` prefix per day.
+    expect(buildDraftOpeningHours(draft)).toBe("lecture: Tu,Th 13:00-13:30; PH off");
   });
 
   it("ignores invalid ranges in inactive periods", () => {
