@@ -15,6 +15,7 @@ def _events(rows: list[dict[str, object]]) -> dy.DataFrame[EventsSchema]:
         "name": "GARNIX Festival",
         "starts_at": "2026-06-15T16:00:00+02:00",
         "ends_at": "2026-06-19T23:59:00+02:00",
+        "appears_at": "2026-06-13T16:00:00+02:00",
         "description": "Open-air student festival.",
         "organising_org_id": 51897,
         "image_author": "Studentische Vertretung TUM",
