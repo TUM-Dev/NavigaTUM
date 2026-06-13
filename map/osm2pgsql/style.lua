@@ -292,6 +292,10 @@ function osm2pgsql.process_node(object)
       object.tags.indoor = "shower"
     end
   end
+  -- Student-card validators are vending machines in OSM; lift them into their own poi category.
+  if object.tags.amenity == "vending_machine" and object.tags.vending == "student_card_validation" then
+    object.tags.indoor = "card_validator"
+  end
   if object.tags.indoor == "door" then
     -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
@@ -327,6 +331,26 @@ function osm2pgsql.process_node(object)
           is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
           is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
           is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+          area = 0,
+          level_min = level.min,
+          level_max = level.max,
+          geom = object:as_point()
+        }
+      )
+    end
+  elseif object.tags.indoor == "card_validator" then
+    -- Unlike toilets, these render as named markers, so carry name + ref:tum into the poi.
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
+      tables.pois:insert(
+        {
+          indoor = object.tags.indoor,
+          name = object.tags.name,
+          ref = object.tags["ref:tum"],
+          students_have_access = true,
+          is_male_toilet = false,
+          is_female_toilet = false,
+          is_unisex_toilet = false,
+          is_wheelchair_toilet = false,
           area = 0,
           level_min = level.min,
           level_max = level.max,
