@@ -35,7 +35,6 @@ import {
   WCS_WHEELCHAIR_QUERY_PARAM,
   type WcsGender,
   wcsAttributeConditions,
-  wcsAttributeFilter,
 } from "~/composables/mapLayers";
 import { useEventPopup } from "~/composables/useEventMarkers";
 import { useWebglGuard } from "~/composables/webglSupport";
@@ -103,9 +102,6 @@ const { activeEvent, markerScreenPos, closeActiveEvent } = useEventPopup(map, EV
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
 const originalPaint = new Map<string, OpacityValue | undefined>();
-// The POI layer's own style filter, captured before the first attribute filter so clearing the
-// attributes restores it. `undefined` = not captured yet; `null` = the layer had no filter.
-let originalPoiFilter: FilterSpecification | null | undefined;
 
 /** Read a query value as a single string, distinguishing "absent" (null) from "present but empty" (""). */
 function queryString(key: string): string | null {
@@ -204,20 +200,6 @@ function applyEventsFilter(): void {
   m.setFilter(EVENTS_STYLE_LAYER, filter as FilterSpecification);
 }
 
-/**
- * Hide the WC markers not matching the selected attributes while the WCs filter is active;
- * restore the layer's own filter when it is not (or when no attribute is selected).
- */
-function applyWcsAttributeFilter(): void {
-  const m = map.value;
-  if (!m?.getLayer(POI_LAYER)) return;
-  if (originalPoiFilter === undefined) originalPoiFilter = m.getFilter(POI_LAYER) ?? null;
-  const expr = activeFilters.value.has(WCS_FILTER_ID)
-    ? wcsAttributeFilter({ wheelchair: wcsWheelchair.value, gender: wcsGender.value })
-    : null;
-  m.setFilter(POI_LAYER, (expr as FilterSpecification | null) ?? originalPoiFilter);
-}
-
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -232,7 +214,6 @@ watch(activeFilters, (filters) => {
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
   applyOverlayVisibility();
-  applyWcsAttributeFilter();
   // The popup belongs to the events layer; it must not outlive the layer being switched off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
@@ -248,7 +229,6 @@ watch([wcsWheelchair, wcsGender], ([wheelchair, gender]) => {
   // Drop each param at its "no condition" default, so a bare /map URL stays clean.
   setQueryParam(WCS_WHEELCHAIR_QUERY_PARAM, wheelchair ? "true" : null);
   setQueryParam(WCS_GENDER_QUERY_PARAM, gender);
-  applyWcsAttributeFilter();
   applyFilterDim();
 });
 
@@ -284,10 +264,15 @@ function buildPopupContent(feature: MapGeoJSONFeature, lng: number, lat: number)
   };
 
   if (!isShower) {
+    const male = truthy(props.is_male_toilet);
+    const female = truthy(props.is_female_toilet);
+    // A toilet serving both is all-gender; show it as unisex rather than "male, female".
     const genders: string[] = [];
-    if (truthy(props.is_unisex_toilet)) genders.push(t("gender.unisex"));
-    if (truthy(props.is_male_toilet)) genders.push(t("gender.male"));
-    if (truthy(props.is_female_toilet)) genders.push(t("gender.female"));
+    if (male && female) genders.push(t("gender.unisex"));
+    else {
+      if (male) genders.push(t("gender.male"));
+      if (female) genders.push(t("gender.female"));
+    }
     if (genders.length) addRow(`${t("gender.label")}: ${genders.join(", ")}`);
     if (truthy(props.is_wheelchair_toilet)) addRow(t("wheelchair_accessible"));
   }
@@ -372,7 +357,6 @@ function initMap(): MapLibreMap {
     applyFilterDim();
     applyOverlayVisibility();
     applyEventsFilter();
-    applyWcsAttributeFilter();
 
     m.on("click", POI_LAYER, openPoiPopup);
     m.on("mouseenter", POI_LAYER, () => {

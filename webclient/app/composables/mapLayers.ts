@@ -219,12 +219,21 @@ export const WCS_GENDER_QUERY_PARAM = "wcs_gender";
 export const WCS_GENDERS = ["male", "female", "unisex"] as const;
 export type WcsGender = (typeof WCS_GENDERS)[number];
 
-/** The tile property carrying each gender's flag. */
+/** The tile property carrying each single-gender flag. Unisex has no flag of its own. */
 const WCS_GENDER_FLAG = {
   male: "is_male_toilet",
   female: "is_female_toilet",
-  unisex: "is_unisex_toilet",
-} as const satisfies Record<WcsGender, string>;
+} as const satisfies Record<Exclude<WcsGender, "unisex">, string>;
+
+/**
+ * Per-feature predicate selecting a gender. A unisex/all-gender toilet has no flag of its own; it
+ * is encoded as both male and female, so the unisex selection matches that pair.
+ */
+function wcsGenderCondition(gender: WcsGender): JsonExpression {
+  if (gender === "unisex")
+    return ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]];
+  return ["get", WCS_GENDER_FLAG[gender]];
+}
 
 /** Parse a `?wcs_gender=` value, or `null` when absent or not a known gender. */
 export function parseWcsGender(param: string | null | undefined): WcsGender | null {
@@ -246,7 +255,6 @@ export type JsonExpression = readonly (string | number | boolean | JsonExpressio
 /**
  * Per-feature `["get", flag]` predicates for each WC attribute the user selected. A WC feature
  * "matches" when every returned predicate is truthy on it. Empty when nothing is selected.
- * Shared between the POI hide-filter and the room background dim so the two stay in lockstep.
  */
 export function wcsAttributeConditions(opts: {
   wheelchair: boolean;
@@ -254,28 +262,8 @@ export function wcsAttributeConditions(opts: {
 }): JsonExpression[] {
   const conditions: JsonExpression[] = [];
   if (opts.wheelchair) conditions.push(["get", "is_wheelchair_toilet"]);
-  if (opts.gender) conditions.push(["get", WCS_GENDER_FLAG[opts.gender]]);
+  if (opts.gender) conditions.push(wcsGenderCondition(opts.gender));
   return conditions;
-}
-
-/**
- * Style filter for the shared indoor-POI layer hiding the WC markers that do not match the
- * selected attributes. Non-WC features (elevators etc.) pass unconditionally; WC features must
- * carry every selected flag. Showers carry no gender or wheelchair flag, so any active attribute
- * filter hides them with the non-matching toilets. Returns `null` when no attribute is selected,
- * signalling the caller to restore the layer's own filter.
- */
-export function wcsAttributeFilter(opts: {
-  wheelchair: boolean;
-  gender: WcsGender | null;
-}): JsonExpression | null {
-  const conditions = wcsAttributeConditions(opts);
-  if (conditions.length === 0) return null;
-  return [
-    "any",
-    ["!", ["in", ["get", "indoor"], ["literal", [...WCS_INDOOR_VALUES]]]],
-    ["all", ...conditions],
-  ];
 }
 
 /** Parse a `?level=` value into a known integer floor, or `null` when absent or invalid. */

@@ -16,7 +16,6 @@ function styleWithToilet(flags: Record<string, boolean>) {
   const allFlags = {
     is_male_toilet: false,
     is_female_toilet: false,
-    is_unisex_toilet: false,
     is_wheelchair_toilet: false,
     is_shower: false,
     ...flags,
@@ -285,29 +284,21 @@ test.describe("Browse map (/map)", () => {
     await expect(page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" })).toBeHidden();
   });
 
-  test("the wheelchair-only filter hides non-accessible toilets", async ({ page }) => {
+  test("a non-matching toilet stays clickable under the wheelchair-only filter", async ({
+    page,
+  }) => {
     await stubBasemap(page, styleWithToilet({ is_male_toilet: true }));
-
-    await page.goto("/map?filter=wcs", { waitUntil: "networkidle" });
-    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
-    await page.locator("#map-browse canvas").first().click();
-    await expect(page.locator(".maplibregl-popup-content")).toContainText("Toilette");
 
     await page.goto("/map?filter=wcs&wcs_wheelchair=true", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
     await page.locator("#map-browse canvas").first().click();
-    await expect(page.locator(".maplibregl-popup-content")).toHaveCount(0);
+    await expect(page.locator(".maplibregl-popup-content")).toContainText("Toilette");
   });
 
-  test("the gender filter shows only matching toilets", async ({ page }) => {
+  test("a non-matching toilet stays clickable under the gender filter", async ({ page }) => {
     await stubBasemap(page, styleWithToilet({ is_female_toilet: true }));
 
     await page.goto("/map?filter=wcs&wcs_gender=male", { waitUntil: "networkidle" });
-    await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
-    await page.locator("#map-browse canvas").first().click();
-    await expect(page.locator(".maplibregl-popup-content")).toHaveCount(0);
-
-    await page.goto("/map?filter=wcs&wcs_gender=female", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
     await page.locator("#map-browse canvas").first().click();
     await expect(page.locator(".maplibregl-popup-content")).toContainText("Damen");
