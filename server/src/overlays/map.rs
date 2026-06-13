@@ -1,198 +1,50 @@
-#![allow(
-    clippy::cast_possible_truncation,
-    clippy::cast_sign_loss,
-    clippy::cast_possible_wrap,
-    reason = "tile-coordinate math: f64↔u32↔i32 conversions are intentional and bounded by the 512×512 tile size and the small POSSIBLE_INDEX_RANGE"
-)]
-
-use std::f64::consts::PI;
-use std::fmt;
-use std::ops::Range;
-
-use futures::{StreamExt as _, stream::FuturesUnordered};
 use image::imageops;
 use tracing::warn;
 
-use crate::external::download_map_image::MapImageDownloadTask;
+use crate::external::static_map_image::{Camera, download_static_map_image};
 
+const BOTTOM_PANEL_HEIGHT: u32 = 125;
+
+#[derive(Debug)]
 pub struct OverlayMapTask {
-    pub x: f64,
-    pub y: f64,
-    pub z: u32,
+    camera: Camera,
 }
-
-impl fmt::Debug for OverlayMapTask {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("OverlayMapTask")
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .finish()
-    }
-}
-
-const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
 
 impl OverlayMapTask {
     pub fn new(r#type: &str, lat: f64, lon: f64) -> Self {
-        let zoom = match r#type {
-            "campus" => 14,
-            "area" | "site" => 15,
-            "building" | "joined_building" => 16,
-            "virtual_room" | "room" | "poi" => 17,
+        // tilt buildings: they render at a zoom where the basemap still has 3D extrusions.
+        let (zoom, pitch) = match r#type {
+            "campus" => (14, 0),
+            "area" | "site" => (15, 0),
+            "building" | "joined_building" => (16, 20),
+            "virtual_room" | "room" | "poi" => (17, 0),
             entry => {
-                warn!(
-                    ?entry,
-                    "map generation encountered an type. Assuming it to be a building",
-                );
-                16
+                warn!(?entry, "map generation encountered an unknown type, assuming it to be a building");
+                (16, 20)
             }
         };
-        let (x, y, z) = lat_lon_z_to_xyz(lat, lon, zoom);
-        Self { x, y, z }
+        Self {
+            camera: Camera {
+                lat,
+                lon,
+                zoom,
+                pitch,
+            },
+        }
     }
 
     #[tracing::instrument(skip(img))]
     pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
-        // coordinate system is centered around the center of the image
-        // around this center there is a 5*5 grid of tiles
-        // -------------------------------
-        // | -1 /  1 |  0 /  1 |  1 /  1 |
-        // | -1 /  0 |    x    |  1 /  0 |
-        // | -1 / -1 |  0 / -1 |  1 / -1 |
-        // -------------------------------
-        // we can now filter for "is on the image" and append them to a work queue
-
-        let x_pixels = (512.0 * (self.x - self.x.floor())) as u32;
-        let y_pixels = (512.0 * (self.y - self.y.floor())) as u32;
-        let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(img, x_pixels, y_pixels);
-        // is_in_range is quite cheap => we over-check this one to cope with different image formats
-        let mut work_queue = FuturesUnordered::new();
-        for index_x in POSSIBLE_INDEX_RANGE.clone() {
-            for index_y in POSSIBLE_INDEX_RANGE.clone() {
-                if is_on_image(img, (x_img_coords, y_img_coords), (index_x, index_y)) {
-                    let offset_x = (index_x as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
-                    let offset_y = (index_y as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
-                    work_queue.push(
-                        MapImageDownloadTask::from(self)
-                            .offset_by(offset_x, offset_y)
-                            .with_index(index_x, index_y)
-                            .fulfill(),
-                    );
-                }
+        let map_height = img.height() - BOTTOM_PANEL_HEIGHT;
+        match download_static_map_image(self.camera, img.width(), map_height).await {
+            Ok(map) => {
+                imageops::overlay(img, &map, 0, 0);
+                true
+            }
+            Err(e) => {
+                warn!(error = ?e, camera = ?self.camera, "could not render preview basemap");
+                false
             }
         }
-        // draw the tiles onto the image after receiving them
-        while let Some(res) = work_queue.next().await {
-            match res {
-                Some(((x_index, y_index), tile_img)) => {
-                    let x = i64::from(x_index) * 512 - i64::from(x_img_coords);
-                    let y = i64::from(y_index) * 512 - i64::from(y_img_coords);
-                    imageops::overlay(img, &tile_img, x, y);
-                }
-                None => {
-                    return false;
-                }
-            }
-        }
-        true
-    }
-}
-
-fn lat_lon_z_to_xyz(lat_deg: f64, lon_deg: f64, zoom: u32) -> (f64, f64, u32) {
-    let lat_rad = lat_deg.to_radians();
-    let n = f64::from(2_u32.pow(zoom));
-    let xtile = (lon_deg + 180.0) / 360.0 * n;
-    let ytile = (1.0 - lat_rad.tan().asinh() / PI) / 2.0 * n;
-    (xtile, ytile, zoom)
-}
-
-/// The center coordinates are usefully for orienting ourselves in one tile
-/// For drawing them, top left is better
-fn center_to_top_left_coordinates(
-    img: &image::RgbaImage,
-    x_pixels: u32,
-    y_pixels: u32,
-) -> (u32, u32) {
-    let y_to_img_border = 512 * (POSSIBLE_INDEX_RANGE.end / 2) + y_pixels;
-    let y_img_coords = y_to_img_border - (img.height() - 125) / 2;
-    let x_to_img_border = 512 * (POSSIBLE_INDEX_RANGE.end / 2) + x_pixels;
-    let x_img_coords = x_to_img_border - img.width() / 2;
-    (x_img_coords, y_img_coords)
-}
-
-fn is_on_image(
-    img: &image::RgbaImage,
-    (x_pixel, y_pixel): (u32, u32),
-    (x_index, y_index): (u32, u32),
-) -> bool {
-    let x_in_range = (x_index + 1) * 512 >= x_pixel && x_index * 512 <= x_pixel + img.width();
-    let y_in_range =
-        (y_index + 1) * 512 >= y_pixel && y_index * 512 <= y_pixel + (img.height() - 125);
-    x_in_range && y_in_range
-}
-
-#[cfg(test)]
-mod tests {
-    #![allow(
-        clippy::unwrap_used,
-        clippy::panic,
-        clippy::panic_in_result_fn,
-        clippy::float_cmp,
-        reason = "tests assert via panic/unwrap and compare exact float coordinates"
-    )]
-    use pretty_assertions::assert_eq;
-
-    use super::*;
-
-    #[test]
-    fn test_lat_lon_z_to_xyz() {
-        let (x, y, _) = lat_lon_z_to_xyz(52.520_008, 13.404_954, 17);
-        assert_eq!(x, 70416.59480746667_f64);
-        assert_eq!(y, 42985.734050611834_f64);
-    }
-
-    #[test]
-    fn test_lat_lon_no_zoom_mut() {
-        for x in -5..5 {
-            let x = f64::from(x);
-            for y in -5..5 {
-                let y = f64::from(y);
-                for z in 0..20 {
-                    let (_, _, zg) = lat_lon_z_to_xyz(x + y / 100.0, y, z);
-                    assert_eq!(z, zg);
-                    let (_, _, zg) = lat_lon_z_to_xyz(x, y + x / 100.0, z);
-                    assert_eq!(z, zg);
-                }
-            }
-        }
-    }
-
-    fn assert_range_eq(
-        x_pixels: u32,
-        y_pixels: u32,
-        expected_x: (u32, u32),
-        expected_y: (u32, u32),
-    ) {
-        let img = image::RgbaImage::new(1200, 630);
-        for x in 0..10 {
-            for y in 0..10 {
-                let (x_min, x_max) = expected_x;
-                let (y_min, y_max) = expected_y;
-                let expected_result = x <= x_max && x >= x_min && y <= y_max && y >= y_min;
-                assert_eq!(
-                    is_on_image(&img, (x_pixels, y_pixels), (x, y)),
-                    expected_result
-                );
-            }
-        }
-    }
-
-    #[test]
-    fn ranged_test() {
-        assert_range_eq(0, 0, (0, 2), (0, 0));
-        assert_range_eq(0, 513, (0, 2), (1, 1));
-        assert_range_eq(512 / 2, 0, (0, 2), (0, 0));
-        assert_range_eq(512 / 2, 512 / 2, (0, 2), (0, 1));
     }
 }
