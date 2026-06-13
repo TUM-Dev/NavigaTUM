@@ -61,13 +61,16 @@ impl GitHub {
                 .body("Failed to create issue, please try again later");
         };
 
-        let resp = octocrab
-            .issues("TUM-Dev", "navigatum")
-            .create(title)
-            .body(description)
-            .labels(labels)
-            .send()
-            .await;
+        // Box::pin keeps octocrab's large send future off the caller's stack frame (clippy::large_futures).
+        let resp = Box::pin(
+            octocrab
+                .issues("TUM-Dev", "navigatum")
+                .create(title)
+                .body(description)
+                .labels(labels)
+                .send(),
+        )
+        .await;
 
         match resp {
             Ok(issue) => HttpResponse::Created()
