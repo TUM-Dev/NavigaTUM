@@ -1285,7 +1285,9 @@ mod test {
     async fn test_event_image_crop_offsets_thread_through() {
         let ms = MeiliSearchTestContainer::new().await;
         let mut document = garnix_event_document();
-        let fields = document.as_object_mut().expect("event document is a JSON object");
+        let fields = document
+            .as_object_mut()
+            .expect("event document is a JSON object");
         fields.insert("image_thumb_offset".to_owned(), serde_json::json!(14));
         fields.insert("image_header_offset".to_owned(), serde_json::json!(257));
         let task = ms
