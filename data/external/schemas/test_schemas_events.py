@@ -15,6 +15,7 @@ def _valid_row() -> dict[str, list[object]]:
         "name": ["Sample"],
         "starts_at": ["2026-06-15T10:00:00+02:00"],
         "ends_at": ["2026-06-15T18:00:00+02:00"],
+        "appears_at": ["2026-06-13T10:00:00+02:00"],
         "description": ["x"],
         "organising_org_id": [14146],
         "image_author": ["Studi"],

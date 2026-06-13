@@ -14,6 +14,7 @@ pub struct RawEvent {
     lon: f64,
     starts_at: String,
     ends_at: String,
+    appears_at: String,
     organising_org_id: i32,
 }
 
@@ -37,6 +38,7 @@ impl Loader for Events {
             ("lon", Field::Double(v)) => r.lon = *v,
             ("starts_at", Field::Str(v)) => r.starts_at.clone_from(v),
             ("ends_at", Field::Str(v)) => r.ends_at.clone_from(v),
+            ("appears_at", Field::Str(v)) => r.appears_at.clone_from(v),
             ("organising_org_id", Field::Int(v)) => r.organising_org_id = *v,
             _ => {}
         }
@@ -48,9 +50,10 @@ impl Loader for Events {
         }
         let starts_at = DateTime::parse_from_rfc3339(&r.starts_at)?.with_timezone(&Utc);
         let ends_at = DateTime::parse_from_rfc3339(&r.ends_at)?.with_timezone(&Utc);
+        let appears_at = DateTime::parse_from_rfc3339(&r.appears_at)?.with_timezone(&Utc);
         sqlx::query!(
-            "INSERT INTO events(name, description, image, image_author, coordinate, starts_at, ends_at, organising_org_id) \
-             VALUES ($1, $2, $3, $4, POINT($5, $6), $7, $8, $9)",
+            "INSERT INTO events(name, description, image, image_author, coordinate, starts_at, ends_at, appears_at, organising_org_id) \
+             VALUES ($1, $2, $3, $4, POINT($5, $6), $7, $8, $9, $10)",
             r.name,
             r.description,
             r.image,
@@ -59,6 +62,7 @@ impl Loader for Events {
             r.lon,
             starts_at,
             ends_at,
+            appears_at,
             r.organising_org_id,
         )
         .execute(&mut **tx)

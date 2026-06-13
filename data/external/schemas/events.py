@@ -20,6 +20,8 @@ class EventsSchema(dy.Schema):
     name = dy.String(nullable=False)
     starts_at = dy.String(nullable=False)
     ends_at = dy.String(nullable=False)
+    # Derived server-side visibility gate (processors.events_appears_at); never reaches the client.
+    appears_at = dy.String(nullable=False)
     description = dy.String(nullable=False)
     organising_org_id = dy.Int32(nullable=False)
     image_author = dy.String(nullable=False)
@@ -48,6 +50,11 @@ class EventsSchema(dy.Schema):
     def ends_at_is_rfc3339(cls) -> pl.Expr:
         """`ends_at` must be an RFC 3339 timestamp with a timezone offset."""
         return pl.col("ends_at").str.contains(_ISO8601_TZ_REGEX)
+
+    @dy.rule()
+    def appears_at_is_rfc3339(cls) -> pl.Expr:
+        """`appears_at` must be an RFC 3339 timestamp with a timezone offset."""
+        return pl.col("appears_at").str.contains(_ISO8601_TZ_REGEX)
 
     @dy.rule()
     def ends_at_not_before_starts_at(cls) -> pl.Expr:
