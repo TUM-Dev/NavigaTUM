@@ -8,8 +8,8 @@ import { useEditProposal } from "~/composables/editProposal";
 const VALID_TYPE_RE = /^(campus|site|building|room|poi)$/;
 
 definePageMeta({
-  validate(route) {
-    return VALID_TYPE_RE.test(route.params.type as string);
+  validate(to) {
+    return VALID_TYPE_RE.test(to.params.type as string);
   },
   layout: "fullscreen",
 });
@@ -74,19 +74,19 @@ watch([data], () => {
 const description = computed(() => {
   if (data.value === undefined || data.value === null) return "";
 
-  let description = t("details_for");
+  let text = t("details_for");
   if (data.value.name.includes(data.value.type_common_name)) {
-    description += ` ${data.value.name}`;
+    text += ` ${data.value.name}`;
   } else {
-    description += ` ${data.value.type_common_name} ${data.value.name}`;
+    text += ` ${data.value.type_common_name} ${data.value.name}`;
   }
   if (data.value.props.computed) {
-    description += ":";
+    text += ":";
     for (const prop of data.value.props.computed) {
-      description += `\n- ${prop.name}: ${prop.text}`;
+      text += `\n- ${prop.name}: ${prop.text}`;
     }
   }
-  return description;
+  return text;
 });
 const title = computed(() => data.value?.name || `${route.params.id} - Navigatum`);
 const canonicalUrl = computed(() => {
