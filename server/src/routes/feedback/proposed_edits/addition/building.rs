@@ -4,8 +4,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
-use super::AppliableAddition;
 use super::areatree::{AreatreeKind, format_line, insert_under};
+use super::{AppliableAddition, AppliedAddition};
 use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
 
 const MAX_NAME_LEN: usize = 200;
@@ -136,7 +136,7 @@ impl AppliableAddition for NewBuilding {
         Ok(())
     }
 
-    fn apply(&self, _key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
+    fn apply(&self, _key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<AppliedAddition> {
         let areatree_path = base_dir
             .join("data")
             .join("processors")
@@ -167,14 +167,16 @@ impl AppliableAddition for NewBuilding {
             }
         }
 
-        Ok(self.coords.fenced_geojson_feature(&serde_json::json!({
-            "kind": "new-building",
-            "id": effective_id,
-            "name": self.name,
-            "node_kind": self.kind,
-            "parent_id": self.parent_id,
-            "building_prefixes": self.building_prefixes,
-        })))
+        Ok(AppliedAddition::created(self.coords.fenced_geojson_feature(
+            &serde_json::json!({
+                "kind": "new-building",
+                "id": effective_id,
+                "name": self.name,
+                "node_kind": self.kind,
+                "parent_id": self.parent_id,
+                "building_prefixes": self.building_prefixes,
+            }),
+        )))
     }
 
     fn kind_label(&self) -> &'static str {
@@ -302,7 +304,8 @@ mod tests {
 
         let summary = sample_building()
             .apply("0103", dir.path(), "branch")
-            .unwrap();
+            .unwrap()
+            .summary;
         assert_snapshot!(summary, @r#"
         ```geojson
         {
