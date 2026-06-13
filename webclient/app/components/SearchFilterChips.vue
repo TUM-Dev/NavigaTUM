@@ -185,8 +185,8 @@ function closeLocation() {
     class="focusable inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition-colors"
     :class="
       props.filters.usageFilter.value.length || usageOpen
-        ? 'bg-blue-100 border-blue-400 text-blue-800'
-        : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'
+        ? 'bg-blue-100 dark:bg-blue-800 border-blue-400 dark:border-blue-500 text-blue-800 dark:text-blue-100'
+        : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700'
     "
     :aria-expanded="usageOpen"
     aria-controls="usage-filter-panel"
@@ -205,8 +205,8 @@ function closeLocation() {
     class="focusable inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition-colors"
     :class="
       props.filters.inFilter.value.length || locationOpen
-        ? 'bg-blue-100 border-blue-400 text-blue-800'
-        : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'
+        ? 'bg-blue-100 dark:bg-blue-800 border-blue-400 dark:border-blue-500 text-blue-800 dark:text-blue-100'
+        : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700'
     "
     :aria-expanded="locationOpen"
     aria-controls="location-filter-panel"
@@ -295,8 +295,8 @@ function closeLocation() {
                 class="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm border"
                 :class="
                   props.filters.usageFilter.value.includes(opt.slug)
-                    ? 'bg-blue-500 border-blue-500 text-white'
-                    : 'border-zinc-400'
+                    ? 'bg-blue-500 dark:bg-blue-400 border-blue-500 dark:border-blue-400 text-white dark:text-black'
+                    : 'border-zinc-400 dark:border-zinc-500'
                 "
               >
                 <MdiIcon
