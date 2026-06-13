@@ -16,6 +16,8 @@ info: "q=garnix, search_events=true"
       organising_org_id: 51897
       image: /cdn/thumb/event_9d02ddd940c43f87_0.webp
       image_author: Studentische Vertretung TUM
+      image_thumb_offset: 0
+      image_header_offset: 0
     - id: event_17ddb108241f623c
       name: "\u0019GARNIX\u0017 Festival"
       description: "Last year's edition."
@@ -26,6 +28,8 @@ info: "q=garnix, search_events=true"
       organising_org_id: 51897
       image: /cdn/thumb/event_17ddb108241f623c_0.webp
       image_author: Studentische Vertretung TUM
+      image_thumb_offset: 0
+      image_header_offset: 0
   n_visible: 2
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites

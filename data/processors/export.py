@@ -20,6 +20,7 @@ from utils import TranslatableStr
 from utils import TranslatableStr as _
 
 from processors.df_utils import unflatten_row
+from processors.images import ImageOffset, ImageSource
 
 
 def _orjson_default(o: Json) -> Json:
@@ -85,6 +86,9 @@ class EventSearchDocument(TypedDict):
     organising_org_id: int
     image: str
     image_author: str
+    # Image crop offsets (pixel shift of the crop window along each image's longer axis), so a client can recover the crop.
+    image_thumb_offset: int
+    image_header_offset: int
     rank: int
     _geo: _GeoPoint
 
@@ -94,13 +98,19 @@ def _utc_rfc3339(value: str) -> str:
     return f"{datetime.fromisoformat(value).astimezone(UTC):%Y-%m-%dT%H:%M:%SZ}"
 
 
-def event_search_documents(events: dy.DataFrame[EventsSchema]) -> list[EventSearchDocument]:
+def event_search_documents(
+    events: dy.DataFrame[EventsSchema],
+    image_sources: Mapping[str, list[ImageSource]],
+) -> list[EventSearchDocument]:
     """Build one search document per events row for the default-disabled `event` facet."""
     docs: list[EventSearchDocument] = []
     for row in events.iter_rows(named=True):
         match = _EVENT_IMAGE_KEY_REGEX.match(row["image"])
         if match is None:
             raise ValueError(f"event image {row['image']!r} does not contain an extractable event key")
+        # An event has a single image; a key with no source entry crops at the unshifted (0) default.
+        sources = image_sources.get(match["key"])
+        offsets = sources[0].offsets if sources else ImageOffset()
         docs.append(
             {
                 # The addition key is the event's identity: Meilisearch upserts by `ms_id`,
@@ -114,6 +124,8 @@ def event_search_documents(events: dy.DataFrame[EventsSchema]) -> list[EventSear
                 "organising_org_id": row["organising_org_id"],
                 "image": row["image"],
                 "image_author": row["image_author"],
+                "image_thumb_offset": offsets.thumb,
+                "image_header_offset": offsets.header,
                 # Lecture precedent: uniform 0 keeps the `rank:desc` ranking rule neutral.
                 "rank": 0,
                 "_geo": {"lat": row["lat"], "lng": row["lon"]},
@@ -232,7 +244,7 @@ def export_for_search(data: dict[str, Entry]) -> None:
             },
         )
 
-    export.extend(event_search_documents(load_events()))
+    export.extend(event_search_documents(load_events(), ImageSource.load_all()))
 
     search_bytes = orjson.dumps(export)
     _make_sure_is_safe(search_bytes)

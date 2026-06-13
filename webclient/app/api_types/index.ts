@@ -669,6 +669,20 @@ export type components = {
        */
       readonly image_author: string;
       /**
+       * Format: int32
+       * @description Crop offset of the header image: pixels to shift the crop window
+       *     along the image's longer axis. `0` when unset, so a client can recover the crop.
+       * @example 257
+       */
+      readonly image_header_offset: number;
+      /**
+       * Format: int32
+       * @description Crop offset of the thumbnail image: pixels to shift the crop window
+       *     along the image's longer axis. `0` when unset, so a client can recover the crop.
+       * @example 14
+       */
+      readonly image_thumb_offset: number;
+      /**
        * Format: double
        * @description Latitude of the event location.
        * @example 48.262908

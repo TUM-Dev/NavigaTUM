@@ -3,6 +3,7 @@ import polars as pl
 from external.schemas.events import EventsSchema
 
 from processors.export import event_search_documents
+from processors.images import ImageOffset, ImageSource, UrlStr
 
 
 def _events(rows: list[dict[str, object]]) -> dy.DataFrame[EventsSchema]:
@@ -22,9 +23,18 @@ def _events(rows: list[dict[str, object]]) -> dy.DataFrame[EventsSchema]:
     return EventsSchema.validate(df)
 
 
+def _source(*, thumb: int, header: int) -> ImageSource:
+    """Build an img-sources entry carrying explicit crop offsets."""
+    return ImageSource(
+        author="Studentische Vertretung TUM",
+        license=UrlStr(text="CC BY 4.0"),
+        offsets=ImageOffset(thumb=thumb, header=header),
+    )
+
+
 def test_each_row_becomes_one_event_document() -> None:
     """One search document per CSV row, faceted as `event`, with the addition key as `ms_id`."""
-    docs = event_search_documents(_events([{}]))
+    docs = event_search_documents(_events([{}]), {})
 
     assert len(docs) == 1
     doc = docs[0]
@@ -43,6 +53,7 @@ def test_datetimes_are_normalised_to_utc() -> None:
                 {"starts_at": "2026-06-29T09:00:00.000Z", "ends_at": "2026-07-03T21:00:00.000Z"},
             ],
         ),
+        {},
     )
 
     assert docs[0]["starts_at"] == "2026-06-15T14:00:00Z"
@@ -53,7 +64,7 @@ def test_datetimes_are_normalised_to_utc() -> None:
 
 def test_document_carries_the_full_prefill_payload() -> None:
     """Everything a client needs to pre-fill the event proposal form rides along on the document."""
-    doc = event_search_documents(_events([{}]))[0]
+    doc = event_search_documents(_events([{}]), {})[0]
 
     assert doc["description"] == "Open-air student festival."
     assert doc["organising_org_id"] == 51897
@@ -73,6 +84,32 @@ def test_duplicate_key_rows_collapse_to_one_document() -> None:
                 {"starts_at": "2026-06-15T16:00:00+02:00", "ends_at": "2026-06-19T23:59:00+02:00"},
             ],
         ),
+        {},
     )
 
     assert docs[0]["ms_id"] == docs[1]["ms_id"]
+
+
+def test_crop_offsets_ride_along() -> None:
+    """The offsets keyed by the addition key thread onto the document for crop recovery."""
+    doc = event_search_documents(
+        _events([{"image": "/cdn/thumb/event_17ddb108241f623c_0.webp"}]),
+        {"event_17ddb108241f623c": [_source(thumb=14, header=257)]},
+    )[0]
+
+    assert doc["image_thumb_offset"] == 14
+    assert doc["image_header_offset"] == 257
+
+
+def test_missing_or_offset_less_source_defaults_to_zero() -> None:
+    """An event with no img-source entry - or an entry without explicit offsets - crops unshifted."""
+    no_entry = event_search_documents(_events([{}]), {})[0]
+    assert no_entry["image_thumb_offset"] == 0
+    assert no_entry["image_header_offset"] == 0
+
+    entry_without_offsets = event_search_documents(
+        _events([{}]),
+        {"event_9d02ddd940c43f87": [ImageSource(author="a", license=UrlStr(text="CC BY 4.0"))]},
+    )[0]
+    assert entry_without_offsets["image_thumb_offset"] == 0
+    assert entry_without_offsets["image_header_offset"] == 0

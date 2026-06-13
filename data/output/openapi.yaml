@@ -1288,6 +1288,8 @@ components:
         - organising_org_id
         - image
         - image_author
+        - image_thumb_offset
+        - image_header_offset
       properties:
         description:
           type: string
@@ -1312,6 +1314,20 @@ components:
           type: string
           description: The author of the event image (CC-BY attribution).
           example: Studentische Vertretung TUM
+        image_header_offset:
+          type: integer
+          format: int32
+          description: |-
+            Crop offset of the header image: pixels to shift the crop window
+            along the image's longer axis. `0` when unset, so a client can recover the crop.
+          example: 257
+        image_thumb_offset:
+          type: integer
+          format: int32
+          description: |-
+            Crop offset of the thumbnail image: pixels to shift the crop window
+            along the image's longer axis. `0` when unset, so a client can recover the crop.
+          example: 14
         lat:
           type: number
           format: double
