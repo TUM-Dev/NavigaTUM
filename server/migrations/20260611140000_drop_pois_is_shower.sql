@@ -27,7 +27,6 @@ BEGIN
       students_have_access,
       is_male_toilet,
       is_female_toilet,
-      is_unisex_toilet,
       is_wheelchair_toilet,
       area
     FROM pois
@@ -56,7 +55,6 @@ DO $do$ BEGIN
                     "students_have_access": "Boolean",
                     "is_male_toilet": "Boolean",
                     "is_female_toilet": "Boolean",
-                    "is_unisex_toilet": "Boolean",
                     "is_wheelchair_toilet": "Boolean",
                     "area": "Real"
                 },

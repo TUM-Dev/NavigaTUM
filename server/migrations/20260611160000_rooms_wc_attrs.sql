@@ -10,7 +10,6 @@
 ALTER TABLE IF EXISTS rooms
     ADD COLUMN IF NOT EXISTS is_male_toilet       boolean NOT NULL DEFAULT false,
     ADD COLUMN IF NOT EXISTS is_female_toilet     boolean NOT NULL DEFAULT false,
-    ADD COLUMN IF NOT EXISTS is_unisex_toilet     boolean NOT NULL DEFAULT false,
     ADD COLUMN IF NOT EXISTS is_wheelchair_toilet boolean NOT NULL DEFAULT false;
 
 CREATE OR REPLACE
@@ -31,7 +30,6 @@ BEGIN
       students_have_access,
       is_male_toilet,
       is_female_toilet,
-      is_unisex_toilet,
       is_wheelchair_toilet
     FROM rooms
     WHERE geom && ST_TileEnvelope(z, x, y) AND
@@ -58,7 +56,6 @@ DO $do$ BEGIN
                     "students_have_access": "Boolean",
                     "is_male_toilet": "Boolean",
                     "is_female_toilet": "Boolean",
-                    "is_unisex_toilet": "Boolean",
                     "is_wheelchair_toilet": "Boolean"
                 },
                 "maxzoom": 30,
