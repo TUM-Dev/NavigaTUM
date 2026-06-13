@@ -1,13 +1,5 @@
 name: CI
 
-# Single entry point for component CI. A `changes` job decides which components a
-# pull request touches, and each component runs as a reusable workflow gated on that
-# decision, so unrelated changes skip irrelevant CI. `ci-passed` aggregates them into
-# the one status check the branch ruleset requires.
-#
-# Gating applies to pull requests only. Pushes to main and manual dispatches run
-# everything (safety net + keeps every `:main` image fresh).
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
@@ -39,9 +31,6 @@ jobs:
       - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: filter
         with:
-          # A change under .github/** re-exercises every component, so a CI edit can
-          # never skip the CI it changes. e2e brings up server + webclient + db +
-          # meilisearch via compose, so any component or the harness must trigger it.
           filters: |
             server: &server
               - 'server/**'
@@ -113,12 +102,7 @@ jobs:
     permissions:
       contents: read
 
-  # The single required status check. Gated-out components report `skipped`, which is a
-  # pass here; only `failure`/`cancelled` block. `changes` is included so a filter failure
-  # (which would silently skip every component) still fails the check.
-  # `map` is intentionally omitted: martin was never a required check, so its validation
-  # stays advisory (it still runs and reports, but does not block merges). Add it to
-  # `needs` to make map failures merge-blocking.
+  # `map` is excluded so martin stays advisory (non-blocking), as before.
   # Don't change its name - it is used by the merge protection rules.
   ci-passed:
     name: Finished CI

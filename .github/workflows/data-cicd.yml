@@ -1,6 +1,5 @@
 name: Data CI/CD
 
-# Reusable workflow: orchestrated by ci.yaml, which path-gates and aggregates it.
 on:
   workflow_call:
 
