@@ -104,6 +104,8 @@ describe("eventDraftFromEntry", () => {
       organising_org_id: 51897,
       image: "/cdn/thumb/event_4a3e5d2fd5b338e4_0.webp",
       image_author: "Studentische Vertretung TUM",
+      image_thumb_offset: 14,
+      image_header_offset: 257,
       ...overrides,
     };
   }
@@ -116,14 +118,32 @@ describe("eventDraftFromEntry", () => {
       name: "GARNIX Festival",
       starts_at: "2026-06-15T14:00:00Z",
       ends_at: "2026-06-19T21:59:00Z",
+      thumb_offset: 14,
+      header_offset: 257,
     });
     expect(draft.name).toBe("GARNIX Festival");
     expect(draft.description).toBe("Open-air student festival.");
     expect(draft.organising_org_id).toBe(51897);
     expect(draft.coords).toEqual({ lat: 48.262908, lon: 11.669102, picked: true });
     expect(draft.image_author).toBe("Studentische Vertretung TUM");
+    expect(draft.image_thumb_offset).toBe(14);
+    expect(draft.image_header_offset).toBe(257);
     // The image rides in separately through the upload path.
     expect(draft.image).toBeNull();
+  });
+
+  it("re-sends the saved crop when an unmodified edit is rebuilt", () => {
+    // A non-zero offset must survive eventDraftFromEntry -> buildEvent, or the upsert flattens it.
+    const upcoming = entry({
+      starts_at: new Date(Date.now() + 2 * DAY_MS).toISOString(),
+      ends_at: new Date(Date.now() + 3 * DAY_MS).toISOString(),
+    });
+    const draft = eventDraftFromEntry(upcoming, Date.now());
+    draft.image = { base64: "Zm9v", fileName: "event_4a3e5d2fd5b338e4_0.webp" };
+    draft.image_width = 1448;
+    draft.image_height = 2048;
+    const built = buildAddition(draft);
+    expect(built).toMatchObject({ image: { metadata: { offsets: { thumb: 14, header: 257 } } } });
   });
 
   it("pre-fills the dates of a not-yet-ended event as the same instants", () => {
