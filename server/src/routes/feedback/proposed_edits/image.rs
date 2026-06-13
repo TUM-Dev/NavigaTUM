@@ -1,4 +1,3 @@
-use std::cmp::max;
 use std::collections::BTreeMap;
 use std::fmt::{self, Debug};
 use std::fs::{self, File};
@@ -6,7 +5,7 @@ use std::path::{Path, PathBuf};
 
 use base64::Engine as _;
 use base64::prelude::BASE64_STANDARD;
-use image::imageops::{self, FilterType};
+use image::imageops::FilterType;
 use image::{ImageFormat, load_from_memory};
 use serde::Deserialize;
 use serde::Serialize;
@@ -174,36 +173,11 @@ impl Image {
     }
     fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
-        let image = load_from_memory(&bytes)?;
+        let mut image = load_from_memory(&bytes)?;
 
-        // we scale down too large images to a max of 4k
+        // scale oversized uploads down to a 4k longest side, fitting within while preserving aspect ratio.
         if image.width() > 3840 || image.height() > 3840 {
-            #[expect(
-                clippy::cast_precision_loss,
-                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
-            )]
-            let crop_factor = 3840.0 / max(image.width(), image.height()) as f32;
-            #[expect(
-                clippy::cast_precision_loss,
-                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
-            )]
-            let new_width = crop_factor * image.width() as f32;
-            #[expect(
-                clippy::cast_precision_loss,
-                reason = "image dimensions (max 4k) are well under f32's 2^23 exact-integer limit"
-            )]
-            let new_height = crop_factor * image.height() as f32;
-            #[expect(
-                clippy::cast_possible_truncation,
-                clippy::cast_sign_loss,
-                reason = "resized dimensions are always positive and bounded above by 3840"
-            )]
-            imageops::resize(
-                &image,
-                new_width as u32,
-                new_height as u32,
-                FilterType::Lanczos3,
-            );
+            image = image.resize(3840, 3840, FilterType::Lanczos3);
         }
         image.save_with_format(target, ImageFormat::WebP)?;
         Ok(())
@@ -246,7 +220,9 @@ mod tests {
         reason = "tests assert via panic/unwrap"
     )]
     use std::fs;
+    use std::io::Cursor;
 
+    use image::{DynamicImage, RgbImage};
     use pretty_assertions::assert_eq;
     use rstest::rstest;
 
@@ -276,6 +252,40 @@ mod tests {
         let meta = fs::metadata(&target).unwrap();
         assert_eq!(meta.len(), 82);
         assert!(meta.file_type().is_file());
+    }
+
+    /// A solid-color image of the given size, base64-encoded as PNG like a real upload.
+    fn image_of_size(width: u32, height: u32) -> Image {
+        let mut bytes = Vec::new();
+        DynamicImage::ImageRgb8(RgbImage::new(width, height))
+            .write_to(&mut Cursor::new(&mut bytes), ImageFormat::Png)
+            .unwrap();
+        Image {
+            content: BASE64_STANDARD.encode(&bytes),
+            ..test_image()
+        }
+    }
+
+    #[rstest]
+    // longest side >4k: downscaled to a 3840 longest side, aspect ratio preserved.
+    #[case(5000, 2000, 3840, 1536)]
+    #[case(2000, 5000, 1536, 3840)]
+    // both sides ≤4k: committed unchanged.
+    #[case(1920, 1080, 1920, 1080)]
+    #[case(3840, 3840, 3840, 3840)]
+    fn test_image_save_caps_dimensions(
+        #[case] in_width: u32,
+        #[case] in_height: u32,
+        #[case] out_width: u32,
+        #[case] out_height: u32,
+    ) {
+        let target_dir = tempfile::tempdir().unwrap();
+        let target = target_dir.path().join("test.webp");
+        image_of_size(in_width, in_height)
+            .save_content(&target)
+            .unwrap();
+        let saved = load_from_memory(&fs::read(&target).unwrap()).unwrap();
+        assert_eq!((saved.width(), saved.height()), (out_width, out_height));
     }
 
     #[test]

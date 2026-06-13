@@ -294,6 +294,8 @@ fn make_event_entry(
         organising_org_id: event.organising_org_id,
         image: event.image.clone(),
         image_author: event.image_author.clone(),
+        image_thumb_offset: event.image_thumb_offset,
+        image_header_offset: event.image_header_offset,
     }
 }
 

@@ -16,6 +16,8 @@ info: "q=garnix, search_events=true"
       organising_org_id: 51897
       image: /cdn/thumb/event_9d02ddd940c43f87_0.webp
       image_author: Studentische Vertretung TUM
+      image_thumb_offset: 0
+      image_header_offset: 0
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites

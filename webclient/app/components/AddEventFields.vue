@@ -6,21 +6,41 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
-import { mdiCheck, mdiClose, mdiImage, mdiInformation, mdiUnfoldMoreHorizontal } from "@mdi/js";
-import { useDropZone, useFileDialog, useObjectUrl } from "@vueuse/core";
+import {
+  mdiAlert,
+  mdiCheck,
+  mdiClose,
+  mdiImage,
+  mdiInformation,
+  mdiUnfoldMoreHorizontal,
+  mdiUpdate,
+} from "@mdi/js";
+import { useDebounceFn, useDropZone, useFileDialog, useObjectUrl } from "@vueuse/core";
+import type { components } from "~/api_types";
 import type { EventPreviewPopup } from "~/components/EventPreviewMap.vue";
 import {
   type AdditionFieldErrors,
+  additionRegistry,
   type EventDraft,
+  eventDraftFromEntry,
+  eventSourceImageUrl,
   validateAddition,
 } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
 import { type OrgOption, useKnownOrgs } from "~/composables/useKnownOrgs";
-import { wallTimeToRfc3339 } from "~/utils/datetime";
+import {
+  findDuplicateEventByName,
+  formatEventDateRange,
+  wallTimeToRfc3339,
+} from "~/utils/datetime";
 import { cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
+type EventEntry = components["schemas"]["EventEntry"];
+type SearchResponse = components["schemas"]["SearchResponse"];
+
 const editProposal = useEditProposal();
-const { t } = useI18n({ useScope: "local" });
+const runtimeConfig = useRuntimeConfig();
+const { t, locale } = useI18n({ useScope: "local" });
 
 // The parent only mounts this component when `kind === "event"`, so the narrowing cast is safe
 // and saves every binding from re-checking the discriminant.
@@ -106,6 +126,9 @@ function fileToBase64(file: File): Promise<string | null> {
 }
 
 async function processFile(file: File): Promise<void> {
+  // Picking or unlinking a based-on event swaps the draft object while the image may
+  // still be decoding; writes must land on the draft this file was selected for.
+  const target = draft.value;
   fileError.value = "";
   if (!VALID_IMAGE_TYPES.includes(file.type)) {
     fileError.value = t("image_invalid_type");
@@ -135,6 +158,10 @@ async function processFile(file: File): Promise<void> {
     .join("")
     .slice(0, 16);
 
+  if (draft.value !== target) {
+    bitmap.close();
+    return;
+  }
   sourceBitmap.value?.close();
   sourceBitmap.value = bitmap;
   sourceFile.value = file;
@@ -144,7 +171,8 @@ async function processFile(file: File): Promise<void> {
   // A new image recentres both crops; their offset bounds depend on the new dimensions.
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  draft.value.id = `event_${hash}`;
+  // In locked update mode the adopted key stays the identity, whatever the image.
+  if (!draft.value.based_on) draft.value.id = `event_${hash}`;
 }
 
 const {
@@ -174,10 +202,133 @@ function removeImage(): void {
   draft.value.image_height = null;
   draft.value.image_thumb_offset = 0;
   draft.value.image_header_offset = 0;
-  draft.value.id = "";
+  draft.value.id = draft.value.based_on?.id ?? "";
   fileError.value = "";
   resetFileDialog();
 }
+
+const prefillError = ref("");
+
+function resetLocalImageState(): void {
+  sourceBitmap.value?.close();
+  sourceBitmap.value = null;
+  sourceFile.value = null;
+  fileError.value = "";
+  prefillError.value = "";
+  resetFileDialog();
+}
+
+// True once the user unlinks from an adopted event but keeps the copied fields: the
+// proposal then creates a new event rather than updating the original, and the banner
+// says so. Local to the component; `pendingAddition` outlives it in useEditProposal.
+const proposingNewFromExisting = ref(false);
+
+async function adoptEvent(entry: EventEntry): Promise<void> {
+  // The picked event becomes the new basis; a half-typed draft is intentionally discarded.
+  proposingNewFromExisting.value = false;
+  resetLocalImageState();
+  editProposal.value.pendingAddition = eventDraftFromEntry(entry, Date.now());
+  try {
+    const res = await fetch(eventSourceImageUrl(entry.id), {
+      credentials: "omit",
+    });
+    if (!res.ok) throw new Error(`unexpected status ${res.status}`);
+    const blob = await res.blob();
+    // The user may have unlinked or re-picked while the image was downloading.
+    if (draft.value.based_on?.id !== entry.id) return;
+    await processFile(new File([blob], `${entry.id}_0.webp`, { type: blob.type || "image/webp" }));
+  } catch {
+    if (draft.value.based_on?.id === entry.id) prefillError.value = t("prefill_image_failed");
+  }
+}
+
+// The copied fields stay so the user can tweak them into a new event; only the upsert
+// lock drops. draft.id still equals the content hash of the prefilled image, so a new
+// image auto-recomputes a fresh key (processFile's `!based_on` branch).
+function unlinkBasedOn(): void {
+  draft.value.based_on = null;
+  proposingNewFromExisting.value = true;
+}
+
+function clearAllFields(): void {
+  proposingNewFromExisting.value = false;
+  resetLocalImageState();
+  editProposal.value.pendingAddition = additionRegistry.event.empty();
+}
+
+// The form's top region is a three-state switch: updating an adopted event, proposing a
+// new one seeded from a former adoption, or searching for an event to adopt. `based_on`
+// is the real data (id/name/dates, submit-label); the flag only splits the two null cases.
+const eventPickerState = computed<"updating" | "proposing-new" | "searching">(() => {
+  if (draft.value.based_on) return "updating";
+  if (proposingNewFromExisting.value) return "proposing-new";
+  return "searching";
+});
+
+const basedOnName = computed(() => draft.value.based_on?.name ?? "");
+
+// "Zuletzt" only fits a finished edition; an upcoming or running one needs its own framing.
+const basedOnDateLabel = computed(() => {
+  const basedOn = draft.value.based_on;
+  if (!basedOn) return "";
+  const range = formatEventDateRange(
+    basedOn.starts_at,
+    basedOn.ends_at,
+    locale.value === "de" ? "de" : "en"
+  );
+  const now = Date.now();
+  const start = Date.parse(basedOn.starts_at);
+  const end = Date.parse(basedOn.ends_at);
+  if (Number.isNaN(start) || Number.isNaN(end) || end < now)
+    return t("based_on_dates_ended", [range]);
+  if (start <= now) return t("based_on_dates_ongoing", [range]);
+  return t("based_on_dates_upcoming", [range]);
+});
+
+// Safety net for the freehand path: the adopt-an-event combobox is optional, so a user can type a
+// name that already exists and unknowingly create a duplicate. This runs a second, independent
+// event search keyed on the typed name (the combobox has its own query, so the two can't be shared)
+// and offers a one-click switch into locked update mode. Only while searching - once an event is
+// adopted or explicitly unlinked, the warning would be noise.
+const duplicateQuery = ref("");
+const applyDuplicateQuery = useDebounceFn((value: string) => {
+  duplicateQuery.value = value.trim();
+}, 200);
+watch(() => (eventPickerState.value === "searching" ? draft.value.name : ""), applyDuplicateQuery);
+
+const duplicateSearchUrl = computed(() => {
+  if (duplicateQuery.value.length < 2) return null;
+  const params = new URLSearchParams();
+  params.set("q", duplicateQuery.value);
+  // `type=event` enables the default-off events facet; mirror AddEventSearch's plain-text request.
+  params.append("type", "event");
+  params.set("limit_events", "8");
+  params.set("pre_highlight", "");
+  params.set("post_highlight", "");
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+});
+
+const duplicateMatches = ref<readonly EventEntry[]>([]);
+let duplicateSearchCounter = 0;
+watch(duplicateSearchUrl, async (url) => {
+  if (!url) {
+    duplicateMatches.value = [];
+    return;
+  }
+  const ticket = ++duplicateSearchCounter;
+  try {
+    const res = await $fetch<SearchResponse>(url, { credentials: "omit" });
+    if (ticket !== duplicateSearchCounter) return;
+    duplicateMatches.value = res.sections.flatMap((s) => (s.facet === "events" ? s.entries : []));
+  } catch {
+    if (ticket === duplicateSearchCounter) duplicateMatches.value = [];
+  }
+});
+
+const duplicateEvent = computed<EventEntry | null>(() => {
+  if (eventPickerState.value !== "searching") return null;
+  return findDuplicateEventByName(duplicateMatches.value, draft.value.name, Date.now());
+});
 
 // Release the bitmap's GPU/CPU buffers promptly; useObjectUrl handles the URL revokes itself.
 onScopeDispose(() => {
@@ -207,6 +358,49 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
 
 <template>
   <div class="space-y-3">
+    <div
+      v-if="eventPickerState === 'updating'"
+      class="bg-amber-50 dark:bg-amber-900 border-amber-300 dark:border-amber-600 flex items-start gap-2 rounded border p-3"
+      data-cy="event-update-banner"
+    >
+      <MdiIcon :path="mdiUpdate" :size="18" class="text-amber-600 dark:text-amber-300 mt-0.5 flex-shrink-0" />
+      <div class="flex-grow">
+        <p class="text-amber-900 dark:text-amber-50 text-sm font-medium">{{ t("based_on_title", [basedOnName]) }}</p>
+        <p class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs">{{ basedOnDateLabel }}</p>
+        <p class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs">{{ t("based_on_help") }}</p>
+        <p v-if="!draft.starts_at && !draft.ends_at" class="text-amber-800 dark:text-amber-100 mt-0.5 text-xs font-medium">
+          {{ t("based_on_dates_cleared") }}
+        </p>
+        <button
+          type="button"
+          class="text-amber-900 dark:text-amber-50 hover:no-underline mt-1 cursor-pointer text-xs underline"
+          @click="unlinkBasedOn"
+        >
+          {{ t("based_on_unlink") }}
+        </button>
+      </div>
+    </div>
+    <div
+      v-else-if="eventPickerState === 'proposing-new'"
+      class="bg-blue-50 dark:bg-blue-900 border-blue-200 dark:border-blue-700 flex items-start gap-2 rounded border p-3"
+      data-cy="event-new-banner"
+    >
+      <MdiIcon :path="mdiInformation" :size="18" class="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+      <div class="flex-grow">
+        <p class="text-blue-800 dark:text-blue-100 text-sm font-medium">{{ t("new_event_title") }}</p>
+        <p class="text-blue-700 dark:text-blue-200 mt-0.5 text-xs">{{ t("new_event_help") }}</p>
+        <button
+          type="button"
+          class="text-blue-800 dark:text-blue-100 hover:no-underline mt-1 cursor-pointer text-xs underline"
+          @click="clearAllFields"
+        >
+          {{ t("new_event_clear") }}
+        </button>
+      </div>
+    </div>
+    <AddEventSearch v-else @pick="adoptEvent" />
+    <p v-if="prefillError" class="text-red-700 dark:text-red-200 text-xs">{{ prefillError }}</p>
+
     <div>
       <label class="text-zinc-600 dark:text-zinc-300 mb-1 block text-xs font-medium" for="add-event-name">
         {{ t("name") }} <span class="text-red-700 dark:text-red-200">*</span>
@@ -220,6 +414,23 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
         :class="errorFor('name') ? '!border-red-500 dark:!border-red-400' : ''"
       />
       <p v-if="errorFor('name')" class="text-red-700 dark:text-red-200 mt-1 text-xs">{{ errorFor("name") }}</p>
+      <div
+        v-if="duplicateEvent"
+        class="bg-amber-50 dark:bg-amber-900 border-amber-300 dark:border-amber-600 mt-1 flex items-start gap-2 rounded border p-3"
+        data-cy="event-duplicate-warning"
+      >
+        <MdiIcon :path="mdiAlert" :size="18" class="text-amber-600 dark:text-amber-300 mt-0.5 flex-shrink-0" />
+        <div class="flex-grow">
+          <p class="text-amber-900 dark:text-amber-50 text-sm font-medium">{{ t("duplicate_warning", [duplicateEvent.name]) }}</p>
+          <button
+            type="button"
+            class="text-amber-900 dark:text-amber-50 hover:no-underline mt-1 cursor-pointer text-xs underline"
+            @click="adoptEvent(duplicateEvent)"
+          >
+            {{ t("duplicate_update") }}
+          </button>
+        </div>
+      </div>
     </div>
 
     <div>
@@ -296,7 +507,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
                 <p class="text-red-700 dark:text-red-200">{{ t("organising_org_load_error") }}</p>
                 <button
                   type="button"
-                  class="text-blue-600 dark:text-blue-300 mt-1 underline"
+                  class="text-blue-600 dark:text-blue-300 mt-1 cursor-pointer underline"
                   @mousedown.prevent="reloadOrgs()"
                 >
                   {{ t("organising_org_retry") }}
@@ -370,7 +581,7 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
           <p v-if="draft.image_width && draft.image_height" class="text-zinc-500 dark:text-zinc-400 text-xs">
             {{ draft.image_width }}×{{ draft.image_height }}px
           </p>
-          <button type="button" class="text-blue-600 dark:text-blue-300 hover:underline mt-1 inline-flex items-center gap-1 text-xs" @click.stop="removeImage">
+          <button type="button" class="text-blue-600 dark:text-blue-300 hover:underline mt-1 inline-flex cursor-pointer items-center gap-1 text-xs" @click.stop="removeImage">
             <MdiIcon :path="mdiClose" :size="12" /> {{ t("image_remove") }}
           </button>
         </template>
@@ -451,6 +662,19 @@ const previewEvent = computed<EventPreviewPopup | null>(() => {
 
 <i18n lang="yaml">
 de:
+  based_on_title: Du aktualisierst "{0}"
+  based_on_dates_ended: "Zuletzt: {0}"
+  based_on_dates_ongoing: "Läuft gerade: {0}"
+  based_on_dates_upcoming: "Nächster Termin: {0}"
+  based_on_help: Dein Vorschlag ersetzt die bestehende Veranstaltung. Alle Felder können angepasst werden.
+  based_on_dates_cleared: Die letzte Ausgabe ist vorbei - bitte trage die neuen Termine ein.
+  based_on_unlink: Stattdessen eine neue Veranstaltung vorschlagen
+  new_event_title: Du schlägst eine neue Veranstaltung vor.
+  new_event_help: Die ursprüngliche Veranstaltung bleibt unverändert.
+  new_event_clear: Alle Felder leeren
+  duplicate_warning: Eine Veranstaltung namens "{0}" existiert bereits.
+  duplicate_update: Stattdessen diese aktualisieren
+  prefill_image_failed: Das bisherige Bild konnte nicht geladen werden - bitte lade ein neues hoch.
   name: Name
   name_placeholder: z.B. GARNIX Festival
   description: Beschreibung
@@ -500,6 +724,19 @@ de:
     image_too_small: Das Bild muss mindestens 256px auf der kürzeren Seite haben.
     image_author_required: Bitte gib die Urheber:in des Bildes an.
 en:
+  based_on_title: You are updating "{0}"
+  based_on_dates_ended: "Last held: {0}"
+  based_on_dates_ongoing: "Currently running: {0}"
+  based_on_dates_upcoming: "Next dates: {0}"
+  based_on_help: Your proposal replaces the existing event. Every field can still be adjusted.
+  based_on_dates_cleared: The previous edition has ended - please enter the new dates.
+  based_on_unlink: Start a new event instead
+  new_event_title: You are proposing a new event.
+  new_event_help: The original event stays unchanged.
+  new_event_clear: Clear all fields
+  duplicate_warning: An event named "{0}" already exists.
+  duplicate_update: Update it instead
+  prefill_image_failed: The existing image could not be loaded - please upload a new one.
   name: Name
   name_placeholder: e.g. GARNIX Festival
   description: Description

@@ -144,6 +144,14 @@ pub struct EventEntry {
     /// The author of the event image (CC-BY attribution).
     #[schema(example = "Studentische Vertretung TUM")]
     image_author: String,
+    /// Crop offset of the thumbnail image: pixels to shift the crop window
+    /// along the image's longer axis. `0` when unset, so a client can recover the crop.
+    #[schema(example = 14)]
+    image_thumb_offset: i32,
+    /// Crop offset of the header image: pixels to shift the crop window
+    /// along the image's longer axis. `0` when unset, so a client can recover the crop.
+    #[schema(example = 257)]
+    image_header_offset: i32,
 }
 
 /// A Nominatim address search result.
@@ -1248,6 +1256,10 @@ mod test {
         assert_eq!(top.organising_org_id, 51897);
         assert_eq!(top.image, "/cdn/thumb/event_9d02ddd940c43f87_0.webp");
         assert_eq!(top.image_author, "Studentische Vertretung TUM");
+        // This document predates the crop offsets: a pre-existing index entry lacking
+        // the fields must deserialize to 0, not fail.
+        assert_eq!(top.image_thumb_offset, 0);
+        assert_eq!(top.image_header_offset, 0);
 
         // The event surfaces only in its own section, never in the five geo/lecture ones.
         for section in &results.0 {
@@ -1266,6 +1278,54 @@ mod test {
         }, {
             insta::assert_yaml_snapshot!(results.0, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
         });
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_event_image_crop_offsets_thread_through() {
+        let ms = MeiliSearchTestContainer::new().await;
+        let mut document = garnix_event_document();
+        let fields = document
+            .as_object_mut()
+            .expect("event document is a JSON object");
+        fields.insert("image_thumb_offset".to_owned(), serde_json::json!(14));
+        fields.insert("image_header_offset".to_owned(), serde_json::json!(257));
+        let task = ms
+            .client
+            .index("entries")
+            .add_documents(&[document], Some("ms_id"))
+            .await
+            .unwrap()
+            .wait_for_completion(&ms.client, None, Some(std::time::Duration::from_secs(30)))
+            .await
+            .unwrap();
+        assert!(
+            matches!(task, meilisearch_sdk::tasks::Task::Succeeded { .. }),
+            "event document upsert should succeed, got {task:?}"
+        );
+
+        let limits = Limits {
+            events_count: 5,
+            ..Limits::default()
+        };
+        let results = do_geoentry_search(
+            &ms.client,
+            "garnix",
+            limits,
+            FormattingConfig::default(),
+            String::new(),
+            vec![],
+        )
+        .await;
+
+        let top = results
+            .0
+            .iter()
+            .find_map(ResultsSection::events)
+            .and_then(|events| events.entries.first())
+            .expect("expected at least one event entry");
+        assert_eq!(top.image_thumb_offset, 14);
+        assert_eq!(top.image_header_offset, 257);
     }
 
     /// The event facet is default-disabled: without `search_events=true` or
