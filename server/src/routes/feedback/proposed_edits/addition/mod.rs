@@ -28,8 +28,29 @@ pub enum Addition {
 
 pub trait AppliableAddition {
     fn validate(&self, key: &str, snap: &RepoSnapshot) -> Result<(), AdditionError>;
-    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String>;
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<AppliedAddition>;
     fn kind_label(&self) -> &'static str;
+}
+
+/// The result of applying an [`Addition`], as the PR description renders it.
+pub struct AppliedAddition {
+    /// One-line human summary for the PR body.
+    pub summary: String,
+    /// Image to show beside the summary (events only).
+    pub image_url: Option<String>,
+    /// Whether an existing entry was replaced rather than created (events only).
+    pub replaced: bool,
+}
+
+impl AppliedAddition {
+    /// A new addition with no image.
+    pub fn created(summary: String) -> Self {
+        Self {
+            summary,
+            image_url: None,
+            replaced: false,
+        }
+    }
 }
 
 impl Addition {
@@ -46,12 +67,25 @@ impl Addition {
         self.as_appliable().validate(key, snap)
     }
 
-    pub fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String> {
+    pub fn apply(
+        &self,
+        key: &str,
+        base_dir: &Path,
+        branch: &str,
+    ) -> anyhow::Result<AppliedAddition> {
         self.as_appliable().apply(key, base_dir, branch)
     }
 
     pub fn kind_label(&self) -> &'static str {
         self.as_appliable().kind_label()
+    }
+
+    /// The event's name, or `None` for non-event additions.
+    pub fn event_name(&self) -> Option<&str> {
+        match self {
+            Self::Event(e) => Some(&e.name),
+            _ => None,
+        }
     }
 }
 

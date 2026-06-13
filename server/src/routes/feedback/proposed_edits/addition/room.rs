@@ -5,9 +5,9 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
-use super::AppliableAddition;
 use super::areatree::AreatreeKind;
 use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
+use super::{AppliableAddition, AppliedAddition};
 
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct RoomLink {
@@ -156,7 +156,7 @@ impl AppliableAddition for NewRoom {
         Ok(())
     }
 
-    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
+    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<AppliedAddition> {
         let yaml_path = base_dir
             .join("data")
             .join("sources")
@@ -185,13 +185,13 @@ impl AppliableAddition for NewRoom {
 
         self.coords.apply_to_csv(key, base_dir)?;
 
-        Ok(format!(
+        Ok(AppliedAddition::created(format!(
             "new room `{key}` ({alt}, arch_name `{arch}`, usage_id {uid}) @ {coords:?}",
             alt = self.alt_name,
             arch = self.arch_name,
             uid = self.usage_id,
             coords = self.coords,
-        ))
+        )))
     }
 
     fn kind_label(&self) -> &'static str {
@@ -331,7 +331,8 @@ mod tests {
         let dir = setup_apply_dir();
         let summary = sample_room()
             .apply("5117.EG.103", dir.path(), "branch")
-            .unwrap();
+            .unwrap()
+            .summary;
         assert_snapshot!(
             summary,
             @"new room `5117.EG.103` (Testraum, arch_name `EG103@5117`, usage_id 12) @ Coordinate { lat: 48.262, lon: 11.668 }"

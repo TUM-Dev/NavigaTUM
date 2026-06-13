@@ -145,8 +145,19 @@ impl Image {
     }
     fn summary_markdown(key: &str, branch: &str, filename: &str) -> String {
         format!(
-            "![image showing {key}](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename})"
+            "![image showing {key}]({})",
+            Self::raw_url(branch, filename)
         )
+    }
+    fn raw_url(branch: &str, filename: &str) -> String {
+        format!(
+            "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/{branch}/data/sources/img/lg/{filename}"
+        )
+    }
+    /// Raw URL of the canonical (slot-0) image for `key` on `branch`.
+    pub(super) fn raw_lg_url(key: &str, branch: &str) -> anyhow::Result<String> {
+        let safe_key = sanitize_key(key)?;
+        Ok(Self::raw_url(branch, &format!("{safe_key}_0.webp")))
     }
     fn image_should_be_saved_at(key: &str, image_dir: &Path) -> anyhow::Result<PathBuf> {
         // Sanitize the key to prevent path traversal attacks

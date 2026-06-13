@@ -99,7 +99,7 @@ impl EditRequest {
         repo_pool: &repo_pool::RepoPool,
         branch_name: &str,
         branch_is_new: bool,
-    ) -> Result<String, ApplyError> {
+    ) -> Result<description::Description, ApplyError> {
         let worktree = repo_pool
             .create_worktree(branch_name, branch_is_new)
             .await?;
@@ -142,7 +142,7 @@ impl EditRequest {
         let desc = worktree.apply_and_gen_description(self, branch_name)?;
         worktree.commit(&desc.title).await?;
         worktree.push().await?;
-        Ok(desc.body)
+        Ok(desc)
     }
     fn edits_for<T: AppliableEdit>(&self, extractor: fn(Edit) -> Option<T>) -> HashMap<String, T> {
         self.edits
@@ -224,7 +224,7 @@ impl EditRequest {
         labels
     }
 
-    fn extract_subject(&self) -> String {
+    fn extract_subject(&self, updated_event_keys: &BTreeSet<String>) -> String {
         use itertools::Itertools as _;
         let coordinate_edits = self.edits_for(|edit| edit.coordinate);
         let image_edits = self.edits_for(|edit| edit.image);
@@ -276,6 +276,10 @@ impl EditRequest {
 
         let mut keys_by_kind: BTreeMap<&'static str, Vec<&str>> = BTreeMap::new();
         for (key, addition) in &self.additions.0 {
+            // Events render by name (add/update) in a separate pass below.
+            if addition.event_name().is_some() {
+                continue;
+            }
             keys_by_kind
                 .entry(addition.kind_label())
                 .or_default()
@@ -286,7 +290,6 @@ impl EditRequest {
                 "room" => "rooms",
                 "building" => "buildings",
                 "poi" => "POIs",
-                "event" => "events",
                 _ => "entries",
             };
             let singular = match kind {
@@ -304,11 +307,41 @@ impl EditRequest {
             }
         }
 
+        parts.extend(self.event_subject_parts(updated_event_keys));
+
         if parts.is_empty() {
             "no edits".to_string()
         } else {
             parts.join(" and ")
         }
+    }
+
+    /// Subject fragments for event additions, by name, distinguishing "add" from "update".
+    fn event_subject_parts(&self, updated_event_keys: &BTreeSet<String>) -> Vec<String> {
+        let mut added = Vec::new();
+        let mut updated = Vec::new();
+        for (key, addition) in &self.additions.0 {
+            if let Some(name) = addition.event_name() {
+                if updated_event_keys.contains(key) {
+                    updated.push(name);
+                } else {
+                    added.push(name);
+                }
+            }
+        }
+        let mut parts = Vec::new();
+        for (verb, mut names) in [("add", added), ("update", updated)] {
+            names.sort_unstable();
+            match names.as_slice() {
+                [] => {}
+                [only] => parts.push(format!("{verb} event \"{only}\"")),
+                many if many.len() <= 5 => {
+                    parts.push(format!("{verb} events \"{}\"", many.join("\", \"")));
+                }
+                many => parts.push(format!("{verb} {} events", many.len())),
+            }
+        }
+        parts
     }
 }
 
@@ -433,13 +466,11 @@ pub async fn propose_edits(
         .apply_changes_and_generate_description(&repo_pool, &branch_to_use, branch_is_new)
         .await
     {
-        Ok(description) => {
+        Ok(desc) => {
             if let Some(pr_number) = pr_number_opt {
                 // Update metadata for batch PR (including appending description)
                 if let Err(e) = super::batch_processor::update_batch_pr_metadata(
-                    pr_number,
-                    &req_data,
-                    &description,
+                    pr_number, &req_data, &desc.body,
                 )
                 .await
                 {
@@ -462,14 +493,14 @@ pub async fn propose_edits(
                 labels.push(super::batch_processor::BATCH_LABEL.to_string());
 
                 // Use extract_subject for first PR to provide helpful context
-                let subject = req_data.extract_subject();
+                let subject = req_data.extract_subject(&desc.updated_event_keys);
                 let title = format!("chore(data): {subject}");
 
                 match GitHub::default()
                     .open_pr(
                         branch_to_use,
                         &title,
-                        &format!("## Batched Edits\n\n### Edit #1\n{description}"),
+                        &format!("<sub>Batched edits</sub>\n\n{}", desc.body),
                         labels,
                     )
                     .await
@@ -540,10 +571,28 @@ mod tests {
             "additional_context": "",
             "privacy_checked": true
         }));
-        assert_eq!(req.extract_subject(), "add event `event_9d02ddd940c43f87`");
+        assert_eq!(
+            req.extract_subject(&BTreeSet::new()),
+            "add event \"GARNIX Festival\""
+        );
         let labels = req.extract_labels();
         assert!(labels.contains(&"addition".to_string()));
         assert!(labels.contains(&"new-event".to_string()));
+    }
+
+    #[test]
+    fn extract_subject_for_event_that_replaced_an_existing_one() {
+        let req = req_with_additions(serde_json::json!({
+            "token": "x",
+            "additions": { "event_9d02ddd940c43f87": event_addition() },
+            "additional_context": "",
+            "privacy_checked": true
+        }));
+        let updated = BTreeSet::from(["event_9d02ddd940c43f87".to_string()]);
+        assert_eq!(
+            req.extract_subject(&updated),
+            "update event \"GARNIX Festival\""
+        );
     }
 
     #[test]
@@ -563,7 +612,10 @@ mod tests {
             "additional_context": "",
             "privacy_checked": true
         }));
-        assert_eq!(req.extract_subject(), "add room `5117.EG.103`");
+        assert_eq!(
+            req.extract_subject(&BTreeSet::new()),
+            "add room `5117.EG.103`"
+        );
     }
 
     #[test]
@@ -577,7 +629,7 @@ mod tests {
             "additional_context": "",
             "privacy_checked": true
         }));
-        let subj = req.extract_subject();
+        let subj = req.extract_subject(&BTreeSet::new());
         assert!(subj.starts_with("add rooms `"));
         assert!(subj.contains("5117.EG.103"));
         assert!(subj.contains("5117.EG.104"));
@@ -598,7 +650,7 @@ mod tests {
             "additional_context": "",
             "privacy_checked": true
         }));
-        assert_eq!(req.extract_subject(), "add 10 POIs");
+        assert_eq!(req.extract_subject(&BTreeSet::new()), "add 10 POIs");
     }
 
     #[test]
@@ -636,7 +688,7 @@ mod tests {
             "privacy_checked": true
         }));
         assert_eq!(
-            req.extract_subject(),
+            req.extract_subject(&BTreeSet::new()),
             "opening-hours edit for `5304.EG.001`"
         );
         assert!(req.extract_labels().contains(&"opening_hours".to_string()));
@@ -798,7 +850,7 @@ mod tests {
             "additional_context": "",
             "privacy_checked": true
         }));
-        let subj = req.extract_subject();
+        let subj = req.extract_subject(&BTreeSet::new());
         assert!(subj.contains("coordinate edit for `0101`"));
         assert!(subj.contains("add room `5117.EG.103`"));
         assert!(subj.contains(" and "));

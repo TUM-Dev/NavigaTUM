@@ -10,8 +10,8 @@ use serde::Deserialize;
 use super::super::AppliableEdit as _;
 use super::super::coordinate::Coordinate;
 use super::super::image::Image;
-use super::AppliableAddition;
 use super::validation::{AdditionError, RepoSnapshot};
+use super::{AppliableAddition, AppliedAddition};
 
 const MAX_NAME_LEN: usize = 200;
 /// The photo marker renders a 256×256 thumb crop, so smaller uploads would be upscaled.
@@ -239,29 +239,34 @@ impl AppliableAddition for NewEvent {
         Ok(())
     }
 
-    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<String> {
+    fn apply(&self, key: &str, base_dir: &Path, branch: &str) -> anyhow::Result<AppliedAddition> {
         let csv_path = events_csv_path(base_dir);
         let raw = fs::read(&csv_path)?;
         // Content-addressed key, so always the first slot.
         let image = format!("/cdn/thumb/{key}_0.webp");
         // Identity = key: an existing row under this key makes the addition an update.
-        let (verb, image_md) = if let Some(row) = matching_row_range(&raw, key)? {
-            let image_md = self.image.replace(key, base_dir, branch)?;
+        let replaced = if let Some(row) = matching_row_range(&raw, key)? {
+            self.image.replace(key, base_dir, branch)?;
             self.replace_events_row(&image, &csv_path, &raw, row)?;
-            ("update", image_md)
+            true
         } else {
-            let image_md = self.image.apply(key, base_dir, branch)?;
+            self.image.apply(key, base_dir, branch)?;
             self.append_events_row(&image, &csv_path)?;
-            ("new", image_md)
+            false
         };
 
-        Ok(format!(
-            "{verb} event `{name}` ({starts_at} - {ends_at}, org `{org}`)\n\n{image_md}",
-            name = self.name,
-            starts_at = format_de(&self.starts_at)?,
-            ends_at = format_de(&self.ends_at)?,
-            org = self.organising_org_id,
-        ))
+        let verb = if replaced { "update" } else { "new" };
+        Ok(AppliedAddition {
+            summary: format!(
+                "{verb} event \"{name}\" ({starts_at} - {ends_at}, org `{org}`)",
+                name = self.name,
+                starts_at = format_de(&self.starts_at)?,
+                ends_at = format_de(&self.ends_at)?,
+                org = self.organising_org_id,
+            ),
+            image_url: Some(Image::raw_lg_url(key, branch)?),
+            replaced,
+        })
     }
 
     fn kind_label(&self) -> &'static str {
@@ -514,14 +519,20 @@ mod tests {
         )
         .unwrap();
 
-        let summary = sample_event()
+        let applied = sample_event()
             .apply("event_9d02ddd940c43f87", dir.path(), "branch")
             .unwrap();
-        assert_snapshot!(summary, @r"
-        update event `GARNIX Festival` (10.6.26 16:00 - 12.6.26 23:00, org `51897`)
-
-        ![image showing event_9d02ddd940c43f87](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp)
-        ");
+        assert!(applied.replaced);
+        assert_eq!(
+            applied.summary,
+            "update event \"GARNIX Festival\" (10.6.26 16:00 - 12.6.26 23:00, org `51897`)"
+        );
+        assert_eq!(
+            applied.image_url.as_deref(),
+            Some(
+                "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp"
+            )
+        );
 
         let csv = fs::read_to_string(sources.join("events.csv")).unwrap();
         assert_snapshot!(csv, @r#"
@@ -609,14 +620,20 @@ mod tests {
         )
         .unwrap();
 
-        let summary = sample_event()
+        let applied = sample_event()
             .apply("event_9d02ddd940c43f87", dir.path(), "branch")
             .unwrap();
-        assert_snapshot!(summary, @r"
-        new event `GARNIX Festival` (10.6.26 16:00 - 12.6.26 23:00, org `51897`)
-
-        ![image showing event_9d02ddd940c43f87](https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp)
-        ");
+        assert!(!applied.replaced);
+        assert_eq!(
+            applied.summary,
+            "new event \"GARNIX Festival\" (10.6.26 16:00 - 12.6.26 23:00, org `51897`)"
+        );
+        assert_eq!(
+            applied.image_url.as_deref(),
+            Some(
+                "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp"
+            )
+        );
 
         let csv = fs::read_to_string(sources.join("events.csv")).unwrap();
         assert_snapshot!(csv, @r#"

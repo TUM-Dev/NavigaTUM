@@ -5,8 +5,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
-use super::AppliableAddition;
 use super::validation::{AdditionError, CollisionSource, RepoSnapshot};
+use super::{AppliableAddition, AppliedAddition};
 
 const MAX_NAME_LEN: usize = 200;
 const MAX_KEY_LEN: usize = 64;
@@ -122,7 +122,7 @@ impl AppliableAddition for NewPoi {
         Ok(())
     }
 
-    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<String> {
+    fn apply(&self, key: &str, base_dir: &Path, _branch: &str) -> anyhow::Result<AppliedAddition> {
         let yaml_path = base_dir.join("data").join("sources").join("21_pois.yaml");
         let raw = fs::read_to_string(&yaml_path).unwrap_or_default();
         let mut map: BTreeMap<String, serde_yaml::Value> = if raw.trim().is_empty() {
@@ -147,12 +147,12 @@ impl AppliableAddition for NewPoi {
         let out = serde_yaml::to_string(&map)?;
         fs::write(&yaml_path, out)?;
 
-        Ok(format!(
+        Ok(AppliedAddition::created(format!(
             "new POI `{key}` ({name}, usage `{usage}`, parent `{parent}`)",
             name = self.name,
             usage = self.usage_name,
             parent = self.parent,
-        ))
+        )))
     }
 
     fn kind_label(&self) -> &'static str {
@@ -263,7 +263,8 @@ mod tests {
 
         let summary = sample_poi()
             .apply("validierungsautomat-99", dir.path(), "branch")
-            .unwrap();
+            .unwrap()
+            .summary;
         assert_snapshot!(
             summary,
             @"new POI `validierungsautomat-99` (Validierungsautomat 99, usage `Validierungsautomat`, parent `5101.EG.917`)"

@@ -76,9 +76,9 @@ pub async fn update_batch_pr_metadata(
 
     // Append the new edit's description
     let updated_description = if current_description.is_empty() {
-        format!("## Batched Edits\n\n### Edit #{edit_count}\n{new_edit_description}")
+        format!("<sub>Batched edits</sub>\n\n{new_edit_description}")
     } else {
-        format!("{current_description}\n\n---\n\n### Edit #{edit_count}\n{new_edit_description}")
+        format!("{current_description}\n\n---\n\n{new_edit_description}")
     };
 
     let github = GitHub::default();
