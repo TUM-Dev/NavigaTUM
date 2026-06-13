@@ -40,11 +40,15 @@ jobs:
               - '.github/**'
             webclient: &webclient
               - 'webclient/**'
+              # webclient/biome.jsonc extends the root config, so lint results depend on it.
+              - 'biome.jsonc'
               - '.github/**'
             data: &data
               - 'data/**'
               - 'pyproject.toml'
               - 'uv.lock'
+              # uv sync --frozen selects the interpreter from .python-version.
+              - '.python-version'
               - '.github/**'
             map: &map
               - 'map/**'
