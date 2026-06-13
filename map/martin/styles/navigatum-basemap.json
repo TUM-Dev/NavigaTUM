@@ -82,6 +82,11 @@
       "url": "https://nav.tum.de/martin/events_active",
       "minzoom": 13
     },
+    "card_validators": {
+      "type": "vector",
+      "url": "https://nav.tum.de/martin/card_validators",
+      "minzoom": 13
+    },
     "nav": {
       "type": "vector",
       "url": "https://nav.tum.de/martin/shortbread"
@@ -6366,6 +6371,33 @@
         "icon-halo-color": "#ffffff",
         "icon-halo-width": 1,
         "text-color": "#E37222",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.2
+      }
+    },
+    {
+      "id": "card-validators",
+      "type": "symbol",
+      "source": "card_validators",
+      "source-layer": "card_validators",
+      "minzoom": 13,
+      "layout": {
+        "visibility": "none",
+        "icon-image": "card_validator",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 13, 0.9, 18, 1.5],
+        "icon-allow-overlap": true,
+        "text-field": ["get", "name"],
+        "text-font": ["Roboto Regular"],
+        "text-size": 11,
+        "text-anchor": "top",
+        "text-offset": [0, 1.1],
+        "text-optional": true
+      },
+      "paint": {
+        "icon-color": "#3070b3",
+        "icon-halo-color": "#ffffff",
+        "icon-halo-width": 1,
+        "text-color": "#3070b3",
         "text-halo-color": "#ffffff",
         "text-halo-width": 1.2
       }

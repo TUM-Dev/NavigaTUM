@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" id="card_validator">
+  <path fill-rule="evenodd" d="M6 2H18A4 4 0 0 1 22 6V18A4 4 0 0 1 18 22H6A4 4 0 0 1 2 18V6A4 4 0 0 1 6 2ZM9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59Z"/>
+</svg>
