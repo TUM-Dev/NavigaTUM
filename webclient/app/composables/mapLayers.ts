@@ -219,25 +219,19 @@ export const WCS_GENDER_QUERY_PARAM = "wcs_gender";
 export const WCS_GENDERS = ["male", "female", "unisex"] as const;
 export type WcsGender = (typeof WCS_GENDERS)[number];
 
-/** The tile property carrying each gender's flag. */
+/** The tile property carrying each single-gender flag. Unisex has no flag of its own. */
 const WCS_GENDER_FLAG = {
   male: "is_male_toilet",
   female: "is_female_toilet",
-  unisex: "is_unisex_toilet",
-} as const satisfies Record<WcsGender, string>;
+} as const satisfies Record<Exclude<WcsGender, "unisex">, string>;
 
 /**
- * Per-feature predicate selecting a gender. A toilet flagged both male and female is all-gender in
- * practice, so the unisex selection also matches it - not just toilets carrying the explicit
- * `unisex` flag.
+ * Per-feature predicate selecting a gender. A unisex/all-gender toilet has no flag of its own; it
+ * is encoded as both male and female, so the unisex selection matches that pair.
  */
 function wcsGenderCondition(gender: WcsGender): JsonExpression {
   if (gender === "unisex")
-    return [
-      "any",
-      ["get", "is_unisex_toilet"],
-      ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
-    ];
+    return ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]];
   return ["get", WCS_GENDER_FLAG[gender]];
 }
 

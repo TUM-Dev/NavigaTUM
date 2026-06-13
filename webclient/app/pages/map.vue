@@ -264,10 +264,15 @@ function buildPopupContent(feature: MapGeoJSONFeature, lng: number, lat: number)
   };
 
   if (!isShower) {
+    const male = truthy(props.is_male_toilet);
+    const female = truthy(props.is_female_toilet);
+    // A toilet serving both is all-gender; show it as unisex rather than "male, female".
     const genders: string[] = [];
-    if (truthy(props.is_unisex_toilet)) genders.push(t("gender.unisex"));
-    if (truthy(props.is_male_toilet)) genders.push(t("gender.male"));
-    if (truthy(props.is_female_toilet)) genders.push(t("gender.female"));
+    if (male && female) genders.push(t("gender.unisex"));
+    else {
+      if (male) genders.push(t("gender.male"));
+      if (female) genders.push(t("gender.female"));
+    }
     if (genders.length) addRow(`${t("gender.label")}: ${genders.join(", ")}`);
     if (truthy(props.is_wheelchair_toilet)) addRow(t("wheelchair_accessible"));
   }

@@ -16,7 +16,6 @@ function styleWithToilet(flags: Record<string, boolean>) {
   const allFlags = {
     is_male_toilet: false,
     is_female_toilet: false,
-    is_unisex_toilet: false,
     is_wheelchair_toilet: false,
     is_shower: false,
     ...flags,

@@ -207,13 +207,9 @@ describe("wcsAttributeConditions", () => {
     }
   });
 
-  it("matches a male+female toilet under the unisex selection, not just the explicit flag", () => {
+  it("encodes the unisex selection as both male and female", () => {
     expect(wcsAttributeConditions({ wheelchair: false, gender: "unisex" })).toEqual([
-      [
-        "any",
-        ["get", "is_unisex_toilet"],
-        ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
-      ],
+      ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
     ]);
   });
 

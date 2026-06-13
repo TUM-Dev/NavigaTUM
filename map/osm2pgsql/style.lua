@@ -39,7 +39,6 @@ tables.rooms =
         -- non-matching toilet rooms the same way the icon filter hides their POIs.
         { column = "is_male_toilet",       type = "boolean",  not_null = true },
         { column = "is_female_toilet",     type = "boolean",  not_null = true },
-        { column = "is_unisex_toilet",     type = "boolean",  not_null = true },
         { column = "is_wheelchair_toilet", type = "boolean",  not_null = true },
         { column = "level_min",            type = "real",     not_null = true },
         { column = "level_max",            type = "real",     not_null = true },
@@ -62,7 +61,6 @@ tables.pois =
           { column = "students_have_access", type = "boolean", not_null = true },
           { column = "is_male_toilet",       type = "boolean", not_null = true },
           { column = "is_female_toilet",     type = "boolean", not_null = true },
-          { column = "is_unisex_toilet",     type = "boolean", not_null = true },
           { column = "is_wheelchair_toilet", type = "boolean", not_null = true },
           { column = "area",                 type = "real",    not_null = true },
           { column = "level_min",            type = "real",    not_null = true },
@@ -272,6 +270,19 @@ local function clean_tags_indoor(tags)
   return next(tags) == nil
 end
 
+-- The typed toilet attribute booleans for a feature's tags. A unisex/all-gender toilet is usable
+-- by everyone; with no separate unisex flag it is encoded as both male and female. The flags only
+-- apply to `indoor == "toilet"`.
+local function toilet_flags(tags)
+  local is_toilet = tags.indoor == "toilet"
+  local unisex = tags.unisex == "yes"
+  return {
+    male = is_toilet and (tags.male == "yes" or unisex),
+    female = is_toilet and (tags.female == "yes" or unisex),
+    wheelchair = is_toilet and tags.wheelchair == "yes",
+  }
+end
+
 -- Called for every node in the input. The `object` argument contains all the
 -- attributes of the node like `id`, `version`, etc. as well as all tags as a
 -- Lua table (`object.tags`).
@@ -318,15 +329,15 @@ function osm2pgsql.process_node(object)
   elseif object.tags.indoor == "toilet" or object.tags.indoor == "shower" then
     -- Point geometry has no area, so synthesize `area = 0` (the icon does not use it). No
     -- name/ref: these render as icons only.
+    local wc = toilet_flags(object.tags)
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
       tables.pois:insert(
         {
           indoor = object.tags.indoor,
           students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-          is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
-          is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
-          is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
-          is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+          is_male_toilet = wc.male,
+          is_female_toilet = wc.female,
+          is_wheelchair_toilet = wc.wheelchair,
           area = 0,
           level_min = level.min,
           level_max = level.max,
@@ -354,6 +365,7 @@ function osm2pgsql.process_way(object)
   for _, level in ipairs(SantiseLevel(object.tags.level)) do
     object.tags.level_min = level.min
     object.tags.level_max = level.max
+    local wc = toilet_flags(object.tags)
     -- Very simple check to decide whether a way is a polygon or not, in a
     -- real stylesheet we'd have to also look at the tags...
     if object.is_closed then
@@ -364,10 +376,9 @@ function osm2pgsql.process_way(object)
             indoor = object.tags.indoor,
             ref_tum = object.tags["ref:tum"],
             students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
-            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
-            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
-            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+            is_male_toilet = wc.male,
+            is_female_toilet = wc.female,
+            is_wheelchair_toilet = wc.wheelchair,
             level_min = level.min,
             level_max = level.max,
             geom = geom
@@ -389,10 +400,9 @@ function osm2pgsql.process_way(object)
             name = object.tags.name,
             ref = object.tags.ref,
             students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
-            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
-            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
-            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+            is_male_toilet = wc.male,
+            is_female_toilet = wc.female,
+            is_wheelchair_toilet = wc.wheelchair,
             area = geom:spherical_area(),
             level_min = level.min,
             level_max = level.max,
@@ -428,6 +438,7 @@ function osm2pgsql.process_relation(object)
   if object.tags.type == "multipolygon" or
       object.tags.type == "boundary" then
     local geom = object:as_multipolygon()
+    local wc = toilet_flags(object.tags)
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
       if object.tags.indoor ~= "stairs" then
         tables.rooms:insert(
@@ -435,10 +446,9 @@ function osm2pgsql.process_relation(object)
             indoor = object.tags.indoor,
             ref_tum = object.tags["ref:tum"],
             students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-            is_male_toilet = object.tags.indoor == "toilet" and object.tags.male == "yes",
-            is_female_toilet = object.tags.indoor == "toilet" and object.tags.female == "yes",
-            is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex == "yes",
-            is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+            is_male_toilet = wc.male,
+            is_female_toilet = wc.female,
+            is_wheelchair_toilet = wc.wheelchair,
             level_min = level.min,
             level_max = level.max,
             geom = geom
@@ -463,10 +473,9 @@ function osm2pgsql.process_relation(object)
               indoor = object.tags.indoor,
               ref = object.tags.ref,
               students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-              is_male_toilet = object.tags.indoor == "toilet" and object.tags.male,
-              is_female_toilet = object.tags.indoor == "toilet" and object.tags.female,
-              is_unisex_toilet = object.tags.indoor == "toilet" and object.tags.unisex,
-              is_wheelchair_toilet = object.tags.indoor == "toilet" and object.tags.wheelchair == "yes",
+              is_male_toilet = wc.male,
+              is_female_toilet = wc.female,
+              is_wheelchair_toilet = wc.wheelchair,
               area = g:area(),
               level_min = level.min,
               level_max = level.max,

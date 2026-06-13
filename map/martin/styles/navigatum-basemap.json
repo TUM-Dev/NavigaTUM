@@ -5440,12 +5440,12 @@
             "elevator"
           ],
           "elevator",
+          ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
+          "toilet",
           ["get", "is_male_toilet"],
           "toilet_male",
           ["get", "is_female_toilet"],
           "toilet_female",
-          ["get", "is_unisex_toilet"],
-          "toilet",
           ["==", ["get", "indoor"], "shower"],
           "noun-shower-51",
           ""
