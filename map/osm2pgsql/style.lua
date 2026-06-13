@@ -369,6 +369,26 @@ function osm2pgsql.process_node(object)
         }
       )
     end
+  elseif object.tags.indoor == "card_validator" then
+    -- Unlike toilets, these render as named markers, so carry name + ref:tum into the poi.
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
+      tables.pois:insert(
+        {
+          indoor = object.tags.indoor,
+          name = object.tags.name,
+          ref = object.tags["ref:tum"],
+          students_have_access = true,
+          is_male_toilet = false,
+          is_female_toilet = false,
+          is_unisex_toilet = false,
+          is_wheelchair_toilet = false,
+          area = 0,
+          level_min = level.min,
+          level_max = level.max,
+          geom = object:as_point()
+        }
+      )
+    end
   end
 end
 
