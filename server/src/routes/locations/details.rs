@@ -744,7 +744,8 @@ mod tests {
         clippy::panic_in_result_fn,
         clippy::cast_precision_loss,
         clippy::absolute_paths,
-        reason = "tests assert via panic/unwrap, cast freely, and reference absolute fixture paths"
+        clippy::indexing_slicing,
+        reason = "tests assert via panic/unwrap, cast freely, index JSON by key, and reference absolute fixture paths"
     )]
     use tokio::task::LocalSet;
     use tracing::info;

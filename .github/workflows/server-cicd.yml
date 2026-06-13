@@ -70,7 +70,7 @@ jobs:
           workspaces: |
             server
       - run: rustup component add clippy
-      - run: cargo clippy -- -D warnings
+      - run: cargo clippy --all-targets --all-features -- -D warnings
         env:
           CARGO_INCREMENTAL: 0
           CARGO_NET_RETRY: 10
