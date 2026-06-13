@@ -230,8 +230,7 @@ const WCS_GENDER_FLAG = {
  * is encoded as both male and female, so the unisex selection matches that pair.
  */
 function wcsGenderCondition(gender: WcsGender): JsonExpression {
-  if (gender === "unisex")
-    return ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]];
+  if (gender === "unisex") return ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]];
   return ["get", WCS_GENDER_FLAG[gender]];
 }
 
