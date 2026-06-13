@@ -42,7 +42,7 @@ export class FloorControl extends Evented implements IControl {
     // vertical open/collapse button
     const verticalOpenClose = document.createElement("button");
     verticalOpenClose.classList.add("vertical-oc");
-    verticalOpenClose.innerHTML = `<span id="vertical-oc-text">∅</span><span class="arrow">▲</span>`;
+    verticalOpenClose.innerHTML = `<span id="vertical-oc-text" class="text-base font-medium">∅</span><span class="arrow">▲</span>`;
     verticalOpenClose.addEventListener("click", () => {
       this.container.classList.toggle("closed");
       this._userCollapsed = this.container.classList.contains("closed");
@@ -51,7 +51,7 @@ export class FloorControl extends Evented implements IControl {
     // horizontal (primarily on mobile)
     const horizontalOpenClose = document.createElement("button");
     horizontalOpenClose.classList.add("horizontal-oc");
-    horizontalOpenClose.innerHTML = `<span id="horizontal-oc-text">∅</span><span class="arrow">❯</span>`;
+    horizontalOpenClose.innerHTML = `<span id="horizontal-oc-text" class="text-base font-medium">∅</span><span class="arrow">❯</span>`;
     horizontalOpenClose.addEventListener("click", () => {
       this.container.classList.toggle("closed");
       this._userCollapsed = this.container.classList.contains("closed");
@@ -103,6 +103,7 @@ export class FloorControl extends Evented implements IControl {
     // Render buttons for each floor level
     for (const level of FLOOR_LEVELS) {
       const btn = document.createElement("button");
+      btn.classList.add("text-base", "font-medium");
       btn.innerText = level.label;
       const isAvailable = this.availableFloors.size === 0 || this.availableFloors.has(level.id);
 
@@ -126,6 +127,7 @@ export class FloorControl extends Evented implements IControl {
 
     // Add "hide all" button
     const hideBtn = document.createElement("button");
+    hideBtn.classList.add("text-base", "font-medium");
     hideBtn.innerText = "∅";
     hideBtn.classList.add("active"); // Start with all floors hidden
     hideBtn.addEventListener("click", () => {
