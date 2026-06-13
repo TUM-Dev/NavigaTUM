@@ -144,7 +144,10 @@ impl Image {
         Ok(Self::summary_markdown(key, branch, &filename))
     }
     fn summary_markdown(key: &str, branch: &str, filename: &str) -> String {
-        format!("![image showing {key}]({})", Self::raw_url(branch, filename))
+        format!(
+            "![image showing {key}]({})",
+            Self::raw_url(branch, filename)
+        )
     }
     fn raw_url(branch: &str, filename: &str) -> String {
         format!(

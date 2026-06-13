@@ -529,7 +529,9 @@ mod tests {
         );
         assert_eq!(
             applied.image_url.as_deref(),
-            Some("https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp")
+            Some(
+                "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp"
+            )
         );
 
         let csv = fs::read_to_string(sources.join("events.csv")).unwrap();
@@ -628,7 +630,9 @@ mod tests {
         );
         assert_eq!(
             applied.image_url.as_deref(),
-            Some("https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp")
+            Some(
+                "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/branch/data/sources/img/lg/event_9d02ddd940c43f87_0.webp"
+            )
         );
 
         let csv = fs::read_to_string(sources.join("events.csv")).unwrap();

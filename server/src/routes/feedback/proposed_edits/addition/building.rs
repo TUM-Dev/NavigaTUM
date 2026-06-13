@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
 use super::areatree::{AreatreeKind, format_line, insert_under};
-use super::{AppliableAddition, AppliedAddition};
 use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
+use super::{AppliableAddition, AppliedAddition};
 
 const MAX_NAME_LEN: usize = 200;
 
@@ -167,16 +167,16 @@ impl AppliableAddition for NewBuilding {
             }
         }
 
-        Ok(AppliedAddition::created(self.coords.fenced_geojson_feature(
-            &serde_json::json!({
+        Ok(AppliedAddition::created(
+            self.coords.fenced_geojson_feature(&serde_json::json!({
                 "kind": "new-building",
                 "id": effective_id,
                 "name": self.name,
                 "node_kind": self.kind,
                 "parent_id": self.parent_id,
                 "building_prefixes": self.building_prefixes,
-            }),
-        )))
+            })),
+        ))
     }
 
     fn kind_label(&self) -> &'static str {

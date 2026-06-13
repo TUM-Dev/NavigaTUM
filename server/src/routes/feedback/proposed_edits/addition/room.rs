@@ -6,8 +6,8 @@ use serde::{Deserialize, Serialize};
 
 use super::super::coordinate::Coordinate;
 use super::areatree::AreatreeKind;
-use super::{AppliableAddition, AppliedAddition};
 use super::validation::{AdditionError, AdditionVariant, CollisionSource, RepoSnapshot};
+use super::{AppliableAddition, AppliedAddition};
 
 #[derive(Debug, Deserialize, Serialize, Clone, utoipa::ToSchema)]
 pub struct RoomLink {
