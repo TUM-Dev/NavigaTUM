@@ -198,14 +198,23 @@ describe("wcsAttributeConditions", () => {
     ]);
   });
 
-  it("maps each gender onto its tile flag", () => {
+  it("maps male and female onto their tile flag", () => {
     for (const [gender, flag] of [
       ["male", "is_male_toilet"],
       ["female", "is_female_toilet"],
-      ["unisex", "is_unisex_toilet"],
     ] as const) {
       expect(wcsAttributeConditions({ wheelchair: false, gender })).toEqual([["get", flag]]);
     }
+  });
+
+  it("matches a male+female toilet under the unisex selection, not just the explicit flag", () => {
+    expect(wcsAttributeConditions({ wheelchair: false, gender: "unisex" })).toEqual([
+      [
+        "any",
+        ["get", "is_unisex_toilet"],
+        ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
+      ],
+    ]);
   });
 
   it("requires every selected attribute when combined", () => {

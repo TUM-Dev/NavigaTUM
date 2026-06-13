@@ -285,10 +285,6 @@ test.describe("Browse map (/map)", () => {
     await expect(page.getByRole("checkbox", { name: "Nur rollstuhlgerecht" })).toBeHidden();
   });
 
-  // The attribute sub-filters fade non-matching toilets (icon-opacity) rather than hiding them, so
-  // the marker stays on the map and keeps its popup. The stub uses a `circle` layer, which carries
-  // no `icon-opacity`, so the fade magnitude itself is not exercised here - only that the marker is
-  // no longer removed. The predicate driving the fade is unit-tested in `wcsAttributeConditions`.
   test("a non-matching toilet stays clickable under the wheelchair-only filter", async ({
     page,
   }) => {

@@ -226,6 +226,21 @@ const WCS_GENDER_FLAG = {
   unisex: "is_unisex_toilet",
 } as const satisfies Record<WcsGender, string>;
 
+/**
+ * Per-feature predicate selecting a gender. A toilet flagged both male and female is all-gender in
+ * practice, so the unisex selection also matches it - not just toilets carrying the explicit
+ * `unisex` flag.
+ */
+function wcsGenderCondition(gender: WcsGender): JsonExpression {
+  if (gender === "unisex")
+    return [
+      "any",
+      ["get", "is_unisex_toilet"],
+      ["all", ["get", "is_male_toilet"], ["get", "is_female_toilet"]],
+    ];
+  return ["get", WCS_GENDER_FLAG[gender]];
+}
+
 /** Parse a `?wcs_gender=` value, or `null` when absent or not a known gender. */
 export function parseWcsGender(param: string | null | undefined): WcsGender | null {
   const gender = WCS_GENDERS.find((g) => g === param);
@@ -246,9 +261,6 @@ export type JsonExpression = readonly (string | number | boolean | JsonExpressio
 /**
  * Per-feature `["get", flag]` predicates for each WC attribute the user selected. A WC feature
  * "matches" when every returned predicate is truthy on it. Empty when nothing is selected.
- * Folded into the indoor dim so matching toilets stay vibrant while the rest fades, on both the
- * POI-icon and room-fill layers. Showers carry no gender or wheelchair flag, so any active
- * attribute fades them with the non-matching toilets.
  */
 export function wcsAttributeConditions(opts: {
   wheelchair: boolean;
@@ -256,7 +268,7 @@ export function wcsAttributeConditions(opts: {
 }): JsonExpression[] {
   const conditions: JsonExpression[] = [];
   if (opts.wheelchair) conditions.push(["get", "is_wheelchair_toilet"]);
-  if (opts.gender) conditions.push(["get", WCS_GENDER_FLAG[opts.gender]]);
+  if (opts.gender) conditions.push(wcsGenderCondition(opts.gender));
   return conditions;
 }
 
