@@ -5,6 +5,7 @@ import {
   buildAddition,
   type EventDraft,
   eventDraftFromEntry,
+  eventSourceImageUrl,
   validateAddition,
 } from "../app/composables/additionSchema";
 import { wallTimeToRfc3339 } from "../app/utils/datetime";
@@ -158,5 +159,17 @@ describe("eventDraftFromEntry", () => {
     draft.image_width = 1448;
     draft.image_height = 2048;
     expect(validateAddition(draft)).toEqual({});
+  });
+});
+
+describe("eventSourceImageUrl", () => {
+  // Building on an event re-submits its image, so we must pull the exact, unchanged bytes
+  // of the git source rather than the /cdn/lg artifact, which is a processed copy.
+  it("points at the raw committed source on GitHub, not the served CDN artifact", () => {
+    const url = eventSourceImageUrl("event_4a3e5d2fd5b338e4");
+    expect(url).toBe(
+      "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/data/sources/img/lg/event_4a3e5d2fd5b338e4_0.webp"
+    );
+    expect(url).not.toContain("/cdn/lg/");
   });
 });

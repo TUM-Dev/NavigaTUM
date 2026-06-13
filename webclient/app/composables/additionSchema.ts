@@ -336,6 +336,14 @@ function emptyEvent(): EventDraft {
   };
 }
 
+// Committed event images live in git at data/sources/img/lg/<id>_0.webp. Building on
+// an event re-submits its image, so we want the exact, unchanged bytes of the source —
+// the served /cdn/lg artifact is a processed copy. Mirrors the raw URL the server emits
+// in proposed_edits/image.rs (refs/heads/main, since picked events are already merged).
+export function eventSourceImageUrl(eventId: string): string {
+  return `https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/data/sources/img/lg/${eventId}_0.webp`;
+}
+
 // A fresh locked draft from a picked search hit; the image is fetched separately
 // and rides in through the regular upload path.
 export function eventDraftFromEntry(entry: EventEntry, now: number): EventDraft {

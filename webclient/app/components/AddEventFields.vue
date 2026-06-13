@@ -22,6 +22,7 @@ import {
   additionRegistry,
   type EventDraft,
   eventDraftFromEntry,
+  eventSourceImageUrl,
   validateAddition,
 } from "~/composables/additionSchema";
 import { useEditProposal } from "~/composables/editProposal";
@@ -33,7 +34,6 @@ type EventEntry = components["schemas"]["EventEntry"];
 
 const editProposal = useEditProposal();
 const { t, locale } = useI18n({ useScope: "local" });
-const runtimeConfig = useRuntimeConfig();
 
 // The parent only mounts this component when `kind === "event"`, so the narrowing cast is safe
 // and saves every binding from re-checking the discriminant.
@@ -216,7 +216,7 @@ async function adoptEvent(entry: EventEntry): Promise<void> {
   resetLocalImageState();
   editProposal.value.pendingAddition = eventDraftFromEntry(entry, Date.now());
   try {
-    const res = await fetch(`${runtimeConfig.public.cdnURL}/cdn/lg/${entry.id}_0.webp`, {
+    const res = await fetch(eventSourceImageUrl(entry.id), {
       credentials: "omit",
     });
     if (!res.ok) throw new Error(`unexpected status ${res.status}`);
