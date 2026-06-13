@@ -45,11 +45,18 @@
       "nursery": {
         "useSortedClasses": "error",
         "useVueDefineMacrosOrder": "error",
-        "noNestedPromises": "error"
+        "noNestedPromises": "error",
+        "noAmbiguousAnchorText": "warn",
+        "noVueOptionsApi": "error",
+        "useVueVForKey": "error",
+        "noShadow": "error"
       },
       "recommended": true,
+      "a11y": {
+        "noNoninteractiveElementInteractions": "error"
+      },
       "suspicious": {
-        "noExplicitAny": "off",
+        "noExplicitAny": "error",
         "noArrayIndexKey": "off",
         "noConsole": { "level": "error", "options": { "allow": ["error", "warn"] } },
         "noEvolvingTypes": "error",

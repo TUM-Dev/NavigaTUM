@@ -85,7 +85,7 @@ function createMarker(hueRotation = 0) {
 }
 
 function initMap(containerId: string): MapLibreMap {
-  const map = new MapLibreMap({
+  const mapInstance = new MapLibreMap({
     container: containerId,
     // while having the hash in the url is nice, it is overridden on map load anyway => not much use
     hash: false,
@@ -108,13 +108,13 @@ function initMap(containerId: string): MapLibreMap {
     validateStyle: import.meta.env.DEV,
     maplibreLogo: true,
   });
-  attachWebglGuard(map);
+  attachWebglGuard(mapInstance);
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
   // enough to know whether just the initial loading has
   // succeeded.
-  map.on("load", () => {
+  mapInstance.on("load", () => {
     initialLoaded.value = true;
 
     // controls
@@ -135,7 +135,7 @@ function initMap(containerId: string): MapLibreMap {
         trackUserLocation: true,
       })
     );
-    map.addControl(new CombinedControlGroup(controls), "top-right");
+    mapInstance.addControl(new CombinedControlGroup(controls), "top-right");
 
     // Set available floors if provided
     if (props.floors && props.floors.length > 0) {
@@ -147,15 +147,15 @@ function initMap(containerId: string): MapLibreMap {
     }
   });
 
-  map.addControl(floorControl.value, "top-left");
+  mapInstance.addControl(floorControl.value, "top-left");
 
   // Listen for floor level changes and adjust zoom if needed
   floorControl.value.on("level-changed", (event: { level: number | null }) => {
-    if (event.level !== null && map) {
-      const currentMapZoom = map.getZoom();
+    if (event.level !== null && mapInstance) {
+      const currentMapZoom = mapInstance.getZoom();
       // Our floors are only visible at zoom level 17+
       if (currentMapZoom < 17) {
-        map.easeTo({
+        mapInstance.easeTo({
           zoom: 17,
           duration: 2000,
         });
@@ -163,7 +163,7 @@ function initMap(containerId: string): MapLibreMap {
     }
   });
 
-  return map;
+  return mapInstance;
 }
 
 // --- Loading components ---

@@ -32,7 +32,7 @@ const searchUrl = computed(() => {
   if (debounced.value.length < 2) return null;
   const params = new URLSearchParams();
   params.set("q", debounced.value);
-  for (const t of props.allowedTypes) params.append("type", t);
+  for (const allowedType of props.allowedTypes) params.append("type", allowedType);
   params.set("limit_all", "8");
   // Disable highlight markers so we can use the response strings as plain text.
   params.set("pre_highlight", "");

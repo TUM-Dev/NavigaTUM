@@ -20,7 +20,7 @@ type ItineraryResponse = components["schemas"]["ItineraryResponse"];
 // Simplified GeoJSON Feature type to avoid deep type inference
 interface SimpleGeoJSONFeature {
   type: "Feature";
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
   geometry: {
     type: "LineString";
     coordinates: number[][];
@@ -89,7 +89,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
 }
 
 function initMap(containerId: string): MapLibreMap {
-  const map = new MapLibreMap({
+  const mapInstance = new MapLibreMap({
     container: containerId,
     // Reflect the viewport in the URL hash so the map state is deep-linkable.
     hash: true,
@@ -110,14 +110,14 @@ function initMap(containerId: string): MapLibreMap {
     center: [11.670099, 48.266921],
     zoom: zoom.value,
   });
-  attachWebglGuard(map);
+  attachWebglGuard(mapInstance);
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
   // enough to know whether just the initial loading has
   // succeeded.
-  map.on("load", () => {
-    map.addControl(new NavigationControl({}), "top-left");
+  mapInstance.on("load", () => {
+    mapInstance.addControl(new NavigationControl({}), "top-left");
 
     const location = new GeolocateControl({
       positionOptions: {
@@ -143,11 +143,11 @@ function initMap(containerId: string): MapLibreMap {
       geolocationState.value.triggeringSearchBarId = null;
     });
 
-    map.addControl(location);
+    mapInstance.addControl(location);
     geolocateControl.value = location;
 
     // Add Valhalla route source and layers
-    map.addSource("route", {
+    mapInstance.addSource("route", {
       type: "geojson",
       data: {
         type: "Feature",
@@ -158,7 +158,7 @@ function initMap(containerId: string): MapLibreMap {
         },
       },
     });
-    map.addLayer({
+    mapInstance.addLayer({
       id: "route",
       type: "line",
       source: "route",
@@ -171,7 +171,7 @@ function initMap(containerId: string): MapLibreMap {
         "line-width": 7,
       },
     });
-    map.addLayer({
+    mapInstance.addLayer({
       id: "route-symbol",
       type: "symbol",
       source: "route",
@@ -185,7 +185,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Add Motis route sources and layers
-    map.addSource("motis-routes", {
+    mapInstance.addSource("motis-routes", {
       type: "geojson",
       data: {
         type: "FeatureCollection",
@@ -194,7 +194,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Add multiple layers for different transport modes
-    map.addLayer({
+    mapInstance.addLayer({
       id: "motis-route-walk",
       type: "line",
       source: "motis-routes",
@@ -211,7 +211,7 @@ function initMap(containerId: string): MapLibreMap {
       },
     });
 
-    map.addLayer({
+    mapInstance.addLayer({
       id: "motis-route-transit",
       type: "line",
       source: "motis-routes",
@@ -228,7 +228,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Highlighted leg layer
-    map.addLayer({
+    mapInstance.addLayer({
       id: "motis-route-highlighted",
       type: "line",
       source: "motis-routes",
@@ -245,7 +245,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Add source for platform change markers
-    map.addSource("platform-changes", {
+    mapInstance.addSource("platform-changes", {
       type: "geojson",
       data: {
         type: "FeatureCollection",
@@ -254,7 +254,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Add platform change layers AFTER all route layers so they render on top
-    map.addLayer({
+    mapInstance.addLayer({
       id: "platform-changes",
       type: "circle",
       source: "platform-changes",
@@ -270,7 +270,7 @@ function initMap(containerId: string): MapLibreMap {
     });
 
     // Platform change text layer
-    map.addLayer({
+    mapInstance.addLayer({
       id: "platform-changes-text",
       type: "symbol",
       source: "platform-changes",
@@ -294,7 +294,7 @@ function initMap(containerId: string): MapLibreMap {
     afterLoaded.value();
   });
 
-  return map;
+  return mapInstance;
 }
 
 function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
