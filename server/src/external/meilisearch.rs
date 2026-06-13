@@ -212,9 +212,11 @@ pub struct GeoPoint {
 /// `search_data.json`. Carries everything a client needs to pre-fill the event
 /// proposal form, so picking a search hit needs no second round-trip.
 ///
-/// Every field is required: the pipeline always writes the full shape, so a
-/// missing field signals index corruption and should fail the deserialize loudly
-/// rather than be papered over with a default.
+/// Every field is required, with one exception: the pipeline always writes the
+/// full shape, so a missing field signals index corruption and should fail the
+/// deserialize loudly rather than be papered over with a default. The two image
+/// crop offsets are the exception - they were added after the facet shipped, so
+/// documents indexed before then lack them and must default to `0`.
 #[derive(Deserialize, Clone)]
 pub struct EventMSHit {
     /// The `event_<hash>` identity shared by the CSV row and its key-named images.
@@ -227,6 +229,12 @@ pub struct EventMSHit {
     /// The `/cdn/thumb/…` delivery path of the event image.
     pub image: String,
     pub image_author: String,
+    /// Crop offset of the thumbnail image: pixels to shift the crop window along the image's longer axis.
+    #[serde(default)]
+    pub image_thumb_offset: i32,
+    /// Crop offset of the header image: pixels to shift the crop window along the image's longer axis.
+    #[serde(default)]
+    pub image_header_offset: i32,
     #[serde(rename = "_geo")]
     pub coords: GeoPoint,
 }
