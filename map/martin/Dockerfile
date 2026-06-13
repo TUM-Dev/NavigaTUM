@@ -1,4 +1,4 @@
-FROM ghcr.io/maplibre/martin:latest
+FROM ghcr.io/maplibre/martin:main
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes unzip && \
