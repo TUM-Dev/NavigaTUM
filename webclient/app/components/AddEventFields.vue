@@ -33,7 +33,7 @@ import {
   formatEventDateRange,
   wallTimeToRfc3339,
 } from "~/utils/datetime";
-import { cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
+import { clampCropOffset, cropToBlob, HEADER_TARGET, THUMB_TARGET } from "~/utils/imageCrop";
 
 type EventEntry = components["schemas"]["EventEntry"];
 type SearchResponse = components["schemas"]["SearchResponse"];
@@ -125,7 +125,8 @@ function fileToBase64(file: File): Promise<string | null> {
   });
 }
 
-async function processFile(file: File): Promise<void> {
+// `adopt` is set only when re-fetching a based-on event's own image, so its saved crop survives.
+async function processFile(file: File, adopt = false): Promise<void> {
   // Picking or unlinking a based-on event swaps the draft object while the image may
   // still be decoding; writes must land on the draft this file was selected for.
   const target = draft.value;
@@ -168,9 +169,15 @@ async function processFile(file: File): Promise<void> {
   draft.value.image = { base64, fileName: file.name || "event-image" };
   draft.value.image_width = bitmap.width;
   draft.value.image_height = bitmap.height;
-  // A new image recentres both crops; their offset bounds depend on the new dimensions.
-  draft.value.image_thumb_offset = 0;
-  draft.value.image_header_offset = 0;
+  // A new image recentres both crops; adopting the based-on image restores its saved crop,
+  // clamped to the loaded dimensions so a since-replaced source can't push it out of bounds.
+  const basedOn = adopt ? draft.value.based_on : null;
+  draft.value.image_thumb_offset = basedOn
+    ? clampCropOffset(bitmap.width, bitmap.height, THUMB_TARGET, basedOn.thumb_offset)
+    : 0;
+  draft.value.image_header_offset = basedOn
+    ? clampCropOffset(bitmap.width, bitmap.height, HEADER_TARGET, basedOn.header_offset)
+    : 0;
   // In locked update mode the adopted key stays the identity, whatever the image.
   if (!draft.value.based_on) draft.value.id = `event_${hash}`;
 }
@@ -236,7 +243,10 @@ async function adoptEvent(entry: EventEntry): Promise<void> {
     const blob = await res.blob();
     // The user may have unlinked or re-picked while the image was downloading.
     if (draft.value.based_on?.id !== entry.id) return;
-    await processFile(new File([blob], `${entry.id}_0.webp`, { type: blob.type || "image/webp" }));
+    await processFile(
+      new File([blob], `${entry.id}_0.webp`, { type: blob.type || "image/webp" }),
+      true
+    );
   } catch {
     if (draft.value.based_on?.id === entry.id) prefillError.value = t("prefill_image_failed");
   }

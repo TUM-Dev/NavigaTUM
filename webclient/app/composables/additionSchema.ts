@@ -291,13 +291,15 @@ function buildPoi(draft: PoiDraft): Addition {
   } as Addition;
 }
 
-// The search hit a locked draft is based on: its key is the upsert identity,
-// and its name and last-held dates feed the banner.
+// The search hit a locked draft is based on: its key is the upsert identity, its name and
+// last-held dates feed the banner, and its crop offsets let the re-fetched image keep its crop.
 export interface EventBasedOn {
   id: string;
   name: string;
   starts_at: string;
   ends_at: string;
+  thumb_offset: number;
+  header_offset: number;
 }
 
 export interface EventDraft extends DraftBase {
@@ -354,12 +356,16 @@ export function eventDraftFromEntry(entry: EventEntry, now: number): EventDraft 
     name: entry.name,
     starts_at: entry.starts_at,
     ends_at: entry.ends_at,
+    thumb_offset: entry.image_thumb_offset,
+    header_offset: entry.image_header_offset,
   };
   draft.name = entry.name;
   draft.description = entry.description;
   draft.organising_org_id = entry.organising_org_id;
   draft.coords = { lat: entry.lat, lon: entry.lon, picked: true };
   draft.image_author = entry.image_author;
+  draft.image_thumb_offset = entry.image_thumb_offset;
+  draft.image_header_offset = entry.image_header_offset;
   // Past dates fail the server's EventEnded validation; only a still-running edition pre-fills them.
   if (Date.parse(entry.ends_at) > now) {
     draft.starts_at = rfc3339ToWallTime(entry.starts_at) ?? "";
