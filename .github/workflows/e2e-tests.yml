@@ -1,15 +1,8 @@
 name: E2E Tests
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-server
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
+# Reusable workflow: orchestrated by ci.yaml, which path-gates and aggregates it.
 on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_call:
 permissions: {}
 
 jobs:
@@ -228,18 +221,3 @@ jobs:
       - name: Database logs on failure
         if: failure()
         run: docker compose -f compose.local.yml logs db
-
-  # This final step is needed to mark the whole workflow as successful
-  # Don't change its name - it is used by the merge protection rules
-  done:
-    name: Finished e2e-tests
-    runs-on: ubuntu-latest
-    needs: [ ui-tests-desktop, api-tests ]
-    if: always()
-    permissions: {}
-    steps:
-      - name: Result of the needed steps
-        run: echo "${{ toJSON(needs) }}" # zizmor: ignore[template-injection]
-      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
-        name: CI Result
-        run: exit 1

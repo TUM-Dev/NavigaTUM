@@ -1,6 +1,9 @@
 name: Create and publish a Docker image
+# Keyed on image_suffix, not github.workflow: every caller now runs under the same
+# orchestrator (ci.yaml), so a workflow-name-based group would make the server,
+# webclient, and martin builds cancel one another.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: docker-${{ inputs.image_suffix }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 on:

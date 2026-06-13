@@ -1,0 +1,134 @@
+name: CI
+
+# Single entry point for component CI. A `changes` job decides which components a
+# pull request touches, and each component runs as a reusable workflow gated on that
+# decision, so unrelated changes skip irrelevant CI. `ci-passed` aggregates them into
+# the one status check the branch ruleset requires.
+#
+# Gating applies to pull requests only. Pushes to main and manual dispatches run
+# everything (safety net + keeps every `:main` image fresh).
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      server: ${{ steps.filter.outputs.server }}
+      webclient: ${{ steps.filter.outputs.webclient }}
+      data: ${{ steps.filter.outputs.data }}
+      map: ${{ steps.filter.outputs.map }}
+      e2e: ${{ steps.filter.outputs.e2e }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with: { persist-credentials: false }
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          # A change under .github/** re-exercises every component, so a CI edit can
+          # never skip the CI it changes. e2e brings up server + webclient + db +
+          # meilisearch via compose, so any component or the harness must trigger it.
+          filters: |
+            server: &server
+              - 'server/**'
+              - 'motis-openapi-progenitor/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - '.github/**'
+            webclient: &webclient
+              - 'webclient/**'
+              - '.github/**'
+            data: &data
+              - 'data/**'
+              - 'pyproject.toml'
+              - 'uv.lock'
+              - '.github/**'
+            map: &map
+              - 'map/**'
+              - '.github/**'
+            e2e:
+              - *server
+              - *webclient
+              - *data
+              - *map
+              - 'tests/**'
+              - 'compose.yml'
+              - 'compose.local.yml'
+
+  server:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.server == 'true' }}
+    uses: ./.github/workflows/server-cicd.yml
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+      attestations: write
+
+  webclient:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.webclient == 'true' }}
+    uses: ./.github/workflows/webclient-cicd.yml
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+      attestations: write
+
+  data:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.data == 'true' }}
+    uses: ./.github/workflows/data-cicd.yml
+    permissions:
+      contents: read
+
+  map:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.map == 'true' }}
+    uses: ./.github/workflows/martin-cicd.yml
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+      attestations: write
+
+  e2e:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
+    uses: ./.github/workflows/e2e-tests.yml
+    permissions:
+      contents: read
+
+  # The single required status check. Gated-out components report `skipped`, which is a
+  # pass here; only `failure`/`cancelled` block. `changes` is included so a filter failure
+  # (which would silently skip every component) still fails the check.
+  # `map` is intentionally omitted: martin was never a required check, so its validation
+  # stays advisory (it still runs and reports, but does not block merges). Add it to
+  # `needs` to make map failures merge-blocking.
+  # Don't change its name - it is used by the merge protection rules.
+  ci-passed:
+    name: Finished CI
+    runs-on: ubuntu-latest
+    needs: [ changes, server, webclient, data, e2e ]
+    if: always()
+    permissions: {}
+    steps:
+      - name: Result of the needed jobs
+        run: echo "${{ toJSON(needs) }}" # zizmor: ignore[template-injection]
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        name: CI Result
+        run: exit 1
