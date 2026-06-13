@@ -4,8 +4,10 @@ withDefaults(
     submitting: boolean;
     blocked: boolean;
     disabled?: boolean;
+    /** Overrides the default "send" copy, e.g. when the submission updates an existing event. */
+    label?: string;
   }>(),
-  { disabled: false }
+  { disabled: false, label: undefined }
 );
 
 defineEmits<{ click: [] }>();
@@ -29,7 +31,7 @@ const { t } = useI18n({ useScope: "local" });
       {{ t("sending") }}...
     </template>
     <template v-else-if="blocked">{{ t("try_again_later") }}</template>
-    <template v-else>{{ t("send") }}</template>
+    <template v-else>{{ label ?? t("send") }}</template>
   </Btn>
 </template>
 

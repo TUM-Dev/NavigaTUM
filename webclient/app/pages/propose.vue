@@ -85,6 +85,12 @@ watch(
 
 const formRef = ref<InstanceType<typeof AddProposalForm> | null>(null);
 
+// Locked "updating existing event" mode swaps the submit copy from proposing to updating.
+const updatingEvent = computed(() => {
+  const a = editProposal.value.pendingAddition;
+  return a.kind === "event" && a.based_on !== null;
+});
+
 const privacyChecked = ref(false);
 
 const sendBlock = computed(() =>
@@ -154,6 +160,7 @@ async function cancel() {
             :submitting="submission.submitting.value"
             :blocked="submission.blockedByToken.value"
             :disabled="!canSubmit"
+            :label="updatingEvent ? t('send_update') : undefined"
             @click="send"
           />
           <Btn variant="linkButton" size="md" @click="cancel">{{ t("cancel") }}</Btn>
@@ -189,6 +196,7 @@ de:
   description: Schlage einen neuen Raum, ein neues Gebäude, einen POI oder eine Veranstaltung für NavigaTUM vor.
   blocked_incomplete: Bitte fülle alle hervorgehobenen Pflichtfelder aus, um den Vorschlag zu senden.
   blocked_consent: Bitte akzeptiere die Datenschutzerklärung, um den Vorschlag zu senden.
+  send_update: Aktualisierung vorschlagen
   cancel: Abbrechen
   back_home: Zur Startseite
   thank_you: Vielen Dank!
@@ -200,6 +208,7 @@ en:
   description: Propose a new room, building, POI, or event for NavigaTUM.
   blocked_incomplete: Please complete all highlighted required fields to send the proposal.
   blocked_consent: Please accept the privacy statement to send the proposal.
+  send_update: Propose update
   cancel: Cancel
   back_home: Back to home
   thank_you: Thank you!

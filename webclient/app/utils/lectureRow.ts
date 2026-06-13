@@ -46,7 +46,8 @@ export function tagSectionEntries(section: ResultsSection): SearchResultEntry[] 
   if (section.facet === "addresses") {
     return section.entries.map((entry) => ({ kind: "address", ...entry }));
   }
-  // Events never appear here: this client does not enable the default-off facet (UI lands in #3258).
+  // Event sections only feed the propose page's AddEventSearch picker, which reads them
+  // directly; the general search UIs keep the default-off facet disabled.
   if (section.facet === "events") {
     return [];
   }
