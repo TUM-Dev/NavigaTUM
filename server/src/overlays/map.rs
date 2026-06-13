@@ -19,7 +19,10 @@ impl OverlayMapTask {
             "building" | "joined_building" => (16, 20),
             "virtual_room" | "room" | "poi" => (17, 0),
             entry => {
-                warn!(?entry, "map generation encountered an unknown type, assuming it to be a building");
+                warn!(
+                    ?entry,
+                    "map generation encountered an unknown type, assuming it to be a building"
+                );
                 (16, 20)
             }
         };
