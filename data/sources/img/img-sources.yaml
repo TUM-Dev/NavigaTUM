@@ -1111,6 +1111,15 @@ event_9d02ddd940c43f87:
     license:
       text: Verwendung frei für die Berichterstattung unter Angabe der Quelle „Studentische Vertretung TUM" / Free for use in reporting, citing the source „Studentische Vertretung TUM"
       url: https://garnix-openair.de/
+event_fbde03f42cf00f08:
+  0:
+    author: Studentin
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -363
+      thumb: -198
 frm-2:
   0:
     author: Battenberg, Andreas / TUM
