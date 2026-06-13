@@ -1,5 +1,10 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { formatEventDateRange, rfc3339ToWallTime, wallTimeToRfc3339 } from "../app/utils/datetime";
+import {
+  findDuplicateEventByName,
+  formatEventDateRange,
+  rfc3339ToWallTime,
+  wallTimeToRfc3339,
+} from "../app/utils/datetime";
 
 // Pin the zone so the wall-time conversions are deterministic regardless of where the suite runs.
 const original = process.env.TZ;
@@ -71,5 +76,56 @@ describe("formatEventDateRange", () => {
 
   it("returns an empty string for malformed input", () => {
     expect(formatEventDateRange("not-a-date", "2026-06-19T21:59:00Z", "de")).toBe("");
+  });
+});
+
+describe("findDuplicateEventByName", () => {
+  const NOW = Date.parse("2026-06-13T00:00:00Z");
+  const entry = (name: string, startsAt: string) => ({ name, starts_at: startsAt });
+
+  it("returns the entry whose name matches and which falls inside the window", () => {
+    const garnix = entry("GARNIX Festival", "2026-06-19T18:00:00Z");
+    expect(findDuplicateEventByName([garnix], "GARNIX Festival", NOW)).toBe(garnix);
+  });
+
+  it("picks the newest qualifier regardless of input order", () => {
+    const older = entry("GARNIX Festival", "2026-04-01T18:00:00Z");
+    const newer = entry("GARNIX Festival", "2026-08-01T18:00:00Z");
+    expect(findDuplicateEventByName([older, newer], "GARNIX Festival", NOW)).toBe(newer);
+    expect(findDuplicateEventByName([newer, older], "GARNIX Festival", NOW)).toBe(newer);
+  });
+
+  it("matches case-insensitively and ignores surrounding whitespace", () => {
+    const garnix = entry("GARNIX Festival", "2026-06-19T18:00:00Z");
+    expect(findDuplicateEventByName([garnix], "  garnix festival  ", NOW)).toBe(garnix);
+  });
+
+  it("returns null when no name matches", () => {
+    const garnix = entry("GARNIX Festival", "2026-06-19T18:00:00Z");
+    expect(findDuplicateEventByName([garnix], "TUNIX Festival", NOW)).toBeNull();
+  });
+
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const offsetEntry = (days: number) =>
+    entry("GARNIX Festival", new Date(NOW + days * DAY_MS).toISOString());
+
+  it.each([
+    ["a recent past edition (8 months ago)", -8 * 30],
+    ["a near-future edition (8 months ahead)", 8 * 30],
+  ])("flags %s as a duplicate", (_label, days) => {
+    const recent = offsetEntry(days);
+    expect(findDuplicateEventByName([recent], "GARNIX Festival", NOW)).toBe(recent);
+  });
+
+  it.each([
+    ["a distant past edition (10 months ago)", -10 * 30],
+    ["a distant future edition (10 months ahead)", 10 * 30],
+  ])("ignores %s, since that is a legitimate new occurrence", (_label, days) => {
+    expect(findDuplicateEventByName([offsetEntry(days)], "GARNIX Festival", NOW)).toBeNull();
+  });
+
+  it.each(["", "   ", "a", " a "])("returns null for the too-short query %j", (query) => {
+    const a = entry("a", "2026-06-19T18:00:00Z");
+    expect(findDuplicateEventByName([a], query, NOW)).toBeNull();
   });
 });
