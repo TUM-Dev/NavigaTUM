@@ -3,6 +3,7 @@ import type {
   FilterSpecification,
   GeoJSONFeature,
   Map as MapLibreMap,
+  MapSourceDataEvent,
   MapStyleImageMissingEvent,
   SymbolLayerSpecification,
 } from "maplibre-gl";
@@ -267,30 +268,50 @@ export function useEventMarkers(
     const target = toValue(map);
     if (!target) return;
 
-    const onStyleImageMissing = async (event: MapStyleImageMissingEvent) => {
-      const name = event.id;
-      if (!name.startsWith("event-") || pending.has(name) || target.hasImage(name)) return;
+    // Rasterise and register one event's photo. `pending` is only set once a queryable feature is
+    // found, so a request raised before the feature's tile is ready stays retryable rather than
+    // being permanently swallowed.
+    const ensureImage = async (name: string): Promise<void> => {
+      if (pending.has(name) || target.hasImage(name)) return;
+      const id = name.slice("event-".length);
+      if (!id) return;
+      // An id can appear in several feeds (upcoming ⊇ active) with the same photo; first hit wins.
+      let rawImage = "";
+      for (const source of sources) {
+        const feature = target
+          .querySourceFeatures(source, { sourceLayer: source })
+          .find((f) => String(f.id) === id);
+        if (feature && typeof feature.properties?.image === "string") {
+          rawImage = feature.properties.image;
+          break;
+        }
+      }
+      if (!rawImage) return;
       pending.add(name);
       try {
-        const id = name.slice("event-".length);
-        // An id can appear in several feeds (upcoming ⊇ active) with the same photo; first hit wins.
-        let rawImage = "";
-        for (const source of sources) {
-          const feature = target
-            .querySourceFeatures(source, { sourceLayer: source })
-            .find((f) => String(f.id) === id);
-          if (feature && typeof feature.properties?.image === "string") {
-            rawImage = feature.properties.image;
-            break;
-          }
-        }
-        if (!rawImage) return;
         const imageData = await rasteriseCircular(`${publicConfig.cdnURL}${rawImage}`);
-        if (!imageData || target.hasImage(name)) return;
-        target.addImage(name, imageData);
-        registered.add(name);
+        if (imageData && !target.hasImage(name)) {
+          target.addImage(name, imageData);
+          registered.add(name);
+        }
       } finally {
         pending.delete(name);
+      }
+    };
+
+    const onStyleImageMissing = (event: MapStyleImageMissingEvent) => {
+      if (event.id.startsWith("event-")) void ensureImage(event.id);
+    };
+
+    // `styleimagemissing` fires once per id and the miss is cached, so one raised before the tile's
+    // features are queryable would never recover; re-drive registration when a feed's data settles.
+    const onSourceData = (event: MapSourceDataEvent) => {
+      if (!event.isSourceLoaded || !sources.some((source) => source === event.sourceId)) return;
+      for (const source of sources) {
+        for (const feature of target.querySourceFeatures(source, { sourceLayer: source })) {
+          const id = String(feature.id ?? "");
+          if (id) void ensureImage(`event-${id}`);
+        }
       }
     };
 
@@ -322,6 +343,7 @@ export function useEventMarkers(
       applyExpiry(target);
       applyVisibility(target);
       target.on("styleimagemissing", onStyleImageMissing);
+      target.on("sourcedata", onSourceData);
     };
     if (target.loaded()) attach();
     else target.once("load", attach);
@@ -329,6 +351,7 @@ export function useEventMarkers(
     onCleanup(() => {
       target.off("load", attach);
       target.off("styleimagemissing", onStyleImageMissing);
+      target.off("sourcedata", onSourceData);
       for (const source of sources) {
         const layerId = layerIdFor(source);
         if (target.getLayer(layerId)) target.removeLayer(layerId);

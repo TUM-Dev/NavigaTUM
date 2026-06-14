@@ -1,4 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
+import type { Feature, FeatureCollection, Point } from "geojson";
+import geojsonvt from "geojson-vt";
+import vtpbf from "vt-pbf";
 
 // The browse map pulls its style from the production Martin tileserver, whose POI data drifts
 // and is occasionally unavailable. Stub the style so the tests exercise our page (panel, URL
@@ -53,7 +56,11 @@ async function stubBasemap(page: Page, style: object): Promise<void> {
 
 // An event feature shaped like the `events_active` tiles: display strings plus the epoch-second
 // properties the page's time-window filter compares against.
-function eventFeature(name: string, startsInSeconds: number, endsInSeconds: number) {
+function eventFeature(
+  name: string,
+  startsInSeconds: number,
+  endsInSeconds: number
+): Feature<Point> {
   const nowSeconds = Math.floor(Date.now() / 1000);
   const startsAtEpoch = nowSeconds + startsInSeconds;
   const endsAtEpoch = nowSeconds + endsInSeconds;
@@ -78,28 +85,121 @@ function eventFeature(name: string, startsInSeconds: number, endsInSeconds: numb
   };
 }
 
-// A style carrying one event in the `events` layer the page toggles and filters. Mirrors the real
-// basemap: the layer ships hidden and only `applyOverlayVisibility` reveals it. A `circle` layer
-// needs no sprite to be clickable, unlike the real `symbol` icon layer.
-function styleWithEvent(feature: object) {
-  return {
-    version: 8,
-    sources: {
-      events_active: {
-        type: "geojson",
-        data: { type: "FeatureCollection", features: [feature] },
-      },
-    },
-    layers: [
-      {
-        id: "events",
-        type: "circle",
-        source: "events_active",
-        layout: { visibility: "none" },
-        paint: { "circle-radius": 24 },
-      },
-    ],
-  };
+type EventFeed = "events_active" | "events_upcoming";
+
+// `useEventMarkers` owns the event layers now: it adds the two feed sources as Martin *vector*
+// sources, one symbol layer each, and toggles their visibility with the window. The radio/URL tests
+// don't need a rendered marker, so they hand it empty geojson feed sources, which the composable
+// finds already present and so never reaches for the live vector tiles.
+function emptyEventStyle() {
+  const empty = { type: "geojson", data: { type: "FeatureCollection", features: [] } } as const;
+  return { version: 8, sources: { events_active: empty, events_upcoming: empty }, layers: [] };
+}
+
+// The popup tests need a clickable marker, which means feeding the composable's vector layers real
+// tiles (a geojson source can't satisfy their `source-layer`). This basemap carries a `glyphs` URL
+// the symbol layer's label needs to lay out; `stubEventFeed` and `stubGlyphs` supply the rest.
+const VECTOR_BASEMAP = {
+  version: 8,
+  glyphs: "https://nav.tum.de/fonts/{fontstack}/{range}.pbf",
+  sources: {},
+  layers: [],
+};
+
+// Markers are per-event photo sprites: the composable rasterises the CDN image onto a canvas, so
+// the route must answer with a CORS-clean bitmap or the icon never registers and the symbol has
+// nothing to click. A 1x1 PNG suffices - the icon only needs to place at the feature's point.
+const MARKER_PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+  "base64"
+);
+async function stubEventImage(page: Page): Promise<void> {
+  await page.route("https://nav.tum.de/cdn/thumb/test.webp", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "image/png",
+      headers: { "Access-Control-Allow-Origin": "*" },
+      body: MARKER_PNG,
+    })
+  );
+}
+
+// The label glyphs only have to resolve, not render: an empty glyph range lets the symbol lay out
+// (its text is `text-optional`) so the icon places and the marker becomes clickable.
+async function stubGlyphs(page: Page): Promise<void> {
+  await page.route(/\/fonts\/.*\.pbf$/, (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/x-protobuf",
+      headers: { "Access-Control-Allow-Origin": "*" },
+      body: Buffer.alloc(0),
+    })
+  );
+}
+
+// Serve one event feed as Martin-shaped vector tiles: a TileJSON the composable's vector source
+// points at, plus per-tile MVT carrying the feature in a `source-layer` named after the feed (the
+// name the composable's symbol layer queries). This exercises the real production tile path.
+function stubEventFeed(page: Page, feed: EventFeed, features: Feature[]): Promise<void> {
+  const collection: FeatureCollection = { type: "FeatureCollection", features };
+  const index = geojsonvt(collection, { maxZoom: 24, buffer: 64 });
+  const base = `https://nav.tum.de/martin/${feed}`;
+  const corsJson = { "Access-Control-Allow-Origin": "*" };
+  page.route(
+    (url) => url.href === base,
+    (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        headers: corsJson,
+        body: JSON.stringify({
+          tilejson: "3.0.0",
+          tiles: [`${base}/{z}/{x}/{y}`],
+          minzoom: 15,
+          maxzoom: 24,
+          vector_layers: [{ id: feed }],
+        }),
+      })
+  );
+  return page.route(
+    (url) => url.href.startsWith(`${base}/`),
+    (route) => {
+      const tilePath = route.request().url().slice(`${base}/`.length);
+      const [z, x, y] = tilePath.split("/").map((n) => Number.parseInt(n, 10));
+      const tile = index.getTile(z, x, y);
+      if (!tile || tile.features.length === 0) {
+        return route.fulfill({ status: 204, headers: corsJson });
+      }
+      const body = Buffer.from(vtpbf.fromGeojsonVt({ [feed]: tile }, { version: 2 }));
+      return route.fulfill({
+        status: 200,
+        contentType: "application/x-protobuf",
+        headers: corsJson,
+        body,
+      });
+    }
+  );
+}
+
+// Stand up both feeds (one usually empty) plus the glyph and image routes the markers need.
+async function stubEvents(
+  page: Page,
+  feeds: { active?: Feature[]; upcoming?: Feature[] }
+): Promise<void> {
+  await stubGlyphs(page);
+  await stubEventImage(page);
+  await stubBasemap(page, VECTOR_BASEMAP);
+  await stubEventFeed(page, "events_active", feeds.active ?? []);
+  await stubEventFeed(page, "events_upcoming", feeds.upcoming ?? []);
+}
+
+// Clicking a canvas marker only lands once its tile and sprite have loaded, so retry the click
+// until the popup opens rather than racing the async tile fetch and image registration.
+async function clickEventMarker(page: Page, heading: string): Promise<void> {
+  await expect(async () => {
+    await page.locator("#map-browse canvas").first().click();
+    await expect(page.getByRole("heading", { name: heading })).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 15000 });
 }
 
 test.describe("Browse map (/map)", () => {
@@ -195,7 +295,7 @@ test.describe("Browse map (/map)", () => {
   test("toggling Events flips the ?filter= query and reveals the time-window selector", async ({
     page,
   }) => {
-    await stubBasemap(page, EMPTY_STYLE);
+    await stubBasemap(page, emptyEventStyle());
     await page.goto("/map", { waitUntil: "networkidle" });
 
     const nowRadio = page.getByRole("radio", { name: "Gerade aktiv" });
@@ -205,22 +305,24 @@ test.describe("Browse map (/map)", () => {
     await events.check();
     await expect(page).toHaveURL(/[?&]filter=events/);
     await expect(nowRadio).toBeChecked();
-    await expect(page.getByRole("radio", { name: "Nächste 24 Stunden" })).not.toBeChecked();
+    await expect(page.getByRole("radio", { name: "Nächste 2 Wochen" })).not.toBeChecked();
 
     await events.uncheck();
     await expect(page).not.toHaveURL(/[?&]filter=events/);
     await expect(nowRadio).toBeHidden();
   });
 
-  test("selecting the 24h window sets ?events_window= and survives a reload", async ({ page }) => {
-    await stubBasemap(page, EMPTY_STYLE);
+  test("selecting the 2-week window sets ?events_window= and survives a reload", async ({
+    page,
+  }) => {
+    await stubBasemap(page, emptyEventStyle());
     await page.goto("/map?filter=events", { waitUntil: "networkidle" });
 
-    await page.getByRole("radio", { name: "Nächste 24 Stunden" }).check();
-    await expect(page).toHaveURL(/[?&]events_window=24h/);
+    await page.getByRole("radio", { name: "Nächste 2 Wochen" }).check();
+    await expect(page).toHaveURL(/[?&]events_window=2weeks/);
 
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByRole("radio", { name: "Nächste 24 Stunden" })).toBeChecked();
+    await expect(page.getByRole("radio", { name: "Nächste 2 Wochen" })).toBeChecked();
 
     // Back at the "now" default the param is dropped, keeping the URL clean.
     await page.getByRole("radio", { name: "Gerade aktiv" }).check();
@@ -230,21 +332,20 @@ test.describe("Browse map (/map)", () => {
   test("a running event only shows its popup while the Events layer is enabled", async ({
     page,
   }) => {
-    // Running right now: started an hour ago, ends in an hour.
-    await stubBasemap(page, styleWithEvent(eventFeature("Sommerfest", -3600, 3600)));
+    // Running right now: started an hour ago, ends in an hour, served on the active feed.
+    await stubEvents(page, { active: [eventFeature("Sommerfest", -3600, 3600)] });
 
-    // Layer disabled: the style ships the events layer hidden, so the click hits nothing.
+    // Filter off: both feed layers stay hidden, so the click hits nothing.
     await page.goto("/map", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
     await page.locator("#map-browse canvas").first().click();
     await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeHidden();
 
-    // Layer enabled: the marker sits at the default center, i.e. where a default click lands.
+    // Filter on: the active feed is shown and its marker sits at the default center, where the click lands.
     await page.goto("/map?filter=events", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
-    await page.locator("#map-browse canvas").first().click();
+    await clickEventMarker(page, "Sommerfest");
 
-    await expect(page.getByRole("heading", { name: "Sommerfest" })).toBeVisible();
     await expect(page.getByText("Lehrstuhl für Tests")).toBeVisible();
     const orgLink = page.getByRole("link", { name: /Veranstalter 'Lehrstuhl für Tests'/ });
     await expect(orgLink).toHaveAttribute("href", /\/view\/TUTEST/);
@@ -304,19 +405,19 @@ test.describe("Browse map (/map)", () => {
     await expect(page.locator(".maplibregl-popup-content")).toContainText("Damen");
   });
 
-  test("an event starting in three hours only appears in the 24h window", async ({ page }) => {
-    await stubBasemap(page, styleWithEvent(eventFeature("Hackathon", 3 * 3600, 5 * 3600)));
+  test("an upcoming event only appears in the 2-week window", async ({ page }) => {
+    // Starts in three hours: it rides the upcoming feed, not the active one.
+    await stubEvents(page, { upcoming: [eventFeature("Hackathon", 3 * 3600, 5 * 3600)] });
 
-    // "Happening now" (the default): the future event is filtered out, so the click hits nothing.
+    // "Happening now" (the default) shows only the active feed, so the click hits nothing.
     await page.goto("/map?filter=events", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
     await page.locator("#map-browse canvas").first().click();
     await expect(page.getByRole("heading", { name: "Hackathon" })).toBeHidden();
 
-    // "Next 24 hours": the same event renders and carries its popup.
-    await page.goto("/map?filter=events&events_window=24h", { waitUntil: "networkidle" });
+    // "Next 2 weeks": the upcoming feed is shown and its marker carries the popup.
+    await page.goto("/map?filter=events&events_window=2weeks", { waitUntil: "networkidle" });
     await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
-    await page.locator("#map-browse canvas").first().click();
-    await expect(page.getByRole("heading", { name: "Hackathon" })).toBeVisible();
+    await clickEventMarker(page, "Hackathon");
   });
 });
