@@ -97,8 +97,7 @@ const wcsWheelchair = ref(false);
 // `null` selects all genders, i.e. no gender condition.
 const wcsGender = ref<WcsGender | null>(null);
 
-// `/map` carries both event feeds; the events filter gates them on, and the window toggle flips
-// which single feed is shown ("now" → active lead-in, "2weeks" → the 14-day upcoming horizon).
+// The events filter gates the markers; the window toggle picks which single feed shows.
 const eventsVisibleSources = computed<EventSourceId[]>(() =>
   activeFilters.value.has(EVENTS_FILTER_ID) ? [EVENT_SOURCE_BY_WINDOW[eventsWindow.value]] : []
 );
@@ -199,15 +198,14 @@ watch(activeFilters, (filters) => {
   // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
-  // `useEventMarkers` toggles the feeds reactively off `eventsVisibleSources`; the popup belongs to
-  // the events markers and must not outlive them being switched off.
+  // The popup belongs to the event markers; drop it when the filter switches them off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
 
 watch(eventsWindow, (window) => {
   // Drop the param at the "now" default, so a bare /map URL stays clean.
   setQueryParam(EVENTS_WINDOW_QUERY_PARAM, window === DEFAULT_EVENTS_WINDOW ? null : window);
-  // The shown feed changes (see `eventsVisibleSources`); the open popup may belong to the other one.
+  // The shown feed changes, so the open popup may belong to the other one.
   closeActiveEvent();
 });
 

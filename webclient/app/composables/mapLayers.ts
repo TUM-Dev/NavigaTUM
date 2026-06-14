@@ -24,9 +24,8 @@ export interface IndoorFilterDef extends FilterDefBase {
 }
 
 /**
- * The events overlay: JS-managed photo markers (see `useEventMarkers`) fed by a time-windowed
- * Martin tile source. Unlike an indoor filter it owns no `indoor` values; its layers are added at
- * runtime rather than shipped hidden in the basemap style, so it carries no `styleLayers` either.
+ * The events overlay: photo markers (see `useEventMarkers`) fed by a time-windowed tile source. Its
+ * layers are added at runtime, not shipped in the basemap style, so it carries no `styleLayers`.
  */
 export interface EventsFilterDef extends FilterDefBase {
   readonly kind: "events";
@@ -76,7 +75,7 @@ export const FILTER_REGISTRY = [
     kind: "events",
     labelKey: "filters.events",
     icon: mdiCalendarStar,
-    // Markers only enter the tiles (and `useEventMarkers`' layers) at zoom 15; hint below that.
+    // Markers only render from zoom 15; hint below that.
     hintBelowZoom: 15,
     keywords: ["event", "events", "veranstaltung", "veranstaltungen"],
   },
@@ -175,16 +174,11 @@ export const EVENTS_WINDOWS = ["now", "2weeks"] as const;
 export type EventsWindow = (typeof EVENTS_WINDOWS)[number];
 export const DEFAULT_EVENTS_WINDOW: EventsWindow = "now";
 
-/** The Martin tile sources the events overlay renders, one symbol layer per source. */
 export const EVENT_SOURCE_IDS = ["events_active", "events_upcoming"] as const;
 export type EventSourceId = (typeof EVENT_SOURCE_IDS)[number];
 
-/**
- * The tile feed each window renders. The "now" default reads `events_active`, already gated
- * server-side to the traffic-weighted lead-in (`appears_at`); the "2weeks" toggle reads the 14-day
- * `events_upcoming` superset. The lead-in lives entirely server-side, so neither feed exposes it
- * and the client never filters on a start time - see `eventsExpiryFilter`.
- */
+// `events_active` is server-gated to the traffic-weighted lead-in; `events_upcoming` is the 14-day
+// superset. The appearance window lives server-side, so the client never filters on a start time.
 export const EVENT_SOURCE_BY_WINDOW = {
   now: "events_active",
   "2weeks": "events_upcoming",
@@ -201,20 +195,15 @@ export function resolveEventsWindow(param: string | null | undefined): EventsWin
   return parseEventsWindow(param) ?? DEFAULT_EVENTS_WINDOW;
 }
 
-/**
- * JSON shape of the live-expiry filter, kept structural so this module stays free of the maplibre
- * import (which fails to load under the node test environment).
- */
+// Structural so this module stays free of the maplibre import (which fails to load under the node
+// test environment).
 export type EventsExpiryFilter = [">=", ["get", "ends_at_epoch"], number];
 
 /**
- * Style filter retiring events whose end has passed. Both feeds gate the appearance window
- * server-side (`appears_at` for `events_active`, the 14-day horizon for `events_upcoming`), so the
- * client never filters on a start time; it only drops ended markers, re-evaluated against the wall
- * clock on an interval so they disappear without a tile refetch. Compares the second-precision
- * `ends_at_epoch` the views expose - its `timestamptz` sibling renders as session-timezone text,
- * which an expression cannot compare. Flooring `now` biases the boundary towards the past so an
- * event ending this very second stays visible rather than blinking out early.
+ * Style filter dropping events whose end has passed, compared against the second-precision
+ * `ends_at_epoch` (its `timestamptz` sibling renders as session-timezone text, which an expression
+ * cannot compare). Flooring `now` keeps an event ending this very second visible rather than
+ * blinking it out early.
  */
 export function eventsExpiryFilter(nowMs: number): EventsExpiryFilter {
   const nowSeconds = Math.floor(nowMs / 1000);

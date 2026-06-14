@@ -29,7 +29,6 @@ const isMobile = useIsMobile();
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
-// The detail map shows the smart-now feed only, with no time-window toggle.
 const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map, {
   sources: ["events_active"],
 });

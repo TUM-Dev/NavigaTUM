@@ -10,21 +10,15 @@ import type { MaybeRefOrGetter, Ref } from "vue";
 import { type EventSourceId, eventsExpiryFilter } from "~/composables/mapLayers";
 
 const IMAGE_PX = 64;
-// Markers are invisible below this zoom (icon/text fade to 0), so neither tiles nor layers exist
-// below it; one minzoom shared by every feed keeps the two maps' render identical.
+// Markers fade to 0 below this zoom, so don't add layers or fetch tiles below it.
 const MARKER_MINZOOM = 15;
-// The wall clock advances, so ended markers must drop off even on an idle page; re-evaluate the
-// expiry filter on this cadence.
 const EXPIRY_INTERVAL_MS = 60_000;
 
-/** The symbol layer id `useEventMarkers` adds for a given tile source. */
 function layerIdFor(source: EventSourceId): string {
   return `${source}-symbols`;
 }
 
-// Shared photo-marker symbology, identical across feeds so `/map` and the detail map render the
-// same thing. Per-event photos register on demand (see `styleimagemissing`); the icon fades in with
-// zoom and the name label trails beneath it, dropping when it would collide (`text-optional`).
+// Per-event photos register on demand; see `styleimagemissing`.
 const MARKER_LAYOUT = {
   "icon-image": ["concat", "event-", ["to-string", ["id"]]],
   "icon-size": ["interpolate", ["linear"], ["zoom"], 15, 0.6, 17, 1.2, 20, 1.7],
@@ -34,9 +28,8 @@ const MARKER_LAYOUT = {
   "text-font": ["Roboto Regular"],
   "text-size": 11,
   "text-anchor": "top",
-  // The 64px photo is centred on the point, so its bottom edge sits `32 * icon-size` px below it
-  // and moves as the icon scales. Offsets are ems of `text-size` (11px), so track the icon growth
-  // across the same zoom stops to keep the label a constant gap under the photo at every zoom.
+  // Offset is ems of text-size, but the photo's bottom edge sits 32 * icon-size px below the centred
+  // point; track icon-size's zoom stops so the label keeps a constant gap below the photo.
   "text-offset": [
     "interpolate",
     ["linear"],
@@ -53,9 +46,8 @@ const MARKER_LAYOUT = {
 
 const MARKER_PAINT = {
   "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 17, 1],
-  // Blend the label out faster than the photo: gone below 16, full only at 17.5.
+  // Fade the label out faster than the photo.
   "text-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17.5, 1],
-  // TUM orange with a white halo, carried over from the retired baked events layer.
   "text-color": "#E37222",
   "text-halo-color": "#ffffff",
   "text-halo-width": 1.2,
@@ -146,10 +138,9 @@ function readPopupProps(feature: GeoJSONFeature): EventPopupProps | null {
 /**
  * Wires the event popup onto the given symbol layers (one per event feed): clicking a marker
  * exposes its `EventPopupProps` plus the marker's projected screen position, hovering sets the
- * cursor and a name tooltip. Only the visible layer ever fires these (hidden layers render no
- * features), so multiple layers never contend for the popup. The host component renders the card
- * (e.g. via `EventPopupOverlay`), which keeps the Vue lifecycle entirely in Vue's hands - no DOM
- * hand-off to MapLibre, no detached subtrees that survive a popup close.
+ * cursor and a name tooltip. The host component renders the card (e.g. via `EventPopupOverlay`),
+ * which keeps the Vue lifecycle in Vue's hands - no DOM hand-off to MapLibre, no detached subtrees
+ * that survive a popup close.
  */
 export function useEventPopup(
   map: MaybeRefOrGetter<MapLibreMap | undefined>,
@@ -227,27 +218,18 @@ export function useEventPopup(
 }
 
 export interface UseEventMarkersOptions {
-  /** Tile feeds to render, each as its own photo-marker symbol layer. */
   readonly sources: readonly EventSourceId[];
   /**
-   * Which feeds are currently shown, re-evaluated reactively; defaults to all `sources`. `/map`
-   * drives this from the events filter and its window toggle, flipping one layer's visibility for
-   * the other; the detail map omits it and leaves its single feed always visible.
+   * Feeds currently shown, re-evaluated reactively; defaults to all `sources`. `/map` flips this
+   * between the two feeds via its window toggle; the detail map omits it and shows its single feed.
    */
   readonly visibleSources?: MaybeRefOrGetter<readonly EventSourceId[]>;
 }
 
 /**
- * Renders the given Martin event feeds as photo + name-label markers on the map and exposes the
- * currently active event plus its projected screen position via `useEventPopup`. This is the single
- * render definition shared by `/map` (active + upcoming feeds, one visible at a time) and the
- * building detail map (the active feed only).
- *
- * Markers ride on native MapLibre symbol layers, so scaling and fade with zoom come from
- * `interpolate-zoom` expressions and rendering stays on the GPU. Per-event photos are registered on
- * demand via `styleimagemissing`. Ended markers are retired by the live-expiry filter on an
- * interval (see `eventsExpiryFilter`); appearance is gated entirely server-side, so this never
- * references a start time.
+ * Renders the given event feeds as photo + name-label markers and exposes the active event plus its
+ * screen position via `useEventPopup`. Shared by `/map` (active + upcoming, one shown at a time) and
+ * the detail map (active only). Ended markers are dropped by `eventsExpiryFilter` on an interval.
  */
 export function useEventMarkers(
   map: MaybeRefOrGetter<MapLibreMap | undefined>,
@@ -260,12 +242,10 @@ export function useEventMarkers(
   const { public: publicConfig } = useRuntimeConfig();
   const { sources } = options;
   const layerIds = sources.map(layerIdFor);
-  // Tracks images we've already kicked off loading for so concurrent missing-image events
-  // don't double-fetch the same URL.
+  // Images already kicked off, so concurrent missing-image events don't double-fetch the same URL.
   const pending = new Set<string>();
   const registered = new Set<string>();
 
-  /** Drop markers whose event has ended on whichever feeds currently have a layer. */
   const applyExpiry = (target: MapLibreMap): void => {
     const filter = eventsExpiryFilter(Date.now()) as FilterSpecification;
     for (const source of sources) {
@@ -274,7 +254,6 @@ export function useEventMarkers(
     }
   };
 
-  /** Show only the requested feeds; the others' layers stay added but hidden. */
   const applyVisibility = (target: MapLibreMap): void => {
     const visible = new Set(options.visibleSources ? toValue(options.visibleSources) : sources);
     for (const source of sources) {
@@ -294,8 +273,7 @@ export function useEventMarkers(
       pending.add(name);
       try {
         const id = name.slice("event-".length);
-        // The same event id can appear in several feeds (upcoming ⊇ active), but its photo is the
-        // same image; the first feed carrying it wins.
+        // An id can appear in several feeds (upcoming ⊇ active) with the same photo; first hit wins.
         let rawImage = "";
         for (const source of sources) {
           const feature = target
@@ -364,8 +342,7 @@ export function useEventMarkers(
     });
   });
 
-  // Reactively re-apply visibility as `visibleSources` changes; a no-op until the layers exist,
-  // since `attach` applies the initial visibility itself.
+  // Re-apply on `visibleSources` change; a no-op until `attach` has added the layers.
   watchEffect(() => {
     const target = toValue(map);
     if (target) applyVisibility(target);
