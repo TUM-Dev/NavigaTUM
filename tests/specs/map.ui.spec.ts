@@ -108,13 +108,14 @@ const VECTOR_BASEMAP = {
 
 // Markers are per-event photo sprites: the composable rasterises the CDN image onto a canvas, so
 // the route must answer with a CORS-clean bitmap or the icon never registers and the symbol has
-// nothing to click. A 1x1 PNG suffices - the icon only needs to place at the feature's point.
+// nothing to click. A 1x1 PNG suffices - the icon only needs to place at the feature's point. Match
+// by path: the CDN host is config-driven (nav.tum.de in dev, localhost in the e2e compose).
 const MARKER_PNG = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
   "base64"
 );
 async function stubEventImage(page: Page): Promise<void> {
-  await page.route("https://nav.tum.de/cdn/thumb/test.webp", (route) =>
+  await page.route(/\/cdn\/thumb\/test\.webp$/, (route) =>
     route.fulfill({
       status: 200,
       contentType: "image/png",
