@@ -1,4 +1,9 @@
-FROM ghcr.io/maplibre/martin:main
+FROM ghcr.io/maplibre/martin:nightly
+
+# :nightly is the Ubuntu rendering build and ships without unzip.
+RUN apt-get update && \
+    apt-get install --no-install-recommends --yes unzip && \
+    rm -rf /var/lib/apt/lists/*
 
 # -- fonts --
 RUN wget -q -O /tmp/roboto-android.zip https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-android.zip && \
