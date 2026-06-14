@@ -23,17 +23,17 @@ export interface IndoorFilterDef extends FilterDefBase {
   readonly indoorValues: readonly string[];
 }
 
-/** A map filter that toggles the visibility of dedicated basemap-style layers. */
-export interface OverlayFilterDef extends FilterDefBase {
-  readonly kind: "overlay";
-  /** The basemap-style layer ids this filter shows while active (they default to hidden). */
-  readonly styleLayers: readonly string[];
+/**
+ * The events overlay: JS-managed photo markers (see `useEventMarkers`) fed by a time-windowed
+ * Martin tile source. Unlike an indoor filter it owns no `indoor` values; its layers are added at
+ * runtime rather than shipped hidden in the basemap style, so it carries no `styleLayers` either.
+ */
+export interface EventsFilterDef extends FilterDefBase {
+  readonly kind: "events";
 }
 
-export type FilterDef = IndoorFilterDef | OverlayFilterDef;
+export type FilterDef = IndoorFilterDef | EventsFilterDef;
 
-/** The basemap-style layer carrying the event markers. */
-export const EVENTS_STYLE_LAYER = "events";
 /** The events entry in the filter registry; its time window only applies while it is active. */
 export const EVENTS_FILTER_ID = "events";
 /** The WCs entry in the filter registry; its attribute filters only apply while it is active. */
@@ -73,11 +73,11 @@ export const FILTER_REGISTRY = [
   },
   {
     id: EVENTS_FILTER_ID,
-    kind: "overlay",
+    kind: "events",
     labelKey: "filters.events",
     icon: mdiCalendarStar,
-    styleLayers: [EVENTS_STYLE_LAYER],
-    hintBelowZoom: 13,
+    // Markers only enter the tiles (and `useEventMarkers`' layers) at zoom 15; hint below that.
+    hintBelowZoom: 15,
     keywords: ["event", "events", "veranstaltung", "veranstaltungen"],
   },
 ] as const satisfies readonly FilterDef[];
@@ -171,9 +171,24 @@ export function resolveActiveFilters(opts: {
 // The time-window query parameter is namespaced per layer (`events_…`), so further layers can
 // add their own sub-filters without colliding.
 export const EVENTS_WINDOW_QUERY_PARAM = "events_window";
-export const EVENTS_WINDOWS = ["now", "24h"] as const;
+export const EVENTS_WINDOWS = ["now", "2weeks"] as const;
 export type EventsWindow = (typeof EVENTS_WINDOWS)[number];
 export const DEFAULT_EVENTS_WINDOW: EventsWindow = "now";
+
+/** The Martin tile sources the events overlay renders, one symbol layer per source. */
+export const EVENT_SOURCE_IDS = ["events_active", "events_upcoming"] as const;
+export type EventSourceId = (typeof EVENT_SOURCE_IDS)[number];
+
+/**
+ * The tile feed each window renders. The "now" default reads `events_active`, already gated
+ * server-side to the traffic-weighted lead-in (`appears_at`); the "2weeks" toggle reads the 14-day
+ * `events_upcoming` superset. The lead-in lives entirely server-side, so neither feed exposes it
+ * and the client never filters on a start time - see `eventsExpiryFilter`.
+ */
+export const EVENT_SOURCE_BY_WINDOW = {
+  now: "events_active",
+  "2weeks": "events_upcoming",
+} as const satisfies Record<EventsWindow, EventSourceId>;
 
 /** Parse a `?events_window=` value, or `null` when absent or not a known window. */
 export function parseEventsWindow(param: string | null | undefined): EventsWindow | null {
@@ -187,29 +202,23 @@ export function resolveEventsWindow(param: string | null | undefined): EventsWin
 }
 
 /**
- * JSON shape of a MapLibre filter expression, kept structural so this module stays free of the
- * maplibre import (which fails to load under the node test environment).
+ * JSON shape of the live-expiry filter, kept structural so this module stays free of the maplibre
+ * import (which fails to load under the node test environment).
  */
-export type EventsFilterExpression = [
-  "all",
-  ["<=", ["get", string], number],
-  [">=", ["get", string], number],
-];
+export type EventsExpiryFilter = [">=", ["get", "ends_at_epoch"], number];
 
 /**
- * Style filter keeping the events that overlap the selected window: "now" keeps currently-running
- * events, "24h" additionally keeps those starting within the next 24 hours. Compares against the
- * `*_epoch` second-precision properties the `events_active` view bakes into the tiles - their
- * `timestamptz` siblings render as session-timezone text, which an expression cannot compare.
+ * Style filter retiring events whose end has passed. Both feeds gate the appearance window
+ * server-side (`appears_at` for `events_active`, the 14-day horizon for `events_upcoming`), so the
+ * client never filters on a start time; it only drops ended markers, re-evaluated against the wall
+ * clock on an interval so they disappear without a tile refetch. Compares the second-precision
+ * `ends_at_epoch` the views expose - its `timestamptz` sibling renders as session-timezone text,
+ * which an expression cannot compare. Flooring `now` biases the boundary towards the past so an
+ * event ending this very second stays visible rather than blinking out early.
  */
-export function eventsWindowFilter(window: EventsWindow, nowMs: number): EventsFilterExpression {
+export function eventsExpiryFilter(nowMs: number): EventsExpiryFilter {
   const nowSeconds = Math.floor(nowMs / 1000);
-  const latestStart = window === "now" ? nowSeconds : nowSeconds + 24 * 3600;
-  return [
-    "all",
-    ["<=", ["get", "starts_at_epoch"], latestStart],
-    [">=", ["get", "ends_at_epoch"], nowSeconds],
-  ];
+  return [">=", ["get", "ends_at_epoch"], nowSeconds];
 }
 
 // The WC attribute parameters are namespaced per layer (`wcs_…`), so further layers can add

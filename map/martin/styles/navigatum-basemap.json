@@ -77,11 +77,6 @@
       "url": "https://nav.tum.de/martin/indoor_rooms,indoor_pois,indoor_walls,indoor_doors?level=0.0",
       "minzoom": 16
     },
-    "events_active": {
-      "type": "vector",
-      "url": "https://nav.tum.de/martin/events_active",
-      "minzoom": 13
-    },
     "card_validators": {
       "type": "vector",
       "url": "https://nav.tum.de/martin/card_validators",
@@ -6347,33 +6342,6 @@
         ]
       },
       "minzoom": 16
-    },
-    {
-      "id": "events",
-      "type": "symbol",
-      "source": "events_active",
-      "source-layer": "events_active",
-      "minzoom": 13,
-      "layout": {
-        "visibility": "none",
-        "icon-image": "event",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 13, 1.1, 17, 1.6],
-        "icon-allow-overlap": true,
-        "text-field": ["get", "name"],
-        "text-font": ["Roboto Regular"],
-        "text-size": 11,
-        "text-anchor": "top",
-        "text-offset": [0, 1.1],
-        "text-optional": true
-      },
-      "paint": {
-        "icon-color": "#E37222",
-        "icon-halo-color": "#ffffff",
-        "icon-halo-width": 1,
-        "text-color": "#E37222",
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 1.2
-      }
     },
     {
       "id": "card-validators",
