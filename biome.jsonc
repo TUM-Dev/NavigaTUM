@@ -43,24 +43,21 @@
     },
     "rules": {
       "nursery": {
-        "useSortedClasses": "error",
-        "useVueDefineMacrosOrder": "error",
-        "noNestedPromises": "error",
-        "noAmbiguousAnchorText": "warn",
-        "noVueOptionsApi": "error",
-        "useVueVForKey": "error",
-        "noShadow": "error"
+        "useSortedClasses": "error"
       },
-      "recommended": true,
+      "preset": "recommended",
       "a11y": {
-        "noNoninteractiveElementInteractions": "error"
+        "noNoninteractiveElementInteractions": "error",
+        "noAmbiguousAnchorText": "warn"
       },
       "suspicious": {
         "noExplicitAny": "error",
         "noArrayIndexKey": "off",
         "noConsole": { "level": "error", "options": { "allow": ["error", "warn"] } },
         "noEvolvingTypes": "error",
-        "useAwait": "error"
+        "useAwait": "error",
+        "noNestedPromises": "error",
+        "noShadow": "error"
       },
       "complexity": {
         "noForEach": "error",
@@ -72,11 +69,14 @@
       },
       "correctness": {
         // ! removes code whe need in general !
-        "noUnusedVariables": "off"
+        "noUnusedVariables": "off",
+        "useVueVForKey": "error"
       },
       "style": {
         // ! removes code whe need for the claendar !
         "useImportType": "off",
+        // Nuxt file-based routing forces single-word page/layout names (index, error, default); keep our short component names too.
+        "useVueMultiWordComponentNames": "off",
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",
         "useDefaultParameterLast": "error",
@@ -90,7 +90,9 @@
         "useConsistentTypeDefinitions": "error",
         "noNegationElse": "error",
         "noYodaExpression": "error",
-        "useCollapsedIf": "error"
+        "useCollapsedIf": "error",
+        "useVueDefineMacrosOrder": "error",
+        "noVueOptionsApi": "error"
       }
     }
   },
