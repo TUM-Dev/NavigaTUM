@@ -29,7 +29,9 @@ const isMobile = useIsMobile();
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
-const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map);
+const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map, {
+  sources: ["events_active"],
+});
 
 const initialLoaded = ref(false);
 

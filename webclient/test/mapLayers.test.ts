@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   categoriesForQuery,
   categoryForEntity,
-  eventsWindowFilter,
+  EVENT_SOURCE_BY_WINDOW,
+  EVENTS_WINDOWS,
+  eventsExpiryFilter,
   FILTER_REGISTRY,
   type FilterDef,
   parseEventsWindow,
@@ -109,21 +111,21 @@ describe("the shipped registry", () => {
     expect(wcs?.kind === "indoor" && [...wcs.indoorValues]).toEqual(["toilet", "shower"]);
   });
 
-  it("toggles the events style layer under the events filter", () => {
+  it("models events as a JS-managed overlay with no baked style layers", () => {
     const events = FILTER_REGISTRY.find((f) => f.id === "events");
-    expect(events?.kind).toBe("overlay");
-    expect(events?.kind === "overlay" && [...events.styleLayers]).toEqual(["events"]);
+    expect(events?.kind).toBe("events");
+    expect(events && "styleLayers" in events).toBe(false);
   });
 });
 
 describe("parseEventsWindow", () => {
   it("accepts the two known windows", () => {
     expect(parseEventsWindow("now")).toBe("now");
-    expect(parseEventsWindow("24h")).toBe("24h");
+    expect(parseEventsWindow("2weeks")).toBe("2weeks");
   });
 
   it("rejects unknown, empty, and absent values", () => {
-    for (const input of ["12h", "NOW", "", null, undefined]) {
+    for (const input of ["24h", "2week", "NOW", "", null, undefined]) {
       expect(parseEventsWindow(input)).toBeNull();
     }
   });
@@ -133,34 +135,33 @@ describe("resolveEventsWindow", () => {
   it("defaults to 'now' when the value is unusable", () => {
     expect(resolveEventsWindow(null)).toBe("now");
     expect(resolveEventsWindow("bogus")).toBe("now");
-    expect(resolveEventsWindow("24h")).toBe("24h");
+    expect(resolveEventsWindow("2weeks")).toBe("2weeks");
   });
 });
 
-describe("eventsWindowFilter", () => {
+describe("EVENT_SOURCE_BY_WINDOW", () => {
+  it("maps every window onto a tile feed, now → active and 2weeks → upcoming", () => {
+    expect(EVENT_SOURCE_BY_WINDOW.now).toBe("events_active");
+    expect(EVENT_SOURCE_BY_WINDOW["2weeks"]).toBe("events_upcoming");
+    // Every selectable window resolves to a feed, so the visibility toggle can never read undefined.
+    for (const window of EVENTS_WINDOWS) {
+      expect(EVENT_SOURCE_BY_WINDOW[window]).toBeTruthy();
+    }
+  });
+});
+
+describe("eventsExpiryFilter", () => {
   // 2026-06-11T12:00:00Z, chosen arbitrarily; the filter only depends on the passed-in clock.
   const NOW_MS = 1781179200_000;
   const NOW_S = 1781179200;
 
-  it("keeps only currently-running events for the 'now' window", () => {
-    expect(eventsWindowFilter("now", NOW_MS)).toEqual([
-      "all",
-      ["<=", ["get", "starts_at_epoch"], NOW_S],
-      [">=", ["get", "ends_at_epoch"], NOW_S],
-    ]);
-  });
-
-  it("extends the latest accepted start by 24 hours for the '24h' window", () => {
-    expect(eventsWindowFilter("24h", NOW_MS)).toEqual([
-      "all",
-      ["<=", ["get", "starts_at_epoch"], NOW_S + 24 * 3600],
-      [">=", ["get", "ends_at_epoch"], NOW_S],
-    ]);
+  it("retires events whose end has passed, with no start-time condition", () => {
+    expect(eventsExpiryFilter(NOW_MS)).toEqual([">=", ["get", "ends_at_epoch"], NOW_S]);
   });
 
   it("truncates sub-second clocks towards the past so boundary events stay visible", () => {
-    const [, [, , latestStart]] = eventsWindowFilter("now", NOW_MS + 999);
-    expect(latestStart).toBe(NOW_S);
+    const [, , boundary] = eventsExpiryFilter(NOW_MS + 999);
+    expect(boundary).toBe(NOW_S);
   });
 });
 

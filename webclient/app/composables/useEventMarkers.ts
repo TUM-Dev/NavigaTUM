@@ -1,8 +1,58 @@
-import type { GeoJSONFeature, Map as MapLibreMap, MapStyleImageMissingEvent } from "maplibre-gl";
+import { useIntervalFn } from "@vueuse/core";
+import type {
+  FilterSpecification,
+  GeoJSONFeature,
+  Map as MapLibreMap,
+  MapSourceDataEvent,
+  MapStyleImageMissingEvent,
+  SymbolLayerSpecification,
+} from "maplibre-gl";
 import type { MaybeRefOrGetter, Ref } from "vue";
+import { type EventSourceId, eventsExpiryFilter } from "~/composables/mapLayers";
 
-const LAYER_ID = "events_active-symbols";
 const IMAGE_PX = 64;
+// Markers fade to 0 below this zoom, so don't add layers or fetch tiles below it.
+const MARKER_MINZOOM = 15;
+const EXPIRY_INTERVAL_MS = 60_000;
+
+function layerIdFor(source: EventSourceId): string {
+  return `${source}-symbols`;
+}
+
+// Per-event photos register on demand; see `styleimagemissing`.
+const MARKER_LAYOUT = {
+  "icon-image": ["concat", "event-", ["to-string", ["id"]]],
+  "icon-size": ["interpolate", ["linear"], ["zoom"], 15, 0.6, 17, 1.2, 20, 1.7],
+  "icon-allow-overlap": true,
+  "icon-anchor": "center",
+  "text-field": ["get", "name"],
+  "text-font": ["Roboto Regular"],
+  "text-size": 11,
+  "text-anchor": "top",
+  // Offset is ems of text-size, but the photo's bottom edge sits 32 * icon-size px below the centred
+  // point; track icon-size's zoom stops so the label keeps a constant gap below the photo.
+  "text-offset": [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
+    15,
+    ["literal", [0, 2.2]],
+    17,
+    ["literal", [0, 4]],
+    20,
+    ["literal", [0, 5.4]],
+  ],
+  "text-optional": true,
+} as const satisfies SymbolLayerSpecification["layout"];
+
+const MARKER_PAINT = {
+  "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 17, 1],
+  // Fade the label out faster than the photo.
+  "text-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17.5, 1],
+  "text-color": "#E37222",
+  "text-halo-color": "#ffffff",
+  "text-halo-width": 1.2,
+} as const satisfies SymbolLayerSpecification["paint"];
 
 /**
  * Loads `url` and rasterises it as a circular sprite ready for `map.addImage`.
@@ -42,7 +92,7 @@ async function rasteriseCircular(url: string): Promise<ImageData | null> {
   return ctx.getImageData(0, 0, IMAGE_PX, IMAGE_PX);
 }
 
-// The properties the Martin `events_active` source advertises (matches map/martin/config.yaml).
+// The properties the Martin event feeds advertise (matches map/martin/config.yaml).
 // The popup renders these verbatim, so coercing here keeps the SFC API a plain string bag.
 export interface EventPopupProps {
   readonly id: string;
@@ -87,15 +137,15 @@ function readPopupProps(feature: GeoJSONFeature): EventPopupProps | null {
 }
 
 /**
- * Wires the event popup onto an existing symbol layer fed by the Martin `events_active` source:
- * clicking a marker exposes its `EventPopupProps` plus the marker's projected screen position,
- * hovering sets the cursor and a name tooltip. The host component is responsible for rendering
- * the card (e.g. via `EventPopupOverlay`), which keeps the Vue lifecycle entirely in Vue's hands -
- * no DOM hand-off to MapLibre, no detached subtrees that survive a popup close.
+ * Wires the event popup onto the given symbol layers (one per event feed): clicking a marker
+ * exposes its `EventPopupProps` plus the marker's projected screen position, hovering sets the
+ * cursor and a name tooltip. The host component renders the card (e.g. via `EventPopupOverlay`),
+ * which keeps the Vue lifecycle in Vue's hands - no DOM hand-off to MapLibre, no detached subtrees
+ * that survive a popup close.
  */
 export function useEventPopup(
   map: MaybeRefOrGetter<MapLibreMap | undefined>,
-  layerId: string
+  layerIds: readonly string[]
 ): {
   readonly activeEvent: Ref<EventPopupProps | null>;
   readonly markerScreenPos: Ref<ScreenPos | null>;
@@ -143,9 +193,11 @@ export function useEventPopup(
     };
 
     const attach = () => {
-      target.on("click", layerId, onMarkerClick);
-      target.on("mouseenter", layerId, onMarkerEnter);
-      target.on("mouseleave", layerId, onMarkerLeave);
+      for (const layerId of layerIds) {
+        target.on("click", layerId, onMarkerClick);
+        target.on("mouseenter", layerId, onMarkerEnter);
+        target.on("mouseleave", layerId, onMarkerLeave);
+      }
       target.on("move", projectActiveMarker);
     };
     if (target.loaded()) attach();
@@ -153,9 +205,11 @@ export function useEventPopup(
 
     onCleanup(() => {
       target.off("load", attach);
-      target.off("click", layerId, onMarkerClick);
-      target.off("mouseenter", layerId, onMarkerEnter);
-      target.off("mouseleave", layerId, onMarkerLeave);
+      for (const layerId of layerIds) {
+        target.off("click", layerId, onMarkerClick);
+        target.off("mouseenter", layerId, onMarkerEnter);
+        target.off("mouseleave", layerId, onMarkerLeave);
+      }
       target.off("move", projectActiveMarker);
       closeActiveEvent();
     });
@@ -164,81 +218,132 @@ export function useEventPopup(
   return { activeEvent, markerScreenPos, closeActiveEvent };
 }
 
+export interface UseEventMarkersOptions {
+  readonly sources: readonly EventSourceId[];
+  /**
+   * Feeds currently shown, re-evaluated reactively; defaults to all `sources`. `/map` flips this
+   * between the two feeds via its window toggle; the detail map omits it and shows its single feed.
+   */
+  readonly visibleSources?: MaybeRefOrGetter<readonly EventSourceId[]>;
+}
+
 /**
- * Renders the Martin `events_active` vector source as photo markers on the given map and exposes
- * the currently active event plus its projected screen position via `useEventPopup`.
- *
- * Markers ride on a native MapLibre symbol layer, so scaling and fade with zoom come from
- * `interpolate-zoom` expressions and rendering stays on the GPU. Per-event photos are
- * registered on demand via `styleimagemissing`.
+ * Renders the given event feeds as photo + name-label markers and exposes the active event plus its
+ * screen position via `useEventPopup`. Shared by `/map` (active + upcoming, one shown at a time) and
+ * the detail map (active only). Ended markers are dropped by `eventsExpiryFilter` on an interval.
  */
-export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>): {
+export function useEventMarkers(
+  map: MaybeRefOrGetter<MapLibreMap | undefined>,
+  options: UseEventMarkersOptions
+): {
   readonly activeEvent: Ref<EventPopupProps | null>;
   readonly markerScreenPos: Ref<ScreenPos | null>;
   closeActiveEvent: () => void;
 } {
   const { public: publicConfig } = useRuntimeConfig();
-  // Tracks images we've already kicked off loading for so concurrent missing-image events
-  // don't double-fetch the same URL.
+  const { sources } = options;
+  const layerIds = sources.map(layerIdFor);
+  // Images already kicked off, so concurrent missing-image events don't double-fetch the same URL.
   const pending = new Set<string>();
   const registered = new Set<string>();
+
+  const applyExpiry = (target: MapLibreMap): void => {
+    const filter = eventsExpiryFilter(Date.now()) as FilterSpecification;
+    for (const source of sources) {
+      const layerId = layerIdFor(source);
+      if (target.getLayer(layerId)) target.setFilter(layerId, filter);
+    }
+  };
+
+  const applyVisibility = (target: MapLibreMap): void => {
+    const visible = new Set(options.visibleSources ? toValue(options.visibleSources) : sources);
+    for (const source of sources) {
+      const layerId = layerIdFor(source);
+      if (!target.getLayer(layerId)) continue;
+      target.setLayoutProperty(layerId, "visibility", visible.has(source) ? "visible" : "none");
+    }
+  };
 
   watchEffect((onCleanup) => {
     const target = toValue(map);
     if (!target) return;
 
-    const onStyleImageMissing = async (event: MapStyleImageMissingEvent) => {
-      const name = event.id;
-      if (!name.startsWith("event-") || pending.has(name) || target.hasImage(name)) return;
+    // Rasterise and register one event's photo. `pending` is only set once a queryable feature is
+    // found, so a request raised before the feature's tile is ready stays retryable rather than
+    // being permanently swallowed.
+    const ensureImage = async (name: string): Promise<void> => {
+      if (pending.has(name) || target.hasImage(name)) return;
+      const id = name.slice("event-".length);
+      if (!id) return;
+      // An id can appear in several feeds (upcoming ⊇ active) with the same photo; first hit wins.
+      let rawImage = "";
+      for (const source of sources) {
+        const feature = target
+          .querySourceFeatures(source, { sourceLayer: source })
+          .find((f) => String(f.id) === id);
+        if (feature && typeof feature.properties?.image === "string") {
+          rawImage = feature.properties.image;
+          break;
+        }
+      }
+      if (!rawImage) return;
       pending.add(name);
       try {
-        const id = name.slice("event-".length);
-        const features = target.querySourceFeatures("events_active", {
-          sourceLayer: "events_active",
-        });
-        const feature = features.find((f) => String(f.id) === id);
-        const rawImage =
-          feature && typeof feature.properties?.image === "string" ? feature.properties.image : "";
-        if (!rawImage) return;
         const imageData = await rasteriseCircular(`${publicConfig.cdnURL}${rawImage}`);
-        if (!imageData || target.hasImage(name)) return;
-        target.addImage(name, imageData);
-        registered.add(name);
+        if (imageData && !target.hasImage(name)) {
+          target.addImage(name, imageData);
+          registered.add(name);
+        }
       } finally {
         pending.delete(name);
       }
     };
 
+    const onStyleImageMissing = (event: MapStyleImageMissingEvent) => {
+      if (event.id.startsWith("event-")) void ensureImage(event.id);
+    };
+
+    // `styleimagemissing` fires once per id and the miss is cached, so one raised before the tile's
+    // features are queryable would never recover; re-drive registration when a feed's data settles.
+    const onSourceData = (event: MapSourceDataEvent) => {
+      if (!event.isSourceLoaded || !sources.some((source) => source === event.sourceId)) return;
+      for (const source of sources) {
+        for (const feature of target.querySourceFeatures(source, { sourceLayer: source })) {
+          const id = String(feature.id ?? "");
+          if (id) void ensureImage(`event-${id}`);
+        }
+      }
+    };
+
     const attach = () => {
-      if (!target.getSource("events_active")) {
-        target.addSource("events_active", {
-          type: "vector",
-          url: "https://nav.tum.de/martin/events_active",
-          // Markers are invisible below zoom 15, so don't ask Martin for tiles below that.
-          minzoom: 15,
-        });
+      for (const source of sources) {
+        if (!target.getSource(source)) {
+          target.addSource(source, {
+            type: "vector",
+            url: `https://nav.tum.de/martin/${source}`,
+            // Markers are invisible below MARKER_MINZOOM, so don't ask Martin for tiles below that.
+            minzoom: MARKER_MINZOOM,
+          });
+        }
+        const layerId = layerIdFor(source);
+        if (!target.getLayer(layerId)) {
+          target.addLayer({
+            id: layerId,
+            type: "symbol",
+            source,
+            "source-layer": source,
+            // The layer-level guard is what actually stops the SourceCache from fetching tiles at
+            // lower zooms; the source `minzoom` only narrows the declared availability range.
+            minzoom: MARKER_MINZOOM,
+            layout: { ...MARKER_LAYOUT },
+            paint: { ...MARKER_PAINT },
+          });
+        }
       }
-      if (!target.getLayer(LAYER_ID)) {
-        target.addLayer({
-          id: LAYER_ID,
-          type: "symbol",
-          source: "events_active",
-          "source-layer": "events_active",
-          // The layer-level guard is what actually stops the SourceCache from fetching tiles
-          // at lower zooms; the source `minzoom` only narrows the declared availability range.
-          minzoom: 15,
-          layout: {
-            "icon-image": ["concat", "event-", ["to-string", ["id"]]],
-            "icon-size": ["interpolate", ["linear"], ["zoom"], 15, 0.3, 17, 0.7, 20, 1.0],
-            "icon-allow-overlap": true,
-            "icon-anchor": "center",
-          },
-          paint: {
-            "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 17, 1],
-          },
-        });
-      }
+      applyExpiry(target);
+      applyVisibility(target);
       target.on("styleimagemissing", onStyleImageMissing);
+      target.on("sourcedata", onSourceData);
     };
     if (target.loaded()) attach();
     else target.once("load", attach);
@@ -246,8 +351,12 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
     onCleanup(() => {
       target.off("load", attach);
       target.off("styleimagemissing", onStyleImageMissing);
-      if (target.getLayer(LAYER_ID)) target.removeLayer(LAYER_ID);
-      if (target.getSource("events_active")) target.removeSource("events_active");
+      target.off("sourcedata", onSourceData);
+      for (const source of sources) {
+        const layerId = layerIdFor(source);
+        if (target.getLayer(layerId)) target.removeLayer(layerId);
+        if (target.getSource(source)) target.removeSource(source);
+      }
       for (const name of registered) {
         if (target.hasImage(name)) target.removeImage(name);
       }
@@ -256,5 +365,18 @@ export function useEventMarkers(map: MaybeRefOrGetter<MapLibreMap | undefined>):
     });
   });
 
-  return useEventPopup(map, LAYER_ID);
+  // Re-apply on `visibleSources` change; a no-op until `attach` has added the layers.
+  watchEffect(() => {
+    const target = toValue(map);
+    if (target) applyVisibility(target);
+  });
+
+  // The expiry filter compares against the clock at evaluation time; re-evaluate it periodically so
+  // markers drop off as their events end while the page stays open.
+  useIntervalFn(() => {
+    const target = toValue(map);
+    if (target) applyExpiry(target);
+  }, EXPIRY_INTERVAL_MS);
+
+  return useEventPopup(map, layerIds);
 }
