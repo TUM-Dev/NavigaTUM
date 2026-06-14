@@ -256,6 +256,14 @@ local function clean_tags_indoor(tags)
     tags.ref = nil
     tags.name = nil
   end
+  -- A stairwell usually spans several levels, so its ref:tum/ref/name are semicolon-joined
+  -- multi-values (e.g. "U499D;0499D;1499D") that are meaningless on a single footprint. Render
+  -- stairs like a corridor (a plain room fill, no labelled poi) and drop the per-level identifiers.
+  if tags.indoor == "stairs" then
+    tags.ref = nil
+    tags.name = nil
+    tags["ref:tum"] = nil
+  end
 
   -- why are there so many objects with just the layer set, nothing else
   if tags.indoor == nil and tags.level ~= nil and #(tags) == 1 then
@@ -414,22 +422,21 @@ function osm2pgsql.process_way(object)
     -- real stylesheet we'd have to also look at the tags...
     if object.is_closed then
       local geom = object:as_polygon()
-      if object.tags.indoor ~= "stairs" then
-        tables.rooms:insert(
-          {
-            indoor = object.tags.indoor,
-            ref_tum = object.tags["ref:tum"],
-            students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-            is_male_toilet = wc.male,
-            is_female_toilet = wc.female,
-            is_wheelchair_toilet = wc.wheelchair,
-            level_min = level.min,
-            level_max = level.max,
-            geom = geom
-          }
-        )
-      end
-      if object.tags.indoor ~= "corridor" then
+      tables.rooms:insert(
+        {
+          indoor = object.tags.indoor,
+          ref_tum = object.tags["ref:tum"],
+          students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+          is_male_toilet = wc.male,
+          is_female_toilet = wc.female,
+          is_wheelchair_toilet = wc.wheelchair,
+          level_min = level.min,
+          level_max = level.max,
+          geom = geom
+        }
+      )
+      -- Corridors and stairs are plain fills, not labelled pois.
+      if object.tags.indoor ~= "corridor" and object.tags.indoor ~= "stairs" then
         local geom_point = nil
         if object.tags.indoor == "elevator" then
           -- elevators get an icon -> needs no need to strech
@@ -484,22 +491,21 @@ function osm2pgsql.process_relation(object)
     local geom = object:as_multipolygon()
     local wc = toilet_flags(object.tags)
     for _, level in ipairs(SantiseLevel(object.tags.level)) do
-      if object.tags.indoor ~= "stairs" then
-        tables.rooms:insert(
-          {
-            indoor = object.tags.indoor,
-            ref_tum = object.tags["ref:tum"],
-            students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
-            is_male_toilet = wc.male,
-            is_female_toilet = wc.female,
-            is_wheelchair_toilet = wc.wheelchair,
-            level_min = level.min,
-            level_max = level.max,
-            geom = geom
-          }
-        )
-      end
-      if object.tags.indoor ~= "corridor" then
+      tables.rooms:insert(
+        {
+          indoor = object.tags.indoor,
+          ref_tum = object.tags["ref:tum"],
+          students_have_access = object.tags.access ~= "private" and object.tags.access ~= "no",
+          is_male_toilet = wc.male,
+          is_female_toilet = wc.female,
+          is_wheelchair_toilet = wc.wheelchair,
+          level_min = level.min,
+          level_max = level.max,
+          geom = geom
+        }
+      )
+      -- Corridors and stairs are plain fills, not labelled pois.
+      if object.tags.indoor ~= "corridor" and object.tags.indoor ~= "stairs" then
         -- The pole_of_inaccessibility() function only works for polygons,
         -- not multipolygons. So we split up the multipolygons here and
         -- calculate the pole for each part separately.
