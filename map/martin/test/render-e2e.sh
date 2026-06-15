@@ -31,7 +31,6 @@ export PGPASSWORD
 log() { echo "::group::$1"; }
 endlog() { echo "::endgroup::"; }
 
-# -- 1. server migrations ----------------------------------------------------------------------
 log "apply server migrations"
 # osm2pgsql needs PostGIS before it creates geometry columns.
 psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" \
@@ -43,7 +42,6 @@ for f in $(ls server/migrations/*.sql | sort); do
 done
 endlog
 
-# -- 2. osm2pgsql ingest of the real clip ------------------------------------------------------
 log "osm2pgsql ingest"
 # osm2pgsql-init flags from compose.yml (smaller --cache); --network host reaches PostGIS on localhost.
 docker run --rm \
@@ -68,7 +66,6 @@ if [ "$rooms" -eq 0 ]; then
 fi
 endlog
 
-# -- 3. planetiler generate --------------------------------------------------------------------
 # The schema's only non-OSM source is the osmdata.openstreetmap.de ocean shapefile, whose slow
 # size check trips planetiler's download timeout. Pre-fetch it with a patient wget into
 # planetiler's default sources dir, then run without --download so it reads the local file.
@@ -91,7 +88,6 @@ java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
 
-# -- 4. boot martin against the populated DB + generated tiles ---------------------------------
 # Prod mounts host map/martin over /map (compose.yml), so the gitignored fonts and maki sprites
 # come from the host, not the image. Reproduce that /map and mount it into the :nightly base (the
 # base the prod image is built from), which makes rebuilding the image unnecessary.
@@ -127,7 +123,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# -- 5. assert martin serves the indoor tile and the static render -----------------------------
 log "wait for martin health"
 for i in $(seq 1 30); do
   if curl -fsS "http://localhost:${MARTIN_PORT}/health" >/dev/null 2>&1; then
@@ -154,7 +149,7 @@ assert_serves() {
   echo "ERROR: $url never succeeded" >&2; return 1
 }
 
-# Indoor tile bundle over the MI building -- the request that 500'd on door-less walls in prod.
+# Slippy z/x/y of the render camera, for the indoor-tile request.
 IFS=, read -r clon clat czoom <<<"$RENDER_CAMERA"
 read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
   n = 2 ^ z; pi = atan2(0, -1); rad = lat * pi / 180
@@ -164,7 +159,6 @@ log "assert indoor tile $czoom/$tx/$ty"
 assert_serves "http://localhost:${MARTIN_PORT}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
 endlog
 
-# Static basemap render -- the location-preview path.
 log "assert static basemap render"
 assert_serves "http://localhost:${MARTIN_PORT}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png" /tmp/render.png
 [ -s /tmp/render.png ] || { echo "ERROR: render returned an empty image" >&2; exit 1; }
