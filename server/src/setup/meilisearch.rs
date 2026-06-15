@@ -5,7 +5,6 @@ use std::time::Duration;
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::tasks::Task;
-use serde_json::Value;
 use tokio::time::sleep;
 use tracing::{debug, error, info};
 
@@ -117,7 +116,7 @@ pub async fn load_data(client: &Client) -> anyhow::Result<()> {
     let entries = client.index("entries");
     let cdn_url = env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents =
-        file_loader::load_json_or_download::<Vec<Value>>("search_data.json", &cdn_url).await?;
+        file_loader::load_parquet_as_documents_or_download("search_data.parquet", &cdn_url).await?;
     let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?
