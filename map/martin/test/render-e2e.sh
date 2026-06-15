@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # End-to-end render gate for the martin tile stack.
 #
-# Reproduces a fresh production install on a small, real geofabrik clip and asserts that
-# martin can actually render - both raw indoor tiles and the static basemap image that the
-# server's location-preview endpoint depends on. This is the path that broke in the
-# 2026-06-15 outage: a door-less indoor tile threw a PostGIS SRID error, which cascaded into
-# failed static renders and ultimately took down the whole API.
+# Reproduces a fresh production install on a small, real geofabrik clip, then asserts the
+# indoor tile SQL functions don't throw on that data and that martin can render the static
+# basemap image the server's location-preview endpoint depends on. This is the path that broke
+# in the 2026-06-15 outage: a door-less indoor tile threw a PostGIS SRID error, which cascaded
+# into failed static renders and ultimately took down the whole API.
 #
 # Faithful ordering (matches a fresh prod bring-up):
 #   server migrations  ->  osm2pgsql ingest  ->  planetiler generate  ->  martin render
@@ -86,11 +86,16 @@ psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" 
 endlog
 
 # -- 4. planetiler generate (real small-extent import) -----------------------------------------
+# --download fetches the schema's non-OSM sources (water polygons, natural earth). Point its
+# download dir away from the repo's own data/ tree; the workflow caches it across runs.
 log "planetiler generate"
+PLANETILER_SOURCES="${PLANETILER_SOURCES:-/tmp/planetiler-sources}"
+mkdir -p "$PLANETILER_SOURCES"
 wget -q https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar -O /tmp/planetiler.jar
 java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
   --schema=map/planetiler/shortbread_custom.yml \
   --osm-path="$FIXTURE_PBF" \
+  --download --download-dir="$PLANETILER_SOURCES" \
   --output="$MBTILES_OUT" --force
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
