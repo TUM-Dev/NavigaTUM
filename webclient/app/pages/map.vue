@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { until, useIntervalFn } from "@vueuse/core";
+import { until } from "@vueuse/core";
 import type {
   AllPaintProperties,
   ExpressionSpecification,
-  FilterSpecification,
   MapGeoJSONFeature,
   MapLayerMouseEvent,
 } from "maplibre-gl";
@@ -12,12 +11,12 @@ import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
   DEFAULT_EVENTS_WINDOW,
+  EVENT_SOURCE_BY_WINDOW,
   EVENTS_FILTER_ID,
-  EVENTS_STYLE_LAYER,
   EVENTS_WINDOW_QUERY_PARAM,
   EVENTS_WINDOWS,
+  type EventSourceId,
   type EventsWindow,
-  eventsWindowFilter,
   FILTER_QUERY_PARAM,
   FILTER_REGISTRY,
   type JsonExpression,
@@ -36,7 +35,7 @@ import {
   type WcsGender,
   wcsAttributeConditions,
 } from "~/composables/mapLayers";
-import { useEventPopup } from "~/composables/useEventMarkers";
+import { useEventMarkers } from "~/composables/useEventMarkers";
 import { useWebglGuard } from "~/composables/webglSupport";
 
 definePageMeta({ layout: "browse-map" });
@@ -98,7 +97,14 @@ const wcsWheelchair = ref(false);
 // `null` selects all genders, i.e. no gender condition.
 const wcsGender = ref<WcsGender | null>(null);
 
-const { activeEvent, markerScreenPos, closeActiveEvent } = useEventPopup(map, EVENTS_STYLE_LAYER);
+// The events filter gates the markers; the window toggle picks which single feed shows.
+const eventsVisibleSources = computed<EventSourceId[]>(() =>
+  activeFilters.value.has(EVENTS_FILTER_ID) ? [EVENT_SOURCE_BY_WINDOW[eventsWindow.value]] : []
+);
+const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map, {
+  sources: ["events_active", "events_upcoming"],
+  visibleSources: eventsVisibleSources,
+});
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
 const originalPaint = new Map<string, OpacityValue | undefined>();
@@ -179,27 +185,6 @@ function applyFilterDim(): void {
   }
 }
 
-/** Show the overlay filters' style layers while active; they ship hidden in the basemap style. */
-function applyOverlayVisibility(): void {
-  const m = map.value;
-  if (!m) return;
-  for (const filter of FILTER_REGISTRY) {
-    if (filter.kind !== "overlay") continue;
-    const visibility = activeFilters.value.has(filter.id) ? "visible" : "none";
-    for (const layer of filter.styleLayers) {
-      if (m.getLayer(layer)) m.setLayoutProperty(layer, "visibility", visibility);
-    }
-  }
-}
-
-/** Restrict the events layer to the selected time window, evaluated against the current clock. */
-function applyEventsFilter(): void {
-  const m = map.value;
-  if (!m?.getLayer(EVENTS_STYLE_LAYER)) return;
-  const filter = eventsWindowFilter(eventsWindow.value, Date.now());
-  m.setFilter(EVENTS_STYLE_LAYER, filter as FilterSpecification);
-}
-
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -213,15 +198,14 @@ watch(activeFilters, (filters) => {
   // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
-  applyOverlayVisibility();
-  // The popup belongs to the events layer; it must not outlive the layer being switched off.
+  // The popup belongs to the event markers; drop it when the filter switches them off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
 
 watch(eventsWindow, (window) => {
   // Drop the param at the "now" default, so a bare /map URL stays clean.
   setQueryParam(EVENTS_WINDOW_QUERY_PARAM, window === DEFAULT_EVENTS_WINDOW ? null : window);
-  applyEventsFilter();
+  // The shown feed changes, so the open popup may belong to the other one.
   closeActiveEvent();
 });
 
@@ -231,10 +215,6 @@ watch([wcsWheelchair, wcsGender], ([wheelchair, gender]) => {
   setQueryParam(WCS_GENDER_QUERY_PARAM, gender);
   applyFilterDim();
 });
-
-// The window filter compares against the clock at evaluation time; re-evaluate it periodically so
-// markers drop off as their events end while the page stays open.
-useIntervalFn(applyEventsFilter, 60_000);
 
 watch(panelCollapsed, (collapsed) => {
   localStorage.setItem(PANEL_COLLAPSED_STORAGE_KEY, collapsed ? "1" : "0");
@@ -355,8 +335,6 @@ function initMap(): MapLibreMap {
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
     applyFilterDim();
-    applyOverlayVisibility();
-    applyEventsFilter();
 
     m.on("click", POI_LAYER, openPoiPopup);
     m.on("mouseenter", POI_LAYER, () => {
@@ -483,7 +461,7 @@ de:
   events_window:
     legend: Zeitfenster für Veranstaltungen
     now: Gerade aktiv
-    24h: Nächste 24 Stunden
+    2weeks: Nächste 2 Wochen
   wcs_filters:
     legend: Filter für Toiletten & Duschen
     wheelchair: Nur rollstuhlgerecht
@@ -504,7 +482,7 @@ en:
   events_window:
     legend: Time window for events
     now: Happening now
-    24h: Next 24 hours
+    2weeks: Next 2 weeks
   wcs_filters:
     legend: Filters for toilets & showers
     wheelchair: Wheelchair-accessible only
