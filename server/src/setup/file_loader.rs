@@ -1,7 +1,11 @@
 use std::path::PathBuf;
 use std::time::Duration;
 
+use bytes::Bytes;
+use parquet::file::reader::{FileReader as _, SerializedFileReader};
+use parquet::record::{Field, Row};
 use serde::de::DeserializeOwned;
+use serde_json::{Map, Number, Value};
 use tokio::fs;
 use tokio::time::sleep;
 use tracing::{debug, info, warn};
@@ -172,6 +176,70 @@ where
     Ok(value)
 }
 
+/// Loads a parquet file from disk or downloads it, then converts each row into a
+/// JSON document for Meilisearch ingestion.
+///
+/// The parquet schema is data-dependent (polars types all-null columns as `Null`),
+/// so conversion matches on [`Field`] at runtime instead of a fixed schema.
+///
+/// # Arguments
+///   * `filename` - The name of the parquet file to load
+///   * `cdn_url` - The CDN URL to use for downloading if the file is not found locally
+///
+/// # Returns
+/// One JSON object per row
+pub async fn load_parquet_as_documents_or_download(
+    filename: &str,
+    cdn_url: &str,
+) -> anyhow::Result<Vec<Value>> {
+    let bytes = load_file_or_download(filename, cdn_url).await?;
+    let reader = SerializedFileReader::new(Bytes::from(bytes))?;
+    let row_count = usize::try_from(reader.metadata().file_metadata().num_rows()).unwrap_or(0);
+    let mut documents = Vec::with_capacity(row_count);
+    for row in reader.get_row_iter(None)? {
+        documents.push(row_to_json(&row?));
+    }
+    Ok(documents)
+}
+
+/// Converts a parquet row into a JSON object, skipping null fields.
+fn row_to_json(row: &Row) -> Value {
+    let mut map = Map::new();
+    for (name, field) in row.get_column_iter() {
+        if let Some(value) = field_to_json(field) {
+            map.insert(name.clone(), value);
+        }
+    }
+    Value::Object(map)
+}
+
+/// Converts a parquet field into a JSON value, or `None` for null fields.
+///
+/// Dropping nulls also drops the `_geo` struct for rows without coordinates, which
+/// Meilisearch rejects when present as `null`.
+fn field_to_json(field: &Field) -> Option<Value> {
+    match field {
+        Field::Bool(v) => Some(Value::Bool(*v)),
+        Field::Byte(v) => Some(Value::from(*v)),
+        Field::Short(v) => Some(Value::from(*v)),
+        Field::Int(v) => Some(Value::from(*v)),
+        Field::Long(v) => Some(Value::from(*v)),
+        Field::UByte(v) => Some(Value::from(*v)),
+        Field::UShort(v) => Some(Value::from(*v)),
+        Field::UInt(v) => Some(Value::from(*v)),
+        Field::ULong(v) => Some(Value::from(*v)),
+        Field::Float(v) => Number::from_f64(f64::from(*v)).map(Value::Number),
+        Field::Double(v) => Number::from_f64(*v).map(Value::Number),
+        Field::Str(v) => Some(Value::String(v.clone())),
+        Field::Group(row) => Some(row_to_json(row)),
+        Field::ListInternal(list) => Some(Value::Array(
+            list.elements().iter().filter_map(field_to_json).collect(),
+        )),
+        // Null is dropped; Decimal/Bytes/Date/Time/Timestamp/Map are unused by the search export.
+        _ => None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -190,5 +258,44 @@ mod tests {
         )
         .await;
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_row_to_json_reconstructs_geo_and_drops_nulls() {
+        let geo = Field::Group(Row::new(vec![
+            ("lat".to_string(), Field::Double(48.0)),
+            ("lng".to_string(), Field::Double(11.0)),
+        ]));
+        let row = Row::new(vec![
+            ("ms_id".to_string(), Field::Str("foo".to_string())),
+            ("rank".to_string(), Field::Long(42)),
+            ("address".to_string(), Field::Null),
+            ("_geo".to_string(), geo),
+        ]);
+
+        let value = row_to_json(&row);
+
+        assert_eq!(
+            value,
+            serde_json::json!({
+                "ms_id": "foo",
+                "rank": 42,
+                "_geo": {"lat": 48.0, "lng": 11.0},
+            }),
+            "null fields are dropped and the _geo struct becomes a nested object"
+        );
+    }
+
+    #[test]
+    fn test_row_to_json_omits_null_geo() {
+        let row = Row::new(vec![
+            ("ms_id".to_string(), Field::Str("bar".to_string())),
+            ("_geo".to_string(), Field::Null),
+        ]);
+
+        let value = row_to_json(&row);
+
+        // Meilisearch rejects `_geo: null`, so it must be omitted entirely.
+        assert_eq!(value, serde_json::json!({"ms_id": "bar"}));
     }
 }

@@ -15,20 +15,18 @@ test.describe("CDN Endpoints - JSON Data Files", () => {
     expect(firstEntry).toHaveProperty("id");
     expect(firstEntry).toHaveProperty("type");
   });
-
-  test("should serve search_data.json with valid array structure", async ({ request }) => {
-    const response = await request.get("/cdn/search_data.json");
-
-    expect(response.status()).toBe(200);
-    expect(response.headers()["content-type"]).toContain("application/json");
-
-    const data = await response.json();
-    expect(Array.isArray(data)).toBe(true);
-    expect(data.length).toBeGreaterThan(0);
-  });
 });
 
 test.describe("CDN Endpoints - Parquet Files", () => {
+  test("should serve search_data.parquet with valid binary content", async ({ request }) => {
+    const response = await request.get("/cdn/search_data.parquet");
+
+    expect(response.status()).toBe(200);
+
+    const buffer = await response.body();
+    expect(buffer.length).toBeGreaterThan(0);
+  });
+
   test("should serve alias_data.parquet with valid binary content", async ({ request }) => {
     const response = await request.get("/cdn/alias_data.parquet");
 
