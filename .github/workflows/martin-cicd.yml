@@ -78,7 +78,6 @@ jobs:
       PGDATABASE: navigatum
       FIXTURE_PBF: ${{ github.workspace }}/fixture/garching.osm.pbf
       BBOX: "11.655,48.255,11.685,48.272"
-      PLANETILER_SOURCES: ${{ github.workspace }}/planetiler-sources
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -108,7 +107,7 @@ jobs:
       - name: Setup | Cache planetiler sources
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
-          path: planetiler-sources
+          path: data/sources
           key: planetiler-sources-v1
       - name: Setup | Build fixture clip
         if: steps.fixture-cache.outputs.cache-hit != 'true'

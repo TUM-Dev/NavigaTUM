@@ -88,11 +88,11 @@ endlog
 # -- 4. planetiler generate (real small-extent import) -----------------------------------------
 # The schema's only non-OSM source is the ocean shapefile from osmdata.openstreetmap.de, which
 # is slow enough that planetiler's built-in downloader times out on its size check. Pre-fetch it
-# with a patient, resumable wget into the exact path planetiler derives from the URL, then run
-# WITHOUT --download so planetiler just reads the local file (no network check). The dir is
-# repo-external and cached across runs by the workflow.
+# with a patient, resumable wget into planetiler's default sources dir (data/sources, relative
+# to this repo root), then run WITHOUT --download so planetiler just reads the local file with
+# no network check. The workflow caches the dir across runs.
 log "fetch planetiler sources"
-PLANETILER_SOURCES="${PLANETILER_SOURCES:-/tmp/planetiler-sources}"
+PLANETILER_SOURCES="${PLANETILER_SOURCES:-data/sources}"
 mkdir -p "$PLANETILER_SOURCES"
 ocean_zip="$PLANETILER_SOURCES/osmdata.openstreetmap.de_download_water_polygons_split_3857.zip"
 if [ ! -s "$ocean_zip" ]; then
@@ -106,7 +106,6 @@ log "planetiler generate"
 java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
   --schema=map/planetiler/shortbread_custom.yml \
   --osm-path="$FIXTURE_PBF" \
-  --download-dir="$PLANETILER_SOURCES" \
   --output="$MBTILES_OUT" --force
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
