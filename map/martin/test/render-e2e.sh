@@ -92,11 +92,21 @@ log "planetiler generate"
 PLANETILER_SOURCES="${PLANETILER_SOURCES:-/tmp/planetiler-sources}"
 mkdir -p "$PLANETILER_SOURCES"
 wget -q https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar -O /tmp/planetiler.jar
-java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
-  --schema=map/planetiler/shortbread_custom.yml \
-  --osm-path="$FIXTURE_PBF" \
-  --download --download-dir="$PLANETILER_SOURCES" \
-  --output="$MBTILES_OUT" --force
+# osmdata.openstreetmap.de (water polygons) is intermittently slow; retry so a transient
+# download timeout doesn't fail the gate. Sources already fetched are reused across attempts.
+pt_ok=0
+for attempt in 1 2 3; do
+  if java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
+      --schema=map/planetiler/shortbread_custom.yml \
+      --osm-path="$FIXTURE_PBF" \
+      --download --download-dir="$PLANETILER_SOURCES" \
+      --output="$MBTILES_OUT" --force; then
+    pt_ok=1; break
+  fi
+  echo "planetiler attempt $attempt failed; retrying"
+  sleep $((attempt * 5))
+done
+[ "$pt_ok" -eq 1 ] || { echo "ERROR: planetiler generate failed after retries" >&2; exit 1; }
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
 
