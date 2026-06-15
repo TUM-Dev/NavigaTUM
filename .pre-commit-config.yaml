@@ -19,7 +19,7 @@ repos:
         args:
           - --fix=lf
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.19
+    rev: 0.11.21
     hooks:
       - id: uv-lock
   - repo: https://github.com/sirosen/texthooks
@@ -62,7 +62,7 @@ repos:
         files: (.*\\vue|.*\\m?js|.*\\ts|.*\\json)
   # only data
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.16
+    rev: v0.15.17
     hooks:
       - id: ruff
         args: [ --fix ]
