@@ -51,6 +51,67 @@ jobs:
         run: node --experimental-strip-types validate-style.ts styles/navigatum-basemap.json
         working-directory: map/martin
 
+  render-e2e:
+    # Reproduces a fresh prod install on a small, real geofabrik clip (Garching campus) and
+    # asserts martin can render indoor tiles and the static basemap image -- the path that broke
+    # in the 2026-06-15 outage, where a door-less indoor tile threw a PostGIS SRID error.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+      db:
+        image: postgis/postgis:18-3.6 # matches compose.yml
+        env:
+          POSTGRES_USER: navigatum
+          POSTGRES_PASSWORD: navigatum
+          POSTGRES_DB: navigatum
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U navigatum"
+          --health-interval 2s --health-timeout 5s --health-retries 15
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGUSER: navigatum
+      PGPASSWORD: navigatum
+      PGDATABASE: navigatum
+      FIXTURE_PBF: ${{ github.workspace }}/fixture/garching.osm.pbf
+      BBOX: "11.655,48.255,11.685,48.272"
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            map
+            server/migrations
+      - name: Setup | Install Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+      - name: Setup | Install tools
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends --yes postgresql-client osmium-tool
+      # The clip is derived from the daily-changing geofabrik extract, so cache it for stable,
+      # fast runs. Bump `v1` to force a refresh against newer OSM data.
+      - name: Setup | Cache fixture clip
+        id: fixture-cache
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: fixture/garching.osm.pbf
+          key: garching-clip-v1-${{ env.BBOX }}
+      - name: Setup | Build fixture clip
+        if: steps.fixture-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p fixture
+          wget -q https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf -O fixture/oberbayern.osm.pbf
+          osmium extract --bbox "$BBOX" --strategy complete_ways \
+            fixture/oberbayern.osm.pbf -o "$FIXTURE_PBF"
+          rm fixture/oberbayern.osm.pbf
+      - name: Render end-to-end
+        run: bash map/martin/test/render-e2e.sh
+
   build:
     uses: ./.github/workflows/_docker-build.yml
     with:

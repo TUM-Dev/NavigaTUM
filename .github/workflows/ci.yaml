@@ -52,6 +52,9 @@ jobs:
               - '.github/**'
             map: &map
               - 'map/**'
+              # The render gate exercises the indoor tile SQL functions, which live here; a
+              # migration change (like the 2026-06-15 SRID regression) must trigger it.
+              - 'server/migrations/**'
               - '.github/**'
             e2e:
               - *server
