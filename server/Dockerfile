@@ -28,7 +28,6 @@ COPY data/output output
 RUN python3 compile.py \
     && test -f "./output/status_data.json" \
     && test -f "./output/status_data.parquet" \
-    && test -f "./output/search_data.json" \
     && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
     && test -f "./output/alias_data.parquet"

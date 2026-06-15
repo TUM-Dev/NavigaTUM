@@ -24,14 +24,11 @@ const { t } = useI18n({ useScope: "local" });
   >
     {{ t("skip_to_content") }}
   </a>
-  <AppNavHeader />
-
-  <!-- Page content container -->
-  <main id="main-content" tabindex="-1" class="mx-auto mt-[60px] min-h-[calc(100vh-150px)] transition-opacity">
+  <!-- Full-viewport navigation view: no global header or footer. -->
+  <main id="main-content" tabindex="-1" class="h-[100dvh] overflow-hidden">
     <slot />
   </main>
 
-  <AppFooter />
   <ClientOnly>
     <LazyFeedbackModal v-if="feedback.open" />
     <LazyAddProposalModal v-if="editProposal.addOpen" />

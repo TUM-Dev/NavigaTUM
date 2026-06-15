@@ -209,7 +209,7 @@ pub struct GeoPoint {
 /// A campus event surfaced as the sixth search facet.
 ///
 /// One document per `events.csv` row, exported by the data pipeline into
-/// `search_data.json`. Carries everything a client needs to pre-fill the event
+/// `search_data.parquet`. Carries everything a client needs to pre-fill the event
 /// proposal form, so picking a search hit needs no second round-trip.
 ///
 /// Every field is required, with one exception: the pipeline always writes the

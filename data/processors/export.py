@@ -246,9 +246,7 @@ def export_for_search(data: dict[str, Entry]) -> None:
 
     export.extend(event_search_documents(load_events(), ImageSource.load_all()))
 
-    search_bytes = orjson.dumps(export)
-    _make_sure_is_safe(search_bytes)
-    (OUTPUT_DIR_PATH / "search_data.json").write_bytes(search_bytes)
+    _make_sure_is_safe(orjson.dumps(export))
     search_df = pl.DataFrame(export, infer_schema_length=None)
     search_df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=3)
 

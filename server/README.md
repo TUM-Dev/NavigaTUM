@@ -79,7 +79,7 @@ The following files are loaded during server setup:
 - `alias_data.parquet` - Alias mappings for locations (baked into Docker image)
 - `api_data.json` - Main location data for the API (baked into Docker image)
 - `status_data.parquet` - Status information for locations (baked into Docker image)
-- `search_data.json` - Search index data for MeiliSearch (baked into Docker image)
+- `search_data.parquet` - Search index data for MeiliSearch (baked into Docker image)
 - `public_transport.parquet` - Public transportation station data (baked into Docker image)
 
 ### Environment Variables
