@@ -2,7 +2,7 @@
 # End-to-end render gate for the martin tile stack.
 #
 # Reproduces a fresh production install on a small, real geofabrik clip and asserts that
-# martin can actually render — both raw indoor tiles and the static basemap image that the
+# martin can actually render - both raw indoor tiles and the static basemap image that the
 # server's location-preview endpoint depends on. This is the path that broke in the
 # 2026-06-15 outage: a door-less indoor tile threw a PostGIS SRID error, which cascaded into
 # failed static renders and ultimately took down the whole API.
