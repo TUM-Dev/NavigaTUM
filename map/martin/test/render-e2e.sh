@@ -1,31 +1,24 @@
 #!/usr/bin/env bash
-# End-to-end render gate for the martin tile stack.
+# End-to-end render gate for the martin tile stack, run on a small real geofabrik clip:
+# migrations -> osm2pgsql ingest -> planetiler generate -> boot martin -> request an indoor tile
+# and render the static basemap. Both martin requests are how the indoor SRID bug surfaced in
+# production (HTTP 500 on the tile, then on the render the location-preview endpoint depends on).
 #
-# Reproduces a fresh production install on a small, real geofabrik clip, then asserts the
-# indoor tile SQL functions don't throw on that data and that martin can render the static
-# basemap image the server's location-preview endpoint depends on. This is the path that broke
-# in the 2026-06-15 outage: a door-less indoor tile threw a PostGIS SRID error, which cascaded
-# into failed static renders and ultimately took down the whole API.
+# Order matches a fresh prod bring-up: migrations run before osm2pgsql because 20240505 drops the
+# legacy `rooms` metadata table, and osm2pgsql then creates the `rooms`/`doors` geometry tables
+# the indoor_* functions query.
 #
-# Faithful ordering (matches a fresh prod bring-up):
-#   server migrations  ->  osm2pgsql ingest  ->  planetiler generate  ->  martin render
-# Migrations run first because 20240505 drops the legacy `rooms` metadata table; osm2pgsql
-# then creates the live `rooms`/`doors` geometry tables that the indoor_* functions query.
-#
-# Expects (provided by the workflow):
-#   - a reachable PostGIS at $PGHOST:$PGPORT, db $PGDATABASE, user $PGUSER, $PGPASSWORD set
-#   - docker available
-#   - run from the repository root
+# Expects (from the workflow): PostGIS at $PGHOST:$PGPORT (db/user/password set), docker, cwd at
+# the repository root.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 cd "$REPO_ROOT"
 
 # -- tunables ----------------------------------------------------------------------------------
-# Garching research campus: the MI building (and neighbours) are densely indoor-mapped, so a
-# clip here contains tiles with walls but no doors -- the exact regression trigger.
+# Garching campus: densely indoor-mapped, so the clip has tiles with walls but no doors.
 BBOX="${BBOX:-11.655,48.255,11.685,48.272}" # left,bottom,right,top
-# A camera centred on the MI building at a zoom above indoor_walls' minzoom (16.5).
+# MI building, above indoor_walls' minzoom (16.5).
 RENDER_CAMERA="${RENDER_CAMERA:-11.6679,48.2627,18}"
 RENDER_SIZE="${RENDER_SIZE:-600x400}"
 FIXTURE_PBF="${FIXTURE_PBF:-/tmp/navigatum-e2e-fixture.osm.pbf}"
@@ -40,11 +33,10 @@ endlog() { echo "::endgroup::"; }
 
 # -- 1. server migrations ----------------------------------------------------------------------
 log "apply server migrations"
-# PostGIS must exist before osm2pgsql creates geometry columns; migrations may also create it,
-# so guard with IF NOT EXISTS.
+# osm2pgsql needs PostGIS before it creates geometry columns.
 psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" \
   -c "CREATE EXTENSION IF NOT EXISTS postgis;"
-# sqlx orders migrations by the numeric version prefix, which is exactly filename sort order.
+# sqlx applies migrations in version-prefix order, which is filename order.
 for f in $(ls server/migrations/*.sql | sort); do
   echo "-> $f"
   psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -f "$f"
@@ -53,8 +45,7 @@ endlog
 
 # -- 2. osm2pgsql ingest of the real clip ------------------------------------------------------
 log "osm2pgsql ingest"
-# Prod flags from compose.yml's osm2pgsql-init, minus the oversized --cache (the clip is tiny).
-# --network host so the container reaches the runner-side PostGIS service at localhost.
+# osm2pgsql-init flags from compose.yml (smaller --cache); --network host reaches PostGIS on localhost.
 docker run --rm \
   --network host \
   -e PGPASSWORD \
@@ -67,8 +58,7 @@ docker run --rm \
     --output=flex --style /map/osm2pgsql/style.lua
 endlog
 
-# Fail loudly if the clip turned out to contain no indoor geometry -- a green render against an
-# empty DB would be a false pass that hides exactly the kind of regression this gate exists for.
+# Guard against an empty clip: a render over zero rooms would pass vacuously.
 log "sanity-check ingested indoor data"
 rooms=$(psql -tA -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "SELECT count(*) FROM rooms;")
 echo "rooms ingested: $rooms"
@@ -78,19 +68,10 @@ if [ "$rooms" -eq 0 ]; then
 fi
 endlog
 
-# -- 3. assert the tile functions don't throw on the real data (fast, precise signal) ----------
-# This localises a function-level regression (like the SRID bug) before the slower render step.
-log "assert indoor tile functions over the clip"
-psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" \
-  -f map/martin/test/assert_tile_functions.sql
-endlog
-
-# -- 4. planetiler generate (real small-extent import) -----------------------------------------
-# The schema's only non-OSM source is the ocean shapefile from osmdata.openstreetmap.de, which
-# is slow enough that planetiler's built-in downloader times out on its size check. Pre-fetch it
-# with a patient, resumable wget into planetiler's default sources dir (data/sources, relative
-# to this repo root), then run WITHOUT --download so planetiler just reads the local file with
-# no network check. The workflow caches the dir across runs.
+# -- 3. planetiler generate --------------------------------------------------------------------
+# The schema's only non-OSM source is the osmdata.openstreetmap.de ocean shapefile, whose slow
+# size check trips planetiler's download timeout. Pre-fetch it with a patient wget into
+# planetiler's default sources dir, then run without --download so it reads the local file.
 log "fetch planetiler sources"
 PLANETILER_SOURCES="${PLANETILER_SOURCES:-data/sources}"
 mkdir -p "$PLANETILER_SOURCES"
@@ -110,12 +91,10 @@ java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
 
-# -- 5. boot martin against the populated DB + generated tiles ---------------------------------
-# Prod runs the martin image but mounts the host map/martin over /map (compose.yml), so fonts
-# and maki sprites -- which are gitignored and fetched at build time -- come from the host. We
-# reproduce that runtime /map: a copy of map/martin with fonts + maki fetched exactly as
-# map/martin/Dockerfile does, then mounted into the :nightly renderer (same base the prod image
-# is built from; the mount shadows any baked /map, so building it again would be redundant).
+# -- 4. boot martin against the populated DB + generated tiles ---------------------------------
+# Prod mounts host map/martin over /map (compose.yml), so the gitignored fonts and maki sprites
+# come from the host, not the image. Reproduce that /map and mount it into the :nightly base (the
+# base the prod image is built from), which makes rebuilding the image unnecessary.
 log "assemble martin runtime /map"
 RUNDIR=/tmp/martin-run
 rm -rf "$RUNDIR" && cp -r map/martin "$RUNDIR"
@@ -125,13 +104,10 @@ mkdir -p "$RUNDIR/fonts" && unzip -q -o /tmp/roboto.zip -d "$RUNDIR/fonts/"
 wget -q -O /tmp/maki.zip https://github.com/mapbox/maki/zipball/main
 rm -rf /tmp/maki && mkdir -p /tmp/maki "$RUNDIR/sprites/maki" && unzip -q /tmp/maki.zip -d /tmp/maki
 mv /tmp/maki/mapbox-maki-*/icons/* "$RUNDIR/sprites/maki/"
-# The style's martin sources are absolute prod URLs (https://nav.tum.de/martin/...). The native
-# renderer fetches tiles over HTTP, so without rewriting them the render would hit production
-# instead of our local data -- defeating the test. Run martin at the default root base path and
-# strip the /martin prefix, so sources resolve to this martin (reachable at localhost:3001 both
-# from the runner, where curl runs, and from inside the container, where the renderer
-# self-fetches). The lone /cdn natural-earth raster is a low-zoom backdrop not requested at z18,
-# so it's left untouched.
+# The style's martin sources are absolute prod URLs; the renderer fetches tiles over HTTP, so
+# point them at this martin (root base path) instead of production. localhost:3001 works both
+# from the runner (curl) and inside the container (the renderer self-fetches). The /cdn
+# natural-earth raster is low-zoom only and unused at z18, so it's left alone.
 sed -i "s#https://nav.tum.de/martin#http://localhost:${MARTIN_PORT}#g" "$RUNDIR/styles/navigatum-basemap.json"
 endlog
 
@@ -151,7 +127,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# -- 6. wait for health, then render -----------------------------------------------------------
+# -- 5. assert martin serves the indoor tile and the static render -----------------------------
 log "wait for martin health"
 for i in $(seq 1 30); do
   if curl -fsS "http://localhost:${MARTIN_PORT}/health" >/dev/null 2>&1; then
@@ -162,25 +138,36 @@ for i in $(seq 1 30); do
 done
 endlog
 
-# The static-image render is the production-critical path (location previews). The :nightly
-# renderer can time out transiently, so retry a few times: a transient timeout (curl exit 28 /
-# no status) is retried, but a consistent 5xx -- the actual bug class -- exhausts retries and
-# fails the gate.
-render_url="http://localhost:${MARTIN_PORT}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png"
-log "assert static basemap render: $render_url"
-ok=0
-for i in $(seq 1 5); do
-  code=$(curl -s -o /tmp/render.png -w "%{http_code}" --max-time 30 "$render_url" || echo "000")
-  size=$(wc -c </tmp/render.png 2>/dev/null || echo 0)
-  echo "attempt $i: http=$code bytes=$size"
-  if [ "$code" = "200" ] && [ "$size" -gt 0 ]; then ok=1; break; fi
-  if [ "$code" != "000" ] && [ "${code:0:1}" = "5" ]; then
-    echo "ERROR: render returned $code (server-side failure, not a transient timeout)" >&2
-    exit 1
-  fi
-  sleep $((i * 2))
-done
-[ "$ok" -eq 1 ] || { echo "ERROR: static render never succeeded" >&2; exit 1; }
+# Curl up to 5 times: pass on 2xx, fail on 5xx (the failure the SRID bug produced), retry
+# otherwise (transient :nightly timeout, http 000).
+assert_serves() {
+  local url=$1 out=${2:-/dev/null} code i
+  for i in 1 2 3 4 5; do
+    code=$(curl -s -o "$out" -w "%{http_code}" --max-time 30 "$url" || echo 000)
+    echo "  attempt $i: http=$code"
+    case "$code" in
+      2*) return 0 ;;
+      5*) echo "ERROR: $url returned $code" >&2; return 1 ;;
+    esac
+    sleep $((i * 2))
+  done
+  echo "ERROR: $url never succeeded" >&2; return 1
+}
+
+# Indoor tile bundle over the MI building -- the request that 500'd on door-less walls in prod.
+IFS=, read -r clon clat czoom <<<"$RENDER_CAMERA"
+read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
+  n = 2 ^ z; pi = atan2(0, -1); rad = lat * pi / 180
+  printf "%d %d", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
+}')
+log "assert indoor tile $czoom/$tx/$ty"
+assert_serves "http://localhost:${MARTIN_PORT}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
+endlog
+
+# Static basemap render -- the location-preview path.
+log "assert static basemap render"
+assert_serves "http://localhost:${MARTIN_PORT}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png" /tmp/render.png
+[ -s /tmp/render.png ] || { echo "ERROR: render returned an empty image" >&2; exit 1; }
 endlog
 
 echo "render-e2e passed"

@@ -1,8 +1,5 @@
--- 20260614191236 coalesced door-less tiles to 'GEOMETRYCOLLECTION EMPTY'::geometry, but that
--- literal carries SRID 0 while the wall geometry is SRID 3857 (osm2pgsql's web-mercator default).
--- ST_Difference then aborts with "Operation on mixed SRID geometries (3857 != 0)", so every tile
--- with walls but no doors 500s -- exactly the door-less case the previous migration meant to fix.
--- Build the empty fallback in SRID 3857 so the SRIDs match.
+-- 20260614191236's COALESCE fallback 'GEOMETRYCOLLECTION EMPTY' is SRID 0, but the wall geometry
+-- is SRID 3857, so ST_Difference rejects door-less tiles with a mixed-SRID error. Match the SRID.
 
 CREATE OR REPLACE
     FUNCTION indoor_walls(z integer, x integer, y integer, query_params json)
