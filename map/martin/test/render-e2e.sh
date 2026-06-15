@@ -125,19 +125,20 @@ mkdir -p "$RUNDIR/fonts" && unzip -q -o /tmp/roboto.zip -d "$RUNDIR/fonts/"
 wget -q -O /tmp/maki.zip https://github.com/mapbox/maki/zipball/main
 rm -rf /tmp/maki && mkdir -p /tmp/maki "$RUNDIR/sprites/maki" && unzip -q /tmp/maki.zip -d /tmp/maki
 mv /tmp/maki/mapbox-maki-*/icons/* "$RUNDIR/sprites/maki/"
-# The style's sources are absolute prod URLs (https://nav.tum.de/martin/...). The native
+# The style's martin sources are absolute prod URLs (https://nav.tum.de/martin/...). The native
 # renderer fetches tiles over HTTP, so without rewriting them the render would hit production
-# instead of our local data -- defeating the test. Keep the prod /martin base path and only
-# swap the host for this martin (reachable at localhost:3001 both from the runner, where curl
-# runs, and from inside the container, where the renderer self-fetches).
-sed -i "s#https://nav.tum.de#http://localhost:${MARTIN_PORT}#g" "$RUNDIR/styles/navigatum-basemap.json"
+# instead of our local data -- defeating the test. Run martin at the default root base path and
+# strip the /martin prefix, so sources resolve to this martin (reachable at localhost:3001 both
+# from the runner, where curl runs, and from inside the container, where the renderer
+# self-fetches). The lone /cdn natural-earth raster is a low-zoom backdrop not requested at z18,
+# so it's left untouched.
+sed -i "s#https://nav.tum.de/martin#http://localhost:${MARTIN_PORT}#g" "$RUNDIR/styles/navigatum-basemap.json"
 endlog
 
 log "run martin"
 docker run -d --name martin-e2e \
   --network host \
   -e DATABASE_URL="$DATABASE_URL" \
-  -e BASE_PATH=/martin/ \
   -v "$RUNDIR":/map:ro \
   -v "$MBTILES_OUT":/data/output.mbtiles:ro \
   ghcr.io/maplibre/martin:nightly --config /map/config.yaml
@@ -153,7 +154,7 @@ trap cleanup EXIT
 # -- 6. wait for health, then render -----------------------------------------------------------
 log "wait for martin health"
 for i in $(seq 1 30); do
-  if curl -fsS "http://localhost:${MARTIN_PORT}/martin/health" >/dev/null 2>&1; then
+  if curl -fsS "http://localhost:${MARTIN_PORT}/health" >/dev/null 2>&1; then
     echo "martin healthy after ${i}s"; break
   fi
   [ "$i" -eq 30 ] && { echo "ERROR: martin never became healthy" >&2; exit 1; }
@@ -165,7 +166,7 @@ endlog
 # renderer can time out transiently, so retry a few times: a transient timeout (curl exit 28 /
 # no status) is retried, but a consistent 5xx -- the actual bug class -- exhausts retries and
 # fails the gate.
-render_url="http://localhost:${MARTIN_PORT}/martin/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png"
+render_url="http://localhost:${MARTIN_PORT}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png"
 log "assert static basemap render: $render_url"
 ok=0
 for i in $(seq 1 5); do
