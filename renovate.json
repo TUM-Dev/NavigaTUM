@@ -13,6 +13,7 @@
   "vulnerabilityAlerts": {
     "enabled": true
   },
+  "postUpdateOptions": ["pnpmDedupe"],
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
