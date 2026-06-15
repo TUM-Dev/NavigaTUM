@@ -4,10 +4,10 @@ import type {
   AllPaintProperties,
   ExpressionSpecification,
   FilterSpecification,
-  MapGeoJSONFeature,
-  MapLayerMouseEvent,
+  MapMouseEvent,
 } from "maplibre-gl";
 import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "maplibre-gl";
+import type { IndoorRoomPopupProps } from "~/components/IndoorRoomPopup.vue";
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
@@ -58,6 +58,10 @@ const BASEMAP_SCRIM = "rgba(255, 255, 255, 0.45)";
 const SCRIM_LAYER = "filter-basemap-dim";
 // The combined POI layer whose markers open a popup.
 const POI_LAYER = "indoor-pois";
+// The room fill layer; merged with the POIs into one unified popup on click.
+const ROOM_LAYER = "indoor-rooms";
+// Both indoor layers a click is resolved against, and that show a pointer cursor on hover.
+const INDOOR_INTERACTIVE_LAYERS = [ROOM_LAYER, POI_LAYER] as const;
 // MapLibre v6 tightened {set,get}PaintProperty signatures: the property name must be a literal
 // key of AllPaintProperties, and the value matches that key's spec. The three opacity props
 // below all resolve to DataDrivenPropertyValueSpecification<number>.
@@ -85,11 +89,16 @@ const FLAT_TARGETS = [
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
-const poiPopup = shallowRef<Popup | undefined>(undefined);
+// The anchored MapLibre popup; its body is the Vue `IndoorRoomPopup` teleported into `popupTarget`.
+const popupInstance = shallowRef<Popup | undefined>(undefined);
+const popupTarget = shallowRef<HTMLElement | null>(null);
+const roomPopup = shallowRef<IndoorRoomPopupProps | null>(null);
 const mapContainer = ref<HTMLElement | undefined>(undefined);
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const initialLoaded = ref(false);
 const currentZoom = ref(INITIAL_ZOOM);
+// The floor control's active OSM level; `null` while all floors are hidden.
+const currentLevel = ref<number | null>(null);
 // Reassigned wholesale so the panel's `Set` prop changes identity.
 const activeFilters = ref<Set<string>>(new Set());
 const panelCollapsed = ref(false);
@@ -244,69 +253,70 @@ function truthy(value: unknown): boolean {
   return value === true || value === 1 || value === "true";
 }
 
-function buildPopupContent(feature: MapGeoJSONFeature, lng: number, lat: number): HTMLElement {
-  const props = feature.properties ?? {};
-  const isShower = props.indoor === "shower";
-
-  const root = document.createElement("div");
-  root.className = "flex flex-col gap-1 text-sm";
-
-  const title = document.createElement("p");
-  title.className = "font-semibold";
-  title.textContent = isShower ? t("poi.shower") : t("poi.toilet");
-  root.appendChild(title);
-
-  const addRow = (text: string) => {
-    const row = document.createElement("p");
-    row.className = "opacity-70";
-    row.textContent = text;
-    root.appendChild(row);
-  };
-
-  if (!isShower) {
-    const male = truthy(props.is_male_toilet);
-    const female = truthy(props.is_female_toilet);
-    // A toilet serving both is all-gender; show it as unisex rather than "male, female".
-    const genders: string[] = [];
-    if (male && female) genders.push(t("gender.unisex"));
-    else {
-      if (male) genders.push(t("gender.male"));
-      if (female) genders.push(t("gender.female"));
-    }
-    if (genders.length) addRow(`${t("gender.label")}: ${genders.join(", ")}`);
-    if (truthy(props.is_wheelchair_toilet)) addRow(t("wheelchair_accessible"));
-  }
-
-  // Location-only OSM edit link; no element id flows through the tiles.
-  const edit = document.createElement("a");
-  edit.href = `https://www.openstreetmap.org/edit#map=21/${lat.toFixed(7)}/${lng.toFixed(7)}`;
-  edit.target = "_blank";
-  edit.rel = "noopener noreferrer";
-  edit.textContent = t("edit_in_osm");
-  root.appendChild(edit);
-
-  return root;
+function closeRoomPopup(): void {
+  popupInstance.value?.remove();
+  popupInstance.value = undefined;
+  roomPopup.value = null;
+  popupTarget.value = null;
 }
 
-function openPoiPopup(event: MapLayerMouseEvent): void {
+/** Anchor a fresh MapLibre popup and teleport the Vue body into its content element. */
+function openRoomPopup(state: IndoorRoomPopupProps): void {
   const m = map.value;
-  const feature = event.features?.[0];
-  if (!m || !feature) return;
-  // Only toilets and showers carry a popup; other POIs in the shared layer are not interactive.
-  const indoor = feature.properties?.indoor;
-  if (indoor !== "toilet" && indoor !== "shower") return;
-
-  // Anchor on the marker's coordinates, not the click point.
-  const [lng, lat] =
-    feature.geometry.type === "Point"
-      ? (feature.geometry.coordinates as [number, number])
-      : [event.lngLat.lng, event.lngLat.lat];
-
-  poiPopup.value?.remove();
-  poiPopup.value = new Popup({ closeButton: true, closeOnClick: true })
-    .setLngLat([lng, lat])
-    .setDOMContent(buildPopupContent(feature, lng, lat))
+  if (!m) return;
+  popupInstance.value?.remove();
+  const container = document.createElement("div");
+  roomPopup.value = state;
+  popupTarget.value = container;
+  const popup = new Popup({ closeButton: true, closeOnClick: false })
+    .setLngLat([state.lng, state.lat])
+    .setDOMContent(container)
     .addTo(m);
+  // The close button removes the popup imperatively; drop the Vue body so the teleport unmounts.
+  popup.on("close", () => {
+    roomPopup.value = null;
+    popupTarget.value = null;
+  });
+  popupInstance.value = popup;
+}
+
+/**
+ * Merge the topmost room fill and POI under the cursor into one popup: the room polygon
+ * carries `ref_tum`, the toilet/shower flags ride on whichever feature has them. A bare
+ * toilet/shower node without a room keeps the link-less popup; anything else closes it.
+ */
+function onIndoorClick(event: MapMouseEvent): void {
+  const m = map.value;
+  if (!m) return;
+  const features = m.queryRenderedFeatures(event.point, { layers: [...INDOOR_INTERACTIVE_LAYERS] });
+  const room = features.find((f) => f.layer.id === ROOM_LAYER);
+  const poi = features.find((f) => f.layer.id === POI_LAYER);
+
+  const refTumRaw = room?.properties?.ref_tum;
+  const refTum = typeof refTumRaw === "string" && refTumRaw.length > 0 ? refTumRaw : null;
+  const indoor = poi?.properties?.indoor ?? room?.properties?.indoor;
+  const isToilet = indoor === "toilet";
+  const isShower = indoor === "shower";
+
+  // Untagged, non-toilet features identify nothing and have no fix to offer - leave them inert.
+  if (!refTum && !isToilet && !isShower) {
+    closeRoomPopup();
+    return;
+  }
+
+  const flag = (key: string): boolean => truthy(poi?.properties?.[key] ?? room?.properties?.[key]);
+  openRoomPopup({
+    refTum,
+    lat: event.lngLat.lat,
+    lng: event.lngLat.lng,
+    zoom: currentZoom.value,
+    level: currentLevel.value ?? 0,
+    isToilet,
+    isShower,
+    isMale: flag("is_male_toilet"),
+    isFemale: flag("is_female_toilet"),
+    isWheelchair: flag("is_wheelchair_toilet"),
+  });
 }
 
 function initMap(): MapLibreMap {
@@ -358,16 +368,19 @@ function initMap(): MapLibreMap {
     applyOverlayVisibility();
     applyEventsFilter();
 
-    m.on("click", POI_LAYER, openPoiPopup);
-    m.on("mouseenter", POI_LAYER, () => {
-      m.getCanvas().style.cursor = "pointer";
-    });
-    m.on("mouseleave", POI_LAYER, () => {
-      m.getCanvas().style.cursor = "";
-    });
+    m.on("click", onIndoorClick);
+    for (const layer of INDOOR_INTERACTIVE_LAYERS) {
+      m.on("mouseenter", layer, () => {
+        m.getCanvas().style.cursor = "pointer";
+      });
+      m.on("mouseleave", layer, () => {
+        m.getCanvas().style.cursor = "";
+      });
+    }
   });
 
   floorControl.on("level-changed", (event: { level: number | null }) => {
+    currentLevel.value = event.level;
     setQueryParam(LEVEL_QUERY_PARAM, event.level === null ? null : String(event.level));
   });
 
@@ -390,7 +403,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
-  poiPopup.value?.remove();
+  closeRoomPopup();
   map.value?.remove();
 });
 </script>
@@ -470,6 +483,9 @@ onBeforeUnmount(() => {
           :screen-pos="markerScreenPos"
           @close="closeActiveEvent"
         />
+        <Teleport v-if="popupTarget && roomPopup" :to="popupTarget">
+          <IndoorRoomPopup v-bind="roomPopup" />
+        </Teleport>
       </template>
       <MapGLNotSupported v-else />
     </ClientOnly>
@@ -488,16 +504,9 @@ de:
     legend: Filter für Toiletten & Duschen
     wheelchair: Nur rollstuhlgerecht
     all_genders: Alle Geschlechter
-  edit_in_osm: In OpenStreetMap bearbeiten
-  wheelchair_accessible: Rollstuhlgerecht
-  poi:
-    toilet: Toilette
-    shower: Dusche
   gender:
-    label: Geschlecht
     male: Herren
     female: Damen
-    unisex: Unisex
 en:
   title: Map
   description: Browse the TUM map and filter for places such as toilets, showers, and events.
@@ -509,32 +518,17 @@ en:
     legend: Filters for toilets & showers
     wheelchair: Wheelchair-accessible only
     all_genders: All genders
-  edit_in_osm: Edit in OpenStreetMap
-  wheelchair_accessible: Wheelchair accessible
-  poi:
-    toilet: Toilet
-    shower: Shower
   gender:
-    label: Gender
     male: Male
     female: Female
-    unisex: Unisex
 </i18n>
 
 <style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";
 
-/* Popup stays white in both themes; pin dark text + blue link so nightwind cannot invert them. */
+/* Popup stays white in both themes; pin dark text so nightwind cannot invert it. */
 .maplibregl-popup-content {
   background: var(--color-white);
   color: var(--color-zinc-800);
-}
-
-.maplibregl-popup-content a {
-  color: var(--color-blue-600);
-}
-
-.maplibregl-popup-content a:hover {
-  text-decoration: underline;
 }
 </style>
