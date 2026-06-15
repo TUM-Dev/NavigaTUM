@@ -94,13 +94,14 @@ jobs:
       - name: Setup | Install tools
         run: sudo apt-get update && sudo apt-get install --no-install-recommends --yes postgresql-client osmium-tool
       # The clip is derived from the daily-changing geofabrik extract, so cache it for stable,
-      # fast runs. Bump `v1` to force a refresh against newer OSM data.
+      # fast runs. Bump the key suffix to refresh against newer OSM data or a changed BBOX
+      # (cache keys cannot contain commas, so the bbox can't be interpolated in).
       - name: Setup | Cache fixture clip
         id: fixture-cache
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: fixture/garching.osm.pbf
-          key: garching-clip-v1-${{ env.BBOX }}
+          key: garching-clip-v1
       - name: Setup | Build fixture clip
         if: steps.fixture-cache.outputs.cache-hit != 'true'
         run: |
