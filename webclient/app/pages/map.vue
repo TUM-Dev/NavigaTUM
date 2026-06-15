@@ -268,7 +268,8 @@ function openRoomPopup(state: IndoorRoomPopupProps): void {
 function onIndoorClick(event: MapMouseEvent): void {
   const m = map.value;
   if (!m) return;
-  const features = m.queryRenderedFeatures(event.point, { layers: [...INDOOR_INTERACTIVE_LAYERS] });
+  const queryLayers = INDOOR_INTERACTIVE_LAYERS.filter((layer) => m.getLayer(layer));
+  const features = m.queryRenderedFeatures(event.point, { layers: queryLayers });
   const room = features.find((f) => f.layer.id === ROOM_LAYER);
   const poi = features.find((f) => f.layer.id === POI_LAYER);
 
