@@ -293,6 +293,22 @@ test.describe("Navigation Page - Error Handling", () => {
   });
 });
 
+test.describe("Navigation Page - Preferences", () => {
+  test("opens the preferences dialog from the routing pane", async ({ page }) => {
+    await page.goto("/navigate", { waitUntil: "networkidle" });
+
+    // The navigation view has no global header, so the gear lives in the pane, not `#preferences`.
+    await expect(page.locator("#preferences")).toHaveCount(0);
+    await page.getByRole("button", { name: "Präferenzen" }).click();
+
+    await expect(page.getByRole("heading", { name: "Präferenzen" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Sprache" })).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("heading", { name: "Präferenzen" })).toHaveCount(0);
+  });
+});
+
 test.describe("Navigation Page - SEO and Meta", () => {
   test("should have proper page title and meta description", async ({ page }) => {
     await page.goto("/navigate?from=mi&to=mw", { waitUntil: "networkidle" });
