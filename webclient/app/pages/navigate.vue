@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiChevronLeft } from "@mdi/js";
+import { mdiChevronLeft, mdiTune } from "@mdi/js";
 import { refDebounced } from "@vueuse/core";
 import { useRouteQuery } from "@vueuse/router";
 import { useTemplateRef } from "vue";
@@ -238,9 +238,7 @@ function handleSelectItinerary(itineraryIndex: number) {
 </script>
 
 <template>
-  <div
-    class="flex max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] flex-col lg:max-h-[calc(100vh-150px)] lg:min-h-[calc(100vh-150px)] lg:flex-row-reverse"
-  >
+  <div class="flex h-full flex-col lg:flex-row-reverse">
     <div class="min-h-96 grow">
       <ClientOnly>
         <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
@@ -258,7 +256,16 @@ function handleSelectItinerary(itineraryIndex: number) {
           <span class="text-xs font-semibold uppercase">{{ t("back") }}</span>
         </div>
       </NuxtLinkLocale>
-      <NavigationModeSelector v-model:mode="mode" />
+      <div class="flex flex-row items-center gap-2">
+        <NavigationModeSelector v-model:mode="mode" class="grow" />
+        <PreferencesPopup>
+          <template #trigger="{ open }">
+            <Btn variant="secondary" size="md" :title="t('preferences')" :aria-label="t('preferences')" @click="open">
+              <MdiIcon :path="mdiTune" :size="24" />
+            </Btn>
+          </template>
+        </PreferencesPopup>
+      </div>
       <form
         action="/navigate"
         autocomplete="off"
@@ -312,6 +319,7 @@ function handleSelectItinerary(itineraryIndex: number) {
 <i18n lang="yaml">
 de:
   back: zurück
+  preferences: Präferenzen
   calculating best route: Berechnet optimale Route
   navigate_from_to: Navigiere von {from} nach {to}
   navigate_from: Navigiere von {from}
@@ -327,6 +335,7 @@ de:
   kilometers: "{0} Kilometer"
 en:
   back: back
+  preferences: Preferences
   calculating best route: Calculating best route
   navigate_from_to: Navigating from {from} to {to}
   navigate_from: Navigating from {from}
