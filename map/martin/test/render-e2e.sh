@@ -101,23 +101,36 @@ test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; ex
 endlog
 
 # -- 5. boot martin against the populated DB + generated tiles ---------------------------------
+# Prod runs the martin image but mounts the host map/martin over /map (compose.yml), so fonts
+# and maki sprites -- which are gitignored and fetched at build time -- come from the host. We
+# reproduce that runtime /map: a copy of map/martin with fonts + maki fetched exactly as
+# map/martin/Dockerfile does, then mounted into the :nightly renderer (same base the prod image
+# is built from; the mount shadows any baked /map, so building it again would be redundant).
+log "assemble martin runtime /map"
+RUNDIR=/tmp/martin-run
+rm -rf "$RUNDIR" && cp -r map/martin "$RUNDIR"
+# Keep these in sync with map/martin/Dockerfile.
+wget -q -O /tmp/roboto.zip https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-android.zip
+mkdir -p "$RUNDIR/fonts" && unzip -q -o /tmp/roboto.zip -d "$RUNDIR/fonts/"
+wget -q -O /tmp/maki.zip https://github.com/mapbox/maki/zipball/main
+rm -rf /tmp/maki && mkdir -p /tmp/maki "$RUNDIR/sprites/maki" && unzip -q /tmp/maki.zip -d /tmp/maki
+mv /tmp/maki/mapbox-maki-*/icons/* "$RUNDIR/sprites/maki/"
 # The style's sources are absolute prod URLs (https://nav.tum.de/martin/...). The native
 # renderer fetches tiles over HTTP, so without rewriting them the render would hit production
 # instead of our local data -- defeating the test. Keep the prod /martin base path and only
 # swap the host for this martin (reachable at localhost:3001 both from the runner, where curl
 # runs, and from inside the container, where the renderer self-fetches).
-log "build and run martin"
-docker build -t navigatum-martin-test map/martin
-mkdir -p /tmp/martin-styles
-sed "s#https://nav.tum.de#http://localhost:${MARTIN_PORT}#g" \
-  map/martin/styles/navigatum-basemap.json > /tmp/martin-styles/navigatum-basemap.json
+sed -i "s#https://nav.tum.de#http://localhost:${MARTIN_PORT}#g" "$RUNDIR/styles/navigatum-basemap.json"
+endlog
+
+log "run martin"
 docker run -d --name martin-e2e \
   --network host \
   -e DATABASE_URL="$DATABASE_URL" \
   -e BASE_PATH=/martin/ \
+  -v "$RUNDIR":/map:ro \
   -v "$MBTILES_OUT":/data/output.mbtiles:ro \
-  -v /tmp/martin-styles/navigatum-basemap.json:/map/styles/navigatum-basemap.json:ro \
-  navigatum-martin-test
+  ghcr.io/maplibre/martin:nightly --config /map/config.yaml
 endlog
 
 cleanup() {
