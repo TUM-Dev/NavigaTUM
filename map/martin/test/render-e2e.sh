@@ -86,27 +86,28 @@ psql -v ON_ERROR_STOP=1 -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" 
 endlog
 
 # -- 4. planetiler generate (real small-extent import) -----------------------------------------
-# --download fetches the schema's non-OSM sources (water polygons, natural earth). Point its
-# download dir away from the repo's own data/ tree; the workflow caches it across runs.
-log "planetiler generate"
+# The schema's only non-OSM source is the ocean shapefile from osmdata.openstreetmap.de, which
+# is slow enough that planetiler's built-in downloader times out on its size check. Pre-fetch it
+# with a patient, resumable wget into the exact path planetiler derives from the URL, then run
+# WITHOUT --download so planetiler just reads the local file (no network check). The dir is
+# repo-external and cached across runs by the workflow.
+log "fetch planetiler sources"
 PLANETILER_SOURCES="${PLANETILER_SOURCES:-/tmp/planetiler-sources}"
 mkdir -p "$PLANETILER_SOURCES"
+ocean_zip="$PLANETILER_SOURCES/osmdata.openstreetmap.de_download_water_polygons_split_3857.zip"
+if [ ! -s "$ocean_zip" ]; then
+  wget --tries=5 --timeout=180 --waitretry=15 -c -q \
+    https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip -O "$ocean_zip"
+fi
 wget -q https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar -O /tmp/planetiler.jar
-# osmdata.openstreetmap.de (water polygons) is intermittently slow; retry so a transient
-# download timeout doesn't fail the gate. Sources already fetched are reused across attempts.
-pt_ok=0
-for attempt in 1 2 3; do
-  if java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
-      --schema=map/planetiler/shortbread_custom.yml \
-      --osm-path="$FIXTURE_PBF" \
-      --download --download-dir="$PLANETILER_SOURCES" \
-      --output="$MBTILES_OUT" --force; then
-    pt_ok=1; break
-  fi
-  echo "planetiler attempt $attempt failed; retrying"
-  sleep $((attempt * 5))
-done
-[ "$pt_ok" -eq 1 ] || { echo "ERROR: planetiler generate failed after retries" >&2; exit 1; }
+endlog
+
+log "planetiler generate"
+java -Xmx1g -jar /tmp/planetiler.jar generate-custom \
+  --schema=map/planetiler/shortbread_custom.yml \
+  --osm-path="$FIXTURE_PBF" \
+  --download-dir="$PLANETILER_SOURCES" \
+  --output="$MBTILES_OUT" --force
 test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; exit 1; }
 endlog
 
