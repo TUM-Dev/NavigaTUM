@@ -52,6 +52,9 @@ jobs:
               - '.github/**'
             map: &map
               - 'map/**'
+              # render-e2e exercises the indoor tile functions defined in these migrations, so a
+              # migration change must trigger the map jobs.
+              - 'server/migrations/**'
               - '.github/**'
             e2e:
               - *server
