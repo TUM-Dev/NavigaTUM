@@ -158,7 +158,7 @@ assert_serves() {
 IFS=, read -r clon clat czoom <<<"$RENDER_CAMERA"
 read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
   n = 2 ^ z; pi = atan2(0, -1); rad = lat * pi / 180
-  printf "%d %d", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
+  printf "%d %d\n", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
 }')
 log "assert indoor tile $czoom/$tx/$ty"
 assert_serves "http://localhost:${MARTIN_PORT}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
