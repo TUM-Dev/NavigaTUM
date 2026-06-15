@@ -37,16 +37,18 @@ async function updateLocale(value: "de" | "en") {
 
 <template>
   <div>
-    <!-- Trigger Button -->
-    <button
-      id="preferences"
-      class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white/0 dark:ring-white/0 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:ring-white/20 dark:hover:ring-white/20 focus:outline-none focus:ring-white/100 dark:focus:ring-white/100"
-      @click="isOpen = true"
-    >
-      <span class="absolute -inset-1.5" />
-      <span class="sr-only">{{ t("open") }}</span>
-      <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900 dark:text-zinc-50" />
-    </button>
+    <!-- Trigger button; overridable via the `trigger` slot. -->
+    <slot name="trigger" :open="() => (isOpen = true)">
+      <button
+        id="preferences"
+        class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white/0 dark:ring-white/0 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:ring-white/20 dark:hover:ring-white/20 focus:outline-none focus:ring-white/100 dark:focus:ring-white/100"
+        @click="isOpen = true"
+      >
+        <span class="absolute -inset-1.5" />
+        <span class="sr-only">{{ t("open") }}</span>
+        <MdiIcon :path="mdiTune" :size="28" class="text-zinc-900 dark:text-zinc-50" />
+      </button>
+    </slot>
 
     <!-- Modal Dialog -->
     <ClientOnly>
