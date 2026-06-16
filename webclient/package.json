@@ -28,7 +28,7 @@
 		"@vueuse/core": "14.3.0",
 		"@vueuse/nuxt": "14.3.0",
 		"@vueuse/router": "14.3.0",
-		"better-sqlite3": "12.10.0",
+		"better-sqlite3": "12.10.1",
 		"maplibre-gl": "6.0.0-14",
 		"nuxt": "4.4.8",
 		"opening_hours": "^3.13.0",
@@ -47,10 +47,10 @@
 		"@types/geojson": "7946.0.16",
 		"@vue/tsconfig": "0.9.1",
 		"openapi-typescript": "7.13.0",
-		"tailwindcss": "4.3.0",
+		"tailwindcss": "4.3.1",
 		"typescript": "6.0.3",
 		"vitest": "4.1.8",
-		"vue-tsc": "3.3.4"
+		"vue-tsc": "3.3.5"
 	},
 	"type": "module",
 	"packageManager": "pnpm@11.3.0"
