@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
-import type { AllPaintProperties, ExpressionSpecification, MapMouseEvent } from "maplibre-gl";
+import type {
+  AllPaintProperties,
+  ExpressionSpecification,
+  LngLat,
+  MapGeoJSONFeature,
+  MapMouseEvent,
+} from "maplibre-gl";
 import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "maplibre-gl";
 import type { IndoorRoomPopupProps } from "~/components/IndoorRoomPopup.vue";
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
+  CARD_VALIDATORS_STYLE_LAYER,
   DEFAULT_EVENTS_WINDOW,
   EVENT_SOURCE_BY_WINDOW,
   EVENTS_FILTER_ID,
@@ -190,6 +197,18 @@ function applyFilterDim(): void {
   }
 }
 
+function applyOverlayVisibility(): void {
+  const m = map.value;
+  if (!m) return;
+  for (const filter of FILTER_REGISTRY) {
+    if (filter.kind !== "overlay") continue;
+    const visibility = activeFilters.value.has(filter.id) ? "visible" : "none";
+    for (const layer of filter.styleLayers) {
+      if (m.getLayer(layer)) m.setLayoutProperty(layer, "visibility", visibility);
+    }
+  }
+}
+
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -203,6 +222,7 @@ watch(activeFilters, (filters) => {
   // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
+  applyOverlayVisibility();
   // The popup belongs to the event markers; drop it when the filter switches them off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
@@ -264,6 +284,18 @@ function openRoomPopup(state: IndoorRoomPopupProps): void {
 function onIndoorClick(event: MapMouseEvent): void {
   const m = map.value;
   if (!m) return;
+
+  // Card validators own a separate popup; hand the click off before merging rooms and POIs.
+  if (m.getLayer(CARD_VALIDATORS_STYLE_LAYER)) {
+    const validator = m.queryRenderedFeatures(event.point, {
+      layers: [CARD_VALIDATORS_STYLE_LAYER],
+    })[0];
+    if (validator) {
+      openValidatorPopup(validator, event.lngLat);
+      return;
+    }
+  }
+
   const queryLayers = INDOOR_INTERACTIVE_LAYERS.filter((layer) => m.getLayer(layer));
   const features = m.queryRenderedFeatures(event.point, { layers: queryLayers });
   const room = features.find((f) => f.layer.id === ROOM_LAYER);
@@ -294,6 +326,55 @@ function onIndoorClick(event: MapMouseEvent): void {
     isFemale: flag("is_female_toilet"),
     isWheelchair: flag("is_wheelchair_toilet"),
   });
+}
+
+function buildValidatorPopupContent(
+  feature: MapGeoJSONFeature,
+  lng: number,
+  lat: number
+): HTMLElement {
+  const props = feature.properties ?? {};
+  const root = document.createElement("div");
+  root.className = "flex flex-col gap-1 text-sm";
+
+  const title = document.createElement("p");
+  title.className = "font-semibold";
+  title.textContent =
+    typeof props.name === "string" && props.name ? props.name : t("validator.title");
+  root.appendChild(title);
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "opacity-70";
+  subtitle.textContent = t("validator.subtitle");
+  root.appendChild(subtitle);
+
+  // Location-only OSM edit link; no element id flows through the tiles.
+  const edit = document.createElement("a");
+  edit.href = `https://www.openstreetmap.org/edit#map=21/${lat.toFixed(7)}/${lng.toFixed(7)}`;
+  edit.target = "_blank";
+  edit.rel = "noopener noreferrer";
+  edit.textContent = t("edit_in_osm");
+  root.appendChild(edit);
+
+  return root;
+}
+
+// Shares the single popup instance with the room popup so only one is ever open; the unified
+// click handler routes validator features here before considering rooms or POIs.
+function openValidatorPopup(feature: MapGeoJSONFeature, lngLat: LngLat): void {
+  const m = map.value;
+  if (!m) return;
+
+  const [lng, lat] =
+    feature.geometry.type === "Point"
+      ? (feature.geometry.coordinates as [number, number])
+      : [lngLat.lng, lngLat.lat];
+
+  closeRoomPopup();
+  popupInstance.value = new Popup({ closeButton: true, closeOnClick: false })
+    .setLngLat([lng, lat])
+    .setDOMContent(buildValidatorPopupContent(feature, lng, lat))
+    .addTo(m);
 }
 
 function initMap(): MapLibreMap {
@@ -342,9 +423,10 @@ function initMap(): MapLibreMap {
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
     applyFilterDim();
+    applyOverlayVisibility();
 
     m.on("click", onIndoorClick);
-    for (const layer of INDOOR_INTERACTIVE_LAYERS) {
+    for (const layer of [...INDOOR_INTERACTIVE_LAYERS, CARD_VALIDATORS_STYLE_LAYER]) {
       m.on("mouseenter", layer, () => {
         m.getCanvas().style.cursor = "pointer";
       });
@@ -479,6 +561,10 @@ de:
     legend: Filter für Toiletten & Duschen
     wheelchair: Nur rollstuhlgerecht
     all_genders: Alle Geschlechter
+  edit_in_osm: In OpenStreetMap bearbeiten
+  validator:
+    title: Validierungsautomat
+    subtitle: Studierendenausweis validieren
   gender:
     male: Herren
     female: Damen
@@ -493,6 +579,10 @@ en:
     legend: Filters for toilets & showers
     wheelchair: Wheelchair-accessible only
     all_genders: All genders
+  edit_in_osm: Edit in OpenStreetMap
+  validator:
+    title: Card validator
+    subtitle: Validate your student card
   gender:
     male: Male
     female: Female

@@ -73,10 +73,12 @@ de:
   filters:
     wcs: Toiletten & Duschen
     events: Veranstaltungen
+    card_validators: Validierungsautomaten
 en:
   panel_title: Filter
   zoom_hint: Zoom in to see {name}
   filters:
     wcs: Toilets & showers
     events: Events
+    card_validators: Card validators
 </i18n>

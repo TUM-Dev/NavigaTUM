@@ -1,4 +1,4 @@
-import { mdiCalendarStar, mdiToilet } from "@mdi/js";
+import { mdiCalendarStar, mdiCreditCardCheckOutline, mdiToilet } from "@mdi/js";
 
 interface FilterDefBase {
   /** Stable key used in the `?filter=` query and in `localStorage`. */
@@ -31,10 +31,18 @@ export interface EventsFilterDef extends FilterDefBase {
   readonly kind: "events";
 }
 
-export type FilterDef = IndoorFilterDef | EventsFilterDef;
+/** An overlay that flips pre-baked basemap layers (shipped hidden) visible while active. */
+export interface OverlayFilterDef extends FilterDefBase {
+  readonly kind: "overlay";
+  readonly styleLayers: readonly string[];
+}
+
+export type FilterDef = IndoorFilterDef | EventsFilterDef | OverlayFilterDef;
 
 /** The events entry in the filter registry; its time window only applies while it is active. */
 export const EVENTS_FILTER_ID = "events";
+export const CARD_VALIDATORS_FILTER_ID = "card_validator";
+export const CARD_VALIDATORS_STYLE_LAYER = "card-validators";
 /** The WCs entry in the filter registry; its attribute filters only apply while it is active. */
 export const WCS_FILTER_ID = "wcs";
 /** The `indoor` values the WCs filter covers, shared with its attribute-filter expression. */
@@ -78,6 +86,24 @@ export const FILTER_REGISTRY = [
     // Markers only render from zoom 15; hint below that.
     hintBelowZoom: 15,
     keywords: ["event", "events", "veranstaltung", "veranstaltungen"],
+  },
+  {
+    id: CARD_VALIDATORS_FILTER_ID,
+    kind: "overlay",
+    labelKey: "filters.card_validators",
+    icon: mdiCreditCardCheckOutline,
+    styleLayers: [CARD_VALIDATORS_STYLE_LAYER],
+    hintBelowZoom: 13,
+    keywords: [
+      "validierungsautomat",
+      "validierungsautomaten",
+      "validierung",
+      "studentenausweis",
+      "studierendenausweis",
+      "tumcard",
+      "validator",
+      "validators",
+    ],
   },
 ] as const satisfies readonly FilterDef[];
 
