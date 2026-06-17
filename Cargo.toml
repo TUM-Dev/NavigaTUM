@@ -68,7 +68,7 @@ futures = "0.3.32"
 image = { version = "0.25.9", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.27.0"
 insta = "1.46.3"
-itertools = "0.14.0"
+itertools = "0.15.0"
 jsonwebtoken = { version = "10.3.0", default-features = false, features = ["aws_lc_rs"] }
 logos = "0.16.1"
 meilisearch-sdk = { version = "0.33.0", default-features = false, features = ["reqwest", "jwt_aws_lc_rs"] }
