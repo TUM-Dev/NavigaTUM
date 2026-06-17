@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { until } from "@vueuse/core";
-import type {
-  AllPaintProperties,
-  ExpressionSpecification,
-  MapMouseEvent,
-} from "maplibre-gl";
+import type { AllPaintProperties, ExpressionSpecification, MapMouseEvent } from "maplibre-gl";
 import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "maplibre-gl";
 import type { IndoorRoomPopupProps } from "~/components/IndoorRoomPopup.vue";
 import { FloorControl } from "~/composables/FloorControl";
