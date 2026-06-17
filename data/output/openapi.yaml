@@ -540,6 +540,48 @@ paths:
               schema:
                 type: string
               example: Not found
+  /api/mensa/{canteen}:
+    get:
+      tags:
+        - mensa
+      summary: Get a canteen's live menu
+      description: |-
+        Proxies the TUM-Dev eat-api feed for the current and next ISO week at request time, so the
+        menu stays fresh without a rebuild. The German dish `labels` are mapped to localized text by
+        the client.
+
+        An unknown or closed canteen returns `200` with an empty `days` list; only an actual upstream
+        outage returns `502`, letting callers tell "closed" from "broken".
+      operationId: menu_handler
+      parameters:
+        - name: canteen
+          in: path
+          description: eat-api canteen slug.
+          required: true
+          schema:
+            type: string
+          example: mensa-garching
+      responses:
+        "200":
+          description: '**Menu** for the **canteen**, current and next ISO week merged'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensaMenuResponse'
+        "404":
+          description: '**Bad slug.** The canteen id must match `^[a-z0-9-]{1,40}$`'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Not found
+        "502":
+          description: '**Upstream failure.** eat-api could not be reached or returned an error'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: eat-api upstream unavailable
   /api/openapi.json:
     get:
       summary: Openapi service definition
@@ -2359,15 +2401,12 @@ components:
         labels:
           type: array
           items:
-            type: string
-            examples:
-              - - GLUTEN
-                - LACTOSE
+            $ref: '#/components/schemas/MensaMenuLabel'
           description: |-
-            Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
+            Allergen, ingredient, and certification labels for the dish.
 
-            The client maps them to localized text via its own label dictionary so prices and
-            labels stay in sync without a server round-trip on language change.
+            The client maps each code to localized text via its own label dictionary, so labels stay
+            in sync without a server round-trip on language change.
         name:
           type: string
           description: Dish title in the upstream language (German).
@@ -2376,6 +2415,74 @@ components:
         prices:
           $ref: '#/components/schemas/MensaMenuPricesResponse'
           description: Prices keyed by role. A role is omitted when upstream priced the dish only for some.
+    MensaMenuLabel:
+      oneOf:
+        - $ref: '#/components/schemas/MensaMenuLabelKind'
+        - type: string
+      description: |-
+        A single allergen, ingredient, or certification label for a dish.
+
+        Always serialized in our `snake_case` convention (e.g. `gluten`, `chicken_eggs`), regardless
+        of how upstream cased it. The known set mirrors eat-api's `enums/labels.json`; a code not yet
+        in this schema is preserved (lower-cased) as [`MensaMenuLabel::Other`] so the client can still
+        show it instead of the whole menu failing to parse.
+    MensaMenuLabelKind:
+      type: string
+      description: The labels eat-api documents in `enums/labels.json`, normalized to `snake_case` in our output.
+      enum:
+        - gluten
+        - wheat
+        - rye
+        - barley
+        - oat
+        - spelt
+        - hybrids
+        - shellfish
+        - chicken_eggs
+        - fish
+        - peanuts
+        - soy
+        - milk
+        - lactose
+        - almonds
+        - hazelnuts
+        - walnuts
+        - cashews
+        - pecan
+        - pistachios
+        - macadamia
+        - celery
+        - mustard
+        - sesame
+        - sulphurs
+        - sulfites
+        - lupin
+        - molluscs
+        - shell_fruits
+        - bavaria
+        - msc
+        - dyestuff
+        - preservatives
+        - antioxidants
+        - flavor_enhancer
+        - waxed
+        - phosphates
+        - sweeteners
+        - phenylalanine
+        - cocoa_containing_grease
+        - gelatin
+        - alcohol
+        - pork
+        - beef
+        - veal
+        - wild_meat
+        - lamb
+        - garlic
+        - poultry
+        - cereal
+        - meat
+        - vegan
+        - vegetarian
     MensaMenuPriceResponse:
       type: object
       description: |-
@@ -2433,7 +2540,7 @@ components:
 
         `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
         visitor still sees Monday. Closed days are simply absent rather than represented as
-        empty entries.
+        empty entries; an unknown or fully-closed canteen yields an empty `days` list.
       required:
         - source_url
         - last_update
@@ -4202,6 +4309,8 @@ tags:
     description: APIs to give feedback
   - name: maps
     description: API to access for map-data
+  - name: mensa
+    description: Live canteen menu proxy for the TUM-Dev eat-api feed
 externalDocs:
   url: https://github.com/TUM-Dev/navigatum
   description: Visit our GitHub Page for more in-depth documentation

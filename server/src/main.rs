@@ -29,7 +29,7 @@ pub mod external;
 pub mod overlays;
 pub mod refresh;
 pub mod routes;
-use routes::{calendar, feedback, locations, maps, search};
+use routes::{calendar, feedback, locations, maps, mensa, search};
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024 * 10; // 10 MB
 
@@ -281,6 +281,7 @@ async fn main() -> anyhow::Result<()> {
         .expect("Invalid configuration of the governor");
     let recorded_tokens = web::Data::new(feedback::tokens::RecordedTokens::default());
     let repo_pool = web::Data::new(repo_pool);
+    let eat_api_menus = web::Data::new(mensa::EatApiMenus::default());
 
     info!("running the server");
     HttpServer::new(move || {
@@ -302,9 +303,11 @@ async fn main() -> anyhow::Result<()> {
                 .into_utoipa_app()
                 .app_data(recorded_tokens.clone())
                 .app_data(repo_pool.clone())
+                .app_data(eat_api_menus.clone())
                 .service(health_status_handler)
                 .service(calendar::calendar_handler)
                 .service(maps::route::route_handler)
+                .service(mensa::menu_handler)
                 .service(search::search_handler)
                 .service(locations::details::get_handler)
                 .service(locations::nearby::nearby_handler)
