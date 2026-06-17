@@ -1413,7 +1413,60 @@ export type components = {
      * @description The labels eat-api documents in `enums/labels.json`, normalized to `snake_case` in our output.
      * @enum {string}
      */
-    readonly MensaMenuLabelKind: "gluten" | "wheat" | "rye" | "barley" | "oat" | "spelt" | "hybrids" | "shellfish" | "chicken_eggs" | "fish" | "peanuts" | "soy" | "milk" | "lactose" | "almonds" | "hazelnuts" | "walnuts" | "cashews" | "pecan" | "pistachios" | "macadamia" | "celery" | "mustard" | "sesame" | "sulphurs" | "sulfites" | "lupin" | "molluscs" | "shell_fruits" | "bavaria" | "msc" | "dyestuff" | "preservatives" | "antioxidants" | "flavor_enhancer" | "waxed" | "phosphates" | "sweeteners" | "phenylalanine" | "cocoa_containing_grease" | "gelatin" | "alcohol" | "pork" | "beef" | "veal" | "wild_meat" | "lamb" | "garlic" | "poultry" | "cereal" | "meat" | "vegan" | "vegetarian";
+    readonly MensaMenuLabelKind:
+      | "gluten"
+      | "wheat"
+      | "rye"
+      | "barley"
+      | "oat"
+      | "spelt"
+      | "hybrids"
+      | "shellfish"
+      | "chicken_eggs"
+      | "fish"
+      | "peanuts"
+      | "soy"
+      | "milk"
+      | "lactose"
+      | "almonds"
+      | "hazelnuts"
+      | "walnuts"
+      | "cashews"
+      | "pecan"
+      | "pistachios"
+      | "macadamia"
+      | "celery"
+      | "mustard"
+      | "sesame"
+      | "sulphurs"
+      | "sulfites"
+      | "lupin"
+      | "molluscs"
+      | "shell_fruits"
+      | "bavaria"
+      | "msc"
+      | "dyestuff"
+      | "preservatives"
+      | "antioxidants"
+      | "flavor_enhancer"
+      | "waxed"
+      | "phosphates"
+      | "sweeteners"
+      | "phenylalanine"
+      | "cocoa_containing_grease"
+      | "gelatin"
+      | "alcohol"
+      | "pork"
+      | "beef"
+      | "veal"
+      | "wild_meat"
+      | "lamb"
+      | "garlic"
+      | "poultry"
+      | "cereal"
+      | "meat"
+      | "vegan"
+      | "vegetarian";
     /**
      * @description One role's price for a dish.
      *
@@ -1454,7 +1507,7 @@ export type components = {
      *
      *     `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
      *     visitor still sees Monday. Closed days are simply absent rather than represented as
-     *     empty entries.
+     *     empty entries; an unknown or fully-closed canteen yields an empty `days` list.
      */
     readonly MensaMenuResponse: {
       /** @description Per-day dish lists in calendar order; only days with at least one dish are present. */
