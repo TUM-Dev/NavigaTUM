@@ -1,0 +1,51 @@
+---
+source: server/src/routes/mensa.rs
+expression: response
+---
+{
+  "source_url": "https://tum-dev.github.io/eat-api/#!/de/mensa-garching",
+  "last_update": "2026-06-05",
+  "days": [
+    {
+      "date": "2026-06-10",
+      "dishes": [
+        {
+          "name": "Pasta Emiliana mit (Vorder-)Schinken und Erbsen",
+          "dish_type": "Pasta",
+          "prices": {
+            "students": {
+              "base_price": 1.0,
+              "price_per_unit": 0.9,
+              "unit": "100g"
+            },
+            "staff": {
+              "base_price": 1.9,
+              "price_per_unit": 1.05,
+              "unit": "100g"
+            },
+            "guests": {
+              "base_price": 1.9,
+              "price_per_unit": 1.4,
+              "unit": "100g"
+            }
+          },
+          "labels": [
+            "gluten",
+            "chicken_eggs",
+            "vegetarian",
+            "some_new_label"
+          ]
+        },
+        {
+          "name": "Apfel",
+          "prices": {
+            "students": {
+              "base_price": 0.5
+            }
+          },
+          "labels": []
+        }
+      ]
+    }
+  ]
+}

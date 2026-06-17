@@ -7,6 +7,7 @@ use tracing::error;
 
 use crate::db::location::LocationKeyAlias;
 use crate::localisation::{self, LanguageOptions};
+use crate::routes::mensa::MensaMenuResponse;
 
 #[expect(
     unused_imports,
@@ -204,84 +205,6 @@ struct OpeningHoursResponse {
     /// several (e.g. a separate lending desk).
     #[schema(examples("Ausleihe"))]
     service: Option<String>,
-}
-
-/// Weekly canteen menu sourced from the TUM-Dev eat-api feed.
-///
-/// `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
-/// visitor still sees Monday. Closed days are simply absent rather than represented as
-/// empty entries.
-#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
-struct MensaMenuResponse {
-    /// Where the menu was sourced from; shown as the "source" link on the card.
-    #[schema(examples("https://tum-dev.github.io/eat-api/#!/de/mensa-garching"))]
-    source_url: String,
-    /// `YYYY-MM-DD` date the feed snapshot was last confirmed (the upstream `Last-Modified`).
-    #[schema(examples("2026-06-05"))]
-    last_update: String,
-    /// Per-day dish lists in calendar order; only days with at least one dish are present.
-    days: Vec<MensaMenuDayResponse>,
-}
-
-/// One day in a [`MensaMenuResponse`].
-#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
-struct MensaMenuDayResponse {
-    /// `YYYY-MM-DD` calendar date of the day.
-    #[schema(examples("2026-06-10"))]
-    date: String,
-    /// Dishes served on this day, in the upstream serving order.
-    dishes: Vec<MensaMenuDishResponse>,
-}
-
-/// One dish on one day of a [`MensaMenuResponse`].
-#[serde_with::skip_serializing_none]
-#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
-struct MensaMenuDishResponse {
-    /// Dish title in the upstream language (German).
-    #[schema(examples("Pasta Emiliana mit (Vorder-)Schinken und Erbsen"))]
-    name: String,
-    /// Short category label upstream uses to group the dish (`Pasta`, `Suppe`, `Studitopf`, ...).
-    ///
-    /// Omitted when upstream did not classify the dish.
-    #[schema(examples("Pasta"))]
-    dish_type: Option<String>,
-    /// Prices keyed by role. A role is omitted when upstream priced the dish only for some.
-    prices: MensaMenuPricesResponse,
-    /// Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
-    ///
-    /// The client maps them to localized text via its own label dictionary so prices and
-    /// labels stay in sync without a server round-trip on language change.
-    #[schema(examples(json!(["GLUTEN", "LACTOSE"])))]
-    labels: Vec<String>,
-}
-
-/// Per-role price block for a [`MensaMenuDishResponse`].
-///
-/// Each field is `None` when upstream did not price the dish for that role.
-#[serde_with::skip_serializing_none]
-#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
-struct MensaMenuPricesResponse {
-    students: Option<MensaMenuPriceResponse>,
-    staff: Option<MensaMenuPriceResponse>,
-    guests: Option<MensaMenuPriceResponse>,
-}
-
-/// One role's price for a dish.
-///
-/// `price_per_unit` and `unit` are upstream-optional because flat-rate dishes (e.g. a fixed
-/// `1.00 €` Studitopf) carry only a `base_price`.
-#[serde_with::skip_serializing_none]
-#[derive(Deserialize, Serialize, Debug, utoipa::ToSchema)]
-struct MensaMenuPriceResponse {
-    /// Flat amount in Euros charged before any unit upcharge.
-    #[schema(examples(1.0))]
-    base_price: f64,
-    /// Additional amount in Euros charged per `unit` (e.g. per 100g).
-    #[schema(examples(0.9))]
-    price_per_unit: Option<f64>,
-    /// Unit the `price_per_unit` is charged against (e.g. `100g`).
-    #[schema(examples("100g"))]
-    unit: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, utoipa::ToSchema)]

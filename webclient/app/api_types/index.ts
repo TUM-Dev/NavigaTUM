@@ -242,6 +242,31 @@ export type paths = {
     readonly patch?: never;
     readonly trace?: never;
   };
+  readonly "/api/mensa/{canteen}": {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path?: never;
+      readonly cookie?: never;
+    };
+    /**
+     * Get a canteen's live menu
+     * @description Proxies the TUM-Dev eat-api feed for the current and next ISO week at request time, so the
+     *     menu stays fresh without a rebuild. The German dish `labels` are mapped to localized text by
+     *     the client.
+     *
+     *     An unknown or closed canteen returns `200` with an empty `days` list; only an actual upstream
+     *     outage returns `502`, letting callers tell "closed" from "broken".
+     */
+    readonly get: operations["menu_handler"];
+    readonly put?: never;
+    readonly post?: never;
+    readonly delete?: never;
+    readonly options?: never;
+    readonly head?: never;
+    readonly patch?: never;
+    readonly trace?: never;
+  };
   readonly "/api/openapi.json": {
     readonly parameters: {
       readonly query?: never;
@@ -1361,12 +1386,12 @@ export type components = {
        */
       readonly dish_type?: string | null;
       /**
-       * @description Allergen and ingredient labels in upstream's enum form (e.g. `GLUTEN`, `LACTOSE`).
+       * @description Allergen, ingredient, and certification labels for the dish.
        *
-       *     The client maps them to localized text via its own label dictionary so prices and
-       *     labels stay in sync without a server round-trip on language change.
+       *     The client maps each code to localized text via its own label dictionary, so labels stay
+       *     in sync without a server round-trip on language change.
        */
-      readonly labels: readonly string[];
+      readonly labels: readonly components["schemas"]["MensaMenuLabel"][];
       /**
        * @description Dish title in the upstream language (German).
        * @example Pasta Emiliana mit (Vorder-)Schinken und Erbsen
@@ -1375,6 +1400,73 @@ export type components = {
       /** @description Prices keyed by role. A role is omitted when upstream priced the dish only for some. */
       readonly prices: components["schemas"]["MensaMenuPricesResponse"];
     };
+    /**
+     * @description A single allergen, ingredient, or certification label for a dish.
+     *
+     *     Always serialized in our `snake_case` convention (e.g. `gluten`, `chicken_eggs`), regardless
+     *     of how upstream cased it. The known set mirrors eat-api's `enums/labels.json`; a code not yet
+     *     in this schema is preserved (lower-cased) as [`MensaMenuLabel::Other`] so the client can still
+     *     show it instead of the whole menu failing to parse.
+     */
+    readonly MensaMenuLabel: components["schemas"]["MensaMenuLabelKind"] | string;
+    /**
+     * @description The labels eat-api documents in `enums/labels.json`, normalized to `snake_case` in our output.
+     * @enum {string}
+     */
+    readonly MensaMenuLabelKind:
+      | "gluten"
+      | "wheat"
+      | "rye"
+      | "barley"
+      | "oat"
+      | "spelt"
+      | "hybrids"
+      | "shellfish"
+      | "chicken_eggs"
+      | "fish"
+      | "peanuts"
+      | "soy"
+      | "milk"
+      | "lactose"
+      | "almonds"
+      | "hazelnuts"
+      | "walnuts"
+      | "cashews"
+      | "pecan"
+      | "pistachios"
+      | "macadamia"
+      | "celery"
+      | "mustard"
+      | "sesame"
+      | "sulphurs"
+      | "sulfites"
+      | "lupin"
+      | "molluscs"
+      | "shell_fruits"
+      | "bavaria"
+      | "msc"
+      | "dyestuff"
+      | "preservatives"
+      | "antioxidants"
+      | "flavor_enhancer"
+      | "waxed"
+      | "phosphates"
+      | "sweeteners"
+      | "phenylalanine"
+      | "cocoa_containing_grease"
+      | "gelatin"
+      | "alcohol"
+      | "pork"
+      | "beef"
+      | "veal"
+      | "wild_meat"
+      | "lamb"
+      | "garlic"
+      | "poultry"
+      | "cereal"
+      | "meat"
+      | "vegan"
+      | "vegetarian";
     /**
      * @description One role's price for a dish.
      *
@@ -1415,7 +1507,7 @@ export type components = {
      *
      *     `days` is calendar-ordered and covers the current ISO week plus the next, so a Friday
      *     visitor still sees Monday. Closed days are simply absent rather than represented as
-     *     empty entries.
+     *     empty entries; an unknown or fully-closed canteen yields an empty `days` list.
      */
     readonly MensaMenuResponse: {
       /** @description Per-day dish lists in calendar order; only days with at least one dish are present. */
@@ -3019,6 +3111,52 @@ export interface operations {
         };
         content: {
           /** @example Not found */
+          readonly "text/plain": string;
+        };
+      };
+    };
+  };
+  readonly menu_handler: {
+    readonly parameters: {
+      readonly query?: never;
+      readonly header?: never;
+      readonly path: {
+        /**
+         * @description eat-api canteen slug.
+         * @example mensa-garching
+         */
+        readonly canteen: string;
+      };
+      readonly cookie?: never;
+    };
+    readonly requestBody?: never;
+    readonly responses: {
+      /** @description **Menu** for the **canteen**, current and next ISO week merged */
+      readonly 200: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content: {
+          readonly "application/json": components["schemas"]["MensaMenuResponse"];
+        };
+      };
+      /** @description **Bad slug.** The canteen id must match `^[a-z0-9-]{1,40}$` */
+      readonly 404: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content: {
+          /** @example Not found */
+          readonly "text/plain": string;
+        };
+      };
+      /** @description **Upstream failure.** eat-api could not be reached or returned an error */
+      readonly 502: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content: {
+          /** @example eat-api upstream unavailable */
           readonly "text/plain": string;
         };
       };

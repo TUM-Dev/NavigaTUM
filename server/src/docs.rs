@@ -124,6 +124,10 @@ If you'd like to help out or join us in this adventure, we would love to talk to
             .name("maps".to_string())
             .description(Some("API to access for map-data"))
             .build(),
+        TagBuilder::new()
+            .name("mensa".to_string())
+            .description(Some("Live canteen menu proxy for the TUM-Dev eat-api feed"))
+            .build(),
     ]);
     openapi.external_docs = Some(
         ExternalDocsBuilder::new()
