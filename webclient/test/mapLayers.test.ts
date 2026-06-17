@@ -116,6 +116,14 @@ describe("the shipped registry", () => {
     expect(events?.kind).toBe("events");
     expect(events && "styleLayers" in events).toBe(false);
   });
+
+  it("models card validators as an overlay flipping the baked card-validators layer", () => {
+    const validators = FILTER_REGISTRY.find((f) => f.id === "card_validator");
+    expect(validators?.kind).toBe("overlay");
+    expect(validators?.kind === "overlay" && [...validators.styleLayers]).toEqual([
+      "card-validators",
+    ]);
+  });
 });
 
 describe("parseEventsWindow", () => {
@@ -274,6 +282,12 @@ describe("categoriesForQuery", () => {
   it("returns multiple matches in registry order regardless of token order", () => {
     expect(categoriesForQuery("veranstaltung toilette")).toEqual(["wcs", "events"]);
     expect(categoriesForQuery("toilette veranstaltung")).toEqual(["wcs", "events"]);
+  });
+
+  it("fires the card-validators shortcut on validator queries", () => {
+    for (const query of ["validierungsautomat", "Validator", "tumcard", "studierendenausweis"]) {
+      expect(categoriesForQuery(query)).toEqual(["card_validator"]);
+    }
   });
 });
 
