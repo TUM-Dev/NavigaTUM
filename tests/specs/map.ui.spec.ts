@@ -286,10 +286,11 @@ test.describe("Browse map (/map)", () => {
     await expect(popup).toContainText("Herren");
     await expect(popup).toContainText("Rollstuhlgerecht");
 
+    // The indoor popup links to the OSM indoor editor (osminedit), anchored on the click point.
     const editLink = popup.getByRole("link", { name: "In OpenStreetMap bearbeiten" });
     await expect(editLink).toHaveAttribute(
       "href",
-      /openstreetmap\.org\/edit#map=21\/48\.266921\d*\/11\.670099\d*/
+      /osminedit\.pavie\.info\/#\d+\/48\.266921\d*\/11\.670099\d*\/\d+/
     );
   });
 
