@@ -2481,7 +2481,7 @@ dependencies = [
  "approx",
  "getrandom 0.4.2",
  "image",
- "itertools",
+ "itertools 0.14.0",
  "nalgebra",
  "num",
  "rand 0.10.1",
@@ -2593,6 +2593,15 @@ name = "itertools"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b4baf93f58d4425749ca49a51c50ebab072c5df6994d08fed93541c331481dc"
 dependencies = [
  "either",
 ]
@@ -3086,7 +3095,7 @@ dependencies = [
  "image",
  "imageproc",
  "insta",
- "itertools",
+ "itertools 0.15.0",
  "jsonwebtoken",
  "logos",
  "meilisearch-sdk",
@@ -3748,7 +3757,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b570b25f7617e43d59005d0990ccb79e950a423952cea19671b7a876da390adf"
 dependencies = [
  "anyhow",
- "itertools",
+ "itertools 0.14.0",
  "proc-macro2",
  "quote",
  "syn",
@@ -3978,7 +3987,7 @@ dependencies = [
  "built",
  "cfg-if",
  "interpolate_name",
- "itertools",
+ "itertools 0.14.0",
  "libc",
  "libfuzzer-sys",
  "log",
@@ -5304,7 +5313,7 @@ dependencies = [
  "ferroid",
  "futures",
  "http 1.4.2",
- "itertools",
+ "itertools 0.14.0",
  "log",
  "memchr",
  "parse-display 0.9.1",
@@ -5888,7 +5897,7 @@ version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "16b380a1238663e5f8a691f9039c73e1cdae598a30e9855f541d29b08b53e9a5"
 dependencies = [
- "itertools",
+ "itertools 0.14.0",
  "unicode-segmentation",
  "unicode-width",
 ]
