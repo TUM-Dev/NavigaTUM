@@ -10,6 +10,7 @@ import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
+  CARD_VALIDATORS_STYLE_LAYER,
   DEFAULT_EVENTS_WINDOW,
   EVENT_SOURCE_BY_WINDOW,
   EVENTS_FILTER_ID,
@@ -185,6 +186,18 @@ function applyFilterDim(): void {
   }
 }
 
+function applyOverlayVisibility(): void {
+  const m = map.value;
+  if (!m) return;
+  for (const filter of FILTER_REGISTRY) {
+    if (filter.kind !== "overlay") continue;
+    const visibility = activeFilters.value.has(filter.id) ? "visible" : "none";
+    for (const layer of filter.styleLayers) {
+      if (m.getLayer(layer)) m.setLayoutProperty(layer, "visibility", visibility);
+    }
+  }
+}
+
 function toggleFilter(id: string): void {
   const next = new Set(activeFilters.value);
   if (next.has(id)) next.delete(id);
@@ -198,6 +211,7 @@ watch(activeFilters, (filters) => {
   // Drop the param when nothing is active (the default), so a bare /map URL stays clean.
   setQueryParam(FILTER_QUERY_PARAM, serialized || null);
   applyFilterDim();
+  applyOverlayVisibility();
   // The popup belongs to the event markers; drop it when the filter switches them off.
   if (!filters.has(EVENTS_FILTER_ID)) closeActiveEvent();
 });
@@ -289,6 +303,54 @@ function openPoiPopup(event: MapLayerMouseEvent): void {
     .addTo(m);
 }
 
+function buildValidatorPopupContent(
+  feature: MapGeoJSONFeature,
+  lng: number,
+  lat: number
+): HTMLElement {
+  const props = feature.properties ?? {};
+  const root = document.createElement("div");
+  root.className = "flex flex-col gap-1 text-sm";
+
+  const title = document.createElement("p");
+  title.className = "font-semibold";
+  title.textContent =
+    typeof props.name === "string" && props.name ? props.name : t("validator.title");
+  root.appendChild(title);
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "opacity-70";
+  subtitle.textContent = t("validator.subtitle");
+  root.appendChild(subtitle);
+
+  // Location-only OSM edit link; no element id flows through the tiles.
+  const edit = document.createElement("a");
+  edit.href = `https://www.openstreetmap.org/edit#map=21/${lat.toFixed(7)}/${lng.toFixed(7)}`;
+  edit.target = "_blank";
+  edit.rel = "noopener noreferrer";
+  edit.textContent = t("edit_in_osm");
+  root.appendChild(edit);
+
+  return root;
+}
+
+function openValidatorPopup(event: MapLayerMouseEvent): void {
+  const m = map.value;
+  const feature = event.features?.[0];
+  if (!m || !feature) return;
+
+  const [lng, lat] =
+    feature.geometry.type === "Point"
+      ? (feature.geometry.coordinates as [number, number])
+      : [event.lngLat.lng, event.lngLat.lat];
+
+  poiPopup.value?.remove();
+  poiPopup.value = new Popup({ closeButton: true, closeOnClick: true })
+    .setLngLat([lng, lat])
+    .setDOMContent(buildValidatorPopupContent(feature, lng, lat))
+    .addTo(m);
+}
+
 function initMap(): MapLibreMap {
   // Not at setup: its constructor touches `document`, absent on the server.
   const floorControl = new FloorControl();
@@ -335,14 +397,20 @@ function initMap(): MapLibreMap {
     floorControl.setLevel(resolveLevel(queryString(LEVEL_QUERY_PARAM)));
 
     applyFilterDim();
+    applyOverlayVisibility();
 
-    m.on("click", POI_LAYER, openPoiPopup);
-    m.on("mouseenter", POI_LAYER, () => {
-      m.getCanvas().style.cursor = "pointer";
-    });
-    m.on("mouseleave", POI_LAYER, () => {
-      m.getCanvas().style.cursor = "";
-    });
+    for (const [layer, handler] of [
+      [POI_LAYER, openPoiPopup],
+      [CARD_VALIDATORS_STYLE_LAYER, openValidatorPopup],
+    ] as const) {
+      m.on("click", layer, handler);
+      m.on("mouseenter", layer, () => {
+        m.getCanvas().style.cursor = "pointer";
+      });
+      m.on("mouseleave", layer, () => {
+        m.getCanvas().style.cursor = "";
+      });
+    }
   });
 
   floorControl.on("level-changed", (event: { level: number | null }) => {
@@ -471,6 +539,9 @@ de:
   poi:
     toilet: Toilette
     shower: Dusche
+  validator:
+    title: Validierungsautomat
+    subtitle: Studierendenausweis validieren
   gender:
     label: Geschlecht
     male: Herren
@@ -492,6 +563,9 @@ en:
   poi:
     toilet: Toilet
     shower: Shower
+  validator:
+    title: Card validator
+    subtitle: Validate your student card
   gender:
     label: Gender
     male: Male
