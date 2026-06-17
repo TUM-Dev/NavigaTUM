@@ -176,7 +176,18 @@ jobs:
         run: pnpm install
       - name: Install Browser
         working-directory: tests
-        run: pnpm exec playwright install ${{ matrix.browser }}
+        # Playwright's downloader has no internal timeout, so a stalled CDN fetch hangs the job until
+        # the 6h limit instead of failing. Cap each attempt and retry the transient stall.
+        run: |
+          attempt=1
+          until timeout 300 pnpm exec playwright install ${{ matrix.browser }}; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::playwright install ${{ matrix.browser }} failed after $attempt attempts"
+              exit 1
+            fi
+            echo "::warning::playwright install ${{ matrix.browser }} attempt $attempt stalled, retrying"
+            attempt=$((attempt + 1))
+          done
 
       - name: Setup | Create .env file for docker-compose
         run: |
