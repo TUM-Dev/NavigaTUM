@@ -31,7 +31,7 @@ dev = [
   "opening-hours-py==2.0.2",
   "pre-commit==4.6.0",
   "pytest==9.1.0",
-  "ruff==0.15.17",
+  "ruff==0.15.18",
   "types-Pillow==10.2.0.20240822",
   "types-PyYAML==6.0.12.20260518",
   "types-requests==2.33.0.20260518",
