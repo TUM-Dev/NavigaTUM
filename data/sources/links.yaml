@@ -20,13 +20,6 @@
     de: Weitere Informationen
     en: More informations
   url: https://www.sv.tum.de/
-'0206':
-- text:
-    de: Speiseplan
-    en: Current menu
-  url:
-    de: https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr
-    en: https://tum-dev.github.io/eat-api/#!/en/mensa-arcisstr
 0206.EG.002:
 - text:
     de: Weitere Informationen
@@ -84,29 +77,11 @@
     de: Weitere Informationen
     en: More informations
   url: https://www.tcf.tum.de/facit/baywa-co-working-space/angebot/"
-'4216':
-- text:
-    de: Speiseplan
-    en: Current menu
-  url:
-    de: https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan
-    en: https://tum-dev.github.io/eat-api/#!/en/mensa-weihenstephan
 '4304':
 - text:
     de: Ökologischer Landbau
     en: Organic Agriculture (DE)
   url: https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/
-'5304':
-- text:
-    de: Speiseplan
-    en: Current menu
-  url:
-    de: https://tum-dev.github.io/eat-api/#!/de/mensa-garching
-    en: https://tum-dev.github.io/eat-api/#!/en/mensa-garching
-- text:
-    de: Wie lang ist die Schlange?
-    en: How long is the queue?
-  url: https://mensa.liste.party/
 5506.EG.690C:
 - text:
     de: Weitere Informationen
