@@ -153,7 +153,8 @@ describe("isMensaPriceRole", () => {
 
 describe("formatEuro", () => {
   it("formats with the locale-appropriate symbol placement", () => {
-    expect(formatEuro(3.5, "de")).toBe("3,50 €");
-    expect(formatEuro(3.5, "en")).toBe("€3.50");
+    const normalizeSpaces = (value: string) => value.replace(/\s/g, " ");
+    expect(normalizeSpaces(formatEuro(3.5, "de"))).toBe("3,50 €");
+    expect(normalizeSpaces(formatEuro(3.5, "en"))).toBe("€3.50");
   });
 });
