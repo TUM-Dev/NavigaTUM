@@ -114,6 +114,26 @@ test.describe("Search Bar - Interactive Search", () => {
     });
   });
 
+  // #3324: the persistent details-page bar kept the dropdown open after a result tap.
+  test("clicking a dropdown result closes the dropdown on a details page", async ({ page }) => {
+    await page.goto("/building/mi", { waitUntil: "networkidle" });
+
+    const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+    await searchInput.fill("garching");
+
+    const typeChip = page.getByRole("button", { name: TYPE_CHIP }).first();
+    await expect(typeChip).toBeVisible();
+
+    const firstResult = page
+      .locator('a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"]')
+      .first();
+    await expect(firstResult).toBeVisible();
+    await firstResult.click();
+
+    await expect(page).toHaveURL(/\/(building|room|site|campus)\//);
+    await expect(typeChip).not.toBeVisible();
+  });
+
   test("should not focus search bar when typing on search results page", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
