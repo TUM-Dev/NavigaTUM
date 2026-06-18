@@ -100,8 +100,8 @@ async function goToCategory(category: FilterId): Promise<void> {
   searchInput.value?.blur();
 }
 
-// The shortcut's own link handles mouse navigation; only reset the bar here.
-function onShortcutFollowed(): void {
+// The links navigate themselves; reset the bar so #3324's retained focus still closes it.
+function onResultFollowed(): void {
   query.value = "";
   searchInput.value?.blur();
 }
@@ -227,7 +227,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
             :key="category"
             :category="category"
             :highlighted="shortcutHighlighted(category)"
-            @click="onShortcutFollowed"
+            @click="onResultFollowed"
             @mouseover="highlighted = undefined"
           />
         </ul>
@@ -282,6 +282,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
                   v-if="expandedFacets.has(s.facet) || i < s.n_visible"
                   :highlighted="resultHighlighted(e)"
                   :item="e"
+                  @click="onResultFollowed"
                   @mouseover="highlighted = undefined"
                 />
               </template>
