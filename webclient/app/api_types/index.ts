@@ -1057,7 +1057,15 @@ export type components = {
       readonly imgs?: readonly components["schemas"]["ImageInfoResponse"][] | null;
       /** @description Print or overlay maps for said location */
       readonly maps: components["schemas"]["MapsResponse"];
-      readonly mensa_menu?: null | components["schemas"]["MensaMenuResponse"];
+      /**
+       * @description eat-api canteen slug for this canteen's live menu, fetched client-side from
+       *     `GET /api/mensa/{canteen}`.
+       *
+       *     Present only for the canteens listed in `data/sources/mensa_canteens.csv`. Omitted for
+       *     every other entry, signalling that no menu card should be shown.
+       * @example mensa-garching
+       */
+      readonly mensa_canteen_id?: string | null;
       /**
        * @description The name of the entry in a human-readable form
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)

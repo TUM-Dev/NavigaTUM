@@ -1916,15 +1916,18 @@ components:
         maps:
           $ref: '#/components/schemas/MapsResponse'
           description: Print or overlay maps for said location
-        mensa_menu:
-          oneOf:
-            - type: "null"
-            - $ref: '#/components/schemas/MensaMenuResponse'
-              description: |-
-                Weekly canteen menu sourced from the eat-api feed.
+        mensa_canteen_id:
+          type:
+            - string
+            - "null"
+          description: |-
+            eat-api canteen slug for this canteen's live menu, fetched client-side from
+            `GET /api/mensa/{canteen}`.
 
-                Present for the canteens listed in `data/sources/mensa_canteens.csv`; the snapshot
-                covers the current and next ISO week. Omitted for every other entry.
+            Present only for the canteens listed in `data/sources/mensa_canteens.csv`. Omitted for
+            every other entry, signalling that no menu card should be shown.
+          examples:
+            - mensa-garching
         name:
           type: string
           description: The name of the entry in a human-readable form

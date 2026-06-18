@@ -308,8 +308,8 @@ def unflatten_row(row: FlatRow) -> Entry:
         result["roomfinder_data"] = orjson.loads(roomfinder_json)
     if opening_hours_json := row.get("opening_hours_json"):
         result["opening_hours"] = orjson.loads(opening_hours_json)
-    if mensa_menus_json := row.get("mensa_menus_json"):
-        result["mensa_menu"] = orjson.loads(mensa_menus_json)
+    if mensa_canteen_id := row.get("mensa_canteen_id"):
+        result["mensa_canteen_id"] = mensa_canteen_id
 
     if arch_name := row.get("arch_name"):
         result["arch_name"] = arch_name
