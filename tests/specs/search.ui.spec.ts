@@ -114,8 +114,7 @@ test.describe("Search Bar - Interactive Search", () => {
     });
   });
 
-  // #3324 follow-up: details pages share one persistent search bar, so a result tap left
-  // the dropdown stuck open. The TYPE chip only renders while the dropdown is open.
+  // #3324: the persistent details-page bar kept the dropdown open after a result tap.
   test("clicking a dropdown result closes the dropdown on a details page", async ({ page }) => {
     await page.goto("/building/mi", { waitUntil: "networkidle" });
 

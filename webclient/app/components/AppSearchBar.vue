@@ -100,7 +100,7 @@ async function goToCategory(category: FilterId): Promise<void> {
   searchInput.value?.blur();
 }
 
-// The links navigate themselves; reset the bar so #3324's retained focus still closes it.
+// #3324's retained focus otherwise keeps the dropdown open after navigation.
 function onResultFollowed(): void {
   query.value = "";
   searchInput.value?.blur();
