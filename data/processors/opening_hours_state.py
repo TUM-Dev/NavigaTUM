@@ -38,8 +38,9 @@ class OpeningHoursState:
 def evaluate_state(schedule: str, now: datetime) -> OpeningHoursState:
     """Evaluate `schedule` (plain OSM) at `now`. See the module docstring for `now`'s timezone."""
     hours = opening_hours.OpeningHours(schedule)
-    # An `unknown` interval is not an open one; fold it into closed so callers see a binary state.
-    is_open = hours.state(now) == opening_hours.State.OPEN
+    # `unknown` is not open; fold it into closed so callers see a binary state.
+    kind, _comment = hours.state(now)
+    is_open = kind == opening_hours.State.OPEN
     change = hours.next_change(now)
     if is_open:
         return OpeningHoursState(state="open", until=change, next_change=None)
