@@ -61,6 +61,14 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
       },
     },
+    {
+      // Reproduces Safari/iOS focus races that Chromium can't (#3324); not yet in CI.
+      name: "ui-tests-webkit",
+      testMatch: /.*\.ui\.spec\.ts/,
+      use: {
+        ...devices["Desktop Safari"],
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */

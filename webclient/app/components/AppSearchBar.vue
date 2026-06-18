@@ -220,7 +220,8 @@ const { data, error } = useFetch<SearchResponse>(url, {
             <SearchSortControl :filters="filters" />
           </div>
         </div>
-        <ul v-if="shortcutCategories.length" class="flex flex-col gap-2">
+        <!-- Keep the bar focused on tap so iOS Safari doesn't swallow the click (#3324). -->
+        <ul v-if="shortcutCategories.length" class="flex flex-col gap-2" @mousedown.prevent>
           <SearchCategoryShortcut
             v-for="category in shortcutCategories"
             :key="category"
@@ -268,6 +269,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
             v-cloak
             :key="s.facet"
             class="flex flex-col gap-2"
+            @mousedown.prevent
           >
             <template v-if="s.estimatedTotalHits > 0">
               <div class="flex items-center">
