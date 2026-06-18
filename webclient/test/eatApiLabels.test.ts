@@ -3,7 +3,7 @@ import { labelAbbreviation, labelText } from "../app/utils/eatApiLabels";
 
 describe("labelText", () => {
   // The dictionary keys are upstream's upper-case `enum_name`, but our API serializes labels as
-  // lower-case snake_case — the resolver must bridge that casing or every label falls back untranslated.
+  // lower-case snake_case - the resolver must bridge that casing or every label falls back untranslated.
   it("resolves the lower-case codes our API emits", () => {
     expect(labelText("gluten", "de")).toBe("Gluten");
     expect(labelText("gluten", "en")).toBe("gluten-containing cereals");

@@ -60,7 +60,7 @@ const DIET_LABELS: ReadonlySet<string> = new Set<string>([
   ...MEAT_LABELS,
 ]);
 
-/** Allergen, additive, and certification labels — everything not promoted to the diet marker. */
+/** Allergen, additive, and certification labels - everything not promoted to the diet marker. */
 export function allergenLabels(labels: readonly string[]): readonly string[] {
   return labels.filter((code) => !DIET_LABELS.has(code));
 }
