@@ -1,10 +1,10 @@
 branch_id,name,opening_hours,last_update,source_url
-chemistry,Chemistry,Mo-Fr 08:00-21:00,2026-06-08,https://www.ub.tum.de/en/branch-library-chemistry
-main-campus,Main Campus,Mo-Fr 08:00-24:00; Sa-Su 09:00-22:00,2026-06-08,https://www.ub.tum.de/en/branch-library-main-campus
-mathematics-informatics,Mathematics & Informatics,Mo-Fr 08:00-24:00; Sa-Su 10:00-20:00,2026-06-08,https://www.ub.tum.de/en/branch-library-mathematics-informatics
-mechanical-engineering,Mechanical Engineering,Mo-Fr 08:00-21:00,2026-06-08,https://www.ub.tum.de/en/branch-library-mechanical-engineering
-medicine,Medicine,Mo-Fr 08:00-21:00,2026-06-08,https://www.ub.tum.de/en/branch-library-medicine
-physics,Physics,Mo-Fr 08:00-21:00,2026-06-08,https://www.ub.tum.de/en/branch-library-physics
-sport-health-sciences,Sport & Health Sciences,Mo-Fr 08:00-21:00,2026-06-08,https://www.ub.tum.de/en/branch-library-sport-health-sciences
-straubing,Straubing,Mo-Fr 09:00-18:00,2026-06-08,https://www.ub.tum.de/en/branch-library-straubing
-weihenstephan,Weihenstephan,Mo-Fr 08:00-24:00; Sa-Su 10:00-20:00,2026-06-08,https://www.ub.tum.de/en/branch-library-weihenstephan
+chemistry,Chemistry,Mo-Fr 08:00-21:00,2026-06-18,https://www.ub.tum.de/en/branch-library-chemistry
+main-campus,Main Campus,Mo-Fr 08:00-24:00; Sa-Su 09:00-22:00,2026-06-18,https://www.ub.tum.de/en/branch-library-main-campus
+mathematics-informatics,Mathematics & Informatics,Mo-Fr 08:00-24:00; Sa-Su 10:00-20:00,2026-06-18,https://www.ub.tum.de/en/branch-library-mathematics-informatics
+mechanical-engineering,Mechanical Engineering,Mo-Fr 08:00-21:00,2026-06-18,https://www.ub.tum.de/en/branch-library-mechanical-engineering
+medicine,Medicine,Mo-Fr 08:00-21:00,2026-06-18,https://www.ub.tum.de/en/branch-library-medicine
+physics,Physics,Mo-Fr 08:00-21:00,2026-06-18,https://www.ub.tum.de/en/branch-library-physics
+sport-health-sciences,Sport & Health Sciences,Mo-Fr 08:00-21:00,2026-06-18,https://www.ub.tum.de/en/branch-library-sport-health-sciences
+straubing,Straubing,Mo-Fr 09:00-18:00,2026-06-18,https://www.ub.tum.de/en/branch-library-straubing
+weihenstephan,Weihenstephan,Mo-Fr 08:00-24:00; Sa-Su 10:00-20:00,2026-06-18,https://www.ub.tum.de/en/branch-library-weihenstephan
