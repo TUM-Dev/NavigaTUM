@@ -15,7 +15,7 @@ const props = withDefaults(
 );
 
 // Official Munich transit pictograms. The `path`s are copied verbatim from the map
-// sprites in `map/martin/sprites/navigatum/{u-bahn,s-bahn,bus,tram}-munich.svg` —
+// sprites in `map/martin/sprites/navigatum/{u-bahn,s-bahn,bus,tram}-munich.svg` -
 // single-path "shape-minus-letter" masks on a 15×15 canvas. The colors match the
 // `icon-color`s used for the same sprites in `map/martin/styles/navigatum-basemap.json`,
 // so the detail panel and the map stay in sync.

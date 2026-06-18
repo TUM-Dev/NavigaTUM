@@ -62,7 +62,7 @@ function isMunichMode(mode: ModeResponse): boolean {
 const isMunichPictogram = computed(() => isMunichMode(props.mode));
 
 const variantClass = computed(() => {
-  // The Munich pictogram carries its own color, so it gets no tint or pill background —
+  // The Munich pictogram carries its own color, so it gets no tint or pill background -
   // only `pill`'s sizing box is kept so standalone usages stay 8×8.
   if (isMunichPictogram.value) return props.variant === "pill" ? "h-8 w-8" : "";
   if (props.variant === "pill")
