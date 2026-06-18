@@ -94,6 +94,26 @@ test.describe("Search Bar - Interactive Search", () => {
     await expect(page).toHaveURL("/search?q=MI");
   });
 
+  // #3324: tapping a dropdown result did nothing on Mobile Safari; Chromium focuses the link and can't reproduce it.
+  test.describe("dropdown result navigation (#3324)", () => {
+    test.skip(({ browserName }) => browserName !== "webkit", "WebKit/iOS-only focus race");
+
+    test("clicking a dropdown result navigates to its details page", async ({ page }) => {
+      await page.goto("/", { waitUntil: "networkidle" });
+
+      const searchInput = page.getByRole("textbox", { name: "Suchfeld" }).first();
+      await searchInput.fill("MI");
+
+      const firstResult = page
+        .locator('a[href*="/building/"], a[href*="/room/"], a[href*="/site/"], a[href*="/campus/"]')
+        .first();
+      await expect(firstResult).toBeVisible();
+      await firstResult.click();
+
+      await expect(page).toHaveURL(/\/(building|room|site|campus)\//);
+    });
+  });
+
   test("should not focus search bar when typing on search results page", async ({ page }) => {
     await page.goto("/search?q=MI", { waitUntil: "networkidle" });
 
