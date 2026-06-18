@@ -36,8 +36,10 @@ de:
   explore:
     wcs: Toiletten & Duschen auf der Karte erkunden
     events: Veranstaltungen auf der Karte erkunden
+    card_validator: Validierungsautomaten auf der Karte erkunden
 en:
   explore:
     wcs: Explore toilets & showers on the map
     events: Explore events on the map
+    card_validator: Explore card validators on the map
 </i18n>
