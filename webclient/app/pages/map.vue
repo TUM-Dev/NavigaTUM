@@ -7,8 +7,7 @@ import type {
   MapGeoJSONFeature,
   MapMouseEvent,
 } from "maplibre-gl";
-import { GeolocateControl, Map as MapLibreMap, NavigationControl, Popup } from "maplibre-gl";
-import type { IndoorRoomPopupProps } from "~/components/IndoorRoomPopup.vue";
+import { GeolocateControl, Map as MapLibreMap, NavigationControl } from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import {
   ACTIVE_FILTERS_STORAGE_KEY,
@@ -39,6 +38,7 @@ import {
   wcsAttributeConditions,
 } from "~/composables/mapLayers";
 import { useEventMarkers } from "~/composables/useEventMarkers";
+import { INDOOR_INTERACTIVE_LAYERS, useIndoorRoomPopup } from "~/composables/useIndoorRoomPopup";
 import { useWebglGuard } from "~/composables/webglSupport";
 
 definePageMeta({ layout: "browse-map" });
@@ -58,12 +58,6 @@ const DIM = 0.2;
 // Translucent white wash over the basemap; lighter than the indoor dim so it reads as "a bit".
 const BASEMAP_SCRIM = "rgba(255, 255, 255, 0.45)";
 const SCRIM_LAYER = "filter-basemap-dim";
-// The combined POI layer whose markers open a popup.
-const POI_LAYER = "indoor-pois";
-// The room fill layer; merged with the POIs into one unified popup on click.
-const ROOM_LAYER = "indoor-rooms";
-// Both indoor layers a click is resolved against, and that show a pointer cursor on hover.
-const INDOOR_INTERACTIVE_LAYERS = [ROOM_LAYER, POI_LAYER] as const;
 // MapLibre v6 tightened {set,get}PaintProperty signatures: the property name must be a literal
 // key of AllPaintProperties, and the value matches that key's spec. The three opacity props
 // below all resolve to DataDrivenPropertyValueSpecification<number>.
@@ -91,10 +85,6 @@ const FLAT_TARGETS = [
 
 // `shallowRef`: MapLibre owns its own deep state; Vue must not track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
-// The anchored MapLibre popup; its body is the Vue `IndoorRoomPopup` teleported into `popupTarget`.
-const popupInstance = shallowRef<Popup | undefined>(undefined);
-const popupTarget = shallowRef<HTMLElement | null>(null);
-const roomPopup = shallowRef<IndoorRoomPopupProps | null>(null);
 const mapContainer = ref<HTMLElement | undefined>(undefined);
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const initialLoaded = ref(false);
@@ -117,6 +107,11 @@ const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map, 
   sources: ["events_active", "events_upcoming"],
   visibleSources: eventsVisibleSources,
 });
+const { popupTarget, roomPopup, closeRoomPopup, openDomPopup, resolveRoomPopupFromClick } =
+  useIndoorRoomPopup(map, {
+    getZoom: () => currentZoom.value,
+    getLevel: () => currentLevel.value ?? 0,
+  });
 
 // Original paint values captured before the first dim, so toggling a filter off restores them.
 const originalPaint = new Map<string, OpacityValue | undefined>();
@@ -245,47 +240,12 @@ watch(panelCollapsed, (collapsed) => {
   localStorage.setItem(PANEL_COLLAPSED_STORAGE_KEY, collapsed ? "1" : "0");
 });
 
-function truthy(value: unknown): boolean {
-  return value === true || value === 1 || value === "true";
-}
-
-function closeRoomPopup(): void {
-  popupInstance.value?.remove();
-  popupInstance.value = undefined;
-  roomPopup.value = null;
-  popupTarget.value = null;
-}
-
-/** Anchor a fresh MapLibre popup and teleport the Vue body into its content element. */
-function openRoomPopup(state: IndoorRoomPopupProps): void {
-  const m = map.value;
-  if (!m) return;
-  popupInstance.value?.remove();
-  const container = document.createElement("div");
-  roomPopup.value = state;
-  popupTarget.value = container;
-  const popup = new Popup({ closeButton: true, closeOnClick: false })
-    .setLngLat([state.lng, state.lat])
-    .setDOMContent(container)
-    .addTo(m);
-  // The close button removes the popup imperatively; drop the Vue body so the teleport unmounts.
-  popup.on("close", () => {
-    roomPopup.value = null;
-    popupTarget.value = null;
-  });
-  popupInstance.value = popup;
-}
-
-/**
- * Merge the topmost room fill and POI under the cursor into one popup: the room polygon
- * carries `ref_tum`, the toilet/shower flags ride on whichever feature has them. A bare
- * toilet/shower node without a room keeps the link-less popup; anything else closes it.
- */
+// Card validators own a separate popup; route their clicks here before falling back to the
+// shared room/POI popup.
 function onIndoorClick(event: MapMouseEvent): void {
   const m = map.value;
   if (!m) return;
 
-  // Card validators own a separate popup; hand the click off before merging rooms and POIs.
   if (m.getLayer(CARD_VALIDATORS_STYLE_LAYER)) {
     const validator = m.queryRenderedFeatures(event.point, {
       layers: [CARD_VALIDATORS_STYLE_LAYER],
@@ -296,36 +256,7 @@ function onIndoorClick(event: MapMouseEvent): void {
     }
   }
 
-  const queryLayers = INDOOR_INTERACTIVE_LAYERS.filter((layer) => m.getLayer(layer));
-  const features = m.queryRenderedFeatures(event.point, { layers: queryLayers });
-  const room = features.find((f) => f.layer.id === ROOM_LAYER);
-  const poi = features.find((f) => f.layer.id === POI_LAYER);
-
-  const refTumRaw = room?.properties?.ref_tum;
-  const refTum = typeof refTumRaw === "string" && refTumRaw.length > 0 ? refTumRaw : null;
-  const indoor = poi?.properties?.indoor ?? room?.properties?.indoor;
-  const isToilet = indoor === "toilet";
-  const isShower = indoor === "shower";
-
-  // Untagged, non-toilet features identify nothing and have no fix to offer - leave them inert.
-  if (!refTum && !isToilet && !isShower) {
-    closeRoomPopup();
-    return;
-  }
-
-  const flag = (key: string): boolean => truthy(poi?.properties?.[key] ?? room?.properties?.[key]);
-  openRoomPopup({
-    refTum,
-    lat: event.lngLat.lat,
-    lng: event.lngLat.lng,
-    zoom: currentZoom.value,
-    level: currentLevel.value ?? 0,
-    isToilet,
-    isShower,
-    isMale: flag("is_male_toilet"),
-    isFemale: flag("is_female_toilet"),
-    isWheelchair: flag("is_wheelchair_toilet"),
-  });
+  resolveRoomPopupFromClick(event);
 }
 
 function buildValidatorPopupContent(
@@ -359,22 +290,13 @@ function buildValidatorPopupContent(
   return root;
 }
 
-// Shares the single popup instance with the room popup so only one is ever open; the unified
-// click handler routes validator features here before considering rooms or POIs.
+// Reuses the shared popup instance so a validator and a room popup are never open at once.
 function openValidatorPopup(feature: MapGeoJSONFeature, lngLat: LngLat): void {
-  const m = map.value;
-  if (!m) return;
-
   const [lng, lat] =
     feature.geometry.type === "Point"
       ? (feature.geometry.coordinates as [number, number])
       : [lngLat.lng, lngLat.lat];
-
-  closeRoomPopup();
-  popupInstance.value = new Popup({ closeButton: true, closeOnClick: false })
-    .setLngLat([lng, lat])
-    .setDOMContent(buildValidatorPopupContent(feature, lng, lat))
-    .addTo(m);
+  openDomPopup([lng, lat], buildValidatorPopupContent(feature, lng, lat));
 }
 
 function initMap(): MapLibreMap {

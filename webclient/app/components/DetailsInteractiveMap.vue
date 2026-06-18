@@ -33,6 +33,14 @@ const { activeEvent, markerScreenPos, closeActiveEvent } = useEventMarkers(map, 
   sources: ["events_active"],
 });
 
+// The floor control's active OSM level, fed to the room popup's OSM edit link; `0` while no floor.
+const currentLevel = ref<number | null>(null);
+const { popupTarget, roomPopup, closeRoomPopup, resolveRoomPopupFromClick, attachHoverCursor } =
+  useIndoorRoomPopup(map, {
+    getZoom: () => map.value?.getZoom() ?? zoom.value,
+    getLevel: () => currentLevel.value ?? 0,
+  });
+
 const initialLoaded = ref(false);
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -147,12 +155,19 @@ function initMap(containerId: string): MapLibreMap {
         floorControl.value.setLevel(availableFloorIds[0] ?? null);
       }
     }
+
+    // Clicking a room polygon or toilet/shower node opens the shared indoor popup.
+    mapInstance.on("click", resolveRoomPopupFromClick);
+    attachHoverCursor(mapInstance, INDOOR_INTERACTIVE_LAYERS);
   });
 
   mapInstance.addControl(floorControl.value, "top-left");
 
   // Listen for floor level changes and adjust zoom if needed
   floorControl.value.on("level-changed", (event: { level: number | null }) => {
+    currentLevel.value = event.level;
+    // The open popup belongs to the floor that was visible; drop it when the floor switches.
+    closeRoomPopup();
     if (event.level !== null && mapInstance) {
       const currentMapZoom = mapInstance.getZoom();
       // Our floors are only visible at zoom level 17+
@@ -173,6 +188,10 @@ onMounted(async () => {
   await until(mapContainer).toBeTruthy();
   loadInteractiveMap();
   window.scrollTo({ top: 0, behavior: "auto" });
+});
+
+onBeforeUnmount(() => {
+  closeRoomPopup();
 });
 </script>
 
@@ -197,11 +216,20 @@ onMounted(async () => {
     <LazyMapGLNotSupported v-else />
 
     <EventPopupOverlay :event="activeEvent" :screen-pos="markerScreenPos" @close="closeActiveEvent" />
+    <Teleport v-if="popupTarget && roomPopup" :to="popupTarget">
+      <IndoorRoomPopup v-bind="roomPopup" />
+    </Teleport>
   </div>
 </template>
 
 <style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";
+
+/* Popup stays white in both themes; pin dark text so nightwind cannot invert it. */
+.maplibregl-popup-content {
+  background: var(--color-white);
+  color: var(--color-zinc-800);
+}
 
 /* --- Interactive map display --- */
 #interactive-legacy-map-container {
