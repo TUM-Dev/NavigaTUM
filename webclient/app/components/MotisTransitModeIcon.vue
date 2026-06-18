@@ -2,7 +2,6 @@
 import {
   mdiAirplane,
   mdiBike,
-  mdiBus,
   mdiBusArticulatedFront,
   mdiCar,
   mdiFerry,
@@ -10,12 +9,9 @@ import {
   mdiParking,
   mdiPhoneClassic,
   mdiScooter,
-  mdiSubway,
   mdiSubwayVariant,
   mdiTrain,
-  mdiTrainCarPassenger,
   mdiTrainVariant,
-  mdiTram,
   mdiTramSide,
   mdiTransitConnection,
   mdiVanPassenger,
@@ -44,11 +40,7 @@ const MODE_COLOR: Partial<Record<ModeResponse, string>> = {
   regional_fast_rail: "text-orange-700 dark:text-orange-300",
   regional_rail: "text-orange-500 dark:text-orange-400",
   rail: "text-zinc-700 dark:text-zinc-300",
-  tram: "text-red-500 dark:text-red-400",
-  subway: "text-blue-700 dark:text-blue-300",
   metro: "text-blue-400 dark:text-blue-300",
-  suburban: "text-green-700 dark:text-green-400",
-  bus: "text-green-500 dark:text-green-400",
   coach: "text-orange-800 dark:text-orange-200",
   ferry: "text-blue-500 dark:text-blue-400",
   airplane: "text-blue-800 dark:text-blue-300",
@@ -63,7 +55,16 @@ const MODE_COLOR: Partial<Record<ModeResponse, string>> = {
 
 const modeColorClass = computed(() => MODE_COLOR[props.mode] ?? "text-zinc-900 dark:text-zinc-50");
 
+// Modes rendered with an official, self-colored Munich pictogram (see MotisMvvPictogram).
+function isMunichMode(mode: ModeResponse): boolean {
+  return mode === "subway" || mode === "suburban" || mode === "bus" || mode === "tram";
+}
+const isMunichPictogram = computed(() => isMunichMode(props.mode));
+
 const variantClass = computed(() => {
+  // The Munich pictogram carries its own color, so it gets no tint or pill background -
+  // only `pill`'s sizing box is kept so standalone usages stay 8×8.
+  if (isMunichPictogram.value) return props.variant === "pill" ? "h-8 w-8" : "";
   if (props.variant === "pill")
     return "bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 h-8 w-8 rounded-full";
   if (props.variant === "mode-colored") return modeColorClass.value;
@@ -74,8 +75,11 @@ const variantClass = computed(() => {
 
 <template>
   <div class="flex items-center justify-center text-xs font-medium" :class="variantClass">
+    <!-- Munich U-Bahn / S-Bahn / Bus / Tram: official MVV pictograms in their official colors. -->
+    <MotisMvvPictogram v-if="isMunichPictogram" :mode="mode" :monochrome="variant === 'inherit'" />
+
     <!-- Walking -->
-    <MdiIcon v-if="mode === 'walk'" :path="mdiWalk" :size="18" />
+    <MdiIcon v-else-if="mode === 'walk'" :path="mdiWalk" :size="18" />
 
     <!-- Cycling -->
     <MdiIcon v-else-if="mode === 'bike'" :path="mdiBike" :size="18" />
@@ -100,13 +104,9 @@ const variantClass = computed(() => {
       :path="mdiTrain"
       :size="18"
     />
-    <MdiIcon v-else-if="mode === 'tram'" :path="mdiTram" :size="18" />
-    <MdiIcon v-else-if="mode === 'subway'" :path="mdiSubway" :size="18" />
     <MdiIcon v-else-if="mode === 'metro'" :path="mdiSubwayVariant" :size="18" />
-    <MdiIcon v-else-if="mode === 'suburban'" :path="mdiTrainCarPassenger" :size="18" />
 
-    <!-- Bus transport -->
-    <MdiIcon v-else-if="mode === 'bus'" :path="mdiBus" :size="18" />
+    <!-- Bus transport (coach = long-distance; city `bus` uses the Munich pictogram above) -->
     <MdiIcon v-else-if="mode === 'coach'" :path="mdiBusArticulatedFront" :size="18" />
 
     <!-- Other transport -->
