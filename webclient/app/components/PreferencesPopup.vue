@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import {
+  mdiAccountGroup,
   mdiAccountMultiple,
   mdiBike,
+  mdiBriefcase,
   mdiBus,
   mdiCar,
   mdiEye,
@@ -11,16 +13,25 @@ import {
   mdiMoonWaningCrescent,
   mdiMotorbike,
   mdiRoadVariant,
+  mdiSchool,
   mdiSpeedometer,
   mdiTune,
   mdiWalk,
   mdiWheelchairAccessibility,
   mdiWhiteBalanceSunny,
 } from "@mdi/js";
+import { MENSA_PRICE_ROLES, type MensaPriceRole } from "~/utils/mensaMenu";
 
 const colorMode = useColorMode();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences, updatePreference } = useUserPreferences();
+const { priceRole } = useMensaPreferences();
+
+const mensaRoleIcons: Record<MensaPriceRole, string> = {
+  students: mdiSchool,
+  staff: mdiBriefcase,
+  guests: mdiAccountGroup,
+};
 
 const switchLocalePath = useSwitchLocalePath();
 
@@ -100,6 +111,24 @@ async function updateLocale(value: "de" | "en") {
                 <Tab as="template" v-slot="{ selected }">
                   <SegmentedTab :selected="selected" class="w-full py-2.5 px-3" @click="locale = 'en'">
                     English
+                  </SegmentedTab>
+                </Tab>
+              </TabList>
+            </TabGroup>
+          </div>
+
+          <!-- Mensa Price Role Setting -->
+          <div>
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("mensaPriceRole") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("mensaPriceRole.help") }}</p>
+            <TabGroup :default-index="MENSA_PRICE_ROLES.indexOf(priceRole)">
+              <TabList class="flex space-x-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
+                <Tab v-for="role in MENSA_PRICE_ROLES" :key="role" as="template" v-slot="{ selected }">
+                  <SegmentedTab :selected="selected" class="w-full py-3 px-4" @click="priceRole = role">
+                    <div class="flex items-center justify-center gap-2">
+                      <MdiIcon :path="mensaRoleIcons[role]" :size="16" />
+                      {{ t(`mensaRole.${role}`) }}
+                    </div>
                   </SegmentedTab>
                 </Tab>
               </TabList>
@@ -272,6 +301,11 @@ de:
   theme.system: System
   theme.dark: Dunkel
   theme.light: Hell
+  mensaPriceRole: Mensa-Preisgruppe
+  mensaPriceRole.help: Bestimmt, welcher Preis im Speiseplan hervorgehoben wird.
+  mensaRole.students: Studierende
+  mensaRole.staff: Bedienstete
+  mensaRole.guests: Gäste
   preferredTransportMode: Bevorzugtes Verkehrsmittel
   preferredTransportMode.help: Dies wird als Standard für die Navigation verwendet.
   transport.pedestrian: Zu Fuß
@@ -302,6 +336,11 @@ en:
   theme.system: System
   theme.dark: Dark
   theme.light: Light
+  mensaPriceRole: Canteen price group
+  mensaPriceRole.help: Determines which price is highlighted in the menu.
+  mensaRole.students: Students
+  mensaRole.staff: Staff
+  mensaRole.guests: Guests
   preferredTransportMode: Preferred Transport Mode
   preferredTransportMode.help: This will be used as the default for navigation.
   transport.pedestrian: Walking
