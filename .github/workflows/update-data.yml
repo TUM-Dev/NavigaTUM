@@ -50,10 +50,6 @@ jobs:
         continue-on-error: true # an outage leaves the previous hours in place => coverage degrades, build still works
         run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/studierendenwerk.py
         working-directory: data/external
-      - name: Download eat-api weekly canteen menus
-        continue-on-error: true # an outage leaves the previous menus in place => coverage degrades, build still works
-        run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/eat_api_menus.py
-        working-directory: data/external
       - name: Download UB-TUM library opening hours
         continue-on-error: true # an outage leaves the previous hours in place => coverage degrades, build still works
         run: PYTHONPATH=$PYTHONPATH:.. uv run python scrapers/ub_tum.py

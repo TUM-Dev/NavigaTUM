@@ -266,8 +266,8 @@ const actions = computed<DetailAction[]>(() => [
           :opening-hours="data.opening_hours"
         />
         <LazyDetailsMensaMenuCard
-          v-if="data.mensa_menu"
-          :menu="data.mensa_menu"
+          v-if="data.mensa_canteen_id"
+          :slug="data.mensa_canteen_id"
         />
         <LazyDetailsNearbyTransportSection :id="data.id"/>
         <LazyDetailsIrisCoverageCard

@@ -65,3 +65,19 @@ def mensa_opening_hours(
         pl.lit(None, dtype=pl.Utf8()).alias("service"),
     )
     return OpeningHoursSchema.validate(records)
+
+
+def stamp_canteen_ids(df: pl.DataFrame, *, mapping: pl.DataFrame | None = None) -> pl.DataFrame:
+    """
+    Stamp the eat-api canteen slug onto each mapped entry as a `mensa_canteen_id` column.
+
+    The webclient gates its menu card on this slug and fetches the live menu client-side from
+    `GET /api/mensa/{slug}`, so no menu payload is baked into the build. A mapping referencing an
+    entry id absent from `df` fails the build (mapping drift). `mapping` is injectable for tests.
+    """
+    mapping = _load_mapping() if mapping is None else mapping
+    unknown = set(mapping["id"]) - set(df["id"])
+    if unknown:
+        raise ValueError(f"mensa_canteens.csv references unknown entry id(s): {sorted(unknown)}")
+    stamp = mapping.select(pl.col("id"), pl.col("canteen_id").alias("mensa_canteen_id"))
+    return df.join(stamp, on="id", how="left")

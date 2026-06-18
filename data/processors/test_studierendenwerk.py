@@ -7,7 +7,7 @@ import pytest
 from external.schemas.studierendenwerk import StudierendenwerkSchema
 
 from processors.opening_hours import merge_opening_hours
-from processors.studierendenwerk import mensa_opening_hours
+from processors.studierendenwerk import mensa_opening_hours, stamp_canteen_ids
 
 _TODAY = date(2026, 6, 7)
 
@@ -97,3 +97,24 @@ def test_records_merge_onto_entries() -> None:
     payload = orjson.loads(by_id["5304"])
     assert payload["osm"] == "Mo-Fr 10:45-14:15"
     assert "valid_from" not in payload
+
+
+def test_stamps_canteen_slug_onto_mapped_entries() -> None:
+    """Mapped entries get the eat-api slug; everything else stays null."""
+    entries = pl.DataFrame({"id": ["5304", "0206", "0001"]})
+
+    stamped = stamp_canteen_ids(
+        entries,
+        mapping=_mapping(["mensa-garching", "mensa-arcisstr"], ["5304", "0206"]),
+    )
+
+    by_id = dict(zip(stamped["id"], stamped["mensa_canteen_id"], strict=True))
+    assert by_id == {"5304": "mensa-garching", "0206": "mensa-arcisstr", "0001": None}
+
+
+def test_stamp_rejects_mapping_to_unknown_entry() -> None:
+    """A mapping targeting an id absent from the entries fails the build (mapping drift)."""
+    entries = pl.DataFrame({"id": ["5304"]})
+
+    with pytest.raises(ValueError, match="9999"):
+        stamp_canteen_ids(entries, mapping=_mapping(["mensa-garching", "mensa-gone"], ["5304", "9999"]))

@@ -12,7 +12,6 @@ from pipeline_types import Entry
 from processors import (
     aliases,
     coords,
-    eat_api_menus,
     export,
     images,
     iris,
@@ -199,9 +198,9 @@ def _run_pipeline(
     # that does not reduce to plain OSM.
     df = opening_hours.merge_opening_hours(df, schedules=schedules)
 
-    # Attach the current + next ISO week of eat-api menus next to opening hours so the room
-    # detail page can render them in the same column.
-    df = eat_api_menus.merge_mensa_menus(df)
+    # Stamp the eat-api canteen slug so the detail page can fetch the live menu client-side;
+    # no menu payload is baked into the build.
+    df = studierendenwerk.stamp_canteen_ids(df)
 
     # Entries that only appear in comments/links CSVs (not in names.csv) were not created
     # at step 02, so they don't have NavigaTUM source. Prepend it now.

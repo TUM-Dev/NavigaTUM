@@ -7,7 +7,6 @@ use tracing::error;
 
 use crate::db::location::LocationKeyAlias;
 use crate::localisation::{self, LanguageOptions};
-use crate::routes::mensa::MensaMenuResponse;
 
 #[expect(
     unused_imports,
@@ -171,11 +170,13 @@ struct LocationDetailsResponse {
     ///
     /// Omitted for entries without a known schedule (most rooms).
     opening_hours: Option<OpeningHoursResponse>,
-    /// Weekly canteen menu sourced from the eat-api feed.
+    /// eat-api canteen slug for this canteen's live menu, fetched client-side from
+    /// `GET /api/mensa/{canteen}`.
     ///
-    /// Present for the canteens listed in `data/sources/mensa_canteens.csv`; the snapshot
-    /// covers the current and next ISO week. Omitted for every other entry.
-    mensa_menu: Option<MensaMenuResponse>,
+    /// Present only for the canteens listed in `data/sources/mensa_canteens.csv`. Omitted for
+    /// every other entry, signalling that no menu card should be shown.
+    #[schema(examples("mensa-garching"))]
+    mensa_canteen_id: Option<String>,
 }
 
 /// Opening hours of a location.
