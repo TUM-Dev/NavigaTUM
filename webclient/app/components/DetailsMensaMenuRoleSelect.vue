@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import { mdiCheck, mdiChevronDown } from "@mdi/js";
+import { mdiCheck, mdiChevronDown, mdiCog, mdiFoodApple } from "@mdi/js";
 import { MENSA_PRICE_ROLES } from "~/utils/mensaMenu";
 
 const { t } = useI18n({ useScope: "local" });
 // Shared via `useLocalStorage`, so picking a role here also updates the prices on every dish and
 // the matching control in the settings popup, without this component owning the state.
-const { priceRole } = useMensaPreferences();
+const { priceRole, allergenWarnings } = useMensaPreferences();
+const { open: openPreferences } = usePreferencesPopup();
 </script>
 
 <template>
@@ -56,6 +57,36 @@ const { priceRole } = useMensaPreferences();
             class="text-blue-600 dark:text-blue-300"
           />
         </button>
+        <div class="border-zinc-200 dark:border-zinc-700 my-1 border-t" />
+        <button
+          type="button"
+          class="focusable flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-start text-sm text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-700"
+          @click="
+            openPreferences('allergens');
+            close();
+          "
+        >
+          <MdiIcon
+            :path="mdiFoodApple"
+            :size="16"
+            class="text-zinc-500 dark:text-zinc-400 shrink-0"
+            aria-hidden="true"
+          />
+          <span class="flex-grow">{{ t("allergy_warnings") }}</span>
+          <span
+            v-if="allergenWarnings.length"
+            class="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 rounded-full px-1.5 text-xs font-semibold tabular-nums"
+          >
+            {{ allergenWarnings.length }}
+          </span>
+          <MdiIcon
+            v-else
+            :path="mdiCog"
+            :size="15"
+            class="text-zinc-400 dark:text-zinc-500 shrink-0"
+            aria-hidden="true"
+          />
+        </button>
       </PopoverPanel>
     </Transition>
   </Popover>
@@ -65,6 +96,7 @@ const { priceRole } = useMensaPreferences();
 de:
   price_for: "Preise für {role}"
   price_for_label: "Preise für"
+  allergy_warnings: Allergiewarnungen …
   role:
     students: Studierende
     staff: Bedienstete
@@ -72,6 +104,7 @@ de:
 en:
   price_for: "Prices for {role}"
   price_for_label: "Prices for"
+  allergy_warnings: Allergy warnings …
   role:
     students: Students
     staff: Staff

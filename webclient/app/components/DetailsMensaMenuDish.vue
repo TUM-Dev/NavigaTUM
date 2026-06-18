@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { mdiInformationOutline } from "@mdi/js";
+import { mdiAlert, mdiBellRingOutline, mdiInformationOutline } from "@mdi/js";
 import type { components } from "~/api_types";
 import { type EatApiLocale, labelText } from "~/utils/eatApiLabels";
-import { allergenLabels, dietMarker, formatEuro, type MensaPriceRole } from "~/utils/mensaMenu";
+import {
+  allergenLabels,
+  dietMarker,
+  formatEuro,
+  groupAllergensByIcon,
+  type MensaPriceRole,
+  matchedAllergens,
+} from "~/utils/mensaMenu";
 
 type MenuDish = components["schemas"]["MensaMenuDishResponse"];
 type MenuPrice = components["schemas"]["MensaMenuPriceResponse"];
@@ -13,12 +20,25 @@ const props = defineProps<{
 }>();
 
 const { t, locale } = useI18n({ useScope: "local" });
+const { allergenWarnings } = useMensaPreferences();
+const { open: openPreferences } = usePreferencesPopup();
 
 const labelLocale = computed<EatApiLocale>(() => (locale.value === "de" ? "de" : "en"));
 const diet = computed(() => dietMarker(props.dish.labels));
 const allergens = computed(() => allergenLabels(props.dish.labels));
 const allergenText = computed(() =>
   allergens.value.map((code) => labelText(code, labelLocale.value)).join(", ")
+);
+const allergenRows = computed(() =>
+  groupAllergensByIcon(allergens.value).map((group) => ({
+    icon: group.icon,
+    text: group.codes.map((code) => labelText(code, labelLocale.value)).join(", "),
+  }))
+);
+// Matched against the full label set so a diet-promoted label such as `fish` still warns.
+const warnings = computed(() => matchedAllergens(props.dish.labels, allergenWarnings.value));
+const warningText = computed(() =>
+  warnings.value.map((code) => labelText(code, labelLocale.value)).join(", ")
 );
 const price = computed<MenuPrice | null>(() => props.dish.prices[props.priceRole] ?? null);
 
@@ -49,9 +69,22 @@ function formatPrice(value: MenuPrice): string {
 </script>
 
 <template>
-  <li class="flex flex-col gap-1.5">
+  <li
+    class="flex flex-col gap-1.5"
+    :class="
+      warnings.length > 0 &&
+      'border-red-300 bg-red-50 dark:border-red-900/70 dark:bg-red-950/40 -mx-2 rounded-sm border p-2'
+    "
+  >
     <div class="flex flex-row items-baseline justify-between gap-3">
-      <p class="text-zinc-800 dark:text-zinc-100 text-sm font-medium">{{ dish.name }}</p>
+      <p
+        class="text-sm font-medium"
+        :class="
+          warnings.length ? 'text-red-800 dark:text-red-200' : 'text-zinc-800 dark:text-zinc-100'
+        "
+      >
+        {{ dish.name }}
+      </p>
       <p
         v-if="price"
         class="text-zinc-800 dark:text-zinc-100 shrink-0 text-sm font-semibold tabular-nums"
@@ -78,24 +111,59 @@ function formatPrice(value: MenuPrice): string {
           <MdiIcon :path="mdiInformationOutline" :size="13" class="shrink-0" aria-hidden="true" />
           {{ t("allergens", { count: allergens.length }) }}
         </button>
+        <!-- No `mt` gap: the panel must abut the button so the pointer can reach the link inside. -->
         <span
-          aria-hidden="true"
-          class="ring-black/5 dark:ring-white/10 pointer-events-none absolute left-0 top-full z-20 mt-1 hidden w-max max-w-60 rounded bg-white px-2.5 py-1.5 text-left text-sm leading-snug text-zinc-700 shadow-lg ring-1 group-hover:block group-focus-within:block dark:bg-zinc-800 dark:text-zinc-200"
+          class="ring-black/5 dark:ring-white/10 absolute left-0 top-full z-20 hidden w-max max-w-64 flex-col gap-2 rounded bg-white p-2.5 pt-2 text-left text-sm leading-snug text-zinc-700 shadow-lg ring-1 group-hover:flex group-focus-within:flex dark:bg-zinc-800 dark:text-zinc-200"
         >
-          {{ allergenText }}
+          <span class="flex flex-col gap-1">
+            <span class="text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wide">
+              {{ t("contains") }}
+            </span>
+            <span
+              v-for="row in allergenRows"
+              :key="row.icon"
+              class="flex items-start gap-1.5"
+            >
+              <MdiIcon
+                :path="row.icon"
+                :size="15"
+                class="text-zinc-400 dark:text-zinc-500 mt-0.5 shrink-0"
+                aria-hidden="true"
+              />
+              <span>{{ row.text }}</span>
+            </span>
+          </span>
+          <Btn variant="link" size="text-xs rounded" @click="openPreferences('allergens')">
+            <MdiIcon :path="mdiBellRingOutline" :size="13" class="mt-0.5 shrink-0" aria-hidden="true" />
+            <span>{{ t("configure_warnings") }}</span>
+          </Btn>
         </span>
       </span>
     </div>
+
+    <p
+      v-if="warnings.length"
+      class="text-red-700 dark:text-red-300 flex items-start gap-1.5 text-xs font-medium"
+    >
+      <MdiIcon :path="mdiAlert" :size="14" class="mt-0.5 shrink-0" aria-hidden="true" />
+      <span>{{ t("allergy_warning", { allergens: warningText }) }}</span>
+    </p>
   </li>
 </template>
 
 <i18n lang="yaml">
 de:
   allergens: "Allergene & Zusatzstoffe ({count})"
+  allergy_warning: "Achtung, enthält {allergens}"
+  contains: "Enthält:"
+  configure_warnings: Lass dich vor Allergenen warnen, die dich betreffen
   price_with_unit: "{base} + {perUnit}/{unit}"
   price_per_unit_only: "{perUnit}/{unit}"
 en:
   allergens: "Allergens & additives ({count})"
+  allergy_warning: "Heads-up: contains {allergens}"
+  contains: "Contains:"
+  configure_warnings: Let us warn you about allergens you care about
   price_with_unit: "{base} + {perUnit}/{unit}"
   price_per_unit_only: "{perUnit}/{unit}"
 </i18n>

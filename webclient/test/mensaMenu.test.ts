@@ -1,12 +1,17 @@
+import { mdiFoodVariant } from "@mdi/js";
 import { describe, expect, it } from "vitest";
 import type { components } from "../app/api_types";
 import {
+  allergenIcon,
   allergenLabels,
   dietMarker,
   formatEuro,
+  groupAllergensByIcon,
   groupDishesByCategory,
   isMensaPriceRole,
+  isSelectableAllergen,
   MENSA_PRICE_ROLES,
+  matchedAllergens,
 } from "../app/utils/mensaMenu";
 
 type MenuDish = components["schemas"]["MensaMenuDishResponse"];
@@ -68,6 +73,73 @@ describe("groupDishesByCategory", () => {
     expect(groups).toHaveLength(1);
     expect(groups[0]?.category).toBeNull();
     expect(groups[0]?.dishes).toHaveLength(2);
+  });
+});
+
+describe("allergenIcon", () => {
+  it("gives every member of a family the same glyph", () => {
+    expect(allergenIcon("wheat")).toBe(allergenIcon("barley"));
+    expect(allergenIcon("almonds")).toBe(allergenIcon("cashews"));
+  });
+
+  it("normalizes casing", () => {
+    expect(allergenIcon("MILK")).toBe(allergenIcon("milk"));
+  });
+
+  it("falls back to a neutral food glyph for unmapped codes", () => {
+    expect(allergenIcon("definitely_not_a_label")).toBe(mdiFoodVariant);
+  });
+});
+
+describe("groupAllergensByIcon", () => {
+  it("merges codes that share an icon into a single row", () => {
+    const rows = groupAllergensByIcon(["milk", "lactose"]);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]?.codes).toEqual(["milk", "lactose"]);
+  });
+
+  it("keeps distinct icons as separate rows in first-appearance order", () => {
+    const rows = groupAllergensByIcon(["wheat", "milk", "gluten"]);
+    expect(rows.map((r) => r.codes)).toEqual([["wheat", "gluten"], ["milk"]]);
+  });
+});
+
+describe("isSelectableAllergen", () => {
+  it("accepts every granular allergen and rejects additives, diet, or unknown codes", () => {
+    expect(isSelectableAllergen("gluten")).toBe(true);
+    expect(isSelectableAllergen("wheat")).toBe(true);
+    expect(isSelectableAllergen("lactose")).toBe(true);
+    expect(isSelectableAllergen("preservatives")).toBe(false);
+    expect(isSelectableAllergen("pork")).toBe(false);
+    expect(isSelectableAllergen("")).toBe(false);
+  });
+});
+
+describe("matchedAllergens", () => {
+  it("matches each flagged code directly against the dish labels", () => {
+    expect(matchedAllergens(["wheat", "gluten"], ["wheat"])).toEqual(["wheat"]);
+    expect(matchedAllergens(["cashews"], ["cashews"])).toEqual(["cashews"]);
+  });
+
+  it("does not expand an umbrella to its grains - selection is code-for-code", () => {
+    expect(matchedAllergens(["wheat"], ["gluten"])).toEqual([]);
+  });
+
+  it("matches diet-promoted labels such as fish", () => {
+    expect(matchedAllergens(["fish", "vegan"], ["fish"])).toEqual(["fish"]);
+  });
+
+  it("returns matches in canonical order regardless of label or selection order", () => {
+    expect(matchedAllergens(["milk", "peanuts"], ["peanuts", "milk"])).toEqual(["peanuts", "milk"]);
+  });
+
+  it("is empty when nothing is selected or nothing matches", () => {
+    expect(matchedAllergens(["wheat"], [])).toEqual([]);
+    expect(matchedAllergens(["soy"], ["milk"])).toEqual([]);
+  });
+
+  it("normalizes label casing before matching", () => {
+    expect(matchedAllergens(["WHEAT"], ["wheat"])).toEqual(["wheat"]);
   });
 });
 

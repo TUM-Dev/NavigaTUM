@@ -2,10 +2,31 @@
 // category grouping, and the price formatting out of the templates so the rendering components
 // stay declarative and the logic stays unit-testable.
 
-import { mdiFish, mdiFoodDrumstick, mdiLeaf, mdiSprout } from "@mdi/js";
+import {
+  mdiBarley,
+  mdiBottleTonicOutline,
+  mdiBottleWineOutline,
+  mdiCarrot,
+  mdiCheckDecagramOutline,
+  mdiCupWater,
+  mdiEgg,
+  mdiFish,
+  mdiFlaskOutline,
+  mdiFoodDrumstick,
+  mdiFoodVariant,
+  mdiLeaf,
+  mdiPeanut,
+  mdiPeanutOutline,
+  mdiSeed,
+  mdiSnail,
+  mdiSoySauce,
+  mdiSpoonSugar,
+  mdiSprout,
+} from "@mdi/js";
 import type { components } from "~/api_types";
 
 type MenuDish = components["schemas"]["MensaMenuDishResponse"];
+type MenuLabelKind = components["schemas"]["MensaMenuLabelKind"];
 
 /** Price roles eat-api distinguishes, in the order we surface them in the toggle. */
 export const MENSA_PRICE_ROLES = ["students", "staff", "guests"] as const;
@@ -63,6 +84,131 @@ const DIET_LABELS: ReadonlySet<string> = new Set<string>([
 /** Allergen, additive, and certification labels - everything not promoted to the diet marker. */
 export function allergenLabels(labels: readonly string[]): readonly string[] {
   return labels.filter((code) => !DIET_LABELS.has(code));
+}
+
+const ALLERGEN_ICONS: Partial<Record<MenuLabelKind, string>> = {
+  gluten: mdiBarley,
+  wheat: mdiBarley,
+  rye: mdiBarley,
+  barley: mdiBarley,
+  oat: mdiBarley,
+  spelt: mdiBarley,
+  hybrids: mdiBarley,
+  cereal: mdiBarley,
+  chicken_eggs: mdiEgg,
+  fish: mdiFish,
+  peanuts: mdiPeanut,
+  shell_fruits: mdiPeanutOutline,
+  almonds: mdiPeanutOutline,
+  hazelnuts: mdiPeanutOutline,
+  walnuts: mdiPeanutOutline,
+  cashews: mdiPeanutOutline,
+  pecan: mdiPeanutOutline,
+  pistachios: mdiPeanutOutline,
+  macadamia: mdiPeanutOutline,
+  soy: mdiSoySauce,
+  milk: mdiCupWater,
+  lactose: mdiCupWater,
+  celery: mdiCarrot,
+  mustard: mdiBottleTonicOutline,
+  sesame: mdiSeed,
+  sulphurs: mdiFlaskOutline,
+  sulfites: mdiFlaskOutline,
+  molluscs: mdiSnail,
+  lupin: mdiSprout,
+  garlic: mdiSprout,
+  alcohol: mdiBottleWineOutline,
+  sweeteners: mdiSpoonSugar,
+  dyestuff: mdiFlaskOutline,
+  preservatives: mdiFlaskOutline,
+  antioxidants: mdiFlaskOutline,
+  flavor_enhancer: mdiFlaskOutline,
+  waxed: mdiFlaskOutline,
+  phosphates: mdiFlaskOutline,
+  phenylalanine: mdiFlaskOutline,
+  cocoa_containing_grease: mdiFlaskOutline,
+  bavaria: mdiCheckDecagramOutline,
+  msc: mdiCheckDecagramOutline,
+};
+
+const ALLERGEN_ICON_BY_CODE: ReadonlyMap<string, string> = new Map(
+  Object.entries(ALLERGEN_ICONS).flatMap(([code, icon]) => (icon ? [[code, icon] as const] : []))
+);
+
+export function allergenIcon(code: string): string {
+  return ALLERGEN_ICON_BY_CODE.get(code.toLowerCase()) ?? mdiFoodVariant;
+}
+
+export interface AllergenIconGroup {
+  readonly icon: string;
+  readonly codes: readonly string[];
+}
+
+// Codes that share an icon (milk and lactose, the several gluten cereals) collapse into one row.
+export function groupAllergensByIcon(codes: readonly string[]): readonly AllergenIconGroup[] {
+  const order: string[] = [];
+  const byIcon = new Map<string, string[]>();
+  for (const code of codes) {
+    const icon = allergenIcon(code);
+    let bucket = byIcon.get(icon);
+    if (!bucket) {
+      bucket = [];
+      byIcon.set(icon, bucket);
+      order.push(icon);
+    }
+    bucket.push(code);
+  }
+  return order.map((icon) => ({ icon, codes: byIcon.get(icon) ?? [] }));
+}
+
+// Typed against the generated API union so a typo or an upstream rename fails the build here.
+export const SELECTABLE_ALLERGENS: readonly MenuLabelKind[] = [
+  "gluten",
+  "wheat",
+  "rye",
+  "barley",
+  "oat",
+  "spelt",
+  "hybrids",
+  "cereal",
+  "shellfish",
+  "chicken_eggs",
+  "fish",
+  "peanuts",
+  "soy",
+  "milk",
+  "lactose",
+  "shell_fruits",
+  "almonds",
+  "hazelnuts",
+  "walnuts",
+  "cashews",
+  "pecan",
+  "pistachios",
+  "macadamia",
+  "celery",
+  "mustard",
+  "sesame",
+  "sulphurs",
+  "sulfites",
+  "lupin",
+  "molluscs",
+];
+
+const SELECTABLE_ALLERGEN_SET: ReadonlySet<string> = new Set(SELECTABLE_ALLERGENS);
+
+export function isSelectableAllergen(value: string): boolean {
+  return SELECTABLE_ALLERGEN_SET.has(value);
+}
+
+export function matchedAllergens(
+  labels: readonly string[],
+  selected: readonly string[]
+): readonly string[] {
+  if (!selected.length) return [];
+  const flagged = new Set(selected);
+  const present = new Set(labels.map((label) => label.toLowerCase()));
+  return SELECTABLE_ALLERGENS.filter((code) => flagged.has(code) && present.has(code));
 }
 
 export interface MensaCategoryGroup {

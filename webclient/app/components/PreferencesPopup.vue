@@ -7,6 +7,7 @@ import {
   mdiBriefcase,
   mdiBus,
   mdiCar,
+  mdiCheck,
   mdiEye,
   mdiImageFilterHdr,
   mdiMonitor,
@@ -20,12 +21,21 @@ import {
   mdiWheelchairAccessibility,
   mdiWhiteBalanceSunny,
 } from "@mdi/js";
-import { MENSA_PRICE_ROLES, type MensaPriceRole } from "~/utils/mensaMenu";
+import { type EatApiLocale, labelText } from "~/utils/eatApiLabels";
+import {
+  allergenIcon,
+  MENSA_PRICE_ROLES,
+  type MensaPriceRole,
+  SELECTABLE_ALLERGENS,
+} from "~/utils/mensaMenu";
 
 const colorMode = useColorMode();
 const { t, locale } = useI18n({ useScope: "local" });
 const { preferences, updatePreference } = useUserPreferences();
-const { priceRole } = useMensaPreferences();
+const { priceRole, allergenWarnings } = useMensaPreferences();
+const { isOpen, pendingSection } = usePreferencesPopup();
+
+const labelLocale = computed<EatApiLocale>(() => (locale.value === "de" ? "de" : "en"));
 
 const mensaRoleIcons: Record<MensaPriceRole, string> = {
   students: mdiSchool,
@@ -35,7 +45,22 @@ const mensaRoleIcons: Record<MensaPriceRole, string> = {
 
 const switchLocalePath = useSwitchLocalePath();
 
-const isOpen = ref(false);
+const allergenSection = ref<HTMLElement | null>(null);
+
+function toggleAllergen(code: string): void {
+  const next = new Set(allergenWarnings.value);
+  if (next.has(code)) next.delete(code);
+  else next.add(code);
+  allergenWarnings.value = SELECTABLE_ALLERGENS.filter((allergen) => next.has(allergen));
+}
+
+// Deep-linked opens (from the menu) scroll to the section; wait a tick for the lazy modal to mount.
+watch(isOpen, async (open) => {
+  if (!open || pendingSection.value !== "allergens") return;
+  await nextTick();
+  allergenSection.value?.scrollIntoView({ behavior: "smooth", block: "start" });
+  pendingSection.value = null;
+});
 
 watch(locale, async (value) => {
   await updateLocale(value as "de" | "en");
@@ -133,6 +158,37 @@ async function updateLocale(value: "de" | "en") {
                 </Tab>
               </TabList>
             </TabGroup>
+          </div>
+
+          <!-- Mensa Allergy Warnings Setting -->
+          <div ref="allergenSection">
+            <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-2">{{ t("allergyWarnings") }}</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-4">{{ t("allergyWarnings.help") }}</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="code in SELECTABLE_ALLERGENS"
+                :key="code"
+                type="button"
+                :aria-pressed="allergenWarnings.includes(code)"
+                class="focusable inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ring-1 transition-colors"
+                :class="
+                  allergenWarnings.includes(code)
+                    ? 'bg-red-100 text-red-800 ring-red-300 dark:bg-red-900/40 dark:text-red-200 dark:ring-red-800'
+                    : 'bg-zinc-100 text-zinc-600 ring-transparent hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
+                "
+                @click="toggleAllergen(code)"
+              >
+                <MdiIcon :path="allergenIcon(code)" :size="16" class="shrink-0" aria-hidden="true" />
+                {{ labelText(code, labelLocale) }}
+                <MdiIcon
+                  v-if="allergenWarnings.includes(code)"
+                  :path="mdiCheck"
+                  :size="15"
+                  class="shrink-0"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
           </div>
 
           <!-- Preferred Transport Mode Setting -->
@@ -306,6 +362,8 @@ de:
   mensaRole.students: Studierende
   mensaRole.staff: Bedienstete
   mensaRole.guests: Gäste
+  allergyWarnings: Allergiewarnungen
+  allergyWarnings.help: Gerichte mit den ausgewählten Allergenen werden im Speiseplan rot hervorgehoben.
   preferredTransportMode: Bevorzugtes Verkehrsmittel
   preferredTransportMode.help: Dies wird als Standard für die Navigation verwendet.
   transport.pedestrian: Zu Fuß
@@ -341,6 +399,8 @@ en:
   mensaRole.students: Students
   mensaRole.staff: Staff
   mensaRole.guests: Guests
+  allergyWarnings: Allergy warnings
+  allergyWarnings.help: Dishes containing the selected allergens are highlighted in red in the menu.
   preferredTransportMode: Preferred Transport Mode
   preferredTransportMode.help: This will be used as the default for navigation.
   transport.pedestrian: Walking
