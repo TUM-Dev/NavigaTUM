@@ -299,7 +299,7 @@ function openValidatorPopup(feature: MapGeoJSONFeature, lngLat: LngLat): void {
   openDomPopup([lng, lat], buildValidatorPopupContent(feature, lng, lat));
 }
 
-function initMap(): MapLibreMap {
+async function initMap(): Promise<MapLibreMap> {
   // Not at setup: its constructor touches `document`, absent on the server.
   const floorControl = new FloorControl();
   const m = new MapLibreMap({
@@ -307,7 +307,8 @@ function initMap(): MapLibreMap {
     // Reflect the viewport in the URL hash so the map state is deep-linkable.
     hash: true,
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: false },
-    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+    style: await loadBasemapStyle(),
+    transformRequest: mltTransformRequest,
     center: GARCHING_CENTER,
     zoom: INITIAL_ZOOM,
     validateStyle: import.meta.env.DEV,
@@ -378,7 +379,7 @@ onMounted(async () => {
   panelCollapsed.value = localStorage.getItem(PANEL_COLLAPSED_STORAGE_KEY) === "1";
   // <ClientOnly> mounts its slot after this hook fires, so wait for the container to exist.
   await until(mapContainer).toBeTruthy();
-  map.value = initMap();
+  map.value = await initMap();
 });
 
 onBeforeUnmount(() => {
@@ -490,6 +491,7 @@ de:
   gender:
     male: Herren
     female: Damen
+    unisex: Unisex
 en:
   title: Map
   description: Browse the TUM map and filter for places such as toilets, showers, and events.
@@ -508,6 +510,7 @@ en:
   gender:
     male: Male
     female: Female
+    unisex: Unisex
 </i18n>
 
 <style lang="postcss">

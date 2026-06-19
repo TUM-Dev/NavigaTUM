@@ -321,6 +321,8 @@ export function useEventMarkers(
           target.addSource(source, {
             type: "vector",
             url: `https://nav.tum.de/martin/${source}`,
+            // MLT, matching the map's transformRequest.
+            encoding: "mlt",
             // Markers are invisible below MARKER_MINZOOM, so don't ask Martin for tiles below that.
             minzoom: MARKER_MINZOOM,
           });
