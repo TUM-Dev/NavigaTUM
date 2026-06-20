@@ -28,7 +28,7 @@
 		"@vueuse/core": "14.3.0",
 		"@vueuse/nuxt": "14.3.0",
 		"@vueuse/router": "14.3.0",
-		"better-sqlite3": "12.10.1",
+		"better-sqlite3": "12.11.1",
 		"maplibre-gl": "6.0.0-14",
 		"nuxt": "4.4.8",
 		"opening_hours": "^3.13.0",
@@ -49,7 +49,7 @@
 		"openapi-typescript": "7.13.0",
 		"tailwindcss": "4.3.1",
 		"typescript": "6.0.3",
-		"vitest": "4.1.8",
+		"vitest": "4.1.9",
 		"vue-tsc": "3.3.5"
 	},
 	"type": "module",
