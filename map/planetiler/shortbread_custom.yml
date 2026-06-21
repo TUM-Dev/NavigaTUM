@@ -465,10 +465,13 @@ layers:
   - source: osm
     geometry: polygon
     min_zoom: 13
+    # Emit building:part alongside building outlines, the same way OMT does.
     include_when:
       building: __any__
+      building:part: __any__
     exclude_when:
       building: no
+      building:part: no
     attributes:
     - key: height
       type: integer
@@ -487,6 +490,11 @@ layers:
         - if: { "building:min_level": __any__ }
           value: '${ feature.tags["building:min_level"].matches(r"^\d+$") ? uint(feature.tags["building:min_level"]) * 3u : 4u }'
         - else: 0
+      min_zoom: 14
+    # Always false until sibling-aware post-processing can flag outlines covered by parts (S3DB).
+    - key: hide_3d
+      type: boolean
+      value: false
       min_zoom: 14
   tile_post_process:
     merge_polygons:

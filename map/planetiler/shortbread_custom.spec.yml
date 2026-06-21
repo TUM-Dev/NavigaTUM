@@ -245,6 +245,44 @@ examples:
     geometry: polygon
     min_zoom: 13
 
+- name: building:part=yes
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      building:part: yes
+  output:
+  - layer: buildings
+    geometry: polygon
+    min_zoom: 13
+
+- name: building:part with levels derives height and min_height
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      building:part: yes
+      building:levels: "5"
+      building:min_level: "2"
+  output:
+  - layer: buildings
+    geometry: polygon
+    min_zoom: 13
+    at_zoom: 14
+    allow_extra_tags: false
+    tags:
+      height: 15
+      min_height: 6
+      hide_3d: false
+
+- name: building:part=no is excluded
+  input:
+    source: osm
+    geometry: polygon
+    tags:
+      building:part: no
+  output: []
+
 - name: address polygon with house number
   input:
     source: osm
