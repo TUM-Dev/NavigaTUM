@@ -13,20 +13,20 @@ importers:
   .:
     dependencies:
       '@fullcalendar/core':
-        specifier: 6.1.20
-        version: 6.1.20
+        specifier: 6.1.21
+        version: 6.1.21
       '@fullcalendar/daygrid':
-        specifier: 6.1.20
-        version: 6.1.20(@fullcalendar/core@6.1.20)
+        specifier: 6.1.21
+        version: 6.1.21(@fullcalendar/core@6.1.21)
       '@fullcalendar/list':
-        specifier: 6.1.20
-        version: 6.1.20(@fullcalendar/core@6.1.20)
+        specifier: 6.1.21
+        version: 6.1.21(@fullcalendar/core@6.1.21)
       '@fullcalendar/timegrid':
-        specifier: 6.1.20
-        version: 6.1.20(@fullcalendar/core@6.1.20)
+        specifier: 6.1.21
+        version: 6.1.21(@fullcalendar/core@6.1.21)
       '@fullcalendar/vue3':
-        specifier: 6.1.20
-        version: 6.1.20(@fullcalendar/core@6.1.20)(vue@3.5.38(typescript@6.0.3))
+        specifier: 6.1.21
+        version: 6.1.21(@fullcalendar/core@6.1.21)(vue@3.5.38(typescript@6.0.3))
       '@googlemaps/polyline-codec':
         specifier: 1.0.28
         version: 1.0.28
@@ -724,28 +724,28 @@ packages:
   '@fastify/accept-negotiator@2.0.1':
     resolution: {integrity: sha512-/c/TW2bO/v9JeEgoD/g1G5GxGeCF1Hafdf79WPmUlgYiBXummY0oX3VVq4yFkKKVBKDNlaDUYoab7g38RpPqCQ==}
 
-  '@fullcalendar/core@6.1.20':
-    resolution: {integrity: sha512-1cukXLlePFiJ8YKXn/4tMKsy0etxYLCkXk8nUCFi11nRONF2Ba2CD5b21/ovtOO2tL6afTJfwmc1ed3HG7eB1g==}
+  '@fullcalendar/core@6.1.21':
+    resolution: {integrity: sha512-t3u/+sqh3Iq7TWtUnVLcGDUE6OWZh0UD3c04bI/l7lSLAgAKr3kngBmhHiQD1QXpwC8ZN5iNqG7a7gOVixhSKQ==}
 
-  '@fullcalendar/daygrid@6.1.20':
-    resolution: {integrity: sha512-AO9vqhkLP77EesmJzuU+IGXgxNulsA8mgQHynclJ8U70vSwAVnbcLG9qftiTAFSlZjiY/NvhE7sflve6cJelyQ==}
+  '@fullcalendar/daygrid@6.1.21':
+    resolution: {integrity: sha512-QYb1y40RGYLlOxKpYWg8O+7njEnKnFG8Tt7qjnubJGR35s1phQg67E+81y2TyAbbm59p2JFOCXGDk9t6KDujIA==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.20
+      '@fullcalendar/core': ~6.1.21
 
-  '@fullcalendar/list@6.1.20':
-    resolution: {integrity: sha512-7Hzkbb7uuSqrXwTyD0Ld/7SwWNxPD6SlU548vtkIpH55rZ4qquwtwYdMPgorHos5OynHA4OUrZNcH51CjrCf2g==}
+  '@fullcalendar/list@6.1.21':
+    resolution: {integrity: sha512-2rpIhs5pJmV7jyk4oX4bckNqurt6iHcsweE3FDYDdNpmRukPrARnyQYcaVFNVw2bnBFeR/jQW/St2MlauxF3GQ==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.20
+      '@fullcalendar/core': ~6.1.21
 
-  '@fullcalendar/timegrid@6.1.20':
-    resolution: {integrity: sha512-4H+/MWbz3ntA50lrPif+7TsvMeX3R1GSYjiLULz0+zEJ7/Yfd9pupZmAwUs/PBpA6aAcFmeRr0laWfcz1a9V1A==}
+  '@fullcalendar/timegrid@6.1.21':
+    resolution: {integrity: sha512-2DnShx/jallGmb8QCkr6pAOu/zuPhJrP7+uTrAtSnbqsX7GF3lTxqSeNGkTQwsgF5g/ia8udhQ+JNYaE+TN1cQ==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.20
+      '@fullcalendar/core': ~6.1.21
 
-  '@fullcalendar/vue3@6.1.20':
-    resolution: {integrity: sha512-8qg6pS27II9QBwFkkJC+7SfflMpWqOe7i3ii5ODq9KpLAjwQAd/zjfq8RvKR1Yryoh5UmMCmvRbMB7i4RGtqog==}
+  '@fullcalendar/vue3@6.1.21':
+    resolution: {integrity: sha512-OGt6WSC+/zz/ej6a0KfIBNl7BYuGchpZU49SsedYyv3WZWbghAE+D8YD6nhH1ia/I4p5Gcsv/nEXgEkT/I8aYQ==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.20
+      '@fullcalendar/core': ~6.1.21
       vue: ^3.0.11
 
   '@googlemaps/polyline-codec@1.0.28':
@@ -6635,26 +6635,26 @@ snapshots:
   '@fastify/accept-negotiator@2.0.1':
     optional: true
 
-  '@fullcalendar/core@6.1.20':
+  '@fullcalendar/core@6.1.21':
     dependencies:
       preact: 10.12.1
 
-  '@fullcalendar/daygrid@6.1.20(@fullcalendar/core@6.1.20)':
+  '@fullcalendar/daygrid@6.1.21(@fullcalendar/core@6.1.21)':
     dependencies:
-      '@fullcalendar/core': 6.1.20
+      '@fullcalendar/core': 6.1.21
 
-  '@fullcalendar/list@6.1.20(@fullcalendar/core@6.1.20)':
+  '@fullcalendar/list@6.1.21(@fullcalendar/core@6.1.21)':
     dependencies:
-      '@fullcalendar/core': 6.1.20
+      '@fullcalendar/core': 6.1.21
 
-  '@fullcalendar/timegrid@6.1.20(@fullcalendar/core@6.1.20)':
+  '@fullcalendar/timegrid@6.1.21(@fullcalendar/core@6.1.21)':
     dependencies:
-      '@fullcalendar/core': 6.1.20
-      '@fullcalendar/daygrid': 6.1.20(@fullcalendar/core@6.1.20)
+      '@fullcalendar/core': 6.1.21
+      '@fullcalendar/daygrid': 6.1.21(@fullcalendar/core@6.1.21)
 
-  '@fullcalendar/vue3@6.1.20(@fullcalendar/core@6.1.20)(vue@3.5.38(typescript@6.0.3))':
+  '@fullcalendar/vue3@6.1.21(@fullcalendar/core@6.1.21)(vue@3.5.38(typescript@6.0.3))':
     dependencies:
-      '@fullcalendar/core': 6.1.20
+      '@fullcalendar/core': 6.1.21
       vue: 3.5.38(typescript@6.0.3)
 
   '@googlemaps/polyline-codec@1.0.28': {}
