@@ -6,67 +6,145 @@
       {
         "ordinal": 0,
         "name": "last_calendar_scrape_at",
-        "type_info": "Timestamptz"
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "last_calendar_scrape_at"
+          }
+        }
       },
       {
         "ordinal": 1,
         "name": "lat",
-        "type_info": "Float8"
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "lat"
+          }
+        }
       },
       {
         "ordinal": 2,
         "name": "lon",
-        "type_info": "Float8"
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "lon"
+          }
+        }
       },
       {
         "ordinal": 3,
         "name": "name",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "name"
+          }
+        }
       },
       {
         "ordinal": 4,
         "name": "type_common_name",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "type_common_name"
+          }
+        }
       },
       {
         "ordinal": 5,
         "name": "type",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "type"
+          }
+        }
       },
       {
         "ordinal": 6,
         "name": "calendar_url",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "calendar_url"
+          }
+        }
       },
       {
         "ordinal": 7,
         "name": "tumonline_room_nr",
-        "type_info": "Int4"
+        "type_info": "Int4",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "tumonline_room_nr"
+          }
+        }
       },
       {
         "ordinal": 8,
         "name": "coordinate_accuracy",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "coordinate_accuracy"
+          }
+        }
       },
       {
         "ordinal": 9,
         "name": "coordinate_source",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "coordinate_source"
+          }
+        }
       },
       {
         "ordinal": 10,
         "name": "comment",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "comment"
+          }
+        }
       },
       {
         "ordinal": 11,
         "name": "usage_id",
-        "type_info": "Int4"
+        "type_info": "Int4",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "usage_id"
+          }
+        }
       },
       {
         "ordinal": 12,
         "name": "operator_id",
-        "type_info": "Int4"
+        "type_info": "Int4",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "operator_id"
+          }
+        }
       }
     ],
     "parameters": {

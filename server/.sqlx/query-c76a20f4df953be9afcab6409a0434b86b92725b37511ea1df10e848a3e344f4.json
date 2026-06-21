@@ -6,32 +6,68 @@
       {
         "ordinal": 0,
         "name": "key",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "key"
+          }
+        }
       },
       {
         "ordinal": 1,
         "name": "name",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "name"
+          }
+        }
       },
       {
         "ordinal": 2,
         "name": "last_calendar_scrape_at",
-        "type_info": "Timestamptz"
+        "type_info": "Timestamptz",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "last_calendar_scrape_at"
+          }
+        }
       },
       {
         "ordinal": 3,
         "name": "calendar_url",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "calendar_url"
+          }
+        }
       },
       {
         "ordinal": 4,
         "name": "type",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "type"
+          }
+        }
       },
       {
         "ordinal": 5,
         "name": "type_common_name",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "type_common_name"
+          }
+        }
       }
     ],
     "parameters": {

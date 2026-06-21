@@ -6,7 +6,8 @@
       {
         "ordinal": 0,
         "name": "key!",
-        "type_info": "Text"
+        "type_info": "Text",
+        "origin": "Expression"
       }
     ],
     "parameters": {
@@ -16,7 +17,7 @@
       ]
     },
     "nullable": [
-      null
+      true
     ]
   },
   "hash": "276d6e7a6dc07680e5a4a3241c1e60006f1ddb5d2b1beb00841b23a1a72deb4c"

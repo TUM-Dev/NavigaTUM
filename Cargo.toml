@@ -80,6 +80,7 @@ octocrab = { version = "0.53", default-features = false, features = ["default-cl
 parquet = { version = "59.0.0", default-features = false, features = ["zstd"] }
 pretty_assertions = "1.4.1"
 progenitor-client = "0.14.0"
+prometheus = { version = "0.14", default-features = false }
 rand = "0.10.0"
 regex = "1.12.3"
 reqwest = { version = "0.13", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls"] }

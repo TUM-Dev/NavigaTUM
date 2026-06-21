@@ -1,0 +1,42 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nSELECT\n    COUNT(*) FILTER (WHERE last_calendar_scrape_at >= DATE_SUBTRACT(NOW(), '60 minutes'::INTERVAL, 'Europe/Berlin'))   AS \"under_60m!\",\n    COUNT(*) FILTER (WHERE last_calendar_scrape_at <  DATE_SUBTRACT(NOW(), '60 minutes'::INTERVAL, 'Europe/Berlin')\n                      AND  last_calendar_scrape_at >= DATE_SUBTRACT(NOW(), '24 hours'::INTERVAL, 'Europe/Berlin'))     AS \"within_24h!\",\n    COUNT(*) FILTER (WHERE last_calendar_scrape_at <  DATE_SUBTRACT(NOW(), '24 hours'::INTERVAL, 'Europe/Berlin'))     AS \"over_24h!\",\n    COUNT(*) FILTER (WHERE last_calendar_scrape_at IS NULL)                                                            AS \"never!\"\nFROM de\nWHERE calendar_url IS NOT NULL",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "under_60m!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 1,
+        "name": "within_24h!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 2,
+        "name": "over_24h!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 3,
+        "name": "never!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "d2a811be4504220ed820201be7bd6277bd194aa7411e717e1255b61976d4d968"
+}
