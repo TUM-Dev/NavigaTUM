@@ -16,6 +16,7 @@ path = "src/main.rs"
 [dependencies]
 # logging/obeservability
 actix-web-prom = { workspace=true, default-features = false, features = [] }
+prometheus = { workspace=true, default-features = false }
 tracing-subscriber = { workspace=true, features = ["env-filter", "json", "fmt"] }
 tracing.workspace=true
 tracing-log = { workspace=true, features = ["std", "log-tracer", "interest-cache"] }

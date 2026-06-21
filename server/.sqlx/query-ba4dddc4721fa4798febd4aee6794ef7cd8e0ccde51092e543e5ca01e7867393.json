@@ -6,12 +6,24 @@
       {
         "ordinal": 0,
         "name": "lat",
-        "type_info": "Float8"
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "lat"
+          }
+        }
       },
       {
         "ordinal": 1,
         "name": "lon",
-        "type_info": "Float8"
+        "type_info": "Float8",
+        "origin": {
+          "Table": {
+            "table": "de",
+            "name": "lon"
+          }
+        }
       }
     ],
     "parameters": {

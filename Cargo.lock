@@ -3106,6 +3106,7 @@ dependencies = [
  "octocrab",
  "parquet",
  "pretty_assertions",
+ "prometheus",
  "rand 0.10.1",
  "regex",
  "reqwest 0.13.4",

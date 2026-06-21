@@ -6,7 +6,13 @@
       {
         "ordinal": 0,
         "name": "data",
-        "type_info": "Jsonb"
+        "type_info": "Jsonb",
+        "origin": {
+          "Table": {
+            "table": "en",
+            "name": "data"
+          }
+        }
       }
     ],
     "parameters": {
