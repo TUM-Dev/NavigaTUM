@@ -23,7 +23,7 @@ jobs:
       contents: read
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with: {persist-credentials: false}
       - name: Install cargo-insta
         uses: taiki-e/install-action@9e1e5806d4a4822de933115878265be9aaa786d9 # v2.82.2
@@ -42,7 +42,7 @@ jobs:
       contents: read
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with: {persist-credentials: false}
       - name: Install cargo-sort
         uses: taiki-e/install-action@9e1e5806d4a4822de933115878265be9aaa786d9 # v2.82.2
@@ -71,7 +71,7 @@ jobs:
           docker-images: true
           swap-storage: true
       - name: Setup | Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with: {persist-credentials: false}
       - name: Setup | Pull Docker images
         run: |
@@ -152,7 +152,7 @@ jobs:
     steps:
       - run: rustup update stable && rustup default stable
       - name: Setup | Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with: {persist-credentials: false}
 
       - name: Setup | Rust-Cache
@@ -244,7 +244,7 @@ jobs:
       contents: read
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with: {persist-credentials: false}
       - name: Pin GitHub Actions to SHAs
         uses: suzuki-shunsuke/pinact-action@896d595f299e71d65b9d28349d6956abe144390a # v3.0.0
