@@ -5,3 +5,7 @@ tmp/
 data/
 martin/fonts/
 martin/sprites/maki
+planetiler/node_modules/
+# Fetched at build/CI time, never committed.
+planetiler/planetiler.jar
+planetiler/*.schema.json
