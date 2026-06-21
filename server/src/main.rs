@@ -239,7 +239,7 @@ async fn run_maintenance_work(
     set.spawn(async move { refresh::calendar::all_entries(&cal_pool, scrape_metrics).await });
     let freshness_pool = pool.clone();
     set.spawn(async move {
-        refresh::calendar::record_freshness(&freshness_pool, calendar_metrics).await
+        refresh::calendar::record_freshness(&freshness_pool, calendar_metrics).await;
     });
     // The lecture facet is derived from the (continuously scraped) calendar, so
     // it only makes sense when Meilisearch is the destination. It builds its own
