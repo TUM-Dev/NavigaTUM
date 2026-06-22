@@ -73,7 +73,7 @@ mod tests {
     use rstest::rstest;
 
     /// `replace` must substitute the `{TABLE}` token only, leaving the JSON-path braces
-    /// (`{coords,lat}` …) intact — otherwise the generated SQL is silently corrupted.
+    /// (`{coords,lat}` …) intact - otherwise the generated SQL is silently corrupted.
     /// The cases mirror `LOCALISED_TABLES`, so every table the override runs against is covered.
     #[rstest]
     #[case::de("de")]
