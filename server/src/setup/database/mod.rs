@@ -4,6 +4,7 @@ use crate::limited::vec::LimitedVec;
 
 mod alias;
 mod data;
+mod osm;
 
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
@@ -38,6 +39,9 @@ pub async fn load_data(pool: &sqlx::PgPool) -> anyhow::Result<()> {
         .instrument(info_span!("loading changed data"))
         .await?;
     }
+    osm::override_room_coords(pool)
+        .instrument(info_span!("overriding coordinates from OpenStreetMap"))
+        .await?;
     {
         let aliases = alias::download_updates().await?;
         let mut tx = pool.begin().await?;

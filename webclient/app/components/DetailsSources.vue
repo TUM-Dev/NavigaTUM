@@ -50,6 +50,9 @@ const { t } = useI18n({ useScope: "local" });
         <span v-if="coords.source === 'inferred'">
           {{ t("coords.inferred") }}
         </span>
+        <span v-if="coords.source === 'osm'">
+          {{ t("coords.osm") }}
+        </span>
       </p>
     </div>
   </div>
@@ -63,6 +66,7 @@ de:
   coords:
     inferred: Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden
     navigatum: NavigaTUM Mitwirkende
+    osm: OpenStreetMap Mitwirkende
     roomfinder: Roomfinder
     title: Koordinaten
   header_img: Bild
@@ -74,6 +78,7 @@ en:
   coords:
     inferred: Automatically computed based on the associated rooms or buildings
     navigatum: NavigaTUM Contributors
+    osm: OpenStreetMap Contributors
     roomfinder: Roomfinder
     title: Coordinates
   header_img: Image

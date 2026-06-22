@@ -614,7 +614,7 @@ export type components = {
       readonly source: components["schemas"]["CoordinateSourceResponse"];
     };
     /** @enum {string} */
-    readonly CoordinateSourceResponse: "navigatum" | "roomfinder" | "inferred";
+    readonly CoordinateSourceResponse: "navigatum" | "roomfinder" | "inferred" | "osm";
     /** @enum {string} */
     readonly DefaultMapsResponse: "interactive" | "roomfinder";
     /** @enum {string} */

@@ -637,6 +637,8 @@ enum CoordinateSourceResponse {
     Navigatum,
     Roomfinder,
     Inferred,
+    /// Derived from the OpenStreetMap geometry of a room tagged with `ref:tum`.
+    Osm,
 }
 
 #[tracing::instrument(skip(pool))]
