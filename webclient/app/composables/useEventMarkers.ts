@@ -12,7 +12,7 @@ import { type EventSourceId, eventsExpiryFilter } from "~/composables/mapLayers"
 
 const IMAGE_PX = 64;
 // Markers fade to 0 below this zoom, so don't add layers or fetch tiles below it.
-const MARKER_MINZOOM = 15;
+const MARKER_MINZOOM = 14;
 const EXPIRY_INTERVAL_MS = 60_000;
 
 function layerIdFor(source: EventSourceId): string {
@@ -22,7 +22,7 @@ function layerIdFor(source: EventSourceId): string {
 // Per-event photos register on demand; see `styleimagemissing`.
 const MARKER_LAYOUT = {
   "icon-image": ["concat", "event-", ["to-string", ["id"]]],
-  "icon-size": ["interpolate", ["linear"], ["zoom"], 15, 0.6, 17, 1.2, 20, 1.7],
+  "icon-size": ["interpolate", ["linear"], ["zoom"], 14, 0.6, 16, 1.2, 19, 1.7],
   "icon-allow-overlap": true,
   "icon-anchor": "center",
   "text-field": ["get", "name"],
@@ -35,20 +35,20 @@ const MARKER_LAYOUT = {
     "interpolate",
     ["linear"],
     ["zoom"],
-    15,
+    14,
     ["literal", [0, 2.2]],
-    17,
+    16,
     ["literal", [0, 4]],
-    20,
+    19,
     ["literal", [0, 5.4]],
   ],
   "text-optional": true,
 } as const satisfies SymbolLayerSpecification["layout"];
 
 const MARKER_PAINT = {
-  "icon-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 17, 1],
+  "icon-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 14.7, 1],
   // Fade the label out faster than the photo.
-  "text-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17.5, 1],
+  "text-opacity": ["interpolate", ["linear"], ["zoom"], 14.3, 0, 15, 1],
   "text-color": "#E37222",
   "text-halo-color": "#ffffff",
   "text-halo-width": 1.2,
