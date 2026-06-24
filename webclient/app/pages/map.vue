@@ -491,7 +491,7 @@ de:
   gender:
     male: Herren
     female: Damen
-    unisex: Unisex
+    unisex: Geschlechtsneutral
 en:
   title: Map
   description: Browse the TUM map and filter for places such as toilets, showers, and events.

@@ -114,7 +114,7 @@ de:
     label: Geschlecht
     male: Herren
     female: Damen
-    unisex: Unisex
+    unisex: Geschlechtsneutral
 en:
   open_room: Open room
   edit_in_osm: Edit in OpenStreetMap
