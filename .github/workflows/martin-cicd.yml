@@ -124,14 +124,14 @@ jobs:
       # against newer OSM data or a changed BBOX (cache keys can't contain commas).
       - name: Setup | Cache fixture clip
         id: fixture-cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
         with:
           path: fixture/garching.osm.pbf
           key: garching-clip-v1
       # The water-polygon shapefile is large and rarely changes; cache it so only the first run
       # downloads. Bump the key to refresh.
       - name: Setup | Cache planetiler sources
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
         with:
           path: data/sources
           key: planetiler-sources-v1
