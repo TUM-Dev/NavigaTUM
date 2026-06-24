@@ -32,14 +32,15 @@ function fetchBasemapStyle(): Promise<string> {
   return pending;
 }
 
-// Marks vector sources encoding:"mlt" so MapLibre decodes the MLT mltTransformRequest asks for. Done
-// client-side to keep the shared style MVT-compatible. Fresh object per call (MapLibre mutates it).
+// Defaults vector sources to encoding:"mlt" so MapLibre decodes the MLT mltTransformRequest asks for,
+// leaving a source that already names its encoding untouched. Done client-side to keep the shared
+// style MVT-compatible. Fresh object per call (MapLibre mutates it).
 export async function loadBasemapStyle(): Promise<StyleSpecification> {
   basemapStyleText ??= fetchBasemapStyle();
   const pending = basemapStyleText;
   const style: StyleSpecification = JSON.parse(await pending);
   for (const source of Object.values(style.sources)) {
-    if (source.type === "vector") source.encoding = "mlt";
+    if (source.type === "vector") source.encoding ??= "mlt";
   }
   return style;
 }

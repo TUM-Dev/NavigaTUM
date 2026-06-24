@@ -99,10 +99,21 @@ function emptyEventStyle() {
 // The popup tests need a clickable marker, which means feeding the composable's vector layers real
 // tiles (a geojson source can't satisfy their `source-layer`). This basemap carries a `glyphs` URL
 // the symbol layer's label needs to lay out; `stubEventFeed` and `stubGlyphs` supply the rest.
+//
+// The feeds are declared here as `encoding: "mvt"` so `useEventMarkers` reuses them rather than
+// adding its own MLT sources, and so `loadBasemapStyle` (which only defaults *unset* encodings to
+// MLT) leaves them be: no JS MLT encoder exists to stub MLT tiles, so the marker→popup wiring is
+// exercised over MVT while the MLT decode path is covered by `eventsExpiryFilter`'s unit test.
+function vectorFeedSource(feed: EventFeed) {
+  return { type: "vector", url: `https://nav.tum.de/martin/${feed}`, encoding: "mvt" } as const;
+}
 const VECTOR_BASEMAP = {
   version: 8,
   glyphs: "https://nav.tum.de/fonts/{fontstack}/{range}.pbf",
-  sources: {},
+  sources: {
+    events_active: vectorFeedSource("events_active"),
+    events_upcoming: vectorFeedSource("events_upcoming"),
+  },
   layers: [],
 };
 
