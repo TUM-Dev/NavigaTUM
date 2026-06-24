@@ -229,17 +229,21 @@ export function resolveEventsWindow(param: string | null | undefined): EventsWin
 
 // Structural so this module stays free of the maplibre import (which fails to load under the node
 // test environment).
-export type EventsExpiryFilter = [">=", ["get", "ends_at_epoch"], number];
+export type EventsExpiryFilter = [">=", ["to-number", ["get", "ends_at_epoch"]], number];
 
 /**
  * Style filter dropping events whose end has passed, compared against the second-precision
  * `ends_at_epoch` (its `timestamptz` sibling renders as session-timezone text, which an expression
  * cannot compare). Flooring `now` keeps an event ending this very second visible rather than
  * blinking it out early.
+ *
+ * `to-number` coerces the value because the MLT decoder yields 64-bit integer columns as `bigint`,
+ * which expressions reject as non-numbers and drop every feature (the MVT path yielded a number);
+ * `to-number` routes through `Number()`, which accepts `bigint`.
  */
 export function eventsExpiryFilter(nowMs: number): EventsExpiryFilter {
   const nowSeconds = Math.floor(nowMs / 1000);
-  return [">=", ["get", "ends_at_epoch"], nowSeconds];
+  return [">=", ["to-number", ["get", "ends_at_epoch"]], nowSeconds];
 }
 
 // The WC attribute parameters are namespaced per layer (`wcs_…`), so further layers can add
