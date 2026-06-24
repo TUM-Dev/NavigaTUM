@@ -171,6 +171,17 @@ To run tests, we recommend downloading the jar file from the [Planetiler release
 java -jar planetiler.jar verify ./map/planetiler/shortbread_custom.yml --watch
 ```
 
+CI additionally validates `shortbread_custom.yml` against the upstream
+[`planetiler.schema.json`](https://github.com/onthegomap/planetiler/blob/main/planetiler-custommap/planetiler.schema.json).
+To run that check locally from within `map/planetiler`:
+
+```bash
+npm ci
+base=https://raw.githubusercontent.com/onthegomap/planetiler/main/planetiler-custommap
+wget "$base/planetiler.schema.json" "$base/planetilerspec.schema.json"
+node --experimental-strip-types validate-schema.ts shortbread_custom.yml
+```
+
 ## Indoor data (osm2pgsql)
 
 The indoor overlay is a separate pipeline from the planetiler basemap above. `osm2pgsql` reads the

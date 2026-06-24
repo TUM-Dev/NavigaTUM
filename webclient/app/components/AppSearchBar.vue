@@ -100,8 +100,8 @@ async function goToCategory(category: FilterId): Promise<void> {
   searchInput.value?.blur();
 }
 
-// The shortcut's own link handles mouse navigation; only reset the bar here.
-function onShortcutFollowed(): void {
+// #3324's retained focus otherwise keeps the dropdown open after navigation.
+function onResultFollowed(): void {
   query.value = "";
   searchInput.value?.blur();
 }
@@ -220,13 +220,14 @@ const { data, error } = useFetch<SearchResponse>(url, {
             <SearchSortControl :filters="filters" />
           </div>
         </div>
-        <ul v-if="shortcutCategories.length" class="flex flex-col gap-2">
+        <!-- Keep the bar focused on tap so iOS Safari doesn't swallow the click (#3324). -->
+        <ul v-if="shortcutCategories.length" class="flex flex-col gap-2" @mousedown.prevent>
           <SearchCategoryShortcut
             v-for="category in shortcutCategories"
             :key="category"
             :category="category"
             :highlighted="shortcutHighlighted(category)"
-            @click="onShortcutFollowed"
+            @click="onResultFollowed"
             @mouseover="highlighted = undefined"
           />
         </ul>
@@ -268,6 +269,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
             v-cloak
             :key="s.facet"
             class="flex flex-col gap-2"
+            @mousedown.prevent
           >
             <template v-if="s.estimatedTotalHits > 0">
               <div class="flex items-center">
@@ -280,6 +282,7 @@ const { data, error } = useFetch<SearchResponse>(url, {
                   v-if="expandedFacets.has(s.facet) || i < s.n_visible"
                   :highlighted="resultHighlighted(e)"
                   :item="e"
+                  @click="onResultFollowed"
                   @mouseover="highlighted = undefined"
                 />
               </template>

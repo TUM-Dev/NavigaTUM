@@ -153,12 +153,19 @@ pub fn setup_logging() {
         .expect("the tracing subscriber to be set as the global default");
 }
 
-#[tracing::instrument(skip(pool, meilisearch_initialised, initialisation_started, repo_pool))]
+#[tracing::instrument(skip(
+    pool,
+    meilisearch_initialised,
+    initialisation_started,
+    repo_pool,
+    calendar_metrics
+))]
 async fn run_maintenance_work(
     pool: Pool<Postgres>,
     meilisearch_initialised: Arc<RwLock<()>>,
     initialisation_started: Arc<Barrier>,
     repo_pool: Arc<feedback::proposed_edits::repo_pool::RepoPool>,
+    calendar_metrics: refresh::calendar::CalendarMetrics,
 ) {
     let meilisearch_enabled = env::var("SKIP_MS_SETUP") != Ok("true".to_string());
     if meilisearch_enabled {
@@ -228,7 +235,12 @@ async fn run_maintenance_work(
     }
     let mut set = JoinSet::new();
     let cal_pool = pool.clone();
-    set.spawn(async move { refresh::calendar::all_entries(&cal_pool).await });
+    let scrape_metrics = calendar_metrics.clone();
+    set.spawn(async move { refresh::calendar::all_entries(&cal_pool, scrape_metrics).await });
+    let freshness_pool = pool.clone();
+    set.spawn(async move {
+        refresh::calendar::record_freshness(&freshness_pool, calendar_metrics).await;
+    });
     // The lecture facet is derived from the (continuously scraped) calendar, so
     // it only makes sense when Meilisearch is the destination. It builds its own
     // client because the setup client above is scoped to initial loading.
@@ -262,14 +274,17 @@ async fn main() -> anyhow::Result<()> {
 
     // without this barrier an external client might race the RWLock for meilisearch_initialised and gain the read lock before it is allowed
     let initialisation_started = Arc::new(Barrier::new(2));
+    let prometheus = build_metrics();
+    let calendar_metrics = refresh::calendar::CalendarMetrics::new(&prometheus.registry)
+        .expect("calendar metrics to register with the prometheus registry");
     let maintenance_thread = tokio::spawn(run_maintenance_work(
         data.pool.clone(),
         Arc::clone(&data.meilisearch_initialised),
         Arc::clone(&initialisation_started),
         Arc::clone(&repo_pool),
+        calendar_metrics,
     ));
 
-    let prometheus = build_metrics();
     let shutdown_pool_clone = data.pool.clone();
     initialisation_started.wait().await;
     // feedback specific initialisation
