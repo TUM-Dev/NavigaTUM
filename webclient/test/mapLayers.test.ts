@@ -163,13 +163,25 @@ describe("eventsExpiryFilter", () => {
   const NOW_MS = 1781179200_000;
   const NOW_S = 1781179200;
 
-  it("retires events whose end has passed, with no start-time condition", () => {
-    expect(eventsExpiryFilter(NOW_MS)).toEqual([">=", ["get", "ends_at_epoch"], NOW_S]);
+  it("retires events whose end has passed, coercing the property to a number", () => {
+    expect(eventsExpiryFilter(NOW_MS)).toEqual([
+      ">=",
+      ["to-number", ["get", "ends_at_epoch"]],
+      NOW_S,
+    ]);
   });
 
   it("truncates sub-second clocks towards the past so boundary events stay visible", () => {
     const [, , boundary] = eventsExpiryFilter(NOW_MS + 999);
     expect(boundary).toBe(NOW_S);
+  });
+
+  // Guards the `to-number` wrapper: MLT decodes `ends_at_epoch` as a `bigint` that expressions
+  // reject as a non-number and filter out, so dropping the wrapper hides every marker. Runtime
+  // evaluation is covered out-of-band; this module stays maplibre-free (no style-spec under node).
+  it("coerces the bigint-decoded property so the comparison does not reject it", () => {
+    const [, operand] = eventsExpiryFilter(NOW_MS);
+    expect(operand).toEqual(["to-number", ["get", "ends_at_epoch"]]);
   });
 });
 

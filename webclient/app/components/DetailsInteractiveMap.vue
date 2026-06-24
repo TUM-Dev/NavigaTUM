@@ -48,14 +48,14 @@ type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 function loadInteractiveMap() {
   if (!webglSupport.value) return;
 
-  const doMapUpdate = () => {
+  const doMapUpdate = async () => {
     // The map might or might not be initialized depending on the type
     // of navigation.
     if (document.getElementById("interactive-legacy-map")) {
       if (document.getElementById("interactive-legacy-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        map.value = initMap("interactive-legacy-map");
+        map.value = await initMap("interactive-legacy-map");
 
         document.getElementById("interactive-legacy-map")?.classList.remove("loading");
       }
@@ -94,7 +94,7 @@ function createMarker(hueRotation = 0) {
   return markerDiv;
 }
 
-function initMap(containerId: string): MapLibreMap {
+async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapInstance = new MapLibreMap({
     container: containerId,
     // while having the hash in the url is nice, it is overridden on map load anyway => not much use
@@ -111,7 +111,8 @@ function initMap(containerId: string): MapLibreMap {
       preserveDrawingBuffer: false,
     },
 
-    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+    style: await loadBasemapStyle(),
+    transformRequest: mltTransformRequest,
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible

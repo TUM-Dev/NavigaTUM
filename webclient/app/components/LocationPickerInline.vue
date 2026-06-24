@@ -41,13 +41,16 @@ function createMarker(hueRotation = 120) {
   return markerDiv;
 }
 
-function initMap() {
-  if (!webglSupport.value || !mapContainer.value) return;
+async function initMap() {
+  const container = mapContainer.value;
+  if (!webglSupport.value || !container) return;
+  const style = await loadBasemapStyle();
   const mapInstance = new MapLibreMap({
-    container: mapContainer.value,
+    container,
     hash: false,
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: false },
-    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+    style,
+    transformRequest: mltTransformRequest,
     center: [props.initialLon, props.initialLat],
     zoom: props.zoom,
   });
@@ -106,7 +109,7 @@ watch(
 
 onMounted(async () => {
   await until(mapContainer).toBeTruthy();
-  initMap();
+  await initMap();
 });
 
 onUnmounted(() => {

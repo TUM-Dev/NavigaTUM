@@ -86,11 +86,14 @@ function applyPadding(): void {
   projectMarker();
 }
 
-onMounted(() => {
-  if (!webglSupport.value || !mapContainer.value) return;
+onMounted(async () => {
+  const container = mapContainer.value;
+  if (!webglSupport.value || !container) return;
+  const style = await loadBasemapStyle();
   const instance = new MapLibreMap({
-    container: mapContainer.value,
-    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+    container,
+    style,
+    transformRequest: mltTransformRequest,
     center: [props.lon, props.lat],
     zoom: PREVIEW_ZOOM,
     attributionControl: false,

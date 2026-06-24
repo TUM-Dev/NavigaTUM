@@ -88,7 +88,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
   return markerDiv;
 }
 
-function initMap(containerId: string): MapLibreMap {
+async function initMap(containerId: string): Promise<MapLibreMap> {
   const mapInstance = new MapLibreMap({
     container: containerId,
     // Reflect the viewport in the URL hash so the map state is deep-linkable.
@@ -105,7 +105,8 @@ function initMap(containerId: string): MapLibreMap {
       preserveDrawingBuffer: false,
     },
 
-    style: "https://nav.tum.de/martin/style/navigatum-basemap.json",
+    style: await loadBasemapStyle(),
+    transformRequest: mltTransformRequest,
 
     center: [11.670099, 48.266921],
     zoom: zoom.value,
