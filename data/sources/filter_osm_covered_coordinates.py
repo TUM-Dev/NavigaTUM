@@ -1,4 +1,5 @@
-"""Drop coordinate submissions that are already covered by our OSM dataset.
+"""
+Drop coordinate submissions that are already covered by our OSM dataset.
 
 `sources/coordinates.csv` is a manual fallback: a hand-collected coordinate per
 room that predates us deriving room coordinates from OpenStreetMap geometry
