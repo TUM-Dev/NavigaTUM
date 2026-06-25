@@ -23,6 +23,7 @@ id,name_de,name_en,din_277,din_277_desc,din277_name
 5510.EG.014N,Werkstatt,Workshop,NF3.2,,Werkstätten
 5532.02.211,WC Damen,WC Women,NF7.1,Sanitärräume,
 5107.U1.114,Büro,Office,NF2.1,Büroräume,
+5606.EG.033,Küche,Kitchen,NF3.8,,
 5606.EG.039,Geschäftsraum,Retail space,NF4.5,Verkaufsräume,
 5607.EG.018,WC,WC,NF7.1,Sanitärräume,
 5510.EG.011M,Geschäftsraum,Retail space,NF4.5,Verkaufsräume,
