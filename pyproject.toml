@@ -22,7 +22,7 @@ dependencies = [
   "ruamel.yaml==0.19.1",
   "tqdm==4.68.3",
   "utm==0.8.1",
-  "xxhash==3.7.0",
+  "xxhash==3.7.1",
 ]
 
 [dependency-groups]
