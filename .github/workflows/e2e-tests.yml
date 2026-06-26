@@ -39,9 +39,6 @@ jobs:
             sleep 15
             attempt=$((attempt + 1))
           done
-      - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build server webclient
-
       - name: Setup | pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
@@ -53,9 +50,12 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
 
-      - name: Setup | Playwright dependencies
-        working-directory: tests
-        run: pnpm install
+      - parallel:
+          - name: Setup | Build Docker images
+            run: docker compose -f compose.local.yml build server webclient
+          - name: Setup | Playwright dependencies
+            working-directory: tests
+            run: pnpm install
 
       - name: Create .env file for docker-compose
         run: |
@@ -157,9 +157,6 @@ jobs:
             sleep 15
             attempt=$((attempt + 1))
           done
-      - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build
-
       - name: Setup | Set up pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
@@ -171,9 +168,12 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: tests/pnpm-lock.yaml
 
-      - name: Setup | Install Playwright dependencies
-        working-directory: tests
-        run: pnpm install
+      - parallel:
+          - name: Setup | Build Docker images
+            run: docker compose -f compose.local.yml build
+          - name: Setup | Install Playwright dependencies
+            working-directory: tests
+            run: pnpm install
       - name: Install Browser
         working-directory: tests
         # Playwright's downloader has no internal timeout, so a stalled CDN fetch hangs the job until
