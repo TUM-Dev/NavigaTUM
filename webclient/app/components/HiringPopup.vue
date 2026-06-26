@@ -130,8 +130,8 @@ de:
   facts:
     availability: Ab sofort
     location: Innenstadt München
-    hours: 6–15 Stunden/Woche
-  intro: Schon mal verzweifelt einen Raum gesucht? Oder nicht gewusst, wo genau deine Prüfung stattfindet? Genau solche Probleme lösen wir bei NavigaTUM – mit **präziser Indoor-Navigation** auf Basis von Gebäudedaten. Du möchtest verstehen, wie Gebäude digital abgebildet und navigierbar gemacht werden, und selbst aktiv mitarbeiten? Dann bist du bei uns genau richtig. Wir suchen ab sofort **mehrere studentische Hilfskräfte (m/w/d)** für das Projekt NavigaTUM.
+    hours: 6-15 Stunden/Woche
+  intro: Schon mal verzweifelt einen Raum gesucht? Oder nicht gewusst, wo genau deine Prüfung stattfindet? Genau solche Probleme lösen wir bei NavigaTUM - mit **präziser Indoor-Navigation** auf Basis von Gebäudedaten. Du möchtest verstehen, wie Gebäude digital abgebildet und navigierbar gemacht werden, und selbst aktiv mitarbeiten? Dann bist du bei uns genau richtig. Wir suchen ab sofort **mehrere studentische Hilfskräfte (m/w/d)** für das Projekt NavigaTUM.
   responsibilities:
     heading: Was dich erwartet
     items:
@@ -160,7 +160,7 @@ de:
   about:
     heading: Über uns
     body: NavigaTUM ist eine Plattform zur Indoor- und Campus-Navigation. Ziel ist es, Gebäude (z. B. Hochschulen) digital zugänglich zu machen und die Navigation innerhalb von Gebäuden zu ermöglichen. Grundlage sind unter anderem BIM-Daten (IFC), die in kartierbare Strukturen überführt und in OpenStreetMap (OSM) integriert werden.
-  call_to_action: Neugierig geworden? Dann freuen wir uns über deine Bewerbung mit kurzem Motivationsschreiben und Lebenslauf – mit dem Betreff **„Bewerbung NavigaTUM“**.
+  call_to_action: Neugierig geworden? Dann freuen wir uns über deine Bewerbung mit kurzem Motivationsschreiben und Lebenslauf - mit dem Betreff **„Bewerbung NavigaTUM"**.
   apply: Jetzt bewerben
 en:
   close: Close
@@ -169,8 +169,8 @@ en:
   facts:
     availability: Starting now
     location: Munich city centre
-    hours: 6–15 hours/week
-  intro: Ever searched in vain for a room? Or not known where exactly your exam takes place? These are precisely the problems we solve at NavigaTUM – with **accurate indoor navigation** based on building data. Want to understand how buildings are mapped digitally and made navigable, and help build it yourself? Then you are in the right place. We are looking for **several student assistants (m/f/d)** for the NavigaTUM project, starting now.
+    hours: 6-15 hours/week
+  intro: Ever searched in vain for a room? Or not known where exactly your exam takes place? These are precisely the problems we solve at NavigaTUM - with **accurate indoor navigation** based on building data. Want to understand how buildings are mapped digitally and made navigable, and help build it yourself? Then you are in the right place. We are looking for **several student assistants (m/f/d)** for the NavigaTUM project, starting now.
   responsibilities:
     heading: What you will do
     items:
@@ -199,6 +199,6 @@ en:
   about:
     heading: About us
     body: NavigaTUM is a platform for indoor and campus navigation. Its goal is to make buildings (e.g. universities) digitally accessible and to enable navigation inside them. It builds on BIM data (IFC), among other sources, which is converted into mappable structures and integrated into OpenStreetMap (OSM).
-  call_to_action: Curious? We look forward to your application with a short cover letter and CV – with the subject **“Bewerbung NavigaTUM”**.
+  call_to_action: Curious? We look forward to your application with a short cover letter and CV - with the subject **"Bewerbung NavigaTUM"**.
   apply: Apply now
 </i18n>
