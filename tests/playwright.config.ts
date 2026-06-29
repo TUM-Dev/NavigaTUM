@@ -1,5 +1,25 @@
 import { defineConfig, devices } from "@playwright/test";
 
+/* One-time, dismissable promo popups (e.g. the hiring popup) auto-open on a visitor's first page
+   and overlay the app with a full-screen backdrop. Pre-seed their dismissal so the UI suite tests
+   the app, not the promo. The value mirrors what the client writes via `useCookie` (URI-encoded
+   JSON); the domain is host-only ("localhost") so it matches both the :3003 and :3000 CI targets. */
+const dismissedNotices = {
+  cookies: [
+    {
+      name: "dismissedNotices",
+      value: encodeURIComponent(JSON.stringify(["hiring-werkstudent-2026"])),
+      domain: "localhost",
+      path: "/",
+      expires: -1,
+      httpOnly: false,
+      secure: false,
+      sameSite: "Lax" as const,
+    },
+  ],
+  origins: [],
+};
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -59,6 +79,7 @@ export default defineConfig({
       testMatch: /.*\.ui\.spec\.ts/,
       use: {
         ...devices["Desktop Chrome"],
+        storageState: dismissedNotices,
       },
     },
     {
@@ -67,6 +88,7 @@ export default defineConfig({
       testMatch: /.*\.ui\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
+        storageState: dismissedNotices,
       },
     },
   ],
