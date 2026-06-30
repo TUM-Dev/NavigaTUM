@@ -1,26 +1,26 @@
 canteen_id,name,opening_hours,last_update,source_url
-fmi-bistro,FMI Bistro Garching,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/fmi-bistro
-mediziner-mensa,Mediziner Mensa,Mo-Fr 08:00-15:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mediziner-mensa
-mensa-arcisstr,Mensa Arcisstraße,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr
-mensa-bildungscampus-heilbronn,Mensa Bildungscampus Heilbronn,Mo-Fr 11:00-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-bildungscampus-heilbronn
-mensa-garching,Mensa Garching,Mo-Fr 10:45-14:15,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-garching
-mensa-leopoldstr,Mensa Leopoldstraße,Mo-Th 11:00-14:30; Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-leopoldstr
-mensa-lothstr,Mensa Lothstraße,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-lothstr
-mensa-martinsried,Mensa Martinsried,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-martinsried
-mensa-pasing,Mensa Pasing,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-pasing
-mensa-straubing,Mensa Straubing,Mo-Th 07:30-15:00; Fr 07:30-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-straubing
-mensa-weihenstephan,Mensa Weihenstephan,Mo-Fr 11:00-13:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan
-stubistro-arcisstr,StuBistro Arcisstraße,Mo-Fr 09:00-15:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-arcisstr
-stubistro-butenandstr,StuBistro Butenandstraße,Mo-Th 09:00-15:00; Fr 09:00-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-butenandstr
-stubistro-goethestr,StuBistro Goethestraße,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-goethestr
-stubistro-martinsried,StuBistro Martinsried,Mo-Fr 08:30-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-martinsried
-stubistro-rosenheim,StuBistro Rosenheim,Mo-Th 09:00-15:30; Fr 09:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-rosenheim
-stubistro-schellingstr,StuBistro Schellingstraße,Mo-Th 09:00-16:30; Fr 09:00-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stubistro-schellingstr
-stucafe-adalbertstr,StuCafé Adalbertstraße,Mo-Fr 11:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-adalbertstr
-stucafe-akademie-weihenstephan,StuCafé Akademie Weihenstephan,Mo-Th 08:00-14:30; Fr 08:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-akademie-weihenstephan
-stucafe-boltzmannstr,StuBistro Boltzmannstraße,Mo-Th 08:30-16:30; Fr 08:30-15:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-boltzmannstr
-stucafe-connollystr,StuCafé Connollystraße,Mo-Th 09:00-15:00; Fr 09:00-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-connollystr
-stucafe-garching,StuBistro Garching,Mo-Th 09:00-16:00; Fr 09:00-15:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-garching
-stucafe-karlstr,StuCafé Karlstraße,Mo-Fr 08:15-15:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-karlstr
-stucafe-pasing,StuCafé Pasing,Mo-Tu 07:45-16:15; We-Th 07:45-16:00; Fr 07:45-14:30,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-pasing
-stucafe-weihenstephan-maximus,StuCafé Weihenstephan-Maximus,Mo-Th 08:30-15:00; Fr 08:30-14:00,2026-06-22,https://tum-dev.github.io/eat-api/#!/de/stucafe-weihenstephan-maximus
+fmi-bistro,FMI Bistro Garching,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/fmi-bistro
+mediziner-mensa,Mediziner Mensa,Mo-Fr 08:00-15:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mediziner-mensa
+mensa-arcisstr,Mensa Arcisstraße,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr
+mensa-bildungscampus-heilbronn,Mensa Bildungscampus Heilbronn,Mo-Fr 11:00-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-bildungscampus-heilbronn
+mensa-garching,Mensa Garching,Mo-Fr 10:45-14:15,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-garching
+mensa-leopoldstr,Mensa Leopoldstraße,Mo-Th 11:00-14:30; Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-leopoldstr
+mensa-lothstr,Mensa Lothstraße,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-lothstr
+mensa-martinsried,Mensa Martinsried,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-martinsried
+mensa-pasing,Mensa Pasing,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-pasing
+mensa-straubing,Mensa Straubing,Mo-Th 07:30-15:00; Fr 07:30-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-straubing
+mensa-weihenstephan,Mensa Weihenstephan,Mo-Fr 11:00-13:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan
+stubistro-arcisstr,StuBistro Arcisstraße,Mo-Fr 09:00-15:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-arcisstr
+stubistro-butenandstr,StuBistro Butenandstraße,Mo-Th 09:00-15:00; Fr 09:00-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-butenandstr
+stubistro-goethestr,StuBistro Goethestraße,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-goethestr
+stubistro-martinsried,StuBistro Martinsried,Mo-Fr 08:30-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-martinsried
+stubistro-rosenheim,StuBistro Rosenheim,Mo-Th 09:00-15:30; Fr 09:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-rosenheim
+stubistro-schellingstr,StuBistro Schellingstraße,Mo-Th 09:00-16:30; Fr 09:00-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stubistro-schellingstr
+stucafe-adalbertstr,StuCafé Adalbertstraße,Mo-Fr 11:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-adalbertstr
+stucafe-akademie-weihenstephan,StuCafé Akademie Weihenstephan,Mo-Th 08:00-14:30; Fr 08:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-akademie-weihenstephan
+stucafe-boltzmannstr,StuBistro Boltzmannstraße,Mo-Th 08:30-16:30; Fr 08:30-15:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-boltzmannstr
+stucafe-connollystr,StuCafé Connollystraße,Mo-Th 09:00-15:00; Fr 09:00-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-connollystr
+stucafe-garching,StuBistro Garching,Mo-Th 09:00-16:00; Fr 09:00-15:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-garching
+stucafe-karlstr,StuCafé Karlstraße,Mo-Fr 08:15-15:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-karlstr
+stucafe-pasing,StuCafé Pasing,Mo-Tu 07:45-16:15; We-Th 07:45-16:00; Fr 07:45-14:30,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-pasing
+stucafe-weihenstephan-maximus,StuCafé Weihenstephan-Maximus,Mo-Th 08:30-15:00; Fr 08:30-14:00,2026-06-29,https://tum-dev.github.io/eat-api/#!/de/stucafe-weihenstephan-maximus
