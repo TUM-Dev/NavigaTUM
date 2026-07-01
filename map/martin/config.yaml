@@ -3,7 +3,8 @@ cache:
   tile_expiry: 1h
   tile_idle_timeout: 10m
 listen_addresses: 0.0.0.0:3001
-base_path: ${BASE_PATH:/}
+base_path: /martin
+route_prefix: /martin
 web_ui: enableforall
 sprites:
   - /map/sprites/maki
