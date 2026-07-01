@@ -147,6 +147,8 @@ jobs:
         run: bash map/martin/test/render-e2e.sh
 
   build:
+    # Don't publish until the checks that guard what the image bakes in pass (render-e2e boots the baked config).
+    needs: [ validate-planetiler-custommap, validate-planetiler-schema, validate-style, render-e2e ]
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: martin

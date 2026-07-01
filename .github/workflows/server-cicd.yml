@@ -67,6 +67,8 @@ jobs:
           CARGO_NET_RETRY: 10
           CARGO_HTTP_MULTIPLEXING: false
   build:
+    # Don't publish until tests and lints pass, so a red build never reaches :main.
+    needs: [ shear, tests, linting ]
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: server

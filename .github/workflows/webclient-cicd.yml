@@ -26,6 +26,8 @@ jobs:
       - run: pnpm run test
         working-directory: webclient
   build:
+    # Don't publish until lint, type-check, and tests pass, so a red build never reaches :main.
+    needs: [ lint ]
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: webclient
