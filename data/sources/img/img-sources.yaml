@@ -1093,6 +1093,15 @@ event_17ddb108241f623c:
     offsets:
       header: 257
       thumb: 14
+event_28597b0ffe46dc67:
+  0:
+    author: Mary's Meals Studentclub
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -9
+      thumb: 0
 event_4a3e5d2fd5b338e4:
   0:
     author: FSMSE
