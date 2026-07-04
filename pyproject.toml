@@ -13,7 +13,7 @@ dependencies = [
   "lxml==6.1.1",
   "orjson==3.11.9",
   "Pillow==12.2.0",
-  "polars==1.42.0",
+  "polars==1.42.1",
   "pyarrow==24.0.0",
   "pydantic==2.13.4",
   "pyyaml==6.0.3",
