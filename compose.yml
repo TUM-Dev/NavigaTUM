@@ -286,7 +286,7 @@ services:
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
       - "prometheus.scrape=true"
       - "prometheus.port=3001"
-      - "prometheus.path=/_/metrics"
+      - "prometheus.path=/martin/_/metrics"
       - "prometheus.job=navigatum-martin"
     networks:
       - traefik_traefik
