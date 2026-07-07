@@ -1,66 +1,66 @@
-# HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.
-# TYPE process_cpu_user_seconds_total counter
-# HELP process_cpu_system_seconds_total Total system CPU time spent in seconds.
-# TYPE process_cpu_system_seconds_total counter
-# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
-# TYPE process_cpu_seconds_total counter
-# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
-# TYPE process_start_time_seconds gauge
-# HELP process_resident_memory_bytes Resident memory size in bytes.
-# TYPE process_resident_memory_bytes gauge
-# HELP process_virtual_memory_bytes Virtual memory size in bytes.
-# TYPE process_virtual_memory_bytes gauge
-# HELP process_heap_bytes Process heap size in bytes.
-# TYPE process_heap_bytes gauge
-# HELP process_open_fds Number of open file descriptors.
-# TYPE process_open_fds gauge
-# HELP process_max_fds Maximum number of open file descriptors.
-# TYPE process_max_fds gauge
-# HELP nodejs_eventloop_lag_seconds Lag of event loop in seconds.
-# TYPE nodejs_eventloop_lag_seconds gauge
-# HELP nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.
-# TYPE nodejs_eventloop_lag_min_seconds gauge
-# HELP nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.
-# TYPE nodejs_eventloop_lag_max_seconds gauge
-# HELP nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop delays.
-# TYPE nodejs_eventloop_lag_mean_seconds gauge
-# HELP nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded event loop delays.
-# TYPE nodejs_eventloop_lag_stddev_seconds gauge
-# HELP nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded event loop delays.
-# TYPE nodejs_eventloop_lag_p50_seconds gauge
-# HELP nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded event loop delays.
-# TYPE nodejs_eventloop_lag_p90_seconds gauge
-# HELP nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded event loop delays.
-# TYPE nodejs_eventloop_lag_p99_seconds gauge
-# HELP nodejs_active_resources Number of active resources that are currently keeping the event loop alive, grouped by async resource type.
-# TYPE nodejs_active_resources gauge
-# HELP nodejs_active_resources_total Total number of active resources.
-# TYPE nodejs_active_resources_total gauge
-# HELP nodejs_active_handles Number of active libuv handles grouped by handle type. Every handle type is C++ class name.
-# TYPE nodejs_active_handles gauge
-# HELP nodejs_active_handles_total Total number of active handles.
-# TYPE nodejs_active_handles_total gauge
-# HELP nodejs_active_requests Number of active libuv requests grouped by request type. Every request type is C++ class name.
-# TYPE nodejs_active_requests gauge
-# HELP nodejs_active_requests_total Total number of active requests.
-# TYPE nodejs_active_requests_total gauge
-# HELP nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.
-# TYPE nodejs_heap_size_total_bytes gauge
-# HELP nodejs_heap_size_used_bytes Process heap size used from Node.js in bytes.
-# TYPE nodejs_heap_size_used_bytes gauge
-# HELP nodejs_external_memory_bytes Node.js external memory size in bytes.
-# TYPE nodejs_external_memory_bytes gauge
-# HELP nodejs_heap_space_size_total_bytes Process heap space size total from Node.js in bytes.
-# TYPE nodejs_heap_space_size_total_bytes gauge
-# HELP nodejs_heap_space_size_used_bytes Process heap space size used from Node.js in bytes.
-# TYPE nodejs_heap_space_size_used_bytes gauge
-# HELP nodejs_heap_space_size_available_bytes Process heap space size available from Node.js in bytes.
-# TYPE nodejs_heap_space_size_available_bytes gauge
-# HELP nodejs_version_info Node.js version info.
-# TYPE nodejs_version_info gauge
-# HELP nodejs_gc_duration_seconds Garbage collection duration by kind, one of major, minor, incremental or weakcb.
-# TYPE nodejs_gc_duration_seconds histogram
-# HELP nuxt_ssr_render_duration_seconds Duration of SSR page renders
-# TYPE nuxt_ssr_render_duration_seconds histogram
-# HELP nuxt_page_requests_total Total SSR page requests
-# TYPE nuxt_page_requests_total counter
+# HELP navigatum_ssr_process_cpu_user_seconds_total Total user CPU time spent in seconds.
+# TYPE navigatum_ssr_process_cpu_user_seconds_total counter
+# HELP navigatum_ssr_process_cpu_system_seconds_total Total system CPU time spent in seconds.
+# TYPE navigatum_ssr_process_cpu_system_seconds_total counter
+# HELP navigatum_ssr_process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE navigatum_ssr_process_cpu_seconds_total counter
+# HELP navigatum_ssr_process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE navigatum_ssr_process_start_time_seconds gauge
+# HELP navigatum_ssr_process_resident_memory_bytes Resident memory size in bytes.
+# TYPE navigatum_ssr_process_resident_memory_bytes gauge
+# HELP navigatum_ssr_process_virtual_memory_bytes Virtual memory size in bytes.
+# TYPE navigatum_ssr_process_virtual_memory_bytes gauge
+# HELP navigatum_ssr_process_heap_bytes Process heap size in bytes.
+# TYPE navigatum_ssr_process_heap_bytes gauge
+# HELP navigatum_ssr_process_open_fds Number of open file descriptors.
+# TYPE navigatum_ssr_process_open_fds gauge
+# HELP navigatum_ssr_process_max_fds Maximum number of open file descriptors.
+# TYPE navigatum_ssr_process_max_fds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_seconds Lag of event loop in seconds.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_min_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_max_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop delays.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_mean_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded event loop delays.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_stddev_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded event loop delays.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_p50_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded event loop delays.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_p90_seconds gauge
+# HELP navigatum_ssr_nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded event loop delays.
+# TYPE navigatum_ssr_nodejs_eventloop_lag_p99_seconds gauge
+# HELP navigatum_ssr_nodejs_active_resources Number of active resources that are currently keeping the event loop alive, grouped by async resource type.
+# TYPE navigatum_ssr_nodejs_active_resources gauge
+# HELP navigatum_ssr_nodejs_active_resources_total Total number of active resources.
+# TYPE navigatum_ssr_nodejs_active_resources_total gauge
+# HELP navigatum_ssr_nodejs_active_handles Number of active libuv handles grouped by handle type. Every handle type is C++ class name.
+# TYPE navigatum_ssr_nodejs_active_handles gauge
+# HELP navigatum_ssr_nodejs_active_handles_total Total number of active handles.
+# TYPE navigatum_ssr_nodejs_active_handles_total gauge
+# HELP navigatum_ssr_nodejs_active_requests Number of active libuv requests grouped by request type. Every request type is C++ class name.
+# TYPE navigatum_ssr_nodejs_active_requests gauge
+# HELP navigatum_ssr_nodejs_active_requests_total Total number of active requests.
+# TYPE navigatum_ssr_nodejs_active_requests_total gauge
+# HELP navigatum_ssr_nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.
+# TYPE navigatum_ssr_nodejs_heap_size_total_bytes gauge
+# HELP navigatum_ssr_nodejs_heap_size_used_bytes Process heap size used from Node.js in bytes.
+# TYPE navigatum_ssr_nodejs_heap_size_used_bytes gauge
+# HELP navigatum_ssr_nodejs_external_memory_bytes Node.js external memory size in bytes.
+# TYPE navigatum_ssr_nodejs_external_memory_bytes gauge
+# HELP navigatum_ssr_nodejs_heap_space_size_total_bytes Process heap space size total from Node.js in bytes.
+# TYPE navigatum_ssr_nodejs_heap_space_size_total_bytes gauge
+# HELP navigatum_ssr_nodejs_heap_space_size_used_bytes Process heap space size used from Node.js in bytes.
+# TYPE navigatum_ssr_nodejs_heap_space_size_used_bytes gauge
+# HELP navigatum_ssr_nodejs_heap_space_size_available_bytes Process heap space size available from Node.js in bytes.
+# TYPE navigatum_ssr_nodejs_heap_space_size_available_bytes gauge
+# HELP navigatum_ssr_nodejs_version_info Node.js version info.
+# TYPE navigatum_ssr_nodejs_version_info gauge
+# HELP navigatum_ssr_nodejs_gc_duration_seconds Garbage collection duration by kind, one of major, minor, incremental or weakcb.
+# TYPE navigatum_ssr_nodejs_gc_duration_seconds histogram
+# HELP navigatum_ssr_render_duration_seconds Duration of SSR page renders
+# TYPE navigatum_ssr_render_duration_seconds histogram
+# HELP navigatum_ssr_page_requests_total Total SSR page requests
+# TYPE navigatum_ssr_page_requests_total counter
