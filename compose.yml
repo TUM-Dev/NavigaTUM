@@ -11,6 +11,7 @@ services:
       - "prometheus.scrape=true"
       - "prometheus.port=3000"
       - "prometheus.path=/metrics"
+      - "prometheus.job=navigatum-webclient"
     networks:
       - traefik_traefik
     expose:
@@ -33,6 +34,7 @@ services:
       - "prometheus.scrape=true"
       - "prometheus.port=3003"
       - "prometheus.path=/api/metrics"
+      - "prometheus.job=navigatum-api"
     networks:
       - traefik_traefik
     expose:
@@ -114,6 +116,7 @@ services:
       - "prometheus.scrape=true"
       - "prometheus.port=9187"
       - "prometheus.path=/metrics"
+      - "prometheus.job=navigatum-postgres"
     depends_on:
       db:
         condition: service_healthy
@@ -284,6 +287,7 @@ services:
       - "prometheus.scrape=true"
       - "prometheus.port=3001"
       - "prometheus.path=/_/metrics"
+      - "prometheus.job=navigatum-martin"
     networks:
       - traefik_traefik
     expose:
