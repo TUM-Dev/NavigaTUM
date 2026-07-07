@@ -1,7 +1,7 @@
 import { Counter, collectDefaultMetrics, Histogram, Registry } from "prom-client";
 
-// Shared prefix so every metric this server emits — including the default
-// nodejs_*/process_* ones — lives under one namespace instead of a mix of
+// Shared prefix so every metric this server emits - including the default
+// nodejs_*/process_* ones - lives under one namespace instead of a mix of
 // nuxt_*, nodejs_*, and process_*.
 const METRIC_PREFIX = "navigatum_ssr_";
 
