@@ -8,6 +8,10 @@ services:
       - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
       - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
+      - "prometheus.scrape=true"
+      - "prometheus.port=3000"
+      - "prometheus.path=/metrics"
+      - "prometheus.job=navigatum-webclient"
     networks:
       - traefik_traefik
     expose:
@@ -27,6 +31,10 @@ services:
       - "traefik.http.routers.navigatum-server.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && (PathPrefix(`/api`) || PathPrefix(`/cdn`))"
       - "traefik.http.services.navigatum-server.loadbalancer.server.port=3003"
+      - "prometheus.scrape=true"
+      - "prometheus.port=3003"
+      - "prometheus.path=/api/metrics"
+      - "prometheus.job=navigatum-api"
     networks:
       - traefik_traefik
     expose:
@@ -94,6 +102,24 @@ services:
       interval: 10s
       start_interval: 500ms
       start_period: 20s
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.17.1
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+      DATA_SOURCE_NAME: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable
+    networks:
+      - traefik_traefik
+    expose:
+      - "9187"
+    labels:
+      - "prometheus.scrape=true"
+      - "prometheus.port=9187"
+      - "prometheus.path=/metrics"
+      - "prometheus.job=navigatum-postgres"
+    depends_on:
+      db:
+        condition: service_healthy
   download-data:
     image: alpine:latest
     command: sh /map/download.sh europe/germany/bayern/oberbayern
@@ -258,6 +284,10 @@ services:
       - "traefik.http.routers.navigatum-martin.middlewares=navigatum-martin-cache-headers@docker"
       - "traefik.http.middlewares.navigatum-martin-cache-headers.headers.customresponseheaders.Cache-Control=public, max-age 86400, stale-if-error 86400" # 1 day
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
+      - "prometheus.scrape=true"
+      - "prometheus.port=3001"
+      - "prometheus.path=/_/metrics"
+      - "prometheus.job=navigatum-martin"
     networks:
       - traefik_traefik
     expose:
