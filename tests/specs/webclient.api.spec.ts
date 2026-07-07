@@ -26,16 +26,16 @@ test.describe("Webclient - Prometheus Metrics", () => {
     const response = await request.get(`${WEBCLIENT_BASE_URL}/metrics`);
     const body = await response.text();
 
-    expect(body).toContain("process_cpu_user_seconds_total");
-    expect(body).toContain("process_resident_memory_bytes");
-    expect(body).toContain("nodejs_heap_size_total_bytes");
+    expect(body).toContain("navigatum_ssr_process_cpu_user_seconds_total");
+    expect(body).toContain("navigatum_ssr_process_resident_memory_bytes");
+    expect(body).toContain("navigatum_ssr_nodejs_heap_size_total_bytes");
   });
 
   test("should include custom SSR metrics", async ({ request }) => {
     const response = await request.get(`${WEBCLIENT_BASE_URL}/metrics`);
     const body = await response.text();
 
-    expect(body).toContain("nuxt_ssr_render_duration_seconds");
-    expect(body).toContain("nuxt_page_requests_total");
+    expect(body).toContain("navigatum_ssr_render_duration_seconds");
+    expect(body).toContain("navigatum_ssr_page_requests_total");
   });
 });
