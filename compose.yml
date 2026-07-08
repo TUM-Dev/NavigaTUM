@@ -63,7 +63,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.48.3
+    image: getmeili/meilisearch:v1.49.0
     restart: unless-stopped
     networks:
       - traefik_traefik
@@ -103,7 +103,7 @@ services:
       start_interval: 500ms
       start_period: 20s
   postgres-exporter:
-    image: quay.io/prometheuscommunity/postgres-exporter:v0.17.1
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.20.1
     restart: unless-stopped
     environment:
       TZ: Europe/Berlin
