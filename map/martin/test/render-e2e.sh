@@ -25,6 +25,10 @@ FIXTURE_PBF="${FIXTURE_PBF:-/tmp/navigatum-e2e-fixture.osm.pbf}"
 MBTILES_OUT="${MBTILES_OUT:-/tmp/navigatum-e2e-output.mbtiles}"
 OSM2PGSQL_IMAGE="iboates/osm2pgsql:latest"   # same image as compose.yml
 MARTIN_PORT=3001
+# config.yaml serves every source under /martin (route_prefix), which prod no longer strips
+# (compose.yml dropped the traefik stripprefix), so tile/style requests must keep the prefix.
+# /health stays at the root; martin serves it there regardless of route_prefix.
+MARTIN_BASE="http://localhost:${MARTIN_PORT}/martin"
 DATABASE_URL="postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}"
 export PGPASSWORD
 
@@ -101,10 +105,10 @@ wget -q -O /tmp/maki.zip https://github.com/mapbox/maki/zipball/main
 rm -rf /tmp/maki && mkdir -p /tmp/maki "$RUNDIR/sprites/maki" && unzip -q /tmp/maki.zip -d /tmp/maki
 mv /tmp/maki/mapbox-maki-*/icons/* "$RUNDIR/sprites/maki/"
 # The style's martin sources are absolute prod URLs; the renderer fetches tiles over HTTP, so
-# point them at this martin (root base path) instead of production. localhost:3001 works both
-# from the runner (curl) and inside the container (the renderer self-fetches). The /cdn
-# natural-earth raster is low-zoom only and unused at z18, so it's left alone.
-sed -i "s#https://nav.tum.de/martin#http://localhost:${MARTIN_PORT}#g" "$RUNDIR/styles/navigatum-basemap.json"
+# point them at this martin instead of production, keeping the /martin prefix it serves under.
+# localhost:3001 works both from the runner (curl) and inside the container (the renderer
+# self-fetches). The /cdn natural-earth raster is low-zoom only and unused at z18, so it's left alone.
+sed -i "s#https://nav.tum.de/martin#${MARTIN_BASE}#g" "$RUNDIR/styles/navigatum-basemap.json"
 endlog
 
 log "run martin"
@@ -156,11 +160,11 @@ read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
   printf "%d %d\n", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
 }')
 log "assert indoor tile $czoom/$tx/$ty"
-assert_serves "http://localhost:${MARTIN_PORT}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
+assert_serves "${MARTIN_BASE}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
 endlog
 
 log "assert static basemap render"
-assert_serves "http://localhost:${MARTIN_PORT}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png" /tmp/render.png
+assert_serves "${MARTIN_BASE}/style/navigatum-basemap/static/${RENDER_CAMERA}/${RENDER_SIZE}.png" /tmp/render.png
 [ -s /tmp/render.png ] || { echo "ERROR: render returned an empty image" >&2; exit 1; }
 endlog
 
