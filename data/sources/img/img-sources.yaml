@@ -1123,6 +1123,15 @@ event_9d02ddd940c43f87:
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+event_cc78838ca8cc9fd9:
+  0:
+    author: Fachschaft Elektrotechnik und Informationstechnik e. V.
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 771
+      thumb: 295
 event_e7eac1a1a5eb796c:
   0:
     author: 'UnternehmerTum '
