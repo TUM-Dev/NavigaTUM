@@ -23,7 +23,7 @@ services:
       NUXT_PUBLIC_API_URL: https://nav.tum.de
       NUXT_PUBLIC_CALENDAR_URL: https://nav.tum.de
   server:
-    image: ghcr.io/tum-dev/navigatum-server:latest
+    image: ghcr.io/tum-dev/navigatum-server:main
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
