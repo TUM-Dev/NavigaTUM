@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
+  calendarEventEndLabel,
   findDuplicateEventByName,
   formatEventDateRange,
   rfc3339ToWallTime,
@@ -127,5 +128,17 @@ describe("findDuplicateEventByName", () => {
   it.each(["", "   ", "a", " a "])("returns null for the too-short query %j", (query) => {
     const a = entry("a", "2026-06-19T18:00:00Z");
     expect(findDuplicateEventByName([a], query, NOW)).toBeNull();
+  });
+});
+
+describe("calendarEventEndLabel", () => {
+  // #3424: FullCalendar nulls `end` for zero-duration events (e.g. "2331.EG.113"),
+  // and the template used to call `.toLocaleTimeString` on it directly, crashing the calendar.
+  it("returns an empty string when end is null", () => {
+    expect(calendarEventEndLabel(null)).toBe("");
+  });
+
+  it("renders a ` - HH:MM` suffix for a real end", () => {
+    expect(calendarEventEndLabel(new Date("2026-07-06T08:00:00Z"))).toBe(" - 10:00");
   });
 });

@@ -172,9 +172,7 @@ function refetchEvents() {
         >
           <template v-if="arg.view.type == 'timeGridWeek' || arg.view.type == 'timeGridDay'">
             <span class="font-medium">{{ arg.event.title }}</span>
-            <span class="font-normal opacity-70"
-              >{{ arg.timeText }} - {{ arg.event.end.toLocaleTimeString("de", { timeStyle: "short" }) }}</span
-            >
+            <span class="font-normal opacity-70">{{ arg.timeText }}{{ calendarEventEndLabel(arg.event.end) }}</span>
           </template>
           <template v-else-if="arg.view.type == 'listWeek'">
             <span class="font-medium">{{ arg.event.title }}</span>
