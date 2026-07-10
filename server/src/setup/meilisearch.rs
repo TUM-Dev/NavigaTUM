@@ -86,6 +86,7 @@ pub async fn setup(client: &Client) -> anyhow::Result<()> {
             "room_code",
             "room_code_normalised",
             "name",
+            "short_name",
             "arch_name",
             "arch_name_normalised",
             "aliases",
