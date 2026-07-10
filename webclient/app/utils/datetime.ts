@@ -56,3 +56,10 @@ export function formatEventDateRange(
     year: "numeric",
   }).formatRange(start, end);
 }
+
+// FullCalendar nulls `end` for zero- or negative-duration events (end <= start), so the end
+// label must tolerate null and collapse to just the start time (#3424).
+export function calendarEventEndLabel(end: Date | null): string {
+  if (end === null) return "";
+  return ` - ${end.toLocaleTimeString("de", { timeStyle: "short" })}`;
+}
