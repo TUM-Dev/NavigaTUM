@@ -226,6 +226,7 @@ def export_for_search(data: dict[str, Entry]) -> None:
                 "room_code": _id,
                 "room_code_normalised": normalise_id(_id),
                 "name": _de(entry["name"]),
+                "short_name": _de(entry.get("short_name")),
                 "arch_name": entry.get("arch_name"),
                 "arch_name_normalised": normalise_id(entry.get("arch_name", "")),
                 "aliases": entry.get("aliases", []),
