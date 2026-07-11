@@ -7,9 +7,9 @@ dependencies = [
   "backoff==2.2.1",
   "beautifulsoup4==4.15.0",
   "brotli>=1.2.0",
-  "dataframely==2.11.0",
+  "dataframely==2.13.0",
   "defusedxml==0.7.1",
-  "holidays==0.99",
+  "holidays==0.100",
   "lxml==6.1.1",
   "orjson==3.11.9",
   "Pillow==12.3.0",
@@ -20,15 +20,15 @@ dependencies = [
   "requests==2.34.2",
   "requests-oauthlib==2.0.0",
   "ruamel.yaml==0.19.1",
-  "tqdm==4.68.3",
+  "tqdm==4.68.4",
   "utm==0.8.1",
-  "xxhash==3.8.0",
+  "xxhash==3.8.1",
 ]
 
 [dependency-groups]
 dev = [
   "mypy==2.2.0",
-  "opening-hours-py==2.1.2",
+  "opening-hours-py==2.1.4",
   "pre-commit==4.6.0",
   "pytest==9.1.1",
   "ruff==0.15.21",
