@@ -34,7 +34,7 @@ dev = [
   "ruff==0.15.21",
   "types-Pillow==10.2.0.20240822",
   "types-PyYAML==6.0.12.20260518",
-  "types-requests==2.33.0.20260518",
+  "types-requests==2.33.0.20260712",
   "types-termcolor==1.1.6.2",
 ]
 
