@@ -109,14 +109,13 @@ impl GitHub {
             .await
         {
             Ok(pr) => {
-                if let (Some(n), Some(id)) = (pr.number, pr.node_id) {
-                    (n, id)
-                } else {
-                    error!("GitHub returned a created PR without a number or node_id");
+                let Some(node_id) = pr.node_id else {
+                    error!("GitHub returned a created PR without a node_id");
                     return Err(HttpResponse::InternalServerError()
                         .content_type("text/plain")
                         .body("Failed to create a pull request, please try again later"));
-                }
+                };
+                (pr.number, node_id)
             }
             Err(e) => {
                 error!(error = ?e, "Error creating pull request");
@@ -260,10 +259,7 @@ impl GitHub {
             for pr in &page.items {
                 for pr_label in pr.labels.iter().flatten() {
                     if pr_label.name == label {
-                        let (Some(head), Some(number)) = (pr.head.as_deref(), pr.number) else {
-                            continue;
-                        };
-                        return Ok(Some((number, head.ref_field.clone())));
+                        return Ok(Some((pr.number, pr.head.ref_field.clone())));
                     }
                 }
             }
