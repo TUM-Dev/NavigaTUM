@@ -69,6 +69,11 @@
 - target: 5115.01.010
   query: 1010 znn
   comment: Not sure about target here
+- target: '5115'
+  query: znn
+  comment: >-
+    '5115' (ZNN) surfaces as the top result again; previously parked in the .bad
+    list while the index temporarily ranked it lower.
 - target: 5433.EG.092
   query: 0092@5433
 - target: 5510.EG.026M
