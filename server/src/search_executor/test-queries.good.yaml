@@ -48,6 +48,9 @@
 - target: 5510.02.001
   query: MW2001
   comment: splitting necessary
+- target: 5402.01.220J
+  query: CH22209
+  comment: splitting necessary, 5-digit architect's name (arch_name '22209@5402')
 - target: 5508.02.801
   query: 1801 maschinen
 - target: 5503.EG.337

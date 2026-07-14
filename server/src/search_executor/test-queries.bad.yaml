@@ -29,8 +29,6 @@
   comment: >-
     old name before the NS renamings was 'MW 0001, Gustav-Niemann-Hörsaal',
     changed in Q1 24
-- target: 5402.01.220J
-  query: CH22209
 - target: 5602.EG.001
   query: f abuer
   comment: typo with short word and at first letter
