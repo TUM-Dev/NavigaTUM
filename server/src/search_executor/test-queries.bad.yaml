@@ -73,9 +73,3 @@
   comment: >-
     H.003 is the correct room, but people have problems remembering how many
     zeroes are in the room number
-- target: '5115'
-  query: znn
-  comment: >-
-    '5115' (ZNN) no longer surfaces in the top result for 'znn' as the index
-    evolved; recorded as a known non-match rather than chasing live-CDN ranking
-    drift.
