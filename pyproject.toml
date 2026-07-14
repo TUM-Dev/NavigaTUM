@@ -27,7 +27,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "mypy==2.2.0",
+  "mypy==2.3.0",
   "opening-hours-py==2.1.4",
   "pre-commit==4.6.0",
   "pytest==9.1.1",
