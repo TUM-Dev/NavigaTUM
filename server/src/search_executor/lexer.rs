@@ -123,10 +123,7 @@ mod tests {
             ),
             (
                 "ch 22206",
-                vec![
-                    Text("ch".to_string()),
-                    Text("22206".to_string()),
-                ],
+                vec![Text("ch".to_string()), Text("22206".to_string())],
             ),
         ] {
             let mut lexer = Token::lexer(text);
@@ -139,7 +136,14 @@ mod tests {
 
     #[test]
     fn quoted_irregular_splits() {
-        for text in ["hs1", "physik hs1", "hs1 physik", "mw1801", "mw180", "ch22206"] {
+        for text in [
+            "hs1",
+            "physik hs1",
+            "hs1 physik",
+            "mw1801",
+            "mw180",
+            "ch22206",
+        ] {
             let quoted_text = format!("\"{text}\"");
             let mut lexer = Token::lexer(&quoted_text);
             assert_eq!(lexer.next(), Some(Ok(Token::Text(text.to_string()))));
