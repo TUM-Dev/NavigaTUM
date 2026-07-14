@@ -1,7 +1,7 @@
 use logos::{Lexer, Logos};
 
-/// An irregular split is defined as at least a letter and 1-4 numbers
-/// Treating words like MW1801 differently has improvements in relevancy for room-level searches
+/// An irregular split is defined as at least a letter followed by at least one number.
+/// Treating words like MW1801 or CH22206 differently has improvements in relevancy for room-level searches.
 fn irregular_split(lex: &mut Lexer<Token>) -> (String, String) {
     let slice = lex.slice();
     let mut split = slice.len();
@@ -29,7 +29,7 @@ pub enum Token {
     #[regex(r"[^ \t\n\f]+", | lex | lex.slice().to_string(), priority = 1)]
     Text(String),
 
-    #[regex("[a-zA-Z]+[0-9]{1,4}", irregular_split, priority = 2)]
+    #[regex("[a-zA-Z]+[0-9]+", irregular_split, priority = 2)]
     SplittableText((String, String)),
 }
 
@@ -117,6 +117,17 @@ mod tests {
                 "mw180",
                 vec![SplittableText(("mw".to_string(), "180".to_string()))],
             ),
+            (
+                "ch22206",
+                vec![SplittableText(("ch".to_string(), "22206".to_string()))],
+            ),
+            (
+                "ch 22206",
+                vec![
+                    Text("ch".to_string()),
+                    Text("22206".to_string()),
+                ],
+            ),
         ] {
             let mut lexer = Token::lexer(text);
             for token in expected {
@@ -128,7 +139,7 @@ mod tests {
 
     #[test]
     fn quoted_irregular_splits() {
-        for text in ["hs1", "physik hs1", "hs1 physik", "mw1801", "mw180"] {
+        for text in ["hs1", "physik hs1", "hs1 physik", "mw1801", "mw180", "ch22206"] {
             let quoted_text = format!("\"{text}\"");
             let mut lexer = Token::lexer(&quoted_text);
             assert_eq!(lexer.next(), Some(Ok(Token::Text(text.to_string()))));
