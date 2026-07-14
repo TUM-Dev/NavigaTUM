@@ -415,7 +415,7 @@ pub async fn do_geoentry_search(
         .clone()
         .into_iter()
         .map(|s| match s {
-            TextToken::Text(t) => t,
+            TextToken::Text(t) => parser::strip_room_code_leading_zeros(&t),
             TextToken::SplittableText((t1, t2)) => format!("{t1} {t2} {t1}{t2}"),
         })
         .collect::<Vec<String>>()

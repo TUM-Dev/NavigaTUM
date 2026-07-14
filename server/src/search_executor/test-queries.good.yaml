@@ -106,9 +106,19 @@
   query: n1403
   among: 2
   comment: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
-# leading zeros are normalised
+# leading zeros are normalised on the query side, so any zero-count matches
 - target: 2910.EG.003
   query: H.3
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.03
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.0003
   comment: >-
     H.003 is the correct room, but people have problems remembering how many
     zeroes are in the room number
