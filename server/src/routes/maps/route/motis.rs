@@ -384,6 +384,37 @@ impl ModeResponse {
         Self::deserialize(de).unwrap_or(Self::Other)
     }
 }
+/// Whether a leg is carried by public transit, rather than MOTIS sending the user off by foot, bike or car
+pub(super) fn is_transit_leg(leg: &Leg) -> bool {
+    match leg.mode {
+        Mode::Walk
+        | Mode::Bike
+        | Mode::Rental
+        | Mode::Car
+        | Mode::CarParking
+        | Mode::CarDropoff => false,
+        Mode::Odm
+        | Mode::Flex
+        | Mode::Transit
+        | Mode::Tram
+        | Mode::Subway
+        | Mode::Ferry
+        | Mode::Airplane
+        | Mode::Metro
+        | Mode::Bus
+        | Mode::Coach
+        | Mode::Rail
+        | Mode::HighspeedRail
+        | Mode::LongDistance
+        | Mode::NightRail
+        | Mode::RegionalFastRail
+        | Mode::RegionalRail
+        | Mode::CableCar
+        | Mode::Funicular
+        | Mode::ArealLift
+        | Mode::Other => true,
+    }
+}
 impl From<Mode> for ModeResponse {
     fn from(mode: Mode) -> Self {
         match mode {
