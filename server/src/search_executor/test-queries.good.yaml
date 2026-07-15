@@ -48,6 +48,9 @@
 - target: 5510.02.001
   query: MW2001
   comment: splitting necessary
+- target: 5402.01.220J
+  query: CH22209
+  comment: splitting necessary, 5-digit architect's name (arch_name '22209@5402')
 - target: 5508.02.801
   query: 1801 maschinen
 - target: 5503.EG.337
@@ -69,6 +72,11 @@
 - target: 5115.01.010
   query: 1010 znn
   comment: Not sure about target here
+- target: '5115'
+  query: znn
+  comment: >-
+    '5115' (ZNN) surfaces as the top result again; previously parked in the .bad
+    list while the index temporarily ranked it lower.
 - target: 5433.EG.092
   query: 0092@5433
 - target: 5510.EG.026M
@@ -98,9 +106,19 @@
   query: n1403
   among: 2
   comment: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
-# leading zeros are normalised
+# leading zeros are normalised on the query side, so any zero-count matches
 - target: 2910.EG.003
   query: H.3
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.03
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.0003
   comment: >-
     H.003 is the correct room, but people have problems remembering how many
     zeroes are in the room number

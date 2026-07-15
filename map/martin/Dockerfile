@@ -1,6 +1,6 @@
-FROM ghcr.io/maplibre/martin:nightly
+FROM ghcr.io/maplibre/martin:latest
 
-# :nightly is the Ubuntu rendering build and ships without unzip.
+# :latest is the Ubuntu rendering build and ships without unzip.
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes unzip && \
     rm -rf /var/lib/apt/lists/*

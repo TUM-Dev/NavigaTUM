@@ -108,6 +108,8 @@ watch(
 );
 
 onMounted(async () => {
+  // Without WebGL2 the map container is never rendered, so `until` below would wait forever.
+  if (!webglSupport.value) return;
   await until(mapContainer).toBeTruthy();
   await initMap();
 });

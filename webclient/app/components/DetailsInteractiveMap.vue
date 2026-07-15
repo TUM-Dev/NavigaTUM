@@ -186,9 +186,11 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
 
 // --- Loading components ---
 onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: "auto" });
+  // Without WebGL2 the map container is never rendered, so `until` below would wait forever.
+  if (!webglSupport.value) return;
   await until(mapContainer).toBeTruthy();
   loadInteractiveMap();
-  window.scrollTo({ top: 0, behavior: "auto" });
 });
 
 onBeforeUnmount(() => {

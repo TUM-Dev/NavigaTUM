@@ -76,7 +76,7 @@ moka = { version = "0.12", features = ["future"] }
 motis-openapi-progenitor = { version = "0.4.0", path = "motis-openapi-progenitor" }
 oauth2 = { version = "5.0.0", default-features = false }
 oauth2-reqwest = "0.1.0-alpha.3"
-octocrab = { version = "0.53", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs", "tokio"] }
+octocrab = { version = "0.54", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs", "tokio"] }
 parquet = { version = "59.0.0", default-features = false, features = ["zstd"] }
 pretty_assertions = "1.4.1"
 progenitor-client = "0.14.0"
