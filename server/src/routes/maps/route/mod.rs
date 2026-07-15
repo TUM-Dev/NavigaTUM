@@ -1,6 +1,5 @@
 use std::fmt;
 
-use crate::external::motis::MotisWrapper;
 use crate::localisation::LanguageOptions;
 use actix_web::{HttpResponse, get, web};
 use chrono::{DateTime, TimeDelta, Utc};
@@ -19,7 +18,7 @@ use valhalla_client::{
         MotorcycleCostingOptions, MultimodalCostingOptions, PedestrianCostingOptions,
         TransitCostingOptions, bicycle::BicycleType, pedestrian::PedestrianType,
     },
-    route::ShapePoint,
+    route::{ShapePoint, Trip},
 };
 pub(crate) mod motis;
 mod valhalla;
@@ -115,67 +114,48 @@ impl RequestedLocation {
     }
 }
 
+// clear domination:
+// pedestrian is always dominated by public transit
+// if a user has car access, they likely prefer car
+// we can't know if they have, so car dominates ptw
+//
+// => decision:
+// bicycle below, then transit measured against the car it would replace
 const BICYCLE_MAX_KM: f64 = 3.0;
-const PUBLIC_TRANSIT_MAX_KM: f64 = 40.0;
 
-/// What the beeline distance alone suggests, before asking whether transit actually runs
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum DistanceBand {
-    Bicycle,
-    PublicTransit,
-    Car,
-}
-impl DistanceBand {
-    fn between(from: Coordinate, to: Coordinate) -> Self {
-        // clear domination:
-        // pedestrian is always dominated by public transit
-        // if a user has car access, they likely prefer car
-        // we can't know if they have, so car dominates ptw
-        //
-        // unclear domination (these have holes):
-        // bicycle for small distances is good, but after 3km, public transit is better
-        // car is better after 40km
-        //
-        // => decision:
-        // car vs public transit vs bicycle
-        let distance_km = from.distance_to(&to);
-        if distance_km < BICYCLE_MAX_KM {
-            Self::Bicycle
-        } else if distance_km < PUBLIC_TRANSIT_MAX_KM {
-            Self::PublicTransit
-        } else {
-            Self::Car
-        }
-    }
-}
-impl From<DistanceBand> for CostingRequest {
-    fn from(value: DistanceBand) -> Self {
-        match value {
-            DistanceBand::Bicycle => Self::Bicycle,
-            DistanceBand::PublicTransit => Self::PublicTransit,
-            DistanceBand::Car => Self::Car,
-        }
+/// However quick the drive, a default may not commit the user to longer than this
+const MIN_TRANSIT_BUDGET: TimeDelta = TimeDelta::minutes(60);
+/// A longer trip may take proportionally longer, so that regional rail is not strangled by the floor
+const TRANSIT_BUDGET_PER_CAR_MINUTE: i32 = 3;
+
+/// What the user commits to end to end: waiting included, from being ready until arrival
+fn total_travel_time(
+    itinerary: &Itinerary,
+    requested_time: DateTime<Utc>,
+    arrive_by: bool,
+) -> TimeDelta {
+    if arrive_by {
+        requested_time - itinerary.start_time
+    } else {
+        itinerary.end_time - requested_time
     }
 }
 
-/// How long a user may wait for transit before driving becomes the friendlier default
-const MAX_TRANSIT_SLACK: TimeDelta = TimeDelta::hours(1);
-
-/// Whether transit actually serves the requested time, as opposed to MOTIS answering with a walk-only itinerary or the first bus hours later
-fn serves_requested_time(
+/// Whether transit is worth defaulting to, or whether this is a Garching-at-night that is "better reached by car"
+fn transit_beats_the_car(
     itineraries: &[Itinerary],
+    car_time: TimeDelta,
     requested_time: DateTime<Utc>,
     arrive_by: bool,
 ) -> bool {
-    itineraries.iter().any(|itinerary| {
-        let relevant_time = if arrive_by {
-            itinerary.end_time
-        } else {
-            itinerary.start_time
-        };
-        itinerary.legs.iter().any(motis::is_transit_leg)
-            && (relevant_time - requested_time).abs() <= MAX_TRANSIT_SLACK
-    })
+    let budget = MIN_TRANSIT_BUDGET.max(car_time * TRANSIT_BUDGET_PER_CAR_MINUTE);
+    itineraries
+        .iter()
+        .filter(|itinerary| itinerary.legs.iter().any(motis::is_transit_leg))
+        .map(|itinerary| total_travel_time(itinerary, requested_time, arrive_by))
+        .filter(|travel_time| *travel_time >= TimeDelta::zero())
+        .min()
+        .is_some_and(|best| best <= budget)
 }
 
 /// Transport mode the user wants to use
@@ -224,36 +204,86 @@ impl CostingRequest {
     }
 }
 
-/// Where a transit routing came from, which decides whether we may still revise it
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum TransitChoice {
-    /// The user asked for transit, so we serve transit or nothing
-    Explicit,
-    /// We picked transit ourselves, so we may fall back if it does not pan out
-    OurDefault,
-}
-
+/// Which router answered, carrying what it answered with
+#[derive(Debug)]
 enum Router {
-    /// Carries the plan the probe already fetched, so that we don't ask MOTIS the same question twice
     Motis(Box<PlanResponse>),
-    Valhalla(CostingRequest),
+    Valhalla(Box<Trip>),
 }
 impl Router {
     async fn resolve(
         args: &RoutingRequest,
-        motis: &MotisWrapper,
+        data: &crate::AppData,
         from: Coordinate,
         to: Coordinate,
     ) -> anyhow::Result<Self> {
-        let choice = match args.route_costing {
-            Some(CostingRequest::PublicTransit) => TransitChoice::Explicit,
-            Some(explicit) => return Ok(Self::Valhalla(explicit)),
-            None => match DistanceBand::between(from, to) {
-                DistanceBand::PublicTransit => TransitChoice::OurDefault,
-                band => return Ok(Self::Valhalla(band.into())),
-            },
-        };
-        let plan = motis
+        match args.route_costing {
+            Some(CostingRequest::PublicTransit) => Ok(Self::Motis(Box::new(
+                Self::via_motis(args, data, from, to).await?,
+            ))),
+            Some(chosen) => Ok(Self::Valhalla(Box::new(
+                Self::via_valhalla(args, data, from, to, chosen).await?,
+            ))),
+            None => Self::smart_default(args, data, from, to).await,
+        }
+    }
+
+    /// Cycling wins the short trips outright; beyond that only the clock can say whether transit is worth it,
+    /// so we ask both routers and let the itinerary answer against the car it would replace.
+    async fn smart_default(
+        args: &RoutingRequest,
+        data: &crate::AppData,
+        from: Coordinate,
+        to: Coordinate,
+    ) -> anyhow::Result<Self> {
+        if from.distance_to(&to) < BICYCLE_MAX_KM {
+            return Ok(Self::Valhalla(Box::new(
+                Self::via_valhalla(args, data, from, to, CostingRequest::Bicycle).await?,
+            )));
+        }
+        let (transit, car) = tokio::join!(
+            Self::via_motis(args, data, from, to),
+            Self::via_valhalla(args, data, from, to, CostingRequest::Car),
+        );
+        let requested_time = args.time.unwrap_or_else(Utc::now);
+        match (transit, car) {
+            (Ok(transit), Ok(car)) => {
+                #[expect(
+                    clippy::cast_possible_truncation,
+                    reason = "valhalla reports whole seconds as f64; a route long enough to overflow i64 seconds does not exist"
+                )]
+                let car_time = TimeDelta::seconds(car.summary.time as i64);
+                if transit_beats_the_car(
+                    &transit.itineraries,
+                    car_time,
+                    requested_time,
+                    args.arrive_by,
+                ) {
+                    Ok(Self::Motis(Box::new(transit)))
+                } else {
+                    debug!(%requested_time, "transit is not worth it against the car, defaulting to the car");
+                    Ok(Self::Valhalla(Box::new(car)))
+                }
+            }
+            (Ok(transit), Err(e)) => {
+                warn!(error=?e, "no car to measure transit against, keeping transit");
+                Ok(Self::Motis(Box::new(transit)))
+            }
+            (Err(e), Ok(car)) => {
+                warn!(error=?e, "could not reach transit, defaulting to the car");
+                Ok(Self::Valhalla(Box::new(car)))
+            }
+            (Err(e), Err(_)) => Err(e),
+        }
+    }
+
+    async fn via_motis(
+        args: &RoutingRequest,
+        data: &crate::AppData,
+        from: Coordinate,
+        to: Coordinate,
+    ) -> anyhow::Result<PlanResponse> {
+        data.motis
             .route(
                 &from.to_string(),
                 &to.to_string(),
@@ -263,37 +293,28 @@ impl Router {
                 args.lang == LanguageOptions::En,
                 args.pedestrian_type.into(),
             )
-            .await;
-        Self::from_transit_plan(
-            choice,
-            args.time.unwrap_or_else(Utc::now),
-            args.arrive_by,
-            plan,
-        )
+            .await
     }
 
-    fn from_transit_plan(
-        choice: TransitChoice,
-        requested_time: DateTime<Utc>,
-        arrive_by: bool,
-        plan: anyhow::Result<PlanResponse>,
-    ) -> anyhow::Result<Self> {
-        if choice == TransitChoice::Explicit {
-            return Ok(Self::Motis(Box::new(plan?)));
-        }
-        match plan {
-            Ok(plan) if serves_requested_time(&plan.itineraries, requested_time, arrive_by) => {
-                Ok(Self::Motis(Box::new(plan)))
-            }
-            Ok(_) => {
-                debug!(%requested_time, "no transit serves the requested time, defaulting to the car");
-                Ok(Self::Valhalla(CostingRequest::Car))
-            }
-            Err(e) => {
-                warn!(error=?e, "could not probe transit, defaulting to the car");
-                Ok(Self::Valhalla(CostingRequest::Car))
-            }
-        }
+    async fn via_valhalla(
+        args: &RoutingRequest,
+        data: &crate::AppData,
+        from: Coordinate,
+        to: Coordinate,
+        costing: CostingRequest,
+    ) -> anyhow::Result<Trip> {
+        #[expect(
+            clippy::cast_possible_truncation,
+            reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
+        )]
+        data.valhalla
+            .route(
+                (from.lat as f32, from.lon as f32),
+                (to.lat as f32, to.lon as f32),
+                costing.to_valhalla(args.pedestrian_type, args.bicycle_type, args.ptw_type),
+                args.lang == LanguageOptions::En,
+            )
+            .await
     }
 }
 
@@ -456,7 +477,7 @@ pub async fn route_handler(
                 .body("Failed to resolve key");
         }
     };
-    let router = match Router::resolve(&args, &data.motis, from, to).await {
+    let router = match Router::resolve(&args, &data, from, to).await {
         Ok(router) => router,
         Err(e) => {
             error!(error=?e,"error routing");
@@ -465,44 +486,15 @@ pub async fn route_handler(
                 .body("Could not generate a route, please try again later");
         }
     };
+    debug!(routing_solution=?router,"got routing solution");
 
     match router {
-        Router::Motis(response) => {
-            debug!(routing_solution=?response,"got routing solution");
-
-            HttpResponse::Ok().json(RoutingResponse::Motis(motis::MotisRoutingResponse::from(
-                *response,
-            )))
-        }
-        Router::Valhalla(costing) => {
-            #[expect(
-                clippy::cast_possible_truncation,
-                reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
-            )]
-            let routing = data
-                .valhalla
-                .route(
-                    (from.lat as f32, from.lon as f32),
-                    (to.lat as f32, to.lon as f32),
-                    costing.to_valhalla(args.pedestrian_type, args.bicycle_type, args.ptw_type),
-                    args.lang == LanguageOptions::En,
-                )
-                .await;
-            let response = match routing {
-                Ok(response) => response,
-                Err(e) => {
-                    error!(error=?e,"error routing");
-                    return HttpResponse::InternalServerError()
-                        .content_type("text/plain")
-                        .body("Could not generate a route, please try again later");
-                }
-            };
-            debug!(routing_solution=?response,"got routing solution");
-
-            HttpResponse::Ok().json(RoutingResponse::Valhalla(
-                valhalla::ValhallaRoutingResponse::from(response),
-            ))
-        }
+        Router::Motis(response) => HttpResponse::Ok().json(RoutingResponse::Motis(
+            motis::MotisRoutingResponse::from(*response),
+        )),
+        Router::Valhalla(response) => HttpResponse::Ok().json(RoutingResponse::Valhalla(
+            valhalla::ValhallaRoutingResponse::from(*response),
+        )),
     }
 }
 
@@ -522,7 +514,6 @@ mod tests {
         clippy::panic_in_result_fn,
         reason = "tests assert via panic/unwrap"
     )]
-    use std::collections::HashMap;
     use std::f64::consts::PI;
 
     use chrono::TimeZone as _;
@@ -564,14 +555,18 @@ mod tests {
     }
 
     #[rstest]
-    #[case::same_place(MERIDIAN_ORIGIN, DistanceBand::Bicycle)]
-    #[case::just_below_the_bicycle_threshold(north_of_origin(2.9), DistanceBand::Bicycle)]
-    #[case::just_above_the_bicycle_threshold(north_of_origin(3.1), DistanceBand::PublicTransit)]
-    #[case::just_below_the_transit_threshold(north_of_origin(39.9), DistanceBand::PublicTransit)]
-    #[case::just_above_the_transit_threshold(north_of_origin(40.1), DistanceBand::Car)]
-    #[case::munich_to_berlin(Coordinate { lat: 52.520_01, lon: 13.404_95 }, DistanceBand::Car)]
-    fn distance_bands(#[case] to: Coordinate, #[case] expected: DistanceBand) {
-        assert_eq!(DistanceBand::between(MERIDIAN_ORIGIN, to), expected);
+    #[case::same_place(MERIDIAN_ORIGIN, true)]
+    #[case::just_below_the_bicycle_threshold(north_of_origin(2.9), true)]
+    #[case::just_above_the_bicycle_threshold(north_of_origin(3.1), false)]
+    #[case::garching(GARCHING_MI, false)]
+    fn cycling_wins_only_the_short_trips(#[case] to: Coordinate, #[case] expected: bool) {
+        let from = if to == GARCHING_MI {
+            STAMMGELAENDE
+        } else {
+            MERIDIAN_ORIGIN
+        };
+
+        assert_eq!(from.distance_to(&to) < BICYCLE_MAX_KM, expected);
     }
 
     fn place() -> Place {
@@ -623,167 +618,115 @@ mod tests {
             .unwrap()
     }
 
-    fn plan(itineraries: Vec<Itinerary>) -> PlanResponse {
-        PlanResponse::builder()
-            .debug_output(HashMap::new())
-            .direct(Vec::new())
-            .from(place())
-            .to(place())
-            .itineraries(itineraries)
-            .next_page_cursor(String::new())
-            .previous_page_cursor(String::new())
-            .request_parameters(HashMap::new())
-            .try_into()
-            .unwrap()
-    }
-
-    fn night() -> DateTime<Utc> {
+    fn requested() -> DateTime<Utc> {
         Utc.with_ymd_and_hms(2026, 7, 15, 3, 0, 0).unwrap()
     }
 
+    /// One itinerary arriving `total_minutes` after the requested departure
+    fn arriving_after(total_minutes: i64, modes: &[Mode]) -> Vec<Itinerary> {
+        let end = requested() + TimeDelta::minutes(total_minutes);
+        vec![itinerary(end - TimeDelta::minutes(20), end, modes)]
+    }
+
+    /// Measured against api.transitous.org and OSRM on 2026-07-16, the trips the exposé names.
+    /// Wait is included, so these are door-to-door from the requested departure.
     #[rstest]
-    #[case::a_bus_at_the_requested_time(&[Mode::Walk, Mode::Bus, Mode::Walk], 5, true)]
-    #[case::a_subway_a_little_later(&[Mode::Walk, Mode::Subway], 55, true)]
-    #[case::on_demand_transport_counts(&[Mode::Walk, Mode::Odm], 5, true)]
-    #[case::walking_the_whole_way_is_not_transit(&[Mode::Walk], 5, false)]
-    #[case::a_rental_bike_is_not_transit(&[Mode::Walk, Mode::Rental, Mode::Walk], 5, false)]
-    #[case::the_first_bus_hours_later(&[Mode::Walk, Mode::Bus], 150, false)]
-    fn transit_serving_the_requested_time(
-        #[case] modes: &[Mode],
-        #[case] departs_in_minutes: i64,
-        #[case] expected: bool,
+    #[case::garching_at_0000_ubahn_still_runs(49, 20, true)]
+    #[case::garching_at_0100_a_four_hour_ordeal(245, 20, false)]
+    #[case::garching_at_0200(185, 20, false)]
+    #[case::garching_at_0300_short_wait_but_92min_ride(125, 20, false)]
+    #[case::main_campus_at_night_has_a_night_service(45, 10, true)]
+    #[case::weihenstephan_by_day_regional_rail(75, 36, true)]
+    #[case::weihenstephan_in_the_evening(82, 36, true)]
+    #[case::weihenstephan_at_0100(202, 36, false)]
+    #[case::weihenstephan_at_0300(142, 36, false)]
+    #[case::munich_to_berlin_by_ice_beats_driving(264, 353, true)]
+    fn the_expose_examples(
+        #[case] transit_minutes: i64,
+        #[case] car_minutes: i64,
+        #[case] transit_is_the_default: bool,
     ) {
-        let start = night() + TimeDelta::minutes(departs_in_minutes);
-        let itineraries = vec![itinerary(start, start + TimeDelta::minutes(30), modes)];
+        let itineraries = arriving_after(transit_minutes, &[Mode::Walk, Mode::Bus, Mode::Walk]);
 
         assert_eq!(
-            serves_requested_time(&itineraries, night(), false),
+            transit_beats_the_car(
+                &itineraries,
+                TimeDelta::minutes(car_minutes),
+                requested(),
+                false
+            ),
+            transit_is_the_default
+        );
+    }
+
+    #[rstest]
+    #[case::a_bus_counts(&[Mode::Walk, Mode::Bus, Mode::Walk], true)]
+    #[case::on_demand_transport_counts(&[Mode::Walk, Mode::Odm], true)]
+    #[case::walking_the_whole_way_is_not_transit(&[Mode::Walk], false)]
+    #[case::a_rental_bike_is_not_transit(&[Mode::Walk, Mode::Rental, Mode::Walk], false)]
+    fn only_itineraries_that_actually_use_transit_count(
+        #[case] modes: &[Mode],
+        #[case] expected: bool,
+    ) {
+        let comfortably_within_budget = arriving_after(30, modes);
+
+        assert_eq!(
+            transit_beats_the_car(
+                &comfortably_within_budget,
+                TimeDelta::minutes(20),
+                requested(),
+                false
+            ),
             expected
         );
     }
 
     #[test]
-    fn arriving_by_is_judged_on_the_arrival_time() {
-        let requested = night();
-        let departs_long_before_but_arrives_on_time = vec![itinerary(
-            requested - TimeDelta::hours(3),
-            requested - TimeDelta::minutes(5),
-            &[Mode::Bus],
-        )];
+    fn a_quick_drive_does_not_drag_the_budget_below_the_floor() {
+        // 3x a 5min drive is 15min, but a 40min trip is still a fine default
+        let itineraries = arriving_after(40, &[Mode::Walk, Mode::Tram]);
 
-        assert!(serves_requested_time(
-            &departs_long_before_but_arrives_on_time,
-            requested,
-            true
-        ));
-        assert!(!serves_requested_time(
-            &departs_long_before_but_arrives_on_time,
-            requested,
+        assert!(transit_beats_the_car(
+            &itineraries,
+            TimeDelta::minutes(5),
+            requested(),
             false
         ));
     }
 
     #[test]
-    fn a_single_usable_itinerary_among_many_is_enough() {
-        let itineraries = vec![
-            itinerary(night(), night() + TimeDelta::hours(2), &[Mode::Walk]),
-            itinerary(
-                night() + TimeDelta::hours(4),
-                night() + TimeDelta::hours(5),
-                &[Mode::Subway],
-            ),
-            itinerary(
-                night() + TimeDelta::minutes(10),
-                night() + TimeDelta::minutes(40),
-                &[Mode::Bus],
-            ),
-        ];
+    fn the_best_itinerary_decides_not_the_first() {
+        let mut itineraries = arriving_after(240, &[Mode::Walk, Mode::Bus]);
+        itineraries.extend(arriving_after(40, &[Mode::Walk, Mode::Subway]));
 
-        assert!(serves_requested_time(&itineraries, night(), false));
-    }
-
-    fn walk_only_plan() -> PlanResponse {
-        plan(vec![itinerary(
-            night(),
-            night() + TimeDelta::hours(3),
-            &[Mode::Walk],
-        )])
-    }
-
-    fn plan_with_a_bus() -> PlanResponse {
-        plan(vec![itinerary(
-            night() + TimeDelta::minutes(5),
-            night() + TimeDelta::minutes(35),
-            &[Mode::Walk, Mode::Bus],
-        )])
+        assert!(transit_beats_the_car(
+            &itineraries,
+            TimeDelta::minutes(20),
+            requested(),
+            false
+        ));
     }
 
     #[test]
-    fn a_night_time_route_to_garching_falls_back_to_the_car() {
-        assert_eq!(
-            DistanceBand::between(STAMMGELAENDE, GARCHING_MI),
-            DistanceBand::PublicTransit
-        );
+    fn arriving_by_is_measured_back_from_the_requested_arrival() {
+        let leaves_35min_early = vec![itinerary(
+            requested() - TimeDelta::minutes(35),
+            requested() - TimeDelta::minutes(5),
+            &[Mode::Bus],
+        )];
 
-        let router = Router::from_transit_plan(
-            TransitChoice::OurDefault,
-            night(),
-            false,
-            Ok(walk_only_plan()),
-        )
-        .unwrap();
-
-        assert!(matches!(router, Router::Valhalla(CostingRequest::Car)));
-    }
-
-    #[test]
-    fn transit_serving_the_requested_time_is_kept() {
-        let router = Router::from_transit_plan(
-            TransitChoice::OurDefault,
-            night(),
-            false,
-            Ok(plan_with_a_bus()),
-        )
-        .unwrap();
-
-        assert!(matches!(router, Router::Motis(_)));
-    }
-
-    #[test]
-    fn an_explicit_transit_choice_is_never_revised() {
-        let router = Router::from_transit_plan(
-            TransitChoice::Explicit,
-            night(),
-            false,
-            Ok(walk_only_plan()),
-        )
-        .unwrap();
-
-        assert!(matches!(router, Router::Motis(_)));
-    }
-
-    #[test]
-    fn an_unreachable_motis_falls_back_to_the_car() {
-        let router = Router::from_transit_plan(
-            TransitChoice::OurDefault,
-            night(),
-            false,
-            Err(anyhow::anyhow!("motis is down")),
-        )
-        .unwrap();
-
-        assert!(matches!(router, Router::Valhalla(CostingRequest::Car)));
-    }
-
-    #[test]
-    fn an_unreachable_motis_surfaces_when_transit_was_explicitly_asked_for() {
-        let router = Router::from_transit_plan(
-            TransitChoice::Explicit,
-            night(),
-            false,
-            Err(anyhow::anyhow!("motis is down")),
-        );
-
-        assert!(router.is_err());
+        assert!(transit_beats_the_car(
+            &leaves_35min_early,
+            TimeDelta::minutes(20),
+            requested(),
+            true
+        ));
+        // the same itinerary is useless to someone departing at the requested time
+        assert!(!transit_beats_the_car(
+            &leaves_35min_early,
+            TimeDelta::minutes(20),
+            requested(),
+            false
+        ));
     }
 }
