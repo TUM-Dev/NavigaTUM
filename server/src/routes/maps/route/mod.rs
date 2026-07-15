@@ -228,11 +228,6 @@ struct RoutingRequest {
 }
 
 /// Does the user have specific walking needs?
-///
-/// **Note:** For public transit routes, `blind` currently falls back to standard walking
-/// because the routing engine ([MOTIS](https://github.com/motis-project/motis)) does not
-/// offer a blind-specific pedestrian profile yet.
-/// Walking routes honour the profile via more detailed route instructions.
 #[derive(Deserialize, Debug, Default, Clone, Copy, PartialEq, Eq, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 enum PedestrianTypeRequest {
