@@ -249,6 +249,7 @@ impl From<PedestrianTypeRequest> for PedestrianType {
 impl From<PedestrianTypeRequest> for PedestrianProfile {
     fn from(value: PedestrianTypeRequest) -> Self {
         match value {
+            // MOTIS does not offer a blind-specific pedestrian profile yet.
             PedestrianTypeRequest::Standard | PedestrianTypeRequest::Blind => Self::Foot,
             PedestrianTypeRequest::Wheelchair => Self::Wheelchair,
         }
