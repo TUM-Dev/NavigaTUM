@@ -16,6 +16,11 @@ const route = useRoute();
 const router = useRouter();
 const currently_actively_picking = ref(false);
 const isFocused = ref(false);
+const searchWrapper = ref<HTMLElement | null>(null);
+const { focused: wrapperFocused } = useFocusWithin(searchWrapper);
+watch(wrapperFocused, (focused) => {
+  if (!focused) currently_actively_picking.value = false;
+});
 
 const geolocationState = useSharedGeolocation();
 
@@ -164,7 +169,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 </script>
 
 <template>
-  <div class="relative flex flex-grow flex-col">
+  <div ref="searchWrapper" class="relative flex flex-grow flex-col">
     <div
       class="bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-500 flex flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600 dark:focus-within:outline-blue-300"
     >
