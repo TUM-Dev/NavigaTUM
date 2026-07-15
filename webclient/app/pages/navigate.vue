@@ -9,6 +9,7 @@ import Toast from "~/components/Toast.vue";
 import { clientOnlyRetries, firstOrDefault } from "~/composables/common";
 import type { TimeSelection } from "~/types/navigation";
 import { entityPath, isEntityType } from "~/utils/entityPath";
+import { floorLevelForSelection } from "~/utils/motisLevels";
 
 // Utility function to parse coordinate IDs and convert to coordinate objects
 function parseCoordinateId(value: string): { lat: number; lon: number } | string {
@@ -96,10 +97,11 @@ watch(
     if (!newData || !newMap) return;
     if (newData.router === "valhalla") newMap.drawRoute(newData.legs[0].shape);
     if (newData.router === "motis") {
-      selectedItineraryIndex.value = 0;
-      if (newData.itineraries.length > 0 && newData.itineraries[0]) {
-        newMap.drawMotisItinerary(newData.itineraries[0]);
-      }
+      // A door-to-door query often yields only a direct (walk) connection.
+      const initialIndex = newData.itineraries.length > 0 ? 0 : -1;
+      selectedItineraryIndex.value = initialIndex;
+      const itinerary = initialIndex === 0 ? newData.itineraries[0] : newData.direct[0];
+      if (itinerary) newMap.drawMotisItinerary(itinerary);
     }
   },
   { immediate: true }
@@ -209,31 +211,58 @@ function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_in
   setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
 }
 
+// Index convention: `0..` are the transit itineraries, `-1 - i` the i-th direct connection.
+function motisItineraryAt(itineraryIndex: number) {
+  if (!motisData.value) return undefined;
+  return itineraryIndex >= 0
+    ? motisData.value.itineraries[itineraryIndex]
+    : motisData.value.direct[-itineraryIndex - 1];
+}
+
 function handleSelectLeg(itineraryIndex: number, legIndex: number) {
-  if (data.value?.router === "motis" && indoorMap.value) {
-    // If selecting a different itinerary, redraw the route
-    if (selectedItineraryIndex.value !== itineraryIndex) {
-      selectedItineraryIndex.value = itineraryIndex;
-      if (data.value.itineraries[itineraryIndex]) {
-        indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
-      }
-    }
+  const itinerary = motisItineraryAt(itineraryIndex);
+  if (!itinerary || !indoorMap.value) return;
 
-    // Highlight the selected leg on the map
-    indoorMap.value.highlightMotisLeg(legIndex);
-
-    // Focus map on the selected leg
-    if (data.value.itineraries[itineraryIndex]) {
-      indoorMap.value.focusOnMotisLeg(legIndex, data.value.itineraries[itineraryIndex]);
-    }
+  // If selecting a different itinerary, redraw the route
+  if (selectedItineraryIndex.value !== itineraryIndex) {
+    selectedItineraryIndex.value = itineraryIndex;
+    indoorMap.value.drawMotisItinerary(itinerary);
   }
+
+  indoorMap.value.highlightMotisLeg(legIndex);
+
+  // Switch floors before fitting bounds so the fit's camera animation wins.
+  const leg = itinerary.legs[legIndex];
+  const floor = leg ? floorLevelForSelection(leg) : null;
+  if (floor !== null) indoorMap.value.setFloor(floor);
+
+  indoorMap.value.focusOnMotisLeg(legIndex, itinerary);
+}
+
+function handleSelectStep(itineraryIndex: number, legIndex: number, stepIndex: number) {
+  const itinerary = motisItineraryAt(itineraryIndex);
+  const leg = itinerary?.legs[legIndex];
+  const step = leg?.steps?.[stepIndex];
+  if (!itinerary || !leg || !step || !indoorMap.value) return;
+
+  if (selectedItineraryIndex.value !== itineraryIndex) {
+    selectedItineraryIndex.value = itineraryIndex;
+    indoorMap.value.drawMotisItinerary(itinerary);
+  }
+
+  indoorMap.value.highlightMotisLeg(legIndex);
+
+  const floor = floorLevelForSelection(leg, step);
+  if (floor !== null) indoorMap.value.setFloor(floor);
+
+  indoorMap.value.focusOnMotisStep(step, legIndex, itinerary);
 }
 
 function handleSelectItinerary(itineraryIndex: number) {
-  if (data.value?.router === "motis" && indoorMap.value && data.value.itineraries[itineraryIndex]) {
-    selectedItineraryIndex.value = itineraryIndex;
-    indoorMap.value.drawMotisItinerary(data.value.itineraries[itineraryIndex]);
-  }
+  const itinerary = motisItineraryAt(itineraryIndex);
+  if (!itinerary || !indoorMap.value) return;
+  selectedItineraryIndex.value = itineraryIndex;
+  indoorMap.value.drawMotisItinerary(itinerary);
 }
 </script>
 
@@ -300,6 +329,7 @@ function handleSelectItinerary(itineraryIndex: number) {
         :data="motisData"
         v-model:page-cursor="motisPageCursor"
         @select-leg="handleSelectLeg"
+        @select-step="handleSelectStep"
         @select-itinerary="handleSelectItinerary"
       />
       <div v-else-if="status === 'pending'" class="text-zinc-900 dark:text-zinc-50 flex flex-col items-center gap-5 py-32">

@@ -16,6 +16,7 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits<{
   selectLeg: [itineraryIndex: number, legIndex: number];
+  selectStep: [itineraryIndex: number, legIndex: number, stepIndex: number];
 }>();
 
 const { t } = useI18n({ useScope: "local" });
@@ -318,8 +319,10 @@ const hasRestrictedStep = computed(
         <!-- Walking Instructions -->
         <div v-if="leg.steps && leg.steps.length > 0" class="mt-3">
           <details class="group">
+            <!-- `.stop`: opening the list must not re-select the leg. -->
             <summary
               class="text-zinc-600 dark:text-zinc-300 cursor-pointer text-sm font-medium hover:text-zinc-800 dark:hover:text-zinc-100 flex items-center gap-2"
+              @click.stop
             >
               {{ t("walking_instructions") }}
               <span class="text-zinc-400 dark:text-zinc-500 text-xs">({{ leg.steps.length }} {{ t("steps") }})</span>
@@ -329,7 +332,12 @@ const hasRestrictedStep = computed(
               </span>
             </summary>
             <div class="mt-2 space-y-2 pl-4">
-              <div v-for="(step, k) in leg.steps" :key="`step-${k}`" class="flex items-start gap-3 py-1">
+              <div
+                v-for="(step, k) in leg.steps"
+                :key="`step-${k}`"
+                class="flex items-start gap-3 rounded px-2 py-1 -mx-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                @click.stop="emit('selectStep', itineraryIndex, legIndex, k)"
+              >
                 <WalkingDirectionIcon :direction="step.relative_direction" />
                 <div class="flex-grow text-sm">
                   <div class="text-zinc-900 dark:text-zinc-50">
@@ -338,6 +346,9 @@ const hasRestrictedStep = computed(
                   </div>
                   <div class="text-zinc-600 dark:text-zinc-300 text-xs flex items-center gap-2">
                     {{ formatDistance(step.distance) }}
+                    <span v-if="step.from_level !== step.to_level" class="text-zinc-500 dark:text-zinc-400">
+                      {{ t("level") }} {{ step.from_level }} → {{ step.to_level }}
+                    </span>
                     <span v-if="step.elevation_up || step.elevation_down" class="text-zinc-500 dark:text-zinc-400">
                       <span v-if="step.elevation_up">↗ {{ step.elevation_up }}m</span>
                       <span v-if="step.elevation_down">↘ {{ step.elevation_down }}m</span>

@@ -5,6 +5,7 @@ type ItineraryResponse = components["schemas"]["ItineraryResponse"];
 type ModeResponse = components["schemas"]["ModeResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type PlaceResponse = components["schemas"]["PlaceResponse"];
+type StepInstructionResponse = components["schemas"]["StepInstructionResponse"];
 
 // Platform change marker type
 export interface PlatformChangeMarker {
@@ -80,6 +81,35 @@ export function calculateLegBounds(
   let maxLat = Math.max(from.lat, to.lat);
   let minLon = Math.min(from.lon, to.lon);
   let maxLon = Math.max(from.lon, to.lon);
+
+  for (const coord of coordinates) {
+    minLat = Math.min(minLat, coord.lat);
+    maxLat = Math.max(maxLat, coord.lat);
+    minLon = Math.min(minLon, coord.lon);
+    maxLon = Math.max(maxLon, coord.lon);
+  }
+
+  return { minLat, maxLat, minLon, maxLon };
+}
+
+/**
+ * Calculate the bounding box of a single step's polyline, or `null` when the
+ * polyline cannot be decoded.
+ */
+export function calculateStepBounds(step: StepInstructionResponse): {
+  minLat: number;
+  maxLat: number;
+  minLon: number;
+  maxLon: number;
+} | null {
+  const coordinates = decodeMotisGeometry(step.polyline);
+  const first = coordinates[0];
+  if (!first) return null;
+
+  let minLat = first.lat;
+  let maxLat = first.lat;
+  let minLon = first.lon;
+  let maxLon = first.lon;
 
   for (const coord of coordinates) {
     minLat = Math.min(minLat, coord.lat);

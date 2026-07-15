@@ -12,6 +12,7 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits<{
   selectLeg: [itineraryIndex: number, legIndex: number];
+  selectStep: [itineraryIndex: number, legIndex: number, stepIndex: number];
   selectItinerary: [itineraryIndex: number];
 }>();
 
@@ -68,6 +69,7 @@ const formatDuration = (seconds: number) => {
         :leg-index="j"
         :itinerary-index="itineraryIndex"
         @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
+        @select-step="(itineraryIndex, legIndex, stepIndex) => emit('selectStep', itineraryIndex, legIndex, stepIndex)"
       />
     </div>
   </div>

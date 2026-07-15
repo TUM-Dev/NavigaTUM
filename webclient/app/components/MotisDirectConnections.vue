@@ -11,6 +11,7 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits<{
   selectLeg: [itineraryIndex: number, legIndex: number];
+  selectStep: [itineraryIndex: number, legIndex: number, stepIndex: number];
 }>();
 
 const { t } = useI18n({ useScope: "local" });
@@ -35,14 +36,6 @@ const formatDuration = (seconds: number) => {
   }
   return t("seconds", seconds);
 };
-
-// Helper function to format distance
-const formatDistance = (meters: number) => {
-  if (meters >= 1000) {
-    return t("kilometers", [(meters / 1000).toFixed(1)]);
-  }
-  return t("meters", Math.round(meters));
-};
 </script>
 
 <template>
@@ -56,24 +49,17 @@ const formatDistance = (meters: number) => {
           {{ formatDuration(itinerary.duration) }}
         </span>
       </div>
-      <div
-        v-for="(leg, j) in itinerary.legs"
-        :key="`direct-leg-${j}`"
-        class="group cursor-pointer py-1"
-        @click="emit('selectLeg', i, j)"
-      >
-        <div
-          class="bg-white dark:bg-black flex flex-row items-center gap-3 overflow-auto rounded-md border p-3 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800"
-        >
-          <MotisTransitModeIcon :mode="leg.mode" />
-          <div class="flex-grow">
-            <div class="text-zinc-900 dark:text-zinc-50 font-medium">{{ leg.from.name }} → {{ leg.to.name }}</div>
-            <div class="text-zinc-600 dark:text-zinc-300 text-sm">
-              {{ formatDuration(leg.duration) }}
-              <span v-if="leg.distance"> • {{ formatDistance(leg.distance) }}</span>
-            </div>
-          </div>
-        </div>
+      <div class="divide-y">
+        <MotisTransitLeg
+          v-for="(leg, j) in itinerary.legs"
+          :key="`direct-leg-${j}`"
+          :leg="leg"
+          :itinerary="itinerary"
+          :leg-index="j"
+          :itinerary-index="i"
+          @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
+          @select-step="(itineraryIndex, legIndex, stepIndex) => emit('selectStep', itineraryIndex, legIndex, stepIndex)"
+        />
       </div>
     </div>
   </div>
@@ -84,13 +70,9 @@ de:
   direct_connections: Direkte Verbindungen
   minutes: "sofort | eine Minute | {count} Minuten"
   seconds: "sofort | eine Sekunde | {count} Sekunden"
-  meters: "hier | einen Meter | {count} Meter"
-  kilometers: "{0} Kilometer"
 
 en:
   direct_connections: Direct connections
   minutes: "instant | one minute | {count} minutes"
   seconds: "instant | one second | {count} seconds"
-  meters: "here | one meter | {count} meters"
-  kilometers: "{0} kilometers"
 </i18n>
