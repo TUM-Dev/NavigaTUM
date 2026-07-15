@@ -11,11 +11,9 @@ import type { components } from "~/api_types";
 import {
   boardingRestriction,
   countdownPhase,
-  delayMinutes,
   isStopCancelled,
   routeBadgeStyle,
   type StopTimeEntry,
-  scheduledClockLabel,
   trackOf,
   useNearbyDepartures,
 } from "~/composables/nearbyDepartures";
@@ -68,18 +66,6 @@ function trackLabel(entry: StopTimeEntry): string {
 function boardingRestrictionLabel(entry: StopTimeEntry): string {
   const restriction = boardingRestriction(entry);
   return restriction === "none" ? "" : t(restriction);
-}
-
-function departureTimeClass(entry: StopTimeEntry): string {
-  if (isStopCancelled(entry)) return "text-zinc-400 dark:text-zinc-500 line-through";
-  if (delayMinutes(entry) !== null) return "text-red-600 dark:text-red-400";
-  return "text-zinc-500 dark:text-zinc-400";
-}
-
-function departureTimeTitle(entry: StopTimeEntry): string {
-  const delay = delayMinutes(entry);
-  if (delay !== null) return t("actual_departure", { delay });
-  return t("scheduled_departure");
 }
 
 // Aggregated context for hover: who runs the line, any boarding restriction,
@@ -169,16 +155,13 @@ function rowTitle(entry: StopTimeEntry): string {
                 >
                   {{ countdownLabel(entry.place?.departure ?? entry.place?.scheduledDeparture) }}
                 </span>
-                <span
-                  class="text-xs tabular-nums whitespace-nowrap"
-                  :class="departureTimeClass(entry)"
-                  :title="departureTimeTitle(entry)"
-                >
-                  {{ scheduledClockLabel(entry) }}<span
-                    v-if="delayMinutes(entry) !== null"
-                    class="font-semibold ms-1"
-                  >+{{ delayMinutes(entry) }}</span>
-                </span>
+                <MotisTime
+                  class="text-xs"
+                  :scheduled="entry.place?.scheduledDeparture"
+                  :actual="entry.place?.departure"
+                  :real-time="entry.realTime"
+                  :cancelled="isStopCancelled(entry)"
+                />
                 <span
                   class="justify-self-start flex items-center gap-2 min-w-0"
                   :class="{ 'text-zinc-400 dark:text-zinc-500 line-through': isStopCancelled(entry) }"
@@ -248,8 +231,6 @@ de:
   boarding_only: "nur Einstieg"
   trip_cancelled: "Fahrt fällt aus"
   stop_cancelled: "Halt entfällt"
-  scheduled_departure: "Planmäßige Abfahrt"
-  actual_departure: "Tatsächliche Abfahrt (+{delay} min Verspätung)"
   mode:
     walk: zu Fuß
     bike: Fahrrad
@@ -298,8 +279,6 @@ en:
   boarding_only: "Boarding only"
   trip_cancelled: "Trip cancelled"
   stop_cancelled: "Stop cancelled"
-  scheduled_departure: "Scheduled departure"
-  actual_departure: "Actual departure ({delay} min delay)"
   mode:
     walk: Walk
     bike: Bike

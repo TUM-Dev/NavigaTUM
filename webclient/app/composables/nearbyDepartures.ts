@@ -29,6 +29,8 @@ export interface StopTimeEntry {
   readonly headsign?: string | null;
   readonly cancelled?: boolean;
   readonly tripCancelled?: boolean;
+  // Whether the operator feeds live data for this trip; absent on feeds that never do.
+  readonly realTime?: boolean;
   readonly displayName?: string | null;
   readonly routeShortName?: string | null;
   readonly routeColor?: string | null;
@@ -88,23 +90,6 @@ export function countdownPhase(iso: string | null | undefined, nowMs: number): C
   const minutes = totalMinutes % 60;
   if (minutes === 0) return { kind: "hours", hours };
   return { kind: "hoursMinutes", hours, minutes };
-}
-
-export function scheduledClockLabel(entry: StopTimeEntry): string {
-  const iso = entry.place?.departure ?? entry.place?.scheduledDeparture;
-  if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-}
-
-export function delayMinutes(entry: StopTimeEntry): number | null {
-  const actualIso = entry.place?.departure;
-  const scheduledIso = entry.place?.scheduledDeparture;
-  if (!actualIso || !scheduledIso) return null;
-  const diff = Date.parse(actualIso) - Date.parse(scheduledIso);
-  if (Number.isNaN(diff) || Math.abs(diff) < 30_000) return null;
-  return Math.round(diff / 60_000);
 }
 
 export function trackOf(entry: StopTimeEntry): string | null {

@@ -21,14 +21,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n({ useScope: "local" });
 
-// Helper function to format time
-const formatTime = (dateString: string) => {
-  return new Date(dateString).toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
 // Helper function to format duration
 const formatDuration = (seconds: number) => {
   if (seconds >= 3600) {
@@ -48,23 +40,6 @@ const formatDistance = (meters: number) => {
     return t("kilometers", [(meters / 1000).toFixed(1)]);
   }
   return t("meters", Math.round(meters));
-};
-
-// Helper function to calculate delay in minutes
-const calculateDelay = (scheduledTime: string | null, actualTime: string) => {
-  if (!scheduledTime) return null;
-  const scheduled = new Date(scheduledTime);
-  const actual = new Date(actualTime);
-  return Math.round((actual.getTime() - scheduled.getTime()) / (1000 * 60));
-};
-
-// Helper function to format delay
-const formatDelay = (delayMinutes: number) => {
-  if (delayMinutes === 0) return null;
-  if (delayMinutes > 0) {
-    return `+${delayMinutes}`;
-  }
-  return `${delayMinutes}`;
 };
 
 // Helper function to safely get previous leg info for interline display
@@ -98,7 +73,7 @@ const hasRestrictedStep = computed(
         <!-- Route Info -->
         <div v-if="leg.route_short_name" class="mb-1 flex items-center gap-2">
           <span
-            class="rounded px-2 py-1 text-sm font-bold text-white dark:text-black"
+            class="rounded px-2 py-1 text-sm font-bold"
             :style="{
               backgroundColor: leg.route_color,
               color: leg.route_text_color,
@@ -164,20 +139,13 @@ const hasRestrictedStep = computed(
                 {{ t("platform") }} {{ leg.from.track }}
               </span>
             </div>
-            <div class="text-zinc-500 dark:text-zinc-400 text-sm flex items-center gap-1">
-              {{ formatTime(leg.start_time) }}
-              <span
-                v-if="calculateDelay(leg.scheduled_start_time, leg.start_time)"
-                :class="{
-                  'text-red-600 dark:text-red-300': calculateDelay(leg.scheduled_start_time, leg.start_time)! > 0,
-                  'text-green-600 dark:text-green-300': calculateDelay(leg.scheduled_start_time, leg.start_time)! < 0,
-                }"
-                class="text-xs font-medium"
-              >
-                {{ formatDelay(calculateDelay(leg.scheduled_start_time, leg.start_time)!) }}
-              </span>
-              <span v-if="leg.real_time" class="text-green-600 dark:text-green-300 ml-1">●</span>
-            </div>
+            <MotisTime
+              class="text-sm"
+              :scheduled="leg.scheduled_start_time"
+              :actual="leg.start_time"
+              :real-time="leg.real_time"
+              :cancelled="leg.cancelled ?? false"
+            />
           </div>
           <div class="flex items-center justify-between">
             <div class="flex-grow">
@@ -186,20 +154,13 @@ const hasRestrictedStep = computed(
                 {{ t("platform") }} {{ leg.to.track }}
               </span>
             </div>
-            <div class="text-zinc-500 dark:text-zinc-400 text-sm flex items-center gap-1">
-              {{ formatTime(leg.end_time) }}
-              <span
-                v-if="calculateDelay(leg.scheduled_end_time, leg.end_time)"
-                :class="{
-                  'text-red-600 dark:text-red-300': calculateDelay(leg.scheduled_end_time, leg.end_time)! > 0,
-                  'text-green-600 dark:text-green-300': calculateDelay(leg.scheduled_end_time, leg.end_time)! < 0,
-                }"
-                class="text-xs font-medium"
-              >
-                {{ formatDelay(calculateDelay(leg.scheduled_end_time, leg.end_time)!) }}
-              </span>
-              <span v-if="leg.real_time" class="text-green-600 dark:text-green-300 ml-1">●</span>
-            </div>
+            <MotisTime
+              class="text-sm"
+              :scheduled="leg.scheduled_end_time"
+              :actual="leg.end_time"
+              :real-time="leg.real_time"
+              :cancelled="leg.cancelled ?? false"
+            />
           </div>
         </div>
 
@@ -264,43 +225,24 @@ const hasRestrictedStep = computed(
                   </div>
                 </div>
 
-                <div class="text-zinc-500 dark:text-zinc-400 text-xs flex flex-col items-end gap-0.5">
-                  <!-- Departure time with delay -->
-                  <div v-if="stop.departure" class="flex items-center gap-1">
-                    <span>{{ formatTime(stop.departure) }}</span>
-                    <span
-                      v-if="
-                        stop.scheduled_departure && calculateDelay(stop.scheduled_departure, stop.departure)
-                      "
-                      :class="{
-                        'text-red-600 dark:text-red-300': calculateDelay(stop.scheduled_departure, stop.departure)! > 0,
-                        'text-green-600 dark:text-green-300': calculateDelay(stop.scheduled_departure, stop.departure)! < 0,
-                      }"
-                      class="text-xs font-medium"
-                    >
-                      {{ formatDelay(calculateDelay(stop.scheduled_departure, stop.departure)!) }}
-                    </span>
-                  </div>
-
-                  <!-- Arrival time with delay (if no departure) -->
-                  <div v-else-if="stop.arrival" class="flex items-center gap-1">
-                    <span>{{ formatTime(stop.arrival) }}</span>
-                    <span
-                      v-if="stop.scheduled_arrival && calculateDelay(stop.scheduled_arrival, stop.arrival)"
-                      :class="{
-                        'text-red-600 dark:text-red-300': calculateDelay(stop.scheduled_arrival, stop.arrival)! > 0,
-                        'text-green-600 dark:text-green-300': calculateDelay(stop.scheduled_arrival, stop.arrival)! < 0,
-                      }"
-                      class="text-xs font-medium"
-                    >
-                      {{ formatDelay(calculateDelay(stop.scheduled_arrival, stop.arrival)!) }}
-                    </span>
-                  </div>
-
-                  <!-- Cancelled indicator -->
-                  <span v-if="stop.cancelled" class="text-red-600 dark:text-red-300 text-xs font-medium bg-red-50 dark:bg-red-900 px-1 rounded">
-                    {{ t("cancelled") }}
-                  </span>
+                <!-- Liveness is a property of the trip's feed, so stops inherit it from their leg. -->
+                <div class="flex flex-col items-end gap-0.5">
+                  <MotisTime
+                    v-if="stop.departure"
+                    class="text-xs"
+                    :scheduled="stop.scheduled_departure"
+                    :actual="stop.departure"
+                    :real-time="leg.real_time"
+                    :cancelled="stop.cancelled ?? false"
+                  />
+                  <MotisTime
+                    v-else-if="stop.arrival"
+                    class="text-xs"
+                    :scheduled="stop.scheduled_arrival"
+                    :actual="stop.arrival"
+                    :real-time="leg.real_time"
+                    :cancelled="stop.cancelled ?? false"
+                  />
                 </div>
 
                 <!-- Stop-level alerts -->

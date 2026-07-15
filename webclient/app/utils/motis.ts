@@ -219,6 +219,23 @@ export function getTransitModeStyle(
   };
 }
 
+// Below this, a deviation is jitter in the feed rather than something a traveller can act on.
+const DELAY_DEADBAND_MS = 30_000;
+
+/**
+ * Minutes a trip runs behind (positive) or ahead of (negative) its timetable slot,
+ * or `null` when there is nothing to compare or the deviation is within the deadband.
+ */
+export function delayMinutes(
+  scheduled: string | null | undefined,
+  actual: string | null | undefined
+): number | null {
+  if (!scheduled || !actual) return null;
+  const diff = Date.parse(actual) - Date.parse(scheduled);
+  if (Number.isNaN(diff) || Math.abs(diff) < DELAY_DEADBAND_MS) return null;
+  return Math.round(diff / 60_000);
+}
+
 /**
  * Format time from ISO string to local time
  */
