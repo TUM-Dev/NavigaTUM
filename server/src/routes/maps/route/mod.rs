@@ -114,21 +114,10 @@ impl RequestedLocation {
     }
 }
 
-// clear domination:
-// pedestrian is always dominated by public transit
-// if a user has car access, they likely prefer car
-// we can't know if they have, so car dominates ptw
-//
-// => decision:
-// bicycle below, then transit measured against the car it would replace
 const BICYCLE_MAX_KM: f64 = 3.0;
-
-/// However quick the drive, a default may not commit the user to longer than this
 const MIN_TRANSIT_BUDGET: TimeDelta = TimeDelta::minutes(60);
-/// A longer trip may take proportionally longer, so that regional rail is not strangled by the floor
 const TRANSIT_BUDGET_PER_CAR_MINUTE: i32 = 3;
 
-/// What the user commits to end to end: waiting included, from being ready until arrival
 fn total_travel_time(
     itinerary: &Itinerary,
     requested_time: DateTime<Utc>,
@@ -141,7 +130,6 @@ fn total_travel_time(
     }
 }
 
-/// Whether transit is worth defaulting to, or whether this is a Garching-at-night that is "better reached by car"
 fn transit_beats_the_car(
     itineraries: &[Itinerary],
     car_time: TimeDelta,
@@ -204,7 +192,6 @@ impl CostingRequest {
     }
 }
 
-/// Which router answered, carrying what it answered with
 #[derive(Debug)]
 enum Router {
     Motis(Box<PlanResponse>),
@@ -228,8 +215,6 @@ impl Router {
         }
     }
 
-    /// Cycling wins the short trips outright; beyond that only the clock can say whether transit is worth it,
-    /// so we ask both routers and let the itinerary answer against the car it would replace.
     async fn smart_default(
         args: &RoutingRequest,
         data: &crate::AppData,
@@ -622,14 +607,11 @@ mod tests {
         Utc.with_ymd_and_hms(2026, 7, 15, 3, 0, 0).unwrap()
     }
 
-    /// One itinerary arriving `total_minutes` after the requested departure
     fn arriving_after(total_minutes: i64, modes: &[Mode]) -> Vec<Itinerary> {
         let end = requested() + TimeDelta::minutes(total_minutes);
         vec![itinerary(end - TimeDelta::minutes(20), end, modes)]
     }
 
-    /// Measured against api.transitous.org and OSRM on 2026-07-16, the trips the exposé names.
-    /// Wait is included, so these are door-to-door from the requested departure.
     #[rstest]
     #[case::garching_at_0000_ubahn_still_runs(49, 20, true)]
     #[case::garching_at_0100_a_four_hour_ordeal(245, 20, false)]
@@ -683,7 +665,6 @@ mod tests {
 
     #[test]
     fn a_quick_drive_does_not_drag_the_budget_below_the_floor() {
-        // 3x a 5min drive is 15min, but a 40min trip is still a fine default
         let itineraries = arriving_after(40, &[Mode::Walk, Mode::Tram]);
 
         assert!(transit_beats_the_car(
@@ -721,7 +702,6 @@ mod tests {
             requested(),
             true
         ));
-        // the same itinerary is useless to someone departing at the requested time
         assert!(!transit_beats_the_car(
             &leaves_35min_early,
             TimeDelta::minutes(20),
