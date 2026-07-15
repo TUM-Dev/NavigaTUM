@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiTransitConnectionVariant } from "@mdi/js";
+import { mdiAlert, mdiTransitConnectionVariant } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type MotisRoutingResponse = components["schemas"]["MotisRoutingResponse"];
@@ -75,6 +75,10 @@ const getPreviousLegInfo = (currentIndex: number) => {
 };
 
 const previousLeg = computed(() => getPreviousLegInfo(props.legIndex));
+
+const hasRestrictedStep = computed(
+  () => props.leg.steps?.some((step) => step.access_restriction) ?? false
+);
 </script>
 
 <template>
@@ -319,6 +323,10 @@ const previousLeg = computed(() => getPreviousLegInfo(props.legIndex));
             >
               {{ t("walking_instructions") }}
               <span class="text-zinc-400 dark:text-zinc-500 text-xs">({{ leg.steps.length }} {{ t("steps") }})</span>
+              <span v-if="hasRestrictedStep" class="text-amber-700 dark:text-amber-300 flex items-center gap-1 text-xs">
+                <MdiIcon :path="mdiAlert" :size="14" />
+                {{ t("access_restriction_hint") }}
+              </span>
             </summary>
             <div class="mt-2 space-y-2 pl-4">
               <div v-for="(step, k) in leg.steps" :key="`step-${k}`" class="flex items-start gap-3 py-1">
@@ -335,6 +343,13 @@ const previousLeg = computed(() => getPreviousLegInfo(props.legIndex));
                       <span v-if="step.elevation_down">↘ {{ step.elevation_down }}m</span>
                     </span>
                     <span v-if="step.toll" class="text-orange-600 dark:text-orange-300">{{ t("toll") }}</span>
+                  </div>
+                  <div
+                    v-if="step.access_restriction"
+                    class="text-amber-700 dark:text-amber-300 mt-0.5 flex items-start gap-1 text-xs"
+                  >
+                    <MdiIcon :path="mdiAlert" :size="14" class="mt-0.5 flex-shrink-0" />
+                    <span>{{ t("access_restriction") }}: {{ step.access_restriction }}</span>
                   </div>
                 </div>
               </div>
@@ -358,6 +373,8 @@ de:
   steps: Schritte
   continue: Weiter
   toll: Maut
+  access_restriction: Eingeschränkter Zugang
+  access_restriction_hint: enthält Zugangsbeschränkungen
   minutes: "sofort | eine Minute | {count} Minuten"
   seconds: "sofort | eine Sekunde | {count} Sekunden"
   meters: "hier | einen Meter | {count} Meter"
@@ -379,6 +396,8 @@ en:
   steps: steps
   continue: Continue
   toll: Toll
+  access_restriction: Restricted access
+  access_restriction_hint: contains access restrictions
   minutes: "instant | one minute | {count} minutes"
   seconds: "instant | one second | {count} seconds"
   meters: "here | one meter | {count} meters"
