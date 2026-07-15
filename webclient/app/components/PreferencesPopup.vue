@@ -273,6 +273,13 @@ async function updateLocale(value: "de" | "en") {
                 </Tab>
               </TabList>
             </TabGroup>
+            <Toast
+              v-if="preferences.pedestrian_type === 'blind'"
+              id="pedestrian-blind-fallback"
+              level="info"
+              class="mt-3"
+              :msg="t('pedestrian.blindFallback')"
+            />
           </div>
 
           <!-- Bicycle Type Setting -->
@@ -375,6 +382,7 @@ de:
   pedestrianType.help: Wählen Sie dies, falls Sie Barrierefreiheit benötigen wie Ansagen oder Aufzüge.
   pedestrian.standard: Standard
   pedestrian.blind: Blind
+  pedestrian.blindFallback: Für öffentliche Verkehrsmittel unterstützt die Routing-Engine noch kein blindengerechtes Routing. Diese Routen werden derzeit wie normales Gehen berechnet.
   pedestrian.wheelchair: Rollstuhl
   bicycleType: Fahrrad-Typ
   bicycleType.help: Dies beeinflusst welche Wege für Sie ausgewählt werden. Rennräder meiden unbefestigte Wege.
@@ -412,6 +420,7 @@ en:
   pedestrianType.help: Select this if you need accessibility features like narration or elevators.
   pedestrian.standard: Standard
   pedestrian.blind: Blind
+  pedestrian.blindFallback: The routing engine does not support blind-specific routing for public transit yet. Those routes are currently calculated as standard walking.
   pedestrian.wheelchair: Wheelchair
   bicycleType: Bicycle Type
   bicycleType.help: This affects which paths are selected for you. Road bikes avoid unpaved paths.
