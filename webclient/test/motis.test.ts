@@ -1,7 +1,7 @@
 import { encode } from "@googlemaps/polyline-codec";
 import { describe, expect, it } from "vitest";
 import type { components } from "../app/api_types";
-import { calculateStepBounds } from "../app/utils/motis";
+import { calculateStepBounds, delayMinutes } from "../app/utils/motis";
 import { floorLevelForSelection } from "../app/utils/motisLevels";
 
 type MotisLegResponse = components["schemas"]["MotisLegResponse"];
@@ -102,5 +102,40 @@ describe("calculateStepBounds", () => {
 
   it("is null for an undecodable polyline", () => {
     expect(calculateStepBounds(step(0, 0, ""))).toBeNull();
+  });
+});
+
+describe("delayMinutes", () => {
+  const scheduled = "2026-07-15T14:51:00+02:00";
+
+  it("reports a positive delay when the trip runs late", () => {
+    expect(delayMinutes(scheduled, "2026-07-15T14:58:00+02:00")).toBe(7);
+  });
+
+  it("reports a negative delay when the trip runs early", () => {
+    expect(delayMinutes(scheduled, "2026-07-15T14:48:00+02:00")).toBe(-3);
+  });
+
+  it("compares instants, not wall-clock offsets", () => {
+    expect(delayMinutes(scheduled, "2026-07-15T12:58:00Z")).toBe(7);
+  });
+
+  it("is null on the timetable slot", () => {
+    expect(delayMinutes(scheduled, scheduled)).toBeNull();
+  });
+
+  it("is null within the deadband, so feed jitter never reads as a delay", () => {
+    expect(delayMinutes(scheduled, "2026-07-15T14:51:29+02:00")).toBeNull();
+    expect(delayMinutes(scheduled, "2026-07-15T14:50:31+02:00")).toBeNull();
+  });
+
+  it("reports the first minute once the deadband is cleared", () => {
+    expect(delayMinutes(scheduled, "2026-07-15T14:51:31+02:00")).toBe(1);
+  });
+
+  it("is null when either side is missing or unparseable", () => {
+    expect(delayMinutes(null, "2026-07-15T14:58:00+02:00")).toBeNull();
+    expect(delayMinutes(scheduled, undefined)).toBeNull();
+    expect(delayMinutes(scheduled, "not a timestamp")).toBeNull();
   });
 });
