@@ -147,8 +147,16 @@ services:
       - traefik_traefik
     expose:
       - 8002
+    entrypoint:
+      - /bin/bash
+      - -c
+      # An interrupted build can leave /custom_files/valhalla.json truncated, which the image cannot self-heal; restore it from the read-only repo copy before starting.
+      - 'jq -e . /custom_files/valhalla.json >/dev/null 2>&1 || cp /map/valhalla.json /custom_files/valhalla.json; exec /valhalla/scripts/docker-entrypoint.sh "$$@"'
+      - --
+    command: [build_tiles]
     volumes:
       - ./map/data/:/custom_files:rw
+      - ./map/valhalla.json:/map/valhalla.json:ro
     tmpfs:
       - /tmp
     read_only: true
