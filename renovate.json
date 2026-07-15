@@ -65,6 +65,7 @@
     },
     {
       "groupName": "testing",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true,
       "matchPackageNames": [
         "/pytest/",
@@ -76,6 +77,7 @@
     },
     {
       "groupName": "rust-stable",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true,
       "matchPackageNames": [
         "/serde/",
@@ -89,6 +91,7 @@
     },
     {
       "groupName": "linting",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true,
       "matchPackageNames": [
         "/@biomejs/biome/",
@@ -107,6 +110,7 @@
     },
     {
       "groupName": "temporary-debump1",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true,
       "matchPackageNames": [
         "/@nuxt/content/"
@@ -114,6 +118,7 @@
     },
     {
       "groupName": "temporary-debump3",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true,
       "matchPackageNames": [
         "/polars/"
@@ -132,6 +137,7 @@
     },
     {
       "groupName": "maplibre",
+      "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": false,
       "matchPackageNames": [
         "/maplibre-gl/",
@@ -139,8 +145,8 @@
       ]
     },
     {
+      "description": "A breaking change is reviewed on its own: never grouped with an unrelated one, and never automerged. Renovate's monorepo presets still keep packages that must move in lockstep (@nuxt/*, @fullcalendar/*, ...) in one PR, since those are a single logical upgrade.",
       "matchUpdateTypes": ["major"],
-      "groupName": "major-release",
       "automerge": false
     }
   ]
