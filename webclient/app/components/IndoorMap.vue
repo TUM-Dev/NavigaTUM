@@ -2,12 +2,14 @@
 import type { GeoJSONSource } from "maplibre-gl";
 import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { components } from "~/api_types";
+import { FloorControl } from "~/composables/FloorControl";
 import { useSharedGeolocation } from "~/composables/geolocation";
 import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
+  calculateStepBounds,
   decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
@@ -16,6 +18,7 @@ import {
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
+type StepInstructionResponse = components["schemas"]["StepInstructionResponse"];
 
 // Simplified GeoJSON Feature type to avoid deep type inference
 interface SimpleGeoJSONFeature {
@@ -36,6 +39,7 @@ const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
 const afterLoaded = ref<() => void>(() => {});
 const geolocateControl = ref<GeolocateControl | undefined>(undefined);
+const floorControl = shallowRef<FloorControl | undefined>(undefined);
 const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 
 // Geolocation state
@@ -146,6 +150,17 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
 
     mapInstance.addControl(location);
     geolocateControl.value = location;
+
+    // Not at setup: the FloorControl constructor touches `document`, absent on the server.
+    const floors = new FloorControl();
+    mapInstance.addControl(floors, "top-left");
+    // Floors only render from zoom 17, so picking one while zoomed out would show nothing.
+    floors.on("level-changed", (event: { level: number | null }) => {
+      if (event.level !== null && mapInstance.getZoom() < 17) {
+        mapInstance.easeTo({ zoom: 17, duration: 2000 });
+      }
+    });
+    floorControl.value = floors;
 
     // Add Valhalla route source and layers
     mapInstance.addSource("route", {
@@ -454,6 +469,23 @@ function focusOnMotisLeg(legIndex: number, itinerary: ItineraryResponse) {
 }
 
 /**
+ * Focus map on a single step of a leg, falling back to the whole leg when the
+ * step's polyline cannot be decoded.
+ */
+function focusOnMotisStep(
+  step: StepInstructionResponse,
+  legIndex: number,
+  itinerary: ItineraryResponse
+) {
+  const bounds = calculateStepBounds(step);
+  if (bounds) {
+    fitBounds([bounds.minLon, bounds.maxLon], [bounds.minLat, bounds.maxLat]);
+  } else {
+    focusOnMotisLeg(legIndex, itinerary);
+  }
+}
+
+/**
  * Clear all Motis routes and symbols
  */
 function clearMotisRoutes() {
@@ -488,6 +520,11 @@ function triggerGeolocation() {
   geolocateControl.value?.trigger();
 }
 
+/** Switch the floor selector (and thus the indoor layers) to the given level. */
+function setFloor(level: number | null) {
+  floorControl.value?.setLevel(level);
+}
+
 defineExpose({
   drawRoute,
   fitBounds,
@@ -495,8 +532,10 @@ defineExpose({
   drawMotisItinerary,
   highlightMotisLeg,
   focusOnMotisLeg,
+  focusOnMotisStep,
   clearMotisRoutes,
   triggerGeolocation,
+  setFloor,
 });
 </script>
 
@@ -549,6 +588,89 @@ defineExpose({
     height: 24px;
     top: -20px;
     left: -12px;
+  }
+}
+
+.maplibregl-ctrl-group.floor-ctrl {
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+
+  &.closed #floor-list {
+    display: none !important;
+  }
+
+  & button {
+    &.active {
+      background: #ececec;
+    }
+
+    & .arrow {
+      font-weight: normal;
+      font-size: 0.3rem;
+      line-height: 0.9rem;
+      vertical-align: top;
+    }
+  }
+
+  &.reduced > .vertical-oc,
+  &.reduced > .horizontal-oc {
+    display: none !important;
+  }
+
+  & > .vertical-oc,
+  & > .horizontal-oc {
+    font-weight: bold;
+    background: #ececec;
+  }
+
+  &.closed {
+    & > .vertical-oc,
+    & > .horizontal-oc {
+      background: #fff;
+    }
+
+    &:hover > .vertical-oc,
+    &:hover > .horizontal-oc {
+      background: #f2f2f2;
+    }
+  }
+
+  /* vertical is default layout */
+
+  & > .horizontal-oc {
+    display: none;
+  }
+
+  &.horizontal {
+    & > .horizontal-oc {
+      display: inline-block;
+    }
+
+    & > .vertical-oc {
+      display: none;
+    }
+
+    & #floor-list {
+      display: inline-block;
+      width: calc(100% - var(--map-ctrl-button-size));
+    }
+
+    & button {
+      display: inline-block;
+      border-top: 0;
+      border-left: 1px solid #ddd;
+
+      &.arrow {
+        font-size: 0.4rem;
+        vertical-align: bottom;
+        line-height: 1.1rem;
+      }
+
+      & + button {
+        border-top: 0;
+      }
+    }
   }
 }
 </style>

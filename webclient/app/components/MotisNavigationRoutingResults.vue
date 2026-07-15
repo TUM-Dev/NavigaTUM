@@ -13,6 +13,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectLeg: [itineraryIndex: number, legIndex: number];
+  selectStep: [itineraryIndex: number, legIndex: number, stepIndex: number];
   selectItinerary: [itineraryIndex: number];
   loadPrevious: [cursor: string];
   loadNext: [cursor: string];
@@ -312,11 +313,15 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
         <!-- Direct connection details -->
         <div v-if="selectedItineraryIndex < 0">
           <template v-if="data.direct[Math.abs(selectedItineraryIndex + 1)]">
+            <!-- The negative `-1 - i` index tells the page this is a direct connection. -->
             <MotisDirectConnections
               :connections="[data.direct[Math.abs(selectedItineraryIndex + 1)]!]"
               @select-leg="
-                (_, legIndex) =>
-                  selectedItineraryIndex !== null && emit('selectLeg', Math.abs(selectedItineraryIndex + 1), legIndex)
+                (_, legIndex) => selectedItineraryIndex !== null && emit('selectLeg', selectedItineraryIndex, legIndex)
+              "
+              @select-step="
+                (_, legIndex, stepIndex) =>
+                  selectedItineraryIndex !== null && emit('selectStep', selectedItineraryIndex, legIndex, stepIndex)
               "
             />
           </template>
@@ -329,6 +334,7 @@ const getTransitLegs = (legs: readonly MotisLegResponse[]) => {
               :itinerary="data.itineraries[selectedItineraryIndex]!"
               :itinerary-index="selectedItineraryIndex"
               @select-leg="(itineraryIndex, legIndex) => emit('selectLeg', itineraryIndex, legIndex)"
+              @select-step="(itineraryIndex, legIndex, stepIndex) => emit('selectStep', itineraryIndex, legIndex, stepIndex)"
               @select-itinerary="emit('selectItinerary', $event)"
             />
           </template>
