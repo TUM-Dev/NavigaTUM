@@ -58,8 +58,8 @@ importers:
         specifier: 12.11.1
         version: 12.11.1
       maplibre-gl:
-        specifier: 6.0.0-20
-        version: 6.0.0-20
+        specifier: 6.0.0-21
+        version: 6.0.0-21
       nuxt:
         specifier: 4.4.8
         version: 4.4.8(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@biomejs/biome@2.5.3)(@parcel/watcher@2.5.6)(@vue/compiler-sfc@3.5.39)(better-sqlite3@12.11.1)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.11.1))(esbuild@0.28.1)(eslint@10.7.0(jiti@2.7.0))(ioredis@5.11.1)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.5)(rollup-plugin-visualizer@7.0.1(rolldown@1.1.5)(rollup@4.62.2))(rollup@4.62.2)(srvx@0.11.22)(terser@5.49.0)(typescript@6.0.3)(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.7(typescript@6.0.3))(yaml@2.9.0)
@@ -4338,8 +4338,8 @@ packages:
   magicast@0.5.3:
     resolution: {integrity: sha512-pVKE4UdSQ7DvHzivsCIFx2BJn1mHG6KsyrFcaxFx6tONdneEuThrDx0Cj3AMg58KyN4pzYT+LHOotxDQDjNvkw==}
 
-  maplibre-gl@6.0.0-20:
-    resolution: {integrity: sha512-LJ+UVOE44F9wiTeUqfsaA/FiXbiVeyfEu4B7i2iqfc3LAdr5/+5og26CeG1acbHHJvk/lUoAPvFP+SK22iPGmQ==}
+  maplibre-gl@6.0.0-21:
+    resolution: {integrity: sha512-opPjFahBtFn6WUgC3Rij2Sek76N00b8IT4XjZdSRUPkOgvc4bBNjiIHNY4g8xycRir81KOyqDm2zAoKs5B9UZg==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   markdown-table@3.0.4:
@@ -10323,7 +10323,7 @@ snapshots:
       '@babel/types': 7.29.7
       source-map-js: 1.2.1
 
-  maplibre-gl@6.0.0-20:
+  maplibre-gl@6.0.0-21:
     dependencies:
       '@mapbox/point-geometry': 1.1.0
       '@mapbox/tiny-sdf': 2.2.0
