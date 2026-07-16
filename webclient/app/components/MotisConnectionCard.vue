@@ -54,7 +54,7 @@ const modeStrip = computed(() => {
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-baseline gap-3">
           <span class="text-zinc-900 dark:text-zinc-50 font-medium tabular-nums">
-            {{ formatTime(itinerary.start_time) }} – {{ formatTime(itinerary.end_time) }}
+            {{ formatTime(itinerary.start_time) }} - {{ formatTime(itinerary.end_time) }}
           </span>
           <span class="text-zinc-600 dark:text-zinc-300 text-sm">{{ formatDuration(itinerary.duration) }}</span>
         </div>
