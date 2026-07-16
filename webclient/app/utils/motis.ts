@@ -6,6 +6,8 @@ type ModeResponse = components["schemas"]["ModeResponse"];
 type Coordinate = components["schemas"]["Coordinate"];
 type PlaceResponse = components["schemas"]["PlaceResponse"];
 type StepInstructionResponse = components["schemas"]["StepInstructionResponse"];
+type MotisLegResponse = components["schemas"]["MotisLegResponse"];
+type AlertResponse = components["schemas"]["AlertResponse"];
 
 // Platform change marker type
 export interface PlatformChangeMarker {
@@ -270,4 +272,101 @@ export function formatDistance(meters: number): string {
     return `${(meters / 1000).toFixed(1)}km`;
   }
   return `${Math.round(meters)}m`;
+}
+
+// Modes covered under own power (turn-by-turn steps), not a boarded transit vehicle.
+const SELF_NAVIGATED_MODES: ReadonlySet<ModeResponse> = new Set([
+  "walk",
+  "bike",
+  "car",
+  "car_parking",
+]);
+
+export function isSelfNavigatedLeg(leg: MotisLegResponse): boolean {
+  return SELF_NAVIGATED_MODES.has(leg.mode);
+}
+
+export interface TimelineTime {
+  readonly scheduled: string;
+  readonly actual: string;
+  readonly realTime: boolean;
+  readonly cancelled: boolean;
+}
+
+export interface TimelineNode {
+  readonly name: string;
+  readonly track: string | null;
+  readonly level: number;
+  readonly alerts: readonly AlertResponse[];
+  readonly time: TimelineTime;
+}
+
+export interface TimelineEdge {
+  readonly leg: MotisLegResponse;
+  readonly legIndex: number;
+  readonly selfNavigated: boolean;
+}
+
+export interface ItineraryTimeline {
+  // Always `edges.length + 1` entries: one leading departure, one per leg arrival.
+  readonly nodes: readonly TimelineNode[];
+  readonly edges: readonly TimelineEdge[];
+}
+
+function departureNode(leg: MotisLegResponse): TimelineNode {
+  return {
+    name: leg.from.name,
+    track: leg.from.track ?? leg.from.scheduled_track ?? null,
+    level: leg.from.level,
+    alerts: leg.from.alerts ?? [],
+    time: {
+      scheduled: leg.scheduled_start_time,
+      actual: leg.start_time,
+      realTime: leg.real_time,
+      cancelled: leg.cancelled ?? false,
+    },
+  };
+}
+
+function arrivalNode(leg: MotisLegResponse): TimelineNode {
+  return {
+    name: leg.to.name,
+    track: leg.to.track ?? leg.to.scheduled_track ?? null,
+    level: leg.to.level,
+    alerts: leg.to.alerts ?? [],
+    time: {
+      scheduled: leg.scheduled_end_time,
+      actual: leg.end_time,
+      realTime: leg.real_time,
+      cancelled: leg.cancelled ?? false,
+    },
+  };
+}
+
+/**
+ * Legs as a stops-as-nodes timeline: each physical stop appears once. An interior node
+ * shows the boarding time when a transit leg departs from it, else the arrival time.
+ */
+export function buildItineraryTimeline(itinerary: ItineraryResponse): ItineraryTimeline {
+  const legs = itinerary.legs;
+  const firstLeg = legs[0];
+  if (!firstLeg) return { nodes: [], edges: [] };
+
+  const nodes: TimelineNode[] = [departureNode(firstLeg)];
+  for (let i = 1; i < legs.length; i++) {
+    const leg = legs[i];
+    const previous = legs[i - 1];
+    if (!leg || !previous) continue;
+    nodes.push(isSelfNavigatedLeg(leg) ? arrivalNode(previous) : departureNode(leg));
+  }
+  const lastLeg = legs[legs.length - 1];
+  if (lastLeg) nodes.push(arrivalNode(lastLeg));
+
+  const edges: TimelineEdge[] = legs.map((leg, legIndex) => ({
+    leg,
+    legIndex,
+    selfNavigated: isSelfNavigatedLeg(leg),
+  }));
+
+  return { nodes, edges };
 }
