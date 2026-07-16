@@ -160,20 +160,20 @@ wheels = [
 
 [[package]]
 name = "dataframely"
-version = "2.13.0"
+version = "2.13.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
     { name = "numpy" },
     { name = "polars" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/88/1a/70a7f4a57da4e50a1604870989f03e65bda39941dbffd127bd766834ddbf/dataframely-2.13.0.tar.gz", hash = "sha256:481bfb699e9e398dd271c51ff1a96c294fbdd01bdacdbe37de0dfbf9b7b47c62", size = 457451, upload-time = "2026-07-07T15:02:42.575Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7a/c5/d54e038e16ea856fe9c3b76f44cd4064d8ab1d692915807982fd66492639/dataframely-2.13.1.tar.gz", hash = "sha256:2ed77e2789b9049ac94b531432691d5f1a2726cee76332b1a5ba61d73916d430", size = 459631, upload-time = "2026-07-15T14:01:38.821Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/5b/2770d265cf89a18b2a983fa0e4fb935b2a356bb3d87f41d5535aa2d5dadd/dataframely-2.13.0-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:9df6dc870f5a1b7106a87b965d24dda06ca13cf2741e8e1bbfe5cf5f6c8dbcf4", size = 8238996, upload-time = "2026-07-07T15:02:32.725Z" },
-    { url = "https://files.pythonhosted.org/packages/b6/a8/f09991ae994918985e5ec1908e13d4f534cfb2eda9b58146ec77e6fda589/dataframely-2.13.0-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:22293616514bdfdf649ef12cf2c760f088fdeb156f9caa54d935584926cbfc1c", size = 7631212, upload-time = "2026-07-07T15:02:35.218Z" },
-    { url = "https://files.pythonhosted.org/packages/1b/a9/d790be09d03a277e2ded4da2de54597b69dd4f839772783c883e987e0b02/dataframely-2.13.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d4915f4c0cf39eedb50ae1f1d5f20748c498b7e7179bb83dbb51b102984a2ad5", size = 8010406, upload-time = "2026-07-07T15:02:37.126Z" },
-    { url = "https://files.pythonhosted.org/packages/24/07/611ad7e03a955f08325d2452420f137f2b9d01d6d6a76700fd7906d0d49b/dataframely-2.13.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4b88f6d996712b511b567bf7cc75f0d56565a3e931aa933e42fb9381d9e228b1", size = 8575210, upload-time = "2026-07-07T15:02:38.747Z" },
-    { url = "https://files.pythonhosted.org/packages/7d/a5/48f5130129ec7cf7fd8aa0d798f493819b0ff56edd3ab769647e04d7aa27/dataframely-2.13.0-cp310-abi3-win_amd64.whl", hash = "sha256:71d14342a31ce557aea7f18c0bce626222a1b838e198b7efeea3a9bf10e5c8ad", size = 8632953, upload-time = "2026-07-07T15:02:40.657Z" },
+    { url = "https://files.pythonhosted.org/packages/89/b3/9ec8f1f6d234a77ef959a7c902f3cdff1911b27dede40d6efa94de5280df/dataframely-2.13.1-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:5bc5c063fb47cabf84aef3655650456ac1fafd7d267b83d8ea2de54cb9b863ce", size = 8240346, upload-time = "2026-07-15T14:01:27.407Z" },
+    { url = "https://files.pythonhosted.org/packages/68/11/530dbb48093994f1f0a2d042937523d50df720ffad8d973c84798021e376/dataframely-2.13.1-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:94f031c787c9216c156cd85b5053639b2bd0fc624fd485e1fd56b4b35bd2a416", size = 7632561, upload-time = "2026-07-15T14:01:29.634Z" },
+    { url = "https://files.pythonhosted.org/packages/52/c9/f24553f1184b18611d7ffe8e35f1dcb30c0f5cbd6ccce04aecd539be3759/dataframely-2.13.1-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ab83500dda4095772f8b57de42a259a608aff37bd4fc2be35af8f5b8c79f9737", size = 8011753, upload-time = "2026-07-15T14:01:31.585Z" },
+    { url = "https://files.pythonhosted.org/packages/c2/f4/d77b7c025c521f0a3f6d8fed0dd0294a662db2f7d13efdfe82552c6c3b82/dataframely-2.13.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:812dd8000a8c5ffa7d468d5a6592c20f8b7ad65c8c3385b2a1b52d71f24bbaa7", size = 8576559, upload-time = "2026-07-15T14:01:33.753Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/fc/0312c7f875c99e5a3ad19991a8faf3bd32624ec681dfbf4916eeffb70a29/dataframely-2.13.1-cp310-abi3-win_amd64.whl", hash = "sha256:e86bf0fa03af1450da3c42a410d2acd322109de0eca596ffd7109934ba957896", size = 8634331, upload-time = "2026-07-15T14:01:36.472Z" },
 ]
 
 [[package]]
@@ -414,7 +414,7 @@ requires-dist = [
     { name = "backoff", specifier = "==2.2.1" },
     { name = "beautifulsoup4", specifier = "==4.15.0" },
     { name = "brotli", specifier = ">=1.2.0" },
-    { name = "dataframely", specifier = "==2.13.0" },
+    { name = "dataframely", specifier = "==2.13.1" },
     { name = "defusedxml", specifier = "==0.7.1" },
     { name = "holidays", specifier = "==0.100" },
     { name = "lxml", specifier = "==6.1.1" },
