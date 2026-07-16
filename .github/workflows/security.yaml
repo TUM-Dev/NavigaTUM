@@ -25,7 +25,7 @@ jobs:
           uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
           with: { persist-credentials: false }
         - name: Run zizmor
-          uses: zizmorcore/zizmor-action@192e21d79ab29983730a13d1382995c2307fbcaa # v0.5.7
+          uses: zizmorcore/zizmor-action@6599ee8b7a49aef6a770f63d261d214911a7ce02 # v0.6.0
   cargo-audit:
     # Only run on the daily schedule. Advisories still file issues, but PRs
     # aren't blocked when a transitive dep gets a new RUSTSEC entry.
