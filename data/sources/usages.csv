@@ -17,6 +17,7 @@ id,name_de,name_en,din_277,din_277_desc,din277_name
 0504.03.409,Büro,Office,NF2.1,Büroräume,
 0509.EG.926,WC,WC,NF7.1,Sanitärräume,
 0509.Z1.926,WC Damen,WC Women,NF7.1,Sanitärräume,
+5410,Labor - Chemie,Laboratory - Chemistry,NF3.5,,
 5501.02.141,Besprechungsraum,Meeting room,NF2.3,Besprechungsräume,
 5501.02.142,Besprechungsraum,Meeting room,NF2.3,Besprechungsräume,
 5506.02.619A,Labor,Labor,NF3.3,Labor,
