@@ -258,6 +258,8 @@ function handleSelectStep(itineraryIndex: number, legIndex: number, stepIndex: n
   indoorMap.value.focusOnMotisStep(step, legIndex, itinerary);
 }
 
+// Expanding a connection is what draws it: the map keeps the last-expanded route even
+// after its card is collapsed, so `selectedItineraryIndex` only moves on expand.
 function handleSelectItinerary(itineraryIndex: number) {
   const itinerary = motisItineraryAt(itineraryIndex);
   if (!itinerary || !indoorMap.value) return;
