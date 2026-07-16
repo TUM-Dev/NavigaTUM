@@ -15,6 +15,9 @@ const emit = defineEmits<{ toggle: [] }>();
 const { t } = useI18n({ useScope: "local" });
 
 const intermediateStops = computed(() => props.leg.intermediate_stops ?? []);
+const hasCollapsibleDetail = computed(
+  () => intermediateStops.value.length > 0 || (props.leg.alerts?.length ?? 0) > 0
+);
 const showRouteChange = computed(() => {
   const previousName = props.previousLeg?.route_short_name;
   const currentName = props.leg.route_short_name;
@@ -58,7 +61,7 @@ const showRouteChange = computed(() => {
           <template v-if="intermediateStops.length">{{ t("stops", intermediateStops.length) }} · </template>{{ formatDuration(leg.duration) }}
         </span>
         <MdiIcon
-          v-if="intermediateStops.length || leg.interline_with_previous_leg"
+          v-if="hasCollapsibleDetail"
           :path="mdiChevronDown"
           :size="14"
           class="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform"
@@ -70,30 +73,30 @@ const showRouteChange = computed(() => {
         {{ t("cancelled") }}
       </div>
 
-      <Collapsible :open="open">
-        <div
-          v-if="leg.interline_with_previous_leg"
-          class="mt-2 flex items-start gap-2 rounded-md border border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900 px-3 py-2 text-blue-800 dark:text-blue-100"
-        >
-          <MdiIcon :path="mdiTransitConnectionVariant" :size="16" class="mt-0.5 flex-shrink-0 text-blue-600 dark:text-blue-300" />
-          <div class="min-w-0">
-            <div class="text-sm font-medium">{{ t("stay_on_vehicle") }}</div>
-            <div v-if="showRouteChange" class="mt-1 flex items-center gap-2 text-xs">
-              <span class="rounded px-1.5 py-0.5 font-bold text-white dark:text-black bg-blue-600 dark:bg-blue-300">
-                {{ previousLeg?.route_short_name }}
-              </span>
-              <span class="text-blue-600 dark:text-blue-300">→</span>
-              <span
-                class="rounded px-1.5 py-0.5 font-bold"
-                :style="{ backgroundColor: leg.route_color, color: leg.route_text_color }"
-              >
-                {{ leg.route_short_name }}
-              </span>
-            </div>
-            <div v-else class="text-blue-700 dark:text-blue-200 mt-1 text-xs">{{ t("interline_explanation") }}</div>
+      <div
+        v-if="leg.interline_with_previous_leg"
+        class="mt-2 flex items-start gap-2 rounded-md border border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900 px-3 py-2 text-blue-800 dark:text-blue-100"
+      >
+        <MdiIcon :path="mdiTransitConnectionVariant" :size="16" class="mt-0.5 flex-shrink-0 text-blue-600 dark:text-blue-300" />
+        <div class="min-w-0">
+          <div class="text-sm font-medium">{{ t("stay_on_vehicle") }}</div>
+          <div v-if="showRouteChange" class="mt-1 flex items-center gap-2 text-xs">
+            <span class="rounded px-1.5 py-0.5 font-bold text-white dark:text-black bg-blue-600 dark:bg-blue-300">
+              {{ previousLeg?.route_short_name }}
+            </span>
+            <span class="text-blue-600 dark:text-blue-300">→</span>
+            <span
+              class="rounded px-1.5 py-0.5 font-bold"
+              :style="{ backgroundColor: leg.route_color, color: leg.route_text_color }"
+            >
+              {{ leg.route_short_name }}
+            </span>
           </div>
+          <div v-else class="text-blue-700 dark:text-blue-200 mt-1 text-xs">{{ t("interline_explanation") }}</div>
         </div>
+      </div>
 
+      <Collapsible :open="open">
         <ul v-if="intermediateStops.length" class="mt-2 space-y-1.5">
           <li
             v-for="(stop, s) in intermediateStops"
