@@ -40,7 +40,7 @@ const floorSpan = computed(() => legFloorSpan(props.leg));
 const floorBadge = computed<string | null>(() => {
   const span = floorSpan.value;
   if (span.length === 0) return null;
-  return `${formatLevel(span[0] ?? 0)} – ${formatLevel(span[span.length - 1] ?? 0)}`;
+  return `${formatLevel(span[0] ?? 0)} - ${formatLevel(span[span.length - 1] ?? 0)}`;
 });
 const verticalIcon = computed(() => {
   if (steps.value.some((step) => step.relative_direction === "elevator")) return mdiElevator;
@@ -50,7 +50,7 @@ const verticalIcon = computed(() => {
 
 // Motis reports the level per step (and, inconsistently, within a step) rather than as explicit
 // transitions, so a floor change shows up as the level a step lands on differing from the one
-// before it. We surface the reached level as-is — half-levels and all — without smoothing.
+// before it. We surface the reached level as-is - half-levels and all - without smoothing.
 const levelChanges = computed(() =>
   steps.value.map((step, index) => {
     const before = index > 0 ? (steps.value[index - 1]?.to_level ?? 0) : props.leg.from.level;
@@ -74,7 +74,7 @@ function formatLevel(level: number): string {
 }
 
 // Motis hands us a maneuver enum and (rarely, indoors) a street name, but no instruction text, so
-// we compose one — narrating stairs, elevators, and bare level changes with the floor they reach.
+// we compose one - narrating stairs, elevators, and bare level changes with the floor they reach.
 function stepInstruction(index: number): string {
   const step = steps.value[index];
   if (!step) return t("dir_continue");
