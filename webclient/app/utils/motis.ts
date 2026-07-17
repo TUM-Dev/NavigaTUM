@@ -1,5 +1,6 @@
 import { decode } from "@googlemaps/polyline-codec";
 import type { components } from "~/api_types";
+import { SELECTABLE_LEVELS } from "~/composables/mapLayers";
 
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
 type ModeResponse = components["schemas"]["ModeResponse"];
@@ -157,6 +158,64 @@ export function extractPlatformChangeMarkers(itinerary: ItineraryResponse): Plat
   }
 
   return markers;
+}
+
+// A segment only ghosts with the floor selector when it sits on a floor the selector can
+// represent. Motis reports level 0 for outdoor geometry too, so level 0 always renders solid.
+export function isFloorSelectableLevel(level: number): boolean {
+  return level !== 0 && SELECTABLE_LEVELS.includes(level);
+}
+
+/** A contiguous run of a leg's geometry that stays on a single OSM level. */
+export interface LegLevelSegment {
+  readonly level: number;
+  // Whether this run participates in floor-selector ghosting (see isFloorSelectableLevel).
+  readonly floorSelectable: boolean;
+  readonly coordinates: Coordinate[];
+}
+
+/**
+ * Split a leg's geometry into runs that each stay on one OSM level, so the map can render
+ * the part on the active floor solid and ghost the rest. Self-navigated legs are cut along
+ * their steps' `from_level`; legs without usable step geometry stay a single run.
+ */
+export function splitLegByLevel(leg: MotisLegResponse): LegLevelSegment[] {
+  const steps = leg.steps ?? [];
+  const segments: LegLevelSegment[] = [];
+  for (const step of steps) {
+    const coordinates = decodeMotisGeometry(step.polyline);
+    if (coordinates.length === 0) continue;
+    const level = step.from_level;
+    const last = segments[segments.length - 1];
+    // Steps on the same level draw as one line; the shared vertex would otherwise double up.
+    if (last && last.level === level) last.coordinates.push(...coordinates.slice(1));
+    else segments.push({ level, floorSelectable: isFloorSelectableLevel(level), coordinates });
+  }
+  if (segments.length > 0) return segments;
+
+  const level = leg.from.level;
+  return [
+    {
+      level,
+      floorSelectable: isFloorSelectableLevel(level),
+      coordinates: decodeMotisGeometry(leg.leg_geometry),
+    },
+  ];
+}
+
+/**
+ * The floors a self-navigated leg touches (endpoints and every step), lowest first, or an
+ * empty array when the leg never leaves a single floor. Lets the list flag vertical movement
+ * on a collapsed leg without expanding it.
+ */
+export function legFloorSpan(leg: MotisLegResponse): number[] {
+  const levels = new Set<number>([leg.from.level, leg.to.level]);
+  for (const step of leg.steps ?? []) {
+    levels.add(step.from_level);
+    levels.add(step.to_level);
+  }
+  if (levels.size <= 1) return [];
+  return [...levels].sort((a, b) => a - b);
 }
 
 /**

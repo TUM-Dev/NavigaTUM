@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GeoJSONSource } from "maplibre-gl";
+import type { ExpressionSpecification, GeoJSONSource } from "maplibre-gl";
 import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
@@ -10,9 +10,9 @@ import {
   calculateItineraryBounds,
   calculateLegBounds,
   calculateStepBounds,
-  decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
+  splitLegByLevel,
 } from "~/utils/motis";
 
 type LocationDetailsResponse = components["schemas"]["LocationDetailsResponse"];
@@ -47,6 +47,8 @@ const geolocationState = useSharedGeolocation();
 
 // Motis routing state
 const highlightedLegIndex = ref<number | null>(null);
+// The floor the selector currently shows, so the walk route can emphasise its on-floor part.
+const currentLevel = ref<number | null>(null);
 const zoom = computed<number>(() => zoomForLocationType(props.type));
 
 onMounted(async () => {
@@ -156,6 +158,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     mapInstance.addControl(floors, "top-left");
     // Floors only render from zoom 17, so picking one while zoomed out would show nothing.
     floors.on("level-changed", (event: { level: number | null }) => {
+      currentLevel.value = event.level;
+      applyWalkLevelStyling(event.level);
       if (event.level !== null && mapInstance.getZoom() < 17) {
         mapInstance.easeTo({ zoom: 17, duration: 2000 });
       }
@@ -383,16 +387,17 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   // Clear existing routes
   clearMotisRoutes();
 
-  // Create GeoJSON features for each leg
-  const routeFeatures: SimpleGeoJSONFeature[] = itinerary.legs.map((leg, index) => {
-    const coordinates = decodeMotisGeometry(leg.leg_geometry);
+  // One feature per single-floor run of each leg, so the active floor can be drawn solid while
+  // off-floor runs of the same walk are ghosted (see applyWalkLevelStyling).
+  const routeFeatures: SimpleGeoJSONFeature[] = itinerary.legs.flatMap((leg, index) => {
     const style = getTransitModeStyle(leg.mode, leg.route_color, leg.route_text_color);
-
-    return {
-      type: "Feature",
+    return splitLegByLevel(leg).map((segment) => ({
+      type: "Feature" as const,
       properties: {
         legIndex: index,
         mode: leg.mode,
+        level: segment.level,
+        floorSelectable: segment.floorSelectable,
         color: style.color,
         textColor: style.textColor,
         weight: style.weight,
@@ -405,9 +410,9 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
       },
       geometry: {
         type: "LineString",
-        coordinates: coordinates.map(({ lat, lon }) => [lon, lat]),
+        coordinates: segment.coordinates.map(({ lat, lon }) => [lon, lat]),
       },
-    };
+    }));
   });
 
   // Update the routes source
@@ -438,9 +443,34 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
     features: platformChangeFeatures,
   });
 
+  // Re-apply floor emphasis to the freshly drawn walk segments.
+  applyWalkLevelStyling(currentLevel.value);
+
   // Fit map to show entire route
   const bounds = calculateItineraryBounds(itinerary);
   fitBounds([bounds.minLon, bounds.maxLon], [bounds.minLat, bounds.maxLat]);
+}
+
+// Emphasise the part of the walk on the shown floor and ghost the rest. Runs on a non-selectable
+// level (outdoors, or a floor the selector can't show) always stay solid; with no floor selected
+// the whole walk is solid. See splitLegByLevel for how legs are cut into per-floor segments.
+function applyWalkLevelStyling(level: number | null) {
+  if (!map.value?.loaded()) return;
+
+  const onShownFloor: ExpressionSpecification =
+    level === null
+      ? ["literal", true]
+      : ["any", ["!", ["get", "floorSelectable"]], ["==", ["get", "level"], level]];
+
+  const walkOpacity: ExpressionSpecification = ["case", onShownFloor, ["get", "opacity"], 0.2];
+  const walkWidth: ExpressionSpecification = ["case", onShownFloor, ["get", "weight"], 2];
+  const highlightOpacity: ExpressionSpecification = ["case", onShownFloor, 0.9, 0.3];
+  const highlightWidth: ExpressionSpecification = ["case", onShownFloor, 8, 3];
+
+  map.value.setPaintProperty("motis-route-walk", "line-opacity", walkOpacity);
+  map.value.setPaintProperty("motis-route-walk", "line-width", walkWidth);
+  map.value.setPaintProperty("motis-route-highlighted", "line-opacity", highlightOpacity);
+  map.value.setPaintProperty("motis-route-highlighted", "line-width", highlightWidth);
 }
 
 /**
