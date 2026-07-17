@@ -9,12 +9,30 @@ import {
   mdiAxisXRotateClockwise,
   mdiAxisXRotateCounterclockwise,
   mdiElevator,
+  mdiElevatorDown,
+  mdiElevatorUp,
   mdiPlay,
+  mdiStairs,
+  mdiStairsDown,
+  mdiStairsUp,
 } from "@mdi/js";
 import type { components } from "~/api_types";
 
 type DirectionResponse = components["schemas"]["DirectionResponse"];
-defineProps<{ direction: DirectionResponse }>();
+// `vertical` carries the sense of a floor change (derived from the step levels, which the
+// direction enum alone does not encode), so stairs and elevators can point up or down.
+const props = defineProps<{ direction: DirectionResponse; vertical?: "up" | "down" }>();
+
+const stairsIcon = computed(() =>
+  props.vertical === "up" ? mdiStairsUp : props.vertical === "down" ? mdiStairsDown : mdiStairs
+);
+const elevatorIcon = computed(() =>
+  props.vertical === "up"
+    ? mdiElevatorUp
+    : props.vertical === "down"
+      ? mdiElevatorDown
+      : mdiElevator
+);
 </script>
 
 <template>
@@ -44,8 +62,8 @@ defineProps<{ direction: DirectionResponse }>();
     <MdiIcon v-else-if="direction === 'circle_counterclockwise'" :path="mdiAxisXRotateCounterclockwise" :size="16" />
 
     <!-- Vertical movement -->
-    <MdiIcon v-else-if="direction === 'stairs'" :path="mdiArrowUp" :size="16" />
-    <MdiIcon v-else-if="direction === 'elevator'" :path="mdiElevator" :size="16" />
+    <MdiIcon v-else-if="direction === 'stairs'" :path="stairsIcon" :size="16" />
+    <MdiIcon v-else-if="direction === 'elevator'" :path="elevatorIcon" :size="16" />
 
     <!-- Fallback -->
     <span v-else class="text-xs font-bold">{{ (direction as string).slice(0, 2).toUpperCase() }}</span>

@@ -1,7 +1,14 @@
 import { encode } from "@googlemaps/polyline-codec";
 import { describe, expect, it } from "vitest";
 import type { components } from "../app/api_types";
-import { buildItineraryTimeline, calculateStepBounds, delayMinutes } from "../app/utils/motis";
+import {
+  buildItineraryTimeline,
+  calculateStepBounds,
+  delayMinutes,
+  isFloorSelectableLevel,
+  legFloorSpan,
+  splitLegByLevel,
+} from "../app/utils/motis";
 import { floorLevelForSelection } from "../app/utils/motisLevels";
 
 type MotisLegResponse = components["schemas"]["MotisLegResponse"];
@@ -81,6 +88,109 @@ describe("floorLevelForSelection", () => {
     const basementStep = step(-2, -3);
     const leg = walkLeg({ fromLevel: -2, toLevel: -3, steps: [basementStep] });
     expect(floorLevelForSelection(leg, basementStep)).toBeNull();
+  });
+});
+
+describe("isFloorSelectableLevel", () => {
+  it("treats ground level as non-selectable, since Motis reports 0 outdoors too", () => {
+    expect(isFloorSelectableLevel(0)).toBe(false);
+  });
+
+  it("selects levels the floor selector can represent", () => {
+    expect(isFloorSelectableLevel(1)).toBe(true);
+    expect(isFloorSelectableLevel(-1)).toBe(true);
+  });
+
+  it("rejects half-levels and levels outside the selector's range", () => {
+    expect(isFloorSelectableLevel(1.5)).toBe(false);
+    expect(isFloorSelectableLevel(-2)).toBe(false);
+  });
+});
+
+describe("splitLegByLevel", () => {
+  const line = (coords: [number, number][]) => encode(coords, 6);
+
+  it("keeps a step-less leg as one run on its starting level", () => {
+    const leg = walkLeg({ fromLevel: 1, toLevel: 1 });
+    leg.leg_geometry = line([
+      [48.1, 11.6],
+      [48.2, 11.5],
+    ]);
+    const [segment, ...rest] = splitLegByLevel(leg);
+    expect(rest).toHaveLength(0);
+    expect(segment).toMatchObject({ level: 1, floorSelectable: true });
+    expect(segment?.coordinates).toHaveLength(2);
+  });
+
+  it("cuts a leg into one run per level and merges the shared vertex", () => {
+    const leg = walkLeg({
+      fromLevel: 0,
+      toLevel: 1,
+      steps: [
+        step(
+          0,
+          0,
+          line([
+            [48.1, 11.6],
+            [48.11, 11.6],
+          ])
+        ),
+        step(
+          0,
+          1,
+          line([
+            [48.11, 11.6],
+            [48.12, 11.6],
+          ])
+        ),
+        step(
+          1,
+          1,
+          line([
+            [48.12, 11.6],
+            [48.13, 11.6],
+          ])
+        ),
+      ],
+    });
+    const segments = splitLegByLevel(leg);
+    expect(segments.map((s) => s.level)).toEqual([0, 1]);
+    // The transitioning step departs from level 0, so its geometry joins the level-0 run: two
+    // steps merge there (2 + 1 after dropping the shared vertex), leaving the level-1 step alone.
+    expect(segments[0]?.coordinates).toHaveLength(3);
+    expect(segments[1]?.coordinates).toHaveLength(2);
+  });
+
+  it("skips steps whose polyline cannot be decoded", () => {
+    const leg = walkLeg({
+      fromLevel: 1,
+      toLevel: 1,
+      steps: [
+        step(1, 1, ""),
+        step(
+          1,
+          1,
+          line([
+            [48.1, 11.6],
+            [48.2, 11.5],
+          ])
+        ),
+      ],
+    });
+    const segments = splitLegByLevel(leg);
+    expect(segments).toHaveLength(1);
+    expect(segments[0]?.coordinates).toHaveLength(2);
+  });
+});
+
+describe("legFloorSpan", () => {
+  it("is empty for a leg that never leaves one floor", () => {
+    expect(legFloorSpan(walkLeg({ fromLevel: 2, toLevel: 2, steps: [step(2, 2)] }))).toEqual([]);
+  });
+
+  it("lists the touched floors low to high", () => {
+    const leg = walkLeg({ fromLevel: 0, toLevel: 2, steps: [step(0, 1), step(1, 2)] });
+    expect(legFloorSpan(leg)).toEqual([0, 1, 2]);
   });
 });
 
