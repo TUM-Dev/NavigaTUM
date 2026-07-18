@@ -20,7 +20,7 @@ dependencies = [
   "requests==2.34.2",
   "requests-oauthlib==2.0.0",
   "ruamel.yaml==0.19.1",
-  "tqdm==4.68.4",
+  "tqdm==4.69.0",
   "utm==0.8.1",
   "xxhash==3.8.1",
 ]
