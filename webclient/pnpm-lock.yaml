@@ -65,7 +65,7 @@ importers:
         version: 4.4.8(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@biomejs/biome@2.5.4)(@parcel/watcher@2.5.6)(@vue/compiler-sfc@3.5.39)(better-sqlite3@12.11.1)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.11.1))(esbuild@0.28.1)(eslint@10.7.0(jiti@2.7.0))(ioredis@5.11.1)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.5)(rollup-plugin-visualizer@7.0.1(rolldown@1.1.5)(rollup@4.62.2))(rollup@4.62.2)(srvx@0.11.22)(terser@5.49.0)(typescript@6.0.3)(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.7(typescript@6.0.3))(yaml@2.9.0)
       opening_hours:
         specifier: ^3.13.0
-        version: 3.13.0(typescript@6.0.3)
+        version: 3.14.0(typescript@6.0.3)
       prom-client:
         specifier: ^15.1.3
         version: 15.1.3
@@ -4712,8 +4712,8 @@ packages:
     peerDependencies:
       typescript: ^5.x
 
-  opening_hours@3.13.0:
-    resolution: {integrity: sha512-yQxRzM+ggFvmgML53tcnI3Ugy/OCt4HgyYeTryD2tgahfcjDNSgrU2wTs1ccNhA2ytatNUwKDJcLi2u54nT2Bg==}
+  opening_hours@3.14.0:
+    resolution: {integrity: sha512-pgddpSgUJlbbel2Kk9Y8uYv3cw//fiuM/BNUO7VhtdlHMpaUo3U8uG0jF5DJxsCzIpyeVygNjQJso6T6okiT8g==}
     engines: {node: '>=12'}
 
   optionator@0.9.4:
@@ -5471,8 +5471,8 @@ packages:
     peerDependencies:
       postcss: ^8.5.15
 
-  suncalc@1.9.0:
-    resolution: {integrity: sha512-vMJ8Byp1uIPoj+wb9c1AdK4jpkSKVAywgHX0lqY7zt6+EWRRC3Z+0Ucfjy/0yxTVO1hwwchZe4uoFNqrIC24+A==}
+  suncalc@2.0.1:
+    resolution: {integrity: sha512-wjujU+HpsP1TUvN3/9dFkVQQCsMZbk7PkdZsASRJR4jVPHCm9Qy0FVkFTqXfs70Ag2yheN7ZUavzCyOjhJDGxQ==}
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -11099,10 +11099,10 @@ snapshots:
       typescript: 6.0.3
       yargs-parser: 21.1.1
 
-  opening_hours@3.13.0(typescript@6.0.3):
+  opening_hours@3.14.0(typescript@6.0.3):
     dependencies:
       i18next: 26.3.6(typescript@6.0.3)
-      suncalc: 1.9.0
+      suncalc: 2.0.1
     transitivePeerDependencies:
       - typescript
 
@@ -12138,7 +12138,7 @@ snapshots:
       postcss: 8.5.17
       postcss-selector-parser: 7.1.4
 
-  suncalc@1.9.0: {}
+  suncalc@2.0.1: {}
 
   supports-color@10.2.2: {}
 
