@@ -17,6 +17,6 @@ supportedArchitectures:
     - x64
 overrides:
   vite: ^8.0.0-beta.8
-  vue-router: 5.1.0
+  vue-router: 5.2.0
 minimumReleaseAgeExclude:
   - maplibre-gl@6.0.0-17
