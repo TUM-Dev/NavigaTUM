@@ -131,6 +131,7 @@ const calendarOptions = computed<CalendarOptions>(() => ({
   initialView: "timeGridWeek",
   weekends: true,
   events: fetchEvents,
+  eventClass: "calendar-event",
   headerToolbar: {
     left: "prev,next",
     center: "title",
