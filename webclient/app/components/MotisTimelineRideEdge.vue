@@ -1,18 +1,32 @@
 <script setup lang="ts">
 import { mdiChevronDown, mdiTransitConnectionVariant } from "@mdi/js";
 import type { components } from "~/api_types";
+import { useHighlightRows, useMotisItineraryIndex } from "~/composables/useRouteHighlight";
 import { formatDuration } from "~/utils/motis";
 
 type MotisLegResponse = components["schemas"]["MotisLegResponse"];
 
 const props = defineProps<{
   leg: MotisLegResponse;
+  legIndex: number;
   previousLeg: MotisLegResponse | null;
   open: boolean;
 }>();
 const emit = defineEmits<{ toggle: [] }>();
 
 const { t } = useI18n({ useScope: "local" });
+
+const itineraryIndex = useMotisItineraryIndex();
+const { registerRow, isEmphasised, hover } = useHighlightRows();
+const legTarget = computed(
+  () =>
+    ({
+      router: "motis",
+      itineraryIndex: itineraryIndex.value,
+      legIndex: props.legIndex,
+      stepIndex: null,
+    }) as const
+);
 
 const intermediateStops = computed(() => props.leg.intermediate_stops ?? []);
 const hasCollapsibleDetail = computed(
@@ -38,10 +52,14 @@ const showRouteChange = computed(() => {
 
     <div class="min-w-0 flex-grow py-1">
       <button
+        :ref="(el) => registerRow(legTarget, el)"
         type="button"
         class="focusable flex w-full items-center gap-2 rounded-sm text-left"
+        :class="{ 'ring-1 ring-blue-400 dark:ring-blue-500': isEmphasised(legTarget) }"
         :aria-expanded="open"
         @click="emit('toggle')"
+        @mouseenter="hover(legTarget)"
+        @mouseleave="hover(null)"
       >
         <span
           class="flex-shrink-0 rounded px-2 py-0.5 text-sm font-bold"

@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
+import { useHighlightRows } from "~/composables/useRouteHighlight";
 
 type ValhallaRoutingResponse = components["schemas"]["ValhallaRoutingResponse"];
 defineProps<{ data: ValhallaRoutingResponse }>();
 const emit = defineEmits<{
-  selectManeuver: [id: { begin_shape_index: number; end_shape_index: number }];
+  selectManeuver: [maneuverIndex: number];
 }>();
 const { t } = useI18n({ useScope: "local" });
+const { registerRow, isEmphasised, hover } = useHighlightRows();
+
+// The map only draws the first leg, so maneuvers are addressed by their index within it.
+const target = (maneuverIndex: number) => ({ router: "valhalla", maneuverIndex }) as const;
 </script>
 
 <template>
@@ -28,11 +33,15 @@ const { t } = useI18n({ useScope: "local" });
       <div
         v-for="(m, j) in l.maneuvers"
         :key="j"
+        :ref="(el) => registerRow(target(j), el)"
         class="group cursor-pointer py-1"
-        @click="emit('selectManeuver', { begin_shape_index: m.begin_shape_index, end_shape_index: m.end_shape_index })"
+        @click="emit('selectManeuver', j)"
+        @mouseenter="hover(target(j))"
+        @mouseleave="hover(null)"
       >
         <div
           class="bg-zinc-200 dark:bg-zinc-700 flex flex-row items-center gap-3 overflow-auto rounded-md p-2 py-1 group-hover:bg-zinc-300 dark:group-hover:bg-zinc-600"
+          :class="{ 'ring-2 ring-blue-400 dark:ring-blue-500': isEmphasised(target(j)) }"
           :aria-label="m.verbal_transition_alert_instruction ?? undefined"
         >
           <NavigationRoutingManeuverIcon :type="m.type" />

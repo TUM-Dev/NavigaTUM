@@ -4,12 +4,14 @@ import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from 
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { useSharedGeolocation } from "~/composables/geolocation";
+import { type RouteHighlight, motisStepFeatureId } from "~/composables/useRouteHighlight";
 import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 import {
   calculateItineraryBounds,
   calculateLegBounds,
   calculateStepBounds,
+  decodeMotisGeometry,
   extractPlatformChangeMarkers,
   getTransitModeStyle,
   splitLegByLevel,
@@ -30,10 +32,25 @@ interface SimpleGeoJSONFeature {
   };
 }
 
+interface FeatureRef {
+  source: string;
+  id: number;
+}
+
 const props = defineProps<{
   coords: LocationDetailsResponse["coords"];
   type: LocationDetailsResponse["type"];
 }>();
+// Hovering or clicking a route segment on the map drives the same highlight state as the list.
+const emit = defineEmits<{
+  hoverRoute: [target: RouteHighlight | null];
+  selectRoute: [target: RouteHighlight];
+}>();
+
+// A route segment carries the transient hover emphasis; a persistent selected emphasis; or neither.
+// Hover wins over selected so the segment under the pointer always reads as the active one.
+const HOVER_STATE: ExpressionSpecification = ["boolean", ["feature-state", "hover"], false];
+const SELECTED_STATE: ExpressionSpecification = ["boolean", ["feature-state", "selected"], false];
 // `shallowRef`: MapLibre owns its own deep state; Vue must not try to track it reactively.
 const map = shallowRef<MapLibreMap | undefined>(undefined);
 const marker = shallowRef<Marker | undefined>(undefined);
@@ -46,7 +63,12 @@ const { supported: webglSupport, attach: attachWebglGuard } = useWebglGuard();
 const geolocationState = useSharedGeolocation();
 
 // Motis routing state
-const highlightedLegIndex = ref<number | null>(null);
+// The itinerary currently drawn, so map-driven highlights can be addressed by leg index alone
+// (only one itinerary's features live in the sources at a time).
+const currentItineraryIndex = ref<number | null>(null);
+// The single feature currently carrying each highlight key, so it can be cleared before the next.
+const hoverFeature = shallowRef<FeatureRef | null>(null);
+const selectedFeature = shallowRef<FeatureRef | null>(null);
 // The floor the selector currently shows, so the walk route can emphasise its on-floor part.
 const currentLevel = ref<number | null>(null);
 const zoom = computed<number>(() => zoomForLocationType(props.type));
@@ -166,16 +188,30 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     });
     floorControl.value = floors;
 
-    // Add Valhalla route source and layers
+    // Add Valhalla route source and layers. One feature per maneuver (keyed by `maneuverIndex`)
+    // so a hovered/selected maneuver can be emphasised via feature-state.
     mapInstance.addSource("route", {
       type: "geojson",
+      promoteId: "maneuverIndex",
       data: {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates: [],
-        },
+        type: "FeatureCollection",
+        features: [],
+      },
+    });
+    // Soft casing drawn beneath the route line to make the emphasised maneuver pop.
+    mapInstance.addLayer({
+      id: "route-halo",
+      type: "line",
+      source: "route",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#ffffff",
+        "line-width": ["case", HOVER_STATE, 14, SELECTED_STATE, 12, 0],
+        "line-opacity": ["case", HOVER_STATE, 0.35, SELECTED_STATE, 0.25, 0],
+        "line-blur": 1,
       },
     });
     mapInstance.addLayer({
@@ -188,7 +224,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       paint: {
         "line-color": "#e37222",
-        "line-width": 7,
+        "line-width": ["case", HOVER_STATE, 9, SELECTED_STATE, 8, 7],
+        "line-opacity": ["case", HOVER_STATE, 1, SELECTED_STATE, 0.95, 0.9],
       },
     });
     mapInstance.addLayer({
@@ -204,16 +241,36 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
     });
 
-    // Add Motis route sources and layers
+    // Add Motis route sources and layers. Segments are keyed by `legIndex` so a hovered/selected
+    // leg is emphasised via feature-state (the level-split segments of one leg share the id).
     mapInstance.addSource("motis-routes", {
       type: "geojson",
+      promoteId: "legIndex",
       data: {
         type: "FeatureCollection",
         features: [],
       },
     });
 
-    // Add multiple layers for different transport modes
+    // Soft casing beneath the route lines; its floor-aware paint is set by applyWalkLevelStyling.
+    mapInstance.addLayer({
+      id: "motis-route-halo",
+      type: "line",
+      source: "motis-routes",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#ffffff",
+        "line-width": 0,
+        "line-opacity": 0,
+        "line-blur": 1,
+      },
+    });
+
+    // Add multiple layers for different transport modes. Walk width/opacity are floor-aware and
+    // therefore set by applyWalkLevelStyling; the emphasis added here is a safe default before it runs.
     mapInstance.addLayer({
       id: "motis-route-walk",
       type: "line",
@@ -225,8 +282,8 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       paint: {
         "line-color": ["get", "color"],
-        "line-width": ["get", "weight"],
-        "line-opacity": ["get", "opacity"],
+        "line-width": ["+", ["get", "weight"], ["case", HOVER_STATE, 3, SELECTED_STATE, 2, 0]],
+        "line-opacity": ["case", HOVER_STATE, 1, SELECTED_STATE, 0.95, ["get", "opacity"]],
         "line-dasharray": [2, 3],
       },
     });
@@ -242,25 +299,48 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
       paint: {
         "line-color": ["get", "color"],
-        "line-width": ["get", "weight"],
-        "line-opacity": ["get", "opacity"],
+        "line-width": ["+", ["get", "weight"], ["case", HOVER_STATE, 3, SELECTED_STATE, 2, 0]],
+        "line-opacity": ["case", HOVER_STATE, 1, SELECTED_STATE, 0.95, ["get", "opacity"]],
       },
     });
 
-    // Highlighted leg layer
+    // Per-step overlay, invisible until a step is hovered/selected from the list, drawn on top of
+    // its leg. Keyed by `stepId` (see motisStepFeatureId).
+    mapInstance.addSource("motis-steps", {
+      type: "geojson",
+      promoteId: "stepId",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+    });
     mapInstance.addLayer({
-      id: "motis-route-highlighted",
+      id: "motis-step-halo",
       type: "line",
-      source: "motis-routes",
-      filter: ["==", ["get", "legIndex"], -1], // Initially show nothing
+      source: "motis-steps",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#ffffff",
+        "line-width": ["case", HOVER_STATE, 13, SELECTED_STATE, 11, 0],
+        "line-opacity": ["case", HOVER_STATE, 0.35, SELECTED_STATE, 0.25, 0],
+        "line-blur": 1,
+      },
+    });
+    mapInstance.addLayer({
+      id: "motis-step-highlight",
+      type: "line",
+      source: "motis-steps",
       layout: {
         "line-join": "round",
         "line-cap": "round",
       },
       paint: {
         "line-color": ["get", "color"],
-        "line-width": 8,
-        "line-opacity": 0.9,
+        "line-width": ["case", HOVER_STATE, 7, SELECTED_STATE, 6, 0],
+        "line-opacity": ["case", HOVER_STATE, 1, SELECTED_STATE, 0.9, 0],
       },
     });
 
@@ -311,27 +391,61 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
       },
     });
 
+    // Hovering or clicking a route line mirrors the list: emphasise it and report it upward. Steps
+    // are excluded (they are an invisible overlay driven only from the list).
+    for (const layerId of ["route", "motis-route-walk", "motis-route-transit"]) {
+      mapInstance.on("mousemove", layerId, (event) => {
+        const feature = event.features?.[0];
+        if (!feature) return;
+        mapInstance.getCanvas().style.cursor = "pointer";
+        emit("hoverRoute", targetFromFeature(feature.layer.id, feature.properties));
+      });
+      mapInstance.on("mouseleave", layerId, () => {
+        mapInstance.getCanvas().style.cursor = "";
+        emit("hoverRoute", null);
+      });
+      mapInstance.on("click", layerId, (event) => {
+        const feature = event.features?.[0];
+        if (!feature) return;
+        const target = targetFromFeature(feature.layer.id, feature.properties);
+        if (target) emit("selectRoute", target);
+      });
+    }
+
     afterLoaded.value();
   });
 
   return mapInstance;
 }
 
-function drawRoute(shapes: readonly Coordinate[], isAfterLoaded = false) {
+// One feature per maneuver (sliced from the leg shape by its shape-index range) so a hovered or
+// selected maneuver can be emphasised in isolation via feature-state.
+function drawRoute(
+  shapes: readonly Coordinate[],
+  maneuvers: readonly { begin_shape_index: number; end_shape_index: number }[],
+  isAfterLoaded = false
+) {
   const src = map.value?.getSource("route") as GeoJSONSource | undefined;
   if (!src || (!isAfterLoaded && !map.value?.loaded())) {
-    afterLoaded.value = () => drawRoute(shapes, true);
+    afterLoaded.value = () => drawRoute(shapes, maneuvers, true);
     return;
   }
-  // cannot be undefined as returned from above if.. come on typescript
-  src?.setData({
-    type: "Feature",
-    properties: {},
-    geometry: {
-      type: "LineString",
-      coordinates: shapes.map(({ lat, lon }) => [lon, lat]),
-    },
-  });
+  map.value?.removeFeatureState({ source: "route" });
+  // The `maneuverIndex` property (not the array position) is the feature id, so filtering out
+  // degenerate maneuvers (e.g. the zero-length arrival) keeps the remaining ids aligned with the list.
+  const features: SimpleGeoJSONFeature[] = maneuvers
+    .map((maneuver, maneuverIndex) => ({
+      type: "Feature" as const,
+      properties: { maneuverIndex },
+      geometry: {
+        type: "LineString" as const,
+        coordinates: shapes
+          .slice(maneuver.begin_shape_index, maneuver.end_shape_index + 1)
+          .map(({ lat, lon }) => [lon, lat]),
+      },
+    }))
+    .filter((feature) => feature.geometry.coordinates.length >= 2);
+  src?.setData({ type: "FeatureCollection", features });
   const latitudes = shapes.map(({ lat }) => lat);
   const longitudes = shapes.map(({ lon }) => lon);
   fitBounds(
@@ -375,17 +489,23 @@ function fitBounds(lon: [number, number], lat: [number, number]) {
 /**
  * Draw Motis itinerary on the map
  */
-function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false) {
+function drawMotisItinerary(
+  itinerary: ItineraryResponse,
+  itineraryIndex: number,
+  isAfterLoaded = false
+) {
   const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
+  const stepsSrc = map.value?.getSource("motis-steps") as GeoJSONSource | undefined;
   const platformChangesSrc = map.value?.getSource("platform-changes") as GeoJSONSource | undefined;
 
-  if (!routesSrc || !platformChangesSrc || (!isAfterLoaded && !map.value?.loaded())) {
-    afterLoaded.value = () => drawMotisItinerary(itinerary, true);
+  if (!routesSrc || !stepsSrc || !platformChangesSrc || (!isAfterLoaded && !map.value?.loaded())) {
+    afterLoaded.value = () => drawMotisItinerary(itinerary, itineraryIndex, true);
     return;
   }
 
-  // Clear existing routes
+  // Clear existing routes (and their feature-state) before drawing the newly selected itinerary.
   clearMotisRoutes();
+  currentItineraryIndex.value = itineraryIndex;
 
   // One feature per single-floor run of each leg, so the active floor can be drawn solid while
   // off-floor runs of the same walk are ghosted (see applyWalkLevelStyling).
@@ -421,6 +541,25 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
     features: routeFeatures,
   });
 
+  // One feature per self-navigated step, keyed by `stepId`, for the invisible step overlay.
+  const stepFeatures: SimpleGeoJSONFeature[] = itinerary.legs.flatMap((leg, legIndex) => {
+    const style = getTransitModeStyle(leg.mode, leg.route_color, leg.route_text_color);
+    return (leg.steps ?? [])
+      .map((step, stepIndex) => ({
+        type: "Feature" as const,
+        properties: { stepId: motisStepFeatureId(legIndex, stepIndex), color: style.color },
+        geometry: {
+          type: "LineString" as const,
+          coordinates: decodeMotisGeometry(step.polyline).map(({ lat, lon }) => [lon, lat]),
+        },
+      }))
+      .filter((feature) => feature.geometry.coordinates.length >= 2);
+  });
+  stepsSrc.setData({
+    type: "FeatureCollection",
+    features: stepFeatures,
+  });
+
   // Create platform change markers
   const platformChanges = extractPlatformChangeMarkers(itinerary);
   const platformChangeFeatures = platformChanges.map((change) => {
@@ -451,9 +590,10 @@ function drawMotisItinerary(itinerary: ItineraryResponse, isAfterLoaded = false)
   fitBounds([bounds.minLon, bounds.maxLon], [bounds.minLat, bounds.maxLat]);
 }
 
-// Emphasise the part of the walk on the shown floor and ghost the rest. Runs on a non-selectable
-// level (outdoors, or a floor the selector can't show) always stay solid; with no floor selected
-// the whole walk is solid. See splitLegByLevel for how legs are cut into per-floor segments.
+// Emphasise the part of the walk on the shown floor and ghost the rest, composed with the
+// hover/selected feature-state so an emphasised leg stays legible on its floor. Segments on a
+// non-selectable level (outdoors, or a floor the selector can't show) stay solid; with no floor
+// selected the whole walk is solid. See splitLegByLevel for how legs are cut into per-floor runs.
 function applyWalkLevelStyling(level: number | null) {
   if (!map.value?.loaded()) return;
 
@@ -462,27 +602,97 @@ function applyWalkLevelStyling(level: number | null) {
       ? ["literal", true]
       : ["any", ["!", ["get", "floorSelectable"]], ["==", ["get", "level"], level]];
 
-  const walkOpacity: ExpressionSpecification = ["case", onShownFloor, ["get", "opacity"], 0.2];
-  const walkWidth: ExpressionSpecification = ["case", onShownFloor, ["get", "weight"], 2];
-  const highlightOpacity: ExpressionSpecification = ["case", onShownFloor, 0.9, 0.3];
-  const highlightWidth: ExpressionSpecification = ["case", onShownFloor, 8, 3];
+  const walkWidth: ExpressionSpecification = [
+    "+",
+    ["case", onShownFloor, ["get", "weight"], 2],
+    ["case", HOVER_STATE, 3, SELECTED_STATE, 2, 0],
+  ];
+  const walkOpacity: ExpressionSpecification = [
+    "case",
+    onShownFloor,
+    ["case", HOVER_STATE, 1, SELECTED_STATE, 0.95, ["get", "opacity"]],
+    HOVER_STATE,
+    0.4,
+    SELECTED_STATE,
+    0.35,
+    0.2,
+  ];
+  const haloWidth: ExpressionSpecification = [
+    "+",
+    ["case", onShownFloor, ["get", "weight"], 2],
+    ["case", HOVER_STATE, 9, SELECTED_STATE, 7, 0],
+  ];
+  const haloOpacity: ExpressionSpecification = [
+    "case",
+    onShownFloor,
+    ["case", HOVER_STATE, 0.32, SELECTED_STATE, 0.24, 0],
+    HOVER_STATE,
+    0.16,
+    SELECTED_STATE,
+    0.12,
+    0,
+  ];
 
   map.value.setPaintProperty("motis-route-walk", "line-opacity", walkOpacity);
   map.value.setPaintProperty("motis-route-walk", "line-width", walkWidth);
-  map.value.setPaintProperty("motis-route-highlighted", "line-opacity", highlightOpacity);
-  map.value.setPaintProperty("motis-route-highlighted", "line-width", highlightWidth);
+  map.value.setPaintProperty("motis-route-halo", "line-opacity", haloOpacity);
+  map.value.setPaintProperty("motis-route-halo", "line-width", haloWidth);
 }
 
-/**
- * Highlight a specific leg of the Motis route
- */
-function highlightMotisLeg(legIndex: number) {
+// Translate a highlight target to the single feature (source + promoted id) that carries it. Motis
+// ids are only valid for the itinerary currently drawn, so off-itinerary targets resolve to null.
+function featureRefFor(target: RouteHighlight): FeatureRef | null {
+  if (target.router === "valhalla") return { source: "route", id: target.maneuverIndex };
+  if (target.itineraryIndex !== currentItineraryIndex.value) return null;
+  if (target.stepIndex === null) return { source: "motis-routes", id: target.legIndex };
+  return { source: "motis-steps", id: motisStepFeatureId(target.legIndex, target.stepIndex) };
+}
+
+// Build a highlight target from a clicked/hovered map feature (steps never reach here).
+function targetFromFeature(
+  layerId: string,
+  properties: Record<string, unknown> | null
+): RouteHighlight | null {
+  if (layerId === "route") {
+    const maneuverIndex = Number(properties?.maneuverIndex);
+    return Number.isNaN(maneuverIndex) ? null : { router: "valhalla", maneuverIndex };
+  }
+  if (currentItineraryIndex.value === null) return null;
+  const legIndex = Number(properties?.legIndex);
+  return Number.isNaN(legIndex)
+    ? null
+    : { router: "motis", itineraryIndex: currentItineraryIndex.value, legIndex, stepIndex: null };
+}
+
+// Move a highlight key from its previous feature to the next, so at most one feature carries it.
+function applyFeatureState(
+  previous: FeatureRef | null,
+  next: FeatureRef | null,
+  key: "hover" | "selected"
+): FeatureRef | null {
+  const m = map.value;
+  if (!m) return next;
+  if (previous) m.removeFeatureState({ source: previous.source, id: previous.id }, key);
+  if (next) m.setFeatureState({ source: next.source, id: next.id }, { [key]: true });
+  return next;
+}
+
+function setHover(target: RouteHighlight | null) {
   if (!map.value?.loaded()) return;
+  hoverFeature.value = applyFeatureState(
+    hoverFeature.value,
+    target ? featureRefFor(target) : null,
+    "hover"
+  );
+}
 
-  highlightedLegIndex.value = legIndex;
-
-  // Update the filter for the highlighted layer
-  map.value.setFilter("motis-route-highlighted", ["==", ["get", "legIndex"], legIndex]);
+function setSelected(target: RouteHighlight | null) {
+  if (!map.value?.loaded()) return;
+  selectedFeature.value = applyFeatureState(
+    selectedFeature.value,
+    target ? featureRefFor(target) : null,
+    "selected"
+  );
 }
 
 /**
@@ -519,19 +729,20 @@ function focusOnMotisStep(
  * Clear all Motis routes and symbols
  */
 function clearMotisRoutes() {
-  // Clear highlighted leg
-  highlightedLegIndex.value = null;
-  if (map.value?.loaded()) {
-    map.value.setFilter("motis-route-highlighted", ["==", ["get", "legIndex"], -1]);
+  const m = map.value;
+  // Feature ids (leg/step indices) are reused across itineraries, so stale state must be dropped
+  // before the next itinerary reuses those ids.
+  if (m?.loaded()) {
+    m.removeFeatureState({ source: "motis-routes" });
+    m.removeFeatureState({ source: "motis-steps" });
   }
+  if (hoverFeature.value?.source.startsWith("motis")) hoverFeature.value = null;
+  if (selectedFeature.value?.source.startsWith("motis")) selectedFeature.value = null;
+  currentItineraryIndex.value = null;
 
-  // Clear route data
-  const routesSrc = map.value?.getSource("motis-routes") as GeoJSONSource | undefined;
-  if (routesSrc) {
-    routesSrc.setData({
-      type: "FeatureCollection",
-      features: [],
-    });
+  for (const sourceId of ["motis-routes", "motis-steps"]) {
+    const src = m?.getSource(sourceId) as GeoJSONSource | undefined;
+    src?.setData({ type: "FeatureCollection", features: [] });
   }
 }
 
@@ -560,7 +771,8 @@ defineExpose({
   fitBounds,
   flyToCoords,
   drawMotisItinerary,
-  highlightMotisLeg,
+  setHover,
+  setSelected,
   focusOnMotisLeg,
   focusOnMotisStep,
   clearMotisRoutes,

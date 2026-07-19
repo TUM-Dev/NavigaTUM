@@ -7,6 +7,7 @@ import type { components, operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { clientOnlyRetries, firstOrDefault } from "~/composables/common";
+import { type RouteHighlight, provideRouteHighlight } from "~/composables/useRouteHighlight";
 import type { TimeSelection } from "~/types/navigation";
 import { entityPath, isEntityType } from "~/utils/entityPath";
 import { floorLevelForSelection } from "~/utils/motisLevels";
@@ -64,6 +65,17 @@ const motisPageCursor = ref<string | undefined>(undefined);
 // Currently selected itinerary for map display
 const selectedItineraryIndex = ref(0);
 
+// Shared hover/selected highlight for both the results list (via provide/inject) and the map.
+const highlight = provideRouteHighlight();
+watch(
+  () => highlight.hovered.value,
+  (target) => indoorMap.value?.setHover(target)
+);
+watch(
+  () => highlight.selected.value,
+  (target) => indoorMap.value?.setSelected(target)
+);
+
 const { data, status, error } = await useFetch<NavigationResponse>(
   `${runtimeConfig.public.apiURL}/api/maps/route`,
   {
@@ -95,13 +107,17 @@ watch(
   [data, indoorMap],
   ([newData, newMap]) => {
     if (!newData || !newMap) return;
-    if (newData.router === "valhalla") newMap.drawRoute(newData.legs[0].shape);
+    // A freshly loaded route invalidates any prior highlight.
+    highlight.setHover(null, "list");
+    highlight.setSelected(null);
+    if (newData.router === "valhalla")
+      newMap.drawRoute(newData.legs[0].shape, newData.legs[0].maneuvers);
     if (newData.router === "motis") {
       // A door-to-door query often yields only a direct (walk) connection.
       const initialIndex = newData.itineraries.length > 0 ? 0 : -1;
       selectedItineraryIndex.value = initialIndex;
       const itinerary = initialIndex === 0 ? newData.itineraries[0] : newData.direct[0];
-      if (itinerary) newMap.drawMotisItinerary(itinerary);
+      if (itinerary) newMap.drawMotisItinerary(itinerary, initialIndex);
     }
   },
   { immediate: true }
@@ -207,8 +223,12 @@ function setBoundingBoxFromIndex(from_shape_index: number, to_shape_index: numbe
   );
 }
 
-function handleSelectManeuver(payload: { begin_shape_index: number; end_shape_index: number }) {
-  setBoundingBoxFromIndex(payload.begin_shape_index, payload.end_shape_index);
+function handleSelectManeuver(maneuverIndex: number) {
+  if (data.value?.router !== "valhalla") return;
+  const maneuver = data.value.legs[0].maneuvers[maneuverIndex];
+  if (!maneuver) return;
+  highlight.setSelected({ router: "valhalla", maneuverIndex });
+  setBoundingBoxFromIndex(maneuver.begin_shape_index, maneuver.end_shape_index);
 }
 
 // Index convention: `0..` are the transit itineraries, `-1 - i` the i-th direct connection.
@@ -226,10 +246,10 @@ function handleSelectLeg(itineraryIndex: number, legIndex: number) {
   // If selecting a different itinerary, redraw the route
   if (selectedItineraryIndex.value !== itineraryIndex) {
     selectedItineraryIndex.value = itineraryIndex;
-    indoorMap.value.drawMotisItinerary(itinerary);
+    indoorMap.value.drawMotisItinerary(itinerary, itineraryIndex);
   }
 
-  indoorMap.value.highlightMotisLeg(legIndex);
+  highlight.setSelected({ router: "motis", itineraryIndex, legIndex, stepIndex: null });
 
   // Switch floors before fitting bounds so the fit's camera animation wins.
   const leg = itinerary.legs[legIndex];
@@ -247,10 +267,10 @@ function handleSelectStep(itineraryIndex: number, legIndex: number, stepIndex: n
 
   if (selectedItineraryIndex.value !== itineraryIndex) {
     selectedItineraryIndex.value = itineraryIndex;
-    indoorMap.value.drawMotisItinerary(itinerary);
+    indoorMap.value.drawMotisItinerary(itinerary, itineraryIndex);
   }
 
-  indoorMap.value.highlightMotisLeg(legIndex);
+  highlight.setSelected({ router: "motis", itineraryIndex, legIndex, stepIndex });
 
   const floor = floorLevelForSelection(leg, step);
   if (floor !== null) indoorMap.value.setFloor(floor);
@@ -264,7 +284,16 @@ function handleSelectItinerary(itineraryIndex: number) {
   const itinerary = motisItineraryAt(itineraryIndex);
   if (!itinerary || !indoorMap.value) return;
   selectedItineraryIndex.value = itineraryIndex;
-  indoorMap.value.drawMotisItinerary(itinerary);
+  indoorMap.value.drawMotisItinerary(itinerary, itineraryIndex);
+}
+
+// Hovering or clicking a route line on the map mirrors the list: hover previews, click commits.
+function handleMapHover(target: RouteHighlight | null) {
+  highlight.setHover(target, "map");
+}
+function handleMapSelect(target: RouteHighlight) {
+  if (target.router === "valhalla") handleSelectManeuver(target.maneuverIndex);
+  else handleSelectLeg(target.itineraryIndex, target.legIndex);
 }
 </script>
 
@@ -272,7 +301,13 @@ function handleSelectItinerary(itineraryIndex: number) {
   <div class="flex h-full flex-col lg:flex-row-reverse">
     <div class="min-h-96 grow">
       <ClientOnly>
-        <IndoorMap ref="indoorMap" type="room" :coords="{ lat: 0, lon: 0, source: 'navigatum' }" />
+        <IndoorMap
+          ref="indoorMap"
+          type="room"
+          :coords="{ lat: 0, lon: 0, source: 'navigatum' }"
+          @hover-route="handleMapHover"
+          @select-route="handleMapSelect"
+        />
       </ClientOnly>
     </div>
     <div class="bg-zinc-100 dark:bg-zinc-800 flex min-w-96 flex-col gap-3 overflow-auto p-4 lg:max-w-96">

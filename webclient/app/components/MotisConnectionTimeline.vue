@@ -66,6 +66,7 @@ function previousLeg(legIndex: number) {
         <MotisTimelineWalkEdge
           v-if="timeline.edges[n]!.selfNavigated"
           :leg="timeline.edges[n]!.leg"
+          :leg-index="n"
           :open="openLegs.has(n)"
           @toggle="toggleLeg(n)"
           @select-step="(stepIndex) => emit('selectStep', n, stepIndex)"
@@ -73,6 +74,7 @@ function previousLeg(legIndex: number) {
         <MotisTimelineRideEdge
           v-else
           :leg="timeline.edges[n]!.leg"
+          :leg-index="n"
           :previous-leg="previousLeg(n)"
           :open="openLegs.has(n)"
           @toggle="toggleLeg(n)"
