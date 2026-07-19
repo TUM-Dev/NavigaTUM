@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { mdiChevronDown, mdiChevronRight } from "@mdi/js";
 import type { components } from "~/api_types";
+import { motisItineraryIndexKey } from "~/composables/useRouteHighlight";
 import { formatDuration, formatTime, isSelfNavigatedLeg } from "~/utils/motis";
 
 type ItineraryResponse = components["schemas"]["ItineraryResponse"];
@@ -8,6 +9,7 @@ type MotisLegResponse = components["schemas"]["MotisLegResponse"];
 
 const props = defineProps<{
   itinerary: ItineraryResponse;
+  itineraryIndex: number;
   expanded: boolean;
 }>();
 const emit = defineEmits<{
@@ -15,6 +17,12 @@ const emit = defineEmits<{
   selectLeg: [legIndex: number];
   selectStep: [legIndex: number, stepIndex: number];
 }>();
+
+// Descendants build a full highlight target from their local leg/step index plus this.
+provide(
+  motisItineraryIndexKey,
+  toRef(() => props.itineraryIndex)
+);
 
 const { t } = useI18n({ useScope: "local" });
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { mdiAlert, mdiChevronDown, mdiElevator, mdiStairs, mdiSwapVertical } from "@mdi/js";
 import type { components } from "~/api_types";
+import { useHighlightRows, useMotisItineraryIndex } from "~/composables/useRouteHighlight";
 import { formatDistance, formatDuration, legFloorSpan } from "~/utils/motis";
 
 type MotisLegResponse = components["schemas"]["MotisLegResponse"];
@@ -8,11 +9,31 @@ type DirectionResponse = components["schemas"]["DirectionResponse"];
 
 const props = defineProps<{
   leg: MotisLegResponse;
+  legIndex: number;
   open: boolean;
 }>();
 const emit = defineEmits<{ toggle: []; selectStep: [stepIndex: number] }>();
 
 const { t } = useI18n({ useScope: "local" });
+
+const itineraryIndex = useMotisItineraryIndex();
+const { registerRow, isEmphasised, hover } = useHighlightRows();
+const legTarget = computed(
+  () =>
+    ({
+      router: "motis",
+      itineraryIndex: itineraryIndex.value,
+      legIndex: props.legIndex,
+      stepIndex: null,
+    }) as const
+);
+const stepTarget = (stepIndex: number) =>
+  ({
+    router: "motis",
+    itineraryIndex: itineraryIndex.value,
+    legIndex: props.legIndex,
+    stepIndex,
+  }) as const;
 
 // Maps each turn to a base-instruction i18n key; vertical moves are narrated separately below.
 const TURN_KEY: Record<DirectionResponse, string> = {
@@ -108,10 +129,14 @@ function stepInstruction(index: number): string {
 
     <div class="min-w-0 flex-grow py-1">
       <button
+        :ref="(el) => registerRow(legTarget, el)"
         type="button"
         class="focusable flex w-full items-center gap-2 rounded-sm text-left text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+        :class="{ 'ring-1 ring-blue-400 dark:ring-blue-500': isEmphasised(legTarget) }"
         :aria-expanded="open"
         @click="emit('toggle')"
+        @mouseenter="hover(legTarget)"
+        @mouseleave="hover(null)"
       >
         <MotisTransitModeIcon :mode="leg.mode" variant="inherit" class="h-4 w-4 flex-shrink-0" />
         <span v-if="leg.distance">{{ formatDistance(leg.distance) }}</span>
@@ -142,8 +167,12 @@ function stepInstruction(index: number): string {
           <li
             v-for="(step, s) in steps"
             :key="`step-${s}`"
+            :ref="(el) => registerRow(stepTarget(s), el)"
             class="focusable -mx-2 flex cursor-pointer items-start gap-3 rounded px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            :class="{ 'ring-2 ring-blue-400 dark:ring-blue-500': isEmphasised(stepTarget(s)) }"
             @click="emit('selectStep', s)"
+            @mouseenter="hover(stepTarget(s))"
+            @mouseleave="hover(null)"
           >
             <WalkingDirectionIcon :direction="step.relative_direction" :vertical="verticalDirections[s]" />
             <div class="min-w-0 flex-grow text-sm">
