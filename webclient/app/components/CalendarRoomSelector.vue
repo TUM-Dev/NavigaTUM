@@ -11,8 +11,6 @@ type CalendarLocationResponse = components["schemas"]["CalendarLocationResponse"
 defineProps<{
   readonly data: Map<string, CalendarLocationResponse>;
 }>();
-const emit = defineEmits(["change"]);
-
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 const calendar = useCalendar();
@@ -51,7 +49,6 @@ async function addLocation() {
     }
   }
   calendar.value = [...calendar.value, selectedLocation];
-  emit("change");
   // todo: debug why this is not syncinc apropriately, quite a crude hack
   setTimeout(() => location.reload(), 500);
 }

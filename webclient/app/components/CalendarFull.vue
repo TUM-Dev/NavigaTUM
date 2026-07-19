@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import type { CalendarOptions, EventInput, EventSourceFuncArg } from "@fullcalendar/core";
-import deLocale from "@fullcalendar/core/locales/de";
-import enLocale from "@fullcalendar/core/locales/en-gb";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import listPlugin from "@fullcalendar/list";
-import timeGridPlugin from "@fullcalendar/timegrid";
+import type { CalendarOptions, EventInput, EventSourceFuncInfo } from "@fullcalendar/vue3";
 import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/vue3/daygrid";
+import listPlugin from "@fullcalendar/vue3/list";
+import deLocale from "@fullcalendar/vue3/locales/de";
+import enLocale from "@fullcalendar/vue3/locales/en-gb";
+import classicThemePlugin from "@fullcalendar/vue3/themes/classic";
+import timeGridPlugin from "@fullcalendar/vue3/timegrid";
+import "@fullcalendar/vue3/skeleton.css";
+import "@fullcalendar/vue3/themes/classic/theme.css";
+import "@fullcalendar/vue3/themes/classic/palette.css";
 import type { components, operations } from "~/api_types";
 
 type CalendarResponse =
@@ -18,9 +22,9 @@ const earliest_last_sync = defineModel<Date | null>("earliest_last_sync");
 const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
 
 const props = defineProps<{ showing: readonly string[] }>();
-defineExpose({ refetchEvents });
 const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
+const colorMode = useColorMode();
 
 interface Color {
   backgroundColor: string;
@@ -67,7 +71,7 @@ function colorForType(
   }
 }
 
-async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
+async function fetchEvents(arg: EventSourceFuncInfo): Promise<EventInput[]> {
   const body: CalendarBody = {
     start_after: arg.startStr,
     end_before: arg.endStr,
@@ -122,8 +126,8 @@ function extractInfos(data: CalendarResponse): void {
   locations.value = tempLocationMap;
 }
 
-const calendarOptions: CalendarOptions = {
-  plugins: [timeGridPlugin, dayGridPlugin, listPlugin],
+const calendarOptions = computed<CalendarOptions>(() => ({
+  plugins: [classicThemePlugin, timeGridPlugin, dayGridPlugin, listPlugin],
   initialView: "timeGridWeek",
   weekends: true,
   events: fetchEvents,
@@ -133,6 +137,7 @@ const calendarOptions: CalendarOptions = {
     right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
   },
   locale: locale.value === "de" ? deLocale : enLocale,
+  colorScheme: colorMode.value === "dark" ? "dark" : "light",
   height: 700,
   // like '14:30'
   views: {
@@ -146,18 +151,7 @@ const calendarOptions: CalendarOptions = {
     minute: "2-digit",
     meridiem: false,
   },
-};
-
-const fullCalendarRef = ref<InstanceType<typeof FullCalendar> | null>(null);
-
-function refetchEvents() {
-  const api = fullCalendarRef.value?.getApi();
-  if (api) {
-    api.refetchEvents();
-  } else {
-    nextTick(refetchEvents);
-  }
-}
+}));
 </script>
 
 <template>

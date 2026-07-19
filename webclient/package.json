@@ -14,10 +14,6 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"@fullcalendar/core": "7.0.0",
-		"@fullcalendar/daygrid": "6.1.21",
-		"@fullcalendar/list": "6.1.21",
-		"@fullcalendar/timegrid": "6.1.21",
 		"@fullcalendar/vue3": "7.0.0",
 		"@googlemaps/polyline-codec": "1.0.28",
 		"@headlessui/vue": "1.7.23",
@@ -34,6 +30,7 @@
 		"opening_hours": "^3.13.0",
 		"prom-client": "^15.1.3",
 		"sharp": "0.35.3",
+		"temporal-polyfill": "1.0.1",
 		"ts-essentials": "^10.1.1",
 		"vue": "3.5.40",
 		"vue-router": "5.2.0",

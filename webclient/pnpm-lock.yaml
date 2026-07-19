@@ -12,18 +12,6 @@ importers:
 
   .:
     dependencies:
-      '@fullcalendar/core':
-        specifier: 7.0.0
-        version: 7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1)
-      '@fullcalendar/daygrid':
-        specifier: 6.1.21
-        version: 6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))
-      '@fullcalendar/list':
-        specifier: 6.1.21
-        version: 6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))
-      '@fullcalendar/timegrid':
-        specifier: 6.1.21
-        version: 6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))
       '@fullcalendar/vue3':
         specifier: 7.0.0
         version: 7.0.0(temporal-polyfill@1.0.1)(vue@3.5.40(typescript@6.0.3))
@@ -72,6 +60,9 @@ importers:
       sharp:
         specifier: 0.35.3
         version: 0.35.3
+      temporal-polyfill:
+        specifier: 1.0.1
+        version: 1.0.1
       ts-essentials:
         specifier: ^10.1.1
         version: 10.2.1(typescript@6.0.3)
@@ -743,21 +734,6 @@ packages:
     peerDependencies:
       '@full-ui/headless-calendar': 7.0.0
       temporal-polyfill: ^1.0.1
-
-  '@fullcalendar/daygrid@6.1.21':
-    resolution: {integrity: sha512-QYb1y40RGYLlOxKpYWg8O+7njEnKnFG8Tt7qjnubJGR35s1phQg67E+81y2TyAbbm59p2JFOCXGDk9t6KDujIA==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.21
-
-  '@fullcalendar/list@6.1.21':
-    resolution: {integrity: sha512-2rpIhs5pJmV7jyk4oX4bckNqurt6iHcsweE3FDYDdNpmRukPrARnyQYcaVFNVw2bnBFeR/jQW/St2MlauxF3GQ==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.21
-
-  '@fullcalendar/timegrid@6.1.21':
-    resolution: {integrity: sha512-2DnShx/jallGmb8QCkr6pAOu/zuPhJrP7+uTrAtSnbqsX7GF3lTxqSeNGkTQwsgF5g/ia8udhQ+JNYaE+TN1cQ==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.21
 
   '@fullcalendar/vue3@7.0.0':
     resolution: {integrity: sha512-gA7r82T+HnvmElwEpfQ/FHQUTUWU9sHpYPDEm+VgfkqsJDcvTvuL6OZuzi4ZAdsMLnnNHbFDWTN2lDuF+ZVATw==}
@@ -6708,19 +6684,6 @@ snapshots:
     dependencies:
       '@full-ui/headless-calendar': 7.0.0(temporal-polyfill@1.0.1)
       temporal-polyfill: 1.0.1
-
-  '@fullcalendar/daygrid@6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))':
-    dependencies:
-      '@fullcalendar/core': 7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1)
-
-  '@fullcalendar/list@6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))':
-    dependencies:
-      '@fullcalendar/core': 7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1)
-
-  '@fullcalendar/timegrid@6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))':
-    dependencies:
-      '@fullcalendar/core': 7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1)
-      '@fullcalendar/daygrid': 6.1.21(@fullcalendar/core@7.0.0(@full-ui/headless-calendar@7.0.0(temporal-polyfill@1.0.1))(temporal-polyfill@1.0.1))
 
   '@fullcalendar/vue3@7.0.0(temporal-polyfill@1.0.1)(vue@3.5.40(typescript@6.0.3))':
     dependencies:
