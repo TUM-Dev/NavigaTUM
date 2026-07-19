@@ -14,11 +14,11 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"@fullcalendar/core": "6.1.21",
+		"@fullcalendar/core": "7.0.0",
 		"@fullcalendar/daygrid": "6.1.21",
 		"@fullcalendar/list": "6.1.21",
 		"@fullcalendar/timegrid": "6.1.21",
-		"@fullcalendar/vue3": "6.1.21",
+		"@fullcalendar/vue3": "7.0.0",
 		"@googlemaps/polyline-codec": "1.0.28",
 		"@headlessui/vue": "1.7.23",
 		"@mdi/js": "^7.4.47",
