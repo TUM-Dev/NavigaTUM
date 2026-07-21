@@ -7,7 +7,7 @@ import type { components, operations } from "~/api_types";
 import IndoorMap from "~/components/IndoorMap.vue";
 import Toast from "~/components/Toast.vue";
 import { clientOnlyRetries, firstOrDefault } from "~/composables/common";
-import { type RouteHighlight, provideRouteHighlight } from "~/composables/useRouteHighlight";
+import { provideRouteHighlight, type RouteHighlight } from "~/composables/useRouteHighlight";
 import type { TimeSelection } from "~/types/navigation";
 import { entityPath, isEntityType } from "~/utils/entityPath";
 import { floorLevelForSelection } from "~/utils/motisLevels";

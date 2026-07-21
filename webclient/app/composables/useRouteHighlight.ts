@@ -26,7 +26,8 @@ export interface RouteHighlightController {
 
 export function sameHighlight(a: RouteHighlight | null, b: RouteHighlight | null): boolean {
   if (!a || !b || a.router !== b.router) return false;
-  if (a.router === "valhalla" && b.router === "valhalla") return a.maneuverIndex === b.maneuverIndex;
+  if (a.router === "valhalla" && b.router === "valhalla")
+    return a.maneuverIndex === b.maneuverIndex;
   if (a.router === "motis" && b.router === "motis")
     return (
       a.itineraryIndex === b.itineraryIndex &&
