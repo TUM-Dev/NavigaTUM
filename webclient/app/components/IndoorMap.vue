@@ -4,7 +4,7 @@ import { GeolocateControl, Map as MapLibreMap, Marker, NavigationControl } from 
 import type { components } from "~/api_types";
 import { FloorControl } from "~/composables/FloorControl";
 import { useSharedGeolocation } from "~/composables/geolocation";
-import { type RouteHighlight, motisStepFeatureId } from "~/composables/useRouteHighlight";
+import { motisStepFeatureId, type RouteHighlight } from "~/composables/useRouteHighlight";
 import { useWebglGuard } from "~/composables/webglSupport";
 import { zoomForLocationType } from "~/utils/map";
 import {
