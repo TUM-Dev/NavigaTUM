@@ -1249,6 +1249,15 @@ heilbronn:
     author: Magmell / Dieter Schwarz Stiftung
     license:
       text: Verwendung frei für Berichterstattung über den Bildungscampus Heilbronn bei Nennung des Copyrights
+iffeldorf:
+  0:
+    author: TUM Limnology Unit - Limnologische Forschungsstation
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -12
+      thumb: -57
 mi:
   0:
     author: Astrid Eckert
