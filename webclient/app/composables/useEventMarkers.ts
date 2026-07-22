@@ -298,10 +298,6 @@ export function useEventMarkers(
       }
     };
 
-    // `setMissingStyleImageResolver` is awaited by MapLibre, so async image loading now works on
-    // the primary path. When the resolver fires before the tile's features are queryable it returns
-    // without adding the image; the miss is then cached, so `onSourceData` re-drives registration
-    // once the tile settles.
     target.setMissingStyleImageResolver(async (id) => {
       if (id.startsWith("event-")) await ensureImage(id);
     });
