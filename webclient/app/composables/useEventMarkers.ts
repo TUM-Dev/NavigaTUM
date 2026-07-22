@@ -4,7 +4,6 @@ import type {
   GeoJSONFeature,
   Map as MapLibreMap,
   MapSourceDataEvent,
-  MapStyleImageMissingEvent,
   SymbolLayerSpecification,
 } from "maplibre-gl";
 import type { MaybeRefOrGetter, Ref } from "vue";
@@ -19,7 +18,7 @@ function layerIdFor(source: EventSourceId): string {
   return `${source}-symbols`;
 }
 
-// Per-event photos register on demand; see `styleimagemissing`.
+// Per-event photos register on demand via `setMissingStyleImageResolver`.
 const MARKER_LAYOUT = {
   "icon-image": ["concat", "event-", ["to-string", ["id"]]],
   "icon-size": ["interpolate", ["linear"], ["zoom"], 14, 0.6, 16, 1.2, 19, 1.7],
@@ -299,12 +298,10 @@ export function useEventMarkers(
       }
     };
 
-    const onStyleImageMissing = (event: MapStyleImageMissingEvent) => {
-      if (event.id.startsWith("event-")) void ensureImage(event.id);
-    };
+    target.setMissingStyleImageResolver(async (id) => {
+      if (id.startsWith("event-")) await ensureImage(id);
+    });
 
-    // `styleimagemissing` fires once per id and the miss is cached, so one raised before the tile's
-    // features are queryable would never recover; re-drive registration when a feed's data settles.
     const onSourceData = (event: MapSourceDataEvent) => {
       if (!event.isSourceLoaded || !sources.some((source) => source === event.sourceId)) return;
       for (const source of sources) {
@@ -344,7 +341,6 @@ export function useEventMarkers(
       }
       applyExpiry(target);
       applyVisibility(target);
-      target.on("styleimagemissing", onStyleImageMissing);
       target.on("sourcedata", onSourceData);
     };
     if (target.loaded()) attach();
@@ -352,7 +348,7 @@ export function useEventMarkers(
 
     onCleanup(() => {
       target.off("load", attach);
-      target.off("styleimagemissing", onStyleImageMissing);
+      target.setMissingStyleImageResolver(null);
       target.off("sourcedata", onSourceData);
       for (const source of sources) {
         const layerId = layerIdFor(source);
