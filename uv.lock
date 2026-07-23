@@ -160,20 +160,20 @@ wheels = [
 
 [[package]]
 name = "dataframely"
-version = "2.13.1"
+version = "2.13.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
     { name = "numpy" },
     { name = "polars" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7a/c5/d54e038e16ea856fe9c3b76f44cd4064d8ab1d692915807982fd66492639/dataframely-2.13.1.tar.gz", hash = "sha256:2ed77e2789b9049ac94b531432691d5f1a2726cee76332b1a5ba61d73916d430", size = 459631, upload-time = "2026-07-15T14:01:38.821Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/db/1c2e939ed87b192862c3b52a20d3012cdca6f3432d1ca8a919834ecc5b35/dataframely-2.13.2.tar.gz", hash = "sha256:9cb7a0033dfc35d185973bb4f0305c062cc6dc050844ad28e7274a15a9a849ce", size = 460858, upload-time = "2026-07-22T14:38:33.184Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/89/b3/9ec8f1f6d234a77ef959a7c902f3cdff1911b27dede40d6efa94de5280df/dataframely-2.13.1-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:5bc5c063fb47cabf84aef3655650456ac1fafd7d267b83d8ea2de54cb9b863ce", size = 8240346, upload-time = "2026-07-15T14:01:27.407Z" },
-    { url = "https://files.pythonhosted.org/packages/68/11/530dbb48093994f1f0a2d042937523d50df720ffad8d973c84798021e376/dataframely-2.13.1-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:94f031c787c9216c156cd85b5053639b2bd0fc624fd485e1fd56b4b35bd2a416", size = 7632561, upload-time = "2026-07-15T14:01:29.634Z" },
-    { url = "https://files.pythonhosted.org/packages/52/c9/f24553f1184b18611d7ffe8e35f1dcb30c0f5cbd6ccce04aecd539be3759/dataframely-2.13.1-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ab83500dda4095772f8b57de42a259a608aff37bd4fc2be35af8f5b8c79f9737", size = 8011753, upload-time = "2026-07-15T14:01:31.585Z" },
-    { url = "https://files.pythonhosted.org/packages/c2/f4/d77b7c025c521f0a3f6d8fed0dd0294a662db2f7d13efdfe82552c6c3b82/dataframely-2.13.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:812dd8000a8c5ffa7d468d5a6592c20f8b7ad65c8c3385b2a1b52d71f24bbaa7", size = 8576559, upload-time = "2026-07-15T14:01:33.753Z" },
-    { url = "https://files.pythonhosted.org/packages/9b/fc/0312c7f875c99e5a3ad19991a8faf3bd32624ec681dfbf4916eeffb70a29/dataframely-2.13.1-cp310-abi3-win_amd64.whl", hash = "sha256:e86bf0fa03af1450da3c42a410d2acd322109de0eca596ffd7109934ba957896", size = 8634331, upload-time = "2026-07-15T14:01:36.472Z" },
+    { url = "https://files.pythonhosted.org/packages/17/91/b904a4652fd5534838bd1a028ee06006546ecf6b41ef3b36df41cd9237f6/dataframely-2.13.2-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:0fb1b183a86801e31007f4ae15500ad44cc30281e9b9c36ce84e5c5c45913b03", size = 8241027, upload-time = "2026-07-22T14:38:20.124Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/14/cdfbb353271f9d68359976b86c34840aaafb7a1aaf3c808edae8a2cd844b/dataframely-2.13.2-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:4ac5b8c140606aef64994252f7c7203c61038cf21b6faa6f5cb39e3164b1f508", size = 7632927, upload-time = "2026-07-22T14:38:23.569Z" },
+    { url = "https://files.pythonhosted.org/packages/48/4d/9c675616530d983f6b99481fc9ae689263277a3aea64bddf4bf5b21fde49/dataframely-2.13.2-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4b61c101df384be7d4b8735bd3eea8f1637e32e3e08a2e7d84478ad0b3236694", size = 8011575, upload-time = "2026-07-22T14:38:26.577Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/4d/8605d9d3c3f858afc61a58b1ff0809cc9799b37999ae7e8eb6f822ac8055/dataframely-2.13.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:aca76460ed5e1309229fe91bb17ef1592aeaf0085304656de6712abd39dbc3c9", size = 8577168, upload-time = "2026-07-22T14:38:28.693Z" },
+    { url = "https://files.pythonhosted.org/packages/3e/5e/41c6a7d3973a1c7cb960347c7f2252a128abb93a70622cf2def8e25e5ffb/dataframely-2.13.2-cp310-abi3-win_amd64.whl", hash = "sha256:5d38ea792dc7b5e8039728ffd34e45e0175671fdaba7c19d7a95a8db926fc126", size = 8634176, upload-time = "2026-07-22T14:38:30.845Z" },
 ]
 
 [[package]]
@@ -214,14 +214,14 @@ wheels = [
 
 [[package]]
 name = "holidays"
-version = "0.100"
+version = "0.101"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "python-dateutil" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/19/65/4bec113c00c42fb8d6d71a816774a97d009c8f1341a70ecb6a9ba96176bb/holidays-0.100.tar.gz", hash = "sha256:76e963cd17758ba0e0519daff725f676eaebeda71e500cd235f647307be31e31", size = 949733, upload-time = "2026-07-06T21:15:34.947Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a6/9c/1b4fbc0757e110704b55d81890b0f7e00d98d6d2e9900b96ba0f3abd4f52/holidays-0.101.tar.gz", hash = "sha256:fbaa802d66e5d24877359ae68c46d00a73437162d3e9a17466fe6cfcce123c3a", size = 956805, upload-time = "2026-07-20T20:44:44.504Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/78/86/4eab0e2339cf09cfd00233073f5fa37810ceacbff5db5133e26aaa610255/holidays-0.100-py3-none-any.whl", hash = "sha256:cf67e8983c3af182b62081be27c965c6fdf41377026aa62ac82d1bbc8c7ebd8f", size = 1529449, upload-time = "2026-07-06T21:15:32.949Z" },
+    { url = "https://files.pythonhosted.org/packages/db/73/f004ae0e18a87408cef57191eac8d742c2906d9a57316f0c8f69c663093f/holidays-0.101-py3-none-any.whl", hash = "sha256:be1d5bb0b662d709da08dcdfa9b42feb678312df2a5d6280421da71349e4757f", size = 1542496, upload-time = "2026-07-20T20:44:42.079Z" },
 ]
 
 [[package]]
@@ -414,9 +414,9 @@ requires-dist = [
     { name = "backoff", specifier = "==2.2.1" },
     { name = "beautifulsoup4", specifier = "==4.15.0" },
     { name = "brotli", specifier = ">=1.2.0" },
-    { name = "dataframely", specifier = "==2.13.1" },
+    { name = "dataframely", specifier = "==2.13.2" },
     { name = "defusedxml", specifier = "==0.7.1" },
-    { name = "holidays", specifier = "==0.100" },
+    { name = "holidays", specifier = "==0.101" },
     { name = "lxml", specifier = "==6.1.1" },
     { name = "orjson", specifier = "==3.11.9" },
     { name = "pillow", specifier = "==12.3.0" },
