@@ -45,7 +45,7 @@
 		"@vue/tsconfig": "0.9.1",
 		"openapi-typescript": "7.13.0",
 		"tailwindcss": "4.3.3",
-		"typescript": "6.0.3",
+		"typescript": "7.0.2",
 		"vitest": "4.1.10",
 		"vue-tsc": "3.3.7"
 	},
