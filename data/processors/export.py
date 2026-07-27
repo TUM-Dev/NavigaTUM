@@ -149,7 +149,7 @@ def _de(value: Json) -> Json:
     return value
 
 
-def maybe_slugify(value: str | None | TranslatableStr | dict[str, Json]) -> str | None:
+def maybe_slugify(value: str | TranslatableStr | dict[str, Json] | None) -> str | None:
     """Slugify a value if it exists"""
     if value is None:
         return None
