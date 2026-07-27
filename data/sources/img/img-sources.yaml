@@ -1141,6 +1141,15 @@ event_e7eac1a1a5eb796c:
     offsets:
       header: 300
       thumb: -157
+event_f2b5dc5adc958ad7:
+  0:
+    author: Hochschule für Politik München | Munich School of Politics and Public Policy
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 459
+      thumb: -208
 frm-2:
   0:
     author: Battenberg, Andreas / TUM
