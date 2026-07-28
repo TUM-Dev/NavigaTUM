@@ -3046,7 +3046,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 0501.01.112A,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,39688,23,577,19660,198,"1112A, Teeküche",1112A@0501,,false
 0501.01.113,München,Arcisstr. 21,80333,,,,Fliesen,1.OG,39694,23,577,19691,115,"1113, WC-Herren",1113@0501,,false
 0501.01.113A,München,Arcisstr. 21,80333,,,,Fliesen,1.OG,74719,23,577,19691,118,"1113A, WC-Vorraum Herren",1113A@0501,,false
-0501.01.117,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,8119,23,577,47297,12,"1117, Arbeitsraum / ohne Besp.Grp.",1117@0501,,false
+0501.01.117,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,8119,23,577,51267,12,"1117, Arbeitsraum / ohne Besp.Grp.",1117@0501,,false
 0501.01.119,München,Arcisstr. 21,80333,2,,,Linoleum,1.OG,8120,23,577,50337,12,"1119, Büro",1119@0501,,false
 0501.01.120,München,Arcisstr. 21,80333,2,,,Parkett (versiegelt),1.OG,39701,23,577,19660,125,"1120, Bildstudio",1120@0501,,false
 0501.01.120A,München,Arcisstr. 21,80333,,,,Parkett (versiegelt),1.OG,74710,23,577,19691,206,"1120A, Galerie",1120A@0501,,false
@@ -5202,12 +5202,13 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 0507.01.775,München,Arcisstr. 21,80333,1,,,Linoleum,1.OG,8365,23,583,15103,12,"1775, Büro",1775@0507,,false
 0507.01.776,München,Arcisstr. 21,80333,2,,,Linoleum,1.OG,8366,23,583,15105,12,"1776, Büro",1776@0507,,false
 0507.01.777,München,Arcisstr. 21,80333,1,,,Linoleum,1.OG,8369,23,583,15103,12,"1777, Büro",1777@0507,,false
-0507.01.778,München,Arcisstr. 21,80333,6,,,Linoleum,1.OG,41331,23,583,15104,131,"1778, Übung",1778@0507,18628,false
+0507.01.778,München,Arcisstr. 21,80333,6,,,Linoleum,1.OG,41331,23,583,15104,131,"1778 East, Übung",1778 East@0507,18628,false
+0507.01.778A,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,78627,23,583,47297,12,"1778 West, Büro",1778 West@0507,,false
 0507.01.779,München,Arcisstr. 21,80333,2,,,Linoleum,1.OG,8377,23,583,15105,12,"1779, Büro",1779@0507,,false
 0507.01.779G,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,41341,23,583,15103,206,"1779G, Galerie-Büro",1779G@0507,,false
-0507.01.780,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,8379,23,583,15104,12,"1780, Büro",1780@0507,,false
+0507.01.780,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,8379,23,583,47297,12,"1780, Büro",1780@0507,,false
 0507.01.781,München,Arcisstr. 21,80333,1,,,Spannteppich,1.OG,8380,23,583,15105,12,"1781, Büro",1781@0507,,false
-0507.01.782,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,41414,23,583,15104,12,"1782, Büro",1782@0507,,false
+0507.01.782,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,41414,23,583,47297,12,"1782, Büro",1782@0507,,false
 0507.01.782A,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,41418,23,583,15104,30,"1782A, Lager",1782A@0507,,false
 0507.01.783,München,Arcisstr. 21,80333,1,,,Spannteppich,1.OG,8382,23,583,15105,12,"1783, Büro",1783@0507,12599,false
 0507.01.784,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,41423,23,583,15105,207,"1784, Serverraum",1784@0507,,false
@@ -12858,25 +12859,25 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3502.U1.001,Straubing,Schulgasse 22,94315,,,,Industrieanstrich,1.UG,65753,50,1729,48777,30,"UG.001, Kellerraum",UG.001@3502,,false
 3502.U1.002,Straubing,Schulgasse 22,94315,,,,Industrieanstrich,1.UG,65903,50,1729,48777,30,"UG.002, Kellerraum",UG.002@3502,,false
 3502.U1.003,Straubing,Schulgasse 22,94315,,,,Industrieanstrich,1.UG,65837,50,1729,31224,4,"UG.003, Aufzug Unterfahrt",UG.003@3502,,false
-3503.01.001,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67721,50,2130,48777,12,"01.001, Büro",01.001@3503,,false
-3503.01.002,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67722,50,2130,48777,12,"01.002, Büro",01.002@3503,,false
-3503.01.003,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67729,50,2130,48777,12,"01.003, Büro",01.003@3503,,false
-3503.01.004,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67730,50,2130,48777,12,"01.004, Büro",01.004@3503,,false
-3503.01.005,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67731,50,2130,48777,12,"01.005, Büro",01.005@3503,,false
-3503.01.006,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67732,50,2130,48777,12,"01.006, Büro",01.006@3503,,false
-3503.01.007,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67702,50,2130,48777,12,"01.007, Büro",01.007@3503,,false
-3503.01.008,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,73311,50,2130,48777,12,"01.008, Büro",01.008@3503,,false
-3503.01.009,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67733,50,2130,48777,12,"01.009, Büro",01.009@3503,,false
-3503.01.010,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67734,50,2130,48777,40,"01.010, Sekretariat",01.010@3503,,false
+3503.01.001,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67721,50,2130,31224,12,"01.001, Büro",01.001@3503,,false
+3503.01.002,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67722,50,2130,31224,12,"01.002, Büro",01.002@3503,,false
+3503.01.003,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67729,50,2130,31224,12,"01.003, Büro",01.003@3503,,false
+3503.01.004,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67730,50,2130,31224,12,"01.004, Büro",01.004@3503,,false
+3503.01.005,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67731,50,2130,31224,12,"01.005, Büro",01.005@3503,,false
+3503.01.006,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67732,50,2130,31224,12,"01.006, Büro",01.006@3503,,false
+3503.01.007,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67702,50,2130,31224,12,"01.007, Büro",01.007@3503,,false
+3503.01.008,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,73311,50,2130,31224,12,"01.008, Büro",01.008@3503,,false
+3503.01.009,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67733,50,2130,31224,12,"01.009, Büro",01.009@3503,,false
+3503.01.010,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67734,50,2130,31224,40,"01.010, Sekretariat",01.010@3503,,false
 3503.01.011,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67735,50,2130,48777,30,"01.011, Lager/Kopierraum",01.011@3503,,false
 3503.01.012,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,67736,50,2130,48777,205,"01.012, Putzraum",01.012@3503,,false
 3503.01.012A,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,72912,50,2130,31224,116,"01.012a, WC Damen",01.012a@3503,,false
 3503.01.013,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,67737,50,2130,31224,115,"01.013, WC Herren",01.013@3503,,false
 3503.01.014,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67738,50,2130,48777,44,"01.014, Teeküche",01.014@3503,,false
-3503.01.015,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67739,50,2130,48777,12,"01.015, Büro",01.015@3503,,false
-3503.01.016,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67740,50,2130,48777,12,"01.016, Büro",01.016@3503,,false
-3503.01.017,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67741,50,2130,48777,12,"01.017, Büro",01.017@3503,,false
-3503.01.017A,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,72919,50,2130,48777,30,"01.017a, Lager",01.017a@3503,,false
+3503.01.015,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67739,50,2130,31224,12,"01.015, Büro",01.015@3503,,false
+3503.01.016,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67740,50,2130,31224,12,"01.016, Büro",01.016@3503,,false
+3503.01.017,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,67741,50,2130,31224,12,"01.017, Büro",01.017@3503,,false
+3503.01.017A,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),1.OG,72919,50,2130,31224,30,"01.017a, Lager",01.017a@3503,,false
 3503.01.018,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,67742,50,2130,31224,222,"700.008, Flur Nord",700.008@3503,,false
 3503.01.019,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,67688,50,2130,31224,222,"700.009, Hexagon",700.009@3503,,false
 3503.01.020,Straubing,Petersgasse 5,94315,,,,Fliesen,1.OG,67689,50,2130,31224,222,"700.010, Flur Mitte",700.010@3503,,false
@@ -12902,12 +12903,12 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3503.03.001,Straubing,Petersgasse 5,94315,,,,Industrieanstrich,3.OG,72910,50,2130,31224,32,"03.001, Lüftung",03.001@3503,,false
 3503.03.002,Straubing,Petersgasse 5,94315,,,,Fliesen,3.OG,72921,50,2130,31224,223,"700.013, Treppenhaus Nord",700.013@3503,,false
 3503.03.003,Straubing,Petersgasse 5,94315,,,,Gitterrost,3.OG,72917,50,2130,31224,223,"700.015, Treppenhaus Technik 3.OG",700.015@3503,,false
-3503.EG.001,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67803,50,2130,48777,12,"00.001, Büro",00.001@3503,,false
-3503.EG.002,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67796,50,2130,48777,12,"00.002, Büro",00.002@3503,,false
-3503.EG.003,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67797,50,2130,48777,12,"00.003, Büro",00.003@3503,,false
-3503.EG.004,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67798,50,2130,48777,12,"00.004, Büro",00.004@3503,32452,false
-3503.EG.005,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67799,50,2130,48777,12,"00.005, Büro",00.005@3503,,false
-3503.EG.006,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67774,50,2130,48777,12,"00.006, Büro",00.006@3503,,false
+3503.EG.001,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67803,50,2130,31224,12,"00.001, Büro",00.001@3503,,false
+3503.EG.002,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67796,50,2130,31224,12,"00.002, Büro",00.002@3503,,false
+3503.EG.003,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67797,50,2130,31224,12,"00.003, Büro",00.003@3503,,false
+3503.EG.004,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67798,50,2130,31224,12,"00.004, Büro",00.004@3503,32452,false
+3503.EG.005,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67799,50,2130,31224,12,"00.005, Büro",00.005@3503,,false
+3503.EG.006,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67774,50,2130,31224,12,"00.006, Büro",00.006@3503,,false
 3503.EG.007,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67773,50,2130,48777,12,"00.007, Büro",00.007@3503,,false
 3503.EG.007A,Straubing,Petersgasse 5,94315,,,,Fliesen,EG,72918,50,2130,31224,223,"700.004, Treppenhaus 2 Süd",700.004@3503,,false
 3503.EG.008,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67775,50,2130,48777,12,"00.008, Büro",00.008@3503,,false
@@ -12919,7 +12920,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3503.EG.013,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67800,50,2130,31224,116,"00.013, WC Damen",00.013@3503,,false
 3503.EG.014,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67804,50,2130,48777,12,"00.014, Büro",00.014@3503,,false
 3503.EG.015,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,72911,50,2130,48777,12,"00.015, Büro",00.015@3503,,false
-3503.EG.016,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67801,50,2130,48777,12,"00.016, Büro",00.016@3503,,false
+3503.EG.016,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67801,50,2130,31224,12,"00.016, Büro",00.016@3503,,false
 3503.EG.017,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,67802,50,2130,48777,180,"00.017, Lager/Poststelle",00.017@3503,,false
 3503.EG.017A,Straubing,Petersgasse 5,94315,,,,Parkett (versiegelt),EG,72922,50,2130,48777,30,"00.017a, Lager",00.017a@3503,,false
 3503.EG.018,Straubing,Petersgasse 5,94315,,,,Fliesen,EG,67805,50,2130,31224,222,"700.003, Flur Süd",700.003@3503,,false
@@ -12992,39 +12993,39 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3505.01.114,Straubing,Uferstraße 53,94315,,,,Fliesen,1.OG,70840,50,2649,48777,114,"01.126, WC",01.126@3505,,false
 3505.01.115,Straubing,Uferstraße 53,94315,,,,Fliesen,1.OG,70841,50,2649,48777,118,"01.125, WC-Vorraum",01.125@3505,,false
 3505.01.116,Straubing,Uferstraße 53,94315,,,,Fliesen,1.OG,70842,50,2649,48777,114,"01.127, WC",01.127@3505,,false
-3505.01.117,Straubing,Uferstraße 53,94315,,,,Keine Angabe,1.OG,70853,50,2649,48777,12,"01.150, Büro wiss. Mitarbeiter MA E13/E11",01.150@3505,,false
-3505.01.118,Straubing,Uferstraße 53,94315,,,,Keine Angabe,1.OG,70843,50,2649,48777,12,"01.150, Büro wiss. Mitarbeiter MA E13/E11",01.150@3505,,false
+3505.01.117,Straubing,Uferstraße 53,94315,,,,Keine Angabe,1.OG,70853,50,2649,51077,12,"01.150, Büro wiss. Mitarbeiter MA E13/E11",01.150@3505,,false
+3505.01.118,Straubing,Uferstraße 53,94315,,,,Keine Angabe,1.OG,70843,50,2649,51077,12,"01.150, Büro wiss. Mitarbeiter MA E13/E11",01.150@3505,,false
 3505.01.119,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70844,50,2649,48777,120,"01.128, AV",01.128@3505,,false
 3505.01.120,Straubing,Uferstraße 53,94315,,,,Industrieanstrich,1.OG,70854,50,2649,48777,120,"01.129, FL",01.129@3505,,false
 3505.01.121,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70845,50,2649,48777,110,"01.151, Kopierraum",01.151@3505,,false
 3505.01.122,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70846,50,2649,48777,110,"01.151, Kopierraum",01.151@3505,,false
 3505.01.123,Straubing,Uferstraße 53,94315,,,,Estrich (Beton),1.OG,70847,50,2649,48777,223,"01.152, Treppe",01.152@3505,,false
-3505.01.124,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70848,50,2649,48777,12,"01.153, Büro Professor",01.153@3505,,false
-3505.01.125,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70849,50,2649,48777,40,"01.154, Sekretariat",01.154@3505,,false
-3505.01.126,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70850,50,2649,48777,196,"01.161, Besprechung",01.161@3505,,false
-3505.01.127,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70851,50,2649,48777,44,"01.162, Aufenthaltsraum",01.162@3505,,false
+3505.01.124,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70848,50,2649,51077,12,"01.153, Büro Professor",01.153@3505,,false
+3505.01.125,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70849,50,2649,51077,40,"01.154, Sekretariat",01.154@3505,,false
+3505.01.126,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70850,50,2649,51077,196,"01.161, Besprechung",01.161@3505,,false
+3505.01.127,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70851,50,2649,51077,44,"01.162, Aufenthaltsraum",01.162@3505,,false
 3505.01.128,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70852,50,2649,48777,222,"01.850, Flur",01.850@3505,,false
 3505.01.129,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70855,50,2649,48777,222,"01.915, Flur",01.915@3505,,false
-3505.01.130,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70856,50,2649,48777,194,"01.410, Forschungslabor",01.410@3505,33392,false
-3505.01.131,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70857,50,2649,48777,194,"01.415, Forschungslabor",01.415@3505,,false
-3505.01.132,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70858,50,2649,48777,110,"01.425, Auswertung Forschungslabor",01.425@3505,,false
-3505.01.133,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70869,50,2649,48777,110,"01.426, Auswertung Forschungslabor",01.426@3505,,false
-3505.01.134,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70870,50,2649,48777,194,"01.430, Forschungslabor",01.430@3505,33393,false
-3505.01.135,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70871,50,2649,48777,194,"01.435, Forschungslabor",01.435@3505,,false
-3505.01.136,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70859,50,2649,48777,159,"01.445, Abstellraum",01.445@3505,,false
-3505.01.137,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70860,50,2649,48777,194,"01.450, Forschungslabor",01.450@3505,,false
-3505.01.138,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70872,50,2649,48777,159,"01.451, Abstellraum",01.451@3505,,false
-3505.01.139,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70873,50,2649,48777,194,"01.455, Forschungslabor",01.455@3505,,false
-3505.01.140,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70861,50,2649,48777,194,"01.460, Forschungslabor",01.460@3505,,false
-3505.01.141,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70874,50,2649,48777,194,"01.465, Forschungslabor",01.465@3505,,false
-3505.01.142,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70875,50,2649,48777,110,"01.470, Auswertung Forschungslabor",01.470@3505,,false
-3505.01.143,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70876,50,2649,48777,110,"01.471, Auswertung Forschungslabor",01.471@3505,,false
-3505.01.144,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70877,50,2649,48777,194,"01.475, Forschungslabor",01.475@3505,,false
-3505.01.145,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70878,50,2649,48777,194,"01.476, Forschungslabor",01.476@3505,,false
+3505.01.130,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70856,50,2649,51077,194,"01.410, Forschungslabor",01.410@3505,33392,false
+3505.01.131,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70857,50,2649,51077,194,"01.415, Forschungslabor",01.415@3505,,false
+3505.01.132,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70858,50,2649,51077,110,"01.425, Auswertung Forschungslabor",01.425@3505,,false
+3505.01.133,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70869,50,2649,51077,110,"01.426, Auswertung Forschungslabor",01.426@3505,,false
+3505.01.134,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70870,50,2649,51077,194,"01.430, Forschungslabor",01.430@3505,33393,false
+3505.01.135,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70871,50,2649,51077,194,"01.435, Forschungslabor",01.435@3505,,false
+3505.01.136,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70859,50,2649,51077,159,"01.445, Abstellraum",01.445@3505,,false
+3505.01.137,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70860,50,2649,49339,194,"01.450, Forschungslabor",01.450@3505,,false
+3505.01.138,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70872,50,2649,49339,159,"01.451, Abstellraum",01.451@3505,,false
+3505.01.139,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70873,50,2649,49339,194,"01.455, Forschungslabor",01.455@3505,,false
+3505.01.140,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70861,50,2649,49339,194,"01.460, Forschungslabor",01.460@3505,,false
+3505.01.141,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70874,50,2649,49339,194,"01.465, Forschungslabor",01.465@3505,,false
+3505.01.142,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70875,50,2649,49339,110,"01.470, Auswertung Forschungslabor",01.470@3505,,false
+3505.01.143,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70876,50,2649,49339,110,"01.471, Auswertung Forschungslabor",01.471@3505,,false
+3505.01.144,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70877,50,2649,49339,194,"01.475, Forschungslabor",01.475@3505,,false
+3505.01.145,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70878,50,2649,49339,194,"01.476, Forschungslabor",01.476@3505,,false
 3505.01.146,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70879,50,2649,48777,222,"01.955, Flur",01.955@3505,,false
-3505.01.147,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70880,50,2649,48777,105,"01.480, Schleuse Forschungslabor",01.480@3505,,false
-3505.01.148,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70881,50,2649,48777,194,"01.481, Forschungslabor",01.481@3505,,false
-3505.01.149,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70862,50,2649,48777,194,"01.485, Forschungslabor",01.485@3505,,false
+3505.01.147,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70880,50,2649,49339,105,"01.480, Schleuse Forschungslabor",01.480@3505,,false
+3505.01.148,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70881,50,2649,49339,194,"01.481, Forschungslabor",01.481@3505,,false
+3505.01.149,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70862,50,2649,49339,194,"01.485, Forschungslabor",01.485@3505,,false
 3505.01.150,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70882,50,2649,48777,205,"01.375, Reinigungsmittelraum",01.375@3505,,false
 3505.01.151,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70883,50,2649,48777,120,"01.370, AV",01.370@3505,,false
 3505.01.152,Straubing,Uferstraße 53,94315,,,,Industrieanstrich,1.OG,70884,50,2649,48777,120,"01.371, Technik",01.371@3505,,false
@@ -13050,15 +13051,15 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3505.01.175,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70899,50,2649,48777,120,"01.345, AV",01.345@3505,,false
 3505.01.176,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70867,50,2649,48777,222,"01.910, Flur",01.910@3505,,false
 3505.01.177,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70868,50,2649,48777,222,"01.950, Flur",01.950@3505,,false
-3505.01.178,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70900,50,2649,48777,194,"01.285, Forschungslabor",01.285@3505,,false
-3505.01.179,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70901,50,2649,48777,194,"01.280, Forschungslabor",01.280@3505,,false
-3505.01.180,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70908,50,2649,48777,194,"01.275, Forschungslabor",01.275@3505,,false
-3505.01.181,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70909,50,2649,48777,110,"01.271, Auswertung Forschungslabor",01.271@3505,,false
-3505.01.182,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70902,50,2649,48777,110,"01.270, Auswertung Forschungslabor",01.270@3505,,false
-3505.01.183,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70903,50,2649,48777,194,"01.265, Forschungslabor",01.265@3505,,false
-3505.01.184,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70904,50,2649,48777,194,"01.260, Forschungslabor",01.260@3505,,false
-3505.01.185,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70905,50,2649,48777,194,"01.255, Forschungslabor",01.255@3505,,false
-3505.01.186,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70906,50,2649,48777,159,"01.250, Abstellraum",01.250@3505,,false
+3505.01.178,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70900,50,2649,49157,194,"01.285, Forschungslabor",01.285@3505,,false
+3505.01.179,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70901,50,2649,49157,194,"01.280, Forschungslabor",01.280@3505,,false
+3505.01.180,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70908,50,2649,49157,194,"01.275, Forschungslabor",01.275@3505,,false
+3505.01.181,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70909,50,2649,49157,110,"01.271, Auswertung Forschungslabor",01.271@3505,,false
+3505.01.182,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70902,50,2649,49157,110,"01.270, Auswertung Forschungslabor",01.270@3505,,false
+3505.01.183,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70903,50,2649,49157,194,"01.265, Forschungslabor",01.265@3505,,false
+3505.01.184,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70904,50,2649,49157,194,"01.260, Forschungslabor",01.260@3505,,false
+3505.01.185,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70905,50,2649,49157,194,"01.255, Forschungslabor",01.255@3505,,false
+3505.01.186,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70906,50,2649,49157,159,"01.250, Abstellraum",01.250@3505,,false
 3505.01.187,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70907,50,2649,48777,159,"01.245, Abstellraum",01.245@3505,,false
 3505.01.188,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70910,50,2649,48777,194,"01.240, Forschungslabor",01.240@3505,,false
 3505.01.189,Straubing,Uferstraße 53,94315,,,,Kunststoff,1.OG,70921,50,2649,48777,194,"01.235, Forschungslabor",01.235@3505,,false
@@ -13073,15 +13074,15 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3505.02.201,Straubing,Uferstraße 53,94315,,,,Keine Angabe,2.OG,70913,50,2649,48777,222,"02.800, Halle E2",02.800@3505,33835,false
 3505.02.202,Straubing,Uferstraße 53,94315,,,,Estrich (Beton),2.OG,70928,50,2649,48777,223,"02.801, Treppe",02.801@3505,,false
 3505.02.203,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70914,50,2649,48777,222,"02.810, Flur",02.810@3505,,false
-3505.02.204,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70929,50,2649,48777,12,"02.110, Büro Techniker",02.110@3505,,false
-3505.02.205,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70915,50,2649,48777,12,"02.111, Büro Mitarbeiter",02.111@3505,,false
-3505.02.206,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70916,50,2649,48777,12,"02.112, Büro Mitarbeiter",02.112@3505,,false
-3505.02.207,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70917,50,2649,48777,12,"02.113, Büro Mitarbeiter",02.113@3505,,false
-3505.02.208,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70918,50,2649,48777,40,"02.114, Sekretariat",02.114@3505,,false
-3505.02.209,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70930,50,2649,48777,12,"02.115, Büro Professor W3",02.115@3505,,false
+3505.02.204,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70929,50,2649,49157,12,"02.110, Büro Techniker",02.110@3505,,false
+3505.02.205,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70915,50,2649,49157,12,"02.111, Büro Mitarbeiter",02.111@3505,,false
+3505.02.206,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70916,50,2649,49157,12,"02.112, Büro Mitarbeiter",02.112@3505,,false
+3505.02.207,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70917,50,2649,49157,12,"02.113, Büro Mitarbeiter",02.113@3505,,false
+3505.02.208,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70918,50,2649,49157,40,"02.114, Sekretariat",02.114@3505,,false
+3505.02.209,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70930,50,2649,49157,12,"02.115, Büro Professor W3",02.115@3505,,false
 3505.02.210,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70931,50,2649,48777,12,"02.117, Büro Mitarbeiter A14",02.117@3505,,false
-3505.02.211,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70919,50,2649,48777,12,"02.150, Büro wiss. Mitarbeiter MA E13/E11",02.150@3505,,false
-3505.02.212,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70920,50,2649,48777,12,"02.150, Büro wiss. Mitarbeiter MA E13/E11",02.150@3505,,false
+3505.02.211,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70919,50,2649,49157,12,"02.150, Büro wiss. Mitarbeiter MA E13/E11",02.150@3505,,false
+3505.02.212,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70920,50,2649,49157,12,"02.150, Büro wiss. Mitarbeiter MA E13/E11",02.150@3505,,false
 3505.02.213,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70933,50,2649,48777,12,"02.121, Besprechung",02.121@3505,31887,false
 3505.02.214,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70934,50,2649,48777,44,"02.122, Aufenthaltsraum",02.122@3505,,false
 3505.02.215,Straubing,Uferstraße 53,94315,,,,Fliesen,2.OG,70945,50,2649,48777,118,"02.124, WC Vorraum",02.124@3505,,false
@@ -13098,21 +13099,21 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3505.02.226,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70953,50,2649,48777,110,"02.151, Kopierraum",02.151@3505,,false
 3505.02.227,Straubing,Uferstraße 53,94315,,,,Estrich (Beton),2.OG,70954,50,2649,48777,223,"02.152, Treppe",02.152@3505,,false
 3505.02.228,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70938,50,2649,48777,12,"02.153, Büro Mitarbeiter",02.153@3505,,false
-3505.02.229,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70955,50,2649,48777,12,"02.154, Büro wiss. Mitarbeiter MA E13/E11",02.154@3505,,false
-3505.02.230,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70956,50,2649,48777,12,"02.154, Büro wiss. Mitarbeiter MA E13/E11",02.154@3505,,false
+3505.02.229,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70955,50,2649,49339,12,"02.154, Büro wiss. Mitarbeiter MA E13/E11",02.154@3505,,false
+3505.02.230,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70956,50,2649,49339,12,"02.154, Büro wiss. Mitarbeiter MA E13/E11",02.154@3505,,false
 3505.02.231,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70957,50,2649,48777,222,"02.850, Flur",02.850@3505,,false
 3505.02.232,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70958,50,2649,48777,222,"02.830, Flur",02.830@3505,,false
 3505.02.233,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70959,50,2649,48777,120,"02.145, Technik",02.145@3505,,false
 3505.02.234,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70960,50,2649,48777,205,"02.144, Reinigungsmittelraum",02.144@3505,,false
 3505.02.235,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70961,50,2649,48777,44,"02.142, Aufenthaltsraum",02.142@3505,,false
 3505.02.236,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70962,50,2649,48777,196,"02.141, Besprechnung",02.141@3505,31888,false
-3505.02.237,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70939,50,2649,48777,196,"02.137, Büro Mitarbeiter A14",02.137@3505,,false
-3505.02.238,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70940,50,2649,48777,196,"02.135, Büro Professor W3",02.135@3505,,false
-3505.02.239,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70963,50,2649,48777,40,"02.134, Sekretariat",02.134@3505,,false
-3505.02.240,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70964,50,2649,48777,40,"02.133, Büro Mitarbeiter",02.133@3505,,false
-3505.02.241,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70965,50,2649,48777,40,"02.132, Büro Mitarbeiter",02.132@3505,,false
-3505.02.242,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70966,50,2649,48777,40,"02.131, Büro Mitarbeiter",02.131@3505,,false
-3505.02.243,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70967,50,2649,48777,40,"02.130, Büro Techniker/Labor",02.130@3505,,false
+3505.02.237,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70939,50,2649,49339,196,"02.137, Büro Mitarbeiter A14",02.137@3505,,false
+3505.02.238,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70940,50,2649,49339,196,"02.135, Büro Professor W3",02.135@3505,,false
+3505.02.239,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70963,50,2649,49339,40,"02.134, Sekretariat",02.134@3505,,false
+3505.02.240,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70964,50,2649,49339,40,"02.133, Büro Mitarbeiter",02.133@3505,,false
+3505.02.241,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70965,50,2649,49339,40,"02.132, Büro Mitarbeiter",02.132@3505,,false
+3505.02.242,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70966,50,2649,49339,40,"02.131, Büro Mitarbeiter",02.131@3505,,false
+3505.02.243,Straubing,Uferstraße 53,94315,,,,Kunststoff,2.OG,70967,50,2649,49339,40,"02.130, Büro Techniker/Labor",02.130@3505,,false
 3505.02.245,Straubing,Uferstraße 53,94315,,,,Estrich (Beton),2.OG,70968,50,2649,48777,223,"02.330, Treppe",02.330@3505,,false
 3505.02.246,Straubing,Uferstraße 53,94315,,,,Industrieanstrich,2.OG,70969,50,2649,48777,222,"02.925, Flur",02.925@3505,,false
 3505.02.247,Straubing,Uferstraße 53,94315,,,,Industrieanstrich,2.OG,70970,50,2649,48777,120,"02.310, Kälte",02.310@3505,,false
@@ -13165,9 +13166,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 3505.EG.030,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70767,50,2649,48777,30,"00.475, Lager",00.475@3505,,false
 3505.EG.031,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70768,50,2649,48777,222,"00.955, Flur",00.955@3505,,false
 3505.EG.032,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70769,50,2649,48777,30,"00.476, Lager",00.476@3505,,false
-3505.EG.033,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70770,50,2649,48777,12,"00.480, Büro Hörsaaltechnik",00.480@3505,,false
-3505.EG.034,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70771,50,2649,48777,12,"00.481, Büro Versorgung - Haustechnik",00.481@3505,,false
-3505.EG.035,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70772,50,2649,48777,207,"00.482, Büro EDV",00.482@3505,,false
+3505.EG.033,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70770,50,2649,31224,12,"00.480, Büro Hörsaaltechnik",00.480@3505,,false
+3505.EG.034,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70771,50,2649,31224,12,"00.481, Büro Versorgung - Haustechnik",00.481@3505,,false
+3505.EG.035,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70772,50,2649,31224,207,"00.482, Büro EDV",00.482@3505,,false
 3505.EG.036,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70773,50,2649,48777,207,"00.483, Büro EDV",00.483@3505,,false
 3505.EG.037,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70774,50,2649,48777,196,"00.380, Besprechungsraum U6",00.380@3505,31881,false
 3505.EG.038,Straubing,Uferstraße 53,94315,,,,Kunststoff,EG,70775,50,2649,48777,222,"00.970, Flur",00.970@3505,,false
@@ -18755,7 +18756,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4277.EG.051,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),EG,51299,42,668,15612,12,"1.2.EG21, Büro",1.2.EG21@4277,,false
 4277.EG.052,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Holzpflaster,EG,51316,42,668,19691,222,"1.2.EG, Flur",1.2.EG@4277,,false
 4277.EG.053,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),EG,51467,42,668,46778,12,"1.2.EG22, Büro",1.2.EG22@4277,,false
-4277.EG.054,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),EG,51478,42,668,47297,40,"1.2.EG20, Büro",1.2.EG20@4277,,false
+4277.EG.054,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),EG,51478,42,668,51258,40,"1.2.EG20, Büro",1.2.EG20@4277,,false
 4277.EG.055,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,Parkett (versiegelt),EG,51502,42,668,15612,12,"1.2.EG18, Büro",1.2.EG18@4277,,false
 4277.EG.056,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),EG,51663,42,668,15612,12,"1.2.EG16, Büro",1.2.EG16@4277,,false
 4277.EG.057,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,Parkett (versiegelt),EG,51677,42,668,15612,12,"1.2.EG14, Büro",1.2.EG14@4277,,false
@@ -23776,7 +23777,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5132.03.014,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76461,35,3349,19691,115,"03.014, WC-Herren",03.014@5132,,false
 5132.03.015,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76431,35,3349,57317,12,"03.015, Büro Prof.",03.015@5132,,false
 5132.03.016,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76446,35,3349,19691,116,"03.016, WC-Damen",03.016@5132,,false
-5132.03.017,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76447,35,3349,39688,12,"03.017, Büro Prof.",03.017@5132,,false
+5132.03.017,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76447,35,3349,57317,12,"03.017, Büro Prof.",03.017@5132,,false
 5132.03.018,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76432,35,3349,55318,12,"03.018, Büro Prof.",03.018@5132,,false
 5132.03.019,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76433,35,3349,51258,110,"03.718A, Copy (gem. Nutzg. LS+MH)",03.718A@5132,,false
 5132.03.701,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,3.OG,76449,35,3349,19691,222,"03.701, Notwendiger Flur",03.701@5132,,false
@@ -23808,10 +23809,10 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5132.EG.011,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76252,35,3349,51258,102,"00.011, Bakteriologie S1 (gem. Nutzg. 1124301070,",00.011@5132,,false
 5132.EG.012,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76298,35,3349,51258,102,"00.012, Mikroskopie S1 (gem. Nutzg. 1124301070, 11",00.012@5132,,false
 5132.EG.013,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76260,35,3349,51258,102,"00.013, Zellkulturlabor S2 (gem. Nutzg. 1124301070",00.013@5132,,false
-5132.EG.014,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76293,35,3349,51258,102,"00.014, Zellkulturlabor S1 (gem. Nutzg. 1124301070",00.014@5132,,false
+5132.EG.014,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76293,35,3349,51258,102,"00.014, Zellkulturlabor S1",00.014@5132,,false
 5132.EG.015,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76294,35,3349,57317,102,"00.015, Zellkulturlabor S1",00.015@5132,,false
 5132.EG.016,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76296,35,3349,51258,30,"00.016, Lager Kühlgeräte (gem. Nutzg. 1124301070,",00.016@5132,,false
-5132.EG.017,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76297,35,3349,51258,28,"00.017, Spülküche S1 (gem. Nutzg. 1124301070, 1124",00.017@5132,,false
+5132.EG.017,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76297,35,3349,51258,28,"00.017, Spülküche S1",00.017@5132,,false
 5132.EG.018,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76295,35,3349,51258,102,"00.018, Zellkulturlabor S1 (gem. Nutzg. LS+MH)",00.018@5132,,false
 5132.EG.019,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76271,35,3349,51258,12,"00.019, Büro",00.019@5132,,false
 5132.EG.020,Garching b. München,Boltzmannstr. 12,85748,,,,Keine Angabe,EG,76272,35,3349,19691,116,"00.020, WC-Damen",00.020@5132,,false
@@ -36527,11 +36528,11 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.01.129,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72730,29,2890,51837,207,"01.129, Netzwerkraum",01.129@9377,,false
 9377.01.130,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72734,29,2890,30361,130,"01.130, Projektraum Fachschaft",01.130@9377,,false
 9377.01.130A,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72733,29,2890,51837,112,"01.130A, Bad",01.130A@9377,,false
-9377.01.131,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72651,29,2890,51537,12,"01.131, Büro",01.131@9377,,false
-9377.01.132,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72738,29,2890,51837,114,"01.132, WC",01.132@9377,,false
-9377.01.133,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72735,29,2890,51837,41,"01.133, Seminarraum",01.133@9377,31793,false
-9377.01.134,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72736,29,2890,51267,41,"01.134, Seminarraum",01.134@9377,,false
-9377.01.135,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72737,29,2890,51837,30,"01.135, Lager",01.135@9377,,false
+9377.01.131,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72651,29,2890,47297,12,"01.131, Büro",01.131@9377,,false
+9377.01.132,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72738,29,2890,47297,114,"01.132, WC",01.132@9377,,false
+9377.01.133,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72735,29,2890,47297,41,"01.133, Seminarraum",01.133@9377,31793,false
+9377.01.134,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72736,29,2890,47297,12,"01.134, Büro",01.134@9377,,false
+9377.01.135,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72737,29,2890,47297,114,"01.135, WC",01.135@9377,,false
 9377.01.701,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72581,29,2890,51837,222,"01.701, Flur",01.701@9377,,false
 9377.01.702,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72496,29,2890,51837,223,"01.702, Treppenhaus",01.702@9377,,false
 9377.01.704,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72725,29,2890,51837,222,"01.704, Flur",01.704@9377,,false
@@ -36539,7 +36540,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.01.706,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72731,29,2890,51837,222,"01.706, Flur",01.706@9377,,false
 9377.01.707,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72646,29,2890,51837,223,"01.707, Treppenhaus",01.707@9377,,false
 9377.01.708,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72732,29,2890,51837,222,"01.708, Flur",01.708@9377,,false
-9377.01.709,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72650,29,2890,51837,222,"01.709, Flur",01.709@9377,,false
+9377.01.709,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72650,29,2890,47297,222,"01.709, Flur",01.709@9377,,false
 9377.01.710,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,1.OG,72652,29,2890,51837,222,"01.710, Flur",01.710@9377,,false
 9377.02.201,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72594,29,2890,51837,12,"02.201, Büro",02.201@9377,,false
 9377.02.202,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72654,29,2890,51837,110,"02.202, Kopierer/Drucker",02.202@9377,,false
@@ -36557,7 +36558,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.02.214,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72601,29,2890,51837,196,"02.214, Besprechung",02.214@9377,,false
 9377.02.216,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72598,29,2890,51837,28,"02.216, Küche",02.216@9377,,false
 9377.02.217,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72525,29,2890,51837,12,"02.217, Büro",02.217@9377,,false
-9377.02.218,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72599,29,2890,51837,30,"02.218, Lager/Technik",02.218@9377,,false
+9377.02.218,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72599,29,2890,47297,30,"02.218, Lager/Technik",02.218@9377,,false
 9377.02.219,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72602,29,2890,51837,12,"02.219, Büro",02.219@9377,,false
 9377.02.220,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72604,29,2890,51837,30,"02.220, Archiv",02.220@9377,,false
 9377.02.221,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72603,29,2890,51837,12,"02.221, Büro",02.221@9377,,false
@@ -36585,7 +36586,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.02.245A,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72492,29,2890,51837,112,"02.245A, Bad",02.245A@9377,,false
 9377.02.246,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72494,29,2890,47297,12,"02.246, Büro",02.246@9377,,false
 9377.02.247,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72608,29,2890,47297,114,"02.247, WC",02.247@9377,,false
-9377.02.248,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72614,29,2890,47297,130,"02.248, Projektraum",02.248@9377,,false
+9377.02.248,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72614,29,2890,47297,41,"02.248, Seminarraum",02.248@9377,,false
 9377.02.249,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72615,29,2890,47297,12,"02.249, Büro",02.249@9377,,false
 9377.02.249A,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72493,29,2890,47297,30,"02.249A, Lager",02.249A@9377,,false
 9377.02.701,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72667,29,2890,51837,222,"02.701, Flur",02.701@9377,,false
@@ -36948,16 +36949,16 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9379.EG.015,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73047,29,2949,51837,12,"00.015, Büro",00.015@9379,,false
 9379.EG.016A,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Fliesen,EG,73014,29,2949,51837,115,"00.016A, WC-Herren",00.016A@9379,,false
 9379.EG.016B,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Fliesen,EG,73015,29,2949,51837,116,"00.016B, WC-Damen",00.016B@9379,,false
-9379.EG.017,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73158,29,2949,51837,12,"00.017, Büro",00.017@9379,,false
-9379.EG.018,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73159,29,2949,51837,198,"00.018, Teeküche",00.018@9379,,false
-9379.EG.019,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73160,29,2949,51837,12,"00.019, Büro",00.019@9379,,false
-9379.EG.020,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73161,29,2949,51837,12,"00.020, Büro",00.020@9379,,false
-9379.EG.021,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73162,29,2949,51837,12,"00.021, Büro",00.021@9379,,false
-9379.EG.022,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73163,29,2949,51837,12,"00.022, Büro",00.022@9379,,false
-9379.EG.023,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73035,29,2949,51837,12,"00.023, Büro",00.023@9379,,false
+9379.EG.017,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73158,29,2949,47297,130,"00.017, Mehrzweck",00.017@9379,,false
+9379.EG.018,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73159,29,2949,47297,130,"00.018, Mehrzweck",00.018@9379,,false
+9379.EG.019,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73160,29,2949,47297,12,"00.019, Büro",00.019@9379,,false
+9379.EG.020,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73161,29,2949,47297,12,"00.020, Büro",00.020@9379,,false
+9379.EG.021,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73162,29,2949,47297,12,"00.021, Büro",00.021@9379,,false
+9379.EG.022,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73163,29,2949,47297,12,"00.022, Büro",00.022@9379,,false
+9379.EG.023,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73035,29,2949,47297,12,"00.023, Büro",00.023@9379,,false
 9379.EG.024,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73057,29,2949,51837,12,"00.024, Büro",00.024@9379,,false
-9379.EG.025,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73036,29,2949,51837,12,"00.025, Büro",00.025@9379,,false
-9379.EG.026,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73037,29,2949,51837,12,"00.026, Büro",00.026@9379,,false
+9379.EG.025,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73036,29,2949,47297,12,"00.025, Büro",00.025@9379,,false
+9379.EG.026,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73037,29,2949,47297,12,"00.026, Büro",00.026@9379,,false
 9379.EG.029,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Spannteppich,EG,73024,29,2949,51837,207,"00.029, EDV",00.029@9379,,false
 9379.EG.030A,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,Fliesen,EG,73050,29,2949,51837,115,"00.0130A, WC-Damen",00.0130A@9379,,false
 9379.EG.030B,Ottobrunn,Lise-Meitner-Str. 8,85521,,,,PVC,EG,73022,29,2949,51837,205,"00.030B, Putzraum",00.030B@9379,,false
