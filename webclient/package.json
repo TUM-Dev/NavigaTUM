@@ -14,7 +14,7 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"@fullcalendar/vue3": "7.0.1",
+		"@fullcalendar/vue3": "7.0.2",
 		"@googlemaps/polyline-codec": "1.0.28",
 		"@headlessui/vue": "1.7.23",
 		"@mdi/js": "^7.4.47",
