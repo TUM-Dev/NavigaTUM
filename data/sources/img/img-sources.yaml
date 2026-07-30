@@ -1039,6 +1039,15 @@
     author: Uli Benz / TUM
     license:
       text: Frei für Berichterstattung über die TU München unter Nennung des Copyrights.
+'9101':
+  0:
+    author: Alexander Pach
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 3
+      thumb: -56
 '9201':
   0:
     author: Uli Benz
