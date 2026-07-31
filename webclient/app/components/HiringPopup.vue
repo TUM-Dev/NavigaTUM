@@ -89,14 +89,8 @@ const columns = ["responsibilities", "requirements", "benefits"] as const;
             </section>
           </div>
 
-          <div class="bg-blue-50 dark:bg-blue-900/40 flex flex-col gap-1 rounded-md p-4">
+          <div class="bg-blue-50 dark:bg-blue-900/40 flex flex-col gap-3 rounded-md p-4">
             <h3 class="text-zinc-800 dark:text-zinc-100 text-sm font-semibold">{{ t("about.heading") }}</h3>
-            <p class="text-zinc-600 dark:text-zinc-300 text-pretty text-sm leading-6">
-              <EmphasizedText :text="t('about.body')" />
-            </p>
-          </div>
-
-          <div class="flex flex-col gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-700">
             <p class="text-zinc-600 dark:text-zinc-300 text-pretty text-sm leading-6">
               <EmphasizedText :text="t('call_to_action')" />
             </p>
@@ -131,14 +125,14 @@ de:
     availability: Ab sofort
     location: Innenstadt München
     hours: 6-12 Stunden/Woche
-  intro: Du willst mehr als nur Tickets abarbeiten? Du möchtest verstehen, wie ein Produkt entsteht – und es aktiv mitgestalten? Dann bist du bei uns genau richtig! Wir suchen mehrere engagierte und technikaffine Studierende, die nicht nur unseren Produktsupport unterstützen, sondern ihn gemeinsam mit uns weiterentwickeln.
+  intro: Du willst mehr als nur Tickets abarbeiten? Du möchtest verstehen, wie ein Produkt entsteht - und es aktiv mitgestalten? Dann bist du bei uns genau richtig! Wir suchen mehrere engagierte und technikaffine Studierende, die nicht nur unseren Produktsupport unterstützen, sondern ihn gemeinsam mit uns weiterentwickeln.
   responsibilities:
     heading: Was dich erwartet
     items:
       - Du bist die erste Anlaufstelle für Nutzeranfragen rund um unsere Softwarelösungen
       - Du arbeitest im direkten Austausch mit der Entwicklung; ohne Umwege, mit Zugang zu relevanten Informationen aus erster Hand
       - Du bringst dich aktiv ein, verbesserst Prozesse im Support und hilfst mit, unsere Tools und Abläufe effizienter und nutzerfreundlicher zu gestalten
-      - Du dokumentierst und strukturierst komplexe technische Inhalte – verständlich und klar
+      - Du dokumentierst und strukturierst komplexe technische Inhalte - verständlich und klar
       - Du arbeitest agil im Team und hast Raum, Verantwortung zu übernehmen und neue Ideen umzusetzen
   requirements:
     heading: Was du mitbringen solltest
@@ -159,7 +153,7 @@ de:
       - Die Chance, langfristig Teil eines zukunftsorientierten Umfelds an der TUM zu sein
   about:
     heading: Neugierig geworden?
-  call_to_action: Dann freuen wir uns als Cloud & IAM Team des IT Managements auf Deine Bewerbung mit kurzem Motivationsschreiben und Lebenslauf. Bitte sende deine Unterlagen mit dem Betreff Bewerbung Produkt Support an cloud@it.tum.de. Wir freuen uns darauf, Dich kennenzulernen!
+  call_to_action: Dann freuen wir uns als Cloud & IAM Team des IT Managements auf Deine Bewerbung mit kurzem Motivationsschreiben und Lebenslauf. Bitte sende deine Unterlagen mit dem Betreff **"Bewerbung Produkt Support"** an cloud{'@'}it.tum.de. Wir freuen uns darauf, Dich kennenzulernen!
   apply: Jetzt bewerben
 en:
   close: Close
@@ -169,12 +163,12 @@ en:
     availability: Starting now
     location: Munich city centre
     hours: 6-12 hours/week
-  intro: Do you want to do more than just churn through tickets? Would you like to understand how a product is created—and actively help shape it? Then you've come to the right place! We are looking for several dedicated, tech-savvy students who want to not only support our product support team but also help us develop it further.
+  intro: Do you want to do more than just churn through tickets? Would you like to understand how a product is created - and actively help shape it? Then you've come to the right place! We are looking for several dedicated, tech-savvy students who want to not only support our product support team but also help us develop it further.
   responsibilities:
     heading: What to expect
     items:
       - You are the first point of contact for user inquiries regarding our software solutions
-      - You work in direct collaboration with the development team—no detours, with access to relevant information firsthand
+      - You work in direct collaboration with the development team - no detours, with access to relevant information firsthand
       - You actively contribute by improving support processes and helping to make our tools and workflows more efficient and user-friendly
       - You document and structure complex technical content clearly and understandably
       - You work in an agile team environment with the opportunity to take on responsibility and implement new ideas
@@ -190,7 +184,7 @@ en:
     heading: What we offer
     items:
       - Practical experience with real responsibility
-      - No making coffee—instead, you help shape our work
+      - No making coffee - instead, you help shape our work
       - Insights into agile product development, current technologies, and digital transformation processes
       - Flexible working hours that fit around your studies
       - A workplace in the heart of Munich featuring a collaborative team spirit and modern infrastructure
