@@ -26,7 +26,7 @@ def _row_with(**overrides: object) -> pl.DataFrame:
     row = _valid_row()
     for key, value in overrides.items():
         row[key] = [value]
-    return pl.DataFrame(row, schema=OpeningHoursSchema.to_polars_schema())
+    return pl.DataFrame(row, schema=pl.Schema(OpeningHoursSchema))
 
 
 def test_committed_opening_hours_csv_satisfies_schema() -> None:

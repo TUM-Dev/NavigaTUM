@@ -10,4 +10,4 @@ def load_iris_rooms() -> pl.DataFrame:
 
     Both columns stay `String` so building ids like "0201" keep their leading zeros.
     """
-    return pl.read_csv(RESULTS_PATH / "iris.csv", schema=IrisRoomsSchema.to_polars_schema())
+    return pl.read_csv(RESULTS_PATH / "iris.csv", schema=pl.Schema(IrisRoomsSchema))

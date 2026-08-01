@@ -16,7 +16,7 @@ def test_iris_schema_rejects_duplicate_room() -> None:
     """`IrisRoomsSchema` must reject a roster with a duplicated `raum_nr_architekt`."""
     duplicated = pl.DataFrame(
         {"raum_nr_architekt": ["N1@0101", "N1@0101"], "gebaeude_code": ["0101", "0101"]},
-        schema=IrisRoomsSchema.to_polars_schema(),
+        schema=pl.Schema(IrisRoomsSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         IrisRoomsSchema.validate(duplicated)

@@ -24,7 +24,7 @@ def _canteens(**overrides: list[object]) -> pl.DataFrame:
             "https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr",
         ],
     }
-    return pl.DataFrame({**row, **overrides}, schema=StudierendenwerkSchema.to_polars_schema())
+    return pl.DataFrame({**row, **overrides}, schema=pl.Schema(StudierendenwerkSchema))
 
 
 def _mapping(canteen_ids: list[str], ids: list[str]) -> pl.DataFrame:

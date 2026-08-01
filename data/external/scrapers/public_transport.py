@@ -218,7 +218,7 @@ def scrape_stations() -> None:
 
     out_path = CACHE_PATH / "public_transport.parquet"
     df = StationsSchema.cast(stations)
-    StationsSchema.write_parquet(df, out_path)
+    df.write_parquet(out_path)
     _logger.info(f"Wrote {df.height} stations to {out_path}")
 
 

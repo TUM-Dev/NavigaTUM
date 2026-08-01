@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from external.loaders.events import load_events
-from external.schemas.events import EventsSchema
 
 DATA_DIR = Path(__file__).parent.parent
 OUTPUT_DIR = DATA_DIR / "output"
@@ -17,4 +16,4 @@ def export_events_parquet() -> None:
     and `ends_at >= starts_at` (matching the DB CHECK constraint).
     """
     OUTPUT_DIR.mkdir(exist_ok=True)
-    EventsSchema.write_parquet(load_events(), OUTPUT_DIR / "events.parquet")
+    load_events().write_parquet(OUTPUT_DIR / "events.parquet")

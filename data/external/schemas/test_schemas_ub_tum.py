@@ -80,7 +80,7 @@ def _row_with(**overrides: object) -> pl.DataFrame:
     row = _valid_row()
     for key, value in overrides.items():
         row[key] = [value]
-    return pl.DataFrame(row, schema=UbTumSchema.to_polars_schema())
+    return pl.DataFrame(row, schema=pl.Schema(UbTumSchema))
 
 
 def test_committed_ub_tum_csv_satisfies_schema() -> None:
@@ -180,7 +180,7 @@ def test_ub_tum_schema_rejects_duplicate_branch() -> None:
             "last_update": ["2026-06-08", "2026-06-08"],
             "source_url": ["https://x.tld", "https://x.tld"],
         },
-        schema=UbTumSchema.to_polars_schema(),
+        schema=pl.Schema(UbTumSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         UbTumSchema.validate(duplicated)

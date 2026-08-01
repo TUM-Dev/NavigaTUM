@@ -18,4 +18,4 @@ def export_ranking_factors_parquet(df: pl.DataFrame) -> None:
         pl.col("ranking_rank_boost").cast(pl.Int16).alias("rank_boost"),
     ).unique()
     typed = RankingFactorsSchema.validate(extracted)
-    RankingFactorsSchema.write_parquet(typed, OUTPUT_DIR / "ranking_factors.parquet")
+    typed.write_parquet(OUTPUT_DIR / "ranking_factors.parquet")

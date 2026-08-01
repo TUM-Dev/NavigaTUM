@@ -25,7 +25,7 @@ def _load_stored_branches() -> pl.DataFrame:
         return load_ub_tum()
     except FileNotFoundError:
         _logger.warning("No stored UB-TUM scrape yet, no library opening hours will be attached this build")
-        return pl.DataFrame(schema=UbTumSchema.to_polars_schema())
+        return pl.DataFrame(schema=pl.Schema(UbTumSchema))
 
 
 def ub_tum_opening_hours(

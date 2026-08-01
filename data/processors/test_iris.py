@@ -10,7 +10,7 @@ from processors.iris import add_iris_coverage, derive_coverage_building_ids
 def _rooms(*raum_nr_architekt: str) -> pl.DataFrame:
     """Build an Iris roster frame; gebaeude_code is the `@`-suffix, as Iris reports it."""
     rows = [{"raum_nr_architekt": arch, "gebaeude_code": arch.rpartition("@")[2]} for arch in raum_nr_architekt]
-    return pl.DataFrame(rows, schema=IrisRoomsSchema.to_polars_schema())
+    return pl.DataFrame(rows, schema=pl.Schema(IrisRoomsSchema))
 
 
 def test_matched_room_yields_its_building_id() -> None:

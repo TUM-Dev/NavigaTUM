@@ -20,7 +20,7 @@ def _events(rows: list[dict[str, object]]) -> dy.DataFrame[EventsSchema]:
         "organising_org_id": 51897,
         "image_author": "Studentische Vertretung TUM",
     }
-    df = pl.DataFrame([defaults | row for row in rows], schema=EventsSchema.to_polars_schema())
+    df = pl.DataFrame([defaults | row for row in rows], schema=pl.Schema(EventsSchema))
     return EventsSchema.validate(df)
 
 

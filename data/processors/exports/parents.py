@@ -28,5 +28,5 @@ def export_parents_parquet(df: pl.DataFrame) -> None:
             for parent_id in row.get("parents") or []
         )
 
-    out = pl.DataFrame(rows, schema=ParentsSchema.to_polars_schema())
-    ParentsSchema.write_parquet(ParentsSchema.validate(out), OUTPUT_DIR / "parents.parquet")
+    out = pl.DataFrame(rows, schema=pl.Schema(ParentsSchema))
+    ParentsSchema.validate(out).write_parquet(OUTPUT_DIR / "parents.parquet")

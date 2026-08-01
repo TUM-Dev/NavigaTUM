@@ -107,7 +107,7 @@ def scrape_studierendenwerk() -> None:
     if not rows:
         raise RuntimeError("eat-api returned no canteens with opening hours - refusing to overwrite the roster")
 
-    df = pl.DataFrame(rows, schema=StudierendenwerkSchema.to_polars_schema()).sort("canteen_id")
+    df = pl.DataFrame(rows, schema=pl.Schema(StudierendenwerkSchema)).sort("canteen_id")
     StudierendenwerkSchema.validate(df)
     df.write_csv(CACHE_PATH / "studierendenwerk.csv")
     _logger.info(f"Scraped opening hours for {df.height} canteens")

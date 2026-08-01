@@ -64,4 +64,4 @@ def _load_stored_rooms() -> pl.DataFrame:
         return load_iris_rooms()
     except FileNotFoundError:
         _logger.warning("No stored Iris roster yet; iris_coverage_building_ids will be empty this build")
-        return pl.DataFrame(schema=IrisRoomsSchema.to_polars_schema())
+        return pl.DataFrame(schema=pl.Schema(IrisRoomsSchema))

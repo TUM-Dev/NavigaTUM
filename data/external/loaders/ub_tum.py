@@ -9,5 +9,5 @@ UB_TUM_CSV = RESULTS_PATH / "ub_tum.csv"
 
 def load_ub_tum() -> dy.DataFrame[UbTumSchema]:
     """Load and validate the cached ub_tum.csv."""
-    df = pl.read_csv(UB_TUM_CSV, schema=UbTumSchema.to_polars_schema())
+    df = pl.read_csv(UB_TUM_CSV, schema=pl.Schema(UbTumSchema))
     return UbTumSchema.validate(df)
