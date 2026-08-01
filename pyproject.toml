@@ -7,7 +7,7 @@ dependencies = [
   "backoff==2.2.1",
   "beautifulsoup4==4.15.0",
   "brotli>=1.2.0",
-  "dataframely==2.13.2",
+  "dataframely==3.0.0",
   "defusedxml==0.7.1",
   "holidays==0.101",
   "lxml==6.1.1",
