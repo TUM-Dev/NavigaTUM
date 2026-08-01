@@ -20,6 +20,8 @@ WORKDIR /app
 
 FROM base AS build-stage
 
+RUN apk add --no-cache python3 make g++ gcc
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
