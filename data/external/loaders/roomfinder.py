@@ -16,7 +16,7 @@ def _read_csv_typed(path: Path, schema: type[dy.Schema]) -> pl.DataFrame:
     `str_strip_whitespace=True` behaviour and avoids polluting Categorical dictionaries - and
     avoids Enum cast errors on stray whitespace (e.g. `"Nationalpark Berchtesgaden\n"`).
     """
-    full = schema.to_polars_schema()
+    full = pl.Schema(schema)
     narrowed = {k: v for k, v in full.items() if isinstance(v, (pl.Enum, pl.Categorical))}
     read_schema = pl.Schema({k: (pl.String if k in narrowed else v) for k, v in full.items()})
 

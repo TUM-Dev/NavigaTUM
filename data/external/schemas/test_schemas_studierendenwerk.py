@@ -46,7 +46,7 @@ def _row_with(**overrides: object) -> pl.DataFrame:
     row = _valid_row()
     for key, value in overrides.items():
         row[key] = [value]
-    return pl.DataFrame(row, schema=StudierendenwerkSchema.to_polars_schema())
+    return pl.DataFrame(row, schema=pl.Schema(StudierendenwerkSchema))
 
 
 def test_committed_studierendenwerk_csv_satisfies_schema() -> None:
@@ -106,7 +106,7 @@ def test_studierendenwerk_schema_rejects_duplicate_canteen() -> None:
             "last_update": ["2026-06-05", "2026-06-05"],
             "source_url": ["https://x.tld", "https://x.tld"],
         },
-        schema=StudierendenwerkSchema.to_polars_schema(),
+        schema=pl.Schema(StudierendenwerkSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         StudierendenwerkSchema.validate(duplicated)

@@ -218,7 +218,7 @@ def scrape_ub_tum() -> None:
     if not rows:
         raise RuntimeError("ub.tum.de produced no parseable branch pages - refusing to overwrite the roster")
 
-    df = pl.DataFrame(rows, schema=UbTumSchema.to_polars_schema()).sort("branch_id")
+    df = pl.DataFrame(rows, schema=pl.Schema(UbTumSchema)).sort("branch_id")
     UbTumSchema.validate(df)
     df.write_csv(CACHE_PATH / "ub_tum.csv")
     _logger.info(f"Scraped opening hours for {df.height} UB-TUM branches")

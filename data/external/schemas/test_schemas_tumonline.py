@@ -23,7 +23,7 @@ def test_usages_schema_rejects_non_positive_id() -> None:
             "din277_name": ["X"],
             "name": ["X"],
         },
-        schema=UsagesSchema.to_polars_schema(),
+        schema=pl.Schema(UsagesSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         UsagesSchema.validate(invalid)
@@ -46,7 +46,7 @@ def test_orgs_schema_rejects_non_positive_id() -> None:
     """`OrgsSchema` must reject rows with a non-positive `org_id`."""
     invalid = pl.DataFrame(
         {"org_id": [0], "code": ["X"], "name": ["X"], "path": ["X"]},
-        schema=OrgsSchema.to_polars_schema(),
+        schema=pl.Schema(OrgsSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         OrgsSchema.validate(invalid)
@@ -77,7 +77,7 @@ def test_buildings_schema_rejects_non_four_digit_key() -> None:
             "tumonline_id": [1],
             "filter_id": [None],
         },
-        schema=BuildingsSchema.to_polars_schema(),
+        schema=pl.Schema(BuildingsSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         BuildingsSchema.validate(invalid)
@@ -118,7 +118,7 @@ def test_rooms_schema_rejects_non_positive_tumonline_id() -> None:
             "calendar_resource_nr": [None],
             "patched": [False],
         },
-        schema=RoomsSchema.to_polars_schema(),
+        schema=pl.Schema(RoomsSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         RoomsSchema.validate(invalid)

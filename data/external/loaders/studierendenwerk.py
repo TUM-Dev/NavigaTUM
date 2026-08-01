@@ -9,5 +9,5 @@ STUDIERENDENWERK_CSV = RESULTS_PATH / "studierendenwerk.csv"
 
 def load_studierendenwerk() -> dy.DataFrame[StudierendenwerkSchema]:
     """Load and validate the cached `studierendenwerk.csv` canteen opening hours."""
-    df = pl.read_csv(STUDIERENDENWERK_CSV, schema=StudierendenwerkSchema.to_polars_schema())
+    df = pl.read_csv(STUDIERENDENWERK_CSV, schema=pl.Schema(StudierendenwerkSchema))
     return StudierendenwerkSchema.validate(df)

@@ -38,7 +38,7 @@ def load_events() -> dy.DataFrame[EventsSchema]:
     derived from `EventsSchema` and derives `appears_at` from the event window.
     Validates against the schema so the return type is statically verified by mypy.
     """
-    schema = EventsSchema.to_polars_schema()
+    schema = pl.Schema(EventsSchema)
     read_schema = pl.Schema({csv: schema[parquet] for csv, parquet in _CSV_RENAME.items()})
 
     df = pl.read_csv(EVENTS_CSV, schema=read_schema).rename(_CSV_RENAME)

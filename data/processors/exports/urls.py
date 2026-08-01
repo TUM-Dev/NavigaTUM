@@ -31,5 +31,5 @@ def _write_urls_parquet(df: pl.DataFrame, *, language: str, filename: str) -> No
             text = text_val.get(language) if isinstance(text_val, dict) else None
             rows.append({"key": row["id"], "url": url, "text": text})
 
-    out = pl.DataFrame(rows, schema=UrlsSchema.to_polars_schema())
-    UrlsSchema.write_parquet(UrlsSchema.validate(out), OUTPUT_DIR / filename)
+    out = pl.DataFrame(rows, schema=pl.Schema(UrlsSchema))
+    UrlsSchema.validate(out).write_parquet(OUTPUT_DIR / filename)

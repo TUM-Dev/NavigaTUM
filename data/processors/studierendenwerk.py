@@ -26,7 +26,7 @@ def _load_stored_canteens() -> pl.DataFrame:
         return load_studierendenwerk()
     except FileNotFoundError:
         _logger.warning("No stored canteen feed yet; no mensa opening hours will be attached this build")
-        return pl.DataFrame(schema=StudierendenwerkSchema.to_polars_schema())
+        return pl.DataFrame(schema=pl.Schema(StudierendenwerkSchema))
 
 
 def mensa_opening_hours(

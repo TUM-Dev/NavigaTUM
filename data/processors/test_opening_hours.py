@@ -39,7 +39,7 @@ def _schedule(**overrides: object) -> pl.DataFrame:
     }
     for key, value in overrides.items():
         row[key] = [value]
-    return pl.DataFrame(row, schema=OpeningHoursSchema.to_polars_schema())
+    return pl.DataFrame(row, schema=pl.Schema(OpeningHoursSchema))
 
 
 def test_merge_attaches_schedule_to_matching_entry_only() -> None:

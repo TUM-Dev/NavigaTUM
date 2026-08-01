@@ -16,5 +16,5 @@ def load_opening_hours() -> dy.DataFrame[OpeningHoursSchema]:
     Empty optional fields read back as null. OSM-string syntax is gated by the
     test suite, not at runtime.
     """
-    df = pl.read_csv(OPENING_HOURS_CSV, schema=OpeningHoursSchema.to_polars_schema())
+    df = pl.read_csv(OPENING_HOURS_CSV, schema=pl.Schema(OpeningHoursSchema))
     return OpeningHoursSchema.validate(df)

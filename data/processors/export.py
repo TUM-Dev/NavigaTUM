@@ -14,7 +14,6 @@ from external.loaders.events import load_events
 from external.loaders.tumonline_orgs import load_tumonline_orgs
 from external.models.common import PydanticConfiguration
 from external.schemas.events import EventsSchema
-from external.schemas.tumonline_orgs import TumonlineOrgsSchema
 from pipeline_types import Entry, Json
 from utils import TranslatableStr
 from utils import TranslatableStr as _
@@ -382,7 +381,7 @@ def export_known_usages(df: pl.DataFrame) -> None:
 
 def export_tumonline_orgs_parquet() -> None:
     """Build the bilingual TUMonline orgs frame and write tumonline_orgs.parquet."""
-    TumonlineOrgsSchema.write_parquet(load_tumonline_orgs(), OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
+    load_tumonline_orgs().write_parquet(OUTPUT_DIR_PATH / "tumonline_orgs.parquet")
 
 
 def export_known_orgs() -> None:
@@ -405,4 +404,4 @@ def export_events_parquet() -> None:
     datetime serialization specifics. EventsSchema enforces the RFC 3339 shape
     and `ends_at >= starts_at` (matching the DB CHECK constraint).
     """
-    EventsSchema.write_parquet(load_events(), OUTPUT_DIR_PATH / "events.parquet")
+    load_events().write_parquet(OUTPUT_DIR_PATH / "events.parquet")

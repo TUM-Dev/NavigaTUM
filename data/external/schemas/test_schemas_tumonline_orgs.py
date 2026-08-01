@@ -23,7 +23,7 @@ def test_orgs_schema_rejects_non_positive_id() -> None:
             "path_de": [None],
             "path_en": [None],
         },
-        schema=TumonlineOrgsSchema.to_polars_schema(),
+        schema=pl.Schema(TumonlineOrgsSchema),
     )
     with pytest.raises(dy.exc.ValidationError):
         TumonlineOrgsSchema.validate(invalid)

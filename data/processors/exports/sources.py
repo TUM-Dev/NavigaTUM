@@ -25,5 +25,5 @@ def export_sources_parquet(df: pl.DataFrame) -> None:
             for source in json.loads(base_json)
         )
 
-    out = pl.DataFrame(rows, schema=SourcesSchema.to_polars_schema())
-    SourcesSchema.write_parquet(SourcesSchema.validate(out), OUTPUT_DIR / "sources.parquet")
+    out = pl.DataFrame(rows, schema=pl.Schema(SourcesSchema))
+    SourcesSchema.validate(out).write_parquet(OUTPUT_DIR / "sources.parquet")

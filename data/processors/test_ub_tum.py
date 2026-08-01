@@ -36,7 +36,7 @@ def _branches(**overrides: list[object]) -> pl.DataFrame:
             "https://www.ub.tum.de/en/branch-library-medicine",
         ],
     }
-    return pl.DataFrame({**row, **overrides}, schema=UbTumSchema.to_polars_schema())
+    return pl.DataFrame({**row, **overrides}, schema=pl.Schema(UbTumSchema))
 
 
 def _mapping(branch_ids: list[str], ids: list[str]) -> pl.DataFrame:

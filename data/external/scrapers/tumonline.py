@@ -65,7 +65,7 @@ def scrape_buildings() -> None:
         }
         for b in payload
     ]
-    df = pl.DataFrame(rows, schema=BuildingsSchema.to_polars_schema()).sort("building_key")
+    df = pl.DataFrame(rows, schema=pl.Schema(BuildingsSchema)).sort("building_key")
     df.write_csv(CACHE_PATH / "buildings_tumonline.csv")
 
 
@@ -98,7 +98,7 @@ def scrape_rooms() -> None:
         }
         for r in payload
     ]
-    df = pl.DataFrame(rows, schema=RoomsSchema.to_polars_schema()).sort("room_key")
+    df = pl.DataFrame(rows, schema=pl.Schema(RoomsSchema)).sort("room_key")
     # TUMonline occasionally returns the same room twice in the payload (same
     # `tumonline_id`) and, more rarely, two genuinely different rooms sharing
     # the same `room_code` (different `tumonline_id`s - see e.g. 0103.Z1.302).
@@ -133,7 +133,7 @@ def scrape_usages() -> None:
     payload = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
 
     rows = [{"usage_id": u["id"], **{c: u[c] for c in UsagesSchema.column_names() if c != "usage_id"}} for u in payload]
-    df = pl.DataFrame(rows, schema=UsagesSchema.to_polars_schema()).sort("usage_id")
+    df = pl.DataFrame(rows, schema=pl.Schema(UsagesSchema)).sort("usage_id")
     df.write_csv(CACHE_PATH / "usages_tumonline.csv")
 
 
@@ -164,7 +164,7 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
         for dto in (resource["content"]["organisationSearchDto"] for resource in req.json()["resource"])
         if dto.get("designation")
     ]
-    df = pl.DataFrame(rows, schema=OrgsSchema.to_polars_schema()).sort("org_id")
+    df = pl.DataFrame(rows, schema=pl.Schema(OrgsSchema)).sort("org_id")
     df.write_csv(CACHE_PATH / f"orgs-{lang}_tumonline.csv")
 
 

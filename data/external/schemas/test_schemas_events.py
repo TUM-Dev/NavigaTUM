@@ -26,7 +26,7 @@ def test_events_schema_rejects_blank_image_author() -> None:
     """CC-BY enforcement: a blank or whitespace-only `image_author` must fail validation."""
     invalid = _valid_row()
     invalid["image_author"] = ["   "]
-    df = pl.DataFrame(invalid, schema=EventsSchema.to_polars_schema())
+    df = pl.DataFrame(invalid, schema=pl.Schema(EventsSchema))
     with pytest.raises(dy.exc.ValidationError):
         EventsSchema.validate(df)
 
@@ -38,7 +38,7 @@ def test_committed_events_csv_satisfies_schema() -> None:
 
 def test_events_schema_accepts_minimal_valid_row() -> None:
     """A row matching every rule must validate cleanly (positive control)."""
-    df = pl.DataFrame(_valid_row(), schema=EventsSchema.to_polars_schema())
+    df = pl.DataFrame(_valid_row(), schema=pl.Schema(EventsSchema))
     EventsSchema.validate(df)
 
 
@@ -46,7 +46,7 @@ def test_events_schema_accepts_event_thumb_name() -> None:
     """The `event_<hash>` base name (with its underscore) is a valid thumb path."""
     valid = _valid_row()
     valid["image"] = ["/cdn/thumb/event_9d02ddd940c43f87_0.webp"]
-    df = pl.DataFrame(valid, schema=EventsSchema.to_polars_schema())
+    df = pl.DataFrame(valid, schema=pl.Schema(EventsSchema))
     EventsSchema.validate(df)
 
 
@@ -62,6 +62,6 @@ def test_events_schema_rejects_non_thumb_cdn_paths(image: str) -> None:
     """`image` must be a `/cdn/thumb/…` path: external URLs and other CDN sizes are rejected."""
     invalid = _valid_row()
     invalid["image"] = [image]
-    df = pl.DataFrame(invalid, schema=EventsSchema.to_polars_schema())
+    df = pl.DataFrame(invalid, schema=pl.Schema(EventsSchema))
     with pytest.raises(dy.exc.ValidationError):
         EventsSchema.validate(df)
