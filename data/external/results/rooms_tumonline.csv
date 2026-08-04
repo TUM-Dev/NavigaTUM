@@ -7753,196 +7753,162 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 1910.EG.083C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75557,243,3189,49382,222,"C.0.83, Flur",C.0.83@1910,,false
 1910.EG.084B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78478,243,3189,49382,222,"B.0.84, Flur",B.0.84@1910,,false
 1910.EG.084C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75558,243,3189,49382,222,"C.0.84, Flur",C.0.84@1910,,false
-1912.02.200,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78267,243,3449,49382,223,"E3.2.00, TRH 1",E3.2.00@1912,,false
-1912.02.201,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78311,243,3449,49382,12,"E3.2.01, Open Office F.1",E3.2.01@1912,,false
-1912.02.202,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78268,243,3449,49382,222,"E3.2.02, Flur 1",E3.2.02@1912,,false
-1912.02.203,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78312,243,3449,49382,12,"E3.2.03, Büro",E3.2.03@1912,,false
-1912.02.204,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78313,243,3449,49382,12,"E3.2.04, Büro",E3.2.04@1912,,false
-1912.02.205,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78269,243,3449,49382,28,"E3.2.05, Küche",E3.2.05@1912,,false
-1912.02.206,Heilbronn,Edisonstr. 3,74076,4,,,Fliesen,2.OG,78361,243,3449,49382,116,"E3.2.06, WC-Damen",E3.2.06@1912,,false
-1912.02.208,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78362,243,3449,49382,12,"E3.2.08, Büro",E3.2.08@1912,,false
-1912.02.209E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77042,243,3449,49382,196,"E3.2.09, Besprechungsraum",E3.2.09@1912,34522,false
-1912.02.210E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77060,243,3449,49382,196,"E3.2.10, Besprechungsraum",E3.2.10@1912,34523,false
-1912.02.211,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78270,243,3449,49382,12,"E3.2.11, Büro",E3.2.11@1912,,false
-1912.02.212,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78271,243,3449,49382,12,"E3.2.12, Büro",E3.2.12@1912,,false
-1912.02.213,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78272,243,3449,49382,12,"E3.2.13, Büro",E3.2.13@1912,,false
-1912.02.214,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78363,243,3449,49382,12,"E3.2.14, Büro",E3.2.14@1912,,false
-1912.02.215,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78364,243,3449,49382,12,"E3.2.15, Büro",E3.2.15@1912,,false
-1912.02.216,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78365,243,3449,49382,12,"E3.2.16, Büro",E3.2.16@1912,,false
-1912.02.217,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78366,243,3449,49382,12,"E3.2.17, Open Office Space F.2",E3.2.17@1912,,false
-1912.02.217A,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78290,243,3449,49382,12,"E3.2.17.1, Open Office",E3.2.17.1@1912,,false
-1912.02.217B,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78316,243,3449,49382,12,"E3.2.17.2, Open Office",E3.2.17.2@1912,,false
-1912.02.217C,Heilbronn,Edisonstr. 3,74076,4,,,Spannteppich,2.OG,78317,243,3449,49382,12,"E3.2.17.3, Open Office",E3.2.17.3@1912,,false
-1912.02.217D,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78318,243,3449,49382,12,"E3.2.17.4, Open Office",E3.2.17.4@1912,,false
-1912.02.217E,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78381,243,3449,49382,12,"E3.2.17.5, Open Office",E3.2.17.5@1912,,false
-1912.02.217F,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78382,243,3449,49382,12,"E3.2.17.6, Open Office",E3.2.17.6@1912,,false
-1912.02.217G,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78383,243,3449,49382,12,"E3.2.17.7, Open Office",E3.2.17.7@1912,,false
-1912.02.217H,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78384,243,3449,49382,12,"E3.2.17.8, Open Office",E3.2.17.8@1912,,false
-1912.02.218,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78368,243,3449,49382,110,"E3.2.18, Kopierer",E3.2.18@1912,,false
+1912.02.201,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78311,243,3449,56037,44,"E3.2.01, Open Office F.1",E3.2.01@1912,,false
+1912.02.202,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78268,243,3449,56037,222,"E3.2.02, Flur 1",E3.2.02@1912,,false
+1912.02.203,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78312,243,3449,56037,12,"E3.2.03, Büro",E3.2.03@1912,,false
+1912.02.204,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78313,243,3449,52720,12,"E3.2.04, Büro",E3.2.04@1912,,false
+1912.02.205,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78269,243,3449,56037,28,"E3.2.05, Küche",E3.2.05@1912,,false
+1912.02.206,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78361,243,3449,56037,115,"E3.2.06-1, WC-Herren",E3.2.06-1@1912,,false
+1912.02.206A,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78628,243,3449,56037,116,"E3.2.06-2, WC-Damen",E3.2.06-2@1912,,false
+1912.02.208,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78362,243,3449,56037,12,"E3.2.08, Büro",E3.2.08@1912,,false
+1912.02.209E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77042,243,3449,56037,196,"E3.2.09, Besprechungsraum",E3.2.09@1912,34522,false
+1912.02.210E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77060,243,3449,56037,196,"E3.2.10, Besprechungsraum",E3.2.10@1912,34523,false
+1912.02.211,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78270,243,3449,52720,12,"E3.2.11, Büro",E3.2.11@1912,,false
+1912.02.212,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78271,243,3449,52720,12,"E3.2.12, Büro",E3.2.12@1912,,false
+1912.02.213,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78272,243,3449,52720,12,"E3.2.13, Büro",E3.2.13@1912,,false
+1912.02.214,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78363,243,3449,52720,12,"E3.2.14, Büro",E3.2.14@1912,,false
+1912.02.215,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78364,243,3449,52720,12,"E3.2.15, Büro",E3.2.15@1912,,false
+1912.02.216,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78365,243,3449,52720,12,"E3.2.16, Büro",E3.2.16@1912,,false
+1912.02.217,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78366,243,3449,56037,12,"E3.2.17, Open Office Space F.2",E3.2.17@1912,,false
+1912.02.217A,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78290,243,3449,56037,12,"E3.2.17.1, Open Office",E3.2.17.1@1912,,false
+1912.02.217B,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78316,243,3449,56037,12,"E3.2.17.2, Open Office",E3.2.17.2@1912,,false
+1912.02.217C,Heilbronn,Edisonstr. 3,74076,4,,,Spannteppich,2.OG,78317,243,3449,56037,12,"E3.2.17.3, Open Office",E3.2.17.3@1912,,false
+1912.02.217D,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78318,243,3449,56037,12,"E3.2.17.4, Open Office",E3.2.17.4@1912,,false
+1912.02.217E,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78381,243,3449,52720,12,"E3.2.17.5, Open Office",E3.2.17.5@1912,,false
+1912.02.217F,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78382,243,3449,56037,12,"E3.2.17.6, Open Office",E3.2.17.6@1912,,false
+1912.02.217G,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78383,243,3449,56037,12,"E3.2.17.7, Open Office",E3.2.17.7@1912,,false
+1912.02.217H,Heilbronn,Edisonstr. 3,74076,6,,,Spannteppich,2.OG,78384,243,3449,56037,12,"E3.2.17.8, Open Office",E3.2.17.8@1912,,false
+1912.02.218,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78368,243,3449,56037,110,"E3.2.18, Kopierer",E3.2.18@1912,,false
 1912.02.220E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77043,243,3449,49382,196,"E3.2.20, Besprechungsraum",E3.2.20@1912,34524,false
-1912.02.221,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78367,243,3449,49382,28,"E3.2.21, Küche",E3.2.21@1912,,false
-1912.02.222,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78274,243,3449,49382,115,"E3.2.22, WC-Herren",E3.2.22@1912,,false
-1912.02.223,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78369,243,3449,49382,222,"E3.2.23, Flur",E3.2.23@1912,,false
-1912.02.224,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78370,243,3449,49382,30,"E3.2.24, PUMI",E3.2.24@1912,,false
-1912.02.226,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78371,243,3449,49382,30,"E3.2.26, Lager",E3.2.26@1912,,false
-1912.02.227,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78372,243,3449,49382,44,"E3.2.27, Liegeraum",E3.2.27@1912,,false
-1912.02.228,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78373,243,3449,49382,222,"E3.2.28, Flur",E3.2.28@1912,,false
-1912.02.229,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78374,243,3449,49382,12,"E3.2.29, Open Office Space F.2",E3.2.29@1912,,false
-1912.02.229A,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78385,243,3449,49382,12,"E3.2.29.1, Open Office",E3.2.29.1@1912,,false
-1912.02.229B,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78386,243,3449,49382,12,"E3.2.29.2, Open Office",E3.2.29.2@1912,,false
-1912.02.229C,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78291,243,3449,49382,44,"E3.2.29.3, Lounge",E3.2.29.3@1912,,false
-1912.02.229D,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78319,243,3449,49382,12,"E3.2.29.4, Open Office",E3.2.29.4@1912,,false
-1912.02.229E,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78320,243,3449,49382,12,"E3.2.29.5, Open Office",E3.2.29.5@1912,,false
-1912.02.229F,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78292,243,3449,49382,12,"E3.2.29.6, Open Office",E3.2.29.6@1912,,false
-1912.02.229G,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78293,243,3449,49382,12,"E3.2.29.7, Open Office",E3.2.29.7@1912,,false
-1912.02.230E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77044,243,3449,49382,196,"E3.2.30, Besprechungsraum",E3.2.30@1912,34525,false
-1912.02.231E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77045,243,3449,49382,196,"E3.2.31, Besprechungsraum",E3.2.31@1912,34526,false
-1912.02.232E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77046,243,3449,49382,196,"E3.2.32, Besprechungsraum",E3.2.32@1912,34527,false
-1912.02.233,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78375,243,3449,49382,223,"E3.2.33, TRH 2",E3.2.33@1912,,false
-1912.02.235,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78273,243,3449,49382,222,"E3.2.35, Flur",E3.2.35@1912,,false
-1912.02.236,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78315,243,3449,49382,115,"E3.2.36, WC-Herren",E3.2.36@1912,,false
+1912.02.221,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78367,243,3449,56037,28,"E3.2.21, Küche",E3.2.21@1912,,false
+1912.02.222,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78274,243,3449,56037,115,"E3.2.22, WC-Herren",E3.2.22@1912,,false
+1912.02.223,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78369,243,3449,56037,222,"E3.2.23, Flur",E3.2.23@1912,,false
+1912.02.227,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78372,243,3449,56037,44,"E3.2.27, Liegeraum",E3.2.27@1912,,false
+1912.02.229C,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78291,243,3449,56037,44,"E3.2.29.3, Lounge",E3.2.29.3@1912,,false
+1912.02.230E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77044,243,3449,56037,196,"E3.2.30, Besprechungsraum",E3.2.30@1912,34525,false
+1912.02.231E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77045,243,3449,56037,196,"E3.2.31, Besprechungsraum",E3.2.31@1912,34526,false
+1912.02.232E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77046,243,3449,56037,196,"E3.2.32, Besprechungsraum",E3.2.32@1912,34527,false
+1912.02.235,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78273,243,3449,56037,222,"E3.2.35, Flur",E3.2.35@1912,,false
+1912.02.236,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78315,243,3449,56037,115,"E3.2.36, WC-Herren",E3.2.36@1912,,false
 1912.02.238E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77055,243,3449,49382,196,"E3.2.38, Besprechungsraum",E3.2.38@1912,34528,false
-1912.02.239,Heilbronn,Edisonstr. 3,74076,3,,,Fliesen,2.OG,78314,243,3449,49382,116,"E3.2.39, WC-Damen",E3.2.39@1912,,false
-1912.02.240,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78376,243,3449,49382,12,"E3.2.40, Büro",E3.2.40@1912,,false
-1912.02.241,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78377,243,3449,49382,12,"E3.2.41, Büro",E3.2.41@1912,,false
-1912.02.242,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78378,243,3449,49382,12,"E3.2.42, Open Office Space F.2",E3.2.42@1912,,false
-1912.02.242A,Heilbronn,Edisonstr. 3,74076,4,,,Keine Angabe,2.OG,78387,243,3449,49382,12,"E3.2.42.1, Open Office",E3.2.42.1@1912,,false
-1912.02.242B,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78294,243,3449,49382,12,"E3.2.42.2, Open Office",E3.2.42.2@1912,,false
-1912.02.242C,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78295,243,3449,49382,12,"E3.2.42.3, Open Office",E3.2.42.3@1912,,false
-1912.02.242D,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78296,243,3449,49382,12,"E3.2.42.4, Open Office",E3.2.42.4@1912,,false
-1912.02.242E,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78297,243,3449,49382,12,"E3.2.42.5, Open Office",E3.2.42.5@1912,,false
-1912.02.242F,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78298,243,3449,49382,12,"E3.2.42.6, Open Office",E3.2.42.6@1912,,false
-1912.02.242G,Heilbronn,Edisonstr. 3,74076,6,,,Keine Angabe,2.OG,78299,243,3449,49382,12,"E3.2.42.7, Open Office",E3.2.42.7@1912,,false
-1912.02.243,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78379,243,3449,49382,110,"E3.2.43, Kopierer",E3.2.43@1912,,false
-1912.02.245E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77047,243,3449,49382,196,"E3.2.45, Besprechungsraum",E3.2.45@1912,34529,false
-1912.02.246,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78380,243,3449,49382,28,"E3.2.46, Küche",E3.2.46@1912,,false
-1912.02.247,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78288,243,3449,49382,28,"E3.2.47, Abst. Küche",E3.2.47@1912,,false
-1912.02.248,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78289,243,3449,49382,223,"E3.2.48, TRH 3",E3.2.48@1912,,false
-1913.02.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78561,243,3709,49382,12,"A.02.100, Büro",A.02.100@1913,,false
-1913.02.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78562,243,3709,49382,12,"A.02.101, Büro",A.02.101@1913,,false
-1913.02.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78563,243,3709,49382,12,"A.02.102, Büro",A.02.102@1913,,false
-1913.02.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78564,243,3709,49382,12,"A.02.103, Büro",A.02.103@1913,,false
-1913.02.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78565,243,3709,49382,12,"A.02.104, Büro",A.02.104@1913,,false
-1913.02.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78566,243,3709,49382,12,"A.02.105, Büro",A.02.105@1913,,false
-1913.02.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78573,243,3709,49382,12,"A.02.200, Co-Working",A.02.200@1913,,false
-1913.02.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78575,243,3709,49382,12,"A.02.201, Büro",A.02.201@1913,,false
-1913.02.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78577,243,3709,49382,12,"A.02.202, Büro",A.02.202@1913,,false
-1913.02.203,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78579,243,3709,49382,12,"A.02.203, Co-Working",A.02.203@1913,,false
-1913.02.300,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78581,243,3709,49382,12,"A.02.300, Co-Working",A.02.300@1913,,false
-1913.02.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78583,243,3709,49382,196,"A.02.301, Besprechungsraum",A.02.301@1913,,false
-1913.02.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78610,243,3709,49382,44,"A.02.302, Lounge",A.02.302@1913,,false
-1913.02.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78612,243,3709,49382,41,"A.02.400, Workshop",A.02.400@1913,,false
-1913.02.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78614,243,3709,49382,198,"A.02.401, Teeküche",A.02.401@1913,,false
-1913.02.402,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78616,243,3709,49382,12,"A.02.402, Büro",A.02.402@1913,,false
-1913.02.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78619,243,3709,49382,12,"A.02.403, Büro",A.02.403@1913,,false
-1913.02.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78620,243,3709,49382,12,"A.02.404, Co-Working",A.02.404@1913,,false
-1913.02.501,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78605,243,3709,49382,110,"A.02.501, Drucker/Lager",A.02.501@1913,,false
-1913.02.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78597,243,3709,49382,114,"A.02.502, WC-Unisex",A.02.502@1913,,false
-1913.02.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78599,243,3709,49382,114,"A.02.503, WC-Unisex",A.02.503@1913,,false
-1913.02.504,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78461,243,3709,49382,117,"A.02.504, WC-Barrierefrei",A.02.504@1913,,false
-1913.02.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78463,243,3709,49382,116,"A.02.505, WC-Damen",A.02.505@1913,,false
-1913.02.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78465,243,3709,49382,115,"A.02.506, WC-Herren",A.02.506@1913,,false
-1913.02.507,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78467,243,3709,49382,50,"A.02.507, Vorraum",A.02.507@1913,,false
-1913.02.600,Heilbronn,Edisonstr. 15,74076,,,,Keine Angabe,2.OG,78603,243,3709,49382,207,"A.02.600, IT-Raum",A.02.600@1913,,false
-1913.02.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78601,243,3709,49382,222,"A.02.800, Flur",A.02.800@1913,,false
-1913.02.801,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78593,243,3709,49382,50,"A.02.801, Vorraum",A.02.801@1913,,false
-1913.02.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78621,243,3709,49382,222,"A.02.802, Notw. Flur",A.02.802@1913,,false
-1913.02.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78585,243,3709,49382,222,"A.02.803, Flur",A.02.803@1913,,false
-1913.02.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78607,243,3709,49382,222,"A.02.804, Flur",A.02.804@1913,,false
-1913.02.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78587,243,3709,49382,222,"A.02.805, Flur",A.02.805@1913,,false
-1913.02.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78459,243,3709,49382,222,"A.02.806, Flur",A.02.806@1913,,false
-1913.02.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78609,243,3709,49382,222,"A.02.807, Flur",A.02.807@1913,,false
-1913.02.900,Heilbronn,Edisonstr. 15,74076,,,,Estrich (Beton),2.OG,78595,243,3709,49382,223,"A.02.900, TRH",A.02.900@1913,,false
-1913.03.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78516,243,3709,49382,12,"A.03.100, Büro",A.03.100@1913,,false
-1913.03.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78517,243,3709,49382,12,"A.03.101, Büro",A.03.101@1913,,false
-1913.03.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78518,243,3709,49382,12,"A.03.102, Büro",A.03.102@1913,,false
-1913.03.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78529,243,3709,49382,12,"A.03.103, Büro",A.03.103@1913,,false
-1913.03.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78530,243,3709,49382,12,"A.03.104, Büro",A.03.104@1913,,false
-1913.03.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78531,243,3709,49382,12,"A.03.105, Büro",A.03.105@1913,,false
-1913.03.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78519,243,3709,49382,12,"A.03.200, Co-Working",A.03.200@1913,,false
-1913.03.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78532,243,3709,49382,12,"A.03.201, Büro",A.03.201@1913,,false
-1913.03.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78533,243,3709,49382,12,"A.03.201, Büro",A.03.201@1913,,false
-1913.03.203,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78534,243,3709,49382,12,"A.03.203, Co-Working",A.03.203@1913,,false
-1913.03.300,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78535,243,3709,49382,12,"A.03.203, Co-Working",A.03.203@1913,,false
-1913.03.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78555,243,3709,49382,196,"A.03.301, Besprechungsraum",A.03.301@1913,,false
-1913.03.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78557,243,3709,49382,44,"A.03.302, Lounge",A.03.302@1913,,false
-1913.03.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78558,243,3709,49382,41,"A.03.400, Workshop",A.03.400@1913,,false
-1913.03.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78559,243,3709,49382,198,"A.03.401, Teeküche",A.03.401@1913,,false
-1913.03.402,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78538,243,3709,49382,12,"A.03.402, Büro",A.03.402@1913,,false
-1913.03.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78537,243,3709,49382,12,"A.03.403, Büro",A.03.403@1913,,false
-1913.03.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78536,243,3709,49382,12,"A.03.404, Co-Working",A.03.404@1913,,false
-1913.03.500,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78539,243,3709,49382,30,"A.03.500, Lager, Drucker/Verteilerraum",A.03.500@1913,,false
-1913.03.501,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78540,243,3709,49382,205,"A.03.501, Putzraum",A.03.501@1913,,false
-1913.03.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78542,243,3709,49382,114,"A.03.502, WC-Unisex",A.03.502@1913,,false
-1913.03.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78543,243,3709,49382,114,"A.03.503, WC-Unisex",A.03.503@1913,,false
-1913.03.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78548,243,3709,49382,115,"A.03.505, WC-Herren",A.03.505@1913,,false
-1913.03.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78549,243,3709,49382,116,"A.03.506, WC-Damen",A.03.506@1913,,false
-1913.03.507,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78550,243,3709,49382,117,"A.03.507, WC-Barrierefrei",A.03.507@1913,,false
-1913.03.508,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78552,243,3709,49382,30,"A.03.508, Lager",A.03.508@1913,,false
-1913.03.509,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78553,243,3709,49382,110,"A.03.509, Drucker",A.03.509@1913,,false
-1913.03.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78541,243,3709,49382,222,"A.03.800, Flur",A.03.800@1913,,false
-1913.03.801,Heilbronn,Edisonstr. 15,74076,,,,Estrich (Beton),3.OG,78546,243,3709,49382,50,"A.03.801, Vorraum",A.03.801@1913,,false
-1913.03.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78547,243,3709,49382,222,"A.03.802, Notw. Flur",A.03.802@1913,,false
-1913.03.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78551,243,3709,49382,222,"A.03.803, Flur",A.03.803@1913,,false
-1913.03.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78545,243,3709,49382,222,"A.03.804, Flur",A.03.804@1913,,false
-1913.03.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78554,243,3709,49382,222,"A.03.805, Flur",A.03.805@1913,,false
-1913.03.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78556,243,3709,49382,222,"A.03.806, Flur",A.03.806@1913,,false
-1913.03.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78560,243,3709,49382,222,"A.03.807, Flur",A.03.807@1913,,false
-1913.03.900,Heilbronn,Edisonstr. 15,74076,,,,Estrich (Beton),3.OG,78544,243,3709,49382,223,"A.03.900, TRH",A.03.900@1913,,false
-1913.04.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78567,243,3709,49382,12,"A.04.100, Büro",A.04.100@1913,,false
-1913.04.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78568,243,3709,49382,12,"A.04.101, Büro",A.04.101@1913,,false
-1913.04.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78569,243,3709,49382,12,"A.04.102, Büro",A.04.102@1913,,false
-1913.04.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78570,243,3709,49382,12,"A.04.103, Büro",A.04.103@1913,,false
-1913.04.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78571,243,3709,49382,12,"A.04.104, Büro",A.04.104@1913,,false
-1913.04.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78572,243,3709,49382,12,"A.04.105, Büro",A.04.105@1913,,false
-1913.04.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78574,243,3709,49382,12,"A.04.200, Co-Working",A.04.200@1913,,false
-1913.04.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78576,243,3709,49382,12,"A.04.201, Büro",A.04.201@1913,,false
-1913.04.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78578,243,3709,49382,12,"A.04.202, Büro",A.04.202@1913,,false
-1913.04.203,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78580,243,3709,49382,12,"A.04.203, Co-Working",A.04.203@1913,,false
-1913.04.300,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78582,243,3709,49382,12,"A.04.300, Co-Working",A.04.300@1913,,false
-1913.04.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78584,243,3709,49382,196,"A.04.301, Besprechungsraum",A.04.301@1913,,false
-1913.04.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78611,243,3709,49382,44,"A.04.302, Lounge",A.04.302@1913,,false
-1913.04.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78613,243,3709,49382,41,"A.04.400, Workshop",A.04.400@1913,,false
-1913.04.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78615,243,3709,49382,198,"A.04.401, Teeküche",A.04.401@1913,,false
-1913.04.402,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78617,243,3709,49382,12,"A.04.402, Büro",A.04.402@1913,,false
-1913.04.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78618,243,3709,49382,12,"A.04.403, Büro",A.04.403@1913,,false
-1913.04.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78623,243,3709,49382,12,"A.04.404, Co-Working",A.04.404@1913,,false
-1913.04.501,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78606,243,3709,49382,110,"A.04.501, Drucker/Lager",A.04.501@1913,,false
-1913.04.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78598,243,3709,49382,114,"A.04.502, WC-Unisex",A.04.502@1913,,false
-1913.04.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78600,243,3709,49382,114,"A.04.503, WC-Unisex",A.04.503@1913,,false
-1913.04.504,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78462,243,3709,49382,117,"A.04.504, WC-Barrierefrei",A.04.504@1913,,false
-1913.04.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78464,243,3709,49382,116,"A.04.505, WC-Damen",A.04.505@1913,,false
-1913.04.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78466,243,3709,49382,115,"A.04.506, WC-Herren",A.04.506@1913,,false
-1913.04.507,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78468,243,3709,49382,50,"A.04.507, Vorraum",A.04.507@1913,,false
-1913.04.600,Heilbronn,Edisonstr. 15,74076,,,,Keine Angabe,4.OG,78604,243,3709,49382,207,"A.04.600, IT-Raum",A.04.600@1913,,false
-1913.04.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78602,243,3709,49382,222,"A.04.800, Flur",A.04.800@1913,,false
-1913.04.801,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78594,243,3709,49382,50,"A.04.801, Vorraum",A.04.801@1913,,false
-1913.04.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78592,243,3709,49382,222,"A.04.802, Notw. Flur",A.04.802@1913,,false
-1913.04.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78586,243,3709,49382,222,"A.04.803, Flur",A.04.803@1913,,false
-1913.04.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78608,243,3709,49382,222,"A.04.804, Flur",A.04.804@1913,,false
-1913.04.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78458,243,3709,49382,222,"A.04.805, Flur",A.04.805@1913,,false
-1913.04.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78460,243,3709,49382,222,"A.04.806, Flur",A.04.806@1913,,false
-1913.04.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78622,243,3709,49382,222,"A.04.807, Flur",A.04.807@1913,,false
-1913.04.900,Heilbronn,Edisonstr. 15,74076,,,,Estrich (Beton),4.OG,78596,243,3709,49382,223,"A.04.900, TRH",A.04.900@1913,,false
-1915.01.101,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75549,243,3191,49382,20,"38.1.01, Hörsaal",38.1.01@1915,33600,false
-1915.01.102,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75550,243,3191,49382,20,"38.1.02, Hörsaal",38.1.02@1915,33601,false
-1915.01.103,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75551,243,3191,49382,15,"38.1.03, Foyer",38.1.03@1915,,false
-1915.01.104,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75522,243,3191,49382,12,"38.1.04, Büro",38.1.04@1915,,false
-1915.01.105,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78388,243,3191,49382,30,"38.1.05, PUMI",38.1.05@1915,,false
-1915.01.106,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75564,243,3191,49382,116,"38.1.06, WC-Damen",38.1.06@1915,,false
-1915.01.108,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75525,243,3191,49382,115,"38.1.08, WC-Herren",38.1.08@1915,,false
-1915.01.109,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75523,243,3191,49382,12,"38.1.09, Büro",38.1.09@1915,,false
-1915.01.110,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75524,243,3191,49382,207,"38.1.10, IT",38.1.10@1915,,false
-1915.01.111,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75526,243,3191,49382,117,"38.1.11, WC-Barrierefrei",38.1.11@1915,,false
-1915.01.113,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75565,243,3191,49382,186,"38.1.13, Automatenraum",38.1.13@1915,,false
-1915.01.114,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,78390,243,3191,49382,207,"38.1.14, IT",38.1.14@1915,,false
-1915.01.116,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,75983,243,3191,49382,222,"38.1.16, Foyer/Auenthaltsbereich",38.1.16@1915,,false
-1915.01.116A,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78391,243,3191,49382,12,"38.1.16.1, Think Tank 1",38.1.16.1@1915,,false
-1915.01.116B,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78393,243,3191,49382,12,"38.1.16.2, Think Tank 2",38.1.16.2@1915,,false
-1915.01.116C,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78394,243,3191,49382,12,"38.1.16.3, Think Tank 3",38.1.16.3@1915,,false
-1915.01.117,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75980,243,3191,49382,41,"38.1.17, Seminarraum",38.1.17@1915,34192,false
-1915.01.118,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75981,243,3191,49382,41,"38.1.18, Seminarraum",38.1.18@1915,34193,false
-1915.01.119,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75982,243,3191,49382,41,"38.1.19, Seminarraum",38.1.19@1915,34194,false
+1912.02.239,Heilbronn,Edisonstr. 3,74076,3,,,Fliesen,2.OG,78314,243,3449,56037,116,"E3.2.39, WC-Damen",E3.2.39@1912,,false
+1912.02.243,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78379,243,3449,56037,110,"E3.2.43, Kopierer",E3.2.43@1912,,false
+1912.02.245E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77047,243,3449,56037,196,"E3.2.45, Besprechungsraum",E3.2.45@1912,34529,false
+1912.02.246,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78380,243,3449,56037,28,"E3.2.46, Küche",E3.2.46@1912,,false
+1912.02.247,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78288,243,3449,56037,28,"E3.2.47, Abst. Küche",E3.2.47@1912,,false
+1913.02.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78561,243,3709,14881,12,"A.02.100, Büro",A.02.100@1913,,false
+1913.02.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78562,243,3709,14881,12,"A.02.101, Büro",A.02.101@1913,,false
+1913.02.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78563,243,3709,14881,12,"A.02.102, Büro",A.02.102@1913,,false
+1913.02.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78564,243,3709,54537,12,"A.02.103, Büro",A.02.103@1913,,false
+1913.02.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78565,243,3709,54537,12,"A.02.104, Büro",A.02.104@1913,,false
+1913.02.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78566,243,3709,54537,12,"A.02.105, Büro",A.02.105@1913,,false
+1913.02.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78573,243,3709,54537,12,"A.02.200, Co-Working",A.02.200@1913,,false
+1913.02.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78575,243,3709,54537,12,"A.02.201, Büro",A.02.201@1913,,false
+1913.02.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78577,243,3709,14881,12,"A.02.202, Büro",A.02.202@1913,,false
+1913.02.203,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78579,243,3709,14881,12,"A.02.203, Co-Working",A.02.203@1913,,false
+1913.02.300,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78581,243,3709,56037,196,"A.02.300, Besprechungsbox",A.02.300@1913,,false
+1913.02.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78583,243,3709,56037,196,"A.02.301, Besprechungsraum",A.02.301@1913,,false
+1913.02.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78610,243,3709,56037,44,"A.02.302, Lounge",A.02.302@1913,,false
+1913.02.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78612,243,3709,56037,41,"A.02.400, Workshop",A.02.400@1913,,false
+1913.02.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78614,243,3709,56037,198,"A.02.401, Teeküche",A.02.401@1913,,false
+1913.02.402,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78616,243,3709,54537,12,"A.02.402, Büro",A.02.402@1913,,false
+1913.02.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78619,243,3709,14881,12,"A.02.403, Büro",A.02.403@1913,,false
+1913.02.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78620,243,3709,56037,12,"A.02.404, Co-Working (gem. Nutzung MGT+CIT)",A.02.404@1913,,false
+1913.02.501,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78605,243,3709,56037,110,"A.02.501, Drucker/Lager",A.02.501@1913,,false
+1913.02.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78597,243,3709,56037,114,"A.02.502, WC-Unisex",A.02.502@1913,,false
+1913.02.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78599,243,3709,56037,114,"A.02.503, WC-Unisex",A.02.503@1913,,false
+1913.02.504,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78461,243,3709,56037,117,"A.02.504, WC-Barrierefrei",A.02.504@1913,,false
+1913.02.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78463,243,3709,56037,116,"A.02.505, WC-Damen",A.02.505@1913,,false
+1913.02.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,2.OG,78465,243,3709,56037,115,"A.02.506, WC-Herren",A.02.506@1913,,false
+1913.02.507,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78467,243,3709,56037,50,"A.02.507, Vorraum",A.02.507@1913,,false
+1913.02.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78601,243,3709,56037,222,"A.02.800, Flur",A.02.800@1913,,false
+1913.02.801,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78593,243,3709,56037,50,"A.02.801, Vorraum",A.02.801@1913,,false
+1913.02.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78621,243,3709,56037,222,"A.02.802, Notw. Flur",A.02.802@1913,,false
+1913.02.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78585,243,3709,56037,222,"A.02.803, Flur",A.02.803@1913,,false
+1913.02.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78607,243,3709,56037,222,"A.02.804, Flur",A.02.804@1913,,false
+1913.02.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78587,243,3709,56037,222,"A.02.805, Flur",A.02.805@1913,,false
+1913.02.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78459,243,3709,56037,222,"A.02.806, Flur",A.02.806@1913,,false
+1913.02.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78609,243,3709,56037,222,"A.02.807, Flur",A.02.807@1913,,false
+1913.03.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78516,243,3709,54458,12,"A.03.100, Büro",A.03.100@1913,,false
+1913.03.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78517,243,3709,54458,12,"A.03.101, Büro",A.03.101@1913,,false
+1913.03.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78518,243,3709,54458,12,"A.03.102, Büro",A.03.102@1913,,false
+1913.03.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78529,243,3709,54458,12,"A.03.103, Büro",A.03.103@1913,,false
+1913.03.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78530,243,3709,53817,12,"A.03.104, Büro",A.03.104@1913,,false
+1913.03.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78531,243,3709,53817,12,"A.03.105, Büro",A.03.105@1913,,false
+1913.03.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78519,243,3709,53817,12,"A.03.200, Co-Working",A.03.200@1913,,false
+1913.03.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78532,243,3709,53817,12,"A.03.201, Büro",A.03.201@1913,,false
+1913.03.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78533,243,3709,53817,12,"A.03.201, Büro",A.03.201@1913,,false
+1913.03.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78555,243,3709,56037,196,"A.03.301, Besprechungsraum",A.03.301@1913,,false
+1913.03.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78557,243,3709,56037,44,"A.03.302, Lounge",A.03.302@1913,,false
+1913.03.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78558,243,3709,56037,41,"A.03.400, Workshop",A.03.400@1913,,false
+1913.03.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78559,243,3709,56037,198,"A.03.401, Teeküche",A.03.401@1913,,false
+1913.03.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78537,243,3709,54458,12,"A.03.403, Büro",A.03.403@1913,,false
+1913.03.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78536,243,3709,54458,12,"A.03.404, Co-Working",A.03.404@1913,,false
+1913.03.500,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78539,243,3709,56037,30,"A.03.500, Lager, Drucker/Verteilerraum",A.03.500@1913,,false
+1913.03.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78542,243,3709,56037,114,"A.03.502, WC-Unisex",A.03.502@1913,,false
+1913.03.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78543,243,3709,56037,114,"A.03.503, WC-Unisex",A.03.503@1913,,false
+1913.03.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78548,243,3709,56037,115,"A.03.505, WC-Herren",A.03.505@1913,,false
+1913.03.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78549,243,3709,56037,116,"A.03.506, WC-Damen",A.03.506@1913,,false
+1913.03.507,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,3.OG,78550,243,3709,56037,117,"A.03.507, WC-Barrierefrei",A.03.507@1913,,false
+1913.03.508,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78552,243,3709,56037,30,"A.03.508, Lager",A.03.508@1913,,false
+1913.03.509,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78553,243,3709,56037,110,"A.03.509, Drucker",A.03.509@1913,,false
+1913.03.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78541,243,3709,56037,222,"A.03.800, Flur",A.03.800@1913,,false
+1913.03.801,Heilbronn,Edisonstr. 15,74076,,,,Estrich (Beton),3.OG,78546,243,3709,56037,50,"A.03.801, Vorraum",A.03.801@1913,,false
+1913.03.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78547,243,3709,56037,222,"A.03.802, Notw. Flur",A.03.802@1913,,false
+1913.03.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78551,243,3709,56037,222,"A.03.803, Flur",A.03.803@1913,,false
+1913.03.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78545,243,3709,56037,222,"A.03.804, Flur",A.03.804@1913,,false
+1913.03.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78554,243,3709,56037,222,"A.03.805, Flur",A.03.805@1913,,false
+1913.03.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78556,243,3709,56037,222,"A.03.806, Flur",A.03.806@1913,,false
+1913.03.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,3.OG,78560,243,3709,56037,222,"A.03.807, Flur",A.03.807@1913,,false
+1913.04.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78567,243,3709,56660,12,"A.04.100, Büro",A.04.100@1913,,false
+1913.04.101,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78568,243,3709,56660,12,"A.04.101, Büro",A.04.101@1913,,false
+1913.04.102,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78569,243,3709,56660,12,"A.04.102, Büro",A.04.102@1913,,false
+1913.04.103,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78570,243,3709,56660,12,"A.04.103, Büro",A.04.103@1913,,false
+1913.04.104,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78571,243,3709,56660,12,"A.04.104, Büro",A.04.104@1913,,false
+1913.04.105,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78572,243,3709,56660,12,"A.04.105, Büro",A.04.105@1913,,false
+1913.04.200,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78574,243,3709,56660,12,"A.04.200, Co-Working",A.04.200@1913,,false
+1913.04.201,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78576,243,3709,56660,12,"A.04.201, Büro",A.04.201@1913,,false
+1913.04.202,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78578,243,3709,56660,12,"A.04.202, Büro",A.04.202@1913,,false
+1913.04.203,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78580,243,3709,56660,12,"A.04.203, Co-Working",A.04.203@1913,,false
+1913.04.300,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78582,243,3709,56660,12,"A.04.300, Co-Working",A.04.300@1913,,false
+1913.04.301,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78584,243,3709,56037,196,"A.04.301, Besprechungsraum",A.04.301@1913,,false
+1913.04.302,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78611,243,3709,56037,44,"A.04.302, Lounge",A.04.302@1913,,false
+1913.04.400,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78613,243,3709,56037,41,"A.04.400, Workshop",A.04.400@1913,,false
+1913.04.401,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78615,243,3709,56037,198,"A.04.401, Teeküche",A.04.401@1913,,false
+1913.04.402,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78617,243,3709,56660,12,"A.04.402, Büro",A.04.402@1913,,false
+1913.04.403,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78618,243,3709,56660,12,"A.04.403, Büro",A.04.403@1913,,false
+1913.04.404,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78623,243,3709,56660,12,"A.04.404, Co-Working",A.04.404@1913,,false
+1913.04.501,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78606,243,3709,56037,110,"A.04.501, Drucker/Lager",A.04.501@1913,,false
+1913.04.502,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78598,243,3709,56037,114,"A.04.502, WC-Unisex",A.04.502@1913,,false
+1913.04.503,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78600,243,3709,56037,114,"A.04.503, WC-Unisex",A.04.503@1913,,false
+1913.04.504,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78462,243,3709,56037,117,"A.04.504, WC-Barrierefrei",A.04.504@1913,,false
+1913.04.505,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78464,243,3709,56037,116,"A.04.505, WC-Damen",A.04.505@1913,,false
+1913.04.506,Heilbronn,Edisonstr. 15,74076,,,,Fliesen,4.OG,78466,243,3709,56037,115,"A.04.506, WC-Herren",A.04.506@1913,,false
+1913.04.507,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78468,243,3709,56037,50,"A.04.507, Vorraum",A.04.507@1913,,false
+1913.04.800,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78602,243,3709,56037,222,"A.04.800, Flur",A.04.800@1913,,false
+1913.04.801,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78594,243,3709,56037,50,"A.04.801, Vorraum",A.04.801@1913,,false
+1913.04.802,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78592,243,3709,56037,222,"A.04.802, Notw. Flur",A.04.802@1913,,false
+1913.04.803,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78586,243,3709,56037,222,"A.04.803, Flur",A.04.803@1913,,false
+1913.04.804,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78608,243,3709,56037,222,"A.04.804, Flur",A.04.804@1913,,false
+1913.04.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78458,243,3709,56037,222,"A.04.805, Flur",A.04.805@1913,,false
+1913.04.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78460,243,3709,56037,222,"A.04.806, Flur",A.04.806@1913,,false
+1913.04.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78622,243,3709,56037,222,"A.04.807, Flur",A.04.807@1913,,false
+1915.01.101,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75549,243,3191,56037,20,"38.1.01, Hörsaal",38.1.01@1915,33600,false
+1915.01.102,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75550,243,3191,56037,20,"38.1.02, Hörsaal",38.1.02@1915,33601,false
+1915.01.103,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75551,243,3191,56037,15,"38.1.03, Foyer",38.1.03@1915,,false
+1915.01.104,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75522,243,3191,56037,136,"38.1.04, Vorbereitungsraum",38.1.04@1915,,false
+1915.01.106,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75564,243,3191,56037,116,"38.1.06, WC-Damen",38.1.06@1915,,false
+1915.01.108,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75525,243,3191,56037,115,"38.1.08, WC-Herren",38.1.08@1915,,false
+1915.01.109,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75523,243,3191,56037,136,"38.1.09, Vorbereitungsraum",38.1.09@1915,,false
+1915.01.111,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75526,243,3191,56037,117,"38.1.11, WC-Barrierefrei",38.1.11@1915,,false
+1915.01.113,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75565,243,3191,56037,186,"38.1.13, Automatenraum",38.1.13@1915,,false
+1915.01.116,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,75983,243,3191,56037,222,"38.1.16, Foyer/Auenthaltsbereich",38.1.16@1915,,false
+1915.01.116A,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78391,243,3191,56037,12,"38.1.16.1, Think Tank 1",38.1.16.1@1915,,false
+1915.01.116B,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78393,243,3191,56037,12,"38.1.16.2, Think Tank 2",38.1.16.2@1915,,false
+1915.01.116C,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78394,243,3191,56037,12,"38.1.16.3, Think Tank 3",38.1.16.3@1915,,false
+1915.01.117,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75980,243,3191,56037,41,"38.1.17, Seminarraum",38.1.17@1915,34192,false
+1915.01.118,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75981,243,3191,56037,41,"38.1.18, Seminarraum",38.1.18@1915,34193,false
+1915.01.119,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75982,243,3191,56037,41,"38.1.19, Seminarraum",38.1.19@1915,34194,false
 2103.01.010,München,Schragenhofstr. 31,80992,,,,PVC,1.OG,43359,20,614,15318,121,"010, Umkleide",010@2103,,false
 2103.01.011,München,Schragenhofstr. 31,80992,,,,Fliesen,1.OG,43365,20,614,15318,210,"011, Waschraum",011@2103,,false
 2103.01.012,München,Schragenhofstr. 31,80992,,,,Estrich (Beton),1.OG,43430,20,614,15318,107,"012, Schreinerei",012@2103,,false
@@ -9123,7 +9089,6 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2334.EG.971,München,Am Olympiacampus 11,80809,,,,Keine Angabe,EG,74536,18,2789,14195,219,"00.2334.971, (35.A.?) Aussenbereich",00.2334.971@2334,,false
 2350.EG.001,München,Coubertinplatz 1,80809,,,,Keine Angabe,EG,61091,18,1015,51899,192,"001, Olympia-Schwimmhalle/ tiefes Becken",001@2350,18334,false
 2350.EG.002,München,Coubertinplatz 1,80809,,,,Keine Angabe,EG,61092,18,1015,51899,192,"002, Olympia-Schwimmhalle/ flaches Becken",002@2350,18335,false
-2351.EG.001,München,Spiridon-Louis-Ring 21,80809,,,,Keine Angabe,EG,62851,18,1016,51899,128,"001, Olympia-Eislaufstadion",001@2351,26811,false
 2352.EG.001,München,Spiridon-Louis-Ring 21,80809,,,,Keine Angabe,EG,59978,18,1017,51899,217,"001, Olympiapark",001@2352,18336,false
 2353.EG.001,München,Staudingerstr. 17,81735,,,,Keine Angabe,EG,62852,18,1060,51899,128,"001, Eislaufstadion Ost",001@2353,,false
 2354.EG.001,Oberschleißheim,Dachauerstr. 35,85764,,,,Keine Angabe,EG,61272,18,1039,51899,217,"001, Regattastrecke/Kanu",001@2354,18693,false
@@ -17906,8 +17871,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4232.EG.003,Freising,Dürnast 8,85354,,,,Fliesen,EG,52324,39,905,19691,223,"003, Treppe (Betriebsgebäude)",003@4232,,false
 4232.EG.004,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52464,39,905,15646,100,"004, Garage (Betriebsgebäude)",004@4232,,false
 4232.EG.005,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52475,39,905,50898,159,"005, Garage (Betriebsgebäude)",005@4232,,false
-4232.EG.006,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52486,39,905,49777,100,"006, Werkstatt (Betriebsgebäude)",006@4232,,false
-4232.EG.007,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52500,39,905,51258,100,"007, Werkstatt (gem. Nutzung) (Betriebsgebäude)",007@4232,,false
+4232.EG.006,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52486,39,905,49777,51,"006, Werkstatt",006@4232,,false
+4232.EG.007,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,52500,39,905,51258,51,"007, Werkstatt (gem. Nutzung 1110065100) (Betriebs",007@4232,,false
 4232.EG.008,Freising,Dürnast 8,85354,,,,PVC,EG,52639,39,905,19691,222,"008, Gang",008@4232,,false
 4232.EG.009,Freising,Dürnast 8,85354,1,,,PVC,EG,52649,39,905,26685,12,"009, Büro",009@4232,,false
 4232.EG.010,Freising,Dürnast 8,85354,1,,,PVC,EG,52658,39,905,26685,12,"010, Büro",010@4232,,false
@@ -17921,14 +17886,14 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4232.EG.018,Freising,Dürnast 8,85354,,,,PVC,EG,53027,39,905,19691,121,"018, Garderobe-Damen",018@4232,,false
 4232.EG.019,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,53172,39,905,19691,116,"019, WC-Damen",019@4232,,false
 4232.EG.020,Freising,Dürnast 8,85354,,,,PVC,EG,53193,39,905,19691,222,"020, Gang",020@4232,,false
-4232.EG.021,Freising,Dürnast 8,85354,,,,Fliesen,EG,53344,39,905,49777,194,"021, Labor",021@4232,,false
+4232.EG.021,Freising,Dürnast 8,85354,,,,Fliesen,EG,53344,39,905,49777,207,"021, Server Raum",021@4232,,false
 4232.EG.021A,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,53357,39,905,55300,30,"021A, Lager/Elektroverteiler UV3",021A@4232,,false
-4232.EG.022,Freising,Dürnast 8,85354,,,,Fliesen,EG,53371,39,905,49777,30,"022, Proben/Lager",022@4232,,false
+4232.EG.022,Freising,Dürnast 8,85354,,,,Fliesen,EG,53371,39,905,49777,110,"022, 3D Druckerraum",022@4232,,false
 4232.EG.023,Freising,Dürnast 8,85354,,,,PVC,EG,53518,39,905,55300,160,"023, Elekrtoverteilung/UV1/Hauptverteiler",023@4232,,false
 4232.EG.024,Freising,Dürnast 8,85354,,,,PVC,EG,53531,39,905,19691,223,"024, Treppe",024@4232,,false
 4232.EG.025,Freising,Dürnast 8,85354,,,,Fliesen,EG,53540,39,905,49777,30,"025, Lager",025@4232,,false
 4232.EG.025A,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,53553,39,905,55300,2,"025A, Archiv/ElektroverteilungUV4",025A@4232,,false
-4232.EG.026,Freising,Dürnast 8,85354,,,,Fliesen,EG,53695,39,905,49777,30,"026, Lager",026@4232,,false
+4232.EG.026,Freising,Dürnast 8,85354,,,,Fliesen,EG,53695,39,905,49777,110,"026, Drucker/Kopierer",026@4232,,false
 4232.EG.027,Freising,Dürnast 8,85354,,,,Fliesen,EG,53708,39,905,51258,44,"027, Küche/Getränkelager (gem. Nutzung 1110065100)",027@4232,,false
 4232.EG.028,Freising,Dürnast 8,85354,,,,Fliesen,EG,53722,39,905,51258,28,"028, Küche (gem. Nutzung 1110065100)",028@4232,,false
 4232.EG.029,Freising,Dürnast 8,85354,,,,Fliesen,EG,53864,39,905,19691,118,"029, WC-Herren Vorraum",029@4232,,false
@@ -17954,22 +17919,22 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4232.EG.049,Freising,Dürnast 8,85354,1,,,PVC,EG,52353,39,905,49777,40,"049, Büro/Sekretariat",049@4232,,false
 4232.EG.050,Freising,Dürnast 8,85354,1,,,PVC,EG,52366,39,905,49777,12,"050, Büro",050@4232,,false
 4232.EG.051,Freising,Dürnast 8,85354,1,,,PVC,EG,52374,39,905,49777,102,"051, Labor",051@4232,,false
-4232.EG.052,Freising,Dürnast 8,85354,,,,Fliesen,EG,52515,39,905,51258,28,"052, Spülküche/Rotationsverdampfer",052@4232,,false
+4232.EG.052,Freising,Dürnast 8,85354,,,,Fliesen,EG,52515,39,905,51258,28,"052, Reinigung und Verwiegen",052@4232,,false
 4232.EG.053,Freising,Dürnast 8,85354,,,,Fliesen,EG,52532,39,905,51258,132,"053, Chemikalienraum",053@4232,,false
 4232.EG.054,Freising,Dürnast 8,85354,2,,,PVC,EG,52539,39,905,26685,102,"054, Feldlabor 1",054@4232,,false
 4232.EG.055,Freising,Dürnast 8,85354,2,,,PVC,EG,52548,39,905,26685,102,"055, Feldlabor 2",055@4232,,false
 4232.EG.056,Freising,Dürnast 8,85354,2,,,PVC,EG,52685,39,905,26685,12,"056, Büro",056@4232,,false
 4232.EG.057,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,52696,39,905,26685,16,"057, Verbinder Gewächshäuser",057@4232,,false
 4232.EG.057A,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,52713,39,905,26685,30,"057A, Lagerabstellfläche (12 Abteile a´ 3m²)",057A@4232,,false
-4232.EG.074,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,53571,39,905,26685,166,"074, Abteil 1 (Gewächshaus 2)",074@4232,,false
-4232.EG.075,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,53585,39,905,26685,166,"075, Abteil 2 (Gewächshaus 2)",075@4232,,false
+4232.EG.074,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,53571,39,905,26685,166,"074, Abteil 1 (Gewächshaus 2) (S1, Bio1)",074@4232,,false
+4232.EG.075,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,53585,39,905,26685,166,"075, Abteil 2 (Gewächshaus 2)(S1, Bio1)",075@4232,,false
 4232.EG.078,Freising,Dürnast 8,85354,,,,PVC,EG,67291,39,905,26685,215,"078, Container",078@4232,,false
 4232.EG.079,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72204,39,905,26685,105,"1A, Schleuse (Gewächshaus 2)",1A@4232,,false
 4232.EG.080,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72205,39,905,26685,105,"4, Schleuse (Gewächshaus 1)",4@4232,,false
 4232.EG.080A,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72159,39,905,26685,222,"5, Flur (Gewächshaus 1)",5@4232,,false
-4232.EG.081,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72206,39,905,26685,166,"6, Koje 1 (Gewächshaus 1)",6@4232,,false
-4232.EG.082,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72160,39,905,26685,166,"7, Koje 2 (Gewächshaus 1)",7@4232,,false
-4232.EG.083,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72161,39,905,26685,166,"8, Koje 3 (Gewächshaus 1)",8@4232,,false
+4232.EG.081,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72206,39,905,26685,166,"6, Koje 1 (Gewächshaus 1)(S1, Bio1)",6@4232,,false
+4232.EG.082,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72160,39,905,26685,166,"7, Koje 2 (Gewächshaus 1)(S1, Bio1)",7@4232,,false
+4232.EG.083,Freising,Dürnast 8,85354,,,,Estrich (Beton),EG,72161,39,905,26685,166,"8, Koje 3 (Gewächshaus 1)(S1, Bio1)",8@4232,,false
 4232.EG.100,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,53755,39,905,52257,157,"100, Versuchsfeld",100@4232,,false
 4232.EG.110,Freising,Dürnast 8,85354,,,,Keine Angabe,EG,53900,39,905,51258,157,Versuchsfeld,@4232,,false
 4232.U1.001,Freising,Dürnast 8,85354,,,,Estrich (Beton),1.UG,52147,39,905,55300,182,"K01, Neutraanlage",K01@4232,,false
@@ -18083,11 +18048,11 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4235.EG.610,Freising,Dürnast 10,85354,,,,Fliesen,EG,65787,39,908,19691,113,"1.10, Dusche-Herren",1.10@4235,,false
 4235.EG.611,Freising,Dürnast 10,85354,,,,Fliesen,EG,65788,39,908,19691,121,"1.11, Garderobe Herren",1.11@4235,,false
 4235.EG.614,Freising,Dürnast 10,85354,1,,,Fliesen,EG,65791,39,908,26685,44,"1.14, Sozialraum / Seminar- und Besprechungsraum",1.14@4235,,false
-4235.EG.615,Freising,Dürnast 10,85354,,,,Fliesen,EG,65792,39,908,26685,30,"1.15, Samenlager",1.15@4235,,false
-4235.EG.616,Freising,Dürnast 10,85354,,,,Fliesen,EG,67239,39,908,26685,30,"1.16, Werkstatt",1.16@4235,,false
+4235.EG.615,Freising,Dürnast 10,85354,,,,Fliesen,EG,65792,39,908,26685,30,"1.15, Lager",1.15@4235,,false
+4235.EG.616,Freising,Dürnast 10,85354,,,,Fliesen,EG,67239,39,908,26685,30,"1.16, Werkstatt/Lager",1.16@4235,,false
 4235.EG.617,Freising,Dürnast 10,85354,,,,Fliesen,EG,65793,39,908,26685,30,"1.17, Lager",1.17@4235,,false
-4235.EG.618,Freising,Dürnast 10,85354,2,,,Fliesen,EG,65794,39,908,26685,103,"1.18, Labor S1",1.18@4235,27972,false
-4235.EG.619,Freising,Dürnast 10,85354,,,,Fliesen,EG,65795,39,908,26685,166,"1.19, Labor S1",1.19@4235,,false
+4235.EG.618,Freising,Dürnast 10,85354,2,,,Fliesen,EG,65794,39,908,26685,12,"1.18, Büro",1.18@4235,27972,false
+4235.EG.619,Freising,Dürnast 10,85354,,,,Fliesen,EG,65795,39,908,26685,166,"1.19, Trockenschrankraum (S1, Bio1)",1.19@4235,,false
 4235.EG.620,Freising,Dürnast 10,85354,,,,Fliesen,EG,65796,39,908,55300,120,"1.20, E-Verteilung",1.20@4235,,false
 4235.EG.620A,Freising,Dürnast 10,85354,,,,Estrich (Beton),EG,72460,39,908,55300,120,"1.20a, Technik",1.20a@4235,,false
 4235.EG.621,Freising,Dürnast 10,85354,,,,Keine Angabe,EG,65797,39,908,19691,4,"1.21, Aufzug",1.21@4235,,false
@@ -18137,15 +18102,15 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4235.U1.618,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65762,39,908,26685,166,"0.18, Pflanzenzuchtraum 3",0.18@4235,,false
 4235.U1.619,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65763,39,908,26685,166,"0.19, Pflanzenanzuchtraum 4",0.19@4235,,false
 4235.U1.620,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65764,39,908,55300,32,"0.20, Maschinenraum",0.20@4235,,false
-4235.U1.621,Freising,Dürnast 10,85354,,,,Fliesen,1.UG,65765,39,908,26685,194,"0.21, S1- Autoklavenraum",0.21@4235,,false
-4235.U1.622,Freising,Dürnast 10,85354,2,,,PVC,1.UG,65766,39,908,26685,194,"0.22, S1- Gewebelabor",0.22@4235,,false
+4235.U1.621,Freising,Dürnast 10,85354,,,,Fliesen,1.UG,65765,39,908,26685,194,"0.21, Autoklavenraum - Spülmaschine",0.21@4235,,false
+4235.U1.622,Freising,Dürnast 10,85354,2,,,PVC,1.UG,65766,39,908,26685,194,"0.22, Analyselabor (Boden/Substrat)",0.22@4235,,false
 4235.U1.623,Freising,Dürnast 10,85354,,,,Fliesen,1.UG,65767,39,908,19691,222,"0.22a, Verbindungsgang",0.22a@4235,,false
 4235.U1.624,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65768,39,908,55300,160,"0.23, Trafostation XXI",0.23@4235,,false
 4235.U1.625,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65769,39,908,55300,160,"0.24, Trafostation XXI",0.24@4235,,false
 4235.U1.626,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65770,39,908,55300,160,"0.25a, Trafostation XXI",0.25a@4235,,false
 4235.U1.627,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65771,39,908,55300,160,"0.25b, Trafostation XXI",0.25b@4235,,false
-4235.U1.628,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65772,39,908,26685,214,"0.26, Wertstoffe/Müll",0.26@4235,,false
-4235.U1.629,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65773,39,908,26685,30,"0.27, Treibstofflager",0.27@4235,,false
+4235.U1.628,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65772,39,908,26685,30,"0.26, Lager",0.26@4235,,false
+4235.U1.629,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65773,39,908,26685,30,"0.27, Lager",0.27@4235,,false
 4235.U1.630,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65774,39,908,26685,100,"0.28, Garage",0.28@4235,,false
 4235.U1.631,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65775,39,908,26685,100,"0.29, Garage",0.29@4235,,false
 4235.U1.632,Freising,Dürnast 10,85354,,,,Estrich (Beton),1.UG,65776,39,908,26685,30,"0.30, Torf- und Topflager",0.30@4235,,false
@@ -22862,37 +22827,37 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.01.038,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76753,35,3369,19691,222,"3.038, Flur S-O",3.038@5117,,false
 5117.01.041,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76781,35,3369,19691,222,"3.041, Flur Süd",3.041@5117,,false
 5117.01.101,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76750,35,3369,54065,44,"3.101, Sozialraum S-W",3.101@5117,,false
-5117.01.102,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76829,35,3369,39688,12,"3.102, Büro",3.102@5117,,false
-5117.01.103,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76827,35,3369,39688,103,"3.103, Standardlabor I",3.103@5117,,false
-5117.01.104,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76828,35,3369,39688,12,"3.104, Büro",3.104@5117,,false
-5117.01.105,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76826,35,3369,39688,103,"3.105, Standardlabor I",3.105@5117,,false
-5117.01.106,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76825,35,3369,39688,12,"3.106, Büro",3.106@5117,,false
-5117.01.107,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76823,35,3369,39688,103,"3.107, Standardlabor I",3.107@5117,,false
-5117.01.108,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76824,35,3369,39688,12,"3.108, Büro",3.108@5117,,false
-5117.01.109,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76843,35,3369,39688,103,"3.109, Standardlabor I",3.109@5117,,false
-5117.01.110,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76819,35,3369,39688,196,"3.110, Besprechung",3.110@5117,,false
-5117.01.111,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76820,35,3369,39688,196,"3.111, Besprechung",3.111@5117,,false
-5117.01.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76845,35,3369,39688,12,"3.201, Büro",3.201@5117,,false
-5117.01.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76822,35,3369,39688,12,"3.202, Büro",3.202@5117,,false
-5117.01.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76848,35,3369,39688,12,"3.203, Prof.-Büro",3.203@5117,,false
-5117.01.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76836,35,3369,39688,103,"3.204, Standardlabor I",3.204@5117,,false
-5117.01.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76849,35,3369,39688,40,"3.205, Sektretariat",3.205@5117,,false
-5117.01.206,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76837,35,3369,39688,103,"3.206, Standardlabor I",3.206@5117,,false
-5117.01.207,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76850,35,3369,39688,12,"3.207, Prof.-Büro",3.207@5117,,false
-5117.01.208,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76818,35,3369,39688,103,"3.208, Standardlabor I",3.208@5117,,false
-5117.01.209,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76851,35,3369,39688,12,"3.209, Büro",3.209@5117,,false
-5117.01.210,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76852,35,3369,39688,12,"3.210, Büro",3.210@5117,,false
-5117.01.211,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76853,35,3369,39688,12,"3.211, Büro",3.211@5117,,false
-5117.01.212,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76835,35,3369,39688,103,"3.212, Standardlabor I",3.212@5117,,false
-5117.01.213,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76854,35,3369,39688,12,"3.213, Büro",3.213@5117,,false
-5117.01.214,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76769,35,3369,39688,12,"3.214, Büro",3.214@5117,,false
+5117.01.102,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76829,35,3369,40940,12,"3.102, Büro",3.102@5117,,false
+5117.01.103,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76827,35,3369,40940,103,"3.103, Standardlabor I",3.103@5117,,false
+5117.01.104,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76828,35,3369,40940,12,"3.104, Büro",3.104@5117,,false
+5117.01.105,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76826,35,3369,40940,103,"3.105, Standardlabor I",3.105@5117,,false
+5117.01.106,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76825,35,3369,40940,12,"3.106, Büro",3.106@5117,,false
+5117.01.107,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76823,35,3369,40940,103,"3.107, Standardlabor I",3.107@5117,,false
+5117.01.108,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76824,35,3369,40940,12,"3.108, Büro",3.108@5117,,false
+5117.01.109,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76843,35,3369,40940,103,"3.109, Standardlabor I",3.109@5117,,false
+5117.01.110,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76819,35,3369,46617,196,"3.110, Besprechung",3.110@5117,,false
+5117.01.111,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76820,35,3369,46617,196,"3.111, Besprechung",3.111@5117,,false
+5117.01.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76845,35,3369,46617,12,"3.201, Büro",3.201@5117,,false
+5117.01.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76822,35,3369,46617,12,"3.202, Büro",3.202@5117,,false
+5117.01.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76848,35,3369,46617,12,"3.203, Prof.-Büro",3.203@5117,,false
+5117.01.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76836,35,3369,16202,103,"3.204, Standardlabor I",3.204@5117,,false
+5117.01.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76849,35,3369,46617,40,"3.205, Sektretariat",3.205@5117,,false
+5117.01.206,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76837,35,3369,16202,103,"3.206, Standardlabor I",3.206@5117,,false
+5117.01.207,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76850,35,3369,16202,12,"3.207, Prof.-Büro",3.207@5117,,false
+5117.01.208,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76818,35,3369,16202,103,"3.208, Standardlabor I",3.208@5117,,false
+5117.01.209,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76851,35,3369,16202,12,"3.209, Büro",3.209@5117,,false
+5117.01.210,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76852,35,3369,16202,12,"3.210, Büro",3.210@5117,,false
+5117.01.211,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76853,35,3369,16202,12,"3.211, Büro",3.211@5117,,false
+5117.01.212,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76835,35,3369,16202,103,"3.212, Standardlabor I",3.212@5117,,false
+5117.01.213,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76854,35,3369,16202,12,"3.213, Büro",3.213@5117,,false
+5117.01.214,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76769,35,3369,16202,12,"3.214, Büro",3.214@5117,,false
 5117.01.301,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76816,35,3369,54065,44,"3.301, Sozialraum N-O",3.301@5117,,false
-5117.01.302,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76766,35,3369,39688,12,"3.302, Büro",3.302@5117,,false
-5117.01.303,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76768,35,3369,39688,103,"3.303, Standardlabor I",3.303@5117,,false
-5117.01.304,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76767,35,3369,39688,12,"3.304, Büro",3.304@5117,,false
-5117.01.305,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76765,35,3369,39688,103,"3.305, Standardlabor I",3.305@5117,,false
-5117.01.306,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76763,35,3369,39688,12,"3.306, Büro",3.306@5117,,false
-5117.01.307,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76762,35,3369,39688,103,"3.307, Standardlabor I",3.307@5117,,false
+5117.01.302,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76766,35,3369,16202,12,"3.302, Büro",3.302@5117,,false
+5117.01.303,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76768,35,3369,16202,103,"3.303, Standardlabor I",3.303@5117,,false
+5117.01.304,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76767,35,3369,16202,12,"3.304, Büro",3.304@5117,,false
+5117.01.305,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76765,35,3369,16202,103,"3.305, Standardlabor I",3.305@5117,,false
+5117.01.306,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76763,35,3369,16202,12,"3.306, Büro",3.306@5117,,false
+5117.01.307,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76762,35,3369,16202,103,"3.307, Standardlabor I",3.307@5117,,false
 5117.01.308,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76764,35,3369,48097,12,"3.308, Büro",3.308@5117,,false
 5117.01.309,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76755,35,3369,48097,103,"3.309, Standardlabor I",3.309@5117,,false
 5117.01.310,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76787,35,3369,54071,196,"3.310, Besprechung",3.310@5117,35276,false
@@ -22900,16 +22865,16 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.01.402,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76808,35,3369,48097,12,"3.402, Büro",3.402@5117,,false
 5117.01.403,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76807,35,3369,48097,12,"3.403, Büro",3.403@5117,,false
 5117.01.404,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76783,35,3369,48097,103,"3.404, Standardlabor I",3.404@5117,,false
-5117.01.405,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76806,35,3369,39688,12,"3.405, Büro",3.405@5117,,false
+5117.01.405,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76806,35,3369,50301,12,"3.405, Büro",3.405@5117,,false
 5117.01.406,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76782,35,3369,48097,103,"3.406, Standardlabor I",3.406@5117,,false
-5117.01.407,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76805,35,3369,39688,12,"3.407, Büro",3.407@5117,,false
-5117.01.408,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76752,35,3369,39688,103,"3.408, Standardlabor I",3.408@5117,,false
-5117.01.409,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76804,35,3369,39688,12,"3.409, Prof.-Büro",3.409@5117,,false
-5117.01.410,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76834,35,3369,39688,40,"3.410, Sektretariat",3.410@5117,,false
-5117.01.411,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76833,35,3369,39688,12,"3.411, Prof.-Büro",3.411@5117,,false
-5117.01.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76751,35,3369,39688,103,"3.412, Standardlabor I",3.412@5117,,false
-5117.01.413,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76832,35,3369,39688,12,"3.413, Büro",3.413@5117,,false
-5117.01.414,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76831,35,3369,39688,12,"3.414, Büro",3.414@5117,,false
+5117.01.407,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76805,35,3369,50301,12,"3.407, Büro",3.407@5117,,false
+5117.01.408,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76752,35,3369,50301,103,"3.408, Standardlabor I",3.408@5117,,false
+5117.01.409,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76804,35,3369,50301,12,"3.409, Prof.-Büro",3.409@5117,,false
+5117.01.410,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76834,35,3369,50301,40,"3.410, Sektretariat",3.410@5117,,false
+5117.01.411,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76833,35,3369,40940,12,"3.411, Prof.-Büro",3.411@5117,,false
+5117.01.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.OG,76751,35,3369,40940,103,"3.412, Standardlabor I",3.412@5117,,false
+5117.01.413,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76832,35,3369,40940,12,"3.413, Büro",3.413@5117,,false
+5117.01.414,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),1.OG,76831,35,3369,40940,12,"3.414, Büro",3.414@5117,,false
 5117.02.002,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76991,35,3369,19691,223,"4.002, Treppe S-W",4.002@5117,,false
 5117.02.003,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76953,35,3369,50301,194,"4.003, Pumpenraum",4.003@5117,,false
 5117.02.004,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Keine Angabe,2.OG,76990,35,3369,19691,4,"4.004, Personenaufzug",4.004@5117,,false
@@ -22952,30 +22917,30 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.02.038,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76958,35,3369,19691,222,"4.038, Flur S-O",4.038@5117,,false
 5117.02.040,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76952,35,3369,19691,222,"4.040, Flur Süd",4.040@5117,,false
 5117.02.101,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76906,35,3369,54065,44,"4.101, Sozialraum S-W",4.101@5117,,false
-5117.02.102,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76975,35,3369,39688,12,"4.102, Büro",4.102@5117,,false
+5117.02.102,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76975,35,3369,50301,12,"4.102, Büro",4.102@5117,,false
 5117.02.103,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76912,35,3369,48838,103,"4.103, Standardlabor I",4.103@5117,,false
-5117.02.104,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76976,35,3369,39688,12,"4.104, Büro",4.104@5117,,false
+5117.02.104,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76976,35,3369,55081,12,"4.104, Büro",4.104@5117,,false
 5117.02.105,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76913,35,3369,48838,103,"4.105, Standardlabor I",4.105@5117,,false
 5117.02.106,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76977,35,3369,48838,12,"4.106, Büro",4.106@5117,,false
-5117.02.107,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76914,35,3369,39688,103,"4.107, Standardlabor I",4.107@5117,,false
-5117.02.108,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76978,35,3369,39688,12,"4.108, Büro",4.108@5117,,false
-5117.02.109,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76915,35,3369,39688,103,"4.109, Standardlabor I",4.109@5117,,false
-5117.02.110,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76918,35,3369,39688,196,"4.110, Besprechung",4.110@5117,,false
-5117.02.111,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76919,35,3369,39688,196,"4.111, Besprechung",4.111@5117,,false
-5117.02.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76974,35,3369,39688,12,"4.201, Büro",4.201@5117,,false
-5117.02.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76973,35,3369,39688,12,"4.202, Büro",4.202@5117,,false
-5117.02.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76971,35,3369,39688,12,"4.203, Prof.-Büro",4.203@5117,,false
-5117.02.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76925,35,3369,39688,103,"4.204, Standardlabor I",4.204@5117,,false
-5117.02.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76972,35,3369,39688,40,"4.205, Sekretariat",4.205@5117,,false
-5117.02.206,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76926,35,3369,39688,103,"4.206, Standardlabor I",4.206@5117,,false
-5117.02.207,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76970,35,3369,39688,12,"4.207, Prof.-Büro",4.207@5117,,false
-5117.02.208,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76927,35,3369,39688,103,"4.208, Standardlabor I",4.208@5117,,false
-5117.02.209,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76969,35,3369,39688,12,"4.209, Büro",4.209@5117,,false
-5117.02.210,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76995,35,3369,39688,12,"4.210, Büro",4.210@5117,,false
-5117.02.211,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76968,35,3369,39688,12,"4.211, Büro",4.211@5117,,false
-5117.02.212,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76928,35,3369,39688,103,"4.212, Standardlabor I",4.212@5117,,false
-5117.02.213,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76967,35,3369,39688,12,"4.213, Büro",4.213@5117,,false
-5117.02.214,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76994,35,3369,39688,12,"4.214, Büro",4.214@5117,,false
+5117.02.107,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76914,35,3369,55081,103,"4.107, Standardlabor I",4.107@5117,,false
+5117.02.108,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76978,35,3369,16201,12,"4.108, Büro",4.108@5117,,false
+5117.02.109,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76915,35,3369,16201,103,"4.109, Standardlabor I",4.109@5117,,false
+5117.02.110,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76918,35,3369,16201,196,"4.110, Besprechung",4.110@5117,,false
+5117.02.111,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76919,35,3369,16201,196,"4.111, Besprechung",4.111@5117,,false
+5117.02.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76974,35,3369,16201,12,"4.201, Büro",4.201@5117,,false
+5117.02.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76973,35,3369,16201,12,"4.202, Büro",4.202@5117,,false
+5117.02.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76971,35,3369,16201,12,"4.203, Prof.-Büro",4.203@5117,,false
+5117.02.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76925,35,3369,16201,103,"4.204, Standardlabor I",4.204@5117,,false
+5117.02.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76972,35,3369,16201,40,"4.205, Sekretariat",4.205@5117,,false
+5117.02.206,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76926,35,3369,16201,103,"4.206, Standardlabor I",4.206@5117,,false
+5117.02.207,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76970,35,3369,16201,12,"4.207, Prof.-Büro",4.207@5117,,false
+5117.02.208,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76927,35,3369,16201,103,"4.208, Standardlabor I",4.208@5117,,false
+5117.02.209,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76969,35,3369,16201,12,"4.209, Büro",4.209@5117,,false
+5117.02.210,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76995,35,3369,16201,12,"4.210, Büro",4.210@5117,,false
+5117.02.211,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76968,35,3369,16201,12,"4.211, Büro",4.211@5117,,false
+5117.02.212,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76928,35,3369,16201,103,"4.212, Standardlabor I",4.212@5117,,false
+5117.02.213,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76967,35,3369,16201,12,"4.213, Büro",4.213@5117,,false
+5117.02.214,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76994,35,3369,16201,12,"4.214, Büro",4.214@5117,,false
 5117.02.301,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76932,35,3369,54065,44,"4.301, Sozialraum N-O",4.301@5117,,false
 5117.02.302,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76966,35,3369,21548,12,"4.302, Büro",4.302@5117,,false
 5117.02.303,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76938,35,3369,21548,103,"4.303, Standardlabor I",4.303@5117,,false
@@ -22989,22 +22954,22 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.02.401,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76943,35,3369,21548,12,"4.401, Büro",4.401@5117,,false
 5117.02.402,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76944,35,3369,21548,12,"4.402, Büro",4.402@5117,,false
 5117.02.403,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76945,35,3369,21548,12,"4.403, Büro",4.403@5117,,false
-5117.02.404,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76957,35,3369,39688,103,"4.404, Standardlabor I",4.404@5117,,false
-5117.02.405,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76946,35,3369,39688,12,"4.405, Büro",4.405@5117,,false
-5117.02.406,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76956,35,3369,39688,103,"4.406, Standardlabor I",4.406@5117,,false
-5117.02.407,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76947,35,3369,39688,12,"4.407, Büro",4.407@5117,,false
+5117.02.404,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76957,35,3369,55081,103,"4.404, Standardlabor I",4.404@5117,,false
+5117.02.405,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76946,35,3369,55081,12,"4.405, Büro",4.405@5117,,false
+5117.02.406,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76956,35,3369,55081,103,"4.406, Standardlabor I",4.406@5117,,false
+5117.02.407,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76947,35,3369,55081,12,"4.407, Büro",4.407@5117,,false
 5117.02.408,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76955,35,3369,48838,103,"4.408, Standardlabor I",4.408@5117,,false
-5117.02.409,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76948,35,3369,39688,12,"4.409, Prof.-Büro",4.409@5117,,false
+5117.02.409,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76948,35,3369,55081,12,"4.409, Prof.-Büro",4.409@5117,,false
 5117.02.410,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76949,35,3369,48838,40,"4.410, Sekretariat",4.410@5117,,false
 5117.02.411,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76950,35,3369,48838,12,"4.411, Prof.-Büro",4.411@5117,,false
-5117.02.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76954,35,3369,39688,103,"4.412, Standardlabor I",4.412@5117,,false
+5117.02.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,2.OG,76954,35,3369,50301,103,"4.412, Standardlabor I",4.412@5117,,false
 5117.02.413,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76951,35,3369,48838,12,"4.413, Büro",4.413@5117,,false
-5117.02.414,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76986,35,3369,39688,12,"4.414, Büro",4.414@5117,,false
+5117.02.414,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),2.OG,76986,35,3369,50301,12,"4.414, Büro",4.414@5117,,false
 5117.DG.101,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Keine Angabe,DG,77804,35,3369,55299,217,"6.101, Dach West",6.101@5117,,false
 5117.DG.301,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Keine Angabe,DG,77803,35,3369,55299,217,"6.301, Dach Ost",6.301@5117,,false
 5117.EG.001,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76697,35,3369,19691,222,"2.001, Foyer",2.001@5117,,false
 5117.EG.002,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76701,35,3369,19691,223,"2.002, Treppe S-W",2.002@5117,,false
-5117.EG.003,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76699,35,3369,39688,194,"2.003, Pumpenraum",2.003@5117,,false
+5117.EG.003,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76699,35,3369,48097,194,"2.003, Pumpenraum",2.003@5117,,false
 5117.EG.004,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Keine Angabe,EG,76703,35,3369,19691,4,"2.004, Personenaufzug",2.004@5117,,false
 5117.EG.005,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76702,35,3369,19691,222,"2.005, Flur S-W",2.005@5117,,false
 5117.EG.006,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Gitterrost,EG,76716,35,3369,55299,120,"2.006, Steigzone S-W",2.006@5117,,false
@@ -23044,11 +23009,11 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.EG.102,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76694,35,3369,54071,196,"2.102, Besprechung",2.102@5117,35273,false
 5117.EG.103,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76693,35,3369,54071,196,"2.103, Besprechung",2.103@5117,35274,false
 5117.EG.104,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76681,35,3369,54071,196,"2.104, Besprechung",2.104@5117,35275,false
-5117.EG.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76732,35,3369,39688,12,"2.201, Büro",2.201@5117,,false
-5117.EG.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76733,35,3369,39688,12,"2.202, Büro",2.202@5117,,false
-5117.EG.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76734,35,3369,39688,12,"2.203, Prof.-Büro",2.203@5117,,false
-5117.EG.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76802,35,3369,39688,103,"2.204, Standardlabor I",2.204@5117,,false
-5117.EG.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76735,35,3369,39688,12,"2.205, Sekretariat",2.205@5117,,false
+5117.EG.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76732,35,3369,56458,12,"2.201, Büro",2.201@5117,,false
+5117.EG.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76733,35,3369,56458,12,"2.202, Büro",2.202@5117,,false
+5117.EG.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76734,35,3369,56458,12,"2.203, Prof.-Büro",2.203@5117,,false
+5117.EG.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76802,35,3369,56458,103,"2.204, Standardlabor I",2.204@5117,,false
+5117.EG.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76735,35,3369,56458,12,"2.205, Sekretariat",2.205@5117,,false
 5117.EG.206,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76801,35,3369,14228,103,"2.206, Standardlabor I",2.206@5117,,false
 5117.EG.207,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76736,35,3369,16205,12,"2.207, Prof.-Büro",2.207@5117,,false
 5117.EG.208,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76800,35,3369,16208,103,"2.208, Standardlabor I",2.208@5117,,false
@@ -23078,7 +23043,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.EG.409,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76721,35,3369,14228,12,"2.409, Prof.-Büro",2.409@5117,,false
 5117.EG.410,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76720,35,3369,14228,40,"2.410, Büro",2.410@5117,,false
 5117.EG.411,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76719,35,3369,14228,12,"2.411, Prof.-Büro",2.411@5117,,false
-5117.EG.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76700,35,3369,39688,103,"2.412, Standardlabor I",2.412@5117,,false
+5117.EG.412,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,EG,76700,35,3369,48097,103,"2.412, Standardlabor I",2.412@5117,,false
 5117.EG.413,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76718,35,3369,14228,12,"2.413, Büro",2.413@5117,,false
 5117.EG.414,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Estrich (Beton),EG,76717,35,3369,14228,12,"2.414, Büro",2.414@5117,,false
 5117.EG.501,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Stein,EG,76758,35,3369,19691,218,"2.501, Hof",2.501@5117,,false
@@ -23122,8 +23087,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.U1.042,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76661,35,3369,19691,222,"1.042, Flur",1.042@5117,,false
 5117.U1.043,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Gitterrost,1.UG,76642,35,3369,55299,182,"1.043, Pumpensumpf",1.043@5117,,false
 5117.U1.101,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76680,35,3369,55299,32,"1.101, Technik RLT",1.101@5117,,false
-5117.U1.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76606,35,3369,39688,194,"1.201, Pumpenraum",1.201@5117,,false
-5117.U1.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76607,35,3369,39688,103,"1.202, Messraum N-W",1.202@5117,,false
+5117.U1.201,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76606,35,3369,56458,194,"1.201, Pumpenraum",1.201@5117,,false
+5117.U1.202,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76607,35,3369,56458,103,"1.202, Messraum N-W",1.202@5117,,false
 5117.U1.203,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76608,35,3369,21548,103,"1.203, Messraum",1.203@5117,,false
 5117.U1.204,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76599,35,3369,55299,32,"1.204, Technik RLT / KLT",1.204@5117,,false
 5117.U1.205,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76614,35,3369,21548,103,"1.205, Messraum",1.205@5117,,false
@@ -23166,8 +23131,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5117.U1.417,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76671,35,3369,14228,103,"1.417, Messraum Optik",1.417@5117,,false
 5117.U1.418,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76665,35,3369,14228,194,"1.418, Pumpenraum",1.418@5117,,false
 5117.U1.419,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76672,35,3369,14228,103,"1.419, Messraum Optik",1.419@5117,,false
-5117.U1.420,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76658,35,3369,39688,103,"1.420, Messraum S-W",1.420@5117,,false
-5117.U1.421,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76657,35,3369,39688,194,"1.421, Pumpenraum",1.421@5117,,false
+5117.U1.420,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Linoleum,1.UG,76658,35,3369,40940,103,"1.420, Messraum S-W",1.420@5117,,false
+5117.U1.421,Garching b. München,Paula-Hahn-Weinheimerstr. 1,85748,,,,Industrieanstrich,1.UG,76657,35,3369,40940,194,"1.421, Pumpenraum",1.421@5117,,false
 5120.01.101,Garching b. München,Am Coulombwall 6,85748,,,,Spannteppich,1.OG,62130,35,873,39536,41,"101, Seminar",101@5120,,false
 5120.01.101A,Garching b. München,Am Coulombwall 6,85748,,,,Keine Angabe,1.OG,62131,35,873,39536,105,"101A, Schleuse",101A@5120,,false
 5120.01.102,Garching b. München,Am Coulombwall 6,85748,,,,Gießharz,1.OG,62838,35,873,39536,172,"102, Labor",102@5120,,false
@@ -33618,7 +33583,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5610.02.035,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,11589,33,799,14577,12,"02.10.035, Büro",02.10.035@5610,,false
 5610.02.036,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13382,33,799,14577,12,"02.10.036, Büro",02.10.036@5610,,false
 5610.02.037,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13387,33,799,14577,12,"02.10.037, Büro",02.10.037@5610,,false
-5610.02.038,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13389,33,799,46318,12,"02.10.038, Büro",02.10.038@5610,,false
+5610.02.038,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13389,33,799,51897,12,"02.10.038, Büro",02.10.038@5610,,false
 5610.02.039,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13392,33,799,14577,12,"02.10.039, Büro",02.10.039@5610,,false
 5610.02.040,Garching b. München,Boltzmannstr. 3,85748,,,,Spannteppich,2.OG,13393,33,799,14577,12,"02.10.040, Prof.-Büro",02.10.040@5610,,false
 5610.02.050,Garching b. München,Boltzmannstr. 3,85748,,,,Linoleum,2.OG,54022,33,799,14577,222,"02.10.050, Flur",02.10.050@5610,,false
@@ -34933,7 +34898,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5932.02.209B,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,1,,,Spannteppich,2.OG,75288,57,3169,53797,12,"D2.209b, Büro",D2.209b@5932,,false
 5932.02.210,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,1,,,Spannteppich,2.OG,75452,57,3169,39688,12,"D2.210, optional Alcove",D2.210@5932,,false
 5932.02.212,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,8,,,Spannteppich,2.OG,75267,57,3169,39688,12,"D2.212, Open Space",D2.212@5932,,false
-5932.02.224,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,8,,,Spannteppich,2.OG,75317,57,3169,39688,12,"D2.224, Open Space",D2.224@5932,,false
+5932.02.224,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,8,,,Spannteppich,2.OG,75317,57,3169,57937,12,"D2.224, Open Space",D2.224@5932,,false
 5932.02.225,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,,,,Spannteppich,2.OG,75318,57,3169,39688,110,"D2.225, Copy & Print",D2.225@5932,,false
 5932.02.227,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,,,,Spannteppich,2.OG,75314,57,3169,39688,12,"D2.227, Innovation Wall",D2.227@5932,,false
 5932.02.238,Garching b. München,Friedrich-Ludwig-Bauer-Str. 3,85748,,,,Stein,2.OG,75333,57,3169,39688,223,"CD2.238, Treppenraum Süd",CD2.238@5932,,false
