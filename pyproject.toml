@@ -9,7 +9,7 @@ dependencies = [
   "brotli>=1.2.0",
   "dataframely==3.0.0",
   "defusedxml==0.7.1",
-  "holidays==0.101",
+  "holidays==0.102",
   "lxml==6.1.1",
   "orjson==3.11.9",
   "Pillow==12.3.0",
