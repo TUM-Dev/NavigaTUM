@@ -7,17 +7,93 @@ concurrency:
 on:
   pull_request:
     branches: [ main ]
-    paths:
-      - 'server/src/**'
-      - '.github/workflows/**'
-      - '.github/actions/**'
   pull_request_target:
     types: [ labeled ]
     branches: [ main ]
 permissions: {}
 
 jobs:
+  # pre-commit has to see every PR, so the expensive jobs are gated per-path instead of per-workflow.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      rust: ${{ steps.filter.outputs.rust }}
+      actions: ${{ steps.filter.outputs.actions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            rust:
+              - 'server/**'
+              - 'motis-openapi-progenitor/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - '.github/workflows/autofix.yml'
+            actions:
+              - '.github/workflows/**'
+              - '.github/actions/**'
+
+  pre-commit:
+    # a pull_request_target checkout is the base branch, so its fixes would not belong to the PR.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - name: Setup | uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      # the webclient-format hook shells out to the workspace's own biome.
+      - name: Setup | pnpm
+        uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
+        with:
+          version: 11.3.0
+          package_json_file: webclient/package.json
+          run_install: |
+            - cwd: webclient
+              args: [--frozen-lockfile]
+      - name: Setup | Cache hook environments
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: pre-commit-${{ runner.os }}-
+      - name: Setup | Install python dependencies
+        run: uv sync --frozen
+
+      - name: Fix | pre-commit
+        id: pre-commit
+        run: uv run pre-commit run --all-files --show-diff-on-failure --color=always
+        continue-on-error: true
+
+      - name: Restore | Discard lockfile side-effects from pnpm
+        id: rewritten
+        run: |
+          git checkout -- webclient/pnpm-lock.yaml
+          echo "count=$(git status --porcelain --untracked-files=no | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
+      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
+        with:
+          commit-message: "chore: apply pre-commit fixes"
+
+      # a hook that fails without rewriting anything is a broken setup or an unfixable violation.
+      # the fixable case needs no failure here - autofix.ci reports and pushes it.
+      - name: Check | pre-commit result
+        if: steps.pre-commit.outcome == 'failure' && steps.rewritten.outputs.count == '0'
+        run: exit 1
   update-server-snapshots:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,6 +113,8 @@ jobs:
         with:
           commit-message: "chore: Update server snapshots"
   sort-cargo-toml:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -132,6 +210,8 @@ jobs:
         with:
           commit-message: "chore: update screenshots"
   update-openapi:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -239,6 +319,8 @@ jobs:
         with:
           commit-message: "chore: Update OpenAPI spec and types"
   pin-actions:
+    needs: changes
+    if: needs.changes.outputs.actions == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -260,7 +342,7 @@ jobs:
   done:
     name: Finished autofix
     runs-on: ubuntu-latest
-    needs: [ update-server-snapshots, sort-cargo-toml, update-openapi, update-screenshots, pin-actions ]
+    needs: [ changes, pre-commit, update-server-snapshots, sort-cargo-toml, update-openapi, update-screenshots, pin-actions ]
     if: always()
     permissions: {}
     steps:

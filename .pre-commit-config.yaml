@@ -1,3 +1,4 @@
+# CI runs these hooks in .github/workflows/autofix.yml, not on pre-commit.ci.
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -38,7 +39,8 @@ repos:
         name: fold unicode dashes to single ASCII hyphen
         # texthooks' fix-unicode-dashes maps em-dash to "--"; we want single "-".
         # exclude self so the bracket pattern below is not eaten by its own hook.
-        exclude: "^\\.pre-commit-config\\.yaml$"
+        # scraped upstream names are data, not prose - folding their dashes rewrites the data.
+        exclude: "(^\\.pre-commit-config\\.yaml$)|(^data/external/results/)"
         entry: sed -i 's/[‐‑‒–—―⁃−﹘﹣－]/-/g'
         language: system
         types: [text]
@@ -56,10 +58,12 @@ repos:
     hooks:
       - id: webclient-format
         name: npm run format
+        # biome resolves from webclient/node_modules, so the toolchain has to be the local one.
+        # pnpm is avoided here because it resyncs webclient/pnpm-lock.yaml while the hook runs.
         entry: npm run --prefix webclient format
-        language: node
+        language: system
         pass_filenames: false
-        files: (.*\\vue|.*\\m?js|.*\\ts|.*\\json)
+        files: "^webclient/.*\\.(vue|m?[jt]s|jsonc?|css)$"
   # only data
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.1
