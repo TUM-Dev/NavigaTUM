@@ -3,7 +3,8 @@
   "extends": [
     "config:recommended",
     "group:recommended",
-    "customManagers:biomeVersions"
+    "customManagers:biomeVersions",
+    ":enablePreCommit"
   ],
   "timezone": "Europe/Berlin",
   "schedule": [
