@@ -72,15 +72,25 @@ jobs:
         run: uv sync --frozen
 
       - name: Fix | pre-commit
-        # exit 1 is a hook rewriting files, which autofix.ci then commits; anything else is a broken hook setup.
-        run: uv run pre-commit run --all-files --show-diff-on-failure --color=always || [ $? -eq 1 ]
+        id: pre-commit
+        run: uv run pre-commit run --all-files --show-diff-on-failure --color=always
+        continue-on-error: true
 
       - name: Restore | Discard lockfile side-effects from pnpm
-        run: git checkout -- webclient/pnpm-lock.yaml
+        id: rewritten
+        run: |
+          git checkout -- webclient/pnpm-lock.yaml
+          echo "count=$(git status --porcelain --untracked-files=no | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
       - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
         with:
           commit-message: "chore: apply pre-commit fixes"
+
+      # a hook that fails without rewriting anything is a broken setup or an unfixable violation.
+      # the fixable case needs no failure here - autofix.ci reports and pushes it.
+      - name: Check | pre-commit result
+        if: steps.pre-commit.outcome == 'failure' && steps.rewritten.outputs.count == '0'
+        run: exit 1
   update-server-snapshots:
     needs: changes
     if: needs.changes.outputs.rust == 'true'
