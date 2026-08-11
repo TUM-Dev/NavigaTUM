@@ -7379,390 +7379,289 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 1740.01.007,München,Neherstraße 1,81675,,,,Laminat,1.OG,72863,29,2909,31981,222,"01.007, Flur",01.007@1740,,false
 1740.01.007A,München,Neherstraße 1,81675,,,,Laminat,1.OG,72871,29,2909,31981,205,"01.003, Putzraum / Lager",01.003@1740,,false
 1740.01.008,München,Neherstraße 1,81675,,,,Laminat,1.OG,72868,29,2909,31981,222,"01.008, Eingangsbereich",01.008@1740,,false
-1901.01.101,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,69828,243,2369,49382,196,"D.1.01, Besprechungsraum",D.1.01@1901,30145,false
-1901.01.102,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,69829,243,2369,49382,194,"D.1.02, Labor",D.1.02@1901,30146,false
-1901.01.103,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,69830,243,2369,49382,194,"D.1.03, Labor",D.1.03@1901,30147,false
-1901.01.104,Heilbronn,Bildungscampus 2,74076,3,,,Keine Angabe,1.OG,78301,243,2369,49382,12,"D.1.04, IT Raum",D.1.04@1901,,false
-1901.01.105,Heilbronn,Bildungscampus 2,74076,2,,,Keine Angabe,1.OG,78302,243,2369,49382,12,"D.1.05, Büro",D.1.05@1901,,false
-1901.01.106,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78277,243,2369,49382,110,"D.1.06, Kopierraum",D.1.06@1901,,false
-1901.01.107,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,69831,243,2369,49382,41,"D.1.07, Seminarraum",D.1.07@1901,30134,false
-1901.01.108,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,69832,243,2369,49382,41,"D.1.08, Seminarraum",D.1.08@1901,30135,false
-1901.01.109,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78252,243,2369,49382,207,"D.1.09, Serverraum",D.1.09@1901,,false
-1901.01.110,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78278,243,2369,49382,30,"D.1.10, PUMI",D.1.10@1901,,false
-1901.01.111,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78279,243,2369,49382,115,"D.1.11, WC-Herren",D.1.11@1901,,false
-1901.01.112,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78280,243,2369,49382,117,"D.1.12, WC-Barrierefrei",D.1.12@1901,,false
-1901.01.113,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78281,243,2369,49382,116,"D.1.13, WC-Damen",D.1.13@1901,,false
-1901.01.115,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,75513,243,2369,49382,198,"D.1.15, Bistroecke",D.1.15@1901,33592,false
-1901.01.116,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78325,243,2369,49382,223,"D.1.16, Treppenhaus",D.1.16@1901,,false
-1901.01.117,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78282,243,2369,49382,223,"D.1.17, Treppenhaus",D.1.17@1901,,false
-1901.01.118,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,77063,243,2369,49382,196,"D.1.18, Besprechungsbox",D.1.18@1901,34520,false
-1901.02.201,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,69833,243,2369,49382,41,"D.2.01, Seminarraum",D.2.01@1901,30136,false
-1901.02.203,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,69835,243,2369,49382,41,"D.2.03, Seminarraum",D.2.03@1901,30138,false
-1901.02.204,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78326,243,2369,49382,198,"D.2.04, Teeküche",D.2.04@1901,,false
-1901.02.205A,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,77395,243,2369,49382,12,"D.2.05-AP1, Walk-In Büro",D.2.05-AP1@1901,34692,false
-1901.02.205B,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,77396,243,2369,49382,12,"D.2.05-AP2, Walk-In Büro",D.2.05-AP2@1901,34693,false
-1901.02.207,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78327,243,2369,49382,12,"D.2.07, Büro",D.2.07@1901,,false
-1901.02.208,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78328,243,2369,49382,12,"D.2.08, Büro",D.2.08@1901,,false
-1901.02.209,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78329,243,2369,49382,12,"D.2.09, Büro",D.2.09@1901,,false
-1901.02.210,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78330,243,2369,49382,12,"D.2.10, Büro",D.2.10@1901,,false
-1901.02.211,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,69836,243,2369,49382,41,"D.2.11, Seminarraum",D.2.11@1901,30139,false
-1901.02.212,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78331,243,2369,49382,30,"D.2.12, PUMI",D.2.12@1901,,false
-1901.02.214,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78303,243,2369,49382,115,"D.2.14, WC-Herren",D.2.14@1901,,false
-1901.02.215,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78283,243,2369,49382,117,"D.2.15, WC-Barrierefrei",D.2.15@1901,,false
-1901.02.216,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78284,243,2369,49382,116,"D.2.16, WC-Damen",D.2.16@1901,,false
-1901.02.218,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78286,243,2369,49382,222,"D.2.18, Flur/Halle",D.2.18@1901,,false
-1901.02.219,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78285,243,2369,49382,223,"D.2.19, Treppenhaus",D.2.19@1901,,false
-1901.02.220,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78332,243,2369,49382,223,"D.2.20, Treppenhaus",D.2.20@1901,,false
-1901.02.221,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,77064,243,2369,49382,196,"D.2.21, Besprechungsbox",D.2.21@1901,34521,false
-1901.03.301,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78304,243,2369,49382,110,"D.3.01, Kopierraum",D.3.01@1901,,false
-1901.03.302,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78333,243,2369,49382,12,"D.3.02, Büro",D.3.02@1901,,false
-1901.03.303,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,70475,243,2369,49382,12,"D.3.03, Büro",D.3.03@1901,30332,false
-1901.03.304,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78334,243,2369,49382,12,"D.3.04, Büro",D.3.04@1901,,false
-1901.03.305,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,69837,243,2369,49382,196,"D.3.05, Besprechungsraum",D.3.05@1901,30148,false
-1901.03.306,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,77050,243,2369,49382,198,"D.3.06, Teeküche",D.3.06@1901,,false
-1901.03.307,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78287,243,2369,49382,12,"D.3.07, Büro",D.3.07@1901,,false
-1901.03.309,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78335,243,2369,49382,12,"D.3.09, Büro",D.3.09@1901,,false
-1901.03.310,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78305,243,2369,49382,12,"D.3.10, Bürotechnik",D.3.10@1901,,false
-1901.03.311,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78253,243,2369,49382,12,"D.3.11, Büro",D.3.11@1901,,false
-1901.03.312,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78336,243,2369,49382,12,"D.3.12, Büro",D.3.12@1901,,false
-1901.03.313,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78337,243,2369,49382,12,"D.3.13, Büro",D.3.13@1901,,false
-1901.03.314,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78338,243,2369,49382,12,"D.3.14, Büro",D.3.14@1901,,false
-1901.03.315,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78254,243,2369,49382,12,"D.3.15, Büro",D.3.15@1901,,false
-1901.03.316,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78255,243,2369,49382,12,"D.3.16, Büro",D.3.16@1901,,false
-1901.03.317,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78256,243,2369,49382,12,"D.3.17, Büro",D.3.17@1901,,false
-1901.03.318,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78257,243,2369,49382,12,"D.3.18, Bürotechnik",D.3.18@1901,,false
-1901.03.319,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78258,243,2369,49382,12,"D.3.19, Büro",D.3.19@1901,,false
-1901.03.320,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78339,243,2369,49382,12,"D.3.20, Büro",D.3.20@1901,,false
-1901.03.322,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78306,243,2369,49382,30,"D.3.22, PUMI",D.3.22@1901,,false
-1901.03.323,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78307,243,2369,49382,116,"D.3.23, WC-Damen",D.3.23@1901,,false
-1901.03.324,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78308,243,2369,49382,115,"D.3.24, WC-Herren",D.3.24@1901,,false
-1901.03.325,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78259,243,2369,49382,222,"D.3.25, Flur/Halle",D.3.25@1901,,false
-1901.03.326,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78260,243,2369,49382,223,"D.3.26, Treppenhaus",D.3.26@1901,,false
-1901.03.327,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78261,243,2369,49382,223,"D.3.27, Treppenhaus",D.3.27@1901,,false
-1901.04.401,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78340,243,2369,49382,12,"D.4.01, Büro",D.4.01@1901,,false
-1901.04.402,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78341,243,2369,49382,12,"D.4.02, Büro",D.4.02@1901,,false
-1901.04.403,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78342,243,2369,49382,12,"D.4.03, Büro",D.4.03@1901,,false
-1901.04.404,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78343,243,2369,49382,12,"D.4.04, Büro",D.4.04@1901,,false
-1901.04.405,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,75836,243,2369,49382,12,"D.4.05, Büro",D.4.05@1901,34112,false
-1901.04.406,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78344,243,2369,49382,198,"D.4.06, Teeküche",D.4.06@1901,,false
-1901.04.407,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78345,243,2369,49382,12,"D.4.07, Büro",D.4.07@1901,,false
-1901.04.409,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78346,243,2369,49382,12,"D.4.09, Büro",D.4.09@1901,,false
-1901.04.410,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78347,243,2369,49382,110,"D.4.10, Kopierraum",D.4.10@1901,,false
-1901.04.411,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78309,243,2369,49382,12,"D.4.11, Büro",D.4.11@1901,,false
-1901.04.412,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78310,243,2369,49382,12,"D.4.12, Büro",D.4.12@1901,,false
-1901.04.413,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78243,243,2369,49382,12,"D.4.12, Büro",D.4.12@1901,,false
-1901.04.414,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78348,243,2369,49382,12,"D.4.14, Büro",D.4.14@1901,,false
-1901.04.415,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78262,243,2369,49382,12,"D.4.15, Büro",D.4.15@1901,,false
-1901.04.416,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78263,243,2369,49382,12,"D.4.16, Büro",D.4.16@1901,,false
-1901.04.417,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78264,243,2369,49382,12,"D.4.17, Büro",D.4.17@1901,,false
-1901.04.418,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78265,243,2369,49382,12,"D.4.18, Büro",D.4.18@1901,,false
-1901.04.419,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78349,243,2369,49382,12,"D.4.19, Büro",D.4.19@1901,,false
-1901.04.420,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78266,243,2369,49382,12,"D.4.20, Büro",D.4.20@1901,,false
-1901.04.422,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78244,243,2369,49382,30,"D.4.22, PUMI",D.4.22@1901,,false
-1901.04.423,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78245,243,2369,49382,116,"D.4.23, WC-Damen",D.4.23@1901,,false
-1901.04.424,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78246,243,2369,49382,115,"D.4.24, WC-Herren",D.4.24@1901,,false
-1901.04.425,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78350,243,2369,49382,222,"D.4.25, Flur/Halle",D.4.25@1901,,false
-1901.04.426,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78351,243,2369,49382,223,"D.4.26, Treppenhaus",D.4.26@1901,,false
-1901.04.427,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78352,243,2369,49382,223,"D.4.27, Treppenhaus",D.4.27@1901,,false
-1901.EG.001,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,69826,243,2369,49382,41,"D.0.01, Seminarraum",D.0.01@1901,30132,false
+1901.01.101,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,69828,243,2369,49382,196,"D.1.01, Besprechungsraum",D.1.01@1901,30145,false
+1901.01.102,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,69829,243,2369,49382,194,"D.1.02, Labor",D.1.02@1901,30146,false
+1901.01.103,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,69830,243,2369,49382,194,"D.1.03, Labor",D.1.03@1901,30147,false
+1901.01.104,Heilbronn,Bildungscampus 2,74076,3,,,Spannteppich,1.OG,78301,243,2369,53357,12,"D.1.04, Büro",D.1.04@1901,,false
+1901.01.105,Heilbronn,Bildungscampus 2,74076,2,,,Spannteppich,1.OG,78302,243,2369,54517,12,"D.1.05, Büro",D.1.05@1901,,false
+1901.01.106,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,1.OG,78277,243,2369,56037,110,"D.1.06, Kopierraum",D.1.06@1901,,false
+1901.01.107,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,69831,243,2369,49382,41,"D.1.07, Seminarraum",D.1.07@1901,30134,false
+1901.01.108,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,69832,243,2369,49382,41,"D.1.08, Seminarraum",D.1.08@1901,30135,false
+1901.01.109,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,78252,243,2369,56037,207,"D.1.09, Serverraum",D.1.09@1901,,false
+1901.01.110,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,78278,243,2369,56037,30,"D.1.10, PUMI",D.1.10@1901,,false
+1901.01.111,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78279,243,2369,56037,115,"D.1.11, WC-Herren",D.1.11@1901,,false
+1901.01.112,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78280,243,2369,56037,117,"D.1.12, WC-Barrierefrei",D.1.12@1901,,false
+1901.01.113,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78281,243,2369,56037,116,"D.1.13, WC-Damen",D.1.13@1901,,false
+1901.01.115,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,75513,243,2369,49382,198,"D.1.15, Bistroecke",D.1.15@1901,33592,false
+1901.01.116,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78325,243,2369,56037,223,"D.1.16, Treppenhaus",D.1.16@1901,,false
+1901.01.117,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.OG,78282,243,2369,56037,223,"D.1.17, Treppenhaus",D.1.17@1901,,false
+1901.01.118,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.OG,77063,243,2369,49382,196,"D.1.18, Besprechungsbox",D.1.18@1901,34520,false
+1901.02.201,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,69833,243,2369,49382,41,"D.2.01, Seminarraum",D.2.01@1901,30136,false
+1901.02.203,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,69835,243,2369,49382,41,"D.2.03, Seminarraum",D.2.03@1901,30138,false
+1901.02.204,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,78326,243,2369,56037,198,"D.2.04, Teeküche",D.2.04@1901,,false
+1901.02.205A,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,77395,243,2369,49382,12,"D.2.05, Gästebüro",D.2.05@1901,34692,false
+1901.02.205B,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,77396,243,2369,49382,12,"D.2.06, Büro",D.2.06@1901,34693,false
+1901.02.207,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,78327,243,2369,52719,12,"D.2.07, Büro",D.2.07@1901,,false
+1901.02.208,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,78328,243,2369,53818,12,"D.2.08, Büro",D.2.08@1901,,false
+1901.02.209,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,2.OG,78329,243,2369,53818,12,"D.2.09, Büro",D.2.09@1901,,false
+1901.02.210,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,78330,243,2369,54817,194,"D.2.10, Labor",D.2.10@1901,,false
+1901.02.211,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,69836,243,2369,49382,41,"D.2.11, Seminarraum",D.2.11@1901,30139,false
+1901.02.212,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,78331,243,2369,56037,30,"D.2.12, PUMI",D.2.12@1901,,false
+1901.02.214,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78303,243,2369,56037,115,"D.2.14, WC-Herren",D.2.14@1901,,false
+1901.02.215,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78283,243,2369,56037,117,"D.2.15, WC-Barrierefrei",D.2.15@1901,,false
+1901.02.216,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78284,243,2369,56037,116,"D.2.16, WC-Damen",D.2.16@1901,,false
+1901.02.218,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78286,243,2369,56037,222,"D.2.18, Flur/Halle",D.2.18@1901,,false
+1901.02.219,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,2.OG,78285,243,2369,56037,223,"D.2.19, Treppenhaus",D.2.19@1901,,false
+1901.02.220,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,78332,243,2369,56037,223,"D.2.20, Treppenhaus",D.2.20@1901,,false
+1901.02.221,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,2.OG,77064,243,2369,49382,196,"D.2.21, Besprechungsbox",D.2.21@1901,34521,false
+1901.03.301,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,78304,243,2369,56037,110,"D.3.01, Kopierraum",D.3.01@1901,,false
+1901.03.302,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78333,243,2369,56037,12,"D.3.02, Büro",D.3.02@1901,,false
+1901.03.303,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,70475,243,2369,49382,12,"D.3.03, Büro",D.3.03@1901,30332,false
+1901.03.304,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78334,243,2369,56037,12,"D.3.04, Büro",D.3.04@1901,,false
+1901.03.305,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,69837,243,2369,49382,196,"D.3.05, Besprechungsraum",D.3.05@1901,30148,false
+1901.03.306,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,77050,243,2369,56037,198,"D.3.06, Teeküche",D.3.06@1901,,false
+1901.03.307,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78287,243,2369,56037,12,"D.3.07, Büro",D.3.07@1901,,false
+1901.03.309,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78335,243,2369,52719,12,"D.3.09, Büro",D.3.09@1901,,false
+1901.03.310,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,78305,243,2369,56037,12,"D.3.10, Bürotechnik",D.3.10@1901,,false
+1901.03.311,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78253,243,2369,52719,12,"D.3.11, Büro",D.3.11@1901,,false
+1901.03.312,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78336,243,2369,52719,12,"D.3.12, Büro",D.3.12@1901,,false
+1901.03.313,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78337,243,2369,52718,12,"D.3.13, Büro",D.3.13@1901,,false
+1901.03.314,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78338,243,2369,54817,12,"D.3.14, Büro",D.3.14@1901,,false
+1901.03.315,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78254,243,2369,54817,12,"D.3.15, Büro",D.3.15@1901,,false
+1901.03.316,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78255,243,2369,54817,12,"D.3.16, Büro",D.3.16@1901,,false
+1901.03.317,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78256,243,2369,54817,12,"D.3.17, Büro",D.3.17@1901,,false
+1901.03.319,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78258,243,2369,55937,12,"D.3.19, Büro",D.3.19@1901,,false
+1901.03.320,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,3.OG,78339,243,2369,55937,12,"D.3.20, Büro",D.3.20@1901,,false
+1901.03.322,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,78306,243,2369,56037,30,"D.3.22, PUMI",D.3.22@1901,,false
+1901.03.323,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78307,243,2369,56037,116,"D.3.23, WC-Damen",D.3.23@1901,,false
+1901.03.324,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78308,243,2369,56037,115,"D.3.24, WC-Herren",D.3.24@1901,,false
+1901.03.325,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,3.OG,78259,243,2369,56037,222,"D.3.25, Flur/Halle",D.3.25@1901,,false
+1901.03.326,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78260,243,2369,56037,223,"D.3.26, Treppenhaus",D.3.26@1901,,false
+1901.03.327,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,3.OG,78261,243,2369,56037,223,"D.3.27, Treppenhaus",D.3.27@1901,,false
+1901.04.401,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78340,243,2369,52718,12,"D.4.01, Büro",D.4.01@1901,,false
+1901.04.402,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78341,243,2369,52718,12,"D.4.02, Büro",D.4.02@1901,,false
+1901.04.403,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78342,243,2369,52718,12,"D.4.03, Büro",D.4.03@1901,,false
+1901.04.404,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78343,243,2369,53357,12,"D.4.04, Büro",D.4.04@1901,,false
+1901.04.405,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,75836,243,2369,49382,12,"D.4.05, Büro",D.4.05@1901,34112,false
+1901.04.406,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,4.OG,78344,243,2369,56037,198,"D.4.06, Teeküche",D.4.06@1901,,false
+1901.04.407,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78345,243,2369,54517,12,"D.4.07, Büro",D.4.07@1901,,false
+1901.04.410,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78347,243,2369,56037,110,"D.4.10, Kopierraum",D.4.10@1901,,false
+1901.04.411,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78309,243,2369,54517,12,"D.4.11, Büro",D.4.11@1901,,false
+1901.04.412,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78310,243,2369,55937,12,"D.4.12, Büro",D.4.12@1901,,false
+1901.04.413,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78243,243,2369,55937,12,"D.4.12, Büro",D.4.12@1901,,false
+1901.04.414,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78348,243,2369,55937,12,"D.4.14, Büro",D.4.14@1901,,false
+1901.04.415,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78262,243,2369,52779,12,"D.4.15, Büro",D.4.15@1901,,false
+1901.04.416,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78263,243,2369,54517,12,"D.4.16, Büro",D.4.16@1901,,false
+1901.04.417,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78264,243,2369,53357,12,"D.4.17, Büro",D.4.17@1901,,false
+1901.04.418,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78265,243,2369,54517,12,"D.4.18, Büro",D.4.18@1901,,false
+1901.04.419,Heilbronn,Bildungscampus 2,74076,,,,Spannteppich,4.OG,78349,243,2369,52718,12,"D.4.19, Büro",D.4.19@1901,,false
+1901.04.422,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,4.OG,78244,243,2369,56037,30,"D.4.22, PUMI",D.4.22@1901,,false
+1901.04.423,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78245,243,2369,56037,116,"D.4.23, WC-Damen",D.4.23@1901,,false
+1901.04.424,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78246,243,2369,56037,115,"D.4.24, WC-Herren",D.4.24@1901,,false
+1901.04.425,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,4.OG,78350,243,2369,56037,222,"D.4.25, Flur/Halle",D.4.25@1901,,false
+1901.04.426,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78351,243,2369,56037,223,"D.4.26, Treppenhaus",D.4.26@1901,,false
+1901.04.427,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,4.OG,78352,243,2369,56037,223,"D.4.27, Treppenhaus",D.4.27@1901,,false
+1901.EG.001,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,EG,69826,243,2369,49382,41,"D.0.01, Seminarraum",D.0.01@1901,30132,false
 1901.EG.002,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,69827,243,2369,49382,12,"D.0.02, Büro",D.0.02@1901,30133,false
-1901.EG.004,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78321,243,2369,49382,15,"D.0.04, Foyer",D.0.04@1901,,false
-1901.EG.005,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78322,243,2369,49382,52,"D.0.05, Windfang",D.0.05@1901,,false
-1901.EG.006,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78323,243,2369,49382,52,"D.0.06, Windfang",D.0.06@1901,,false
-1901.EG.007,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78275,243,2369,49382,222,"D.0.07, Flur",D.0.07@1901,,false
-1901.EG.008,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78276,243,2369,49382,223,"D.0.08, Treppenhaus",D.0.08@1901,,false
-1901.EG.009,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78324,243,2369,49382,223,"D.0.09, Treppenhaus",D.0.09@1901,,false
-1901.EG.010,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78300,243,2369,49382,4,"D.0.10, Personenaufzug",D.0.10@1901,,false
-1901.U1.002,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78353,243,2369,49382,159,"D.U.02, Abstellraum",D.U.02@1901,,false
-1901.U1.003,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78247,243,2369,49382,30,"D.U.03, Lager",D.U.03@1901,,false
-1901.U1.004,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78248,243,2369,49382,2,"D.U.04, Archiv",D.U.04@1901,,false
-1901.U1.005,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78249,243,2369,49382,37,"D.U.05, Sanitärtechnik",D.U.05@1901,,false
-1901.U1.008,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78354,243,2369,49382,30,"D.U.08, PUMI",D.U.08@1901,,false
-1901.U1.009,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78355,243,2369,49382,116,"D.U.09, WC-Damen",D.U.09@1901,,false
-1901.U1.010,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78356,243,2369,49382,117,"D.U.10, WC-Barrierefrei",D.U.10@1901,,false
-1901.U1.011,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78357,243,2369,49382,115,"D.U.11, WC-Herren",D.U.11@1901,,false
-1901.U1.012,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78358,243,2369,49382,222,"D.U.12, Flur",D.U.12@1901,,false
-1901.U1.013,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78359,243,2369,49382,222,"D.U.13, Flur",D.U.13@1901,,false
-1901.U1.014,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78250,243,2369,49382,223,"D.U.14, Treppenhaus",D.U.14@1901,,false
-1901.U1.015,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78251,243,2369,49382,223,"D.U.15, Treppenhaus",D.U.15@1901,,false
-1901.U1.017,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78360,243,2369,49382,30,"D.U.17, Lager",D.U.17@1901,,false
-1902.01.110,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69824,243,2370,49382,41,"L.1.10, Seminarraum",L.1.10@1902,30142,false
-1902.01.111,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69825,243,2370,49382,41,"L.1.11, Seminarraum",L.1.11@1902,30143,false
-1902.01.112,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69841,243,2370,49382,41,"L.1.12, Seminarraum",L.1.12@1902,30144,false
-1902.01.120,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69842,243,2370,49382,196,"L.1.20, Besprechungsraum",L.1.20@1902,30412,false
-1902.01.130,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69844,243,2370,49382,12,"L.1.30, Büro",L.1.30@1902,,false
-1902.01.150,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69847,243,2370,49382,118,"L.1.50, WC-Vorraum Damen",L.1.50@1902,,false
-1902.01.151,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69789,243,2370,49382,116,"L.1.51, WC-Damen",L.1.51@1902,,false
-1902.01.152,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69790,243,2370,49382,118,"L.1.52, WC-Vorraum Herren",L.1.52@1902,,false
-1902.01.153,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69791,243,2370,49382,115,"L.1.53, WC-Herren",L.1.53@1902,,false
-1902.01.154,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,78397,243,2370,49382,205,"L.1.54, Putzraum",L.1.54@1902,,false
-1902.01.180,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,78453,243,2370,49382,223,"L.1.80, TRH A",L.1.80@1902,,false
-1902.01.181,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,78454,243,2370,49382,223,"L.1.81, TRH B",L.1.81@1902,,false
-1902.01.182,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,78455,243,2370,49382,105,"L.1.82, Schleuse",L.1.82@1902,,false
-1902.01.183,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69845,243,2370,49382,222,"L.1.83, Flur",L.1.83@1902,,false
-1902.01.184,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69846,243,2370,49382,222,"L.1.84, Flur",L.1.84@1902,,false
-1902.01.185,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.OG,69843,243,2370,49382,196,"L.1.85, Besprechungsraum",L.1.85@1902,,false
-1902.02.210,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69792,243,2370,49382,12,"L.2.10, Büro",L.2.10@1902,,false
-1902.02.211,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69793,243,2370,49382,12,"L.2.11, Büro",L.2.11@1902,,false
-1902.02.212,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69798,243,2370,49382,12,"L.2.12, Büro",L.2.12@1902,,false
-1902.02.213,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69799,243,2370,49382,12,"L.2.13, Büro",L.2.13@1902,,false
-1902.02.214,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69800,243,2370,49382,12,"L.2.14, Büro",L.2.14@1902,,false
-1902.02.220,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69801,243,2370,49382,198,"L.2.20, Teeküche",L.2.20@1902,,false
-1902.02.230,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69802,243,2370,49382,12,"L.2.30, Büro",L.2.30@1902,,false
-1902.02.231,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69816,243,2370,49382,110,"L.2.31, Kopierer/Archiv",L.2.31@1902,,false
-1902.02.232,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69817,243,2370,49382,2,"L.2.32, Archiv/Lager",L.2.32@1902,,false
-1902.02.233,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69803,243,2370,49382,12,"L.2.33, Büro",L.2.33@1902,,false
-1902.02.234,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69804,243,2370,49382,12,"L.2.34, Büro",L.2.34@1902,,false
-1902.02.235,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69805,243,2370,49382,12,"L.2.35, Büro",L.2.35@1902,,false
-1902.02.236,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69806,243,2370,49382,12,"L.2.36, Büro",L.2.36@1902,,false
-1902.02.237,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69807,243,2370,49382,12,"L.2.37, Büro",L.2.37@1902,,false
-1902.02.240,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69808,243,2370,49382,12,"L.2.40, Büro",L.2.40@1902,,false
-1902.02.241,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69809,243,2370,49382,196,"L.2.41, Besprechungsraum",L.2.41@1902,30413,false
-1902.02.250,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69795,243,2370,49382,118,"L.2.50, WC-Vorraum Damen",L.2.50@1902,,false
-1902.02.251,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69810,243,2370,49382,116,"L.2.51, WC-Damen",L.2.51@1902,,false
-1902.02.252,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69796,243,2370,49382,118,"L.2.52, WC-Vorraum Herren",L.2.52@1902,,false
-1902.02.253,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69811,243,2370,49382,115,"L.2.53, WC-Herren",L.2.53@1902,,false
-1902.02.254,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69812,243,2370,49382,117,"L.2.54, WC-Barrierefrei",L.2.54@1902,,false
-1902.02.280,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,78398,243,2370,49382,223,"L.2.80, TRH A",L.2.80@1902,,false
-1902.02.281,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,78399,243,2370,49382,223,"L.2.81, TRH B",L.2.81@1902,,false
-1902.02.282,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,78417,243,2370,49382,105,"L.2.82, Schleuse",L.2.82@1902,,false
-1902.02.283,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69815,243,2370,49382,44,"L.2.83, Empfangs-/Wartebereich",L.2.83@1902,,false
-1902.02.284,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69797,243,2370,49382,222,"L.2.84, Flur",L.2.84@1902,,false
-1902.02.285,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69794,243,2370,49382,196,"L.2.85, Besprechungsraum",L.2.85@1902,,false
-1902.02.286,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69814,243,2370,49382,222,"L.2.86, Flur",L.2.86@1902,,false
-1902.02.287,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,2.OG,69813,243,2370,49382,44,"L.2.87, Empfangs-/Wartebereich",L.2.87@1902,,false
-1902.03.310,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72012,243,2370,49382,12,"L.3.10, Büro",L.3.10@1902,,false
-1902.03.311,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72013,243,2370,49382,12,"L.3.11, Büro",L.3.11@1902,,false
-1902.03.312,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72014,243,2370,49382,12,"L.3.12, Büro",L.3.12@1902,,false
-1902.03.313,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72015,243,2370,49382,12,"L.3.13, Büro",L.3.13@1902,,false
-1902.03.314,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72027,243,2370,50517,12,"L.3.14, Büro",L.3.14@1902,,false
-1902.03.320,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72028,243,2370,49382,198,"L.3.20, Teeküche",L.3.20@1902,,false
-1902.03.330,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72029,243,2370,49382,12,"L.3.30, Büro",L.3.30@1902,,false
-1902.03.331,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72030,243,2370,49382,110,"L.3.31, Kopierer/Archiv",L.3.31@1902,,false
-1902.03.332,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72045,243,2370,49382,30,"L.3.32, Lager",L.3.32@1902,,false
-1902.03.333,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72046,243,2370,50517,12,"L.3.33, Büro",L.3.33@1902,,false
-1902.03.334,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72047,243,2370,49382,12,"L.3.34, Büro",L.3.34@1902,,false
-1902.03.335,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72048,243,2370,49382,12,"L.3.35, Büro",L.3.35@1902,,false
-1902.03.336,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72031,243,2370,49382,12,"L.3.36, Büro",L.3.36@1902,,false
-1902.03.337,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72049,243,2370,49382,12,"L.3.37, Büro",L.3.37@1902,,false
-1902.03.340,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72050,243,2370,49382,12,"L.3.40, Büro",L.3.40@1902,,false
-1902.03.341,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,71818,243,2370,49382,196,"L.3.41, Besprechungsraum",L.3.41@1902,31093,false
-1902.03.350,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72051,243,2370,49382,118,"L.3.50, WC-Vorraum Damen",L.3.50@1902,,false
-1902.03.351,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72052,243,2370,49382,116,"L.3.51, WC-Damen",L.3.51@1902,,false
-1902.03.352,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72016,243,2370,49382,118,"L.3.52, WC-Vorraum Herren",L.3.52@1902,,false
-1902.03.353,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72017,243,2370,49382,115,"L.3.53, WC-Herren",L.3.53@1902,,false
-1902.03.354,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,78432,243,2370,49382,205,"L.3.54, Putzraum",L.3.54@1902,,false
-1902.03.380,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,78400,243,2370,49382,223,"L.3.80, TRH A",L.3.80@1902,,false
-1902.03.381,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,78401,243,2370,49382,223,"L.3.81, TRH B",L.3.81@1902,,false
-1902.03.382,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,78431,243,2370,49382,105,"L.3.82, Schleuse",L.3.82@1902,,false
-1902.03.383,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72032,243,2370,49382,222,"L.3.83, Empfangs-/Wartebereich",L.3.83@1902,,false
-1902.03.384,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72033,243,2370,49382,222,"L.3.84, Flur",L.3.84@1902,,false
-1902.03.385,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72034,243,2370,49382,222,"L.3.85, Flur",L.3.85@1902,,false
-1902.03.386,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72035,243,2370,49382,222,"L.3.86, Flur",L.3.86@1902,,false
-1902.03.387,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,3.OG,72036,243,2370,49382,222,"L.3.87, Empfangs-/Wartebereich",L.3.87@1902,,false
-1902.04.410,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72053,243,2370,49382,12,"L.4.10, Büro",L.4.10@1902,,false
-1902.04.411,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72037,243,2370,49382,12,"L.4.11, Büro",L.4.11@1902,,false
-1902.04.412,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72038,243,2370,49382,12,"L.4.12, Büro",L.4.12@1902,,false
-1902.04.413,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72039,243,2370,49382,12,"L.4.13, Büro",L.4.13@1902,,false
-1902.04.414,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72040,243,2370,49382,12,"L.4.14, Büro",L.4.14@1902,,false
-1902.04.420,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72041,243,2370,49382,198,"L.4.20, Teeküche",L.4.20@1902,,false
-1902.04.430,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72042,243,2370,49382,12,"L.4.30, Büro",L.4.30@1902,,false
-1902.04.431,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72043,243,2370,49382,110,"L.4.31, Kopierer/Archiv",L.4.31@1902,,false
-1902.04.432,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72044,243,2370,49382,30,"L.4.32, Lager",L.4.32@1902,,false
-1902.04.433,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72054,243,2370,49382,12,"L.4.33, Büro",L.4.33@1902,,false
-1902.04.434,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72055,243,2370,49382,12,"L.4.34, Büro",L.4.34@1902,,false
-1902.04.435,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72056,243,2370,49382,12,"L.4.35, Büro",L.4.35@1902,,false
-1902.04.436,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72057,243,2370,49382,196,"L.4.36, Besprechungsraum",L.4.36@1902,31372,false
-1902.04.437,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72058,243,2370,49382,12,"L.4.37, Büro",L.4.37@1902,,false
-1902.04.440,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72059,243,2370,49382,12,"L.4.40, Büro",L.4.40@1902,,false
-1902.04.441,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72018,243,2370,49382,196,"L.4.41, Besprechungsraum",L.4.41@1902,31373,false
-1902.04.450,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72019,243,2370,49382,118,"L.4.50, WC-Vorraum Damen",L.4.50@1902,,false
-1902.04.451,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72020,243,2370,49382,116,"L.4.51, WC-Damen",L.4.51@1902,,false
-1902.04.452,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72021,243,2370,49382,118,"L.4.52, WC-Vorraum Herren",L.4.52@1902,,false
-1902.04.453,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72022,243,2370,49382,115,"L.4.53, WC-Herren",L.4.53@1902,,false
-1902.04.454,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72023,243,2370,49382,117,"L.4.54, WC-Barrierefrei",L.4.54@1902,,false
-1902.04.480,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,78433,243,2370,49382,223,"L.4.80, TRH 1",L.4.80@1902,,false
-1902.04.481,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,78434,243,2370,49382,223,"L.4.81, TRH 2",L.4.81@1902,,false
-1902.04.482,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,78435,243,2370,49382,105,"L.4.82, Schleuse",L.4.82@1902,,false
-1902.04.483,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72024,243,2370,49382,222,"L.4.83, Flur",L.4.83@1902,,false
-1902.04.484,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72025,243,2370,49382,222,"L.4.84, Flur",L.4.84@1902,,false
-1902.04.485,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72026,243,2370,49382,222,"L.4.85, Flur",L.4.85@1902,,false
-1902.04.486,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,4.OG,72060,243,2370,49382,222,"L.4.86, Empfangs-/Wartebereich",L.4.86@1902,,false
-1902.07.710,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78403,243,2370,49382,30,"L.7.10, Lager",L.7.10@1902,,false
-1902.07.712,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78404,243,2370,49382,12,"L.7.12, Büro",L.7.12@1902,,false
-1902.07.713,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,69818,243,2370,49382,30,"L.7.13, Lager",L.7.13@1902,,false
-1902.07.730,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78422,243,2370,49382,2,"L.7.30, Archiv",L.7.30@1902,,false
-1902.07.731,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78423,243,2370,49382,118,"L.7.31, Vorraum",L.7.31@1902,,false
-1902.07.732,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78424,243,2370,49382,113,"L.7.32, Dusche",L.7.32@1902,,false
-1902.07.740,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78402,243,2370,49382,30,"L.7.40, Lager",L.7.40@1902,,false
-1902.07.750,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78437,243,2370,49382,118,"L.7.50, WC-Vorraum Damen",L.7.50@1902,,false
-1902.07.751,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78426,243,2370,49382,116,"L.7.51, WC-Damen",L.7.51@1902,,false
-1902.07.752,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78425,243,2370,49382,118,"L.7.52, WC-Vorraum Herren",L.7.52@1902,,false
-1902.07.753,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78427,243,2370,49382,115,"L.7.53, WC-Herren",L.7.53@1902,,false
-1902.07.754,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78436,243,2370,49382,205,"L.7.54, Putzraum",L.7.54@1902,,false
-1902.07.764A,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78421,243,2370,49382,207,"L.7.64.1, Server",L.7.64.1@1902,,false
-1902.07.764B,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,69819,243,2370,49382,207,"L.7.64.2, Server/Technik",L.7.64.2@1902,,false
-1902.07.780,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78407,243,2370,49382,223,"L.7.80, TRH A",L.7.80@1902,,false
-1902.07.781,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78408,243,2370,49382,223,"L.7.81, TRH B",L.7.81@1902,,false
-1902.07.782,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78420,243,2370,49382,105,"L.7.82, Schleuse",L.7.82@1902,,false
-1902.07.783,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78418,243,2370,49382,105,"L.7.83, Schleuse TRH A",L.7.83@1902,,false
-1902.07.784,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78405,243,2370,49382,222,"L.7.84, Flur",L.7.84@1902,,false
-1902.07.785,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78406,243,2370,49382,222,"L.7.85, Flur",L.7.85@1902,,false
-1902.07.786,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,7.OG,78419,243,2370,49382,105,"L.7.86, Schleuse",L.7.86@1902,,false
+1901.EG.004,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78321,243,2369,56037,15,"D.0.04, Foyer",D.0.04@1901,,false
+1901.EG.005,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78322,243,2369,56037,52,"D.0.05, Windfang",D.0.05@1901,,false
+1901.EG.006,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78323,243,2369,56037,52,"D.0.06, Windfang",D.0.06@1901,,false
+1901.EG.007,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78275,243,2369,56037,222,"D.0.07, Flur",D.0.07@1901,,false
+1901.EG.008,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78276,243,2369,56037,223,"D.0.08, Treppenhaus",D.0.08@1901,,false
+1901.EG.009,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,EG,78324,243,2369,56037,223,"D.0.09, Treppenhaus",D.0.09@1901,,false
+1901.EG.010,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,EG,78300,243,2369,56037,4,"D.0.10, Personenaufzug",D.0.10@1901,,false
+1901.U1.002,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78353,243,2369,56037,159,"D.U.02, Abstellraum",D.U.02@1901,,false
+1901.U1.003,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78247,243,2369,56037,30,"D.U.03, Lager",D.U.03@1901,,false
+1901.U1.004,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78248,243,2369,56037,2,"D.U.04, Archiv",D.U.04@1901,,false
+1901.U1.005,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78249,243,2369,56037,37,"D.U.05, Sanitärtechnik",D.U.05@1901,,false
+1901.U1.008,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78354,243,2369,56037,30,"D.U.08, PUMI",D.U.08@1901,,false
+1901.U1.009,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78355,243,2369,56037,116,"D.U.09, WC-Damen",D.U.09@1901,,false
+1901.U1.010,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78356,243,2369,56037,117,"D.U.10, WC-Barrierefrei",D.U.10@1901,,false
+1901.U1.011,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78357,243,2369,56037,115,"D.U.11, WC-Herren",D.U.11@1901,,false
+1901.U1.012,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78358,243,2369,56037,222,"D.U.12, Flur",D.U.12@1901,,false
+1901.U1.013,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78359,243,2369,56037,222,"D.U.13, Flur",D.U.13@1901,,false
+1901.U1.014,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78250,243,2369,56037,223,"D.U.14, Treppenhaus",D.U.14@1901,,false
+1901.U1.015,Heilbronn,Bildungscampus 2,74076,,,,Keine Angabe,1.UG,78251,243,2369,56037,223,"D.U.15, Treppenhaus",D.U.15@1901,,false
+1901.U1.017,Heilbronn,Bildungscampus 2,74076,,,,Linoleum,1.UG,78360,243,2369,56037,30,"D.U.17, Lager",D.U.17@1901,,false
+1902.01.110,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,1.OG,69824,243,2370,49382,41,"L.1.10, Seminarraum",L.1.10@1902,30142,false
+1902.01.111,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,1.OG,69825,243,2370,49382,41,"L.1.11, Seminarraum",L.1.11@1902,30143,false
+1902.01.112,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,1.OG,69841,243,2370,49382,41,"L.1.12, Seminarraum",L.1.12@1902,30144,false
+1902.01.120,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,1.OG,69842,243,2370,49382,196,"L.1.20, Besprechungsraum",L.1.20@1902,30412,false
+1902.01.130,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,1.OG,69844,243,2370,14881,12,"L.1.30, Büro",L.1.30@1902,,false
+1902.02.210,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69792,243,2370,52778,12,"L.2.10, Büro",L.2.10@1902,,false
+1902.02.211,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69793,243,2370,52778,12,"L.2.11, Büro",L.2.11@1902,,false
+1902.02.212,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69798,243,2370,52778,12,"L.2.12, Büro",L.2.12@1902,,false
+1902.02.213,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69799,243,2370,52778,12,"L.2.13, Büro",L.2.13@1902,,false
+1902.02.214,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69800,243,2370,52778,12,"L.2.14, Büro",L.2.14@1902,,false
+1902.02.220,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69801,243,2370,56037,198,"L.2.20, Teeküche",L.2.20@1902,,false
+1902.02.230,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69802,243,2370,52778,12,"L.2.30, Büro",L.2.30@1902,,false
+1902.02.231,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69816,243,2370,56037,110,"L.2.31, Kopierer/Archiv",L.2.31@1902,,false
+1902.02.232,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69817,243,2370,56037,2,"L.2.32, Archiv/Lager",L.2.32@1902,,false
+1902.02.233,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69803,243,2370,52778,12,"L.2.33, Büro",L.2.33@1902,,false
+1902.02.234,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69804,243,2370,52778,12,"L.2.34, Büro",L.2.34@1902,,false
+1902.02.235,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69805,243,2370,52778,12,"L.2.35, Büro",L.2.35@1902,,false
+1902.02.236,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69806,243,2370,52778,12,"L.2.36, Büro",L.2.36@1902,,false
+1902.02.237,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69807,243,2370,52778,12,"L.2.37, Büro",L.2.37@1902,,false
+1902.02.240,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69808,243,2370,52778,12,"L.2.40, Büro",L.2.40@1902,,false
+1902.02.241,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69809,243,2370,49382,196,"L.2.41, Besprechungsraum",L.2.41@1902,30413,false
+1902.02.250,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,2.OG,69795,243,2370,56037,118,"L.2.50, WC-Vorraum Damen",L.2.50@1902,,false
+1902.02.251,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,2.OG,69810,243,2370,56037,116,"L.2.51, WC-Damen",L.2.51@1902,,false
+1902.02.252,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,2.OG,69796,243,2370,56037,118,"L.2.52, WC-Vorraum Herren",L.2.52@1902,,false
+1902.02.253,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,2.OG,69811,243,2370,56037,115,"L.2.53, WC-Herren",L.2.53@1902,,false
+1902.02.254,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,2.OG,69812,243,2370,56037,117,"L.2.54, WC-Barrierefrei",L.2.54@1902,,false
+1902.02.283,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69815,243,2370,56037,44,"L.2.83, Empfangs-/Wartebereich",L.2.83@1902,,false
+1902.02.284,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69797,243,2370,56037,222,"L.2.84, Flur",L.2.84@1902,,false
+1902.02.285,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69794,243,2370,56037,196,"L.2.85, Besprechungsraum",L.2.85@1902,,false
+1902.02.286,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69814,243,2370,56037,222,"L.2.86, Flur",L.2.86@1902,,false
+1902.02.287,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,2.OG,69813,243,2370,56037,44,"L.2.87, Empfangs-/Wartebereich",L.2.87@1902,,false
+1902.03.310,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72012,243,2370,52779,12,"L.3.10, Büro",L.3.10@1902,,false
+1902.03.311,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72013,243,2370,52779,12,"L.3.11, Büro",L.3.11@1902,,false
+1902.03.312,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72014,243,2370,52779,12,"L.3.12, Büro",L.3.12@1902,,false
+1902.03.313,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72015,243,2370,52779,12,"L.3.13, Büro",L.3.13@1902,,false
+1902.03.314,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72027,243,2370,52779,12,"L.3.14, Büro",L.3.14@1902,,false
+1902.03.320,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72028,243,2370,56037,198,"L.3.20, Teeküche",L.3.20@1902,,false
+1902.03.330,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72029,243,2370,52779,12,"L.3.30, Büro",L.3.30@1902,,false
+1902.03.331,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72030,243,2370,56037,110,"L.3.31, Kopierer/Archiv",L.3.31@1902,,false
+1902.03.332,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72045,243,2370,56037,30,"L.3.32, Lager",L.3.32@1902,,false
+1902.03.333,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72046,243,2370,52779,12,"L.3.33, Büro",L.3.33@1902,,false
+1902.03.334,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72047,243,2370,52779,12,"L.3.34, Büro",L.3.34@1902,,false
+1902.03.335,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72048,243,2370,52779,12,"L.3.35, Büro",L.3.35@1902,,false
+1902.03.336,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72031,243,2370,52779,12,"L.3.36, Büro",L.3.36@1902,,false
+1902.03.337,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72049,243,2370,52779,12,"L.3.37, Büro",L.3.37@1902,,false
+1902.03.340,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72050,243,2370,52779,12,"L.3.40, Büro",L.3.40@1902,,false
+1902.03.341,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,71818,243,2370,49382,196,"L.3.41, Besprechungsraum",L.3.41@1902,31093,false
+1902.03.350,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,3.OG,72051,243,2370,56037,118,"L.3.50, WC-Vorraum Damen",L.3.50@1902,,false
+1902.03.351,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,3.OG,72052,243,2370,56037,116,"L.3.51, WC-Damen",L.3.51@1902,,false
+1902.03.352,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,3.OG,72016,243,2370,56037,118,"L.3.52, WC-Vorraum Herren",L.3.52@1902,,false
+1902.03.353,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,3.OG,72017,243,2370,56037,115,"L.3.53, WC-Herren",L.3.53@1902,,false
+1902.03.382,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,78431,243,2370,56037,105,"L.3.82, Schleuse",L.3.82@1902,,false
+1902.03.383,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72032,243,2370,56037,222,"L.3.83, Empfangs-/Wartebereich",L.3.83@1902,,false
+1902.03.384,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72033,243,2370,56037,222,"L.3.84, Flur",L.3.84@1902,,false
+1902.03.385,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72034,243,2370,56037,222,"L.3.85, Flur",L.3.85@1902,,false
+1902.03.386,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72035,243,2370,56037,222,"L.3.86, Flur",L.3.86@1902,,false
+1902.03.387,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,3.OG,72036,243,2370,56037,222,"L.3.87, Empfangs-/Wartebereich",L.3.87@1902,,false
+1902.04.410,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72053,243,2370,52779,12,"L.4.10, Büro",L.4.10@1902,,false
+1902.04.411,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72037,243,2370,52778,12,"L.4.11, Büro",L.4.11@1902,,false
+1902.04.412,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72038,243,2370,52779,12,"L.4.12, Büro",L.4.12@1902,,false
+1902.04.413,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72039,243,2370,52778,12,"L.4.13, Büro",L.4.13@1902,,false
+1902.04.414,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72040,243,2370,52778,12,"L.4.14, Büro",L.4.14@1902,,false
+1902.04.420,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72041,243,2370,56037,198,"L.4.20, Teeküche",L.4.20@1902,,false
+1902.04.430,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72042,243,2370,52778,12,"L.4.30, Büro",L.4.30@1902,,false
+1902.04.431,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72043,243,2370,56037,110,"L.4.31, Kopierer/Archiv",L.4.31@1902,,false
+1902.04.432,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72044,243,2370,56037,30,"L.4.32, Lager",L.4.32@1902,,false
+1902.04.433,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72054,243,2370,52779,12,"L.4.33, Büro",L.4.33@1902,,false
+1902.04.434,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72055,243,2370,52778,12,"L.4.34, Büro",L.4.34@1902,,false
+1902.04.435,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72056,243,2370,52779,12,"L.4.35, Büro",L.4.35@1902,,false
+1902.04.436,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72057,243,2370,49382,196,"L.4.36, Besprechungsraum",L.4.36@1902,31372,false
+1902.04.437,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72058,243,2370,52778,12,"L.4.37, Büro",L.4.37@1902,,false
+1902.04.440,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72059,243,2370,52779,12,"L.4.40, Büro",L.4.40@1902,,false
+1902.04.441,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72018,243,2370,49382,196,"L.4.41, Besprechungsraum",L.4.41@1902,31373,false
+1902.04.450,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,4.OG,72019,243,2370,56037,118,"L.4.50, WC-Vorraum Damen",L.4.50@1902,,false
+1902.04.451,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,4.OG,72020,243,2370,56037,116,"L.4.51, WC-Damen",L.4.51@1902,,false
+1902.04.452,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,4.OG,72021,243,2370,56037,118,"L.4.52, WC-Vorraum Herren",L.4.52@1902,,false
+1902.04.453,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,4.OG,72022,243,2370,56037,115,"L.4.53, WC-Herren",L.4.53@1902,,false
+1902.04.454,Heilbronn,Bildungscampus 9,74076,,,,Fliesen,4.OG,72023,243,2370,56037,117,"L.4.54, WC-Barrierefrei",L.4.54@1902,,false
+1902.04.483,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72024,243,2370,56037,222,"L.4.83, Flur",L.4.83@1902,,false
+1902.04.484,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72025,243,2370,56037,222,"L.4.84, Flur",L.4.84@1902,,false
+1902.04.485,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72026,243,2370,56037,222,"L.4.85, Flur",L.4.85@1902,,false
+1902.04.486,Heilbronn,Bildungscampus 9,74076,,,,Holzpflaster,4.OG,72060,243,2370,56037,222,"L.4.86, Empfangs-/Wartebereich",L.4.86@1902,,false
 1902.EG.010,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,69838,243,2370,49382,41,"L.0.10, Seminarraum",L.0.10@1902,30140,false
-1902.EG.011,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,69839,243,2370,49382,198,"L.0.11, Teeküche",L.0.11@1902,,false
-1902.EG.012,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,69840,243,2370,49382,30,"L.0.12, Lager",L.0.12@1902,,false
 1902.EG.013,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,69822,243,2370,49382,41,"L.0.13, Seminarraum",L.0.13@1902,30141,false
-1902.EG.030,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78416,243,2370,49382,15,"L.0.30, Erweiterung Foyer",L.0.30@1902,,false
-1902.EG.031,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78414,243,2370,49382,30,"L.0.31, Lager",L.0.31@1902,,false
-1902.EG.032,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78415,243,2370,49382,12,"L.0.32, Büro",L.0.32@1902,,false
-1902.EG.050,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78411,243,2370,49382,118,"L.0.50, WC-Vorraum Damen",L.0.50@1902,,false
-1902.EG.051,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78447,243,2370,49382,116,"L.0.51, WC-Damen",L.0.51@1902,,false
-1902.EG.052,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78412,243,2370,49382,118,"L.0.52, WC-Vorraum Herren",L.0.52@1902,,false
-1902.EG.053,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78448,243,2370,49382,115,"L.0.53, WC-Herren",L.0.53@1902,,false
-1902.EG.054,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78449,243,2370,49382,117,"L.0.54, WC-Barrierefrei",L.0.54@1902,,false
-1902.EG.080,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78446,243,2370,49382,223,"L.0.80, TRH A",L.0.80@1902,,false
-1902.EG.081,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78450,243,2370,49382,223,"L.0.81, TRH B",L.0.81@1902,,false
-1902.EG.082,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78451,243,2370,49382,105,"L.0.82, Schleuse",L.0.82@1902,,false
-1902.EG.083,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78392,243,2370,49382,222,"L.0.83, Flur",L.0.83@1902,,false
-1902.EG.084,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78409,243,2370,49382,222,"L.0.84, Flur",L.0.84@1902,,false
-1902.EG.085,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,69823,243,2370,49382,222,"L.0.85, Flur",L.0.85@1902,,false
-1902.EG.086,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78410,243,2370,49382,222,"L.0.86, Flur",L.0.86@1902,,false
-1902.EG.087,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78413,243,2370,49382,15,"L.0.87, Foyer",L.0.87@1902,,false
-1902.EG.088,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,EG,78452,243,2370,49382,52,"L.0.88, Windfang",L.0.88@1902,,false
-1902.U1.010,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78389,243,2370,49382,178,"L.U.10, Sanitätsraum",L.U.10@1902,,false
-1902.U1.011,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78395,243,2370,49382,30,"L.U.11, Lager",L.U.11@1902,,false
-1902.U1.012,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78396,243,2370,49382,30,"L.U.12, Lager",L.U.12@1902,,false
+1902.U1.012,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78396,243,2370,52778,30,"L.U.12, Lager",L.U.12@1902,,false
 1902.U1.013,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,69820,243,2370,49382,135,"L.U.13, VR-Labor",L.U.13@1902,33593,false
-1902.U1.014,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,69821,243,2370,49382,135,"L.U.14, VR-Labor",L.U.14@1902,,false
-1902.U1.050,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78439,243,2370,49382,118,"L.U.50, WC-Vorraum Damen",L.U.50@1902,,false
-1902.U1.051,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78441,243,2370,49382,116,"L.U.51, WC-Damen",L.U.51@1902,,false
-1902.U1.052,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78440,243,2370,49382,118,"L.U.52, WC-Vorraum Herren",L.U.52@1902,,false
-1902.U1.053,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78442,243,2370,49382,115,"L.U.53, WC-Herren",L.U.53@1902,,false
-1902.U1.065,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78445,243,2370,49382,105,"L.U.65, Druckbelüftungsanlage",L.U.65@1902,,false
-1902.U1.072,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78444,243,2370,49382,18,"L.U.72, Zentrales Gaslager",L.U.72@1902,,false
-1902.U1.080,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78429,243,2370,49382,223,"L.U.80, TRH A",L.U.80@1902,,false
-1902.U1.081,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78430,243,2370,49382,223,"L.U.81, TRH B",L.U.81@1902,,false
-1902.U1.082,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78457,243,2370,49382,105,"L.U.82, Schleuse",L.U.82@1902,,false
-1902.U1.083,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78428,243,2370,49382,222,"L.U.83, Flur",L.U.83@1902,,false
-1902.U1.084,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78438,243,2370,49382,222,"L.U.84, Flur",L.U.84@1902,,false
-1902.U1.090,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78456,243,2370,49382,4,"L.U.90, Aufzüge",L.U.90@1902,,false
-1902.U1.091,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,78443,243,2370,49382,4,"L.U.91, FW-Aufzug",L.U.91@1902,,false
+1902.U1.014,Heilbronn,Bildungscampus 9,74076,,,,Keine Angabe,1.UG,69821,243,2370,52778,194,"L.U.14, Eye-Tracking-Labor",L.U.14@1902,,false
 1910.01.120B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,77054,243,3189,49382,196,"B.1.20, Besprechungsraum",B.1.20@1910,34519,false
-1910.01.120C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75559,243,3189,49382,12,"C.1.20, Büro",C.1.20@1910,,false
-1910.01.121B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,77392,243,3189,49382,196,"B.1.22-1, Besprechungsbox",B.1.22-1@1910,34694,false
-1910.01.121C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75575,243,3189,49382,12,"C.1.21, Büro",C.1.21@1910,,false
-1910.01.122B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,77393,243,3189,49382,196,"B.1.22-2, Besprechungsbox",B.1.22-2@1910,34695,false
-1910.01.122C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75576,243,3189,49382,12,"C.1.22, Büro",C.1.22@1910,,false
-1910.01.123B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,77394,243,3189,49382,196,"B.1.22-3, Besprechungsbox",B.1.22-3@1910,34696,false
-1910.01.123C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75577,243,3189,49382,12,"C.1.23, Büro",C.1.23@1910,,false
-1910.01.124B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78625,243,3189,49382,12,"B.1.22, Wechsel AP",B.1.22@1910,,false
-1910.01.124C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75578,243,3189,49382,12,"C.1.24, Büro",C.1.24@1910,35652,false
-1910.01.130C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75579,243,3189,49382,12,"C.1.30, Büro",C.1.30@1910,,false
-1910.01.131B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,78515,243,3189,49382,12,"B.1.21, Techniker Büro",B.1.21@1910,,false
-1910.01.131C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75580,243,3189,57117,12,"C.1.31, Büro",C.1.31@1910,,false
+1910.01.120C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75559,243,3189,57257,12,"C.1.20, Büro",C.1.20@1910,,false
+1910.01.121B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,77392,243,3189,49382,196,"B.1.22-1, Besprechungsbox",B.1.22-1@1910,34694,false
+1910.01.121C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75575,243,3189,57257,12,"C.1.21, Büro",C.1.21@1910,,false
+1910.01.122B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,77393,243,3189,49382,196,"B.1.22-2, Besprechungsbox",B.1.22-2@1910,34695,false
+1910.01.122C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75576,243,3189,57257,12,"C.1.22, Büro",C.1.22@1910,,false
+1910.01.123B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,77394,243,3189,49382,196,"B.1.22-3, Besprechungsbox",B.1.22-3@1910,34696,false
+1910.01.123C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75577,243,3189,57257,12,"C.1.23, Büro",C.1.23@1910,,false
+1910.01.124B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78625,243,3189,56037,12,"B.1.88, Wechsel AP",B.1.88@1910,,false
+1910.01.124C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75578,243,3189,49382,12,"C.1.24, Büro (gem. Nutzung MGT+ CIT)",C.1.24@1910,35652,false
+1910.01.130C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75579,243,3189,57257,12,"C.1.30, Büro",C.1.30@1910,,false
+1910.01.131B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,78515,243,3189,55937,12,"B.1.21, Techniker Büro",B.1.21@1910,,false
+1910.01.131C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75580,243,3189,57257,12,"C.1.31, Büro",C.1.31@1910,,false
 1910.01.132C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75560,243,3189,49382,196,"C.1.32, Besprechungsraum",C.1.32@1910,33598,false
-1910.01.140B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78485,243,3189,49382,12,"B.1.40, Büro",B.1.40@1910,,false
-1910.01.140C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75581,243,3189,49382,12,"C.1.40, Büro",C.1.40@1910,35653,false
-1910.01.141B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78502,243,3189,49382,12,"B.1.41, WiMi Büro",B.1.41@1910,,false
-1910.01.141C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75582,243,3189,49382,12,"C.1.41, Büro",C.1.41@1910,,false
-1910.01.142B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78503,243,3189,49382,12,"B.1.42, Büro",B.1.42@1910,,false
-1910.01.142C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75583,243,3189,58097,12,"C.1.42, Büro",C.1.42@1910,,false
-1910.01.143B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78504,243,3189,49382,12,"B.1.43, Büro",B.1.43@1910,,false
-1910.01.143C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75584,243,3189,49382,12,"C.1.43, Büro",C.1.43@1910,,false
-1910.01.144B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78520,243,3189,49382,12,"B.1.44, WiMi Büro",B.1.44@1910,,false
-1910.01.144C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75585,243,3189,49382,12,"C.1.44, Büro",C.1.44@1910,,false
-1910.01.145B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78524,243,3189,49382,12,"B.1.45, Büro",B.1.45@1910,,false
-1910.01.145C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75586,243,3189,49382,12,"C.1.45, Büro",C.1.45@1910,35654,false
-1910.01.146B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78525,243,3189,49382,12,"B.1.46, WiMi Büro",B.1.46@1910,,false
-1910.01.147B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78495,243,3189,49382,12,"B.1.47, Büro",B.1.47@1910,,false
-1910.01.148B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78501,243,3189,49382,12,"B.1.48, WiMi Büro",B.1.48@1910,,false
-1910.01.150B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78499,243,3189,49382,113,"B.1.50, Duschraum",B.1.50@1910,,false
-1910.01.150C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75562,243,3189,49382,196,"C.1.50, Besprechungsraum",C.1.50@1910,,false
-1910.01.151B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78505,243,3189,49382,113,"B.1.51, Duschraum",B.1.51@1910,,false
-1910.01.151C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75561,243,3189,49382,196,"C.1.51, Besprechungsraum",C.1.51@1910,,false
-1910.01.152B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78526,243,3189,49382,117,"B.1.52, WC-Barrierefrei",B.1.52@1910,,false
-1910.01.152C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75587,243,3189,49382,12,"C.1.52, Büro",C.1.52@1910,,false
-1910.01.153B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78498,243,3189,49382,30,"B.1.53, PUMI/Lager",B.1.53@1910,,false
-1910.01.153C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75588,243,3189,49382,198,"C.1.53, Teeküche",C.1.53@1910,,false
-1910.01.154B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78528,243,3189,49382,116,"B.1.54, WC-Damen",B.1.54@1910,,false
-1910.01.154C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75542,243,3189,49382,196,"C.1.54, Telefonbox",C.1.54@1910,,false
-1910.01.155B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78527,243,3189,49382,115,"B.1.55, WC-Herren",B.1.55@1910,,false
-1910.01.155C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75543,243,3189,49382,196,"C.1.55, Telefonbox",C.1.55@1910,,false
-1910.01.156B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78514,243,3189,49382,16,"B.1.56, Steg",B.1.56@1910,,false
-1910.01.156C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75544,243,3189,49382,30,"C.1.56, Lager",C.1.56@1910,,false
-1910.01.157C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75545,243,3189,49382,12,"C.1.57, Kopierer/Archiv",C.1.57@1910,,false
-1910.01.158C,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78484,243,3189,49382,12,"C.1.58, Arbeitsbereich",C.1.58@1910,,false
-1910.01.181B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78506,243,3189,49382,223,"B.1.81, TRH 2",B.1.81@1910,,false
-1910.01.181C,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78494,243,3189,49382,223,"C.1.81, TRH 1",C.1.81@1910,,false
-1910.01.182B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78509,243,3189,49382,223,"B.1.82, TRH 3",B.1.82@1910,,false
-1910.01.182C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75540,243,3189,49382,222,"C.1.82, Flur",C.1.82@1910,,false
-1910.01.184B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78496,243,3189,49382,222,"B.1.84, Flur",B.1.84@1910,,false
-1910.01.185B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78497,243,3189,49382,222,"B.1.85, Flur",B.1.85@1910,,false
-1910.01.187B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78508,243,3189,49382,222,"B.1.87, Flur",B.1.87@1910,,false
-1910.01.188B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78507,243,3189,49382,222,"B.1.88, Flur",B.1.88@1910,,false
-1910.01.189B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78513,243,3189,49382,222,"B.1.89, Flur",B.1.89@1910,,false
+1910.01.140B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78485,243,3189,57257,12,"B.1.40, Büro",B.1.40@1910,,false
+1910.01.140C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75581,243,3189,49382,12,"C.1.40, Büro (gem. Nutzung MGT+ CIT)",C.1.40@1910,35653,false
+1910.01.141B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78502,243,3189,57257,12,"B.1.41, WiMi Büro",B.1.41@1910,,false
+1910.01.141C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75582,243,3189,57257,12,"C.1.41, Büro",C.1.41@1910,,false
+1910.01.142B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78503,243,3189,55937,12,"B.1.42, Büro",B.1.42@1910,,false
+1910.01.142C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75583,243,3189,57257,12,"C.1.42, Büro",C.1.42@1910,,false
+1910.01.143B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78504,243,3189,55937,12,"B.1.43, Büro",B.1.43@1910,,false
+1910.01.143C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75584,243,3189,57257,12,"C.1.43, Büro",C.1.43@1910,,false
+1910.01.144B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78520,243,3189,55937,12,"B.1.44, WiMi Büro",B.1.44@1910,,false
+1910.01.144C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75585,243,3189,57257,12,"C.1.44, Büro",C.1.44@1910,,false
+1910.01.145B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78524,243,3189,55937,12,"B.1.45, Büro",B.1.45@1910,,false
+1910.01.145C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75586,243,3189,49382,12,"C.1.45, Büro (gem. Nutzung MGT+ CIT)",C.1.45@1910,35654,false
+1910.01.146B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78525,243,3189,55937,12,"B.1.46, WiMi Büro",B.1.46@1910,,false
+1910.01.147B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78495,243,3189,55937,12,"B.1.47, Büro",B.1.47@1910,,false
+1910.01.148B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78501,243,3189,55937,12,"B.1.48, WiMi Büro",B.1.48@1910,,false
+1910.01.150B,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,1.OG,78499,243,3189,56037,113,"B.1.50, Duschraum",B.1.50@1910,,false
+1910.01.150C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75562,243,3189,56037,196,"C.1.50, Besprechungsraum",C.1.50@1910,,false
+1910.01.151B,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,1.OG,78505,243,3189,56037,113,"B.1.51, Duschraum",B.1.51@1910,,false
+1910.01.151C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75561,243,3189,56037,196,"C.1.51, Besprechungsraum",C.1.51@1910,,false
+1910.01.152B,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,1.OG,78526,243,3189,56037,117,"B.1.52, WC-Barrierefrei",B.1.52@1910,,false
+1910.01.152C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75587,243,3189,56037,12,"C.1.52, Arbeitsbereich",C.1.52@1910,,false
+1910.01.153C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75588,243,3189,56037,198,"C.1.53, Teeküche",C.1.53@1910,,false
+1910.01.154B,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,1.OG,78528,243,3189,56037,116,"B.1.54, WC-Damen",B.1.54@1910,,false
+1910.01.154C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75542,243,3189,56037,196,"C.1.54, Telefonbox",C.1.54@1910,,false
+1910.01.155B,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,1.OG,78527,243,3189,56037,115,"B.1.55, WC-Herren",B.1.55@1910,,false
+1910.01.155C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75543,243,3189,56037,196,"C.1.55, Telefonbox",C.1.55@1910,,false
+1910.01.156B,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,78514,243,3189,56037,16,"B.1.56, Steg",B.1.56@1910,,false
+1910.01.157C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,75545,243,3189,56037,12,"C.1.57, Kopierer/Archiv",C.1.57@1910,,false
+1910.01.158C,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78484,243,3189,56037,12,"C.1.58, Arbeitsbereich",C.1.58@1910,,false
+1910.01.181B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,78506,243,3189,56037,223,"B.1.81, TRH 2",B.1.81@1910,,false
+1910.01.181C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,78494,243,3189,56037,223,"C.1.81, TRH 1",C.1.81@1910,,false
+1910.01.182B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),1.OG,78509,243,3189,56037,223,"B.1.82, TRH 3",B.1.82@1910,,false
+1910.01.182C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,1.OG,75540,243,3189,56037,222,"C.1.82, Flur",C.1.82@1910,,false
+1910.01.184B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78496,243,3189,56037,222,"B.1.84, Flur",B.1.84@1910,,false
+1910.01.185B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78497,243,3189,56037,222,"B.1.85, Flur",B.1.85@1910,,false
+1910.01.189B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,1.OG,78513,243,3189,56037,222,"B.1.89, Flur",B.1.89@1910,,false
 1910.EG.020B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77062,243,3189,49382,194,"B.0.20, Labor",B.0.20@1910,34512,false
-1910.EG.020C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78588,243,3189,49382,12,"C.0.20, Büro",C.0.20@1910,,false
 1910.EG.021B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77051,243,3189,49382,194,"B.0.21, Labor",B.0.21@1910,34513,false
-1910.EG.021C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75553,243,3189,49382,12,"C.0.21, Büro",C.0.21@1910,,false
+1910.EG.021C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75553,243,3189,57257,12,"C.0.21, Büro",C.0.21@1910,,false
 1910.EG.022B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77052,243,3189,49382,41,"B.0.22, Seminarraum",B.0.22@1910,34514,false
-1910.EG.022C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75571,243,3189,49382,12,"C.0.22, Büro",C.0.22@1910,,false
+1910.EG.022C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75571,243,3189,57257,12,"C.0.22, Büro",C.0.22@1910,,false
 1910.EG.023B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77057,243,3189,49382,41,"B.0.23, Seminarraum",B.0.23@1910,34515,false
-1910.EG.023C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75572,243,3189,49382,12,"C.0.23, Büro",C.0.23@1910,,false
-1910.EG.024B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78590,243,3189,49382,12,"B.0.24, Co-Working",B.0.24@1910,,false
-1910.EG.024C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75573,243,3189,49382,12,"C.0.24, Büro",C.0.24@1910,,false
-1910.EG.025B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78480,243,3189,49382,12,"B.0.25, Co-Working",B.0.25@1910,,false
-1910.EG.025C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75574,243,3189,49382,12,"C.0.25, Büro",C.0.25@1910,,false
-1910.EG.026C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75554,243,3189,49382,12,"C.0.26, Büro",C.0.26@1910,,false
-1910.EG.027B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78483,243,3189,49382,12,"B.0.27, Büro",B.0.27@1910,,false
-1910.EG.027C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75555,243,3189,49382,12,"C.0.27, Büro",C.0.27@1910,,false
-1910.EG.030C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75556,243,3189,49382,110,"C.0.30, Drucker/Post/Technik",C.0.30@1910,,false
-1910.EG.031C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78589,243,3189,49382,30,"C.0.31, Lager",C.0.31@1910,,false
-1910.EG.040B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78591,243,3189,49382,178,"B.0.40, Sanitätsraum",B.0.40@1910,,false
-1910.EG.040C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,78469,243,3189,49382,30,"C.0.40, PUMI",C.0.40@1910,,false
-1910.EG.041B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78473,243,3189,49382,30,"B.0.41, Catering Backstage",B.0.41@1910,,false
-1910.EG.041C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75568,243,3189,49382,114,"C.0.41, WC",C.0.41@1910,,false
+1910.EG.024C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75573,243,3189,57257,12,"C.0.24, Büro",C.0.24@1910,,false
+1910.EG.026C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75554,243,3189,54537,12,"C.0.26, Büro",C.0.26@1910,,false
+1910.EG.027C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75555,243,3189,57257,12,"C.0.27, Büro",C.0.27@1910,,false
+1910.EG.030C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75556,243,3189,56037,110,"C.0.30, Drucker/Post/Technik",C.0.30@1910,,false
+1910.EG.040B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78591,243,3189,56037,178,"B.0.40, Sanitätsraum",B.0.40@1910,,false
+1910.EG.041C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75568,243,3189,56037,114,"C.0.41, WC",C.0.41@1910,,false
 1910.EG.042B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77053,243,3189,49382,12,"B.0.42, Büro / Familienzimmer",B.0.42@1910,34516,false
-1910.EG.042C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75534,243,3189,49382,12,"C.0.42, Büro",C.0.42@1910,,false
 1910.EG.043B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77058,243,3189,49382,41,"B.0.43, Seminarraum",B.0.43@1910,34517,false
-1910.EG.043C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75535,243,3189,49382,12,"C.0.43, Büro",C.0.43@1910,,false
 1910.EG.044B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,77059,243,3189,49382,41,"B.0.44, Seminarraum",B.0.44@1910,34518,false
-1910.EG.044C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75546,243,3189,49382,196,"C.0.44, Besprechungsraum",C.0.44@1910,33596,false
-1910.EG.045B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78489,243,3189,49382,131,"B.0.45, Skill Sharing",B.0.45@1910,,false
-1910.EG.045C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75547,243,3189,49382,15,"C.0.45, Foyer Hörsaal",C.0.45@1910,,false
-1910.EG.046B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78490,243,3189,49382,139,"B.0.46, Cafetaria",B.0.46@1910,,false
-1910.EG.046C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75536,243,3189,49382,114,"C.0.46, WC",C.0.46@1910,,false
-1910.EG.047C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75537,243,3189,49382,222,"C.0.47, Flur",C.0.47@1910,,false
-1910.EG.050B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78470,243,3189,49382,18,"B.0.50, Lager Tech",B.0.50@1910,,false
+1910.EG.044C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75546,243,3189,49382,196,"C.0.44, Besprechungsraum",C.0.44@1910,33596,false
+1910.EG.045C,Heilbronn,Weipertstr. 8-10,74076,,,,Spannteppich,EG,75547,243,3189,56037,15,"C.0.45, Foyer Hörsaal",C.0.45@1910,,false
+1910.EG.046C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75536,243,3189,56037,114,"C.0.46, WC",C.0.46@1910,,false
+1910.EG.047C,Heilbronn,Weipertstr. 8-10,74076,,,,Fliesen,EG,75537,243,3189,56037,222,"C.0.47, Flur",C.0.47@1910,,false
 1910.EG.050C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75548,243,3189,49382,20,"C.0.50, Hörsaal",C.0.50@1910,33597,false
-1910.EG.051B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78521,243,3189,49382,117,"B.0.51, WC-Barrierefrei",B.0.51@1910,,false
-1910.EG.052B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78486,243,3189,49382,30,"B.0.52, PUMI/Lager",B.0.52@1910,,false
-1910.EG.053B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78474,243,3189,49382,116,"B.0.53, WC-Damen",B.0.53@1910,,false
-1910.EG.054B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78475,243,3189,49382,115,"B.0.54, WC-Herren",B.0.54@1910,,false
-1910.EG.055B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78476,243,3189,49382,36,"B.0.55, Stage",B.0.55@1910,,false
-1910.EG.058B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78487,243,3189,49382,30,"B.0.58, Lager",B.0.58@1910,,false
-1910.EG.059B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78488,243,3189,49382,30,"B.0.59, Lager",B.0.59@1910,,false
-1910.EG.080B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78477,243,3189,49382,52,"B.0.80, Windfang",B.0.80@1910,,false
-1910.EG.080C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75538,243,3189,49382,52,"C.0.80, Windfang",C.0.80@1910,,false
-1910.EG.081B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78472,243,3189,49382,223,"B.0.81, TRH 2",B.0.81@1910,,false
-1910.EG.081C,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78471,243,3189,49382,223,"C.0.81, TRH 1",C.0.81@1910,,false
-1910.EG.082B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78482,243,3189,49382,223,"B.0.82, TRH 3",B.0.82@1910,,false
-1910.EG.082C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75539,243,3189,49382,222,"C.0.82, Flur",C.0.82@1910,,false
-1910.EG.083B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78624,243,3189,49382,4,"B.0.83, Aufzug",B.0.83@1910,,false
-1910.EG.083C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75557,243,3189,49382,222,"C.0.83, Flur",C.0.83@1910,,false
-1910.EG.084B,Heilbronn,Weipertstr. 8-10,74076,,,,Keine Angabe,EG,78478,243,3189,49382,222,"B.0.84, Flur",B.0.84@1910,,false
-1910.EG.084C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75558,243,3189,49382,222,"C.0.84, Flur",C.0.84@1910,,false
+1910.EG.051B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78521,243,3189,56037,117,"B.0.51, WC-Barrierefrei",B.0.51@1910,,false
+1910.EG.053B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78474,243,3189,56037,116,"B.0.53, WC-Damen",B.0.53@1910,,false
+1910.EG.054B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78475,243,3189,56037,115,"B.0.54, WC-Herren",B.0.54@1910,,false
+1910.EG.080B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78477,243,3189,56037,52,"B.0.80, Windfang",B.0.80@1910,,false
+1910.EG.080C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75538,243,3189,56037,52,"C.0.80, Windfang",C.0.80@1910,,false
+1910.EG.081B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78472,243,3189,56037,223,"B.0.81, TRH 2",B.0.81@1910,,false
+1910.EG.081C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78471,243,3189,56037,223,"C.0.81, TRH 1",C.0.81@1910,,false
+1910.EG.082B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78482,243,3189,56037,223,"B.0.82, TRH 3",B.0.82@1910,,false
+1910.EG.082C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75539,243,3189,56037,222,"C.0.82, Flur",C.0.82@1910,,false
+1910.EG.083B,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,78624,243,3189,56037,4,"B.0.83, Aufzug",B.0.83@1910,,false
+1910.EG.083C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75557,243,3189,56037,222,"C.0.83, Flur",C.0.83@1910,,false
+1910.EG.084C,Heilbronn,Weipertstr. 8-10,74076,,,,Estrich (Beton),EG,75558,243,3189,56037,222,"C.0.84, Flur",C.0.84@1910,,false
 1912.02.201,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78311,243,3449,56037,44,"E3.2.01, Open Office F.1",E3.2.01@1912,,false
-1912.02.202,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78268,243,3449,56037,222,"E3.2.02, Flur 1",E3.2.02@1912,,false
+1912.02.202,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78268,243,3449,56037,222,"E3.2.02, Flur 1",E3.2.02@1912,,false
 1912.02.203,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78312,243,3449,56037,12,"E3.2.03, Büro",E3.2.03@1912,,false
 1912.02.204,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78313,243,3449,52720,12,"E3.2.04, Büro",E3.2.04@1912,,false
 1912.02.205,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78269,243,3449,56037,28,"E3.2.05, Küche",E3.2.05@1912,,false
 1912.02.206,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78361,243,3449,56037,115,"E3.2.06-1, WC-Herren",E3.2.06-1@1912,,false
 1912.02.206A,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78628,243,3449,56037,116,"E3.2.06-2, WC-Damen",E3.2.06-2@1912,,false
 1912.02.208,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78362,243,3449,56037,12,"E3.2.08, Büro",E3.2.08@1912,,false
-1912.02.209E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77042,243,3449,56037,196,"E3.2.09, Besprechungsraum",E3.2.09@1912,34522,false
-1912.02.210E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77060,243,3449,56037,196,"E3.2.10, Besprechungsraum",E3.2.10@1912,34523,false
+1912.02.209E,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,77042,243,3449,49382,196,"E3.2.09, Besprechungsraum",E3.2.09@1912,34522,false
+1912.02.210E,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,77060,243,3449,49382,196,"E3.2.10, Besprechungsraum",E3.2.10@1912,34523,false
 1912.02.211,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78270,243,3449,52720,12,"E3.2.11, Büro",E3.2.11@1912,,false
 1912.02.212,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78271,243,3449,52720,12,"E3.2.12, Büro",E3.2.12@1912,,false
 1912.02.213,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78272,243,3449,52720,12,"E3.2.13, Büro",E3.2.13@1912,,false
@@ -7782,18 +7681,18 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 1912.02.220E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77043,243,3449,49382,196,"E3.2.20, Besprechungsraum",E3.2.20@1912,34524,false
 1912.02.221,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78367,243,3449,56037,28,"E3.2.21, Küche",E3.2.21@1912,,false
 1912.02.222,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78274,243,3449,56037,115,"E3.2.22, WC-Herren",E3.2.22@1912,,false
-1912.02.223,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78369,243,3449,56037,222,"E3.2.23, Flur",E3.2.23@1912,,false
+1912.02.223,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78369,243,3449,56037,222,"E3.2.23, Flur",E3.2.23@1912,,false
 1912.02.227,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78372,243,3449,56037,44,"E3.2.27, Liegeraum",E3.2.27@1912,,false
 1912.02.229C,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78291,243,3449,56037,44,"E3.2.29.3, Lounge",E3.2.29.3@1912,,false
-1912.02.230E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77044,243,3449,56037,196,"E3.2.30, Besprechungsraum",E3.2.30@1912,34525,false
-1912.02.231E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77045,243,3449,56037,196,"E3.2.31, Besprechungsraum",E3.2.31@1912,34526,false
-1912.02.232E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77046,243,3449,56037,196,"E3.2.32, Besprechungsraum",E3.2.32@1912,34527,false
+1912.02.230E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77044,243,3449,49382,196,"E3.2.30, Besprechungsraum",E3.2.30@1912,34525,false
+1912.02.231E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77045,243,3449,49382,196,"E3.2.31, Besprechungsraum",E3.2.31@1912,34526,false
+1912.02.232E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77046,243,3449,49382,196,"E3.2.32, Besprechungsraum",E3.2.32@1912,34527,false
 1912.02.235,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78273,243,3449,56037,222,"E3.2.35, Flur",E3.2.35@1912,,false
 1912.02.236,Heilbronn,Edisonstr. 3,74076,,,,Fliesen,2.OG,78315,243,3449,56037,115,"E3.2.36, WC-Herren",E3.2.36@1912,,false
 1912.02.238E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77055,243,3449,49382,196,"E3.2.38, Besprechungsraum",E3.2.38@1912,34528,false
 1912.02.239,Heilbronn,Edisonstr. 3,74076,3,,,Fliesen,2.OG,78314,243,3449,56037,116,"E3.2.39, WC-Damen",E3.2.39@1912,,false
 1912.02.243,Heilbronn,Edisonstr. 3,74076,,,,Spannteppich,2.OG,78379,243,3449,56037,110,"E3.2.43, Kopierer",E3.2.43@1912,,false
-1912.02.245E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77047,243,3449,56037,196,"E3.2.45, Besprechungsraum",E3.2.45@1912,34529,false
+1912.02.245E,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,77047,243,3449,49382,196,"E3.2.45, Besprechungsraum",E3.2.45@1912,34529,false
 1912.02.246,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78380,243,3449,56037,28,"E3.2.46, Küche",E3.2.46@1912,,false
 1912.02.247,Heilbronn,Edisonstr. 3,74076,,,,Keine Angabe,2.OG,78288,243,3449,56037,28,"E3.2.47, Abst. Küche",E3.2.47@1912,,false
 1913.02.100,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,2.OG,78561,243,3709,14881,12,"A.02.100, Büro",A.02.100@1913,,false
@@ -7893,8 +7792,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 1913.04.805,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78458,243,3709,56037,222,"A.04.805, Flur",A.04.805@1913,,false
 1913.04.806,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78460,243,3709,56037,222,"A.04.806, Flur",A.04.806@1913,,false
 1913.04.807,Heilbronn,Edisonstr. 15,74076,,,,Linoleum,4.OG,78622,243,3709,56037,222,"A.04.807, Flur",A.04.807@1913,,false
-1915.01.101,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75549,243,3191,56037,20,"38.1.01, Hörsaal",38.1.01@1915,33600,false
-1915.01.102,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75550,243,3191,56037,20,"38.1.02, Hörsaal",38.1.02@1915,33601,false
+1915.01.101,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75549,243,3191,49382,20,"38.1.01, Hörsaal",38.1.01@1915,33600,false
+1915.01.102,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75550,243,3191,49382,20,"38.1.02, Hörsaal",38.1.02@1915,33601,false
 1915.01.103,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75551,243,3191,56037,15,"38.1.03, Foyer",38.1.03@1915,,false
 1915.01.104,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75522,243,3191,56037,136,"38.1.04, Vorbereitungsraum",38.1.04@1915,,false
 1915.01.106,Heilbronn,Etzelstr. 38,74076,,,,Fliesen,1.OG,75564,243,3191,56037,116,"38.1.06, WC-Damen",38.1.06@1915,,false
@@ -7906,9 +7805,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 1915.01.116A,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78391,243,3191,56037,12,"38.1.16.1, Think Tank 1",38.1.16.1@1915,,false
 1915.01.116B,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78393,243,3191,56037,12,"38.1.16.2, Think Tank 2",38.1.16.2@1915,,false
 1915.01.116C,Heilbronn,Etzelstr. 38,74076,,,,Keine Angabe,1.OG,78394,243,3191,56037,12,"38.1.16.3, Think Tank 3",38.1.16.3@1915,,false
-1915.01.117,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75980,243,3191,56037,41,"38.1.17, Seminarraum",38.1.17@1915,34192,false
-1915.01.118,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75981,243,3191,56037,41,"38.1.18, Seminarraum",38.1.18@1915,34193,false
-1915.01.119,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75982,243,3191,56037,41,"38.1.19, Seminarraum",38.1.19@1915,34194,false
+1915.01.117,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75980,243,3191,49382,41,"38.1.17, Seminarraum",38.1.17@1915,34192,false
+1915.01.118,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75981,243,3191,49382,41,"38.1.18, Seminarraum",38.1.18@1915,34193,false
+1915.01.119,Heilbronn,Etzelstr. 38,74076,,,,PVC,1.OG,75982,243,3191,49382,41,"38.1.19, Seminarraum",38.1.19@1915,34194,false
 2103.01.010,München,Schragenhofstr. 31,80992,,,,PVC,1.OG,43359,20,614,15318,121,"010, Umkleide",010@2103,,false
 2103.01.011,München,Schragenhofstr. 31,80992,,,,Fliesen,1.OG,43365,20,614,15318,210,"011, Waschraum",011@2103,,false
 2103.01.012,München,Schragenhofstr. 31,80992,,,,Estrich (Beton),1.OG,43430,20,614,15318,107,"012, Schreinerei",012@2103,,false
@@ -9600,56 +9499,64 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2410.U1.197F,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68940,17,2210,39688,120,"U1.97F, Install.",U1.97F@2410,,false
 2410.U1.197G,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68941,17,2210,39688,120,"U1.97G, Install.",U1.97G@2410,,false
 2410.U2.201,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68985,17,2210,39688,32,"U2.01, Lüftung",U2.01@2410,,false
-2410.U2.203,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68754,17,2210,39688,116,"U2.03, WC-Damen",U2.03@2410,,false
-2410.U2.204,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68753,17,2210,39688,116,"U2.04, WC-Damen",U2.04@2410,,false
-2410.U2.205,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68752,17,2210,39688,115,"U2.05, WC-Herren",U2.05@2410,,false
-2410.U2.206,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68751,17,2210,39688,115,"U2.06, WC-Herren",U2.06@2410,,false
-2410.U2.207,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68715,17,2210,39688,115,"U2.07, WC-Herren",U2.07@2410,,false
-2410.U2.208,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68714,17,2210,39688,116,"U2.08, WC-Damen",U2.08@2410,,false
+2410.U2.203,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68754,17,2210,39688,116,"-2.2410.010, WC-Damen",-2.2410.010@2410,,false
+2410.U2.204,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68753,17,2210,39688,116,"-2.2410.009, WC-Damen",-2.2410.009@2410,,false
+2410.U2.205,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68752,17,2210,39688,115,"-2.2410.008, WC-Herren",-2.2410.008@2410,,false
+2410.U2.206,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68751,17,2210,39688,115,"-2.2410.007, WC-Herren",-2.2410.007@2410,,false
+2410.U2.207,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68715,17,2210,39688,115,"-2.2410.005, WC-Herren",-2.2410.005@2410,,false
+2410.U2.208,München,Heßstr. 134,80797,,,,Fliesen,2.UG,68714,17,2210,39688,116,"-2.2410.004, WC-Damen",-2.2410.004@2410,,false
 2410.U2.209,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68984,17,2210,39688,120,"U2.09, Hausanschluss",U2.09@2410,,false
-2410.U2.215,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68739,17,2210,39688,194,"U2.15, Labor",U2.15@2410,,false
-2410.U2.216,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68750,17,2210,39688,194,"U2.16, Labor",U2.16@2410,,false
+2410.U2.215,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68739,17,2210,39688,194,"-2.2410.002, Lager TUM",-2.2410.002@2410,,false
+2410.U2.216,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68750,17,2210,39688,194,"-2.2410.001, Lager TUM",-2.2410.001@2410,,false
 2410.U2.219,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68912,17,2210,39688,204,"U2.19, Tiefgarage",U2.19@2410,,false
 2410.U2.220,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68643,17,2210,39688,120,"U2.20, Steuerungsanlage",U2.20@2410,,false
 2410.U2.221,München,Heßstr. 134,80797,,,,Linoleum,2.UG,68642,17,2210,39688,120,"U2.21, Steuerungsanlage",U2.21@2410,,false
 2410.U2.222,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69005,17,2210,39688,32,"U2.22, Lüftungszentrale",U2.22@2410,,false
 2410.U2.223,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69006,17,2210,39688,30,"U2.23, Lager",U2.23@2410,,false
 2410.U2.224,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69007,17,2210,39688,183,"U2.24, Sprinklerzentrale",U2.24@2410,,false
-2410.U2.229,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68953,17,2210,39688,204,"U2.29, Tiefgarage",U2.29@2410,,false
-2410.U2.290,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68913,17,2210,39688,222,"U2.90, Flur",U2.90@2410,,false
-2410.U2.291,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68914,17,2210,39688,222,"U2.91, Flur",U2.91@2410,,false
-2410.U2.292,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68915,17,2210,39688,222,"U2.92, Flur",U2.92@2410,,false
-2410.U2.293,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68916,17,2210,39688,222,"U2.93, Flur",U2.93@2410,,false
-2410.U2.294,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68986,17,2210,39688,222,"U2.94, Flur",U2.94@2410,,false
-2410.U2.295,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68987,17,2210,39688,222,"U2.95, Flur",U2.95@2410,,false
+2410.U2.229,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68953,17,2210,39688,204,"-2.2410.014, Tiefgarage",-2.2410.014@2410,,false
+2410.U2.290,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68913,17,2210,39688,222,"-2.2410.706, Schleuse",-2.2410.706@2410,,false
+2410.U2.292,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68915,17,2210,39688,222,"-2.2410.701, Treppe/Vorraum",-2.2410.701@2410,,false
+2410.U2.293,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68916,17,2210,39688,222,"-2.2410.703, Flur",-2.2410.703@2410,,false
+2410.U2.294,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68986,17,2210,39688,222,"-2.2410.702, Flur",-2.2410.702@2410,,false
+2410.U2.295,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68987,17,2210,39688,222,"-2.2410.705, Gang",-2.2410.705@2410,,false
 2410.U2.295A,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68989,17,2210,39688,32,"U2.95A, Abluft",U2.95A@2410,,false
 2410.U2.295B,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68990,17,2210,39688,32,"U2.95B, Abluft",U2.95B@2410,,false
-2410.U2.295C,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68988,17,2210,39688,223,"U2.95C, Treppe",U2.95C@2410,,false
-2410.U2.296,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68954,17,2210,39688,222,"U2.96, Flur/Lüftung Seminarr.",U2.96@2410,,false
-2410.U2.297,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68955,17,2210,39688,222,"U2.97, Flur",U2.97@2410,,false
-2410.U2.298,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69008,17,2210,39688,222,"U2.98, Flur",U2.98@2410,,false
-2410.U2.298A,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69009,17,2210,39688,223,"U2.98A, Treppe",U2.98A@2410,,false
-2410.U2.298B,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68956,17,2210,39688,222,"U2.98B, Flur",U2.98B@2410,,false
+2410.U2.295C,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68988,17,2210,39688,223,"-2.2410.704, Treppe",-2.2410.704@2410,,false
+2410.U2.296,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68954,17,2210,39688,222,"-2.2410.013, Lüftung Seminarräume",-2.2410.013@2410,,false
+2410.U2.297,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68955,17,2210,39688,222,"-2.2410.707, Flur",-2.2410.707@2410,,false
+2410.U2.298,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69008,17,2210,39688,222,"-2.2410.708, Schleuse",-2.2410.708@2410,,false
+2410.U2.298A,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,69009,17,2210,39688,223,"-2.2410.710, Treppe",-2.2410.710@2410,,false
+2410.U2.298B,München,Heßstr. 134,80797,,,,Estrich (Beton),2.UG,68956,17,2210,39688,222,"-2.2410.709, Schleuse",-2.2410.709@2410,,false
 2410.U3.098C,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68964,17,2210,39688,195,"U3.98C, Schacht f. Lastenaufzug",U3.98C@2410,,false
-2410.U3.301,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69010,17,2210,39688,30,"U3.01, Werkstatt/Lager",U3.01@2410,,false
+2410.U3.301,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69010,17,2210,39688,30,"-3.2410.010, Lager TUM",-3.2410.010@2410,,false
+2410.U3.301D,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78629,17,2210,38009,205,"-3.2410.009, Putzgeräte",-3.2410.009@2410,,false
 2410.U3.302,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68918,17,2210,39688,201,"U3.02, Fernwärme",U3.02@2410,,false
-2410.U3.304,München,Heßstr. 134,80797,,,,Fliesen,3.UG,68644,17,2210,39688,114,"U3.04, WC",U3.04@2410,,false
+2410.U3.304,München,Heßstr. 134,80797,,,,Fliesen,3.UG,68644,17,2210,39688,114,"-3.2410.005, WC / Dusche",-3.2410.005@2410,,false
 2410.U3.305,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69011,17,2210,39688,32,"U3.05, Lüftungszentrale",U3.05@2410,,false
-2410.U3.308,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68919,17,2210,39688,30,"U3.08, Lager",U3.08@2410,,false
-2410.U3.309,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68994,17,2210,39688,30,"U3.09, Lager",U3.09@2410,,false
-2410.U3.310,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68993,17,2210,39688,30,"U3.10, Lager",U3.10@2410,,false
+2410.U3.308,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68919,17,2210,39688,30,"-3.2410.002, Lager Doerner",-3.2410.002@2410,,false
+2410.U3.310,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68993,17,2210,39688,30,"-3.2410.001, Lager TUM",-3.2410.001@2410,,false
+2410.U3.311,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78630,17,2210,38009,104,"-3.2410.012, Fotoentwicklung",-3.2410.012@2410,,false
 2410.U3.312,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68957,17,2210,39688,120,"U3.12, Dampfkessel",U3.12@2410,,false
 2410.U3.313,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68917,17,2210,39688,120,"U3.13, Unteres Technikum",U3.13@2410,,false
 2410.U3.314,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68958,17,2210,39688,120,"U3.14, Steuerung",U3.14@2410,,false
-2410.U3.315,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68959,17,2210,39688,30,"U3.15, Lager",U3.15@2410,,false
+2410.U3.315,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68959,17,2210,39688,30,"-3.2410.021, Stellwände (Bildarchiv)",-3.2410.021@2410,,false
 2410.U3.315A,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68961,17,2210,39688,5,"U3.15A, Aufzugsmaschinenajum",U3.15A@2410,,false
-2410.U3.318,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68996,17,2210,39688,30,"U3.18, Falltisch",U3.18@2410,,false
-2410.U3.390,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69014,17,2210,39688,222,"U3.90, Flur",U3.90@2410,,false
-2410.U3.392,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69013,17,2210,39688,222,"U3.92, Flur",U3.92@2410,,false
-2410.U3.393,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69012,17,2210,39688,222,"U3.93, Flur",U3.93@2410,,false
-2410.U3.394,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68995,17,2210,39688,222,"U3.94, Flur",U3.94@2410,,false
-2410.U3.395,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68997,17,2210,39688,223,"U3.95, Treppe",U3.95@2410,,false
-2410.U3.396,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68960,17,2210,39688,222,"U3.96, Flur",U3.96@2410,,false
+2410.U3.316,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78631,17,2210,38009,105,"-3.2410.706, Sicherheitsschleuse",-3.2410.706@2410,,false
+2410.U3.317,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78637,17,2210,38009,2,"-3.2410.017, Restaurierung Großformate",-3.2410.017@2410,,false
+2410.U3.319,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78632,17,2210,38009,107,"-3.2410.018, Schreinerei Bankraum",-3.2410.018@2410,,false
+2410.U3.320,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78638,17,2210,38009,103,"-3.2410.014, Gemäldeuntersuchung RFA/Motorsteuerun",-3.2410.014@2410,,false
+2410.U3.321,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78633,17,2210,38009,103,"-3.2410.015, Vasari / IRR",-3.2410.015@2410,,false
+2410.U3.322,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78639,17,2210,38009,51,"-3.2410.016, Cruise Scan",-3.2410.016@2410,,false
+2410.U3.323,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78634,17,2210,38009,12,"-3.2410.019, Büro",-3.2410.019@2410,,false
+2410.U3.370,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78640,17,2210,38009,223,"-3.2410.701, Treppe / Vorraum",-3.2410.701@2410,,false
+2410.U3.390,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69014,17,2210,39688,222,"-3.2410.703, Flur",-3.2410.703@2410,,false
+2410.U3.391,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78635,17,2210,38009,16,"-3.2410.708, Gang",-3.2410.708@2410,,false
+2410.U3.391A,München,Heßstr. 134,80797,,,,Keine Angabe,3.UG,78636,17,2210,38009,16,"-3.2410.707, Gang",-3.2410.707@2410,,false
+2410.U3.392,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69013,17,2210,39688,222,"-3.2410.702, Flur",-3.2410.702@2410,,false
+2410.U3.394,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68995,17,2210,39688,222,"-3.2410.705, Flur",-3.2410.705@2410,,false
+2410.U3.395,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68997,17,2210,39688,223,"-3.2410.704, Treppe",-3.2410.704@2410,,false
+2410.U3.396,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68960,17,2210,39688,222,"-3.2410.709, Treppe",-3.2410.709@2410,,false
 2410.U3.397A,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,68991,17,2210,39688,195,"U3.97A, Schacht f. Personenaufzug",U3.97A@2410,,false
 2410.U3.397B,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69015,17,2210,39688,120,"U3.97B, Install.",U3.97B@2410,,false
 2410.U3.397C,München,Heßstr. 134,80797,,,,Estrich (Beton),3.UG,69018,17,2210,39688,32,"U3.97C, Raumluft",U3.97C@2410,,false
