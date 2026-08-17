@@ -9,7 +9,7 @@ dependencies = [
   "brotli>=1.2.0",
   "dataframely==3.0.0",
   "defusedxml==0.7.1",
-  "holidays==0.102",
+  "holidays==0.103",
   "lxml==6.1.1",
   "orjson==3.12.0",
   "Pillow==12.3.0",
@@ -22,7 +22,7 @@ dependencies = [
   "ruamel.yaml==0.19.1",
   "tqdm==4.70.0",
   "utm==0.9.0",
-  "xxhash==4.0.0",
+  "xxhash==4.0.1",
 ]
 
 [dependency-groups]
