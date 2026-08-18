@@ -601,7 +601,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 0102.04.202A,München,Theresienstr. 90,80333,1,,,Linoleum,4.OG,66228,27,562,15360,103,"N4202A, Labor",N4202A@0102,,false
 0102.04.202B,München,Theresienstr. 90,80333,1,,,Linoleum,4.OG,66229,27,562,15360,103,"N4202B, Labor",N4202B@0102,,false
 0102.04.203,München,Theresienstr. 90,80333,4,,,Linoleum,4.OG,41510,27,562,15356,103,"N4203, Elektro Labor/Stud.Arbeitsplätze",N4203@0102,,false
-0102.04.204,München,Theresienstr. 90,80333,4,,,Linoleum,4.OG,41514,27,562,15360,211,"N4204, Elektronikpraktikum",N4204@0102,,false
+0102.04.204,München,Theresienstr. 90,80333,4,,,Linoleum,4.OG,41514,27,562,15360,211,"N4204, Elektronikpraktikum",N4204@0102,35772,false
 0102.04.205,München,Theresienstr. 90,80333,4,,,Linoleum,4.OG,41576,27,562,15356,103,"N4205, Messlabor",N4205@0102,,false
 0102.04.206,München,Theresienstr. 90,80333,4,,,Linoleum,4.OG,9294,27,562,15360,12,"N4206, Büro",N4206@0102,,false
 0102.04.208,München,Theresienstr. 90,80333,,,,Industrieanstrich,4.OG,41591,27,562,19691,115,"N4208, WC-Herren",N4208@0102,,false
@@ -9234,52 +9234,47 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2402.U2.008,München,Winzererstr. 45,80797,,,,Fliesen,2.UG,39932,17,596,19691,223,"K8, Treppenraum",K8@2402,,false
 2402.U2.009,München,Winzererstr. 45,80797,,,,Keine Angabe,2.UG,39935,17,596,19691,4,"K9, Aufzug",K9@2402,,false
 2402.U2.010,München,Winzererstr. 45,80797,,,,Fliesen,2.UG,39939,17,596,19691,223,"K10, Treppenraum",K10@2402,,false
-2410.01.101,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68562,17,2210,39688,196,"01.01, Konferenzraum",01.01@2410,,false
-2410.01.102,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68586,17,2210,39688,110,"01.02, Copy",01.02@2410,,false
-2410.01.103,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68515,17,2210,39688,115,"01.03, WC-Herren",01.03@2410,,false
-2410.01.104,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68516,17,2210,39688,116,"01.04, WC-Damen",01.04@2410,,false
-2410.01.105,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68517,17,2210,39688,121,"01.05, Umkleide-Damen",01.05@2410,,false
-2410.01.106,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68501,17,2210,39688,44,"01.06, Aufenthalt",01.06@2410,,false
-2410.01.107,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68587,17,2210,39688,30,"01.07, Lager",01.07@2410,,false
-2410.01.108,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68589,17,2210,39688,121,"01.08, Umkleide-Herren",01.08@2410,,false
-2410.01.109,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68588,17,2210,39688,115,"01.09, WC-Herren",01.09@2410,,false
-2410.01.110,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68590,17,2210,39688,116,"01.10, WC-Damen",01.10@2410,,false
-2410.01.111,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68518,17,2210,39688,110,"01.11, Copy",01.11@2410,,false
-2410.01.120,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68509,17,2210,39688,194,"01.20, Labor",01.20@2410,,false
-2410.01.122,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68507,17,2210,39688,194,"01.22, Labor",01.22@2410,,false
-2410.01.124,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68508,17,2210,39688,194,"01.24, Labor",01.24@2410,,false
-2410.01.126,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68510,17,2210,39688,194,"01.26, Labor",01.26@2410,,false
-2410.01.128,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68511,17,2210,39688,194,"01.28, Labor",01.28@2410,,false
-2410.01.130,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68512,17,2210,39688,194,"01.30, Labor",01.30@2410,,false
-2410.01.140,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68580,17,2210,39688,12,"01.40, Büro",01.40@2410,,false
-2410.01.141,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68581,17,2210,39688,12,"01.41, Büro",01.41@2410,,false
-2410.01.142,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68494,17,2210,39688,12,"01.42, Büro",01.42@2410,,false
-2410.01.143,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68495,17,2210,39688,12,"01.43, Büro",01.43@2410,,false
-2410.01.144,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68496,17,2210,39688,12,"01.44, Büro",01.44@2410,,false
-2410.01.145,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68497,17,2210,39688,12,"01.45, Büro",01.45@2410,,false
-2410.01.146,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68498,17,2210,39688,12,"01.46, Büro",01.46@2410,,false
-2410.01.147,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68499,17,2210,39688,12,"01.47, Büro",01.47@2410,,false
-2410.01.148,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68500,17,2210,39688,12,"01.48, Büro",01.48@2410,,false
-2410.01.162,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68514,17,2210,39688,12,"01.62, Büro",01.62@2410,,false
-2410.01.163,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68513,17,2210,39688,12,"01.63, Büro",01.63@2410,,false
-2410.01.164,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68582,17,2210,39688,194,"01.64, Nasslabor",01.64@2410,,false
-2410.01.168,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68583,17,2210,39688,194,"01.68, Labor",01.68@2410,,false
-2410.01.170,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68584,17,2210,39688,12,"01.70, Büro",01.70@2410,,false
-2410.01.170A,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68585,17,2210,39688,207,"01.70A, EDV",01.70A@2410,,false
-2410.01.180,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68563,17,2210,39688,12,"01.80, Büro",01.80@2410,,false
-2410.01.181,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68564,17,2210,39688,12,"01.81, Büro",01.81@2410,,false
-2410.01.182,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68565,17,2210,39688,12,"01.82, Büro",01.82@2410,,false
-2410.01.183,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68566,17,2210,39688,178,"01.83, Ruheraum",01.83@2410,,false
-2410.01.184,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68575,17,2210,39688,12,"01.84, Büro",01.84@2410,,false
-2410.01.185,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68576,17,2210,39688,12,"01.85, Büro",01.85@2410,,false
-2410.01.186,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68577,17,2210,39688,12,"01.86, Büro",01.86@2410,,false
-2410.01.187,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68578,17,2210,39688,12,"01.87, Büro",01.87@2410,,false
-2410.01.188,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68579,17,2210,39688,12,"01.88, Büro",01.88@2410,,false
-2410.01.189,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68493,17,2210,39688,12,"01.89, Büro",01.89@2410,,false
-2410.01.190,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68519,17,2210,39688,222,"01.90, Flur",01.90@2410,,false
-2410.01.191,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68520,17,2210,39688,222,"01.91, Flur",01.91@2410,,false
-2410.01.192,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68567,17,2210,39688,223,"01.92, Treppenhaus",01.92@2410,,false
-2410.01.193,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68568,17,2210,39688,222,"01.93, Flur",01.93@2410,,false
+2410.01.101,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68562,17,2210,39688,196,"01.2410.021, Leitung",01.2410.021@2410,,false
+2410.01.102,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68586,17,2210,39688,110,"01.2410.022, WC-Barrierefrei",01.2410.022@2410,,false
+2410.01.103,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68515,17,2210,39688,115,"01.2410.028, WC-Herren",01.2410.028@2410,,false
+2410.01.104,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68516,17,2210,39688,116,"01.2410.030, WC-Damen",01.2410.030@2410,,false
+2410.01.105,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68517,17,2210,39688,121,"01.2410.032, Umkleide-Damen",01.2410.032@2410,,false
+2410.01.106,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68501,17,2210,39688,44,"01.2410.026, Teeküche/Pause",01.2410.026@2410,,false
+2410.01.107,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68587,17,2210,39688,30,"01.2410.024, IT-Raum",01.2410.024@2410,,false
+2410.01.108,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68589,17,2210,39688,121,"01.2410.020, Umkleide-Herren",01.2410.020@2410,,false
+2410.01.109,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68588,17,2210,39688,115,"01.2410.014, WC-Herren",01.2410.014@2410,,false
+2410.01.110,München,Heßstr. 134,80797,,,,Fliesen,1.OG,68590,17,2210,39688,116,"01.2410.016, WC-Damen",01.2410.016@2410,,false
+2410.01.111,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68518,17,2210,39688,110,"01.2410.018, Copy",01.2410.018@2410,,false
+2410.01.120,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68509,17,2210,39688,194,"01.2410.034, Human Machine Intelligence Labor",01.2410.034@2410,,false
+2410.01.124,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68508,17,2210,39688,194,"01.2410.038, Human Machine Intelligence Labor",01.2410.038@2410,,false
+2410.01.128,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68511,17,2210,39688,194,"01.2410.042, Human Machine Intelligence Labor",01.2410.042@2410,,false
+2410.01.140,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68580,17,2210,39688,12,"01.2410.023, Büro",01.2410.023@2410,,false
+2410.01.141,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68581,17,2210,39688,12,"01.2410.025, Büro",01.2410.025@2410,,false
+2410.01.142,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68494,17,2210,39688,12,"01.2410.027, Büro",01.2410.027@2410,,false
+2410.01.143,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68495,17,2210,39688,12,"01.2410.029, Büro",01.2410.029@2410,,false
+2410.01.144,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68496,17,2210,39688,12,"01.2410.031, Büro",01.2410.031@2410,,false
+2410.01.145,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68497,17,2210,39688,12,"01.2410.033, Büro",01.2410.033@2410,,false
+2410.01.146,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68498,17,2210,39688,12,"01.2410.035, Büro",01.2410.035@2410,,false
+2410.01.147,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68499,17,2210,39688,12,"01.2410.037, Büro",01.2410.037@2410,,false
+2410.01.148,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68500,17,2210,39688,12,"01.2410.039, Studentsroom",01.2410.039@2410,,false
+2410.01.162,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68514,17,2210,39688,12,"01.2410.010, Technischer Arbeitsraum-Robotics",01.2410.010@2410,,false
+2410.01.164,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68582,17,2210,39688,194,"01.2410.006, Technischer Arbeitsraum-Prosthetics",01.2410.006@2410,,false
+2410.01.168,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68583,17,2210,39688,194,"01.2410.004, Technischer Arbeitsraum-ML",01.2410.004@2410,,false
+2410.01.180,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68563,17,2210,39688,12,"01.2410.019, Sekretariat",01.2410.019@2410,,false
+2410.01.181,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68564,17,2210,39688,12,"01.2410.017, Büro",01.2410.017@2410,,false
+2410.01.182,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68565,17,2210,39688,12,"01.2410.015, Büro",01.2410.015@2410,,false
+2410.01.183,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68566,17,2210,39688,178,"01.2410.013, Büro",01.2410.013@2410,,false
+2410.01.184,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68575,17,2210,39688,12,"01.2410.011, Büro",01.2410.011@2410,,false
+2410.01.185,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68576,17,2210,39688,12,"01.2410.009, Büro",01.2410.009@2410,,false
+2410.01.186,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68577,17,2210,39688,12,"01.2410.007, Büro",01.2410.007@2410,,false
+2410.01.188,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68579,17,2210,39688,12,"01.2410.003, Technischer Arbeitsraum Mechatronics",01.2410.003@2410,,false
+2410.01.189,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68493,17,2210,39688,12,"01.2410.001, Technischer Arbeitsraum Mechatronics",01.2410.001@2410,,false
+2410.01.190,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68519,17,2210,39688,222,"01.2410.705, Flur",01.2410.705@2410,,false
+2410.01.190A,München,Heßstr. 134,80797,,,,Keine Angabe,1.OG,78652,17,2210,38009,222,"01.2410.702, Flur",01.2410.702@2410,,false
+2410.01.191,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68520,17,2210,39688,222,"01.2410.706, Flur/Verteiler",01.2410.706@2410,,false
+2410.01.192,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68567,17,2210,39688,223,"01.2410.701, Treppe/Vorraum",01.2410.701@2410,,false
+2410.01.192A,München,Heßstr. 134,80797,,,,Keine Angabe,1.OG,78654,17,2210,38009,222,"01.2410.703, Flur",01.2410.703@2410,,false
+2410.01.193,München,Heßstr. 134,80797,,,,Spannteppich,1.OG,68568,17,2210,39688,222,"01.2410.704, Flur",01.2410.704@2410,,false
 2410.01.194,München,Heßstr. 134,80797,,,,Estrich (Beton),1.OG,69020,17,2210,39688,7,"01.94, Treppe im Freien",01.94@2410,,false
 2410.01.195,München,Heßstr. 134,80797,,,,Keine Angabe,1.OG,68591,17,2210,39688,137,"01.95, Dachterrasse",01.95@2410,,false
 2410.01.196,München,Heßstr. 134,80797,,,,Estrich (Beton),1.OG,69021,17,2210,39688,7,"01.96, Treppe im Freien",01.96@2410,,false
@@ -9290,181 +9285,166 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2410.01.197E,München,Heßstr. 134,80797,,,,Linoleum,1.OG,68569,17,2210,39688,195,"01.97E, Aufzugschacht f. Pers.",01.97E@2410,,false
 2410.01.197F,München,Heßstr. 134,80797,,,,Estrich (Beton),1.OG,68933,17,2210,39688,120,"01.97F, Install.",01.97F@2410,,false
 2410.01.197G,München,Heßstr. 134,80797,,,,Estrich (Beton),1.OG,68934,17,2210,39688,120,"01.97G, Install.",01.97G@2410,,false
-2410.02.201,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68651,17,2210,39688,196,"02.01, Besprechung",02.01@2410,,false
-2410.02.202,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68705,17,2210,39688,110,"02.02, Copy",02.02@2410,,false
-2410.02.203,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68706,17,2210,39688,115,"02.03, WC-Herren",02.03@2410,,false
-2410.02.204,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68730,17,2210,39688,116,"02.04, WC-Damen",02.04@2410,,false
-2410.02.205,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68731,17,2210,39688,121,"02.05, Umkleide/Dusche",02.05@2410,,false
-2410.02.206,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68723,17,2210,39688,44,"02.06, Aufenthalt/Teeküche",02.06@2410,,false
-2410.02.207,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68732,17,2210,39688,30,"02.07, Lager",02.07@2410,,false
-2410.02.208,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68678,17,2210,39688,30,"02.08, Poststelle",02.08@2410,,false
-2410.02.209,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68679,17,2210,39688,115,"02.09, WC-Herren",02.09@2410,,false
-2410.02.210,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68680,17,2210,39688,116,"02.10, WC-Damen",02.10@2410,,false
-2410.02.211,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68681,17,2210,39688,207,"02.11, Server-EDV",02.11@2410,,false
-2410.02.220,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68726,17,2210,39688,194,"02.20, Labor",02.20@2410,,false
-2410.02.222,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68725,17,2210,39688,194,"02.22, Labor",02.22@2410,,false
-2410.02.224,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68674,17,2210,39688,194,"02.24, Labor",02.24@2410,,false
-2410.02.226,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68673,17,2210,39688,194,"02.26, Labor",02.26@2410,,false
-2410.02.228,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68672,17,2210,39688,194,"02.28, Labor",02.28@2410,,false
-2410.02.230,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68670,17,2210,39688,194,"02.30, Labor",02.30@2410,,false
-2410.02.240,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68662,17,2210,39688,12,"02.40, Büro",02.40@2410,,false
-2410.02.241,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68724,17,2210,39688,12,"02.41, Büro",02.41@2410,,false
-2410.02.242,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68663,17,2210,39688,12,"02.42, Büro",02.42@2410,,false
-2410.02.243,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68664,17,2210,39688,12,"02.43, Büro",02.43@2410,,false
-2410.02.244,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68665,17,2210,39688,12,"02.44, Büro",02.44@2410,,false
-2410.02.245,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68666,17,2210,39688,12,"02.45, Büro",02.45@2410,,false
-2410.02.246,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68667,17,2210,39688,12,"02.46, Büro",02.46@2410,,false
-2410.02.247,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68668,17,2210,39688,12,"02.47, Büro",02.47@2410,,false
-2410.02.248,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68669,17,2210,39688,12,"02.48, Büro",02.48@2410,,false
-2410.02.249,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68671,17,2210,39688,12,"02.49, Büro",02.49@2410,,false
-2410.02.262,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68719,17,2210,39688,12,"02.62, Büro",02.62@2410,,false
-2410.02.262A,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68720,17,2210,39688,12,"02.62A, Büro",02.62A@2410,,false
-2410.02.264,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68721,17,2210,39688,28,"02.64, Küche",02.64@2410,,false
-2410.02.265,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68722,17,2210,39688,44,"02.65, Sozialraum",02.65@2410,,false
-2410.02.266,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68659,17,2210,39688,12,"02.80, Büro",02.80@2410,,false
-2410.02.267,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68660,17,2210,39688,12,"02.67, Büro",02.67@2410,,false
-2410.02.268,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68661,17,2210,39688,12,"02.68, Büro",02.68@2410,,false
-2410.02.280,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68652,17,2210,39688,12,"02.80, Büro",02.80@2410,,false
-2410.02.281,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68653,17,2210,39688,12,"02.81, Büro",02.81@2410,,false
-2410.02.282,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68654,17,2210,39688,12,"02.82, Büro",02.82@2410,,false
-2410.02.283,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68655,17,2210,39688,12,"02.83, Büro",02.83@2410,,false
-2410.02.284,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68656,17,2210,39688,12,"02.84, Büro",02.84@2410,,false
-2410.02.285,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68657,17,2210,39688,12,"02.85, Büro",02.85@2410,,false
-2410.02.286,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68658,17,2210,39688,12,"02.86, Büro",02.86@2410,,false
-2410.02.287,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68716,17,2210,39688,12,"02.87, Büro",02.87@2410,,false
-2410.02.288,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68717,17,2210,39688,12,"02.88, Büro",02.88@2410,,false
-2410.02.289,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68718,17,2210,39688,12,"02.89, Büro",02.89@2410,,false
-2410.02.290,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68727,17,2210,39688,222,"02.90, Flur",02.90@2410,,false
-2410.02.291,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68675,17,2210,39688,222,"02.91, Flur",02.91@2410,,false
-2410.02.292,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68677,17,2210,39688,222,"02.92, Flur",02.92@2410,,false
-2410.02.293,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68676,17,2210,39688,222,"02.93, Flur",02.93@2410,,false
+2410.02.201,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68651,17,2210,39688,196,"02.2410.021, Dokumentation",02.2410.021@2410,,false
+2410.02.202,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68705,17,2210,39688,110,"02.2410.022, WC-Barrierefrei",02.2410.022@2410,,false
+2410.02.203,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68706,17,2210,39688,115,"02.2410.030, WC-Herren",02.2410.030@2410,,false
+2410.02.204,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68730,17,2210,39688,116,"02.2410.032, WC-Damen",02.2410.032@2410,,false
+2410.02.205,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68731,17,2210,39688,121,"02.2410.034, Gasfl.",02.2410.034@2410,,false
+2410.02.206,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68723,17,2210,39688,44,"02.2410.028, Teeküche/Pause",02.2410.028@2410,,false
+2410.02.207,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68732,17,2210,39688,30,"02.2410.026, IT",02.2410.026@2410,,false
+2410.02.208,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68678,17,2210,39688,30,"02.2410.020, Lösemittel",02.2410.020@2410,,false
+2410.02.209,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68679,17,2210,39688,115,"02.2410.014, WC-Herren",02.2410.014@2410,,false
+2410.02.210,München,Heßstr. 134,80797,,,,Fliesen,2.OG,68680,17,2210,39688,116,"02.2410.016, WC-Damen",02.2410.016@2410,,false
+2410.02.211,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68681,17,2210,39688,207,"02.2410.018, Copy",02.2410.018@2410,,false
+2410.02.212,München,Heßstr. 134,80797,,,,Keine Angabe,2.OG,78653,17,2210,38009,121,"02.2410.024, Umkleide-Herren",02.2410.024@2410,,false
+2410.02.220,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68726,17,2210,39688,194,"02.2410.036, GC",02.2410.036@2410,,false
+2410.02.222,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68725,17,2210,39688,194,"02.2410.038, GC-MS",02.2410.038@2410,,false
+2410.02.224,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68674,17,2210,39688,194,"02.2410.040, REM/EDX",02.2410.040@2410,,false
+2410.02.226,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68673,17,2210,39688,194,"02.2410.042, Lichtmikroskopie",02.2410.042@2410,,false
+2410.02.228,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68672,17,2210,39688,194,"02.2410.043, Raman",02.2410.043@2410,,false
+2410.02.229,München,Heßstr. 134,80797,,,,Keine Angabe,2.OG,78645,17,2210,38009,103,"02.2410.044, Wäger",02.2410.044@2410,,false
+2410.02.230,München,Heßstr. 134,80797,,,,Linoleum,2.OG,68670,17,2210,39688,194,"02.2410.046, Materialsammlung",02.2410.046@2410,,false
+2410.02.240,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68662,17,2210,39688,12,"02.2410.023, Röntgenfilme Dias",02.2410.023@2410,,false
+2410.02.241,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68724,17,2210,39688,12,"02.2410.025, FTIR UV/VIS",02.2410.025@2410,,false
+2410.02.242,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68663,17,2210,39688,12,"02.2410.027, DC/Probenvorber.",02.2410.027@2410,,false
+2410.02.244,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68665,17,2210,39688,12,"02.2410.031, ASA 1 Dokumentation",02.2410.031@2410,,false
+2410.02.246,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68667,17,2210,39688,12,"02.2410.035, Chem. Lager Lösemittel",02.2410.035@2410,,false
+2410.02.247,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68668,17,2210,39688,12,"02.2410.037, Chem. Lager Feststoffe",02.2410.037@2410,,false
+2410.02.248,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68669,17,2210,39688,12,"02.2410.039, Künstlernachlässe",02.2410.039@2410,,false
+2410.02.265,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68722,17,2210,39688,44,"02.2410.001, Restaurierung",02.2410.001@2410,,false
+2410.02.280,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68652,17,2210,39688,12,"02.2410.017, Rahmenatelier",02.2410.017@2410,,false
+2410.02.282,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68654,17,2210,39688,12,"02.2410.015, Archiv NW",02.2410.015@2410,,false
+2410.02.283,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68655,17,2210,39688,12,"02.2410.013, Atelier Neue Medien",02.2410.013@2410,,false
+2410.02.284,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68656,17,2210,39688,12,"02.2410.009, Verpack. Ext. Besucher",02.2410.009@2410,,false
+2410.02.290,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68727,17,2210,39688,222,"02.2410.705, Flur",02.2410.705@2410,,false
+2410.02.291,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68675,17,2210,39688,222,"02.2410.706, Flur/Verteiler",02.2410.706@2410,,false
+2410.02.292,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68677,17,2210,39688,222,"02.2410.701, Treppe/Vorraum",02.2410.701@2410,,false
+2410.02.293,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68676,17,2210,39688,222,"02.2410.702, Flur",02.2410.702@2410,,false
 2410.02.294,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68728,17,2210,39688,7,"02.94, Treppe im Freien",02.94@2410,,false
+2410.02.295,München,Heßstr. 134,80797,,,,Keine Angabe,2.OG,78646,17,2210,38009,222,"02.2410.703, Flur",02.2410.703@2410,,false
 2410.02.296,München,Heßstr. 134,80797,,,,Spannteppich,2.OG,68729,17,2210,39688,7,"02.96, Treppe im Freien",02.96@2410,,false
 2410.02.297B,München,Heßstr. 134,80797,,,,Estrich (Beton),2.OG,68942,17,2210,39688,120,"02.97B, Install.",02.97B@2410,,false
 2410.02.297F,München,Heßstr. 134,80797,,,,Estrich (Beton),2.OG,68943,17,2210,39688,120,"02.97F, Install.",02.97F@2410,,false
 2410.02.297G,München,Heßstr. 134,80797,,,,Estrich (Beton),2.OG,68944,17,2210,39688,120,"02.97G, Install.",02.97G@2410,,false
-2410.03.301,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68707,17,2210,39688,196,"03.01, Besprechung",03.01@2410,,false
-2410.03.302,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68700,17,2210,39688,118,"03.02, WC-Vorraum",03.02@2410,,false
-2410.03.303,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68701,17,2210,39688,28,"03.03, Küche",03.03@2410,,false
-2410.03.304,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68702,17,2210,39688,116,"03.04, WC-Damen",03.04@2410,,false
-2410.03.305,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68703,17,2210,39688,116,"03.05, WC-Herren",03.05@2410,,false
-2410.03.306,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68749,17,2210,39688,118,"03.06, WC-Vorraum",03.06@2410,,false
-2410.03.307,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68704,17,2210,39688,28,"03.07, Küche",03.07@2410,,false
-2410.03.308,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68748,17,2210,39688,116,"03.08, WC-Damen",03.08@2410,,false
-2410.03.309,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68747,17,2210,39688,115,"03.09, WC-Herren",03.09@2410,,false
-2410.03.320,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68734,17,2210,39688,12,"03.20, Büro",03.20@2410,,false
-2410.03.322,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68735,17,2210,39688,12,"03.22, Büro",03.22@2410,,false
-2410.03.324,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68736,17,2210,39688,12,"03.24, Büro",03.24@2410,,false
-2410.03.328,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68737,17,2210,39688,12,"03.28, Büro",03.28@2410,,false
-2410.03.330,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68738,17,2210,39688,12,"03.30, Büro",03.30@2410,,false
-2410.03.341,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68693,17,2210,39688,12,"03.41, Büro",03.41@2410,,false
-2410.03.342,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68694,17,2210,39688,12,"03.42, Büro",03.42@2410,,false
-2410.03.343,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68692,17,2210,39688,12,"03.43, Büro",03.43@2410,,false
-2410.03.344,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68695,17,2210,39688,12,"03.44, Büro",03.44@2410,,false
-2410.03.345,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68696,17,2210,39688,12,"03.45, Büro",03.45@2410,,false
-2410.03.346,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68697,17,2210,39688,12,"03.46, Büro",03.46@2410,,false
-2410.03.347,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68698,17,2210,39688,12,"03.47, Büro",03.47@2410,,false
-2410.03.348,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68733,17,2210,39688,12,"03.48, Büro",03.48@2410,,false
-2410.03.360,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68687,17,2210,39688,12,"03.60, Büro",03.60@2410,,false
-2410.03.362,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68688,17,2210,39688,12,"03.62, Büro",03.62@2410,,false
-2410.03.364,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68689,17,2210,39688,12,"03.64, Büro",03.64@2410,,false
-2410.03.366,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68690,17,2210,39688,12,"03.66, Büro",03.66@2410,,false
-2410.03.368,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68691,17,2210,39688,12,"03.68, Büro",03.68@2410,,false
-2410.03.381,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68709,17,2210,39688,12,"03.81, Büro",03.81@2410,,false
-2410.03.382,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68682,17,2210,39688,12,"03.82, Büro",03.82@2410,,false
-2410.03.383,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68683,17,2210,39688,12,"03.83, Büro",03.83@2410,,false
-2410.03.384,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68684,17,2210,39688,12,"03.84, Büro",03.84@2410,,false
-2410.03.385,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68710,17,2210,39688,12,"03.85, Büro",03.85@2410,,false
-2410.03.386,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68685,17,2210,39688,12,"03.86, Büro",03.86@2410,,false
-2410.03.387,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68686,17,2210,39688,12,"03.87, Büro",03.87@2410,,false
-2410.03.388,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68708,17,2210,39688,196,"03.88, Besprechung",03.88@2410,,false
-2410.03.390,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68711,17,2210,39688,222,"03.90, Flur",03.90@2410,,false
-2410.03.391,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68699,17,2210,39688,222,"03.91, Flur",03.91@2410,,false
-2410.03.392,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68712,17,2210,39688,222,"03.92, Flur",03.92@2410,,false
-2410.03.393,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68713,17,2210,39688,222,"03.93, Flur",03.93@2410,,false
+2410.03.301,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68707,17,2210,39688,196,"03.2410.017, Direktion",03.2410.017@2410,,false
+2410.03.302,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68700,17,2210,39688,118,"03.2410.020, WC-Vorraum",03.2410.020@2410,,false
+2410.03.303,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68701,17,2210,39688,28,"03.2410.026, Küche",03.2410.026@2410,,false
+2410.03.304,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68702,17,2210,39688,116,"03.2410.024, WC-Damen",03.2410.024@2410,,false
+2410.03.305,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68703,17,2210,39688,116,"03.2410.022, WC-Herren",03.2410.022@2410,,false
+2410.03.306,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68749,17,2210,39688,118,"03.2410.018, WC-Vorraum",03.2410.018@2410,,false
+2410.03.307,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68704,17,2210,39688,28,"03.2410.012, Küche",03.2410.012@2410,,false
+2410.03.308,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68748,17,2210,39688,116,"03.2410.014, WC-Damen",03.2410.014@2410,,false
+2410.03.309,München,Heßstr. 134,80797,,,,Fliesen,3.OG,68747,17,2210,39688,115,"03.2410.016, WC-Herren",03.2410.016@2410,,false
+2410.03.320,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68734,17,2210,39688,12,"03.2410.028, Rest. PDM",03.2410.028@2410,,false
+2410.03.324,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68736,17,2210,39688,12,"03.2410.032, Rest. MB",03.2410.032@2410,,false
+2410.03.328,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68737,17,2210,39688,12,"03.2410.034, Präv. Kons.",03.2410.034@2410,,false
+2410.03.330,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68738,17,2210,39688,12,"03.2410.036, Vollontäre",03.2410.036@2410,,false
+2410.03.341,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68693,17,2210,39688,12,"03.2410.019, Leitung Rest.",03.2410.019@2410,,false
+2410.03.342,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68694,17,2210,39688,12,"03.2410.021, Rest.",03.2410.021@2410,,false
+2410.03.343,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68692,17,2210,39688,12,"03.2410.022, Rest. AP",03.2410.022@2410,,false
+2410.03.344,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68695,17,2210,39688,12,"03.2410.025, Rest. SG",03.2410.025@2410,,false
+2410.03.345,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68696,17,2210,39688,12,"03.2410.027, Rest. NP",03.2410.027@2410,,false
+2410.03.346,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68697,17,2210,39688,12,"03.2410.029, Rest. Foto",03.2410.029@2410,,false
+2410.03.347,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68698,17,2210,39688,12,"03.2410.031, Ltg. Equipment+Foto",03.2410.031@2410,,false
+2410.03.360,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68687,17,2210,39688,12,"03.2410.010, Präv. Kons/MAT",03.2410.010@2410,,false
+2410.03.362,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68688,17,2210,39688,12,"03.2410.008, Büro Flexibel",03.2410.008@2410,,false
+2410.03.364,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68689,17,2210,39688,12,"03.2410.006, Leitung MAT",03.2410.006@2410,,false
+2410.03.366,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68690,17,2210,39688,12,"03.2410.004, MAT",03.2410.004@2410,,false
+2410.03.368,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68691,17,2210,39688,12,"03.2410.002, Schereiner",03.2410.002@2410,,false
+2410.03.381,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68709,17,2210,39688,12,"03.2410.015, Sekretariat / Poststelle",03.2410.015@2410,,false
+2410.03.382,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68682,17,2210,39688,12,"03.2410.013, NWS",03.2410.013@2410,,false
+2410.03.383,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68683,17,2210,39688,12,"03.2410.011, Leitung NWS",03.2410.011@2410,,false
+2410.03.384,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68684,17,2210,39688,12,"03.2410.009, NWS",03.2410.009@2410,,false
+2410.03.385,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68710,17,2210,39688,12,"03.2410.007, NWS",03.2410.007@2410,,false
+2410.03.386,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68685,17,2210,39688,12,"03.2410.005, NWS",03.2410.005@2410,,false
+2410.03.388,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68708,17,2210,39688,196,"03.2410.001, Besprechungsraum",03.2410.001@2410,,false
+2410.03.390,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68711,17,2210,39688,222,"03.2410.705, Flur",03.2410.705@2410,,false
+2410.03.391,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68699,17,2210,39688,222,"03.2410.704, Flur",03.2410.704@2410,,false
+2410.03.392,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68712,17,2210,39688,222,"03.2410.701, Treppe/Vorraum",03.2410.701@2410,,false
+2410.03.393,München,Heßstr. 134,80797,,,,Spannteppich,3.OG,68713,17,2210,39688,222,"03.2410.702, Flur",03.2410.702@2410,,false
 2410.03.397B,München,Heßstr. 134,80797,,,,Estrich (Beton),3.OG,68949,17,2210,39688,120,"03.97B, Install.",03.97B@2410,,false
 2410.03.397F,München,Heßstr. 134,80797,,,,Estrich (Beton),3.OG,68950,17,2210,39688,120,"03.97F, Install.",03.97F@2410,,false
-2410.DG.201,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68998,17,2210,39688,222,"D2.01, Vorraum Dachgeschoss",D2.01@2410,,false
-2410.DG.202,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68920,17,2210,39688,223,"D2.02, Treppe",D2.02@2410,,false
-2410.DG.203,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68923,17,2210,39688,159,"D2.03, Dachraum",D2.03@2410,,false
+2410.DG.201,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68998,17,2210,39688,222,"04.2410.702, Vorraum",04.2410.702@2410,,false
+2410.DG.202,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68920,17,2210,39688,223,"04.2410.701, Treppe",04.2410.701@2410,,false
+2410.DG.203,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68923,17,2210,39688,159,"04.2410.001, Lüftungstechnik",04.2410.001@2410,,false
 2410.DG.204,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68921,17,2210,39688,5,"D2.04, Aufzugtechnik",D2.04@2410,,false
 2410.DG.205,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68922,17,2210,39688,5,"D2.05, Aufzugtechnik",D2.05@2410,,false
-2410.DG.206,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68999,17,2210,39688,2,"D2.06, Archiv/Technik",D2.06@2410,,false
+2410.DG.206,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,68999,17,2210,39688,2,"04.2410.004, Lüftungstechnik",04.2410.004@2410,,false
 2410.DG.207,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,69000,17,2210,39688,120,"D2.07, Technik",D2.07@2410,,false
 2410.DG.390,München,Heßstr. 134,80797,,,,Estrich (Beton),DG,69019,17,2210,39688,137,"D3.90, Dachplattform mit Kältemaschinen",D3.90@2410,,false
-2410.EG.001,München,Heßstr. 134,80797,,,,Spannteppich,EG,68431,17,2210,39688,12,"E.01, Empfang",E.01@2410,,false
-2410.EG.002,München,Heßstr. 134,80797,,,,Fliesen,EG,68488,17,2210,39688,115,"E.02, WC-Herren",E.02@2410,,false
-2410.EG.003,München,Heßstr. 134,80797,,,,Fliesen,EG,68440,17,2210,39688,121,"E.03, Umkleide",E.03@2410,,false
-2410.EG.004,München,Heßstr. 134,80797,,,,Fliesen,EG,68480,17,2210,39688,116,"E.04, WC-Damen",E.04@2410,,false
-2410.EG.005,München,Heßstr. 134,80797,,,,Fliesen,EG,68441,17,2210,39688,28,"E.05, Küche",E.05@2410,,false
-2410.EG.006,München,Heßstr. 134,80797,,,,Spannteppich,EG,68463,17,2210,39688,207,"E.06, Server-EDV",E.06@2410,,false
-2410.EG.007,München,Heßstr. 134,80797,,,,Spannteppich,EG,68464,17,2210,39688,12,"E.42, Büro",E.42@2410,,false
-2410.EG.008,München,Heßstr. 134,80797,,,,Fliesen,EG,68465,17,2210,39688,121,"E.08, Umkleide",E.08@2410,,false
-2410.EG.009,München,Heßstr. 134,80797,,,,Fliesen,EG,68473,17,2210,39688,115,"E.09, WC-Herren",E.09@2410,,false
-2410.EG.010,München,Heßstr. 134,80797,,,,Fliesen,EG,68474,17,2210,39688,116,"E.10, WC-Damen",E.10@2410,,false
-2410.EG.011,München,Heßstr. 134,80797,,,,Spannteppich,EG,68475,17,2210,39688,110,"E.11, Copy",E.11@2410,,false
+2410.EG.001,München,Heßstr. 134,80797,,,,Spannteppich,EG,68431,17,2210,39688,12,"00.2410.019, MSRM Showroom",00.2410.019@2410,,false
+2410.EG.002,München,Heßstr. 134,80797,,,,Fliesen,EG,68488,17,2210,39688,115,"00.2410.022, WC-Herren",00.2410.022@2410,,false
+2410.EG.003,München,Heßstr. 134,80797,,,,Fliesen,EG,68440,17,2210,39688,121,"00.2410.028, Umkleide-Damen",00.2410.028@2410,,false
+2410.EG.004,München,Heßstr. 134,80797,,,,Fliesen,EG,68480,17,2210,39688,116,"00.2410.026, WC-Damen",00.2410.026@2410,,false
+2410.EG.006,München,Heßstr. 134,80797,,,,Spannteppich,EG,68463,17,2210,39688,207,"00.2410.021, EDV-Lager",00.2410.021@2410,,false
+2410.EG.007,München,Heßstr. 134,80797,,,,Spannteppich,EG,68464,17,2210,39688,12,"00.2410.020, Hausmeisterbüro",00.2410.020@2410,,false
+2410.EG.008,München,Heßstr. 134,80797,,,,Fliesen,EG,68465,17,2210,39688,121,"00.2410.012, Umkleide",00.2410.012@2410,,false
+2410.EG.009,München,Heßstr. 134,80797,,,,Fliesen,EG,68473,17,2210,39688,115,"00.2410.014, WC-Herren",00.2410.014@2410,,false
+2410.EG.010,München,Heßstr. 134,80797,,,,Fliesen,EG,68474,17,2210,39688,116,"00.2410.016, WC-Damen",00.2410.016@2410,,false
+2410.EG.011,München,Heßstr. 134,80797,,,,Spannteppich,EG,68475,17,2210,39688,110,"00.2410.018, Copy",00.2410.018@2410,,false
 2410.EG.012,München,Heßstr. 134,80797,,,,Spannteppich,EG,68492,17,2210,39688,120,"E.12, BMZ",E.12@2410,,false
-2410.EG.020,München,Heßstr. 134,80797,,,,Linoleum,EG,68444,17,2210,39688,194,"E.20, Labor",E.20@2410,,false
-2410.EG.022,München,Heßstr. 134,80797,,,,Linoleum,EG,68442,17,2210,39688,194,"E.22, Labor",E.22@2410,,false
-2410.EG.024,München,Heßstr. 134,80797,,,,Linoleum,EG,68478,17,2210,39688,194,"E.24, Labor",E.24@2410,,false
-2410.EG.026,München,Heßstr. 134,80797,,,,Linoleum,EG,68439,17,2210,39688,194,"E.26, Labor",E.26@2410,,false
-2410.EG.028,München,Heßstr. 134,80797,,,,Linoleum,EG,68446,17,2210,39688,194,"E.28, Labor",E.28@2410,,false
-2410.EG.029,München,Heßstr. 134,80797,,,,Linoleum,EG,68481,17,2210,39688,178,"E.29, Ruheraum",E.29@2410,,false
-2410.EG.030,München,Heßstr. 134,80797,,,,Linoleum,EG,68447,17,2210,39688,194,"E.30, Labor",E.30@2410,,false
-2410.EG.042,München,Heßstr. 134,80797,,,,Spannteppich,EG,68452,17,2210,39688,12,"E.42, Büro",E.42@2410,,false
-2410.EG.043,München,Heßstr. 134,80797,,,,Spannteppich,EG,68487,17,2210,39688,12,"E.43, Büro",E.43@2410,,false
-2410.EG.044,München,Heßstr. 134,80797,,,,Spannteppich,EG,68489,17,2210,39688,12,"E.44, Büro",E.44@2410,,false
-2410.EG.045,München,Heßstr. 134,80797,,,,Spannteppich,EG,68601,17,2210,39688,12,"E.45, Büro",E.45@2410,,false
-2410.EG.046,München,Heßstr. 134,80797,,,,Spannteppich,EG,68602,17,2210,39688,12,"E.46, Büro",E.46@2410,,false
-2410.EG.047,München,Heßstr. 134,80797,,,,Spannteppich,EG,68603,17,2210,39688,12,"E.47, Büro",E.47@2410,,false
-2410.EG.049,München,Heßstr. 134,80797,,,,Spannteppich,EG,68604,17,2210,39688,12,"E.49, Büro",E.49@2410,,false
-2410.EG.064,München,Heßstr. 134,80797,,,,Spannteppich,EG,68571,17,2210,39688,207,"E.64, Server",E.64@2410,,false
-2410.EG.065,München,Heßstr. 134,80797,,,,Linoleum,EG,68606,17,2210,39688,194,"E.65, Labor",E.65@2410,,false
-2410.EG.066,München,Heßstr. 134,80797,,,,Linoleum,EG,68605,17,2210,39688,194,"E.66, Labor",E.66@2410,,false
-2410.EG.070,München,Heßstr. 134,80797,,,,Spannteppich,EG,68607,17,2210,39688,41,"E.70, Seminarraum",E.70@2410,,false
-2410.EG.080,München,Heßstr. 134,80797,,,,Spannteppich,EG,68595,17,2210,39688,12,"E.80, Büro",E.80@2410,,false
-2410.EG.081,München,Heßstr. 134,80797,,,,Spannteppich,EG,68570,17,2210,39688,12,"E.81, Büro",E.81@2410,,false
-2410.EG.082,München,Heßstr. 134,80797,,,,Spannteppich,EG,68521,17,2210,39688,12,"E.82, Büro",E.82@2410,,false
-2410.EG.083,München,Heßstr. 134,80797,,,,Spannteppich,EG,68522,17,2210,39688,12,"E.83, Büro",E.83@2410,,false
-2410.EG.084,München,Heßstr. 134,80797,,,,Spannteppich,EG,68523,17,2210,39688,12,"E.84, Büro",E.84@2410,,false
-2410.EG.085,München,Heßstr. 134,80797,,,,Spannteppich,EG,68596,17,2210,39688,12,"E.85, Büro",E.85@2410,,false
-2410.EG.086,München,Heßstr. 134,80797,,,,Spannteppich,EG,68597,17,2210,39688,12,"E.86, Büro",E.86@2410,,false
-2410.EG.087,München,Heßstr. 134,80797,,,,Spannteppich,EG,68598,17,2210,39688,12,"E.87, Büro",E.87@2410,,false
-2410.EG.088,München,Heßstr. 134,80797,,,,Spannteppich,EG,68599,17,2210,39688,12,"E.88, Büro",E.88@2410,,false
-2410.EG.089,München,Heßstr. 134,80797,,,,Spannteppich,EG,68600,17,2210,39688,12,"E.88, Büro",E.88@2410,,false
-2410.EG.090,München,Heßstr. 134,80797,,,,Spannteppich,EG,68525,17,2210,39688,222,"E.90, Flur",E.90@2410,,false
-2410.EG.091,München,Heßstr. 134,80797,,,,Spannteppich,EG,68524,17,2210,39688,222,"E.91, Eingangsbereich",E.91@2410,,false
-2410.EG.092,München,Heßstr. 134,80797,,,,Spannteppich,EG,68572,17,2210,39688,222,"E.90, Treppenhaus",E.90@2410,,false
-2410.EG.093,München,Heßstr. 134,80797,,,,Spannteppich,EG,68526,17,2210,39688,222,"E.93, Flur",E.93@2410,,false
-2410.EG.094,München,Heßstr. 134,80797,,,,Spannteppich,EG,68573,17,2210,39688,222,"E.94, Flur",E.94@2410,,false
-2410.EG.095,München,Heßstr. 134,80797,,,,Spannteppich,EG,68527,17,2210,39688,222,"E.95, Flur",E.95@2410,,false
-2410.EG.096,München,Heßstr. 134,80797,,,,Spannteppich,EG,68574,17,2210,39688,222,"E.96, Flur",E.96@2410,,false
-2410.EG.097A,München,Heßstr. 134,80797,,,,Linoleum,EG,68551,17,2210,39688,4,"E.97, Personenaufzug",E.97@2410,,false
+2410.EG.020,München,Heßstr. 134,80797,,,,Linoleum,EG,68444,17,2210,39688,194,"00.2410.030, Technischer Arbeitsaum Integration",00.2410.030@2410,,false
+2410.EG.024,München,Heßstr. 134,80797,,,,Linoleum,EG,68478,17,2210,39688,194,"00.2410.034, Technischer Arbeitsaum Test",00.2410.034@2410,,false
+2410.EG.028,München,Heßstr. 134,80797,,,,Linoleum,EG,68446,17,2210,39688,194,"00.2410.038, Technischer Arbeitsaum Messen & Inbet",00.2410.038@2410,,false
+2410.EG.039A,München,Heßstr. 134,80797,,,,Keine Angabe,EG,78641,17,2210,38009,16,"00.2410.039A, Podest",00.2410.039A@2410,,false
+2410.EG.039B,München,Heßstr. 134,80797,,,,Keine Angabe,EG,78662,17,2210,38009,49,"00.2410.039B, Design",00.2410.039B@2410,,false
+2410.EG.039C,München,Heßstr. 134,80797,,,,Keine Angabe,EG,78663,17,2210,38009,12,"00.2410.039C, Think",00.2410.039C@2410,,false
+2410.EG.039D,München,Heßstr. 134,80797,,,,Keine Angabe,EG,78664,17,2210,38009,12,"00.2410.039D, Tank",00.2410.039D@2410,,false
+2410.EG.041,München,Heßstr. 134,80797,,,,Keine Angabe,EG,68467,17,2210,38009,133,"00.2410.041, Einbringebene",00.2410.041@2410,,false
+2410.EG.042,München,Heßstr. 134,80797,,,,Spannteppich,EG,68452,17,2210,39688,12,"00.2410.023, Büro",00.2410.023@2410,,false
+2410.EG.043,München,Heßstr. 134,80797,,,,Spannteppich,EG,68487,17,2210,39688,12,"00.2410.025, Büro",00.2410.025@2410,,false
+2410.EG.044,München,Heßstr. 134,80797,,,,Spannteppich,EG,68489,17,2210,39688,12,"00.2410.027, Büro",00.2410.027@2410,,false
+2410.EG.045,München,Heßstr. 134,80797,,,,Spannteppich,EG,68601,17,2210,39688,12,"00.2410.029, Büro",00.2410.029@2410,,false
+2410.EG.046,München,Heßstr. 134,80797,,,,Spannteppich,EG,68602,17,2210,39688,12,"00.2410.031, Büro",00.2410.031@2410,,false
+2410.EG.047,München,Heßstr. 134,80797,,,,Spannteppich,EG,68603,17,2210,39688,12,"00.2410.033, Büro",00.2410.033@2410,,false
+2410.EG.049,München,Heßstr. 134,80797,,,,Spannteppich,EG,68604,17,2210,39688,12,"00.2410.037, Büro",00.2410.037@2410,,false
+2410.EG.064,München,Heßstr. 134,80797,,,,Spannteppich,EG,68571,17,2210,39688,207,"00.2410.010, Serverraum",00.2410.010@2410,,false
+2410.EG.066,München,Heßstr. 134,80797,,,,Linoleum,EG,68605,17,2210,39688,194,"00.2410.006, Technischer Arbeitsaum Messen & Elekt",00.2410.006@2410,,false
+2410.EG.070,München,Heßstr. 134,80797,,,,Spannteppich,EG,68607,17,2210,39688,41,"00.2410.002, Seminarraum",00.2410.002@2410,,false
+2410.EG.081,München,Heßstr. 134,80797,,,,Spannteppich,EG,68570,17,2210,39688,12,"00.2410.017, Büro",00.2410.017@2410,,false
+2410.EG.082,München,Heßstr. 134,80797,,,,Spannteppich,EG,68521,17,2210,39688,12,"00.2410.015, Büro",00.2410.015@2410,,false
+2410.EG.083,München,Heßstr. 134,80797,,,,Spannteppich,EG,68522,17,2210,39688,12,"00.2410.013, Büro",00.2410.013@2410,,false
+2410.EG.084,München,Heßstr. 134,80797,,,,Spannteppich,EG,68523,17,2210,39688,12,"00.2410.011, Büro",00.2410.011@2410,,false
+2410.EG.085,München,Heßstr. 134,80797,,,,Spannteppich,EG,68596,17,2210,39688,12,"00.2410.009, Büro",00.2410.009@2410,,false
+2410.EG.086,München,Heßstr. 134,80797,,,,Spannteppich,EG,68597,17,2210,39688,12,"00.2410.007, Büro",00.2410.007@2410,,false
+2410.EG.087,München,Heßstr. 134,80797,,,,Spannteppich,EG,68598,17,2210,39688,12,"00.2410.005, Büro",00.2410.005@2410,,false
+2410.EG.088,München,Heßstr. 134,80797,,,,Spannteppich,EG,68599,17,2210,39688,12,"00.2410.003, Büro",00.2410.003@2410,,false
+2410.EG.089,München,Heßstr. 134,80797,,,,Spannteppich,EG,68600,17,2210,39688,12,"00.2410.001, Büro",00.2410.001@2410,,false
+2410.EG.090,München,Heßstr. 134,80797,,,,Spannteppich,EG,68525,17,2210,39688,222,"00.2410.705, Flur",00.2410.705@2410,,false
+2410.EG.091,München,Heßstr. 134,80797,,,,Spannteppich,EG,68524,17,2210,39688,222,"00.2410.700, Eingang",00.2410.700@2410,,false
+2410.EG.092,München,Heßstr. 134,80797,,,,Spannteppich,EG,68572,17,2210,39688,222,"00.2410.701, Treppe/Vorraum",00.2410.701@2410,,false
+2410.EG.093,München,Heßstr. 134,80797,,,,Spannteppich,EG,68526,17,2210,39688,222,"00.2410.702, Flur",00.2410.702@2410,,false
+2410.EG.094,München,Heßstr. 134,80797,,,,Spannteppich,EG,68573,17,2210,39688,222,"00.2410.704, Flur",00.2410.704@2410,,false
+2410.EG.095,München,Heßstr. 134,80797,,,,Spannteppich,EG,68527,17,2210,39688,222,"00.2410.703, Flur",00.2410.703@2410,,false
+2410.EG.097A,München,Heßstr. 134,80797,,,,Linoleum,EG,68551,17,2210,39688,4,"00.2410.831, Lift 1",00.2410.831@2410,,false
 2410.EG.097B,München,Heßstr. 134,80797,,,,Estrich (Beton),EG,69003,17,2210,39688,120,"E.97B, Install.",E.97B@2410,,false
-2410.EG.097E,München,Heßstr. 134,80797,,,,Linoleum,EG,68552,17,2210,39688,4,"E.97E, Personenaufzug",E.97E@2410,,false
+2410.EG.097E,München,Heßstr. 134,80797,,,,Linoleum,EG,68552,17,2210,39688,4,"00.2410.832, Lift 2",00.2410.832@2410,,false
 2410.EG.097F,München,Heßstr. 134,80797,,,,Estrich (Beton),EG,68983,17,2210,39688,120,"E.97F, Install.",E.97F@2410,,false
 2410.EG.097G,München,Heßstr. 134,80797,,,,Estrich (Beton),EG,69025,17,2210,39688,120,"E.97G, Install.",E.97G@2410,,false
 2410.EG.098,München,Heßstr. 134,80797,,,,Estrich (Beton),EG,69023,17,2210,39688,217,"E.98, Zugangstreppenbereich Aussen",E.98@2410,,false
 2410.EG.099,München,Heßstr. 134,80797,,,,Estrich (Beton),EG,69024,17,2210,39688,217,"E.99, Zugangstreppenbereich Aussen",E.99@2410,,false
-2410.U1.101,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68529,17,2210,39688,44,"U1.01, Aufenthalt",U1.01@2410,,false
-2410.U1.102,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68505,17,2210,39688,30,"U1.02, Lager-Küche",U1.02@2410,,false
-2410.U1.103,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68561,17,2210,39688,28,"U1.03, Küche",U1.03@2410,,false
-2410.U1.104,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68549,17,2210,39688,115,"U1.04, WC-Herren",U1.04@2410,,false
-2410.U1.105,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68548,17,2210,39688,118,"U1.05, WC-Vorraum Herren",U1.05@2410,,false
-2410.U1.107A,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68623,17,2210,39688,41,"U1.07, Seminarraum",U1.07@2410,29952,false
-2410.U1.107B,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68538,17,2210,39688,41,"U1.07B, Seminarraum",U1.07B@2410,,false
-2410.U1.107C,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68539,17,2210,39688,41,"U1.07C, Seminarraum",U1.07C@2410,,false
-2410.U1.108,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68530,17,2210,39688,41,"U1.08, Seminarraum",U1.08@2410,,false
-2410.U1.109,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68506,17,2210,39688,117,"U1.09, WC-Barrierefrei",U1.09@2410,,false
-2410.U1.110,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68625,17,2210,39688,115,"U1.10, WC-Herren",U1.10@2410,,false
-2410.U1.111,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68547,17,2210,39688,194,"U1.11, Labor",U1.11@2410,,false
-2410.U1.111A,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68628,17,2210,39688,116,"U1.11A, WC-Damen",U1.11A@2410,,false
-2410.U1.111B,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68629,17,2210,39688,116,"U1.11B, WC-Damen",U1.11B@2410,,false
-2410.U1.111C,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68536,17,2210,39688,115,"U1.11C, WC-Herren",U1.11C@2410,,false
-2410.U1.111D,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68537,17,2210,39688,115,"U1.11D, WC-Herren",U1.11D@2410,,false
-2410.U1.112,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68546,17,2210,39688,194,"U1.12, Labor",U1.12@2410,,false
+2410.U1.101,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68529,17,2210,39688,44,"-1.2410.011, Aula",-1.2410.011@2410,,false
+2410.U1.101B,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78655,17,2210,38009,130,"-1.2410.010, Briefing 4/ Lagerung",-1.2410.010@2410,,false
+2410.U1.102,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68505,17,2210,39688,30,"-1.2410.012, Lager-Küche",-1.2410.012@2410,,false
+2410.U1.103,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68561,17,2210,39688,28,"-1.2410.013, Küche",-1.2410.013@2410,,false
+2410.U1.104,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68549,17,2210,39688,115,"-1.2410.014, WC-Herren",-1.2410.014@2410,,false
+2410.U1.105,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68548,17,2210,39688,118,"-1.2410.015, WC-Vorraum Herren",-1.2410.015@2410,,false
+2410.U1.107A,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68623,17,2210,39688,41,"-1.2410.022, Teaching/Academy",-1.2410.022@2410,29952,false
+2410.U1.107B,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68538,17,2210,39688,41,"-1.2410.021, Teaching/Academy",-1.2410.021@2410,,false
+2410.U1.107C,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68539,17,2210,39688,41,"-1.2410.020, Teaching/Academy",-1.2410.020@2410,,false
+2410.U1.108,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68530,17,2210,39688,41,"-1.2410.040, Briefing 1/Lagerung",-1.2410.040@2410,,false
+2410.U1.108A,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78656,17,2210,38009,130,"-1.2410.009, Briefing 2/Lagerung",-1.2410.009@2410,,false
+2410.U1.108B,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78657,17,2210,38009,130,"-1.2410.041, Briefing 3/Lagerung",-1.2410.041@2410,,false
+2410.U1.108C,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78658,17,2210,38009,30,"-1.2410.042, Lager",-1.2410.042@2410,,false
+2410.U1.109,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68506,17,2210,39688,117,"-1.2410.008, WC",-1.2410.008@2410,,false
+2410.U1.111,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68547,17,2210,39688,194,"-1.2410.007, Studentenraum",-1.2410.007@2410,,false
+2410.U1.111A,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68628,17,2210,39688,116,"-1.2410.019, WC-Damen",-1.2410.019@2410,,false
+2410.U1.111B,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68629,17,2210,39688,116,"-1.2410.018, WC-Damen",-1.2410.018@2410,,false
+2410.U1.111C,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68536,17,2210,39688,115,"-1.2410.017, WC-Herren",-1.2410.017@2410,,false
+2410.U1.111D,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68537,17,2210,39688,115,"-1.2410.016, WC-Herren",-1.2410.016@2410,,false
+2410.U1.112,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68546,17,2210,39688,194,"-1.2410.006, Roboterfabrik",-1.2410.006@2410,,false
 2410.U1.114,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68545,17,2210,39688,120,"U1.14, Fernmeldetechnik",U1.14@2410,,false
-2410.U1.119,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68911,17,2210,39688,222,"U1.19, Trafo Flur",U1.19@2410,,false
+2410.U1.119,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68911,17,2210,39688,222,"-1.2410.706, Gang",-1.2410.706@2410,,false
 2410.U1.120,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68558,17,2210,39688,153,"U1.20, Dol.Kab.",U1.20@2410,,false
 2410.U1.121,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68557,17,2210,39688,120,"U1.21, Technik",U1.21@2410,,false
 2410.U1.122,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68556,17,2210,39688,153,"U1.22, Dol.Kab.",U1.22@2410,,false
@@ -9474,26 +9454,34 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2410.U1.126,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68541,17,2210,39688,153,"U1.26, Dol.Kab.",U1.26@2410,,false
 2410.U1.127,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68540,17,2210,39688,120,"U1.27, Technik",U1.27@2410,,false
 2410.U1.128,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68624,17,2210,39688,153,"U1.28, Dol.Kab.",U1.28@2410,,false
-2410.U1.133,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68532,17,2210,39688,44,"U1.33, Aufenthalt",U1.33@2410,,false
-2410.U1.134,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68626,17,2210,39688,116,"U1.34, WC-Damen",U1.34@2410,,false
-2410.U1.135,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68531,17,2210,39688,121,"U1.35, Umkleide/WC",U1.35@2410,,false
-2410.U1.136,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68533,17,2210,39688,121,"U1.36, Umkleide",U1.36@2410,,false
-2410.U1.137,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68534,17,2210,39688,12,"U1.37, Büro",U1.37@2410,,false
-2410.U1.138,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68535,17,2210,39688,196,"U1.38, Besprechung",U1.38@2410,,false
-2410.U1.139,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68929,17,2210,39688,49,"U1.39, Oberes Technikum",U1.39@2410,,false
-2410.U1.140,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68952,17,2210,39688,30,"U1.40, Lager",U1.40@2410,,false
-2410.U1.141,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68951,17,2210,39688,30,"U1.41, Lager",U1.41@2410,,false
-2410.U1.142,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68928,17,2210,39688,30,"U1.42, Lager",U1.42@2410,,false
-2410.U1.144,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68939,17,2210,39688,49,"U1.44, Werkstatt",U1.44@2410,,false
+2410.U1.133,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68532,17,2210,39688,44,"-1.2410.707, Lobby",-1.2410.707@2410,,false
+2410.U1.135,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68531,17,2210,39688,121,"-1.2410.027, Robot Maker Space",-1.2410.027@2410,,false
+2410.U1.136,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68533,17,2210,39688,121,"-1.2410.714, Technischer Betriebsraum",-1.2410.714@2410,,false
+2410.U1.139,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68929,17,2210,39688,49,"-1.2410.026, Halle",-1.2410.026@2410,,false
+2410.U1.140,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68952,17,2210,39688,30,"-1.2410.030, Technischer Arbeitsraum Safety",-1.2410.030@2410,,false
+2410.U1.141,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68951,17,2210,39688,30,"-1.2410.033, Technik Underwater",-1.2410.033@2410,,false
+2410.U1.141A,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78659,17,2210,38009,9,"-1.2410.034, Control Center Underwater",-1.2410.034@2410,,false
+2410.U1.141B,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78660,17,2210,38009,9,"-1.2410.035, Control Center Flying",-1.2410.035@2410,,false
+2410.U1.141C,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78661,17,2210,38009,9,"-1.2410.036, Control Center Humanoids",-1.2410.036@2410,,false
+2410.U1.142,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68928,17,2210,39688,30,"-1.2410.025, Lager",-1.2410.025@2410,,false
+2410.U1.144,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68939,17,2210,39688,49,"-1.2410.024, Werkstatt",-1.2410.024@2410,,false
+2410.U1.145,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78642,17,2210,38009,103,"-1.2410.045, Laser Sinter",-1.2410.045@2410,,false
+2410.U1.146,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78643,17,2210,38009,105,"-1.2410.046, Schleuse",-1.2410.046@2410,,false
 2410.U1.147,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68550,17,2210,39688,120,"U1.47, Sprinklertank",U1.47@2410,,false
-2410.U1.190,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68560,17,2210,39688,222,"U1.90, Flur",U1.90@2410,,false
-2410.U1.191,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68542,17,2210,39688,223,"U1.91, Treppenhaus",U1.91@2410,,false
-2410.U1.192,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68528,17,2210,39688,222,"U1.92, Flur",U1.92@2410,,false
-2410.U1.193,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68543,17,2210,39688,222,"U1.93, Flur",U1.93@2410,,false
-2410.U1.194,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68544,17,2210,39688,223,"U1.94, Flur",U1.94@2410,,false
+2410.U1.149,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78647,17,2210,38009,194,"-1.2410.028, Robot Collective",-1.2410.028@2410,,false
+2410.U1.150,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78648,17,2210,38009,9,"-1.2410.029, Control Center Robot Collective",-1.2410.029@2410,,false
+2410.U1.151,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78649,17,2210,38009,196,"-1.2410.031, Besprechungsraum 1",-1.2410.031@2410,,false
+2410.U1.152,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78650,17,2210,38009,196,"-1.2410.032, Besprechungsraum 2",-1.2410.032@2410,,false
+2410.U1.180,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78651,17,2210,38009,222,"-1.2410.711, Flur",-1.2410.711@2410,,false
+2410.U1.181,München,Heßstr. 134,80797,,,,Keine Angabe,1.UG,78644,17,2210,38009,222,"-1.2410.703, Flur",-1.2410.703@2410,,false
+2410.U1.190,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68560,17,2210,39688,222,"-1.2410.709, Flur",-1.2410.709@2410,,false
+2410.U1.191,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68542,17,2210,39688,223,"-1.2410.701, Treppe/Vorraum",-1.2410.701@2410,,false
+2410.U1.192,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68528,17,2210,39688,222,"-1.2410.702, Flur",-1.2410.702@2410,,false
+2410.U1.193,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68543,17,2210,39688,222,"-1.2410.705, Gang",-1.2410.705@2410,,false
+2410.U1.194,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68544,17,2210,39688,223,"-1.2410.704, Treppe",-1.2410.704@2410,,false
 2410.U1.195,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68627,17,2210,39688,7,"U1.95, Treppe im Freien",U1.95@2410,,false
-2410.U1.196,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68559,17,2210,39688,222,"U1.96, Flur",U1.96@2410,,false
-2410.U1.197,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68622,17,2210,39688,222,"U1.97, Flur",U1.97@2410,,false
+2410.U1.196,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68559,17,2210,39688,222,"-1.2410.708, Flur",-1.2410.708@2410,,false
+2410.U1.197,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68622,17,2210,39688,222,"-1.2410.710, Treppe",-1.2410.710@2410,,false
 2410.U1.197B,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68930,17,2210,39688,120,"U1.97B, Install.",U1.97B@2410,,false
 2410.U1.197C,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68931,17,2210,39688,120,"U1.97C, Install.",U1.97C@2410,,false
 2410.U1.197F,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68940,17,2210,39688,120,"U1.97F, Install.",U1.97F@2410,,false
@@ -29111,7 +29099,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5502.03.234,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,55755,34,836,50157,196,"3234, Besprechung",3234@5502,19669,false
 5502.03.234M,Garching b. München,Boltzmannstr. 15,85748,,,,Gitterrost,3.OG,55763,34,836,55299,120,"3234M, Elektroverteiler",3234M@5502,,false
 5502.03.235,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,55776,34,836,50157,12,"3235, Büro",3235@5502,19504,false
-5502.03.236,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,3.OG,55908,34,836,15276,30,"3236, Lager/Lehrmittel",3236@5502,,false
+5502.03.236,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,3.OG,55908,34,836,54977,30,"3236, Lager/Lehrmittel",3236@5502,,false
 5502.03.237,Garching b. München,Boltzmannstr. 15,85748,40,,,Linoleum,3.OG,11525,34,836,15276,41,"3237, Seminarraum",3237@5502,15161,false
 5502.03.298A,Garching b. München,Boltzmannstr. 15,85748,,,,Estrich (Beton),3.OG,55919,34,836,55299,120,"3298a, Schacht",3298a@5502,,false
 5502.03.298B,Garching b. München,Boltzmannstr. 15,85748,,,,Estrich (Beton),3.OG,55921,34,836,55299,120,"3298B, Schacht",3298B@5502,,false
@@ -29515,7 +29503,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5503.03.309,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,3.OG,57762,34,838,15284,12,"3309, Büro",3309@5503,18415,false
 5503.03.310,Garching b. München,Boltzmannstr. 15,85748,,,,Linoleum,3.OG,57886,34,838,15284,194,"3310, Telko-Raum",3310@5503,32774,false
 5503.03.310M,Garching b. München,Boltzmannstr. 15,85748,,,,Linoleum,3.OG,57894,34,838,15284,194,"3310M, CoCreation 2",3310M@5503,18534,false
-5503.03.311,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,57904,34,838,16134,12,"3311, Büro",3311@5503,,false
+5503.03.311,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,57904,34,838,15284,12,"3311, Büro",3311@5503,,false
 5503.03.311M,Garching b. München,Boltzmannstr. 15,85748,,,,Linoleum,3.OG,57915,34,838,15284,198,"3311M, Teeküche",3311M@5503,,false
 5503.03.312,Garching b. München,Boltzmannstr. 15,85748,1,,,Linoleum,3.OG,57923,34,838,15284,2,"3312, Archiv",3312@5503,,false
 5503.03.313,Garching b. München,Boltzmannstr. 15,85748,1,,,Linoleum,3.OG,58038,34,838,15284,194,"3313, CoCreation 1",3313@5503,32775,false
@@ -29533,13 +29521,13 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5503.03.329,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,58365,34,838,15284,12,"3329, Büro Wissenschaftler",3329@5503,,false
 5503.03.330,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,3.OG,58376,34,838,15284,12,"3330, Prof.-Büro",3330@5503,,false
 5503.03.332,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,58500,34,838,15284,40,"3332, Sekretariat",3332@5503,,false
-5503.03.333,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,13030,34,838,16134,12,"3333, Büro",3333@5503,18658,false
+5503.03.333,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,13030,34,838,15284,12,"3333, Büro",3333@5503,18658,false
 5503.03.334,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,58512,34,838,15284,12,"3334, Büro",3334@5503,29452,false
 5503.03.335,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,58519,34,838,16134,40,"3335, Sekretariat",3335@5503,18660,false
 5503.03.336,Garching b. München,Boltzmannstr. 15,85748,1,,,Spannteppich,3.OG,58520,34,838,16134,12,"3336, Prof.-Büro",3336@5503,18659,false
 5503.03.336M,Garching b. München,Boltzmannstr. 15,85748,,,,Gitterrost,3.OG,58525,34,838,55299,120,"3336M, Elektroverteiler",3336M@5503,,false
 5503.03.337,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,58653,34,838,15284,12,"3337, Büro",3337@5503,,false
-5503.03.338,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,58663,34,838,15284,12,"3338, Büro",3338@5503,,false
+5503.03.338,Garching b. München,Boltzmannstr. 15,85748,2,,,Spannteppich,3.OG,58663,34,838,51267,12,"3338, Büro",3338@5503,,false
 5503.03.339,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,3.OG,58670,34,838,15284,110,"3339, Kopierraum",3339@5503,,false
 5503.03.340,Garching b. München,Boltzmannstr. 15,85748,20,,,Spannteppich,3.OG,13171,34,838,15284,41,"3340, Seminarraum",3340@5503,15195,false
 5503.03.341,Garching b. München,Boltzmannstr. 15,85748,,,,Keine Angabe,3.OG,56456,34,838,55299,160,"3341, Wechselrichterraum",3341@5503,,false
@@ -30182,7 +30170,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 5504.U1.433A,Garching b. München,Boltzmannstr. 15,85748,1,,,Fliesen,1.UG,58074,34,841,51267,194,"U433A, Labor",U433A@5504,,false
 5504.U1.434,Garching b. München,Boltzmannstr. 15,85748,,,,Fliesen,1.UG,58079,34,841,15294,194,"U434, Kristallisationslabor",U434@5504,,false
 5504.U1.434A,Garching b. München,Boltzmannstr. 15,85748,,,,Fliesen,1.UG,58089,34,841,15294,194,"U434A, Kristallisationslabor",U434A@5504,,false
-5504.U1.435,Garching b. München,Boltzmannstr. 15,85748,1,,,Fliesen,1.UG,58097,34,841,16134,30,"U435, Lager",U435@5504,28292,false
+5504.U1.435,Garching b. München,Boltzmannstr. 15,85748,1,,,Fliesen,1.UG,58097,34,841,51267,30,"U435, Lager",U435@5504,28292,false
 5504.U1.450,Garching b. München,Boltzmannstr. 15,85748,25,,,Spannteppich,1.UG,58109,34,841,15299,213,"U450, Rechnerpraktikum",U450@5504,19305,false
 5504.U1.450A,Garching b. München,Boltzmannstr. 15,85748,,,,Spannteppich,1.UG,58234,34,841,15299,30,"U450A, Lager",U450A@5504,,false
 5504.U1.450B,Garching b. München,Boltzmannstr. 15,85748,3,,,Spannteppich,1.UG,58241,34,841,15299,207,"U450B, Serverraum",U450B@5504,,false
