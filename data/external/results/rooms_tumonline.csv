@@ -5202,8 +5202,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 0507.01.775,München,Arcisstr. 21,80333,1,,,Linoleum,1.OG,8365,23,583,15103,12,"1775, Büro",1775@0507,,false
 0507.01.776,München,Arcisstr. 21,80333,2,,,Linoleum,1.OG,8366,23,583,15105,12,"1776, Büro",1776@0507,,false
 0507.01.777,München,Arcisstr. 21,80333,1,,,Linoleum,1.OG,8369,23,583,15103,12,"1777, Büro",1777@0507,,false
-0507.01.778,München,Arcisstr. 21,80333,6,,,Linoleum,1.OG,41331,23,583,15104,131,"1778 East, Übung",1778 East@0507,18628,false
-0507.01.778A,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,78627,23,583,47297,12,"1778 West, Büro",1778 West@0507,,false
+0507.01.778,München,Arcisstr. 21,80333,6,,,Linoleum,1.OG,41331,23,583,15104,131,"1778, Übung",1778@0507,18628,false
+0507.01.778A,München,Arcisstr. 21,80333,,,,Linoleum,1.OG,78627,23,583,47297,12,"1778 A, Büro",1778 A@0507,,false
 0507.01.779,München,Arcisstr. 21,80333,2,,,Linoleum,1.OG,8377,23,583,15105,12,"1779, Büro",1779@0507,,false
 0507.01.779G,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,41341,23,583,15103,206,"1779G, Galerie-Büro",1779G@0507,,false
 0507.01.780,München,Arcisstr. 21,80333,2,,,Spannteppich,1.OG,8379,23,583,47297,12,"1780, Büro",1780@0507,,false
@@ -9445,15 +9445,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2410.U1.112,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68546,17,2210,39688,194,"-1.2410.006, Roboterfabrik",-1.2410.006@2410,,false
 2410.U1.114,München,Heßstr. 134,80797,,,,Linoleum,1.UG,68545,17,2210,39688,120,"U1.14, Fernmeldetechnik",U1.14@2410,,false
 2410.U1.119,München,Heßstr. 134,80797,,,,Estrich (Beton),1.UG,68911,17,2210,39688,222,"-1.2410.706, Gang",-1.2410.706@2410,,false
-2410.U1.120,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68558,17,2210,39688,153,"U1.20, Dol.Kab.",U1.20@2410,,false
 2410.U1.121,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68557,17,2210,39688,120,"U1.21, Technik",U1.21@2410,,false
-2410.U1.122,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68556,17,2210,39688,153,"U1.22, Dol.Kab.",U1.22@2410,,false
-2410.U1.123,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68555,17,2210,39688,153,"U1.23, Dol.Kab.",U1.23@2410,,false
 2410.U1.124,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68554,17,2210,39688,120,"U1.24, Technik",U1.24@2410,,false
-2410.U1.125,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68553,17,2210,39688,153,"U1.25, Dol.Kab.",U1.25@2410,,false
-2410.U1.126,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68541,17,2210,39688,153,"U1.26, Dol.Kab.",U1.26@2410,,false
 2410.U1.127,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68540,17,2210,39688,120,"U1.27, Technik",U1.27@2410,,false
-2410.U1.128,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68624,17,2210,39688,153,"U1.28, Dol.Kab.",U1.28@2410,,false
 2410.U1.133,München,Heßstr. 134,80797,,,,Spannteppich,1.UG,68532,17,2210,39688,44,"-1.2410.707, Lobby",-1.2410.707@2410,,false
 2410.U1.135,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68531,17,2210,39688,121,"-1.2410.027, Robot Maker Space",-1.2410.027@2410,,false
 2410.U1.136,München,Heßstr. 134,80797,,,,Fliesen,1.UG,68533,17,2210,39688,121,"-1.2410.714, Technischer Betriebsraum",-1.2410.714@2410,,false
