@@ -15,7 +15,7 @@ dependencies = [
   "Pillow==12.3.0",
   "polars==1.44.1",
   "pyarrow==25.0.1",
-  "pydantic==2.13.4",
+  "pydantic==2.13.5",
   "pyyaml==6.0.3",
   "requests==2.34.2",
   "requests-oauthlib==2.0.0",
