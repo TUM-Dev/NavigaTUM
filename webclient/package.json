@@ -33,7 +33,7 @@
 		"temporal-polyfill": "1.0.4",
 		"ts-essentials": "^10.1.1",
 		"vue": "3.5.42",
-		"vue-router": "5.2.0",
+		"vue-router": "5.3.0",
 		"vue3-carousel": "0.17.0",
 		"zod": "^4.4.1"
 	},
