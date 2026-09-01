@@ -8415,7 +8415,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2332.01.145,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74393,18,2829,51899,12,"01.2332.145, (32.1.402) Projektraum",01.2332.145@2332,,false
 2332.01.147,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74392,18,2829,51899,12,"01.2332.147, (32.1.401) Projektraum",01.2332.147@2332,,false
 2332.01.152,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74445,18,2829,51899,30,"01.2332.152, (32.0.26?) Lager [gem. Nutz.111201450",01.2332.152@2332,,false
-2332.01.153,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74433,18,2829,51899,30,"01.2332.127, (32.0.262) Lager (gem. Nutzung 110404",01.2332.127@2332,,false
+2332.01.153,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74433,18,2829,51899,30,"01.2332.153, (32.0.262) Lager (gem. Nutzung 110404",01.2332.153@2332,,false
 2332.01.201,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74510,18,2829,16029,12,"01.2332.201, (32.1.104) Büro",01.2332.201@2332,,false
 2332.01.202,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74468,18,2829,16130,12,"01.2332.202, (32.1.407) Büro",01.2332.202@2332,,false
 2332.01.204,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74467,18,2829,16130,12,"01.2332.204, (32.1.409) Büro",01.2332.204@2332,,false
@@ -8452,7 +8452,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2332.01.245,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74453,18,2829,16128,12,"01.2332.245, (32.1.225) Projektmitarbeiter",01.2332.245@2332,,false
 2332.01.251,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74464,18,2829,51899,30,"01.2332.251, (32.1.260) Lager (gem. Nutzung 111201",01.2332.251@2332,,false
 2332.01.252,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74462,18,2829,16128,30,"01.2332.252, (32.0.201) Lager",01.2332.252@2332,,false
-2332.01.253,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74460,18,2829,16128,30,"01.2332.153, (32.1.262) Lager",01.2332.153@2332,,false
+2332.01.253,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74460,18,2829,16128,30,"01.2332.253, (32.1.262) öffentlicher Drucker",01.2332.253@2332,,false
 2332.01.301,München,Am Olympiacampus 11,80809,,,,Fliesen,1.OG,71792,18,2829,55298,205,"01.2332.301, Putzraum",01.2332.301@2332,,false
 2332.01.303,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74503,18,2829,19672,110,"01.2332.303, (32.1.303) Drucker",01.2332.303@2332,,false
 2332.01.304,München,Am Olympiacampus 11,80809,5,,,PVC,1.OG,74502,18,2829,19672,12,"01.2332.304, (32.1.305) Büro",01.2332.304@2332,,false
@@ -8497,33 +8497,16 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2332.01.847,München,Am Olympiacampus 11,80809,,,,Estrich (Beton),1.OG,74478,18,2829,55301,120,"01.2332.847, (32.1.417) Technik",01.2332.847@2332,,false
 2332.EG.101,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,71765,18,2829,14195,116,"00.2332.101, WC-Damen",00.2332.101@2332,,false
 2332.EG.102,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,71803,18,2829,14195,115,"00.2332.102, WC-Herren",00.2332.102@2332,,false
-2332.EG.103,München,Am Olympiacampus 11,80809,,,,PVC,EG,74262,18,2829,16029,12,"00.2332.103, (32.0.109) Arztbüro",00.2332.103@2332,,false
-2332.EG.104,München,Am Olympiacampus 11,80809,,,,PVC,EG,74382,18,2829,16029,44,"00.2332.104, (32.0.110) Wartebereich",00.2332.104@2332,,false
 2332.EG.105,München,Am Olympiacampus 11,80809,,,,PVC,EG,74238,18,2829,16029,12,"00.2332.105, (32.0.117) Arztbüro",00.2332.105@2332,,false
 2332.EG.107,München,Am Olympiacampus 11,80809,,,,PVC,EG,74277,18,2829,16029,12,"00.2332.107, (32.0.121) Arztbüro",00.2332.107@2332,,false
-2332.EG.108,München,Am Olympiacampus 11,80809,,,,PVC,EG,74260,18,2829,16029,34,"00.2332.108, (32.0.108) Empfang",00.2332.108@2332,,false
 2332.EG.109,München,Am Olympiacampus 11,80809,,,,PVC,EG,74281,18,2829,16029,12,"00.2332.109, (32.0.115) Arztbüro",00.2332.109@2332,,false
-2332.EG.110,München,Am Olympiacampus 11,80809,,,,PVC,EG,74279,18,2829,16029,40,"00.2332.110, (32.1.118) Sekretariat",00.2332.110@2332,,false
 2332.EG.111,München,Am Olympiacampus 11,80809,,,,PVC,EG,74282,18,2829,16029,12,"00.2332.111, (32.0.107) Arztbüro",00.2332.111@2332,,false
 2332.EG.112,München,Am Olympiacampus 11,80809,,,,PVC,EG,74280,18,2829,16029,124,"00.2332.112, (32.0.116) Untersuchungsraum 8",00.2332.112@2332,,false
-2332.EG.113,München,Am Olympiacampus 11,80809,,,,PVC,EG,74285,18,2829,16029,178,"00.2332.113, (32.0.131) Lungenfunktion",00.2332.113@2332,,false
-2332.EG.115,München,Am Olympiacampus 11,80809,,,,PVC,EG,74286,18,2829,16029,178,"00.2332.115, (32.0.127) EKG 1",00.2332.115@2332,,false
 2332.EG.116,München,Am Olympiacampus 11,80809,,,,PVC,EG,74284,18,2829,16029,124,"00.2332.116, (32.0.120) Untersuchungsraum 7",00.2332.116@2332,,false
-2332.EG.117,München,Am Olympiacampus 11,80809,,,,PVC,EG,74289,18,2829,16029,124,"00.2332.117, (32.0.133) Vask. Diagnostik",00.2332.117@2332,,false
-2332.EG.118,München,Am Olympiacampus 11,80809,,,,PVC,EG,74239,18,2829,16029,124,"00.2332.118, (32.0.122) Untersuchungsraum 6",00.2332.118@2332,,false
 2332.EG.119,München,Am Olympiacampus 11,80809,,,,PVC,EG,74242,18,2829,16029,124,"00.2332.119, (32.0.137) Echo 1",00.2332.119@2332,,false
-2332.EG.120,München,Am Olympiacampus 11,80809,,,,PVC,EG,74288,18,2829,16029,124,"00.2332.120, (32.0.126) Untersuchungsraum 5",00.2332.120@2332,,false
-2332.EG.121,München,Am Olympiacampus 11,80809,,,,PVC,EG,74243,18,2829,16029,178,"00.2332.121, (32.0.123) EKG 2",00.2332.121@2332,,false
-2332.EG.122,München,Am Olympiacampus 11,80809,,,,PVC,EG,74290,18,2829,16029,124,"00.2332.122, (32.0.128) Untersuchungsraum 4",00.2332.122@2332,,false
-2332.EG.124,München,Am Olympiacampus 11,80809,,,,PVC,EG,74291,18,2829,16029,124,"00.2332.124, (32.0.132) Untersuchungsraum 3",00.2332.124@2332,,false
 2332.EG.125,München,Am Olympiacampus 11,80809,,,,PVC,EG,74245,18,2829,16029,178,"00.2332.125, (32.0.231) Ergometrie 3",00.2332.125@2332,,false
-2332.EG.126,München,Am Olympiacampus 11,80809,,,,PVC,EG,74307,18,2829,16029,124,"00.2332.126, (32.0.140) Echo 2",00.2332.126@2332,,false
-2332.EG.130,München,Am Olympiacampus 11,80809,,,,PVC,EG,74308,18,2829,16029,12,"00.2332.130, (32.0.117) Büro",00.2332.130@2332,,false
-2332.EG.132,München,Am Olympiacampus 11,80809,,,,PVC,EG,74246,18,2829,16029,198,"00.2332.132, (32.0.124) PP+SM Teeküche",00.2332.132@2332,,false
 2332.EG.134,München,Am Olympiacampus 11,80809,,,,PVC,EG,74309,18,2829,51899,121,"00.2332.134, (32.0.401) PP+SM Umk. Damen (gem. 111",00.2332.134@2332,,false
 2332.EG.140,München,Am Olympiacampus 11,80809,,,,PVC,EG,74295,18,2829,51899,198,"00.2332.140, (32.1.405) PP+SM Teeküche (gem. Nutzu",00.2332.140@2332,,false
-2332.EG.151,München,Am Olympiacampus 11,80809,,,,PVC,EG,74278,18,2829,16029,30,"00.2332.151, (32.0.160) Lager",00.2332.151@2332,,false
-2332.EG.152,München,Am Olympiacampus 11,80809,,,,PVC,EG,74287,18,2829,16029,30,"00.2332.152, (32.0.161) Lager",00.2332.152@2332,,false
 2332.EG.153,München,Am Olympiacampus 11,80809,,,,PVC,EG,74244,18,2829,16029,18,"00.2332.153, (32.0.162) Med. Lager",00.2332.153@2332,,false
 2332.EG.201,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,71749,18,2829,14195,115,"00.2332.201, WC-Herren",00.2332.201@2332,,false
 2332.EG.202,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,71748,18,2829,14195,116,"00.2332.202, WC-Damen",00.2332.202@2332,,false
@@ -8545,13 +8528,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2332.EG.223,München,Am Olympiacampus 11,80809,,,,PVC,EG,74323,18,2829,16130,12,"00.2332.223, (32.0.123) Büro",00.2332.223@2332,,false
 2332.EG.224,München,Am Olympiacampus 11,80809,,,,PVC,EG,74346,18,2829,16029,40,"00.2332.224, (32.1.116) Sekretariat",00.2332.224@2332,,false
 2332.EG.226,München,Am Olympiacampus 11,80809,,,,PVC,EG,74347,18,2829,16130,12,"00.2332.226, (32.0.104) Study Nurse/MTA",00.2332.226@2332,,false
-2332.EG.227,München,Am Olympiacampus 11,80809,,,,PVC,EG,74322,18,2829,16029,12,"00.2332.227, (32.0.108) Büro",00.2332.227@2332,,false
 2332.EG.228,München,Am Olympiacampus 11,80809,,,,PVC,EG,74297,18,2829,16130,178,"00.2332.228, (32.1.137) Büro",00.2332.228@2332,,false
-2332.EG.231,München,Am Olympiacampus 11,80809,,,,PVC,EG,74268,18,2829,16029,40,"00.2332.231, (32.1.112) Sekretariat",00.2332.231@2332,,false
 2332.EG.233,München,Am Olympiacampus 11,80809,,,,PVC,EG,74267,18,2829,51899,124,"00.2332.233, (32.0.?) SM+PP Diagnistik (gem. 11120",00.2332.233@2332,,false
 2332.EG.237,München,Am Olympiacampus 11,80809,,,,PVC,EG,74318,18,2829,51899,121,"00.2332.237, (32.0.406) PP+SM Umk. Herren (gem. 11",00.2332.237@2332,,false
-2332.EG.239,München,Am Olympiacampus 11,80809,,,,PVC,EG,74317,18,2829,16029,178,"00.2332.239, (32.0.403) Ergometrie 2",00.2332.239@2332,,false
-2332.EG.245,München,Am Olympiacampus 11,80809,,,,PVC,EG,74315,18,2829,16029,178,"00.2332.245, (32.0.402) Ergometrie 1",00.2332.245@2332,,false
 2332.EG.251,München,Am Olympiacampus 11,80809,,,,PVC,EG,74273,18,2829,16130,30,"00.2332.251, (32.1.160) Lager",00.2332.251@2332,,false
 2332.EG.252,München,Am Olympiacampus 11,80809,,,,PVC,EG,74269,18,2829,16130,30,"00.2332.252, (32.1.161) Lager",00.2332.252@2332,,false
 2332.EG.253,München,Am Olympiacampus 11,80809,,,,PVC,EG,74320,18,2829,16130,30,"00.2332.253, (32.0.102) Lager",00.2332.253@2332,,false
@@ -8752,8 +8731,8 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2334.01.141,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74764,18,2789,51899,198,"01.2334.141, (34.1.417) Teeküche",01.2334.141@2334,,false
 2334.01.143,München,Am Olympiacampus 11,80809,38,,,PVC,1.OG,74800,18,2789,51899,196,"01.2334.143, Dekanatssaal",01.2334.143@2334,34713,false
 2334.01.151,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74883,18,2789,30361,30,"01.2334.151, (34.1.360) Lager",01.2334.151@2334,,false
-2334.01.152,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74850,18,2789,52088,30,"01.2334.152, (34.1.361) Lager",01.2334.152@2334,,false
-2334.01.153,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74866,18,2789,52088,178,"01.2334.153, (34.1.362) Erste Hilfe",01.2334.153@2334,,false
+2334.01.152,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74850,18,2789,52088,30,"01.2334.152, (34.1.361) öffentlicher Drucker",01.2334.152@2334,,false
+2334.01.153,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74866,18,2789,52088,178,"01.2334.153, (34.1.362) Lager",01.2334.153@2334,,false
 2334.01.155,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74858,18,2789,51899,12,"01.2334.155, (34.1.415) Büro",01.2334.155@2334,,false
 2334.01.157,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74859,18,2789,51899,12,"01.2334.157, (34.1.418) Büro",01.2334.157@2334,,false
 2334.01.201,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74761,18,2789,16135,12,"01.2334.201, (34.1.208) Projektraum",01.2334.201@2334,,false
@@ -8789,7 +8768,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2334.01.239,München,Am Olympiacampus 11,80809,2,,,PVC,1.OG,74794,18,2789,52088,12,"01.2334.239, (34.1.412) Büro",01.2334.239@2334,,false
 2334.01.251,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74789,18,2789,51899,30,"01.2334.251, (34.1.260) Lager(gem.Nutzung 11201490",01.2334.251@2334,,false
 2334.01.252,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74785,18,2789,16135,110,"01.2334.252, (34.1.261) Drucker",01.2334.252@2334,,false
-2334.01.253,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74776,18,2789,52088,110,"01.2334.253, (34.1.262) Drucker",01.2334.253@2334,,false
+2334.01.253,München,Am Olympiacampus 11,80809,,,,PVC,1.OG,74776,18,2789,52088,110,"01.2334.253, (34.1.262) Lager",01.2334.253@2334,,false
 2334.01.301,München,Am Olympiacampus 11,80809,,,,Spannteppich,1.OG,71662,18,2789,19671,164,"01.2334.301, Theke u. EDV-Arbeitsplätze",01.2334.301@2334,,false
 2334.01.302,München,Am Olympiacampus 11,80809,,,,Fliesen,1.OG,71627,18,2789,19671,117,"01.2334.302, WC-Damen / Barrierefrei",01.2334.302@2334,,false
 2334.01.303,München,Am Olympiacampus 11,80809,,,,Fliesen,1.OG,71628,18,2789,19671,115,"01.2334.302, WC-Herren",01.2334.302@2334,,false
@@ -8992,6 +8971,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 2353.EG.001,München,Staudingerstr. 17,81735,,,,Keine Angabe,EG,62852,18,1060,51899,128,"001, Eislaufstadion Ost",001@2353,,false
 2354.EG.001,Oberschleißheim,Dachauerstr. 35,85764,,,,Keine Angabe,EG,61272,18,1039,51899,217,"001, Regattastrecke/Kanu",001@2354,18693,false
 2354.EG.002,Oberschleißheim,Dachauerstr. 35,85764,,,,Keine Angabe,EG,61273,18,1039,51899,217,"002, Regattastrecke/Rudern",002@2354,18692,false
+2355.U2.001,München,Toni-Merkens-Weg 4,80809,,,,Keine Angabe,2.UG,78665,18,3749,51899,128,"E.-237.R, Eishockey Feld Nord",E.-237.R@2355,,false
+2355.U2.002,München,Toni-Merkens-Weg 4,80809,,,,Keine Angabe,2.UG,78666,18,3749,51899,128,"E.-234.R, Eishockey Feld Mitte",E.-234.R@2355,,false
+2355.U2.003,München,Toni-Merkens-Weg 4,80809,,,,Keine Angabe,2.UG,78667,18,3749,51899,128,"E.-231.R, Eishockey Feld Süd",E.-231.R@2355,,false
 2364.EG.001,München,Am Olympiacampus 11,80809,,,,Industrieanstrich,EG,75965,18,3274,55301,18,"00.2364.001, Sportgerätelager / WSH 1",00.2364.001@2364,,false
 2364.EG.002,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,75966,18,3274,55301,117,"00.2364.002, WC-Barrierefrei / WSH 1",00.2364.002@2364,,false
 2364.EG.003,München,Am Olympiacampus 11,80809,,,,Fliesen,EG,75967,18,3274,55301,114,"00.2364.003, WC / WSH 1",00.2364.003@2364,,false
@@ -15579,6 +15561,7 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4213.01.342,Freising,Maximus-von-Imhof-Forum 2,85354,2,,,PVC,1.OG,28303,42,680,46717,102,"O42, Labor",O42@4213,18153,false
 4213.01.343,Freising,Maximus-von-Imhof-Forum 2,85354,5,,,PVC,1.OG,28385,42,680,46717,12,"O43, Büro CTA",O43@4213,,false
 4213.01.344,Freising,Maximus-von-Imhof-Forum 2,85354,2,,,Spannteppich,1.OG,12903,42,680,46717,12,"O44, Büro",O44@4213,,false
+4213.01.345,Freising,Maximus-von-Imhof-Forum 2,85354,2,,,PVC,1.OG,12908,42,680,57697,12,"O45, Büro",O45@4213,,false
 4213.01.346,Freising,Maximus-von-Imhof-Forum 2,85354,8,,,PVC,1.OG,28407,42,680,51258,12,"O46, Büro (Studentenraum; gem. Nutzung 1110064600;",O46@4213,18176,false
 4213.01.347,Freising,Maximus-von-Imhof-Forum 2,85354,2,,,Linoleum,1.OG,12963,42,680,53557,12,"O47, Büro",O47@4213,,false
 4213.01.348,Freising,Maximus-von-Imhof-Forum 2,85354,2,,,Linoleum,1.OG,12969,42,680,53557,12,"O48, Büro",O48@4213,,false
@@ -18311,8 +18294,6 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4277.01.107B,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,PVC,1.OG,50975,42,668,19691,222,"2.1.1.29.2, Flur",2.1.1.29.2@4277,,false
 4277.01.107C,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Kunststoff,1.OG,70545,42,668,19691,16,"2.1.1.29.4, Brücke I Ost (4277/4278)",2.1.1.29.4@4277,,false
 4277.01.108,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,10,,,Holzpflaster,1.OG,12445,42,668,51258,196,"1.1.1.1, Besprechungsraum (gem.Nutzung 111003440)",1.1.1.1@4277,18192,false
-4277.01.109,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,51124,42,668,15616,12,"1.1.1.3, Wissenschaftliche Mitarbeiter",1.1.1.3@4277,,false
-4277.01.110,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,51143,42,668,15616,12,"1.1.1.5, Wissenschaftliche Mitarbeiter",1.1.1.5@4277,,false
 4277.01.111,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,48659,42,668,51258,12,"1.1.1.7, Wissenschaftliche Mitarbeiter /Technikeri",1.1.1.7@4277,,false
 4277.01.112,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,48674,42,668,51258,12,"1.1.1.9, Schreibkraft",1.1.1.9@4277,,false
 4277.01.113,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,48691,42,668,51258,12,"1.1.1.11, Büro",1.1.1.11@4277,,false
@@ -18334,8 +18315,6 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4277.01.126,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,Holzpflaster,1.OG,49511,42,668,15619,12,"1.1.1.14, Büro",1.1.1.14@4277,,false
 4277.01.127,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Holzpflaster,1.OG,49522,42,668,15619,12,"1.1.1.12, Büro",1.1.1.12@4277,,false
 4277.01.128,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Holzpflaster,1.OG,49535,42,668,51258,12,"1.1.1.10, Büro",1.1.1.10@4277,,false
-4277.01.129,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,49668,42,668,15616,12,"1.1.1.8, Büro",1.1.1.8@4277,,false
-4277.01.130,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Parkett (versiegelt),1.OG,49675,42,668,15616,12,"1.1.1.6, Wissenschaftliche Mitarbeiter",1.1.1.6@4277,,false
 4277.01.131,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Holzpflaster,1.OG,49686,42,668,51258,40,"1.1.1.4, Sekretariat (gem.Nutzung 111003440)",1.1.1.4@4277,,false
 4277.01.132,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,Parkett (versiegelt),1.OG,49817,42,668,51258,12,"1.1.1.2, Wissenschaftliche Mitarbeiter",1.1.1.2@4277,,false
 4277.01.133,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Fliesen,1.OG,49825,42,668,55300,205,"2.1.1.28, Reinigungsmittelraum",2.1.1.28@4277,,false
@@ -18361,16 +18340,10 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 4277.01.155,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,50836,42,668,51258,102,"2.0.1.18, Labor",2.0.1.18@4277,,false
 4277.01.156,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,PVC,1.OG,50848,42,668,51258,133,"2.0.1.16, 40% LWF - Bürotechnikraum allgemein",2.0.1.16@4277,,false
 4277.01.157,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,50999,42,668,51258,12,"2.0.1.14, Büro, Präparation",2.0.1.14@4277,,false
-4277.01.158,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,51014,42,668,15616,102,"2.0.1.12, Analytisch präparativchemisches Labor",2.0.1.12@4277,,false
-4277.01.159,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,48700,42,668,15616,102,"2.0.1.10, Analytisch präparativchemisches Labor",2.0.1.10@4277,,false
-4277.01.160,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,48714,42,668,15616,103,"2.0.1.8, Physiklabor",2.0.1.8@4277,,false
-4277.01.161,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,2,,,Keine Angabe,1.OG,48725,42,668,15616,12,"2.0.1.6, Büro",2.0.1.6@4277,,false
-4277.01.162,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,48862,42,668,15616,103,"2.0.1.4, Physikalischer Messraum",2.0.1.4@4277,,false
 4277.01.163,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,48873,42,668,51258,44,"2.0.1.2, Sozialraum",2.0.1.2@4277,,false
 4277.01.164,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Fliesen,1.OG,48885,42,668,19691,222,"2.0.1.1.1, Flur",2.0.1.1.1@4277,,false
 4277.01.165,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,48896,42,668,19691,4,"2.0.1.1.2, Aufzug Labor Ost",2.0.1.1.2@4277,,false
 4277.01.166,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Fliesen,1.OG,49032,42,668,19691,223,"2.0.1.1.3, Treppe",2.0.1.1.3@4277,,false
-4277.01.167,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,49046,42,668,15616,12,"2.0.1.1, Büro",2.0.1.1@4277,,false
 4277.01.168,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,49058,42,668,51258,12,"2.0.1.3, Büro",2.0.1.3@4277,,false
 4277.01.169,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,1,,,Keine Angabe,1.OG,49072,42,668,51258,12,"2.0.1.5, Büro",2.0.1.5@4277,,false
 4277.01.170,Freising,Hans-Carl-von-Carlowitz-Platz 2,85354,,,,Keine Angabe,1.OG,49211,42,668,51258,103,"2.0.1.7, Physikalische Messräume einfach",2.0.1.7@4277,,false
@@ -36417,12 +36390,9 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.02.220,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72604,29,2890,51837,30,"02.220, Archiv",02.220@9377,,false
 9377.02.221,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72603,29,2890,51837,12,"02.221, Büro",02.221@9377,,false
 9377.02.222,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72485,29,2890,51837,196,"02.222, Besprechung",02.222@9377,31773,false
-9377.02.223,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72558,29,2890,51257,12,"02.223, Büro",02.223@9377,,false
 9377.02.224,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72523,29,2890,51837,114,"02.224, WC",02.224@9377,,false
 9377.02.225,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72524,29,2890,51837,114,"02.225, WC",02.225@9377,,false
-9377.02.226,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72559,29,2890,51257,12,"02.226, Büro",02.226@9377,,false
 9377.02.227,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72668,29,2890,51837,130,"02.227, PC-Simulationen",02.227@9377,,false
-9377.02.229,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72486,29,2890,51257,40,"02.229, Sekretariat EAV/AAS",02.229@9377,,false
 9377.02.230,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72487,29,2890,50997,12,"02.230, Büro",02.230@9377,,false
 9377.02.231,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72488,29,2890,50997,12,"02.231, Büro",02.231@9377,,false
 9377.02.232,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,2.OG,72605,29,2890,51837,114,"02.232, WC",02.232@9377,,false
@@ -36469,7 +36439,6 @@ room_key,address_place,address_street,address_zip_code,seats_sitting,seats_wheel
 9377.03.315,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72619,29,2890,51837,207,"03.315, Netzwerkraum",03.315@9377,,false
 9377.03.316,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72506,29,2890,51837,12,"03.316, Büro",03.316@9377,,false
 9377.03.317,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72620,29,2890,51837,30,"03.317, Lager",03.317@9377,,false
-9377.03.318,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72622,29,2890,51837,12,"03.318, Büro",03.318@9377,,false
 9377.03.320,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72621,29,2890,51837,114,"03.320, WC",03.320@9377,,false
 9377.03.321,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72500,29,2890,51537,40,"03.321, Sekretariat Dekanat",03.321@9377,,false
 9377.03.322,Ottobrunn,Lise-Meitner-Str. 9-11,85521,,,,Keine Angabe,3.OG,72528,29,2890,51537,12,"03.322, Büro",03.322@9377,,false
