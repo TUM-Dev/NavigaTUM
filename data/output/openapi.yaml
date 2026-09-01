@@ -65,14 +65,12 @@ paths:
                 propertyNames:
                   type: string
         "400":
-          description: '**Bad Request.** Not all fields in the body are present as
-            defined above'
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
           content:
             text/plain:
               schema:
                 type: string
-              example: Too many ids to query. We suspect that users don't need this.
-                If you need this limit increased, please send us a message
+              example: Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message
         "404":
           description: '**Not found.** The requested location does not have a calendar'
           content:
@@ -114,8 +112,7 @@ paths:
         required: true
       responses:
         "201":
-          description: The feedback has been **successfully posted to GitHub**. We
-            return the link to the GitHub issue.
+          description: The feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.
           content:
             text/plain:
               schema:
@@ -123,8 +120,7 @@ paths:
                 format: uri
               example: https://github.com/TUM-Dev/navigatum/issues/9
         "400":
-          description: '**Bad Request.** Not all fields in the body are present as
-            defined above'
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
         "403":
           description: |-
             **Forbidden.** Causes are (delivered via the body):
@@ -140,16 +136,11 @@ paths:
         "422":
           description: '**Unprocessable Entity.** Subject or body missing or too short.'
         "451":
-          description: '**Unavailable for legal reasons.** Using this endpoint without
-            accepting the privacy policy is not allowed. For us to post to GitHub,
-            this has to be `true`'
+          description: '**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be `true`'
         "500":
-          description: '**Internal Server Error.** We have a problem communicating
-            with GitHubs servers. Please try again later'
+          description: '**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later'
         "503":
-          description: '**Service unavailable.** We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later.'
+          description: '**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.'
   /api/feedback/get_token:
     post:
       tags:
@@ -179,12 +170,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenResponse'
         "429":
-          description: '**Too many requests.** We are rate-limiting everyone''s requests,
-            please try again later.'
+          description: '**Too many requests.** We are rate-limiting everyone''s requests, please try again later.'
         "503":
-          description: '**Service unavailable.** We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later.'
+          description: '**Service unavailable.** We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.'
   /api/feedback/propose_edits:
     post:
       tags:
@@ -209,8 +197,7 @@ paths:
         required: true
       responses:
         "201":
-          description: The edit request feedback has been **successfully posted to
-            GitHub**. We return the link to the GitHub issue.
+          description: The edit request feedback has been **successfully posted to GitHub**. We return the link to the GitHub issue.
           content:
             text/plain:
               schema:
@@ -218,8 +205,7 @@ paths:
                 format: uri
               example: https://github.com/TUM-Dev/navigatum/issues/9
         "400":
-          description: '**Bad Request.** Not all fields in the body are present as
-            defined above'
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
         "403":
           description: |-
             **Forbidden.** Causes are (delivered via the body):
@@ -231,16 +217,11 @@ paths:
         "422":
           description: '**Unprocessable Entity.** Subject or body missing or too short.'
         "451":
-          description: '**Unavailable for legal reasons.** Using this endpoint without
-            accepting the privacy policy is not allowed. For us to post to GitHub,
-            this has to be true'
+          description: '**Unavailable for legal reasons.** Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true'
         "500":
-          description: '**Internal Server Error.** We have a problem communicating
-            with GitHubs servers. Please try again later.'
+          description: '**Internal Server Error.** We have a problem communicating with GitHubs servers. Please try again later.'
         "503":
-          description: Service unavailable. We have not configured a GitHub Access
-            Token. This could be because we are experiencing technical difficulties
-            or intentional. Please try again later.
+          description: Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.
   /api/locations/{id}:
     get:
       tags:
@@ -263,8 +244,7 @@ paths:
             type: string
         - name: lang
           in: query
-          description: The language you want your preview to be in. If either this
-            or the query parameter is set to en, this will be delivered.
+          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
           required: false
           schema:
             type: string
@@ -279,8 +259,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/LocationDetailsResponse'
         "400":
-          description: '**Bad request.** Make sure that requested item ID is not empty
-            and not longer than 255 characters'
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
           content:
             text/plain:
               schema:
@@ -315,8 +294,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NearbyLocationsResponse'
         "400":
-          description: '**Bad request.** Make sure that requested item ID is not empty
-            and not longer than 255 characters'
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
           content:
             text/plain:
               schema:
@@ -367,8 +345,7 @@ paths:
           content:
             image/png: {}
         "400":
-          description: '**Bad request.** Make sure that requested item ID is not empty
-            and not longer than 255 characters'
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
           content:
             text/plain:
               schema:
@@ -402,8 +379,7 @@ paths:
           content:
             image/png: {}
         "400":
-          description: '**Bad request.** Make sure that requested item ID is not empty
-            and not longer than 255 characters'
+          description: '**Bad request.** Make sure that requested item ID is not empty and not longer than 255 characters'
           content:
             text/plain:
               schema:
@@ -503,8 +479,7 @@ paths:
               - wheelchair
         - name: ptw_type
           in: query
-          description: Does the user prefer mopeds or motorcycles for powered two-wheeled
-            (ptw)?
+          description: Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)?
           required: false
           schema:
             type: string
@@ -547,8 +522,7 @@ paths:
             format: date-time
         - name: arrive_by
           in: query
-          description: Whether the time parameter represents arrival time (true) or
-            departure time (false/not set)
+          description: Whether the time parameter represents arrival time (true) or departure time (false/not set)
           required: false
           schema:
             type: boolean
@@ -602,8 +576,7 @@ paths:
                 type: string
               example: Not found
         "502":
-          description: '**Upstream failure.** eat-api could not be reached or returned
-            an error'
+          description: '**Upstream failure.** eat-api could not be reached or returned an error'
           content:
             text/plain:
               schema:
@@ -812,8 +785,7 @@ paths:
           required: false
           schema:
             type: string
-            description: Controls whether long building names inside `parsed_id` are
-              cropped.
+            description: Controls whether long building names inside `parsed_id` are cropped.
             enum:
               - crop
               - full
@@ -839,24 +811,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchResponse'
         "400":
-          description: '**Bad Request.** Not all fields in the body are present as
-            defined above'
+          description: '**Bad Request.** Not all fields in the body are present as defined above'
           content:
             text/plain:
               schema:
                 type: string
               example: 'Query deserialize error: invalid digit found in string'
         "404":
-          description: '**Not found.** `q` is empty. Since searching for nothing is
-            nonsensical, we dont support this.'
+          description: '**Not found.** `q` is empty. Since searching for nothing is nonsensical, we dont support this.'
           content:
             text/plain:
               schema:
                 type: string
               example: Not found
         "414":
-          description: '**URI Too Long.** The uri you are trying to request is unreasonably
-            long. Search querys dont have thousands of chars..'
+          description: '**URI Too Long.** The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..'
           content:
             text/plain:
               schema:
@@ -1121,8 +1090,7 @@ components:
           description: The thumbnail for the building
         type:
           $ref: '#/components/schemas/BuildingsOverviewItemTypeResponse'
-          description: The type of the entry, used to build its canonical `/{type}/{id}`
-            route.
+          description: The type of the entry, used to build its canonical `/{type}/{id}` route.
     BuildingsOverviewItemTypeResponse:
       type: string
       description: |-
@@ -1329,12 +1297,10 @@ components:
           example: I have a picture of the room, please add it to the roomfinder
         additions:
           $ref: '#/components/schemas/LimitedHashMap_String_Addition'
-          description: New rooms/buildings/POIs to add. Keyed by the new entry's ID.
-            Validated server-side.
+          description: New rooms/buildings/POIs to add. Keyed by the new entry's ID. Validated server-side.
         edits:
           $ref: '#/components/schemas/LimitedHashMap_String_Edit'
-          description: The edits to be made to the room. The keys are the ID of the
-            props to be edited, the values are the proposed Edits.
+          description: The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.
         privacy_checked:
           type: boolean
           description: |-
@@ -1443,8 +1409,7 @@ components:
       properties:
         detailed_entry_type:
           type: string
-          description: For some Entrys, we do have more information (what kind of
-            a `lecture` is it? What kind of an other `entry` is it?)
+          description: For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
           examples:
             - Abhaltung
         end_at:
@@ -1691,8 +1656,7 @@ components:
           $ref: '#/components/schemas/ImageMetadata'
     ImageInfoResponse:
       type: object
-      description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp`
-        endpoint
+      description: The information you need to request Images from the `/cdn/{size}/{id}_{counter}.webp` endpoint
       required:
         - name
         - author
@@ -1758,8 +1722,7 @@ components:
           description: The number of transfers this trip has.
     LectureEntry:
       type: object
-      description: A lecture search result, carrying its bilingual titles and upcoming
-        occurrences.
+      description: A lecture search result, carrying its bilingual titles and upcoming occurrences.
       required:
         - id
         - name
@@ -2041,8 +2004,7 @@ components:
             - featured view
         sources:
           $ref: '#/components/schemas/SourcesResponse'
-          description: Where we got our data from, should be displayed at the bottom
-            of any page containing this data
+          description: Where we got our data from, should be displayed at the bottom of any page containing this data
         type:
           $ref: '#/components/schemas/LocationTypeResponse'
           description: The type of the entry
@@ -2103,8 +2065,7 @@ components:
           example: 3002@5510
         type:
           $ref: '#/components/schemas/LocationEntryType'
-          description: The type of the entity, resolving to its canonical `/{type}/{id}`
-            route.
+          description: The type of the entity, resolving to its canonical `/{type}/{id}` route.
     LocationEntryType:
       type: string
       description: |-
@@ -2136,8 +2097,7 @@ components:
           $ref: '#/components/schemas/CalendarLocationResponse'
     LocationSection:
       type: object
-      description: A section of `NavigaTUM` entity results (sites, buildings, rooms,
-        POIs).
+      description: A section of `NavigaTUM` entity results (sites, buildings, rooms, POIs).
       required:
         - entries
         - n_visible
@@ -2269,8 +2229,7 @@ components:
             type: string
             examples:
               - - Münchnerstraße
-          description: List of street names that are consistent along the entire nonobvious
-            maneuver
+          description: List of street names that are consistent along the entire nonobvious maneuver
         time_seconds:
           type: number
           format: double
@@ -2285,8 +2244,7 @@ components:
           oneOf:
             - type: "null"
             - $ref: '#/components/schemas/TransitInfoResponse'
-              description: Contains the attributes that describe a specific transit
-                route
+              description: Contains the attributes that describe a specific transit route
         travel_mode:
           $ref: '#/components/schemas/TravelModeResponse'
           description: Travel mode
@@ -2323,16 +2281,14 @@ components:
           type:
             - string
             - "null"
-          description: Text suitable for use as a verbal message immediately after
-            the maneuver transition
+          description: Text suitable for use as a verbal message immediately after the maneuver transition
           examples:
             - Continue on U.S. 2 22 for 3.9 miles
         verbal_pre_transition_instruction:
           type:
             - string
             - "null"
-          description: Text suitable for use as a verbal message immediately prior
-            to the maneuver transition
+          description: Text suitable for use as a verbal message immediately prior to the maneuver transition
           examples:
             - Turn right onto North Prince Street, U.S. 2 22
         verbal_transition_alert_instruction:
@@ -2462,8 +2418,7 @@ components:
             - Pasta Emiliana mit (Vorder-)Schinken und Erbsen
         prices:
           $ref: '#/components/schemas/MensaMenuPricesResponse'
-          description: Prices keyed by role. A role is omitted when upstream priced
-            the dish only for some.
+          description: Prices keyed by role. A role is omitted when upstream priced the dish only for some.
     MensaMenuLabel:
       oneOf:
         - $ref: '#/components/schemas/MensaMenuLabelKind'
@@ -2477,8 +2432,7 @@ components:
         show it instead of the whole menu failing to parse.
     MensaMenuLabelKind:
       type: string
-      description: The labels eat-api documents in `enums/labels.json`, normalized
-        to `snake_case` in our output.
+      description: The labels eat-api documents in `enums/labels.json`, normalized to `snake_case` in our output.
       enum:
         - gluten
         - wheat
@@ -2600,18 +2554,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MensaMenuDayResponse'
-          description: Per-day dish lists in calendar order; only days with at least
-            one dish are present.
+          description: Per-day dish lists in calendar order; only days with at least one dish are present.
         last_update:
           type: string
-          description: '`YYYY-MM-DD` date the feed snapshot was last confirmed (the
-            upstream `Last-Modified`).'
+          description: '`YYYY-MM-DD` date the feed snapshot was last confirmed (the upstream `Last-Modified`).'
           examples:
             - "2026-06-05"
         source_url:
           type: string
-          description: Where the menu was sourced from; shown as the "source" link
-            on the card.
+          description: Where the menu was sourced from; shown as the "source" link on the card.
           examples:
             - https://tum-dev.github.io/eat-api/#!/de/mensa-garching
     ModeResponse:
@@ -2666,8 +2617,7 @@ components:
           type:
             - string
             - "null"
-          description: Identifies a transit brand which is often synonymous with a
-            transit agency.
+          description: Identifies a transit brand which is often synonymous with a transit agency.
         agency_name:
           type:
             - string
@@ -3045,14 +2995,12 @@ components:
       properties:
         opening_hours:
           type: string
-          description: OSM `opening_hours` string assembled by the client's day/time
-            builder.
+          description: OSM `opening_hours` string assembled by the client's day/time builder.
           example: Mo-Fr 08:00-20:00; Sa 09:00-14:00
         source_url:
           type: string
           format: uri
-          description: Absolute http(s) URL documenting the schedule (e.g. the official
-            department page).
+          description: Absolute http(s) URL documenting the schedule (e.g. the official department page).
           example: https://www.ub.tum.de/oeffnungszeiten
     OpeningHoursResponse:
       type: object
@@ -3088,24 +3036,21 @@ components:
             - Ausleihe
         source_url:
           type: string
-          description: Where this schedule was sourced from, shown as the "source"
-            link.
+          description: Where this schedule was sourced from, shown as the "source" link.
           examples:
             - https://www.ub.tum.de/en/branch-libraries
         valid_from:
           type:
             - string
             - "null"
-          description: '`YYYY-MM-DD` date from which this schedule is valid, when
-            bounded.'
+          description: '`YYYY-MM-DD` date from which this schedule is valid, when bounded.'
           examples:
             - "2026-04-28"
         valid_until:
           type:
             - string
             - "null"
-          description: '`YYYY-MM-DD` date until which this schedule is valid, when
-            bounded.'
+          description: '`YYYY-MM-DD` date until which this schedule is valid, when bounded.'
           examples:
             - "2026-09-30"
     OperatorResponse:
@@ -3161,8 +3106,7 @@ components:
                 format: double
               - type: number
                 format: double
-          description: Coordinates are four `[lon, lat]` pairs, for the top left,
-            top right, bottom right, bottom left image corners.
+          description: Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
           example:
             - - 11.666739
               - 48.263478
@@ -3354,8 +3298,7 @@ components:
             The body/description of the feedback
 
             Controll characters will be stripped, too long input truncated and newlines made to render in markdown
-          example: A clear description what happened where and how we should improve
-            it
+          example: A clear description what happened where and how we should improve it
           maxLength: 1048576
           minLength: 10
         category:
@@ -3906,8 +3849,7 @@ components:
           example: https://nav.tum.de
     SourcesResponse:
       type: object
-      description: Where we got our data from, should be displayed at the bottom of
-        any page containing this data
+      description: Where we got our data from, should be displayed at the bottom of any page containing this data
       required:
         - base
       properties:
@@ -4106,8 +4048,7 @@ components:
               Late night service is local
         headsign:
           type: string
-          description: The sign on a public transport vehicle that identifies the
-            route destination to passengers
+          description: The sign on a public transport vehicle that identifies the route destination to passengers
           examples:
             - ASTORIA - DITMARS BLVD
         long_name:
@@ -4167,8 +4108,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TransitStopResponse'
-          description: A list of the stops/stations associated with a specific transit
-            route
+          description: A list of the stops/stations associated with a specific transit route
     TransitStopResponse:
       type: object
       required:
@@ -4187,8 +4127,7 @@ components:
           description: Arrival date and time
         assumed_schedule:
           type: boolean
-          description: '`true` if the times are based on an assumed schedule because
-            the actual schedule is not known'
+          description: '`true` if the times are based on an assumed schedule because the actual schedule is not known'
         departure_date_time:
           type: string
           format: date-time
@@ -4245,8 +4184,7 @@ components:
           exclusiveMinimum: 0
         id:
           type: string
-          description: The globally unique and somewhat stable id of the station from
-            motis/transitous
+          description: The globally unique and somewhat stable id of the station from motis/transitous
           example: de:09184:2073
         lat:
           type: number
@@ -4313,8 +4251,7 @@ components:
           example: "2024-10-15T10:00:00Z"
         room_code:
           type: string
-          description: The room the occurrence takes place in; navigating to it uses
-            `/room/<room_code>`.
+          description: The room the occurrence takes place in; navigating to it uses `/room/<room_code>`.
           example: 5606.EG.011
         room_name:
           type: string
