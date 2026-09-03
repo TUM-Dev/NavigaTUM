@@ -20,7 +20,7 @@ repos:
         args:
           - --fix=lf
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.12.7
+    rev: 0.12.9
     hooks:
       - id: uv-lock
   - repo: https://github.com/sirosen/texthooks
