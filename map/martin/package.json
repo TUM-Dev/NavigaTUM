@@ -1,6 +1,6 @@
 {
   "private": true,
   "devDependencies": {
-    "@maplibre/maplibre-gl-style-spec": "26.2.1"
+    "@maplibre/maplibre-gl-style-spec": "26.4.1"
   }
 }
