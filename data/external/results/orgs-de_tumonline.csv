@@ -155,7 +155,7 @@ org_id,code,name,path
 15330,TUEISTD,Studiendekanat EI,Technische Universität München/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Fakultätsverwaltung Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Studiendekanat EI
 15331,TUEIFSB,Fakultätsverwaltung Ehemalige Fakultät für Elektrotechnik und Informationstechnik,Technische Universität München/Fakultäten/Ehemalige Fakultät für Elektrotechnik und Informationstechnik/Fakultätsverwaltung Ehemalige Fakultät für Elektrotechnik und Informationstechnik
 15355,TUEIEWT,Professur für Energiewandlungstechnik (Prof. Herzog),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Professur für Energiewandlungstechnik (Prof. Herzog)
-15356,TUEIHSA,Professur für Hochspannungs- und Anlagentechnik (Prof. Jossen komm.),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Professur für Hochspannungs- und Anlagentechnik (Prof. Jossen komm.)
+15356,TUEIHSA,Professur für Hochspannungstechnik (Prof. Pischler),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Professur für Hochspannungs- und Anlagentechnik (Prof. Jossen komm.)
 15357,TUEIEAL,Lehrstuhl für Hochleistungs-Umrichtersysteme (Prof. Heldwein),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Lehrstuhl für Hochleistungs-Umrichtersysteme (Prof. Heldwein)
 15358,TUEIEWK,Professur für Energiemanagement-Technologien (Prof. Goebel),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Professur für Energiemanagement-Technologien (Prof. Goebel)
 15360,TUEIEEN,Lehrstuhl für Elektrische Energieversorgungsnetze (Prof. Tonkoski),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Energy and Process Engineering/Lehrstuhl für Elektrische Energieversorgungsnetze (Prof. Tonkoski)
@@ -607,7 +607,7 @@ org_id,code,name,path
 39536,TUPELMU,Ludwig-Maximilians-Universität München (LMU),Technische Universität München/Partnerschaftliche Einrichtungen/Ludwig-Maximilians-Universität München (LMU)
 39675,TUZEHEZ,World Agricultural Systems Center - Hans Eisenmann-Forum,Technische Universität München/Zentralinstitute/World Agricultural Systems Center - Hans Eisenmann-Forum
 39685,TUPESFZ,Campus München FU Hagen,Technische Universität München/Partnerschaftliche Einrichtungen/Campus München FU Hagen
-39687,TUPESWM,Studentenwerk München,Technische Universität München/Partnerschaftliche Einrichtungen/Studentenwerk München
+39687,TUPESWM,Studierendenwerk München,Technische Universität München/Partnerschaftliche Einrichtungen/Studentenwerk München
 39688,TUPEWR0,Weitere Räume,Technische Universität München/Partnerschaftliche Einrichtungen/Weitere Räume
 39902,TUPECDT,Center for Digital Technology and Management (CDTM),Technische Universität München/Partnerschaftliche Einrichtungen/Center for Digital Technology and Management (CDTM)
 39906,TUPELRZ,Leibniz-Rechenzentrum (LRZ),Technische Universität München/Partnerschaftliche Einrichtungen/Leibniz-Rechenzentrum (LRZ)
@@ -2232,7 +2232,6 @@ org_id,code,name,path
 57597,TUS7ECC,Professur für Political Economy of Climate Change (Prof. Steckel),Technische Universität München/Schools/TUM School of Social Sciences and Technology/Departments/Department of Governance/Professur für Political Economy of Climate Change (Prof. Steckel)
 57598,TUS5CF0,Schoolzentrale Core Facilities,Technische Universität München/Schools/TUM School of Medicine and Health/Schoolzentrale Core Facilities
 57599,TUS5NUM,Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ),Technische Universität München/Schools/TUM School of Medicine and Health/Schoolzentrale Core Facilities/Netzwerk Universitätsmedizin (NUM)/Datenintegrationszentrum (DIZ)
-57600,TUS5CF1,Sonstige schoolzentrale Core Facilities,Technische Universität München/Schools/TUM School of Medicine and Health/Schoolzentrale Core Facilities/Sonstige schoolzentrale Core Facilities
 57617,TUS3015,Professur für Biosystems Chemistry of Natural Products (Prof. Benitez Mateos),Technische Universität München/Schools/TUM School of Natural Sciences/Departments/Department of Bioscience/Professur für Biosystems Chemistry of Natural Products (Prof. Benitez Mateos)
 57637,TUS1326,Lehrstuhl für Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner),"Technische Universität München/Schools/TUM School of Computation, Information and Technology/Departments/Department of Computer Science/Lehrstuhl für Verifikation und Synthese von reaktiven Systemen (Prof. Finkbeiner)"
 57657,TUS1325,Professur für Mikrowellensensoren und Sensorsysteme (Prof. Nuß),"Technische Universität München/Schools/TUM School of Computation, Information and Technology/Departments/Department of Electrical Engineering/Professur für Mikrowellensensoren und Sensorsysteme (Prof. Nuß)"
@@ -2280,7 +2279,7 @@ org_id,code,name,path
 58337,TUS1333,"Professur für Logik, Automaten und Spieltheorie in der Informatik (Prof. Hollender)","Technische Universität München/Schools/TUM School of Computation, Information and Technology/Departments/Department of Computer Science/Professur für Logik, Automaten und Spieltheorie in der Informatik (Prof. Hollender)"
 58357,TUS2COM,Lehrstuhl für Computergestützte Methoden im Bau- und Umweltingenieurwesen (Prof. Quaini),Technische Universität München/Schools/TUM School of Engineering and Design/Departments/Department of Civil and Environmental Engineering/Lehrstuhl für Computergestützte Methoden im Bau- und Umweltingenieurwesen (Prof. Quaini)
 58377,TUS5MR0,Medical Robotics,Technische Universität München/Schools/TUM School of Medicine and Health/Schoolzentrale Core Facilities/Medical Robotics
-58397,TUZESSE,Arbeitsbereich TUM CST TUM CST - Student Engagement,Technische Universität München/Zentrale Serviceeinrichtungen/TUM Center for Study and Teaching/Arbeitsbereich TUM CST TUM CST - Student Engagement
+58397,TUZESSE,TUM CST - Student Engagement,Technische Universität München/Zentrale Serviceeinrichtungen/TUM Center for Study and Teaching/Arbeitsbereich TUM CST TUM CST - Student Engagement
 58477,TUS1334,Professur für Scalable and Efficient Machine Learning (Prof. Götz),"Technische Universität München/Schools/TUM School of Computation, Information and Technology/Departments/Department of Computer Science/Professur für Scalable and Efficient Machine Learning (Prof. Götz)"
 58497,TUCSP20,Professur für Maschinelles Lernen für nachhaltige Prozesse und Materialien (Prof. Grimm),Technische Universität München/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrstühle und Professuren/Professur für Maschinelles Lernen für nachhaltige Prozesse und Materialien (Prof. Grimm)
 58498,TUCSP21,Professur für Net Zero Policies (Prof. Probst),Technische Universität München/Integrative Research Institutes/TUM Campus Straubing für Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrstühle und Professuren/Professur für Net Zero Policies (Prof. Probst)
@@ -2289,3 +2288,8 @@ org_id,code,name,path
 58537,TUXB411,Studiengangsbündel Kooperationsstudiengänge Agrar,Technische Universität München/Schools/TUM School of Life Sciences/Studienorganisation Life Sciences/Studiengangsbündel Agrar- und Gartenbauwissenschaften/Studiengangsbündel Kooperationsstudiengänge Agrar
 58538,TUXS417,Studiengang M.Sc. Agrarwissenschaften und Gartenbauwissenschaften,Technische Universität München/Schools/TUM School of Life Sciences/Studienorganisation Life Sciences/Studiengangsbündel Agrar- und Gartenbauwissenschaften/Studiengangsbündel Kooperationsstudiengänge Agrar/Studiengang M.Sc. Agrarwissenschaften und Gartenbauwissenschaften
 58557,TUS1335,Lehrstuhl für Software- und System-Sicherheit (Prof. Boenisch),"Technische Universität München/Schools/TUM School of Computation, Information and Technology/Departments/Department of Computer Engineering/Lehrstuhl für Software- und System-Sicherheit (Prof. Boenisch)"
+58577,TUS5CEP,Comparative Experimental Pathology (CEP),""
+58578,TUS5PRÄ,Präventionszentrum,""
+58579,TUS5PCF,Proteomik Core Facility,""
+58597,TUZETMF,TUMorrow Factory,""
+58598,TUZETMH,TUMorrow Hub,""
