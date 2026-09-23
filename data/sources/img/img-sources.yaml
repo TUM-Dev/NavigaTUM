@@ -38,6 +38,14 @@
     offsets:
       header: 0
       thumb: -57
+  2:
+    author: TUMProLehre
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 0
+      thumb: 500
 '0102':
   0:
     author: AHert
