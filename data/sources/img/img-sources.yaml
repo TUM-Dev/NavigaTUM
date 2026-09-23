@@ -21,6 +21,15 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+0101.02.190:
+  0:
+    author: TUMProLehre
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 22
+      thumb: 255
 '0102':
   0:
     author: AHert
