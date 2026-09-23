@@ -195,6 +195,14 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+  1:
+    author: TUMProLehre
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -247
+      thumb: 0
 '0503':
   0:
     author: Andreas Heddergott
