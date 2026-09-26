@@ -183,6 +183,15 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+0501.EG.136:
+  0:
+    author: Johanna Doe
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 0
+      thumb: -227
 '0502':
   0:
     author: David Bonello
