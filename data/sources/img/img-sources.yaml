@@ -1189,6 +1189,9 @@ event_5b59a27f8f857441:
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 307
+      thumb: 0
 event_66a1120cc3872aeb:
   0:
     author: Studiendruck der Fachschaft Maschinenbau e.V. - Abteilung IKOM
