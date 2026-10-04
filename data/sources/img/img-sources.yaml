@@ -183,6 +183,15 @@
     license:
       text: CC BY 4.0
       url: https://creativecommons.org/licenses/by/4.0/
+0501.EG.120:
+  0:
+    author: /
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: 0
+      thumb: -504
 0501.EG.136:
   0:
     author: Johanna Doe
