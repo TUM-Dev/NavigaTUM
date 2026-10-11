@@ -103,7 +103,7 @@ tracing-actix-web = "0.7.21"
 tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
 tracing-subscriber = { version = "0.3.22", features = ["env-filter", "json", "fmt"] }
 tracing-test = "0.2.6"
-unicode-truncate = "2.0.1"
+unicode-truncate = "3.0.0"
 url = "2.5.8"
 utoipa = { version = "5.4.0", features = ["chrono", "actix_extras", "url"] }
 utoipa-actix-web = "0.1.2"
