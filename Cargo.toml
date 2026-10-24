@@ -94,7 +94,7 @@ serde_yaml = "0.9.34"
 sqlx = { version = "0.9.0", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 strum = { version = "0.28.0", features = ["derive"] }
 tempfile = "3.25.0"
-testcontainers = { version = "0.27.1", features = ["watchdog"] }
+testcontainers = { version = "0.28.0", features = ["watchdog"] }
 testcontainers-modules = { version = "0.15.0", features = ["meilisearch", "postgres"] }
 thiserror = "2.0.18"
 tokio = { version = "1.49", default-features = false }
