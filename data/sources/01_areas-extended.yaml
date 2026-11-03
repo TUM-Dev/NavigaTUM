@@ -978,12 +978,6 @@ garching-hochbrueck:
   osm:
   - way/185254463
   - node/4177892778
-9101:
-  coords:
-    lat: 47.49358
-    lon: 11.09618
-  osm:
-  - way/156823137
 taufkirchen-ottobrunn:
   coords:
     lat: 48.05453
@@ -992,6 +986,11 @@ taufkirchen-ottobrunn:
   coords:
     lat: 47.487317
     lon: 11.061414
+  props:
+    address:
+      street: Breitenauer Straße 1a
+      plz_place: 82467 Garmisch-Partenkirchen
+      source: navigatum
 9344:
   coords:
     lat: 48.0843
