@@ -165,11 +165,11 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
   mapInstance.addControl(floorControl.value, "top-left");
 
   // Listen for floor level changes and adjust zoom if needed
-  floorControl.value.on("level-changed", (event: { level: number | null }) => {
-    currentLevel.value = event.level;
+  floorControl.value.onLevelChanged((level) => {
+    currentLevel.value = level;
     // The open popup belongs to the floor that was visible; drop it when the floor switches.
     closeRoomPopup();
-    if (event.level !== null && mapInstance) {
+    if (level !== null && mapInstance) {
       const currentMapZoom = mapInstance.getZoom();
       // Our floors are only visible at zoom level 17+
       if (currentMapZoom < 17) {

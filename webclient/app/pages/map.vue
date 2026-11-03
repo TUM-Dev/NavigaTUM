@@ -359,9 +359,9 @@ async function initMap(): Promise<MapLibreMap> {
     }
   });
 
-  floorControl.on("level-changed", (event: { level: number | null }) => {
-    currentLevel.value = event.level;
-    setQueryParam(LEVEL_QUERY_PARAM, event.level === null ? null : String(event.level));
+  floorControl.onLevelChanged((level) => {
+    currentLevel.value = level;
+    setQueryParam(LEVEL_QUERY_PARAM, level === null ? null : String(level));
   });
 
   return m;

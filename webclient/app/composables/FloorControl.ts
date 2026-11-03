@@ -176,6 +176,12 @@ export class FloorControl extends Evented implements IControl {
     this.fire("level-changed", { level });
   }
 
+  onLevelChanged(listener: (level: number | null) => void): void {
+    this.on("level-changed", (event) => {
+      listener((event as typeof event & { level: number | null }).level);
+    });
+  }
+
   private _updateLayerVisibility(level: number | null): void {
     if (!this.map) return;
 

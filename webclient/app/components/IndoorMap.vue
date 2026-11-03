@@ -179,10 +179,10 @@ async function initMap(containerId: string): Promise<MapLibreMap> {
     const floors = new FloorControl();
     mapInstance.addControl(floors, "top-left");
     // Floors only render from zoom 17, so picking one while zoomed out would show nothing.
-    floors.on("level-changed", (event: { level: number | null }) => {
-      currentLevel.value = event.level;
-      applyWalkLevelStyling(event.level);
-      if (event.level !== null && mapInstance.getZoom() < 17) {
+    floors.onLevelChanged((level) => {
+      currentLevel.value = level;
+      applyWalkLevelStyling(level);
+      if (level !== null && mapInstance.getZoom() < 17) {
         mapInstance.easeTo({ zoom: 17, duration: 2000 });
       }
     });
