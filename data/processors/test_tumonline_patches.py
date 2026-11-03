@@ -22,9 +22,7 @@ def test_4277_ground_floor_architect_names_are_corrected() -> None:
         "4277.EG.012": ("1.2.EG21, Büro/Besprechungs- & Übungsraum", "1.2.EG21@4277"),
         "4277.EG.013": ("1.2.EG, Flur", "1.2.EG@4277"),
     }
-    rooms = {
-        room_code: {"alt_name": None, "arch_name": None} for room_code in [*expected, "4277.EG.002"]
-    }
+    rooms = {room_code: {"alt_name": None, "arch_name": None} for room_code in [*expected, "4277.EG.002"]}
 
     apply_roomcode_patch(rooms, patches)
 
