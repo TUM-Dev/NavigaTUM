@@ -76,15 +76,6 @@ validierungsautomat-11:
   name: "Validierungsautomat 11 (Chemie)"
   usage: { name: "Validierungsautomat" }
 
-validierungsautomat-12:
-  parent: "1902"
-  name: "Validierungsautomat 12 (Heilbronn)"
-  usage: { name: "Validierungsautomat" }
-  props:
-    comment:
-      de: Direkt neben Raum L.1.30 (1902.01.130)
-      en: Directly next to room L.1.30 (1902.01.130)
-
 validierungsautomat-14:
   parent: "1551"
   name: "Validierungsautomat 14 (Klinikum rechts der Isar)"
