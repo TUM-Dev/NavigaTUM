@@ -28,7 +28,7 @@ patches:
   - {if_room_code: "4277\\.EG\\.008", alt_name: "1.2.EG13, Büro Mitarbeiter", arch_name: "1.2.EG13@4277"}
   - {if_room_code: "4277\\.EG\\.011", alt_name: "1.2.EG19, Büro Mitarbeiter", arch_name: "1.2.EG19@4277"}
   - {if_room_code: "4277\\.EG\\.012", alt_name: "1.2.EG21, Büro/Besprechungs- & Übungsraum", arch_name: "1.2.EG21@4277"}
-  - {if_room_code: "4277\\.EG\\.013", alt_name: "1.2.EG, Flur", arch_name: "1.2.EG@4277"}
+  - {if_room_code: "4277\\.EG\\.013$", alt_name: "1.2.EG, Flur", arch_name: "1.2.EG@4277"}
 
 # Handling of arch_name duplicates
 duplicates:
