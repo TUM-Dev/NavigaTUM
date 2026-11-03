@@ -93,8 +93,8 @@ test -s "$MBTILES_OUT" || { echo "ERROR: planetiler produced no mbtiles" >&2; ex
 endlog
 
 # Prod mounts host map/martin over /map (compose.yml), so the gitignored fonts and maki sprites
-# come from the host, not the image. Reproduce that /map and mount it into the :nightly base (the
-# base the prod image is built from), which makes rebuilding the image unnecessary.
+# come from the host, not the image. Reproduce that /map and mount it into the :latest base (the
+# rendering-enabled base the prod image is built from), which makes rebuilding the image unnecessary.
 log "assemble martin runtime /map"
 RUNDIR=/tmp/martin-run
 rm -rf "$RUNDIR" && cp -r map/martin "$RUNDIR"
@@ -117,7 +117,7 @@ docker run -d --name martin-e2e \
   -e DATABASE_URL="$DATABASE_URL" \
   -v "$RUNDIR":/map:ro \
   -v "$MBTILES_OUT":/data/output.mbtiles:ro \
-  ghcr.io/maplibre/martin:nightly --config /map/config.yaml
+  ghcr.io/maplibre/martin:latest --config /map/config.yaml
 endlog
 
 cleanup() {
@@ -138,7 +138,7 @@ done
 endlog
 
 # Curl up to 5 times: pass on 2xx, fail on 5xx (the failure the SRID bug produced), retry
-# otherwise (transient :nightly timeout, http 000).
+# otherwise (transient timeout, http 000).
 assert_serves() {
   local url=$1 out=${2:-/dev/null} code i
   for i in 1 2 3 4 5; do
