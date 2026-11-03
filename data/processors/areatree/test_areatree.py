@@ -7,7 +7,7 @@ from typing import IO
 import pytest
 from external.loaders.tumonline import load_buildings
 
-from processors import areatree
+from processors import areatree, merge
 from processors.areatree.process import (
     _areatree_lines,
     _extract_building_prefix,
@@ -181,6 +181,7 @@ def test_all_tumonline_buildings_in_areatree() -> None:
     """Every TUMonline building must have a matching entry in the areatree"""
     df = areatree.process.read_areatree()
 
+    intentionally_removed = {"9101"}
     known_b_prefixes: set[str] = set()
     for row in df.iter_rows(named=True):
         if row.get("b_prefix") is not None:
@@ -192,8 +193,21 @@ def test_all_tumonline_buildings_in_areatree() -> None:
         (building["building_key"], building["name"])
         for building in load_buildings().iter_rows(named=True)
         if building["building_key"] not in known_b_prefixes
+        and building["building_key"] not in intentionally_removed
     )
 
     assert not missing, "TUMonline buildings missing from areatree:\n" + "\n".join(
         f"  {b_id}: {name}" for b_id, name in missing
     )
+
+
+def test_garmisch_partenkirchen_building_ids() -> None:
+    """Building 9101 is retired; the current location is building 9110."""
+    df = merge.patch_areas(areatree.process.read_areatree())
+    building_prefixes = set(df["b_prefix"].drop_nulls().to_list())
+    building = df.filter(df["id"] == "9110").row(0, named=True)
+
+    assert "9101" not in building_prefixes
+    assert "9110" in building_prefixes
+    assert building["props_address_street"] == "Breitenauer Straße 1a"
+    assert building["props_address_plz_place"] == "82467 Garmisch-Partenkirchen"
