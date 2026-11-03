@@ -104,8 +104,3 @@ validierungsautomat-sot:
   parent: "2907.01.130"
   name: "Validierungsautomat (School of Social Sciences and Technology)"
   usage: { name: "Validierungsautomat" }
-
-validierungsautomat-straubing:
-  parent: "2927.EG.002"
-  name: "Validierungsautomat (Straubing)"
-  usage: { name: "Validierungsautomat" }
