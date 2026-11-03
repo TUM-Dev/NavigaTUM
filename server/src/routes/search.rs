@@ -933,7 +933,7 @@ mod tests {
     #[test]
     fn sorting_empty_near() {
         let sorting = build_meilisearch_sorting(None);
-        assert!(sorting.is_empty());
+        assert_eq!(sorting, Vec::<String>::new());
     }
 
     #[test]
@@ -997,9 +997,9 @@ mod tests {
     fn query_parses_without_filters() {
         let args: SearchQueryArgs = serde_html_form::from_str("q=mensa").unwrap();
         assert_eq!(args.q, "mensa");
-        assert!(args.filter_in.is_empty());
-        assert!(args.filter_type.is_empty());
-        assert!(args.usage.is_empty());
+        assert_eq!(args.filter_in, Vec::<String>::new());
+        assert_eq!(args.filter_type, Vec::<FacetFilter>::new());
+        assert_eq!(args.usage, Vec::<String>::new());
         assert!(args.near.is_none());
     }
 }
