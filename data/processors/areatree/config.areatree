@@ -35,6 +35,7 @@
       0204:Gabelsbergerstr. 49|S4:0204,s4
       0205:Arcisstr. 19|S5:0205,s5
       0206:Mensa Arcisstraße 17|Mensa:0206,s6
+      0207:Ingeborg Pohl Kinderoase an der TUM|S7:0207,s7
       2920:Gabelsbergerstr. 47:
     03:Südostgelände:suedostgelaende
       0305:Barer Straße 21|SO5:0305,so5
@@ -113,6 +114,7 @@
     2334:CiO/SG Institute West, Bibliothek:
     2350:Olympia-Schwimmhalle:
     2351:Olympia-Eislaufstadion:
+    2355:SAP Garden:
     -2352:Olympiapark:  # ist wirklich der Park, hat ein 1m2 "Raum"
     :Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
       2940:Campus C, Georg-Brauchle-Ring 56/58:
@@ -228,6 +230,7 @@
         4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
         4132:Aquatische Systembiologie "Wagnerhaus", Mühlenweg 18:
       4153:Hochschulsport / Sprachenzentrum:
+      4154:Trafostation X, Brauerei Stapelhalle:
       4155:Kustermannhalle (HSWT Gebäude A9):
       4156:Flaschenkeller Staatsbrauerei:
       418,419:Staatsgut Veitshof:veitshof[site]
@@ -516,6 +519,7 @@
     9379:Lise-Meitner-Straße 8:
     9380:Hyperloop-Halle Ottobrunn:
     9387:Hörsaalgebäude (Willy-Messerschmitt-Str. 5):
+    9388:Mensa/Bibliothek:
     9389:Maria-Merian-Str. 7:
     9386:Willy-Messerschmitt-Straße 11:
     9390:Aviation Flight Test Center / Halle 507:
