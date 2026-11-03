@@ -517,8 +517,6 @@ mod test {
     )]
     use std::fmt::{self, Display, Formatter};
 
-    use strum::EnumCount as _;
-
     use super::*;
     use crate::routes::search::{CroppingMode, Highlighting, ParsedIdMode};
     use crate::setup::tests::{MeiliSearchTestContainer, PostgresTestContainer};
