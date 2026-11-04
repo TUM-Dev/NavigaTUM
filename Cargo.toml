@@ -79,12 +79,12 @@ oauth2-reqwest = "0.1.0-alpha.3"
 octocrab = { version = "0.54", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs", "tokio"] }
 parquet = { version = "59.0.0", default-features = false, features = ["zstd"] }
 pretty_assertions = "1.4.1"
-progenitor-client = "0.14.0"
+progenitor-client = "0.15.0"
 prometheus = { version = "0.14", default-features = false }
 rand = "0.10.0"
 regex = "1.12.3"
 reqwest = { version = "0.13", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls"] }
-rstest = "0.26.1"
+rstest = "0.28.0"
 rustls = "0.23.36"
 serde = { version = "1.0", features = ["derive"] }
 serde_html_form = "0.4.0"
