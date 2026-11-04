@@ -1,5 +1,9 @@
-import type { IControl, Map as MapLibreMap } from "maplibre-gl";
+import type { Event, IControl, Map as MapLibreMap } from "maplibre-gl";
 import { Evented } from "maplibre-gl";
+
+interface FloorControlEventType extends Record<string, Event> {
+  "level-changed": Event<"level-changed"> & { level: number | null };
+}
 
 interface FloorLevel {
   readonly id: number;
@@ -21,7 +25,7 @@ export const FLOOR_LEVELS: readonly FloorLevel[] = [
   { id: -1, label: "-1" },
 ] as const;
 
-export class FloorControl extends Evented implements IControl {
+export class FloorControl extends Evented<FloorControlEventType> implements IControl {
   private readonly container: HTMLDivElement;
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
