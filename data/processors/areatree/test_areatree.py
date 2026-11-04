@@ -192,8 +192,7 @@ def test_all_tumonline_buildings_in_areatree() -> None:
     missing = sorted(
         (building["building_key"], building["name"])
         for building in load_buildings().iter_rows(named=True)
-        if building["building_key"] not in known_b_prefixes
-        and building["building_key"] not in intentionally_removed
+        if building["building_key"] not in known_b_prefixes and building["building_key"] not in intentionally_removed
     )
 
     assert not missing, "TUMonline buildings missing from areatree:\n" + "\n".join(
