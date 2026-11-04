@@ -513,7 +513,7 @@ pub async fn propose_edits(
                             .content_type("text/plain")
                             .body(created.html_url)
                     }
-                    Err(resp) => resp,
+                    Err(resp) => *resp,
                 }
             }
         }
