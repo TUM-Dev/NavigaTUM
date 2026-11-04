@@ -25,7 +25,10 @@ export const FLOOR_LEVELS: readonly FloorLevel[] = [
   { id: -1, label: "-1" },
 ] as const;
 
-export class FloorControl extends Evented<{ "level-changed": FloorLevelChangedEvent }> implements IControl {
+export class FloorControl
+  extends Evented<{ "level-changed": FloorLevelChangedEvent }>
+  implements IControl
+{
   private readonly container: HTMLDivElement;
   private readonly floor_list: HTMLDivElement;
   private resize_observer: ResizeObserver | undefined;
