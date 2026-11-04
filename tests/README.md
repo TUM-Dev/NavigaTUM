@@ -2,6 +2,11 @@
 
 E2E tests for NavigaTUM using [Playwright](https://playwright.dev/), testing the full Docker stack.
 
+In CI, the local Compose server and webclient images are built once from the tested
+revision and shared with the API and UI jobs. Each job loads those images and pulls
+only the local database and Meilisearch dependencies before starting the stack.
+The image artifact is retained for one day.
+
 ## Quick Start
 
 ```bash
