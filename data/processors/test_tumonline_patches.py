@@ -6,6 +6,7 @@ from processors.patch import apply_roomcode_patch
 
 
 def test_4277_ground_floor_architect_names_are_corrected() -> None:
+    """Verify corrected architect names and preserve rooms without a matching patch."""
     sources_path = Path(__file__).parent.parent / "sources"
     with (sources_path / "15_patches-rooms_tumonline.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file)["patches"]
