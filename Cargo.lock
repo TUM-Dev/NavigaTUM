@@ -37,9 +37,9 @@ dependencies = [
 
 [[package]]
 name = "actix-cors"
-version = "0.7.2"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2aff07ada3254fc02618cb7850da91dceb23b5dbda53c6676ccbb28ba504f150"
+checksum = "daa239b93927be1ff123eebada5a3ff23e89f0124ccb8609234e5103d5a5ae6d"
 dependencies = [
  "actix-utils",
  "actix-web",
@@ -213,9 +213,9 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "4.18.1"
+version = "4.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81f8da0d2ae4200dde8773d72ba47a65c220b251ba7b9248db5bd263c247e959"
+checksum = "58356675d8c86d2e720480645a0316808471a62d0073f6a3b98810a5e0ca0e73"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -250,7 +250,6 @@ dependencies = [
  "smallvec",
  "socket2",
  "time",
- "tokio",
  "tracing",
  "url",
 ]
@@ -1552,9 +1551,9 @@ dependencies = [
 
 [[package]]
 name = "fast_qr"
-version = "0.14.0"
+version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aafa8088286fa3903718197ceb03dac70f8b4763748fbdca1e431a5a7217a09e"
+checksum = "1f5ea9788036fedaf55f43a2db0ba01eedf47d26fd6852f01e5cf51952571d57"
 dependencies = [
  "resvg",
 ]
@@ -3203,7 +3202,7 @@ dependencies = [
  "tracing-test",
  "unicode-truncate",
  "url",
- "utoipa 5.5.0",
+ "utoipa",
  "utoipa-actix-web",
  "utoipa-redoc",
  "valhalla-client",
@@ -5415,7 +5414,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd"
 dependencies = [
  "fastrand",
- "getrandom 0.3.4",
+ "getrandom 0.4.3",
  "once_cell",
  "rustix",
  "windows-sys 0.61.2",
@@ -6159,30 +6158,18 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_norway",
- "utoipa-gen 5.5.0",
-]
-
-[[package]]
-name = "utoipa"
-version = "6.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8765fe27aeff71012a3f90fa474cf1df863a7d0dd81ed25de4e63fff2544994f"
-dependencies = [
- "indexmap 2.14.0",
- "serde",
- "serde_json",
- "utoipa-gen 6.0.1",
+ "utoipa-gen",
 ]
 
 [[package]]
 name = "utoipa-actix-web"
-version = "0.2.0"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3af2eb471d6791cfead324a893342eb73530d48bd37c485dd6296bc9fd8101ed"
+checksum = "b7eda9c23c05af0fb812f6a177514047331dac4851a2c8e9c4b895d6d826967f"
 dependencies = [
  "actix-service",
  "actix-web",
- "utoipa 6.0.0",
+ "utoipa",
 ]
 
 [[package]]
@@ -6199,17 +6186,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "utoipa-gen"
-version = "6.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d935f1c83fdf8b88f09bbe050d0cea78ea4afee6d7b0317403228c1200b2c8ab"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 3.0.3",
-]
-
-[[package]]
 name = "utoipa-redoc"
 version = "6.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6218,7 +6194,7 @@ dependencies = [
  "actix-web",
  "serde",
  "serde_json",
- "utoipa 5.5.0",
+ "utoipa",
 ]
 
 [[package]]
