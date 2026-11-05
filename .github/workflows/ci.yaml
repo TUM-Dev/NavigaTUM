@@ -37,25 +37,32 @@ jobs:
               - 'motis-openapi-progenitor/**'
               - 'Cargo.toml'
               - 'Cargo.lock'
-              - '.github/**'
+              - '.github/workflows/ci.yaml'
+              - '.github/workflows/server-cicd.yml'
+              - '.github/workflows/_docker-build.yml'
             webclient: &webclient
               - 'webclient/**'
               # webclient/biome.jsonc extends the root config, so lint results depend on it.
               - 'biome.jsonc'
-              - '.github/**'
+              - '.github/workflows/ci.yaml'
+              - '.github/workflows/webclient-cicd.yml'
+              - '.github/workflows/_docker-build.yml'
             data: &data
               - 'data/**'
               - 'pyproject.toml'
               - 'uv.lock'
               # uv sync --frozen selects the interpreter from .python-version.
               - '.python-version'
-              - '.github/**'
+              - '.github/workflows/ci.yaml'
+              - '.github/workflows/data-cicd.yml'
             map: &map
               - 'map/**'
               # render-e2e exercises the indoor tile functions defined in these migrations, so a
               # migration change must trigger the map jobs.
               - 'server/migrations/**'
-              - '.github/**'
+              - '.github/workflows/ci.yaml'
+              - '.github/workflows/martin-cicd.yml'
+              - '.github/workflows/_docker-build.yml'
             e2e:
               - *server
               - *webclient
@@ -64,6 +71,7 @@ jobs:
               - 'tests/**'
               - 'compose.yml'
               - 'compose.local.yml'
+              - '.github/workflows/e2e-tests.yml'
 
   server:
     needs: changes
