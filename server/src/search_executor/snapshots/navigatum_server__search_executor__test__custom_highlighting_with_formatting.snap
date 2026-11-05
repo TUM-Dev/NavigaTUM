@@ -41,21 +41,21 @@ info: highlighting=<em>
       name: 5510.EG.001 (Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0001@5510
-    - id: 5539.EG.001A
+    - id: 5504.02.450
       type: room
-      name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001A@5539
-    - id: 5539.EG.001B
+      name: 5504.02.450 (Empore Zeichensaal <em>MW</em> zu 1450)
+      subtext: "garching, MW"
+      subtext_bold: 2450@5504
+    - id: 5510.EG.029
       type: room
-      name: "5539.EG.001B (Hörsaal 1B,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001B@5539
-    - id: 5539.EG.002
+      name: 5510.EG.029 (Zentrum für Schlüsselkompetenzen Kreativwerkstatt)
+      subtext: "garching, MW"
+      subtext_bold: 0029@5510
+    - id: 5501.01.109
       type: room
-      name: "5539.EG.002 (Hörsaal 2,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.002@5539
+      name: 5501.01.109 (Stud.arbeit)
+      subtext: "garching, MW"
+      subtext_bold: 1109@5501
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings

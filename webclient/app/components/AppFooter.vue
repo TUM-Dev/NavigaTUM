@@ -7,6 +7,9 @@ const feedback = useFeedback();
 // If we do not include the image here like this, vite/rollup is unable to load it
 const colorMode = useColorMode();
 const { t, locale } = useI18n({ useScope: "local" });
+const tumLogo = computed(
+  () => `/logos/tum_${colorMode.value === "dark" ? "dark" : "light"}_${locale.value}.svg`
+);
 const navigation = computed(() => [
   {
     name: t("sourcecode.text"),
@@ -74,7 +77,7 @@ const navigation = computed(() => [
             {{ t("official_roomfinder") }}<br />
             <img
               :alt="t('tum_logo_alt')"
-              :src="`/logos/tum_${colorMode.value === 'dark' ? 'dark' : 'light'}_${locale}.svg`"
+              :src="tumLogo"
               width="200"
               height="80"
               loading="lazy"

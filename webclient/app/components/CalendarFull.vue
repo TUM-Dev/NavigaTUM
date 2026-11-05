@@ -22,6 +22,8 @@ const earliest_last_sync = defineModel<Date | null>("earliest_last_sync");
 const locations = defineModel<Map<string, CalendarLocationResponse>>("locations");
 
 const props = defineProps<{ showing: readonly string[] }>();
+const tumonlineEventUrl =
+  "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/!wbTermin.wbEdit?pTerminNr=";
 const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
 const colorMode = useColorMode();
@@ -160,7 +162,7 @@ const calendarOptions = computed<CalendarOptions>(() => ({
     <FullCalendar :options="calendarOptions">
       <template #eventContent="arg">
         <NuxtLink
-          :to="`https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/!wbTermin.wbEdit?pTerminNr=${arg.event.id}`"
+          :to="tumonlineEventUrl + arg.event.id"
           external
           class="flex gap-1 overflow-x-auto overflow-y-auto"
           :class="['listWeek', 'timeGridWeek', 'timeGridDay'].includes(arg.view.type) ? 'flex-col' : 'flex-row'"

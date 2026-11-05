@@ -29,7 +29,7 @@ pub struct Arguments {
 }
 
 impl Arguments {
-    fn validate_ids(&self) -> Result<Vec<String>, HttpResponse> {
+    fn validate_ids(&self) -> Result<Vec<String>, Box<HttpResponse>> {
         let ids = self
             .ids
             .clone()
@@ -37,20 +37,24 @@ impl Arguments {
             .map(|s| s.replace(|c: char| c.is_whitespace() || c.is_control(), ""))
             .collect::<Vec<String>>();
         if ids.iter().any(|id| id.is_empty() || id.len() > 255) {
-            return Err(HttpResponse::BadRequest()
-                .content_type("text/plain")
-                .body("one ID has an invalid length"));
+            return Err(Box::new(
+                HttpResponse::BadRequest()
+                    .content_type("text/plain")
+                    .body("one ID has an invalid length"),
+            ));
         }
 
         if ids.len() > 10 {
-            return Err(HttpResponse::BadRequest()
+            return Err(Box::new(HttpResponse::BadRequest()
                 .content_type("text/plain")
-                .body("Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message"));
+                .body("Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message")));
         }
         if ids.is_empty() {
-            return Err(HttpResponse::BadRequest()
-                .content_type("text/plain")
-                .body("No id requested"));
+            return Err(Box::new(
+                HttpResponse::BadRequest()
+                    .content_type("text/plain")
+                    .body("No id requested"),
+            ));
         }
         Ok(ids)
     }
@@ -79,7 +83,7 @@ pub async fn calendar_handler(
 ) -> HttpResponse {
     let ids = match args.validate_ids() {
         Ok(ids) => ids,
-        Err(e) => return e,
+        Err(e) => return *e,
     };
     let locations = match CalendarLocation::get_locations(&data.pool, &ids).await {
         Ok(l) => l.0,
@@ -91,7 +95,7 @@ pub async fn calendar_handler(
         }
     };
     if let Err(e) = validate_locations(&ids, &locations) {
-        return e;
+        return *e;
     }
     let events = match LocationEvents::get_from_db(
         &data.pool,
@@ -134,31 +138,38 @@ impl From<LocationEvents> for LocationEventsResponse {
         }
     }
 }
-fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<(), HttpResponse> {
+fn validate_locations(
+    ids: &[String],
+    locations: &[CalendarLocation],
+) -> Result<(), Box<HttpResponse>> {
     for id in ids {
         if !locations.iter().any(|l| &l.key == id) {
-            return Err(HttpResponse::BadRequest()
-                .content_type("text/plain")
-                .body("Requested id {id} does not exist"));
+            return Err(Box::new(
+                HttpResponse::BadRequest()
+                    .content_type("text/plain")
+                    .body("Requested id {id} does not exist"),
+            ));
         }
     }
     debug_assert_eq!(locations.len(), ids.len());
     for loc in locations {
         if loc.last_calendar_scrape_at.is_none() {
-            return Err(HttpResponse::ServiceUnavailable()
+            return Err(Box::new(HttpResponse::ServiceUnavailable()
                 .content_type("text/plain")
-                .body(format!("Room {key}/{url:?} calendar entry is currently in the process of being scraped, please try again later", key = loc.key, url = loc.calendar_url)));
+                .body(format!("Room {key}/{url:?} calendar entry is currently in the process of being scraped, please try again later", key = loc.key, url = loc.calendar_url))));
         }
     }
     for loc in locations {
         if loc.calendar_url.is_none() {
-            return Err(HttpResponse::NotFound()
-                .content_type("text/plain")
-                .body(format!(
-                    "Room {key}/{url:?} does not have a calendar",
-                    key = loc.key,
-                    url = loc.calendar_url
-                )));
+            return Err(Box::new(
+                HttpResponse::NotFound()
+                    .content_type("text/plain")
+                    .body(format!(
+                        "Room {key}/{url:?} does not have a calendar",
+                        key = loc.key,
+                        url = loc.calendar_url
+                    )),
+            ));
         }
     }
     Ok(())

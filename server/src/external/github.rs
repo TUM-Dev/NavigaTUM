@@ -92,11 +92,13 @@ impl GitHub {
         title: &str,
         description: &str,
         labels: Vec<String>,
-    ) -> Result<PrCreated, HttpResponse> {
+    ) -> Result<PrCreated, Box<HttpResponse>> {
         let Some(octocrab) = self.octocrab else {
-            return Err(HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Failed to create a pull request, please try again later"));
+            return Err(Box::new(
+                HttpResponse::InternalServerError()
+                    .content_type("text/plain")
+                    .body("Failed to create a pull request, please try again later"),
+            ));
         };
 
         // create the PR
@@ -111,17 +113,21 @@ impl GitHub {
             Ok(pr) => {
                 let Some(node_id) = pr.node_id else {
                     error!("GitHub returned a created PR without a node_id");
-                    return Err(HttpResponse::InternalServerError()
-                        .content_type("text/plain")
-                        .body("Failed to create a pull request, please try again later"));
+                    return Err(Box::new(
+                        HttpResponse::InternalServerError()
+                            .content_type("text/plain")
+                            .body("Failed to create a pull request, please try again later"),
+                    ));
                 };
                 (pr.number, node_id)
             }
             Err(e) => {
                 error!(error = ?e, "Error creating pull request");
-                return Err(HttpResponse::InternalServerError()
-                    .content_type("text/plain")
-                    .body("Failed to create a pull request, please try again later"));
+                return Err(Box::new(
+                    HttpResponse::InternalServerError()
+                        .content_type("text/plain")
+                        .body("Failed to create a pull request, please try again later"),
+                ));
             }
         };
 
@@ -142,9 +148,11 @@ impl GitHub {
             }),
             Err(e) => {
                 error!(error = ?e, "Error updating PR");
-                Err(HttpResponse::InternalServerError()
-                    .content_type("text/plain")
-                    .body("Failed to create a pull request, please try again later"))
+                Err(Box::new(
+                    HttpResponse::InternalServerError()
+                        .content_type("text/plain")
+                        .body("Failed to create a pull request, please try again later"),
+                ))
             }
         }
     }
