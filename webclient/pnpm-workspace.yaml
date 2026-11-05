@@ -16,6 +16,7 @@ supportedArchitectures:
   cpu:
     - x64
 overrides:
+  typescript: npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2
   vite: ^8.0.0-beta.8
   vue-router: 5.4.0
 minimumReleaseAgeExclude:
