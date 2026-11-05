@@ -13,7 +13,7 @@ on:
 permissions: {}
 
 jobs:
-  # pre-commit has to see every PR, so the expensive jobs are gated per-path instead of per-workflow.
+  # prek has to see every PR, so the expensive jobs are gated per-path instead of per-workflow.
   changes:
     runs-on: ubuntu-latest
     permissions:
@@ -39,7 +39,7 @@ jobs:
               - '.github/workflows/**'
               - '.github/actions/**'
 
-  pre-commit:
+  prek:
     # a pull_request_target checkout is the base branch, so its fixes would not belong to the PR.
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -50,30 +50,23 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
       - name: Setup | uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       # the webclient-format hook shells out to the workspace's own biome.
       - name: Setup | pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
-          version: 11.3.0
+          version: 12.8.1
           package_json_file: webclient/package.json
           run_install: |
             - cwd: webclient
               args: [--frozen-lockfile]
-      - name: Setup | Cache hook environments
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - name: Fix | prek
+        id: prek
+        uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
         with:
-          path: ~/.cache/pre-commit
-          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-          restore-keys: pre-commit-${{ runner.os }}-
-      - name: Setup | Install python dependencies
-        run: uv sync --frozen
-
-      - name: Fix | pre-commit
-        id: pre-commit
-        run: uv run pre-commit run --all-files --show-diff-on-failure --color=always
+          prek-version: latest-known
         continue-on-error: true
 
       - name: Restore | Discard lockfile side-effects from pnpm
@@ -84,12 +77,12 @@ jobs:
 
       - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
         with:
-          commit-message: "chore: apply pre-commit fixes"
+          commit-message: "chore: apply prek fixes"
 
       # a hook that fails without rewriting anything is a broken setup or an unfixable violation.
       # the fixable case needs no failure here - autofix.ci reports and pushes it.
-      - name: Check | pre-commit result
-        if: steps.pre-commit.outcome == 'failure' && steps.rewritten.outputs.count == '0'
+      - name: Check | prek result
+        if: steps.prek.outcome == 'failure' && steps.rewritten.outputs.count == '0'
         run: exit 1
   update-server-snapshots:
     needs: changes
@@ -102,7 +95,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
       - name: Install cargo-insta
-        uses: taiki-e/install-action@5b4d68e2e660441203ab128a23676f1e4faf1532 # v2.86.3
+        uses: taiki-e/install-action@c509219cf42fba86913069efd0ade2458c59337b # v2.90.1
         with:
           tool: cargo-insta
       - name: Update server snapshots
@@ -123,9 +116,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
       - name: Install cargo-sort
-        uses: taiki-e/install-action@5b4d68e2e660441203ab128a23676f1e4faf1532 # v2.86.3
-        with:
-          tool: cargo-sort
+        run: cargo install cargo-sort --version 2.1.4 --locked
       - name: Sort Cargo.toml
         run: cargo sort
 
@@ -169,7 +160,7 @@ jobs:
       - name: Setup | pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
-          version: 11.3.0
+          version: 12.8.1
           package_json_file: tests/package.json
           run_install: |
             - cwd: tests
@@ -236,7 +227,7 @@ jobs:
         with: {persist-credentials: false}
 
       - name: Setup | Rust-Cache
-        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: |
             server
@@ -249,7 +240,7 @@ jobs:
       - name: Setup | pnpm
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
-          version: 11.3.0
+          version: 12.8.1
           package_json_file: webclient/package.json
           run_install: |
             - cwd: webclient
@@ -329,7 +320,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
       - name: Pin GitHub Actions to SHAs
-        uses: suzuki-shunsuke/pinact-action@896d595f299e71d65b9d28349d6956abe144390a # v3.0.0
+        uses: suzuki-shunsuke/pinact-action@b1a1f46bb10f2908950d95f626ca8cc109e2cf7d # v3.1.0
         with:
           skip_push: "true"
 
@@ -342,7 +333,7 @@ jobs:
   done:
     name: Finished autofix
     runs-on: ubuntu-latest
-    needs: [ changes, pre-commit, update-server-snapshots, sort-cargo-toml, update-openapi, update-screenshots, pin-actions ]
+    needs: [ changes, prek, update-server-snapshots, sort-cargo-toml, update-openapi, update-screenshots, pin-actions ]
     if: always()
     permissions: {}
     steps:
