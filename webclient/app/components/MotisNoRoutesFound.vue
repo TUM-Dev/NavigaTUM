@@ -17,6 +17,7 @@ const { t } = useI18n({ useScope: "local" });
       </div>
       <h3 class="text-zinc-700 dark:text-zinc-200 mb-2 text-lg font-semibold">{{ t("no_routes_found") }}</h3>
       <p class="text-zinc-500 dark:text-zinc-400 mb-6 text-sm max-w-md mx-auto">{{ t("no_routes_description") }}</p>
+      <slot />
     </div>
   </div>
 </template>

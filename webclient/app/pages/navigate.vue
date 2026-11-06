@@ -11,6 +11,7 @@ import { provideRouteHighlight, type RouteHighlight } from "~/composables/useRou
 import type { TimeSelection } from "~/types/navigation";
 import { entityPath, isEntityType } from "~/utils/entityPath";
 import { floorLevelForSelection } from "~/utils/motisLevels";
+import { needsNavigationFallback } from "~/utils/navigationFallback";
 
 // Utility function to parse coordinate IDs and convert to coordinate objects
 function parseCoordinateId(value: string): { lat: number; lon: number } | string {
@@ -102,6 +103,9 @@ const { data, status, error } = await useFetch<NavigationResponse>(
 // Narrow the routing response to the Motis variant once, so Motis-only UI
 // (pagination, itinerary results) reads its fields without re-checking `router`.
 const motisData = computed(() => (data.value?.router === "motis" ? data.value : undefined));
+const showNavigationFallback = computed(() =>
+  needsNavigationFallback(selected_from.value, selected_to.value, status.value, data.value)
+);
 
 watch(
   [data, indoorMap],
@@ -356,8 +360,16 @@ function handleMapSelect(target: RouteHighlight) {
           <NavigationTimeInput v-model:time-selection="timeSelection" />
         </div>
       </form>
+      <NavigationFallback
+        v-if="showNavigationFallback"
+        :from="selected_from"
+        :to="selected_to"
+        :from-label="firstOrDefault(route.query.q_from, '')"
+        :to-label="firstOrDefault(route.query.q_to, '')"
+        :mode="mode"
+      />
       <ValhallaNavigationRoutingResults
-        v-if="status === 'success' && data?.router === 'valhalla'"
+        v-else-if="status === 'success' && data?.router === 'valhalla'"
         :data="data"
         @select-maneuver="handleSelectManeuver"
       />
@@ -373,7 +385,7 @@ function handleMapSelect(target: RouteHighlight) {
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
       </div>
-      <Toast v-else-if="status === 'error' && !!error && error.statusCode !== 404" id="nav-error" level="error">
+      <Toast v-if="status === 'error' && !!error && error.statusCode !== 404" id="nav-error" level="error">
         {{ error.message }}
       </Toast>
 
