@@ -2,6 +2,9 @@
 
 This folder contains the JavaScript-based webclient for NavigaTUM.
 
+If NavigaTUM cannot find a route, the navigation page offers Google Maps directions.
+Google Maps guides you to the building, not the room; check the starting point there.
+
 ## Getting started
 
 ### Prerequisites
