@@ -59,6 +59,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Join image tags
+        id: names
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: echo "joined=$(echo "$TAGS" | paste -sd, -)" >> "$GITHUB_OUTPUT"
       - name: Pre-pull buildkit image with retry
         # setup-buildx-action launches a docker-container builder that pulls
         # moby/buildkit:buildx-stable-1 from Docker Hub once, without retry.
@@ -81,11 +86,16 @@ jobs:
         id: push
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
-          # Attestations only matter for images published from main.
-          provenance: ${{ github.event_name == 'push' && 'mode=max' || 'false' }}
-          sbom: ${{ github.event_name == 'push' }}
+          # Attestations only matter for images published from main. The docker exporter cannot carry
+          # them, so images that are also exported for e2e rely on the attest step below.
+          provenance: ${{ github.event_name == 'push' && inputs.e2e_artifact == '' && 'mode=max' || 'false' }}
+          sbom: ${{ github.event_name == 'push' && inputs.e2e_artifact == '' }}
           context: ${{ inputs.context }} # zizmor: ignore[template-injection]
-          push: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
+          push: ${{ inputs.e2e_artifact == '' && (github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork) }}
+          # With an artifact requested, export in the same build so the layers are only built once.
+          outputs: |
+            ${{ inputs.e2e_artifact != '' && format('type=docker,dest={0}/{1}.tar,name=navigatum-e2e-{1}:latest', runner.temp, inputs.e2e_artifact) || '' }}
+            ${{ inputs.e2e_artifact != '' && (github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork) && format('type=image,name={0},push=true', steps.names.outputs.joined) || '' }}
           file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -95,21 +105,6 @@ jobs:
           # GHCR cache is shared across branches and free for public repos, unlike the 10GB Actions cache.
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
           cache-to: ${{ github.event_name == 'push' && format('type=registry,ref={0}/{1}:buildcache,mode=max', env.REGISTRY, env.IMAGE_NAME) || '' }}
-      - name: Export image for end-to-end tests
-        if: ${{ inputs.e2e_artifact != '' }}
-        # Reuses the layers the previous step just built, so this only serializes the image.
-        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
-        with:
-          provenance: false
-          sbom: false
-          context: ${{ inputs.context }} # zizmor: ignore[template-injection]
-          file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
-          tags: navigatum-e2e-${{ inputs.e2e_artifact }}:latest
-          build-args: |
-            GIT_COMMIT_SHA=${{ github.sha }}
-            GIT_COMMIT_MESSAGE="${github.event.head_commit.message//\n/}"
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
-          outputs: type=docker,dest=${{ runner.temp }}/${{ inputs.e2e_artifact }}.tar
       - name: Upload image for end-to-end tests
         if: ${{ inputs.e2e_artifact != '' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
