@@ -13,199 +13,12 @@ on:
 permissions: {}
 
 jobs:
-  # prek has to see every PR, so the expensive jobs are gated per-path instead of per-workflow.
-  changes:
+  # A single job collects every fix and pushes once, because each autofix.ci push retriggers CI.
+  autofix:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
-    outputs:
-      rust: ${{ steps.filter.outputs.rust }}
-      actions: ${{ steps.filter.outputs.actions }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        id: filter
-        with:
-          filters: |
-            rust:
-              - 'server/**'
-              - 'motis-openapi-progenitor/**'
-              - 'Cargo.toml'
-              - 'Cargo.lock'
-              - '.github/workflows/autofix.yml'
-            actions:
-              - '.github/workflows/**'
-              - '.github/actions/**'
-
-  prek:
-    # a pull_request_target checkout is the base branch, so its fixes would not belong to the PR.
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Setup | Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - name: Setup | uv
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          enable-cache: true
-      # the webclient-format hook shells out to the workspace's own biome.
-      - name: Setup | pnpm
-        uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
-        with:
-          version: 12.8.1
-          package_json_file: webclient/package.json
-          run_install: |
-            - cwd: webclient
-              args: [--frozen-lockfile]
-      - name: Fix | prek
-        id: prek
-        uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
-        with:
-          prek-version: latest-known
-        continue-on-error: true
-
-      - name: Restore | Discard lockfile side-effects from pnpm
-        id: rewritten
-        run: |
-          git checkout -- webclient/pnpm-lock.yaml
-          echo "count=$(git status --porcelain --untracked-files=no | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
-
-      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
-        with:
-          commit-message: "chore: apply prek fixes"
-
-      # a hook that fails without rewriting anything is a broken setup or an unfixable violation.
-      # the fixable case needs no failure here - autofix.ci reports and pushes it.
-      - name: Check | prek result
-        if: steps.prek.outcome == 'failure' && steps.rewritten.outputs.count == '0'
-        run: exit 1
-  update-server-snapshots:
-    needs: changes
-    if: needs.changes.outputs.rust == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Setup | Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - name: Install cargo-insta
-        uses: taiki-e/install-action@3a3daafd3b7f23b8f65d9f5ba2db203fb59b79e2 # v2.90.2
-        with:
-          tool: cargo-insta
-      - name: Update server snapshots
-        run: cargo insta test --accept
-        continue-on-error: true
-
-      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
-        with:
-          commit-message: "chore: Update server snapshots"
-  sort-cargo-toml:
-    needs: changes
-    if: needs.changes.outputs.rust == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Setup | Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - name: Install cargo-sort
-        run: cargo install cargo-sort --version 2.1.4 --locked
-      - name: Sort Cargo.toml
-        run: cargo sort
-
-      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
-        with:
-          commit-message: "chore: sort Cargo.toml"
-  update-screenshots:
-    runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'bless')
-    permissions:
-      contents: read
-    steps:
-      - uses: BRAINSia/free-disk-space@7048ffbf50819342ac964ef3998a51c2564a8a75 # v2.1.3
-        with:
-          tool-cache: false
-          mandb: true
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
-      - name: Setup | Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - name: Setup | Pull Docker images
-        run: |
-          attempt=1
-          until docker compose pull; do
-            if [ "$attempt" -ge 3 ]; then
-              echo "::error::docker compose pull failed after $attempt attempts"
-              exit 1
-            fi
-            echo "::warning::docker compose pull attempt $attempt failed, retrying in 15s"
-            sleep 15
-            attempt=$((attempt + 1))
-          done
-      - name: Setup | Build Docker images
-        run: docker compose -f compose.local.yml build
-
-      - name: Setup | pnpm
-        uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
-        with:
-          version: 12.8.1
-          package_json_file: tests/package.json
-          run_install: |
-            - cwd: tests
-              args: [--frozen-lockfile]
-      - name: Install Browser
-        working-directory: tests
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Setup | Create .env file for docker-compose
-        run: |
-          cat > .env << EOF
-          POSTGRES_PASSWORD=test_password
-          POSTGRES_USER=postgres
-          POSTGRES_DB=navigatum_test
-          MEILI_MASTER_KEY=test_master_key
-          LOG_LEVEL=debug
-          EOF
-
-      - name: Setup | Start Docker services
-        run: |
-          docker compose -f compose.local.yml up -d
-          echo "Waiting for services to be healthy..."
-          timeout 120 bash -c 'until curl -f http://localhost:3003/api/locations/mi; do sleep 2; done'
-          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
-          timeout 120 bash -c 'until curl -f http://localhost:3000/; do sleep 2; done'
-
-      - name: Update | Screenshots
-        run: pnpm run update-screenshots
-        working-directory: tests
-        env:
-          BASE_URL: http://localhost:3000
-          SKIP_WEBSERVER: true
-
-      - name: Restore | Discard test-only side-effects (.env, lockfile)
-        run: git checkout -- .env tests/pnpm-lock.yaml
-
-      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
-        with:
-          commit-message: "chore: update screenshots"
-  update-openapi:
-    needs: changes
-    if: needs.changes.outputs.rust == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
     services:
       postgres:
         image: postgis/postgis:18-3.6
@@ -221,23 +34,41 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - run: rustup update stable && rustup default stable
+      - uses: BRAINSia/free-disk-space@7048ffbf50819342ac964ef3998a51c2564a8a75 # v2.1.3
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        with:
+          tool-cache: false
+          mandb: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
       - name: Setup | Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
-
-      - name: Setup | Rust-Cache
-        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
         with:
-          workspaces: |
-            server
-
-      - name: Setup | Install yq for YAML conversion
-        run: |
-          curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
-          sudo chmod +x /usr/local/bin/yq
-
+          filters: |
+            rust:
+              - 'server/**'
+              - 'motis-openapi-progenitor/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - '.github/workflows/autofix.yml'
+            actions:
+              - '.github/workflows/**'
+              - '.github/actions/**'
+      - name: Setup | uv
+        if: github.event_name == 'pull_request'
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+      # the webclient-format hook and the type refresh shell out to the workspace's own tooling.
       - name: Setup | pnpm
+        if: github.event_name == 'pull_request' || steps.filter.outputs.rust == 'true'
         uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
         with:
           version: 12.8.1
@@ -245,8 +76,42 @@ jobs:
           run_install: |
             - cwd: webclient
               args: [--frozen-lockfile]
+      - name: Setup | Rust
+        if: steps.filter.outputs.rust == 'true'
+        run: rustup update stable && rustup default stable
+      - name: Setup | Rust-Cache
+        if: steps.filter.outputs.rust == 'true'
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: |
+            server
 
-      - name: Build | Compile server
+      - name: Fix | Pin GitHub Actions to SHAs
+        if: steps.filter.outputs.actions == 'true'
+        uses: suzuki-shunsuke/pinact-action@b1a1f46bb10f2908950d95f626ca8cc109e2cf7d # v3.1.0
+        with:
+          skip_push: "true"
+
+      - name: Fix | Sort Cargo.toml
+        if: steps.filter.outputs.rust == 'true'
+        run: cargo install cargo-sort --version 2.1.4 --locked && cargo sort
+      - name: Fix | Install cargo-insta
+        if: steps.filter.outputs.rust == 'true'
+        uses: taiki-e/install-action@3a3daafd3b7f23b8f65d9f5ba2db203fb59b79e2 # v2.90.2
+        with:
+          tool: cargo-insta
+      - name: Fix | Update server snapshots
+        if: steps.filter.outputs.rust == 'true'
+        run: cargo insta test --accept
+        continue-on-error: true
+
+      - name: Fix | Install yq for YAML conversion
+        if: steps.filter.outputs.rust == 'true'
+        run: |
+          curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+      - name: Fix | Compile server
+        if: steps.filter.outputs.rust == 'true'
         working-directory: server
         run: cargo build
         env:
@@ -255,8 +120,8 @@ jobs:
           # See server/Dockerfile for context - HTTP/2 framing errors against
           # crates.io are the dominant CI flake.
           CARGO_HTTP_MULTIPLEXING: false
-
-      - name: Run | Start server in background
+      - name: Fix | Start server in background
+        if: steps.filter.outputs.rust == 'true'
         working-directory: server
         run: cargo run &
         env:
@@ -270,10 +135,9 @@ jobs:
           POSTGRES_URL: localhost
           POSTGRES_DB: navigatum
           LOG_LEVEL: info
-
-      - name: Wait | Server startup
+      - name: Fix | Wait for server startup
+        if: steps.filter.outputs.rust == 'true'
         run: |
-          echo "Waiting for server to start..."
           timeout=60
           count=0
           until curl -f http://localhost:3003/api/status > /dev/null 2>&1; do
@@ -281,59 +145,110 @@ jobs:
               echo "Server failed to start within $timeout seconds"
               exit 1
             fi
-            echo "Waiting for server to be ready... ($count/$timeout)"
             sleep 1
             count=$((count + 1))
           done
-          echo "Server is ready!"
-
-      - name: Fetch | Download OpenAPI spec
+      - name: Fix | Update OpenAPI spec
+        if: steps.filter.outputs.rust == 'true'
         run: |
-          echo "Fetching OpenAPI spec from server..."
           curl -f http://localhost:3003/api/openapi.json -o openapi.json
-
-          echo "Converting JSON to YAML..."
           yq -Poy openapi.json > data/output/openapi.yaml
-
-          echo "Cleaning up temporary file..."
           rm openapi.json
-
-      - name: Update | Refresh types
+      - name: Fix | Refresh types
+        if: steps.filter.outputs.rust == 'true'
         run: pnpm run type-refresh
         working-directory: webclient
         continue-on-error: true
 
+      - name: Setup | Pull Docker images
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: |
+          attempt=1
+          until docker compose pull; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::docker compose pull failed after $attempt attempts"
+              exit 1
+            fi
+            echo "::warning::docker compose pull attempt $attempt failed, retrying in 15s"
+            sleep 15
+            attempt=$((attempt + 1))
+          done
+      - name: Setup | Build Docker images
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: docker compose -f compose.local.yml build
+      - name: Setup | pnpm for the tests
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
+        with:
+          version: 12.8.1
+          package_json_file: tests/package.json
+          run_install: |
+            - cwd: tests
+              args: [--frozen-lockfile]
+      - name: Setup | Install browser
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        working-directory: tests
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Setup | Create .env file for docker-compose
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: |
+          cat > .env << EOF
+          POSTGRES_PASSWORD=test_password
+          POSTGRES_USER=postgres
+          POSTGRES_DB=navigatum_test
+          MEILI_MASTER_KEY=test_master_key
+          LOG_LEVEL=debug
+          EOF
+      - name: Setup | Start Docker services
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: |
+          docker compose -f compose.local.yml up -d
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/locations/mi; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3003/api/search?q=MI; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:3000/; do sleep 2; done'
+      - name: Fix | Update screenshots
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: pnpm run update-screenshots
+        working-directory: tests
+        env:
+          BASE_URL: http://localhost:3000
+          SKIP_WEBSERVER: true
+
+      # prek runs last so that it also formats the files generated above.
+      # a pull_request_target checkout is the base branch, so its fixes would not belong to the PR.
+      - name: Fix | prek
+        id: prek
+        if: github.event_name == 'pull_request'
+        uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
+        with:
+          prek-version: latest-known
+        continue-on-error: true
+
+      - name: Restore | Discard test-only side-effects (.env, lockfile)
+        if: contains(github.event.pull_request.labels.*.name, 'bless')
+        run: git checkout -- .env tests/pnpm-lock.yaml
       - name: Restore | Discard lockfile side-effects from pnpm
-        run: git checkout -- webclient/pnpm-lock.yaml
+        id: rewritten
+        run: |
+          git checkout -- webclient/pnpm-lock.yaml
+          echo "count=$(git status --porcelain --untracked-files=no | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
       - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
         with:
-          commit-message: "chore: Update OpenAPI spec and types"
-  pin-actions:
-    needs: changes
-    if: needs.changes.outputs.actions == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Setup | Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: {persist-credentials: false}
-      - name: Pin GitHub Actions to SHAs
-        uses: suzuki-shunsuke/pinact-action@b1a1f46bb10f2908950d95f626ca8cc109e2cf7d # v3.1.0
-        with:
-          skip_push: "true"
+          commit-message: "chore: apply autofixes"
 
-      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
-        with:
-          commit-message: "chore: pin GitHub Actions to SHAs"
+      # a hook that fails without rewriting anything is a broken setup or an unfixable violation.
+      # the fixable case needs no failure here - autofix.ci reports and pushes it.
+      - name: Check | prek result
+        if: steps.prek.outcome == 'failure' && steps.rewritten.outputs.count == '0'
+        run: exit 1
 
   # This final step is needed to mark the whole workflow as successful
   # Don't change its name - it is used by the merge protection rules
   done:
     name: Finished autofix
     runs-on: ubuntu-latest
-    needs: [ changes, prek, update-server-snapshots, sort-cargo-toml, update-openapi, update-screenshots, pin-actions ]
+    needs: [ autofix ]
     if: always()
     permissions: {}
     steps:
