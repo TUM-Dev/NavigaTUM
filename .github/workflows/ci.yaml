@@ -76,14 +76,14 @@ jobs:
   server:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.server == 'true' }}
-    uses: ./.github/workflows/server-cicd.yml
+    uses: $/.github/workflows/server-cicd.yml
     permissions:
       contents: read
 
   webclient:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.webclient == 'true' }}
-    uses: ./.github/workflows/webclient-cicd.yml
+    uses: $/.github/workflows/webclient-cicd.yml
     permissions:
       contents: read
 
@@ -92,7 +92,7 @@ jobs:
   server-image:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
-    uses: ./.github/workflows/_docker-build.yml
+    uses: $/.github/workflows/_docker-build.yml
     with:
       image_suffix: server
       context: ./
@@ -107,7 +107,7 @@ jobs:
   webclient-image:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
-    uses: ./.github/workflows/_docker-build.yml
+    uses: $/.github/workflows/_docker-build.yml
     with:
       image_suffix: webclient
       context: ./webclient
@@ -122,14 +122,14 @@ jobs:
   data:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.data == 'true' }}
-    uses: ./.github/workflows/data-cicd.yml
+    uses: $/.github/workflows/data-cicd.yml
     permissions:
       contents: read
 
   map:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.map == 'true' }}
-    uses: ./.github/workflows/martin-cicd.yml
+    uses: $/.github/workflows/martin-cicd.yml
     permissions:
       id-token: write
       contents: read
@@ -139,7 +139,7 @@ jobs:
   e2e:
     needs: [ changes, server-image, webclient-image ]
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
-    uses: ./.github/workflows/e2e-tests.yml
+    uses: $/.github/workflows/e2e-tests.yml
     permissions:
       contents: read
 
