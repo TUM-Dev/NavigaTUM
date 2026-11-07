@@ -79,7 +79,7 @@ oauth2-reqwest = "0.1.0-alpha.3"
 octocrab = { version = "0.54", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio", "rustls-aws-lc-rs", "jwt-aws-lc-rs", "tokio"] }
 parquet = { version = "60.0.0", default-features = false, features = ["zstd"] }
 pretty_assertions = "1.4.1"
-progenitor-client = "0.15.0"
+progenitor-client = "0.16.0"
 prometheus = { version = "0.14", default-features = false }
 rand = "0.10.0"
 regex = "1.12.3"
@@ -105,9 +105,9 @@ tracing-subscriber = { version = "0.3.22", features = ["env-filter", "json", "fm
 tracing-test = "0.2.6"
 unicode-truncate = "3.0.0"
 url = "2.5.8"
-utoipa = { version = "5.4.0", features = ["chrono", "actix_extras", "url"] }
-utoipa-actix-web = "0.1.2"
-utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
+utoipa = { version = "6.0.0", features = ["chrono", "actix_extras", "url"] }
+utoipa-actix-web = "0.2.0"
+utoipa-redoc = { version = "7.0.0", features = ["actix-web"] }
 valhalla-client = { version = "0.5.0", default-features = false }
 xxhash-rust = { version = "0.8.15", features = ["xxh3"] }
 

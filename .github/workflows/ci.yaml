@@ -76,17 +76,43 @@ jobs:
   server:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.server == 'true' }}
-    uses: ./.github/workflows/server-cicd.yml
+    uses: $/.github/workflows/server-cicd.yml
+    permissions:
+      contents: read
+
+  webclient:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.webclient == 'true' }}
+    uses: $/.github/workflows/webclient-cicd.yml
+    permissions:
+      contents: read
+
+  # The images are built at the top level so that the e2e tests can start as soon as they are ready,
+  # instead of waiting for the lints and unit tests, and so that they are built only once.
+  server-image:
+    needs: changes
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
+    uses: $/.github/workflows/_docker-build.yml
+    with:
+      image_suffix: server
+      context: ./
+      dockerfile: server/Dockerfile
+      e2e_artifact: server
     permissions:
       id-token: write
       contents: read
       packages: write
       attestations: write
 
-  webclient:
+  webclient-image:
     needs: changes
-    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.webclient == 'true' }}
-    uses: ./.github/workflows/webclient-cicd.yml
+    if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
+    uses: $/.github/workflows/_docker-build.yml
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile
+      e2e_artifact: webclient
     permissions:
       id-token: write
       contents: read
@@ -96,14 +122,14 @@ jobs:
   data:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.data == 'true' }}
-    uses: ./.github/workflows/data-cicd.yml
+    uses: $/.github/workflows/data-cicd.yml
     permissions:
       contents: read
 
   map:
     needs: changes
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.map == 'true' }}
-    uses: ./.github/workflows/martin-cicd.yml
+    uses: $/.github/workflows/martin-cicd.yml
     permissions:
       id-token: write
       contents: read
@@ -111,9 +137,9 @@ jobs:
       attestations: write
 
   e2e:
-    needs: changes
+    needs: [ changes, server-image, webclient-image ]
     if: ${{ github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true' }}
-    uses: ./.github/workflows/e2e-tests.yml
+    uses: $/.github/workflows/e2e-tests.yml
     permissions:
       contents: read
 
@@ -121,7 +147,7 @@ jobs:
   ci-passed:
     name: Finished CI
     runs-on: ubuntu-latest
-    needs: [ changes, server, webclient, data, map, e2e ]
+    needs: [ changes, server, webclient, server-image, webclient-image, data, map, e2e ]
     if: always()
     permissions: {}
     steps:
