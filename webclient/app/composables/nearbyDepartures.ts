@@ -143,7 +143,9 @@ export async function useNearbyDepartures(id: MaybeRefOrGetter<string>) {
       state: stationState.get(station.id),
     }))
   );
-  const now = useTimestamp({ interval: TICK_INTERVAL_MS });
+  const now = useTimestamp({
+    scheduler: (cb) => useIntervalFn(cb, TICK_INTERVAL_MS),
+  });
   // Non-reactive: cancels superseded in-flight fetches so a slow earlier
   // response can't overwrite a faster later one (toggle off→on, locale flip,
   // periodic refresh racing a manual toggle, …).
