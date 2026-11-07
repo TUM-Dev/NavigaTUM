@@ -24,9 +24,12 @@ jobs:
           pattern: image-*
           merge-multiple: true
       - name: Load E2E images
+        # The tarballs carry the registry tags, but compose.local.yml expects the e2e names.
         run: |
-          docker load --input server.tar
-          docker load --input webclient.tar
+          for name in server webclient; do
+            image=$(docker load --input "$name.tar" | sed -n 's/^Loaded image: //p' | head -n1)
+            docker tag "$image" "navigatum-e2e-$name:latest"
+          done
       - name: Setup | Pull Docker images
         # registry-1.docker.io occasionally times out mid-pull; retry to avoid a flake on transient
         # connection drops. `until` keeps `set -e` happy because failures in the condition aren't fatal.
@@ -148,9 +151,12 @@ jobs:
           pattern: image-*
           merge-multiple: true
       - name: Load E2E images
+        # The tarballs carry the registry tags, but compose.local.yml expects the e2e names.
         run: |
-          docker load --input server.tar
-          docker load --input webclient.tar
+          for name in server webclient; do
+            image=$(docker load --input "$name.tar" | sed -n 's/^Loaded image: //p' | head -n1)
+            docker tag "$image" "navigatum-e2e-$name:latest"
+          done
       - name: Setup | Pull Docker images
         run: |
           attempt=1
