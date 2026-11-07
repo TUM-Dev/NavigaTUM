@@ -14,7 +14,7 @@ dependencies = [
   "orjson==3.13.0",
   "Pillow==13.0.0",
   "polars==2.1.0",
-  "pyarrow==25.0.1",
+  "pyarrow==26.0.1",
   "pydantic==2.14.3",
   "pyyaml==6.0.3",
   "requests==2.34.2",
