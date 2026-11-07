@@ -24,7 +24,7 @@ RUN apk add --no-cache python3 make g++ gcc
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install --global pnpm@12.8.1
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
