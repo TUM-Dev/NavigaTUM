@@ -34,6 +34,7 @@ To get a local server running, you can do so:
 
 - either via following the [guide to local development](../server/README.md), or
 - via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running
+
   ```sh
   docker compose -f docker-compose.local.yml up --build
   ```
