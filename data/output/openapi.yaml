@@ -457,7 +457,6 @@ paths:
           required: false
           schema:
             oneOf:
-              - type: "null"
               - type: string
                 description: Transport mode the user wants to use
                 enum:
@@ -466,6 +465,7 @@ paths:
                   - motorcycle
                   - car
                   - public_transit
+              - type: "null"
         - name: pedestrian_type
           in: query
           description: Does the user have specific walking restrictions?
@@ -954,8 +954,8 @@ components:
       properties:
         cause:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/AlertCauseResponse'
+            - type: "null"
         cause_detail:
           type:
             - string
@@ -973,8 +973,8 @@ components:
              the header.
         effect:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/AlertEffectResponse'
+            - type: "null"
         effect_detail:
           type:
             - string
@@ -1010,8 +1010,8 @@ components:
           description: String containing an URL linking to an image.
         severity_level:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/AlertSeverityLevelResponse'
+            - type: "null"
         url:
           type:
             - string
@@ -1195,8 +1195,8 @@ components:
       properties:
         extra:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/ExtraComputedPropResponse'
+            - type: "null"
         name:
           type: string
           examples:
@@ -1234,11 +1234,11 @@ components:
       properties:
         accuracy:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/CoordinateAccuracyResponse'
               description: |-
                 How accurate the coordinate is.
                 Only present, if it is limited to a degree (e.g. we only know the building)
+            - type: "null"
         lat:
           type: number
           format: double
@@ -1687,9 +1687,9 @@ components:
           description: The license under which the image is distributed
         offsets:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/Offsets'
               description: Advanced metadata to control how the image is displayed
+            - type: "null"
     ItineraryResponse:
       type: object
       required:
@@ -1849,16 +1849,16 @@ components:
         properties:
           coordinate:
             oneOf:
-              - type: "null"
               - $ref: '#/components/schemas/Coordinate'
+              - type: "null"
           image:
             oneOf:
-              - type: "null"
               - $ref: '#/components/schemas/Image'
+              - type: "null"
           opening_hours:
             oneOf:
-              - type: "null"
               - $ref: '#/components/schemas/OpeningHoursEdit'
+              - type: "null"
           properties:
             type:
               - array
@@ -1936,12 +1936,12 @@ components:
             - 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
         opening_hours:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/OpeningHoursResponse'
               description: |-
                 Opening hours of this location, when we have a schedule for it.
 
                 Omitted for entries without a known schedule (most rooms).
+            - type: "null"
         parent_names:
           type: array
           items:
@@ -2242,9 +2242,9 @@ components:
           description: '`true` if a toll booth is encountered on this maneuver'
         transit_info:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/TransitInfoResponse'
               description: Contains the attributes that describe a specific transit route
+            - type: "null"
         travel_mode:
           $ref: '#/components/schemas/TravelModeResponse'
           description: Travel mode
@@ -2358,15 +2358,15 @@ components:
           description: type of the Map that should be shown by default
         overlays:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/OverlayMapsResponse'
               description: |-
                 `None` would mean no overlay maps are displayed by default.
                 For rooms, you should add a warning that no floor map is available for this room
+            - type: "null"
         roomfinder:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/RoomfinderMapResponse'
+            - type: "null"
     MensaMenuDayResponse:
       type: object
       description: One day in a [`MensaMenuResponse`].
@@ -2527,16 +2527,16 @@ components:
       properties:
         guests:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/MensaMenuPriceResponse'
+            - type: "null"
         staff:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/MensaMenuPriceResponse'
+            - type: "null"
         students:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/MensaMenuPriceResponse'
+            - type: "null"
     MensaMenuResponse:
       type: object
       description: |-
@@ -2699,8 +2699,8 @@ components:
           description: Whether there is real-time data about this leg
         rental:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/RentalResponse'
+            - type: "null"
         route_color:
           type: string
           description: |-
@@ -2905,8 +2905,8 @@ components:
       properties:
         comment:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/TranslatableStr'
+            - type: "null"
         coords:
           $ref: '#/components/schemas/Coordinate'
         generic_props:
@@ -2934,8 +2934,8 @@ components:
       properties:
         address:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/RoomAddress'
+            - type: "null"
         alt_name:
           type: string
         arch_name:
@@ -2958,8 +2958,8 @@ components:
           type: string
         seats:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/Seats'
+            - type: "null"
         usage_id:
           type: integer
           format: int32
@@ -3260,8 +3260,8 @@ components:
              updates nor the schedule timetable contains track information.
         vertex_type:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/VertexTypeResponse'
+            - type: "null"
     PoiLink:
       type: object
       required:
@@ -3444,9 +3444,9 @@ components:
             $ref: '#/components/schemas/PossibleURLRefResponse'
         operator:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/OperatorResponse'
               description: The operator of the room
+            - type: "null"
     RankingFactorsResponse:
       type: object
       required:
@@ -3495,8 +3495,8 @@ components:
       properties:
         form_factor:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/RentalFormFactorResponse'
+            - type: "null"
         from_station_name:
           type:
             - string
@@ -3822,16 +3822,16 @@ components:
       properties:
         buildings_overview:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/BuildingsOverviewResponse'
+            - type: "null"
         featured_overview:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/FeaturedOverviewResponse'
+            - type: "null"
         rooms_overview:
           oneOf:
-            - type: "null"
             - $ref: '#/components/schemas/RoomsOverviewResponse'
+            - type: "null"
     SourceResponse:
       type: object
       required:

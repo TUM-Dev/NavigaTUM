@@ -66,14 +66,3 @@ jobs:
           CARGO_INCREMENTAL: 0
           CARGO_NET_RETRY: 10
           CARGO_HTTP_MULTIPLEXING: false
-  build:
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: server
-      context: ./
-      dockerfile: server/Dockerfile
-    permissions:
-      id-token: write
-      contents: read
-      packages: write
-      attestations: write
