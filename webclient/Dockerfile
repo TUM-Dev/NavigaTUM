@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:24-alpine3.23 AS base
+FROM node:26-alpine3.23 AS base
 
 RUN apk update --no-progress --quiet && \
     apk add --no-cache --no-progress --quiet curl sqlite sqlite-libs
@@ -24,7 +24,7 @@ RUN apk add --no-cache python3 make g++ gcc
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install --global pnpm@12.8.1
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./

@@ -111,7 +111,7 @@ export class FloorControl
     for (const level of FLOOR_LEVELS) {
       const btn = document.createElement("button");
       btn.classList.add("text-base", "font-medium");
-      btn.innerText = level.label;
+      btn.textContent = level.label;
       const isAvailable = this.availableFloors.size === 0 || this.availableFloors.has(level.id);
 
       if (!isAvailable) {
@@ -135,7 +135,7 @@ export class FloorControl
     // Add "hide all" button
     const hideBtn = document.createElement("button");
     hideBtn.classList.add("text-base", "font-medium");
-    hideBtn.innerText = "∅";
+    hideBtn.textContent = "∅";
     hideBtn.classList.add("active"); // Start with all floors hidden
     hideBtn.addEventListener("click", () => {
       this.setLevel(null);
@@ -172,9 +172,9 @@ export class FloorControl
     const displayText =
       level === null ? "∅" : (FLOOR_LEVELS.find((l) => l.id === level)?.label ?? "∅");
     const vertical = document.getElementById("vertical-oc-text");
-    if (vertical) vertical.innerText = displayText;
+    if (vertical) vertical.textContent = displayText;
     const horizontal = document.getElementById("horizontal-oc-text");
-    if (horizontal) horizontal.innerText = displayText;
+    if (horizontal) horizontal.textContent = displayText;
 
     // Update layer visibility
     this._updateLayerVisibility(level);
