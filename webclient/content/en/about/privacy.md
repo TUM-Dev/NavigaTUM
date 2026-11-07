@@ -1,4 +1,5 @@
 ---
+
 title: Privacy Policy
 description: NavigaTUM's privacy policy. What data we collect, how it is processed, and the rights of users under the EU General Data Protection Regulation (GDPR).
 ---

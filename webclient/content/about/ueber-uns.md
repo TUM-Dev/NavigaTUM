@@ -1,4 +1,5 @@
 ---
+
 title: Über NavigaTUM
 description: NavigaTUM ist ein von Studierenden für Studierende entwickeltes Open-Source-Tool, um sich an der Technischen Universität München (TUM) zurechtzufinden.
 ---
