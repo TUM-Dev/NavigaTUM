@@ -414,7 +414,7 @@ export type components = {
       | "no_effect"
       | "accessibility_issue";
     readonly AlertResponse: {
-      readonly cause?: null | components["schemas"]["AlertCauseResponse"];
+      readonly cause?: components["schemas"]["AlertCauseResponse"] | null;
       /**
        * @description Description of the cause of the alert that allows for
        *      agency-specific language; more specific than the Cause.
@@ -428,7 +428,7 @@ export type components = {
        *      the header.
        */
       readonly description_text: string;
-      readonly effect?: null | components["schemas"]["AlertEffectResponse"];
+      readonly effect?: components["schemas"]["AlertEffectResponse"] | null;
       /**
        * @description Description of the effect of the alert that allows for
        *      agency-specific language; more specific than the Effect.
@@ -453,7 +453,7 @@ export type components = {
       readonly image_media_type?: string | null;
       /** @description String containing an URL linking to an image. */
       readonly image_url?: string | null;
-      readonly severity_level?: null | components["schemas"]["AlertSeverityLevelResponse"];
+      readonly severity_level?: components["schemas"]["AlertSeverityLevelResponse"] | null;
       /** @description The URL which provides additional information about the alert. */
       readonly url?: string | null;
     };
@@ -574,7 +574,7 @@ export type components = {
       readonly type_common_name: string;
     };
     readonly ComputedPropResponse: {
-      readonly extra?: null | components["schemas"]["ExtraComputedPropResponse"];
+      readonly extra?: components["schemas"]["ExtraComputedPropResponse"] | null;
       /** @example Raumkennung */
       readonly name: string;
       /** @example 5602.EG.001 */
@@ -597,7 +597,7 @@ export type components = {
     /** @enum {string} */
     readonly CoordinateAccuracyResponse: "building";
     readonly CoordinateResponse: {
-      readonly accuracy?: null | components["schemas"]["CoordinateAccuracyResponse"];
+      readonly accuracy?: components["schemas"]["CoordinateAccuracyResponse"] | null;
       /**
        * Format: double
        * @description Latitude
@@ -919,7 +919,7 @@ export type components = {
       readonly author: string;
       /** @description The license under which the image is distributed */
       readonly license: components["schemas"]["Property"];
-      readonly offsets?: null | components["schemas"]["Offsets"];
+      readonly offsets?: components["schemas"]["Offsets"] | null;
     };
     readonly ItineraryResponse: {
       /**
@@ -1027,9 +1027,9 @@ export type components = {
     };
     readonly LimitedHashMap_String_Edit: {
       readonly [key: string]: {
-        readonly coordinate?: null | components["schemas"]["Coordinate"];
-        readonly image?: null | components["schemas"]["Image"];
-        readonly opening_hours?: null | components["schemas"]["OpeningHoursEdit"];
+        readonly coordinate?: components["schemas"]["Coordinate"] | null;
+        readonly image?: components["schemas"]["Image"] | null;
+        readonly opening_hours?: components["schemas"]["OpeningHoursEdit"] | null;
         readonly properties?: readonly components["schemas"]["PropertyEdit"][] | null;
       };
     };
@@ -1071,7 +1071,7 @@ export type components = {
        * @example 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
        */
       readonly name: string;
-      readonly opening_hours?: null | components["schemas"]["OpeningHoursResponse"];
+      readonly opening_hours?: components["schemas"]["OpeningHoursResponse"] | null;
       /**
        * @description The human names of the parents.
        *
@@ -1281,7 +1281,7 @@ export type components = {
       readonly time_seconds: number;
       /** @description `true` if a toll booth is encountered on this maneuver */
       readonly toll?: boolean | null;
-      readonly transit_info?: null | components["schemas"]["TransitInfoResponse"];
+      readonly transit_info?: components["schemas"]["TransitInfoResponse"] | null;
       /** @description Travel mode */
       readonly travel_mode: components["schemas"]["TravelModeResponse"];
       readonly type: components["schemas"]["ManeuverTypeResponse"];
@@ -1371,8 +1371,8 @@ export type components = {
     readonly MapsResponse: {
       /** @description type of the Map that should be shown by default */
       readonly default: components["schemas"]["DefaultMapsResponse"];
-      readonly overlays?: null | components["schemas"]["OverlayMapsResponse"];
-      readonly roomfinder?: null | components["schemas"]["RoomfinderMapResponse"];
+      readonly overlays?: components["schemas"]["OverlayMapsResponse"] | null;
+      readonly roomfinder?: components["schemas"]["RoomfinderMapResponse"] | null;
     };
     /** @description One day in a [`MensaMenuResponse`]. */
     readonly MensaMenuDayResponse: {
@@ -1506,9 +1506,9 @@ export type components = {
      *     Each field is `None` when upstream did not price the dish for that role.
      */
     readonly MensaMenuPricesResponse: {
-      readonly guests?: null | components["schemas"]["MensaMenuPriceResponse"];
-      readonly staff?: null | components["schemas"]["MensaMenuPriceResponse"];
-      readonly students?: null | components["schemas"]["MensaMenuPriceResponse"];
+      readonly guests?: components["schemas"]["MensaMenuPriceResponse"] | null;
+      readonly staff?: components["schemas"]["MensaMenuPriceResponse"] | null;
+      readonly students?: components["schemas"]["MensaMenuPriceResponse"] | null;
     };
     /**
      * @description Weekly canteen menu sourced from the TUM-Dev eat-api feed.
@@ -1621,7 +1621,7 @@ export type components = {
       readonly mode: components["schemas"]["ModeResponse"];
       /** @description Whether there is real-time data about this leg */
       readonly real_time: boolean;
-      readonly rental?: null | components["schemas"]["RentalResponse"];
+      readonly rental?: components["schemas"]["RentalResponse"] | null;
       /**
        * @description Route color designation that matches public facing material.
        *
@@ -1752,7 +1752,7 @@ export type components = {
       readonly starts_at: string;
     };
     readonly NewPoi: {
-      readonly comment?: null | components["schemas"]["TranslatableStr"];
+      readonly comment?: components["schemas"]["TranslatableStr"] | null;
       readonly coords: components["schemas"]["Coordinate"];
       readonly generic_props?: readonly components["schemas"]["GenericProp"][];
       readonly links?: readonly components["schemas"]["PoiLink"][];
@@ -1761,7 +1761,7 @@ export type components = {
       readonly usage_name: string;
     };
     readonly NewRoom: {
-      readonly address?: null | components["schemas"]["RoomAddress"];
+      readonly address?: components["schemas"]["RoomAddress"] | null;
       readonly alt_name: string;
       readonly arch_name: string;
       readonly coords: components["schemas"]["Coordinate"];
@@ -1769,7 +1769,7 @@ export type components = {
       readonly floor_type?: string | null;
       readonly links?: readonly components["schemas"]["RoomLink"][];
       readonly parent_building_id: string;
-      readonly seats?: null | components["schemas"]["Seats"];
+      readonly seats?: components["schemas"]["Seats"] | null;
       /** Format: int32 */
       readonly usage_id: number;
     };
@@ -2001,7 +2001,7 @@ export type components = {
        *      updates nor the schedule timetable contains track information.
        */
       readonly track?: string | null;
-      readonly vertex_type?: null | components["schemas"]["VertexTypeResponse"];
+      readonly vertex_type?: components["schemas"]["VertexTypeResponse"] | null;
     };
     readonly PoiLink: {
       readonly text: components["schemas"]["TranslatableStr"];
@@ -2102,7 +2102,7 @@ export type components = {
        */
       readonly iris_coverage_building_ids?: readonly string[];
       readonly links?: readonly components["schemas"]["PossibleURLRefResponse"][];
-      readonly operator?: null | components["schemas"]["OperatorResponse"];
+      readonly operator?: components["schemas"]["OperatorResponse"] | null;
     };
     readonly RankingFactorsResponse: {
       /** Format: int32 */
@@ -2126,7 +2126,7 @@ export type components = {
       | "scooter_seated"
       | "other";
     readonly RentalResponse: {
-      readonly form_factor?: null | components["schemas"]["RentalFormFactorResponse"];
+      readonly form_factor?: components["schemas"]["RentalFormFactorResponse"] | null;
       /**
        * @description Name of the station where the vehicle is picked up (empty for free
        *      floating vehicles)
@@ -2293,9 +2293,9 @@ export type components = {
       readonly wheelchair?: number | null;
     };
     readonly SectionsResponse: {
-      readonly buildings_overview?: null | components["schemas"]["BuildingsOverviewResponse"];
-      readonly featured_overview?: null | components["schemas"]["FeaturedOverviewResponse"];
-      readonly rooms_overview?: null | components["schemas"]["RoomsOverviewResponse"];
+      readonly buildings_overview?: components["schemas"]["BuildingsOverviewResponse"] | null;
+      readonly featured_overview?: components["schemas"]["FeaturedOverviewResponse"] | null;
+      readonly rooms_overview?: components["schemas"]["RoomsOverviewResponse"] | null;
     };
     readonly SourceResponse: {
       /**
@@ -3076,8 +3076,8 @@ export interface operations {
          *     If not specified, the default is based on how far the destinations are apart and requested time.
          */
         readonly route_costing?:
-          | null
-          | ("pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit");
+          | ("pedestrian" | "bicycle" | "motorcycle" | "car" | "public_transit")
+          | null;
         /** @description Does the user have specific walking restrictions? */
         readonly pedestrian_type?: "standard" | "blind" | "wheelchair";
         /** @description Does the user prefer mopeds or motorcycles for powered two-wheeled (ptw)? */
