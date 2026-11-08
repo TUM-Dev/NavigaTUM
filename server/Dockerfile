@@ -2,7 +2,8 @@
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
 # Extract data files from the data image
-FROM ghcr.io/astral-sh/uv:python3.14-bookworm AS data-stage
+FROM python:3.15-bookworm AS data-stage
+COPY --from=ghcr.io/astral-sh/uv:python3.14-bookworm /usr/local/bin/uv /usr/local/bin/uvx /usr/local/bin/
 WORKDIR /app
 
 # The data scripts only check that this variable is set, not its value. A constant keeps the
