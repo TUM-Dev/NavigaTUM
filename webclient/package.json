@@ -32,7 +32,7 @@
 		"sharp": "0.35.5",
 		"temporal-polyfill": "1.0.8",
 		"ts-essentials": "^10.1.1",
-		"vue": "3.5.44",
+		"vue": "3.5.45",
 		"vue-router": "5.4.0",
 		"vue3-carousel": "0.19.0",
 		"zod": "^4.6.7"
