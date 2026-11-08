@@ -16,21 +16,16 @@ info: highlighting=<em>
       name: 5510.02.001 (<em>MW</em> 2001 Rudolf-Diesel-Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 2001@5510
-    - id: 5503.EG.350
-      type: room
-      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
-      subtext: "garching, MW"
-      subtext_bold: 0350@5503
     - id: 5506.EG.608M
       type: room
       name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0608M@5506
-    - id: 5510.EG.001
+    - id: 5503.EG.350
       type: room
-      name: 5510.EG.001 (Hörsaal)
+      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
       subtext: "garching, MW"
-      subtext_bold: 0001@5510
+      subtext_bold: 0350@5503
     - id: 5502.01.250
       type: room
       name: 5502.01.250 (Hörsaal)
@@ -41,21 +36,26 @@ info: highlighting=<em>
       name: 5502.EG.250 (Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0250@5502
+    - id: 5510.EG.001
+      type: room
+      name: 5510.EG.001 (Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 0001@5510
     - id: 5504.02.450
       type: room
       name: 5504.02.450 (Empore Zeichensaal <em>MW</em> zu 1450)
       subtext: "garching, MW"
       subtext_bold: 2450@5504
-    - id: 5515.EG.005
+    - id: 5506.01.680
       type: room
-      name: 5515.EG.005 (Seminarraum)
+      name: 5506.01.680 (Rechnerraum Studenten)
       subtext: "garching, MW"
-      subtext_bold: 01505@5515
-    - id: 5515.U1.005
+      subtext_bold: 1680@5506
+    - id: 5506.02.621
       type: room
-      name: 5515.U1.005 (Seminarraum)
+      name: 5506.02.621 (Gruppen)
       subtext: "garching, MW"
-      subtext_bold: U1505@5515
+      subtext_bold: 2621@5506
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
