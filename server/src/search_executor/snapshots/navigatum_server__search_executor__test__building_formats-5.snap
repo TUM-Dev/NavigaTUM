@@ -29,36 +29,36 @@ info: parsed_id=prefixed
       name: "\u00195101\u0017.EG.501 (Rudolf-Mößbauer-Hörsaal)"
       subtext: "garching, Physik I"
       subtext_bold: 2501@5101
-    - id: 5101.02.238
+    - id: 5101.02.237
       type: room
-      name: "\u00195101\u0017.02.238 (Gruppenraum)"
+      name: "\u00195101\u0017.02.237 (Gruppenraum)"
       subtext: "garching, Physik I"
-      subtext_bold: 4238@5101
-    - id: 5101.EG.271
-      type: room
-      name: "\u00195101\u0017.EG.271 (Seminarraum)"
-      subtext: "garching, Physik I"
-      subtext_bold: 2271@5101
-    - id: 5101.02.236
-      type: room
-      name: "\u00195101\u0017.02.236 (Gruppenraum)"
-      subtext: "garching, Physik I"
-      subtext_bold: 4236@5101
-    - id: 5101.02.239
-      type: room
-      name: "\u00195101\u0017.02.239 (Gruppenraum)"
-      subtext: "garching, Physik I"
-      subtext_bold: 4239@5101
-    - id: 5101.01.111
-      type: room
-      name: "\u00195101\u0017.01.111 (Studentenarbeitsraum)"
-      subtext: "garching, Physik I"
-      subtext_bold: 3111@5101
+      subtext_bold: 4237@5101
     - id: 5101.01.123
       type: room
       name: "\u00195101\u0017.01.123 (Studentenarbeitsraum)"
       subtext: "garching, Physik I"
       subtext_bold: 3123@5101
+    - id: 5101.EG.271
+      type: room
+      name: "\u00195101\u0017.EG.271 (Seminarraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2271@5101
+    - id: 5101.02.238
+      type: room
+      name: "\u00195101\u0017.02.238 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4238@5101
+    - id: 5101.02.239
+      type: room
+      name: "\u00195101\u0017.02.239 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4239@5101
+    - id: 5101.02.236
+      type: room
+      name: "\u00195101\u0017.02.236 (Gruppenraum)"
+      subtext: "garching, Physik I"
+      subtext_bold: 4236@5101
   n_visible: 9
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites

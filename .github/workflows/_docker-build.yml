@@ -18,6 +18,13 @@ on:
         required: true
         description: Dockerfile location (relative to context)
         type: string
+      e2e_artifact:
+        required: false
+        default: ''
+        description: >-
+          If set, also export the image as a tarball artifact named image-<value>, for the end-to-end
+          tests to load instead of rebuilding.
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -74,11 +81,16 @@ jobs:
         id: push
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
-          # Attestations only matter for images published from main.
-          provenance: ${{ github.event_name == 'push' && 'mode=max' || 'false' }}
-          sbom: ${{ github.event_name == 'push' }}
+          # Attestations only matter for images published from main. The docker exporter cannot carry
+          # them, so images that are also exported for e2e rely on the attest step below.
+          provenance: ${{ github.event_name == 'push' && inputs.e2e_artifact == '' && 'mode=max' || 'false' }}
+          sbom: ${{ github.event_name == 'push' && inputs.e2e_artifact == '' }}
           context: ${{ inputs.context }} # zizmor: ignore[template-injection]
-          push: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
+          push: ${{ inputs.e2e_artifact == '' && (github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork) }}
+          # With an artifact requested, export in the same build so the layers are only built once.
+          outputs: |
+            ${{ inputs.e2e_artifact != '' && format('type=docker,dest={0}/{1}.tar', runner.temp, inputs.e2e_artifact) || '' }}
+            ${{ inputs.e2e_artifact != '' && (github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork) && 'type=image,push=true' || '' }}
           file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -88,6 +100,15 @@ jobs:
           # GHCR cache is shared across branches and free for public repos, unlike the 10GB Actions cache.
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
           cache-to: ${{ github.event_name == 'push' && format('type=registry,ref={0}/{1}:buildcache,mode=max', env.REGISTRY, env.IMAGE_NAME) || '' }}
+      - name: Upload image for end-to-end tests
+        if: ${{ inputs.e2e_artifact != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: image-${{ inputs.e2e_artifact }}
+          path: ${{ runner.temp }}/${{ inputs.e2e_artifact }}.tar
+          retention-days: 1
+          compression-level: 1
+          if-no-files-found: error
       - name: Attest
         if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
