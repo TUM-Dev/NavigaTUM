@@ -233,54 +233,6 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
-  osm2pgsql-replication-init:
-    image: iboates/osm2pgsql:latest
-    networks:
-      - traefik_traefik
-    environment:
-      TZ: Europe/Berlin
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-    command:
-      - replication
-      - init
-      - --database
-      - ${POSTGRES_DB}
-      - --username
-      - ${POSTGRES_USER}
-      - --host
-      - db
-      - --port
-      - "5432"
-    depends_on:
-      osm2pgsql-init:
-        condition: service_completed_successfully
-      db:
-        condition: service_healthy
-    volumes:
-      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
-  osm2pgsql-replication:
-    image: iboates/osm2pgsql:latest
-    networks:
-      - traefik_traefik
-    environment:
-      TZ: Europe/Berlin
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-    command:
-      - replication
-      - update
-      - --database
-      - ${POSTGRES_DB}
-      - --username
-      - ${POSTGRES_USER}
-      - --host
-      - db
-      - --port
-      - "5432"
-    depends_on:
-      osm2pgsql-replication-init:
-        condition: service_completed_successfully
-    volumes:
-      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
   martin:
     image: ghcr.io/tum-dev/navigatum-martin:main
     restart: unless-stopped
@@ -307,8 +259,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      osm2pgsql-init:
-        condition: service_started
     volumes:
       - ./map/martin/:/map/:ro
       - tileserver-src:/data:ro

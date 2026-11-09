@@ -201,15 +201,13 @@ export class FloorControl
         this.map.setLayoutProperty(layerId, "visibility", "visible");
       }
 
-      // Update the indoor source URL with the selected level
+      // Every level is a separate pre-rendered tileset, `indoor_level_<level>`.
       const indoorSource = this.map.getSource("indoor");
       if (indoorSource?.type === "vector") {
         // @ts-expect-error - url property exists on vector tile sources
         const currentUrl = indoorSource.url;
         if (currentUrl) {
-          // Extract base URL before the level parameter
-          const baseUrl = currentUrl.split("?")[0];
-          const newUrl = `${baseUrl}?level=${level}.0`;
+          const newUrl = `${currentUrl.slice(0, currentUrl.lastIndexOf("/") + 1)}indoor_level_${level}`;
           // @ts-expect-error - setUrl is available on vector tile sources
           indoorSource.setUrl(newUrl);
         }

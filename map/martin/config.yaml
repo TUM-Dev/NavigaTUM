@@ -18,6 +18,7 @@ styles:
 mbtiles:
   paths:
     - /map/level_overlays
+    - /indoor
   sources:
     # named source matching source name to a single file
     shortbread: /data/output.mbtiles
@@ -77,30 +78,6 @@ postgres:
         starts_at_epoch: int8
         ends_at_epoch: int8
   functions:
-      indoor_rooms:
-        schema: public
-        function: indoor_rooms
-        minzoom: 16
-        maxzoom: 30
-        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
-      indoor_doors:
-        schema: public
-        function: indoor_doors
-        minzoom: 16
-        maxzoom: 30
-        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
-      indoor_walls:
-        schema: public
-        function: indoor_walls
-        minzoom: 16
-        maxzoom: 30
-        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
-      indoor_pois:
-        schema: public
-        function: indoor_pois
-        minzoom: 16
-        maxzoom: 30
-        bounds: [ 5.98865807458, 47.3024876979, 15.0169958839, 54.983104153 ] # germany
       card_validators:
         schema: public
         function: card_validators

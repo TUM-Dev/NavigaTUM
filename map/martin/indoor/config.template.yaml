@@ -1,0 +1,53 @@
+# Rendered once per floor by generate.sh, which substitutes `@LEVEL@`.
+# The `filter` is the predicate the former `indoor_*` tile functions applied to `?level=`.
+postgres:
+  connection_string: ${DATABASE_URL}
+  auto_publish: false
+  tables:
+    indoor_rooms:
+      schema: public
+      table: indoor_bulk_rooms
+      srid: 3857
+      geometry_column: geom
+      id_column: id
+      filter: level_min <= @LEVEL@ AND level_max >= @LEVEL@
+      properties:
+        indoor: text
+        ref_tum: text
+        students_have_access: bool
+        is_male_toilet: bool
+        is_female_toilet: bool
+        is_wheelchair_toilet: bool
+    indoor_walls:
+      schema: public
+      table: indoor_bulk_walls
+      srid: 3857
+      geometry_column: geom
+      id_column: id
+      filter: level_min <= @LEVEL@ AND level_max >= @LEVEL@
+      properties: {}
+    indoor_doors:
+      schema: public
+      table: doors
+      srid: 3857
+      geometry_column: geom
+      id_column: node_id
+      filter: level_min <= @LEVEL@ AND level_max >= @LEVEL@
+      properties:
+        width_cm: int4
+    indoor_pois:
+      schema: public
+      table: pois
+      srid: 3857
+      geometry_column: geom
+      id_column: osm_id
+      filter: level_min <= @LEVEL@ AND level_max >= @LEVEL@
+      properties:
+        indoor: text
+        name: text
+        ref: text
+        students_have_access: bool
+        is_male_toilet: bool
+        is_female_toilet: bool
+        is_wheelchair_toilet: bool
+        area: float4

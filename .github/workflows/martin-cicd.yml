@@ -150,8 +150,8 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: martin
-      context: ./map/martin
-      dockerfile: Dockerfile
+      context: ./map
+      dockerfile: martin/Dockerfile
     permissions:
       id-token: write
       contents: read
