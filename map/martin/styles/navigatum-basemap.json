@@ -1851,7 +1851,7 @@
       "source": "nav",
       "source-layer": "bridges",
       "minzoom": 15,
-      "filter": ["get", "bridge"],
+      "filter": ["coalesce", ["get", "bridge"], false],
       "layout": {
         "visibility": "visible"
       },
@@ -2792,7 +2792,7 @@
       "source": "nav",
       "source-layer": "streets",
       "minzoom": 16,
-      "filter": ["get", "oneway"],
+      "filter": ["coalesce", ["get", "oneway"], false],
       "layout": {
         "icon-image": "arrow",
         "symbol-placement": "line",
@@ -2815,10 +2815,7 @@
       "source": "nav",
       "source-layer": "streets",
       "minzoom": 16,
-      "filter": [
-        "get",
-        "oneway_reverse"
-      ],
+      "filter": ["coalesce", ["get", "oneway_reverse"], false],
       "layout": {
         "icon-image": "arrow",
         "symbol-placement": "line",
@@ -3638,7 +3635,7 @@
             "min",
             [
               "/",
-              ["get", "capacity"],
+              ["coalesce", ["get", "capacity"], 0],
               ["literal", 40]
             ],
             ["literal", 1]
@@ -3657,7 +3654,7 @@
             "min",
             [
               "/",
-              ["get", "capacity"],
+              ["coalesce", ["get", "capacity"], 0],
               ["literal", 40]
             ],
             ["literal", 1]
@@ -4479,7 +4476,7 @@
       "minzoom": 7,
       "filter": [
         "all",
-        ["<=", ["get", "ref_cols"], 6],
+        ["<=", ["coalesce", ["get", "ref_cols"], 7], 6],
         [
           "match",
           ["get", "kind"],
