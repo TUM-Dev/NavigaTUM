@@ -174,7 +174,9 @@ read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
   printf "%d %d\n", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
 }')
 log "assert indoor tile $czoom/$tx/$ty"
-assert_serves "${MARTIN_BASE}/indoor_level_0/${czoom}/${tx}/${ty}"
+assert_serves "${MARTIN_BASE}/indoor_level_0/${czoom}/${tx}/${ty}" /tmp/indoor-tile.pbf
+# Martin answers 204 for a tile outside the archive's coverage, which assert_serves accepts.
+[ -s /tmp/indoor-tile.pbf ] || { echo "ERROR: no indoor tile at the render camera" >&2; exit 1; }
 endlog
 
 log "assert static basemap render"

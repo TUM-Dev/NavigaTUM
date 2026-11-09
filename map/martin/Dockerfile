@@ -7,7 +7,7 @@ FROM postgis/postgis:18-3.6 AS indoor-builder
 # Bulk mode of `martin cp` ships in the release binaries since 2.0.0-beta.6. Keep in sync with render-e2e.sh (enforced by the martin-version-in-sync pre-commit hook).
 ARG MARTIN_VERSION=2.0.0-beta.6
 RUN apt-get update && \
-    apt-get install --no-install-recommends --yes ca-certificates wget osm2pgsql && \
+    apt-get install --no-install-recommends --yes ca-certificates wget osm2pgsql sqlite3 && \
     rm -rf /var/lib/apt/lists/*
 RUN wget -q -O /tmp/martin.tar.gz "https://github.com/maplibre/martin/releases/download/martin-v${MARTIN_VERSION}/martin-x86_64-unknown-linux-musl.tar.gz" && \
     tar -xzf /tmp/martin.tar.gz -C /usr/local/bin martin && \
