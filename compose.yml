@@ -14,6 +14,10 @@ services:
       - "prometheus.job=navigatum-webclient"
     networks:
       - traefik_traefik
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     expose:
       - "3000"
     environment:
@@ -37,6 +41,13 @@ services:
       - "prometheus.job=navigatum-api"
     networks:
       - traefik_traefik
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     expose:
       - "3003"
     command: /bin/navigatum-server
@@ -67,6 +78,10 @@ services:
     restart: unless-stopped
     networks:
       - traefik_traefik
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     expose:
       - "7700"
     environment:
@@ -250,6 +265,10 @@ services:
       - "prometheus.job=navigatum-martin"
     networks:
       - traefik_traefik
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     expose:
       - "3001"
     environment:

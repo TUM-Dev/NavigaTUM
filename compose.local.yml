@@ -2,10 +2,9 @@ services:
   webclient:
     restart: unless-stopped
     build: ./webclient
-    ports:
-      - "3000:3000"
     environment:
       TZ: Europe/Berlin
+      NITRO_HOST: 127.0.0.1
       # not server/data because we need the same URLs under SSR and not
       NUXT_PUBLIC_CDN_URL: http://localhost:3002
       NUXT_PUBLIC_API_URL: http://localhost:3003
@@ -21,7 +20,7 @@ services:
       dockerfile: server/Dockerfile
     command: /bin/navigatum-server
     ports:
-      - "3003:3003"
+      - "127.0.0.1:3003:3003"
     user: 1000:3000
     environment:
       TZ: Europe/Berlin
@@ -46,7 +45,7 @@ services:
     image: getmeili/meilisearch:v1.56.1
     restart: unless-stopped
     ports:
-      - "7700:7700"
+      - "127.0.0.1:7700:7700"
     environment:
       TZ: Europe/Berlin
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
@@ -70,7 +69,7 @@ services:
       - -c
       - synchronous_commit=off
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5

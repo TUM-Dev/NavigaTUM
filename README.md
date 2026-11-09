@@ -87,6 +87,9 @@ docker compose -f compose.local.yml up --build
 > [!TIP]
 > With rootless Podman, use `podman compose -f compose.local.yml up --build` instead.
 
+The full-stack Compose files use shared SELinux labels on bind mounts. These labels do not change
+Unix ownership or permissions; rootless containers still need access through the host's UID mapping.
+
 The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [
 `http://localhost:3000`](http://localhost:3000).
 
