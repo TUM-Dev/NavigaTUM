@@ -84,8 +84,8 @@ To build the server locally, you can run the following command:
 docker compose -f compose.local.yml up --build
 ```
 
-With rootless Podman, use `podman compose -f compose.local.yml up --build` instead.
-The full-stack Compose files also label bind mounts for shared access on SELinux systems.
+> [!TIP]
+> With rootless Podman, use `podman compose -f compose.local.yml up --build` instead.
 
 The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [
 `http://localhost:3000`](http://localhost:3000).
