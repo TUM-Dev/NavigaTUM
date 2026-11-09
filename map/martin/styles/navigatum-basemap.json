@@ -4476,7 +4476,7 @@
       "minzoom": 7,
       "filter": [
         "all",
-        ["<=", ["coalesce", ["get", "ref_cols"], 0], 6],
+        ["<=", ["coalesce", ["get", "ref_cols"], 7], 6],
         [
           "match",
           ["get", "kind"],
