@@ -136,7 +136,7 @@ This may be one optimisation point in the future.
 From the root of the repository, run:
 
 ```bash
-docker compose -f docker-compose.local.yml up --build
+docker compose -f compose.local.yml up --build
 ```
 
 > [!TIP]

@@ -127,9 +127,9 @@ services:
       TZ: Europe/Berlin
     working_dir: /map
     volumes:
-      - ./map/data/:/map/data/:rw
-      - ./map/download.sh:/map/download.sh:ro
-      - ./map/valhalla.json:/map/valhalla.json:ro
+      - ./map/data/:/map/data/:rw,z
+      - ./map/download.sh:/map/download.sh:ro,z
+      - ./map/valhalla.json:/map/valhalla.json:ro,z
   valhalla:
     image: ghcr.io/valhalla/valhalla-scripted:latest
     restart: unless-stopped
@@ -155,8 +155,8 @@ services:
       - --
     command: [build_tiles]
     volumes:
-      - ./map/data/:/custom_files:rw
-      - ./map/valhalla.json:/map/valhalla.json:ro
+      - ./map/data/:/custom_files:rw,z
+      - ./map/valhalla.json:/map/valhalla.json:ro,z
     tmpfs:
       - /tmp
     read_only: true
@@ -179,7 +179,7 @@ services:
       IMPORT_WIKIPEDIA: true
       IMPORT_STYLE: street
     volumes:
-      - ./map/data/:/map/data/:ro
+      - ./map/data/:/map/data/:ro,z
     depends_on:
       download-data:
         condition: service_completed_successfully
@@ -226,8 +226,8 @@ services:
       - --style
       - /map/osm2pgsql/style.lua
     volumes:
-      - ./map/data/:/map/data/:ro
-      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
+      - ./map/data/:/map/data/:ro,z
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro,z
     depends_on:
       download-data:
         condition: service_completed_successfully
@@ -260,7 +260,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./map/martin/:/map/:ro
+      - ./map/martin/:/map/:ro,z
       - tileserver-src:/data:ro
     healthcheck:
       test: wget --spider http://0.0.0.0:3001/health || exit 1
