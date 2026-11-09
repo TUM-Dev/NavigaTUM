@@ -7,14 +7,14 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUT_DIR="${OUT_DIR:-$HERE/out}"
-# Keep in sync with FLOOR_LEVELS in webclient/app/composables/FloorControl.ts.
-LEVELS="${LEVELS:--1 0 1 2 3 4 5 6}"
+# Keep in sync with INDOOR_TILESET_LEVELS in webclient/app/composables/FloorControl.ts.
+LEVELS="${LEVELS:--2 -1 0 1 2 3 4 5 6 7}"
 MIN_ZOOM="${MIN_ZOOM:-16}"
 MAX_ZOOM="${MAX_ZOOM:-18}"
 : "${DATABASE_URL:?DATABASE_URL must point at the osm2pgsql database}"
 
 mkdir -p "$OUT_DIR"
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$HERE/prepare.sql"
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -v "levels={${LEVELS// /,}}" -f "$HERE/prepare.sql"
 
 workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT

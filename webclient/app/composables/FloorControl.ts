@@ -25,6 +25,10 @@ export const FLOOR_LEVELS: readonly FloorLevel[] = [
   { id: -1, label: "-1" },
 ] as const;
 
+// Floors `map/martin/indoor/generate.sh` bakes a tileset for. Floors the API reports outside this
+// range have no `indoor_level_<level>` source, so selecting them must not swap the source to a 404.
+const INDOOR_TILESET_LEVELS: ReadonlySet<number> = new Set([-2, -1, 0, 1, 2, 3, 4, 5, 6, 7]);
+
 export class FloorControl
   extends Evented<{ "level-changed": FloorLevelChangedEvent }>
   implements IControl
@@ -186,7 +190,7 @@ export class FloorControl
   private _updateLayerVisibility(level: number | null): void {
     if (!this.map) return;
 
-    if (level !== null) {
+    if (level !== null && INDOOR_TILESET_LEVELS.has(level)) {
       // Every level is a separate pre-rendered tileset, `indoor_level_<level>`.
       const indoorSource = this.map.getSource("indoor");
       if (indoorSource?.type === "vector") {

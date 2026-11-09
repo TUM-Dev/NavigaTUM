@@ -196,8 +196,9 @@ image bakes in at `/indoor`. The webclient switches the `indoor` source between 
 when the floor changes. Bulk mode only renders plain tables, so
 [`martin/indoor/prepare.sql`](./martin/indoor/prepare.sql) first linearises curved rooms and cuts
 doors out of the walls. The image build needs the repository's `map/` directory as its context:
-`docker build -f map/martin/Dockerfile map`. BuildKit refetches the geofabrik extract only when it
-changed, so every image build carries current data and no replication has to keep running. The
+`docker build -f map/martin/Dockerfile map`. Every CI build downloads a fresh geofabrik extract (the commit SHA busts the layer cache), so every
+image carries current data and no replication has to keep running. Local builds reuse the cached
+extract unless you pass a new `--build-arg GIT_COMMIT_SHA=...`. The
 osm2pgsql import in [`compose.data.yml`](/compose.data.yml) and `osm2pgsql-init` in `compose.yml`
 remain only for the server's `ref:tum` coordinate override.
 

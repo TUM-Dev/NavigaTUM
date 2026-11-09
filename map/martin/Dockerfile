@@ -12,9 +12,13 @@ RUN apt-get update && \
 RUN wget -q -O /tmp/martin.tar.gz "https://github.com/maplibre/martin/releases/download/martin-v${MARTIN_VERSION}/martin-x86_64-unknown-linux-musl.tar.gz" && \
     tar -xzf /tmp/martin.tar.gz -C /usr/local/bin martin && \
     rm /tmp/martin.tar.gz
-# BuildKit revalidates a URL ADD against the upstream headers, so the (expensive) ingest below reruns only
-# when geofabrik published a new extract or one of the inputs changed.
-ADD https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf /data/extract.osm.pbf
+# CI passes the commit SHA, so every CI build downloads a fresh extract and re-ingests it. A URL `ADD`
+# would revalidate against geofabrik instead, but BuildKit fails on its 304 responses ("invalid not-modified ETag").
+# Local builds reuse the cached extract; pass `--build-arg GIT_COMMIT_SHA=$(date +%s)` to refresh it.
+ARG GIT_COMMIT_SHA=local
+RUN echo "extract for ${GIT_COMMIT_SHA}" && \
+    mkdir -p /data && \
+    wget -q -O /data/extract.osm.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
 COPY osm2pgsql/ /map/osm2pgsql/
 COPY martin/indoor/build.sh /map/martin/indoor/build.sh
 RUN /map/martin/indoor/build.sh ingest /data/extract.osm.pbf

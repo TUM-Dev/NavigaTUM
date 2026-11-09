@@ -24,7 +24,7 @@ postgres:
       srid: 3857
       geometry_column: geom
       id_column: id
-      filter: level_min <= @LEVEL@ AND level_max >= @LEVEL@
+      filter: level = @LEVEL@
       properties: {}
     indoor_doors:
       schema: public
