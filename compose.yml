@@ -14,6 +14,9 @@ services:
       - "prometheus.job=navigatum-webclient"
     networks:
       - traefik_traefik
+    read_only: true
+    tmpfs:
+      - /tmp
     cap_drop:
       - ALL
     security_opt:
