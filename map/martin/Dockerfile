@@ -4,7 +4,7 @@
 # Throwaway builder: runs a PostGIS server, ingests the OSM extract with osm2pgsql, and bulk-renders
 # one `indoor_level_<L>.mbtiles` per floor. Only the mbtiles reach the final image.
 FROM postgis/postgis:18-3.6 AS indoor-builder
-# Bulk mode of `martin cp` ships in the release binaries since 2.0.0-beta.6. Keep in sync with render-e2e.sh.
+# Bulk mode of `martin cp` ships in the release binaries since 2.0.0-beta.6. Keep in sync with render-e2e.sh (enforced by the martin-version-in-sync pre-commit hook).
 ARG MARTIN_VERSION=2.0.0-beta.6
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes ca-certificates wget osm2pgsql && \
@@ -45,7 +45,6 @@ RUN wget -q -O /tmp/sprites_maki.zip https://github.com/mapbox/maki/zipball/main
     rm -fr /tmp/sprites/
 
 # -- data --
-COPY ./martin/level_overlays/ /map/level_overlays/
 # Outside /map because compose bind-mounts over it.
 COPY --from=indoor-renderer /out/ /indoor/
 

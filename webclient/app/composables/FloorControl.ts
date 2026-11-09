@@ -186,21 +186,7 @@ export class FloorControl
   private _updateLayerVisibility(level: number | null): void {
     if (!this.map) return;
 
-    // Hide all floor layers
-    for (const floorLevel of FLOOR_LEVELS) {
-      const layerId = `indoor-raster-floor-${floorLevel.id}`;
-      if (this.map.getLayer(layerId)) {
-        this.map.setLayoutProperty(layerId, "visibility", "none");
-      }
-    }
-
-    // Show the selected level
     if (level !== null) {
-      const layerId = `indoor-raster-floor-${level}`;
-      if (this.map.getLayer(layerId)) {
-        this.map.setLayoutProperty(layerId, "visibility", "visible");
-      }
-
       // Every level is a separate pre-rendered tileset, `indoor_level_<level>`.
       const indoorSource = this.map.getSource("indoor");
       if (indoorSource?.type === "vector") {

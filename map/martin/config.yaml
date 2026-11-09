@@ -17,7 +17,6 @@ styles:
   rendering: true
 mbtiles:
   paths:
-    - /map/level_overlays
     - /indoor
   sources:
     # named source matching source name to a single file
