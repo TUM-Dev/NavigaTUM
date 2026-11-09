@@ -35,7 +35,8 @@ FROM (
                     -- +5cm because we have rounded corners in the rendering and otherwise this looks weird
                     SELECT ST_Union(ST_Buffer(d.geom, d.width_cm / 100.0 / 2.0 + 0.05, 'endcap=round'))
                     FROM doors d
-                    WHERE ST_DWithin(d.geom, r.geom, d.width_cm / 100.0 / 2.0 + 0.05)
+                    WHERE d.geom && ST_Expand(r.geom, (SELECT max(width_cm) FROM doors) / 100.0 / 2.0 + 0.05)
+                      AND ST_DWithin(d.geom, r.geom, d.width_cm / 100.0 / 2.0 + 0.05)
                       AND d.level_min <= lv.level
                       AND d.level_max >= lv.level
                 ),
