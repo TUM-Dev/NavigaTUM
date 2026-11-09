@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # End-to-end render gate for the martin tile stack, run on a small real geofabrik clip:
-# migrations -> osm2pgsql ingest -> planetiler generate -> boot martin -> request an indoor tile
+# migrations -> osm2pgsql ingest -> bulk indoor tilesets -> planetiler generate -> boot martin -> request an indoor tile
 # and render the static basemap. Both martin requests are how the indoor SRID bug surfaced in
 # production (HTTP 500 on the tile, then on the render the location-preview endpoint depends on).
 #
@@ -70,6 +70,19 @@ if [ "$rooms" -eq 0 ]; then
 fi
 endlog
 
+# Same per-level bulk render the image's indoor-builder stage runs (map/martin/Dockerfile).
+log "bulk-render indoor tilesets"
+INDOOR_OUT="${INDOOR_OUT:-/tmp/navigatum-e2e-indoor}"
+MARTIN_VERSION="${MARTIN_VERSION:-2.0.0-beta.6}" # keep in sync with map/martin/Dockerfile
+rm -rf "$INDOOR_OUT" /tmp/martin-bin && mkdir -p "$INDOOR_OUT" /tmp/martin-bin
+wget -q -O /tmp/martin.tar.gz \
+  "https://github.com/maplibre/martin/releases/download/martin-v${MARTIN_VERSION}/martin-x86_64-unknown-linux-musl.tar.gz"
+tar -xzf /tmp/martin.tar.gz -C /tmp/martin-bin martin
+PATH="/tmp/martin-bin:$PATH" DATABASE_URL="$DATABASE_URL" OUT_DIR="$INDOOR_OUT" LEVELS="0" \
+  bash map/martin/indoor/generate.sh
+test -s "$INDOOR_OUT/indoor_level_0.mbtiles" || { echo "ERROR: no indoor tileset" >&2; exit 1; }
+endlog
+
 # The schema's only non-OSM source is the osmdata.openstreetmap.de ocean shapefile, whose slow
 # size check trips planetiler's download timeout. Pre-fetch it with a patient wget into
 # planetiler's default sources dir, then run without --download so it reads the local file.
@@ -117,6 +130,7 @@ docker run -d --name martin-e2e \
   -e DATABASE_URL="$DATABASE_URL" \
   -v "$RUNDIR":/map:ro \
   -v "$MBTILES_OUT":/data/output.mbtiles:ro \
+  -v "$INDOOR_OUT":/indoor:ro \
   ghcr.io/maplibre/martin:latest --config /map/config.yaml
 endlog
 
@@ -160,7 +174,9 @@ read -r tx ty < <(awk -v lon="$clon" -v lat="$clat" -v z="$czoom" 'BEGIN {
   printf "%d %d\n", int((lon + 180) / 360 * n), int((1 - log(sin(rad)/cos(rad) + 1/cos(rad)) / pi) / 2 * n)
 }')
 log "assert indoor tile $czoom/$tx/$ty"
-assert_serves "${MARTIN_BASE}/indoor_rooms,indoor_pois,indoor_walls,indoor_doors/${czoom}/${tx}/${ty}?level=0.0"
+assert_serves "${MARTIN_BASE}/indoor_level_0/${czoom}/${tx}/${ty}" /tmp/indoor-tile.pbf
+# Martin answers 204 for a tile outside the archive's coverage, which assert_serves accepts.
+[ -s /tmp/indoor-tile.pbf ] || { echo "ERROR: no indoor tile at the render camera" >&2; exit 1; }
 endlog
 
 log "assert static basemap render"

@@ -25,6 +25,10 @@ export const FLOOR_LEVELS: readonly FloorLevel[] = [
   { id: -1, label: "-1" },
 ] as const;
 
+// Floors `map/martin/indoor/generate.sh` bakes a tileset for. Floors the API reports outside this
+// range have no `indoor_level_<level>` source, so selecting them must not swap the source to a 404.
+const INDOOR_TILESET_LEVELS: ReadonlySet<number> = new Set([-2, -1, 0, 1, 2, 3, 4, 5, 6, 7]);
+
 export class FloorControl
   extends Evented<{ "level-changed": FloorLevelChangedEvent }>
   implements IControl
@@ -186,30 +190,14 @@ export class FloorControl
   private _updateLayerVisibility(level: number | null): void {
     if (!this.map) return;
 
-    // Hide all floor layers
-    for (const floorLevel of FLOOR_LEVELS) {
-      const layerId = `indoor-raster-floor-${floorLevel.id}`;
-      if (this.map.getLayer(layerId)) {
-        this.map.setLayoutProperty(layerId, "visibility", "none");
-      }
-    }
-
-    // Show the selected level
-    if (level !== null) {
-      const layerId = `indoor-raster-floor-${level}`;
-      if (this.map.getLayer(layerId)) {
-        this.map.setLayoutProperty(layerId, "visibility", "visible");
-      }
-
-      // Update the indoor source URL with the selected level
+    if (level !== null && INDOOR_TILESET_LEVELS.has(level)) {
+      // Every level is a separate pre-rendered tileset, `indoor_level_<level>`.
       const indoorSource = this.map.getSource("indoor");
       if (indoorSource?.type === "vector") {
         // @ts-expect-error - url property exists on vector tile sources
         const currentUrl = indoorSource.url;
         if (currentUrl) {
-          // Extract base URL before the level parameter
-          const baseUrl = currentUrl.split("?")[0];
-          const newUrl = `${baseUrl}?level=${level}.0`;
+          const newUrl = `${currentUrl.slice(0, currentUrl.lastIndexOf("/") + 1)}indoor_level_${level}`;
           // @ts-expect-error - setUrl is available on vector tile sources
           indoorSource.setUrl(newUrl);
         }

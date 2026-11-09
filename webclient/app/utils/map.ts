@@ -4,8 +4,8 @@ import type { components } from "~/api_types";
 
 type LocationType = components["schemas"]["LocationTypeResponse"];
 
-// martin vector tiles (…/martin/<source>/<z>/<x>/<y>); skips raster floors and TileJSON.
-const MARTIN_VECTOR_TILE = /\/martin\/(?!level_)[^/]+\/\d+\/\d+\/\d+/;
+// martin vector tiles (…/martin/<source>/<z>/<x>/<y>); skips TileJSON.
+const MARTIN_VECTOR_TILE = /\/martin\/[^/]+\/\d+\/\d+\/\d+/;
 
 // Asks martin for MLT instead of MVT. Needs the sources marked encoding:"mlt" (see loadBasemapStyle),
 // or MapLibre feeds the MLT bytes to the MVT parser.

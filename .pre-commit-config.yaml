@@ -44,6 +44,15 @@ repos:
         entry: sed -i 's/[‐‑‒–—―⁃−﹘﹣－]/-/g'
         language: system
         types: [text]
+  # only map
+  - repo: local
+    hooks:
+      - id: martin-version-in-sync
+        name: martin version in sync between Dockerfile and render-e2e.sh
+        entry: map/martin/check-martin-version.sh
+        language: script
+        pass_filenames: false
+        files: "^map/martin/(Dockerfile|test/render-e2e\\.sh)$"
   # only server
   - repo: local
     hooks:

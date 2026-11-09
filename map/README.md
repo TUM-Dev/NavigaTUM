@@ -186,9 +186,21 @@ node --experimental-strip-types validate-schema.ts shortbread_custom.yml
 
 The indoor overlay is a separate pipeline from the planetiler basemap above. `osm2pgsql` reads the
 OpenStreetMap extract through [`osm2pgsql/style.lua`](./osm2pgsql/style.lua) into Postgres tables
-(`rooms`, `pois`, `doors`, `indoor_ways`), which [martin](./martin) then serves as the `indoor_*`
-vector layers (see `server/migrations` for the tile functions). It is wired up in
-[`compose.data.yml`](/compose.data.yml).
+(`rooms`, `pois`, `doors`, `indoor_ways`). Production does not serve these tables live. The
+`indoor-builder` stage of [`martin/Dockerfile`](./martin/Dockerfile) starts a throwaway PostGIS
+server, imports the Oberbayern extract ([`martin/indoor/build.sh`](./martin/indoor/build.sh)), and
+runs `martin cp --mode bulk` once per floor (the levels of `FLOOR_LEVELS` in `FloorControl.ts`) via
+[`martin/indoor/generate.sh`](./martin/indoor/generate.sh). That writes `indoor_level_<L>.mbtiles`
+with the `indoor_rooms`, `indoor_walls`, `indoor_doors`, and `indoor_pois` layers, which the final
+image bakes in at `/indoor`. The webclient switches the `indoor` source between `indoor_level_<L>`
+when the floor changes. Bulk mode only renders plain tables, so
+[`martin/indoor/prepare.sql`](./martin/indoor/prepare.sql) first linearises curved rooms and cuts
+doors out of the walls. The image build needs the repository's `map/` directory as its context:
+`docker build -f map/martin/Dockerfile map`. Every CI build downloads a fresh geofabrik extract (the commit SHA busts the layer cache), so every
+image carries current data and no replication has to keep running. Local builds reuse the cached
+extract unless you pass a new `--build-arg GIT_COMMIT_SHA=...`. The
+osm2pgsql import in [`compose.data.yml`](/compose.data.yml) and `osm2pgsql-init` in `compose.yml`
+remain only for the server's `ref:tum` coordinate override.
 
 Every poi row carries an `indoor` discriminator (`toilet`, `shower`, `elevator`, `auditorium`,
 `room`, …) instead of a separate category column. POIs are ingested from all three OSM geometries:
@@ -210,4 +222,4 @@ by dimming everything else: selecting the "WCs" filter fades the non-matching PO
 room fills (via runtime `setPaintProperty`) while keeping `indoor='toilet'`/`'shower'` features
 vibrant. The filters live in `FILTER_REGISTRY` (`webclient/app/composables/mapLayers.ts`); each maps
 to the `indoor` values it keeps vibrant, so a new filter is one more `FilterDef`. Because this reads
-the existing `indoor_pois` source, it needs no style or tile-server change to ship.
+the existing `indoor_pois` source, it needs no style or tile-server change to ship. Every `indoor_level_<L>` tileset carries the same layers and properties, so a new property needs one more entry in [`martin/indoor/config.template.yaml`](./martin/indoor/config.template.yaml).
