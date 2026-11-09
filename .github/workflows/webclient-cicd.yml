@@ -25,14 +25,3 @@ jobs:
         working-directory: webclient
       - run: pnpm run test
         working-directory: webclient
-  build:
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: webclient
-      context: ./webclient
-      dockerfile: Dockerfile
-    permissions:
-      id-token: write
-      contents: read
-      packages: write
-      attestations: write

@@ -2,11 +2,13 @@
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
 # Extract data files from the data image
-FROM ghcr.io/astral-sh/uv:python3.14-bookworm AS data-stage
+FROM python:3.15-bookworm AS data-stage
+COPY --from=ghcr.io/astral-sh/uv:python3.14-bookworm /usr/local/bin/uv /usr/local/bin/uvx /usr/local/bin/
 WORKDIR /app
 
-ARG GIT_COMMIT_SHA
-ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+# The data scripts only check that this variable is set, not its value. A constant keeps the
+# (slow) data compilation cached across commits, unlike the real commit sha.
+ENV GIT_COMMIT_SHA=docker
 ENV UV_LINK_MODE=copy
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_PROJECT_ENVIRONMENT=/usr/local
@@ -61,9 +63,6 @@ ENV     CARGO_NET_RETRY=10
 # peer") tears down every in-flight transfer and CARGO_NET_RETRY can't recover.
 # Forcing HTTP/1.1 trades parallelism for one independent connection per crate.
 ENV     CARGO_HTTP_MULTIPLEXING=false
-# added in the build
-ARG     GIT_COMMIT_SHA=development
-ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # possible values "release"|"debug"
 ARG     PROFILE=release
 ENV     PROFILE=${PROFILE}
@@ -78,6 +77,10 @@ RUN     mkdir -p ./server/src/ \
         && : > motis-openapi-progenitor/src/lib.rs \
         && if [ $PROFILE == "release" ]; then cargo build --release; else cargo build; fi \
         && rm -fr target/${PROFILE}/deps/navigatum* target/${PROFILE}/deps/*motis_openapi_progenitor*
+
+# Declared only now, as the value changes with every commit and would invalidate the cached dependency build above.
+ARG     GIT_COMMIT_SHA=development
+ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
 # second run of the image build (including our code)
 COPY    server/.sqlx server/.sqlx
