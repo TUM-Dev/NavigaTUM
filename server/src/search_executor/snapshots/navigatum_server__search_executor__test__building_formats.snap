@@ -16,6 +16,11 @@ info: parsed_id=prefixed
       name: "5510.02.001 (\u0019MW\u0017 2001 Rudolf-Diesel-Hörsaal)"
       subtext: "garching, MW"
       subtext_bold: 2001@5510
+    - id: 5510.EG.001
+      type: room
+      name: 5510.EG.001 (Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 0001@5510
     - id: 5506.EG.608M
       type: room
       name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
@@ -36,26 +41,21 @@ info: parsed_id=prefixed
       name: 5502.EG.250 (Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0250@5502
-    - id: 5510.EG.001
-      type: room
-      name: 5510.EG.001 (Hörsaal)
-      subtext: "garching, MW"
-      subtext_bold: 0001@5510
     - id: 5504.02.450
       type: room
       name: "5504.02.450 (Empore Zeichensaal \u0019MW\u0017 zu 1450)"
       subtext: "garching, MW"
       subtext_bold: 2450@5504
-    - id: 5506.01.680
+    - id: 5510.EG.029
       type: room
-      name: 5506.01.680 (Rechnerraum Studenten)
+      name: 5510.EG.029 (Zentrum für Schlüsselkompetenzen Kreativwerkstatt)
       subtext: "garching, MW"
-      subtext_bold: 1680@5506
-    - id: 5506.02.621
+      subtext_bold: 0029@5510
+    - id: 5510.02.902
       type: room
-      name: 5506.02.621 (Gruppen)
+      name: 5510.02.902 (Gruppenraum)
       subtext: "garching, MW"
-      subtext_bold: 2621@5506
+      subtext_bold: 2902@5510
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
@@ -72,13 +72,13 @@ info: parsed_id=prefixed
       type: building
       name: "Gebäudeteil 1, Institut für Mechatronik"
       subtext: Gebäudeteil
-    - id: "5502"
-      type: building
-      name: Institut für Werkstoffe und Verarbeitung
-      subtext: Gebäudeteil
     - id: "5504"
       type: building
       name: "Gebäudeteil 4, Institut für Verfahrenstechnik"
+      subtext: Gebäudeteil
+    - id: "5502"
+      type: building
+      name: Institut für Werkstoffe und Verarbeitung
       subtext: Gebäudeteil
   n_visible: 5
   estimatedTotalHits: "[estimatedTotalHits]"
