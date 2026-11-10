@@ -160,7 +160,12 @@ export default defineNuxtConfig({
     preference: "system",
     fallback: "light",
   },
-  content: {},
+  content: {
+    database: {
+      type: "sqlite",
+      filename: "/tmp/content.sqlite",
+    },
+  },
   nitro: {
     compressPublicAssets: {
       gzip: true,
