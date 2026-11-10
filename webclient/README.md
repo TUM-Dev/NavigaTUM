@@ -36,7 +36,7 @@ To get a local server running, you can do so:
 - via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running
 
   ```sh
-  docker compose -f docker-compose.local.yml up --build
+  docker compose -f compose.local.yml up --build
   ```
 
 To run the webclient in development mode:

@@ -40,9 +40,9 @@ services:
       TZ: Europe/Berlin
     working_dir: /map
     volumes:
-      - ./map/data/:/map/data/:rw
-      - ./map/download.sh:/map/download.sh:ro
-      - ./map/valhalla.json:/map/valhalla.json:ro
+      - ./map/data/:/map/data/:rw,z
+      - ./map/download.sh:/map/download.sh:ro,z
+      - ./map/valhalla.json:/map/valhalla.json:ro,z
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     environment:
@@ -67,8 +67,8 @@ services:
       - --style
       - /map/osm2pgsql/style.lua
     volumes:
-      - ./map/data/:/map/data/:ro
-      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
+      - ./map/data/:/map/data/:ro,z
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro,z
     depends_on:
       download-data:
         condition: service_completed_successfully

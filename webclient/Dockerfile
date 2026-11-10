@@ -45,6 +45,8 @@ COPY --from=build-stage /app/.output /app/.output
 COPY --from=build-stage /app/node_modules /app/node_modules
 COPY --from=build-stage /app/.nuxt /app/.nuxt
 
+USER node
+
 EXPOSE 3000
 
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1

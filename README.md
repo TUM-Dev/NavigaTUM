@@ -81,8 +81,11 @@ Further details on our frontend can be found in the [webclient documentation](we
 To build the server locally, you can run the following command:
 
 ```bash
-docker compose -f docker-compose.local.yml up --build
+docker compose -f compose.local.yml up --build
 ```
+
+> [!TIP]
+> With rootless Podman, use `podman compose -f compose.local.yml up --build` instead.
 
 The API will be available at [`http://localhost:3003`](http://localhost:3003) and the frontend at [
 `http://localhost:3000`](http://localhost:3000).
