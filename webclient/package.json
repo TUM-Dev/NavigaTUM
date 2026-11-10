@@ -38,13 +38,13 @@
 		"zod": "^4.6.7"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.5",
+		"@biomejs/biome": "2.6.6",
 		"@nuxtjs/i18n": "10.6.0",
 		"@nuxtjs/tailwindcss": "7.0.0-beta.1",
 		"@types/geojson": "7946.0.16",
 		"@vue/tsconfig": "0.9.1",
 		"openapi-typescript": "7.13.0",
-		"tailwindcss": "4.3.4",
+		"tailwindcss": "4.3.5",
 		"typescript": "7.0.2",
 		"vitest": "5.1.0",
 		"vue-tsc": "3.3.14"
