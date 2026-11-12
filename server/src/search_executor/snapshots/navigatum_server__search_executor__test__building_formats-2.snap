@@ -36,36 +36,36 @@ info: parsed_id=roomfinder
       subtext: "garching, MW"
       subtext_bold: 1250@5502
       parsed_id: 1250@5502
-    - id: 5503.EG.350
-      type: room
-      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
-      subtext: "garching, MW"
-      subtext_bold: 0350@5503
-      parsed_id: 0350@5503
     - id: 5510.EG.001
       type: room
       name: 5510.EG.001 (Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0001@5510
       parsed_id: 0001@5510
+    - id: 5503.EG.350
+      type: room
+      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 0350@5503
+      parsed_id: 0350@5503
     - id: 5504.02.450
       type: room
       name: "5504.02.450 (Empore Zeichensaal \u0019MW\u0017 zu 1450)"
       subtext: "garching, MW"
       subtext_bold: 2450@5504
       parsed_id: 2450@5504
-    - id: 5515.U1.005
+    - id: 5510.EG.029
       type: room
-      name: 5515.U1.005 (Seminarraum)
+      name: 5510.EG.029 (Zentrum für Schlüsselkompetenzen Kreativwerkstatt)
       subtext: "garching, MW"
-      subtext_bold: U1505@5515
-      parsed_id: U1505@5515
-    - id: 5515.EG.005
+      subtext_bold: 0029@5510
+      parsed_id: 0029@5510
+    - id: 5506.01.601
       type: room
-      name: 5515.EG.005 (Seminarraum)
+      name: 5506.01.601 (Studenten-Arbeitsplatz)
       subtext: "garching, MW"
-      subtext_bold: 01505@5515
-      parsed_id: 01505@5515
+      subtext_bold: 1601@5506
+      parsed_id: 1601@5506
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
