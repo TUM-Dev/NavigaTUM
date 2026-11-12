@@ -25,7 +25,7 @@
 		"@vueuse/nuxt": "15.0.0",
 		"@vueuse/router": "15.0.0",
 		"better-sqlite3": "13.0.3",
-		"maplibre-gl": "6.16.0",
+		"maplibre-gl": "6.17.0",
 		"nuxt": "4.6.4",
 		"opening_hours": "^3.13.0",
 		"prom-client": "^15.1.3",
