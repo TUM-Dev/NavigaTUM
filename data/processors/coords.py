@@ -8,7 +8,7 @@ from processors.df_utils import ensure_columns
 
 _logger = logging.getLogger(__name__)
 
-MAX_DISTANCE_METERS_FROM_PARENT = 400
+MAX_DISTANCE_METERS_FROM_PARENT = 450
 
 
 def assert_buildings_have_coords(df: pl.DataFrame) -> None:
