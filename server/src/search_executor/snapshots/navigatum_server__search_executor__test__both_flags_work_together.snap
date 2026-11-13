@@ -18,6 +18,12 @@ info: "parsed_id=roomfinder,cropping=full"
       subtext: "stammgelände, N4"
       subtext_bold: N1406@0104
       parsed_id: N1406@0104
+    - id: 0108.U1.825A
+      type: room
+      name: 0108.U1.825A (Experimenteller Raum)
+      subtext: "stammgelände, N8"
+      subtext_bold: N-1825A@0108
+      parsed_id: N-1825A@0108
     - id: 0108.U1.825
       type: room
       name: 0108.U1.825 (Experimenteller Raum)
@@ -36,12 +42,6 @@ info: "parsed_id=roomfinder,cropping=full"
       subtext: "stammgelände, N8"
       subtext_bold: N-1806B@0108
       parsed_id: N-1806B@0108
-    - id: 0108.U1.825A
-      type: room
-      name: 0108.U1.825A (Experimenteller Raum)
-      subtext: "stammgelände, N8"
-      subtext_bold: N-1825A@0108
-      parsed_id: N-1825A@0108
     - id: 0103.U1.311
       type: room
       name: 0103.U1.311 (Praktikum/Umbau)
@@ -60,12 +60,12 @@ info: "parsed_id=roomfinder,cropping=full"
       subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
       subtext_bold: EG-06@9201
       parsed_id: EG-06@9201
-    - id: 5406.03.621D
+    - id: 5609.EG.038
       type: room
-      name: 5406.03.621D (Seminarraum)
-      subtext: "garching, Chemie"
-      subtext_bold: 46220@5406
-      parsed_id: 46220@5406
+      name: 5609.EG.038 (Unterrichtsraum ohne Infrastruktur)
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.09.038@5609
+      parsed_id: 00.09.038@5609
   n_visible: 2
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
