@@ -164,7 +164,6 @@ pub struct SearchQueryArgs {
     #[schema(
         default = "/u0019",
         max_length = 25,
-        max_length = 0,
         examples("/u0019", "<em>", "<ais-highlight-00000000>")
     )]
     pre_highlight: Option<String>,
@@ -176,7 +175,6 @@ pub struct SearchQueryArgs {
     #[schema(
         default = "/u0017",
         max_length = 25,
-        max_length = 0,
         examples("/u0017", "</em>", "</ais-highlight-00000000>")
     )]
     post_highlight: Option<String>,
