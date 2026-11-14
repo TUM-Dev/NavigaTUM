@@ -89,7 +89,8 @@ COPY    motis-openapi-progenitor/src motis-openapi-progenitor/src
 COPY    motis-openapi-progenitor/README.md motis-openapi-progenitor/README.md
 COPY    server/src server/src
 COPY    server/migrations server/migrations
-RUN     if [ $PROFILE == "release" ]; then \
+RUN     touch server/src/main.rs motis-openapi-progenitor/src/lib.rs \
+        && if [ $PROFILE == "release" ]; then \
   cargo build --release; \
   else \
   cargo build; \
