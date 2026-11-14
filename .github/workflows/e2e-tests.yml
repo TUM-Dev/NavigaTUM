@@ -66,6 +66,7 @@ jobs:
           POSTGRES_USER=postgres
           POSTGRES_DB=navigatum_test
           MEILI_MASTER_KEY=test_master_key
+          JWT_KEY=test-jwt-key-for-e2e-only-32-byte
           LOG_LEVEL=debug
           EOF
 
