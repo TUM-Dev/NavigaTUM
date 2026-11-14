@@ -30,18 +30,18 @@ info: parsed_id=roomfinder
       subtext: "garching, MW"
       subtext_bold: 1250@5502
       parsed_id: 1250@5502
-    - id: 5510.EG.001
-      type: room
-      name: 5510.EG.001 (Hörsaal)
-      subtext: "garching, MW"
-      subtext_bold: 0001@5510
-      parsed_id: 0001@5510
     - id: 5503.EG.350
       type: room
       name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
       subtext: "garching, MW"
       subtext_bold: 0350@5503
       parsed_id: 0350@5503
+    - id: 5510.EG.001
+      type: room
+      name: 5510.EG.001 (Hörsaal)
+      subtext: "garching, MW"
+      subtext_bold: 0001@5510
+      parsed_id: 0001@5510
     - id: 5506.EG.608M
       type: room
       name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
@@ -54,12 +54,12 @@ info: parsed_id=roomfinder
       subtext: "garching, MW"
       subtext_bold: 2450@5504
       parsed_id: 2450@5504
-    - id: 5505.01.550
+    - id: 5502.EG.234
       type: room
-      name: 5505.01.550 (Georg-Kühne-Zeichensaal)
+      name: 5502.EG.234 (Seminarraum)
       subtext: "garching, MW"
-      subtext_bold: 1550@5505
-      parsed_id: 1550@5505
+      subtext_bold: 0234@5502
+      parsed_id: 0234@5502
     - id: 5502.01.263
       type: room
       name: 5502.01.263 (Seminarnebenraum)
