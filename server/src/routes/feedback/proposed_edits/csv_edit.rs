@@ -106,10 +106,7 @@ fn write_row<W: Write>(
             Some(Field::Set(v)) => csv_escape(v),
             // Columns the edit does not own (`Keep`, or beyond `new_fields`) keep
             // the existing row's value, or are padded empty when inserting.
-            Some(Field::Keep) | None => existing
-                .and_then(|r| r.get(i))
-                .map(csv_escape)
-                .unwrap_or_default(),
+            Some(Field::Keep) | None => existing.and_then(|r| r.get(i)).map_or_default(csv_escape),
         };
         fields.push(value);
     }

@@ -160,11 +160,9 @@ impl Description {
         self.body += "| ---   | ---   |\n";
         for result in &applied {
             // Cap the width so the poster renders as a thumbnail, not full-bleed.
-            let image = result
-                .image_url
-                .as_deref()
-                .map(|url| format!("<img src=\"{url}\" width=\"200\" alt=\"event poster\">"))
-                .unwrap_or_default();
+            let image = result.image_url.as_deref().map_or_default(|url| {
+                format!("<img src=\"{url}\" width=\"200\" alt=\"event poster\">")
+            });
             writeln!(
                 self.body,
                 "| {summary} | {image} |",
