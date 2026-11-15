@@ -6711,9 +6711,9 @@ checksum = "ec7a2a501ed189703dba8b08142f057e887dfc4b2cc4db2d343ac6376ba3e0b9"
 
 [[package]]
 name = "xxhash-rust"
-version = "0.8.19"
+version = "0.8.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "550a2b930b62486a393c52d5c3b84bff264b28aa437ed64694d31e93b1757af7"
+checksum = "ca9dca39bbd5f73d48ffcc26a06ff0cd9637388edd6e33d732bd5f8135771fab"
 
 [[package]]
 name = "y4m"
