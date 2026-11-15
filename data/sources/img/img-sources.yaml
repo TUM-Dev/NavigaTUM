@@ -1225,6 +1225,15 @@ event_f2b5dc5adc958ad7:
     offsets:
       header: 459
       thumb: -208
+event_fa2d236113496b71:
+  0:
+    author: Fachschaft Medizin der TUM
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -86
+      thumb: -1
 frm-2:
   0:
     author: Battenberg, Andreas / TUM
