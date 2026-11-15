@@ -70,7 +70,17 @@ impl RecordedTokens {
 
         let secret = env::var("JWT_KEY")
             .expect("JWT_KEY presence guaranteed by able_to_process_feedback() above");
-        let x = DecodingKey::from_secret(secret.as_bytes());
+        let x = match DecodingKey::from_secret(secret.as_bytes()) {
+            Ok(key) => key,
+            Err(e) => {
+                error!(error = ?e, "Failed to create token decoding key");
+                return Some(
+                    HttpResponse::InternalServerError()
+                        .content_type("text/plain")
+                        .body("Failed to validate token, please try again later"),
+                );
+            }
+        };
         let jwt_token = decode::<Claims>(token, &x, &Validation::default());
         let kid = match jwt_token {
             Ok(token) => token.claims.kid,
@@ -159,11 +169,16 @@ pub async fn get_token() -> HttpResponse {
 
     let secret = env::var("JWT_KEY")
         .expect("JWT_KEY presence guaranteed by able_to_process_feedback() above");
-    let token = encode(
-        &Header::default(),
-        &Claims::default(),
-        &EncodingKey::from_secret(secret.as_bytes()),
-    );
+    let key = match EncodingKey::from_secret(secret.as_bytes()) {
+        Ok(key) => key,
+        Err(e) => {
+            error!(error = ?e, "Failed to create token encoding key");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to generate token, please try again later");
+        }
+    };
+    let token = encode(&Header::default(), &Claims::default(), &key);
 
     match token {
         Ok(token) => {
