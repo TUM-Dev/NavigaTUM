@@ -8,6 +8,7 @@ const props = defineProps<{
   fromLabel: string;
   toLabel: string;
   mode: operations["route_handler"]["parameters"]["query"]["route_costing"];
+  outsideCoverage: boolean;
 }>();
 const { t, locale } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
@@ -31,7 +32,7 @@ const { data: googleMapsUrl } = useAsyncData(
 </script>
 
 <template>
-  <MotisNoRoutesFound>
+  <MotisNoRoutesFound :description="outsideCoverage ? t('outside_coverage') : undefined">
     <template v-if="googleMapsUrl">
       <Btn :to="googleMapsUrl" class="justify-center">
         {{ t("google_maps") }}
@@ -43,9 +44,11 @@ const { data: googleMapsUrl } = useAsyncData(
 
 <i18n lang="yaml">
 de:
+  outside_coverage: Für mindestens einen der gewählten Orte sind keine Routendaten verfügbar.
   google_maps: Route in Google Maps öffnen
   building_only: Google Maps navigiert zum Gebäude, nicht zum Raum. Prüfe dort den Startpunkt.
 en:
+  outside_coverage: Routing data is unavailable for one or both of the selected locations.
   google_maps: Open route in Google Maps
   building_only: Google Maps navigates to the building, not the room. Check the starting point there.
 </i18n>

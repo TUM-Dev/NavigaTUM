@@ -197,13 +197,22 @@ enum Router {
     Motis(Box<PlanResponse>),
     Valhalla(Box<Trip>),
 }
+
+#[derive(Debug, thiserror::Error)]
+enum RoutingError {
+    #[error("Routing data is not available for one or both locations.")]
+    OutsideCoverage,
+    #[error(transparent)]
+    Upstream(#[from] anyhow::Error),
+}
+
 impl Router {
     async fn resolve(
         args: &RoutingRequest,
         data: &crate::AppData,
         from: Coordinate,
         to: Coordinate,
-    ) -> anyhow::Result<Self> {
+    ) -> Result<Self, RoutingError> {
         match args.route_costing {
             Some(CostingRequest::PublicTransit) => Ok(Self::Motis(Box::new(
                 Self::via_motis(args, data, from, to).await?,
@@ -220,7 +229,7 @@ impl Router {
         data: &crate::AppData,
         from: Coordinate,
         to: Coordinate,
-    ) -> anyhow::Result<Self> {
+    ) -> Result<Self, RoutingError> {
         if from.distance_to(&to) < BICYCLE_MAX_KM {
             return Ok(Self::Valhalla(Box::new(
                 Self::via_valhalla(args, data, from, to, CostingRequest::Bicycle).await?,
@@ -250,6 +259,11 @@ impl Router {
                     Ok(Self::Valhalla(Box::new(car)))
                 }
             }
+            (Ok(transit), Err(RoutingError::OutsideCoverage))
+                if transit.itineraries.is_empty() && transit.direct.is_empty() =>
+            {
+                Err(RoutingError::OutsideCoverage)
+            }
             (Ok(transit), Err(e)) => {
                 warn!(error=?e, "no car to measure transit against, keeping transit");
                 Ok(Self::Motis(Box::new(transit)))
@@ -258,7 +272,8 @@ impl Router {
                 warn!(error=?e, "could not reach transit, defaulting to the car");
                 Ok(Self::Valhalla(Box::new(car)))
             }
-            (Err(e), Err(_)) => Err(e),
+            (Err(_), Err(RoutingError::OutsideCoverage)) => Err(RoutingError::OutsideCoverage),
+            (Err(e), Err(_)) => Err(e.into()),
         }
     }
 
@@ -287,7 +302,11 @@ impl Router {
         from: Coordinate,
         to: Coordinate,
         costing: CostingRequest,
-    ) -> anyhow::Result<Trip> {
+    ) -> Result<Trip, RoutingError> {
+        if !data.valhalla.covers(from.lat, from.lon) || !data.valhalla.covers(to.lat, to.lon) {
+            return Err(RoutingError::OutsideCoverage);
+        }
+
         #[expect(
             clippy::cast_possible_truncation,
             reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
@@ -300,6 +319,7 @@ impl Router {
                 args.lang == LanguageOptions::En,
             )
             .await
+            .map_err(RoutingError::from)
     }
 }
 
@@ -440,6 +460,7 @@ enum PoweredTwoWheeledRestrictionRequest {
     responses(
         (status = 200, description = "**Routing solution**", body=RoutingResponse, content_type = "application/json"),
         (status = 404, description = "**Not found.** The requested location does not exist", body = String, content_type = "text/plain", example = "Not found"),
+        (status = 422, description = "Routing data is not available for one or both locations", body = RoutingCoverageError),
     )
 )]
 #[get("/api/maps/route", wrap = "actix_middleware_etag::Etag::default()")]
@@ -465,7 +486,12 @@ pub async fn route_handler(
     };
     let router = match Router::resolve(&args, &data, from, to).await {
         Ok(router) => router,
-        Err(e) => {
+        Err(e @ RoutingError::OutsideCoverage) => {
+            return HttpResponse::UnprocessableEntity().json(RoutingCoverageError {
+                message: e.to_string(),
+            });
+        }
+        Err(RoutingError::Upstream(e)) => {
             error!(error=?e,"error routing");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
@@ -482,6 +508,11 @@ pub async fn route_handler(
             valhalla::ValhallaRoutingResponse::from(*response),
         )),
     }
+}
+
+#[derive(Serialize, utoipa::ToSchema)]
+struct RoutingCoverageError {
+    message: String,
 }
 
 #[derive(Serialize, Debug, utoipa::ToSchema)]
@@ -506,6 +537,7 @@ mod tests {
     use motis_openapi_progenitor::types::{EncodedPolyline, Leg, Mode, Place};
     use pretty_assertions::assert_eq;
     use rstest::rstest;
+    use serde_json::json;
 
     use super::*;
 
@@ -521,6 +553,50 @@ mod tests {
         lat: 48.0,
         lon: 11.0,
     };
+
+    #[rstest]
+    #[case(
+        "49.13749255253383,9.216739822397306",
+        "48.14966,11.56794",
+        "&route_costing=pedestrian"
+    )]
+    #[case(
+        "48.14966,11.56794",
+        "48.88520921545141,12.572104411469688",
+        "&route_costing=pedestrian"
+    )]
+    #[case(
+        "48.88520921545141,12.572104411469688",
+        "48.881700225575244,12.563994085488526",
+        ""
+    )]
+    #[actix_web::test]
+    async fn reports_outside_coverage(#[case] from: &str, #[case] to: &str, #[case] costing: &str) {
+        let pool = PgPool::connect_lazy("postgres://localhost/navigatum").unwrap();
+        let mut data = crate::AppData::from(pool);
+        data.valhalla = crate::external::valhalla::ValhallaWrapper::new(
+            "https://nav.tum.de/valhalla".parse().unwrap(),
+        );
+        let app = actix_web::test::init_service(
+            actix_web::App::new()
+                .app_data(web::Data::new(data))
+                .service(route_handler),
+        )
+        .await;
+        let request = actix_web::test::TestRequest::get()
+            .uri(&format!("/api/maps/route?from={from}&to={to}{costing}"))
+            .to_request();
+        let response = actix_web::test::call_service(&app, request).await;
+
+        assert_eq!(
+            response.status(),
+            actix_web::http::StatusCode::UNPROCESSABLE_ENTITY
+        );
+        assert_eq!(
+            actix_web::test::read_body_json::<serde_json::Value, _>(response).await,
+            json!({"message": "Routing data is not available for one or both locations."})
+        );
+    }
 
     const KM_PER_DEGREE_LAT: f64 = EARTH_RADIUS_KM * PI / 180.0;
 
