@@ -63,7 +63,7 @@ jobs:
               - '.github/actions/**'
       - name: Setup | uv
         if: github.event_name == 'pull_request'
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
         with:
           enable-cache: true
       # the webclient-format hook and the type refresh shell out to the workspace's own tooling.
@@ -97,7 +97,7 @@ jobs:
         run: cargo install cargo-sort --version 2.1.4 --locked && cargo sort
       - name: Fix | Install cargo-insta
         if: steps.filter.outputs.rust == 'true'
-        uses: taiki-e/install-action@ab49d3c64680143e184118bed66a46419fc15519 # v2.90.5
+        uses: taiki-e/install-action@25f51f6b1bf4e18876107cece836f4f77ac17c8c # v2.90.7
         with:
           tool: cargo-insta
       - name: Fix | Update server snapshots
