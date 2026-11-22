@@ -28,6 +28,13 @@ services:
       - --bounds=world
       - --output=/data/output.mbtiles
       - --force=true
+  valhalla-data:
+    image: debian:trixie-slim
+    command: [sh, /map/prepare-valhalla-data.sh, /data, /map/campuses.json]
+    volumes:
+      - ./tmp/navigatum/navigation/campuses/:/data:rw
+      - ./map/prepare-valhalla-data.sh:/map/prepare-valhalla-data.sh:ro
+      - ./map/valhalla-campus-extracts.json:/map/campuses.json:ro
   valhalla-build:
     image: ghcr.io/valhalla/valhalla-scripted:latest
     mem_limit: 50G
@@ -35,10 +42,9 @@ services:
     cpu_shares: 512 # we don't want to gobble up all the CPU
     pull_policy: always
     volumes:
-      - ./tmp/navigatum/navigation/:/custom_files:rw
+      - ./tmp/navigatum/navigation/campuses/:/custom_files:rw
     environment:
       TZ: Europe/Berlin
-      tile_urls: https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf
       build_elevation: True
       force_rebuild: True
       build_admins: Force
@@ -46,3 +52,6 @@ services:
       build_transit: False
       use_default_speeds_config: True
       serve_tiles: False
+    depends_on:
+      valhalla-data:
+        condition: service_completed_successfully

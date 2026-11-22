@@ -8,11 +8,15 @@ const props = defineProps<{
   fromLabel: string;
   toLabel: string;
   mode: operations["route_handler"]["parameters"]["query"]["route_costing"];
+  routingUnavailable: boolean;
 }>();
 const { t, locale } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 const { data: googleMapsUrl } = useAsyncData(
-  computed(() => `navigation-fallback:${JSON.stringify([props, locale.value])}`),
+  computed(
+    () =>
+      `navigation-fallback:${JSON.stringify([props.from, props.to, props.fromLabel, props.toLabel, props.mode, locale.value])}`
+  ),
   async () => {
     const loadCoords = async (id: string) => {
       const details = await $fetch<components["schemas"]["LocationDetailsResponse"]>(
@@ -31,7 +35,7 @@ const { data: googleMapsUrl } = useAsyncData(
 </script>
 
 <template>
-  <MotisNoRoutesFound>
+  <MotisNoRoutesFound :description="routingUnavailable ? t('routing_unavailable') : undefined">
     <template v-if="googleMapsUrl">
       <Btn :to="googleMapsUrl" class="justify-center">
         {{ t("google_maps") }}
@@ -43,9 +47,11 @@ const { data: googleMapsUrl } = useAsyncData(
 
 <i18n lang="yaml">
 de:
+  routing_unavailable: Für diese Strecke sind keine Routendaten verfügbar.
   google_maps: Route in Google Maps öffnen
   building_only: Google Maps navigiert zum Gebäude, nicht zum Raum. Prüfe dort den Startpunkt.
 en:
+  routing_unavailable: Routing data is unavailable for this trip.
   google_maps: Open route in Google Maps
   building_only: Google Maps navigates to the building, not the room. Check the starting point there.
 </i18n>

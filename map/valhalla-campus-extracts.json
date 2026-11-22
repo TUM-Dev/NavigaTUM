@@ -1,0 +1,12 @@
+[
+  {
+    "name": "heilbronn",
+    "source": "https://download.geofabrik.de/europe/germany/baden-wuerttemberg/stuttgart-regbez/stuttgart-regbez-latest.osm.pbf",
+    "bbox": [9.10, 49.08, 9.32, 49.22]
+  },
+  {
+    "name": "straubing",
+    "source": "https://download.geofabrik.de/europe/germany/bayern/niederbayern/niederbayern-latest.osm.pbf",
+    "bbox": [12.46, 48.82, 12.70, 48.95]
+  }
+]

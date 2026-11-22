@@ -2261,6 +2261,9 @@ export type components = {
       readonly count: number;
       readonly name: string;
     };
+    readonly RoutingCoverageError: {
+      readonly message: string;
+    };
     readonly RoutingResponse:
       | (components["schemas"]["ValhallaRoutingResponse"] & {
           /** @enum {string} */
@@ -3120,6 +3123,15 @@ export interface operations {
         content: {
           /** @example Not found */
           readonly "text/plain": string;
+        };
+      };
+      /** @description Routing data is unavailable for this trip */
+      readonly 422: {
+        headers: {
+          readonly [name: string]: unknown;
+        };
+        content: {
+          readonly "application/json": components["schemas"]["RoutingCoverageError"];
         };
       };
     };

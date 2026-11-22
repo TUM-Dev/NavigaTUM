@@ -35,14 +35,13 @@ services:
       - pgadmin_data:/var/lib/pgadmin
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern/oberbayern
+    command: sh /map/download.sh europe/germany/bayern/oberbayern/oberbayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map
     volumes:
       - ./map/data/:/map/data/:rw,z
       - ./map/download.sh:/map/download.sh:ro,z
-      - ./map/valhalla.json:/map/valhalla.json:ro,z
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     environment:

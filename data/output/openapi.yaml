@@ -540,6 +540,12 @@ paths:
               schema:
                 type: string
               example: Not found
+        "422":
+          description: Routing data is unavailable for this trip
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingCoverageError'
   /api/mensa/{canteen}:
     get:
       tags:
@@ -3751,6 +3757,13 @@ components:
           format: int32
           minimum: 0
         name:
+          type: string
+    RoutingCoverageError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
           type: string
     RoutingResponse:
       oneOf:

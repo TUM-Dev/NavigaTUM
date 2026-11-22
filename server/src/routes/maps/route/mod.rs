@@ -13,6 +13,7 @@ use serde_json::json;
 use sqlx::PgPool;
 use tracing::{debug, error, warn};
 use valhalla_client::{
+    Error as ValhallaError,
     costing::{
         AutoCostingOptions, BicycleCostingOptions, Costing, MotorScooterCostingOptions,
         MotorcycleCostingOptions, MultimodalCostingOptions, PedestrianCostingOptions,
@@ -197,13 +198,36 @@ enum Router {
     Motis(Box<PlanResponse>),
     Valhalla(Box<Trip>),
 }
+
+#[derive(Debug, thiserror::Error)]
+enum RoutingError {
+    #[error("Routing data is unavailable for this trip.")]
+    Unavailable,
+    #[error(transparent)]
+    Upstream(#[from] anyhow::Error),
+}
+
+impl From<ValhallaError> for RoutingError {
+    fn from(error: ValhallaError) -> Self {
+        match error {
+            // Distance limit, disconnected regions, missing edges, and no path.
+            ValhallaError::RemoteError(ref response)
+                if matches!(response.error_code, 154 | 170 | 171 | 442) =>
+            {
+                Self::Unavailable
+            }
+            error => Self::Upstream(error.into()),
+        }
+    }
+}
+
 impl Router {
     async fn resolve(
         args: &RoutingRequest,
         data: &crate::AppData,
         from: Coordinate,
         to: Coordinate,
-    ) -> anyhow::Result<Self> {
+    ) -> Result<Self, RoutingError> {
         match args.route_costing {
             Some(CostingRequest::PublicTransit) => Ok(Self::Motis(Box::new(
                 Self::via_motis(args, data, from, to).await?,
@@ -220,7 +244,7 @@ impl Router {
         data: &crate::AppData,
         from: Coordinate,
         to: Coordinate,
-    ) -> anyhow::Result<Self> {
+    ) -> Result<Self, RoutingError> {
         if from.distance_to(&to) < BICYCLE_MAX_KM {
             return Ok(Self::Valhalla(Box::new(
                 Self::via_valhalla(args, data, from, to, CostingRequest::Bicycle).await?,
@@ -231,6 +255,15 @@ impl Router {
             Self::via_valhalla(args, data, from, to, CostingRequest::Car),
         );
         let requested_time = args.time.unwrap_or_else(Utc::now);
+        Self::choose_smart_default(transit, car, requested_time, args.arrive_by)
+    }
+
+    fn choose_smart_default(
+        transit: anyhow::Result<PlanResponse>,
+        car: Result<Trip, RoutingError>,
+        requested_time: DateTime<Utc>,
+        arrive_by: bool,
+    ) -> Result<Self, RoutingError> {
         match (transit, car) {
             (Ok(transit), Ok(car)) => {
                 #[expect(
@@ -238,17 +271,18 @@ impl Router {
                     reason = "valhalla reports whole seconds as f64; a route long enough to overflow i64 seconds does not exist"
                 )]
                 let car_time = TimeDelta::seconds(car.summary.time as i64);
-                if transit_beats_the_car(
-                    &transit.itineraries,
-                    car_time,
-                    requested_time,
-                    args.arrive_by,
-                ) {
+                if transit_beats_the_car(&transit.itineraries, car_time, requested_time, arrive_by)
+                {
                     Ok(Self::Motis(Box::new(transit)))
                 } else {
                     debug!(%requested_time, "transit is not worth it against the car, defaulting to the car");
                     Ok(Self::Valhalla(Box::new(car)))
                 }
+            }
+            (Ok(transit), Err(RoutingError::Unavailable))
+                if transit.itineraries.is_empty() && transit.direct.is_empty() =>
+            {
+                Err(RoutingError::Unavailable)
             }
             (Ok(transit), Err(e)) => {
                 warn!(error=?e, "no car to measure transit against, keeping transit");
@@ -258,7 +292,7 @@ impl Router {
                 warn!(error=?e, "could not reach transit, defaulting to the car");
                 Ok(Self::Valhalla(Box::new(car)))
             }
-            (Err(e), Err(_)) => Err(e),
+            (Err(e), Err(_)) => Err(e.into()),
         }
     }
 
@@ -287,7 +321,7 @@ impl Router {
         from: Coordinate,
         to: Coordinate,
         costing: CostingRequest,
-    ) -> anyhow::Result<Trip> {
+    ) -> Result<Trip, RoutingError> {
         #[expect(
             clippy::cast_possible_truncation,
             reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
@@ -300,6 +334,7 @@ impl Router {
                 args.lang == LanguageOptions::En,
             )
             .await
+            .map_err(RoutingError::from)
     }
 }
 
@@ -440,6 +475,7 @@ enum PoweredTwoWheeledRestrictionRequest {
     responses(
         (status = 200, description = "**Routing solution**", body=RoutingResponse, content_type = "application/json"),
         (status = 404, description = "**Not found.** The requested location does not exist", body = String, content_type = "text/plain", example = "Not found"),
+        (status = 422, description = "Routing data is unavailable for this trip", body = RoutingCoverageError),
     )
 )]
 #[get("/api/maps/route", wrap = "actix_middleware_etag::Etag::default()")]
@@ -465,7 +501,12 @@ pub async fn route_handler(
     };
     let router = match Router::resolve(&args, &data, from, to).await {
         Ok(router) => router,
-        Err(e) => {
+        Err(e @ RoutingError::Unavailable) => {
+            return HttpResponse::UnprocessableEntity().json(RoutingCoverageError {
+                message: e.to_string(),
+            });
+        }
+        Err(RoutingError::Upstream(e)) => {
             error!(error=?e,"error routing");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
@@ -484,6 +525,11 @@ pub async fn route_handler(
     }
 }
 
+#[derive(Serialize, utoipa::ToSchema)]
+struct RoutingCoverageError {
+    message: String,
+}
+
 #[derive(Serialize, Debug, utoipa::ToSchema)]
 #[serde(tag = "router")]
 #[serde(rename_all = "snake_case")]
@@ -500,14 +546,20 @@ mod tests {
         clippy::panic_in_result_fn,
         reason = "tests assert via panic/unwrap"
     )]
+    use std::collections::HashMap;
     use std::f64::consts::PI;
+    use std::net::TcpListener;
 
+    use actix_web::http::StatusCode;
+    use actix_web::{App, HttpServer, rt, test as actix_test};
     use chrono::TimeZone as _;
     use motis_openapi_progenitor::types::{EncodedPolyline, Leg, Mode, Place};
     use pretty_assertions::assert_eq;
     use rstest::rstest;
+    use serde_json::json;
 
     use super::*;
+    use crate::external::valhalla::ValhallaWrapper;
 
     const STAMMGELAENDE: Coordinate = Coordinate {
         lat: 48.149_66,
@@ -521,6 +573,68 @@ mod tests {
         lat: 48.0,
         lon: 11.0,
     };
+
+    #[rstest]
+    #[case(400, 154, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 170, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 171, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 442, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 125, StatusCode::INTERNAL_SERVER_ERROR)]
+    #[case(503, 203, StatusCode::INTERNAL_SERVER_ERROR)]
+    #[actix_web::test]
+    async fn reports_valhalla_route_errors(
+        #[case] upstream_status: u16,
+        #[case] error_code: u16,
+        #[case] expected: StatusCode,
+    ) {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let upstream = listener.local_addr().unwrap();
+        let server = HttpServer::new(move || {
+            App::new().route(
+                "/route",
+                web::post().to(move || async move {
+                    HttpResponse::build(StatusCode::from_u16(upstream_status).unwrap()).json(
+                        json!({
+                            "error_code": error_code,
+                            "error": "test routing error",
+                            "status_code": upstream_status,
+                            "status": "test status",
+                        }),
+                    )
+                }),
+            )
+        })
+        .workers(1)
+        .listen(listener)
+        .unwrap()
+        .run();
+        let server_handle = server.handle();
+        let server = rt::spawn(server);
+
+        let pool = PgPool::connect_lazy("postgres://localhost/navigatum").unwrap();
+        let mut data = crate::AppData::from(pool);
+        data.valhalla = ValhallaWrapper::new(format!("http://{upstream}").parse().unwrap());
+        let app = actix_test::init_service(
+            App::new()
+                .app_data(web::Data::new(data))
+                .service(route_handler),
+        )
+        .await;
+        let request = actix_test::TestRequest::get()
+            .uri("/api/maps/route?from=48.8852,12.5721&to=48.8845,12.584&route_costing=pedestrian")
+            .to_request();
+        let response = actix_test::call_service(&app, request).await;
+        server_handle.stop(false).await;
+        server.await.unwrap().unwrap();
+
+        assert_eq!(response.status(), expected);
+        if expected == StatusCode::UNPROCESSABLE_ENTITY {
+            assert_eq!(
+                actix_test::read_body_json::<serde_json::Value, _>(response).await,
+                json!({"message": "Routing data is unavailable for this trip."})
+            );
+        }
+    }
 
     const KM_PER_DEGREE_LAT: f64 = EARTH_RADIUS_KM * PI / 180.0;
 
@@ -709,5 +823,52 @@ mod tests {
             requested(),
             false
         ));
+    }
+
+    fn plan_response(itineraries: Vec<Itinerary>, direct: Vec<Itinerary>) -> PlanResponse {
+        PlanResponse {
+            debug_output: HashMap::new(),
+            direct,
+            from: place(),
+            itineraries,
+            next_page_cursor: String::new(),
+            previous_page_cursor: String::new(),
+            request_parameters: HashMap::new(),
+            to: place(),
+        }
+    }
+
+    #[test]
+    fn smart_default_returns_unavailable_when_transit_is_empty_and_car_is_unavailable() {
+        let result = Router::choose_smart_default(
+            Ok(plan_response(vec![], vec![])),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Err(RoutingError::Unavailable)));
+    }
+
+    #[test]
+    fn smart_default_keeps_transit_when_car_is_unavailable() {
+        let itineraries = arriving_after(45, &[Mode::Walk, Mode::Bus]);
+        let result = Router::choose_smart_default(
+            Ok(plan_response(itineraries, vec![])),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Ok(Router::Motis(_))));
+    }
+
+    #[test]
+    fn smart_default_propagates_motis_error_when_car_is_unavailable() {
+        let result = Router::choose_smart_default(
+            Err(anyhow::anyhow!("motis upstream failure")),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Err(RoutingError::Upstream(_))));
     }
 }
