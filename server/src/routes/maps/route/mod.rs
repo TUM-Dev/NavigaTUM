@@ -563,6 +563,7 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+    use crate::external::valhalla::ValhallaWrapper;
 
     const STAMMGELAENDE: Coordinate = Coordinate {
         lat: 48.149_66,
@@ -616,9 +617,7 @@ mod tests {
 
         let pool = PgPool::connect_lazy("postgres://localhost/navigatum").unwrap();
         let mut data = crate::AppData::from(pool);
-        data.valhalla = crate::external::valhalla::ValhallaWrapper::new(
-            format!("http://{upstream}").parse().unwrap(),
-        );
+        data.valhalla = ValhallaWrapper::new(format!("http://{upstream}").parse().unwrap());
         let app = actix_test::init_service(
             App::new()
                 .app_data(web::Data::new(data))
