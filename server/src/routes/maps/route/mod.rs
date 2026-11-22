@@ -271,12 +271,8 @@ impl Router {
                     reason = "valhalla reports whole seconds as f64; a route long enough to overflow i64 seconds does not exist"
                 )]
                 let car_time = TimeDelta::seconds(car.summary.time as i64);
-                if transit_beats_the_car(
-                    &transit.itineraries,
-                    car_time,
-                    requested_time,
-                    arrive_by,
-                ) {
+                if transit_beats_the_car(&transit.itineraries, car_time, requested_time, arrive_by)
+                {
                     Ok(Self::Motis(Box::new(transit)))
                 } else {
                     debug!(%requested_time, "transit is not worth it against the car, defaulting to the car");
