@@ -541,7 +541,7 @@ paths:
                 type: string
               example: Not found
         "422":
-          description: Routing data is not available for one or both locations
+          description: Routing data is unavailable for this trip
           content:
             application/json:
               schema:

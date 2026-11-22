@@ -140,7 +140,7 @@ services:
         condition: service_healthy
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern/oberbayern
+    command: sh /map/download.sh europe/germany/bayern/oberbayern/oberbayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map
@@ -148,6 +148,16 @@ services:
       - ./map/data/:/map/data/:rw,z
       - ./map/download.sh:/map/download.sh:ro,z
       - ./map/valhalla.json:/map/valhalla.json:ro,z
+  valhalla-data:
+    image: debian:trixie-slim
+    command: [sh, /map/prepare-valhalla-data.sh, /data/routing, /map/campuses.json, /data/oberbayern-latest.osm.pbf]
+    volumes:
+      - ./map/data/:/data/:rw,z
+      - ./map/prepare-valhalla-data.sh:/map/prepare-valhalla-data.sh:ro,z
+      - ./map/valhalla-campus-extracts.json:/map/campuses.json:ro,z
+    depends_on:
+      download-data:
+        condition: service_completed_successfully
   valhalla:
     image: ghcr.io/valhalla/valhalla-scripted:latest
     restart: unless-stopped
@@ -173,11 +183,14 @@ services:
       - --
     command: [build_tiles]
     volumes:
-      - ./map/data/:/custom_files:rw,z
+      - ./map/data/routing/:/custom_files:rw,z
       - ./map/valhalla.json:/map/valhalla.json:ro,z
     tmpfs:
       - /tmp
     read_only: true
+    depends_on:
+      valhalla-data:
+        condition: service_completed_successfully
     healthcheck:
       test: curl --fail -s http://localhost:8002/status || exit 1
       interval: 60s

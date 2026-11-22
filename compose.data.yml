@@ -35,7 +35,7 @@ services:
       - pgadmin_data:/var/lib/pgadmin
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern/oberbayern
+    command: sh /map/download.sh europe/germany/bayern/oberbayern/oberbayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map

@@ -13,6 +13,7 @@ use serde_json::json;
 use sqlx::PgPool;
 use tracing::{debug, error, warn};
 use valhalla_client::{
+    Error as ValhallaError,
     costing::{
         AutoCostingOptions, BicycleCostingOptions, Costing, MotorScooterCostingOptions,
         MotorcycleCostingOptions, MultimodalCostingOptions, PedestrianCostingOptions,
@@ -200,10 +201,24 @@ enum Router {
 
 #[derive(Debug, thiserror::Error)]
 enum RoutingError {
-    #[error("Routing data is not available for one or both locations.")]
-    OutsideCoverage,
+    #[error("Routing data is unavailable for this trip.")]
+    Unavailable,
     #[error(transparent)]
     Upstream(#[from] anyhow::Error),
+}
+
+impl From<ValhallaError> for RoutingError {
+    fn from(error: ValhallaError) -> Self {
+        match error {
+            // Distance limit, disconnected regions, missing edges, and no path.
+            ValhallaError::RemoteError(ref response)
+                if matches!(response.error_code, 154 | 170 | 171 | 442) =>
+            {
+                Self::Unavailable
+            }
+            error => Self::Upstream(error.into()),
+        }
+    }
 }
 
 impl Router {
@@ -259,10 +274,10 @@ impl Router {
                     Ok(Self::Valhalla(Box::new(car)))
                 }
             }
-            (Ok(transit), Err(RoutingError::OutsideCoverage))
+            (Ok(transit), Err(RoutingError::Unavailable))
                 if transit.itineraries.is_empty() && transit.direct.is_empty() =>
             {
-                Err(RoutingError::OutsideCoverage)
+                Err(RoutingError::Unavailable)
             }
             (Ok(transit), Err(e)) => {
                 warn!(error=?e, "no car to measure transit against, keeping transit");
@@ -272,7 +287,7 @@ impl Router {
                 warn!(error=?e, "could not reach transit, defaulting to the car");
                 Ok(Self::Valhalla(Box::new(car)))
             }
-            (Err(_), Err(RoutingError::OutsideCoverage)) => Err(RoutingError::OutsideCoverage),
+            (Err(_), Err(RoutingError::Unavailable)) => Err(RoutingError::Unavailable),
             (Err(e), Err(_)) => Err(e.into()),
         }
     }
@@ -303,10 +318,6 @@ impl Router {
         to: Coordinate,
         costing: CostingRequest,
     ) -> Result<Trip, RoutingError> {
-        if !data.valhalla.covers(from.lat, from.lon) || !data.valhalla.covers(to.lat, to.lon) {
-            return Err(RoutingError::OutsideCoverage);
-        }
-
         #[expect(
             clippy::cast_possible_truncation,
             reason = "valhalla's API takes f32 coordinates; f64→f32 is acceptable, ~7 significant digits is well below the precision routing requires"
@@ -460,7 +471,7 @@ enum PoweredTwoWheeledRestrictionRequest {
     responses(
         (status = 200, description = "**Routing solution**", body=RoutingResponse, content_type = "application/json"),
         (status = 404, description = "**Not found.** The requested location does not exist", body = String, content_type = "text/plain", example = "Not found"),
-        (status = 422, description = "Routing data is not available for one or both locations", body = RoutingCoverageError),
+        (status = 422, description = "Routing data is unavailable for this trip", body = RoutingCoverageError),
     )
 )]
 #[get("/api/maps/route", wrap = "actix_middleware_etag::Etag::default()")]
@@ -486,7 +497,7 @@ pub async fn route_handler(
     };
     let router = match Router::resolve(&args, &data, from, to).await {
         Ok(router) => router,
-        Err(e @ RoutingError::OutsideCoverage) => {
+        Err(e @ RoutingError::Unavailable) => {
             return HttpResponse::UnprocessableEntity().json(RoutingCoverageError {
                 message: e.to_string(),
             });
@@ -532,7 +543,10 @@ mod tests {
         reason = "tests assert via panic/unwrap"
     )]
     use std::f64::consts::PI;
+    use std::net::TcpListener;
 
+    use actix_web::http::StatusCode;
+    use actix_web::{App, HttpServer, rt, test as actix_test};
     use chrono::TimeZone as _;
     use motis_openapi_progenitor::types::{EncodedPolyline, Leg, Mode, Place};
     use pretty_assertions::assert_eq;
@@ -555,47 +569,67 @@ mod tests {
     };
 
     #[rstest]
-    #[case(
-        "49.13749255253383,9.216739822397306",
-        "48.14966,11.56794",
-        "&route_costing=pedestrian"
-    )]
-    #[case(
-        "48.14966,11.56794",
-        "48.88520921545141,12.572104411469688",
-        "&route_costing=pedestrian"
-    )]
-    #[case(
-        "48.88520921545141,12.572104411469688",
-        "48.881700225575244,12.563994085488526",
-        ""
-    )]
+    #[case(400, 154, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 170, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 171, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 442, StatusCode::UNPROCESSABLE_ENTITY)]
+    #[case(400, 125, StatusCode::INTERNAL_SERVER_ERROR)]
+    #[case(503, 203, StatusCode::INTERNAL_SERVER_ERROR)]
     #[actix_web::test]
-    async fn reports_outside_coverage(#[case] from: &str, #[case] to: &str, #[case] costing: &str) {
+    async fn reports_valhalla_route_errors(
+        #[case] upstream_status: u16,
+        #[case] error_code: u16,
+        #[case] expected: StatusCode,
+    ) {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let upstream = listener.local_addr().unwrap();
+        let server = HttpServer::new(move || {
+            App::new().route(
+                "/route",
+                web::post().to(move || async move {
+                    HttpResponse::build(StatusCode::from_u16(upstream_status).unwrap()).json(
+                        json!({
+                            "error_code": error_code,
+                            "error": "test routing error",
+                            "status_code": upstream_status,
+                            "status": "test status",
+                        }),
+                    )
+                }),
+            )
+        })
+        .workers(1)
+        .listen(listener)
+        .unwrap()
+        .run();
+        let server_handle = server.handle();
+        let server = rt::spawn(server);
+
         let pool = PgPool::connect_lazy("postgres://localhost/navigatum").unwrap();
         let mut data = crate::AppData::from(pool);
         data.valhalla = crate::external::valhalla::ValhallaWrapper::new(
-            "https://nav.tum.de/valhalla".parse().unwrap(),
+            format!("http://{upstream}").parse().unwrap(),
         );
-        let app = actix_web::test::init_service(
-            actix_web::App::new()
+        let app = actix_test::init_service(
+            App::new()
                 .app_data(web::Data::new(data))
                 .service(route_handler),
         )
         .await;
-        let request = actix_web::test::TestRequest::get()
-            .uri(&format!("/api/maps/route?from={from}&to={to}{costing}"))
+        let request = actix_test::TestRequest::get()
+            .uri("/api/maps/route?from=48.8852,12.5721&to=48.8845,12.584&route_costing=pedestrian")
             .to_request();
-        let response = actix_web::test::call_service(&app, request).await;
+        let response = actix_test::call_service(&app, request).await;
+        server_handle.stop(false).await;
+        server.await.unwrap().unwrap();
 
-        assert_eq!(
-            response.status(),
-            actix_web::http::StatusCode::UNPROCESSABLE_ENTITY
-        );
-        assert_eq!(
-            actix_web::test::read_body_json::<serde_json::Value, _>(response).await,
-            json!({"message": "Routing data is not available for one or both locations."})
-        );
+        assert_eq!(response.status(), expected);
+        if expected == StatusCode::UNPROCESSABLE_ENTITY {
+            assert_eq!(
+                actix_test::read_body_json::<serde_json::Value, _>(response).await,
+                json!({"message": "Routing data is unavailable for this trip."})
+            );
+        }
     }
 
     const KM_PER_DEGREE_LAT: f64 = EARTH_RADIUS_KM * PI / 180.0;

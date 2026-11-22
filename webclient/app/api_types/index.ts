@@ -3125,7 +3125,7 @@ export interface operations {
           readonly "text/plain": string;
         };
       };
-      /** @description Routing data is not available for one or both locations */
+      /** @description Routing data is unavailable for this trip */
       readonly 422: {
         headers: {
           readonly [name: string]: unknown;

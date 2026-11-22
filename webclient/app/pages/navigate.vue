@@ -108,7 +108,7 @@ const motisData = computed(() => (data.value?.router === "motis" ? data.value : 
 const showNavigationFallback = computed(() =>
   needsNavigationFallback(selected_from.value, selected_to.value, status.value, data.value)
 );
-const outsideRoutingCoverage = computed(
+const routingUnavailable = computed(
   () => status.value === "error" && error.value?.statusCode === 422
 );
 
@@ -372,7 +372,7 @@ function handleMapSelect(target: RouteHighlight) {
         :from-label="firstOrDefault(route.query.q_from, '')"
         :to-label="firstOrDefault(route.query.q_to, '')"
         :mode="mode"
-        :outside-coverage="outsideRoutingCoverage"
+        :routing-unavailable="routingUnavailable"
       />
       <ValhallaNavigationRoutingResults
         v-else-if="status === 'success' && data?.router === 'valhalla'"
@@ -391,7 +391,7 @@ function handleMapSelect(target: RouteHighlight) {
         <Spinner class="h-8 w-8" />
         {{ t("calculating best route") }}
       </div>
-      <Toast v-if="status === 'error' && !!error && error.statusCode !== 404 && !outsideRoutingCoverage" id="nav-error" level="error">
+      <Toast v-if="status === 'error' && !!error && error.statusCode !== 404 && !routingUnavailable" id="nav-error" level="error">
         {{ error.message }}
       </Toast>
 
