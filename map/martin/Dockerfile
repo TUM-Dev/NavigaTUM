@@ -18,7 +18,7 @@ RUN wget -q -O /tmp/martin.tar.gz "https://github.com/maplibre/martin/releases/d
 ARG GIT_COMMIT_SHA=local
 RUN echo "extract for ${GIT_COMMIT_SHA}" && \
     mkdir -p /data && \
-    wget -q -O /data/extract.osm.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
+    wget -q -O /data/extract.osm.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern/oberbayern-latest.osm.pbf
 COPY osm2pgsql/ /map/osm2pgsql/
 COPY martin/indoor/build.sh /map/martin/indoor/build.sh
 RUN /map/martin/indoor/build.sh ingest /data/extract.osm.pbf

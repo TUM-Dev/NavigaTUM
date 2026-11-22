@@ -255,6 +255,15 @@ impl Router {
             Self::via_valhalla(args, data, from, to, CostingRequest::Car),
         );
         let requested_time = args.time.unwrap_or_else(Utc::now);
+        Self::choose_smart_default(transit, car, requested_time, args.arrive_by)
+    }
+
+    fn choose_smart_default(
+        transit: anyhow::Result<PlanResponse>,
+        car: Result<Trip, RoutingError>,
+        requested_time: DateTime<Utc>,
+        arrive_by: bool,
+    ) -> Result<Self, RoutingError> {
         match (transit, car) {
             (Ok(transit), Ok(car)) => {
                 #[expect(
@@ -266,7 +275,7 @@ impl Router {
                     &transit.itineraries,
                     car_time,
                     requested_time,
-                    args.arrive_by,
+                    arrive_by,
                 ) {
                     Ok(Self::Motis(Box::new(transit)))
                 } else {
@@ -287,7 +296,6 @@ impl Router {
                 warn!(error=?e, "could not reach transit, defaulting to the car");
                 Ok(Self::Valhalla(Box::new(car)))
             }
-            (Err(_), Err(RoutingError::Unavailable)) => Err(RoutingError::Unavailable),
             (Err(e), Err(_)) => Err(e.into()),
         }
     }
@@ -542,6 +550,7 @@ mod tests {
         clippy::panic_in_result_fn,
         reason = "tests assert via panic/unwrap"
     )]
+    use std::collections::HashMap;
     use std::f64::consts::PI;
     use std::net::TcpListener;
 
@@ -819,5 +828,52 @@ mod tests {
             requested(),
             false
         ));
+    }
+
+    fn plan_response(itineraries: Vec<Itinerary>, direct: Vec<Itinerary>) -> PlanResponse {
+        PlanResponse {
+            debug_output: HashMap::new(),
+            direct,
+            from: place(),
+            itineraries,
+            next_page_cursor: String::new(),
+            previous_page_cursor: String::new(),
+            request_parameters: HashMap::new(),
+            to: place(),
+        }
+    }
+
+    #[test]
+    fn smart_default_returns_unavailable_when_transit_is_empty_and_car_is_unavailable() {
+        let result = Router::choose_smart_default(
+            Ok(plan_response(vec![], vec![])),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Err(RoutingError::Unavailable)));
+    }
+
+    #[test]
+    fn smart_default_keeps_transit_when_car_is_unavailable() {
+        let itineraries = arriving_after(45, &[Mode::Walk, Mode::Bus]);
+        let result = Router::choose_smart_default(
+            Ok(plan_response(itineraries, vec![])),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Ok(Router::Motis(_))));
+    }
+
+    #[test]
+    fn smart_default_propagates_motis_error_when_car_is_unavailable() {
+        let result = Router::choose_smart_default(
+            Err(anyhow::anyhow!("motis upstream failure")),
+            Err(RoutingError::Unavailable),
+            requested(),
+            false,
+        );
+        assert!(matches!(result, Err(RoutingError::Upstream(_))));
     }
 }

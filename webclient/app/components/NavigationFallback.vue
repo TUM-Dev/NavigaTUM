@@ -13,7 +13,10 @@ const props = defineProps<{
 const { t, locale } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 const { data: googleMapsUrl } = useAsyncData(
-  computed(() => `navigation-fallback:${JSON.stringify([props, locale.value])}`),
+  computed(
+    () =>
+      `navigation-fallback:${JSON.stringify([props.from, props.to, props.fromLabel, props.toLabel, props.mode, locale.value])}`
+  ),
   async () => {
     const loadCoords = async (id: string) => {
       const details = await $fetch<components["schemas"]["LocationDetailsResponse"]>(

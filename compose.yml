@@ -147,10 +147,11 @@ services:
     volumes:
       - ./map/data/:/map/data/:rw,z
       - ./map/download.sh:/map/download.sh:ro,z
-      - ./map/valhalla.json:/map/valhalla.json:ro,z
   valhalla-data:
     image: debian:trixie-slim
     command: [sh, /map/prepare-valhalla-data.sh, /data/routing, /map/campuses.json, /data/oberbayern-latest.osm.pbf]
+    environment:
+      TZ: Europe/Berlin
     volumes:
       - ./map/data/:/data/:rw,z
       - ./map/prepare-valhalla-data.sh:/map/prepare-valhalla-data.sh:ro,z
@@ -171,6 +172,8 @@ services:
       - "traefik.http.services.navigatum-valhalla.loadbalancer.server.port=8002"
     environment:
       TZ: Europe/Berlin
+      path_extension: routing
+      use_tiles_ignore_pbf: "False"
     networks:
       - traefik_traefik
     expose:
@@ -178,12 +181,12 @@ services:
     entrypoint:
       - /bin/bash
       - -c
-      # An interrupted build can leave /custom_files/valhalla.json truncated, which the image cannot self-heal; restore it from the read-only repo copy before starting.
-      - 'jq -e . /custom_files/valhalla.json >/dev/null 2>&1 || cp /map/valhalla.json /custom_files/valhalla.json; exec /valhalla/scripts/docker-entrypoint.sh "$$@"'
+      # An interrupted build can leave /custom_files/routing/valhalla.json truncated, which the image cannot self-heal; restore it from the read-only repo copy before starting.
+      - 'mkdir -p /custom_files/routing; jq -e . /custom_files/routing/valhalla.json >/dev/null 2>&1 || cp /map/valhalla.json /custom_files/routing/valhalla.json; exec /valhalla/scripts/docker-entrypoint.sh "$$@"'
       - --
     command: [build_tiles]
     volumes:
-      - ./map/data/routing/:/custom_files:rw,z
+      - ./map/data/:/custom_files:rw,z
       - ./map/valhalla.json:/map/valhalla.json:ro,z
     tmpfs:
       - /tmp

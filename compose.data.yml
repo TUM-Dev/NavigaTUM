@@ -42,7 +42,6 @@ services:
     volumes:
       - ./map/data/:/map/data/:rw,z
       - ./map/download.sh:/map/download.sh:ro,z
-      - ./map/valhalla.json:/map/valhalla.json:ro,z
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     environment:

@@ -20,6 +20,3 @@ echo -- download geodata --
 cd data || exit 1
 wget "https://download.geofabrik.de/$1-latest.osm.pbf" --tries=5 --random-wait --wait=5
 cd .. || exit 1
-
-echo -- copy valhalla config --
-cp --force valhalla.json data/
