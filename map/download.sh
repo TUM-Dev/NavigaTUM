@@ -18,5 +18,10 @@ fi
 
 echo -- download geodata --
 cd data || exit 1
-wget "https://download.geofabrik.de/$1-latest.osm.pbf" --tries=5 --random-wait --wait=5
+name="${1##*/}"
+base="https://download.geofabrik.de/$1"
+now="$(date +%s)"
+wget -nv -O "${name}-latest.osm.pbf" "${base}-latest.osm.pbf" --tries=5 --random-wait --wait=5 \
+  || wget -nv -O "${name}-latest.osm.pbf" "${base}-$(date -u -d "@$((now - 86400))" +%y%m%d).osm.pbf" --tries=5 --random-wait --wait=5 \
+  || wget -nv -O "${name}-latest.osm.pbf" "${base}-$(date -u -d "@$((now - 172800))" +%y%m%d).osm.pbf" --tries=5 --random-wait --wait=5
 cd .. || exit 1

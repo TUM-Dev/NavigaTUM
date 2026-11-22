@@ -139,7 +139,11 @@ jobs:
         if: steps.fixture-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p fixture
-          wget -q https://download.geofabrik.de/europe/germany/bayern/oberbayern/oberbayern-latest.osm.pbf -O fixture/oberbayern.osm.pbf
+          base="https://download.geofabrik.de/europe/germany/bayern/oberbayern/oberbayern"
+          now="$(date +%s)"
+          wget -nv --tries=3 --timeout=30 -O fixture/oberbayern.osm.pbf "${base}-latest.osm.pbf" \
+            || wget -nv --tries=3 --timeout=30 -O fixture/oberbayern.osm.pbf "${base}-$(date -u -d "@$((now - 86400))" +%y%m%d).osm.pbf" \
+            || wget -nv --tries=3 --timeout=30 -O fixture/oberbayern.osm.pbf "${base}-$(date -u -d "@$((now - 172800))" +%y%m%d).osm.pbf"
           osmium extract --bbox "$BBOX" --strategy complete_ways \
             fixture/oberbayern.osm.pbf -o "$FIXTURE_PBF"
           rm fixture/oberbayern.osm.pbf

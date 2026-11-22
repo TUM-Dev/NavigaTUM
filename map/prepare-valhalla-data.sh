@@ -23,10 +23,33 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
+download_geofabrik() {
+  url=$1
+  output=$2
+  if curl --fail --location --retry 5 --silent --show-error --output "$output" "$url"; then
+    return 0
+  fi
+  prefix=${url%-latest.osm.pbf}
+  if [ "$prefix" = "$url" ]; then
+    return 1
+  fi
+  now=$(date +%s)
+  for offset in 86400 172800; do
+    fallback_tag=$(date -u -d "@$((now - offset))" +%y%m%d)
+    printf 'Falling back to %s-%s.osm.pbf.\n' "$prefix" "$fallback_tag" >&2
+    if curl --fail --location --retry 5 --silent --show-error --output "$output" \
+      "${prefix}-${fallback_tag}.osm.pbf"; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 if [ -z "$base_extract" ]; then
   base_extract="$work_dir/oberbayern.osm.pbf"
-  curl --fail --location --retry 5 --silent --show-error --output "$base_extract" \
-    https://download.geofabrik.de/europe/germany/bayern/oberbayern/oberbayern-latest.osm.pbf
+  download_geofabrik \
+    https://download.geofabrik.de/europe/germany/bayern/oberbayern/oberbayern-latest.osm.pbf \
+    "$base_extract"
 elif [ ! -s "$base_extract" ]; then
   printf 'Missing Oberbayern extract at %s.\n' "$base_extract" >&2
   exit 1
@@ -46,10 +69,10 @@ while IFS="$(printf '\t')" read -r name source bbox; do
     if ! curl --fail --location --retry 5 --silent --show-error --output "$work_dir/source.osm.pbf" \
       "${dated_prefix}-${snapshot_tag}.osm.pbf"; then
       printf 'Snapshot %s unavailable for %s, falling back to latest.\n' "$snapshot_tag" "$name" >&2
-      curl --fail --location --retry 5 --silent --show-error --output "$work_dir/source.osm.pbf" "$source"
+      download_geofabrik "$source" "$work_dir/source.osm.pbf"
     fi
   else
-    curl --fail --location --retry 5 --silent --show-error --output "$work_dir/source.osm.pbf" "$source"
+    download_geofabrik "$source" "$work_dir/source.osm.pbf"
   fi
   osmium extract --strategy smart --option types=multipolygon,restriction --bbox "$bbox" \
     --output "$work_dir/$name.osm.pbf" "$work_dir/source.osm.pbf"
