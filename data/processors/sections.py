@@ -102,6 +102,7 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         "id",
         "generators_json",
         "children_flat",
+        pl.col("parents").list.len().fill_null(0).alias("depth"),
     )
 
     no_children = parents.filter(
@@ -137,13 +138,14 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         .group_by("parent_id", maintain_order=True)
         .agg(pl.struct(pl.col("child_id").alias("id"), "floor").alias("rooms"))
         .join(
-            parents.select(pl.col("id").alias("parent_id"), "generators_json"),
+            parents.select(pl.col("id").alias("parent_id"), "generators_json", "depth"),
             on="parent_id",
             how="left",
         )
     )
 
     floor_updates: dict[str, str] = {}
+    room_depths: dict[str, int] = {}
     for row in rooms_by_parent.iter_rows(named=True):
         rooms = row["rooms"]
         if not rooms:
@@ -153,6 +155,13 @@ def compute_floor_prop(df: pl.DataFrame) -> pl.DataFrame:
         floor_updates[row["parent_id"]] = orjson.dumps(floor_details).decode()
         lookup = {f["tumonline"]: f for f in floor_details}
         for room in rooms:
+            # A room is listed by every ancestor (building, joined building, site, campus), but only the
+            # innermost one describes the physical floors of the room's own building. In the lists of
+            # outer ancestors the union of all buildings' floors shifts the ids (e.g. each mezzanine of
+            # one building moves all floors above it by one), which would select the wrong OSM level.
+            if row["depth"] <= room_depths.get(room["id"], -1):
+                continue
+            room_depths[room["id"]] = row["depth"]
             floor_updates[room["id"]] = orjson.dumps([lookup[room["floor"]]]).decode()
 
     if not floor_updates:
