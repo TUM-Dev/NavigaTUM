@@ -3,7 +3,7 @@ from typing import TypedDict
 import orjson
 import polars as pl
 
-from processors.sections import generate_buildings_overview
+from processors.sections import compute_floor_prop, generate_buildings_overview
 
 
 class LookupRow(TypedDict):
@@ -88,3 +88,66 @@ def test_buildings_overview_entries_carry_child_type() -> None:
 
     types_by_id = {e["id"]: e["type"] for e in entries}
     assert types_by_id == {"b1": "building", "a1": "area", "s1": "site"}
+
+
+def _floor_row(
+    _id: str,
+    _type: str,
+    parents: list[str],
+    *,
+    roomcode: str | None = None,
+    children_flat: list[str] | None = None,
+) -> dict[str, object]:
+    """One node as `compute_floor_prop` expects it."""
+    return {
+        "id": _id,
+        "type": _type,
+        "parents": parents,
+        "props_ids_roomcode": roomcode,
+        "generators_json": None,
+        "children_flat": children_flat,
+        "props_floors_json": None,
+    }
+
+
+def _floor_ids(df: pl.DataFrame, _id: str) -> list[tuple[str, int]]:
+    """Return the `(tumonline floor name, id)` pairs of the entry, lowest floor first."""
+    floors_json = df.filter(pl.col("id") == _id)["props_floors_json"].item()
+    return [(floor["tumonline"], floor["id"]) for floor in orjson.loads(floors_json)]
+
+
+def test_room_floor_is_resolved_by_its_own_building_not_by_outer_parents() -> None:
+    """
+    A room's floor id selects the OSM level, so it must not depend on other buildings of the same campus.
+
+    Building `A` has a mezzanine, which shifts its `01` to id 2 and does so in the campus-wide floor list as well.
+    Building `B` has none, so its `01` room has to stay on id 1. The campus comes last in the frame to catch
+    results that depend on the row order.
+    """
+    df = pl.DataFrame(
+        [
+            _floor_row("A", "building", ["root", "campus"], children_flat=["A.EG.001", "A.Z1.001", "A.01.001"]),
+            _floor_row("A.EG.001", "room", ["root", "campus", "A"], roomcode="A.EG.001"),
+            _floor_row("A.Z1.001", "room", ["root", "campus", "A"], roomcode="A.Z1.001"),
+            _floor_row("A.01.001", "room", ["root", "campus", "A"], roomcode="A.01.001"),
+            _floor_row("B", "building", ["root", "campus"], children_flat=["B.EG.001", "B.01.001"]),
+            _floor_row("B.EG.001", "room", ["root", "campus", "B"], roomcode="B.EG.001"),
+            _floor_row("B.01.001", "room", ["root", "campus", "B"], roomcode="B.01.001"),
+            _floor_row(
+                "campus",
+                "campus",
+                ["root"],
+                children_flat=["A", "A.EG.001", "A.Z1.001", "A.01.001", "B", "B.EG.001", "B.01.001"],
+            ),
+        ],
+        schema_overrides={"generators_json": pl.Utf8, "props_floors_json": pl.Utf8, "props_ids_roomcode": pl.Utf8},
+    )
+
+    result = compute_floor_prop(df)
+
+    assert _floor_ids(result, "campus") == [("EG", 0), ("Z1", 1), ("01", 2)]
+    assert _floor_ids(result, "A") == [("EG", 0), ("Z1", 1), ("01", 2)]
+    assert _floor_ids(result, "B") == [("EG", 0), ("01", 1)]
+    assert _floor_ids(result, "A.01.001") == [("01", 2)]
+    assert _floor_ids(result, "B.01.001") == [("01", 1)]
+    assert _floor_ids(result, "B.EG.001") == [("EG", 0)]
