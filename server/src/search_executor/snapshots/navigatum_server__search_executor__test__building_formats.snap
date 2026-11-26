@@ -46,16 +46,16 @@ info: parsed_id=prefixed
       name: "5504.02.450 (Empore Zeichensaal \u0019MW\u0017 zu 1450)"
       subtext: "garching, MW"
       subtext_bold: 2450@5504
-    - id: 5505.02.537
+    - id: 5506.01.639
       type: room
-      name: 5505.02.537 (Kolloquium)
+      name: 5506.01.639 (Vortragsraum/Seminarraum)
       subtext: "garching, MW"
-      subtext_bold: 2537@5505
-    - id: 5505.02.550
+      subtext_bold: 1639@5506
+    - id: 5506.01.608M
       type: room
-      name: 5505.02.550 (Zeichenübung)
+      name: 5506.01.608M (Übungsraum)
       subtext: "garching, MW"
-      subtext_bold: 2550@5505
+      subtext_bold: 1608M@5506
   n_visible: 1
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: buildings
