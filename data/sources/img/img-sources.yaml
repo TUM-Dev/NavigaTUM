@@ -311,6 +311,15 @@
     author: Uli Benz / TUM
     license:
       text: Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted
+0509.04.999:
+  0:
+    author: NicoStil101
+    license:
+      text: CC BY 4.0
+      url: https://creativecommons.org/licenses/by/4.0/
+    offsets:
+      header: -143
+      thumb: -534
 0509.EG.980:
   0:
     author: Uli Benz / TUM
