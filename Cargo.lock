@@ -4822,9 +4822,9 @@ dependencies = [
 
 [[package]]
 name = "serde_html_form"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f0346d7a342ab90f405cfc08f25d15075f944f42fcabbc5eac923829fa6d228"
+checksum = "5cb47bbdfe5aaf62921705c1be39c4bde7da0ac74cb3d64f3038869c7097ae2f"
 dependencies = [
  "form_urlencoded",
  "indexmap 2.14.2",
